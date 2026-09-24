@@ -12,6 +12,7 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioRuntime } from "./useStudioRuntime.js";
 import { studioRunStepLabel } from "./studioRunStepLabel.js";
 import { StudioRunHistoryActions } from "./studioRunHistoryActions.js";
+import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
 
 export function StudioRunHistory({
   targetId,
@@ -242,42 +243,13 @@ export function StudioRunHistory({
             </p>
           )}
           {review?.changes?.map((change) => (
-            <details key={change.path} className="rounded-lg border border-border p-3 text-ui-sm">
-              <summary className="cursor-pointer [overflow-wrap:anywhere]">
-                {change.path} {change.conflict ? (zh ? "· 有冲突" : "· Conflict") : ""}
-              </summary>
-              {change.binary ? (
-                <p className="mt-2">{zh ? "二进制文件" : "Binary file"}</p>
-              ) : (
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <div className="min-w-0">
-                    <p className="mb-1 text-ui-xs text-diff-removed">{zh ? "修改前" : "Before"}</p>
-                    <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-words bg-diff-removed/5 p-2">
-                      {change.before === ""
-                        ? zh
-                          ? "空文件"
-                          : "Empty file"
-                        : (change.before ?? (zh ? "文件不存在" : "File does not exist"))}
-                    </pre>
-                  </div>
-                  <div className="min-w-0">
-                    <p className="mb-1 text-ui-xs text-diff-added">{zh ? "修改后" : "After"}</p>
-                    <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-words bg-diff-added/5 p-2">
-                      {change.after === ""
-                        ? zh
-                          ? "空文件"
-                          : "Empty file"
-                        : (change.after ?? (zh ? "文件已删除" : "File deleted"))}
-                    </pre>
-                  </div>
-                </div>
-              )}
-              <Button
-                className="mt-2"
-                size="sm"
-                variant="outline"
-                disabled={review.loading || Boolean(review.applying) || change.conflict}
-                onClick={() =>
+            <StudioWorkspaceReviewCard
+              key={change.path}
+              change={change}
+              zh={zh}
+              busy={review.loading || Boolean(review.applying)}
+              applying={review.applying === change.path}
+              onApply={() =>
                   void actions.applyReview(
                     change.path,
                     () =>
@@ -292,17 +264,8 @@ export function StudioRunHistory({
                         stepId: review.stepId,
                       }),
                   )
-                }
-              >
-                {review.applying === change.path
-                  ? zh
-                    ? "正在应用…"
-                    : "Applying…"
-                  : zh
-                    ? "应用此文件"
-                    : "Apply this file"}
-              </Button>
-            </details>
+              }
+            />
           ))}
         </DialogContent>
       </Dialog>

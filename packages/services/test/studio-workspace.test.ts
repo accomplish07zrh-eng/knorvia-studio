@@ -122,6 +122,22 @@ test("user edits are conflicts and reject the whole selected batch before any ch
   assert.equal(await fs.readFile(join(f.source, "a.txt"), "utf8"), "uncommitted source\n");
 });
 
+test("two isolated group members cannot silently overwrite the same file", async (t) => {
+  const f = await fixture(t);
+  const first = await f.manager.prepare({
+    runId: "group-run", stepId: "codex", sourcePath: f.source, mode: "isolated",
+  });
+  const second = await f.manager.prepare({
+    runId: "group-run", stepId: "claude-code", sourcePath: f.source, mode: "isolated",
+  });
+  await fs.writeFile(join(first, "a.txt"), "first member\n");
+  await fs.writeFile(join(second, "a.txt"), "second member\n");
+  await f.manager.apply("group-run", "codex", ["a.txt"]);
+  assert.equal((await f.manager.changes("group-run", "claude-code"))[0]?.conflict, true);
+  await assert.rejects(f.manager.apply("group-run", "claude-code", ["a.txt"]), /changed since isolation/);
+  assert.equal(await fs.readFile(join(f.source, "a.txt"), "utf8"), "first member\n");
+});
+
 test("failure while publishing a later file rolls back earlier files", async (t) => {
   const f = await fixture(t);
   await fs.writeFile(join(f.source, "b.txt"), "original b");
