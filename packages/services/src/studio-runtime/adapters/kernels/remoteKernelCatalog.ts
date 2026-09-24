@@ -1,5 +1,6 @@
 import type { LocalStudioKernelId, StudioKernelStatus } from "../../kernelTypes.js";
 import { parseRemoteStudioKernelId } from "../../domain/remoteAgentIdentity.js";
+import { isLocalStudioKernelId } from "../../domain/kernelIdentity.js";
 import { remoteStudioKernelId } from "./remoteAgentIdentity.js";
 import type { RemoteStudioEnvironment } from "./remoteKernelBridge.js";
 
@@ -16,7 +17,10 @@ export async function inspectRemoteStudioKernels(
       return statuses
         .filter(
           (status) =>
-            status.installed && status.id !== "knorvia" && !parseRemoteStudioKernelId(status.id),
+            status.installed &&
+            status.id !== "knorvia" &&
+            isLocalStudioKernelId(status.id) &&
+            !parseRemoteStudioKernelId(status.id),
         )
         .map(
           (status): StudioKernelStatus => ({
