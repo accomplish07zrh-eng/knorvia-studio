@@ -1,0 +1,378 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { randomUUID } from "node:crypto";
+import { setTimeout as sleep } from "node:timers/promises";
+import { Event } from "@knorvia/rpc";
+import type { StudioKernelAdapter, StudioKernelTurn } from "../src/studio-runtime/contract.js";
+import type { StoredRun } from "../src/studio-runtime/app/storePort.js";
+import { StudioDatabase } from "../src/studio-runtime/adapters/studioDatabase.js";
+import { StudioRuntimeService } from "../src/studio-runtime/app/studioRuntimeService.js";
+import { admitStudioCommand } from "../src/studio-runtime/app/commandAdmission.js";
+
+const root = () => mkdtempSync(join(tmpdir(), "knorvia-runtime-test-"));
+const clock = {
+  now: Date.now,
+  id: randomUUID,
+  delay: (ms: number, signal?: AbortSignal) => sleep(ms, undefined, { signal }),
+};
+const commandId = () => randomUUID();
+function fixture(path: string, adapter: StudioKernelAdapter, now: () => number = Date.now) {
+  const db = new StudioDatabase(join(path, "runtime.sqlite"));
+  const service = new StudioRuntimeService({
+    db,
+    clock: { ...clock, now },
+    kernels: {
+      adapter: () => adapter,
+      inspect: async () => [],
+      manage: async () => {
+        throw new Error("unused");
+      },
+      dispose: async () => {},
+    },
+    workspaces: {
+      prepare: async ({ sourcePath }) => sourcePath,
+      changes: async () => [],
+      apply: async () => {},
+    },
+    onDidChange: Event.None,
+    notify: () => {},
+  });
+  return { service, db };
+}
+async function until(check: () => boolean | Promise<boolean>) {
+  const end = Date.now() + 5000;
+  while (!(await check())) {
+    if (Date.now() > end) throw new Error("Timed out");
+    await sleep(10);
+  }
+}
+async function createChat(
+  service: StudioRuntimeService,
+  path: string,
+  id = "chat",
+  kernel: "codex" | "claude-code" = "codex",
+) {
+  await service.command({
+    commandId: commandId(),
+    type: "create-conversation",
+    id,
+    kernel,
+    workspacePath: path,
+  });
+}
+const success: StudioKernelAdapter = {
+  run: async () => ({ status: "succeeded", text: "ok", resultKnown: true }),
+};
+
+test("native usage survives partial updates and restart without leaking into a queued turn", async () => {
+  const path = root();
+  const f = fixture(path, {
+    run: async (_turn, sink) => {
+      const usage = {
+        type: "usage" as const,
+        scope: "turn" as const,
+        inputTokens: 90,
+        outputTokens: 10,
+        cacheReadTokens: 0,
+      };
+      await sink.emit(usage);
+      await sink.emit(usage);
+      await sink.emit({ type: "usage", contextUsedTokens: 100, contextMaxTokens: 10000 });
+      return { status: "succeeded", text: "offline", resultKnown: true };
+    },
+  });
+  await createChat(f.service, path);
+  const sent = await f.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "chat",
+    targetId: "chat",
+    text: "one",
+  });
+  await until(() => {
+    f.service.tick();
+    return f.db.read<StoredRun>("run", sent.id)?.state === "succeeded";
+  });
+  const first = (await f.service.timeline("chat")).usage;
+  assert.equal(first?.runId, sent.id);
+  assert.equal(first?.inputTokens, 90);
+  assert.equal(first?.outputTokens, 10);
+  assert.equal(first?.contextMaxTokens, 10000);
+  await f.service.disposeAllAndWait();
+  const reopened = fixture(path, success);
+  try {
+    assert.deepEqual((await reopened.service.timeline("chat")).usage, first);
+    await reopened.service.command({
+      commandId: commandId(),
+      type: "send",
+      kind: "chat",
+      targetId: "chat",
+      text: "two",
+    });
+    assert.equal((await reopened.service.timeline("chat")).usage, undefined);
+  } finally {
+    await reopened.service.disposeAllAndWait();
+  }
+});
+
+test("command admission is transactional and idempotent without context crossing kernels", async () => {
+  const path = root();
+  const db = new StudioDatabase(join(path, "db.sqlite"));
+  const create = {
+    commandId: "create",
+    type: "create-conversation" as const,
+    id: "chat",
+    kernel: "codex" as const,
+    workspacePath: path,
+  };
+  admitStudioCommand(db, clock, create);
+  const send = {
+    commandId: "send",
+    type: "send" as const,
+    kind: "chat" as const,
+    targetId: "chat",
+    text: "hello",
+  };
+  const first = admitStudioCommand(db, clock, send);
+  assert.deepEqual(admitStudioCommand(db, clock, send), first);
+  assert.equal(db.list("run").length, 1);
+  assert.equal(db.list("message").length, 1);
+  assert.throws(() => admitStudioCommand(db, clock, { ...send, text: "different" }), /请求编号/);
+  assert.throws(
+    () => admitStudioCommand(db, clock, { ...create, commandId: "other", kernel: "claude-code" }),
+    /独立/,
+  );
+  const revision = db.revision();
+  assert.throws(() =>
+    db.transaction(() => {
+      db.write("test", "atomic", 1);
+      throw new Error("rollback");
+    }),
+  );
+  assert.equal(db.read("test", "atomic"), undefined);
+  assert.equal(db.revision(), revision);
+  db.close();
+});
+
+test("two Hosts share one executor and queue second turn with persisted native session", async () => {
+  const path = root();
+  const calls: StudioKernelTurn[] = [];
+  const adapter: StudioKernelAdapter = {
+    run: async (turn, sink) => {
+      calls.push(turn);
+      await sink.emit({ type: "session", sessionId: "native-one" });
+      await sink.emit({ type: "text", text: calls.length === 1 ? "first" : "second" });
+      return { status: "succeeded", text: "", resultKnown: true };
+    },
+  };
+  const a = fixture(path, adapter);
+  const b = fixture(path, adapter);
+  await createChat(a.service, path);
+  await a.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "chat",
+    targetId: "chat",
+    text: "one",
+  });
+  await b.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "chat",
+    targetId: "chat",
+    text: "two",
+  });
+  a.service.tick();
+  b.service.tick();
+  await until(() => {
+    a.service.tick();
+    b.service.tick();
+    return (
+      calls.length === 2 && a.db.list<StoredRun>("run").every((run) => run.state === "succeeded")
+    );
+  });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[1]!.nativeSessionId, "native-one");
+  const messages = (await b.service.timeline("chat")).messages;
+  assert.deepEqual(
+    messages.filter((message) => message.sender === "codex").map((message) => message.text),
+    ["first", "second"],
+  );
+  await a.service.disposeAllAndWait();
+  await b.service.disposeAllAndWait();
+});
+
+test("approval survives renderer detach and duplicate or late answers are rejected", async () => {
+  const path = root();
+  let decision = "";
+  const f = fixture(path, {
+    run: async (_turn, sink) => {
+      const answer = await sink.ask({
+        id: "native-question",
+        kind: "approval",
+        title: "Write a file?",
+      });
+      decision = answer.decision ?? "";
+      return { status: "succeeded", text: "done", resultKnown: true };
+    },
+  });
+  await createChat(f.service, path);
+  await f.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "chat",
+    targetId: "chat",
+    text: "ask",
+  });
+  f.service.tick();
+  await until(async () => (await f.service.timeline("chat")).interactions.length > 0);
+  const question = (await f.service.timeline("chat")).interactions[0]!;
+  const answer = {
+    commandId: "answer",
+    type: "answer" as const,
+    interactionId: question.id,
+    answer: { decision: "allow-once" as const },
+  };
+  const accepted = await f.service.command(answer);
+  assert.deepEqual(await f.service.command(answer), accepted);
+  await until(() => decision === "allow-once");
+  await assert.rejects(f.service.command({ ...answer, commandId: "late" }), /已回答|已失效/);
+  await until(() => f.db.list<StoredRun>("run")[0]?.state === "succeeded");
+  await f.service.disposeAllAndWait();
+});
+
+test("cancel fences late output, expires questions and stops only the owned turn", async () => {
+  const path = root();
+  let tailAcceptedWithoutTransportError = false;
+  let stopped = false;
+  const f = fixture(path, {
+    run: async (_turn, sink, signal) => {
+      try {
+        await sink.ask({ id: "approval", kind: "approval", title: "Continue?" });
+      } catch {
+        stopped = signal.aborted;
+      }
+      await sink.emit({ type: "text", text: "late" });
+      tailAcceptedWithoutTransportError = true;
+      return { status: "cancelled", text: "", resultKnown: true };
+    },
+  });
+  await createChat(f.service, path);
+  const accepted = await f.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "chat",
+    targetId: "chat",
+    text: "stop",
+  });
+  f.service.tick();
+  await until(async () => (await f.service.timeline("chat")).interactions.length > 0);
+  await f.service.command({ commandId: commandId(), type: "cancel", runId: accepted.id });
+  f.service.tick();
+  await until(() => f.db.read<StoredRun>("run", accepted.id)?.state === "cancelled");
+  assert.equal(stopped, true);
+  assert.equal(tailAcceptedWithoutTransportError, true);
+  assert.equal((await f.service.timeline("chat")).interactions[0]?.status, "expired");
+  assert.equal(
+    (await f.service.timeline("chat")).messages.some((message) => message.text === "late"),
+    false,
+  );
+  await f.service.disposeAllAndWait();
+});
+
+test("crash recovery does not replay uncertain native effects; explicit retry creates new attempt", async () => {
+  const path = root();
+  let calls = 0;
+  let now = 1000;
+  const f = fixture(
+    path,
+    {
+      run: async () => {
+        calls++;
+        return { status: "succeeded", text: "ok", resultKnown: true };
+      },
+    },
+    () => now,
+  );
+  await createChat(f.service, path);
+  const accepted = await f.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "chat",
+    targetId: "chat",
+    text: "write",
+  });
+  f.db.claim("dead-owner", now);
+  f.db.transaction(() => {
+    const run = f.db.read<StoredRun>("run", accepted.id)!;
+    f.db.write("run", run.id, { ...run, state: "running", owner: "dead-owner" }, "chat");
+    f.db.write("turn", "uncertain-turn", { state: "running", attempt: 1 }, run.id);
+  });
+  now += 9000;
+  f.service.tick();
+  assert.equal(calls, 0);
+  assert.equal(f.db.read<StoredRun>("run", accepted.id)?.state, "interrupted");
+  await assert.rejects(
+    f.service.command({
+      commandId: commandId(),
+      type: "resume",
+      runId: accepted.id,
+      retryUncertain: false,
+    }),
+    /不确定/,
+  );
+  await f.service.command({
+    commandId: commandId(),
+    type: "resume",
+    runId: accepted.id,
+    retryUncertain: true,
+  });
+  f.service.tick();
+  await until(() => f.db.read<StoredRun>("run", accepted.id)?.state === "succeeded");
+  assert.equal(calls, 1);
+  assert.equal(f.db.read<StoredRun>("run", accepted.id)?.attempt, 2);
+  await f.service.disposeAllAndWait();
+});
+
+test("save or delete active definitions is rejected without losing saved draft", async () => {
+  const path = root();
+  const f = fixture(path, success);
+  const group = {
+    id: "group",
+    name: "Team",
+    goal: "",
+    members: ["codex" as const],
+    host: "codex" as const,
+    sharedSummary: "only shared",
+    mode: "manual" as const,
+    workspaceMode: "isolated" as const,
+    workspacePath: path,
+    createdAt: 1,
+    updatedAt: 1,
+  };
+  await f.service.command({ commandId: commandId(), type: "save-group", group });
+  await f.service.command({
+    commandId: commandId(),
+    type: "send",
+    kind: "group",
+    targetId: group.id,
+    text: "@Codex hello",
+  });
+  await assert.rejects(
+    f.service.command({
+      commandId: commandId(),
+      type: "save-group",
+      group: { ...group, name: "changed" },
+    }),
+    /先停止/,
+  );
+  await assert.rejects(
+    f.service.command({ commandId: commandId(), type: "delete", kind: "group", id: group.id }),
+    /先停止/,
+  );
+  assert.equal((await f.service.overview()).groups[0]?.name, "Team");
+  await f.service.disposeAllAndWait();
+});

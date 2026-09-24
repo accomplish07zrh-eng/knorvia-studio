@@ -1,0 +1,10 @@
+{
+  "name": "skill-creator",
+  "version": "0.2.0",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN skills/skill-creator/LICENSE.txt",
+  "description": "Knorvia Studio local skill-creator authoring and validation.",
+  "skills": "skills"
+}

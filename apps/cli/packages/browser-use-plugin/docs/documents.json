@@ -1,0 +1,30 @@
+{
+  "version": 3,
+  "title": "Knorvia Browser Guide",
+  "documents": [
+    {
+      "path": "overview.md",
+      "title": "Overview",
+      "name": "overview",
+      "mode": "included"
+    },
+    {
+      "path": "workflow.md",
+      "title": "Workflow",
+      "name": "workflow",
+      "mode": "included"
+    },
+    {
+      "path": "recording.md",
+      "title": "Recording",
+      "name": "recording",
+      "mode": "lookup"
+    },
+    {
+      "path": "screenshots.md",
+      "title": "Screenshots",
+      "name": "screenshots",
+      "mode": "lookup"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# Agent identity and account removal
+
+The embedded runtime keeps the upstream agent loop, tools, permission checks and client protocol. Its identity is Knorvia, running inside Knorvia Studio. No prompt claims affiliation with ZCode or a particular model vendor; model metadata can still accurately describe the selected provider/model. Safety, permissions, tool contracts and legal notices remain intact.
+
+The CLI has no product login/logout command or browser account flow. A missing model is a model-configuration state, with guidance to use Studio model settings; it is not authentication to Studio. MCP authorization uses the generic encrypted credential store under Knorvia's data root. Product OAuth credentials and refresh code are removed from that store. Model transport sends requests directly to the explicitly configured provider URL; it cannot silently rewrite a request to the upstream product gateway.
+
+Runtime environment variables use KNORVIA* and user/project state uses .knorvia-studio. KNORVIA_DATA_BASE_DIR is the parent base, while KNORVIA_HOME is the full application root, and KNORVIA_STORAGE_DIR is the agent's storage root. The shared Node resolver gives explicit base priority, then the full root, then the real home plus .knorvia-studio. Generic HOME and USERPROFILE are never overwritten. All process entrypoints and children follow the same contract. There is no migration or fallback from .knorvia or ZCODE* environment configuration. Internal package imports stay @knorvia/\* to preserve the original build graph; these are not an application identity or storage namespace.
+
+Acceptance covers missing-model guidance, removed login command discovery, direct model transport, prompt identity, environment/data-root isolation and an unchanged permission notice. Generic third-party OAuth and ordinary model API keys remain supported.

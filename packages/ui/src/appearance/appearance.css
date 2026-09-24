@@ -1,0 +1,100 @@
+/* 根层单次合成背景，页面与弹层只消费材质；不改变文字/整窗 opacity。 */
+:root {
+  --knorvia-reading-base: #ffffff;
+  --knorvia-window-base: #f0f0f0;
+}
+:root.dark {
+  --knorvia-reading-base: #202020;
+  --knorvia-window-base: #161616;
+}
+.knorvia-appearance-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.knorvia-appearance-image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.dark .knorvia-appearance-image {
+  filter: brightness(0.65);
+}
+.knorvia-glass .knorvia-appearance-image {
+  inset: -24px;
+  filter: blur(16px);
+}
+.dark.knorvia-glass .knorvia-appearance-image {
+  filter: blur(16px) brightness(0.65);
+}
+.knorvia-appearance-tint {
+  position: absolute;
+  inset: 0;
+  background: color-mix(
+    in srgb,
+    var(--knorvia-window-base) var(--knorvia-shell-opacity),
+    transparent
+  );
+}
+:root.knorvia-materials {
+  /* background 也用于反色文字、差异视图和终端游标，不能整体改透明。 */
+  --color-background-win-alt: transparent;
+  --color-background-alt: transparent;
+  --color-header: transparent;
+  --color-panel: transparent;
+  --color-sidebar: transparent;
+  --color-card: color-mix(
+    in srgb,
+    var(--knorvia-reading-base) var(--knorvia-reading-opacity),
+    transparent
+  );
+  --color-input: var(--color-card);
+  --color-popover: var(--color-card);
+  --color-popover-header: var(--color-card);
+  --color-menu: var(--color-card);
+  --color-terminal-bg: var(--knorvia-reading-base);
+}
+.knorvia-materials [data-workspace-conversation-frame]
+  :is(main, [data-testid="studio-external-chat"]) {
+  /* 外部内核使用 section，过去只处理 main 会留下不透明大块；阅读底色统一归外层 frame。 */
+  background-color: transparent;
+}
+.knorvia-materials :is([data-workspace-conversation-frame], [data-settings-panel-frame]) {
+  background: color-mix(
+    in srgb,
+    var(--knorvia-reading-base) calc(var(--knorvia-reading-opacity) * 0.75),
+    transparent
+  );
+}
+.knorvia-materials
+  :is(
+    [data-slot="dialog-content"],
+    [data-slot="dropdown-menu-content"],
+    [data-slot="select-content"],
+    [data-slot="popover-content"],
+    [data-slot="context-menu-content"]
+  ) {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.knorvia-appearance-preview {
+  background:
+    radial-gradient(ellipse at 12% 8%, #e4b99f, transparent 65%),
+    linear-gradient(145deg, #dce0d5, #527e91);
+}
+.dark .knorvia-appearance-preview {
+  background:
+    radial-gradient(ellipse at 12% 8%, #5d5065, transparent 65%),
+    linear-gradient(145deg, #35484b, #253444);
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .knorvia-appearance-preview-window {
+    background: var(--knorvia-reading-base) !important;
+    backdrop-filter: none !important;
+  }
+}

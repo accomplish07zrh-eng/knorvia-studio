@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    # 内置插件资产（skills/docs/agents/dist 与随包脚本）按上游内容原样保留，
+    # 不做本地格式化，避免每次同步产生无意义 diff。
+    # 本包自身的 browser-use-plugin、node-repl-host 是本地源码，继续参与格式检查。
+    "packages/documents-plugin/**",
+    "packages/pdf-plugin/**",
+    "packages/presentations-plugin/**",
+    "packages/spreadsheets-plugin/**",
+    "packages/plugin-creator-plugin/**",
+    "packages/skill-creator-plugin/**"
+  ]
+}

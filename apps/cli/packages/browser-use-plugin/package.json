@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@knorvia/browser-use-plugin",
+  "version": "0.6.0",
+  "private": true,
+  "description": "Knorvia browser connection, observation and interaction guidance.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./scripts/browser-client.mjs",
+  "scripts": {
+    "build": "tsc && node scripts/build.mjs",
+    "clean": "node ../../scripts/clean-dist.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint src --no-ignore"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "@knorvia/contracts": "workspace:*",
+    "@knorvia/core": "workspace:*",
+    "@knorvia/node-repl-host": "workspace:*",
+    "@knorvia/shared": "workspace:*",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "@types/node": "^24.0.0",
+    "@knorvia/adapters": "workspace:*",
+    "@knorvia/bootstrap": "workspace:*",
+    "esbuild": "^0.25.0",
+    "playwright-core": "1.59.1",
+    "typescript": "^5.9.0"
+  }
+}

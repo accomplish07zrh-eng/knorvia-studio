@@ -1,0 +1,33 @@
+.studio-workflow-canvas .react-flow {
+  --xy-edge-stroke: var(--color-foreground-subtlest);
+  --xy-edge-stroke-selected: var(--color-foreground);
+  --xy-connectionline-stroke: var(--color-foreground-subtle);
+  --xy-node-color: var(--color-foreground);
+  --xy-selection-background-color: var(--color-selected);
+  --xy-selection-border: 1px solid var(--color-border-hover);
+  --xy-edge-label-background-color: var(--color-background);
+  --xy-edge-label-color: var(--color-foreground-subtle);
+}
+
+.studio-workflow-canvas .react-flow__node {
+  border-radius: var(--radius-xl);
+}
+
+.studio-workflow-canvas .studio-workflow-handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-background);
+  background: var(--color-foreground-subtlest);
+}
+
+.studio-workflow-canvas .react-flow__edge-text {
+  font-size: var(--text-ui-sm);
+}
+
+.studio-workflow-canvas .react-flow__edge-textbg {
+  fill: var(--color-background);
+}
+
+.studio-workflow-canvas .react-flow__attribution {
+  font-size: var(--text-ui-xs);
+}

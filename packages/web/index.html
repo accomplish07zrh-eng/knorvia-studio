@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f8f8" />
+    <meta name="color-scheme" content="light" />
+    <!-- 应用图标与启动画面使用同一 Knorvia Studio 品牌资源。-->
+    <link rel="icon" type="image/png" href="/knorvia-logo.png" sizes="32x32" />
+    <title>Knorvia Studio</title>
+    <script>
+      (() => {
+        // JS bundle 执行前先按本地主题偏好决定首屏底色，避免 dark 用户在这一帧看到白底闪烁。
+        const STORAGE_KEY = "knorvia-theme";
+        const DEFAULT_THEME = "knorvia-light";
+        const BROWSER_THEME_COLORS = {
+          dark: "#161616",
+          light: "#f8f8f8",
+        };
+
+        const normalizeResolvedTheme = (theme) => {
+          if (theme === "dark") return "dark";
+          if (theme === "light") return "light";
+          if (theme === "knorvia-dark") return "dark";
+          if (theme === "knorvia-light") return "light";
+          // 已保存偏好的迁移读取；新状态与 CSS class 使用当前产品名称。
+          if (theme === "zai-dark") return "dark";
+          if (theme === "zai-light") return "light";
+          return theme;
+        };
+
+        const syncBrowserThemeSurface = (theme) => {
+          document.documentElement.setAttribute("data-knorvia-browser-theme-surface", theme);
+          document.documentElement.style.colorScheme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            ?.setAttribute("content", BROWSER_THEME_COLORS[theme]);
+          document.querySelector('meta[name="color-scheme"]')?.setAttribute("content", theme);
+        };
+
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY) || DEFAULT_THEME;
+          const resolved =
+            saved === "system"
+              ? window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light"
+              : normalizeResolvedTheme(saved);
+          const finalTheme = resolved === "dark" ? "dark" : "light";
+          document.documentElement.setAttribute("data-knorvia-bootstrap-theme", finalTheme);
+          syncBrowserThemeSurface(finalTheme);
+          if (finalTheme === "dark") {
+            document.documentElement.classList.add("dark");
+          }
+        } catch {
+          document.documentElement.setAttribute("data-knorvia-bootstrap-theme", "light");
+          syncBrowserThemeSurface("light");
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
+    <style>
+      html,
+      body,
+      #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        background: var(--knorvia-bootstrap-bg, var(--color-background, #0f172a));
+        color: var(--knorvia-bootstrap-fg, var(--color-foreground, #e2e8f0));
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      html[data-knorvia-bootstrap-theme="light"] body {
+        background: var(--knorvia-bootstrap-bg, var(--color-background, #f8fafc));
+        color: var(--knorvia-bootstrap-fg, var(--color-foreground, #334155));
+      }
+
+      html[data-knorvia-browser-theme-surface],
+      html[data-knorvia-browser-theme-surface] body,
+      html[data-knorvia-browser-theme-surface] #root {
+        /* 共享 UI 样式为 Electron vibrancy 强制透明根背景；浏览器入口必须用语义背景
+           覆盖该桌面专属行为，否则浏览器工具栏、overscroll 和页面画布会回退为系统白色。 */
+        background: var(--color-background, var(--knorvia-bootstrap-bg, #161616)) !important;
+      }
+
+      html[data-knorvia-browser-theme-surface="light"],
+      html[data-knorvia-browser-theme-surface="light"] body,
+      html[data-knorvia-browser-theme-surface="light"] #root {
+        background: var(--color-background, var(--knorvia-bootstrap-bg, #f8f8f8)) !important;
+      }
+
+      .knorvia-boot-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        /* UI 全局样式会把 body/#root 置为透明，预渲染壳必须自己承接主题背景，否则深色主题会露出浏览器白底。*/
+        background: var(--knorvia-bootstrap-bg, var(--color-background, #0f172a));
+        color: var(--knorvia-bootstrap-fg, var(--color-foreground, #e2e8f0));
+      }
+
+      html[data-knorvia-bootstrap-theme="light"] .knorvia-boot-loading {
+        background: var(--knorvia-bootstrap-bg, var(--color-background, #f8fafc));
+        color: var(--knorvia-bootstrap-fg, var(--color-foreground, #334155));
+      }
+
+      .knorvia-boot-loading__logo-shell {
+        position: relative;
+        display: flex;
+        width: 96px;
+        height: 96px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .knorvia-boot-loading__logo {
+        width: 96px;
+        height: 96px;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- 远程控制跨 workspace 时会整页跳转；在 JS 入口执行前先给出 loading 壳，避免出现白屏空档。-->
+      <div
+        class="knorvia-boot-loading"
+        role="status"
+        aria-live="polite"
+        aria-busy="true"
+        aria-label="Loading..."
+      >
+        <div class="knorvia-boot-loading__logo-shell">
+          <img src="/knorvia-logo.png" class="knorvia-boot-loading__logo" alt="Knorvia Studio" />
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

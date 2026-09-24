@@ -1,0 +1,21 @@
+{
+  "name": "@knorvia/client",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./globals": "./src/globals.d.ts"
+  },
+  "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
+  },
+  "dependencies": {
+    "@knorvia/rpc": "workspace:*",
+    "@knorvia/services": "workspace:*",
+    "@knorvia/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  }
+}

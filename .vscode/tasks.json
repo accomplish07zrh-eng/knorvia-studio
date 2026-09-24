@@ -1,0 +1,120 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "knorvia: tsup watch (debug)",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/.vscode/tsup-watch.mjs"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "knorvia-debug"
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "\\[HOST\\] CLI Watching for changes in"
+        }
+      }
+    },
+    {
+      "label": "knorvia: vite dev",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/.vscode/vite-dev.mjs"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "knorvia-debug"
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "VITE v.*ready in .*"
+        }
+      }
+    },
+    {
+      "label": "knorvia: prepare desktop debug",
+      "dependsOn": ["knorvia: tsup watch (debug)", "knorvia: vite dev"],
+      "dependsOrder": "parallel"
+    },
+    {
+      "label": "knorvia: start electron (debug)",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/.vscode/start-electron.mjs"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "dependsOn": ["knorvia: prepare desktop debug"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "knorvia-debug"
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "Debugger listening on ws://127\\.0\\.0\\.1:9231/"
+        }
+      }
+    },
+    {
+      "label": "knorvia: start electron (debug with host inspect)",
+      "type": "process",
+      "command": "node",
+      "args": ["${workspaceFolder}/.vscode/start-electron.mjs", "--host-inspect"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "dependsOn": ["knorvia: prepare desktop debug"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "knorvia-debug"
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "Debugger listening on ws://127\\.0\\.0\\.1:9231/"
+        }
+      }
+    }
+  ]
+}

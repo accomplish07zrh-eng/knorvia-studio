@@ -1,0 +1,11 @@
+{
+  "name": "pdf",
+  "version": "0.2.0",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN skills/pdf/LICENSE.txt",
+  "description": "Knorvia Studio PDF creation, editing, inspection and review.",
+  "skills": "skills",
+  "agents": "agents"
+}

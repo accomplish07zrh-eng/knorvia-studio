@@ -1,0 +1,40 @@
+{
+  "name": "@knorvia/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Knorvia Studio agent runtime",
+  "bin": {
+    "knorvia": "./dist/knorvia.cjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/knorvia.cjs",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:desktop-agent": "node scripts/build.mjs --desktop-agent",
+    "build:sea": "pnpm --dir ../../../.. exec turbo --skip-infer --cwd apps/cli run build --filter=!@knorvia/cli --force && pnpm build && node scripts/build-sea.mjs --all",
+    "sea": "node scripts/build-sea.mjs",
+    "upload:sea": "node scripts/upload-sea-smb.mjs",
+    "clean": "node ../../scripts/clean-dist.mjs",
+    "dev": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint --write src"
+  },
+  "dependencies": {
+    "@knorvia/adapters": "workspace:*",
+    "@knorvia/bootstrap": "workspace:*",
+    "@knorvia/contracts": "workspace:*",
+    "@knorvia/core": "workspace:*",
+    "@knorvia/dynamic-workflow-runtime": "workspace:*",
+    "@knorvia/i18n": "workspace:*",
+    "@knorvia/provider-node": "workspace:*",
+    "@knorvia/shared": "workspace:*",
+    "@knorvia/shared-types": "workspace:*",
+    "@knorvia/tui": "workspace:*",
+    "dotenv": "^17.4.2",
+    "playwright-core": "1.59.1"
+  }
+}

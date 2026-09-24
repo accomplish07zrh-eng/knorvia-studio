@@ -1,0 +1,10 @@
+{
+  "name": "browser-use",
+  "version": "0.6.0",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN docs/LICENSE.txt",
+  "description": "Knorvia browser connection, observation and interaction guidance.",
+  "skills": "skills"
+}

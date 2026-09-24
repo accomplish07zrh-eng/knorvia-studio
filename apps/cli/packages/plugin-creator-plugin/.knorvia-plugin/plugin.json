@@ -1,0 +1,10 @@
+{
+  "name": "plugin-creator",
+  "version": "0.2.0",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN skills/plugin-creator/LICENSE.txt",
+  "description": "Knorvia Studio local plugin-creator authoring and validation.",
+  "skills": "skills"
+}

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "retrievedAt": "2026-09-23",
+  "usage": "Third-party product identification inside Knorvia Studio; no endorsement implied. Assets are retained unchanged from their source.",
+  "logos": [
+    {
+      "kernelIds": ["claude-code"],
+      "file": "kernel-claude.png",
+      "sourceUrl": "https://assets.claude.com/95a868946ac8a31e5ff832e2899f294aa368b836.png?w=32&h=32",
+      "sourcePage": "https://www.claude.com/product/claude-code",
+      "sourceOwner": "Anthropic"
+    },
+    {
+      "kernelIds": ["grok-build"],
+      "file": "kernel-grok.png",
+      "sourceUrl": "https://grok.com/images/android-chrome-512x512.png",
+      "sourcePage": "https://grok.com",
+      "sourceOwner": "xAI"
+    },
+    {
+      "kernelIds": ["qoder", "qoder-cn"],
+      "file": "kernel-qoder.png",
+      "sourceUrl": "https://img.alicdn.com/imgextra/i4/O1CN01QkSxiCocd3D0prc8_!!6000000008124-2-tps-412-412.png",
+      "sourcePage": "https://qoder.com/ and https://qoder.cn/",
+      "sourceOwner": "Qoder"
+    },
+    {
+      "kernelIds": ["antigravity"],
+      "file": "kernel-antigravity.png",
+      "sourceUrl": "https://www.antigravity.google/assets/image/brand/antigravity-icon__full-color.png",
+      "sourcePage": "https://www.antigravity.google/press",
+      "sourceOwner": "Google Antigravity"
+    },
+    {
+      "kernelIds": ["qwen-code"],
+      "file": "kernel-qwen-code.png",
+      "sourceUrl": "https://qwenlm.github.io/qwen-code-docs/favicon.png",
+      "sourcePage": "https://github.com/QwenLM/qwen-code",
+      "sourceOwner": "Qwen Code"
+    },
+    {
+      "kernelIds": ["gemini-cli"],
+      "file": "kernel-gemini-cli.png",
+      "sourceUrl": "https://geminicli.com/icon.png",
+      "sourcePage": "https://github.com/google-gemini/gemini-cli",
+      "sourceOwner": "Google Gemini CLI"
+    },
+    {
+      "kernelIds": ["goose"],
+      "file": "kernel-goose.png",
+      "sourceUrl": "https://goose-docs.ai/img/favicon.ico",
+      "sourcePage": "https://goose-docs.ai",
+      "sourceOwner": "Block",
+      "note": "The official .ico URL serves PNG bytes; file extension matches the served format."
+    },
+    {
+      "kernelIds": ["hermes"],
+      "file": "kernel-hermes.ico",
+      "sourceUrl": "https://raw.githubusercontent.com/NousResearch/hermes-agent/main/web/public/favicon.ico",
+      "sourcePage": "https://github.com/NousResearch/hermes-agent",
+      "sourceOwner": "Nous Research"
+    },
+    {
+      "kernelIds": ["mistral-vibe"],
+      "file": "kernel-mistral-vibe.svg",
+      "sourceUrl": "https://docs.mistral.ai/assets/logos/vibe.svg",
+      "sourcePage": "https://docs.mistral.ai",
+      "sourceOwner": "Mistral AI"
+    },
+    {
+      "kernelIds": ["copilot"],
+      "file": "kernel-copilot.svg",
+      "sourceUrl": "https://raw.githubusercontent.com/microsoft/vscode-codicons/main/src/icons/copilot.svg",
+      "sourcePage": "https://brand.github.com/brand-identity/copilot",
+      "sourceOwner": "Microsoft / GitHub",
+      "note": "Current-color product glyph used for identification; dark theme inverts the monochrome mark."
+    }
+  ]
+}

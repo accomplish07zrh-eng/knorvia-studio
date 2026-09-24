@@ -1,0 +1,11 @@
+{
+  "name": "presentations",
+  "version": "0.2.0",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN skills/pptx/LICENSE.txt",
+  "description": "Knorvia Studio PPTX creation, editing, inspection and review.",
+  "skills": "skills",
+  "agents": "agents"
+}

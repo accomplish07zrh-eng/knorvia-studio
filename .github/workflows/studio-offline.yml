@@ -1,0 +1,36 @@
+name: Studio offline checks
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  studio:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Typecheck including desktop main
+        run: pnpm typecheck
+      - name: Lint
+        run: pnpm lint
+      - name: Architecture check
+        run: pnpm architecture:check --changed
+      - name: Offline Studio regression
+        run: pnpm test:studio

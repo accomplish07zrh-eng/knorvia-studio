@@ -1,0 +1,21 @@
+{
+  "name": "@knorvia/provider",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint"
+  },
+  "dependencies": {
+    "@knorvia/model-option-map": "workspace:*",
+    "@knorvia/shared": "workspace:*",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
+  }
+}

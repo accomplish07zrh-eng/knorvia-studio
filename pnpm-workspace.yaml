@@ -1,0 +1,37 @@
+packages:
+  - packages/*
+  - apps/cli
+  - apps/cli/packages/*
+  - apps/cli/tools/*
+overrides:
+  react: 19.2.7
+  react-dom: 19.2.7
+patchedDependencies:
+  '@ai-sdk/openai-compatible@2.0.60': patches/@ai-sdk__openai-compatible@2.0.60.patch
+  '@ai-sdk/anthropic@3.0.81': patches/@ai-sdk__anthropic@3.0.81.patch
+supportedArchitectures:
+  os:
+    - current
+    - darwin
+    - linux
+    - win32
+  cpu:
+    - current
+    - x64
+    - arm64
+  libc:
+    - current
+    - glibc
+allowBuilds:
+  cpu-features: true
+  edgedriver: true
+  electron: true
+  electron-winstaller: true
+  esbuild: true
+  geckodriver: true
+  koffi: true
+  msw: true
+  node-pty: true
+  protobufjs: true
+  ssh2: true
+  unsafe-pointer: true
