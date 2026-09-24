@@ -159,6 +159,69 @@ test("native usage survives partial updates and restart without leaking into a q
   }
 });
 
+test("group member usage and execution time come from durable turns after restart", async () => {
+  const path = root();
+  const f = fixture(path, {
+    run: async (turn, sink) => {
+      const step = turn.dispatchId ?? "";
+      if (step.includes("group:plan:")) return {
+        status: "succeeded", resultKnown: true,
+        text: JSON.stringify({ tasks: [
+          { id: "build", member: "codex", instruction: "Build" },
+          { id: "check", member: "claude-code", instruction: "Check" },
+        ] }),
+      };
+      if (step.includes("group:review:")) return {
+        status: "succeeded", resultKnown: true,
+        text: JSON.stringify({ status: "complete", summary: "Both tasks checked." }),
+      };
+      const usage = step.includes(":build")
+        ? { type: "usage" as const, scope: "turn" as const, inputTokens: 10, outputTokens: 5 }
+        : { type: "usage" as const, scope: "turn" as const, inputTokens: 7, outputTokens: 3 };
+      await sink.emit(usage);
+      await sink.emit(usage);
+      return { status: "succeeded", resultKnown: true, text: "done" };
+    },
+  });
+  try {
+    await f.service.command({
+      commandId: commandId(), type: "save-group",
+      group: {
+        id: "group", name: "Team", goal: "ship", members: ["codex", "claude-code"],
+        host: "codex", sharedSummary: "", mode: "task", workspaceMode: "isolated",
+        workspacePath: path, createdAt: 1, updatedAt: 1,
+      },
+    });
+    const accepted = await f.service.command({
+      commandId: commandId(), type: "send", kind: "group", targetId: "group", text: "ship", taskMode: true,
+    });
+    await until(() => {
+      f.service.tick();
+      return f.db.read<StoredRun>("run", accepted.id)?.state === "succeeded";
+    });
+    const before = await f.service.timeline("group");
+    assert.equal(before.groupMetrics?.total.tokens, 25);
+    assert.equal(before.groupMetrics?.total.tokensPartial, true, "host planning and review do not report usage");
+    assert.deepEqual(before.groupMetrics?.members.map((item) => item.tokens), [15, 10]);
+    assert.equal(before.turns?.filter((item) => item.stepId.includes(":task:")).every((item) =>
+      item.memberId && item.startedAt !== undefined && item.endedAt !== undefined), true);
+    assert.deepEqual((before.runs[0]!.checkpoint.plan as { review?: unknown }).review, {
+      round: 0, status: "complete", summary: "Both tasks checked.",
+    });
+    await f.service.disposeAllAndWait();
+    const reopened = fixture(path, success);
+    try {
+      const after = await reopened.service.timeline("group");
+      assert.deepEqual(after.groupMetrics, before.groupMetrics);
+    } finally {
+      await reopened.service.disposeAllAndWait();
+    }
+  } finally {
+    await f.service.disposeAllAndWait().catch(() => {});
+    await rm(path, { recursive: true, force: true });
+  }
+});
+
 test("command admission is transactional and idempotent without context crossing kernels", async () => {
   const path = root();
   const db = new StudioDatabase(join(path, "db.sqlite"));

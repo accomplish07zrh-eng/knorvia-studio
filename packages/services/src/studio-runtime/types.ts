@@ -67,6 +67,30 @@ export interface StudioRun {
   taskMode?: boolean;
   definition?: StudioGroupDefinition | StudioWorkflowDefinition;
 }
+export interface StudioTurnSnapshot {
+  id: string;
+  runId: string;
+  stepId: string;
+  state: string;
+  attempt: number;
+  memberId?: StudioKernelId;
+  startedAt?: number;
+  endedAt?: number;
+}
+export interface StudioGroupMemberMetrics {
+  member: StudioKernelId;
+  /** Sum of reported fields only; partial marks missing or request-scoped usage. */
+  tokens?: number;
+  durationMs?: number;
+  tokensPartial: boolean;
+  durationPartial: boolean;
+}
+export interface StudioGroupMetrics {
+  runId: string;
+  members: StudioGroupMemberMetrics[];
+  total: Omit<StudioGroupMemberMetrics, "member">;
+  truncated: boolean;
+}
 export interface StudioOverview {
   revision: number;
   configs: Partial<Record<StudioKernelId, StudioKernelConfig>>;
@@ -81,8 +105,9 @@ export interface StudioTimeline {
   messages: StudioMessage[];
   interactions: StudioInteraction[];
   runs: StudioRun[];
-  turns?: Array<{ id: string; runId: string; stepId: string; state: string; attempt: number }>;
+  turns?: StudioTurnSnapshot[];
   usage?: StudioKernelUsage & { runId: string; turnId: string };
+  groupMetrics?: StudioGroupMetrics;
 }
 export interface StudioWorkspaceChange {
   path: string;

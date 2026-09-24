@@ -16,7 +16,7 @@ import {
   validWorkspace,
   validateStudioKernelManagement,
 } from "../domain/validation.js";
-import type { StudioOverview, StudioTimeline, StudioMessage, StudioInteraction } from "../types.js";
+import type { StudioOverview, StudioTimeline, StudioMessage, StudioInteraction, StudioTurnSnapshot } from "../types.js";
 import type { StudioKernelRegistry, StudioWorkspacePort } from "./ports.js";
 import type { StudioClock, StudioRepository } from "./storePort.js";
 import { admitStudioCommand, requiredRun } from "./commandAdmission.js";
@@ -28,6 +28,7 @@ import { hasUnknownStudioRun, studioRunHistory } from "./runQueries.js";
 import { applyStudioWorkspaceChanges, inspectStudioWorkspaceChanges } from "./workspaceReview.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { assertRemoteStudioMembersOnline } from "./remoteAdmission.js";
+import { readStudioGroupMetrics } from "./groupMetricsProjection.js";
 export interface StudioRuntimeDependencies {
   db: StudioRepository;
   clock: StudioClock;
@@ -105,10 +106,11 @@ export class StudioRuntimeService implements IStudioRuntimeService {
       ...(usage && latestRun && latestTurn
         ? { usage: { ...usage, runId: latestRun.id, turnId: latestTurn.id } }
         : {}),
+      ...(latestRun?.kind === "group" ? { groupMetrics: readStudioGroupMetrics(db, latestRun, this.deps.clock.now()) } : {}),
       turns: runs
         .slice(0, 10)
         .flatMap((run) =>
-          db.list<{ id: string; runId: string; stepId: string; state: string; attempt: number }>(
+          db.list<StudioTurnSnapshot>(
             "turn",
             { scope: run.id, limit: 1000 },
           ),

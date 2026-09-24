@@ -21,6 +21,8 @@ import { GroupComposer } from "./GroupComposer.js";
 import { GroupDetailsPanel } from "./GroupDetailsPanel.js";
 import { GroupEditDialog } from "./GroupEditDialog.js";
 import { GroupKernelAvatar } from "./GroupMembersField.js";
+import { GroupMetricsBar } from "./GroupMetricsBar.js";
+import { GroupProgressPanel } from "./GroupProgressPanel.js";
 import { useStudioGroups } from "./useStudioGroups.js";
 import { StudioTimeline } from "../runtime/StudioTimeline.js";
 import { activeGroupRun } from "./groupSubmission.js";
@@ -51,6 +53,8 @@ export function StudioGroupsPage({
   const [deleting, setDeleting] = useState(false);
   const deletingRef = useRef(false);
   const running = activeGroupRun(runtime.timeline?.runs);
+  const groupMetrics = runtime.timeline?.groupMetrics;
+  const latestRun = runtime.timeline?.runs[0];
   const hasContent = Boolean(runtime.timeline?.messages.length || runtime.timeline?.runs.length);
   const handledCreateRequest = useRef(0);
   const selectedGroup = useRef(groupId);
@@ -169,6 +173,7 @@ export function StudioGroupsPage({
         <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_auto]">
           <div className="relative flex min-h-0 lg:contents">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col lg:col-start-1 lg:row-start-1">
+              {latestRun?.taskMode ? <GroupProgressPanel key={latestRun.id} timeline={runtime.timeline} /> : null}
               {hasContent ? (
                 <StudioTimeline targetId={group.id} />
               ) : (
@@ -212,6 +217,11 @@ export function StudioGroupsPage({
                 await runtime.save({ ...group, mode }, group);
               }}
             />
+            {groupMetrics?.runId === latestRun?.id ? (
+              <div className="mx-auto w-full max-w-3xl px-4 pb-3 sm:px-6">
+                <GroupMetricsBar metrics={groupMetrics} />
+              </div>
+            ) : null}
           </div>
         </div>
       ) : (

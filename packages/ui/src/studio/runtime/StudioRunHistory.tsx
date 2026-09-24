@@ -58,6 +58,7 @@ export function StudioRunHistory({
       {(compact ? runs.slice(0, 3) : runs).map((run) => (
         <details
           key={run.id}
+          data-studio-run-history={run.id}
           className="rounded-lg border border-border px-3 py-2"
           open={!compact || run.state === "failed" || run.state === "interrupted"}
         >
@@ -148,7 +149,7 @@ export function StudioRunHistory({
             const step = run.checkpoint.steps[stepId];
             const label = studioRunStepLabel(run, stepId, locale);
             return (
-              <div key={stepId} className="mt-2 border-t border-border pt-2">
+              <div key={stepId} id={`studio-run-step-${run.id}-${stepId}`} className="mt-2 border-t border-border pt-2">
                 <div className="flex items-center justify-between gap-2">
                   <span className="min-w-0 truncate" title={label}>
                     {label}

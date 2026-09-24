@@ -30,6 +30,11 @@ test("continuous group work completes after seven rounds and twenty-eight tasks 
   const result = await executeStudioGroup(group, "Deliver all items", true, "", h.port);
   assert.equal(result.status, "succeeded");
   assert.equal(h.port.checkpoint.completedRounds, 7);
+  assert.deepEqual((h.port.checkpoint.plan as { review?: unknown }).review, {
+    round: 6,
+    status: "complete",
+    summary: "All twenty-eight deliverables verified.",
+  });
   assert.equal(h.calls.filter((step) => step.id.includes(":task:")).length, 28);
   assert.equal(new Set(h.calls.map((step) => step.id)).size, h.calls.length);
   const count = h.calls.length;

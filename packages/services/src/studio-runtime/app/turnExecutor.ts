@@ -118,7 +118,15 @@ export async function executeStudioTurn(
       db.write(
         "turn",
         turnId,
-        { id: turnId, runId, stepId: step.id, state: "running", attempt: run.attempt },
+        {
+          id: turnId,
+          runId,
+          stepId: step.id,
+          state: "running",
+          attempt: run.attempt,
+          ...(run.kind === "group" ? { memberId: step.memberId ?? step.kernel } : {}),
+          startedAt: clock.now(),
+        },
         runId,
       );
       db.write(
@@ -278,10 +286,20 @@ export async function executeStudioTurn(
       const current = requiredRun(db, runId);
       if (current.owner !== deps.owner || !["running", "waiting"].includes(current.state)) return;
       if (turnId) {
+        const turn = db.read<import("../types.js").StudioTurnSnapshot>("turn", turnId);
         db.write(
           "turn",
           turnId,
-          { id: turnId, runId, stepId: step.id, state: outcome.status, attempt: current.attempt },
+          {
+            ...turn,
+            id: turnId,
+            runId,
+            stepId: step.id,
+            state: outcome.status,
+            attempt: current.attempt,
+            ...(run.kind === "group" ? { memberId: step.memberId ?? step.kernel } : {}),
+            endedAt: clock.now(),
+          },
           runId,
         );
         const existing = db.read<StudioMessage>("message", `${turnId}:text`);

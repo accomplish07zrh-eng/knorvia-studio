@@ -138,7 +138,12 @@ async function task(
       // 主持声明不能把明确失败的派发变成完成；必须给出修订计划或诚实停止。
       if (Object.values(results).some((result) => result.status !== "succeeded"))
         return workflowFailed("The host claimed completion while assigned tasks still failed.");
-      record = { ...record, phase: "complete", summary: review.summary };
+      record = {
+        ...record,
+        phase: "complete",
+        summary: review.summary,
+        review: { round: record.round, status: review.status, summary: review.summary },
+      };
       await port.saveCheckpoint({ plan: record });
       // 保存期间也可能收到插话；再次经过 inbox 边界，不能直接交付旧结论。
       continue;
@@ -149,6 +154,7 @@ async function task(
       tasks: review.tasks,
       dispatched: record.dispatched + review.tasks.length,
       phase: "tasks",
+      review: { round: record.round, status: review.status, summary: review.summary },
     };
     await port.saveCheckpoint({ plan: record });
   }
