@@ -234,6 +234,10 @@ export interface ResourceUsageSnapshot {
 }
 
 export interface AppSettings {
+  /** Read-only release metadata endpoint; empty means no update source and no request. */
+  releaseInfoUrl?: string;
+  /** Disabling this suppresses both scheduled and manual release requests. */
+  releaseChecksEnabled?: boolean;
   /** 当前 App/Host 不再显示提交前体验套餐推荐；不改变任何入口的模型选择。 */
   startPlanRecommendationDismissed?: boolean;
   recentProjects: string[]; // 最近项目列表，最多保留 10 个

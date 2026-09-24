@@ -158,6 +158,9 @@ export type {
   TelemetryProviderIdentity,
   TelemetryProviderScope,
 } from "./telemetryRedaction.js";
+export { redactDiagnosticText, redactDiagnosticValue } from "./diagnosticSecrets.js";
+export type { ReleaseUpdateCheckResult } from "./releaseUpdate.js";
+export { validReleaseInfoUrl } from "./releaseUpdate.js";
 export {
   TELEMETRY_SAFE_BUILTIN_MODEL_IDS,
   TELEMETRY_TEXT_MAX_LENGTH,

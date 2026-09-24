@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { mkdtempSync } from "node:fs";
+import { readFile, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -66,6 +67,46 @@ async function createChat(
 const success: StudioKernelAdapter = {
   run: async () => ({ status: "succeeded", text: "ok", resultKnown: true }),
 };
+
+test("external kernel credentials in output and failure are absent from Studio SQLite", async () => {
+  const path = root();
+  const secret = "sk-abcdefghijklmnopqrstuvwxyz123456";
+  const sshPassword = "fake-ssh-password-never-persist";
+  const token = "ghp_abcdefghijklmnopqrstuvwxyz123456";
+  const privateBody = "FAKE_PRIVATE_KEY_MATERIAL_NEVER_PERSIST";
+  const f = fixture(path, {
+    async run(_turn, sink) {
+      await sink.emit({ type: "tool", id: "fixture", name: "local-substitute", state: "failed", output: `apiKey=${secret}\nsshPassword=${sshPassword}` });
+      await sink.emit({ type: "text", text: `Bearer ${token}\n-----BEGIN OPENSSH PRIVATE KEY-----\n${privateBody}\n-----END OPENSSH PRIVATE KEY-----` });
+      return { status: "failed", text: `token=${secret}`, error: `Authorization: Bearer ${token}`, resultKnown: true };
+    },
+  });
+  try {
+    await createChat(f.service, path);
+    const sent = await f.service.command({
+      commandId: commandId(), type: "send", kind: "chat", targetId: "chat", text: "local test",
+    });
+    await until(() => {
+      f.service.tick();
+      return f.db.read<StoredRun>("run", sent.id)?.state === "failed";
+    });
+    const timeline = JSON.stringify(await f.service.timeline("chat"));
+    for (const marker of [secret, sshPassword, token, privateBody]) {
+      assert.equal(timeline.includes(marker), false, marker);
+    }
+    await f.service.disposeAllAndWait();
+    for (const file of await readdir(path)) {
+      if (!file.startsWith("runtime.sqlite")) continue;
+      const persisted = await readFile(join(path, file));
+      for (const marker of [secret, sshPassword, token, privateBody]) {
+        assert.equal(persisted.includes(marker), false, `${file}: ${marker}`);
+      }
+    }
+  } finally {
+    await f.service.disposeAllAndWait().catch(() => {});
+    await rm(path, { recursive: true, force: true });
+  }
+});
 
 test("native usage survives partial updates and restart without leaking into a queued turn", async () => {
   const path = root();

@@ -115,6 +115,7 @@ export function createDesktopPlatform(options: {
       window.knorvia.onDesktopZoomLevelChanged?.(handler) ?? (() => {}),
     onTaskNotificationClick: (handler) => window.knorvia.onTaskNotificationClick(handler),
     exportLogs: () => window.knorvia.exportLogs(),
+    checkReleaseUpdate: () => window.knorvia.checkReleaseUpdate(),
     captureWindowScreenshot: () =>
       window.knorvia.captureWindowScreenshot?.() ?? Promise.resolve(null),
     onUpdateReady: (callback) => window.knorvia.onUpdateReady(callback),

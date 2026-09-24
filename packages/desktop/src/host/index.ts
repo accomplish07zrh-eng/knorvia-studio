@@ -67,6 +67,7 @@ import {
   isRemoteWorkspaceIdentity,
   resolveWorkspaceKey,
   formatModelPickerValue,
+  redactDiagnosticValue,
   type KnorviaPromptAttachment,
   type KnorviaStreamEvent,
   type KnorviaTaskMeta,
@@ -1151,26 +1152,29 @@ function formatRemoteTargetForLog(target: RemoteTarget): string {
 }
 
 console.log = (...args: unknown[]) => {
-  rawConsole.log(...args);
-  reportHostLog("info", args);
-  remoteConnectionProgressContext.report("info", args);
+  const safe = args.map((arg) => redactDiagnosticValue(arg));
+  rawConsole.log(...safe);
+  reportHostLog("info", safe);
+  remoteConnectionProgressContext.report("info", safe);
 };
 
 console.warn = (...args: unknown[]) => {
-  rawConsole.warn(...args);
-  reportHostLog("warn", args);
-  remoteConnectionProgressContext.report("warn", args);
+  const safe = args.map((arg) => redactDiagnosticValue(arg));
+  rawConsole.warn(...safe);
+  reportHostLog("warn", safe);
+  remoteConnectionProgressContext.report("warn", safe);
 };
 
 console.error = (...args: unknown[]) => {
-  rawConsole.error(...args);
+  const safe = args.map((arg) => redactDiagnosticValue(arg));
+  rawConsole.error(...safe);
   // Electron 会把 Node warning 先走 console.error，而 process warning listener 随后还会
   // 结构化记录 warn；若这里继续上报，就会为同一个 warning 留下一条 error 和一条 warn。
-  if (!shouldReportHostConsoleError(args)) {
+  if (!shouldReportHostConsoleError(safe)) {
     return;
   }
-  reportHostLog("error", args);
-  remoteConnectionProgressContext.report("error", args);
+  reportHostLog("error", safe);
+  remoteConnectionProgressContext.report("error", safe);
 };
 
 /** 当前 host 已注册的服务集合，进程退出时用于统一回收本地资源 */

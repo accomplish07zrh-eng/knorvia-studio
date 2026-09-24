@@ -2,7 +2,6 @@
 import { constants, createReadStream, createWriteStream } from "node:fs";
 import {
   access,
-  copyFile,
   mkdir,
   mkdtemp,
   open,
@@ -144,9 +143,13 @@ const NON_LOG_STATE_ARCHIVE_PATHS = [
   "sessions",
   "session-bindings",
   "checkpoints",
+  "studio",
+  "creation",
+  "crash",
 ] as const;
 const SENSITIVE_CREDENTIAL_ARCHIVE_FILE_NAMES = new Set(["credentials.json", ".credentials.json"]);
 const EXCLUDED_ARCHIVE_DIRECTORY_NAMES = new Set(["debug"]);
+const DIAGNOSTIC_TEXT_EXTENSIONS = /\.(?:log|jsonl|txt)$/i;
 const DEFAULT_LOG_EXPORT_LOOKBACK_DAYS = 3;
 const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 const REDACTED_PLACEHOLDER = "***REDACTED***";
@@ -277,7 +280,9 @@ function sanitizeSensitiveLogContent(rawContent: string): string {
           : match,
     )
     .replace(BEARER_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
-    .replace(QUERY_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`);
+    .replace(QUERY_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
+    .replace(/\b(?:sk|rk|pk)-[A-Za-z0-9_-]{12,}\b/gi, REDACTED_PLACEHOLDER)
+    .replace(/\bgh[pousr]_[A-Za-z0-9]{20,}\b/g, REDACTED_PLACEHOLDER);
 }
 
 function detectUtf16EncodingByNullPattern(sample: Buffer): SupportedTextEncoding | null {
@@ -532,6 +537,9 @@ function detectTextFileEncoding(sample: Buffer): TextFileEncodingInfo | null {
     };
   }
 
+  // 修复原因：含少量 NUL 的二进制内存片段可能被 UTF-16 评分误判成文本，绕过安全导出边界。
+  if (sample.includes(0) && !detectUtf16EncodingByNullPattern(sample)) return null;
+
   if (!sample.includes(0) && isValidUtf8Sample(sample)) {
     return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
   }
@@ -607,6 +615,20 @@ function splitByCompleteLine(content: string): {
 function createSensitiveContentSanitizerTransform(encoding: SupportedTextEncoding): Transform {
   const decoder = new TextDecoder(encoding);
   let pendingChunk = "";
+  let insidePrivateKey = false;
+  const redactPrivateKeyLines = (content: string): string =>
+    content.replace(/[^\r\n]*(?:\r?\n|$)/g, (line) => {
+      if (!line) return "";
+      if (/-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----/.test(line)) {
+        insidePrivateKey = true;
+        return `${REDACTED_PLACEHOLDER}\n`;
+      }
+      if (insidePrivateKey) {
+        if (/-----END (?:[A-Z0-9]+ )*PRIVATE KEY-----/.test(line)) insidePrivateKey = false;
+        return "";
+      }
+      return line;
+    });
 
   return new Transform({
     transform(chunk, _chunkEncoding, callback) {
@@ -621,7 +643,7 @@ function createSensitiveContentSanitizerTransform(encoding: SupportedTextEncodin
           callback();
           return;
         }
-        const sanitizedChunk = sanitizeSensitiveLogContent(completeChunk);
+        const sanitizedChunk = sanitizeSensitiveLogContent(redactPrivateKeyLines(completeChunk));
         callback(null, encodeTextWithEncoding(sanitizedChunk, encoding));
       } catch (error) {
         callback(error as Error);
@@ -634,7 +656,7 @@ function createSensitiveContentSanitizerTransform(encoding: SupportedTextEncodin
           callback();
           return;
         }
-        const sanitizedChunk = sanitizeSensitiveLogContent(remainingContent);
+        const sanitizedChunk = sanitizeSensitiveLogContent(redactPrivateKeyLines(remainingContent));
         callback(null, encodeTextWithEncoding(sanitizedChunk, encoding));
       } catch (error) {
         callback(error as Error);
@@ -754,7 +776,18 @@ function isExcludedRelativePath(relativePath: string): boolean {
     return true;
   }
 
-  return ZIP_EXCLUDE_REGEXES.some((pattern) => pattern.test(normalizedRelativePath));
+  if (ZIP_EXCLUDE_REGEXES.some((pattern) => pattern.test(normalizedRelativePath))) return true;
+  const normalized = normalizedRelativePath.toLowerCase();
+  const approvedRoot =
+    normalized === "about.txt" ||
+    normalized === "logs" ||
+    normalized.startsWith("logs/") ||
+    normalized === ".knorvia-studio/cli/log" ||
+    normalized.startsWith(".knorvia-studio/cli/log/") ||
+    normalized === ".knorvia-studio/computer-use/run" ||
+    normalized.startsWith(".knorvia-studio/computer-use/run/");
+  // 日志包只收集诊断文本；新数据目录默认不导出，避免未来新增状态文件后自动泄露。
+  return !approvedRoot;
 }
 
 function shouldApplyLogExportRetention(archivePath: string): boolean {
@@ -857,6 +890,7 @@ async function walkLogArchiveDirectory(
     }
 
     if (dirent.isFile()) {
+      if (!DIAGNOSTIC_TEXT_EXTENSIONS.test(dirent.name)) continue;
       files.push({ absolutePath, archivePath });
       continue;
     }
@@ -878,6 +912,7 @@ async function walkLogArchiveDirectory(
     }
 
     if (targetStats.isFile()) {
+      if (!DIAGNOSTIC_TEXT_EXTENSIONS.test(dirent.name)) continue;
       files.push({ absolutePath, archivePath });
     }
   }
@@ -933,6 +968,7 @@ async function collectLogArchiveFile(
   if (isExcludedRelativePath(archivePath)) {
     return;
   }
+  if (!DIAGNOSTIC_TEXT_EXTENSIONS.test(archivePath)) return;
   const fileStats = await stat(absolutePath).catch(() => null);
   if (!fileStats?.isFile()) {
     return;
@@ -967,21 +1003,7 @@ async function createLogArchiveArtifacts(
     files,
   );
 
-  const knorviaCliDir = getKnorviaCliDir();
-  // 排查 agent CLI 问题还需要它的运行配置与模型 IO 轨迹。
-  // config.json 是当前生效配置；rollout 是 model-io 调用轨迹，
-  // 二者都不在 ~/.knorvia-studio/cli/log 下，需要额外收集才能完整还原现场。
-  await collectLogArchiveFile(
-    join(knorviaCliDir, "config.json"),
-    posix.join(".knorvia-studio", "cli", "config.json"),
-    files,
-  );
-  await collectLogArchiveFilesFromDirectory(
-    join(knorviaCliDir, "rollout"),
-    posix.join(".knorvia-studio", "cli", "rollout"),
-    visitedDirs,
-    files,
-  );
+  // CLI 配置和模型 IO 轨迹不是日志，可能带有凭据或私有对话内容，故只收集 log 目录。
 
   // Computer Use Helper 的结构化诊断必须进日志包：否则反馈包里
   // grep "background keyboard begin rejected" 命中 0，
@@ -1046,7 +1068,13 @@ async function copyLogArchiveFilesToDirectory(
       const sourceSample = await readFileSample(file.absolutePath);
       const textEncodingInfo = detectTextFileEncoding(sourceSample);
       if (!textEncodingInfo) {
-        await copyFile(file.absolutePath, destinationPath);
+        // 修复原因：未知二进制可能是崩溃内存或密钥文件，原样拷贝会绕过文本脱敏。
+        skippedFiles.push({
+          absolutePath: file.absolutePath,
+          archivePath: file.archivePath,
+          error: "unsupported binary diagnostic",
+        });
+        continue;
       } else {
         await sanitizeTextLogFileToDestination(
           file.absolutePath,

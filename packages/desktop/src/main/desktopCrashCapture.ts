@@ -9,15 +9,15 @@ import {
   writeFileSync,
 } from "node:fs";
 import { basename, join } from "node:path";
-import { app, crashReporter, type BrowserWindow, type WebContents } from "electron";
+import { app, type BrowserWindow, type WebContents } from "electron";
 import { getAppConfigDir } from "@knorvia/services/node";
+import { redactDiagnosticValue } from "@knorvia/shared";
 import {
   type CrashDumpV8OomSummary,
   readCrashDumpAnnotationsFromFile,
   summarizeCrashDumpAnnotations,
 } from "./crashDumpAnnotations.js";
 
-const LOCAL_ONLY_CRASH_SUBMIT_URL = "http://127.0.0.1/local-crash-only";
 const CRASH_DUMP_STABLE_AFTER_MS = 1_000;
 const CRASH_ARCHIVE_RETRY_DELAYS_MS = [1_500, 5_000] as const;
 const CRASH_ARCHIVE_MAX_FILES = 5;
@@ -103,21 +103,25 @@ function persistArchivedCrashDump(
   // “JS 堆撞上限”还是“JIT 代码区耗尽”。解析失败只影响取证信息，绝不阻断归档。
   const annotations = readCrashDumpAnnotationsFromFile(archivedDumpPath, sourceStats.size);
   const v8OomSummary = summarizeCrashDumpAnnotations(annotations);
+  const safeAnnotations = redactDiagnosticValue(annotations) as Record<string, string>;
+  const safeSummary = v8OomSummary
+    ? (redactDiagnosticValue(v8OomSummary) as CrashDumpV8OomSummary)
+    : null;
   writeFileSync(
     join(archiveDir, `${fileName}.json`),
     JSON.stringify(
       {
         archivedAt: archivedAt.toISOString(),
         originalPath: dumpPath,
-        ...(Object.keys(annotations).length > 0 ? { annotations } : {}),
-        ...(v8OomSummary ? { v8OomSummary } : {}),
+        ...(Object.keys(safeAnnotations).length > 0 ? { annotations: safeAnnotations } : {}),
+        ...(safeSummary ? { v8OomSummary: safeSummary } : {}),
       },
       null,
       2,
     ),
     "utf-8",
   );
-  return { dumpPath, archivedDumpPath, v8OomSummary };
+  return { dumpPath, archivedDumpPath, v8OomSummary: safeSummary };
 }
 
 function pruneCrashDumpArchive(
@@ -222,7 +226,7 @@ function pruneCrashDumpArchive(
   return { deletedFiles, failedFiles };
 }
 
-function archiveCrashDumps(
+export function archiveCrashDumps(
   paths: CrashCapturePaths,
   options?: {
     platform?: NodeJS.Platform;
@@ -290,7 +294,7 @@ function archiveCrashDumps(
   };
 }
 
-let hasStartedLocalCrashReporter = false;
+let rawCrashCaptureEnabled = false;
 let registeredCrashEventMonitor = false;
 
 function logCrashArchiveCleanup(
@@ -336,6 +340,7 @@ function scheduleCrashArchive(
   paths: CrashCapturePaths,
   source: string,
 ) {
+  if (!rawCrashCaptureEnabled) return;
   for (const delayMs of CRASH_ARCHIVE_RETRY_DELAYS_MS) {
     const timer = setTimeout(() => {
       const result = archiveCrashDumps(paths);
@@ -361,25 +366,15 @@ export function initializeCrashCapture(
   mkdirSync(paths.archiveDir, { recursive: true });
   app.setPath("crashDumps", paths.stagingDir);
 
-  const startupArchiveResult = archiveCrashDumps(paths);
-  logCrashArchiveCleanup(logger, startupArchiveResult, "startup");
-  if (startupArchiveResult.archivedFiles.length > 0) {
-    logger.info(
-      `[crash-capture] restored ${startupArchiveResult.archivedFiles.length} local dump(s) from previous runs`,
-    );
-  }
-  logArchivedCrashDumpSummaries(logger, startupArchiveResult, "startup");
-
-  if (!remoteCrashReporterEnabled && !hasStartedLocalCrashReporter) {
-    hasStartedLocalCrashReporter = true;
-    crashReporter.start({
-      companyName: "",
-      productName: app.name || app.getName(),
-      submitURL: LOCAL_ONLY_CRASH_SUBMIT_URL,
-      uploadToServer: false,
-      compress: true,
-    });
-    logger.info("[crash-capture] local crashReporter started without remote upload");
+  // 修复原因：原始 minidump 可能包含进程内存中的 API Key/SSH 凭据，无法可靠脱敏。
+  // 默认只保留 process-gone 事件；旧 dump 原地保留且诊断导出不收集。
+  rawCrashCaptureEnabled = remoteCrashReporterEnabled;
+  if (rawCrashCaptureEnabled) {
+    const startupArchiveResult = archiveCrashDumps(paths);
+    logCrashArchiveCleanup(logger, startupArchiveResult, "startup");
+    logArchivedCrashDumpSummaries(logger, startupArchiveResult, "startup");
+  } else {
+    logger.info("[crash-capture] raw local dumps disabled; process exit diagnostics remain available");
   }
 
   logger.info(

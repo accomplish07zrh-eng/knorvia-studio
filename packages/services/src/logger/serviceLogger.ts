@@ -1,4 +1,4 @@
-import { formatLogPrefix, type TraceId } from "@knorvia/shared";
+import { formatLogPrefix, redactDiagnosticValue, type TraceId } from "@knorvia/shared";
 import { isEffectiveDevelopmentNodeEnv } from "#src/runtime-tools/nodeEnv.js";
 
 interface ServiceLogSink {
@@ -53,7 +53,7 @@ export function createServiceLogger(
           : level === "debug"
             ? (sink.debug ?? sink.log)
             : sink.log;
-    consoleFn(formatLogPrefix(source, pid), ...args);
+    consoleFn(formatLogPrefix(source, pid), ...args.map((arg) => redactDiagnosticValue(arg)));
   }
 
   return {

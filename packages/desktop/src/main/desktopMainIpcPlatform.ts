@@ -12,6 +12,7 @@ import {
   stringArraySchema,
   type DesktopCommandId,
   type AppSettings,
+  type ReleaseUpdateCheckResult,
   type ApplicationIconRequest,
   type Locale,
   type LoadCliMcpFromUserDirectoryRequest,
@@ -58,6 +59,7 @@ import { applyDesktopWindowGlass } from "./desktopWindowGlass.js";
 import { registerCuaPipActiveSessionIpc } from "./desktopCuaPipIpc.js";
 
 export function registerPlatformIpcHandlers(options: {
+  checkReleaseUpdate?: () => Promise<ReleaseUpdateCheckResult>;
   fetchHelpConfig?: () => Promise<unknown>;
   logger: {
     info: (...args: unknown[]) => void;
@@ -368,6 +370,9 @@ export function registerPlatformIpcHandlers(options: {
   );
   ipcMain.handle(PlatformChannels.GetDeviceId, () => options.deviceMid);
   ipcMain.handle(PlatformChannels.ExportLogs, () => exportLogs());
+  ipcMain.handle(PlatformChannels.CheckReleaseUpdate, () =>
+    options.checkReleaseUpdate?.() ?? Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }),
+  );
   ipcMain.handle(PlatformChannels.CaptureWindowScreenshot, async (event) => {
     const senderWindow = BrowserWindow.fromWebContents(event.sender);
     return captureWindowScreenshot(senderWindow);

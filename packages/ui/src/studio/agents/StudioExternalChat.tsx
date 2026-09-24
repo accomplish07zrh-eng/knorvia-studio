@@ -313,7 +313,7 @@ export function StudioExternalChat({
   );
   return (
     <section
-      className="@container/conversation flex h-full min-h-0 min-w-0 flex-col bg-background text-foreground"
+      className="@container/conversation flex h-full min-h-0 min-w-0 flex-col text-foreground"
       data-testid="studio-external-chat"
       data-kernel-id={kernelId}
     >

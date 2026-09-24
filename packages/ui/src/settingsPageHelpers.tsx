@@ -13,6 +13,7 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { normalizeInterfaceMode, type InterfaceMode } from "@/lib/interfaceMode.js";
 import { AsyncSettingTextRow } from "@/settings/AsyncSettingTextRow.js";
 import { DataStorageSettings } from "@/settings/DataStorageSettings.js";
+import { ReleaseUpdateSettings } from "@/settings/ReleaseUpdateSettings.js";
 import { ProactiveSuggestionsSetting } from "@/settings/ProactiveSuggestionsSetting.js";
 import {
   createSettingsPageConfig,
@@ -654,6 +655,8 @@ export function GeneralSectionContent({
           }
         />
       </SettingsGroupCard>
+
+      {isDesktop ? <ReleaseUpdateSettings /> : null}
 
       <DataStorageSettings
         defaultHomeDir={defaultHomeDir}

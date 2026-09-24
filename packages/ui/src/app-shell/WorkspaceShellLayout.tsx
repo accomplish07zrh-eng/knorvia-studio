@@ -1649,7 +1649,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                         : undefined
                     }
                     conversationNavigation={
-                      <div className="space-y-2 px-3 pb-3 pt-1">
+                      <div className="space-y-1 px-2 pb-2 pt-1">
                         <StudioConversationSwitch
                           value={studioNavigation.route.chatMode}
                           onValueChange={handleChatModeChange}

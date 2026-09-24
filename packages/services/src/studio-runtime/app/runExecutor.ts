@@ -1,4 +1,5 @@
 import type { StudioExecutionPort } from "./ports.js";
+import { redactDiagnosticText } from "@knorvia/shared";
 import { createHash } from "node:crypto";
 import { readCreationReference } from "../../creation/creationReference.js";
 import type {
@@ -212,7 +213,7 @@ export async function executeStudioRun(
       status: signal.aborted ? "cancelled" : "interrupted",
       text: "",
       resultKnown: false,
-      error: error instanceof Error ? error.message : String(error),
+      error: redactDiagnosticText(error instanceof Error ? error.message : String(error)),
     };
   }
   if (!db.owns(deps.owner, clock.now())) return;
@@ -241,7 +242,7 @@ export async function executeStudioRun(
           : result.status === "skipped"
             ? "succeeded"
             : result.status;
-    current.error = result.error;
+    current.error = result.error ? redactDiagnosticText(result.error) : result.error;
     current.resultKnown = result.resultKnown;
     current.updatedAt = clock.now();
     if (
@@ -260,7 +261,7 @@ export async function executeStudioRun(
           runId,
           sender: (current.definition as StudioGroupDefinition).host,
           kind: "text",
-          text: result.text,
+          text: redactDiagnosticText(result.text),
           createdAt: clock.now(),
           updatedAt: clock.now(),
         },

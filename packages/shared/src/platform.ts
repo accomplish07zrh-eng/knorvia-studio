@@ -808,6 +808,8 @@ export interface IPlatformService {
 
   /** 导出日志：打包 ~/.knorvia-studio/v2 及外部 agent 日志为 zip 并在系统文件浏览器中显示 */
   exportLogs(): Promise<{ success: boolean; path?: string; error?: string }>;
+  /** Read release metadata from the user-configured source; never download or install. */
+  checkReleaseUpdate?(): Promise<import("./releaseUpdate.js").ReleaseUpdateCheckResult>;
 
   /** 截取当前窗口，用于错误反馈携带现场画面；Web fallback 可返回 null */
   captureWindowScreenshot?(): Promise<WindowScreenshotResult | null>;

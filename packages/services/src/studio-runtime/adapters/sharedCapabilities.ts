@@ -1,6 +1,5 @@
 import type { NativeMcpServerRecord, SkillSummary } from "@knorvia/shared";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { rm } from "node:fs/promises";
 import type { IMcpSyncService } from "../../mcp-sync/mcpSync.js";
 import type { IPluginManagementService } from "../../plugins/pluginManagement.js";
 import type { ISkillsService } from "../../skills/skills.js";
@@ -13,6 +12,7 @@ import type {
 import { projectStudioPluginMcp } from "./pluginMcpProjection.js";
 import type { CreationAgentBridge } from "../../creation/creationAgentBridge.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
+import { recoverTemporaryMcpConfigs, writeTemporaryMcpConfig } from "./temporaryMcpConfig.js";
 
 type SharedTurn = StudioKernelTurn & {
   sharedMcpServers?: StudioSharedMcpServer[];
@@ -146,6 +146,11 @@ export function withStudioSharedCapabilities(
     creationBridge?: CreationAgentBridge;
   },
 ): StudioKernelRegistry {
+  // 修复原因：正常回合的 finally 无法在 Host 崩溃后运行。启动时只清理确认已死亡 Host 的私有配置。
+  const recovery = recoverTemporaryMcpConfigs(options.dataDir).then(
+    () => false,
+    () => true,
+  );
   async function pluginResources(workspacePath: string) {
     try {
       return await projectStudioPluginMcp(options.plugins, workspacePath);
@@ -235,6 +240,7 @@ export function withStudioSharedCapabilities(
             | undefined;
           let handedOff = false;
           try {
+            if (await recovery) throw new Error("Studio MCP 临时配置恢复清理失败");
             signal.throwIfAborted();
             const nativeSlash = /^\/[^\s/]+(?:\s|$)/.test(turn.text.trimStart());
             const [listed, mcp, plugin] = await Promise.all([
@@ -281,16 +287,9 @@ export function withStudioSharedCapabilities(
                 text: `Studio 插件 MCP 兼容提示：${warnings.join("；").slice(0, 12_000)}`,
               });
             if (kernel === "claude-code" && servers.length) {
-              const root = join(options.dataDir, "shared-mcp");
-              await mkdir(root, { recursive: true });
-              temporaryDirectory = await mkdtemp(join(root, "turn-"));
-              const file = join(temporaryDirectory, "mcp.json");
-              await writeFile(file, claudeMcpConfig(servers), {
-                encoding: "utf8",
-                flag: "wx",
-                mode: 0o600,
-              });
-              projected.sharedMcpConfigPath = file;
+              const config = await writeTemporaryMcpConfig(options.dataDir, claudeMcpConfig(servers));
+              temporaryDirectory = config.directory;
+              projected.sharedMcpConfigPath = config.path;
             }
             signal.throwIfAborted();
             handedOff = true;

@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { redactDiagnosticText } from "@knorvia/shared";
 import type { ICredentialService } from "../credential/credential.js";
 import type {
   CreateCreationJobInput,
@@ -387,7 +388,7 @@ export class CreationService implements ICreationService {
     } catch (error) {
       const raw = error instanceof Error ? error.message : String(error);
       const apiKey = await this.options.credentials.load(credentialKey(model.id)).catch(() => null);
-      const safe = apiKey ? raw.replaceAll(apiKey, "[redacted]") : raw;
+      const safe = redactDiagnosticText(apiKey ? raw.replaceAll(apiKey, "[redacted]") : raw);
       await this.updateJob(job.id, (record) => {
         record.status = "failed";
         record.error = safe.slice(0, 500);

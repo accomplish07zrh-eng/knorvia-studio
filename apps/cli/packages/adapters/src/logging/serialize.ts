@@ -1,4 +1,5 @@
 import type { LogContext, LogEntry, LogRedactor } from "@knorvia/contracts";
+import { redactDiagnosticText } from "@knorvia/shared";
 
 export interface SerializedLogError {
   name: string;
@@ -24,6 +25,7 @@ export class DefaultLogRedactor implements LogRedactor {
     if (depth > 8) {
       return "[Redacted:DepthLimit]";
     }
+    if (typeof value === "string") return redactDiagnosticText(value);
     if (value === null || typeof value !== "object") {
       return value;
     }
@@ -74,7 +76,7 @@ export function toSerializableEntry(
     level: entry.levelName.toLowerCase(),
     event: entry.event,
     module: entry.module,
-    message: entry.message,
+    message: redactor.redact(entry.message),
     traceId: entry.traceId,
     spanId: entry.spanId,
     parentSpanId: entry.parentSpanId,
@@ -95,7 +97,7 @@ export function toSerializableEntry(
 export function formatConsoleLine(entry: LogEntry): string {
   const trace = entry.traceId ? ` trace=${entry.traceId.slice(0, 8)}` : "";
   const event = entry.event ? ` event=${entry.event}` : "";
-  return `${entry.levelName.toLowerCase()} [${entry.module ?? "log"}]${trace}${event} ${entry.message}`;
+  return `${entry.levelName.toLowerCase()} [${entry.module ?? "log"}]${trace}${event} ${redactDiagnosticText(entry.message)}`;
 }
 
 export function isLogStatus(value: unknown): value is LogEntry["status"] {

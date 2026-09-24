@@ -1,4 +1,5 @@
 import type { StudioKernelEvent, StudioKernelId, StudioKernelTurnResult } from "../kernelTypes.js";
+import { redactDiagnosticText } from "@knorvia/shared";
 import type { StudioConversation, StudioMessage } from "../types.js";
 import { mergeKernelUsage } from "../domain/kernelUsage.js";
 import type {
@@ -249,7 +250,7 @@ export async function executeStudioTurn(
               (changes.length > 100 ? "\n其余文件请在工作目录检查。" : "")
             : "成员隔离目录相对于基线没有文件变化。文本类结果可在回复中；文件类交付不能据此视为完成。";
         } catch (error) {
-          changesSummary = `无法核实文件变化，请复核目录后再判断完成：${error instanceof Error ? error.message : String(error)}`;
+          changesSummary = `无法核实文件变化，请复核目录后再判断完成：${redactDiagnosticText(error instanceof Error ? error.message : String(error))}`;
         }
       }
     }
@@ -258,15 +259,15 @@ export async function executeStudioTurn(
       status: signal.aborted ? "cancelled" : dispatched ? "interrupted" : "failed",
       text: "",
       resultKnown: !dispatched,
-      error: error instanceof Error ? error.message : String(error),
+      error: redactDiagnosticText(error instanceof Error ? error.message : String(error)),
     };
   } finally {
     release();
   }
   const outcome: StudioStepResult = {
     status: result.status,
-    text: result.text,
-    error: result.error,
+    text: redactDiagnosticText(result.text),
+    error: result.error ? redactDiagnosticText(result.error) : result.error,
     resultKnown: result.resultKnown,
     retryable: result.retryable,
     workspacePath,
@@ -290,7 +291,7 @@ export async function executeStudioTurn(
             current,
             turnId,
             step.kernel,
-            { type: "text", text: result.text },
+            { type: "text", text: redactDiagnosticText(result.text) },
             step.id,
           );
         const hostMessage = db.read<StudioMessage>("message", `${turnId}:text`);
@@ -328,8 +329,9 @@ function saveTurnEvent(
   }
   const id = `${turnId}:${event.type}${event.type === "tool" ? `:${event.id}` : ""}`;
   const old = db.read<StudioMessage>("message", id);
-  const value =
-    event.type === "tool" ? (event.output ?? event.input ?? "") : (old?.text ?? "") + event.text;
+  const value = redactDiagnosticText(
+    event.type === "tool" ? (event.output ?? event.input ?? "") : (old?.text ?? "") + event.text,
+  );
   if (value.length > 1_000_000) throw new Error("单条输出超过保存限制，任务已停止");
   const now = clock.now();
   const hostPhase = event.type === "text" && /^group:(?:plan|review|steer|steering):/.test(stepId);

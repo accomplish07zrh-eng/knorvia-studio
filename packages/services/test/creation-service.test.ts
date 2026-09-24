@@ -43,6 +43,44 @@ function credentials() {
   };
 }
 
+test("creation model key is write-only in public responses and persisted state", async () => {
+  const root = await mkdtemp(join(tmpdir(), "knorvia-creation-key-"));
+  const credentialStore = credentials();
+  const apiKey = "sk-fakecreationkey12345678901234567890";
+  try {
+    const service = createCreationService({ rootDir: root, credentials: credentialStore });
+    const model = await service.saveModel({
+      name: "Local fixture",
+      kind: "image",
+      protocol: "openai-images",
+      baseUrl: "http://127.0.0.1:1/v1",
+      model: "fixture",
+      enabled: true,
+      apiKey,
+    });
+    assert.equal(model.configured, true);
+    assert.equal(await credentialStore.load(`knorvia-creation:${model.id}`), apiKey);
+    assert.equal(JSON.stringify(model).includes(apiKey), false);
+    assert.equal(JSON.stringify(await service.listModels()).includes(apiKey), false);
+    assert.equal((await readFile(join(root, "models.json"), "utf8")).includes(apiKey), false);
+    const updated = await service.saveModel({
+      id: model.id,
+      name: "Local fixture updated",
+      kind: "image",
+      protocol: "openai-images",
+      baseUrl: "http://127.0.0.1:1/v1",
+      model: "fixture",
+      enabled: true,
+      apiKey: "",
+    });
+    assert.equal(updated.configured, true);
+    assert.equal(await credentialStore.load(`knorvia-creation:${model.id}`), apiKey);
+    assert.equal((await readFile(join(root, "models.json"), "utf8")).includes(apiKey), false);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("image text/edit and video JSON API use durable idempotent jobs without returning keys", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-creation-"));
   let generations = 0;

@@ -580,6 +580,8 @@ contextBridge.exposeInMainWorld("knorvia", {
     path?: string;
     error?: string;
   }> => ipcRenderer.invoke(PlatformChannels.ExportLogs),
+  checkReleaseUpdate: (): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> =>
+    ipcRenderer.invoke(PlatformChannels.CheckReleaseUpdate),
   /** 截取当前窗口，用于错误反馈携带现场画面 */
   captureWindowScreenshot: () => ipcRenderer.invoke(PlatformChannels.CaptureWindowScreenshot),
   // CDP-on-guest pivot：`<webview>` guest dom-ready 后上报 webContentsId 给 main attach。

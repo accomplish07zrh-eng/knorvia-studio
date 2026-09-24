@@ -28,6 +28,7 @@ export function StudioKernelSelect({
     <div className="flex min-w-0 items-center gap-1.5" data-testid="studio-kernel-select">
       <Select value={value} onValueChange={(next) => onValueChange(next as StudioKernelId)}>
         <SelectTrigger
+          variant="ghost"
           size="lg"
           className="min-w-0 flex-1"
           aria-label={intl.formatMessage({ id: "studio.agents.chooseKernel" })}

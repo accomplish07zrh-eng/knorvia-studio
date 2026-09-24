@@ -36,6 +36,7 @@ import {
   dialog,
   ipcMain,
   nativeImage,
+  Notification,
   protocol,
   session,
   webContents,
@@ -66,6 +67,7 @@ import {
   HostMessageTypes,
 } from "@knorvia/shared";
 import { logger } from "./logger.js";
+import { checkReleaseUpdate, scheduleReleaseUpdateChecks } from "./releaseUpdateCheck.js";
 import { markMainLaunchAppReady } from "./desktopLaunchMarks.js";
 import { createCuaPipFocusRouter, resolveCuaPipWindowKey } from "./cuaPipFocusRouter.js";
 
@@ -607,6 +609,10 @@ const disposingHostProcessTimers = new WeakMap<
   ReturnType<typeof setTimeout>
 >();
 const mainSettingService = createSettingService();
+const checkLocalRelease = () => checkReleaseUpdate({
+  getSettings: () => mainSettingService.get(),
+  currentVersion: KNORVIA_VERSION,
+});
 async function resolveCurrentKnorviaEndpointOrigin() {
   return "";
 }
@@ -1343,6 +1349,21 @@ app.whenReady().then(async () => {
     // 读取失败不影响启动，使用默认 homedir
   }
 
+  // 仅查询用户明确配置的发布信息地址；未配置或关闭时连首个请求都不会发送。
+  let lastNotifiedRelease: string | undefined;
+  const stopReleaseChecks = scheduleReleaseUpdateChecks(checkLocalRelease, (result) => {
+    if (result.status !== "available" || lastNotifiedRelease === result.latestVersion) return;
+    lastNotifiedRelease = result.latestVersion;
+    if (!Notification.isSupported()) return;
+    new Notification({
+      title: currentApplicationLocale === "en-US" ? "Knorvia Studio update available" : "Knorvia Studio 有新版本",
+      body: currentApplicationLocale === "en-US"
+        ? `Version ${result.latestVersion} is available. Check Settings for details.`
+        : `版本 ${result.latestVersion} 已发布，请在设置中查看。`,
+    }).show();
+  });
+  app.once("before-quit", stopReleaseChecks);
+
   // scheduler 也会打开 tasks-index；等 Host 完成统一准备，避免在启动页出现前抢先迁移。
   configureDatabaseStartupQuit(() => {
     markExplicitQuit("database-startup-exit");
@@ -1428,6 +1449,7 @@ app.whenReady().then(async () => {
   });
 
   registerPlatformIpcHandlers({
+    checkReleaseUpdate: checkLocalRelease,
     fetchHelpConfig: readHelpConfig,
     logger,
     // CDP-on-guest pivot：renderer `<webview>` dom-ready 上报 guest webContentsId → attach。

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdtemp, mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { NativeMcpServerRecord, SkillSummary } from "@knorvia/shared";
@@ -13,6 +13,7 @@ import {
 import { codexStudioMcpConfig } from "../src/studio-runtime/adapters/kernels/codexProtocol.js";
 import { claudeArgs } from "../src/studio-runtime/adapters/kernels/claudeProtocol.js";
 import { projectStudioPluginMcp } from "../src/studio-runtime/adapters/pluginMcpProjection.js";
+import { recoverTemporaryMcpConfigs } from "../src/studio-runtime/adapters/temporaryMcpConfig.js";
 
 const record = (
   name: string,
@@ -485,4 +486,72 @@ test("native CLI slash commands bypass skill prompt rewriting while retaining MC
     ["/status ", "/compact", "/review current changes"],
   );
   assert.ok(received.every((turn) => turn.sharedMcpServers?.[0]?.name === "shared"));
+});
+
+test("crash recovery removes dead Host MCP secrets and preserves a live Host directory", async () => {
+  const root = await mkdtemp(join(tmpdir(), "knorvia-mcp-recovery-"));
+  const token = "not-a-real-token-for-recovery-test";
+  const dead = join(root, "shared-mcp", "turn-99999998-12345678-1234-1234-1234-123456789abc");
+  const live = join(root, "shared-mcp", "turn-99999999-12345678-1234-1234-1234-123456789abc");
+  const unknown = join(root, "shared-mcp", "turn-legacy-unknown-owner");
+  try {
+    for (const dir of [dead, live, unknown]) {
+      await mkdir(dir, { recursive: true });
+      await writeFile(join(dir, "mcp.json"), token);
+    }
+    assert.equal(await recoverTemporaryMcpConfigs(root, (pid) => pid === 99999999), 1);
+    await assert.rejects(stat(dead), { code: "ENOENT" });
+    assert.equal(await readFile(join(live, "mcp.json"), "utf8"), token);
+    assert.equal(await readFile(join(unknown, "mcp.json"), "utf8"), token);
+    assert.equal(await recoverTemporaryMcpConfigs(root, (pid) => pid === 99999999), 0);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("failed and cancelled Claude turns remove the temporary private MCP config", async () => {
+  const root = await mkdtemp(join(tmpdir(), "knorvia-mcp-turn-"));
+  const controller = new AbortController();
+  let calls = 0;
+  const wrapped = withStudioSharedCapabilities(
+    {
+      adapter() {
+        return {
+          async run(turn) {
+            calls++;
+            assert.equal((await readFile(turn.sharedMcpConfigPath!, "utf8")).includes("fake-key"), true);
+            if (calls === 1) throw new Error("local CLI substitute failed");
+            controller.abort();
+            return { status: "cancelled", text: "", resultKnown: true } as const;
+          },
+        };
+      },
+      async inspect() { return []; },
+      async manage() { throw new Error("unused"); },
+      async dispose() {},
+    },
+    {
+      dataDir: root,
+      skills: {
+        async list() { return { skills: [], diagnostics: [], capability: { userScopeAvailable: true } }; },
+        async buildPromptContext({ prompt }) { return { prompt, activatedSkillNames: [] }; },
+      },
+      mcp: {
+        async loadMcpFromUserDirectory() {
+          return { servers: [record("local", { command: "node", env: { API_KEY: "fake-key" } })] };
+        },
+      },
+      plugins: { async listPlugins() { return { plugins: [], diagnostics: [] } as never; } },
+    },
+  );
+  const sink = { async emit() {}, async ask() { return {}; } };
+  try {
+    await assert.rejects(wrapped.adapter("claude-code").run(baseTurn("claude-code"), sink, new AbortController().signal), /local CLI substitute failed/);
+    assert.deepEqual(await readdir(join(root, "shared-mcp")), []);
+    const result = await wrapped.adapter("claude-code").run(baseTurn("claude-code"), sink, controller.signal);
+    assert.equal(result.status, "cancelled");
+    assert.deepEqual(await readdir(join(root, "shared-mcp")), []);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
