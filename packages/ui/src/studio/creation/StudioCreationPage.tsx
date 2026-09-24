@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Image, LoaderCircle, Plus, Settings2, Video, X } from "lucide-react";
-import type { CreationJob, CreationKind, CreationModel } from "@knorvia/services";
+import { creationReferenceSlots, type CreationJob, type CreationKind, type CreationModel } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { Textarea } from "@/components/ui/textarea.js";
 import { useBaseWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { cn } from "@/components/lib/utils.js";
 import { StudioCreationModelDialog } from "./StudioCreationModelDialog.js";
-import { StudioCreationOutput } from "./StudioCreationOutput.js";
+import { StudioCreationHistory } from "./StudioCreationHistory.js";
 
 function fileAsBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -35,13 +35,23 @@ export function StudioCreationPage() {
   const [modelId, setModelId] = useState("");
   const [prompt, setPrompt] = useState("");
   const [reference, setReference] = useState<File | null>(null);
+  const [firstFrame, setFirstFrame] = useState<File | null>(null);
+  const [lastFrame, setLastFrame] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [managing, setManaging] = useState(false);
   const [pendingCancel, setPendingCancel] = useState<string | null>(null);
+  const [pendingRetry, setPendingRetry] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
-  const pendingRequest = useRef<{ signature: string; id: string } | null>(null);
+  const firstFrameInput = useRef<HTMLInputElement>(null);
+  const lastFrameInput = useRef<HTMLInputElement>(null);
+  const pendingRequest = useRef<{
+    signature: string; id: string; reference: File | null;
+    firstFrame: File | null; lastFrame: File | null;
+  } | null>(null);
+  const draftEpoch = useRef(0);
+  const submittingRef = useRef(false);
 
   const refresh = useCallback(
     async (clearError = false) => {
@@ -80,64 +90,71 @@ export function StudioCreationPage() {
     [models, kind],
   );
   const selectedModel = availableModels.find((model) => model.id === modelId) ?? availableModels[0];
-  const visibleJobs = jobs.filter((job) => job.kind === kind);
-  const allowReference = Boolean(
-    selectedModel &&
-    (selectedModel.protocol === "openai-images" ||
-      (selectedModel.protocol === "comfyui" && selectedModel.workflowJson?.includes("{{image}}")) ||
-      (selectedModel.protocol === "json-api" &&
-        /\{\{image(?:Base64|DataUrl)\}\}/.test(selectedModel.apiMapping?.requestTemplate ?? ""))),
-  );
+  const referenceSlots = selectedModel ? creationReferenceSlots(selectedModel) : null;
+  const allowReference = Boolean(referenceSlots?.image);
 
   const submit = async () => {
-    if (!creation || submitting || !selectedModel || !prompt.trim()) return;
+    if (!creation || submittingRef.current || !selectedModel || !prompt.trim()) return;
+    submittingRef.current = true;
+    const submittedEpoch = draftEpoch.current;
     setSubmitting(true);
     setError("");
     try {
-      if (
-        reference &&
-        (reference.size > 10 * 1024 * 1024 ||
-          !["image/png", "image/jpeg", "image/webp"].includes(reference.type))
-      )
-        throw new Error("参考图只支持 10 MB 内的 PNG、JPEG 或 WebP");
+      for (const file of [reference, firstFrame, lastFrame]) {
+        if (file && (file.size > 10 * 1024 * 1024 ||
+          !["image/png", "image/jpeg", "image/webp"].includes(file.type)))
+          throw new Error("参考图只支持 10 MB 内的 PNG、JPEG 或 WebP");
+      }
       if (reference && !allowReference) throw new Error("当前模型未配置图生图输入");
+      if (firstFrame && !referenceSlots?.firstFrame) throw new Error("当前模型未配置首帧输入");
+      if (lastFrame && !referenceSlots?.lastFrame) throw new Error("当前模型未配置尾帧输入");
       const normalizedPrompt = prompt.trim();
-      const signature = JSON.stringify([
-        kind,
-        selectedModel.id,
-        normalizedPrompt,
-        reference?.name,
-        reference?.size,
-        reference?.lastModified,
-      ]);
-      if (pendingRequest.current?.signature !== signature)
-        pendingRequest.current = { signature, id: crypto.randomUUID() };
+      const signature = JSON.stringify([kind, selectedModel.id, normalizedPrompt]);
+      if (pendingRequest.current?.signature !== signature ||
+          pendingRequest.current.reference !== reference ||
+          pendingRequest.current.firstFrame !== firstFrame ||
+          pendingRequest.current.lastFrame !== lastFrame)
+        pendingRequest.current = { signature, id: crypto.randomUUID(), reference, firstFrame, lastFrame };
       const requestId = pendingRequest.current.id;
+      const asInput = async (file: File) => ({
+        name: file.name, mimeType: file.type, dataBase64: await fileAsBase64(file),
+      });
       const job = await creation.createJob({
         requestId,
         kind,
         modelId: selectedModel.id,
         prompt: normalizedPrompt,
-        ...(reference
-          ? {
-              reference: {
-                name: reference.name,
-                mimeType: reference.type,
-                dataBase64: await fileAsBase64(reference),
-              },
-            }
-          : {}),
+        ...(reference ? { reference: await asInput(reference) } : {}),
+        ...(firstFrame ? { firstFrame: await asInput(firstFrame) } : {}),
+        ...(lastFrame ? { lastFrame: await asInput(lastFrame) } : {}),
       });
       setJobs((items) => [job, ...items.filter((item) => item.id !== job.id)]);
-      if (prompt.trim() === normalizedPrompt) {
+      if (draftEpoch.current === submittedEpoch) {
         setPrompt("");
         setReference(null);
+        setFirstFrame(null);
+        setLastFrame(null);
       }
       pendingRequest.current = null;
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause));
     } finally {
+      submittingRef.current = false;
       setSubmitting(false);
+    }
+  };
+
+  const retry = async (job: CreationJob) => {
+    if (!creation || pendingRetry || job.status !== "failed") return;
+    setPendingRetry(job.id);
+    setError("");
+    try {
+      const created = await creation.retryJob(job.id);
+      setJobs((items) => [created, ...items.filter((item) => item.id !== created.id)]);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : String(cause));
+    } finally {
+      setPendingRetry(null);
     }
   };
 
@@ -171,8 +188,11 @@ export function StudioCreationPage() {
                 type="button"
                 aria-pressed={kind === item}
                 onClick={() => {
+                  draftEpoch.current++;
                   setKind(item);
                   setReference(null);
+                  setFirstFrame(null);
+                  setLastFrame(null);
                 }}
                 className={cn(
                   "flex items-center gap-2 rounded-md px-3 py-1.5 text-ui-base transition-colors",
@@ -193,78 +213,23 @@ export function StudioCreationPage() {
         </Button>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto [scrollbar-gutter:stable]">
-        <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col px-4 py-5 md:px-8">
-          {visibleJobs.length ? (
-            <section
-              aria-label={t("history")}
-              className="grid gap-4 pb-6 sm:grid-cols-2 xl:grid-cols-3"
-            >
-              {visibleJobs.map((job) => (
-                <article
-                  key={job.id}
-                  className="min-w-0 overflow-hidden rounded-xl border border-card-border bg-card shadow-xs"
-                >
-                  <StudioCreationOutput job={job} />
-                  <div className="space-y-2.5 p-3.5">
-                    <p
-                      className="line-clamp-2 text-ui-base font-medium text-foreground"
-                      title={job.prompt}
-                    >
-                      {job.prompt}
-                    </p>
-                    <div className="flex items-center gap-2 text-ui-sm text-foreground-subtle">
-                      <span role="status">{t(job.status)}</span>
-                      <span aria-hidden="true">·</span>
-                      <time dateTime={job.createdAt}>
-                        {new Date(job.createdAt).toLocaleString()}
-                      </time>
-                    </div>
-                    {job.error ? (
-                      <p className="text-ui-sm text-destructive" role="alert">
-                        {job.error}
-                      </p>
-                    ) : null}
-                    <div className="flex items-center gap-2">
-                      {job.status === "queued" || job.status === "running" ? (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          disabled={pendingCancel === job.id}
-                          onClick={() => void cancel(job)}
-                        >
-                          {t("cancel")}
-                        </Button>
-                      ) : null}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          setPrompt(job.prompt);
-                          setReference(null);
-                          pendingRequest.current = null;
-                        }}
-                      >
-                        {t("reuse")}
-                      </Button>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </section>
-          ) : (
-            <div className="flex flex-1 flex-col items-center justify-center gap-3 py-10 text-center text-foreground-subtle">
-              {kind === "image" ? (
-                <Image className="size-8 opacity-40" aria-hidden="true" />
-              ) : (
-                <Video className="size-8 opacity-40" aria-hidden="true" />
-              )}
-              <p className="text-ui-base">{t("noJobs", { kind: t(kind) })}</p>
-            </div>
-          )}
-        </div>
-      </div>
-
+      <StudioCreationHistory
+        jobs={jobs}
+        models={models}
+        draftKind={kind}
+        pendingCancel={pendingCancel}
+        pendingRetry={pendingRetry}
+        onCancel={(job) => void cancel(job)}
+        onRetry={(job) => void retry(job)}
+        onReuse={(job) => {
+          draftEpoch.current++;
+          setPrompt(job.prompt);
+          setReference(null);
+          setFirstFrame(null);
+          setLastFrame(null);
+          pendingRequest.current = null;
+        }}
+      />
       <div className="shrink-0 border-t border-border/50 bg-background px-4 py-4 md:px-8">
         <div className="mx-auto w-full max-w-3xl">
           {!loading && !availableModels.length ? (
@@ -278,7 +243,7 @@ export function StudioCreationPage() {
           <div className="rounded-xl border border-input-border bg-card shadow-sm focus-within:border-input-border-focused">
             <Textarea
               value={prompt}
-              onChange={(event) => setPrompt(event.target.value)}
+              onChange={(event) => { draftEpoch.current++; setPrompt(event.target.value); }}
               maxLength={8000}
               rows={3}
               placeholder={t(kind === "image" ? "imageHint" : "videoHint")}
@@ -298,13 +263,28 @@ export function StudioCreationPage() {
                 <button
                   type="button"
                   aria-label={t("removeReference")}
-                  onClick={() => setReference(null)}
+                  onClick={() => { draftEpoch.current++; setReference(null); }}
                   className="rounded p-1 hover:bg-surface-hover"
                 >
                   <X className="size-3.5" />
                 </button>
               </div>
             ) : null}
+            {([[
+              firstFrame, setFirstFrame, "firstFrame",
+            ], [
+              lastFrame, setLastFrame, "lastFrame",
+            ]] as const).map(([file, clear, slot]) => file ? (
+              <div key={slot} className="flex items-center gap-2 px-4 pb-2 text-ui-sm text-foreground-subtle">
+                <Image className="size-4" aria-hidden="true" />
+                <span className="shrink-0">{t(slot)}</span>
+                <span className="max-w-52 truncate">{file.name}</span>
+                <button type="button" aria-label={`${t("removeReference")} ${t(slot)}`}
+                  onClick={() => { draftEpoch.current++; clear(null); }} className="rounded-full p-1 hover:bg-surface-hover">
+                  <X className="size-3.5" />
+                </button>
+              </div>
+            ) : null)}
             <div className="flex flex-wrap items-center gap-2 border-t border-border/40 px-3 py-2">
               <input
                 ref={fileInput}
@@ -312,10 +292,15 @@ export function StudioCreationPage() {
                 accept="image/png,image/jpeg,image/webp"
                 className="hidden"
                 onChange={(event) => {
+                  draftEpoch.current++;
                   setReference(event.target.files?.[0] ?? null);
                   event.target.value = "";
                 }}
               />
+              <input ref={firstFrameInput} type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
+                onChange={(event) => { draftEpoch.current++; setFirstFrame(event.target.files?.[0] ?? null); event.target.value = ""; }} />
+              <input ref={lastFrameInput} type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
+                onChange={(event) => { draftEpoch.current++; setLastFrame(event.target.files?.[0] ?? null); event.target.value = ""; }} />
               {allowReference ? (
                 <Button
                   variant="ghost"
@@ -327,6 +312,16 @@ export function StudioCreationPage() {
                   {t("reference")}
                 </Button>
               ) : null}
+              {referenceSlots?.firstFrame ? (
+                <Button variant="ghost" size="sm" title={t("frameHint")} onClick={() => firstFrameInput.current?.click()}>
+                  <Plus className="size-4" aria-hidden="true" />{t("firstFrame")}
+                </Button>
+              ) : null}
+              {referenceSlots?.lastFrame ? (
+                <Button variant="ghost" size="sm" title={t("frameHint")} onClick={() => lastFrameInput.current?.click()}>
+                  <Plus className="size-4" aria-hidden="true" />{t("lastFrame")}
+                </Button>
+              ) : null}
               <div className="min-w-0 flex-1" />
               {availableModels.length ? (
                 <label className="flex min-w-0 items-center gap-2 text-ui-sm text-foreground-subtle">
@@ -334,8 +329,11 @@ export function StudioCreationPage() {
                   <select
                     value={selectedModel?.id ?? ""}
                     onChange={(event) => {
+                      draftEpoch.current++;
                       setModelId(event.target.value);
                       setReference(null);
+                      setFirstFrame(null);
+                      setLastFrame(null);
                     }}
                     className="max-w-48 rounded-md border border-border bg-background px-2 py-1.5 text-ui-sm text-foreground"
                   >
@@ -378,7 +376,7 @@ export function StudioCreationPage() {
         onOpenChange={setManaging}
         models={models}
         initialKind={kind}
-        onSaved={() => void refresh(true)}
+        onSaved={() => { draftEpoch.current++; void refresh(true); }}
       />
     </div>
   );

@@ -1,8 +1,9 @@
-import { createHash, randomUUID } from "node:crypto";
-import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { redactDiagnosticText } from "@knorvia/shared";
 import type { ICredentialService } from "../credential/credential.js";
+import { creationReferenceSlots } from "./contract.js";
 import type {
   CreateCreationJobInput,
   CreationJob,
@@ -10,26 +11,17 @@ import type {
   CreationModelInput,
   ICreationService,
 } from "./contract.js";
-import { creationOutputFormat, runCreationProvider } from "./providers.js";
+import { runCreationProvider } from "./providers.js";
 import { validateCreationModel } from "./modelValidation.js";
-
-interface StoredJob extends CreationJob {
-  providerTaskId?: string;
-  referencePath?: string;
-  referenceMimeType?: string;
-  referenceHash?: string;
-}
-
-interface CreationFile<T> {
-  version: 1;
-  items: T[];
-}
+import { decodeReference, publicJob, readRecords, savedReference, writeRecords, type StoredJob } from "./creationStorage.js";
 
 export interface CreationServiceOptions {
   rootDir: string;
   credentials: Pick<ICredentialService, "load" | "save" | "delete">;
   fetchImpl?: typeof fetch;
   pollIntervalMs?: number;
+  runTimeoutMs?: number;
+  providerDeadlineMs?: number;
 }
 
 function credentialKey(id: string): string {
@@ -39,86 +31,6 @@ function credentialKey(id: string): string {
 function validId(value: string): string {
   if (!/^[\w-]{1,100}$/.test(value)) throw new Error("无效的创作记录编号");
   return value;
-}
-
-async function readRecords<T>(path: string): Promise<T[]> {
-  let raw: string;
-  try {
-    raw = await readFile(path, "utf8");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
-    throw error;
-  }
-  let parsed: CreationFile<T>;
-  try {
-    parsed = JSON.parse(raw) as CreationFile<T>;
-  } catch {
-    throw new Error("创作记录损坏；为避免丢失数据，已停止写入");
-  }
-  if (parsed.version !== 1 || !Array.isArray(parsed.items))
-    throw new Error("创作记录版本不兼容；为避免丢失数据，已停止写入");
-  return parsed.items;
-}
-
-async function writeRecords<T>(path: string, items: T[]): Promise<void> {
-  await mkdir(dirname(path), { recursive: true });
-  const temporary = `${path}.${randomUUID()}.tmp`;
-  await writeFile(temporary, JSON.stringify({ version: 1, items } satisfies CreationFile<T>), {
-    mode: 0o600,
-  });
-  try {
-    // Windows 防病毒程序可能短暂占用目标文件，保留旧文件并重试原子替换。
-    for (let attempt = 0; ; attempt += 1) {
-      try {
-        await rename(temporary, path);
-        break;
-      } catch (error) {
-        const code = (error as NodeJS.ErrnoException).code;
-        if (!["EPERM", "EACCES", "EBUSY"].includes(code ?? "") || attempt >= 8) throw error;
-        await new Promise((resolve) => setTimeout(resolve, Math.min(25 * 2 ** attempt, 250)));
-      }
-    }
-  } finally {
-    await rm(temporary, { force: true }).catch(() => undefined);
-  }
-}
-
-function publicJob(job: StoredJob): CreationJob {
-  const {
-    providerTaskId: _privateTaskId,
-    referencePath: _referencePath,
-    referenceMimeType: _referenceMimeType,
-    referenceHash: _referenceHash,
-    ...visible
-  } = job;
-  return visible;
-}
-
-function decodeReference(
-  reference: CreateCreationJobInput["reference"],
-):
-  | { bytes: Uint8Array; name: string; mimeType: string; hash: string; extension: string }
-  | undefined {
-  if (!reference) return undefined;
-  if (!["image/png", "image/jpeg", "image/webp"].includes(reference.mimeType))
-    throw new Error("参考图只支持 PNG、JPEG 或 WebP");
-  if (
-    !reference.dataBase64 ||
-    reference.dataBase64.length > 14 * 1024 * 1024 ||
-    !/^[A-Za-z0-9+/=]+$/.test(reference.dataBase64)
-  )
-    throw new Error("参考图为空、过大或数据无效（上限 10 MB）");
-  const bytes = Buffer.from(reference.dataBase64, "base64");
-  if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error("参考图超过 10 MB 限制");
-  const detected = creationOutputFormat(bytes, "image");
-  if (detected.mimeType !== reference.mimeType) throw new Error("参考图内容与文件类型不匹配");
-  return {
-    bytes,
-    name: reference.name.trim().slice(0, 150) || `reference.${detected.extension}`,
-    mimeType: detected.mimeType,
-    hash: createHash("sha256").update(bytes).digest("hex"),
-    extension: detected.extension,
-  };
 }
 
 export class CreationService implements ICreationService {
@@ -227,6 +139,8 @@ export class CreationService implements ICreationService {
       validId(input.requestId);
       validId(input.modelId);
       const reference = decodeReference(input.reference);
+      const firstFrame = decodeReference(input.firstFrame);
+      const lastFrame = decodeReference(input.lastFrame);
       const jobs = await readRecords<StoredJob>(this.jobsPath);
       const duplicate = jobs.find((job) => job.requestId === input.requestId);
       if (duplicate) {
@@ -234,7 +148,9 @@ export class CreationService implements ICreationService {
           duplicate.kind !== input.kind ||
           duplicate.modelId !== input.modelId ||
           duplicate.prompt !== input.prompt.trim() ||
-          duplicate.referenceHash !== reference?.hash
+          duplicate.referenceHash !== reference?.hash ||
+          duplicate.firstFrameHash !== firstFrame?.hash ||
+          duplicate.lastFrameHash !== lastFrame?.hash
         )
           throw new Error("这次生成编号已用于其他内容");
         return publicJob(duplicate);
@@ -245,14 +161,12 @@ export class CreationService implements ICreationService {
       if (!model || !model.enabled || model.kind !== input.kind)
         throw new Error("所选模型不可用于此次创作");
       if (reference && input.kind !== "image") throw new Error("参考图只支持图片生成");
-      if (
-        reference &&
-        model.protocol === "json-api" &&
-        !/\{\{image(?:Base64|DataUrl)\}\}/.test(model.apiMapping?.requestTemplate ?? "")
-      )
-        throw new Error("当前模型未配置图生图输入");
-      if (reference && model.protocol === "comfyui" && !model.workflowJson?.includes("{{image}}"))
-        throw new Error("当前 ComfyUI 工作流未使用参考图");
+      if ((firstFrame || lastFrame) && input.kind !== "video")
+        throw new Error("首尾帧仅支持视频生成");
+      const slots = creationReferenceSlots(model);
+      if (reference && !slots.image) throw new Error("当前模型未配置图生图输入");
+      if (firstFrame && !slots.firstFrame) throw new Error("当前模型未配置首帧输入");
+      if (lastFrame && !slots.lastFrame) throw new Error("当前模型未配置尾帧输入");
       const publicModel = await this.publicModel(model);
       if (!publicModel.configured) throw new Error("请先配置所选模型");
       const prompt = input.prompt.trim();
@@ -275,20 +189,76 @@ export class CreationService implements ICreationService {
               referenceHash: reference.hash,
             }
           : {}),
+        ...(firstFrame ? {
+          firstFrameName: firstFrame.name,
+          firstFrameMimeType: firstFrame.mimeType,
+          firstFrameHash: firstFrame.hash,
+        } : {}),
+        ...(lastFrame ? {
+          lastFrameName: lastFrame.name,
+          lastFrameMimeType: lastFrame.mimeType,
+          lastFrameHash: lastFrame.hash,
+        } : {}),
       };
-      if (reference) {
-        const path = join(this.options.rootDir, "references", `${job.id}.${reference.extension}`);
-        await mkdir(dirname(path), { recursive: true });
-        await writeFile(path, reference.bytes, { flag: "wx", mode: 0o600 });
-        job.referencePath = path;
+      const writtenReferences: string[] = [];
+      try {
+        for (const [slot, item] of [
+          ["reference", reference], ["firstFrame", firstFrame], ["lastFrame", lastFrame],
+        ] as const) {
+          if (!item) continue;
+          const path = join(this.options.rootDir, "references", `${job.id}-${slot}.${item.extension}`);
+          await mkdir(dirname(path), { recursive: true });
+          await writeFile(path, item.bytes, { flag: "wx", mode: 0o600 });
+          writtenReferences.push(path);
+          if (slot === "reference") job.referencePath = path;
+          if (slot === "firstFrame") job.firstFramePath = path;
+          if (slot === "lastFrame") job.lastFramePath = path;
+        }
+        jobs.push(job);
+        await writeRecords(this.jobsPath, jobs);
+      } catch (error) {
+        await Promise.all(writtenReferences.map((path) => rm(path, { force: true }).catch(() => undefined)));
+        throw error;
       }
-      jobs.push(job);
-      await writeRecords(this.jobsPath, jobs);
       const controller = new AbortController();
       this.controllers.set(job.id, controller);
       // 接纳事务落盘后才启动供应商请求；不把 provider 延迟传给 Renderer。
       queueMicrotask(() => void this.run(job, model, controller));
       return publicJob(job);
+    });
+  }
+
+  async retryJob(id: string): Promise<CreationJob> {
+    await this.initialize();
+    validId(id);
+    const jobs = await readRecords<StoredJob>(this.jobsPath);
+    const source = jobs.find((job) => job.id === id);
+    if (!source) throw new Error("创作任务不存在");
+    if (source.status !== "failed")
+      throw new Error("仅结果明确失败的任务可一键重试；未知结果请先检查生成服务");
+    const requestId = `retry-${id}`;
+    const previous = jobs.find((job) => job.requestId === requestId);
+    if (previous) {
+      if (previous.kind !== source.kind || previous.modelId !== source.modelId ||
+          previous.prompt !== source.prompt || previous.referenceHash !== source.referenceHash ||
+          previous.firstFrameHash !== source.firstFrameHash || previous.lastFrameHash !== source.lastFrameHash)
+        throw new Error("重试编号已用于其他内容");
+      return publicJob(previous);
+    }
+    const reference = await savedReference(this.options.rootDir, source.referencePath,
+      source.referenceName, source.referenceMimeType, source.referenceHash);
+    const firstFrame = await savedReference(this.options.rootDir, source.firstFramePath,
+      source.firstFrameName, source.firstFrameMimeType, source.firstFrameHash);
+    const lastFrame = await savedReference(this.options.rootDir, source.lastFramePath,
+      source.lastFrameName, source.lastFrameMimeType, source.lastFrameHash);
+    return this.createJob({
+      requestId,
+      kind: source.kind,
+      modelId: source.modelId,
+      prompt: source.prompt,
+      ...(reference ? { reference } : {}),
+      ...(firstFrame ? { firstFrame } : {}),
+      ...(lastFrame ? { lastFrame } : {}),
     });
   }
 
@@ -327,9 +297,10 @@ export class CreationService implements ICreationService {
     model: CreationModel,
     controller: AbortController,
   ): Promise<void> {
+    let submissionStarted = false;
     const timeout = setTimeout(
       () => controller.abort(new Error("等待生成服务超时")),
-      16 * 60 * 1000,
+      this.options.runTimeoutMs ?? 16 * 60 * 1000,
     );
     timeout.unref?.();
     try {
@@ -339,12 +310,15 @@ export class CreationService implements ICreationService {
       if (controller.signal.aborted) return;
       const apiKey = await this.options.credentials.load(credentialKey(model.id));
       const referenceBytes = job.referencePath ? await readFile(job.referencePath) : undefined;
+      const firstFrameBytes = job.firstFramePath ? await readFile(job.firstFramePath) : undefined;
+      const lastFrameBytes = job.lastFramePath ? await readFile(job.lastFramePath) : undefined;
       const result = await runCreationProvider(
         {
           model,
           apiKey,
           prompt: job.prompt,
           signal: controller.signal,
+          onSubmissionStarted: () => { submissionStarted = true; },
           ...(referenceBytes && job.referenceMimeType && job.referenceName
             ? {
                 reference: {
@@ -354,13 +328,26 @@ export class CreationService implements ICreationService {
                 },
               }
             : {}),
+          ...(firstFrameBytes && job.firstFrameMimeType && job.firstFrameName
+            ? { firstFrame: {
+                bytes: firstFrameBytes, name: job.firstFrameName,
+                mimeType: job.firstFrameMimeType,
+              } }
+            : {}),
+          ...(lastFrameBytes && job.lastFrameMimeType && job.lastFrameName
+            ? { lastFrame: {
+                bytes: lastFrameBytes, name: job.lastFrameName,
+                mimeType: job.lastFrameMimeType,
+              } }
+            : {}),
           onProviderTaskId: async (taskId) => {
             await this.updateJob(job.id, (record) => {
               record.providerTaskId = taskId;
             });
           },
         },
-        { fetchImpl: this.options.fetchImpl, pollIntervalMs: this.options.pollIntervalMs },
+        { fetchImpl: this.options.fetchImpl, pollIntervalMs: this.options.pollIntervalMs,
+          deadlineMs: this.options.providerDeadlineMs },
       );
       controller.signal.throwIfAborted();
       const name = `creation-${job.id}.${result.extension}`;
@@ -389,9 +376,15 @@ export class CreationService implements ICreationService {
       const raw = error instanceof Error ? error.message : String(error);
       const apiKey = await this.options.credentials.load(credentialKey(model.id)).catch(() => null);
       const safe = redactDiagnosticText(apiKey ? raw.replaceAll(apiKey, "[redacted]") : raw);
+      const unknown = controller.signal.aborted || (submissionStarted && (
+        error instanceof TypeError ||
+        /(?:network|fetch|ECONNRESET|ETIMEDOUT|socket hang up|超时|生成服务返回 5\d{2})/i.test(raw)
+      ));
       await this.updateJob(job.id, (record) => {
-        record.status = "failed";
-        record.error = safe.slice(0, 500);
+        record.status = unknown ? "interrupted" : "failed";
+        record.error = unknown
+          ? "生成请求可能已经提交，但未取得确定结果；远端可能继续运行或计费。请先检查生成服务。"
+          : safe.slice(0, 500);
       }).catch(() => undefined);
     } finally {
       clearTimeout(timeout);

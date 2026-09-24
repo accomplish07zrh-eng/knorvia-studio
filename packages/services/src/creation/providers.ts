@@ -5,8 +5,11 @@ export interface CreationProviderInput {
   apiKey: string | null;
   prompt: string;
   signal: AbortSignal;
+  onSubmissionStarted?(): void;
   onProviderTaskId(taskId: string): Promise<void>;
   reference?: { bytes: Uint8Array; name: string; mimeType: string };
+  firstFrame?: { bytes: Uint8Array; name: string; mimeType: string };
+  lastFrame?: { bytes: Uint8Array; name: string; mimeType: string };
 }
 
 export interface CreationProviderOutput {
@@ -110,6 +113,7 @@ async function openAiImage(input: CreationProviderInput, fetchImpl: typeof fetch
       }),
       input.reference.name,
     );
+    input.onSubmissionStarted?.();
     response = await fetchImpl(apiUrl(input.model.baseUrl, "/v1/images/edits"), {
       method: "POST",
       headers: { Authorization: `Bearer ${input.apiKey}` },
@@ -117,6 +121,7 @@ async function openAiImage(input: CreationProviderInput, fetchImpl: typeof fetch
       signal: input.signal,
     });
   } else {
+    input.onSubmissionStarted?.();
     response = await fetchImpl(apiUrl(input.model.baseUrl, "/v1/images/generations"), {
       method: "POST",
       headers: {
@@ -141,7 +146,7 @@ async function openAiImage(input: CreationProviderInput, fetchImpl: typeof fetch
 function substituteWorkflow(value: unknown, values: Record<string, string>): unknown {
   if (typeof value === "string")
     return value.replace(
-      /\{\{(prompt|model|image|imageBase64|imageDataUrl)\}\}/g,
+      /\{\{(prompt|model|image|imageBase64|imageDataUrl|firstFrame|lastFrame|firstFrameBase64|lastFrameBase64|firstFrameDataUrl|lastFrameDataUrl)\}\}/g,
       (_match, key: string) => values[key] ?? "",
     );
   if (Array.isArray(value)) return value.map((item) => substituteWorkflow(item, values));
@@ -171,6 +176,7 @@ async function comfyUi(
   input: CreationProviderInput,
   fetchImpl: typeof fetch,
   pollIntervalMs: number,
+  deadlineMs: number,
 ): Promise<CreationProviderOutput> {
   let graph: unknown;
   try {
@@ -180,15 +186,14 @@ async function comfyUi(
   }
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (input.apiKey) headers.Authorization = `Bearer ${input.apiKey}`;
-  let uploadedImage = "";
-  if (input.reference) {
+  const uploadReference = async (reference: NonNullable<CreationProviderInput["reference"]>) => {
     const form = new FormData();
     form.append(
       "image",
-      new Blob([new Uint8Array(input.reference.bytes)], {
-        type: input.reference.mimeType,
+      new Blob([new Uint8Array(reference.bytes)], {
+        type: reference.mimeType,
       }),
-      input.reference.name,
+      reference.name,
     );
     form.append("type", "input");
     const upload = await readJson(
@@ -199,9 +204,14 @@ async function comfyUi(
         signal: input.signal,
       }),
     );
-    uploadedImage = String(upload.name ?? "").trim();
-    if (!uploadedImage) throw new Error("ComfyUI 未接收参考图");
-  }
+    const name = String(upload.name ?? "").trim();
+    if (!name) throw new Error("ComfyUI 未接收参考图");
+    return name;
+  };
+  const uploadedImage = input.reference ? await uploadReference(input.reference) : "";
+  const uploadedFirstFrame = input.firstFrame ? await uploadReference(input.firstFrame) : "";
+  const uploadedLastFrame = input.lastFrame ? await uploadReference(input.lastFrame) : "";
+  input.onSubmissionStarted?.();
   const submitted = await readJson(
     await fetchImpl(apiUrl(input.model.baseUrl, "/prompt"), {
       method: "POST",
@@ -211,6 +221,8 @@ async function comfyUi(
           prompt: input.prompt,
           model: input.model.model,
           image: uploadedImage,
+          firstFrame: uploadedFirstFrame,
+          lastFrame: uploadedLastFrame,
         }),
         client_id: "knorvia-studio",
       }),
@@ -221,7 +233,7 @@ async function comfyUi(
   if (!taskId) throw new Error("ComfyUI 未返回任务编号");
   await input.onProviderTaskId(taskId);
 
-  const deadline = Date.now() + 15 * 60 * 1000;
+  const deadline = Date.now() + deadlineMs;
   while (Date.now() < deadline) {
     input.signal.throwIfAborted();
     const history = await readJson(
@@ -290,18 +302,26 @@ async function jsonApi(
   input: CreationProviderInput,
   fetchImpl: typeof fetch,
   pollIntervalMs: number,
+  deadlineMs: number,
 ): Promise<CreationProviderOutput> {
   const mapping = input.model.apiMapping;
   if (!mapping) throw new Error("API 映射未配置");
   const base64 = input.reference ? Buffer.from(input.reference.bytes).toString("base64") : "";
+  const firstFrameBase64 = input.firstFrame ? Buffer.from(input.firstFrame.bytes).toString("base64") : "";
+  const lastFrameBase64 = input.lastFrame ? Buffer.from(input.lastFrame.bytes).toString("base64") : "";
   const requestBody = substituteWorkflow(JSON.parse(mapping.requestTemplate), {
     prompt: input.prompt,
     model: input.model.model,
     imageBase64: base64,
     imageDataUrl: input.reference ? `data:${input.reference.mimeType};base64,${base64}` : "",
+    firstFrameBase64,
+    lastFrameBase64,
+    firstFrameDataUrl: input.firstFrame ? `data:${input.firstFrame.mimeType};base64,${firstFrameBase64}` : "",
+    lastFrameDataUrl: input.lastFrame ? `data:${input.lastFrame.mimeType};base64,${lastFrameBase64}` : "",
   });
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (input.apiKey) headers.Authorization = `Bearer ${input.apiKey}`;
+  input.onSubmissionStarted?.();
   const created = await readJson(
     await fetchImpl(apiUrl(input.model.baseUrl, mapping.requestPath), {
       method: "POST",
@@ -325,7 +345,7 @@ async function jsonApi(
   const failed = (
     mapping.failureValues?.length ? mapping.failureValues : ["failed", "error", "cancelled"]
   ).map((value) => value.toLowerCase());
-  const deadline = Date.now() + 15 * 60 * 1000;
+  const deadline = Date.now() + deadlineMs;
   while (Date.now() < deadline) {
     input.signal.throwIfAborted();
     const pollPath = mapping.pollPath.replaceAll("{{taskId}}", encodeURIComponent(taskId));
@@ -345,11 +365,11 @@ async function jsonApi(
 
 export async function runCreationProvider(
   input: CreationProviderInput,
-  options: { fetchImpl?: typeof fetch; pollIntervalMs?: number } = {},
+  options: { fetchImpl?: typeof fetch; pollIntervalMs?: number; deadlineMs?: number } = {},
 ): Promise<CreationProviderOutput> {
   const fetchImpl = options.fetchImpl ?? fetch;
   if (input.model.protocol === "openai-images") return openAiImage(input, fetchImpl);
   if (input.model.protocol === "comfyui")
-    return comfyUi(input, fetchImpl, options.pollIntervalMs ?? 1500);
-  return jsonApi(input, fetchImpl, options.pollIntervalMs ?? 1500);
+    return comfyUi(input, fetchImpl, options.pollIntervalMs ?? 1500, options.deadlineMs ?? 15 * 60 * 1000);
+  return jsonApi(input, fetchImpl, options.pollIntervalMs ?? 1500, options.deadlineMs ?? 15 * 60 * 1000);
 }
