@@ -24,6 +24,7 @@ import {
 } from "@/lib/codeCommentContext.js";
 import { setDefaultFileDisplayBasePath } from "@/lib/fileDisplay.js";
 import { readRendererLaunchTimings, shouldReportLaunchToInput } from "@/lib/launchToInputReport.js";
+import { setPendingSettingsSection } from "@/lib/settingsNavigation.js";
 import { shouldOpenFallbackWorkspaceAfterCreate } from "@/lib/rootStartupGate.js";
 import { setSendFunnelArmsReporter } from "@/lib/sendFunnelArmsTelemetry.js";
 import { setSessionOpenArmsReporter } from "@/lib/sessionOpenArmsTelemetry.js";
@@ -32,6 +33,11 @@ import { countAllUnreadTasks } from "@/lib/unreadTaskCount.js";
 import { logger } from "@/logger.js";
 import { OccupationOnboarding } from "@/onboarding/OccupationOnboarding.js";
 import { OnboardingDialog } from "@/onboarding/OnboardingDialog.js";
+import { StudioFirstRunGuide } from "@/onboarding/StudioFirstRunGuide.js";
+import {
+  onStudioFirstMessageAccepted,
+  requestStudioLocalKernel,
+} from "@/onboarding/studioFirstRunGuideEvents.js";
 import { DiffsWorkerPoolProvider } from "@/root/DiffsWorkerPoolProvider.js";
 import { RootShell } from "@/root/RootShell.js";
 import { RootStartupLoading } from "@/root/RootStartupLoading.js";
@@ -155,7 +161,28 @@ function RootInner({
   // 工作区级 ServiceProvider 内（远程 Host 的 accessor），由它们取数会拿到另一台 Host 的答案。
   const { intl, locale } = useKnorviaIntl();
   const theme = useKnorviaStore((state) => state.theme);
-  const { settings: appSettings, refresh: refreshAppSettings } = useSettings();
+  const { settings: appSettings, update: updateAppSettings, refresh: refreshAppSettings } = useSettings();
+  const [firstRunGuideDismissed, setFirstRunGuideDismissed] = useState(false);
+  const firstMessageCommitInFlight = useRef(false);
+  useEffect(
+    () =>
+      onStudioFirstMessageAccepted(() => {
+        if (
+          firstMessageCommitInFlight.current ||
+          (appSettings?.studioFirstRunGuideStatus !== "pending" &&
+            appSettings?.studioFirstRunGuideStatus !== "deferred")
+        ) return;
+        firstMessageCommitInFlight.current = true;
+        void updateAppSettings({ studioFirstRunGuideStatus: "complete" })
+          .catch((error: unknown) => {
+            logger.warn("[studio-first-run] 保存首条消息完成状态失败", { error });
+          })
+          .finally(() => {
+            firstMessageCommitInFlight.current = false;
+          });
+      }),
+    [appSettings?.studioFirstRunGuideStatus, updateAppSettings],
+  );
   const rootModelSelectionRead = useModelSelectionServiceView(services.modelSelectionService);
   const rootModelSelectionErrorNode =
     rootModelSelectionRead.state.status === "error" ? (
@@ -773,6 +800,26 @@ function RootInner({
             isDesktop={isDesktop}
           />
         </ScopedErrorBoundary>
+        {isDesktop && workspaceShellPath && !workspaceShellRemoteSessionId &&
+        !isSettingsTabActive && !firstRunGuideDismissed &&
+        appSettings?.studioFirstRunGuideStatus === "pending" ? (
+          <StudioFirstRunGuide
+            onDismiss={() => setFirstRunGuideDismissed(true)}
+            onChooseProvider={() => {
+              setFirstRunGuideDismissed(true);
+              setPendingSettingsSection("modelProvider");
+              tabStoreApi.getState().openSettingsTab();
+            }}
+            onChooseKernel={(id) => {
+              setFirstRunGuideDismissed(true);
+              requestStudioLocalKernel(id);
+            }}
+            onDefer={async () => {
+              await updateAppSettings({ studioFirstRunGuideStatus: "deferred" });
+              setFirstRunGuideDismissed(true);
+            }}
+          />
+        ) : null}
       </OccupationOnboarding>
     </RootShell>
   );

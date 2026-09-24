@@ -25,6 +25,7 @@ import {
 import { getInstalledEditors } from "./editors.js";
 import { getApplicationIcon } from "./applicationIcons.js";
 import { exportLogs } from "./exportLogs.js";
+import { exportLocalDiagnostics, previewLocalDiagnostics } from "./localDiagnostics.js";
 import { resolveCommunityUrl } from "./desktopCommandHandlers.js";
 import { openInEditor } from "./openInEditor.js";
 import {
@@ -370,6 +371,12 @@ export function registerPlatformIpcHandlers(options: {
   );
   ipcMain.handle(PlatformChannels.GetDeviceId, () => options.deviceMid);
   ipcMain.handle(PlatformChannels.ExportLogs, () => exportLogs());
+  ipcMain.handle(PlatformChannels.PreviewLocalDiagnostics, (_event, request: unknown) =>
+    previewLocalDiagnostics(request as import("@knorvia/shared").LocalDiagnosticRequest),
+  );
+  ipcMain.handle(PlatformChannels.ExportLocalDiagnostics, (_event, id: unknown) =>
+    exportLocalDiagnostics(typeof id === "string" ? id : ""),
+  );
   ipcMain.handle(PlatformChannels.CheckReleaseUpdate, () =>
     options.checkReleaseUpdate?.() ?? Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }),
   );

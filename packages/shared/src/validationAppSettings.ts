@@ -467,6 +467,7 @@ const appSettingsObjectSchema = z.object({
   providerFamilyDomainMigrated: z.boolean().default(false),
   nativeSearchEnhancementsEnabled: z.boolean().default(true),
   onboardingOccupation: appSettingsOccupationSchema.nullish(),
+  studioFirstRunGuideStatus: z.enum(["pending", "deferred", "complete", "legacy"]).default("pending"),
   proactiveSuggestionsEnabled: z.boolean().optional(),
   memoryEnabled: z.boolean().default(false),
   lastWorkspaceSession: z.array(appWorkspaceSessionEntrySchema).default([]),
@@ -554,6 +555,7 @@ export const appSettingsPatchSchema = z.object({
       "other",
     ])
     .nullish(),
+  studioFirstRunGuideStatus: z.enum(["pending", "deferred", "complete", "legacy"]).optional(),
   proactiveSuggestionsEnabled: z.boolean().optional(),
   memoryEnabled: z.boolean().optional(),
   lastWorkspaceSession: z.array(appWorkspaceSessionEntrySchema).optional(),

@@ -808,6 +808,9 @@ export interface IPlatformService {
 
   /** 导出日志：打包 ~/.knorvia-studio/v2 及外部 agent 日志为 zip 并在系统文件浏览器中显示 */
   exportLogs(): Promise<{ success: boolean; path?: string; error?: string }>;
+  /** User-triggered, frozen local diagnostic preview and matching ZIP export. */
+  previewLocalDiagnostics?(request: import("./localDiagnostics.js").LocalDiagnosticRequest): Promise<import("./localDiagnostics.js").LocalDiagnosticPreview>;
+  exportLocalDiagnostics?(id: string): Promise<import("./localDiagnostics.js").LocalDiagnosticExportResult>;
   /** Read release metadata from the user-configured source; never download or install. */
   checkReleaseUpdate?(): Promise<import("./releaseUpdate.js").ReleaseUpdateCheckResult>;
 

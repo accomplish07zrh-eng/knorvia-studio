@@ -14,6 +14,7 @@ import { normalizeInterfaceMode, type InterfaceMode } from "@/lib/interfaceMode.
 import { AsyncSettingTextRow } from "@/settings/AsyncSettingTextRow.js";
 import { DataStorageSettings } from "@/settings/DataStorageSettings.js";
 import { ReleaseUpdateSettings } from "@/settings/ReleaseUpdateSettings.js";
+import { LocalDiagnosticsSettings } from "@/settings/LocalDiagnosticsSettings.js";
 import { ProactiveSuggestionsSetting } from "@/settings/ProactiveSuggestionsSetting.js";
 import {
   createSettingsPageConfig,
@@ -657,6 +658,7 @@ export function GeneralSectionContent({
       </SettingsGroupCard>
 
       {isDesktop ? <ReleaseUpdateSettings /> : null}
+      {isDesktop ? <LocalDiagnosticsSettings /> : null}
 
       <DataStorageSettings
         defaultHomeDir={defaultHomeDir}

@@ -68,6 +68,7 @@ import { decodeCustomModelValue, encodeCustomModelValue } from "@/lib/customMode
 import { parseModelPickerValue } from "@/lib/sessionProjection.js";
 import type { KnorviaUiError } from "@/lib/uiError.js";
 import { logger } from "@/logger.js";
+import { reportStudioFirstMessageAccepted } from "@/onboarding/studioFirstRunGuideEvents.js";
 import {
   normalizeSlashCommandValue,
   shouldOfferSideSlashCommand,
@@ -2525,6 +2526,7 @@ export function SessionPane({
         if (sendResult === "blocked" || sendResult === "confirmationRequired") {
           return sendResult;
         }
+        reportStudioFirstMessageAccepted();
         setSendSubmissionError(null);
         if (shouldFocusLatest) {
           focusTimelineToLatest();

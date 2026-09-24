@@ -580,6 +580,10 @@ contextBridge.exposeInMainWorld("knorvia", {
     path?: string;
     error?: string;
   }> => ipcRenderer.invoke(PlatformChannels.ExportLogs),
+  previewLocalDiagnostics: (request: import("@knorvia/shared").LocalDiagnosticRequest): Promise<import("@knorvia/shared").LocalDiagnosticPreview> =>
+    ipcRenderer.invoke(PlatformChannels.PreviewLocalDiagnostics, request),
+  exportLocalDiagnostics: (id: string): Promise<import("@knorvia/shared").LocalDiagnosticExportResult> =>
+    ipcRenderer.invoke(PlatformChannels.ExportLocalDiagnostics, id),
   checkReleaseUpdate: (): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> =>
     ipcRenderer.invoke(PlatformChannels.CheckReleaseUpdate),
   /** 截取当前窗口，用于错误反馈携带现场画面 */

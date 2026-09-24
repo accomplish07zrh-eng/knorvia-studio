@@ -1182,6 +1182,18 @@ export async function createFeedbackLogArchiveFromExportLogs(
   });
 }
 
+/** Freeze the same allowlisted, redacted log view used by manual log export. */
+export async function writeSanitizedDiagnosticLogSnapshot(
+  outputDir: string,
+  options: { sourceDir?: string; now?: () => Date } = {},
+): Promise<void> {
+  const artifacts = await createLogArchiveArtifacts(
+    options.sourceDir ?? getKnorviaDataDir(),
+    { now: options.now },
+  );
+  await writeLogArchiveDirectory(outputDir, artifacts);
+}
+
 export async function exportLogs(
   dependencies: ExportLogsDependencies = {},
 ): Promise<{ success: boolean; path?: string; error?: string }> {

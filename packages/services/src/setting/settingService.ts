@@ -95,7 +95,8 @@ function shouldPersistSettingsMigrations(rawValue: unknown): boolean {
   const raw = rawValue as Record<string, unknown>;
   return (
     raw.closeToTrayOnWindowsMigrationInitialized !== true ||
-    raw.messageStreamShowReasoningMigrationInitialized !== true
+    raw.messageStreamShowReasoningMigrationInitialized !== true ||
+    raw.studioFirstRunGuideStatus === undefined
   );
 }
 
@@ -135,7 +136,14 @@ async function readSettingsWithMeta(): Promise<ReadSettingsResult> {
         };
       }
     }
-    const result = appSettingsSchema.safeParse(rawValue);
+    // A pre-existing settings file without the new flag belongs to an existing
+    // installation. Only a genuinely missing file gets the fresh-profile default.
+    const parsedInput =
+      rawValue && typeof rawValue === "object" && !Array.isArray(rawValue) &&
+      !("studioFirstRunGuideStatus" in rawValue)
+        ? { ...rawValue, studioFirstRunGuideStatus: "legacy" }
+        : rawValue;
+    const result = appSettingsSchema.safeParse(parsedInput);
     if (!result.success) {
       log(
         "read failed schema validation, returning defaults. error:",

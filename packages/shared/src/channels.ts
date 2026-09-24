@@ -312,6 +312,8 @@ export const PlatformChannels = {
   TaskNotificationClick: "knorvia:task-notification-click",
   /** Renderer → Main：导出日志（打包 ~/.knorvia-studio/v2 及外部 agent 日志为 zip 并在 Finder 中显示） */
   ExportLogs: "knorvia:export-logs",
+  PreviewLocalDiagnostics: "knorvia:preview-local-diagnostics",
+  ExportLocalDiagnostics: "knorvia:export-local-diagnostics",
   CheckReleaseUpdate: "knorvia:check-release-update",
   /** Renderer → Main：截取当前窗口作为反馈附件 */
   CaptureWindowScreenshot: "knorvia:capture-window-screenshot",
@@ -925,6 +927,14 @@ export interface PlatformChannelMap {
   [PlatformChannels.ExportLogs]: {
     request: void;
     response: { success: boolean; path?: string; error?: string };
+  };
+  [PlatformChannels.PreviewLocalDiagnostics]: {
+    request: import("./localDiagnostics.js").LocalDiagnosticRequest;
+    response: import("./localDiagnostics.js").LocalDiagnosticPreview;
+  };
+  [PlatformChannels.ExportLocalDiagnostics]: {
+    request: string;
+    response: import("./localDiagnostics.js").LocalDiagnosticExportResult;
   };
   [PlatformChannels.CheckReleaseUpdate]: {
     request: void;

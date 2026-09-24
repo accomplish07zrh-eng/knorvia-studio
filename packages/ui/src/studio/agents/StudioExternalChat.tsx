@@ -9,6 +9,7 @@ import { ConversationComposerSurface } from "@/prompt-editor/ConversationCompose
 import { ChatMetricsBar } from "@/chat-input-toolbar/ChatMetricsBar.js";
 import { externalChatMetrics } from "@/chat-input-toolbar/chatMetrics.js";
 import { useStudioAgentStore } from "@/store/studioAgentStore.js";
+import { reportStudioFirstMessageAccepted } from "@/onboarding/studioFirstRunGuideEvents.js";
 import { ConversationDraftEmptyState } from "@/v4/ConversationDraftEmptyState.js";
 import { CONVERSATION_DRAFT_LAYOUT } from "@/v4/conversationDraftLayout.js";
 import { getConversationContentWidthClassName } from "@/v4/conversationLayout.js";
@@ -114,6 +115,7 @@ export function StudioExternalChat({
         { sessionId, kernel: kernelId, workspacePath, text: value, selection },
         runtime.command,
       );
+      reportStudioFirstMessageAccepted();
       acknowledgeDraft(sessionId, kernelId, value);
     } catch (error) {
       if (mounted.current) setError(error instanceof Error ? error.message : String(error));

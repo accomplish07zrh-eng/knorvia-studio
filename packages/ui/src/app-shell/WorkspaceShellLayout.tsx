@@ -55,6 +55,7 @@ import { StudioPageFrame } from "@/studio/StudioPageFrame.js";
 import { StudioKernelSelect } from "@/studio/agents/StudioKernelSelect.js";
 import { StudioExternalDraftList } from "@/studio/agents/StudioExternalDraftList.js";
 import { StudioGroupList } from "@/studio/groups/StudioGroupList.js";
+import { onStudioLocalKernelRequested } from "@/onboarding/studioFirstRunGuideEvents.js";
 import { setPendingSettingsSection } from "@/lib/settingsNavigation.js";
 import { useShortcutCommandLabel } from "@/shortcuts/useShortcutBindings.js";
 import type { StudioKernelId } from "@/studio/types.js";
@@ -840,6 +841,14 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
     setPendingSettingsSection("agents");
     tabStoreApi.getState().openSettingsTab();
   }, [tabStoreApi]);
+  useEffect(
+    () =>
+      onStudioLocalKernelRequested((id) => {
+        showChatMainView();
+        studioNavigation.selectKernel(id);
+      }),
+    [showChatMainView, studioNavigation],
+  );
   const handleSelectKernel = useCallback(
     (kernelId: StudioKernelId) => {
       // 只有显式换内核才新建会话；选择历史草稿使用独立路径，不隐式复制上下文。

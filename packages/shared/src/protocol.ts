@@ -342,6 +342,8 @@ export interface AppSettings {
     | "legal"
     | "other"
     | null;
+  /** 本机首次接入引导；legacy 表示升级前已有设置，不补弹新手引导。 */
+  studioFirstRunGuideStatus?: "pending" | "deferred" | "complete" | "legacy";
   proactiveSuggestionsEnabled?: boolean;
   /** 上次关闭时的完整 workspace 会话（含本地与远端 workspace） */
   lastWorkspaceSession?: PersistedWorkspaceSessionEntry[];

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select.js";
 import { Textarea } from "@/components/ui/textarea.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
+import { reportStudioFirstMessageAccepted } from "@/onboarding/studioFirstRunGuideEvents.js";
 import { useStudioGroupStore } from "@/store/studioGroupStore.js";
 import { studioKernelOptions } from "../types.js";
 import { useStudioKernelCatalog } from "../agents/useStudioKernelCatalog.js";
@@ -80,7 +81,7 @@ export function GroupComposer({
     action(async () => {
       if (!runtime.ready) return;
       const epoch = stopAttempt.current;
-      await submitGroupDraft({
+      const accepted = await submitGroupDraft({
         group,
         active: running,
         command: runtime.command,
@@ -88,6 +89,7 @@ export function GroupComposer({
         clearDraft: (submitted) => clearDraftIfUnchanged(group.id, submitted),
         canSubmit: () => epoch === stopAttempt.current && !stoppedRun.current,
       });
+      if (accepted) reportStudioFirstMessageAccepted();
     });
   const stop = async () => {
     if (!running || stopInFlight.current) return;
