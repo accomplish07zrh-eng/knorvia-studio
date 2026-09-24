@@ -1,5 +1,6 @@
 /* oxlint-disable eslint(max-lines) -- V4WorkspaceChatArea 是分屏 workbench 宿主，集中管理 pane layout/focus/session binding；拆散会让 store action 和 shell binding 链路跨文件跳转。 */
 import { useCallback, useMemo, useRef, type CSSProperties, type ReactNode } from "react";
+import type { StudioKernelId } from "@knorvia/services";
 import type {
   GitChangeSourceId,
   GitRepositorySummary,
@@ -82,6 +83,7 @@ interface V4WorkspaceChatAreaProps {
   onSessionCreated?: (sessionId: string) => void;
   /** primary pane 会话删除后回 draft（shell 起新草稿）。 */
   onSessionDeleted?: () => void;
+  onHandoffComplete?: (kernel: StudioKernelId, sessionId: string) => void;
   /**
    * 草稿态 composer contextHeader（m5：workspace 菜单 + Git 分支），
    * 仅下发给 primary pane——其余 pane 的 draft 不承载壳级 workspace 切换。
@@ -150,6 +152,7 @@ export function V4WorkspaceChatArea({
   provider,
   onSessionCreated,
   onSessionDeleted,
+  onHandoffComplete,
   draftComposerHeader,
   onPrimaryDraftDropTargetControllerChange,
   gitSummary,
@@ -276,6 +279,7 @@ export function V4WorkspaceChatArea({
       provider,
       onSessionCreated,
       onSessionDeleted,
+      onHandoffComplete,
       draftComposerHeader,
       onPrimaryDraftDropTargetControllerChange,
       gitSummary,
@@ -321,6 +325,7 @@ export function V4WorkspaceChatArea({
       provider,
       onSessionCreated,
       onSessionDeleted,
+      onHandoffComplete,
       draftComposerHeader,
       onPrimaryDraftDropTargetControllerChange,
       gitSummary,

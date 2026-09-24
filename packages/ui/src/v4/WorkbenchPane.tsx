@@ -265,6 +265,7 @@ export interface WorkbenchShellBinding {
   provider?: KnorviaProvider;
   onSessionCreated?: (sessionId: string) => void;
   onSessionDeleted?: () => void;
+  onHandoffComplete?: (kernel: import("@knorvia/services").StudioKernelId, sessionId: string) => void;
   draftComposerHeader?: ReactNode;
   onPrimaryDraftDropTargetControllerChange?: (
     controller: ConversationDropTargetController | null,
@@ -562,6 +563,7 @@ export function WorkbenchLeafPane({
           provider={isPrimary && isShellWorkspace ? shell.provider : undefined}
           onSessionCreated={handleSessionCreated}
           onSessionDeleted={handleSessionDeleted}
+          onHandoffComplete={shell.onHandoffComplete}
           focused={focused}
           onSplitRight={canSplit && onSplit ? handleSplitRight : undefined}
           onSplitDown={canSplit && onSplit ? handleSplitDown : undefined}

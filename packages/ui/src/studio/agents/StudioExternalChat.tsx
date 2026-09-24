@@ -27,6 +27,8 @@ import { submitStudioChat } from "./chatSubmission.js";
 import { StudioChatModelControls, StudioChatOptionsNotice } from "./StudioChatModelControls.js";
 import { useStudioChatOptions } from "./useStudioChatOptions.js";
 import { useStudioKernelCatalog } from "./useStudioKernelCatalog.js";
+import { StudioSessionActions } from "./StudioSessionActions.js";
+import { exportStudioConversationMarkdown } from "./sessionHandoff.js";
 
 /** Same presentation components as Knorvia; native CLI state stays in the Host service. */
 export function StudioExternalChat({
@@ -34,11 +36,13 @@ export function StudioExternalChat({
   sessionId,
   workspaceMenuProps,
   onOpenAgentSettings,
+  onHandoffComplete,
 }: {
   kernelId: StudioKernelId;
   sessionId: string;
   workspaceMenuProps: StudioDraftProjectMenuProps;
   onOpenAgentSettings: () => void;
+  onHandoffComplete: (kernel: StudioKernelId, sessionId: string) => void;
 }) {
   const { intl, locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
@@ -319,6 +323,21 @@ export function StudioExternalChat({
       data-testid="studio-external-chat"
       data-kernel-id={kernelId}
     >
+      {conversation && hasContent && (
+        <StudioSessionActions
+          service={runtime.service}
+          messages={runtime.timeline?.messages ?? []}
+          exportTranscript={() => {
+            if (!runtime.service) throw new Error("Studio Runtime unavailable");
+            return exportStudioConversationMarkdown(runtime.service, sessionId, conversation.title || kernel.name, kernel.name);
+          }}
+          sourceKernel={kernelId}
+          workspacePath={workspacePath}
+          title={conversation.title || kernel.name}
+          statuses={statuses}
+          onHandoffComplete={onHandoffComplete}
+        />
+      )}
       {hasContent ? (
         <>
           <StudioTimeline targetId={sessionId} />

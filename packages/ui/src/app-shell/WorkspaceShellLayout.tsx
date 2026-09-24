@@ -1957,6 +1957,10 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                                   onCancelRemoteProject,
                                 }}
                                 onOpenAgentSettings={openAgentSettings}
+                                onHandoffComplete={(kernelId, externalSessionId) =>
+                                  studioNavigation.navigate({
+                                    view: "external-chat", chatMode: "single", kernelId, externalSessionId,
+                                  })}
                               />
                             </Suspense>
                           </ScopedErrorBoundary>
@@ -1988,6 +1992,10 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                               provider={activeTaskProvider ?? undefined}
                               onSessionCreated={handleV4SessionCreated}
                               onSessionDeleted={handleV4SessionDeleted}
+                              onHandoffComplete={(kernelId, externalSessionId) =>
+                                studioNavigation.navigate({
+                                  view: "external-chat", chatMode: "single", kernelId, externalSessionId,
+                                })}
                               draftComposerHeader={draftComposerHeader}
                               onPrimaryDraftDropTargetControllerChange={
                                 setDraftHeaderDropTargetController

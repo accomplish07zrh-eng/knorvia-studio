@@ -15,6 +15,8 @@ import type {
   V4ConversationFileChangesResult,
   V4ConversationFileRewindPreviewParams,
   V4ConversationFileRewindPreviewResult,
+  V4ConversationRowsRangeParams,
+  V4ConversationRowsRangeResult,
   V4ConversationWorkflowRunArtifactDataParams,
   V4ConversationWorkflowRunArtifactDataResult,
   V4ConversationWorkflowRunArtifactReadParams,
@@ -49,6 +51,7 @@ export interface V4ConversationContextValue {
   fileRewindPreview(
     params: V4ConversationFileRewindPreviewParams,
   ): Promise<V4ConversationFileRewindPreviewResult>;
+  rowsRange(params: V4ConversationRowsRangeParams): Promise<V4ConversationRowsRangeResult>;
   /** workflow run 事件日志分页（详情页审计面）；只读、无状态、超时重发安全。 */
   workflowRunEvents(
     params: V4ConversationWorkflowRunEventsParams,
@@ -136,6 +139,7 @@ function ReadyV4ConversationProvider({
       fileChanges: (params: V4ConversationFileChangesParams) => transport.fileChanges(params),
       fileRewindPreview: (params: V4ConversationFileRewindPreviewParams) =>
         transport.fileRewindPreview(params),
+      rowsRange: (params: V4ConversationRowsRangeParams) => transport.rowsRange(params),
       workflowRunEvents: (params: V4ConversationWorkflowRunEventsParams) =>
         transport.workflowRunEvents(params),
       workflowRunArtifacts: (params: V4ConversationWorkflowRunArtifactsParams) =>
@@ -300,6 +304,7 @@ function ReadyV4PaneConversationProvider({
           lease.transport.fileChanges(params),
         fileRewindPreview: (params: V4ConversationFileRewindPreviewParams) =>
           lease.transport.fileRewindPreview(params),
+        rowsRange: (params: V4ConversationRowsRangeParams) => lease.transport.rowsRange(params),
         workflowRunEvents: (params: V4ConversationWorkflowRunEventsParams) =>
           lease.transport.workflowRunEvents(params),
         workflowRunArtifacts: (params: V4ConversationWorkflowRunArtifactsParams) =>

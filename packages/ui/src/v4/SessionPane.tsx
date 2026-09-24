@@ -90,6 +90,7 @@ import { ConversationHeader, type PaneWorkspaceBadge } from "@/v4/ConversationHe
 import { ConversationQueuePanel } from "@/v4/ConversationQueuePanel.js";
 import { ConversationStatusPanel } from "@/v4/ConversationStatusPanel.js";
 import { ConversationTimeline } from "@/v4/ConversationTimeline.js";
+import { NativeSessionActions } from "@/v4/NativeSessionActions.js";
 import { PendingCommandRecoveryBanner } from "@/v4/PendingCommandRecoveryBanner.js";
 import { SessionPluginReferenceIconBoundary } from "@/v4/SessionPluginReferenceIconProvider.js";
 import { SessionSubscriptionErrorPanel } from "@/v4/SessionSubscriptionErrorPanel.js";
@@ -210,6 +211,7 @@ import type {
   SessionModelTransition,
   V4ConversationFileChangesResult,
 } from "@knorvia/shared/protocol-v4";
+import type { StudioKernelId } from "@knorvia/services";
 import { Hand } from "lucide-react";
 import {
   useCallback,
@@ -245,6 +247,7 @@ export interface SessionPaneProps {
   onSessionCreated?: (sessionId: string) => void;
   /** deleteSession：删除当前会话后回到 draft（shell 起新草稿）。 */
   onSessionDeleted?: () => void;
+  onHandoffComplete?: (kernel: StudioKernelId, sessionId: string) => void;
   /** 隐藏副屏的 child 已不存在时，由宿主移除对应 tab。 */
   onSelectionSideChatUnavailable?: () => void;
   /**
@@ -440,6 +443,7 @@ export function SessionPane({
   isDesktop = false,
   provider,
   onSessionCreated,
+  onHandoffComplete,
   onSelectionSideChatUnavailable,
   focused = true,
   telemetryVisible = true,
@@ -3624,6 +3628,17 @@ export function SessionPane({
         onClosePane={onClosePane}
         workspaceBadge={workspaceBadge}
       />
+      {sessionId && timelineSnapshot &&
+        !rootSessionId && !selectionSideChat && !readOnly && onHandoffComplete ? (
+          <NativeSessionActions
+            key={sessionId}
+            sessionId={sessionId}
+            snapshot={timelineSnapshot}
+            workspacePath={workspacePath}
+            remote={Boolean(remoteSessionId || workspaceIdentity)}
+            onHandoffComplete={onHandoffComplete}
+          />
+        ) : null}
 
       <div
         ref={conversationLayoutContainerRef}
