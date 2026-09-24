@@ -170,6 +170,7 @@ function postDispatchRequest(
     runId,
     prompt: automation.prompt,
     ...(automation.targetTaskId ? { targetTaskId: automation.targetTaskId } : {}),
+    ...(automation.studioWorkflowId ? { studioWorkflowId: automation.studioWorkflowId } : {}),
     ...((fixedSelection ?? automation.modelSelection)
       ? { modelSelection: fixedSelection ?? automation.modelSelection }
       : {}),

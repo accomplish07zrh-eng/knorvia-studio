@@ -11,6 +11,7 @@ export type SchedulerToMainMessage =
       runId: string;
       prompt: string;
       targetTaskId?: string;
+      studioWorkflowId?: string;
       modelSelection?: ModelSelection;
       mode?: string;
       workspacePath: string;

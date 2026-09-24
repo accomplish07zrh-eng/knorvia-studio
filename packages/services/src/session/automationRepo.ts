@@ -65,6 +65,7 @@ interface AutomationRow {
   workspace_path: string;
   workspace_identity: string | null;
   target_task_id: string | null;
+  studio_workflow_id: string | null;
   location_kind: string;
   recurring: number;
   max_runs: number | null;
@@ -123,6 +124,7 @@ function rowToAutomation(row: AutomationRow): KnorviaAutomation {
     workspacePath: row.workspace_path,
     workspaceIdentity: row.workspace_identity ?? undefined,
     targetTaskId: row.target_task_id ?? undefined,
+    studioWorkflowId: row.studio_workflow_id ?? undefined,
     locationKind: row.location_kind === "remote" ? "remote" : "local",
     recurring: row.recurring === 1,
     maxRuns: row.max_runs ?? undefined,
@@ -333,7 +335,7 @@ export class AutomationRepo {
       db.prepare(
         `INSERT INTO automations (
           automation_id, title, cron_expr, prompt, model, provider, model_selection,
-          workspace_key, workspace_path, workspace_identity, target_task_id, location_kind,
+          workspace_key, workspace_path, workspace_identity, target_task_id, studio_workflow_id, location_kind,
           recurring, max_runs, end_at, schedule_rule, schedule_edited_by_user,
           run_count, enabled, lifecycle_status,
           next_run_at, last_run_at, running, claimed_at,
@@ -342,7 +344,7 @@ export class AutomationRepo {
           created_at, updated_at
         ) VALUES (
           @automation_id, @title, @cron_expr, @prompt, @model, @provider, @model_selection,
-          @workspace_key, @workspace_path, @workspace_identity, @target_task_id, 'local',
+          @workspace_key, @workspace_path, @workspace_identity, @target_task_id, @studio_workflow_id, 'local',
           @recurring, @max_runs, @end_at, @schedule_rule, 0,
           0, @enabled, @lifecycle_status,
           @next_run_at, NULL, 0, NULL,
@@ -365,6 +367,7 @@ export class AutomationRepo {
         workspace_path: params.workspacePath,
         workspace_identity: params.workspaceIdentity ?? null,
         target_task_id: params.targetTaskId ?? null,
+        studio_workflow_id: params.studioWorkflowId ?? null,
         recurring: params.recurring ? 1 : 0,
         max_runs: params.maxRuns ?? null,
         end_at: params.endAt ?? null,
@@ -778,6 +781,7 @@ export class AutomationRepo {
             a.workspace_path AS a_workspace_path,
             a.workspace_identity AS a_workspace_identity,
             a.target_task_id AS a_target_task_id,
+            a.studio_workflow_id AS a_studio_workflow_id,
             a.location_kind AS a_location_kind,
             a.recurring AS a_recurring,
             a.max_runs AS a_max_runs,
@@ -854,6 +858,7 @@ export class AutomationRepo {
             workspace_path: row["a_workspace_path"] as string,
             workspace_identity: (row["a_workspace_identity"] as string | null) ?? null,
             target_task_id: (row["a_target_task_id"] as string | null) ?? null,
+            studio_workflow_id: (row["a_studio_workflow_id"] as string | null) ?? null,
             location_kind: row["a_location_kind"] as string,
             recurring: row["a_recurring"] as number,
             max_runs: (row["a_max_runs"] as number | null) ?? null,
@@ -1323,6 +1328,44 @@ export class AutomationRepo {
         WHERE run_id = @run_id`,
       )
       .run({ run_id: runId, outcome, error: error ?? null, now: Date.now() });
+  }
+
+  /** Reattach Studio result observers after Host restart; ordinary sessions are excluded. */
+  async listUnsettledStudioWorkflowRuns(): Promise<Array<{
+    automationRunId: string;
+    automationId: string;
+    workspaceKey: string;
+    scheduledAt: number | null;
+    trigger: KnorviaAutomationTrigger;
+    studioRunId: string;
+    workflowId: string;
+  }>> {
+    await this.ensureReady();
+    const rows = this.getDatabase().prepare(
+      `SELECT r.run_id, r.automation_id, r.workspace_key, r.scheduled_at, r.trigger,
+              r.session_id, a.studio_workflow_id
+       FROM automation_runs r JOIN automations a ON a.automation_id = r.automation_id
+       WHERE a.studio_workflow_id IS NOT NULL AND r.session_id IS NOT NULL
+         AND (r.outcome IS NULL OR r.outcome = 'running')
+       ORDER BY r.created_at DESC LIMIT 1000`,
+    ).all() as Array<{
+      run_id: string;
+      automation_id: string;
+      workspace_key: string;
+      scheduled_at: number | null;
+      trigger: KnorviaAutomationTrigger;
+      session_id: string;
+      studio_workflow_id: string;
+    }>;
+    return rows.map((row) => ({
+      automationRunId: row.run_id,
+      automationId: row.automation_id,
+      workspaceKey: row.workspace_key,
+      scheduledAt: row.scheduled_at,
+      trigger: row.trigger,
+      studioRunId: row.session_id,
+      workflowId: row.studio_workflow_id,
+    }));
   }
 
   /** 错过触发窗口：落一条 skipped run（session_id=null），不计 run_count。 */

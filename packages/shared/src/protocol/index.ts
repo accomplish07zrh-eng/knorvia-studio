@@ -3353,6 +3353,7 @@ export const knorviaAutomationProtocolSchema = z
     modelSelection: modelSelectionSchema.optional(),
     mode: knorviaTaskModeSchema.optional(),
     targetTaskId: nonEmptyString.optional(),
+    studioWorkflowId: nonEmptyString.optional(),
     enabled: z.boolean(),
     lifecycleStatus: z.enum(["active", "completed", "failed", "paused"]),
     nextRunAt: timestampMsSchema.optional(),
@@ -3376,6 +3377,7 @@ export const knorviaAutomationCreateParamsSchema = z
     modelSelection: modelSelectionSchema.optional(),
     mode: knorviaTaskModeSchema.optional(),
     targetTaskId: nonEmptyString.optional(),
+    studioWorkflowId: nonEmptyString.optional(),
     recurring: z.boolean().optional(),
     maxRuns: z.number().int().positive().optional(),
     // 会话侧自定义重复 carrier：每 N 分钟/小时/天/周/月/年均通过此字段归一化为权威 scheduleRule，

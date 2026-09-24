@@ -3533,6 +3533,7 @@ export function createKnorviaAgentService(
         cronExpr: params.cronExpr,
         relativeDelayMinutes: params.relativeDelayMinutes,
         prompt: params.prompt,
+        studioWorkflowId: params.studioWorkflowId,
         modelSelection: params.modelSelection,
         mode: params.mode as KnorviaTaskMode | undefined,
         workspacePath: params.workspacePath,

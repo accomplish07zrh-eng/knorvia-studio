@@ -367,6 +367,7 @@ export const hostCronRunMessageSchema = z.object({
   workspaceIdentity: z.string().optional(),
   prompt: nonEmptyStringSchema,
   targetTaskId: nonEmptyStringSchema.optional(),
+  studioWorkflowId: nonEmptyStringSchema.optional(),
   modelSelection: modelSelectionSchema.optional(),
   mode: z.string().optional(),
 });

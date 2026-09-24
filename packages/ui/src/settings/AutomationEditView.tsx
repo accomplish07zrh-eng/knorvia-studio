@@ -1139,7 +1139,7 @@ function initialBuilder(
 }
 
 // ---- 运行历史状态映射(与 AutomationRunsDialog 保持一致) ----
-type RunStatusKind = "running" | "succeeded" | "failed" | "stopped" | "skipped";
+type RunStatusKind = "running" | "succeeded" | "failed" | "stopped" | "interrupted" | "skipped";
 function resolveRunStatus(run: KnorviaAutomationRun): RunStatusKind {
   if (run.dispatchStatus === "skipped") return "skipped";
   if (run.dispatchStatus === "failed_to_dispatch") return "failed";
@@ -1150,6 +1150,8 @@ function resolveRunStatus(run: KnorviaAutomationRun): RunStatusKind {
       return "failed";
     case "stopped":
       return "stopped";
+    case "interrupted":
+      return "interrupted";
     default:
       return "running";
   }
@@ -1160,6 +1162,7 @@ const RUN_STATUS_DOT_CLASS: Record<RunStatusKind, string> = {
   succeeded: "bg-success",
   failed: "bg-destructive",
   stopped: "bg-foreground-subtlest",
+  interrupted: "bg-warning",
   skipped: "bg-warning",
 };
 const RUN_STATUS_TEXT_CLASS: Record<RunStatusKind, string> = {
@@ -1167,6 +1170,7 @@ const RUN_STATUS_TEXT_CLASS: Record<RunStatusKind, string> = {
   succeeded: "text-success",
   failed: "text-destructive",
   stopped: "text-foreground-subtle",
+  interrupted: "text-warning",
   skipped: "text-warning",
 };
 
@@ -1645,10 +1649,12 @@ export function AutomationEditView({
   const submissionContextReady =
     hasValidWorkspace &&
     (Boolean(editing) || selectedWorkspace !== null) &&
-    modelSelectionRead.state.status === "ready" &&
-    selectedModelItem !== null &&
-    Boolean(effectiveReasoningLevel) &&
-    !modelSelectionView?.selectionIssue;
+    (editing?.studioWorkflowId
+      ? true
+      : modelSelectionRead.state.status === "ready" &&
+        selectedModelItem !== null &&
+        Boolean(effectiveReasoningLevel) &&
+        !modelSelectionView?.selectionIssue);
   const canSubmit = submissionContextReady && requiredFieldErrors.length === 0;
 
   const requestRequiredFieldValidation = useCallback(
@@ -1685,10 +1691,7 @@ export function AutomationEditView({
 
   const buildSubmitInput = useCallback(
     ({ modeValue }: { modeValue: string }): CreateAutomationInput | UpdateAutomationInput => {
-      if (!effectiveSelection || !effectiveReasoningLevel) {
-        throw new Error("Automation model selection is required");
-      }
-      return {
+      const common = {
         title: title.trim(),
         cronExpr,
         prompt: prompt.trim(),
@@ -1703,9 +1706,11 @@ export function AutomationEditView({
             ? { scheduleRule: currentScheduleRule }
             : {}),
         ...(editing && touchedFields.has("schedule") ? { scheduleEditedByUser: true } : {}),
-        mode: modeValue,
-        modelSelection: effectiveSelection,
       };
+      if (editing?.studioWorkflowId) return common;
+      if (!effectiveSelection || !effectiveReasoningLevel)
+        throw new Error("Automation model selection is required");
+      return { ...common, mode: modeValue, modelSelection: effectiveSelection };
     },
     [
       cronExpr,
@@ -1773,7 +1778,8 @@ export function AutomationEditView({
       }
       if (!canSubmit) return false;
       // 防止刚改选择尚未取得对应 View 时，快速保存采用上一个输入的有效结果。
-      if (modelSelection.current !== model || thoughtLevelRef.current !== thoughtLevel)
+      if (!editing?.studioWorkflowId &&
+        (modelSelection.current !== model || thoughtLevelRef.current !== thoughtLevel))
         return false;
       const input: CreateAutomationInput | UpdateAutomationInput = {
         // 权限下拉和保存按钮是两个独立控件，快速选择 Plan 后立即保存时，
@@ -2636,7 +2642,7 @@ export function AutomationEditView({
 
                     {/* 自动化曾复制首页权限菜单，导致图标、字号和选中态逐渐分叉。
                         直接复用首页 ConfigSelect，只覆盖紧凑 trigger 布局。 */}
-                    <ConfigSelect
+                    {!editing?.studioWorkflowId && <ConfigSelect
                       option={modeOption}
                       onValueChange={(value) => {
                         markFieldTouched("mode");
@@ -2655,11 +2661,16 @@ export function AutomationEditView({
                       labelVisibilityClassName="inline-flex min-w-0 truncate text-left"
                       provider={KNORVIA_AGENT_PROVIDER}
                       restoreFocusSelector={null}
-                    />
+                    />}
+                    {editing?.studioWorkflowId && (
+                      <span className="px-2 text-ui-sm text-foreground-subtle">
+                        {intl.formatMessage({ id: "automations.studioWorkflow" })}
+                      </span>
+                    )}
                   </div>
 
                   {/* 模型 / 推理强度在右侧成组，和左侧 workspace / 权限形成清晰分区。 */}
-                  <div className="flex min-w-0 flex-wrap items-center justify-end gap-0 text-foreground-subtle">
+                  {!editing?.studioWorkflowId && <div className="flex min-w-0 flex-wrap items-center justify-end gap-0 text-foreground-subtle">
                     <ModelConfigSelect
                       modelGroups={modelSelectGroups}
                       normalizedValue={selectedModelItem?.value ?? ""}
@@ -2721,7 +2732,7 @@ export function AutomationEditView({
                         }}
                       />
                     ) : null}
-                  </div>
+                  </div>}
                 </AutomationInstructionsToolbar>
               </AutomationInstructionsComposer>
             </div>
@@ -2791,7 +2802,7 @@ export function AutomationEditView({
                           <span className={RUN_STATUS_TEXT_CLASS[status]}>{statusLabel}</span>
                         </span>
                       );
-                      const canOpenSession = Boolean(run.sessionId && onOpenSession);
+                      const canOpenSession = Boolean(!editing?.studioWorkflowId && run.sessionId && onOpenSession);
                       const hasActions = canOpenSession || Boolean(onDeleteRun);
                       return (
                         <tr

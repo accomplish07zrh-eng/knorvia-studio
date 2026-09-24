@@ -58,7 +58,7 @@ export type KnorviaAutomationRunDispatchStatus =
   | "skipped";
 
 /** 单次 run 产出 session 后的运行结果（由 session runtime 回写，仅用于展示）。 */
-export type KnorviaAutomationRunOutcome = "running" | "succeeded" | "failed" | "stopped";
+export type KnorviaAutomationRunOutcome = "running" | "succeeded" | "failed" | "stopped" | "interrupted";
 
 /** 一条定时任务定义 + 调度状态。 */
 export interface KnorviaAutomation {
@@ -77,6 +77,8 @@ export interface KnorviaAutomation {
   workspaceIdentity?: string;
   /** 会话内创建的 cron 绑定到当前 task；后续触发都投递回该 task，不再新建 session。 */
   targetTaskId?: string;
+  /** Routes this schedule to a saved Studio workflow, never to a chat session. */
+  studioWorkflowId?: string;
   locationKind: KnorviaAutomationLocationKind;
   /** true=无限循环；false=有限次（配合 maxRuns）。 */
   recurring: boolean;
@@ -157,6 +159,8 @@ export interface KnorviaAutomationCreateParams {
   workspaceIdentity?: string;
   /** 当前会话内创建时由 runtime 注入，模型不可控。 */
   targetTaskId?: string;
+  /** Explicit GUI-created Studio workflow target; immutable after creation. */
+  studioWorkflowId?: string;
   recurring: boolean;
   maxRuns?: number;
   endAt?: number;

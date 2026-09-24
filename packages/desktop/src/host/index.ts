@@ -28,6 +28,8 @@ import { registerHostServiceResourceTelemetry } from "./hostServiceResourceTelem
 import { resolveResourceTelemetryEnvironmentKey } from "./hostResourceTelemetryEnvironment.js";
 import { reportHostSessionCreate } from "./hostSessionCreateTelemetry.js";
 import { createBrowserControlMainBridge } from "./browserControlMainBridge.js";
+import { submitScheduledStudioWorkflow } from "./studioWorkflowSchedule.js";
+import { StudioScheduleOutcomeObserver } from "./studioScheduleOutcome.js";
 import { materializeBrowserRecordingArtifact } from "./browserRecordingArtifactMaterializer.js";
 import {
   ServiceCollection,
@@ -291,12 +293,14 @@ const logger = {
 
 const cronAutomationRepo = new AutomationRepo();
 const cronRunSubscriptions = new Map<string, { dispose(): void }>();
+let studioScheduleOutcomeObserver: StudioScheduleOutcomeObserver | null = null;
 
 interface CronRunDispatchRequest {
   automationId: string;
   runId: string;
   prompt: string;
   targetTaskId?: string;
+  studioWorkflowId?: string;
   modelSelection?: ModelSelection;
   mode?: KnorviaTaskMode;
   workspacePath: string;
@@ -462,6 +466,42 @@ async function dispatchCronRun(request: CronRunDispatchRequest): Promise<{
   sessionId: string;
 }> {
   const targetServices = resolveAutomationTargetServices(request);
+  const savedAutomation = await cronAutomationRepo.get(request.automationId);
+  if (!savedAutomation || savedAutomation.workspaceKey !== resolveWorkspaceKey(request))
+    throw new Error("计划任务已删除或目标项目不匹配");
+  if (savedAutomation.studioWorkflowId || request.studioWorkflowId) {
+    if (!savedAutomation.studioWorkflowId || request.studioWorkflowId !== savedAutomation.studioWorkflowId)
+      throw new Error("Studio 工作流计划目标与已保存的任务不一致");
+    if (request.workspaceIdentity && isRemoteWorkspaceIdentity(request.workspaceIdentity))
+      throw new Error("本地 Studio 工作流计划不能派发到远端 Host");
+    const studio = targetServices.getOptional(IStudioRuntimeService);
+    if (!studio) throw new Error("Studio Runtime 尚未就绪");
+    const runId = await submitScheduledStudioWorkflow({
+      service: studio,
+      automation: savedAutomation,
+      runId: request.runId,
+      workspacePath: request.workspacePath,
+      prompt: savedAutomation.prompt,
+    });
+    markCronRunOutcome({
+      runId: request.runId,
+      automationId: request.automationId,
+      workspaceKey: savedAutomation.workspaceKey,
+      scheduledAt: parseCronRunScheduledAt(request.runId, request.automationId),
+      trigger: request.runId.includes(":manual:") ? "manual" : "schedule",
+      outcome: "running",
+    });
+    studioScheduleOutcomeObserver?.observe({
+      automationRunId: request.runId,
+      automationId: request.automationId,
+      workspaceKey: savedAutomation.workspaceKey,
+      scheduledAt: parseCronRunScheduledAt(request.runId, request.automationId),
+      trigger: request.runId.includes(":manual:") ? "manual" : "schedule",
+      studioRunId: runId,
+      workflowId: savedAutomation.studioWorkflowId,
+    });
+    return { taskId: runId, sessionId: runId };
+  }
   const taskService = targetServices.getOptional(IKnorviaTaskService);
   if (!taskService) {
     throw new Error("Knorvia Studio task service is not initialized.");
@@ -586,6 +626,7 @@ async function dispatchManualAutomationRun(params: {
       runId: params.run.runId,
       prompt: params.automation.prompt,
       targetTaskId: params.automation.targetTaskId,
+      studioWorkflowId: params.automation.studioWorkflowId,
       modelSelection: params.run.modelSelection ?? params.automation.modelSelection,
       mode: params.automation.mode,
       workspacePath: params.automation.workspacePath,
@@ -1729,6 +1770,8 @@ async function disposeHostResources(reason: string): Promise<HostShutdownResult>
     for (const key of Array.from(cronRunSubscriptions.keys())) {
       disposeCronRunSubscription(key);
     }
+    studioScheduleOutcomeObserver?.dispose();
+    studioScheduleOutcomeObserver = null;
     cronAutomationRepo.close();
 
     if (activeSessionRealtimePort) {
@@ -1794,6 +1837,8 @@ function disposeHostResourcesBestEffort(reason: string): void {
   for (const key of Array.from(cronRunSubscriptions.keys())) {
     disposeCronRunSubscription(key);
   }
+  studioScheduleOutcomeObserver?.dispose();
+  studioScheduleOutcomeObserver = null;
   cronAutomationRepo.close();
   void windowRemoteConnectionRegistry.dispose();
 
@@ -2352,6 +2397,16 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
                 process.platform === "win32" ? cuaOperationStateReporter : undefined,
             });
             activeServices = initializedServices;
+            const studio = initializedServices.getOptional(IStudioRuntimeService);
+            if (studio) {
+              studioScheduleOutcomeObserver?.dispose();
+              studioScheduleOutcomeObserver = new StudioScheduleOutcomeObserver(
+                studio,
+                cronAutomationRepo,
+                (message, error) => logger.warn(message, error),
+              );
+              void studioScheduleOutcomeObserver.recover();
+            }
             activeHostApiNetworkTransport = hostApiNetworkTransport;
             return initializedServices;
           },

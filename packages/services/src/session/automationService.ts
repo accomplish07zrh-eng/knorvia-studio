@@ -142,6 +142,10 @@ export class AutomationService {
   constructor(private readonly repo: AutomationRepo = new AutomationRepo()) {}
 
   async create(params: KnorviaAutomationCreateParams): Promise<KnorviaAutomation> {
+    if (params.studioWorkflowId !== undefined) {
+      if (!/^[\w:-]{1,180}$/.test(params.studioWorkflowId)) throw new Error("无效的 Studio 工作流标识");
+      if (params.targetTaskId || params.modelSelection || params.mode) throw new Error("Studio 工作流计划不能绑定聊天会话或单独的模型配置");
+    }
     const createdAt = Date.now();
     const relativeDelayMinutes = params.relativeDelayMinutes;
     if (
@@ -260,6 +264,8 @@ export class AutomationService {
     const workspaceKey = resolveScopeKey(scope);
     const existing = await this.repo.get(automationId, workspaceKey);
     if (!existing) return null;
+    if (existing.studioWorkflowId && (params.modelSelection !== undefined || params.mode !== undefined))
+      throw new Error("Studio 工作流计划的内核由工作流节点决定，不能设置聊天模型或权限模式");
 
     if (params.scheduleRule) assertValidAutomationScheduleRule(params.scheduleRule);
 

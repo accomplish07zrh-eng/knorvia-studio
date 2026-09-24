@@ -41,6 +41,7 @@ const indexes = `
 const terminalStatuses = "'completed','failed','cancelled'";
 const activePredicate = `session_id IS NOT NULL AND status NOT IN (${terminalStatuses})`;
 const boundIndex = `CREATE UNIQUE INDEX IF NOT EXISTS idx_off_peak_bound_active ON off_peak_tasks(workspace_key,session_id) WHERE ${activePredicate}`;
+const STUDIO_WORKFLOW_SCHEDULE_SQL = "ALTER TABLE automations ADD COLUMN studio_workflow_id TEXT";
 
 // 与 Agent 同样是库级串行事务，但不跨域依赖其具体 adapter。TS 转换使用冻结语义版本，
 // 禁用 function.toString 哈希：Electron/SEA 打包会改变函数文本而非迁移语义。
@@ -68,6 +69,10 @@ const definitions = [
   {
     id: "0004_agent_identity",
     checksumInput: [AGENT_IDENTITY_MIGRATION_SQL],
+  },
+  {
+    id: "0005_studio_workflow_schedule",
+    checksumInput: [STUDIO_WORKFLOW_SCHEDULE_SQL],
   },
 ] as const;
 
@@ -120,7 +125,8 @@ export function runTasksDatabaseMigrations(
       else if (migration.id === "0002_provider_selection") importLegacyAutomationSelections(db);
       else if (migration.id === "0003_official_glm_selection")
         db.exec(OFFICIAL_GLM_SELECTION_MIGRATION_SQL);
-      else db.exec(AGENT_IDENTITY_MIGRATION_SQL);
+      else if (migration.id === "0004_agent_identity") db.exec(AGENT_IDENTITY_MIGRATION_SQL);
+      else db.exec(STUDIO_WORKFLOW_SCHEDULE_SQL);
       migrationFacts.executedCount++;
       db.prepare("INSERT INTO tasks_schema_migration VALUES(?,?,?)").run(
         migration.id,

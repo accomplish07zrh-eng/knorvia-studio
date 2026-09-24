@@ -5172,6 +5172,9 @@ const enUS: Record<string, string> = {
   "automations.runs.status.failed": "Failure",
   "automations.runs.errorUnavailable": "No error details available",
   "automations.runs.status.stopped": "Stopped",
+  "automations.runs.status.interrupted": "Interrupted; review result",
+  "automations.studioWorkflow": "Studio workflow uses node kernels",
+  "automations.studioWorkflowBadge": "Studio workflow",
   "automations.runs.status.skipped": "Skipped",
   "automations.runs.openSession": "Go to session",
   "automations.runs.openSessionFailed":

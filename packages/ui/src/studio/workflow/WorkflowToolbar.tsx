@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 import {
   ArrowLeft,
+  CalendarClock,
   Check,
   Clock3,
   Folder,
@@ -39,6 +40,7 @@ interface Props {
   onAdd: (kind: WorkflowNodeKind) => void;
   execution: ReturnType<typeof useWorkflowExecution>;
   onRun: () => void;
+  onSchedule: () => void;
   canRun: boolean;
   editingDisabled: boolean;
   onImport: () => void;
@@ -56,6 +58,7 @@ export function WorkflowToolbar({
   onAdd,
   execution,
   onRun,
+  onSchedule,
   canRun,
   editingDisabled,
   onImport,
@@ -152,6 +155,13 @@ export function WorkflowToolbar({
           onClick={() => void execution.saveCurrent()}
         >
           <Save />
+        </ToolButton>
+        <ToolButton
+          label={t("schedule")}
+          disabled={!execution.ready || !execution.saved || !canRun || !workflow.workspacePath}
+          onClick={onSchedule}
+        >
+          <CalendarClock />
         </ToolButton>
         {execution.running ? (
           <ToolButton

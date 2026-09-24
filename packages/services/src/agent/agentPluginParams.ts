@@ -121,6 +121,7 @@ export interface KnorviaAgentCreateAutomationParams extends KnorviaAgentWorkspac
   cronExpr: string;
   relativeDelayMinutes?: number;
   prompt: string;
+  studioWorkflowId?: string;
   modelSelection?: ModelSelection;
   mode?: string;
   recurring?: boolean;

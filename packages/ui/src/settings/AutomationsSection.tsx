@@ -983,9 +983,16 @@ export function AutomationsSection({
                             )}
                           >
                             <div className="flex h-full min-w-0 flex-1 flex-col gap-3">
-                              <span className="block truncate pr-12 text-ui-base font-medium leading-5 text-foreground">
-                                {automation.title}
-                              </span>
+                              <div className="flex min-w-0 items-center gap-2 pr-12">
+                                <span className="min-w-0 truncate text-ui-base font-medium leading-5 text-foreground">
+                                  {automation.title}
+                                </span>
+                                {automation.studioWorkflowId && (
+                                  <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-ui-xs text-foreground-subtle">
+                                    {intl.formatMessage({ id: "automations.studioWorkflowBadge" })}
+                                  </span>
+                                )}
+                              </div>
                               <p className="text-wrap-phrase line-clamp-2 h-10 text-ui-base font-normal leading-5 text-foreground-subtle">
                                 {automationPromptSummary(automation.prompt)}
                               </p>

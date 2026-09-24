@@ -35,6 +35,7 @@ import { StudioRunHistory } from "../runtime/StudioRunHistory.js";
 import { StudioTimeline } from "../runtime/StudioTimeline.js";
 import { StudioInteractions } from "../runtime/StudioInteractions.js";
 import { WorkflowRunComparison } from "./WorkflowRunComparison.js";
+import { WorkflowScheduleDialog } from "./WorkflowScheduleDialog.js";
 import "@xyflow/react/dist/style.css";
 import "./workflow.css";
 
@@ -78,6 +79,7 @@ function EditorCanvas({
   const [locked, setLocked] = useState(false);
   const [limit, setLimit] = useState(false);
   const [runDialog, setRunDialog] = useState(false);
+  const [scheduleDialog, setScheduleDialog] = useState(false);
   const editingDisabled = locked || execution.editingDisabled;
   const waiting = execution.timeline?.interactions.some((item) => item.status === "pending");
   useEffect(() => {
@@ -208,8 +210,9 @@ function EditorCanvas({
         onAdd={addNode}
         execution={execution}
         canRun={issues.length === 0}
-        onRun={() => setRunDialog(true)}
+        onRun={() => setRunDialog(true)} onSchedule={() => setScheduleDialog(true)}
       />
+      <WorkflowScheduleDialog workflow={workflow} open={scheduleDialog} saved={execution.saved && issues.length === 0} onClose={() => setScheduleDialog(false)} />
       {execution.error && (
         <p
           role="alert"
