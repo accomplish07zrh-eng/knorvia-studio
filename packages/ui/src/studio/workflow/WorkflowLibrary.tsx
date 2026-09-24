@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu.js";
-import type { StudioWorkflow, WorkflowTemplate } from "./types.js";
+import { WORKFLOW_TEMPLATES, type StudioWorkflow, type WorkflowTemplate } from "./types.js";
 import { useWorkflowText } from "./useWorkflowText.js";
 
 interface Props {
@@ -73,7 +73,7 @@ export function WorkflowLibrary({
           <h2 className="text-ui-lg font-medium">{t("emptyTitle")}</h2>
           <p className="mt-2 text-ui-base text-foreground-subtle">{t("emptyDescription")}</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {(["blank", "sequence", "parallel", "branch"] as const).map((template) => (
+            {WORKFLOW_TEMPLATES.map((template) => (
               <button
                 key={template}
                 type="button"

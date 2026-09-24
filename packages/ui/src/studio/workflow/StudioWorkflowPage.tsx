@@ -18,9 +18,11 @@ import {
   SelectValue,
 } from "../../components/ui/select.js";
 import { useStudioWorkflowStore } from "../../store/studioWorkflowStore.js";
+import { useKnorviaIntl } from "../../i18n/IntlProvider.js";
 import {
   createWorkflowGraph,
   WORKFLOW_LIMITS,
+  WORKFLOW_TEMPLATES,
   type StudioWorkflow,
   type WorkflowTemplate,
 } from "./types.js";
@@ -34,6 +36,7 @@ import { createWorkflowActionScope } from "./workflowActionScope.js";
 
 export function StudioWorkflowPage({ workspacePath }: { workspacePath?: string }) {
   const t = useWorkflowText();
+  const { locale } = useKnorviaIntl();
   const store = useStudioWorkflowStore();
   const runtime = useStudioWorkflows();
   const files = useWorkflowFiles();
@@ -144,7 +147,7 @@ export function StudioWorkflowPage({ workspacePath }: { workspacePath?: string }
           id: creatingId.current,
           name: name.trim(),
           workspacePath: workspacePath ?? "",
-          ...createWorkflowGraph(template),
+          ...createWorkflowGraph(template, locale.startsWith("zh") ? "zh" : "en"),
           updatedAt: Date.now(),
         };
         await runtime.save(created);
@@ -314,7 +317,7 @@ export function StudioWorkflowPage({ workspacePath }: { workspacePath?: string }
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {(["blank", "sequence", "parallel", "branch"] as const).map((item) => (
+                  {WORKFLOW_TEMPLATES.map((item) => (
                     <SelectItem key={item} value={item}>
                       {t(item)}
                     </SelectItem>

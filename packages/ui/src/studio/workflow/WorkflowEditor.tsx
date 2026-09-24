@@ -34,6 +34,7 @@ import { WorkflowValidationPanel } from "./WorkflowValidationPanel.js";
 import { StudioRunHistory } from "../runtime/StudioRunHistory.js";
 import { StudioTimeline } from "../runtime/StudioTimeline.js";
 import { StudioInteractions } from "../runtime/StudioInteractions.js";
+import { WorkflowRunComparison } from "./WorkflowRunComparison.js";
 import "@xyflow/react/dist/style.css";
 import "./workflow.css";
 
@@ -364,6 +365,7 @@ function EditorCanvas({
               )}
               {rightPane === "history" && (
                 <div className="space-y-3">
+                  <WorkflowRunComparison runs={execution.timeline?.runs ?? []} />
                   <div className="px-2 pt-2">
                     <StudioInteractions targetId={workflow.id} />
                   </div>

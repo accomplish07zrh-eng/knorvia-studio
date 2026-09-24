@@ -52,7 +52,7 @@ test("a managed version probe holds a lease and disposal terminates only that pr
       if (Date.now() > deadline) throw new Error("probe did not start");
       if (!pid) await sleep(10);
     }
-    await assert.rejects(manager.manage("codex", "uninstall"), /运行|使用/);
+    await assert.rejects(manager.manage("codex", "uninstall"), /运行|使用|内核管理操作正在执行/);
     await registry.dispose();
     assert.throws(() => process.kill(pid, 0), { code: "ESRCH" });
     const statuses = await probing;
