@@ -74,3 +74,16 @@ node $sourceTool $plugin --name-zh '项目简报' --description-zh '根据本地
 2026-09-25，Node v24.14.0。实际用内置创建器在带空格的临时目录生成 `project-brief`，复制本示例内容后，本地预检返回 `schemaValidated:false`、打包版 CLI 的 Host 校验返回 `ok:true` 且 `schemaValidated:true`。本地来源首次登记 `changed:true`，再次登记 `changed:false`；重复创建被拒绝且清单 SHA-256 未变。创建器相关 `node --test` **6/6 通过**；根 `pnpm typecheck` 通过、`pnpm lint` 0 警告/0 错误、`pnpm architecture:check --changed` 0 违规；本指南、规格和示例文件的定向格式检查通过。
 
 未验证：在设置页人工添加并安装该临时来源、真实模型遵循技能的简报质量、不同外部内核的实际调用与跨设备使用。结构校验和 Host schema 校验不能替代这些验收；示例未加入便携版内置清单，因此本任务未重新打包。
+
+## 技能契约、逐内核声明与示例技能包
+
+写完技能之后，交付质量由两份新规格和三个新示例包描述；本节只做指路，不改变上面练习的步骤。
+
+- [技能契约](../specs/knorvia-skill-contract.md)：技能如何声明触发条件、近似不触发、输入、权限预期、输出与失败行为。契约由 `SKILL.md` 正文的八个固定小节（`## Trigger`、`## Near misses`、`## Inputs`、`## Permission expectations`、`## Procedure`、`## Outputs`、`## Success evidence`、`## Failure behaviour`）加技能目录内的 `skill-contract.json` 侧车组成；**不新增 frontmatter 键**，因为任何未知键都会把 `safeToAutoLoad` 降为 false（`apps/cli/packages/adapters/src/skills/index.ts:21-27`、`:231`），而放宽白名单不在本波范围。
+- [插件兼容性声明](../specs/knorvia-plugin-compatibility.md)：`.knorvia-plugin/compatibility.json` 的逐内核状态枚举（`verified` / `declared` / `unsupported` / `unknown`）、"可安装 ≠ 受支持"的四级判定，以及用 `requires` / `capabilityRequirements` 声明"需要本内核缺少的能力"的方法。没有运行证据就不许写 `verified`。
+- [兼容性矩阵](./knorvia-plugin-compatibility-matrix.md)：三个新示例包逐能力的状态，未跑过的内核一律写"未验证"。
+- [技能包交付说明](./knorvia-plugin-skill-packs.md)：包清单、只走现有本地来源机制的安装步骤、逐文件来源与许可记录、已验证与未验证项。
+
+三个新包位于 `examples/plugins/project-handoff`、`examples/plugins/material-organizer`、`examples/plugins/document-quality-check`。它们都是**只有技能**的包：按上面的跨内核规则，Hook、私有命令与插件子代理不跨内核执行，因此这三个包不声明 `hooks`、`commands`、`mcpServers` 或 `agents`，只保留可移植的 `skills`。它们不是内置插件，没有加入默认启用集合，也没有进入桌面包；各自的 `fixtures/` 只用于复核，不随安装成为能力面。
+
+设置页的兼容性面板按波次**推迟**：本波没有新增任何设置界面，`compatibility.json` 目前只被测试与文档消费。机械校验在 `packages/ui/test/plugin-skill-packs.test.ts`，用 `node --import tsx --test packages/ui/test/plugin-skill-packs.test.ts` 执行；它证明声明自洽，**不证明**任何内核上真的可用。

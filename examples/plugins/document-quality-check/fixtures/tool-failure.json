@@ -1,0 +1,9 @@
+{
+  "fixture": "tool-failure",
+  "class": "tool-failure",
+  "skill": "document-quality-check",
+  "request": "Check the quality of the `q3-proposal` document before I send it out.",
+  "simulatedCondition": "The document's text cannot be extracted in this session and no renderer or converter is available, so only the file name and size are readable.",
+  "expected": "reports_failure",
+  "observation": "The skill reports which text-extraction capability is missing and for which format, writes no findings, and states that the document could not be reviewed. It must not judge quality from the file name or a partial preview."
+}

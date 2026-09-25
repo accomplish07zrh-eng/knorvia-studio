@@ -1,0 +1,9 @@
+{
+  "fixture": "tool-failure",
+  "class": "tool-failure",
+  "skill": "project-handoff",
+  "request": "Write a handoff note for the `billing-service` project in my workspace.",
+  "simulatedCondition": "The file-read tool fails for the project root, so no project file can be read and no read-only version-control inspection is available.",
+  "expected": "reports_failure",
+  "observation": "The skill reports the exact path that failed and which capability is missing, marks every affected section as not inspected, and either delivers an explicitly partial document or stops. It must not present a prompt-only guess as inspection evidence."
+}

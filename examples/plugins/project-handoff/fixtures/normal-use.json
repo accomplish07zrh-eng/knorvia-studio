@@ -1,0 +1,8 @@
+{
+  "fixture": "normal-use",
+  "class": "normal-use",
+  "skill": "project-handoff",
+  "request": "Write a handoff note for the `billing-service` project in my workspace so the next maintainer knows where the work stands.",
+  "expected": "triggers",
+  "observation": "The skill activates, reads the selected project read-only, and produces one handoff document whose sections each name their sources and which lists documented run/test commands as not executed."
+}

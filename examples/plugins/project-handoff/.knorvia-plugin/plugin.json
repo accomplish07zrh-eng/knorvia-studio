@@ -1,0 +1,10 @@
+{
+  "name": "project-handoff",
+  "version": "0.1.0",
+  "description": "Write a sourced work-handoff document for a local project the user explicitly selected, covering current state, unfinished work and the next verification steps.",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "skills": "./skills"
+}

@@ -1,0 +1,8 @@
+{
+  "fixture": "near-miss",
+  "class": "near-miss",
+  "skill": "project-handoff",
+  "request": "The `billing-service` tests are failing. Run them and fix the failures.",
+  "expected": "does_not_trigger",
+  "observation": "This is an execution and change request, not a state transfer. The skill must not activate, must not run the test suite and must not edit project files; the agent handles the request through its normal tools."
+}

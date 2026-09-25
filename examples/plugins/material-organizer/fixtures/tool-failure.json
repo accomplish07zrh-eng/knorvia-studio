@@ -1,0 +1,9 @@
+{
+  "fixture": "tool-failure",
+  "class": "tool-failure",
+  "skill": "material-organizer",
+  "request": "Organise the loose materials in the `research-notes` folder.",
+  "simulatedCondition": "The directory listing succeeds but reading every material's content fails, so no material can be classified from its content.",
+  "expected": "reports_failure",
+  "observation": "The skill reports which capability is missing, delivers at most a name-only index explicitly labelled as such with every item in the not-classified list, and does not present a file-name guess as a content classification."
+}

@@ -1,0 +1,8 @@
+{
+  "fixture": "repeat-invocation",
+  "class": "repeat-invocation",
+  "skill": "material-organizer",
+  "request": "Run the materials inventory for `research-notes` again now that I added a few files.",
+  "expected": "stays_idempotent",
+  "observation": "A new index file with a distinct name is produced and the index states what changed since the previous run. The earlier index and every material remain untouched."
+}

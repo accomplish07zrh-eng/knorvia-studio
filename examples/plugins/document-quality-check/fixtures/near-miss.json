@@ -1,0 +1,8 @@
+{
+  "fixture": "near-miss",
+  "class": "near-miss",
+  "skill": "document-quality-check",
+  "request": "Rewrite the `q3-proposal` document and fix the problems, then save it in place.",
+  "expected": "does_not_trigger",
+  "observation": "This asks for an edit that overwrites the document. The skill must not activate to rewrite or save over the file; a fix is a separate action that requires the user's explicit request and the host's normal write approval."
+}

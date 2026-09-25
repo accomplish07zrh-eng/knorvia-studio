@@ -1,0 +1,101 @@
+{
+  "contractVersion": 1,
+  "skill": "material-organizer",
+  "trigger": {
+    "useWhen": [
+      "The user points at a folder of loose materials and asks for an inventory, an overview or a plan to organise it.",
+      "The user asks what is in a collection of downloaded, scanned or collected files and how it could be arranged."
+    ],
+    "nearMiss": [
+      "Moving, renaming, copying or deleting the materials.",
+      "Removing duplicates.",
+      "Summarising the content of one document in depth.",
+      "Reading a single attached file that belongs to no selected folder.",
+      "Sorting a mailbox or chat history rather than files.",
+      "Extracting tabular data into a spreadsheet."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "folder",
+      "required": true,
+      "description": "The folder to inventory: a path, or a folder the conversation identifies without contradiction."
+    },
+    {
+      "name": "organising-principle",
+      "required": false,
+      "description": "The user's intended arrangement, for example by topic, date, source, project or status."
+    },
+    {
+      "name": "include-or-exclude",
+      "required": false,
+      "description": "File types or subfolders to include or exclude from the inventory."
+    },
+    {
+      "name": "output-location",
+      "required": false,
+      "description": "Where the new index file is written. Without it, the index is returned in the conversation."
+    }
+  ],
+  "permissions": {
+    "read": [
+      "The selected folder's one-level directory listing.",
+      "The contents of the materials inside that folder, as far as they are readable."
+    ],
+    "write": [
+      "One new index file at a user-chosen location.",
+      "The conversation itself, when the user does not want a file."
+    ],
+    "overwritesExistingFiles": false,
+    "schedulesBackgroundWork": false,
+    "networkAccess": false,
+    "runsCommands": false,
+    "promptGrantsPermission": false
+  },
+  "outputs": [
+    {
+      "name": "materials index",
+      "location": "new-file",
+      "description": "A Markdown index with a summary, one row per material carrying its classification and the evidence used, a not-classified list with reasons, and a proposed naming and sorting plan explicitly marked as not applied."
+    }
+  ],
+  "successEvidence": [
+    "Every file in the folder appears exactly once, either classified or listed as not classified with a reason.",
+    "Each classification cites the material content it used rather than the file name alone.",
+    "The summary counts match the listing that was actually read.",
+    "The proposed plan is labelled as not applied and applying it is described as a separate user action.",
+    "The index states that no material was moved, renamed, rewritten or deleted."
+  ],
+  "failureBehaviour": [
+    {
+      "code": "missing_input",
+      "behaviour": "Ask which folder to inventory and produce no index for a guessed folder."
+    },
+    {
+      "code": "invalid_input",
+      "behaviour": "Report the exact path and why it cannot be used, then stop. Do not substitute a parent or sibling folder."
+    },
+    {
+      "code": "missing_tool",
+      "behaviour": "Say which capability is missing. With listing only, deliver a name-only index clearly labelled as such; with nothing readable, stop. Never present a guess as a classification."
+    },
+    {
+      "code": "interrupted_run",
+      "behaviour": "Report how far the listing got, mark the index partial and list the materials that were not reached."
+    },
+    {
+      "code": "repeat_invocation",
+      "behaviour": "Write a new index with a distinct name, state what changed since the previous index, and leave the earlier index and every material untouched."
+    }
+  ],
+  "capabilityRequirements": [
+    {
+      "capability": "filesystem.directory-listing",
+      "whenMissing": "report"
+    },
+    {
+      "capability": "filesystem.read",
+      "whenMissing": "degrade"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "contractVersion": 1,
+  "skill": "document-quality-check",
+  "trigger": {
+    "useWhen": [
+      "The user asks whether a selected document is ready, what is wrong with it, or for a review before sending it.",
+      "The user wants structure, consistency and completeness problems in one identified document reported with locations."
+    ],
+    "nearMiss": [
+      "Rewriting or fixing the document.",
+      "Shortening the document.",
+      "A narrow spelling or typo proofread.",
+      "Summarising the document's content.",
+      "Translating the document.",
+      "Reviewing source code.",
+      "Comparing two documents against each other."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "document",
+      "required": true,
+      "description": "The document under review: a path to a readable document, or text the user pasted as the review target."
+    },
+    {
+      "name": "audience",
+      "required": false,
+      "description": "The intended reader of the document, which changes what counts as a missing definition or a misleading claim."
+    },
+    {
+      "name": "purpose",
+      "required": false,
+      "description": "What the document is meant to achieve, used to judge completeness."
+    },
+    {
+      "name": "style-guide",
+      "required": false,
+      "description": "A house style guide or template the document should follow."
+    },
+    {
+      "name": "output-location",
+      "required": false,
+      "description": "Where the new report file is written. Without it, the report is returned in the conversation."
+    }
+  ],
+  "permissions": {
+    "read": ["The selected document only, plus reference files the user names explicitly."],
+    "write": [
+      "One new report file at a user-chosen location.",
+      "The conversation itself, when the user does not want a file."
+    ],
+    "overwritesExistingFiles": false,
+    "schedulesBackgroundWork": false,
+    "networkAccess": false,
+    "runsCommands": false,
+    "promptGrantsPermission": false
+  },
+  "outputs": [
+    {
+      "name": "document quality report",
+      "location": "new-file",
+      "description": "A Markdown report with severity definitions, findings grouped by structure, consistency and completeness, each carrying an exact location, a short quoted fragment and a reason, plus a readiness statement and a closing not-checked list."
+    }
+  ],
+  "successEvidence": [
+    "Every finding cites a location that can be found in the reviewed document and quotes only a short fragment.",
+    "Severity levels are defined in the report and applied consistently across findings.",
+    "Findings are grouped by dimension rather than presented as one unordered list.",
+    "The report states which dimensions were not checked and why, including visual layout and macro or formula behaviour.",
+    "The report states that the reviewed document was not modified."
+  ],
+  "failureBehaviour": [
+    {
+      "code": "missing_input",
+      "behaviour": "Ask which document to review and produce no report for a guessed document."
+    },
+    {
+      "code": "invalid_input",
+      "behaviour": "Report the exact path and why it cannot be reviewed, then stop. Do not substitute another file."
+    },
+    {
+      "code": "missing_tool",
+      "behaviour": "Say which text-extraction capability is missing and for which format. Report no findings rather than guessing from the file name; with partial text, mark the report partial and list the unread parts."
+    },
+    {
+      "code": "interrupted_run",
+      "behaviour": "Report the last completed dimension, mark the report partial and list what was not reviewed."
+    },
+    {
+      "code": "repeat_invocation",
+      "behaviour": "Produce a new report with a distinct name and state what changed since the previous review. Never overwrite the earlier report and never modify the document."
+    }
+  ],
+  "capabilityRequirements": [
+    {
+      "capability": "document.text-extraction",
+      "whenMissing": "report"
+    },
+    {
+      "capability": "filesystem.read",
+      "whenMissing": "report"
+    }
+  ]
+}

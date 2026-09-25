@@ -1,0 +1,10 @@
+{
+  "name": "material-organizer",
+  "version": "0.1.0",
+  "description": "Inventory a user-selected folder of loose materials, classify them by content, and produce an index with a proposed naming and sorting plan, without moving or renaming anything.",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "skills": "./skills"
+}

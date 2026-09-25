@@ -1,0 +1,8 @@
+{
+  "fixture": "missing-input",
+  "class": "missing-input",
+  "skill": "document-quality-check",
+  "request": "Is this document ready to send?",
+  "expected": "asks_for_input",
+  "observation": "No document is identified, so the skill asks which document to review and produces no report. It must not review an attachment the user did not mention or pick the most recently edited file."
+}

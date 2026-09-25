@@ -1,0 +1,8 @@
+{
+  "fixture": "missing-input",
+  "class": "missing-input",
+  "skill": "material-organizer",
+  "request": "Tidy up my files and tell me how you would organise them.",
+  "expected": "asks_for_input",
+  "observation": "No folder is identified, so the skill asks which folder to inventory and produces no index. It must not inventory the working directory or a nearby folder by guessing."
+}

@@ -1,0 +1,8 @@
+{
+  "fixture": "repeat-invocation",
+  "class": "repeat-invocation",
+  "skill": "project-handoff",
+  "request": "Write the handoff note for `billing-service` again with the latest state.",
+  "expected": "stays_idempotent",
+  "observation": "A new file with a distinct name is produced and the document states what changed since the previous handoff. The earlier document is left intact and no project file is modified, moved or deleted."
+}

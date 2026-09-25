@@ -1,0 +1,8 @@
+{
+  "fixture": "missing-input",
+  "class": "missing-input",
+  "skill": "project-handoff",
+  "request": "Write a handoff note for the project.",
+  "expected": "asks_for_input",
+  "observation": "No project is identifiable from the request or the conversation, so the skill asks which project to hand off and produces no document. It must not guess from the working directory or from recently edited files."
+}

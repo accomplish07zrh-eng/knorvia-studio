@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "skill": "project-handoff",
+  "trigger": {
+    "useWhen": [
+      "The user asks for a handoff, takeover note, onboarding summary or \"where do I continue\" document for a project they identify.",
+      "The user wants the current state of a named project, its unfinished work and the next steps written down for another person."
+    ],
+    "nearMiss": [
+      "Running, building, testing or linting the project.",
+      "Fixing a failing test, finishing a refactor or otherwise changing the project.",
+      "Reviewing a pull request and approving or rejecting it.",
+      "Explaining a single function or file.",
+      "Writing or editing the project's own README.",
+      "Summarising pasted text that belongs to no selected project."
+    ]
+  },
+  "inputs": [
+    {
+      "name": "project",
+      "required": true,
+      "description": "The local project to hand off: a directory path, or a single project the conversation already identifies without contradiction."
+    },
+    {
+      "name": "audience",
+      "required": false,
+      "description": "Who reads the handoff: a new maintainer, a reviewer or an on-call engineer."
+    },
+    {
+      "name": "output-location",
+      "required": false,
+      "description": "Where the new handoff file is written. Without it, the document is returned in the conversation."
+    }
+  ],
+  "permissions": {
+    "read": [
+      "The selected project's own files.",
+      "Read-only version-control state (log, status, diff) through the host tool layer and its normal approval."
+    ],
+    "write": [
+      "One new handoff file outside the project tree, or one new file at a user-chosen path.",
+      "The conversation itself, when the user does not want a file."
+    ],
+    "overwritesExistingFiles": false,
+    "schedulesBackgroundWork": false,
+    "networkAccess": false,
+    "runsCommands": true,
+    "commandPolicy": "read-only inspection only: version-control log, status and diff queries plus read-only file listing, always through the host tool layer under its normal approval. No build, test, install, package, migration or write command is run, even when the project documents one.",
+    "promptGrantsPermission": false
+  },
+  "outputs": [
+    {
+      "name": "project-handoff document",
+      "location": "new-file",
+      "description": "A Markdown document with purpose, entry points, documented run/test commands, current state, open threads, a next-step checklist, per-section sources and a closing not-verified list."
+    }
+  ],
+  "successEvidence": [
+    "Every factual section names the file path or read-only query it rests on.",
+    "Documented run and test commands are labelled as not executed, with the file that documents each one.",
+    "Each open thread is tied to a specific marker or state: an unchecked task, a TODO or FIXME location, or a dirty working state.",
+    "The document ends with an explicit list of what was not inspected.",
+    "No secret, key or large file body appears in the document."
+  ],
+  "failureBehaviour": [
+    {
+      "code": "missing_input",
+      "behaviour": "Ask which project to hand off. Produce no speculative document for a guessed project."
+    },
+    {
+      "code": "invalid_input",
+      "behaviour": "Report the exact path and why it cannot be used, then stop. Do not scan a parent directory for a substitute project."
+    },
+    {
+      "code": "missing_tool",
+      "behaviour": "Say which capability is missing (file reading or read-only version-control inspection) and mark the affected sections as not inspected, or stop when nothing could be read."
+    },
+    {
+      "code": "interrupted_run",
+      "behaviour": "Report the last completed step and the files already read, and mark the document partial. Never present it as complete."
+    },
+    {
+      "code": "repeat_invocation",
+      "behaviour": "Write a new file with a distinct name and state what changed since the previous handoff. Never overwrite the earlier document and never modify project files."
+    }
+  ],
+  "capabilityRequirements": [
+    {
+      "capability": "filesystem.read",
+      "whenMissing": "report"
+    },
+    {
+      "capability": "version-control.read-only",
+      "whenMissing": "degrade"
+    }
+  ]
+}

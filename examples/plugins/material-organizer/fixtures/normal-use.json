@@ -1,0 +1,8 @@
+{
+  "fixture": "normal-use",
+  "class": "normal-use",
+  "skill": "material-organizer",
+  "request": "Organise the loose materials in the `research-notes` folder: tell me what is in there and how you would arrange it.",
+  "expected": "triggers",
+  "observation": "The skill activates, lists the folder one level deep, classifies each readable material from its content, and writes one new index containing a not-classified list and a proposed plan marked as not applied."
+}

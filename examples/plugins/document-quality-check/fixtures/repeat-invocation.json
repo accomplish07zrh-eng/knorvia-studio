@@ -1,0 +1,8 @@
+{
+  "fixture": "repeat-invocation",
+  "class": "repeat-invocation",
+  "skill": "document-quality-check",
+  "request": "Check the quality of `q3-proposal` again after my latest edits.",
+  "expected": "stays_idempotent",
+  "observation": "A new report file with a distinct name is produced and the report states what changed since the previous review. The earlier report and the reviewed document are left untouched."
+}

@@ -1,0 +1,10 @@
+{
+  "name": "document-quality-check",
+  "version": "0.1.0",
+  "description": "Review a user-selected document for structure, consistency and completeness problems and write a severity-ranked report with exact locations and an explicit list of what was not checked.",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "skills": "./skills"
+}

@@ -1,0 +1,34 @@
+{
+  "compatibilityVersion": 1,
+  "plugin": "document-quality-check",
+  "components": {
+    "skills": "required",
+    "agents": "absent",
+    "commands": "absent",
+    "hooks": "absent",
+    "mcpServers": "absent",
+    "scripts": "absent"
+  },
+  "kernels": [
+    {
+      "kernel": "knorvia",
+      "status": "declared",
+      "reason": "Skill-only pack. The prose contract and skill-contract.json are validated statically; no enablement or execution was run in this kernel."
+    },
+    {
+      "kernel": "*",
+      "status": "unknown",
+      "reason": "No kernel beyond the Knorvia host was exercised, and text extraction for a given document format depends on the kernel and the tools available in that session."
+    }
+  ],
+  "requires": [
+    {
+      "capability": "skills.enabled-catalog",
+      "whenMissing": "report"
+    },
+    {
+      "capability": "document.text-extraction",
+      "whenMissing": "report"
+    }
+  ]
+}

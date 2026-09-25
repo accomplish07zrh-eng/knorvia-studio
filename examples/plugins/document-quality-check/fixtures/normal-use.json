@@ -1,0 +1,8 @@
+{
+  "fixture": "normal-use",
+  "class": "normal-use",
+  "skill": "document-quality-check",
+  "request": "Check the quality of the `q3-proposal` document before I send it to the customer.",
+  "expected": "triggers",
+  "observation": "The skill activates, reads the whole document read-only, and writes one new report with severity definitions, findings grouped by structure, consistency and completeness, an exact location per finding, and a closing not-checked list."
+}
