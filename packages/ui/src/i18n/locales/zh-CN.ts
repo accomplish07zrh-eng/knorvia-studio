@@ -16,7 +16,8 @@ const zhCN: Record<string, string> = {
   "settings.materials.reading": "阅读区域底色",
   "settings.materials.readingHint": "让输入框、菜单和卡片的底色更实。",
   "settings.materials.retained": "系统会柔化窗口后方的画面。关闭玻璃效果后，调整仍会保留。",
-  "settings.materials.fallback": "当前环境不支持系统磨砂；仍可使用背景图片。关闭后保留调整，系统减少透明度的设置优先。",
+  "settings.materials.fallback":
+    "当前环境不支持系统磨砂；仍可使用背景图片。关闭后保留调整，系统减少透明度的设置优先。",
   "settings.materials.reset": "重置玻璃效果",
   "settings.materials.background": "背景图片",
   "settings.materials.backgroundDescription": "上传或拖入图片。切换页面时，背景也会保留。",
@@ -329,7 +330,8 @@ const zhCN: Record<string, string> = {
     "项目“{projectName}”会从侧边栏移除，但不会删除磁盘上的文件。",
   "settings.onboarding": "引导",
   "settings.releaseUpdate.title": "更新提醒",
-  "settings.releaseUpdate.description": "仅查询发布信息，不会自动下载或安装。关闭后不发送检查请求。",
+  "settings.releaseUpdate.description":
+    "仅查询发布信息，不会自动下载或安装。关闭后不发送检查请求。",
   "settings.releaseUpdate.source": "发布信息地址",
   "settings.releaseUpdate.sourceDescription": "填写无需登录的 HTTPS JSON 地址；留空则不联网。",
   "settings.releaseUpdate.save": "保存",
@@ -1507,6 +1509,7 @@ const zhCN: Record<string, string> = {
   "settings.memory.workspaceMemory": "工作区记忆",
   "settings.memoryDescription":
     "在工作区中保存并复用长期上下文，新会话生效。开启后可能增加模型调用和 Token 成本。",
+  "settings.memory.viewer.disabled": "启用工作区记忆后，即可查看已保存的记忆。",
   "settings.memory.viewer.localOnly":
     "记忆详情仅支持在本地桌面端查看，请前往本地桌面端的“记忆”设置。",
   "settings.memory.viewer.title": "已保存的工作区记忆",
@@ -3138,7 +3141,8 @@ const zhCN: Record<string, string> = {
   "onboarding.welcome.eyebrow": "首次启动设置",
   "onboarding.welcome.title": "欢迎使用 Knorvia Studio",
   "studio.firstRun.title": "开始使用 Knorvia Studio",
-  "studio.firstRun.description": "选择一种接入方式。你可以稍后在设置中更改；这里不会登录或发送消息。",
+  "studio.firstRun.description":
+    "选择一种接入方式。你可以稍后在设置中更改；这里不会登录或发送消息。",
   "studio.firstRun.provider": "连接模型供应商",
   "studio.firstRun.providerHint": "打开现有模型设置，选择供应商并自行填写配置。",
   "studio.firstRun.cli": "使用本机 CLI",
@@ -3152,7 +3156,8 @@ const zhCN: Record<string, string> = {
   "studio.firstRun.saveFailed": "保存选择失败，请重试。",
   "studio.firstRun.close": "关闭",
   "settings.localDiagnostics.title": "导出诊断信息",
-  "settings.localDiagnostics.description": "预览版本、系统、内核探测结果与最近三天脱敏日志，再手动保存到本机；不会自动上报。",
+  "settings.localDiagnostics.description":
+    "预览版本、系统、内核探测结果与最近三天脱敏日志，再手动保存到本机；不会自动上报。",
   "settings.localDiagnostics.preview": "预览诊断信息",
   "settings.localDiagnostics.preparing": "正在整理…",
   "settings.localDiagnostics.export": "导出这份诊断包",
