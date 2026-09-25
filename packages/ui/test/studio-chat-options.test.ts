@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { StudioChatSelection, StudioKernelOptions } from "@knorvia/services";
+import type {
+  StudioChatSelection,
+  StudioKernelId,
+  StudioKernelOptions,
+  StudioKernelStatus,
+} from "@knorvia/services";
 import { createStudioAgentStore, type StudioAgentStorage } from "../src/store/studioAgentStore.js";
 import {
   isStudioChatSelection,
@@ -13,6 +18,10 @@ import {
   STUDIO_CLI_DEFAULT_VALUE,
 } from "../src/studio/agents/chatSelections.js";
 import { submitStudioChat } from "../src/studio/agents/chatSubmission.js";
+
+/** 传统形状的可用状态（无分层证据时沿用旧字段语义）：发送前校验只需要它不是「不可用」。 */
+const usableKernel = (kernel: StudioKernelId) =>
+  ({ id: kernel, installed: true, origin: "external" }) as StudioKernelStatus;
 
 function memory(initial: string | null = null) {
   let raw = initial;
@@ -250,6 +259,9 @@ test("send freezes the exact model and reasoning before asynchronous creation", 
     workspacePath: "D:/p",
     text: "run this",
     selection,
+    permission: "ask" as const,
+    kernelName: "Codex",
+    status: usableKernel("codex"),
   };
   const pending = submitStudioChat(input, async (command) => {
     calls.push(command);
@@ -275,7 +287,16 @@ test("an explicit empty selection reaches the backend; failed sends are not retr
   const calls: unknown[] = [];
   await assert.rejects(
     submitStudioChat(
-      { sessionId: "s", kernel: "grok-build", workspacePath: "D:/p", text: "hello", selection: {} },
+      {
+        sessionId: "s",
+        kernel: "grok-build",
+        workspacePath: "D:/p",
+        text: "hello",
+        selection: {},
+        permission: "ask",
+        kernelName: "Grok Build",
+        status: usableKernel("grok-build"),
+      },
       async (command) => {
         calls.push(command);
         if (command.type === "send") throw new Error("ambiguous delivery");
@@ -303,6 +324,9 @@ test("conversation creation failure never submits a model turn", async () => {
         workspacePath: "D:/p",
         text: "hello",
         selection: { model: "model-a" },
+        permission: "ask",
+        kernelName: "Claude Code",
+        status: usableKernel("claude-code"),
       },
       async () => {
         count += 1;

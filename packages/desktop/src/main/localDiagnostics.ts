@@ -6,11 +6,13 @@ import { pipeline } from "node:stream/promises";
 import { ZipFile } from "yazl";
 import { getExportLogDir, getExportLogStageDir } from "@knorvia/services/node";
 import {
+  LOCAL_DIAGNOSTIC_PROBE_STAGES,
   localDiagnosticRequestSchema,
   redactDiagnosticText,
   type LocalDiagnosticExportResult,
   type LocalDiagnosticPreview,
   type LocalDiagnosticPreviewFile,
+  type LocalDiagnosticProbe,
   type LocalDiagnosticRequest,
 } from "@knorvia/shared";
 import { createAboutSnapshot, readBuildMetadata } from "./about.js";
@@ -69,6 +71,46 @@ function systemSummary(): string {
     .join("\n");
 }
 
+/**
+ * 阶段原因由宿主生成，可能内嵌可执行文件路径；旧字段从不导出任何路径，
+ * 新增阶段字段必须维持同一规则：先过凭据脱敏，再把路径形状归一为 `[path]`。
+ */
+const DIAGNOSTIC_PATH_LIKE =
+  /(?:[A-Za-z]:\\[^\s"']*)|(?:\\\\[^\s"']+)|(?:~\/[^\s"']*)|(?:\/(?:[^\s"'/]+\/)+[^\s"'/]*)/g;
+
+function redactDiagnosticStageText(value: string): string {
+  return redactDiagnosticText(value).replace(DIAGNOSTIC_PATH_LIKE, "[path]");
+}
+
+/**
+ * 阶段信息是用户显式勾选的 opt-in 字段：只保留状态、机器代码、人读原因与耗时，
+ * 原因与代码都过同一套脱敏规则；可执行路径、环境与凭据永不进入诊断包。
+ */
+function safeProbeProjection(probe: LocalDiagnosticProbe): LocalDiagnosticProbe {
+  const stages = Object.fromEntries(
+    LOCAL_DIAGNOSTIC_PROBE_STAGES.map((stage) => {
+      const result = probe.stages[stage];
+      return [
+        stage,
+        {
+          status: result.status,
+          ...(result.code ? { code: redactDiagnosticStageText(result.code) } : {}),
+          ...(result.reason
+            ? { reason: redactDiagnosticStageText(result.reason).slice(0, 240) }
+            : {}),
+          ms: result.ms,
+        },
+      ];
+    }),
+  ) as LocalDiagnosticProbe["stages"];
+  return {
+    stages,
+    durationMs: probe.durationMs,
+    probedAt: probe.probedAt,
+    ...(probe.cached ? { cached: true } : {}),
+  };
+}
+
 function safeKernelProjection(input: LocalDiagnosticRequest): LocalDiagnosticRequest {
   return {
     inspection: input.inspection,
@@ -78,6 +120,7 @@ function safeKernelProjection(input: LocalDiagnosticRequest): LocalDiagnosticReq
       installed: kernel.installed,
       ...(kernel.version ? { version: redactDiagnosticText(kernel.version) } : {}),
       origin: kernel.origin,
+      ...(kernel.probe ? { probe: safeProbeProjection(kernel.probe) } : {}),
     })),
   };
 }

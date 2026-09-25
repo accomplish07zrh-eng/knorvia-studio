@@ -3198,6 +3198,9 @@ const zhCN: Record<string, string> = {
   "settings.localDiagnostics.frozenAt": "快照时间",
   "settings.localDiagnostics.files": "个文件",
   "settings.localDiagnostics.truncated": "这里只显示开头摘要；导出包包含该文件的完整脱敏内容。",
+  "settings.localDiagnostics.includeProbe": "包含内核分层探测阶段",
+  "settings.localDiagnostics.includeProbeHint":
+    "附带每段的状态、机器代码、原因与耗时。路径、环境变量与凭据不会被导出；不勾选时只导出旧的安装/版本字段。",
   "onboarding.welcome.start": "开始使用 Knorvia Studio",
   "onboarding.welcome.migrate": "数据迁移向导",
   "onboarding.welcome.helper": "可立即导入旧工具设置，或先跳过，稍后在设置中继续迁移。",

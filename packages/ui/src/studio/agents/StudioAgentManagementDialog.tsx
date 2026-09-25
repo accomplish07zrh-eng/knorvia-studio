@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
+import { StudioAgentProbeDetails } from "./StudioAgentProbeDetails.js";
 
 export type StudioManagementAction = "install" | "update" | "uninstall" | "update-existing";
 
@@ -21,7 +22,7 @@ export function StudioAgentManagementDialog({
   error,
   notice,
   onAction,
-  onRefresh,
+  onReprobe,
   onClose,
 }: {
   name: string;
@@ -31,7 +32,8 @@ export function StudioAgentManagementDialog({
   error?: string;
   notice?: string;
   onAction: (action: StudioManagementAction) => void;
-  onRefresh: () => void;
+  /** 必须走跳过协议缓存的重探路径，界面显示本次真实结果。 */
+  onReprobe: () => void;
   onClose: () => void;
 }) {
   const { intl } = useKnorviaIntl();
@@ -61,6 +63,7 @@ export function StudioAgentManagementDialog({
             {status.executablePath}
           </p>
         ) : null}
+        <StudioAgentProbeDetails status={status} cliName={name} />
         <div className="space-y-4">
           {existing ? (
             <div className="space-y-2">
@@ -126,9 +129,9 @@ export function StudioAgentManagementDialog({
           ) : null}
         </div>
         <DialogFooter className="sm:justify-between">
-          <Button type="button" variant="ghost" disabled={busy} onClick={onRefresh}>
+          <Button type="button" variant="ghost" disabled={busy} onClick={onReprobe}>
             <RefreshCw />
-            {intl.formatMessage({ id: "studio.agents.inspect" })}
+            {intl.formatMessage({ id: "studio.agents.reprobe" })}
           </Button>
           <Button type="button" variant="outline" disabled={busy} onClick={onClose}>
             {intl.formatMessage({ id: "studio.agents.managementClose" })}

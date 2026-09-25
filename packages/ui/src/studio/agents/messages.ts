@@ -1,4 +1,7 @@
+import { agentProbeEnUS, agentProbeZhCN } from "./probeMessages.js";
+
 export const agentsZhCN = {
+  ...agentProbeZhCN,
   "studio.agents.title": "Agent 管理",
   "studio.agents.description": "自动发现本机已有的 CLI Agent，也可连接自定义 ACP 内核。",
   "studio.agents.sharedResources":
@@ -154,6 +157,7 @@ export const agentsZhCN = {
 } as const;
 
 export const agentsEnUS: Record<keyof typeof agentsZhCN, string> = {
+  ...agentProbeEnUS,
   "studio.agents.title": "Agent management",
   "studio.agents.description":
     "Discover local CLI agents automatically, or connect a custom ACP adapter.",

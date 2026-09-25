@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { StudioConversation } from "@knorvia/services";
+import type { StudioConversation, StudioKernelId, StudioKernelStatus } from "@knorvia/services";
 import { createStudioAgentStore } from "../src/store/studioAgentStore.js";
 import { studioConversationList } from "../src/studio/agents/conversationList.js";
 import { editedStudioAgentConfig } from "../src/studio/agents/agentConfig.js";
 import { submitStudioChat } from "../src/studio/agents/chatSubmission.js";
+
+/** 传统形状的可用状态（无分层证据时沿用旧字段语义）：发送前校验只需要它不是「不可用」。 */
+const usableKernel = (kernel: StudioKernelId) =>
+  ({ id: kernel, installed: true, origin: "external" }) as StudioKernelStatus;
 
 const memory = () => {
   let raw: string | null = null;
@@ -39,6 +43,9 @@ test("late send acknowledgement after navigating away cannot erase a newly typed
       workspacePath: "D:/project",
       text: "original submission",
       selection: {},
+      permission: "ask",
+      kernelName: "Codex",
+      status: usableKernel("codex"),
     },
     async (command) => {
       if (command.type === "send") await gate;
@@ -79,6 +86,9 @@ test("failed admission retains the pending message without an acknowledgement", 
         workspacePath: "D:/project",
         text: "retain me",
         selection: {},
+        permission: "ask",
+        kernelName: "Codex",
+        status: usableKernel("codex"),
       },
       async () => {
         throw new Error("offline");

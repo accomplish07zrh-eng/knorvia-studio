@@ -24,6 +24,9 @@ import { useStudioRuntime } from "../runtime/useStudioRuntime.js";
 import { StudioTimeline } from "../runtime/StudioTimeline.js";
 import { resolveStudioChatSelection } from "./chatSelections.js";
 import { submitStudioChat } from "./chatSubmission.js";
+import { StudioSendRefusalError, type StudioSendRefusal } from "./kernelSendGate.js";
+import { studioAuthHint } from "./kernelProbeView.js";
+import { StudioSendRefusalNotice } from "./StudioSendRefusalNotice.js";
 import { StudioChatModelControls, StudioChatOptionsNotice } from "./StudioChatModelControls.js";
 import { useStudioChatOptions } from "./useStudioChatOptions.js";
 import { useStudioKernelCatalog } from "./useStudioKernelCatalog.js";
@@ -61,21 +64,23 @@ export function StudioExternalChat({
   const [stopping, setStopping] = useState(false);
   const mounted = useRef(true);
   const [error, setError] = useState("");
+  const [refusal, setRefusal] = useState<StudioSendRefusal | null>(null);
   const draft = storedDraft?.kernelId === kernelId ? storedDraft : undefined;
   const conversation = runtime.overview?.conversations.find(
     (item) => item.id === sessionId && item.kernel === kernelId,
   );
-  const { statuses } = useStudioKernelCatalog();
+  const { statuses, reprobe } = useStudioKernelCatalog();
   const remote = kernelId.startsWith("ssh:");
-  const remoteStatus = statuses.find((item) => item.id === kernelId);
-  const remoteOnline = !remote || Boolean(remoteStatus?.installed);
+  const status = statuses.find((item) => item.id === kernelId);
+  const remoteOnline = !remote || Boolean(status?.installed);
   const text = draft?.text ?? "";
   const textTooLong = text.length > STUDIO_DRAFT_TEXT_LIMIT;
   const workspacePath =
     conversation?.workspacePath ??
-    (remote ? remoteStatus?.remoteWorkspacePath : draft?.workspacePath) ??
+    (remote ? status?.remoteWorkspacePath : draft?.workspacePath) ??
     "";
   const kernel = studioKernelOption(kernelId, statuses);
+  const authHint = studioAuthHint(status, kernel.name);
   const config = runtime.overview?.configs[kernelId];
   const permission = config?.permission ?? "ask";
   const selection = resolveStudioChatSelection(draft?.selection, conversation?.selection, config);
@@ -116,15 +121,28 @@ export function StudioExternalChat({
     submissionInFlight.current = true;
     setSubmitting(true);
     setError("");
+    setRefusal(null);
     try {
+      // 发送前用当前内核的真实能力校验；被拒时不会发出任何命令，也不会改写模型或权限。
       await submitStudioChat(
-        { sessionId, kernel: kernelId, workspacePath, text: value, selection },
+        {
+          sessionId,
+          kernel: kernelId,
+          workspacePath,
+          text: value,
+          selection,
+          permission,
+          status,
+          kernelName: kernel.name,
+        },
         runtime.command,
       );
       reportStudioFirstMessageAccepted();
       acknowledgeDraft(sessionId, kernelId, value);
     } catch (error) {
-      if (mounted.current) setError(error instanceof Error ? error.message : String(error));
+      if (error instanceof StudioSendRefusalError) {
+        if (mounted.current) setRefusal(error.refusal);
+      } else if (mounted.current) setError(error instanceof Error ? error.message : String(error));
     } finally {
       submissionInFlight.current = false;
       if (mounted.current) setSubmitting(false);
@@ -159,7 +177,7 @@ export function StudioExternalChat({
               title={workspacePath}
             >
               {remote
-                ? `SSH · ${remoteStatus?.remoteEnvironmentLabel ?? "离线"} · ${workspacePath}`
+                ? `SSH · ${status?.remoteEnvironmentLabel ?? "离线"} · ${workspacePath}`
                 : workspacePath}
             </p>
           ) : (
@@ -289,6 +307,18 @@ export function StudioExternalChat({
         selection={selection}
         onRetry={modelOptions.retry}
       />
+      {refusal ? (
+        <StudioSendRefusalNotice
+          refusal={refusal}
+          authHint={authHint}
+          cliName={kernel.name}
+          canReprobe={Boolean(runtime.service)}
+          onReprobe={() => {
+            setRefusal(null);
+            void reprobe();
+          }}
+        />
+      ) : null}
       {(!runtime.ready ||
         !remoteOnline ||
         !workspacePath ||

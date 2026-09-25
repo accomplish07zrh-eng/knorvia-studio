@@ -1,20 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-import { Cloud, RefreshCw, SlidersHorizontal } from "lucide-react";
+import { Cloud, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button.js";
 import { useConfirmDialog } from "@/hooks/useConfirmDialog.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioAgentStore } from "@/store/studioAgentStore.js";
 import { useStudioRuntime } from "../runtime/useStudioRuntime.js";
-import { studioKernelOption, studioKernelOptions, studioManagesKernel } from "../types.js";
+import {
+  studioKernelOption,
+  studioKernelOptions,
+  studioManagesKernel,
+  type StudioKernelId,
+} from "../types.js";
 import { isExternalKernel, type StudioExternalKernelId } from "./agentDrafts.js";
 import { StudioAgentConfigDialog } from "./StudioAgentConfigDialog.js";
 import {
   StudioAgentManagementDialog,
   type StudioManagementAction,
 } from "./StudioAgentManagementDialog.js";
-import { StudioAgentStatusDetails } from "./StudioAgentStatusDetails.js";
 import { StudioAgentStorageNotice } from "./StudioAgentStorageNotice.js";
-import { StudioKernelIcon } from "./StudioKernelIcon.js";
+import { StudioKernelCard } from "./StudioKernelCard.js";
 import { useStudioKernelCatalog } from "./useStudioKernelCatalog.js";
 
 const errorMessage = (error: unknown) => (error instanceof Error ? error.message : String(error));
@@ -37,6 +41,7 @@ export function StudioAgentsSection({
     inspected,
     error: inspectionError,
     refresh: inspect,
+    reprobe,
   } = useStudioKernelCatalog();
   const kernels = studioKernelOptions(statuses);
   const [editing, setEditing] = useState<StudioExternalKernelId | null>(null);
@@ -53,6 +58,7 @@ export function StudioAgentsSection({
   const managementError = management && management.service === service ? management.error : "";
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [reprovingKernel, setReprovingKernel] = useState<StudioKernelId | null>(null);
   const mounted = useRef(false);
   const operation = useRef(false);
   useEffect(() => {
@@ -124,7 +130,8 @@ export function StudioAgentsSection({
       operation.current = false;
       if (mounted.current) {
         setBusy(null);
-        void inspect();
+        // 管理动作会改动安装副本或版本：必须绕过缓存重新探测。
+        void reprobe();
       }
     }
   };
@@ -184,83 +191,48 @@ export function StudioAgentsSection({
           const config = runtime.overview?.configs[kernel.id];
           const status = statuses.find((candidate) => candidate.id === kernel.id);
           const managing = busy?.kernel === kernel.id;
+          const externalId = isExternalKernel(kernel.id) ? kernel.id : undefined;
+          const manageableId =
+            externalId && !externalId.startsWith("ssh:") ? externalId : undefined;
           return (
-            <article
+            <StudioKernelCard
               key={kernel.id}
-              className="rounded-xl border border-card-border bg-card p-4"
-              aria-busy={managing}
-            >
-              <div className="flex min-w-0 flex-wrap items-start gap-3">
-                <StudioKernelIcon kernelId={kernel.id} className="size-8" />
-                <div className="min-w-0 flex-1 basis-36">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-ui-base font-medium text-foreground">{kernel.name}</h3>
-                    <span className="rounded-md bg-surface px-1.5 py-0.5 text-ui-xs text-foreground-subtle">
-                      {status?.remoteWorkspacePath && !status.installed
-                        ? locale.startsWith("zh")
-                          ? "SSH 离线"
-                          : "SSH offline"
-                        : intl.formatMessage({
-                            id: status
-                              ? status.installed
-                                ? kernel.builtin
-                                  ? "studio.agents.builtin"
-                                  : "studio.agents.detected"
-                                : "studio.agents.notInstalled"
-                              : inspected
-                                ? "studio.agents.notInstalled"
-                                : "studio.agents.unchecked",
-                          })}
-                    </span>
-                  </div>
-                  <p className="mt-0.5 text-ui-sm text-foreground-subtle">
-                    {kernel.vendor}
-                    {status?.version ? " · " + status.version : ""}
-                  </p>
-                </div>
-                {kernel.builtin ? (
-                  onOpenModels ? (
-                    <Button variant="outline" onClick={onOpenModels}>
-                      {intl.formatMessage({ id: "studio.agents.models" })}
-                    </Button>
-                  ) : null
-                ) : (
-                  <Button
-                    variant="outline"
-                    disabled={!ready || Boolean(busy)}
-                    onClick={() => {
-                      if (isExternalKernel(kernel.id)) {
+              kernel={kernel}
+              status={status}
+              config={config ?? defaultConfig}
+              inspected={inspected}
+              managing={managing}
+              reprobing={reprovingKernel === kernel.id}
+              busy={!ready || Boolean(busy)}
+              onConfigure={
+                kernel.builtin
+                  ? onOpenModels
+                  : externalId
+                    ? () => {
                         setSaved(false);
-                        setEditing(kernel.id);
+                        setEditing(externalId);
                       }
-                    }}
-                  >
-                    <SlidersHorizontal />
-                    {intl.formatMessage({ id: "studio.agents.configure" })}
-                  </Button>
-                )}
-              </div>
-              <p className="mt-3 text-ui-sm leading-5 text-foreground-subtle">
-                {intl.formatMessage({
-                  id: status?.remoteWorkspacePath
-                    ? "studio.agents.externalDescription"
-                    : kernel.builtin
-                      ? "studio.agents.builtinDescription"
-                      : "studio.agents.externalDescription",
-                })}
-              </p>
-              {status?.remoteWorkspacePath ? (
-                <p className="mt-1 break-all text-ui-sm text-foreground-subtle">
-                  SSH · {status.remoteEnvironmentLabel} · {status.remoteWorkspacePath}
-                </p>
-              ) : null}
-              <StudioAgentStatusDetails status={status} config={config ?? defaultConfig} />
-              {kernel.id === "antigravity" ? (
-                <p className="mt-2 text-ui-sm leading-5 text-foreground-subtle">
-                  {intl.formatMessage({ id: "studio.agents.antigravityNote" })}
-                </p>
-              ) : null}
-            </article>
+                    : undefined
+              }
+              onManage={
+                manageableId
+                  ? () => {
+                      setError("");
+                      setNotice("");
+                      setManagementKernel(manageableId);
+                    }
+                  : undefined
+              }
+              onReprobe={() => {
+                setError("");
+                setNotice("");
+                setReprovingKernel(kernel.id);
+                runtime.refresh();
+                void reprobe().finally(() => {
+                  if (mounted.current) setReprovingKernel(null);
+                });
+              }}
+            />
           );
         })}
       </div>
@@ -294,6 +266,8 @@ export function StudioAgentsSection({
             setEditing(null);
             setSaved(true);
             runtime.refresh();
+            // 选择/更换程序后必须显式重探：路径变了就不能沿用旧的协议结论。
+            void reprobe();
           }}
         />
       ) : null}
@@ -309,10 +283,10 @@ export function StudioAgentsSection({
           error={error || (management?.kernel === managementKernel ? managementError : "")}
           notice={notice}
           onAction={(action) => void manage(managementKernel, action)}
-          onRefresh={() => {
+          onReprobe={() => {
             setNotice("");
             runtime.refresh();
-            void inspect();
+            void reprobe();
           }}
           onClose={() => setManagementKernel(null)}
         />

@@ -110,6 +110,49 @@ test("a synchronous inspection failure is reported without leaving the catalog c
   assert.equal(catalog.getSnapshot().error, "CLI probe unavailable");
 });
 
+test("re-probe uses the explicit refresh path while a plain refresh reuses the cache", async () => {
+  const calls: Array<{ refresh?: boolean } | undefined> = [];
+  const catalog = new StudioKernelCatalog({
+    inspectKernels: (options?: { refresh?: boolean }) => {
+      calls.push(options);
+      return Promise.resolve([detected("codex")]);
+    },
+  });
+  await catalog.refresh();
+  await catalog.reprobe();
+  assert.deepEqual(calls, [undefined, { refresh: true }]);
+  assert.equal(catalog.getSnapshot().inspected, true);
+  assert.equal(catalog.getSnapshot().reprobing, false);
+  assert.equal(catalog.getSnapshot().checking, false);
+});
+
+test("a re-probe requested during an inspection reruns after it with the cache bypassed", async () => {
+  const calls: Array<{ refresh?: boolean } | undefined> = [];
+  let release: ((value: StudioKernelStatus[]) => void) | undefined;
+  const catalog = new StudioKernelCatalog({
+    inspectKernels: (options?: { refresh?: boolean }) => {
+      calls.push(options);
+      if (calls.length === 1)
+        return new Promise<StudioKernelStatus[]>((resolve) => {
+          release = resolve;
+        });
+      return Promise.resolve([detected("codex")]);
+    },
+  });
+  const off = catalog.subscribe(() => {});
+  await Promise.resolve();
+  assert.equal(catalog.getSnapshot().reprobing, false);
+  const pending = catalog.reprobe();
+  assert.equal(catalog.getSnapshot().reprobing, true);
+  release?.([detected("codex")]);
+  await pending;
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.deepEqual(calls, [undefined, { refresh: true }]);
+  assert.equal(catalog.getSnapshot().reprobing, false);
+  off();
+});
+
 test("a custom kernel keeps its isolated draft and model choice after reopen", () => {
   let raw: string | null = null;
   const storage = {

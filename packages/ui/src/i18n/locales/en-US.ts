@@ -3394,6 +3394,9 @@ const enUS: Record<string, string> = {
   "settings.localDiagnostics.files": "files",
   "settings.localDiagnostics.truncated":
     "Only the beginning is shown here. The export contains the full redacted file.",
+  "settings.localDiagnostics.includeProbe": "Include layered kernel probe stages",
+  "settings.localDiagnostics.includeProbeHint":
+    "Adds each stage's status, machine code, reason and duration. Paths, environment variables and credentials are never exported; without this, only the legacy install/version fields are included.",
   "onboarding.welcome.start": "Start Knorvia Studio",
   "onboarding.welcome.migrate": "Migration Guide",
   "onboarding.welcome.helper":

@@ -161,12 +161,14 @@ export type {
 export { redactDiagnosticText, redactDiagnosticValue } from "./diagnosticSecrets.js";
 export type { ReleaseUpdateCheckResult } from "./releaseUpdate.js";
 export { validReleaseInfoUrl } from "./releaseUpdate.js";
-export { localDiagnosticRequestSchema } from "./localDiagnostics.js";
+export { localDiagnosticRequestSchema, LOCAL_DIAGNOSTIC_PROBE_STAGES } from "./localDiagnostics.js";
 export type {
   LocalDiagnosticRequest,
   LocalDiagnosticPreview,
   LocalDiagnosticPreviewFile,
   LocalDiagnosticExportResult,
+  LocalDiagnosticProbe,
+  LocalDiagnosticProbeStage,
 } from "./localDiagnostics.js";
 export {
   TELEMETRY_SAFE_BUILTIN_MODEL_IDS,

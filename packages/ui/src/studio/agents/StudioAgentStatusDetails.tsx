@@ -1,14 +1,19 @@
 import type { StudioKernelConfig, StudioKernelStatus } from "@knorvia/services";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
+import { studioCapabilityRows } from "./kernelProbeView.js";
+import { StudioAgentProbeDetails } from "./StudioAgentProbeDetails.js";
 
 export function StudioAgentStatusDetails({
   status,
   config,
+  name,
 }: {
   status?: StudioKernelStatus;
   config?: StudioKernelConfig;
+  name?: string;
 }) {
   const { intl } = useKnorviaIntl();
+  const capabilities = studioCapabilityRows(status);
   return (
     <div className="mt-3 space-y-2 border-t border-border pt-3">
       <div className="flex flex-wrap items-start justify-between gap-2 text-ui-sm text-foreground-subtle">
@@ -31,25 +36,33 @@ export function StudioAgentStatusDetails({
           {config.reasoningEffort ? ` · ${config.reasoningEffort}` : ""}
         </p>
       ) : null}
+      <StudioAgentProbeDetails status={status} cliName={name ?? status?.displayName ?? ""} />
       {status?.installed ? (
         <div className="space-y-1">
           <div
             className="flex flex-wrap gap-x-4 gap-y-1 text-ui-xs text-foreground-subtle"
             aria-label={intl.formatMessage({ id: "studio.agents.capabilities" })}
           >
-            {(["resume", "approval", "questions", "readOnly", "fullAccess"] as const).map(
-              (capability) => (
-                <span key={capability}>
-                  {intl.formatMessage({ id: `studio.agents.capability.${capability}` })} ·{" "}
-                  {intl.formatMessage({
-                    id: status.capabilities[capability]
-                      ? "studio.agents.supported"
-                      : "studio.agents.unsupported",
-                  })}
+            {capabilities.map((row) => (
+              <span key={row.capability}>
+                {intl.formatMessage({ id: row.capabilityKey })} ·{" "}
+                {intl.formatMessage({
+                  id: row.supported ? "studio.agents.supported" : "studio.agents.unsupported",
+                })}{" "}
+                <span className="text-foreground-subtle">
+                  ({intl.formatMessage({ id: row.evidenceKey })})
                 </span>
-              ),
-            )}
+              </span>
+            ))}
           </div>
+          {capabilities.some((row) => row.evidenceState === "unverified") ? (
+            <p className="text-ui-xs leading-5 text-foreground-subtle">
+              {intl.formatMessage(
+                { id: "studio.agents.capabilitiesUnverified" },
+                { version: status.version ?? "" },
+              )}
+            </p>
+          ) : null}
           {!status.capabilities.fullAccess && status.capabilities.approval ? (
             <p className="text-ui-xs leading-5 text-foreground-subtle">
               {intl.formatMessage({ id: "studio.agents.capabilityScope" })}

@@ -4,6 +4,7 @@ import type {
   StudioKernelAnswer,
   StudioKernelConfig,
   StudioKernelId,
+  StudioKernelInspectOptions,
   StudioKernelStatus,
   StudioKernelOptions,
   StudioChatSelection,
@@ -80,7 +81,8 @@ export interface IStudioRuntimeService {
   overview(): Promise<StudioOverview>;
   timeline(targetId: string, before?: number): Promise<StudioTimeline>;
   command(command: StudioCommand): Promise<StudioCommandResult>;
-  inspectKernels(): Promise<StudioKernelStatus[]>;
+  // 可选探测选项：refresh 表示用户显式要求重新探测，必须绕过探测缓存。
+  inspectKernels(options?: StudioKernelInspectOptions): Promise<StudioKernelStatus[]>;
   kernelOptions(params: {
     kernel: StudioKernelId;
     workspacePath?: string;

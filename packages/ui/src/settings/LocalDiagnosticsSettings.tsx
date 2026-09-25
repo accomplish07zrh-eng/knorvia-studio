@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button.js";
 import { usePlatform } from "@/hooks/usePlatform.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { SettingsGroupCard, SettingsRow } from "@/settings/SettingsPageParts.js";
+import { studioProbeDiagnosticFields } from "@/studio/agents/kernelProbeView.js";
 import { useStudioKernelCatalog } from "@/studio/agents/useStudioKernelCatalog.js";
 import { studioKernelOption } from "@/studio/types.js";
 import type { LocalDiagnosticPreview, LocalDiagnosticRequest } from "@knorvia/shared";
@@ -16,6 +17,8 @@ export function LocalDiagnosticsSettings() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(false);
   const [exportedPath, setExportedPath] = useState("");
+  // 阶段信息（状态/机器代码/原因/耗时）是 opt-in 的，默认不导出。
+  const [includeProbe, setIncludeProbe] = useState(false);
 
   const prepare = async () => {
     if (!platform.previewLocalDiagnostics || busy) return;
@@ -28,13 +31,17 @@ export function LocalDiagnosticsSettings() {
         kernels: statuses
           .filter((status) => !status.id.startsWith("ssh:"))
           .slice(0, 64)
-          .map((status) => ({
-            id: status.id,
-            name: studioKernelOption(status.id, statuses).name.slice(0, 120),
-            installed: status.installed,
-            ...(status.version ? { version: status.version.slice(0, 80) } : {}),
-            origin: status.origin,
-          })),
+          .map((status) => {
+            const probe = includeProbe ? studioProbeDiagnosticFields(status.probe) : undefined;
+            return {
+              id: status.id,
+              name: studioKernelOption(status.id, statuses).name.slice(0, 120),
+              installed: status.installed,
+              ...(status.version ? { version: status.version.slice(0, 80) } : {}),
+              origin: status.origin,
+              ...(probe ? { probe } : {}),
+            };
+          }),
       };
       setPreview(await platform.previewLocalDiagnostics(request));
     } catch {
@@ -78,6 +85,23 @@ export function LocalDiagnosticsSettings() {
           </Button>
         }
       />
+      <label
+        className="flex items-start gap-2 px-4 pb-3 text-ui-sm text-foreground-subtle"
+        htmlFor="local-diagnostics-include-probe"
+      >
+        <input
+          id="local-diagnostics-include-probe"
+          type="checkbox"
+          className="mt-0.5"
+          checked={includeProbe}
+          disabled={busy}
+          onChange={(event) => setIncludeProbe(event.target.checked)}
+        />
+        <span>
+          {t("includeProbe")}
+          <span className="block text-ui-xs leading-5">{t("includeProbeHint")}</span>
+        </span>
+      </label>
       {error ? (
         <p role="alert" className="px-4 pb-3 text-ui-sm text-destructive">
           {t("error")}

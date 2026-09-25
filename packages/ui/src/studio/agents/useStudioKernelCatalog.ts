@@ -34,5 +34,7 @@ export function useStudioKernelCatalog() {
   return {
     ...useSyncExternalStore(catalog.subscribe, catalog.getSnapshot, catalog.getSnapshot),
     refresh: catalog.refresh,
+    /** 用户主动重探：跳过协议缓存，界面据此显示本次真实结果。 */
+    reprobe: catalog.reprobe,
   };
 }

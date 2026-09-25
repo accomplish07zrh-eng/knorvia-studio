@@ -1,6 +1,6 @@
 import type { IStudioRuntimeService, StudioCommand, StudioCommandResult } from "../contract.js";
 import type { Event } from "@knorvia/rpc";
-import type { StudioKernelId } from "../kernelTypes.js";
+import type { StudioKernelId, StudioKernelInspectOptions } from "../kernelTypes.js";
 import type { ICreationService } from "../../creation/contract.js";
 import {
   activeRunStates,
@@ -70,8 +70,10 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     this.changed();
     return result;
   }
-  inspectKernels() {
-    return this.lifecycle.run(() => inspectStudioKernels(this.deps));
+  // 把探测选项透传到应用层：UI 的“重新探测”必须能绕过探测缓存，
+  // 否则缓存里的协议结果会被当成刚完成的新握手显示。
+  inspectKernels(options?: StudioKernelInspectOptions) {
+    return this.lifecycle.run(() => inspectStudioKernels(this.deps, options));
   }
   async kernelOptions(params: { kernel: StudioKernelId; workspacePath?: string; model?: string }) {
     return this.lifecycle.run(async () => {
