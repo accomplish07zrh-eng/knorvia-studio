@@ -1,0 +1,246 @@
+{
+  "record": "T10 evidence-based desktop startup and long-task performance",
+  "measuredAt": "2026-09-25T13:06:05.464Z",
+  "conditions": {
+    "repoHead": "c763651bd14fe7b71ab947b0415036cd5b39b007",
+    "version": "0.8.0-preview.2",
+    "machine": "AMD Ryzen 9 7845HX (24 logical cores)",
+    "memoryBytes": 33521250304,
+    "memoryGiB": 31.2,
+    "os": "Windows 11 build 26200",
+    "node": "v26.3.0",
+    "nodeNote": "mise.toml pins node 24.14.0 but mise is not installed on this machine; all numbers here were produced with the system Node v26.3.0 and are NOT directly comparable to the earlier record made with Node 24.14.0",
+    "pnpm": "10.33.2",
+    "chrome": "154.0.8037.57 (local, headless)",
+    "scrollFixture": "packages/web/perf-studio-timeline.html with 10,000 synthetic messages, viewport 1440x900, in-browser only (not a persisted history)",
+    "desktopBuild": {
+      "path": "D:\\tools\\knorvia-studio\\packages\\desktop\\dist\\win-unpacked\\Knorvia Studio.exe",
+      "builtFromCommit": "48894e8",
+      "note": "NOT rebuilt in this task; HEAD is c763651, so the packaged bytes are older than the source tree and no main/renderer source change made here is reflected in these numbers",
+      "env": "KNORVIA_ENV=production, app.isPackaged=true, launched through Playwright _electron"
+    },
+    "desktopData": "isolated temp profile via KNORVIA_PORTABLE_DIR (data root <temp>/data); fresh directory for the cold sample, same directory reused for warm samples",
+    "coldWarmSplit": "1 cold + 2 warm comparable samples per run; the ready-to-send sample is a separate later launch because it writes the onboarding record",
+    "samples": {
+      "scroll": 6,
+      "desktopCold": 4,
+      "desktopWarm": 6,
+      "runHistory": "2 before, 2 after (1 run per variant)"
+    }
+  },
+  "commands": [
+    "node scripts/perf-baseline.mjs",
+    "node scripts/perf-baseline.mjs --run-history",
+    "node scripts/perf-baseline.mjs --executable \"D:\\tools\\knorvia-studio\\packages\\desktop\\dist\\win-unpacked\\Knorvia Studio.exe\" --portable-dir \"D:\\tools\\knorvia-studio\\packages\\desktop\\dist\\win-unpacked\" --desktop-samples 3",
+    "node scripts/perf-baseline.mjs --run-history --executable \"...\\Knorvia Studio.exe\" --portable-dir \"...\\win-unpacked\" --desktop-samples 3"
+  ],
+  "scrollSamples": [
+    {
+      "run": "scroll-1",
+      "frameIntervalP50Ms": 6.8,
+      "frameIntervalP95Ms": 23.3,
+      "slowFramesOver33Ms": 0,
+      "rafCallbacksPerSecond": 102.7,
+      "maxMountedRows": 20,
+      "offscreenAppendShiftPx": 0,
+      "prependAnchorShiftPx": 0
+    },
+    {
+      "run": "scroll-2",
+      "frameIntervalP50Ms": 9.8,
+      "frameIntervalP95Ms": 26.7,
+      "slowFramesOver33Ms": 1,
+      "rafCallbacksPerSecond": 91.8,
+      "maxMountedRows": 20,
+      "offscreenAppendShiftPx": 0,
+      "prependAnchorShiftPx": 0
+    },
+    {
+      "run": "scroll-3",
+      "frameIntervalP50Ms": 9.9,
+      "frameIntervalP95Ms": 23.3,
+      "slowFramesOver33Ms": 0,
+      "rafCallbacksPerSecond": 95.7,
+      "maxMountedRows": 20,
+      "offscreenAppendShiftPx": 0,
+      "prependAnchorShiftPx": 0
+    },
+    {
+      "run": "before-full",
+      "frameIntervalP50Ms": 9.9,
+      "frameIntervalP95Ms": 23.4,
+      "slowFramesOver33Ms": 1,
+      "rafCallbacksPerSecond": 91.3,
+      "maxMountedRows": 20,
+      "offscreenAppendShiftPx": 0,
+      "prependAnchorShiftPx": 0
+    },
+    {
+      "run": "after-desktop",
+      "frameIntervalP50Ms": 10.0,
+      "frameIntervalP95Ms": 23.4,
+      "slowFramesOver33Ms": 2,
+      "rafCallbacksPerSecond": 90.9,
+      "maxMountedRows": 20,
+      "offscreenAppendShiftPx": 0,
+      "prependAnchorShiftPx": 0
+    },
+    {
+      "run": "final",
+      "frameIntervalP50Ms": 9.9,
+      "frameIntervalP95Ms": 20.1,
+      "slowFramesOver33Ms": 0,
+      "rafCallbacksPerSecond": 102.7,
+      "maxMountedRows": 20,
+      "offscreenAppendShiftPx": 0,
+      "prependAnchorShiftPx": 0
+    }
+  ],
+  "scrollDispersion": {
+    "frameIntervalP50Ms": { "min": 6.8, "max": 10.0 },
+    "frameIntervalP95Ms": { "min": 20.1, "max": 26.7 },
+    "slowFramesOver33Ms": { "min": 0, "max": 2 },
+    "maxMountedRows": 20,
+    "offscreenAppendShiftPx": 0,
+    "prependAnchorShiftPx": 0,
+    "note": "rafCallbacksPerSecond is headless requestAnimationFrame throughput, not physical display FPS"
+  },
+  "runHistory": {
+    "fixture": "real StudioRunHistory component imported by the perf script into the existing Vite/Chrome perf page; 100 synthetic runs x 8 steps, non-compact panel (= group details / workflow history pane)",
+    "before": {
+      "codeState": "committed pre-change behaviour (renders every run)",
+      "samples": [
+        {
+          "recordedFrom": "actual pre-change source",
+          "mountMs": 471.1,
+          "renderedRuns": 100,
+          "stepRows": 800,
+          "domNodes": 3613,
+          "contentHeightPx": 40908,
+          "showOlderControls": 0,
+          "updateMs": null,
+          "updateMsNote": "metric was invalid in this run (waited for any mutation), not used"
+        },
+        {
+          "recordedFrom": "same script, window temporarily widened to 1000 runs (equivalent to pre-change rendering)",
+          "mountMs": 442.2,
+          "renderedRuns": 100,
+          "stepRows": 800,
+          "domNodes": 3613,
+          "contentHeightPx": 40908,
+          "showOlderControls": 0,
+          "updateMs": 236.3,
+          "updatedRuns": 101
+        }
+      ]
+    },
+    "after": {
+      "codeState": "bounded window of 20 runs plus an explicit \"Show older runs\" control",
+      "samples": [
+        {
+          "mountMs": 249.2,
+          "renderedRuns": 20,
+          "stepRows": 160,
+          "domNodes": 726,
+          "contentHeightPx": 8260,
+          "showOlderControls": 1,
+          "updateMs": 142.0,
+          "updatedRuns": 20,
+          "expandedRuns": 101,
+          "expandedStepRows": 808
+        },
+        {
+          "mountMs": 234.7,
+          "renderedRuns": 20,
+          "stepRows": 160,
+          "domNodes": 726,
+          "contentHeightPx": 8260,
+          "showOlderControls": 1,
+          "updateMs": 131.9,
+          "updatedRuns": 20,
+          "expandedRuns": 101,
+          "expandedStepRows": 808
+        }
+      ]
+    },
+    "measuredEffect": {
+      "mountMs": "442.2 -> 234.7..249.2 (-44% .. -47%)",
+      "updateMs": "236.3 -> 131.9..142.0 (-40% .. -44%)",
+      "stepRowsMounted": "800 -> 160 (-80%)",
+      "domNodes": "3613 -> 726 (-80%)",
+      "contentHeightPx": "40908 -> 8260 (-80%)",
+      "historyReachability": "after clicking \"Show older runs\" until it disappears, 101/101 runs and 808/808 step rows are mounted (nothing lost)"
+    }
+  },
+  "desktop": {
+    "portableDirectory": {
+      "path": "D:\\tools\\knorvia-studio\\packages\\desktop\\dist\\win-unpacked",
+      "bytes": 660144096,
+      "files": 118,
+      "excludes": ["data/"]
+    },
+    "coldSamples": [
+      { "run": "desktop-1", "firstInteractiveMs": 6413, "phases": null },
+      { "run": "before-full", "firstInteractiveMs": 6430, "phases": null },
+      { "run": "after-desktop", "firstInteractiveMs": 6135, "phasesRecordedBelow": true },
+      { "run": "final", "firstInteractiveMs": 5904, "phasesRecordedBelow": true }
+    ],
+    "coldStartToOnboardingMs": { "min": 5904, "max": 6430, "medianApprox": 6170 },
+    "warmSamples": [6627, 6276, 5900, 5946, 6113, 6002],
+    "warmFirstInteractiveMs": { "min": 5900, "max": 6627 },
+    "coldVsWarm": "no difference beyond run-to-run dispersion (+/- ~5%); the dominant cost repeats on every launch, so it is not first-run schema creation",
+    "targetUnder3s": "NOT met (measured 5.90-6.43 s cold)",
+    "finalSamplePhasesFromProcessCreateMs": {
+      "processToMainModuleMs": 817,
+      "mainModuleToAppReadyMs": 73,
+      "appReadyToWindowLoadMs": 339,
+      "windowLoadToRendererStartMs": 803,
+      "rendererStartToFirstCommitMs": 20,
+      "firstCommitToHostSpawnMs": 4,
+      "hostSpawnToFirstInteractiveMs": 3843,
+      "sumMs": 5899,
+      "launcherAttachOverlapMs": 982,
+      "launcherAttachNote": "time until Playwright returned the Electron main process handle; overlaps with main-module evaluation and is measurement overhead, not user-visible startup"
+    },
+    "finalSampleHostStartupFromProcessCreateMs": {
+      "domReady": 2046,
+      "hostFork": 2056,
+      "hostServicesInit": 5478,
+      "hostServicesReady": 5722,
+      "firstInteractive": 5899,
+      "databaseStartupDurationMs": 2843,
+      "databaseStartupStatus": "ready",
+      "source": "the application's own production log (<profile>/data/.knorvia-studio/v2/logs/<date>.log); host lines are relayed to the main process, so timestamps are receive times (~ms relay offset)"
+    },
+    "idleProcessTree": {
+      "processCount": 7,
+      "summedWorkingSetMiB": 1159.9,
+      "privateCommitMiB": 1144.8
+    },
+    "idleProcessTreeRange": {
+      "summedWorkingSetMiB": [1152.1, 1172.6],
+      "privateCommitMiB": [1137.9, 1151.9]
+    },
+    "readyToSend": {
+      "firstInteractiveMs": 5978,
+      "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+      "readyToSendMsAfterOnboarding": 1513,
+      "readyToSendMsFromLauncherStart": 7491,
+      "readyToSendSelector": "[data-testid=\"v4-composer-input\"]",
+      "note": "the isolated profile completes onboarding (3 skips) and dismisses the first-run guide before the composer is measured, so this number includes scripted interaction time and is not a pure launch phase"
+    }
+  },
+  "logCheck": {
+    "coldStartLogBytes": 17761,
+    "coldStartLogLines": 98,
+    "debugLevelLines": 0,
+    "rpcCallLines": 11,
+    "sensitiveContent": "none observed: workspace paths under the isolated temp profile, provider registry revision hashes, channel registration and RPC timing only",
+    "finding": "packages/rpc/src/logging-middleware.ts logs every RPC call and every event subscription at info; only agent.backgroundBashOutputV4 OK is demoted to debug in packages/desktop/src/host/rpcLogLevel.ts. Not a raw stream dump, but a per-call growth vector in long sessions. Out of this task's write scope; reported, not changed."
+  },
+  "notInvestigated": [
+    "kernel/CLI probe cost: no local CLI kernel was detected on this machine (host log: \"Knorvia agent binary path: <not found>\", providerCount 0), and kernel probing is renderer-driven after first paint; the ~20 s ACP handshake noted in packages/services/src/studio-runtime/adapters/kernels/README.md could not be reproduced here",
+    "the dominant host-side cost (storage preparation: 2.84-3.05 s per launch) is owned by packages/desktop/src/host/* and packages/services storage sessions, outside this task's write scope",
+    "real model / CLI / SSH send latency, real persisted 10,000-message history memory, installer wizard, human visual review, physical display frame rate"
+  ]
+}

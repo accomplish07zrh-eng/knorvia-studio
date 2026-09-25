@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { studioRestartDisplay, type StudioRunStepOutcome } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import {
@@ -13,6 +13,12 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioRuntime } from "./useStudioRuntime.js";
 import { studioRunStepLabel } from "./studioRunStepLabel.js";
 import { StudioRunHistoryActions, studioReviewApplying } from "./studioRunHistoryActions.js";
+import {
+  STUDIO_RUN_HISTORY_ACTIVE_STATES,
+  STUDIO_RUN_HISTORY_COMPACT_WINDOW,
+  STUDIO_RUN_HISTORY_WINDOW,
+  studioRunHistoryWindow,
+} from "./studioRunHistoryWindow.js";
 import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
 
@@ -64,6 +70,23 @@ export function StudioRunHistory({
       };
   const runs = runtime.timeline?.runs ?? [];
   useEffect(() => actions.observeRuns(runs), [actions, runs]);
+  // 展开页数按 targetId 记账：切换目标时自动回到首屏窗口，不用额外 effect 复位。
+  const [olderState, setOlderState] = useState({ targetId, pages: 0 });
+  const olderPages = olderState.targetId === targetId ? olderState.pages : 0;
+  // compact 沿用既有“只看最近 3 条”，不引入分页；完整面板按窗口渲染并固定必须可见的运行。
+  const historyWindow = studioRunHistoryWindow({
+    runs,
+    initial: compact ? STUDIO_RUN_HISTORY_COMPACT_WINDOW : STUDIO_RUN_HISTORY_WINDOW,
+    extra: compact ? 0 : olderPages * STUDIO_RUN_HISTORY_WINDOW,
+    pinned: compact
+      ? []
+      : [
+          ...runs
+            .filter((run) => STUDIO_RUN_HISTORY_ACTIVE_STATES.includes(run.state))
+            .map((run) => run.id),
+          review?.run.id,
+        ],
+  });
   const reviewStep = review?.run.outcome?.steps.find((item) => item.stepId === review.stepId);
   const reviewChanges = review?.changes ?? [];
   // 重启后显示：验收记录 + 本次复核读取到的冲突（等价于"当前哈希 ≠ 已接受哈希"）。
@@ -77,7 +100,7 @@ export function StudioRunHistory({
     : null;
   return (
     <div className="space-y-2 p-2 text-ui-sm">
-      {(compact ? runs.slice(0, 3) : runs).map((run) => (
+      {historyWindow.visible.map((run) => (
         <details
           key={run.id}
           data-studio-run-history={run.id}
@@ -206,6 +229,18 @@ export function StudioRunHistory({
           })}
         </details>
       ))}
+      {!compact && historyWindow.hiddenCount > 0 && (
+        <Button
+          size="sm"
+          variant="outline"
+          data-testid="studio-run-history-older"
+          onClick={() => setOlderState({ targetId, pages: olderPages + 1 })}
+        >
+          {zh
+            ? `显示更早运行（还有 ${historyWindow.hiddenCount} 条）`
+            : `Show older runs (${historyWindow.hiddenCount} left)`}
+        </Button>
+      )}
       {!runs.length && !compact && (
         <p className="px-3 py-8 text-center text-foreground-subtle">
           {zh ? "暂无运行记录" : "No runs yet"}
