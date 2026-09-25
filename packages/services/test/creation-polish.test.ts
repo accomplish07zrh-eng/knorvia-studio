@@ -4,7 +4,11 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createCreationService } from "../src/creation/creationService.js";
-import { creationReferenceSlots, type CreationJob } from "../src/creation/contract.js";
+import {
+  creationReferenceSlots,
+  type CreationJob,
+  type CreationJobStatus,
+} from "../src/creation/contract.js";
 
 const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 const first = Buffer.from([...pngHeader, 1]);
@@ -20,17 +24,160 @@ const credentials = () => ({
   save: async () => {},
   delete: async () => {},
 });
-async function terminal(
-  service: ReturnType<typeof createCreationService>,
-  id: string,
-): Promise<CreationJob> {
-  for (let i = 0; i < 100; i++) {
-    const job = await service.getJob(id);
-    if (job && !["queued", "running"].includes(job.status)) return job;
-    await new Promise((resolve) => setTimeout(resolve, 10));
-  }
-  throw new Error("fixture did not settle");
+/**
+ * 轮询预算与修复前保持一致（100 次 × 10ms ≈ 1000ms）。
+ * 依据本规格 R3：不得用放大超时的办法掩盖未解决的状态推进问题，超时必须给出诊断。
+ */
+export const TERMINAL_BUDGET_MS = 1000;
+export const TERMINAL_POLL_MS = 10;
+const ACTIVE_STATUSES: readonly CreationJobStatus[] = ["queued", "running"];
+
+export interface TerminalClassification {
+  /** 结果语义分类；用于区分“结果明确失败”“结果未知”“用户取消”。 */
+  kind: "definite failure" | "unknown result" | "user cancel" | "succeeded" | "still pending";
+  /** 是否允许一键重试；unknown result 与 user cancel 一律禁止自动重试。 */
+  retry: "allowed" | "forbidden";
 }
+
+/** 纯函数：把最后观察到的状态映射为结果语义，避免用单一重试策略覆盖三种不同语义。 */
+export function classifyTerminalStatus(
+  status: CreationJobStatus | undefined,
+): TerminalClassification {
+  switch (status) {
+    case "failed":
+      return { kind: "definite failure", retry: "allowed" };
+    case "interrupted":
+      return { kind: "unknown result", retry: "forbidden" };
+    case "cancelled":
+      return { kind: "user cancel", retry: "forbidden" };
+    case "succeeded":
+      return { kind: "succeeded", retry: "forbidden" };
+    default:
+      return { kind: "still pending", retry: "forbidden" };
+  }
+}
+
+/**
+ * 纯函数：构造超时诊断。必须携带 taskId、最后观察到的状态、观察到的状态事件与结果分类，
+ * 因为旧实现只抛一句 "fixture did not settle"，在 CI 上无法判断是记录缺失、仍在排队还是结果未知。
+ */
+export function terminalTimeoutDiagnostic(
+  taskId: string,
+  lastStatus: CreationJobStatus | undefined,
+  events: readonly string[],
+  budgetMs: number,
+): string {
+  const classification = classifyTerminalStatus(lastStatus);
+  return [
+    `fixture did not settle：任务 ${taskId} 在 ${budgetMs}ms 轮询预算内未进入终态。`,
+    `最后观察到的状态：${
+      lastStatus ?? "从未读到任务记录（job 未持久化，或 rootDir 与创建时不一致）"
+    }`,
+    `结果分类：${classification.kind}（一键重试：${classification.retry === "allowed" ? "允许" : "禁止"}）`,
+    `观察到的状态事件：${events.length > 0 ? events.join(" → ") : "无"}`,
+    "语义对照：definite failure=结果明确失败；unknown result=结果未知，可能仍在运行或已计费；user cancel=用户取消。",
+  ].join("\n");
+}
+
+async function terminal(
+  service: Pick<ReturnType<typeof createCreationService>, "getJob">,
+  id: string,
+  options: { budgetMs?: number; pollMs?: number } = {},
+): Promise<CreationJob> {
+  const budgetMs = options.budgetMs ?? TERMINAL_BUDGET_MS;
+  const pollMs = options.pollMs ?? TERMINAL_POLL_MS;
+  const events: string[] = [];
+  let lastStatus: CreationJobStatus | undefined;
+  const startedAt = Date.now();
+  for (;;) {
+    const job = await service.getJob(id);
+    if (job && job.status !== lastStatus) {
+      // 只记录状态变化：轮询会重复读到同一状态，逐次记录会让诊断失去可读性。
+      lastStatus = job.status;
+      events.push(`${job.status}@${Date.now() - startedAt}ms`);
+    }
+    if (job && !ACTIVE_STATUSES.includes(job.status)) return job;
+    if (Date.now() - startedAt >= budgetMs) break;
+    await new Promise((resolve) => setTimeout(resolve, pollMs));
+  }
+  throw new Error(terminalTimeoutDiagnostic(id, lastStatus, events, budgetMs));
+}
+
+test("terminal timeout reports taskId, last status, observed events and result classification", async () => {
+  // 预算保持 1000ms：这是“诚实的预算”，不得通过增大数值来掩盖未解决的状态推进问题。
+  assert.equal(TERMINAL_BUDGET_MS, 1000);
+  assert.equal(TERMINAL_POLL_MS, 10);
+
+  // 三类结果语义必须可区分，且 unknown result / user cancel 禁止自动重试。
+  assert.deepEqual(classifyTerminalStatus("failed"), {
+    kind: "definite failure",
+    retry: "allowed",
+  });
+  assert.deepEqual(classifyTerminalStatus("interrupted"), {
+    kind: "unknown result",
+    retry: "forbidden",
+  });
+  assert.deepEqual(classifyTerminalStatus("cancelled"), {
+    kind: "user cancel",
+    retry: "forbidden",
+  });
+
+  // 诊断文本本身必须包含 taskId、最后状态、状态事件与分类。
+  const diagnostic = terminalTimeoutDiagnostic(
+    "job-42",
+    "interrupted",
+    ["queued@0ms", "running@12ms", "interrupted@530ms"],
+    1000,
+  );
+  assert.match(diagnostic, /job-42/u);
+  assert.match(diagnostic, /interrupted/u);
+  assert.match(diagnostic, /queued@0ms → running@12ms → interrupted@530ms/u);
+  assert.match(diagnostic, /unknown result/u);
+  assert.match(diagnostic, /禁止/u);
+
+  // 从未读到记录与“一直处于 running”必须给出不同诊断，而不是同一句笼统失败。
+  const missing = terminalTimeoutDiagnostic("job-missing", undefined, [], 1000);
+  assert.match(missing, /job-missing/u);
+  assert.match(missing, /从未读到任务记录/u);
+  assert.match(missing, /still pending/u);
+  const running = terminalTimeoutDiagnostic("job-running", "running", ["running@0ms"], 1000);
+  assert.match(running, /still pending/u);
+  assert.notEqual(missing, running);
+
+  // 真实超时路径：状态一直推进不到终态时，抛出的错误必须携带同一套诊断内容。
+  let queued = true;
+  const stuck = {
+    getJob: async (id: string): Promise<CreationJob> => {
+      const status: CreationJobStatus = queued ? "queued" : "running";
+      queued = false;
+      return {
+        id,
+        requestId: id,
+        kind: "image",
+        modelId: "model",
+        prompt: "Clip",
+        status,
+        createdAt: new Date(0).toISOString(),
+        updatedAt: new Date(0).toISOString(),
+        outputs: [],
+      };
+    },
+  };
+  await assert.rejects(terminal(stuck, "job-stuck", { budgetMs: 30, pollMs: 1 }), (error) => {
+    assert.match(String(error), /job-stuck/u);
+    assert.match(String(error), /最后观察到的状态：queued|最后观察到的状态：running/u);
+    // 事件序列为 状态@已用毫秒；毫秒值取决于调度，不断言具体数值。
+    assert.match(String(error), /观察到的状态事件：queued@\d+ms → running@\d+ms/u);
+    assert.match(String(error), /still pending/u);
+    return true;
+  });
+
+  // 记录缺失路径：getJob 始终返回 null。
+  await assert.rejects(
+    terminal({ getJob: async () => null }, "job-absent", { budgetMs: 5, pollMs: 1 }),
+    /job-absent[\s\S]*从未读到任务记录/u,
+  );
+});
 
 test("reference controls follow each model's explicit placeholders", () => {
   assert.deepEqual(
