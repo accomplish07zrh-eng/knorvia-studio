@@ -1,7 +1,7 @@
 import type { StudioExecutionPort } from "./ports.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import { createHash } from "node:crypto";
-import { readCreationReference } from "../../creation/creationReference.js";
+import { readCreationReference } from "../../creation/node.js";
 import type {
   StudioGroupDefinition,
   StudioStepResult,

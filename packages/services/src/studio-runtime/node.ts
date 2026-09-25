@@ -13,8 +13,11 @@ import type { ISkillsService } from "../skills/skills.js";
 import type { IMcpSyncService } from "../mcp-sync/mcpSync.js";
 import type { IPluginManagementService } from "../plugins/pluginManagement.js";
 import type { ICreationService } from "../creation/contract.js";
-import type { CreationAgentBridge } from "../creation/creationAgentBridge.js";
+import type { CreationAgentBridge } from "./adapters/creationAgentBridge.js";
 import type { RemoteStudioEnvironment } from "./adapters/kernels/remoteKernelBridge.js";
+
+export { createCreationAgentBridge } from "./adapters/creationAgentBridge.js";
+export type { CreationAgentBridge };
 
 const logger = createServiceLogger("studio-runtime");
 
