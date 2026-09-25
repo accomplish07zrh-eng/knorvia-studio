@@ -58,7 +58,10 @@ async function fixture(t: TestContext, adapter: StudioKernelAdapter) {
 }
 type Fixture = Awaited<ReturnType<typeof fixture>>;
 async function until(f: Fixture, check: () => boolean | Promise<boolean>) {
-  const end = Date.now() + 5000;
+  // Studio SQLite 使用 synchronous=FULL，每个事务都要落盘：Linux 上本文件的用例约 40 ms，
+  // Windows CI 通常约 1 s，磁盘繁忙时曾超过 5 s 期限（整例 17.6 s，失败点之前的步骤同样变慢）。
+  // 期限只是等待上限，不改变判定条件；放宽到 30 s 以覆盖慢速 Windows runner。
+  const end = Date.now() + 30_000;
   while (true) {
     f.service.tick();
     if (await check()) return;
