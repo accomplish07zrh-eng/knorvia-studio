@@ -135,7 +135,30 @@ INFO 持久化文件：.knorvia-studio\cli\rollout\model-io-sess_<id>.jsonl, .kn
 
 对照任务书 T13 第 2 步点名的交互：**发送 ✓、审批 ✓、停止 ✓、历史 ✓**（重开后仍在），差异审阅 ✗（原因见下）。
 
-实现要点（都是实测踩出来的）：夹具只在**携带工具定义**的请求上回工具调用（无工具的标题/摘要调用必须回纯文本）；权限选项是 `role=option` + `data-permission-option-kind`，首次点击只选中、需再点确认按钮；工具结果只回一次收尾文本，否则历史里残留的 `tool_call_id` 会让后续请求误判；停止场景需要夹具只发响应头、不写任何数据，再用 `response.on("close")` 判定应用是否真的中止了在途连接。
+### 便携模式复跑（验收真正交付给用户的产物）
+
+同一条验收路径也能直接跑在**打了便携标记**的包上：`node scripts/t13-desktop-acceptance.mjs "<包>/Knorvia Studio.exe" --portable`。此模式不注入 `KNORVIA_DATA_BASE_DIR`，数据根必须由便携标记决定（程序旁的 `data`），否则验的就不是用户实际走的路径。
+
+做法：把交付的便携目录整份复制到临时目录、清空 `data`，再跑一次。真实结果：
+
+```text
+[t13] portable mode, data root: D:\tools.cache\knorvia-portable-acceptance\data
+PASS 选择内核/供应商与模型：打包界面保存成功，且未产生任何请求
+PASS 真实发送：消息经真实运行时发出，只到达回环夹具
+PASS 参数/权限检查：写文件的工具调用触发权限门禁、脚本显式批准后才继续
+PASS 真实工具执行：夹具的 Write 调用经真实运行时执行并落盘（t13-probe.txt，hello from t13）
+PASS 会话继续：第二轮消息同样只到达回环夹具并收到回复
+PASS 停止：停止按钮中止了在途请求，停止控件随之收回
+PASS 会话与配置写入本地数据根
+PASS 重开核对：引导不再出现，上一轮消息与回复仍在本地存储，供应商配置仍在
+```
+
+复核落地位置：复制出来的便携目录 `data` 下确实生成了 176 个文件，含
+`.knorvia-studio/v2/provider_config.json`、`.knorvia-studio/studio/studio.sqlite` 与
+`.knorvia-studio/workspace/default/t13-probe.txt`（内容 `hello from t13`），
+即**数据确实落在程序旁的 `data`**，符合便携包约定；桌面上的真实便携目录 `data` 仍为 431 个文件、未被触碰。
+
+实现要点（都是实测踩出来的）：夹具只在**携带工具定义**的请求上回工具调用（无工具的标题/摘要调用必须回纯文本）；权限选项是 `role=option` + `data-permission-option-kind`，首次点击只选中、需再点确认按钮；工具结果只回一次收尾文本，否则历史里残留的 `tool_call_id` 会让后续请求误判；停止场景需要夹具只发响应头、不写任何数据，再用 `response.on("close")` 判定应用是否真的中止了在途连接；便携模式复跑必须**先复制再清空 `data`**，否则会命中已有数据的「引导已完成」状态而跳过首启流程。
 
 **仍未覆盖**：真实项目上的隔离工作区**差异审阅与用户接纳**——写文件的落点是应用默认工作区（在隔离数据根内，安全），没有真实项目基线，因此没有可审阅的差异；真实模型、真实 CLI/ACP 内核、付费服务也未调用。
 

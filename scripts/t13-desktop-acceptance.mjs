@@ -7,10 +7,12 @@
 //       → 关闭应用 → 用同一数据根重开 → 核对会话与配置仍在。
 // 明确不覆盖（脚本会打印）：真实项目上的隔离工作区差异审阅与用户接纳、真实模型/付费调用。
 //
-// 用法：node scripts/t13-desktop-acceptance.mjs <未打便携标记的 win-unpacked/Knorvia Studio.exe>
-// 未打标记的包有两种来源：安装包构建（不设 KNORVIA_PORTABLE_BUILD），
+// 用法：node scripts/t13-desktop-acceptance.mjs <win-unpacked/Knorvia Studio.exe> [--portable]
+// 未打便携标记的包有两种来源：安装包构建（不设 KNORVIA_PORTABLE_BUILD），
 // 或把便携构建复制到临时目录后删除 resources/knorvia-portable.json。
-// 说明：只允许 127.0.0.1 回环地址，不访问任何真实服务；使用独立的临时数据根，结束后删除。
+// 加 --portable 时改用**打了便携标记**的包，数据根为 <exe 所在目录>/data，
+// 用于验收真正交付给用户的便携产物（建议先复制到临时目录再跑）。
+// 说明：只允许 127.0.0.1 回环地址，不访问任何真实服务；非便携模式使用独立临时数据根，结束后删除。
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
@@ -19,20 +21,32 @@ import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve, sep } from "node:path";
 import { _electron } from "playwright-core";
 
+const portableMode = process.argv.includes("--portable");
 const executable = resolve(process.argv[2] ?? "");
-if (
-  !existsSync(executable) ||
-  existsSync(join(dirname(executable), "resources", "knorvia-portable.json"))
-) {
-  throw new Error("Use an existing unmarked Windows package for the desktop acceptance run");
+const hasPortableMarker = existsSync(
+  join(dirname(executable), "resources", "knorvia-portable.json"),
+);
+if (!existsSync(executable) || hasPortableMarker !== portableMode) {
+  throw new Error(
+    portableMode
+      ? "Use a marked portable package for --portable runs"
+      : "Use an existing unmarked Windows package for the desktop acceptance run",
+  );
 }
 
-const root = await mkdtemp(join(tmpdir(), "knorvia-t13-acceptance-"));
-if (
-  dirname(resolve(root)) !== resolve(tmpdir()) ||
-  !/^knorvia-t13-acceptance-[\w-]+$/.test(basename(root))
-) {
-  throw new Error(`Unexpected acceptance directory: ${root}`);
+// 非便携模式：临时数据根；便携模式：数据落在程序旁的 data 目录（与真实用户一致）。
+let root = portableMode ? join(dirname(executable), "data") : "";
+if (portableMode) {
+  if (!existsSync(root)) throw new Error(`Portable data directory missing: ${root}`);
+  console.log(`[t13] portable mode, data root: ${root}`);
+} else {
+  root = await mkdtemp(join(tmpdir(), "knorvia-t13-acceptance-"));
+  if (
+    dirname(resolve(root)) !== resolve(tmpdir()) ||
+    !/^knorvia-t13-acceptance-[\w-]+$/.test(basename(root))
+  ) {
+    throw new Error(`Unexpected acceptance directory: ${root}`);
+  }
 }
 
 const requests = [];
@@ -185,7 +199,13 @@ async function listFiles(root) {
 async function launch() {
   return _electron.launch({
     executablePath: executable,
-    env: { ...process.env, KNORVIA_ENV: "production", KNORVIA_DATA_BASE_DIR: root },
+    // 便携模式不注入 KNORVIA_DATA_BASE_DIR：数据根必须由便携标记决定（程序旁的 data），
+    // 否则验的就不是真正交付给用户的那条路径。
+    env: {
+      ...process.env,
+      KNORVIA_ENV: "production",
+      ...(portableMode ? {} : { KNORVIA_DATA_BASE_DIR: root }),
+    },
     timeout: 90_000,
   });
 }
@@ -351,10 +371,13 @@ try {
 
   console.log(results.join("\n"));
   console.log(
+    `数据根：${root}${portableMode ? "（便携包自带的 data，未删除）" : "（临时目录，结束后删除）"}`,
+  );
+  console.log(
     "未覆盖（本脚本不声称）：真实项目上的隔离工作区差异审阅与用户接纳、真实模型或付费调用。",
   );
 } finally {
   if (app) await app.close();
   await new Promise((resolveServer) => server.close(resolveServer));
-  await rm(root, { recursive: true, force: true });
+  if (!portableMode) await rm(root, { recursive: true, force: true });
 }
