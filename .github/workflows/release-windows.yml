@@ -1,0 +1,73 @@
+name: Release Windows portable
+
+# 手动触发：在 Windows runner 上构建便携版，打包为 zip 并发布到 GitHub Release。
+# Release 标签取根 package.json 的版本（v<version>），含 preview 的版本标为预发布。
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-windows
+  cancel-in-progress: false
+
+jobs:
+  portable:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    env:
+      KNORVIA_ENV: production
+      KNORVIA_PORTABLE_BUILD: "1"
+      # 桌面安装包不依赖 remote 资产（见 prepare-runtime-assets.mjs）。
+      KNORVIA_SKIP_REMOTE_ASSETS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Read version
+        id: version
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=v$version" >> $env:GITHUB_OUTPUT
+      - name: Build Windows x64 package
+        run: node packages/desktop/scripts/bundle.mjs --os win --arch x64
+      - name: Package portable zip
+        id: zip
+        shell: pwsh
+        run: |
+          $unpacked = "packages/desktop/dist/win-unpacked"
+          if (-not (Test-Path "$unpacked/resources/knorvia-portable.json")) { throw "Portable marker missing" }
+          $stage = "release-stage/Knorvia Studio Portable"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item -Recurse -Force "$unpacked/*" $stage
+          $name = "Knorvia-Studio-${{ steps.version.outputs.version }}-win-x64-portable.zip"
+          Compress-Archive -Path $stage -DestinationPath $name -CompressionLevel Optimal
+          $hash = (Get-FileHash $name -Algorithm SHA256).Hash.ToLower()
+          "$hash  $name" | Out-File -Encoding ascii "$name.sha256"
+          "name=$name" >> $env:GITHUB_OUTPUT
+      - name: Publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "${{ steps.version.outputs.tag }}"
+          $name = "${{ steps.zip.outputs.name }}"
+          $prerelease = if ("${{ steps.version.outputs.version }}" -match "preview|dev|beta|alpha") { "--prerelease" } else { "" }
+          gh release view $tag 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --target "${{ github.sha }}" --title "Knorvia Studio $tag" --notes "Windows x64 便携版：解压后直接运行 Knorvia Studio.exe，数据保存在程序旁的 data 目录。构建提交 ${{ github.sha }}。" $prerelease
+          }
+          gh release upload $tag $name "$name.sha256" --clobber

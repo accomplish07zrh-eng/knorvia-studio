@@ -15,18 +15,15 @@ import {
   versionFrom,
   type ExternalKernel,
 } from "../../domain/kernelPolicy.js";
-import { captureVersion, ProtocolProcess } from "./processTransport.js";
+import { captureVersion } from "./processTransport.js";
 import { ManagedKernels } from "./managedKernels.js";
 import { runKernelProtocol } from "./kernelRun.js";
-import { codexArgs, codexMessage, startCodex } from "./codexProtocol.js";
-import { claudeArgs, claudeMessage, startClaude } from "./claudeProtocol.js";
-import { grokArgs, grokMessage, startGrok } from "./grokProtocol.js";
 import { inspectStudioKernelOptions } from "./modelOptions.js";
 import { BUILTIN_KERNELS, BUILTIN_KERNEL_BY_ID, type KernelDescriptor } from "./acpCatalog.js";
 import { inspectAcpManifests, loadAcpManifests } from "./acpManifest.js";
 import { resolveExecutable, type KernelExecutable } from "./executable.js";
-import { acpMessage, initializeAcp, startAcp } from "./acpProtocol.js";
-import { antigravityArgs, antigravityMessage, startAntigravity } from "./antigravityProtocol.js";
+import { kernelProtocolBinding } from "./protocolBindings.js";
+import { probeAcpCapabilities } from "./acpProbe.js";
 import { createRemoteKernelAdapter, type RemoteStudioEnvironment } from "./remoteKernelBridge.js";
 import { parseRemoteStudioKernelId } from "../../domain/remoteAgentIdentity.js";
 import { remoteStudioKernelId } from "./remoteAgentIdentity.js";
@@ -112,45 +109,15 @@ export function createStudioKernelRegistry(options: {
           const version = versionFrom(await captureVersion(executable, signal, isolation));
           if (!version) throw new Error("CLI 没有返回可识别的版本号");
           let capabilities = base.capabilities;
-          if (info.protocol === "acp") {
-            if (!isolation) await mkdir(options.dataDir, { recursive: true });
-            const rpc = new ProtocolProcess(
+          if (info.protocol === "acp")
+            capabilities = await probeAcpCapabilities({
+              info,
               executable,
-              info.args,
-              isolation?.cwd ?? options.dataDir,
-              "acp",
-              (message) => {
-                if (message.id !== undefined && message.method)
-                  rpc.reject(message.id, "发现阶段不执行工具");
-              },
-              isolation?.environment,
-            );
-            const abort = () => rpc.fail(new Error("ACP 探测已取消"));
-            signal.addEventListener("abort", abort, { once: true });
-            try {
-              const initialized = await initializeAcp(
-                rpc,
-                kernel === "deepseek-harness" ? 45_000 : 25_000,
-              );
-              const native = initialized.agentCapabilities;
-              const advertised =
-                native && typeof native === "object" ? (native as Record<string, unknown>) : {};
-              capabilities = {
-                ...base.capabilities,
-                resume:
-                  advertised.loadSession === true ||
-                  !!(
-                    advertised.sessionCapabilities &&
-                    typeof advertised.sessionCapabilities === "object" &&
-                    (advertised.sessionCapabilities as Record<string, unknown>).resume
-                  ),
-                approval: true,
-              };
-            } finally {
-              signal.removeEventListener("abort", abort);
-              await rpc.close();
-            }
-          }
+              base: base.capabilities,
+              dataDir: options.dataDir,
+              isolation,
+              signal,
+            });
           return {
             ...base,
             capabilities,
@@ -204,50 +171,7 @@ export function createStudioKernelRegistry(options: {
               if (!kernel.startsWith("acp:")) release = await management.lease(kernel);
               return resolveKernel(kernel, info, turn.executablePath);
             },
-            mode:
-              info.protocol === "codex"
-                ? "codex"
-                : info.protocol === "claude"
-                  ? "claude"
-                  : info.protocol === "antigravity"
-                    ? "antigravity"
-                    : "acp",
-            args:
-              info.protocol === "codex"
-                ? codexArgs()
-                : info.protocol === "claude"
-                  ? claudeArgs(turn)
-                  : info.protocol === "grok"
-                    ? grokArgs(turn)
-                    : info.protocol === "antigravity"
-                      ? antigravityArgs(turn)
-                      : info.args,
-            message:
-              info.protocol === "codex"
-                ? codexMessage
-                : info.protocol === "claude"
-                  ? claudeMessage
-                  : info.protocol === "grok"
-                    ? grokMessage
-                    : info.protocol === "antigravity"
-                      ? antigravityMessage
-                      : acpMessage,
-            start:
-              info.protocol === "codex"
-                ? startCodex
-                : info.protocol === "claude"
-                  ? startClaude
-                  : info.protocol === "grok"
-                    ? startGrok
-                    : info.protocol === "antigravity"
-                      ? startAntigravity
-                      : startAcp,
-            environment:
-              info.protocol === "claude"
-                ? { DISABLE_AUTOUPDATER: "1" }
-                : info.protocol === "antigravity"
-                  ? { AGY_CLI_DISABLE_AUTO_UPDATE: "true" }
-                  : undefined,
+            ...kernelProtocolBinding(info, turn),
           });
         })().catch((error: unknown) => ({
           status: controller.signal.aborted ? ("cancelled" as const) : ("failed" as const),

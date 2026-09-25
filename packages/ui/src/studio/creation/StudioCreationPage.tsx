@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Image, LoaderCircle, Plus, Settings2, Video, X } from "lucide-react";
-import { creationReferenceSlots, type CreationJob, type CreationKind, type CreationModel } from "@knorvia/services";
+import { Image, LoaderCircle, Settings2, Video } from "lucide-react";
+import {
+  creationReferenceSlots,
+  type CreationJob,
+  type CreationKind,
+  type CreationModel,
+} from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { Textarea } from "@/components/ui/textarea.js";
 import { useBaseWorkspaceServices } from "@/hooks/useWorkspaceServices.js";
@@ -8,18 +13,15 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { cn } from "@/components/lib/utils.js";
 import { StudioCreationModelDialog } from "./StudioCreationModelDialog.js";
 import { StudioCreationHistory } from "./StudioCreationHistory.js";
+import { CreationAttachments, CreationFileButtons } from "./CreationFiles.js";
+import {
+  assertCreationFiles,
+  CREATION_SLOTS,
+  creationFileInputs,
+  type CreationFiles,
+} from "./creationInput.js";
 
-function fileAsBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () => reject(new Error("无法读取参考图"));
-    reader.onload = () => {
-      const value = String(reader.result ?? "");
-      resolve(value.slice(value.indexOf(",") + 1));
-    };
-    reader.readAsDataURL(file);
-  });
-}
+const NO_FILES: CreationFiles = { reference: null, firstFrame: null, lastFrame: null };
 
 export function StudioCreationPage() {
   const { intl } = useKnorviaIntl();
@@ -34,22 +36,16 @@ export function StudioCreationPage() {
   const [jobs, setJobs] = useState<CreationJob[]>([]);
   const [modelId, setModelId] = useState("");
   const [prompt, setPrompt] = useState("");
-  const [reference, setReference] = useState<File | null>(null);
-  const [firstFrame, setFirstFrame] = useState<File | null>(null);
-  const [lastFrame, setLastFrame] = useState<File | null>(null);
+  const [files, setFiles] = useState<CreationFiles>(NO_FILES);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [managing, setManaging] = useState(false);
   const [pendingCancel, setPendingCancel] = useState<string | null>(null);
   const [pendingRetry, setPendingRetry] = useState<string | null>(null);
-  const fileInput = useRef<HTMLInputElement>(null);
-  const firstFrameInput = useRef<HTMLInputElement>(null);
-  const lastFrameInput = useRef<HTMLInputElement>(null);
-  const pendingRequest = useRef<{
-    signature: string; id: string; reference: File | null;
-    firstFrame: File | null; lastFrame: File | null;
-  } | null>(null);
+  const pendingRequest = useRef<{ signature: string; id: string; files: CreationFiles } | null>(
+    null,
+  );
   const draftEpoch = useRef(0);
   const submittingRef = useRef(false);
 
@@ -91,7 +87,11 @@ export function StudioCreationPage() {
   );
   const selectedModel = availableModels.find((model) => model.id === modelId) ?? availableModels[0];
   const referenceSlots = selectedModel ? creationReferenceSlots(selectedModel) : null;
-  const allowReference = Boolean(referenceSlots?.image);
+  // 修改草稿（文字、模型、参考图）都推进 epoch，迟到的提交结果不会清掉新输入。
+  const editDraft = (clearFiles: boolean) => {
+    draftEpoch.current++;
+    if (clearFiles) setFiles(NO_FILES);
+  };
 
   const submit = async () => {
     if (!creation || submittingRef.current || !selectedModel || !prompt.trim()) return;
@@ -100,40 +100,26 @@ export function StudioCreationPage() {
     setSubmitting(true);
     setError("");
     try {
-      for (const file of [reference, firstFrame, lastFrame]) {
-        if (file && (file.size > 10 * 1024 * 1024 ||
-          !["image/png", "image/jpeg", "image/webp"].includes(file.type)))
-          throw new Error("参考图只支持 10 MB 内的 PNG、JPEG 或 WebP");
-      }
-      if (reference && !allowReference) throw new Error("当前模型未配置图生图输入");
-      if (firstFrame && !referenceSlots?.firstFrame) throw new Error("当前模型未配置首帧输入");
-      if (lastFrame && !referenceSlots?.lastFrame) throw new Error("当前模型未配置尾帧输入");
+      assertCreationFiles(files, referenceSlots);
       const normalizedPrompt = prompt.trim();
       const signature = JSON.stringify([kind, selectedModel.id, normalizedPrompt]);
-      if (pendingRequest.current?.signature !== signature ||
-          pendingRequest.current.reference !== reference ||
-          pendingRequest.current.firstFrame !== firstFrame ||
-          pendingRequest.current.lastFrame !== lastFrame)
-        pendingRequest.current = { signature, id: crypto.randomUUID(), reference, firstFrame, lastFrame };
+      if (
+        pendingRequest.current?.signature !== signature ||
+        CREATION_SLOTS.some((slot) => pendingRequest.current?.files[slot] !== files[slot])
+      )
+        pendingRequest.current = { signature, id: crypto.randomUUID(), files };
       const requestId = pendingRequest.current.id;
-      const asInput = async (file: File) => ({
-        name: file.name, mimeType: file.type, dataBase64: await fileAsBase64(file),
-      });
       const job = await creation.createJob({
         requestId,
         kind,
         modelId: selectedModel.id,
         prompt: normalizedPrompt,
-        ...(reference ? { reference: await asInput(reference) } : {}),
-        ...(firstFrame ? { firstFrame: await asInput(firstFrame) } : {}),
-        ...(lastFrame ? { lastFrame: await asInput(lastFrame) } : {}),
+        ...(await creationFileInputs(files)),
       });
       setJobs((items) => [job, ...items.filter((item) => item.id !== job.id)]);
       if (draftEpoch.current === submittedEpoch) {
         setPrompt("");
-        setReference(null);
-        setFirstFrame(null);
-        setLastFrame(null);
+        setFiles(NO_FILES);
       }
       pendingRequest.current = null;
     } catch (cause) {
@@ -188,11 +174,8 @@ export function StudioCreationPage() {
                 type="button"
                 aria-pressed={kind === item}
                 onClick={() => {
-                  draftEpoch.current++;
+                  editDraft(true);
                   setKind(item);
-                  setReference(null);
-                  setFirstFrame(null);
-                  setLastFrame(null);
                 }}
                 className={cn(
                   "flex items-center gap-2 rounded-md px-3 py-1.5 text-ui-base transition-colors",
@@ -222,11 +205,8 @@ export function StudioCreationPage() {
         onCancel={(job) => void cancel(job)}
         onRetry={(job) => void retry(job)}
         onReuse={(job) => {
-          draftEpoch.current++;
+          editDraft(true);
           setPrompt(job.prompt);
-          setReference(null);
-          setFirstFrame(null);
-          setLastFrame(null);
           pendingRequest.current = null;
         }}
       />
@@ -243,7 +223,10 @@ export function StudioCreationPage() {
           <div className="rounded-xl border border-input-border bg-card shadow-sm focus-within:border-input-border-focused">
             <Textarea
               value={prompt}
-              onChange={(event) => { draftEpoch.current++; setPrompt(event.target.value); }}
+              onChange={(event) => {
+                editDraft(false);
+                setPrompt(event.target.value);
+              }}
               maxLength={8000}
               rows={3}
               placeholder={t(kind === "image" ? "imageHint" : "videoHint")}
@@ -256,72 +239,27 @@ export function StudioCreationPage() {
                 }
               }}
             />
-            {reference ? (
-              <div className="flex items-center gap-2 px-4 pb-2 text-ui-sm text-foreground-subtle">
-                <Image className="size-4" aria-hidden="true" />
-                <span className="max-w-52 truncate">{reference.name}</span>
-                <button
-                  type="button"
-                  aria-label={t("removeReference")}
-                  onClick={() => { draftEpoch.current++; setReference(null); }}
-                  className="rounded p-1 hover:bg-surface-hover"
-                >
-                  <X className="size-3.5" />
-                </button>
-              </div>
-            ) : null}
-            {([[
-              firstFrame, setFirstFrame, "firstFrame",
-            ], [
-              lastFrame, setLastFrame, "lastFrame",
-            ]] as const).map(([file, clear, slot]) => file ? (
-              <div key={slot} className="flex items-center gap-2 px-4 pb-2 text-ui-sm text-foreground-subtle">
-                <Image className="size-4" aria-hidden="true" />
-                <span className="shrink-0">{t(slot)}</span>
-                <span className="max-w-52 truncate">{file.name}</span>
-                <button type="button" aria-label={`${t("removeReference")} ${t(slot)}`}
-                  onClick={() => { draftEpoch.current++; clear(null); }} className="rounded-full p-1 hover:bg-surface-hover">
-                  <X className="size-3.5" />
-                </button>
-              </div>
-            ) : null)}
+            <CreationAttachments
+              files={files}
+              t={t}
+              onRemove={(slot) => {
+                editDraft(false);
+                setFiles((current) => ({ ...current, [slot]: null }));
+              }}
+            />
             <div className="flex flex-wrap items-center gap-2 border-t border-border/40 px-3 py-2">
-              <input
-                ref={fileInput}
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                className="hidden"
-                onChange={(event) => {
-                  draftEpoch.current++;
-                  setReference(event.target.files?.[0] ?? null);
-                  event.target.value = "";
+              <CreationFileButtons
+                t={t}
+                enabled={{
+                  reference: Boolean(referenceSlots?.image),
+                  firstFrame: Boolean(referenceSlots?.firstFrame),
+                  lastFrame: Boolean(referenceSlots?.lastFrame),
+                }}
+                onPick={(slot, file) => {
+                  editDraft(false);
+                  setFiles((current) => ({ ...current, [slot]: file }));
                 }}
               />
-              <input ref={firstFrameInput} type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
-                onChange={(event) => { draftEpoch.current++; setFirstFrame(event.target.files?.[0] ?? null); event.target.value = ""; }} />
-              <input ref={lastFrameInput} type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
-                onChange={(event) => { draftEpoch.current++; setLastFrame(event.target.files?.[0] ?? null); event.target.value = ""; }} />
-              {allowReference ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  title={t("referenceHint")}
-                  onClick={() => fileInput.current?.click()}
-                >
-                  <Plus className="size-4" aria-hidden="true" />
-                  {t("reference")}
-                </Button>
-              ) : null}
-              {referenceSlots?.firstFrame ? (
-                <Button variant="ghost" size="sm" title={t("frameHint")} onClick={() => firstFrameInput.current?.click()}>
-                  <Plus className="size-4" aria-hidden="true" />{t("firstFrame")}
-                </Button>
-              ) : null}
-              {referenceSlots?.lastFrame ? (
-                <Button variant="ghost" size="sm" title={t("frameHint")} onClick={() => lastFrameInput.current?.click()}>
-                  <Plus className="size-4" aria-hidden="true" />{t("lastFrame")}
-                </Button>
-              ) : null}
               <div className="min-w-0 flex-1" />
               {availableModels.length ? (
                 <label className="flex min-w-0 items-center gap-2 text-ui-sm text-foreground-subtle">
@@ -329,11 +267,8 @@ export function StudioCreationPage() {
                   <select
                     value={selectedModel?.id ?? ""}
                     onChange={(event) => {
-                      draftEpoch.current++;
+                      editDraft(true);
                       setModelId(event.target.value);
-                      setReference(null);
-                      setFirstFrame(null);
-                      setLastFrame(null);
                     }}
                     className="max-w-48 rounded-md border border-border bg-background px-2 py-1.5 text-ui-sm text-foreground"
                   >
@@ -376,7 +311,10 @@ export function StudioCreationPage() {
         onOpenChange={setManaging}
         models={models}
         initialKind={kind}
-        onSaved={() => { draftEpoch.current++; void refresh(true); }}
+        onSaved={() => {
+          editDraft(false);
+          void refresh(true);
+        }}
       />
     </div>
   );

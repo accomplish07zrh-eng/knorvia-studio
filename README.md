@@ -28,7 +28,7 @@ Knorvia Studio 是基于 [ZCode 上游源码](https://github.com/zai-org/ZCode) 
 | 架构检查                   | `pnpm architecture:check --changed`             |
 | 离线回归测试               | `pnpm build:cli-packages` 后 `pnpm test:studio` |
 
-GitHub Actions 的 `Studio offline checks` 在每个 PR 上于 Linux 运行以上检查；推送到 `main` 或手动触发时，另在 Windows 上运行一遍平台回归。
+GitHub Actions 的 `Studio offline checks` 在每个 PR 上于 Linux 运行以上检查；推送到 `main` 或手动触发时，另在 Windows 上运行一遍平台回归。手动运行 `Release Windows portable` 会在 Windows 上构建便携版，并以 `v<版本号>` 发布到 GitHub Release。
 
 便携版数据保存在可执行程序旁的 `data` 文件夹。完整退出后可复制整个便携文件夹。
 

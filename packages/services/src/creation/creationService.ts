@@ -1,7 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { redactDiagnosticText } from "@knorvia/shared";
 import type { ICredentialService } from "../credential/credential.js";
 import { creationReferenceSlots } from "./contract.js";
 import type {
@@ -13,7 +12,20 @@ import type {
 } from "./contract.js";
 import { runCreationProvider } from "./providers.js";
 import { validateCreationModel } from "./modelValidation.js";
-import { decodeReference, publicJob, readRecords, savedReference, writeRecords, type StoredJob } from "./creationStorage.js";
+import {
+  creationFailure,
+  newCreationJob,
+  providerReferences,
+  sameCreationRequest,
+} from "./creationJobs.js";
+import {
+  decodeReference,
+  publicJob,
+  readRecords,
+  savedReference,
+  writeRecords,
+  type StoredJob,
+} from "./creationStorage.js";
 
 export interface CreationServiceOptions {
   rootDir: string;
@@ -144,14 +156,7 @@ export class CreationService implements ICreationService {
       const jobs = await readRecords<StoredJob>(this.jobsPath);
       const duplicate = jobs.find((job) => job.requestId === input.requestId);
       if (duplicate) {
-        if (
-          duplicate.kind !== input.kind ||
-          duplicate.modelId !== input.modelId ||
-          duplicate.prompt !== input.prompt.trim() ||
-          duplicate.referenceHash !== reference?.hash ||
-          duplicate.firstFrameHash !== firstFrame?.hash ||
-          duplicate.lastFrameHash !== lastFrame?.hash
-        )
+        if (!sameCreationRequest(duplicate, input, { reference, firstFrame, lastFrame }))
           throw new Error("这次生成编号已用于其他内容");
         return publicJob(duplicate);
       }
@@ -171,42 +176,20 @@ export class CreationService implements ICreationService {
       if (!publicModel.configured) throw new Error("请先配置所选模型");
       const prompt = input.prompt.trim();
       if (!prompt || prompt.length > 8000) throw new Error("提示词需在 1–8000 字符之间");
-      const now = new Date().toISOString();
-      const job: StoredJob = {
-        id: randomUUID(),
-        requestId: input.requestId,
-        kind: input.kind,
-        modelId: model.id,
-        prompt,
-        status: "queued",
-        createdAt: now,
-        updatedAt: now,
-        outputs: [],
-        ...(reference
-          ? {
-              referenceName: reference.name,
-              referenceMimeType: reference.mimeType,
-              referenceHash: reference.hash,
-            }
-          : {}),
-        ...(firstFrame ? {
-          firstFrameName: firstFrame.name,
-          firstFrameMimeType: firstFrame.mimeType,
-          firstFrameHash: firstFrame.hash,
-        } : {}),
-        ...(lastFrame ? {
-          lastFrameName: lastFrame.name,
-          lastFrameMimeType: lastFrame.mimeType,
-          lastFrameHash: lastFrame.hash,
-        } : {}),
-      };
+      const job = newCreationJob(input, model, prompt, { reference, firstFrame, lastFrame });
       const writtenReferences: string[] = [];
       try {
         for (const [slot, item] of [
-          ["reference", reference], ["firstFrame", firstFrame], ["lastFrame", lastFrame],
+          ["reference", reference],
+          ["firstFrame", firstFrame],
+          ["lastFrame", lastFrame],
         ] as const) {
           if (!item) continue;
-          const path = join(this.options.rootDir, "references", `${job.id}-${slot}.${item.extension}`);
+          const path = join(
+            this.options.rootDir,
+            "references",
+            `${job.id}-${slot}.${item.extension}`,
+          );
           await mkdir(dirname(path), { recursive: true });
           await writeFile(path, item.bytes, { flag: "wx", mode: 0o600 });
           writtenReferences.push(path);
@@ -217,7 +200,9 @@ export class CreationService implements ICreationService {
         jobs.push(job);
         await writeRecords(this.jobsPath, jobs);
       } catch (error) {
-        await Promise.all(writtenReferences.map((path) => rm(path, { force: true }).catch(() => undefined)));
+        await Promise.all(
+          writtenReferences.map((path) => rm(path, { force: true }).catch(() => undefined)),
+        );
         throw error;
       }
       const controller = new AbortController();
@@ -239,18 +224,38 @@ export class CreationService implements ICreationService {
     const requestId = `retry-${id}`;
     const previous = jobs.find((job) => job.requestId === requestId);
     if (previous) {
-      if (previous.kind !== source.kind || previous.modelId !== source.modelId ||
-          previous.prompt !== source.prompt || previous.referenceHash !== source.referenceHash ||
-          previous.firstFrameHash !== source.firstFrameHash || previous.lastFrameHash !== source.lastFrameHash)
+      if (
+        previous.kind !== source.kind ||
+        previous.modelId !== source.modelId ||
+        previous.prompt !== source.prompt ||
+        previous.referenceHash !== source.referenceHash ||
+        previous.firstFrameHash !== source.firstFrameHash ||
+        previous.lastFrameHash !== source.lastFrameHash
+      )
         throw new Error("重试编号已用于其他内容");
       return publicJob(previous);
     }
-    const reference = await savedReference(this.options.rootDir, source.referencePath,
-      source.referenceName, source.referenceMimeType, source.referenceHash);
-    const firstFrame = await savedReference(this.options.rootDir, source.firstFramePath,
-      source.firstFrameName, source.firstFrameMimeType, source.firstFrameHash);
-    const lastFrame = await savedReference(this.options.rootDir, source.lastFramePath,
-      source.lastFrameName, source.lastFrameMimeType, source.lastFrameHash);
+    const reference = await savedReference(
+      this.options.rootDir,
+      source.referencePath,
+      source.referenceName,
+      source.referenceMimeType,
+      source.referenceHash,
+    );
+    const firstFrame = await savedReference(
+      this.options.rootDir,
+      source.firstFramePath,
+      source.firstFrameName,
+      source.firstFrameMimeType,
+      source.firstFrameHash,
+    );
+    const lastFrame = await savedReference(
+      this.options.rootDir,
+      source.lastFramePath,
+      source.lastFrameName,
+      source.lastFrameMimeType,
+      source.lastFrameHash,
+    );
     return this.createJob({
       requestId,
       kind: source.kind,
@@ -309,45 +314,28 @@ export class CreationService implements ICreationService {
       });
       if (controller.signal.aborted) return;
       const apiKey = await this.options.credentials.load(credentialKey(model.id));
-      const referenceBytes = job.referencePath ? await readFile(job.referencePath) : undefined;
-      const firstFrameBytes = job.firstFramePath ? await readFile(job.firstFramePath) : undefined;
-      const lastFrameBytes = job.lastFramePath ? await readFile(job.lastFramePath) : undefined;
+      const references = await providerReferences(job);
       const result = await runCreationProvider(
         {
           model,
           apiKey,
           prompt: job.prompt,
           signal: controller.signal,
-          onSubmissionStarted: () => { submissionStarted = true; },
-          ...(referenceBytes && job.referenceMimeType && job.referenceName
-            ? {
-                reference: {
-                  bytes: referenceBytes,
-                  name: job.referenceName,
-                  mimeType: job.referenceMimeType,
-                },
-              }
-            : {}),
-          ...(firstFrameBytes && job.firstFrameMimeType && job.firstFrameName
-            ? { firstFrame: {
-                bytes: firstFrameBytes, name: job.firstFrameName,
-                mimeType: job.firstFrameMimeType,
-              } }
-            : {}),
-          ...(lastFrameBytes && job.lastFrameMimeType && job.lastFrameName
-            ? { lastFrame: {
-                bytes: lastFrameBytes, name: job.lastFrameName,
-                mimeType: job.lastFrameMimeType,
-              } }
-            : {}),
+          onSubmissionStarted: () => {
+            submissionStarted = true;
+          },
+          ...references,
           onProviderTaskId: async (taskId) => {
             await this.updateJob(job.id, (record) => {
               record.providerTaskId = taskId;
             });
           },
         },
-        { fetchImpl: this.options.fetchImpl, pollIntervalMs: this.options.pollIntervalMs,
-          deadlineMs: this.options.providerDeadlineMs },
+        {
+          fetchImpl: this.options.fetchImpl,
+          pollIntervalMs: this.options.pollIntervalMs,
+          deadlineMs: this.options.providerDeadlineMs,
+        },
       );
       controller.signal.throwIfAborted();
       const name = `creation-${job.id}.${result.extension}`;
@@ -373,18 +361,15 @@ export class CreationService implements ICreationService {
       });
       if (!saved) await rm(path, { force: true });
     } catch (error) {
-      const raw = error instanceof Error ? error.message : String(error);
       const apiKey = await this.options.credentials.load(credentialKey(model.id)).catch(() => null);
-      const safe = redactDiagnosticText(apiKey ? raw.replaceAll(apiKey, "[redacted]") : raw);
-      const unknown = controller.signal.aborted || (submissionStarted && (
-        error instanceof TypeError ||
-        /(?:network|fetch|ECONNRESET|ETIMEDOUT|socket hang up|超时|生成服务返回 5\d{2})/i.test(raw)
-      ));
+      const failure = creationFailure(error, {
+        apiKey,
+        aborted: controller.signal.aborted,
+        submissionStarted,
+      });
       await this.updateJob(job.id, (record) => {
-        record.status = unknown ? "interrupted" : "failed";
-        record.error = unknown
-          ? "生成请求可能已经提交，但未取得确定结果；远端可能继续运行或计费。请先检查生成服务。"
-          : safe.slice(0, 500);
+        record.status = failure.status;
+        record.error = failure.error;
       }).catch(() => undefined);
     } finally {
       clearTimeout(timeout);

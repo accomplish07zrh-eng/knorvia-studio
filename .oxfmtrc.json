@@ -13,16 +13,6 @@
     "apps/cli/packages/plugin-creator-plugin/**",
     "apps/cli/packages/skill-creator-plugin/**",
     "apps/cli/packages/core/src/tool/handlers/generated/**",
-    "**/*.generated.ts",
-    // 以下文件格式化后超过 400 行上限（oxlint max-lines / 架构检查），待按 P2 拆分后移出此列表。
-    "apps/cli/packages/dynamic-workflow/src/analysis/state.ts",
-    "apps/cli/packages/dynamic-workflow/src/analysis/taint.ts",
-    "apps/cli/packages/dynamic-workflow/src/engine/scheduler.ts",
-    "apps/cli/packages/dynamic-workflow/src/engine/types.ts",
-    "packages/services/src/creation/creationService.ts",
-    "packages/services/src/session/automationService.ts",
-    "packages/ui/src/studio/creation/StudioCreationPage.tsx",
-    "packages/ui/src/studio/workflow/WorkflowEditor.tsx",
-    "packages/services/src/studio-runtime/app/studioRuntimeService.ts"
+    "**/*.generated.ts"
   ]
 }

@@ -28,7 +28,7 @@ Requires Node.js 24.14.0 and pnpm 10.33.2 (see `mise.toml`). From the repository
 | Architecture check                   | `pnpm architecture:check --changed`                |
 | Offline regression tests             | `pnpm build:cli-packages`, then `pnpm test:studio` |
 
-The `Studio offline checks` GitHub Actions workflow runs these checks on Linux for every pull request, and additionally on Windows for pushes to `main` and manual runs.
+The `Studio offline checks` GitHub Actions workflow runs these checks on Linux for every pull request, and additionally on Windows for pushes to `main` and manual runs. Running `Release Windows portable` manually builds the Windows portable package and publishes it to a GitHub Release tagged `v<version>`.
 
 Windows portable data lives in the `data` directory beside the executable. After a full exit the portable folder can be copied as a whole.
 

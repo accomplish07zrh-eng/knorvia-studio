@@ -31,10 +31,8 @@ import { useWorkflowText } from "./useWorkflowText.js";
 import { useWorkflowExecution } from "./useWorkflowExecution.js";
 import { WorkflowRunDialog } from "./WorkflowRunDialog.js";
 import { WorkflowValidationPanel } from "./WorkflowValidationPanel.js";
-import { StudioRunHistory } from "../runtime/StudioRunHistory.js";
-import { StudioTimeline } from "../runtime/StudioTimeline.js";
-import { StudioInteractions } from "../runtime/StudioInteractions.js";
-import { WorkflowRunComparison } from "./WorkflowRunComparison.js";
+import { WorkflowHistoryPane } from "./WorkflowHistoryPane.js";
+import { handleWorkflowShortcut } from "./workflowShortcuts.js";
 import { WorkflowScheduleDialog } from "./WorkflowScheduleDialog.js";
 import "@xyflow/react/dist/style.css";
 import "./workflow.css";
@@ -173,27 +171,13 @@ function EditorCanvas({
     setSelectedEdgeId(null);
     setRightPane("inspector");
   };
-  const shortcuts = (event: KeyboardEvent) => {
-    if (!(event.ctrlKey || event.metaKey)) return;
-    if (event.key.toLowerCase() === "s") {
-      event.preventDefault();
-      event.stopPropagation();
-      void execution.saveCurrent();
-      return;
-    }
-    if ((event.target as HTMLElement).closest("input,textarea,[contenteditable='true']")) return;
-    if (event.key.toLowerCase() === "z" && !editingDisabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.shiftKey) store.redo(workflow.id);
-      else store.undo(workflow.id);
-    }
-    if (event.key.toLowerCase() === "y" && !editingDisabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      store.redo(workflow.id);
-    }
-  };
+  const shortcuts = (event: KeyboardEvent) =>
+    handleWorkflowShortcut(event, {
+      save: () => void execution.saveCurrent(),
+      undo: () => store.undo(workflow.id),
+      redo: () => store.redo(workflow.id),
+      editingDisabled,
+    });
   return (
     <div className="flex min-h-0 flex-1 flex-col" onKeyDownCapture={shortcuts}>
       <WorkflowToolbar
@@ -210,9 +194,15 @@ function EditorCanvas({
         onAdd={addNode}
         execution={execution}
         canRun={issues.length === 0}
-        onRun={() => setRunDialog(true)} onSchedule={() => setScheduleDialog(true)}
+        onRun={() => setRunDialog(true)}
+        onSchedule={() => setScheduleDialog(true)}
       />
-      <WorkflowScheduleDialog workflow={workflow} open={scheduleDialog} saved={execution.saved && issues.length === 0} onClose={() => setScheduleDialog(false)} />
+      <WorkflowScheduleDialog
+        workflow={workflow}
+        open={scheduleDialog}
+        saved={execution.saved && issues.length === 0}
+        onClose={() => setScheduleDialog(false)}
+      />
       {execution.error && (
         <p
           role="alert"
@@ -367,20 +357,10 @@ function EditorCanvas({
                 </fieldset>
               )}
               {rightPane === "history" && (
-                <div className="space-y-3">
-                  <WorkflowRunComparison runs={execution.timeline?.runs ?? []} />
-                  <div className="px-2 pt-2">
-                    <StudioInteractions targetId={workflow.id} />
-                  </div>
-                  <StudioRunHistory targetId={workflow.id} />
-                  <div className="flex min-h-0 max-h-[60vh] flex-col">
-                    <StudioTimeline
-                      targetId={workflow.id}
-                      showHistory={false}
-                      showInteractions={false}
-                    />
-                  </div>
-                </div>
+                <WorkflowHistoryPane
+                  workflowId={workflow.id}
+                  runs={execution.timeline?.runs ?? []}
+                />
               )}
               {rightPane === "validation" && (
                 <WorkflowValidationPanel

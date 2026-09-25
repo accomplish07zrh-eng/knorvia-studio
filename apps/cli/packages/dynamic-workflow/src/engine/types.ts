@@ -215,58 +215,8 @@ export interface WorkflowErrorJson {
   providerStop?: ProviderStopDetails;
 }
 
-/**
- * 跨 Boundary A 抛出的结构化错误。带稳定 code 与可选的 violations / finalText / mismatch，
- * 使脚本侧 try/catch 与上层都能按结构处理，而不依赖字符串匹配。
- */
-export class WorkflowError extends Error {
-  readonly code: WorkflowErrorCode;
-  readonly violations?: Violation[];
-  readonly finalText?: string;
-  readonly mismatch?: WorkflowErrorMismatch;
-  readonly providerStop?: ProviderStopDetails;
-
-  constructor(
-    code: WorkflowErrorCode,
-    message: string,
-    extra?: {
-      violations?: Violation[];
-      finalText?: string;
-      mismatch?: WorkflowErrorMismatch;
-      providerStop?: ProviderStopDetails;
-      cause?: unknown;
-    },
-  ) {
-    super(message);
-    this.name = "WorkflowError";
-    this.code = code;
-    if (extra?.violations !== undefined) this.violations = extra.violations;
-    if (extra?.finalText !== undefined) this.finalText = extra.finalText;
-    if (extra?.mismatch !== undefined) this.mismatch = extra.mismatch;
-    if (extra?.providerStop !== undefined) this.providerStop = extra.providerStop;
-    if (extra?.cause !== undefined) (this as { cause?: unknown }).cause = extra.cause;
-  }
-
-  /** 转为可序列化形态落 journal。 */
-  toJSON(): WorkflowErrorJson {
-    const json: WorkflowErrorJson = { code: this.code, message: this.message };
-    if (this.violations !== undefined) json.violations = this.violations;
-    if (this.finalText !== undefined) json.finalText = this.finalText;
-    if (this.mismatch !== undefined) json.mismatch = this.mismatch;
-    if (this.providerStop !== undefined) json.providerStop = this.providerStop;
-    return json;
-  }
-
-  /** 从 journal 记录重建（replay 命中失败节点时用）。 */
-  static fromJSON(json: WorkflowErrorJson): WorkflowError {
-    return new WorkflowError(json.code, json.message, {
-      violations: json.violations,
-      finalText: json.finalText,
-      mismatch: json.mismatch,
-      providerStop: json.providerStop,
-    });
-  }
-}
+import type { WorkflowError } from "./workflow-error.js";
+export { WorkflowError } from "./workflow-error.js";
 
 // ————————————————————————————————————————————————————————————————
 // Boundary A：host API（沙箱脚本调用）
@@ -702,7 +652,12 @@ export type RunEvent =
    * （`cause: "world-run"`）。每个 run 最多一条；修订 run 崩溃后 resume 据它恢复「门已关」——这是
    * 关门的**唯一**事实来源，不再由「曾有 ask live」推断。非修订 run 没有表可关，不发。
    */
-  | { type: "import-cache-closed"; instance: InstanceRef; cause: ImportCloseCause; actorName?: string }
+  | {
+      type: "import-cache-closed";
+      instance: InstanceRef;
+      cause: ImportCloseCause;
+      actorName?: string;
+    }
   /**
    * 控制流经过了一个 `phase("…")` 标记。**无站点、无 journal 行、无 driver 往返**——标记不是一步工作，它只是
    * 「跑到哪了」的一个刻度。`name` 是作者的原词（去两端空白，与分析器铸造阶段 id 的键同一）；
