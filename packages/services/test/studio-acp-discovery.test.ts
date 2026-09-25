@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { delimiter, join } from "node:path";
 import type {
@@ -357,7 +357,8 @@ test("ACP resolves an enabled Studio MCP PATH command to an absolute executable"
       [{ name: "fixture", type: "stdio", command: "agent.cjs", args: ["server"], env: {} }],
       { protocolVersion: 1, agentCapabilities: {} },
     );
-    assert.equal(projected[0]?.command, f.executable);
+    // 解析结果是 realpath；Windows 临时目录常为 8.3 短名，期望值同样取 realpath。
+    assert.equal(projected[0]?.command, await realpath(f.executable));
     assert.deepEqual(projected[0]?.args, ["server"]);
   } finally {
     if (previous === undefined) delete process.env.PATH;
@@ -392,6 +393,8 @@ test("ACP rejects a missing absolute Studio MCP command before the prompt", asyn
 test("DeepSeek Harness resolves only the existing verified profile package, without npx", async () => {
   const f = await context();
   const priorHome = process.env.USERPROFILE;
+  // os.homedir() 在 POSIX 上读取 HOME、在 Windows 上读取 USERPROFILE，两者都指向夹具目录。
+  const priorPosixHome = process.env.HOME;
   const priorPath = process.env.PATH;
   try {
     const root = join(f.directory, ".dsh", "profiles", "node_modules", "@deepseek-ai", "dsh");
@@ -406,9 +409,10 @@ test("DeepSeek Harness resolves only the existing verified profile package, with
     );
     await writeFile(join(root, "lib", "bin.js"), "console.log('fixture 1.2.3')");
     process.env.USERPROFILE = f.directory;
+    process.env.HOME = f.directory;
     process.env.PATH = f.directory;
     const resolved = await resolveExecutable("deepseek-harness");
-    assert.equal(resolved.path, join(root, "lib", "bin.js"));
+    assert.equal(resolved.path, await realpath(join(root, "lib", "bin.js")));
     assert.deepEqual(resolved.args, [resolved.path]);
     await writeFile(
       join(root, "package.json"),
@@ -422,6 +426,8 @@ test("DeepSeek Harness resolves only the existing verified profile package, with
   } finally {
     if (priorHome === undefined) delete process.env.USERPROFILE;
     else process.env.USERPROFILE = priorHome;
+    if (priorPosixHome === undefined) delete process.env.HOME;
+    else process.env.HOME = priorPosixHome;
     if (priorPath === undefined) delete process.env.PATH;
     else process.env.PATH = priorPath;
     await f.close();

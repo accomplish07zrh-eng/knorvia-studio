@@ -14,7 +14,7 @@
 
 Computer Use 使用深色，在隔离的离线会话中验证 823×800 窄窗口：底部显示 `1 轮 1 步 · — tok/s`、`9K tok · 缓存命中 0%`、`1%`，上下文浮层显示 `9000/90万 (1%)`。这只是布局测试夹具，未写入桌面用户聊天。截图为 `D:/tools/.cache/knorvia-chat-metrics-narrow.png` 与 `knorvia-chat-metrics-context.png`。原生 Knorvia 的统计换算已离线验证，本轮未新增付费原生聊天验收。
 
-已原地更新 `C:/Users/17018/Desktop/Knorvia Studio Portable`，并重新启动确认。复制前后 351 个 data 文件逐一 SHA-256 相同；临时关闭的托盘驻留设置已恢复。无新增压缩包或重复便携目录。
+已原地更新 `%USERPROFILE%/Desktop/Knorvia Studio Portable`，并重新启动确认。复制前后 351 个 data 文件逐一 SHA-256 相同；临时关闭的托盘驻留设置已恢复。无新增压缩包或重复便携目录。
 
 最终便携包的插件页实测为 7 项，内部 Node Repl Host 不再展示，“来源”弹窗可正常打开。截图：`D:/tools/.cache/knorvia-plugins-final.png`。
 
@@ -54,10 +54,10 @@ Computer Use 使用深色，在隔离的离线会话中验证 823×800 窄窗口
 
 ### 产物与记录
 
-- 交付目录：`C:/Users/17018/Desktop/Knorvia Studio Portable`（展开目录，直接运行 `Knorvia Studio.exe`；未生成压缩包或重复目录）。
+- 交付目录：`%USERPROFILE%/Desktop/Knorvia Studio Portable`（展开目录，直接运行 `Knorvia Studio.exe`；未生成压缩包或重复目录）。
 - EXE SHA-256：`b599ee5d6ba0fab35d7f34543774fa86b1ed04acfc568fa41df9e34a5d555d0e`
 - app.asar SHA-256：`096e321beabde5780c28e89d996f2783d6ac40aada5aa30e7e8a48e2e0fffb60`
-- 包内校验：`C:/Users/17018/Desktop/Knorvia Studio Portable/构建校验.json`（含 8 项内置插件清点与数据文件数）
+- 包内校验：`%USERPROFILE%/Desktop/Knorvia Studio Portable/构建校验.json`（含 8 项内置插件清点与数据文件数）
 - 数据保留证明：`D:/tools/.cache/knorvia-plugin-delivery-copy-summary.json`
 - 逆向脚本：`D:/tools/.cache/knorvia-port-plugins.mjs`；插件验证脚本：`D:/tools/.cache/knorvia-verify-plugins.cjs`；交付后复核：`D:/tools/.cache/knorvia-final-verify-delivery.mjs`
 
@@ -79,7 +79,7 @@ Antigravity headless 不提供逐工具交互审批：询问模式遵循原 CLI 
 | 包体校验 | 产品名、便携标记、内置 Agent 包及 7 帧透明应用图标通过 |
 | 桌面数据 | 覆盖前后 113 个 `data` 文件逐一 SHA-256 一致 |
 
-最新展开便携版：`C:/Users/17018/Desktop/Knorvia Studio Portable/Knorvia Studio.exe`。EXE SHA-256：`5fcff56c2d02472505ff8d609fb4e64c2cac4b4f05871b3d0daa4ff5a2bcb1f1`；app.asar SHA-256：`968762340c80cab2835154231bc6afcf83d558c47b70cc36156f05274c116e79`。`构建校验.json` 与 `D:/tools/.cache/knorvia-backend-delivery-copy-summary.json` 保留机器校验证据。下方 09:26 及更早的哈希是历史交付记录，不指向当前包。
+最新展开便携版：`%USERPROFILE%/Desktop/Knorvia Studio Portable/Knorvia Studio.exe`。EXE SHA-256：`5fcff56c2d02472505ff8d609fb4e64c2cac4b4f05871b3d0daa4ff5a2bcb1f1`；app.asar SHA-256：`968762340c80cab2835154231bc6afcf83d558c47b70cc36156f05274c116e79`。`构建校验.json` 与 `D:/tools/.cache/knorvia-backend-delivery-copy-summary.json` 保留机器校验证据。下方 09:26 及更早的哈希是历史交付记录，不指向当前包。
 
 ## 2026-09-23 本机 CLI 范围与共享能力扩展
 
@@ -104,11 +104,11 @@ Antigravity headless 不提供逐工具交互审批：询问模式遵循原 CLI 
 | 包体完整性 | 产品名、便携数据标记、原生 Agent 包和 7 帧透明图标均通过校验 |
 | 用户数据 | 覆盖前后原有 71 个 `data` 文件逐一 SHA-256 相同；无重复压缩包或新便携目录 |
 
-2026-09-23 09:26，已覆盖桌面现有展开目录 `C:/Users/17018/Desktop/Knorvia Studio Portable`；可直接打开其中 `Knorvia Studio.exe`。成品 GUI 检查未发送模型请求，也未替用户登录 Claude；Grok Build 的既有 402 余额例外仍适用。
+2026-09-23 09:26，已覆盖桌面现有展开目录 `%USERPROFILE%/Desktop/Knorvia Studio Portable`；可直接打开其中 `Knorvia Studio.exe`。成品 GUI 检查未发送模型请求，也未替用户登录 Claude；Grok Build 的既有 402 余额例外仍适用。
 
 - EXE SHA-256：`02a07630c73c122fe43287e9199702a3432d8eb77b8aa208f649dbed1137cfd7`
 - app.asar SHA-256：`ab0f86c917eb4180ce26d12a96ee91a3cd2ec03f65fc51ac1db692fbf2357352`
-- 包内校验：`C:/Users/17018/Desktop/Knorvia Studio Portable/构建校验.json`
+- 包内校验：`%USERPROFILE%/Desktop/Knorvia Studio Portable/构建校验.json`
 - 测试与交付日志：`D:/tools/.cache/knorvia-cli-expansion-*.log`
 - 数据保留证明：`D:/tools/.cache/knorvia-backend-delivery-copy-summary.json`
 
@@ -152,13 +152,13 @@ Antigravity headless 不提供逐工具交互审批：询问模式遵循原 CLI 
 
 ### 最终便携版交付
 
-2026-09-23 02:22，已覆盖原展开目录 `C:/Users/17018/Desktop/Knorvia Studio Portable`，直接运行其中的 `Knorvia Studio.exe`。未增加压缩包或重复目录；覆盖前后 71 个 `data` 文件逐一 SHA-256 完全一致。隔离测试配置和测试对话未复制进去。
+2026-09-23 02:22，已覆盖原展开目录 `%USERPROFILE%/Desktop/Knorvia Studio Portable`，直接运行其中的 `Knorvia Studio.exe`。未增加压缩包或重复目录；覆盖前后 71 个 `data` 文件逐一 SHA-256 完全一致。隔离测试配置和测试对话未复制进去。
 
 最终生产包重开后，已保存草稿正文完整恢复，工作流三个完成节点和主动停止记录均保留；“任务已停止”以中性状态显示。测试应用正常退出。桌面包独立校验通过：产品名、便携标记、原生 Agent 包、7 个透明图标尺寸正确，未包含登录 HTML/preload 页面。
 
 - EXE SHA-256：`1eb1e3dd3d8864fedd62429f4f8e2ba70f968bacd4a86360f1776accfe1dd603`
 - app.asar SHA-256：`11c4bb43ec7122e921f49c325bf488d7061b9c9a3da9553b0d8dde415009cc40`
-- 桌面包内记录：`C:/Users/17018/Desktop/Knorvia Studio Portable/构建校验.json`
+- 桌面包内记录：`%USERPROFILE%/Desktop/Knorvia Studio Portable/构建校验.json`
 - 数据保留证明：`D:/tools/.cache/knorvia-backend-delivery-copy-summary.json`
 - 自动检查与构建日志：`D:/tools/.cache/knorvia-polish-pass2-*.log`、`knorvia-polish-final-*.log`
 

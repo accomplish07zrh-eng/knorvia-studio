@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { lstat, mkdir, open, readdir, realpath, stat } from "node:fs/promises";
 import { dirname, isAbsolute, join, parse, relative, resolve } from "node:path";
+import { sameLocation } from "./longPath.js";
 
 export const MAX_FILE_BYTES = 16 * 1024 * 1024;
 export const MAX_TOTAL_BYTES = 256 * 1024 * 1024;
@@ -68,18 +69,24 @@ export async function safePath(path: string): Promise<void> {
   if (!isAbsolute(path)) throw new Error("Workspace paths must be absolute.");
   const root = parse(resolve(path)).root;
   let current = root;
+  let canonical = root;
   for (const segment of relative(root, resolve(path)).split(/[\\/]/).filter(Boolean)) {
     current = join(current, segment);
     const info = await lstat(current).catch((error) => {
       if (absent(error)) return null;
       throw error;
     });
-    if (!info) continue;
+    if (!info) {
+      canonical = join(canonical, segment);
+      continue;
+    }
     if (info.isSymbolicLink()) throw new Error(`Workspace links are not supported: ${current}`);
     if (!info.isDirectory() && !info.isFile())
       throw new Error(`Unsupported workspace entry: ${current}`);
-    if (comparable(await realpath(current)) !== comparable(resolve(current)))
+    const real = await realpath(current);
+    if (!sameLocation(canonical, segment, real))
       throw new Error(`Workspace path redirects outside its declared location: ${current}`);
+    canonical = real;
   }
 }
 

@@ -53,7 +53,7 @@ pnpm exec tsx --tsconfig packages/ui/tsconfig.json --test packages/ui/test/studi
 
 ## 交付和范围
 
-交付目录：`C:/Users/17018/Desktop/Knorvia Studio Portable`。已展开，直接运行 `Knorvia Studio.exe`。保留现有 data，没有生成额外压缩包。
+交付目录：`%USERPROFILE%/Desktop/Knorvia Studio Portable`。已展开，直接运行 `Knorvia Studio.exe`。保留现有 data，没有生成额外压缩包。
 
 - 可执行文件 SHA-256：`52a1e287f963e3c55a3cc5e90b4a50e975e646c82239ad19ac564d364f284bfd`。
 - 归档完整性值：`ab205bc83322de2862d59d5616d6c5a5cd4523dc2f12dfc7269b16ba42fdadb0`。

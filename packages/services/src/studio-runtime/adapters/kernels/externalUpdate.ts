@@ -9,6 +9,7 @@ import {
   type ExternalKernel,
 } from "../../domain/kernelPolicy.js";
 import { BUILTIN_KERNEL_BY_ID } from "./acpCatalog.js";
+import { expandShortNames } from "../longPath.js";
 import type { KernelExecutable } from "./executable.js";
 import { stopOwnedTree } from "./processTransport.js";
 
@@ -65,9 +66,11 @@ export async function externalUpdatePlan(
   const native = NATIVE_UPDATES[kernel];
   if (native && executable.args.length === 0) {
     const actual = await realpath(executable.path).catch(() => undefined);
+    // realpath 会把 Windows 8.3 短名展开为长名，命令路径同样只展开短名后再比较，
+    // 否则长用户名机器上的原生 CLI 永远得不到更新入口。
     if (
       actual &&
-      resolve(actual) === resolve(executable.command) &&
+      resolve(actual) === resolve(await expandShortNames(executable.command)) &&
       nativeLauncherMatches(native, executable.path, actual) &&
       (process.platform !== "win32" || extname(actual).toLowerCase() === ".exe")
     )

@@ -40,8 +40,8 @@
 
 ## 便携版
 
-原目录：`C:/Users/17018/Desktop/Knorvia Studio Portable`。更新于 2026-09-23 23:11:24，保留原托盘关闭偏好。用户配置中没有加入测试背景。
+原目录：`%USERPROFILE%/Desktop/Knorvia Studio Portable`。更新于 2026-09-23 23:11:24，保留原托盘关闭偏好。用户配置中没有加入测试背景。
 
 - ASAR integrity：`00385ee123796772a971497345e9aa4804ef59ed420a7b7044f4794e01fb1ddc`
 - EXE SHA-256：`97ae8805fdaaaec1822222fef1f3dc9f24a91caf0a1b947cb9ecfe7f08f6c9da`
-- 包内校验记录：`C:/Users/17018/Desktop/Knorvia Studio Portable/构建校验.json`
+- 包内校验记录：`%USERPROFILE%/Desktop/Knorvia Studio Portable/构建校验.json`

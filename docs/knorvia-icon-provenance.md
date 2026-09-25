@@ -6,7 +6,7 @@ The cutout and mascot update were produced with the built-in image-generation ed
 
 ## Approved mascot update
 
-Final generated source: `C:/Users/17018/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-50415e5c-3cba-4a7a-9d99-9bf876a9d8b2.png`. The selected image is copied into the repository; runtime does not depend on this generation directory. Supporting identity reference was rendered directly from the approved SVG, not independently redesigned. Conversion preserves alpha and emits PNG sizes 16–1024, seven ICO frames and ICNS sizes. Input and 256px output corners were verified transparent.
+Final generated source: `%USERPROFILE%/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-50415e5c-3cba-4a7a-9d99-9bf876a9d8b2.png`. The selected image is copied into the repository; runtime does not depend on this generation directory. Supporting identity reference was rendered directly from the approved SVG, not independently redesigned. Conversion preserves alpha and emits PNG sizes 16–1024, seven ICO frames and ICNS sizes. Input and 256px output corners were verified transparent.
 
 ### Mascot replacement prompt (built-in image_gen)
 

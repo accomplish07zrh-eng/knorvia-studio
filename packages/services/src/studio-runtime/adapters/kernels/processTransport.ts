@@ -226,11 +226,21 @@ export async function stopOwnedTree(child: ReturnType<typeof spawn>): Promise<vo
       killer.once("exit", finish);
     });
   } else {
+    // SIGKILL 只是投递信号；旧实现不等子进程被回收就返回，调用方（关闭、卸载）会与仍存活的进程竞争。
+    // 等待 exit 事件（最多 3 秒，与 Windows 分支一致），保证返回时进程已终止。
+    const exited = new Promise<void>((resolve) => {
+      const timer = setTimeout(resolve, 3000);
+      child.once("exit", () => {
+        clearTimeout(timer);
+        resolve();
+      });
+    });
     try {
       process.kill(-child.pid, "SIGKILL");
     } catch {
       child.kill("SIGKILL");
     }
+    await exited;
   }
 }
 

@@ -8,7 +8,7 @@
 
 统一 B–J 类产品标识（内部包名、目录、文件、环境变量、配置字段、协议常量、构建产物）为 Knorvia，
 保留模型供应商的真实名称和仍适用的第三方署名。需要交付便携版时，按用户的数据保护规则覆盖
-`C:\Users\17018\Desktop\Knorvia Studio Portable`。
+`%USERPROFILE%\Desktop\Knorvia Studio Portable`。
 
 ## 不可改（硬约束）
 

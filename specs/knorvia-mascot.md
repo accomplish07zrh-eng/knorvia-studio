@@ -46,7 +46,7 @@ flowchart LR
 
 ## 参考
 
-- 用户原图：`C:/Users/17018/Downloads/file_00000000160881fab6bf45cb76b59ac3.png`。
+- 用户原图：`%USERPROFILE%/Downloads/file_00000000160881fab6bf45cb76b59ac3.png`。
 - 官方角色状态说明：https://x.ai/news/designing-grok-bot
 - 官方动作调校说明：https://x.ai/bot/guides/designing-grok-bot-with-grok-bot
 - 本机 `_grokbot_ref` 仅用于确认 SVG／代码动画方式；其 reconstruction 不能当作官方开放源码或可直接复用许可。本实现独立绘制与编写。

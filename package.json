@@ -28,6 +28,7 @@
     "clean": "node scripts/clean.mjs",
     "typecheck": "pnpm i18n:check && tsc -b packages/rpc packages/provider packages/provider-node packages/shared packages/services packages/client packages/server packages/server-cli packages/ui packages/web packages/desktop/tsconfig.host.json packages/desktop/tsconfig.main.json",
     "i18n:check": "node scripts/check-i18n-parity.mjs",
+    "build:cli-packages": "turbo run build --cwd apps/cli",
     "test:studio": "node scripts/test-studio.mjs",
     "perf:baseline": "node scripts/perf-baseline.mjs",
     "bundle:desktop": "pnpm --filter @knorvia/desktop run bundle --",

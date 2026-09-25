@@ -53,7 +53,8 @@ test("portable marker and explicit portable directory keep all data beside their
   const explicit = resolveDesktopProfile({
     ...defaults,
     portableMarker: true,
-    env: { KNORVIA_PORTABLE_DIR: portableDir, KNORVIA_DATA_BASE_DIR: "C:/ignored-normal" },
+    // 被忽略的普通数据目录也会做绝对路径校验；"C:/..." 在 POSIX 上不是绝对路径，按当前平台解析。
+    env: { KNORVIA_PORTABLE_DIR: portableDir, KNORVIA_DATA_BASE_DIR: resolve("C:/ignored-normal") },
   });
   assert.equal(explicit.base, join(portableDir, "data"));
   const env = buildDesktopProfileEnvironment(explicit.base);

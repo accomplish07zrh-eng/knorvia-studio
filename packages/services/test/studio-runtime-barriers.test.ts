@@ -254,7 +254,10 @@ test("an unfinished source-project application blocks resume and queued dispatch
         : ok(),
   });
   await group(f, "retry");
-  await group(f, "queued", f.path.toUpperCase().replaceAll("\\", "/") + "/");
+  // Windows 路径不区分大小写；POSIX 区分大小写，同一项目的不同写法只剩结尾分隔符。
+  const sameProject =
+    process.platform === "win32" ? f.path.toUpperCase().replaceAll("\\", "/") + "/" : `${f.path}/`;
+  await group(f, "queued", sameProject);
   const failed = await send(f, "group", "retry", "@codex fail once");
   await until(f, () => state(f, failed.id).state === "failed");
   const queued = await send(f, "group", "queued", "@codex remain queued");
