@@ -89,7 +89,8 @@ export class StudioDatabase implements StudioRepository {
         options.scope ?? null,
         options.scope ?? null,
         options.before ?? Number.MAX_SAFE_INTEGER,
-        Math.min(options.limit ?? 1000, 10_000),
+        // SQLite 中 LIMIT -1 表示不限制。
+        options.all ? -1 : Math.min(options.limit ?? 1000, 10_000),
       );
     return rows.map((row) => {
       const value = JSON.parse(String(row.value));

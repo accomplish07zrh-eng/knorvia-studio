@@ -61,9 +61,9 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     return {
       revision: db.revision(),
       configs: this.configs(),
-      conversations: db.list("conversation"),
-      groups: db.list("group"),
-      workflows: db.list("workflow"),
+      conversations: db.list("conversation", { all: true }),
+      groups: db.list("group", { all: true }),
+      workflows: db.list("workflow", { all: true }),
       runs: studioRunHistory(db),
     };
   }

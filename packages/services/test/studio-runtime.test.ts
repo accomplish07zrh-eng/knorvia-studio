@@ -607,3 +607,23 @@ test("definition saves based on a stale version are rejected without overwriting
   );
   await f.service.disposeAllAndWait();
 });
+
+test("overview lists every conversation instead of silently truncating at the page limit", async () => {
+  const path = root();
+  const f = fixture(path, success);
+  f.db.transaction(() => {
+    for (let i = 0; i < 1200; i++)
+      f.db.write("conversation", `c-${i}`, {
+        id: `c-${i}`,
+        kernel: "codex",
+        workspacePath: path,
+        title: "t",
+        createdAt: i,
+        updatedAt: i,
+      });
+  });
+  const overview = await f.service.overview();
+  assert.equal(overview.conversations.length, 1200);
+  assert.ok(overview.conversations.some((item) => item.id === "c-0"));
+  await f.service.disposeAllAndWait();
+});
