@@ -1,5 +1,7 @@
 name: Studio offline checks
 
+# 本工作流只做检查，不构建安装包、不创建 Release（specs/knorvia-release-gates.md 规则 5）。
+# 检查步骤只在 .github/workflows/studio-quality.yml 中定义一次（规则 1）。
 on:
   push:
     branches: [main]
@@ -15,64 +17,18 @@ permissions:
 
 jobs:
   # 每个 PR 走 Linux 快速检查；离线测试不依赖 Electron 原生模块，因此跳过安装脚本。
+  # 离线检查不依赖 Electron 原生模块，跳过安装脚本可省下编译时间。
   linux:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24.14.0
-          cache: pnpm
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Install frozen dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Typecheck including desktop main
-        run: pnpm typecheck
-      - name: Lint
-        run: pnpm lint
-      - name: Format check
-        run: pnpm fmt:check
-      - name: Architecture check (full repository)
-        run: pnpm architecture:check
-      - name: Build CLI packages used by offline tests
-        run: pnpm build:cli-packages
-      - name: Offline Studio regression
-        run: pnpm test:studio
+    uses: ./.github/workflows/studio-quality.yml
+    with:
+      runs-on: ubuntu-latest
+      install-args: "--frozen-lockfile --ignore-scripts"
+      timeout-minutes: 30
 
-  # Windows 平台回归只在合入 main 后或手动触发时运行，节省 Windows 分钟数。
+  # Windows 回归在 PR 上也必须运行（规则 4）。保留 Linux 快速检查作为更早的信号。
   windows:
-    if: github.event_name != 'pull_request'
-    runs-on: windows-latest
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24.14.0
-          cache: pnpm
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Install frozen dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Typecheck including desktop main
-        run: pnpm typecheck
-      - name: Lint
-        run: pnpm lint
-      - name: Format check
-        run: pnpm fmt:check
-      - name: Architecture check (full repository)
-        run: pnpm architecture:check
-      - name: Build CLI packages used by offline tests
-        run: pnpm build:cli-packages
-      - name: Offline Studio regression
-        run: pnpm test:studio
+    uses: ./.github/workflows/studio-quality.yml
+    with:
+      runs-on: windows-latest
+      install-args: "--frozen-lockfile"
+      timeout-minutes: 60

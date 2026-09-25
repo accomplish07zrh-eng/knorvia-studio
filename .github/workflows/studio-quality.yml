@@ -1,0 +1,123 @@
+name: Studio quality (reusable)
+
+# 单一质量检查定义（specs/knorvia-release-gates.md 规则 1）。
+# 离线检查与发布都调用本工作流，不再各自内联检查步骤。
+# 调用方必须 checkout 同一个 `ref`；本工作流输出实际检出的完整 SHA，
+# 供打包/发布 job 使用，避免检查与打包取到不同提交。
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 要检查的提交 SHA 或 ref；留空表示使用触发事件的提交
+        required: false
+        type: string
+        default: ""
+      runs-on:
+        description: 运行器标签
+        required: false
+        type: string
+        default: ubuntu-latest
+      install-args:
+        description: 传给 pnpm install 的参数
+        required: false
+        type: string
+        default: "--frozen-lockfile --ignore-scripts"
+      timeout-minutes:
+        description: 本 job 超时分钟数
+        required: false
+        type: number
+        default: 40
+    outputs:
+      checked-sha:
+        description: 本工作流实际检查的完整提交 SHA
+        value: ${{ jobs.quality.outputs.checked-sha }}
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ${{ inputs.runs-on }}
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+    outputs:
+      checked-sha: ${{ steps.resolve-sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref != '' && inputs.ref || github.sha }}
+          fetch-depth: 0
+
+      - name: Resolve checked SHA
+        id: resolve-sha
+        shell: bash
+        run: |
+          sha="$(git rev-parse HEAD)"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          {
+            echo "## 受检提交"
+            echo ""
+            echo "- 受检 SHA：\`$sha\`"
+            echo "- 触发事件：\`${{ github.event_name }}\`"
+            echo "- 运行器：\`${{ inputs.runs-on }}\`"
+            echo "- 请求 ref：\`${{ inputs.ref }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install frozen dependencies
+        run: pnpm install ${{ inputs.install-args }}
+
+      - name: Typecheck including desktop main
+        id: typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        id: lint
+        run: pnpm lint
+
+      - name: Format check
+        id: format
+        run: pnpm fmt:check
+
+      - name: Architecture check (full repository)
+        id: architecture
+        run: pnpm architecture:check
+
+      - name: Build CLI packages used by offline tests
+        id: build-cli
+        run: pnpm build:cli-packages
+
+      - name: Offline Studio regression
+        id: test-studio
+        run: pnpm test:studio
+
+      # 汇总只是记录，不参与放行判断：任一必需步骤失败/取消都会让本 job 失败，
+      # 调用方的 `needs` 因此阻断打包与发布。
+      - name: Record check results
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo ""
+            echo "## 检查结果（受检 SHA \`${{ steps.resolve-sha.outputs.sha }}\`）"
+            echo ""
+            echo "| 检查 | 结论 |"
+            echo "| --- | --- |"
+            echo "| typecheck | ${{ steps.typecheck.outcome }} |"
+            echo "| lint | ${{ steps.lint.outcome }} |"
+            echo "| fmt:check | ${{ steps.format.outcome }} |"
+            echo "| architecture:check | ${{ steps.architecture.outcome }} |"
+            echo "| build:cli-packages | ${{ steps.build-cli.outcome }} |"
+            echo "| test:studio | ${{ steps.test-studio.outcome }} |"
+            echo ""
+            echo "被取消、失败、缺失或跳过的检查都不算通过；本 job 的失败会阻断打包与发布。"
+          } >> "$GITHUB_STEP_SUMMARY"
