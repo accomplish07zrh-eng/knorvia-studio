@@ -87,6 +87,72 @@ const enUS: Record<string, string> = {
   "studio.workflow.permissionFullAccess": "Full access",
   ...workflowConflictEnUS,
   ...creationEnUS,
+  // T09 creation UI copy lives directly in the catalog next to the module block,
+  // matching the studio.workflow.* precedent and keeping messages.ts under the lint cap.
+  "studio.creation.reuseParameters": "Reuse parameters",
+  "studio.creation.continueAsReference": "Continue from this result",
+  "studio.creation.variant": "Variant",
+  "studio.creation.verifyRemote": "Check remote result",
+  "studio.creation.reuseLoaded":
+    "Parameters and reference images were filled back in. Submitting will use a new request id.",
+  "studio.creation.disabledActions": "Unavailable: {items}",
+  "studio.creation.entryReasonRunning":
+    "The task is still running; reuse is available once it ends",
+  "studio.creation.entryReasonModelMissing": "The original model no longer exists",
+  "studio.creation.entryReasonModelDisabled": "The original model is disabled",
+  "studio.creation.entryReasonModelKind": "The original model changed its kind",
+  "studio.creation.entryReasonModelUnconfigured": "The original model has no API configured",
+  "studio.creation.entryReasonSlotReference":
+    "The original model no longer declares a reference slot",
+  "studio.creation.entryReasonSlotFirstFrame":
+    "The original model no longer declares a first-frame slot",
+  "studio.creation.entryReasonSlotLastFrame":
+    "The original model no longer declares a last-frame slot",
+  "studio.creation.referenceReasonStatus": "Only a completed task can be continued as a reference",
+  "studio.creation.referenceReasonOutput": "This task has no usable output file",
+  "studio.creation.referenceReasonHash":
+    "An older record has no output hash, so it cannot be referenced",
+  "studio.creation.referenceReasonKind": "Only an image result can be used as a reference input",
+  "studio.creation.referenceReasonSize": "The output exceeds the 10 MB reference limit",
+  "studio.creation.verifyReasonStatus":
+    "Only tasks with an unknown result (interrupted or stopped) can be checked",
+  "studio.creation.verifyReasonModelMissing":
+    "The original model no longer exists, so the result cannot be checked",
+  "studio.creation.variantNote":
+    "Submits the same parameters under a new request id, possibly billed again",
+  "studio.creation.referenceNote":
+    "Submits a new task using this result as the reference image, possibly billed again",
+  "studio.creation.variantUnknownResult":
+    "The earlier result is still unknown; resubmitting starts a second paid request",
+  "studio.creation.snapshotTitle": "Parameter snapshot",
+  "studio.creation.snapshotKind": "Kind",
+  "studio.creation.snapshotModel": "Model",
+  "studio.creation.snapshotProtocol": "API type",
+  "studio.creation.snapshotProviderModel": "Provider model",
+  "studio.creation.snapshotPrompt": "Prompt",
+  "studio.creation.snapshotCapturedAt": "Captured at",
+  "studio.creation.snapshotReference": "Reference image",
+  "studio.creation.snapshotFirstFrame": "First frame",
+  "studio.creation.snapshotLastFrame": "Last frame",
+  "studio.creation.snapshotReconstructible": "Can be rebuilt from the snapshot",
+  "studio.creation.snapshotNotReconstructible": "Parameters cannot be restored",
+  "studio.creation.snapshotMissingNote":
+    "This record has no parameter snapshot. Current settings are never substituted for missing history.",
+  "studio.creation.snapshotMissingFields": "Missing fields: {fields}",
+  "studio.creation.detailsSummary": "Parameter snapshot and provenance",
+  "studio.creation.provenanceTitle": "Provenance",
+  "studio.creation.provenanceParent": "Parent task",
+  "studio.creation.provenanceOutput": "Referenced output",
+  "studio.creation.provenanceRepeat": "Repeated request id",
+  "studio.creation.verifyOutcomeSucceeded": "Remote confirmed complete",
+  "studio.creation.verifyOutcomeFailed": "Remote confirmed failed",
+  "studio.creation.verifyOutcomeUnknown": "Result still unknown",
+  "studio.creation.verifyOutcomeUnsupported": "Cannot be verified remotely",
+  "studio.creation.checkedAt": "Last checked: {time}",
+  "studio.creation.checkedNever": "Not checked yet",
+  "studio.creation.idempotencyNote":
+    "Repeating the same submission reuses its request id; changing the prompt, model or reference images starts a new one.",
+  "studio.creation.submissionIdKept": "This request id is kept: {id}. Submitting again reuses it.",
   "studio.delivery.outcome.produced": "Produced",
   "studio.delivery.outcome.checked": "Verified",
   "studio.delivery.outcome.unverified": "Unverified",

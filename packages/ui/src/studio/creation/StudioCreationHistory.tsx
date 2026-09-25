@@ -5,11 +5,13 @@ import type {
   CreationJobStatus,
   CreationKind,
   CreationModel,
+  CreationVerification,
 } from "@knorvia/services";
-import { Button } from "@/components/ui/button.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { filterCreationJobs, type CreationHistoryFilter } from "./creationHistory.js";
-import { StudioCreationOutput } from "./StudioCreationOutput.js";
+import { creationEntryStates } from "./creationEntries.js";
+import type { CreationActionPending, CreationActionRequest } from "./creationActions.js";
+import { StudioCreationJobCard } from "./StudioCreationJobCard.js";
 
 export function StudioCreationHistory({
   jobs,
@@ -17,18 +19,24 @@ export function StudioCreationHistory({
   draftKind,
   pendingCancel,
   pendingRetry,
+  pendingAction,
+  verifications,
+  actionErrors,
   onCancel,
   onRetry,
-  onReuse,
+  onAction,
 }: {
   jobs: readonly CreationJob[];
   models: readonly CreationModel[];
   draftKind: CreationKind;
   pendingCancel: string | null;
   pendingRetry: string | null;
+  pendingAction: CreationActionPending | null;
+  verifications: Record<string, CreationVerification>;
+  actionErrors: Record<string, string>;
   onCancel(job: CreationJob): void;
   onRetry(job: CreationJob): void;
-  onReuse(job: CreationJob): void;
+  onAction(request: CreationActionRequest): void;
 }) {
   const { intl } = useKnorviaIntl();
   const t = (key: string, values?: Record<string, string>) =>
@@ -121,70 +129,24 @@ export function StudioCreationHistory({
             aria-label={t("history")}
             className="grid gap-4 pb-6 sm:grid-cols-2 xl:grid-cols-3"
           >
-            {visible.map((job) => (
-              <article
-                key={job.id}
-                className="min-w-0 overflow-hidden rounded-xl border border-card-border bg-card shadow-xs"
-              >
-                <StudioCreationOutput job={job} />
-                <div className="space-y-2.5 p-3.5">
-                  <p
-                    className="line-clamp-2 text-ui-base font-medium text-foreground"
-                    title={job.prompt}
-                  >
-                    {job.prompt}
-                  </p>
-                  <div className="flex items-center gap-2 text-ui-sm text-foreground-subtle">
-                    <span role="status">{t(job.status)}</span>
-                    <span aria-hidden="true">·</span>
-                    <time dateTime={job.createdAt}>{new Date(job.createdAt).toLocaleString()}</time>
-                  </div>
-                  {job.error ? (
-                    <p className="text-ui-sm text-destructive" role="alert">
-                      {job.error}
-                    </p>
-                  ) : null}
-                  {job.referenceName || job.firstFrameName || job.lastFrameName ? (
-                    <p
-                      className="truncate text-ui-xs text-foreground-subtle"
-                      title={[job.referenceName, job.firstFrameName, job.lastFrameName]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    >
-                      {[job.referenceName, job.firstFrameName, job.lastFrameName]
-                        .filter(Boolean)
-                        .join(" · ")}
-                    </p>
-                  ) : null}
-                  <div className="flex items-center gap-2">
-                    {job.status === "queued" || job.status === "running" ? (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={pendingCancel === job.id}
-                        onClick={() => onCancel(job)}
-                      >
-                        {t("cancel")}
-                      </Button>
-                    ) : null}
-                    {job.status === "failed" ? (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={pendingRetry === job.id}
-                        title={t("retryCostHint")}
-                        onClick={() => onRetry(job)}
-                      >
-                        {t("retryJob")}
-                      </Button>
-                    ) : null}
-                    <Button variant="ghost" size="sm" onClick={() => onReuse(job)}>
-                      {t("reuse")}
-                    </Button>
-                  </div>
-                </div>
-              </article>
-            ))}
+            {visible.map((job) => {
+              const model = models.find((item) => item.id === job.modelId);
+              return (
+                <StudioCreationJobCard
+                  key={job.id}
+                  job={job}
+                  entries={creationEntryStates(job, model)}
+                  pending={pendingAction}
+                  pendingCancel={pendingCancel}
+                  pendingRetry={pendingRetry}
+                  verification={verifications[job.id]}
+                  actionError={actionErrors[job.id]}
+                  onCancel={onCancel}
+                  onRetry={onRetry}
+                  onAction={onAction}
+                />
+              );
+            })}
           </section>
         ) : (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 py-10 text-center text-foreground-subtle">

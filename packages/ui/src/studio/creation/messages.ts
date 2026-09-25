@@ -28,7 +28,6 @@ export const creationZhCN: Record<string, string> = {
   "studio.creation.lastFrame": "尾帧",
   "studio.creation.frameHint": "仅支持模型可用；每帧限 10 MB 的 PNG、JPEG 或 WebP。",
   "studio.creation.cancel": "停止等待",
-  "studio.creation.reuse": "再次编辑",
   "studio.creation.openFile": "打开文件位置",
   "studio.creation.retry": "重试加载",
   "studio.creation.retryJob": "按原参数重试",
@@ -101,7 +100,6 @@ export const creationEnUS: Record<string, string> = {
   "studio.creation.frameHint":
     "Only available for supported models; each PNG, JPEG or WebP frame is limited to 10 MB.",
   "studio.creation.cancel": "Stop waiting",
-  "studio.creation.reuse": "Edit again",
   "studio.creation.openFile": "Open file location",
   "studio.creation.retry": "Retry loading",
   "studio.creation.retryJob": "Retry with original inputs",

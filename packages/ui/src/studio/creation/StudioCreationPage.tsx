@@ -5,6 +5,7 @@ import {
   type CreationJob,
   type CreationKind,
   type CreationModel,
+  type CreationVerification,
 } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { Textarea } from "@/components/ui/textarea.js";
@@ -14,9 +15,15 @@ import { cn } from "@/components/lib/utils.js";
 import { StudioCreationModelDialog } from "./StudioCreationModelDialog.js";
 import { StudioCreationHistory } from "./StudioCreationHistory.js";
 import { CreationAttachments, CreationFileButtons } from "./CreationFiles.js";
+import { useCreationJobActions } from "./useCreationJobActions.js";
+import {
+  creationSubmissionSignature,
+  resolveCreationSubmission,
+  type CreationSubmission,
+} from "./creationSubmit.js";
 import {
   assertCreationFiles,
-  CREATION_SLOTS,
+  creationDraftFiles,
   creationFileInputs,
   type CreationFiles,
 } from "./creationInput.js";
@@ -40,14 +47,52 @@ export function StudioCreationPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [managing, setManaging] = useState(false);
   const [pendingCancel, setPendingCancel] = useState<string | null>(null);
   const [pendingRetry, setPendingRetry] = useState<string | null>(null);
-  const pendingRequest = useRef<{ signature: string; id: string; files: CreationFiles } | null>(
-    null,
-  );
+  const [verifications, setVerifications] = useState<Record<string, CreationVerification>>({});
+  const [actionErrors, setActionErrors] = useState<Record<string, string>>({});
+  const [submission, setSubmission] = useState<CreationSubmission | null>(null);
   const draftEpoch = useRef(0);
   const submittingRef = useRef(false);
+  // 修改草稿（文字、模型、参考图）都推进 epoch，迟到的提交结果不会清掉新输入。
+  const editDraft = useCallback((clearFiles: boolean) => {
+    draftEpoch.current++;
+    setNotice("");
+    if (clearFiles) setFiles(NO_FILES);
+  }, []);
+
+  const upsertJob = useCallback((job: CreationJob) => {
+    setJobs((items) => [job, ...items.filter((item) => item.id !== job.id)]);
+  }, []);
+  const replaceJob = useCallback((job: CreationJob) => {
+    setJobs((items) => items.map((item) => (item.id === job.id ? job : item)));
+  }, []);
+
+  const { pending: pendingAction, run: runAction } = useCreationJobActions(creation, {
+    onDraft: (draft) => {
+      editDraft(true);
+      setKind(draft.kind);
+      setModelId(draft.modelId);
+      setPrompt(draft.prompt);
+      setFiles(creationDraftFiles(draft));
+      setSubmission(null);
+      setNotice(t("reuseLoaded"));
+    },
+    onJob: upsertJob,
+    onVerified: (verification) => {
+      setVerifications((current) => ({ ...current, [verification.job.id]: verification }));
+      replaceJob(verification.job);
+    },
+    onError: (message, jobId) =>
+      setActionErrors((current) => {
+        const next = { ...current };
+        if (message) next[jobId] = message;
+        else delete next[jobId];
+        return next;
+      }),
+  });
 
   const refresh = useCallback(
     async (clearError = false) => {
@@ -87,11 +132,6 @@ export function StudioCreationPage() {
   );
   const selectedModel = availableModels.find((model) => model.id === modelId) ?? availableModels[0];
   const referenceSlots = selectedModel ? creationReferenceSlots(selectedModel) : null;
-  // 修改草稿（文字、模型、参考图）都推进 epoch，迟到的提交结果不会清掉新输入。
-  const editDraft = (clearFiles: boolean) => {
-    draftEpoch.current++;
-    if (clearFiles) setFiles(NO_FILES);
-  };
 
   const submit = async () => {
     if (!creation || submittingRef.current || !selectedModel || !prompt.trim()) return;
@@ -102,26 +142,30 @@ export function StudioCreationPage() {
     try {
       assertCreationFiles(files, referenceSlots);
       const normalizedPrompt = prompt.trim();
-      const signature = JSON.stringify([kind, selectedModel.id, normalizedPrompt]);
-      if (
-        pendingRequest.current?.signature !== signature ||
-        CREATION_SLOTS.some((slot) => pendingRequest.current?.files[slot] !== files[slot])
-      )
-        pendingRequest.current = { signature, id: crypto.randomUUID(), files };
-      const requestId = pendingRequest.current.id;
+      // 同一次提交复用同一个编号；内容或参考图变化才算新的生成意图。
+      const resolved = resolveCreationSubmission(submission, {
+        signature: creationSubmissionSignature({
+          kind,
+          modelId: selectedModel.id,
+          prompt: normalizedPrompt,
+        }),
+        files,
+        requestId: crypto.randomUUID(),
+      });
+      if (!resolved.reused) setSubmission(resolved.submission);
       const job = await creation.createJob({
-        requestId,
+        requestId: resolved.submission.requestId,
         kind,
         modelId: selectedModel.id,
         prompt: normalizedPrompt,
         ...(await creationFileInputs(files)),
       });
-      setJobs((items) => [job, ...items.filter((item) => item.id !== job.id)]);
+      upsertJob(job);
       if (draftEpoch.current === submittedEpoch) {
         setPrompt("");
         setFiles(NO_FILES);
       }
-      pendingRequest.current = null;
+      setSubmission(null);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause));
     } finally {
@@ -135,8 +179,7 @@ export function StudioCreationPage() {
     setPendingRetry(job.id);
     setError("");
     try {
-      const created = await creation.retryJob(job.id);
-      setJobs((items) => [created, ...items.filter((item) => item.id !== created.id)]);
+      upsertJob(await creation.retryJob(job.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause));
     } finally {
@@ -149,8 +192,7 @@ export function StudioCreationPage() {
     setPendingCancel(job.id);
     setError("");
     try {
-      const changed = await creation.cancelJob(job.id);
-      setJobs((items) => items.map((item) => (item.id === changed.id ? changed : item)));
+      replaceJob(await creation.cancelJob(job.id));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause));
     } finally {
@@ -202,13 +244,12 @@ export function StudioCreationPage() {
         draftKind={kind}
         pendingCancel={pendingCancel}
         pendingRetry={pendingRetry}
+        pendingAction={pendingAction}
+        verifications={verifications}
+        actionErrors={actionErrors}
         onCancel={(job) => void cancel(job)}
         onRetry={(job) => void retry(job)}
-        onReuse={(job) => {
-          editDraft(true);
-          setPrompt(job.prompt);
-          pendingRequest.current = null;
-        }}
+        onAction={(request) => void runAction(request)}
       />
       <div className="shrink-0 border-t border-border/50 bg-background px-4 py-4 md:px-8">
         <div className="mx-auto w-full max-w-3xl">
@@ -293,11 +334,19 @@ export function StudioCreationPage() {
             </div>
           </div>
           <div className="mt-2 flex items-start justify-between gap-3 text-ui-xs text-foreground-subtle">
-            <span>{t("note")}</span>
+            <span className="min-w-0">
+              {t("note")}
+              <span className="mt-1 block">
+                {submission
+                  ? t("submissionIdKept", { id: submission.requestId })
+                  : t("idempotencyNote")}
+              </span>
+              {notice ? <span className="mt-1 block text-foreground">{notice}</span> : null}
+            </span>
             {error ? (
               <button
                 type="button"
-                className="text-destructive underline"
+                className="shrink-0 text-destructive underline"
                 onClick={() => void refresh(true)}
               >
                 {error} · {t("retry")}
