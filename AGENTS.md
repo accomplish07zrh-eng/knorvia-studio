@@ -1,11 +1,11 @@
 ## Knorvia Studio 当前范围
 
-- 本仓库于 2026-09-22 从上游重新克隆，旧多内核实现已被用户明确废弃，不得恢复。
+- 本仓库于 2026-09-22 从上游重新克隆。此前旧仓库中的多内核与协作实现已被用户明确废弃，不得复制或恢复；当前的多内核、群聊、工作流等能力是按 `specs/` 重新实现的，不属于废弃范围。
 - 保持上游原版 GUI、Knorvia Studio 品牌、透明图标、白色初始主题，以及已经完成的登录清理和身份隔离。
 - 视觉取值与形状已换成 Knorvia 自己的黑白视觉语言（2026-09-24 用户确认，见 `specs/knorvia-visual-language.md` 与 DESIGN.md「Knorvia visual language」）：纯净黑白、同色系以深浅区分、胶囊/圆形操作、纸片式选中、三道笔画母题、细线图标。「保持原版 GUI」指布局、组件与交互不变，**不得**把颜色、圆角、形状恢复为 ZCode/Zai 原值，也不得引入紫色、粉色或左黑右白的配色。
 - 夜间使用 Computer Use 实机调试时，测试配置默认使用深色，避免强光；这不改变新安装首次启动的白色主题。
 - 当前用户已授权在原 GUI 内全面补齐 Agent 管理、单聊／群聊与工作流后端，以 `specs/knorvia-backend.md` 为当前实施规格，沿用 `specs/knorvia-frontend-shell.md` 的界面规则；基础隔离继续遵守 `specs/knorvia-clean-base.md`。群任务持续运行至完成、真实阻塞或用户停止，不按固定轮次要求继续。不恢复废弃实现、不另起 UI 壳子。
-- 暂不新增角色与记忆、成果页面。主侧栏保留新建任务、自动化、工作流；搜索为顶部图标，其余管理入口收进设置左侧。
+- 暂不新增角色与记忆、成果页面。主侧栏保留新建任务、自动化、工作流及其后的创作入口（`specs/knorvia-creation.md`）；搜索为顶部图标，其余管理入口收进设置左侧。
 - 内置与本机发现的 CLI 内核共用原 Knorvia 聊天呈现组件；新增 ACP 内核按 `specs/knorvia-cli-expansion.md` 登记和核验。外部内核草稿、项目与运行时边界独立，未接入时禁止发送，不做另一套聊天外观。
 - 不提供独立插件市场，设置只留一个插件管理入口。管理页标题使用紧凑的 text-ui-lg，避免巨大标题和大块标题留白；模型供应商并列展示，不为智谱或 Z.ai 设置单独专区。
 - 产品自己的环境变量与数据目录使用 `KNORVIA_`、`.knorvia-studio`，不读取现有 ZCode 配置或凭据。内部包名可保留兼容标识。
@@ -26,9 +26,12 @@
 
 | 用途             | 命令                                      |
 | ---------------- | ----------------------------------------- |
-| 类型检查         | `pnpm typecheck`                          |
+| 类型检查         | `pnpm typecheck`（含中英文键校验）        |
 | Lint             | `pnpm lint` / `pnpm lint:fix`             |
 | 格式检查         | `pnpm fmt:check`                          |
+| 离线回归测试     | `pnpm test:studio`                        |
+| 中英文键校验     | `pnpm i18n:check`                         |
+| 性能基线         | `pnpm perf:baseline`                      |
 | 桌面开发         | `pnpm dev:desktop`                        |
 | Web 开发         | `pnpm dev:web`                            |
 | 提交前检查       | `pnpm verify:pre-push`（Lint 与架构检查） |
@@ -37,7 +40,7 @@
 | 未使用依赖与导出 | `pnpm knip`                               |
 | 导出引用查询     | `pnpm dep:refs --list-exports <file>`     |
 
-测试入口以目标包当前的 `package.json` 和实际测试文件为准，不假定存在统一的单测或 E2E 命令。
+`pnpm test:studio` 汇总 services、ui、desktop、shared、rpc 及 CLI 相关包的离线测试文件（见 `scripts/test-studio.mjs`）；其他测试入口以目标包的 `package.json` 和实际测试文件为准，不假定存在统一的 E2E 命令。`.github/workflows/studio-offline.yml` 在推送 `main` 和 PR 时于 Windows 上运行 typecheck、lint、架构检查与 `test:studio`。
 
 - `packages/desktop`：Electron main、host、renderer。
 - `packages/web`、`packages/server`：Web 客户端与服务端。

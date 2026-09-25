@@ -1,7 +1,14 @@
 name: Studio offline checks
 
 on:
+  push:
+    branches: [main]
+  pull_request:
   workflow_dispatch:
+
+concurrency:
+  group: studio-offline-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -25,7 +32,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: "3.13"
       - name: Typecheck including desktop main
         run: pnpm typecheck
       - name: Lint

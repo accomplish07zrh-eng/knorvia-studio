@@ -41,7 +41,7 @@ Windows 生产身份打包命令：设置 KNORVIA_ENV=production 后运行 node 
 
 使用实际打包程序和隔离数据，通过界面切换浅色/深色、玻璃关闭/开启、首页/外部内核聊天/设置共 12 个场景，全部通过。核验截图及计算样式：D:/tools.cache/knorvia-final-ui/verification.json。首页浮层和侧栏不再叠加纸片阴影，外部聊天玻璃背景为透明；没有调用模型。
 
-已覆盖 C:/Users/17018/Desktop/Knorvia Studio Portable。覆盖前确认程序未运行；按用户最后指示不新增备份。仅镜像程序 resources，根目录复制排除 data；data 共 360 个文件，覆盖前后逐文件 SHA-256 全部一致。交付记录：便携目录中的构建校验.json，以及 D:/tools.cache/knorvia-portable-final-verification/verification.json。旧运行资源目录已清除，便携成品中的 8 项插件共 59 个文件与新源码、staged 资产及隔离安装缓存一致。
+已覆盖 %USERPROFILE%/Desktop/Knorvia Studio Portable。覆盖前确认程序未运行；按用户最后指示不新增备份。仅镜像程序 resources，根目录复制排除 data；data 共 360 个文件，覆盖前后逐文件 SHA-256 全部一致。交付记录：便携目录中的构建校验.json，以及 D:/tools.cache/knorvia-portable-final-verification/verification.json。旧运行资源目录已清除，便携成品中的 8 项插件共 59 个文件与新源码、staged 资产及隔离安装缓存一致。
 
 ## 未验证及留待后续
 

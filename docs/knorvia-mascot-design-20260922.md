@@ -4,7 +4,7 @@
 
 ## 预览
 
-桌面文件：`C:/Users/17018/Desktop/Knorvia-形象与动效预览.html`。自包含、离线运行，无外部请求、不持久化输入、不发送消息。
+桌面文件：`%USERPROFILE%/Desktop/Knorvia-形象与动效预览.html`。自包含、离线运行，无外部请求、不持久化输入、不发送消息。
 
 形象由 `KnorviaMark.tsx` 与 `mascotArtwork.ts` 原创 SVG 绘制。按最新反馈去掉悬浮圆点和双手，增加头部高度，使用接近等宽高、略不对称的圆润轮廓，保留发光白眼睛。静态内核图标和右下角小助手共用图形。动作由 `useKnorviaMotion.ts` 驱动：呼吸、眨眼、视线跟随、输入专注、悬停靠近、点击点头／眯眼／歪头和空闲休息。眼睛连续变形，切换姿态保留速度，系统减少动态优先。
 
@@ -30,7 +30,7 @@
 
 ### 初版机器人参考（未采用）
 
-文件：`C:/Users/17018/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-ff61284d-f3f1-400e-a4cf-2b251fada0be.png`
+文件：`%USERPROFILE%/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-ff61284d-f3f1-400e-a4cf-2b251fada0be.png`
 
 ```text
 Use case: stylized-concept.
@@ -44,7 +44,7 @@ Output one final transparent PNG character asset, not a presentation sheet or ap
 
 ### 无五官图层研究（未采用）
 
-文件：`C:/Users/17018/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-e2f3a635-f942-4a44-9864-178015d99a8e.png`
+文件：`%USERPROFILE%/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-e2f3a635-f942-4a44-9864-178015d99a8e.png`
 
 ```text
 Use case: precise-object-edit.
@@ -56,7 +56,7 @@ The result must be ONLY the blank rounded black head, with no eyes, no antenna, 
 
 ### K 应用图标候选（未采用，等待形象确定）
 
-文件：`C:/Users/17018/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-ddee25b7-56d3-405c-be3c-5d48cd01c570.png`
+文件：`%USERPROFILE%/.codex/generated_images/01a0c23e-a6f5-7332-bce0-8c5a7bc1592a/exec-ddee25b7-56d3-405c-be3c-5d48cd01c570.png`
 
 ```text
 Use case: precise-object-edit.

@@ -28,7 +28,7 @@
     "bytes": 150159661
   },
   "portable": {
-    "path": "C:\\Users\\17018\\Desktop\\Knorvia Studio Portable",
+    "path": "%USERPROFILE%\\Desktop\\Knorvia Studio Portable",
     "bytes": 660206104,
     "files": 122,
     "excludes": ["data/"]
