@@ -22,16 +22,16 @@
 
 ## 本地质量检查
 
-| 命令 | 结果 |
-| --- | --- |
-| pnpm typecheck | 退出 0，已包含 desktop main |
-| pnpm lint | 0 错误、0 警告 |
-| pnpm architecture:check --changed | 0 违规、0 baseline、新增 0 |
-| pnpm --dir apps/cli typecheck | 退出 0 |
-| pnpm --dir apps/cli lint | 0 错误、0 警告 |
-| pnpm test:studio | 480/480 通过，0 失败、0 跳过，96.65 秒 |
+| 命令                              | 结果                                   |
+| --------------------------------- | -------------------------------------- |
+| pnpm typecheck                    | 退出 0，已包含 desktop main            |
+| pnpm lint                         | 0 错误、0 警告                         |
+| pnpm architecture:check --changed | 0 违规、0 baseline、新增 0             |
+| pnpm --dir apps/cli typecheck     | 退出 0                                 |
+| pnpm --dir apps/cli lint          | 0 错误、0 警告                         |
+| pnpm test:studio                  | 480/480 通过，0 失败、0 跳过，96.65 秒 |
 
-日志在 D:/tools.cache/knorvia-final-typecheck.log、knorvia-final-regression.log 和 knorvia-close-cli-*.log。Windows Actions 配置通过本地 YAML 检查，仅提供手动触发入口；未运行云端 CI，无联网推理。
+日志在 D:/tools.cache/knorvia-final-typecheck.log、knorvia-final-regression.log 和 knorvia-close-cli-\*.log。Windows Actions 配置通过本地 YAML 检查，仅提供手动触发入口；未运行云端 CI，无联网推理。
 
 ## 界面与便携交付
 
@@ -45,7 +45,7 @@ Windows 生产身份打包命令：设置 KNORVIA_ENV=production 后运行 node 
 
 ## 未验证及留待后续
 
-- 凭据安全专项审计 T0.6 未开展，继续保留在桌面规划中。
+- 凭据安全专项审计 T0.6 已在后续完成，结果见 [knorvia-security-audit.md](knorvia-security-audit.md)。
 - 真实付费模型推理、生产服务器、跨设备联调、复杂 Office 版式/宏/修订保真与完整 Computer Use 未验证。
 - 本轮不连接生产服务器，不调用付费模型，不新增页面或登录流程。
-- 桌面规划已移除完成的 T0.1–T0.5，保留 T0.6 与后续阶段。清理前副本位于 D:/tools/knorvia-planning-before-close-20260924.md；此前验收记录保存在仓库外 D:/tools/knorvia-acceptance-before-close-20260924.md。
+- 桌面规划中的本地任务均已完成并移除；最终交付状态见 [本地交付摘要](knorvia-final-local-delivery-20260925.md)。
