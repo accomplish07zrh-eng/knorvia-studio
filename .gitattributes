@@ -1,3 +1,7 @@
+# 仓库统一 LF：Windows 默认 core.autocrlf 会把检出文件转成 CRLF，oxfmt 期望 LF，
+# 导致 Windows 上 fmt:check 报 4310 个文件不符。后面的具体规则会覆盖这一默认值。
+* text=auto eol=lf
+
 # 保持脚本文件 LF 换行，避免 Windows CRLF 导致 shebang 解析失败
 *.mjs text eol=lf
 *.sh  text eol=lf
