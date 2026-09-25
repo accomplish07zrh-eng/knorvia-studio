@@ -101,6 +101,34 @@ Delivered executable SHA-256: 87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D
 | `resources/app.asar`（便携目录内）                  | `159D03B6653695E9CFAF80616E9C47684C6B2582D66C15E6483A7A45EE7B98F0`                     |
 | 安装包 `Knorvia Studio-0.8.0-preview.2-win-x64.exe` | `BFEC71F06FB99335DC845556760FB94CCD592CE91760F1042C7ABE907C0673B9`（150 073 498 字节） |
 
+## 桌面端到端验收（打包应用，全程离线）
+
+任务书 T13 第 3 步要求「跑至少一个真实完整路径」。本轮新增了可重复执行的入口 `scripts/t13-desktop-acceptance.mjs`，在**打包后的应用**上跑真实路径，只连 127.0.0.1 回环夹具，不使用真实模型、不产生费用：
+
+```text
+node scripts/t13-desktop-acceptance.mjs "<未打便携标记的 win-unpacked>/Knorvia Studio.exe"
+```
+
+（未打标记的包来自安装包构建，或把便携构建复制到临时目录后删除 `resources/knorvia-portable.json`。）
+
+真实输出（构建 `6e1b4f2`，Node v26.3.0）：
+
+```text
+PASS 选择内核/供应商与模型：打包界面保存成功，且未产生任何请求
+PASS 真实发送与执行：消息经真实运行时发出，只到达回环夹具并收到回复
+PASS 会话与配置写入本地数据根
+PASS 重开核对：引导不再出现，上一轮消息与回复仍在本地存储，供应商配置仍在
+INFO 重开阶段新增请求数：0（不要求为 0）
+INFO 持久化文件：.knorvia-studio\cli\rollout\model-io-sess_<id>.jsonl, .knorvia-studio\studio\studio.sqlite, .knorvia-studio\studio\studio.sqlite-wal
+未覆盖（本脚本不声称）：隔离工作区产生文件改动、差异审阅与用户接纳、真实模型或付费调用。
+```
+
+同一条路径也在既有入口 `scripts/stage1-provider-loopback-smoke.mjs` 上复跑通过（`PASS model provider and model saved through the packaged UI without network calls` / `PASS first chat reaches only the loopback fixture and completes the guide`）。
+
+**这一步实际覆盖**：引导 → 供应商与模型配置（保存时不联网）→ 选择模型 → 真实发送 → 真实运行时执行并收到回复 → 关闭应用 → 用同一数据根重开 → 引导不再出现、上一轮消息与回复仍在本地存储、供应商配置仍在。
+
+**仍未覆盖**：隔离工作区产生文件改动、差异审阅与用户接纳（回环夹具只返回纯文本，不产生文件变更）；真实模型、真实 CLI/ACP 内核、付费服务。
+
 ## 故障矩阵覆盖情况（如实）
 
 | 场景                                        | 覆盖方式                                                                                                                    | 状态                                             |
@@ -117,7 +145,7 @@ Delivered executable SHA-256: 87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D
 
 ## 未执行 / 例外（不得当作通过）
 
-1. **真实完整路径未跑**：没有执行「选择内核 → 参数/权限检查 → 隔离执行 → 查验证据 → 用户接纳 → 重开核对」的端到端桌面交互，也没有调用任何真实模型或付费服务（未获授权）。任务书要求该步「需要付费的部分必须先获得明确授权」。
+1. **真实完整路径只跑通了一半**：`scripts/t13-desktop-acceptance.mjs` 已在打包应用上跑通「选择供应商/模型 → 真实发送 → 真实运行时执行 → 收到回复 → 重开核对」，全程只连 127.0.0.1；但**隔离工作区产生文件改动、差异审阅与用户接纳**未在打包应用上跑（回环夹具只返回纯文本，不产生文件变更），也没有调用任何真实模型或付费服务（未获授权）。任务书要求「需要付费的部分必须先获得明确授权」。
 2. **云端 CI 未运行**：工作流改动只做了本地 YAML 解析与逻辑夹具验证；分支保护与必需检查需仓库管理员配置（见 `docs/knorvia-release-admin-rules.md`）。
 3. **关闭方式**：每次都用 `taskkill` 关闭便携应用，优雅关闭未生效后使用了强制终止；已确认 `data` 无文件丢失、无内容改动，但强制终止不是正常退出路径。
 4. **安装包未做安装/卸载向导验证**，也未做代码签名（未申请证书，可能出现 SmartScreen 提示）。
