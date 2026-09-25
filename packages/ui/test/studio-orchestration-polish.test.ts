@@ -17,6 +17,7 @@ import {
   decodeWorkflowFile,
   encodeWorkflowFile,
   WORKFLOW_FILE_LIMIT,
+  WORKFLOW_FILE_VERSION,
   workflowFileName,
 } from "../src/studio/workflow/workflowFiles.js";
 
@@ -277,7 +278,8 @@ test("incomplete workflow files are editable drafts, never implicitly runnable",
 test("file import rejects unknown versions, unsafe identities, excess graph sizes and extra fields", () => {
   const base = JSON.parse(encodeWorkflowFile(workflow()));
   const invalid = [
-    { ...base, version: 2 },
+    // 版本 1 与当前信封版本均受支持；未知的新版本必须明确拒绝，不能按当前语义继续。
+    { ...base, version: WORKFLOW_FILE_VERSION + 1 },
     { ...base, unexpected: true },
     { ...base, workflow: { ...base.workflow, workspacePath: "D:/other-user" } },
     {
@@ -311,6 +313,12 @@ test("file import rejects unknown versions, unsafe identities, excess graph size
   ];
   for (const candidate of invalid)
     assert.throws(() => decodeWorkflowFile(JSON.stringify(candidate)));
+  // 旧信封（version 1）仍按旧语义读取，旧工作流无需重建。
+  for (const accepted of [1, WORKFLOW_FILE_VERSION])
+    assert.equal(
+      decodeWorkflowFile(JSON.stringify({ ...base, version: accepted })).workflow.nodes.length,
+      base.workflow.nodes.length,
+    );
   assert.throws(() => decodeWorkflowFile("{"));
   assert.throws(() => decodeWorkflowFile(" ".repeat(WORKFLOW_FILE_LIMIT + 1)), /fileTooLarge/);
 });
