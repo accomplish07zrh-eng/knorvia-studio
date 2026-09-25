@@ -51,13 +51,33 @@ export function useStudioWorkflows(targetId?: string) {
     async (workflow: StudioWorkflow) => {
       if (!workflowFitsRuntime(workflow))
         throw new Error("工作流最多 200 个节点、800 条连接，名称最多 100 字符");
-      const result = (await runtime.command({
-        type: "save-workflow",
-        workflow: workflowDefinition(workflow),
-      })) as StudioCommandResult;
+      // 只对服务端已有的工作流带版本；新建与旧草稿导入不做冲突检测。
+      const baseUpdatedAt = definitions?.some((item) => item.id === workflow.id)
+        ? store.baseUpdatedAt[workflow.id]
+        : undefined;
+      let result: StudioCommandResult;
+      try {
+        result = (await runtime.command({
+          type: "save-workflow",
+          workflow: workflowDefinition(workflow),
+          ...(baseUpdatedAt === undefined ? {} : { baseUpdatedAt }),
+        })) as StudioCommandResult;
+      } catch (cause) {
+        const latest = definitions?.find((item) => item.id === workflow.id);
+        if (baseUpdatedAt !== undefined && latest?.updatedAt !== baseUpdatedAt)
+          store.markConflict(workflow.id);
+        throw cause;
+      }
       store.acceptDefinition(workflow, result.revision);
     },
-    [runtime.command, store.acceptDefinition],
+    [runtime.command, store.acceptDefinition, store.markConflict, store.baseUpdatedAt, definitions],
+  );
+  const reloadLatest = useCallback(
+    (id: string) => {
+      const latest = definitions?.find((item) => item.id === id);
+      if (latest) store.adoptDefinition(workflowDraft(latest));
+    },
+    [definitions, store.adoptDefinition],
   );
   const remove = useCallback(
     async (id: string) => {
@@ -71,5 +91,13 @@ export function useStudioWorkflows(targetId?: string) {
     },
     [runtime.command, store.markImported, store.remove],
   );
-  return { ...runtime, save, remove, importError, retryImport: () => setImportError("") };
+  return {
+    ...runtime,
+    save,
+    remove,
+    reloadLatest,
+    conflictIds: store.conflictIds,
+    importError,
+    retryImport: () => setImportError(""),
+  };
 }

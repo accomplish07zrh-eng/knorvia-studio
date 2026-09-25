@@ -53,6 +53,10 @@ export function validConfig(config: StudioKernelConfig): void {
   if (config.model !== undefined) validModel(config.model);
   if (config.reasoningEffort !== undefined) text(config.reasoningEffort, 64, "思考档位");
 }
+function validBaseUpdatedAt(value: unknown): void {
+  if (value !== undefined && (typeof value !== "number" || !Number.isFinite(value)))
+    throw new Error("无效的定义版本");
+}
 export function validateStudioCommand(command: StudioCommand): void {
   validStudioId(command.commandId);
   switch (command.type) {
@@ -66,6 +70,7 @@ export function validateStudioCommand(command: StudioCommand): void {
       validWorkspace(command.workspacePath);
       break;
     case "save-group": {
+      validBaseUpdatedAt(command.baseUpdatedAt);
       const group = command.group;
       validStudioId(group.id);
       text(group.name, 80, "群名称");
@@ -93,6 +98,7 @@ export function validateStudioCommand(command: StudioCommand): void {
       break;
     }
     case "save-workflow":
+      validBaseUpdatedAt(command.baseUpdatedAt);
       validStudioId(command.workflow.id);
       text(command.workflow.name, 100, "工作流名称");
       if (

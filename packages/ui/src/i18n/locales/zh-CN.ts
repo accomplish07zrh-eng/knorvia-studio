@@ -2,6 +2,7 @@ import { studioZhCN } from "@/studio/messages.js";
 import { groupsZhCN } from "@/studio/groups/messages.js";
 import { agentsZhCN } from "@/studio/agents/messages.js";
 import { workflowZhCN } from "@/studio/workflow/messages.js";
+import { workflowConflictZhCN } from "@/studio/workflow/conflictMessages.js";
 import { creationZhCN } from "@/studio/creation/messages.js";
 /** 中文翻译 */
 const zhCN: Record<string, string> = {
@@ -53,6 +54,7 @@ const zhCN: Record<string, string> = {
   ...groupsZhCN,
   ...agentsZhCN,
   ...workflowZhCN,
+  ...workflowConflictZhCN,
   ...creationZhCN,
   "occupationOnboarding.stepMode": "UI 模式",
   "occupationOnboarding.modeTitle": "选择适合你的 UI 模式",

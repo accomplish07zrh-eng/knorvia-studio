@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { StudioRun, StudioTimeline } from "@knorvia/services";
 import { createStudioGroupStore } from "../src/store/studioGroupStore.js";
-import { createStudioWorkflowStore } from "../src/store/studioWorkflowStore.js";
+import {
+  createStudioWorkflowStore,
+  STUDIO_WORKFLOW_STORAGE_KEY,
+} from "../src/store/studioWorkflowStore.js";
 import { newGroupConfig, type StudioGroup } from "../src/studio/groups/groupModel.js";
 import { activeGroupRun, submitGroupDraft } from "../src/studio/groups/groupSubmission.js";
 import {
@@ -19,11 +22,14 @@ import {
 } from "../src/studio/workflow/types.js";
 
 function storage() {
-  let value: string | null = null;
+  const values = new Map<string, string>();
   return {
-    getItem: () => value,
-    setItem: (_key: string, text: string) => {
-      value = text;
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      values.set(key, value);
+    },
+    removeItem: (key: string) => {
+      values.delete(key);
     },
   };
 }
@@ -60,7 +66,7 @@ const group: StudioGroup = {
   updatedAt: 1,
 };
 
-test("backend group hydration preserves unsent text and deleted import receipts survive reload", () => {
+test("backend group hydration preserves unsent text and deletion drops the draft after reload", () => {
   const persistence = storage();
   const store = createStudioGroupStore(persistence);
   store.getState().ensureDraft(group);
@@ -68,11 +74,11 @@ test("backend group hydration preserves unsent text and deleted import receipts 
   store.getState().ensureDraft({ ...group, name: "Server name", updatedAt: 2 });
   assert.equal(store.getState().groups[0]?.draft, "Latest unsent message");
   assert.equal(store.getState().groups[0]?.name, "Server name");
-  store.getState().markImported(group.id);
   store.getState().deleteGroup(group.id);
-  const reloaded = createStudioGroupStore(persistence).getState();
-  assert.equal(reloaded.groups.length, 0);
-  assert.deepEqual(reloaded.importedIds, [group.id]);
+  const reloaded = createStudioGroupStore(persistence);
+  assert.equal(reloaded.getState().groups.length, 0);
+  reloaded.getState().ensureDraft(group);
+  assert.equal(reloaded.getState().groups[0]?.draft, "");
 });
 
 test("failed group send preserves draft and cannot send before definition acknowledgement", async () => {
@@ -223,7 +229,7 @@ test("oversized legacy workflow stays readable and can be reduced without trunca
   };
   const persistence = storage();
   persistence.setItem(
-    "unused",
+    STUDIO_WORKFLOW_STORAGE_KEY,
     JSON.stringify({ version: 1, workflows: [oversized], selectedId: oversized.id }),
   );
   const store = createStudioWorkflowStore(persistence);
@@ -287,4 +293,25 @@ test("workflow node states use persisted turns and never revive running nodes af
   current.checkpoint.values[JSON.stringify(["workflow-node", value.nodes[0]!.id])] =
     '{"status":"skipped"}';
   assert.equal(workflowNodeStates(value, timeline).get(value.nodes[0]!.id), "skipped");
+});
+
+test("workflow drafts keep the server version they were based on until adopting a newer one", () => {
+  const store = createStudioWorkflowStore(storage());
+  store.getState().hydrate();
+  const base = draft();
+  store.getState().syncDefinitions([base], 1);
+  assert.equal(store.getState().baseUpdatedAt[base.id], 1);
+  // 本地有未保存修改时，服务端更新不会推进基准版本，保存将被 Host 判为冲突。
+  store.getState().rename(base.id, "Local edit");
+  const remote = { ...base, name: "Remote edit", updatedAt: 5 };
+  store.getState().syncDefinitions([remote], 2);
+  assert.equal(store.getState().workflows[0]!.name, "Local edit");
+  assert.equal(store.getState().baseUpdatedAt[base.id], 1);
+  store.getState().markConflict(base.id);
+  store.getState().adoptDefinition(remote);
+  assert.equal(store.getState().workflows[0]!.name, "Remote edit");
+  assert.equal(store.getState().baseUpdatedAt[base.id], 5);
+  assert.deepEqual(store.getState().conflictIds, []);
+  store.getState().syncDefinitions([], 3);
+  assert.equal(store.getState().baseUpdatedAt[base.id], undefined);
 });

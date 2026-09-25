@@ -34,7 +34,7 @@ export function GroupEditDialog({
   frozen?: boolean;
   onSave: (
     config: StudioGroupConfig,
-    identity: Pick<StudioGroup, "id" | "createdAt">,
+    identity: Pick<StudioGroup, "id" | "createdAt"> & { updatedAt?: number },
   ) => Promise<void>;
 }) {
   const { intl } = useKnorviaIntl();

@@ -42,6 +42,12 @@ export function workflowStorageMetadata(value: Record<string, unknown>) {
           typeof entry[1] === "number" && Number.isSafeInteger(entry[1]) && entry[1] >= 0,
       ),
     ),
+    baseUpdatedAt: Object.fromEntries(
+      entries(value.baseUpdatedAt).filter(
+        (entry): entry is [string, number] =>
+          typeof entry[1] === "number" && Number.isFinite(entry[1]),
+      ),
+    ),
     inputDrafts: Object.fromEntries(
       entries(value.inputDrafts).filter(
         (entry): entry is [string, string] =>

@@ -212,6 +212,24 @@ export function StudioWorkflowPage({ workspacePath }: { workspacePath?: string }
           )}
         </div>
       )}
+      {store.selectedId && runtime.conflictIds.includes(store.selectedId) && !dialog && (
+        <div
+          role="alert"
+          className="flex items-center gap-2 border-b border-border px-4 py-2 text-ui-sm text-warning"
+        >
+          <span className="min-w-0 flex-1 break-words">{t("conflict")}</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setError("");
+              runtime.reloadLatest(store.selectedId!);
+            }}
+          >
+            {t("reloadLatest")}
+          </Button>
+        </div>
+      )}
       {store.storageProblem && (
         <div
           role="alert"

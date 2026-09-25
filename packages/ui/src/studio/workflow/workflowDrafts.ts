@@ -48,8 +48,11 @@ export function mergeWorkflowDefinitions(
   acknowledgement: Record<string, number> = {},
   observedIds: string[] = [],
   revision = Number.POSITIVE_INFINITY,
+  bases: Record<string, number> = {},
 ) {
   const versions = { ...baseline };
+  // 本地草稿最后一次与服务端对齐时的定义版本；只在采用服务端定义时前进，保存时用于冲突检测。
+  const baseUpdatedAt = { ...bases };
   const incoming = new Map(definitions.map((definition) => [definition.id, definition]));
   const workflows = drafts.flatMap((draft) => {
     const definition = incoming.get(draft.id);
@@ -60,14 +63,18 @@ export function mergeWorkflowDefinitions(
     if (!definition) return observedIds.includes(draft.id) && clean ? [] : [draft];
     if (clean && definition.updatedAt < draft.updatedAt) return draft;
     versions[draft.id] = workflowFingerprint(definition);
+    if (clean) baseUpdatedAt[draft.id] = definition.updatedAt;
     return [clean ? definition : draft];
   });
   for (const definition of incoming.values()) {
     if ((acknowledgement[definition.id] ?? 0) > revision) continue;
     versions[definition.id] = workflowFingerprint(definition);
+    baseUpdatedAt[definition.id] = definition.updatedAt;
     workflows.push(definition);
   }
-  return { workflows, backendVersions: versions };
+  for (const id of Object.keys(baseUpdatedAt))
+    if (!workflows.some((item) => item.id === id)) delete baseUpdatedAt[id];
+  return { workflows, backendVersions: versions, baseUpdatedAt };
 }
 
 export function duplicateWorkflow(workflow: StudioWorkflow, name: string): StudioWorkflow {

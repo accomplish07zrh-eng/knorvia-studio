@@ -70,7 +70,8 @@ export const workflowZhCN: Record<string, string> = {
   "studio.workflow.compareState.cancelled": "已停止",
   "studio.workflow.compareState.interrupted": "已中断",
   "studio.workflow.schedule": "计划运行工作流",
-  "studio.workflow.scheduleDescription": "每天按本机时间运行已保存的工作流。可在主侧栏“自动化”中暂停、编辑或查看历史。",
+  "studio.workflow.scheduleDescription":
+    "每天按本机时间运行已保存的工作流。可在主侧栏“自动化”中暂停、编辑或查看历史。",
   "studio.workflow.scheduleDefaultTitle": "{name} · 每日运行",
   "studio.workflow.scheduleDefaultInput": "按工作流节点指令检查所选项目，记录实际结果。",
   "studio.workflow.scheduleTitle": "计划名称",
@@ -269,9 +270,11 @@ export const workflowEnUS: Record<string, string> = {
   "studio.workflow.compareState.cancelled": "Stopped",
   "studio.workflow.compareState.interrupted": "Interrupted",
   "studio.workflow.schedule": "Schedule workflow",
-  "studio.workflow.scheduleDescription": "Run the saved workflow daily at local time. Pause, edit, or inspect runs in Automations.",
+  "studio.workflow.scheduleDescription":
+    "Run the saved workflow daily at local time. Pause, edit, or inspect runs in Automations.",
   "studio.workflow.scheduleDefaultTitle": "{name} · Daily",
-  "studio.workflow.scheduleDefaultInput": "Follow the workflow's node instructions for the selected project and record actual results.",
+  "studio.workflow.scheduleDefaultInput":
+    "Follow the workflow's node instructions for the selected project and record actual results.",
   "studio.workflow.scheduleTitle": "Schedule name",
   "studio.workflow.scheduleTime": "Daily time",
   "studio.workflow.scheduleInput": "Input for each run",

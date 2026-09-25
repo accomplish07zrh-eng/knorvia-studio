@@ -3,6 +3,7 @@ import { studioEnUS } from "@/studio/messages.js";
 import { groupsEnUS } from "@/studio/groups/messages.js";
 import { agentsEnUS } from "@/studio/agents/messages.js";
 import { workflowEnUS } from "@/studio/workflow/messages.js";
+import { workflowConflictEnUS } from "@/studio/workflow/conflictMessages.js";
 import { creationEnUS } from "@/studio/creation/messages.js";
 const enUS: Record<string, string> = {
   "settings.materials.glass": "Glass effect",
@@ -54,6 +55,7 @@ const enUS: Record<string, string> = {
   ...groupsEnUS,
   ...agentsEnUS,
   ...workflowEnUS,
+  ...workflowConflictEnUS,
   ...creationEnUS,
   "occupationOnboarding.stepMode": "UI mode",
   "occupationOnboarding.modeTitle": "Choose your UI mode",

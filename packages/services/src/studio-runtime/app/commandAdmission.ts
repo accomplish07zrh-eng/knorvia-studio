@@ -79,6 +79,17 @@ function applyCommand(db: StudioRepository, clock: StudioClock, command: StudioC
         return definition.id;
       if (command.onlyIfAbsent && db.read(isGroup ? "group" : "workflow", definition.id))
         return definition.id;
+      if (command.baseUpdatedAt !== undefined) {
+        // 多窗口或手机同时编辑时，只允许基于当前服务端版本的保存，拒绝静默覆盖他人修改。
+        const current = db.read<{ updatedAt: number }>(
+          isGroup ? "group" : "workflow",
+          definition.id,
+        );
+        const label = isGroup ? "群聊" : "工作流";
+        if (!current) throw new Error(`此${label}已被删除`);
+        if (current.updatedAt !== command.baseUpdatedAt)
+          throw new Error(`此${label}已在其他窗口修改，请重新打开后再保存`);
+      }
       if (db.list<{ targetId: string }>("active").some((run) => run.targetId === definition.id)) {
         const previous = db.read<Record<string, unknown>>(
           isGroup ? "group" : "workflow",

@@ -13,7 +13,8 @@ export function groupDefinition(group: StudioGroup): StudioGroupDefinition {
 /** The service owns definitions; the existing store only retains unsent input and import receipts. */
 export function useStudioGroups(targetId?: string) {
   const runtime = useStudioRuntime(targetId);
-  const legacy = useStudioGroupStore((state) => state.groups);
+  const local = useStudioGroupStore((state) => state.groups);
+  const legacy = useStudioGroupStore((state) => state.legacyGroups);
   const importedIds = useStudioGroupStore((state) => state.importedIds);
   const backendRevisions = useStudioGroupStore((state) => state.backendRevisions);
   const acknowledgeDefinition = useStudioGroupStore((state) => state.acknowledgeDefinition);
@@ -51,7 +52,10 @@ export function useStudioGroups(targetId?: string) {
     error,
   ]);
   const save = useCallback(
-    async (config: StudioGroupConfig, existing?: Pick<StudioGroup, "id" | "createdAt">) => {
+    async (
+      config: StudioGroupConfig,
+      existing?: Pick<StudioGroup, "id" | "createdAt"> & { updatedAt?: number },
+    ) => {
       const value = normalizeGroupConfig(config);
       if (!value) throw new Error("群聊名称或成员配置无效");
       const now = Date.now();
@@ -61,14 +65,19 @@ export function useStudioGroups(targetId?: string) {
         createdAt: existing?.createdAt ?? now,
         updatedAt: now,
       };
+      // 编辑已有群聊时带上打开编辑时的服务端版本，Host 据此拒绝覆盖其他窗口的修改。
+      const baseUpdatedAt = definitions?.some((item) => item.id === existing?.id)
+        ? existing?.updatedAt
+        : undefined;
       const result = (await runtime.command({
         type: "save-group",
         group: definition,
+        ...(baseUpdatedAt === undefined ? {} : { baseUpdatedAt }),
       })) as StudioCommandResult;
       acknowledgeDefinition(definition, result.revision);
       return definition.id;
     },
-    [runtime.command, acknowledgeDefinition],
+    [runtime.command, acknowledgeDefinition, definitions],
   );
   const remove = useCallback(
     async (id: string) => {
@@ -87,8 +96,8 @@ export function useStudioGroups(targetId?: string) {
     save,
     remove,
     groups: definitions
-      ? projectGroupDefinitions(definitions, legacy, backendRevisions, runtime.overview!.revision)
-      : legacy,
+      ? projectGroupDefinitions(definitions, local, backendRevisions, runtime.overview!.revision)
+      : local,
     importError: error,
     retryImport: () => setError(""),
   };
