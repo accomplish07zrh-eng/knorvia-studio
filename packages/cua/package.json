@@ -53,6 +53,10 @@
     "./broker/helperHealth": {
       "types": "./broker-helper-health.d.ts",
       "import": "./broker-helper-health.js"
+    },
+    "./restricted-gate": {
+      "types": "./restricted-gate.d.ts",
+      "import": "./restricted-gate.js"
     }
   }
 }

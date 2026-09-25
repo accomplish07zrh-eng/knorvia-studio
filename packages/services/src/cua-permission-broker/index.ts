@@ -104,3 +104,15 @@ export { createCuaPipSessionService } from "./cuaPipSessionService.js";
 export { ICuaPipSessionService } from "./cuaPipSession.js";
 export type { CuaPipPresentationCredentials } from "./cuaPipSessionService.js";
 export type { CuaPipSessionService } from "./cuaPipSession.js";
+
+// 受限电脑控制门禁接线：只读既有装配的可用性事实并转发纯门禁判定。
+// 占位实现下可用性恒为「不可用」，因此任何真实受限动作都会被拒绝（fail-closed）。
+export {
+  createCuaRestrictedRuntimeStopController,
+  evaluateCuaRestrictedRequestForRuntime,
+  readCuaRestrictedRuntimeAvailability,
+} from "./cuaRestrictedGateWiring.js";
+export type {
+  CuaRestrictedRuntimeAvailability,
+  CuaRestrictedRuntimeDecisionInput,
+} from "./cuaRestrictedGateWiring.js";

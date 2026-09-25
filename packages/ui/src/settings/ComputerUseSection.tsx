@@ -48,6 +48,12 @@ import {
   isComputerUseRemoteOrLinux,
   resolveComputerUseAvailability,
 } from "@/settings/computerUseAvailability.js";
+import {
+  CUA_RESTRICTED_RUNTIME_OBSERVATION_AVAILABLE,
+  createCuaRestrictedExperimentState,
+  resolveCuaRestrictedExperimentView,
+  setCuaRestrictedExperimentEnabled,
+} from "@/settings/cuaRestrictedExperiment.js";
 
 interface ComputerUseSectionProps {
   isDesktop?: boolean;
@@ -122,6 +128,16 @@ export function ComputerUseSection({
       cancelled = true;
     };
   }, [supportsLocalMacWorkspace, platform]);
+
+  // 受限电脑控制实验开关：默认关闭，只记录会话内偏好，不写持久配置。
+  // 打开它不会启动 Helper、不申请系统权限、不发网络请求，也不会让运行时变得可观察。
+  const [restrictedExperiment, setRestrictedExperiment] = useState(() =>
+    createCuaRestrictedExperimentState(),
+  );
+  const restrictedExperimentView = resolveCuaRestrictedExperimentView({
+    state: restrictedExperiment,
+    runtimeAvailable: CUA_RESTRICTED_RUNTIME_OBSERVATION_AVAILABLE,
+  });
 
   const macOsBelowCuaFloor = osSupport?.kind === "macos-below-minimum";
 
@@ -747,6 +763,64 @@ export function ComputerUseSection({
             />
           }
         />
+      </SettingsGroupCard>
+
+      {/* 受限电脑控制（实验）：默认关闭。契约见 specs/knorvia-cua-restricted.md。
+          面板必须同时显示诚实状态——本构建无法观察，也没有可派发的动作；
+          打开开关只记录会话内偏好，不启动 Helper、不申请系统权限、不发网络请求。 */}
+      <SettingsGroupCard>
+        <SettingsRow
+          label={intl.formatMessage({
+            id: "settings.computerUse.restricted.experiment.toggleLabel",
+          })}
+          description={intl.formatMessage({
+            id: "settings.computerUse.restricted.experiment.description",
+          })}
+          control={
+            <Switch
+              data-testid="cua-restricted-experiment-switch"
+              aria-label={intl.formatMessage({
+                id: "settings.computerUse.restricted.experiment.toggleLabel",
+              })}
+              checked={restrictedExperimentView.enabled}
+              onCheckedChange={(checked) =>
+                setRestrictedExperiment((current) =>
+                  setCuaRestrictedExperimentEnabled(current, checked),
+                )
+              }
+            />
+          }
+        />
+        <div
+          className="space-y-2 border-t border-border px-4 py-3"
+          data-testid="cua-restricted-experiment-status"
+          data-experiment-enabled={restrictedExperimentView.enabled ? "true" : "false"}
+          data-can-observe={restrictedExperimentView.canObserve ? "true" : "false"}
+        >
+          <div className="text-ui-xs font-medium text-foreground">
+            {intl.formatMessage({ id: "settings.computerUse.restricted.experiment.title" })}
+          </div>
+          <p className="text-ui-sm text-foreground-subtle">
+            {intl.formatMessage({ id: restrictedExperimentView.availabilityMessageId })}
+          </p>
+          <p className="text-ui-sm text-foreground-subtle">
+            {intl.formatMessage({ id: restrictedExperimentView.observationMessageId })}
+          </p>
+          <div className="text-ui-xs font-medium text-foreground">
+            {intl.formatMessage({ id: "settings.computerUse.restricted.stopFirst.title" })}
+          </div>
+          <ol className="list-decimal space-y-0.5 pl-5 text-ui-sm text-foreground-subtle">
+            {restrictedExperimentView.stopRuleMessageIds.map((messageId) => (
+              <li key={messageId}>{intl.formatMessage({ id: messageId })}</li>
+            ))}
+          </ol>
+          <p className="text-ui-sm text-foreground-subtle">
+            {intl.formatMessage({ id: "settings.computerUse.restricted.stopFirst.noUndoNote" })}
+          </p>
+          <p className="text-ui-sm text-foreground-subtlest">
+            {intl.formatMessage({ id: "settings.computerUse.restricted.experiment.sessionOnly" })}
+          </p>
+        </div>
       </SettingsGroupCard>
 
       {/* CUA 未启用时隐藏下方权限配置，只留总开关，避免一堆禁用项。 */}
