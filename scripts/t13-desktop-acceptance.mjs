@@ -3,6 +3,7 @@
 //
 // 覆盖：引导 → 配置本地回环供应商 → 选择模型 → 真实发送 → 真实运行时执行并收到回复
 //       → 夹具发出 Write 工具调用 → 核对应用真的执行并落盘
+//       → 停止按钮中止夹具故意挂起的在途请求
 //       → 关闭应用 → 用同一数据根重开 → 核对会话与配置仍在。
 // 明确不覆盖（脚本会打印）：真实项目上的隔离工作区差异审阅与用户接纳、真实模型/付费调用。
 //
@@ -37,8 +38,12 @@ if (
 const requests = [];
 const toolFileName = "t13-probe.txt";
 const toolFileBody = "hello from t13\n";
+const stopPromptText = "Stop probe";
 let toolCallIssued = false;
 let toolResultServed = false;
+// 停止场景：夹具收到停止探针请求后故意不回应，用于验证应用能真的中止在途请求。
+let hangStarted = false;
+let hangAborted = false;
 const chunkOf = (payload) => `data: ${JSON.stringify(payload)}\n\n`;
 const chunkBase = {
   id: "chatcmpl-local-fixture",
@@ -70,6 +75,15 @@ const server = createServer(async (request, response) => {
   };
   requests.push(record);
   response.writeHead(200, { "content-type": "text/event-stream; charset=utf-8" });
+  // 停止场景：只发响应头、不写任何数据，等待应用主动中止这次在途请求。
+  if (toolCount > 0 && messages.includes(stopPromptText)) {
+    hangStarted = true;
+    record.hang = true;
+    response.on("close", () => {
+      hangAborted = true;
+    });
+    return;
+  }
   // 第一个携带工具定义的请求回一个 Write 工具调用，工具结果回来后收尾；
   // 之后的请求（含标题/摘要这类无工具调用）一律回纯文本。
   const isToolTurn = !toolCallIssued && toolCount > 0 && !messages.includes("tool_call_id");
@@ -276,6 +290,21 @@ try {
   await page.getByTestId("v4-composer-send").click();
   await page.getByText("Local fixture reply.").first().waitFor({ timeout: 60_000 });
   results.push("PASS 会话继续：第二轮消息同样只到达回环夹具并收到回复");
+
+  // ── 停止：夹具故意不回应，核对应用的停止按钮能真的中止在途请求 ──────────────
+  await page.getByTestId("v4-composer-input").fill(stopPromptText);
+  await page.getByTestId("v4-composer-send").click();
+  const stopControl = page.getByTestId("v4-stop");
+  await stopControl.waitFor({ timeout: 60_000 });
+  assert(hangStarted, "夹具应已收到停止探针请求并挂起");
+  await stopControl.click();
+  let stopped = false;
+  for (let attempt = 0; attempt < 30 && !stopped; attempt++) {
+    stopped = hangAborted && (await page.getByTestId("v4-stop").count()) === 0;
+    if (!stopped) await page.waitForTimeout(1000);
+  }
+  assert(stopped, `停止应中止在途请求并收回停止按钮（aborted=${hangAborted}）`);
+  results.push("PASS 停止：停止按钮中止了在途请求，停止控件随之收回");
 
   // 引导状态已持久化，重开时不应再次出现。
   const settings = JSON.parse(
