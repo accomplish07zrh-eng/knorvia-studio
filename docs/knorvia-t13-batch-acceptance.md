@@ -25,6 +25,8 @@
 
 回归规模：基线 571 → 751。日志：`D:/tools.cache/knorvia-batch1-full-checks2.log`、`knorvia-batch2-full-checks.log`、`knorvia-batch3-full-checks.log`、`knorvia-batch4-full-checks.log`、`knorvia-batch5-full-checks.log`、`knorvia-batch6-full-checks.log`。
 
+**在固定工具链上复验**：`mise.toml` 固定 `node=24.14.0` / `pnpm=10.33.2`。已下载官方 Node `v24.14.0` 并在该版本上重跑整套门禁——`install --frozen-lockfile`、`typecheck`、`lint`、`fmt:check`、`architecture:check`、`build:cli-packages` 全部退出 0，`test:studio` **751/751 通过 0 失败**（日志 `D:/tools.cache/knorvia-node24-full-checks.log`）。最终交付的便携包也在 Node 24.14.0 下重新构建，因此交付物与仓库固定工具链一致。
+
 批次过程中发现并修复的真实回归（均单独提交）：工作流文件信封版本断言失效（`d142571`）、交付投影在缺少可选 checkpoint 的旧运行上抛错（含于 `b6fb13c`）、UI 参数未透传到 send 命令（含于 `7011f67`）、重新探测无法绕过探测缓存（含于 `a882ae9`）、插件文档与测试仍声称兼容面板已推迟（含于 `11a5660`）。
 
 ## 升级夹具与数据保护
@@ -51,10 +53,10 @@ pwsh -NoProfile -File scripts/deliver-portable.ps1 -Source <win-unpacked> -Targe
 交付脚本输出（原文）：
 
 ```text
-Portable data before: 430 files, 54865365 bytes
-Portable data verified: 430 files, 54865365 bytes, SHA-256 identical; robocopy code 3
+Portable data before: 430 files, 54898010 bytes
+Portable data verified: 430 files, 54898010 bytes, SHA-256 identical; robocopy code 3
 Program files verified: 118 SHA-256 identical to the build
-Delivered executable SHA-256: 87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D8F1925AE5B1106
+Delivered executable SHA-256: 0BED13D2CFC5626B5646E778104080A7C7FA8602E63E1FD50E2E6611FE251F3E
 ```
 
 交付后 `构建校验.json`：
@@ -66,16 +68,16 @@ Delivered executable SHA-256: 87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D
   "version": "0.8.0-preview.2",
   "dataFiles": 430,
   "dataDirectories": 214,
-  "dataBytes": 54865365,
+  "dataBytes": 54898010,
   "dataUnchanged": true,
   "programFilesVerified": 118,
-  "exeSha256": "87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D8F1925AE5B1106",
-  "asarSha256": "159D03B6653695E9CFAF80616E9C47684C6B2582D66C15E6483A7A45EE7B98F0",
-  "verifiedAt": "2026-09-25T15:30:42.1697230+00:00"
+  "exeSha256": "0BED13D2CFC5626B5646E778104080A7C7FA8602E63E1FD50E2E6611FE251F3E",
+  "asarSha256": "2D6E17C89D697311AB83EB845C92190FF596F2563FAF69082E22438C518E8989",
+  "verifiedAt": "2026-09-25T16:53:25.8659139+00:00"
 }
 ```
 
-交付包内 `resources/app.asar` 的 `package.json` 为 `@knorvia/desktop` / `0.8.0-preview.2` / `main=out/main/index.js`，与源码构建产物一致。
+交付包内 `resources/app.asar` 的 `package.json` 为 `@knorvia/desktop` / `0.8.0-preview.2` / `main=out/main/index.js`，与源码构建产物一致。最终这次构建使用 `mise.toml` 固定的 Node `v24.14.0`。
 
 ### 便携包打开与数据保留验证
 
@@ -84,22 +86,22 @@ Delivered executable SHA-256: 87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D
 | 观察项        | 结果                                      |
 | ------------- | ----------------------------------------- |
 | 启动后 45 秒  | 主进程存活，共 6 个 “Knorvia Studio” 进程 |
-| 启动前 `data` | 430 文件 / 54 865 365 字节                |
-| 启动后 `data` | 430 文件 / 54 865 365 字节                |
+| 启动前 `data` | 430 文件 / 54 898 010 字节                |
+| 启动后 `data` | 431 文件 / 54 902 485 字节                |
 | 丢失文件      | **0**                                     |
-| 新增文件      | **0**                                     |
+| 新增文件      | 1（Chromium 会话文件，非用户数据）        |
 
-结论：便携包可以打开；覆盖只更新程序文件；`data` 中已有用户文件一个都没有丢失，本次启动也没有改动 `data` 内容。
+结论：便携包可以打开；覆盖只更新程序文件；`data` 中已有用户文件一个都没有丢失。
 
-> 说明：本轮共交付 6 次便携构建（`48894e8`、`7011f67`、`6ee777d`、`81b2073`、`dc51d26`、`6e1b4f2`），每次都用同一交付脚本覆盖程序文件，`data` 逐文件 SHA-256 前后一致。首次交付时的启动验证曾新增 1 个 Chromium 会话文件（`profile\session\DIPS-wal`），此后各次启动前后完全一致。
+> 说明：本轮共交付 7 次便携构建（`48894e8`、`7011f67`、`6ee777d`、`81b2073`、`dc51d26`、`6e1b4f2`、`ca163fd`），每次都用同一交付脚本覆盖程序文件，`data` 逐文件 SHA-256 前后一致。启动验证偶尔会新增 1 个 Chromium 会话文件（如 `profile\session\DIPS-wal`），不涉及用户数据。
 
 ## 交付物哈希
 
 | 产物                                                | SHA-256                                                                                |
 | --------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `Knorvia Studio.exe`（便携目录内）                  | `87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D8F1925AE5B1106`                     |
-| `resources/app.asar`（便携目录内）                  | `159D03B6653695E9CFAF80616E9C47684C6B2582D66C15E6483A7A45EE7B98F0`                     |
-| 安装包 `Knorvia Studio-0.8.0-preview.2-win-x64.exe` | `BFEC71F06FB99335DC845556760FB94CCD592CE91760F1042C7ABE907C0673B9`（150 073 498 字节） |
+| `Knorvia Studio.exe`（便携目录内）                  | `0BED13D2CFC5626B5646E778104080A7C7FA8602E63E1FD50E2E6611FE251F3E`                     |
+| `resources/app.asar`（便携目录内）                  | `2D6E17C89D697311AB83EB845C92190FF596F2563FAF69082E22438C518E8989`                     |
+| 安装包 `Knorvia Studio-0.8.0-preview.2-win-x64.exe` | `B4F53B8B900FE2C6C536CA6188CD9A2B158C9C0AD305B25554E6EA810CACED78`（150 061 261 字节） |
 
 ## 桌面端到端验收（打包应用，全程离线）
 
@@ -157,7 +159,7 @@ INFO 持久化文件：.knorvia-studio\cli\rollout\model-io-sess_<id>.jsonl, .kn
 5. **界面渲染未运行时验证**：`packages/ui/test` 没有 DOM 测试环境（未引入 jsdom/@testing-library），T04/T05/T08/T09/T11/T12 的界面行为由纯逻辑模块与类型检查覆盖，组件本身未在浏览器中渲染验证。
 6. **T12 没有可用的观察能力**：`packages/cua` 仍是 fail-closed 占位，Windows 上没有可启动的 Helper/Driver，交付的是受限契约、失败关闭门禁与默认关闭开关，不是桌面控制能力。
 7. **T10 的 `<3 秒` 目标仍未达标**：实测冷启动约 5.5 秒（并行准备两库已取得约 250–300ms 收益）。剩余固定成本是 15.9MB CLI 包启动、SQLite 建库/WAL/fsync，以及约 0.8s Host 启动、0.24s 服务构造、0.18s 端口/IPC/渲染，全部在同一条串行链上；要达标必须把「首次可交互」与数据库就绪解耦，属产品/架构决策，本轮未擅自改动。
-8. 环境偏差：本机 Node `v26.3.0`，`mise.toml` 固定 `24.14.0`；`node_modules/ssh2` 的可选 crypto 原生绑定在 Node 26 下编译失败（可选绑定，安装整体退出 0）。以上差异未在 Node 24.14.0 上复验。
+8. 环境偏差（已关闭）：早期检查在系统 Node `v26.3.0` 上执行，而 `mise.toml` 固定 `24.14.0`。现已下载官方 Node `v24.14.0` 并在该版本上重跑整套门禁（751/751 通过）与最终便携构建，交付物与固定工具链一致。仅剩 `node_modules/ssh2` 的可选 crypto 原生绑定在 Node 26 下编译失败这一条历史记录（可选绑定，两个版本下 `pnpm install` 都退出 0）。
 
 ## 回滚
 

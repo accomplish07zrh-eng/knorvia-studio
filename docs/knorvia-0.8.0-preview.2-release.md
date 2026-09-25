@@ -8,11 +8,11 @@
 
 | 产物                                                | 大小             | SHA-256                                                            |
 | --------------------------------------------------- | ---------------- | ------------------------------------------------------------------ |
-| `Knorvia Studio.exe`（便携目录内）                  | 222 899 200 字节 | `87FAAB6C0FEA14C660CEA93013219BDAC0C8E9034C63EF8E3D8F1925AE5B1106` |
-| `resources/app.asar`（便携目录内）                  | 291 547 298 字节 | `159D03B6653695E9CFAF80616E9C47684C6B2582D66C15E6483A7A45EE7B98F0` |
-| 安装包 `Knorvia Studio-0.8.0-preview.2-win-x64.exe` | 150 073 498 字节 | `BFEC71F06FB99335DC845556760FB94CCD592CE91760F1042C7ABE907C0673B9` |
+| `Knorvia Studio.exe`（便携目录内）                  | 222 899 200 字节 | `0BED13D2CFC5626B5646E778104080A7C7FA8602E63E1FD50E2E6611FE251F3E` |
+| `resources/app.asar`（便携目录内）                  | 291 621 909 字节 | `2D6E17C89D697311AB83EB845C92190FF596F2563FAF69082E22438C518E8989` |
+| 安装包 `Knorvia Studio-0.8.0-preview.2-win-x64.exe` | 150 061 261 字节 | `B4F53B8B900FE2C6C536CA6188CD9A2B158C9C0AD305B25554E6EA810CACED78` |
 
-交付目标目录：`C:\Users\17018\Desktop\Knorvia Studio Portable`（程序文件 118 个与构建逐文件一致，`data` 逐文件 SHA-256 前后一致）。
+交付目标目录：`C:\Users\17018\Desktop\Knorvia Studio Portable`（程序文件 118 个与构建逐文件一致，`data` 逐文件 SHA-256 前后一致）。最终构建使用 `mise.toml` 固定的 Node `v24.14.0`，整套离线门禁也在该版本上复跑通过。
 
 ## 本版提供
 
