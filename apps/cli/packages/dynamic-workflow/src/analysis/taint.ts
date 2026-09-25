@@ -3,23 +3,25 @@ import type { WorkflowProgram } from "../compiler/compile.js";
 import type { SiteTable } from "./sites.js";
 import {
   addPlaceholder,
-  clearExact,
   cloneValue,
   collapse,
   collapseInto,
-  COMPOUND_ASSIGNMENT_OPS,
   emptyValue,
   isNonArrowFunctionLike,
   liveField,
   mergeInto,
   peelPlace,
-  readField,
   staticIndexKey,
   unionValues,
   type AbstractValue,
 } from "./domain.js";
 import { applyCall, evalCall } from "./calls.js";
-import { applyConstructor, applyMixinConstructor, evalAwait, handleNewUnknown } from "./promise-ops.js";
+import {
+  applyConstructor,
+  applyMixinConstructor,
+  evalAwait,
+  handleNewUnknown,
+} from "./promise-ops.js";
 import {
   classConstructor,
   classNodeOfSymbol,
@@ -29,11 +31,11 @@ import {
   hasUnresolvedHeritage,
   resolveClassNode,
 } from "./classes.js";
-import { handleAssignment, handleCompoundAssignment } from "./assign.js";
 import { handleForIn, handleForOf, visitForStatement } from "./control-flow.js";
 import { evalArrayLiteral, evalObjectLiteral } from "./literals.js";
 import { bindPattern, extractField, selectField } from "./patterns.js";
 import { TaintState } from "./state.js";
+import { evalBinary, evalElementAccess, evalPropertyAccess } from "./operators.js";
 
 /**
  * The taint pass: a gen-only, may-flow dataflow analysis over the typed AST that
@@ -185,7 +187,9 @@ export class Evaluator {
     } else if (ts.isExpressionStatement(node)) {
       this.evalExpr(node.expression, ctx);
     } else if (ts.isReturnStatement(node)) {
-      ctx.onReturn(node.expression === undefined ? emptyValue() : this.evalExpr(node.expression, ctx));
+      ctx.onReturn(
+        node.expression === undefined ? emptyValue() : this.evalExpr(node.expression, ctx),
+      );
     } else if (ts.isForOfStatement(node)) {
       handleForOf(this, node, ctx);
     } else if (ts.isIfStatement(node)) {
@@ -265,7 +269,7 @@ export class Evaluator {
     }
     // Destructuring off a live place aliases each extracted element to a live field. When the
     // place is present, still evaluate the initializer for effect (a join's edges, an awaited
-    // thenable's `then`) — the alias binds to the place, not the discarded snapshot. 
+    // thenable's `then`) — the alias binds to the place, not the discarded snapshot.
     // `const [sec, alias] = await Promise.all([secret, box])` needs both the join edges AND
     // the element aliasing (alias IS box) so a write through `alias` reaches box.
     if (place !== undefined) {
@@ -389,7 +393,11 @@ export class Evaluator {
     return undefined;
   }
 
-  private placeField(container: AbstractValue, key: string, create: boolean): AbstractValue | undefined {
+  private placeField(
+    container: AbstractValue,
+    key: string,
+    create: boolean,
+  ): AbstractValue | undefined {
     const field = container.fields.get(key);
     if (field !== undefined) return field;
     return create ? liveField(container, key) : undefined;
@@ -413,14 +421,21 @@ export class Evaluator {
     const place = this.resolvePlace(arg);
     if (place !== undefined) return place;
     const peeled = peelPlace(arg);
-    return ts.isObjectLiteralExpression(peeled) || ts.isArrayLiteralExpression(peeled) ? value : undefined;
+    return ts.isObjectLiteralExpression(peeled) || ts.isArrayLiteralExpression(peeled)
+      ? value
+      : undefined;
   }
 
   /**
    * Bind a destructuring pattern (or a single name). See {@link bindPattern} in patterns.ts;
    * exposed as a thin method because the aliasing-bind machinery is used across modules.
    */
-  bindPattern(name: ts.BindingName, value: AbstractValue, ctx: EvalContext, sourcePlace?: AbstractValue): void {
+  bindPattern(
+    name: ts.BindingName,
+    value: AbstractValue,
+    ctx: EvalContext,
+    sourcePlace?: AbstractValue,
+  ): void {
     bindPattern(this, name, value, ctx, sourcePlace);
   }
 
@@ -477,9 +492,9 @@ export class Evaluator {
         break;
     }
     if (ts.isCallExpression(node)) return evalCall(this, node, ctx);
-    if (ts.isPropertyAccessExpression(node)) return this.evalPropertyAccess(node, ctx);
-    if (ts.isElementAccessExpression(node)) return this.evalElementAccess(node, ctx);
-    if (ts.isBinaryExpression(node)) return this.evalBinary(node, ctx);
+    if (ts.isPropertyAccessExpression(node)) return evalPropertyAccess(this, node, ctx);
+    if (ts.isElementAccessExpression(node)) return evalElementAccess(this, node, ctx);
+    if (ts.isBinaryExpression(node)) return evalBinary(this, node, ctx);
     if (ts.isTemplateExpression(node)) {
       const out = emptyValue();
       for (const span of node.templateSpans) collapseInto(out, this.evalExpr(span.expression, ctx));
@@ -491,7 +506,8 @@ export class Evaluator {
       // taint, for both String.raw and user-defined tags.
       const argVals: AbstractValue[] = [emptyValue()]; // the frozen strings array (untainted)
       if (ts.isTemplateExpression(node.template)) {
-        for (const span of node.template.templateSpans) argVals.push(this.evalExpr(span.expression, ctx));
+        for (const span of node.template.templateSpans)
+          argVals.push(this.evalExpr(span.expression, ctx));
       }
       return applyCall(this, node.tag, argVals, ctx, undefined, undefined, node);
     }
@@ -529,8 +545,10 @@ export class Evaluator {
     // fresh per-pass evaluation is merged into the persistent place and the place is what
     // flows on — so a write through it (parameter write-back, a later field assignment through
     // an alias) lands on storage that survives the pass.
-    if (ts.isArrayLiteralExpression(node)) return this.s.literalPlaceOf(node, evalArrayLiteral(this, node, ctx));
-    if (ts.isObjectLiteralExpression(node)) return this.s.literalPlaceOf(node, evalObjectLiteral(this, node, ctx));
+    if (ts.isArrayLiteralExpression(node))
+      return this.s.literalPlaceOf(node, evalArrayLiteral(this, node, ctx));
+    if (ts.isObjectLiteralExpression(node))
+      return this.s.literalPlaceOf(node, evalObjectLiteral(this, node, ctx));
     if (ts.isNewExpression(node)) {
       // `new C(args)` on a script-local class applies the constructor (placeholder actuals
       // + param write-back) and returns a REFERENCE to the class's shared abstract
@@ -543,7 +561,9 @@ export class Evaluator {
         const args = node.arguments ?? [];
         const argVals = args.map((arg) => this.evalExpr(arg, ctx));
         if (ctorId !== undefined) {
-          const argPlaces = args.map((arg, i) => this.argWriteBackPlace(arg, argVals[i] as AbstractValue));
+          const argPlaces = args.map((arg, i) =>
+            this.argWriteBackPlace(arg, argVals[i] as AbstractValue),
+          );
           applyConstructor(this, ctorId, ctx, argVals, argPlaces, node);
         } else if (hasUnresolvedHeritage(this, cls)) {
           // No resolvable constructor because the base is a mixin CALL (`class D extends
@@ -597,56 +617,6 @@ export class Evaluator {
     const val = emptyValue();
     addPlaceholder(val, { fnId: id, param: 0, rest: true });
     return val;
-  }
-
-  private evalBinary(node: ts.BinaryExpression, ctx: EvalContext): AbstractValue {
-    const op = node.operatorToken.kind;
-    if (op === ts.SyntaxKind.EqualsToken) return handleAssignment(this, node, ctx);
-    if (COMPOUND_ASSIGNMENT_OPS.has(op)) return handleCompoundAssignment(this, node, ctx);
-    if (op === ts.SyntaxKind.CommaToken) {
-      // The comma (sequence) operator evaluates its left operand for effect (facade sinks
-      // inside it must be visited) and yields the RIGHT operand's value UNCOLLAPSED — the
-      // sequence's result IS the right operand, so its field structure is preserved (a
-      // later `(f(), box).note` read and comma-aliasing both need that). Previously the
-      // comma fell through to the value-producing default, which collapsed the result
-      // and unioned the discarded left operand's taint into it.
-      this.evalExpr(node.left, ctx);
-      return this.evalExpr(node.right, ctx);
-    }
-    if (
-      op === ts.SyntaxKind.AmpersandAmpersandToken ||
-      op === ts.SyntaxKind.BarBarToken ||
-      op === ts.SyntaxKind.QuestionQuestionToken
-    ) {
-      // Short-circuit: the LEFT operand decides whether the right one evaluates, so it is
-      // a guard sink — the ordering walk opens a `branch` region over the right operand
-      // and reads its controllers off this same node.
-      const left = this.evalExpr(node.left, ctx);
-      this.recordGuard(node.left, left);
-      return unionValues(left, this.evalExpr(node.right, ctx));
-    }
-    // Value-producing operators (concat, arithmetic, comparison): union of operand
-    // taints, fields dropped — the result is a primitive.
-    return unionValues(collapse(this.evalExpr(node.left, ctx)), collapse(this.evalExpr(node.right, ctx)));
-  }
-
-  private evalPropertyAccess(node: ts.PropertyAccessExpression, ctx: EvalContext): AbstractValue {
-    const receiver = this.evalExpr(node.expression, ctx);
-    // Field-sensitive read with smear-on-read (readField unions the container's own
-    // container-level occurrences); unknown field folds to the whole-value read.
-    return readField(receiver, node.name.text);
-  }
-
-  private evalElementAccess(node: ts.ElementAccessExpression, ctx: EvalContext): AbstractValue {
-    const receiver = this.evalExpr(node.expression, ctx);
-    const literalKey = staticIndexKey(node.argumentExpression);
-    if (literalKey !== undefined) return readField(receiver, literalKey);
-    // Computed index: evaluate the key for effect (a facade sink can sit in it, e.g.
-    // `o[await ask()]`); its taint is NOT joined into the read value — the value stored at a
-    // key does not textually contain the key, same convention as a ternary condition. THE
-    // widening rule: whole-container read, exactness cleared.
-    this.evalExpr(node.argumentExpression, ctx);
-    return clearExact(collapse(receiver));
   }
 
   receiverSymbol(expr: ts.Expression): ts.Symbol | undefined {

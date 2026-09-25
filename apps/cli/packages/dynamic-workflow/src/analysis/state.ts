@@ -2,22 +2,19 @@ import ts from "typescript";
 import type { WorkflowProgram } from "../compiler/compile.js";
 import type { IterationCandidate, SiteTable } from "./sites.js";
 import {
-  addOcc,
   addPlaceholder,
-  collapse,
   emptyValue,
   isActorSite,
   isFunctionLike,
   mergeInto,
-  phKey,
   provisionalFanoutId,
   type AbstractValue,
-  type Placeholder,
   type PromotedFanout,
   type TaintFacts,
   type TaintOcc,
 } from "./domain.js";
 import { findWorkflowBody } from "./domain.js";
+import { resolveOccurrences } from "./placeholder-resolution.js";
 
 /**
  * The mutable fixpoint state of the taint pass: the site lookups, the global
@@ -37,9 +34,18 @@ export class TaintState {
 
   // Site lookups keyed by their raw AST nodes (the table resolved them via the checker).
   readonly askByCall = new Map<ts.CallExpression, string>();
-  readonly askSites = new Map<string, { receiver: ts.Expression; instructions: ts.Expression | undefined }>();
-  readonly worldByCall = new Map<ts.CallExpression, { id: string; args: readonly ts.Expression[] }>();
-  readonly joinByCall = new Map<ts.CallExpression, { id: string; arg: ts.Expression | undefined }>();
+  readonly askSites = new Map<
+    string,
+    { receiver: ts.Expression; instructions: ts.Expression | undefined }
+  >();
+  readonly worldByCall = new Map<
+    ts.CallExpression,
+    { id: string; args: readonly ts.Expression[] }
+  >();
+  readonly joinByCall = new Map<
+    ts.CallExpression,
+    { id: string; arg: ts.Expression | undefined }
+  >();
   readonly actorByCall = new Map<ts.CallExpression, string>();
   /** Per-element callback calls (`xs.map(fn)`, `Array.from(xs, fn)`, …), keyed by the CALL. */
   readonly candByCall = new Map<ts.CallExpression, IterationCandidate>();
@@ -69,7 +75,10 @@ export class TaintState {
    */
   readonly condPlaces = new Map<ts.ConditionalExpression, AbstractValue>();
   /** Allocation-site places of container literals; see {@link literalPlaceOf}. */
-  readonly literalPlaces = new Map<ts.ObjectLiteralExpression | ts.ArrayLiteralExpression, AbstractValue>();
+  readonly literalPlaces = new Map<
+    ts.ObjectLiteralExpression | ts.ArrayLiteralExpression,
+    AbstractValue
+  >();
 
   // Script-local functions (excluding iteration callbacks, handled inline).
   readonly fnId = new Map<ts.Node, number>();
@@ -166,8 +175,10 @@ export class TaintState {
       this.askByCall.set(site.call, site.id);
       this.askSites.set(site.id, { instructions: site.instructions, receiver: site.receiver });
     }
-    for (const site of this.table.worldReads) this.worldByCall.set(site.call, { args: site.args, id: site.id });
-    for (const site of this.table.joins) this.joinByCall.set(site.call, { arg: site.arg, id: site.id });
+    for (const site of this.table.worldReads)
+      this.worldByCall.set(site.call, { args: site.args, id: site.id });
+    for (const site of this.table.joins)
+      this.joinByCall.set(site.call, { arg: site.arg, id: site.id });
     for (const site of this.table.actors) this.actorByCall.set(site.call, site.id);
     for (const cand of this.table.iterations) {
       if (cand.form === "array-method" && cand.call !== undefined) {
@@ -316,7 +327,10 @@ export class TaintState {
    * slot, and later passes merge the same slot into itself — an identity no-op. Snapshot
    * fields accumulate monotonically, exactly as an env slot bound to the literal always did.
    */
-  literalPlaceOf(node: ts.ObjectLiteralExpression | ts.ArrayLiteralExpression, fresh: AbstractValue): AbstractValue {
+  literalPlaceOf(
+    node: ts.ObjectLiteralExpression | ts.ArrayLiteralExpression,
+    fresh: AbstractValue,
+  ): AbstractValue {
     const place = this.literalPlaces.get(node);
     if (place === undefined) {
       this.literalPlaces.set(node, fresh);
@@ -504,7 +518,12 @@ export class TaintState {
     const promoted: PromotedFanout[] = this.table.iterations
       .filter((cand) => this.promotedOrders.has(cand.order))
       .sort((a, b) => a.order - b.order)
-      .map((cand) => ({ id: provisionalFanoutId(cand.order), label: "fan-out", loc: cand.loc, order: cand.order }));
+      .map((cand) => ({
+        id: provisionalFanoutId(cand.order),
+        label: "fan-out",
+        loc: cand.loc,
+        order: cand.order,
+      }));
 
     return {
       askActor,
@@ -551,48 +570,7 @@ export class TaintState {
   }
 
   private resolveOccs(value: AbstractValue): TaintOcc[] {
-    return [...collapse(this.resolvePlaceholders(value, new Set())).occs.values()];
-  }
-
-  /** Expand parameter placeholders to the union of actual arguments across all calls. */
-  private resolvePlaceholders(
-    value: AbstractValue,
-    visiting: Set<string>,
-    seen = new Set<AbstractValue>(),
-  ): AbstractValue {
-    if (seen.has(value)) return emptyValue(); // cycle-safe: a shared field contributes once
-    seen.add(value);
-    const out = emptyValue();
-    for (const occ of value.occs.values()) addOcc(out, occ);
-    for (const ph of value.phs.values()) this.resolvePlaceholder(out, ph, visiting);
-    for (const [key, field] of value.fields) out.fields.set(key, this.resolvePlaceholders(field, visiting, seen));
-    // A bound function reaching an emission point (e.g. a returned bound function) must not
-    // drop its prefix's taint; fold each resolved prefix arg in (collapsed at emission).
-    for (const el of value.bound ?? []) mergeInto(out, this.resolvePlaceholders(el, visiting, seen));
-    return out;
-  }
-
-  private resolvePlaceholder(out: AbstractValue, ph: Placeholder, visiting: Set<string>): void {
-    if (ph.rest === true) {
-      // A rest formal gathers every actual recorded at index >= ph.param (calls
-      // record actuals positionally, so a rest param has many keyed slots).
-      for (const [key, actual] of this.paramActuals) {
-        const sep = key.indexOf(":");
-        if (Number(key.slice(0, sep)) !== ph.fnId || Number(key.slice(sep + 1)) < ph.param) continue;
-        if (visiting.has(key)) continue;
-        visiting.add(key);
-        mergeInto(out, this.resolvePlaceholders(actual, visiting));
-        visiting.delete(key);
-      }
-      return;
-    }
-    const key = phKey(ph);
-    if (visiting.has(key)) return; // recursion → bottom
-    const actual = this.paramActuals.get(key);
-    if (actual === undefined) return;
-    visiting.add(key);
-    mergeInto(out, this.resolvePlaceholders(actual, visiting));
-    visiting.delete(key);
+    return resolveOccurrences(this.paramActuals, value);
   }
 
   bindPlaceholderParams(fn: ts.Node, id: number): void {
