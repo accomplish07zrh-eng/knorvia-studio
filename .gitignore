@@ -4,7 +4,7 @@ node_modules/
 /Knorvia Studio Portable*.zip
 /knorvia-studio*portable*.zip
 dist/
-# zcode-server-cli 发行包 staging 输出，本地组装产物不入库。
+# CLI 发行包 staging 输出，本地组装产物不入库。
 dist-release/
 # macOS CI 按架构隔离 electron-builder 输出目录，这些仍是构建产物。
 packages/desktop/dist-*/
@@ -80,4 +80,3 @@ __pycache__/
 packages/desktop/.e2e-artifacts/
 packages/desktop/.e2e-cache/
 packages/desktop/.e2e-network-capture/
-.zcode-runtime/

@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { ArrowDown, Check, Copy, LoaderCircle } from "lucide-react";
 import {
   Message,
@@ -83,9 +84,45 @@ function StudioTimelineContent({
   const scroll = useRef<HTMLDivElement>(null);
   const anchor = useRef<StudioScrollAnchor | undefined>(undefined);
   const loading = useRef(false);
+  const settling = useRef(false);
   const [follow, setFollow] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
   const messages = runtime.timeline?.messages ?? [];
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+  const hasOlder = runtime.timeline?.nextBefore !== undefined;
+  const hasOlderRef = useRef(hasOlder);
+  hasOlderRef.current = hasOlder;
+  const getItemKey = useCallback((index: number) => {
+    if (hasOlderRef.current && index === 0) return "studio-history-button";
+    return messagesRef.current[index - Number(hasOlderRef.current)]?.id ?? index;
+  }, []);
+  const virtualizer = useVirtualizer({
+    count: messages.length + Number(hasOlder),
+    getScrollElement: () => scroll.current,
+    getItemKey,
+    estimateSize: (index) => {
+      if (hasOlder && index === 0) return 36;
+      const kind = messages[index - Number(hasOlder)]?.kind;
+      return kind === "progress" ? 36 : kind === "tool" ? 76 : 160;
+    },
+    overscan: 5,
+    gap: 20,
+    scrollMargin: 20,
+  });
+  virtualizer.shouldAdjustScrollPositionOnItemSizeChange = (item) =>
+    !anchor.current && !follow && item.end < (scroll.current?.scrollTop ?? 0);
+  const virtualRows = virtualizer.getVirtualItems();
+  const totalSize = virtualizer.getTotalSize();
+  const virtualAnchor = useRef<{ key: string; offset: number } | undefined>(undefined);
+  const rememberAnchor = () => {
+    const el = scroll.current;
+    if (!el) return;
+    const current = captureStudioScrollAnchor(el);
+    anchor.current = current;
+    const key = current?.element.dataset.studioMessageId;
+    virtualAnchor.current = key ? { key, offset: current.offset } : undefined;
+  };
   const active = runtime.timeline?.runs.filter((run) =>
     ["running", "waiting", "queued"].includes(run.state),
   );
@@ -131,99 +168,163 @@ function StudioTimelineContent({
     const el = scroll.current;
     if (!el) return;
     if (anchor.current) {
-      restoreStudioScrollAnchor(el, anchor.current);
-      if (!loadingOlder) anchor.current = undefined;
+      const measurement = virtualizer.measurementsCache.find(
+        (item) => item.key === virtualAnchor.current?.key,
+      );
+      if (measurement && virtualAnchor.current)
+        el.scrollTop = measurement.start - virtualAnchor.current.offset;
+      else if (el.contains(anchor.current.element)) restoreStudioScrollAnchor(el, anchor.current);
     } else if (follow) el.scrollTop = el.scrollHeight;
-  }, [runtime.timeline, follow, loadingOlder]);
+  }, [runtime.timeline, follow, loadingOlder, totalSize, virtualizer]);
   return (
     <div className="relative min-h-0 flex-1">
       <div
         ref={scroll}
+        data-studio-timeline-scroll=""
         className="h-full overflow-y-auto [overflow-anchor:none] [scrollbar-gutter:stable]"
+        onWheel={() => {
+          if (loading.current) requestAnimationFrame(rememberAnchor);
+          else {
+            settling.current = false;
+            anchor.current = undefined;
+            virtualAnchor.current = undefined;
+          }
+        }}
+        onTouchMove={() => {
+          if (loading.current) requestAnimationFrame(rememberAnchor);
+        }}
+        onPointerMove={(event) => {
+          if (loading.current && event.buttons) requestAnimationFrame(rememberAnchor);
+        }}
         onScroll={(event) => {
           const el = event.currentTarget;
-          if (loading.current) anchor.current = captureStudioScrollAnchor(el);
-          else setFollow(el.scrollHeight - el.scrollTop - el.clientHeight < 100);
+          if (!loading.current && !settling.current) {
+            const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+            if (atBottom) {
+              anchor.current = undefined;
+              virtualAnchor.current = undefined;
+            } else rememberAnchor();
+            setFollow(atBottom);
+          }
         }}
       >
         <div
           className={`mx-auto space-y-5 px-4 py-5 ${getConversationContentWidthClassName({ centeredEmptyLayout: false, statusPanelLayout: "none" })}`}
         >
-          {runtime.timeline?.nextBefore !== undefined && (
-            <Button
-              variant="ghost"
-              size="sm"
-              disabled={loadingOlder}
-              onClick={() => {
-                if (loading.current) return;
-                loading.current = true;
-                const el = scroll.current;
-                if (el) anchor.current = captureStudioScrollAnchor(el);
-                setFollow(false);
-                setLoadingOlder(true);
-                void runtime.loadOlder().finally(() => {
-                  loading.current = false;
-                  setLoadingOlder(false);
-                });
-              }}
-            >
-              {loadingOlder && <LoaderCircle className="mr-1.5 size-3.5 animate-spin" />}
-              {zh ? "加载更早消息" : "Load earlier messages"}
-            </Button>
-          )}
-          {messages.map((message) =>
-            message.kind === "reasoning" ? (
-              <Reasoning key={message.id} data-studio-message-id={message.id}>
-                <ReasoningTrigger />
-                <ReasoningContent>{message.text}</ReasoningContent>
-              </Reasoning>
-            ) : message.kind === "tool" ? (
-              <details
-                key={message.id}
-                data-studio-message-id={message.id}
-                className="rounded-lg border border-border px-3 py-2 text-ui-sm"
-              >
-                <summary className="cursor-pointer text-foreground-subtle">
-                  {message.name}
-                  {message.state ? ` · ${toolStates[message.state] ?? message.state}` : ""}
-                </summary>
-                <pre className="mt-2 max-h-60 overflow-auto whitespace-pre-wrap break-words">
-                  {message.text}
-                </pre>
-              </details>
-            ) : message.kind === "progress" ? (
-              <p
-                key={message.id}
-                data-studio-message-id={message.id}
-                className="text-ui-sm text-foreground-subtle"
-              >
-                {message.text}
-              </p>
-            ) : (
-              <Message
-                key={message.id}
-                data-studio-message-id={message.id}
-                from={message.sender === "user" ? "user" : "assistant"}
-              >
-                {message.sender !== "user" && message.sender !== "system" && (
-                  <div className="flex items-center gap-2 text-ui-sm text-foreground-subtle">
-                    <StudioKernelIcon kernelId={message.sender} className="size-4" />
-                    <span>{studioKernelOption(message.sender, statuses).name}</span>
-                  </div>
-                )}
-                <MessageContent>
-                  {message.sender === "user" ? (
-                    <div className="whitespace-pre-wrap break-words">{message.text}</div>
-                  ) : (
-                    <MessageResponse>{message.text}</MessageResponse>
-                  )}
-                </MessageContent>
-                <MessageActions>
-                  <CopyMessage text={message.text} zh={zh} />
-                </MessageActions>
-              </Message>
-            ),
-          )}
+          <div
+            data-studio-virtual-list=""
+            data-studio-count={messages.length}
+            className="relative"
+            style={{ height: totalSize }}
+          >
+            {virtualRows.map((row) => {
+              const isHistoryButton = hasOlder && row.index === 0;
+              const message = messages[row.index - Number(hasOlder)];
+              if (!isHistoryButton && !message) return null;
+              return (
+                <div
+                  key={row.key}
+                  ref={virtualizer.measureElement}
+                  data-index={row.index}
+                  data-studio-virtual-row=""
+                  className="absolute left-0 top-0 w-full"
+                  style={{ transform: `translateY(${row.start - 20}px)` }}
+                >
+                  {isHistoryButton ? (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={loadingOlder}
+                      onClick={() => {
+                        if (loading.current) return;
+                        loading.current = true;
+                        rememberAnchor();
+                        setFollow(false);
+                        setLoadingOlder(true);
+                        void runtime.loadOlder().finally(() => {
+                          loading.current = false;
+                          settling.current = true;
+                          setLoadingOlder(false);
+                          // 顶部“加载更早消息”消失时，虚拟器的索引和动态测高会在
+                          // 相邻绘制帧内收敛；以实际可见消息再对齐一次阅读锚点。
+                          const settleAnchor = () => {
+                            const el = scroll.current;
+                            const key = virtualAnchor.current?.key;
+                            if (!el || !key || !virtualAnchor.current) return;
+                            const current = [
+                              ...el.querySelectorAll<HTMLElement>("[data-studio-message-id]"),
+                            ].find((item) => item.dataset.studioMessageId === key);
+                            if (current)
+                              restoreStudioScrollAnchor(el, {
+                                element: current,
+                                offset: virtualAnchor.current.offset,
+                              });
+                          };
+                          requestAnimationFrame(() => {
+                            settleAnchor();
+                            requestAnimationFrame(() => {
+                              settleAnchor();
+                              settling.current = false;
+                            });
+                          });
+                        });
+                      }}
+                    >
+                      {loadingOlder && <LoaderCircle className="mr-1.5 size-3.5 animate-spin" />}
+                      {zh ? "加载更早消息" : "Load earlier messages"}
+                    </Button>
+                  ) : message?.kind === "reasoning" ? (
+                    <Reasoning data-studio-message-id={message.id}>
+                      <ReasoningTrigger />
+                      <ReasoningContent>{message.text}</ReasoningContent>
+                    </Reasoning>
+                  ) : message?.kind === "tool" ? (
+                    <details
+                      data-studio-message-id={message.id}
+                      className="rounded-lg border border-border px-3 py-2 text-ui-sm"
+                    >
+                      <summary className="cursor-pointer text-foreground-subtle">
+                        {message.name}
+                        {message.state ? ` · ${toolStates[message.state] ?? message.state}` : ""}
+                      </summary>
+                      <pre className="mt-2 max-h-60 overflow-auto whitespace-pre-wrap break-words">
+                        {message.text}
+                      </pre>
+                    </details>
+                  ) : message?.kind === "progress" ? (
+                    <p
+                      data-studio-message-id={message.id}
+                      className="text-ui-sm text-foreground-subtle"
+                    >
+                      {message.text}
+                    </p>
+                  ) : message ? (
+                    <Message
+                      data-studio-message-id={message.id}
+                      from={message.sender === "user" ? "user" : "assistant"}
+                    >
+                      {message.sender !== "user" && message.sender !== "system" && (
+                        <div className="flex items-center gap-2 text-ui-sm text-foreground-subtle">
+                          <StudioKernelIcon kernelId={message.sender} className="size-4" />
+                          <span>{studioKernelOption(message.sender, statuses).name}</span>
+                        </div>
+                      )}
+                      <MessageContent>
+                        {message.sender === "user" ? (
+                          <div className="whitespace-pre-wrap break-words">{message.text}</div>
+                        ) : (
+                          <MessageResponse>{message.text}</MessageResponse>
+                        )}
+                      </MessageContent>
+                      <MessageActions>
+                        <CopyMessage text={message.text} zh={zh} />
+                      </MessageActions>
+                    </Message>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
           {activity && (
             <p role="status" className="flex items-center gap-2 text-ui-sm text-foreground-subtle">
               <LoaderCircle className="size-3.5 animate-spin" />

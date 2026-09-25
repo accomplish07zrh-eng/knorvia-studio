@@ -1,0 +1,36 @@
+{
+  "measuredAt": "2026-09-24T23:59:00.800Z",
+  "platform": "win32",
+  "node": "v24.14.0",
+  "scroll": {
+    "syntheticMessages": 10000,
+    "frames": 180,
+    "headlessRafCallbacksPerSecond": 100.2,
+    "frameIntervalP50Ms": 6.8,
+    "frameIntervalP95Ms": 23.3,
+    "slowFramesOver33Ms": 0,
+    "maxMountedRows": 20,
+    "offscreenAppendShiftPx": 0,
+    "prependAnchorShiftPx": 0,
+    "viewport": "1440x900",
+    "browserVersion": "154.0.8037.57"
+  },
+  "desktop": {
+    "coldStartToOnboardingMs": 6133,
+    "idle": {
+      "processCount": 7,
+      "summedWorkingSetMiB": 1158,
+      "privateCommitMiB": 1136.9
+    }
+  },
+  "artifact": {
+    "path": "D:\\tools\\knorvia studio\\packages\\desktop\\dist\\Knorvia Studio-0.8.0-preview.1-win-x64.exe",
+    "bytes": 150159661
+  },
+  "portable": {
+    "path": "C:\\Users\\17018\\Desktop\\Knorvia Studio Portable",
+    "bytes": 660206104,
+    "files": 122,
+    "excludes": ["data/"]
+  }
+}
