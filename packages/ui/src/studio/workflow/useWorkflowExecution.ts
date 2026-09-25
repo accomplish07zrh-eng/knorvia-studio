@@ -87,7 +87,7 @@ export function useWorkflowExecution(workflow: StudioWorkflow) {
         if (attempt === stopAttempt.current) stopInFlight.current = false;
       }
     },
-    run: (text: string) => {
+    run: (text: string, params?: Record<string, string>) => {
       if (
         running ||
         stoppedRun.current ||
@@ -100,8 +100,16 @@ export function useWorkflowExecution(workflow: StudioWorkflow) {
       return action(() =>
         submitWorkflowRun({
           save: () => runtime.save(workflow),
+          // 参数随同提交一起送到 Host，由服务端做校验并在写运行记录前冻结；
+          // 这里只是编辑态草稿，不代表后端事实。
           send: () =>
-            runtime.command({ type: "send", kind: "workflow", targetId: workflow.id, text }),
+            runtime.command({
+              type: "send",
+              kind: "workflow",
+              targetId: workflow.id,
+              text,
+              ...(params && Object.keys(params).length ? { params } : {}),
+            }),
           canSubmit: () => stopEpoch === stopAttempt.current && !stoppedRun.current,
         }),
       );

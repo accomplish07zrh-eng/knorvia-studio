@@ -6,9 +6,11 @@ import type { StudioWorkflow } from "./types.js";
 export const WORKFLOW_FILE_LIMIT = 8 * 1024 * 1024;
 /**
  * 信封版本。2 起节点 `data` 可携带契约版本字段（`version`）；
- * 1 仍然可导入，旧文件不需要迁移。
+ * 3 起可携带参数 schema、输出声明与执行要求；1 与 2 仍然可导入，旧文件不需要迁移。
  */
-export const WORKFLOW_FILE_VERSION = 2;
+export const WORKFLOW_FILE_VERSION = 3;
+/** 可导入的历史信封版本。 */
+const WORKFLOW_FILE_VERSIONS = [1, 2, WORKFLOW_FILE_VERSION];
 /** 节点 `data` 允许出现的键；闭合白名单，未知键一律报 fileInvalid。 */
 const NODE_DATA_KEYS = [
   "kind",
@@ -22,6 +24,9 @@ const NODE_DATA_KEYS = [
   "creationModelId",
   "creationReferencePath",
   "version",
+  "params",
+  "outputNames",
+  "permission",
 ] as const;
 export class WorkflowFileError extends Error {
   constructor(readonly code: "fileTooLarge" | "fileInvalid" | "fileVersion") {
@@ -34,6 +39,43 @@ function plain(value: unknown): value is Record<string, unknown> {
 }
 function keys(value: Record<string, unknown>, allowed: string[]) {
   return Object.keys(value).every((key) => allowed.includes(key));
+}
+const PARAM_NAME = /^[a-z][a-z0-9_]{0,39}$/;
+const OUTPUT_NAME = /^[a-z][a-z0-9-]{0,63}$/;
+/**
+ * 新增节点字段的形状校验。
+ * 文件是外部输入：形状不对就按 fileInvalid 拒绝，绝不能带着坏参数进入执行。
+ */
+function nodeDataFields(data: Record<string, unknown>): boolean {
+  if (data.params !== undefined) {
+    if (!Array.isArray(data.params) || data.params.length > 12) return false;
+    const names = new Set<string>();
+    for (const param of data.params) {
+      if (!plain(param)) return false;
+      if (!keys(param, ["name", "label", "type", "default", "required"])) return false;
+      if (typeof param.name !== "string" || !PARAM_NAME.test(param.name) || names.has(param.name))
+        return false;
+      names.add(param.name);
+      if (!["text", "number", "boolean"].includes(param.type as string)) return false;
+      if (param.label !== undefined && typeof param.label !== "string") return false;
+      if (param.default !== undefined && typeof param.default !== "string") return false;
+      if (param.required !== undefined && typeof param.required !== "boolean") return false;
+    }
+  }
+  if (data.outputNames !== undefined) {
+    if (!Array.isArray(data.outputNames) || data.outputNames.length > 32) return false;
+    if (
+      new Set(data.outputNames as string[]).size !== data.outputNames.length ||
+      !data.outputNames.every((name) => typeof name === "string" && OUTPUT_NAME.test(name))
+    )
+      return false;
+  }
+  return (
+    data.permission === undefined ||
+    data.permission === "read-only" ||
+    data.permission === "ask" ||
+    data.permission === "full-access"
+  );
 }
 
 /** File envelopes contain only portable definitions, never host paths, runs or model credentials. */
@@ -65,6 +107,14 @@ export function encodeWorkflowFile(workflow: StudioWorkflow): string {
               : {}),
             // 定义契约版本必须随文件往返，否则导入会静默丢字段。
             ...(data.version === undefined ? {} : { version: data.version }),
+            // 参数、输出声明与执行要求同样必须往返；未声明时不写字段，旧文件形状不变。
+            ...(Array.isArray(data.params) && data.params.length
+              ? { params: data.params.map((param) => ({ ...param })) }
+              : {}),
+            ...(Array.isArray(data.outputNames) && data.outputNames.length
+              ? { outputNames: [...data.outputNames] }
+              : {}),
+            ...(data.permission === undefined ? {} : { permission: data.permission }),
           },
         })),
         edges: workflow.edges.map(({ id, source, target, sourceHandle }) => ({
@@ -96,7 +146,7 @@ export function decodeWorkflowFile(text: string, workspacePath = "") {
   }
   if (!plain(value) || value.format !== "knorvia-workflow")
     throw new WorkflowFileError("fileInvalid");
-  if (value.version !== 1 && value.version !== WORKFLOW_FILE_VERSION)
+  if (value.version !== 1 && !WORKFLOW_FILE_VERSIONS.includes(value.version as number))
     throw new WorkflowFileError("fileVersion");
   if (!keys(value, ["format", "version", "workflow"]) || !plain(value.workflow))
     throw new WorkflowFileError("fileInvalid");
@@ -119,6 +169,7 @@ export function decodeWorkflowFile(text: string, workspacePath = "") {
       Math.abs(node.position.y) > 1_000_000 ||
       !plain(node.data) ||
       !keys(node.data, [...NODE_DATA_KEYS]) ||
+      !nodeDataFields(node.data) ||
       (node.data.version !== undefined &&
         (!Number.isSafeInteger(node.data.version) || (node.data.version as number) < 0))
     )

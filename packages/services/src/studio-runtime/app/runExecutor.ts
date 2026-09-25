@@ -180,6 +180,19 @@ export async function executeStudioRun(
     now: () => clock.now(),
     delay: (milliseconds, localSignal) =>
       clock.delay(milliseconds, localSignal ? AbortSignal.any([signal, localSignal]) : signal),
+    reference: {
+      runId,
+      // 身份 key 统一为 `workspaceIdentity?.trim() || workspacePath`；工作流用定义里的项目路径。
+      workspaceIdentity:
+        (run.definition as StudioWorkflowDefinition | undefined)?.workspacePath ?? "",
+      // 没有实现 referenceVersion 的 Host 不提供证据：文件类引用必须失败关闭，不能当作未变化。
+      ...(deps.workspaces.referenceVersion
+        ? {
+            fileVersion: async (refRunId: string, refStepId: string, relativePath: string) =>
+              (await deps.workspaces.referenceVersion!(refRunId, refStepId, relativePath)).hash,
+          }
+        : {}),
+    },
   };
   let result: StudioStepResult;
   try {

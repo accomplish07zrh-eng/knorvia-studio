@@ -1,6 +1,6 @@
 import { Plus, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { CreationModel } from "@knorvia/services";
+import type { CreationModel, StudioPermission } from "@knorvia/services";
 import { Button } from "../../components/ui/button.js";
 import { Input } from "../../components/ui/input.js";
 import { Textarea } from "../../components/ui/textarea.js";
@@ -14,6 +14,7 @@ import {
 import { studioSelectableKernelOptions, type StudioKernelId } from "../types.js";
 import { useStudioKernelCatalog } from "../agents/useStudioKernelCatalog.js";
 import { useBaseWorkspaceServices } from "../../hooks/useWorkspaceServices.js";
+import { WorkflowOutputs } from "./WorkflowInspectorOutputs.js";
 import type { StudioWorkflow, StudioWorkflowNode, WorkflowNodeData } from "./types.js";
 import { useWorkflowText } from "./useWorkflowText.js";
 
@@ -71,6 +72,41 @@ export function WorkflowInspector({
           onChange={(event) => onChange({ label: event.target.value })}
         />
       </label>
+      {kind === "agent" && (
+        <label className="grid gap-2 text-ui-sm text-foreground-subtle">
+          {t("permission")}
+          <Select
+            value={node.data.permission ?? "inherit"}
+            onValueChange={(value) =>
+              onChange({
+                permission: value === "inherit" ? undefined : (value as StudioPermission),
+              })
+            }
+          >
+            <SelectTrigger className="w-full" aria-label={t("permission")}>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="inherit">{t("permissionInherit")}</SelectItem>
+              <SelectItem value="read-only">{t("permissionReadOnly")}</SelectItem>
+              <SelectItem value="ask">{t("permissionAsk")}</SelectItem>
+              <SelectItem value="full-access">{t("permissionFullAccess")}</SelectItem>
+            </SelectContent>
+          </Select>
+        </label>
+      )}
+      {["agent", "approval", "creation"].includes(kind) && (
+        <WorkflowOutputs
+          workflow={workflow}
+          node={node}
+          onOutputsChange={(names) => onChange({ outputNames: names })}
+          onInsert={(name) =>
+            onChange({
+              prompt: `${node.data.prompt}${node.data.prompt ? "\n" : ""}{{ref.${name}}}`,
+            })
+          }
+        />
+      )}
       {kind === "agent" && (
         <>
           <label className="grid gap-2 text-ui-sm text-foreground-subtle">

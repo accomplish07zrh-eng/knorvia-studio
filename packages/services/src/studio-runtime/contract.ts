@@ -7,6 +7,7 @@ import type {
   StudioKernelStatus,
   StudioKernelOptions,
   StudioChatSelection,
+  StudioPermission,
 } from "./kernelTypes.js";
 import type {
   StudioApplyReceipt,
@@ -20,7 +21,16 @@ export * from "./kernelTypes.js";
 export * from "./workflowTypes.js";
 export * from "./types.js";
 export * from "./domain/outputRef.js";
+export * from "./domain/reference.js";
 export { validateStudioWorkflow } from "./domain/workflowGraph.js";
+export {
+  stricterStudioPermission,
+  studioWorkflowNodeRequirement,
+  studioWorkflowOutputNames,
+  studioWorkflowParams,
+  resolveStudioWorkflowParams,
+  validateStudioWorkflowPermissions,
+} from "./domain/workflowGraph.js";
 export { studioConditionReferences } from "./domain/condition.js";
 /** 交付结论/重启显示的纯判定入口；上层只读，不写任何记录。 */
 export { studioRestartDisplay, STUDIO_ACCEPTANCE_KIND } from "./app/runOutcomeProjection.js";
@@ -52,6 +62,10 @@ export type StudioCommand = { commandId: string } & (
       selection?: StudioChatSelection;
       /** A caller-owned per-turn snapshot; avoids mutating a remote Host's global CLI settings. */
       kernelConfig?: StudioKernelConfig;
+      /** 工作流节点的参数提交值；受理时与默认值合并后冻结，之后不再读取界面草稿。 */
+      params?: Record<string, string>;
+      /** 本次运行的授权上限；与每个节点的要求取更严格的一方（见 specs/knorvia-host-references.md）。 */
+      permission?: StudioPermission;
     }
   | { type: "cancel"; runId: string }
   | { type: "steer"; runId: string; text: string }

@@ -1,13 +1,37 @@
-import { isAbsolute, resolve } from "node:path";
+import { basename, dirname, isAbsolute, join, resolve } from "node:path";
+import { rename } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import type { StudioWorkspacePort } from "../app/ports.js";
 import type { StudioFileVersion, StudioWorkspaceChange } from "../types.js";
 import { applySnapshot } from "./workspaceApply.js";
-import { digest, readSafeFile, relativeFile, scanWorkspace } from "./workspaceFiles.js";
+import {
+  digest,
+  exclusiveWrite,
+  inside,
+  readSafeFile,
+  relativeFile,
+  safeDirectory,
+  safePath,
+  scanWorkspace,
+} from "./workspaceFiles.js";
 import { withWorkspaceLock } from "./workspaceLocks.js";
 import { recoverSourceApplies } from "./workspaceRecovery.js";
-import { prepareSnapshot, readWorkspace, workspaceLocation } from "./workspaceSnapshot.js";
+import {
+  prepareSnapshot,
+  readWorkspace,
+  workspaceLocation,
+  type WorkspaceMetadata,
+} from "./workspaceSnapshot.js";
 
 const hash = (data: Buffer | null) => (data === null ? null : digest(data));
+/** 导入记录上限；元数据必须有界，不能随用户操作无限增长。 */
+const IMPORT_LIMIT = 64;
+interface ImportRecord {
+  sourcePath: string;
+  hash: string;
+  size: number;
+}
+type MetadataWithImports = WorkspaceMetadata & { imports?: Record<string, ImportRecord> };
 function preview(data: Buffer | null): { text: string | null; binary: boolean } {
   if (data === null) return { text: null, binary: false };
   if (data.length > 512 * 1024 || data.includes(0)) return { text: null, binary: true };
@@ -97,5 +121,75 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
         return result;
       });
     },
+    async importFile({ runId, stepId, sourcePath, name }) {
+      const location = workspaceLocation(storage, runId, stepId);
+      const metadata = (await readWorkspace(location, runId, stepId)) as MetadataWithImports | null;
+      if (!metadata) throw new Error("Isolated workspace not found.");
+      const relative = relativeFile(name);
+      if (!isAbsolute(sourcePath)) throw new Error("Imported files require an absolute path.");
+      const source = resolve(sourcePath);
+      // Studio 自己的数据目录不是用户项目；把它当输入会把运行记录再复制进工作区。
+      if (inside(storage, source))
+        throw new Error("Studio workspace storage cannot be imported as an input.");
+      return locked(sourceKey(metadata.sourcePath), async () => {
+        await safePath(source);
+        const data = await readSafeFile(dirname(source), basename(source));
+        if (!data) throw new Error("Imported file does not exist.");
+        const sourceHash = digest(data);
+        const root = metadata.mode === "shared" ? metadata.sourcePath : location.working;
+        const destination = join(root, relative);
+        if (!inside(root, destination))
+          throw new Error("Imported file would escape the run workspace.");
+        await safeDirectory(root);
+        await exclusiveWrite(destination, data, 0o600);
+        // 复制后重读：只有真实读回的一致哈希才算导入成功，源文件始终只读。
+        const copied = await readSafeFile(root, relative);
+        if (!copied || digest(copied) !== sourceHash || copied.length !== data.length)
+          throw new Error("Imported file changed while copying.");
+        await recordImport(location, metadata, relative, {
+          sourcePath: source,
+          hash: sourceHash,
+          size: data.length,
+        });
+        return {
+          path: relative,
+          sourcePath: source,
+          hash: sourceHash,
+          size: data.length,
+        };
+      });
+    },
+    async referenceVersion(runId, stepId, relativePath) {
+      const location = workspaceLocation(storage, runId, stepId);
+      const metadata = await readWorkspace(location, runId, stepId);
+      if (!metadata) throw new Error("Isolated workspace not found.");
+      return locked(sourceKey(metadata.sourcePath), async () => {
+        relativeFile(relativePath);
+        const root = metadata.mode === "shared" ? metadata.sourcePath : location.working;
+        // readSafeFile 拒绝符号链接、联接点、重定向与非普通文件；命中即抛错，不降级为"不存在"。
+        return { path: relativePath, hash: hash(await readSafeFile(root, relativePath)) };
+      });
+    },
   };
+}
+
+/**
+ * 把导入记录写进快照元数据。
+ *
+ * 元数据是唯一来源记录，因此先写临时文件再原子替换：异常不会留下半份元数据，
+ * 也不会让"已复制的文件"失去来源。
+ */
+async function recordImport(
+  location: { metadata: string },
+  metadata: MetadataWithImports,
+  path: string,
+  record: ImportRecord,
+): Promise<void> {
+  const imports = { ...metadata.imports };
+  if (!imports[path] && Object.keys(imports).length >= IMPORT_LIMIT)
+    throw new Error(`A run imports at most ${IMPORT_LIMIT} files.`);
+  imports[path] = record;
+  const staging = `${location.metadata}.updating-${randomUUID()}`;
+  await exclusiveWrite(staging, JSON.stringify({ ...metadata, imports }));
+  await rename(staging, location.metadata);
 }

@@ -7,9 +7,24 @@ import { STUDIO_OUTPUT_REF_VERSION } from "./outputRef.js";
 import { studioConditionReferences } from "./condition.js";
 import { isStudioKernelId } from "./kernelIdentity.js";
 import { STUDIO_WORKFLOW_NODE_KINDS } from "../workflowTypes.js";
+import {
+  nodeParameterIssues,
+  studioWorkflowOutputNames,
+  studioWorkflowParams,
+} from "./workflowParams.js";
 
 // 节点种类清单只有一份来源（workflowTypes），这里只转成查询集合。
 const KINDS = new Set<string>(STUDIO_WORKFLOW_NODE_KINDS);
+
+// 参数/输出声明/权限的判定属于参数域，这里只重导出，保持既有公开入口不变。
+export {
+  resolveStudioWorkflowParams,
+  stricterStudioPermission,
+  studioWorkflowNodeRequirement,
+  studioWorkflowOutputNames,
+  studioWorkflowParams,
+  validateStudioWorkflowPermissions,
+} from "./workflowParams.js";
 export interface StudioWorkflowGraph {
   nodes: Map<string, StudioWorkflowNode>;
   incoming: Map<string, StudioWorkflowEdge[]>;
@@ -117,6 +132,7 @@ export function validateStudioWorkflow(definition: StudioWorkflowDefinition): st
       (typeof data.creationReferencePath !== "string" || data.creationReferencePath.length > 2048)
     )
       issues.push(`Invalid creation reference path: ${node.id}.`);
+    issues.push(...nodeParameterIssues(data, node.id));
   }
   for (const edge of definition.edges) {
     if (
@@ -184,12 +200,29 @@ export function validateStudioWorkflow(definition: StudioWorkflowDefinition): st
       output.some((edge) => edge.sourceHandle && edge.sourceHandle !== "out")
     )
       issues.push(`Unexpected branch handle: ${id}.`);
-    if (["agent", "approval"].includes(node.data.kind)) {
+    if (["agent", "approval", "creation"].includes(node.data.kind)) {
       const ancestors = workflowAncestors(graph, id);
+      // 参数与输出声明都只能看当前节点自己声明的内容；
+      // `{{param.x}}` / `{{ref.x}}` 是保留命名空间，不能与节点 id 混淆。
+      const declaredParams = new Set(studioWorkflowParams(node.data).map((param) => param.name));
+      const ancestorOutputs = new Set<string>();
+      for (const ancestor of ancestors)
+        for (const name of studioWorkflowOutputNames(graph.nodes.get(ancestor)!.data))
+          ancestorOutputs.add(name);
       for (const match of node.data.prompt.matchAll(/\{\{([^{}]+)\}\}/g)) {
         const ref = match[1]!.trim();
-        if (ref !== "input" && ref !== "output" && !ancestors.has(ref))
-          issues.push(`Prompt ${id} references a non-ancestor: ${ref}.`);
+        if (ref === "input" || ref === "output") continue;
+        if (ref.startsWith("param.")) {
+          if (!declaredParams.has(ref.slice("param.".length)))
+            issues.push(`Prompt ${id} references an unknown parameter: ${ref}.`);
+          continue;
+        }
+        if (ref.startsWith("ref.")) {
+          if (!ancestorOutputs.has(ref.slice("ref.".length)))
+            issues.push(`Prompt ${id} references an unavailable output: ${ref}.`);
+          continue;
+        }
+        if (!ancestors.has(ref)) issues.push(`Prompt ${id} references a non-ancestor: ${ref}.`);
       }
     }
   }

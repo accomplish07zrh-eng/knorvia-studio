@@ -1,4 +1,4 @@
-import type { StudioKernelId } from "./kernelTypes.js";
+import type { StudioKernelId, StudioPermission } from "./kernelTypes.js";
 import type { StudioOutputRef } from "./domain/outputRef.js";
 
 /**
@@ -16,6 +16,28 @@ export const STUDIO_WORKFLOW_NODE_KINDS = [
   "end",
 ] as const;
 export type StudioWorkflowNodeKind = (typeof STUDIO_WORKFLOW_NODE_KINDS)[number];
+
+/**
+ * 节点参数类型。值一律以字符串承载，避免把界面输入直接当成运行时类型。
+ * 见 specs/knorvia-host-references.md 第 4 节。
+ */
+export const STUDIO_WORKFLOW_PARAM_TYPES = ["text", "number", "boolean"] as const;
+export type StudioWorkflowParamType = (typeof STUDIO_WORKFLOW_PARAM_TYPES)[number];
+export interface StudioWorkflowParam {
+  /** 提示词里用 `{{param.<name>}}` 引用。 */
+  name: string;
+  label?: string;
+  type: StudioWorkflowParamType;
+  /** 缺省值；`required` 且无缺省值时提交必须给出值。 */
+  default?: string;
+  required?: boolean;
+}
+/** 提交值/冻结值的形状。 */
+export type StudioWorkflowParamValues = Record<string, string>;
+/** `run.checkpoint.values` 里冻结运行级授权的保留键。 */
+export const STUDIO_WORKFLOW_PERMISSION_KEY = "workflow-permission";
+/** `run.checkpoint.values` 里冻结参数值的保留键。 */
+export const STUDIO_WORKFLOW_PARAMS_KEY = "workflow-params";
 export interface StudioWorkflowNodeData {
   kind: StudioWorkflowNodeKind;
   label: string;
@@ -27,6 +49,12 @@ export interface StudioWorkflowNodeData {
   joinPolicy: "all" | "any";
   creationModelId?: string;
   creationReferencePath?: string;
+  /** 该节点声明的参数 schema；提示词用 `{{param.<name>}}` 引用。 */
+  params?: StudioWorkflowParam[];
+  /** 该节点声明会产出的输出名；下游用 `{{ref.<name>}}` 引用。 */
+  outputNames?: string[];
+  /** 该节点的执行要求；与运行授权取更严格的一方，见第 6 节。 */
+  permission?: StudioPermission;
   [key: string]: unknown;
 }
 export interface StudioWorkflowNode {

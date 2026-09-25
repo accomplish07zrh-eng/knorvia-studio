@@ -217,8 +217,8 @@ function EditorCanvas({
         onClose={() => setRunDialog(false)}
         busy={execution.busy}
         error={execution.error}
-        onRun={async (input) => {
-          const accepted = await execution.run(input);
+        onRun={async (input, params) => {
+          const accepted = await execution.run(input, params);
           if (accepted) setRightPane("history");
           return accepted;
         }}

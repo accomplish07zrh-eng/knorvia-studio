@@ -3,6 +3,11 @@ import { activeRunStates, validateStudioCommand, validWorkspace } from "../domai
 import type { StudioConversation, StudioMessage } from "../types.js";
 import type { StudioKernelConfig } from "../kernelTypes.js";
 import type { StudioGroupDefinition, StudioWorkflowDefinition } from "../workflowTypes.js";
+import { STUDIO_WORKFLOW_PARAMS_KEY, STUDIO_WORKFLOW_PERMISSION_KEY } from "../workflowTypes.js";
+import {
+  resolveStudioWorkflowParams,
+  validateStudioWorkflowPermissions,
+} from "../domain/workflowGraph.js";
 import type { StoredInteraction, StoredRun, StudioClock, StudioRepository } from "./storePort.js";
 import { studioProjectKey } from "../domain/projectIdentity.js";
 import { hasUnknownStudioRun } from "./runQueries.js";
@@ -280,6 +285,21 @@ function queueRun(
         permission: "ask" as const,
       })
     : undefined;
+  // 参数与权限必须在**排队之前**定稿：解析失败或内核能力无法满足要求时不能创建运行记录。
+  const workflowValues: Record<string, string> = {};
+  if (command.kind === "workflow") {
+    const workflow = definition as StudioWorkflowDefinition;
+    const resolved = resolveStudioWorkflowParams(workflow, command.params);
+    if (resolved.issues.length) throw new Error(resolved.issues.join("\n"));
+    const permissions = validateStudioWorkflowPermissions(
+      workflow,
+      command.permission,
+      discoveredKernelVersions(db),
+    );
+    if (permissions.length) throw new Error(permissions.join("\n"));
+    workflowValues[STUDIO_WORKFLOW_PARAMS_KEY] = JSON.stringify(resolved.values);
+    if (command.permission) workflowValues[STUDIO_WORKFLOW_PERMISSION_KEY] = command.permission;
+  }
   const run: StoredRun = {
     id,
     kind: command.kind,
@@ -310,7 +330,7 @@ function queueRun(
             : {}),
         }
       : undefined,
-    checkpoint: { steps: {}, values: {}, completedRounds: 0 },
+    checkpoint: { steps: {}, values: workflowValues, completedRounds: 0 },
     definition:
       command.kind === "chat"
         ? undefined
@@ -350,4 +370,20 @@ export function requiredRun(db: StudioRepository, id: string): StoredRun {
   const run = db.read<StoredRun>("run", id);
   if (!run) throw new Error("任务不存在");
   return run;
+}
+
+/**
+ * 已发现的内核版本（由探测层持久化在 `kernel-status`）。
+ *
+ * 只用于把能力判定收紧到已核验版本；缺省时矩阵回退到既有声明，不凭空升级能力。
+ */
+function discoveredKernelVersions(db: StudioRepository): Partial<Record<string, string>> {
+  const versions: Record<string, string> = {};
+  for (const status of db.list<{ id?: string; version?: string }>("kernel-status", {
+    limit: 1000,
+  })) {
+    if (typeof status?.id === "string" && status.id && typeof status.version === "string")
+      if (status.version) versions[status.id] = status.version;
+  }
+  return versions;
 }

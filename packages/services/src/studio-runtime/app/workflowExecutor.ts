@@ -4,6 +4,7 @@ import { studioStepReference } from "../domain/stepReference.js";
 import {
   studioWorkflowGraph,
   validateStudioWorkflow,
+  workflowAncestors,
   workflowAnyLosers,
 } from "../domain/workflowGraph.js";
 import {
@@ -86,6 +87,8 @@ export async function executeStudioWorkflow(
             outcomes,
             port,
             nodeSignal,
+            // 结构化引用只能看当前节点的前置节点；旁支与后继必须在执行前被拒绝。
+            { ancestors: workflowAncestors(graph, id) },
           );
         } catch (error) {
           result = nodeSignal.aborted ? workflowStopped(nodeSignal) : workflowFailed(error);

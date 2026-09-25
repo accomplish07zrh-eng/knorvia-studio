@@ -1,5 +1,11 @@
 import type { StudioExecutionPort } from "./ports.js";
-import type { StudioStepResult, StudioWorkflowNode } from "../workflowTypes.js";
+import type {
+  StudioStepResult,
+  StudioWorkflowNode,
+  StudioWorkflowParamValues,
+} from "../workflowTypes.js";
+import { STUDIO_WORKFLOW_PARAMS_KEY, STUDIO_WORKFLOW_PERMISSION_KEY } from "../workflowTypes.js";
+import type { StudioPermission } from "../kernelTypes.js";
 import { evaluateStudioCondition } from "../domain/condition.js";
 import {
   decodeStepOutputs,
@@ -7,6 +13,8 @@ import {
   StudioUnsupportedCheckpointVersionError,
   type StudioStepOutputsVerdict as StepOutputsVerdict,
 } from "../domain/outputRef.js";
+import { resolveStudioWorkflowBindings } from "../domain/reference.js";
+import { stricterStudioPermission } from "../domain/workflowParams.js";
 import { StudioInteractionCancelledError } from "./runtimeInteractions.js";
 
 export interface WorkflowOutcome extends StudioStepResult {
@@ -109,15 +117,59 @@ export function workflowCached(port: StudioExecutionPort, id: string): WorkflowO
   if (!["succeeded", "skipped"].includes(String(result.status))) return undefined;
   return result as WorkflowOutcome;
 }
+/** 冻结的参数值；受理时写入一次，`resume` 复用同一份。 */
+export function workflowParams(port: StudioExecutionPort): StudioWorkflowParamValues {
+  const raw = port.checkpoint.values[STUDIO_WORKFLOW_PARAMS_KEY];
+  if (raw === undefined) return {};
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).filter(
+        (entry): entry is [string, string] => typeof entry[1] === "string",
+      ),
+    );
+  } catch {
+    throw new Error("Invalid frozen workflow parameters.");
+  }
+}
+
+/** 冻结的运行级授权；缺省表示用户没有额外限制。 */
+export function workflowAuthorisation(port: StudioExecutionPort): StudioPermission | undefined {
+  const raw = port.checkpoint.values[STUDIO_WORKFLOW_PERMISSION_KEY];
+  return raw === "read-only" || raw === "ask" || raw === "full-access" ? raw : undefined;
+}
+
 export function workflowText(
   prompt: string,
   input: string,
   output: string,
   outcomes: ReadonlyMap<string, WorkflowOutcome>,
+  options?: {
+    params?: StudioWorkflowParamValues;
+    bindings?: ReadonlyMap<string, string>;
+  },
 ): string {
   let expandedLength = prompt.length;
   return prompt.replace(/\{\{([^{}]+)\}\}/g, (whole: string, raw: string) => {
     const name = raw.trim();
+    if (name.startsWith("param.")) {
+      const value = options?.params?.[name.slice("param.".length)];
+      if (value === undefined)
+        throw new Error(`Prompt references an unavailable parameter: ${name}.`);
+      expandedLength += value.length - whole.length;
+      if (expandedLength > 256_000)
+        throw new Error("Expanded workflow prompt exceeds the context limit.");
+      return value;
+    }
+    if (name.startsWith("ref.")) {
+      const value = options?.bindings?.get(name.slice("ref.".length));
+      if (value === undefined) throw new Error(`Prompt references an unavailable output: ${name}.`);
+      expandedLength += value.length - whole.length;
+      if (expandedLength > 256_000)
+        throw new Error("Expanded workflow prompt exceeds the context limit.");
+      return value;
+    }
     const result = outcomes.get(name);
     if (name !== "input" && name !== "output" && (!result || result.status !== "succeeded"))
       throw new Error(`Prompt references unavailable node: ${name}.`);
@@ -133,6 +185,7 @@ async function agentNode(
   prompt: string,
   port: StudioExecutionPort,
   signal: AbortSignal,
+  permission: StudioPermission | undefined,
 ): Promise<WorkflowOutcome> {
   for (let attempt = 0; attempt <= node.data.retryCount; attempt++) {
     if (signal.aborted) return workflowStopped(signal);
@@ -143,6 +196,8 @@ async function agentNode(
         kernel: node.data.kernel,
         memberId: `workflow:${node.id}`,
         prompt,
+        // 实际要求已经与运行授权取过更严格的一方；执行器必须把它交给内核，而不是留在提示词里。
+        ...(permission ? { permission } : {}),
         signal,
       });
     } catch (error) {
@@ -183,10 +238,23 @@ export async function executeWorkflowNode(
   outcomes: ReadonlyMap<string, WorkflowOutcome>,
   port: StudioExecutionPort,
   signal: AbortSignal,
+  scope?: { ancestors?: ReadonlySet<string> },
 ): Promise<WorkflowOutcome> {
   if (signal.aborted) return workflowStopped(signal);
   const cached = workflowCached(port, node.id);
   if (cached) return cached;
+  // 结构化引用在调用内核之前解析：缺失、越界或已变化都必须先失败，而不是带着坏引用去执行。
+  const bindings = await resolveStudioWorkflowBindings({
+    sources: [node.data.prompt, node.data.creationReferencePath],
+    outcomes,
+    ...(scope?.ancestors ? { ancestors: scope.ancestors } : {}),
+    ...(port.reference ? { host: port.reference } : {}),
+  });
+  const options = { params: workflowParams(port), bindings };
+  const requirement = stricterStudioPermission(
+    node.data.permission as StudioPermission | undefined,
+    workflowAuthorisation(port),
+  );
   const ok = (text: string): WorkflowOutcome => ({ status: "succeeded", text, resultKnown: true });
   switch (node.data.kind) {
     case "start":
@@ -209,7 +277,7 @@ export async function executeWorkflowNode(
       };
     }
     case "approval": {
-      const title = workflowText(node.data.prompt, input, output, outcomes);
+      const title = workflowText(node.data.prompt, input, output, outcomes, options);
       let allowed: boolean;
       try {
         allowed = await port.confirm(`workflow:${node.id}:approval`, title, signal);
@@ -224,14 +292,15 @@ export async function executeWorkflowNode(
     case "agent":
       return agentNode(
         node,
-        `${workflowText(node.data.prompt, input, output, outcomes)}\n\nWorkflow input:\n${input}\n\nActive upstream results:\n${output}`,
+        `${workflowText(node.data.prompt, input, output, outcomes, options)}\n\nWorkflow input:\n${input}\n\nActive upstream results:\n${output}`,
         port,
         signal,
+        requirement,
       );
     case "creation": {
       if (!port.createMedia || !node.data.creationModelId)
         return workflowFailed("创作服务或模型不可用");
-      const prompt = workflowText(node.data.prompt, input, output, outcomes);
+      const prompt = workflowText(node.data.prompt, input, output, outcomes, options);
       try {
         return await port.createMedia({
           nodeId: node.id,
@@ -244,6 +313,7 @@ export async function executeWorkflowNode(
                   input,
                   output,
                   outcomes,
+                  options,
                 ),
               }
             : {}),
