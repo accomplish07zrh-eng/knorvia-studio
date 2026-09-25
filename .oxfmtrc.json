@@ -22,7 +22,6 @@
     "packages/services/src/creation/creationService.ts",
     "packages/services/src/session/automationService.ts",
     "packages/ui/src/studio/creation/StudioCreationPage.tsx",
-    "packages/ui/src/studio/workflow/WorkflowEditor.tsx",
-    "packages/services/src/studio-runtime/app/studioRuntimeService.ts"
+    "packages/ui/src/studio/workflow/WorkflowEditor.tsx"
   ]
 }

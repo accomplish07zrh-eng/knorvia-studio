@@ -1,22 +1,15 @@
 import type { IStudioRuntimeService, StudioCommand, StudioCommandResult } from "../contract.js";
 import type { Event } from "@knorvia/rpc";
-import type {
-  StudioKernelConfig,
-  StudioKernelId,
-  StudioKernelStatus,
-  StudioKernelUsage,
-} from "../kernelTypes.js";
+import type { StudioKernelId } from "../kernelTypes.js";
 import type { ICreationService } from "../../creation/contract.js";
 import {
   activeRunStates,
-  STUDIO_KERNEL_IDS,
   validStudioId,
   validKernel,
   validModel,
   validWorkspace,
-  validateStudioKernelManagement,
 } from "../domain/validation.js";
-import type { StudioOverview, StudioTimeline, StudioMessage, StudioInteraction, StudioTurnSnapshot } from "../types.js";
+import type { StudioOverview, StudioTimeline } from "../types.js";
 import type { StudioKernelRegistry, StudioWorkspacePort } from "./ports.js";
 import type { StudioClock, StudioRepository } from "./storePort.js";
 import { admitStudioCommand, requiredRun } from "./commandAdmission.js";
@@ -24,11 +17,15 @@ import { executeStudioRun, expireRunInteractions } from "./runExecutor.js";
 import { StudioExecutionLimiter } from "./executionLimiter.js";
 import { studioProjectKey } from "../domain/projectIdentity.js";
 import { StudioRuntimeLifecycle } from "./runtimeLifecycle.js";
-import { hasUnknownStudioRun, studioRunHistory } from "./runQueries.js";
+import { hasUnknownStudioRun } from "./runQueries.js";
 import { applyStudioWorkspaceChanges, inspectStudioWorkspaceChanges } from "./workspaceReview.js";
-import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { assertRemoteStudioMembersOnline } from "./remoteAdmission.js";
-import { readStudioGroupMetrics } from "./groupMetricsProjection.js";
+import { inspectStudioKernels, manageStudioKernel } from "./kernelOperations.js";
+import {
+  readStudioOverview,
+  readStudioTimeline,
+  studioKernelConfig,
+} from "./runtimeProjections.js";
 export interface StudioRuntimeDependencies {
   db: StudioRepository;
   clock: StudioClock;
@@ -57,65 +54,13 @@ export class StudioRuntimeService implements IStudioRuntimeService {
   }
   async overview(): Promise<StudioOverview> {
     this.lifecycle.assertOpen();
-    const { db } = this.deps;
-    return {
-      revision: db.revision(),
-      configs: this.configs(),
-      conversations: db.list("conversation", { all: true }),
-      groups: db.list("group", { all: true }),
-      workflows: db.list("workflow", { all: true }),
-      runs: studioRunHistory(db),
-    };
+    return readStudioOverview(this.deps.db);
   }
 
   async timeline(targetId: string, before?: number): Promise<StudioTimeline> {
     this.lifecycle.assertOpen();
     validStudioId(targetId);
-    const { db } = this.deps;
-    const messages = db
-      .list<StudioMessage>("message", { scope: targetId, limit: 500, before })
-      .reverse();
-    const runs = studioRunHistory(db, targetId).map((run) => ({
-      ...run,
-      workspaceStepIds: db
-        .list<{ stepId: string }>("workspace-head", { scope: run.id, limit: 10000 })
-        .map((item) => item.stepId),
-    }));
-    const latestRun = runs[0];
-    const latestTurn = latestRun
-      ? db.list<{ id: string }>("turn", { scope: latestRun.id, limit: 1 })[0]
-      : undefined;
-    const usage = latestTurn ? db.read<StudioKernelUsage>("usage", latestTurn.id) : undefined;
-    return {
-      revision: db.revision(),
-      messages,
-      nextBefore: messages.length === 500 ? messages[0]?.sequence : undefined,
-      interactions: [
-        ...new Map(
-          [
-            ...db.list<StudioInteraction>("interaction", { scope: targetId, limit: 100 }),
-            ...db.list<StudioInteraction>("interaction", {
-              scope: targetId,
-              limit: 10000,
-              pendingInteractionsOnly: true,
-            }),
-          ].map((item) => [item.id, item]),
-        ).values(),
-      ],
-      runs,
-      ...(usage && latestRun && latestTurn
-        ? { usage: { ...usage, runId: latestRun.id, turnId: latestTurn.id } }
-        : {}),
-      ...(latestRun?.kind === "group" ? { groupMetrics: readStudioGroupMetrics(db, latestRun, this.deps.clock.now()) } : {}),
-      turns: runs
-        .slice(0, 10)
-        .flatMap((run) =>
-          db.list<StudioTurnSnapshot>(
-            "turn",
-            { scope: run.id, limit: 1000 },
-          ),
-        ),
-    };
+    return readStudioTimeline(this.deps.db, this.deps.clock.now(), targetId, before);
   }
 
   async command(command: StudioCommand): Promise<StudioCommandResult> {
@@ -126,32 +71,7 @@ export class StudioRuntimeService implements IStudioRuntimeService {
     return result;
   }
   inspectKernels() {
-    return this.lifecycle.run(async () => {
-      const live = await this.deps.kernels.inspect(this.configs());
-      const remote = live.filter((status) => parseRemoteStudioKernelId(status.id));
-      const known = this.deps.db.list<StudioKernelStatus>("remote-kernel-status", {
-        limit: 10_000,
-      });
-      this.deps.db.transaction(() => {
-        for (const status of remote) {
-          const saved = { ...status, executablePath: undefined };
-          const previous = this.deps.db.read<StudioKernelStatus>("remote-kernel-status", status.id);
-          if (JSON.stringify(previous) !== JSON.stringify(saved))
-            this.deps.db.write("remote-kernel-status", status.id, saved);
-        }
-      });
-      const liveIds = new Set(remote.map((status) => status.id));
-      return [
-        ...live,
-        ...known
-          .filter((status) => !liveIds.has(status.id))
-          .map((status) => ({
-            ...status,
-            installed: false,
-            error: "SSH 连接已断开",
-          })),
-      ];
-    });
+    return this.lifecycle.run(() => inspectStudioKernels(this.deps));
   }
   async kernelOptions(params: { kernel: StudioKernelId; workspacePath?: string; model?: string }) {
     return this.lifecycle.run(async () => {
@@ -159,39 +79,17 @@ export class StudioRuntimeService implements IStudioRuntimeService {
       if (params.workspacePath) validWorkspace(params.workspacePath);
       if (params.model) validModel(params.model);
       if (!this.deps.kernels.options) return { models: [], error: "当前内核未提供模型目录" };
-      return this.deps.kernels.options({ ...params, config: this.configFor(params.kernel) });
+      return this.deps.kernels.options({
+        ...params,
+        config: studioKernelConfig(this.deps.db, params.kernel),
+      });
     });
   }
   async manageKernel(params: {
     kernel: StudioKernelId;
     action: "install" | "update" | "uninstall" | "update-existing";
   }) {
-    return this.lifecycle.run(async () => {
-      validateStudioKernelManagement(params);
-      if (this.deps.db.list("active").length)
-        throw new Error("请先停止运行中的任务，再管理内核安装");
-      const previous = this.configFor(params.kernel);
-      const before = (await this.deps.kernels.inspect(this.configs())).find(
-        (item) => item.id === params.kernel,
-      );
-      const status = await this.deps.kernels.manage(params.kernel, params.action);
-      // 管理操作成功后由服务持久化受管路径；UI 断开不会留下已卸载或过时的配置。
-      if (
-        params.action !== "update-existing" &&
-        (!previous.executablePath || before?.origin === "managed")
-      ) {
-        this.deps.db.transaction(() => {
-          const latest = this.configFor(params.kernel);
-          if (latest.executablePath !== previous.executablePath) return;
-          this.deps.db.write("config", params.kernel, {
-            ...latest,
-            executablePath: params.action === "uninstall" ? "" : (status.executablePath ?? ""),
-          });
-        });
-        this.changed();
-      }
-      return status;
-    });
+    return this.lifecycle.run(() => manageStudioKernel(this.deps, params, () => this.changed()));
   }
 
   async prepareAgentWorkspace(params: {
@@ -281,7 +179,7 @@ export class StudioRuntimeService implements IStudioRuntimeService {
         {
           ...this.deps,
           owner: this.owner,
-          config: (kernel) => this.configFor(kernel),
+          config: (kernel) => studioKernelConfig(this.deps.db, kernel),
           acquire: (key, signal) => this.limiter.acquire(key, signal),
         },
         run.id,
@@ -336,20 +234,6 @@ export class StudioRuntimeService implements IStudioRuntimeService {
       if (kernels.status === "rejected") throw kernels.reason;
     });
     return this.disposal;
-  }
-
-  private configFor(kernel: StudioKernelId): StudioKernelConfig {
-    return this.deps.db.read("config", kernel) ?? { executablePath: "", permission: "ask" };
-  }
-
-  private configs(): Record<StudioKernelId, StudioKernelConfig> {
-    const custom = this.deps.db.list<{ id: StudioKernelId }>("config-index", { limit: 10_000 });
-    return Object.fromEntries(
-      [...new Set([...STUDIO_KERNEL_IDS, ...custom.map((entry) => entry.id)])].map((id) => [
-        id,
-        this.configFor(id),
-      ]),
-    ) as Record<StudioKernelId, StudioKernelConfig>;
   }
 
   private changed(): void {
