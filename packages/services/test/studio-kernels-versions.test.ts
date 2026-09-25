@@ -96,6 +96,12 @@ test("retained versions have independently verifiable receipts and remain manage
     assert.equal(status.installed, true, status.error);
     assert.equal(status.origin, "managed");
     assert.equal(status.version, "1.2.3");
+    // 非 ACP 内核按规则跳过协议段；账号段永不自动探测。
+    assert.equal(status.probe?.stages.locate.status, "ok");
+    assert.equal(status.probe?.stages.version.status, "ok");
+    assert.equal(status.probe?.stages.protocol.status, "skipped");
+    assert.equal(status.probe?.stages.protocol.code, "protocol.unavailable");
+    assert.equal(status.probe?.stages.auth.code, "auth.not-requested");
   } finally {
     await context.cleanup();
   }
@@ -118,6 +124,13 @@ test("explicit managed paths reject tampering before version probes or execution
     ).find((entry) => entry.id === "codex")!;
     assert.equal(status.installed, false);
     assert.match(status.error!, /完整性已改变/);
+    // 定位段失败保留原始原因与代码；未取得版本证据时不保留 executablePath。
+    assert.equal(status.probe?.stages.locate.status, "failed");
+    assert.equal(status.probe?.stages.locate.code, "locate.failed");
+    assert.match(status.probe?.stages.locate.reason ?? "", /完整性已改变/);
+    assert.equal(status.probe?.stages.version.code, "stage.not-reached");
+    assert.equal(status.executablePath, undefined);
+    assert.equal(status.origin, "missing");
     const result = await run(context, previous.path);
     assert.equal(result.status, "failed");
     assert.equal(result.resultKnown, true);

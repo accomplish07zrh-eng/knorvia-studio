@@ -5,6 +5,7 @@ import type {
   StudioKernelAdapter,
   StudioKernelConfig,
   StudioKernelId,
+  StudioKernelInspectOptions,
   StudioKernelStatus,
 } from "../../kernelTypes.js";
 import {
@@ -12,30 +13,35 @@ import {
   EXTERNAL_KERNELS,
   isManagedKernel,
   kernelCapabilities,
-  versionFrom,
   type ExternalKernel,
 } from "../../domain/kernelPolicy.js";
-import { captureVersion } from "./processTransport.js";
 import { ManagedKernels } from "./managedKernels.js";
 import { runKernelProtocol } from "./kernelRun.js";
 import { inspectStudioKernelOptions } from "./modelOptions.js";
 import { BUILTIN_KERNELS, BUILTIN_KERNEL_BY_ID, type KernelDescriptor } from "./acpCatalog.js";
 import { inspectAcpManifests, loadAcpManifests } from "./acpManifest.js";
 import { resolveExecutable, type KernelExecutable } from "./executable.js";
+import { createKernelInspector } from "./kernelInspection.js";
 import { kernelProtocolBinding } from "./protocolBindings.js";
-import { probeAcpCapabilities } from "./acpProbe.js";
 import { createRemoteKernelAdapter, type RemoteStudioEnvironment } from "./remoteKernelBridge.js";
 import { parseRemoteStudioKernelId } from "../../domain/remoteAgentIdentity.js";
 import { remoteStudioKernelId } from "./remoteAgentIdentity.js";
 import { inspectRemoteStudioKernels } from "./remoteKernelCatalog.js";
 import { externalUpdatePlan, runExternalUpdate } from "./externalUpdate.js";
-import { isolatedInspection } from "./isolatedInspection.js";
+
+/** 注册表句柄：端口方法 + 显式重探参数（`inspect` 的加宽签名，向后兼容）。 */
+export interface StudioKernelRegistryHandle extends StudioKernelRegistry {
+  inspect(
+    configs: Record<StudioKernelId, StudioKernelConfig>,
+    options?: StudioKernelInspectOptions,
+  ): Promise<StudioKernelStatus[]>;
+}
 
 export function createStudioKernelRegistry(options: {
   dataDir: string;
   builtin: StudioKernelAdapter;
   remoteEnvironments?: () => RemoteStudioEnvironment[];
-}): StudioKernelRegistry {
+}): StudioKernelRegistryHandle {
   const running = new Map<
     Promise<unknown>,
     { kernel: StudioKernelId; controller: AbortController }
@@ -90,53 +96,14 @@ export function createStudioKernelRegistry(options: {
     promise.then(cleanup, cleanup);
     return promise;
   }
-  async function inspectOne(
-    info: KernelDescriptor,
-    configuration?: StudioKernelConfig,
-  ): Promise<StudioKernelStatus> {
-    const kernel = info.id;
-    const base = {
-      id: kernel,
-      displayName: info.displayName,
-      management: info.management,
-      capabilities: kernelCapabilities(kernel),
-    };
-    try {
-      return await probe(kernel, async (signal) => {
-        const executable = await resolveKernel(kernel, info, configuration?.executablePath);
-        const isolation = await isolatedInspection(kernel);
-        try {
-          const version = versionFrom(await captureVersion(executable, signal, isolation));
-          if (!version) throw new Error("CLI 没有返回可识别的版本号");
-          let capabilities = base.capabilities;
-          if (info.protocol === "acp")
-            capabilities = await probeAcpCapabilities({
-              info,
-              executable,
-              base: base.capabilities,
-              dataDir: options.dataDir,
-              isolation,
-              signal,
-            });
-          return {
-            ...base,
-            capabilities,
-            installed: true,
-            version,
-            executablePath: executable.path,
-            origin: executable.managed ? ("managed" as const) : ("external" as const),
-            ...(!executable.managed && !info.customPath
-              ? { externalUpdate: (await externalUpdatePlan(kernel, executable))?.method }
-              : {}),
-          };
-        } finally {
-          await isolation?.close();
-        }
-      });
-    } catch (error) {
-      return { ...base, installed: false, origin: "missing", error: errorText(error) };
-    }
-  }
+  // 分层探测与协议缓存由 kernelInspection 唯一拥有；注册表只提供租约包装、解析与生命周期。
+  const inspection = createKernelInspector({
+    dataDir: options.dataDir,
+    guarded: (kernel, operation) => probe(kernel, operation),
+    resolve: (kernel, info, supplied) => resolveKernel(kernel, info, supplied),
+    isDisposed: () => disposed,
+  });
+  const inspectOne = inspection.inspectOne;
   const adapters = new Map<StudioKernelId, StudioKernelAdapter>();
   adapters.set("knorvia", options.builtin);
   function externalAdapter(kernel: ExternalKernel): StudioKernelAdapter {
@@ -247,7 +214,7 @@ export function createStudioKernelRegistry(options: {
         return { models: [], error: errorText(error) };
       }
     },
-    async inspect(configs) {
+    async inspect(configs, request?: StudioKernelInspectOptions) {
       configurations = configs;
       const custom = await inspectAcpManifests(options.dataDir);
       const remoteResults = await inspectRemoteStudioKernels(options.remoteEnvironments?.() ?? []);
@@ -261,7 +228,9 @@ export function createStudioKernelRegistry(options: {
           capabilities: kernelCapabilities("knorvia"),
         },
         ...(await Promise.all(
-          [...BUILTIN_KERNELS, ...custom.entries].map((info) => inspectOne(info, configs[info.id])),
+          [...BUILTIN_KERNELS, ...custom.entries].map((info) =>
+            inspectOne(info, configs[info.id], request),
+          ),
         )),
         ...custom.rejected,
         ...remoteResults,
@@ -271,10 +240,12 @@ export function createStudioKernelRegistry(options: {
       if (parseRemoteStudioKernelId(kernel))
         throw new Error("远程 CLI 请在对应服务器的安装渠道管理");
       if (kernel === "knorvia") throw new Error("内置内核随 Studio 更新，无独立安装操作");
+      // 管理动作会改变安装副本或版本：先失效协议缓存，重新探测时一律绕过缓存。
+      inspection.invalidate();
       if (action === "update-existing") {
         const info = await descriptor(kernel);
         if (info.customPath) throw new Error("自定义 ACP 安装来源未知，不能由 Studio 更新");
-        const before = await inspectOne(info, configurations[kernel]);
+        const before = await inspectOne(info, configurations[kernel], { refresh: true });
         if (!before.installed || before.origin !== "external")
           throw new Error("仅能更新已检测到的本机原有安装");
         const executable = await resolveKernel(
@@ -295,7 +266,7 @@ export function createStudioKernelRegistry(options: {
           updatingExternal.delete(controller);
           externalOperations.delete(operation);
         }
-        const after = await inspectOne(info, configurations[kernel]);
+        const after = await inspectOne(info, configurations[kernel], { refresh: true });
         if (!after.installed)
           throw new Error(`原 CLI 更新程序已退出，但重新检测失败：${after.error ?? "安装不可用"}`);
         return after;
@@ -306,10 +277,12 @@ export function createStudioKernelRegistry(options: {
       return inspectOne(
         BUILTIN_KERNEL_BY_ID.get(kernel)!,
         action === "uninstall" ? configurations[kernel] : undefined,
+        { refresh: true },
       );
     },
     async dispose() {
       disposed = true;
+      inspection.invalidate();
       for (const entry of running.values()) entry.controller.abort();
       for (const controller of updatingExternal) controller.abort();
       await Promise.allSettled([...running.keys(), ...externalOperations, management.dispose()]);

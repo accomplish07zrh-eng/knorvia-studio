@@ -1,3 +1,5 @@
+import type { StudioKernelProbe } from "./adapters/kernels/probeResult.js";
+
 export type LocalStudioKernelId =
   | "knorvia"
   | "codex"
@@ -64,6 +66,16 @@ export interface StudioKernelStatus {
   /** Present only for SSH-discovered agents; used for clear host/project routing in the GUI. */
   remoteWorkspacePath?: string;
   remoteEnvironmentLabel?: string;
+  /**
+   * Layered probe evidence (locate/version/protocol/auth). Optional: older persisted records,
+   * rejected manifests and SSH-relayed statuses carry only the legacy fields above.
+   */
+  probe?: StudioKernelProbe;
+}
+
+/** 显式重探请求：`refresh` 跳过短时协议缓存，用于用户主动刷新与管理动作之后。 */
+export interface StudioKernelInspectOptions {
+  refresh?: boolean;
 }
 /** A per-turn snapshot of Studio-owned MCP connections, never a global CLI config mutation. */
 export type StudioSharedMcpServer =
@@ -167,3 +179,7 @@ export interface StudioKernelAdapter {
     signal: AbortSignal,
   ): Promise<StudioKernelTurnResult>;
 }
+
+// T04 新增的公开符号通过这里进入 `contract.ts` 的通配导出；两个模块都保持浏览器安全（无 Node 导入）。
+export * from "./adapters/kernels/probeResult.js";
+export * from "./domain/capabilityMatrix.js";

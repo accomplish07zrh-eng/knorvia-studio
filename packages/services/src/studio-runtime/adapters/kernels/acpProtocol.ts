@@ -1,5 +1,6 @@
 import { list, number, record, safeDetail, text } from "../../domain/kernelPolicy.js";
 import type { KernelRun } from "./kernelRun.js";
+import { ProbeError } from "./probeResult.js";
 import { acpModelOptions, configOption, selectAcpOption } from "./acpOptions.js";
 import { projectAcpMcpServers } from "./acpMcp.js";
 
@@ -18,7 +19,8 @@ export async function initializeAcp(
     },
     timeoutMs,
   );
-  if (initialized.protocolVersion !== 1) throw new Error("CLI 未通过 ACP v1 握手");
+  if (initialized.protocolVersion !== 1)
+    throw new ProbeError("protocol.mismatch", "CLI 未通过 ACP v1 握手");
   return initialized;
 }
 

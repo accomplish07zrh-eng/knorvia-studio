@@ -1,6 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { StringDecoder } from "node:string_decoder";
 import { errorText, record, safeDetail } from "../../domain/kernelPolicy.js";
+import { ProbeError } from "./probeResult.js";
 import type { KernelExecutable } from "./executable.js";
 
 export function deferred<T>() {
@@ -145,7 +146,10 @@ export class ProtocolProcess {
     // prompt 生命周期由原生终态或用户取消结束；0 表示无固定运行预算。
     const timer =
       timeoutMs > 0
-        ? setTimeout(() => request.reject(new Error(`${method} 等待响应超时`)), timeoutMs)
+        ? setTimeout(
+            () => request.reject(new ProbeError("protocol.timeout", `${method} 等待响应超时`)),
+            timeoutMs,
+          )
         : undefined;
     try {
       if (this.mode === "claude")
@@ -244,10 +248,14 @@ export async function stopOwnedTree(child: ReturnType<typeof spawn>): Promise<vo
   }
 }
 
+/** 版本探测的固定期限；分层探测把超时记成 `version.timeout` 而不是普通失败。 */
+export const VERSION_PROBE_TIMEOUT_MS = 8000;
+
 export async function captureVersion(
   executable: KernelExecutable,
   signal?: AbortSignal,
   inspection?: { environment?: NodeJS.ProcessEnv; cwd?: string },
+  limitMs = VERSION_PROBE_TIMEOUT_MS,
 ): Promise<string> {
   signal?.throwIfAborted();
   return new Promise((resolve, reject) => {
@@ -274,18 +282,30 @@ export async function captureVersion(
       if (error) void stopOwnedTree(child).finally(() => reject(error));
       else resolve(output.trim());
     };
-    const abort = () => finish(new Error("版本探测已取消"));
-    const timer = setTimeout(() => finish(new Error("CLI 版本探测超时")), 8000);
+    // 取消/超时/输出异常都带稳定代码，分层探测据此区分原因而不是退化为一句话。
+    const abort = () => finish(new ProbeError("version.cancelled", "版本探测已取消"));
+    const timer = setTimeout(
+      () => finish(new ProbeError("version.timeout", "CLI 版本探测超时")),
+      limitMs,
+    );
     child.stdout.on("data", (chunk) => {
       output += String(chunk);
-      if (output.length > 64_000) finish(new Error("无效的版本输出"));
+      if (output.length > 64_000)
+        finish(new ProbeError("version.output-invalid", "无效的版本输出"));
     });
     child.stderr.on("data", (chunk) => {
       stderr = (stderr + String(chunk)).slice(-2000);
     });
-    child.once("error", (error) => finish(error));
+    child.once("error", (error) => finish(new ProbeError("version.spawn", errorText(error))));
     child.once("close", (code) =>
-      finish(code === 0 ? undefined : new Error(safeDetail(stderr) || `版本探测失败 (${code})`)),
+      finish(
+        code === 0
+          ? undefined
+          : new ProbeError(
+              "version.exit",
+              safeDetail(stderr) || `版本探测失败 (${code ?? "unknown"})`,
+            ),
+      ),
     );
     signal?.addEventListener("abort", abort, { once: true });
     if (signal?.aborted) abort();

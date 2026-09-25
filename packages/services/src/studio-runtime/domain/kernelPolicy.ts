@@ -1,4 +1,9 @@
 import type { StudioKernelCapabilities, StudioKernelId, StudioPermission } from "../kernelTypes.js";
+import {
+  assessKernelCapabilities,
+  type StudioCapabilityAssessment,
+  type StudioCapabilityId,
+} from "./capabilityMatrix.js";
 
 /** Fixed candidates are only the bundled catalog. Explicit ACP manifests add `acp:<slug>` IDs. */
 export const MANAGED_KERNELS = ["codex", "claude-code", "grok-build"] as const;
@@ -24,19 +29,34 @@ export function isManagedKernel(id: StudioKernelId): id is ManagedKernelId {
   return MANAGED_KERNELS.some((item) => item === id);
 }
 
-export function kernelCapabilities(id: StudioKernelId): StudioKernelCapabilities {
-  return {
-    resume: id === "knorvia" || id === "antigravity" || isManagedKernel(id),
-    approval: id === "knorvia" || isManagedKernel(id),
-    questions: id === "knorvia" || isManagedKernel(id),
-    readOnly: id === "codex",
-    fullAccess: id === "knorvia" || id === "antigravity" || isManagedKernel(id),
-  };
+/**
+ * 五能力来自 `domain/capabilityMatrix.ts` 的版本化表；未知版本沿用既有声明，已知但未核验的版本失败关闭。
+ */
+export function kernelCapabilities(id: StudioKernelId, version?: string): StudioKernelCapabilities {
+  return capabilityAssessment(id, version).capabilities;
 }
 
-export function assertKernelPermission(id: StudioKernelId, permission: StudioPermission): void {
+/** 与 `kernelCapabilities` 同源，但保留证据等级供发现层与权限断言区分未核验/不支持/用户例外。 */
+export function capabilityAssessment(
+  id: StudioKernelId,
+  version?: string,
+  exception?: { capability: StudioCapabilityId; reason?: string },
+): StudioCapabilityAssessment {
+  return assessKernelCapabilities({
+    kernel: id,
+    ...(version ? { version } : {}),
+    ...(exception ? { exception } : {}),
+  });
+}
+
+export function assertKernelPermission(
+  id: StudioKernelId,
+  permission: StudioPermission,
+  options?: { version?: string; exception?: { capability: StudioCapabilityId; reason?: string } },
+): void {
   if (!["read-only", "ask", "full-access"].includes(permission)) throw new Error("未知执行权限");
-  if (permission === "read-only" && !kernelCapabilities(id).readOnly) {
+  const assessment = capabilityAssessment(id, options?.version, options?.exception);
+  if (permission === "read-only" && !assessment.capabilities.readOnly) {
     throw new Error(`${id} 当前接入不能保证强制只读，请选择询问模式；不会自动放宽权限`);
   }
 }

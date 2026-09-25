@@ -1,4 +1,9 @@
-import type { StudioKernelId, StudioKernelStatus } from "../kernelTypes.js";
+import type {
+  StudioKernelConfig,
+  StudioKernelId,
+  StudioKernelInspectOptions,
+  StudioKernelStatus,
+} from "../kernelTypes.js";
 import { validateStudioKernelManagement } from "../domain/validation.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import type { StudioKernelRegistry } from "./ports.js";
@@ -7,9 +12,23 @@ import { studioKernelConfig, studioKernelConfigs } from "./runtimeProjections.js
 
 type KernelDeps = { db: StudioRepository; kernels: StudioKernelRegistry };
 
+/** 端口本身只声明 `inspect(configs)`；这里是向后兼容的加宽视图，用于显式跳过协议缓存。 */
+type RefreshableKernelRegistry = StudioKernelRegistry & {
+  inspect(
+    configs: Record<StudioKernelId, StudioKernelConfig>,
+    options?: StudioKernelInspectOptions,
+  ): Promise<StudioKernelStatus[]>;
+};
+
 /** 合并本机探测结果与已知的 SSH 远端内核状态；断开的远端显示为未安装。 */
-export async function inspectStudioKernels(deps: KernelDeps): Promise<StudioKernelStatus[]> {
-  const live = await deps.kernels.inspect(studioKernelConfigs(deps.db));
+export async function inspectStudioKernels(
+  deps: KernelDeps,
+  options?: StudioKernelInspectOptions,
+): Promise<StudioKernelStatus[]> {
+  const live = await (deps.kernels as RefreshableKernelRegistry).inspect(
+    studioKernelConfigs(deps.db),
+    options,
+  );
   const remote = live.filter((status) => parseRemoteStudioKernelId(status.id));
   const known = deps.db.list<StudioKernelStatus>("remote-kernel-status", { limit: 10_000 });
   deps.db.transaction(() => {

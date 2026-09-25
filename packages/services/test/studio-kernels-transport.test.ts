@@ -7,6 +7,7 @@ import {
   ProtocolProcess,
   deferred,
 } from "../src/studio-runtime/adapters/kernels/processTransport.js";
+import { probeErrorCode } from "../src/studio-runtime/adapters/kernels/probeResult.js";
 
 const fixture = String.raw`
 const readline = require('node:readline');
@@ -42,6 +43,9 @@ test(
       assert.equal((await transport.request("long", {}, 0)).stopReason, "end_turn");
       assert.deepEqual((await received.promise).params, { text: "你好🌍" });
       await assert.rejects(transport.request("never", {}, 25), /等待响应超时/);
+      // 握手超时必须带稳定代码，分层探测据此记成 protocol.timeout 而不是普通失败。
+      const timeout = await transport.request("never", {}, 25).catch((error: unknown) => error);
+      assert.equal(probeErrorCode(timeout), "protocol.timeout");
     } finally {
       await transport.close();
       await rm(directory, { recursive: true, force: true });
