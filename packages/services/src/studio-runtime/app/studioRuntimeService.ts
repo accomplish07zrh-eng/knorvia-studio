@@ -122,7 +122,9 @@ export class StudioRuntimeService implements IStudioRuntimeService {
       validStudioId(params.stepId);
       if (!Array.isArray(params.paths) || !params.paths.length || params.paths.length > 1000)
         throw new Error("请选择需要应用的文件");
-      await this.deps.workspaces.apply(params.runId, params.stepId, params.paths);
+      // 把所属 Host 的应用回执透传出去，调用方才能记录真实的操作标识；
+      // 回执只证明“已应用”，不构成远端内容已被本地核验。
+      return this.deps.workspaces.apply(params.runId, params.stepId, params.paths);
     });
   }
 

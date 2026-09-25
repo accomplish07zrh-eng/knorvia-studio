@@ -19,13 +19,15 @@ import {
   type WorkspaceJournal,
 } from "./workspaceJournal.js";
 import { recoverWorkspaceJournal } from "./workspaceRecovery.js";
+import type { StudioApplyReceipt } from "../types.js";
 import type { WorkspaceLocation, WorkspaceMetadata } from "./workspaceSnapshot.js";
 
+/** 应用隔离改动，并返回 Host 自己的应用回执（操作 id 与 journal 文件名同源）。 */
 export async function applySnapshot(
   location: WorkspaceLocation,
   metadata: WorkspaceMetadata,
   paths: string[],
-): Promise<void> {
+): Promise<StudioApplyReceipt> {
   if (metadata.mode === "shared")
     throw new Error("Shared workspaces already write directly to the project.");
   if (
@@ -37,6 +39,12 @@ export async function applySnapshot(
     throw new Error("Select distinct workspace files to apply.");
   const transactionId = randomUUID();
   const changes: JournalChange[] = [];
+  const receipt = (): StudioApplyReceipt => ({
+    operationId: transactionId,
+    files: changes.map(({ path, afterHash }) => ({ path, afterHash })),
+    skipped: paths.length - changes.length,
+    journalState: "complete",
+  });
   const contents = new Map<string, Buffer>();
   let totalBytes = 0;
   for (const path of paths) {
@@ -67,7 +75,7 @@ export async function applySnapshot(
     });
     if (after !== null) contents.set(path, after);
   }
-  if (!changes.length) return;
+  if (!changes.length) return receipt();
   const name = `apply-${transactionId}.json`;
   const path = join(location.root, name);
   const journal: WorkspaceJournal = { state: "preparing", changes };
@@ -112,9 +120,11 @@ export async function applySnapshot(
     // Commit is durable before cleanup; a cleanup failure must never reverse accepted edits.
     for (const change of changes)
       await removeKnownFile(change.backup, change.beforeHash, journalPeers(change));
+    return receipt();
   } catch (error) {
     try {
-      if ((await recoverWorkspaceJournal(location, metadata, name)) === "complete") return;
+      if ((await recoverWorkspaceJournal(location, metadata, name)) === "complete")
+        return receipt();
     } catch (recoveryError) {
       throw new Error(
         recoveryError instanceof Error ? recoveryError.message : String(recoveryError),

@@ -11,12 +11,16 @@ export function StudioWorkspaceReviewCard({
   zh,
   busy,
   applying,
+  selected,
+  onToggle,
   onApply,
 }: {
   change: StudioWorkspaceChange;
   zh: boolean;
   busy: boolean;
   applying: boolean;
+  selected: boolean;
+  onToggle: () => void;
   onApply: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -28,14 +32,24 @@ export function StudioWorkspaceReviewCard({
     : { added: "Added", modified: "Modified", deleted: "Deleted" }[change.kind];
   return (
     <div className="rounded-lg border border-border p-3 text-ui-sm">
-      <button
-        type="button"
-        aria-expanded={expanded}
-        className="w-full cursor-pointer text-left [overflow-wrap:anywhere]"
-        onClick={() => setExpanded((value) => !value)}
-      >
-        {change.path} · {kind} {change.conflict ? (zh ? "· 有冲突" : "· Conflict") : ""}
-      </button>
+      <div className="flex items-start gap-2">
+        <input
+          type="checkbox"
+          className="mt-1"
+          checked={selected}
+          disabled={busy || !diff.canApply}
+          aria-label={zh ? `选择 ${change.path}` : `Select ${change.path}`}
+          onChange={onToggle}
+        />
+        <button
+          type="button"
+          aria-expanded={expanded}
+          className="min-w-0 flex-1 cursor-pointer text-left [overflow-wrap:anywhere]"
+          onClick={() => setExpanded((value) => !value)}
+        >
+          {change.path} · {kind} {change.conflict ? (zh ? "· 有冲突" : "· Conflict") : ""}
+        </button>
+      </div>
       {change.conflict && (
         <p role="alert" className="mt-2 text-destructive">
           {zh

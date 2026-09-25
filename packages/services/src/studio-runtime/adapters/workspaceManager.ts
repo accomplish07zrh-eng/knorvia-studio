@@ -1,8 +1,8 @@
 import { isAbsolute, resolve } from "node:path";
 import type { StudioWorkspacePort } from "../app/ports.js";
-import type { StudioWorkspaceChange } from "../types.js";
+import type { StudioFileVersion, StudioWorkspaceChange } from "../types.js";
 import { applySnapshot } from "./workspaceApply.js";
-import { digest, readSafeFile, scanWorkspace } from "./workspaceFiles.js";
+import { digest, readSafeFile, relativeFile, scanWorkspace } from "./workspaceFiles.js";
 import { withWorkspaceLock } from "./workspaceLocks.js";
 import { recoverSourceApplies } from "./workspaceRecovery.js";
 import { prepareSnapshot, readWorkspace, workspaceLocation } from "./workspaceSnapshot.js";
@@ -81,6 +81,20 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
       return locked(sourceKey(metadata.sourcePath), async () => {
         await recoverSourceApplies(storage, metadata.sourcePath);
         return applySnapshot(location, metadata, paths);
+      });
+    },
+    async versions(runId, stepId, paths) {
+      const location = workspaceLocation(storage, runId, stepId);
+      const metadata = await readWorkspace(location, runId, stepId);
+      if (!metadata) throw new Error("Isolated workspace not found.");
+      // 验收取证：重读项目文件当前哈希；读不到就是读不到，绝不用 journal 记录冒充当前状态。
+      return locked(sourceKey(metadata.sourcePath), async () => {
+        const result: StudioFileVersion[] = [];
+        for (const path of paths) {
+          relativeFile(path);
+          result.push({ path, hash: hash(await readSafeFile(metadata.sourcePath, path)) });
+        }
+        return result;
       });
     },
   };

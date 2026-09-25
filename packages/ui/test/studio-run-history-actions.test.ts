@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { StudioRun, StudioWorkspaceChange } from "@knorvia/services";
-import { StudioRunHistoryActions } from "../src/studio/runtime/studioRunHistoryActions.js";
+import {
+  STUDIO_BATCH_APPLY,
+  StudioRunHistoryActions,
+  studioReviewApplying,
+} from "../src/studio/runtime/studioRunHistoryActions.js";
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -236,5 +240,133 @@ test("closing during post-apply reload excludes its late result and reload failu
   assert.equal(actions.getSnapshot().review?.error, "reload unavailable");
   await actions.reloadReview(async () => []);
   assert.equal(actions.getSnapshot().review?.readAfterApplyFailed, false);
+  unsubscribe();
+});
+
+const conflicted = (path: string): StudioWorkspaceChange => ({
+  ...changed(path)[0]!,
+  conflict: true,
+});
+
+test("multi-select submits exactly one paths[] and ignores conflicted cards", async () => {
+  const { actions, unsubscribe } = fixture();
+  await actions.openReview(run, "step", async () => [
+    ...changed("a.txt"),
+    ...changed("b.txt"),
+    conflicted("c.txt"),
+  ]);
+  assert.deepEqual(actions.getSnapshot().review?.selected, []);
+  actions.toggleReviewSelection("a.txt");
+  actions.toggleReviewSelection("b.txt");
+  // 冲突文件不能进入选择集。
+  actions.toggleReviewSelection("c.txt");
+  assert.deepEqual(actions.getSnapshot().review?.selected, ["a.txt", "b.txt"]);
+  // 全选同样只收敛到可应用路径。
+  actions.setReviewSelection(["a.txt", "b.txt", "c.txt", "missing.txt"]);
+  assert.deepEqual(actions.getSnapshot().review?.selected, ["a.txt", "b.txt"]);
+  const submissions: string[][] = [];
+  await actions.applyReviewSelection(
+    async (paths) => {
+      submissions.push(paths);
+    },
+    async () => [],
+  );
+  assert.deepEqual(submissions, [["a.txt", "b.txt"]]);
+  // 应用后重新读取：已经不在待应用集合里的路径会被移出选择集。
+  assert.deepEqual(actions.getSnapshot().review?.selected, []);
+  assert.equal(actions.getSnapshot().review?.applying, undefined);
+  unsubscribe();
+});
+
+test("a reload prunes selection to still-applicable paths", async () => {
+  const { actions, unsubscribe } = fixture();
+  await actions.openReview(run, "step", async () => [...changed("a.txt"), ...changed("b.txt")]);
+  actions.setReviewSelection(["a.txt", "b.txt"]);
+  await actions.reloadReview(async () => [conflicted("a.txt"), ...changed("b.txt")]);
+  assert.deepEqual(actions.getSnapshot().review?.selected, ["b.txt"]);
+  await actions.reloadReview(async () => [conflicted("b.txt"), ...changed("a.txt")]);
+  assert.deepEqual(actions.getSnapshot().review?.selected, []);
+  unsubscribe();
+});
+
+test("a batch apply marks every card busy and keeps the previous selection on failure", async () => {
+  const { actions, unsubscribe } = fixture();
+  await actions.openReview(run, "step", async () => [...changed("a.txt"), ...changed("b.txt")]);
+  actions.toggleReviewSelection("a.txt");
+  actions.toggleReviewSelection("b.txt");
+  const apply = deferred<void>();
+  const operation = actions.applyReviewSelection(
+    async () => {
+      await apply.promise;
+    },
+    async () => [],
+  );
+  const review = actions.getSnapshot().review!;
+  assert.equal(review.applying, STUDIO_BATCH_APPLY);
+  assert.equal(studioReviewApplying(review, "a.txt"), true);
+  assert.equal(studioReviewApplying(review, "b.txt"), true);
+  apply.reject(new Error("Conflict: user edit retained"));
+  await operation;
+  assert.match(actions.getSnapshot().review?.error ?? "", /Conflict/);
+  assert.deepEqual(actions.getSnapshot().review?.selected, ["a.txt", "b.txt"]);
+  unsubscribe();
+});
+
+test("single applies stay scoped to their own card", async () => {
+  const { actions, unsubscribe } = fixture();
+  await actions.openReview(run, "step", async () => [...changed("a.txt"), ...changed("b.txt")]);
+  const apply = deferred<void>();
+  const operation = actions.applyReview(
+    "a.txt",
+    async () => {
+      await apply.promise;
+    },
+    async () => [],
+  );
+  const review = actions.getSnapshot().review!;
+  assert.equal(studioReviewApplying(review, "a.txt"), true);
+  assert.equal(studioReviewApplying(review, "b.txt"), false);
+  apply.resolve();
+  await operation;
+  unsubscribe();
+});
+
+test("selection is cleared by closing, reopening and by leaving the target", async () => {
+  const { actions, unsubscribe } = fixture();
+  await actions.openReview(run, "step", async () => [...changed("a.txt"), ...changed("b.txt")]);
+  actions.toggleReviewSelection("a.txt");
+  assert.deepEqual(actions.getSnapshot().review?.selected, ["a.txt"]);
+  actions.closeReview();
+  assert.equal(actions.getSnapshot().review, null);
+  await actions.openReview(run, "step", async () => [...changed("a.txt"), ...changed("b.txt")]);
+  assert.deepEqual(actions.getSnapshot().review?.selected, []);
+  actions.toggleReviewSelection("a.txt");
+  unsubscribe();
+  const nextSubscribe = actions.subscribe(() => {});
+  assert.equal(actions.getSnapshot().review, null);
+  await actions.openReview(run, "step", async () => [...changed("a.txt")]);
+  assert.deepEqual(actions.getSnapshot().review?.selected, []);
+  // 迟到的读取结果不会复活旧选择。
+  const late = deferred<StudioWorkspaceChange[]>();
+  const pending = actions.reloadReview(() => late.promise);
+  actions.toggleReviewSelection("a.txt");
+  late.resolve([...changed("a.txt"), ...changed("b.txt")]);
+  await pending;
+  assert.deepEqual(actions.getSnapshot().review?.selected, []);
+  nextSubscribe();
+});
+
+test("an empty selection never submits a batch apply", async () => {
+  const { actions, unsubscribe } = fixture();
+  await actions.openReview(run, "step", async () => changed("a.txt"));
+  let submissions = 0;
+  await actions.applyReviewSelection(
+    async () => {
+      submissions++;
+    },
+    async () => [],
+  );
+  assert.equal(submissions, 0);
+  assert.equal(actions.getSnapshot().review?.applying, undefined);
   unsubscribe();
 });

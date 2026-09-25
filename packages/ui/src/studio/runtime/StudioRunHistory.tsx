@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useSyncExternalStore } from "react";
+import { studioRestartDisplay, type StudioRunStepOutcome } from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import {
   Dialog,
@@ -11,7 +12,8 @@ import { useConfirmDialog } from "@/hooks/useConfirmDialog.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useStudioRuntime } from "./useStudioRuntime.js";
 import { studioRunStepLabel } from "./studioRunStepLabel.js";
-import { StudioRunHistoryActions } from "./studioRunHistoryActions.js";
+import { StudioRunHistoryActions, studioReviewApplying } from "./studioRunHistoryActions.js";
+import { studioReviewApplicablePaths } from "./studioWorkspaceDiff.js";
 import { StudioWorkspaceReviewCard } from "./StudioWorkspaceReviewCard.js";
 
 export function StudioRunHistory({
@@ -22,7 +24,7 @@ export function StudioRunHistory({
   compact?: boolean;
 }) {
   const runtime = useStudioRuntime(targetId);
-  const { locale } = useKnorviaIntl();
+  const { intl, locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
   const confirm = useConfirmDialog();
   const actions = useMemo(() => new StudioRunHistoryActions(), [targetId, runtime.service]);
@@ -31,6 +33,14 @@ export function StudioRunHistory({
     actions.getSnapshot,
     actions.getSnapshot,
   );
+  const deliveryLabel = (step: StudioRunStepOutcome | undefined) => {
+    if (!step) return "";
+    const outcome = intl.formatMessage({ id: `studio.delivery.outcome.${step.outcome}` });
+    const restart = step.restart
+      ? ` · ${intl.formatMessage({ id: `studio.delivery.restart.${step.restart}` })}`
+      : "";
+    return ` · ${outcome}${restart}`;
+  };
   const states: Record<string, string> = zh
     ? {
         queued: "排队中",
@@ -54,6 +64,17 @@ export function StudioRunHistory({
       };
   const runs = runtime.timeline?.runs ?? [];
   useEffect(() => actions.observeRuns(runs), [actions, runs]);
+  const reviewStep = review?.run.outcome?.steps.find((item) => item.stepId === review.stepId);
+  const reviewChanges = review?.changes ?? [];
+  // 重启后显示：验收记录 + 本次复核读取到的冲突（等价于"当前哈希 ≠ 已接受哈希"）。
+  const restartState = review
+    ? (studioRestartDisplay({
+        acceptances: reviewStep?.acceptance ? [reviewStep.acceptance] : [],
+        observedChanges: reviewChanges,
+      }) ??
+      reviewStep?.restart ??
+      null)
+    : null;
   return (
     <div className="space-y-2 p-2 text-ui-sm">
       {(compact ? runs.slice(0, 3) : runs).map((run) => (
@@ -159,6 +180,7 @@ export function StudioRunHistory({
                   <span className="min-w-0 truncate" title={label}>
                     {label}
                     {step ? ` · ${states[step.status]}` : ""}
+                    {deliveryLabel(run.outcome?.steps.find((item) => item.stepId === stepId))}
                   </span>
                   {run.kind !== "chat" && !["queued", "running", "waiting"].includes(run.state) && (
                     <Button
@@ -246,13 +268,73 @@ export function StudioRunHistory({
               {zh ? "没有文件修改" : "No changed files"}
             </p>
           )}
+          {reviewChanges.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={review!.loading || Boolean(review!.applying)}
+                onClick={() =>
+                  actions.setReviewSelection(studioReviewApplicablePaths(reviewChanges))
+                }
+              >
+                {intl.formatMessage({ id: "studio.delivery.selectAll" })}
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={!review!.selected.length || Boolean(review!.applying)}
+                onClick={() => actions.setReviewSelection([])}
+              >
+                {intl.formatMessage({ id: "studio.delivery.clearSelection" })}
+              </Button>
+              <span className="text-ui-sm text-foreground-subtle">
+                {intl.formatMessage(
+                  { id: "studio.delivery.selectedCount" },
+                  { count: review!.selected.length },
+                )}
+              </span>
+              <Button
+                size="sm"
+                disabled={!review!.selected.length || review!.loading || Boolean(review!.applying)}
+                onClick={() =>
+                  void actions.applyReviewSelection(
+                    async (paths) => {
+                      await runtime.service!.applyWorkspaceChanges({
+                        runId: review!.run.id,
+                        stepId: review!.stepId,
+                        paths,
+                      });
+                    },
+                    () =>
+                      runtime.service!.workspaceChanges({
+                        runId: review!.run.id,
+                        stepId: review!.stepId,
+                      }),
+                  )
+                }
+              >
+                {intl.formatMessage(
+                  { id: "studio.delivery.batchApply" },
+                  { count: review!.selected.length },
+                )}
+              </Button>
+            </div>
+          )}
+          {restartState && (
+            <p role="status" className="text-ui-sm text-foreground-subtle">
+              {intl.formatMessage({ id: `studio.delivery.restart.${restartState}` })}
+            </p>
+          )}
           {review?.changes?.map((change) => (
             <StudioWorkspaceReviewCard
               key={change.path}
               change={change}
               zh={zh}
               busy={review.loading || Boolean(review.applying)}
-              applying={review.applying === change.path}
+              applying={studioReviewApplying(review, change.path)}
+              selected={review.selected.includes(change.path)}
+              onToggle={() => actions.toggleReviewSelection(change.path)}
               onApply={() =>
                 void actions.applyReview(
                   change.path,

@@ -6,7 +6,7 @@ import type {
   StudioPermission,
 } from "../kernelTypes.js";
 import type { StudioCheckpoint, StudioStepResult } from "../workflowTypes.js";
-import type { StudioWorkspaceChange } from "../types.js";
+import type { StudioApplyReceipt, StudioFileVersion, StudioWorkspaceChange } from "../types.js";
 import type { IStudioRuntimeService } from "../contract.js";
 
 export interface StudioKernelRegistry {
@@ -68,5 +68,8 @@ export interface StudioWorkspacePort {
     mode: "isolated" | "shared";
   }): Promise<string>;
   changes(runId: string, stepId: string): Promise<StudioWorkspaceChange[]>;
-  apply(runId: string, stepId: string, paths: string[]): Promise<void>;
+  /** 返回 Host 自己生成的应用回执；旧实现可以继续返回 `void`（此时无法取得操作 id）。 */
+  apply(runId: string, stepId: string, paths: string[]): Promise<StudioApplyReceipt | void>;
+  /** 重新读取已发布的项目文件哈希，供验收取证；本地 Host 之外不适用。 */
+  versions?(runId: string, stepId: string, paths: string[]): Promise<StudioFileVersion[]>;
 }

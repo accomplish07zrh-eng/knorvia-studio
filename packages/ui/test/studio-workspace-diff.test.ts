@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { StudioWorkspaceChange } from "@knorvia/services";
-import { studioWorkspaceDiff } from "../src/studio/runtime/studioWorkspaceDiff.js";
+import {
+  studioReviewApplicablePaths,
+  studioReviewSelection,
+  studioWorkspaceDiff,
+} from "../src/studio/runtime/studioWorkspaceDiff.js";
 
 const change = (overrides: Partial<StudioWorkspaceChange>): StudioWorkspaceChange => ({
   path: "draft.txt",
@@ -39,4 +43,15 @@ test("a conflicted file remains reviewable but cannot be applied", () => {
   const diff = studioWorkspaceDiff(change({ conflict: true }));
   assert.equal(diff.canShowText, true);
   assert.equal(diff.canApply, false);
+});
+
+test("batch selection only ever contains applicable, still-present paths", () => {
+  const changes = [
+    change({ path: "a.txt" }),
+    change({ path: "b.txt", conflict: true }),
+    change({ path: "c.txt" }),
+  ];
+  assert.deepEqual(studioReviewApplicablePaths(changes), ["a.txt", "c.txt"]);
+  assert.deepEqual(studioReviewSelection(changes, ["a.txt", "b.txt", "gone.txt"]), ["a.txt"]);
+  assert.deepEqual(studioReviewSelection([], ["a.txt"]), []);
 });

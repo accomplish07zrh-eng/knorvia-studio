@@ -8,7 +8,12 @@ import type {
   StudioKernelOptions,
   StudioChatSelection,
 } from "./kernelTypes.js";
-import type { StudioOverview, StudioTimeline, StudioWorkspaceChange } from "./types.js";
+import type {
+  StudioApplyReceipt,
+  StudioOverview,
+  StudioTimeline,
+  StudioWorkspaceChange,
+} from "./types.js";
 import type { StudioGroupDefinition, StudioWorkflowDefinition } from "./workflowTypes.js";
 
 export * from "./kernelTypes.js";
@@ -17,6 +22,9 @@ export * from "./types.js";
 export * from "./domain/outputRef.js";
 export { validateStudioWorkflow } from "./domain/workflowGraph.js";
 export { studioConditionReferences } from "./domain/condition.js";
+/** 交付结论/重启显示的纯判定入口；上层只读，不写任何记录。 */
+export { studioRestartDisplay, STUDIO_ACCEPTANCE_KIND } from "./app/runOutcomeProjection.js";
+export type { StudioRestartInput } from "./app/runOutcomeProjection.js";
 
 export type StudioCommand = { commandId: string } & (
   | { type: "configure"; kernel: StudioKernelId; config: StudioKernelConfig }
@@ -69,6 +77,10 @@ export interface IStudioRuntimeService {
     action: "install" | "update" | "uninstall" | "update-existing";
   }): Promise<StudioKernelStatus>;
   workspaceChanges(params: { runId: string; stepId: string }): Promise<StudioWorkspaceChange[]>;
+  /**
+   * 应用成功后由服务层写入验收记录（辅助证据，`apply-acceptance` kind）。
+   * 该记录**不是**任务终态，`run` / `step-result` / `turn` 仍然是任务状态的唯一所有者。
+   */
   applyWorkspaceChanges(params: { runId: string; stepId: string; paths: string[] }): Promise<void>;
   /** Called only by an authenticated Studio peer bound to this Host's remote workspace. */
   prepareAgentWorkspace(params: {
@@ -81,11 +93,15 @@ export interface IStudioRuntimeService {
     runId: string;
     stepId: string;
   }): Promise<StudioWorkspaceChange[]>;
+  /**
+   * 远端 Host 可以返回它自己的应用回执；
+   * 返回 `void` 时本地 Host 只能记录"未返回摘要"，**不得**当作已核验。
+   */
   applyAgentWorkspaceChanges(params: {
     runId: string;
     stepId: string;
     paths: string[];
-  }): Promise<void>;
+  }): Promise<StudioApplyReceipt | void>;
   onDidChange: Event<{ revision: number }>;
 }
 export const IStudioRuntimeService =
