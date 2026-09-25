@@ -48,8 +48,8 @@ const groupName = "T13 Isolation Probe";
 const probeFile = "notes.txt";
 const probeBody = "group isolated change\n";
 
-let toolCallIssued = false;
-let toolResultServed = false;
+// 群聊回合状态机：plan（主持人规划）→ member（成员执行）→ memberRunning → memberDone → reviewed。
+let groupStage = "plan";
 const requests = [];
 const chunkOf = (payload) => `data: ${JSON.stringify(payload)}\n\n`;
 const chunkBase = {
@@ -72,8 +72,46 @@ const server = createServer(async (request, response) => {
   const hasToolResult = messages.includes("tool_call_id");
   requests.push({ toolCount, hasToolResult });
   response.writeHead(200, { "content-type": "text/event-stream; charset=utf-8" });
-  if (!toolCallIssued && toolCount > 0 && !hasToolResult) {
-    toolCallIssued = true;
+  const plain = (text) => {
+    response.write(
+      chunkOf({
+        ...chunkBase,
+        choices: [{ index: 0, delta: { role: "assistant", content: text }, finish_reason: null }],
+      }),
+    );
+    response.end(
+      chunkOf({ ...chunkBase, choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }) +
+        "data: [DONE]\n\n",
+    );
+  };
+  // 标题/摘要这类无工具调用必须回纯文本。
+  if (toolCount === 0) {
+    plain("Plain reply.");
+    return;
+  }
+  // 成员的「工具结果回合」：只认第一次，回成员收尾文本。
+  // 注意：主持人的复核请求历史里也带着成员的 tool_call_id，不能只看 hasToolResult，
+  // 否则会把复核请求当成成员回合而回纯文本，导致「Host returned invalid structured output」。
+  if (hasToolResult && groupStage !== "memberDone" && groupStage !== "reviewed") {
+    groupStage = "memberDone";
+    plain("Member finished the assigned task.");
+    return;
+  }
+  // 群聊运行有固定回合：主持人规划（结构化 JSON）→ 成员执行 → 主持人复核（结构化 JSON）。
+  // 契约见 packages/services/src/studio-runtime/domain/groupPolicy.ts:202 与 :205。
+  if (groupStage === "plan") {
+    groupStage = "member";
+    plain(
+      JSON.stringify({
+        tasks: [
+          { id: "t1", member: "knorvia", instruction: "Write notes.txt with the isolated change." },
+        ],
+      }),
+    );
+    return;
+  }
+  if (groupStage === "member") {
+    groupStage = "memberRunning";
     response.write(
       chunkOf({
         ...chunkBase,
@@ -105,18 +143,17 @@ const server = createServer(async (request, response) => {
     );
     return;
   }
-  const text = hasToolResult && !toolResultServed ? "Isolation fixture finished." : "Plain reply.";
-  if (hasToolResult) toolResultServed = true;
-  response.write(
-    chunkOf({
-      ...chunkBase,
-      choices: [{ index: 0, delta: { role: "assistant", content: text }, finish_reason: null }],
-    }),
-  );
-  response.end(
-    chunkOf({ ...chunkBase, choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }) +
-      "data: [DONE]\n\n",
-  );
+  if (groupStage === "memberDone") {
+    groupStage = "reviewed";
+    plain(
+      JSON.stringify({
+        status: "complete",
+        summary: "Member wrote notes.txt in the isolated workspace.",
+      }),
+    );
+    return;
+  }
+  plain("Plain reply.");
 });
 await new Promise((ok, fail) => {
   server.once("error", fail);
@@ -232,20 +269,23 @@ try {
     `发送后未产生模型请求；页面尾部：${(await page.locator("body").innerText()).slice(-500)}`,
   );
 
-  // 群聊审批在「任务进展」面板里，是普通按钮：拒绝 / 允许这一次。
-  // 群运行到达审批的时间不固定，因此轮询：出现就批准；若工具无需审批直接执行，也能继续。
+  // 群聊审批在「任务进展」面板里（StudioInteractions.tsx），按钮是「拒绝」/「允许这一次」。
+  // 成员回合可能被重复请求，每次都会重新弹审批，因此**反复批准**直到出现隔离写入或复核面板。
   const allow = page.getByRole("button", { name: /^(允许这一次|Allow once|允许|Allow)$/ }).first();
   const workspaceRoot = join(root, ".knorvia-studio", "studio", "workspaces");
+  const reviewPanel = page.getByTestId("studio-group-review");
   let approved = false;
   let writtenEarly = false;
-  for (let attempt = 0; attempt < 60 && !approved && !writtenEarly; attempt++) {
+  let reviewVisible = false;
+  for (let attempt = 0; attempt < 90; attempt++) {
     if ((await allow.count()) > 0) {
       await allow.click({ force: true, timeout: 10_000 }).catch(() => {});
       approved = true;
-      break;
     }
     writtenEarly = (await walk(workspaceRoot)).some((file) => file.endsWith(probeFile));
-    if (!writtenEarly) await page.waitForTimeout(2000);
+    reviewVisible = (await reviewPanel.count()) > 0;
+    if (writtenEarly && reviewVisible) break;
+    await page.waitForTimeout(2000);
   }
   assert(
     approved || writtenEarly,
@@ -282,20 +322,46 @@ try {
   assert.equal(await readFile(join(project, "README.md"), "utf8"), projectReadmeBefore);
   results.push("PASS 项目保护：真实项目文件未被直接改写，README 内容不变");
 
-  // 给群运行留出收尾时间：复核结论只在运行进入终态后才出现，因此有界轮询。
-  const reviewPanel = page.getByTestId("studio-group-review");
-  for (let attempt = 0; attempt < 30; attempt++) {
-    if ((await reviewPanel.count()) > 0) break;
-    await page.waitForTimeout(2000);
+  // 复核结论/审阅卡是否出现：上面的批准循环已经等到过，这里再补一次有界等待并如实记录。
+  for (let attempt = 0; attempt < 15 && !reviewVisible; attempt++) {
+    reviewVisible = (await reviewPanel.count()) > 0;
+    if (!reviewVisible) await page.waitForTimeout(2000);
   }
-  // 复核结论/审阅卡在本夹具下是否出现，如实记录而不作为通过条件。
-  const reviewVisible = (await reviewPanel.count()) > 0;
-  const applyButtons = await page
-    .getByRole("button", { name: /应用此文件|Apply this file/ })
-    .count();
   results.push(
-    `INFO 差异审阅：复核面板${reviewVisible ? "已出现" : "未出现"}，应用按钮 ${applyButtons} 个（本夹具下群运行未进入终态，因此不构成通过条件）`,
+    reviewVisible
+      ? "PASS 差异审阅：复核面板已出现（群运行进入复核阶段）"
+      : "INFO 差异审阅：复核面板未出现（群运行未进入终态），不构成通过条件",
   );
+
+  // ── 用户接纳：打开该运行的修改审阅，点「应用此文件」并核对真实项目被改写 ──────
+  if (reviewVisible) {
+    const viewChanges = page.getByText(/查看修改|View changes/u).first();
+    if ((await viewChanges.count()) > 0) {
+      await viewChanges.click({ force: true, timeout: 10_000 }).catch(() => {});
+      await page.waitForTimeout(4000);
+    }
+    const applyButton = page.getByRole("button", { name: /应用此文件|Apply this file/u }).first();
+    let applyCount = 0;
+    for (let attempt = 0; attempt < 20 && applyCount === 0; attempt++) {
+      applyCount = await applyButton.count();
+      if (applyCount === 0) await page.waitForTimeout(2000);
+    }
+    if (applyCount > 0) {
+      await applyButton.click({ force: true, timeout: 15_000 });
+      let applied = false;
+      for (let attempt = 0; attempt < 30 && !applied; attempt++) {
+        applied = existsSync(join(project, probeFile));
+        if (!applied) await page.waitForTimeout(1000);
+      }
+      assert(applied, "点击「应用此文件」后真实项目里应出现被接纳的文件");
+      assert.equal(await readFile(join(project, probeFile), "utf8"), probeBody);
+      results.push("PASS 用户接纳：应用后真实项目文件按隔离快照内容被写入");
+    } else {
+      results.push(
+        "INFO 用户接纳：复核面板已出现，但未找到「应用此文件」入口（修改审阅入口可能在其他面板），未做断言",
+      );
+    }
+  }
 
   // 需要排查群运行卡在哪一步时，用 T13_DUMP_LOGS=1 打印应用日志尾部（默认关闭）。
   if (process.env.T13_DUMP_LOGS === "1") {
@@ -315,7 +381,7 @@ try {
 
   console.log(results.join("\n"));
   console.log(
-    "未覆盖（本脚本不声称）：差异审阅卡与应用接纳（需群运行进入终态）、真实模型或付费调用。",
+    "未覆盖（本脚本不声称）：用户接纳（未找到「应用此文件」入口，未做断言）、真实模型或付费调用。",
   );
 } finally {
   if (app) await app.close();
