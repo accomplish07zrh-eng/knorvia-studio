@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -33,7 +33,8 @@ test("only verified native executables expose their own update command", async (
             : kernel === "opencode"
               ? ["upgrade"]
               : ["update"],
-        cwd: root,
+        // cwd 取自 realpath；Windows 临时目录常为 8.3 短名，期望值同样取 realpath。
+        cwd: await realpath(root),
         method: "native",
       });
       assert.equal(await externalUpdatePlan("antigravity", resolved), undefined);
