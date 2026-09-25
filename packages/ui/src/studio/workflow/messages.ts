@@ -18,8 +18,6 @@ export const workflowZhCN: Record<string, string> = {
   "studio.workflow.missingWorkflow": "此工作流已被删除，请返回工作流列表。",
   "studio.workflow.title": "工作流",
   "studio.workflow.retry": "重试",
-  "studio.workflow.conflict": "此工作流已在其他窗口修改，本地修改未保存。",
-  "studio.workflow.reloadLatest": "载入最新版本",
   "studio.workflow.definitionHint": "定义由本机服务保存；未保存的画布修改会保留为草稿。",
   "studio.workflow.selectProject": "选择项目",
   "studio.workflow.stop": "停止运行",
@@ -216,9 +214,6 @@ export const workflowEnUS: Record<string, string> = {
   "studio.workflow.missingWorkflow": "This workflow was deleted. Return to the workflow list.",
   "studio.workflow.title": "Workflows",
   "studio.workflow.retry": "Retry",
-  "studio.workflow.conflict":
-    "This workflow was changed in another window. Your local edits are not saved.",
-  "studio.workflow.reloadLatest": "Load latest version",
   "studio.workflow.definitionHint":
     "Definitions are saved by the local service. Unsaved canvas edits remain as drafts.",
   "studio.workflow.selectProject": "Select project",
