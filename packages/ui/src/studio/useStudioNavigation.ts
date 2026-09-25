@@ -74,7 +74,11 @@ export function useStudioNavigation() {
     dispatch({ type: "navigate", patch, reset });
   }, []);
   const showTask = useCallback(
-    () => navigate({ view: "chat", kernelId: "knorvia", chatMode: "single" }, true),
+    () =>
+      navigate(
+        { view: "chat", kernelId: "knorvia", chatMode: "single", externalSessionId: "" },
+        true,
+      ),
     [navigate],
   );
   const selectKernel = useCallback(

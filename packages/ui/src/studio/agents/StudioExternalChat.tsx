@@ -37,12 +37,14 @@ export function StudioExternalChat({
   workspaceMenuProps,
   onOpenAgentSettings,
   onHandoffComplete,
+  onNativeHandoffComplete,
 }: {
   kernelId: StudioKernelId;
   sessionId: string;
   workspaceMenuProps: StudioDraftProjectMenuProps;
   onOpenAgentSettings: () => void;
   onHandoffComplete: (kernel: StudioKernelId, sessionId: string) => void;
+  onNativeHandoffComplete: (sessionId: string, workspacePath: string) => void;
 }) {
   const { intl, locale } = useKnorviaIntl();
   const zh = locale.startsWith("zh");
@@ -336,6 +338,7 @@ export function StudioExternalChat({
           title={conversation.title || kernel.name}
           statuses={statuses}
           onHandoffComplete={onHandoffComplete}
+          onNativeHandoffComplete={onNativeHandoffComplete}
         />
       )}
       {hasContent ? (

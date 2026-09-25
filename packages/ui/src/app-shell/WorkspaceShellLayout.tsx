@@ -1961,6 +1961,10 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                                   studioNavigation.navigate({
                                     view: "external-chat", chatMode: "single", kernelId, externalSessionId,
                                   })}
+                                onNativeHandoffComplete={(sessionId, targetWorkspacePath) => {
+                                  studioNavigation.showTask();
+                                  handleSelectTaskInChat(targetWorkspacePath, sessionId);
+                                }}
                               />
                             </Suspense>
                           </ScopedErrorBoundary>

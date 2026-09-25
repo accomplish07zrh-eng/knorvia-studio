@@ -69,6 +69,26 @@ test("a new route from history truncates stale forward locations and preserves e
   );
 });
 
+test("native handoff clears the external session route when returning to native chat", () => {
+  let state = studioNavigationReducer(initial(), {
+    type: "navigate",
+    patch: { view: "external-chat", kernelId: "codex", externalSessionId: "external-source" },
+  });
+  state = studioNavigationReducer(state, {
+    type: "navigate",
+    patch: { view: "chat", kernelId: "knorvia", chatMode: "single", externalSessionId: "" },
+    reset: true,
+  });
+  assert.deepEqual(state.entries[state.index], {
+    view: "chat",
+    kernelId: "knorvia",
+    externalSessionId: "",
+    groupId: null,
+    chatMode: "single",
+  });
+  assert.equal(state.entries.length, 1);
+});
+
 test("agent and plugin management are reachable settings sections while automation stays outside settings", () => {
   const { settingsSections } = createSettingsPageConfig({
     isDesktop: true,
