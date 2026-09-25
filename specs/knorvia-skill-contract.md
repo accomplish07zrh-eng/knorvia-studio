@@ -119,4 +119,22 @@ frontmatter 允许的键就是现有白名单：`name`、`description`、可选�
 
 - 运行时消费 `skill-contract.json`（无实现，见上文"代价"）。
 - 真实模型是否按正文与侧车描述激活/拒绝（未调用模型）。
-- Settings 中的技能契约展示（兼容性面板与技能详情均不在本波范围，见 [插件兼容性规格](./knorvia-plugin-compatibility.md)）。
+- Settings 中的技能契约展示：设置页兼容性面板只呈现插件级 `compatibility.json` 与
+  `requires[]` / `capabilityRequirements[]` 的能力处置（见下节），**不**渲染 `skill-contract.json` 的
+  触发条件、输入、输出与失败行为，也**不**把它当作运行时门禁。
+
+## 技能契约在设置页的可见范围
+
+设置页唯一的插件管理入口里有一个兼容性面板（渲染规则见
+[插件兼容性规格](./knorvia-plugin-compatibility.md) 的「Settings 兼容性面板的渲染规则」）。
+它对技能契约的消费边界如下：
+
+| 内容                                                      | 面板是否呈现     | 说明                                                                |
+| --------------------------------------------------------- | ---------------- | ------------------------------------------------------------------- |
+| `skill-contract.json` 的 `capabilityRequirements[]`       | 是（按插件汇总） | 与插件级 `requires[]` 并列，逐条给出可用 / 不可用 / 未验证          |
+| `skill-contract.json` 的 `trigger` / `inputs` / `outputs` | 否               | 面板不渲染技能正文语义；侧车字段仍需人工与 `SKILL.md` 保持一致      |
+| `permissions` 三条硬约束                                  | 否               | 由 `packages/ui/test/plugin-skill-packs.test.ts` 机械校验，不入界面 |
+| 该技能在某内核"是否真的可用"                              | 否               | 无按内核运行验证，面板不得据此显示"可用"                            |
+
+因此：**面板显示某项能力"可用"只表示宿主上报了该能力，不表示任何技能契约条款已经运行时生效。**
+能力缺失时的 `report` / `degrade` / `refuse` 语义仍是声明，不是当前实现的门禁。

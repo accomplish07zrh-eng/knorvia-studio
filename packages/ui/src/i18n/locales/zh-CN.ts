@@ -1971,6 +1971,62 @@ const zhCN: Record<string, string> = {
   "settings.mcp.remoteSync.selectionCount": "已选 {selected}/{total}",
   "settings.mcp.remoteSync.noSelection": "请至少选择一个远端缺失的 MCP 服务器。",
   "settings.plugins.remoteContext": "当前远端工作区：{target}",
+  // 兼容性面板（Settings 唯一的插件管理入口内）：只读展示 compatibility.json 的声明与能力处置。
+  // 规则见 specs/knorvia-plugin-compatibility.md；未验证必须显示为未验证，没有证据不显示「已验证」。
+  "settings.plugins.compatibility.title": "兼容性",
+  "settings.plugins.compatibility.description":
+    "以下状态来自插件自带的 .knorvia-plugin/compatibility.json，只描述作者声明与宿主上报的能力，不代表已经安装、启用或运行过。",
+  "settings.plugins.compatibility.loading": "正在读取兼容性声明…",
+  "settings.plugins.compatibility.idle": "未读取兼容性声明。",
+  "settings.plugins.compatibility.reload": "重新读取兼容性声明",
+  "settings.plugins.compatibility.kernelLabel": "当前内核",
+  "settings.plugins.compatibility.sidecarLabel": "声明文件",
+  "settings.plugins.compatibility.authorReason": "作者理由：{reason}",
+  "settings.plugins.compatibility.evidenceLabel": "证据",
+  "settings.plugins.compatibility.capabilities.title": "所需能力",
+  "settings.plugins.compatibility.capabilities.empty": "该插件没有声明所需能力，或声明文件缺失。",
+  "settings.plugins.compatibility.capability.whenMissing": "缺失时：{behaviour}",
+  "settings.plugins.compatibility.capability.available": "可用",
+  "settings.plugins.compatibility.capability.unavailable": "不可用",
+  "settings.plugins.compatibility.capability.unverified": "未验证",
+  "settings.plugins.compatibility.capability.blocksRun":
+    "该能力未验证或不可用，缺失时整个请求会被拒绝。",
+  "settings.plugins.compatibility.capability.whenMissing.report": "报告缺失",
+  "settings.plugins.compatibility.capability.whenMissing.degrade": "降级交付",
+  "settings.plugins.compatibility.capability.whenMissing.refuse": "拒绝请求",
+  "settings.plugins.compatibility.capability.reason.hostReported": "宿主已上报该能力可用。",
+  "settings.plugins.compatibility.capability.reason.kernelUnsupported":
+    "该声明在本内核上标为不支持。",
+  "settings.plugins.compatibility.capability.reason.kernelUnknown":
+    "该内核没有可采信的兼容性声明。",
+  "settings.plugins.compatibility.capability.reason.kernelDeclared":
+    "作者声明了该内核的形态，但没有运行证据；宿主也没有上报该能力。",
+  "settings.plugins.compatibility.capability.reason.notReported":
+    "宿主没有上报该能力，按未验证处理，不得据此声称可用。",
+  "settings.plugins.compatibility.capability.reason.sidecarMissing":
+    "没有兼容性声明文件，无法判断该能力。",
+  "settings.plugins.compatibility.capability.reason.sidecarMalformed":
+    "兼容性声明文件无法解析，无法判断该能力。",
+  "settings.plugins.compatibility.status.verified": "已验证",
+  "settings.plugins.compatibility.status.declared": "已声明（未验证）",
+  "settings.plugins.compatibility.status.unsupported": "该内核不支持",
+  "settings.plugins.compatibility.status.unknown": "未验证",
+  "settings.plugins.compatibility.status.reasonVerified": "已给出可复核的证据。",
+  "settings.plugins.compatibility.status.reasonDeclared":
+    "作者声明了目标形态，但没有该内核上的运行证据。",
+  "settings.plugins.compatibility.status.reasonUnsupported": "已知在该内核不可用。",
+  "settings.plugins.compatibility.status.reasonUnknown": "未确定，或未做过验证。",
+  "settings.plugins.compatibility.status.kernelAbsent":
+    "声明中没有当前内核的条目，也没有通配条目兜底，按未验证处理。",
+  "settings.plugins.compatibility.sidecar.missing":
+    "未找到 .knorvia-plugin/compatibility.json，按未验证处理。",
+  "settings.plugins.compatibility.sidecar.malformed":
+    "compatibility.json 无法解析或字段不符合规格，按未验证处理。",
+  "settings.plugins.compatibility.sidecar.unreadable":
+    "compatibility.json 读取失败，无法确认声明内容，按未验证处理。",
+  "settings.plugins.compatibility.otherKernels": "另有 {count} 条其他内核声明（仅作诊断展示）。",
+  "settings.plugins.compatibility.installableNotice":
+    "可安装不等于受支持：本区块不安装、不启用、不执行任何内容，也不代表该插件已在任何内核上验证通过。",
   // 远程同步入口由独立文案演进，曾混用小写；并排展示时统一为 Skill/MCP/Plugin。
   "settings.plugins.remoteSync.open": "同步 Plugin",
   "settings.plugins.remoteSync.title": "同步 Plugins 到远端目标",
@@ -5264,6 +5320,28 @@ const zhCN: Record<string, string> = {
     "Computer Use 暂不支持 Linux 桌面环境。请切换到本机 macOS 或 Windows 工作区。",
   "settings.computerUse.unsupported.badge": "当前环境不可用",
   "settings.computerUse.unsupported.group": "不可用的内置能力",
+  // 受限电脑控制（实验开关，默认关闭）。契约见 specs/knorvia-cua-restricted.md：
+  // 当前构建无法观察任何东西，开关打开也不改变这一点。
+  "settings.computerUse.restricted.experiment.title": "受限电脑控制（实验）",
+  "settings.computerUse.restricted.experiment.toggleLabel": "启用受限电脑控制实验",
+  "settings.computerUse.restricted.experiment.description":
+    "实验开关，默认关闭。打开它不会启动 Helper、不会申请系统权限、不会发起网络请求，也不会让电脑控制变得可用。",
+  "settings.computerUse.restricted.experiment.available": "运行时已上报可观察。",
+  "settings.computerUse.restricted.experiment.unavailable":
+    "当前不可用：没有可启动的 Helper 或 Driver。",
+  "settings.computerUse.restricted.experiment.cannotObserve":
+    "本构建无法观察任何东西：没有观察路径，也没有可派发的动作。开关状态不代表具备能力。",
+  "settings.computerUse.restricted.experiment.sessionOnly":
+    "该开关只在本次会话内生效，不写入任何持久配置，重启后回到关闭。",
+  "settings.computerUse.restricted.stopFirst.title": "停止顺序（固定，不可交换）",
+  "settings.computerUse.restricted.stopFirst.forbid":
+    "先禁止后续动作：包括已排队但尚未派发的请求。",
+  "settings.computerUse.restricted.stopFirst.cancel":
+    "再取消当前请求：取消正在派发或等待回执的那一个。",
+  "settings.computerUse.restricted.stopFirst.readState":
+    "最后读取真实终态：重新读取目标窗口的实际状态。",
+  "settings.computerUse.restricted.stopFirst.noUndoNote":
+    "停止不等于已派发的动作被撤销；未确认的动作记为结果未知，不得自动重放。",
   "scheduledPreview.keepAwakeEnabled": "已开启保持唤醒",
   "scheduledPreview.keepAwakeDisabled": "已关闭保持唤醒",
   "scheduledPreview.toast.running": "正在运行“{title}”…",

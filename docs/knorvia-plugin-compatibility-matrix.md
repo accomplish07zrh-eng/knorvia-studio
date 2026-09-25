@@ -74,7 +74,7 @@
 3. 外部 CLI 内核与自定义 ACP 内核的技能投影是否让模型遵循这三个技能（未执行）。
 4. `ssh:` 远程内核上的行为（未执行）。
 5. `document.text-extraction` 对真实 DOCX/PDF/XLSX/PPTX 的可用性（未执行；文本抽取依赖会话中实际可用的工具）。
-6. Settings 兼容性面板：按波次**推迟**，本轮不新增界面；`compatibility.json` 今天没有界面消费方（见 [技能包交付说明](./knorvia-plugin-skill-packs.md)）。
+6. Settings 兼容性面板已交付（现有插件管理入口内的只读面板，逐能力显示 `available` / `unavailable` / `unverified`），但**未针对本矩阵的任何一行做过界面级验证**：三个包没有安装进应用，面板从未渲染过它们，也没有 DOM 测试环境。矩阵中"未验证"的行在面板上同样显示为未验证，不会被界面升级为已支持（见 [技能包交付说明](./knorvia-plugin-skill-packs.md)）。
 
 ## 如何复核
 

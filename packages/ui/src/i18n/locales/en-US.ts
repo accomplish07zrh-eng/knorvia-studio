@@ -2084,6 +2084,67 @@ const enUS: Record<string, string> = {
   "settings.mcp.remoteSync.selectionCount": "{selected}/{total} selected",
   "settings.mcp.remoteSync.noSelection": "Select at least one missing MCP server.",
   "settings.plugins.remoteContext": "Current remote workspace: {target}",
+  // Compatibility panel inside the single plugin-management surface: read-only projection of
+  // compatibility.json. Rules: specs/knorvia-plugin-compatibility.md. Unverified must read as
+  // unverified, and "verified" is only shown with non-empty evidence.
+  "settings.plugins.compatibility.title": "Compatibility",
+  "settings.plugins.compatibility.description":
+    "These states come from the plugin's own .knorvia-plugin/compatibility.json. They describe author declarations and host-reported capabilities only, not installation, enablement or execution.",
+  "settings.plugins.compatibility.loading": "Reading compatibility declaration…",
+  "settings.plugins.compatibility.idle": "Compatibility declaration not loaded.",
+  "settings.plugins.compatibility.reload": "Reload compatibility declaration",
+  "settings.plugins.compatibility.kernelLabel": "Current kernel",
+  "settings.plugins.compatibility.sidecarLabel": "Declaration file",
+  "settings.plugins.compatibility.authorReason": "Author reason: {reason}",
+  "settings.plugins.compatibility.evidenceLabel": "Evidence",
+  "settings.plugins.compatibility.capabilities.title": "Required capabilities",
+  "settings.plugins.compatibility.capabilities.empty":
+    "This plugin declares no required capability, or its declaration file is missing.",
+  "settings.plugins.compatibility.capability.whenMissing": "When missing: {behaviour}",
+  "settings.plugins.compatibility.capability.available": "Available",
+  "settings.plugins.compatibility.capability.unavailable": "Unavailable",
+  "settings.plugins.compatibility.capability.unverified": "Unverified",
+  "settings.plugins.compatibility.capability.blocksRun":
+    "This capability is unverified or unavailable; when missing, the whole request is refused.",
+  "settings.plugins.compatibility.capability.whenMissing.report": "report the gap",
+  "settings.plugins.compatibility.capability.whenMissing.degrade": "deliver degraded",
+  "settings.plugins.compatibility.capability.whenMissing.refuse": "refuse the request",
+  "settings.plugins.compatibility.capability.reason.hostReported":
+    "The host reported this capability as available.",
+  "settings.plugins.compatibility.capability.reason.kernelUnsupported":
+    "The declaration marks this kernel as unsupported.",
+  "settings.plugins.compatibility.capability.reason.kernelUnknown":
+    "There is no trustworthy compatibility declaration for this kernel.",
+  "settings.plugins.compatibility.capability.reason.kernelDeclared":
+    "The author declared the shape for this kernel but gave no runtime evidence, and the host did not report the capability.",
+  "settings.plugins.compatibility.capability.reason.notReported":
+    "The host did not report this capability; it is treated as unverified and must not be called available.",
+  "settings.plugins.compatibility.capability.reason.sidecarMissing":
+    "There is no compatibility declaration file, so this capability cannot be judged.",
+  "settings.plugins.compatibility.capability.reason.sidecarMalformed":
+    "The compatibility declaration file cannot be parsed, so this capability cannot be judged.",
+  "settings.plugins.compatibility.status.verified": "Verified",
+  "settings.plugins.compatibility.status.declared": "Declared (unverified)",
+  "settings.plugins.compatibility.status.unsupported": "Unsupported on this kernel",
+  "settings.plugins.compatibility.status.unknown": "Unverified",
+  "settings.plugins.compatibility.status.reasonVerified": "Reviewable evidence is provided.",
+  "settings.plugins.compatibility.status.reasonDeclared":
+    "The author declared the intended shape, but there is no runtime evidence on this kernel.",
+  "settings.plugins.compatibility.status.reasonUnsupported":
+    "Known to be unavailable on this kernel.",
+  "settings.plugins.compatibility.status.reasonUnknown": "Not determined, or never verified.",
+  "settings.plugins.compatibility.status.kernelAbsent":
+    "The declaration has neither an entry for this kernel nor a wildcard fallback, so it is treated as unverified.",
+  "settings.plugins.compatibility.sidecar.missing":
+    ".knorvia-plugin/compatibility.json was not found; treated as unverified.",
+  "settings.plugins.compatibility.sidecar.malformed":
+    "compatibility.json cannot be parsed or violates the spec; treated as unverified.",
+  "settings.plugins.compatibility.sidecar.unreadable":
+    "compatibility.json could not be read, so its declarations cannot be confirmed; treated as unverified.",
+  "settings.plugins.compatibility.otherKernels":
+    "{count} more kernel declaration(s) are present for diagnostics only.",
+  "settings.plugins.compatibility.installableNotice":
+    "Installable is not supported: this section installs, enables and runs nothing, and does not mean the plugin was verified on any kernel.",
   "settings.plugins.remoteSync.open": "Sync Plugin",
   "settings.plugins.remoteSync.title": "Sync Plugins to remote target",
   "settings.plugins.remoteSync.warningTitle": "Remote execution reminder",
@@ -5484,6 +5545,30 @@ const enUS: Record<string, string> = {
     "Computer Use is not yet supported on Linux desktops. Switch to a local macOS or Windows workspace.",
   "settings.computerUse.unsupported.badge": "Unavailable here",
   "settings.computerUse.unsupported.group": "Unavailable built-in capabilities",
+  // Restricted Computer Use experiment switch (default off). Contract: specs/knorvia-cua-restricted.md.
+  // This build cannot observe anything, and turning the switch on does not change that.
+  "settings.computerUse.restricted.experiment.title": "Restricted Computer Use (experiment)",
+  "settings.computerUse.restricted.experiment.toggleLabel":
+    "Enable the restricted Computer Use experiment",
+  "settings.computerUse.restricted.experiment.description":
+    "Experiment switch, default off. Turning it on starts no Helper, requests no OS permission, sends no network request and does not make Computer Use available.",
+  "settings.computerUse.restricted.experiment.available":
+    "The runtime reported that observation is available.",
+  "settings.computerUse.restricted.experiment.unavailable":
+    "Currently unavailable: there is no Helper or Driver that can be started.",
+  "settings.computerUse.restricted.experiment.cannotObserve":
+    "This build cannot observe anything: there is no observation path and no action can be dispatched. The switch state is not a capability.",
+  "settings.computerUse.restricted.experiment.sessionOnly":
+    "This switch only applies to the current session, is not persisted anywhere, and returns to off after a restart.",
+  "settings.computerUse.restricted.stopFirst.title": "Stop order (fixed, not reorderable)",
+  "settings.computerUse.restricted.stopFirst.forbid":
+    "First forbid further actions, including requests already queued but not dispatched.",
+  "settings.computerUse.restricted.stopFirst.cancel":
+    "Then cancel the current request: the one being dispatched or awaiting a result.",
+  "settings.computerUse.restricted.stopFirst.readState":
+    "Finally read the real terminal state from the target window.",
+  "settings.computerUse.restricted.stopFirst.noUndoNote":
+    "Stopping does not undo an already dispatched action; an unconfirmed action is reported as an unknown result and must never be replayed automatically.",
   "scheduledPreview.keepAwakeEnabled": "Keep awake enabled",
   "scheduledPreview.keepAwakeDisabled": "Keep awake disabled",
   "scheduledPreview.toast.running": "Running “{title}”…",

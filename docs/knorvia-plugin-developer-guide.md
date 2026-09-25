@@ -86,4 +86,4 @@ node $sourceTool $plugin --name-zh '项目简报' --description-zh '根据本地
 
 三个新包位于 `examples/plugins/project-handoff`、`examples/plugins/material-organizer`、`examples/plugins/document-quality-check`。它们都是**只有技能**的包：按上面的跨内核规则，Hook、私有命令与插件子代理不跨内核执行，因此这三个包不声明 `hooks`、`commands`、`mcpServers` 或 `agents`，只保留可移植的 `skills`。它们不是内置插件，没有加入默认启用集合，也没有进入桌面包；各自的 `fixtures/` 只用于复核，不随安装成为能力面。
 
-设置页的兼容性面板按波次**推迟**：本波没有新增任何设置界面，`compatibility.json` 目前只被测试与文档消费。机械校验在 `packages/ui/test/plugin-skill-packs.test.ts`，用 `node --import tsx --test packages/ui/test/plugin-skill-packs.test.ts` 执行；它证明声明自洽，**不证明**任何内核上真的可用。
+设置页的兼容性面板已经落地在**现有的插件管理入口内**（插件详情的进阶区，不是新页面）：它读取每个包的 `.knorvia-plugin/compatibility.json`，逐能力显示 `available` / `unavailable` / `unverified` 与机器可读原因，缺失、畸形或读取失败一律降级为 `unknown`，并且**不会**把未验证渲染成已支持。面板是只读的，本波没有新增插件市场、账号、支付或订阅界面；它也不安装、不启用、不执行任何包。宿主只有在插件已启用且已枚举到技能时才敢声明 `skills.enabled-catalog`，其余能力保持未验证。机械校验在 `packages/ui/test/plugin-skill-packs.test.ts` 与 `packages/ui/test/plugin-compatibility-panel.test.ts`，用 `node --import tsx --test <files>` 执行；它们证明声明自洽与投影正确，**不证明**任何内核上真的可用。

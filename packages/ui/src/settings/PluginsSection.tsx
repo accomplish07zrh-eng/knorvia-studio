@@ -49,6 +49,7 @@ import {
   PluginWarningList,
 } from "@/settings/InstalledPluginManagement.js";
 import { PluginConfigControls } from "@/settings/PluginConfigControls.js";
+import { PluginCompatibilitySection } from "@/settings/PluginCompatibilitySection.js";
 import {
   PluginStoreAdvancedSection,
   PluginStoreDetailView,
@@ -703,6 +704,12 @@ function PluginList({
                     id: "settings.plugins.detail.rootPath",
                   })}
                   value={selectedPlugin.rootPath}
+                />
+                {/* 兼容性声明只读展示：数据来自插件根目录的 compatibility.json，
+                    经宿主 fileService 读取；缺失/非法/读取失败都渲染为未验证。 */}
+                <PluginCompatibilitySection
+                  plugin={selectedPlugin}
+                  fileService={targetServiceResolution.services.fileService}
                 />
                 {(selectedPlugin.hookDetails ?? []).length > 0 ? (
                   <PluginHookDetails hooks={selectedPlugin.hookDetails ?? []} />

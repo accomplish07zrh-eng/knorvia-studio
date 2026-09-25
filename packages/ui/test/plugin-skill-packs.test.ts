@@ -443,7 +443,7 @@ for (const pack of packNames) {
   });
 }
 
-test("skill pack docs justify the skill-only shape and the deferred settings panel", () => {
+test("skill pack docs justify the skill-only shape and the settings-panel boundary", () => {
   const packsDoc = readFileSync(
     join(repositoryRoot, "docs", "knorvia-plugin-skill-packs.md"),
     "utf8",
@@ -467,9 +467,14 @@ test("skill pack docs justify the skill-only shape and the deferred settings pan
   }
   assert.match(packsDoc, /未验证|验证/u, "packs doc must separate verified from unverified");
   assert.match(matrixDoc, /未验证/u, "compatibility matrix must mark unverified capabilities");
-  // Settings 兼容性面板按波次推迟，文档必须如实说明，而不是暗示界面已经存在。
+  // Settings 兼容性面板已交付：文档必须如实说明它是只读的、读的是静态声明而不是运行时实测，
+  // 既不能仍然声称界面不存在，也不能暗示面板证明了真实可用性。
   assert.match(packsDoc, /设置|Settings/u, "packs doc must state the settings-panel boundary");
-  assert.match(packsDoc, /推迟|deferred|未提供|不在本波/u);
+  assert.match(packsDoc, /只读/u, "packs doc must state the compatibility panel is read-only");
+  assert.ok(
+    !/按波次\*\*推迟\*\*|deferred/u.test(packsDoc),
+    "packs doc must not still claim the compatibility panel is deferred",
+  );
 });
 
 test("skill pack manifests stay out of the bundled default-enabled set", () => {
