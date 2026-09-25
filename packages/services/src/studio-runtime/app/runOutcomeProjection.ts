@@ -127,16 +127,17 @@ export function readStudioRunOutcome(
     if (stepId) toolSteps.add(stepId);
   }
   const runUnknown = run.state === "interrupted" && run.resultKnown !== true;
-  const steps = [...new Set([...Object.keys(run.checkpoint?.steps ?? {}), ...heads])].map((stepId) =>
-    readStudioStepOutcome({
-      db,
-      run,
-      stepId,
-      head: headSteps.has(stepId),
-      acceptances: acceptances.filter((item) => item.stepId === stepId),
-      toolState: toolSteps.has(stepId),
-      runUnknown,
-    }),
+  const steps = [...new Set([...Object.keys(run.checkpoint?.steps ?? {}), ...heads])].map(
+    (stepId) =>
+      readStudioStepOutcome({
+        db,
+        run,
+        stepId,
+        head: headSteps.has(stepId),
+        acceptances: acceptances.filter((item) => item.stepId === stepId),
+        toolState: toolSteps.has(stepId),
+        runUnknown,
+      }),
   );
   const outcome = runOutcomeOf(steps.map((step) => step.outcome));
   const restart = steps.map((step) => step.restart).find((state) => state !== undefined);

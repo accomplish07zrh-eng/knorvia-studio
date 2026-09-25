@@ -4,23 +4,23 @@
 
 ## 候选提交与版本
 
-| 项目 | 值 |
-| --- | --- |
+| 项目         | 值                                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------------------- |
 | 批内功能清单 | T00 基线、T01 发布门禁、T02 测试稳定性、T03 升级/便携数据保护、T06 输出契约、T09 创作来源与只读核验 |
-| 候选交付 SHA | `d142571b673aad0370df03aac0645542dfffe7da` |
-| 版本 | `0.8.0-preview.2` |
-| 交付时远端 | `origin/main` 已包含 `797a76e`…`d142571`（T01–T06、T09、T00 记录与回归修复） |
+| 候选交付 SHA | `d142571b673aad0370df03aac0645542dfffe7da`                                                          |
+| 版本         | `0.8.0-preview.2`                                                                                   |
+| 交付时远端   | `origin/main` 已包含 `797a76e`…`d142571`（T01–T06、T09、T00 记录与回归修复）                        |
 
 ## 批次门禁（从仓库根执行，全部为真实结果）
 
-| 检查 | 结果 |
-| --- | --- |
-| `pnpm typecheck` | 退出 0（含 desktop main 的 project references 与中英文键校验） |
-| `pnpm lint` | 退出 0，0 warnings / 0 errors |
-| `pnpm fmt:check` | 退出 0，`All matched files use the correct format`（4474 文件） |
-| `pnpm architecture:check` | 退出 0，`violations: 0 / baseline: 0 / new: 0` |
-| `pnpm build:cli-packages` | 退出 0 |
-| `pnpm test:studio` | 退出 0，**tests 608 / pass 608 / fail 0 / skipped 0** |
+| 检查                      | 结果                                                            |
+| ------------------------- | --------------------------------------------------------------- |
+| `pnpm typecheck`          | 退出 0（含 desktop main 的 project references 与中英文键校验）  |
+| `pnpm lint`               | 退出 0，0 warnings / 0 errors                                   |
+| `pnpm fmt:check`          | 退出 0，`All matched files use the correct format`（4474 文件） |
+| `pnpm architecture:check` | 退出 0，`violations: 0 / baseline: 0 / new: 0`                  |
+| `pnpm build:cli-packages` | 退出 0                                                          |
+| `pnpm test:studio`        | 退出 0，**tests 608 / pass 608 / fail 0 / skipped 0**           |
 
 首轮全量回归曾出现 1 项失败（`file import rejects unknown versions…`）：T06 有意把工作流文件信封版本升到 2 并继续接受版本 1，而旧断言把版本 2 当作未知版本。已按“未知新版本必须拒绝”的原意改为断言“当前版本 + 1”被拒绝，并补充版本 1 与当前版本均可读取的正向断言（提交 `d142571`）；重跑 608/608 通过。
 
@@ -77,34 +77,34 @@ Delivered executable SHA-256: 974BC623F0857967749546014027A619B0A65070A7CCFE5F5C
 
 启动交付后的 `Knorvia Studio.exe`：
 
-| 观察项 | 结果 |
-| --- | --- |
+| 观察项           | 结果                                                                   |
+| ---------------- | ---------------------------------------------------------------------- |
 | 启动后 45 秒进程 | 存活，共 6 个 “Knorvia Studio” 进程（Electron 主进程 + 渲染/辅助进程） |
-| 启动前 `data` | 429 文件 / 54 742 994 字节 |
-| 启动后 `data` | 430 文件 / 54 775 671 字节 |
-| 丢失文件 | **0** |
-| 新增文件 | 1（`profile\session\DIPS-wal`，Chromium 会话数据） |
+| 启动前 `data`    | 429 文件 / 54 742 994 字节                                             |
+| 启动后 `data`    | 430 文件 / 54 775 671 字节                                             |
+| 丢失文件         | **0**                                                                  |
+| 新增文件         | 1（`profile\session\DIPS-wal`，Chromium 会话数据）                     |
 
 结论：便携包可以打开，覆盖只更新程序文件；`data` 中已有用户文件一个都没有丢失，启动只新增了 Chromium 会话文件。
 
 ## 交付物哈希
 
-| 产物 | SHA-256 |
-| --- | --- |
-| `Knorvia Studio.exe`（便携目录内） | `974BC623F0857967749546014027A619B0A65070A7CCFE5F5C0A4730EAA8D44A` |
-| `resources/app.asar`（便携目录内） | `6F06ECB386F85427AF7F0C0B88F0B46382DAD3E1014584EBCC87BEE9107BF8F7` |
+| 产物                                                | SHA-256                                                            |
+| --------------------------------------------------- | ------------------------------------------------------------------ |
+| `Knorvia Studio.exe`（便携目录内）                  | `974BC623F0857967749546014027A619B0A65070A7CCFE5F5C0A4730EAA8D44A` |
+| `resources/app.asar`（便携目录内）                  | `6F06ECB386F85427AF7F0C0B88F0B46382DAD3E1014584EBCC87BEE9107BF8F7` |
 | 安装包 `Knorvia Studio-0.8.0-preview.2-win-x64.exe` | `34528F0B596A06A0A26CD72031F7C9757AD0A20BD945EE9175BA8551F5E9E020` |
 
 ## 故障矩阵覆盖情况（如实）
 
-| 场景 | 覆盖方式 | 状态 |
-| --- | --- | --- |
-| 重复请求 / 幂等 | `release-gate.test.ts`（同版本重跑）、T09 同 requestId 幂等与“同 ID 不同负载拒绝”测试 | 已覆盖 |
-| 迁移中断 / 备份失败 / 不可写 / 版本过新 | T03 `studio-upgrade-protection.test.ts` | 已覆盖 |
-| 文件应用未知结果、恢复锁、应用后断线 | 既有 `studio-workspace-recovery.test.ts`、`studio-runtime-polish.test.ts` 等；T05 的多选与接纳证据本轮未完成 | 部分覆盖 |
-| 到期 / 取消 / 重启 / 重复触发（定时工作流） | T02 注入虚拟时钟的两个新用例 | 已覆盖 |
-| 引用失效、越权引用 | T06 的非法/未知版本与超限拒绝；T07 的 Host 引用解析本轮未完成 | 部分覆盖 |
-| 付费远端未知结果 | T09 `verifyJob` 只读核验、绝不自动重发（断言未发生第二次提交） | 已覆盖（未真机联网） |
+| 场景                                        | 覆盖方式                                                                                                     | 状态                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------- |
+| 重复请求 / 幂等                             | `release-gate.test.ts`（同版本重跑）、T09 同 requestId 幂等与“同 ID 不同负载拒绝”测试                        | 已覆盖               |
+| 迁移中断 / 备份失败 / 不可写 / 版本过新     | T03 `studio-upgrade-protection.test.ts`                                                                      | 已覆盖               |
+| 文件应用未知结果、恢复锁、应用后断线        | 既有 `studio-workspace-recovery.test.ts`、`studio-runtime-polish.test.ts` 等；T05 的多选与接纳证据本轮未完成 | 部分覆盖             |
+| 到期 / 取消 / 重启 / 重复触发（定时工作流） | T02 注入虚拟时钟的两个新用例                                                                                 | 已覆盖               |
+| 引用失效、越权引用                          | T06 的非法/未知版本与超限拒绝；T07 的 Host 引用解析本轮未完成                                                | 部分覆盖             |
+| 付费远端未知结果                            | T09 `verifyJob` 只读核验、绝不自动重发（断言未发生第二次提交）                                               | 已覆盖（未真机联网） |
 
 ## 未执行 / 例外（不得当作通过）
 
