@@ -14,7 +14,10 @@ import {
   isRemoteWorkspaceIdentity,
   KNORVIA_CUA_OFFICIAL_PLUGIN_ID,
 } from "@knorvia/shared";
-import { isCuaPermissionStatusAvailable, type CuaPermissionRestartOptions } from "@knorvia/services";
+import {
+  isCuaPermissionStatusAvailable,
+  type CuaPermissionRestartOptions,
+} from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { toast } from "@/components/ui/toast.js";
 import { Switch } from "@/components/ui/switch.js";

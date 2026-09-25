@@ -97,7 +97,8 @@ export const groupsZhCN = {
   "studio.groups.metrics.title": "群聊统计",
   "studio.groups.metrics.total": "合计",
   "studio.groups.metrics.partial": "部分数据",
-  "studio.groups.metrics.scope": "最近一次群运行；Token 是已上报用量，耗时为成员执行时间之和。≥ 表示可能还有未报告的数据。",
+  "studio.groups.metrics.scope":
+    "最近一次群运行；Token 是已上报用量，耗时为成员执行时间之和。≥ 表示可能还有未报告的数据。",
 };
 
 export const groupsEnUS: Record<keyof typeof groupsZhCN, string> = {
@@ -209,5 +210,6 @@ export const groupsEnUS: Record<keyof typeof groupsZhCN, string> = {
   "studio.groups.metrics.title": "Group statistics",
   "studio.groups.metrics.total": "Total",
   "studio.groups.metrics.partial": "Partial data",
-  "studio.groups.metrics.scope": "Latest group run. Tokens are reported usage; elapsed time is the sum of member execution time. ≥ means some data may be missing.",
+  "studio.groups.metrics.scope":
+    "Latest group run. Tokens are reported usage; elapsed time is the sum of member execution time. ≥ means some data may be missing.",
 };

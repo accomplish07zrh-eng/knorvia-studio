@@ -82,12 +82,17 @@ export function publicJob(job: StoredJob): CreationJob {
 
 export function decodeReference(
   reference: CreateCreationJobInput["reference"],
-): { bytes: Uint8Array; name: string; mimeType: string; hash: string; extension: string } | undefined {
+):
+  | { bytes: Uint8Array; name: string; mimeType: string; hash: string; extension: string }
+  | undefined {
   if (!reference) return undefined;
   if (!["image/png", "image/jpeg", "image/webp"].includes(reference.mimeType))
     throw new Error("参考图只支持 PNG、JPEG 或 WebP");
-  if (!reference.dataBase64 || reference.dataBase64.length > 14 * 1024 * 1024 ||
-      !/^[A-Za-z0-9+/=]+$/.test(reference.dataBase64))
+  if (
+    !reference.dataBase64 ||
+    reference.dataBase64.length > 14 * 1024 * 1024 ||
+    !/^[A-Za-z0-9+/=]+$/.test(reference.dataBase64)
+  )
     throw new Error("参考图为空、过大或数据无效（上限 10 MB）");
   const bytes = Buffer.from(reference.dataBase64, "base64");
   if (!bytes.length || bytes.length > 10 * 1024 * 1024) throw new Error("参考图超过 10 MB 限制");
@@ -125,8 +130,7 @@ export async function savedReference(
     throw new Error("原任务参考图路径不属于创作数据目录");
   let bytes: Buffer;
   try {
-    if ((await stat(target)).size > 10 * 1024 * 1024)
-      throw new Error("原任务参考图超过大小限制");
+    if ((await stat(target)).size > 10 * 1024 * 1024) throw new Error("原任务参考图超过大小限制");
     bytes = await readFile(target);
   } catch (error) {
     if (error instanceof Error && error.message === "原任务参考图超过大小限制") throw error;

@@ -11,7 +11,10 @@ import {
 import { dirname, join, resolve, sep } from "node:path";
 import { writeBundledOfficialMarketplacePartitionSync } from "@knorvia/adapters";
 import { KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE, type Logger } from "@knorvia/contracts";
-import { isKnorviaCuaInternalFeatureEnabled, KNORVIA_CUA_OFFICIAL_PLUGIN_ID } from "@knorvia/shared";
+import {
+  isKnorviaCuaInternalFeatureEnabled,
+  KNORVIA_CUA_OFFICIAL_PLUGIN_ID,
+} from "@knorvia/shared";
 import {
   createOfficialPluginCacheRetryBudget,
   getOfficialPluginCacheRetryAttempts,

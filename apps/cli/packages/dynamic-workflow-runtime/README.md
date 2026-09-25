@@ -15,13 +15,13 @@
 import { runWorkflowScript } from "@knorvia/dynamic-workflow-runtime";
 
 const settlement = await runWorkflowScript({
-  scriptText,                 // 或 lowered: <async 函数体>
+  scriptText, // 或 lowered: <async 函数体>
   caps: { maxConcurrency: 16 },
-  askSpecs,                   // site id ∈ 合成 schemas 记录即 typed
-  validate,                   // @knorvia/dynamic-workflow 的 validate（适配到 ValidateFn）
+  askSpecs, // site id ∈ 合成 schemas 记录即 typed
+  validate, // @knorvia/dynamic-workflow 的 validate（适配到 ValidateFn）
   makeDriver: (sink) => driver, // driver 自带 journal + emit；sink 是引擎的向上回报面
-  signal,                     // 可选：AbortSignal
-  timeoutMs,                  // 可选：墙钟超时
+  signal, // 可选：AbortSignal
+  timeoutMs, // 可选：墙钟超时
 });
 // settlement: { status: "completed", artifact } | { status: "failed", error } | { status: "cancelled" }
 ```
@@ -53,6 +53,6 @@ world-read）/ `event`（log）/ `complete`；parent→child：`response`。
 
 - run 的裁决归引擎所有。终结失败（脚本抛错 / 子进程崩溃 / 超时 / 协议损坏）都调
   `engine.fail(error)`——结算 `failed`、driver 侧取消在飞 ask、journal 记 `dwf_run.status =
-  "failed"` + `failure_json`，journal 与调用方看到的结果一致。abort 信号是唯一的"真取消"，
+"failed"` + `failure_json`，journal 与调用方看到的结果一致。abort 信号是唯一的"真取消"，
   调 `engine.cancel()`（结算 `cancelled`，可 resume）。harness 侧的 first-wins finalize 只管
   子进程清理（清 timer、关 stdin、kill child），不自造结算。

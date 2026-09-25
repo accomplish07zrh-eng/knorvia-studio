@@ -6,10 +6,12 @@ import {
 import { createHttpServer } from "./http.js";
 
 async function main(): Promise<void> {
-  const knorviaBuiltinProviderConfigFilePath = await materializeBundledKnorviaBuiltinProviderConfig({
-    environmentConfigRoot: getAppConfigDir(),
-    content: readBundledKnorviaBuiltinProviderConfig(),
-  });
+  const knorviaBuiltinProviderConfigFilePath = await materializeBundledKnorviaBuiltinProviderConfig(
+    {
+      environmentConfigRoot: getAppConfigDir(),
+      content: readBundledKnorviaBuiltinProviderConfig(),
+    },
+  );
   const port = Number(process.env["PORT"]) || 3030;
   const host =
     process.env["KNORVIA_SERVER_HOST"]?.trim() || process.env["HOST"]?.trim() || undefined;

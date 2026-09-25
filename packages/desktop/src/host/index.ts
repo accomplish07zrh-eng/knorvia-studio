@@ -421,26 +421,24 @@ function trackCronRunOutcome(params: {
   const key = cronRunSubscriptionKey(params.taskId, params.traceId);
   disposeCronRunSubscription(key);
   markCronRunOutcome({ ...params, outcome: "running" });
-  const disposable = params.taskService.onDynamicTaskTerminalOutcome(params.taskId)(
-    (result) => {
-      if (result.inputId !== params.traceId) return;
-      void settleCronRunTerminalOutcome({
-        ...params,
-        outcome: result.outcome,
-        error: result.error,
-        repo: cronAutomationRepo,
-        logWarn: (message, error) => logger.warn(message, error),
-      });
-      // 定时任务在后台完成后统一置为未读，真正打开 task 时再由导航链路清除。
-      void params.taskService.setTaskUnread({
-        taskId: params.taskId,
-        workspacePath: params.workspacePath,
-        ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
-        unread: true,
-      });
-      disposeCronRunSubscription(key);
-    },
-  );
+  const disposable = params.taskService.onDynamicTaskTerminalOutcome(params.taskId)((result) => {
+    if (result.inputId !== params.traceId) return;
+    void settleCronRunTerminalOutcome({
+      ...params,
+      outcome: result.outcome,
+      error: result.error,
+      repo: cronAutomationRepo,
+      logWarn: (message, error) => logger.warn(message, error),
+    });
+    // 定时任务在后台完成后统一置为未读，真正打开 task 时再由导航链路清除。
+    void params.taskService.setTaskUnread({
+      taskId: params.taskId,
+      workspacePath: params.workspacePath,
+      ...(params.workspaceIdentity ? { workspaceIdentity: params.workspaceIdentity } : {}),
+      unread: true,
+    });
+    disposeCronRunSubscription(key);
+  });
   const claimHeartbeat =
     params.trigger === "manual"
       ? startManualClaimHeartbeat({
@@ -470,7 +468,10 @@ async function dispatchCronRun(request: CronRunDispatchRequest): Promise<{
   if (!savedAutomation || savedAutomation.workspaceKey !== resolveWorkspaceKey(request))
     throw new Error("计划任务已删除或目标项目不匹配");
   if (savedAutomation.studioWorkflowId || request.studioWorkflowId) {
-    if (!savedAutomation.studioWorkflowId || request.studioWorkflowId !== savedAutomation.studioWorkflowId)
+    if (
+      !savedAutomation.studioWorkflowId ||
+      request.studioWorkflowId !== savedAutomation.studioWorkflowId
+    )
       throw new Error("Studio 工作流计划目标与已保存的任务不一致");
     if (request.workspaceIdentity && isRemoteWorkspaceIdentity(request.workspaceIdentity))
       throw new Error("本地 Studio 工作流计划不能派发到远端 Host");
@@ -2413,12 +2414,9 @@ parentPort.on("message", async (e: Electron.MessageEvent) => {
         });
         const taskService = services.getOptional(IKnorviaTaskService);
         if (taskService) {
-          const reportingKnorviaTaskService = createReportingRemoteKnorviaTaskService(
-            taskService,
-            {
-              reportRunningPromptCount: false,
-            },
-          );
+          const reportingKnorviaTaskService = createReportingRemoteKnorviaTaskService(taskService, {
+            reportRunningPromptCount: false,
+          });
           services.register(IKnorviaTaskService, reportingKnorviaTaskService);
         }
         wireLocalResourceTelemetry(services);

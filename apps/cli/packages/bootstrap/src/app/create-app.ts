@@ -910,9 +910,7 @@ export async function createKnorviaApp(options: KnorviaAppOptions): Promise<Knor
           // 热态预览会和冷恢复 artifact 不一致。同一 message/index 必须优先取不可变副本。
           artifactUri =
             persistedAttachment.metadata?.artifactUri ??
-            (isArtifactUri(persistedAttachment.url)
-              ? persistedAttachment.url
-              : undefined);
+            (isArtifactUri(persistedAttachment.url) ? persistedAttachment.url : undefined);
           ref =
             artifactUri ??
             (!persistedAttachment.url.startsWith("data:") ? persistedAttachment.url : input.ref);

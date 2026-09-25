@@ -15,7 +15,9 @@ export function assembleNonStreamingAssistantMessage(body: unknown): OpenAiMessa
   return ensureAssistantRole(message);
 }
 
-export function assembleStreamingAssistantMessage(chunks: readonly (string | Uint8Array)[]): OpenAiMessage | null {
+export function assembleStreamingAssistantMessage(
+  chunks: readonly (string | Uint8Array)[],
+): OpenAiMessage | null {
   const text = chunks
     .map((chunk) => (typeof chunk === "string" ? chunk : new TextDecoder().decode(chunk)))
     .join("");
@@ -91,8 +93,7 @@ function responseOutputMessage(body: unknown): OpenAiMessage | null {
           id: typeof functionCall.call_id === "string" ? functionCall.call_id : undefined,
           type: "function",
           function: {
-            arguments:
-              typeof functionCall.arguments === "string" ? functionCall.arguments : "",
+            arguments: typeof functionCall.arguments === "string" ? functionCall.arguments : "",
             name: typeof functionCall.name === "string" ? functionCall.name : "",
           },
         },
@@ -116,7 +117,7 @@ function responseOutputMessage(body: unknown): OpenAiMessage | null {
           typeof item === "object" &&
           !Array.isArray(item) &&
           typeof (item as { text?: unknown }).text === "string"
-            ? ((item as { text: string }).text)
+            ? (item as { text: string }).text
             : "",
         )
         .join("")
@@ -162,10 +163,7 @@ function parseJson(payload: string): unknown {
   }
 }
 
-function mergeToolCallDeltas(
-  toolCalls: Map<number, ToolCallAccumulator>,
-  deltas: unknown,
-): void {
+function mergeToolCallDeltas(toolCalls: Map<number, ToolCallAccumulator>, deltas: unknown): void {
   if (!Array.isArray(deltas)) return;
 
   for (const delta of deltas) {

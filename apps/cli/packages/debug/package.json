@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.14.4",
+    "@knorvia/shared": "workspace:*",
     "hono": "^4.10.7",
     "http-mitm-proxy": "^1.1.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "vis-timeline": "^8.5.0",
-    "@knorvia/shared": "workspace:*"
+    "vis-timeline": "^8.5.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

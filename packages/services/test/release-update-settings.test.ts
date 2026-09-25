@@ -15,13 +15,18 @@ test("release update source and disabled state persist in the isolated local set
     const service = createSettingService();
     assert.equal((await service.get()).releaseInfoUrl, "");
     assert.equal((await service.get()).releaseChecksEnabled, true);
-    await service.update({ releaseInfoUrl: "https://example.test/releases/latest", releaseChecksEnabled: false });
+    await service.update({
+      releaseInfoUrl: "https://example.test/releases/latest",
+      releaseChecksEnabled: false,
+    });
     const reopened = await createSettingService().get();
     assert.equal(reopened.releaseInfoUrl, "https://example.test/releases/latest");
     assert.equal(reopened.releaseChecksEnabled, false);
     const file = join(root, ".knorvia-studio", "v2", "setting.json");
     assert.equal(JSON.parse(await readFile(file, "utf8")).releaseChecksEnabled, false);
-    await assert.rejects(service.update({ releaseInfoUrl: "https://user:secret@example.test/releases" }));
+    await assert.rejects(
+      service.update({ releaseInfoUrl: "https://user:secret@example.test/releases" }),
+    );
     assert.equal((await createSettingService().get()).releaseInfoUrl, reopened.releaseInfoUrl);
   } finally {
     if (previousBase === undefined) delete process.env.KNORVIA_DATA_BASE_DIR;

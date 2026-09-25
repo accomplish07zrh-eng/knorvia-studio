@@ -28,7 +28,11 @@ export function useWorkspaceShellState(workspaceAbsPath: string, workspaceIdenti
   // 这里把外壳真正依赖的字段收敛成浅比较选择器，避免消息流惊动无关 UI。
   const workspaceShellKnorviaState = useKnorviaSessionStore(
     useShallow((state): WorkspaceShellKnorviaState => {
-      const workspaceState = selectWorkspaceKnorviaState(state, workspaceAbsPath, workspaceIdentity);
+      const workspaceState = selectWorkspaceKnorviaState(
+        state,
+        workspaceAbsPath,
+        workspaceIdentity,
+      );
       const displayedTaskState = getWorkspaceDisplayedTaskState(workspaceState);
       return {
         activeTaskId: workspaceState.activeTaskId,

@@ -253,7 +253,9 @@ export function spawnHostProcess(
     `[spawnHostProcess] forked host process for (${label}), pid=${child.pid}`,
   );
   dependencies.logger.info(`[spawnHostProcess] host module path: ${hostModulePath}`);
-  dependencies.logger.info(`[spawnHostProcess] Knorvia agent binary path: ${agentBinaryPath ?? "<not found>"}`);
+  dependencies.logger.info(
+    `[spawnHostProcess] Knorvia agent binary path: ${agentBinaryPath ?? "<not found>"}`,
+  );
 
   // 远程连接与本地服务共享 window Host，进程级 stdout 没有请求身份。
   // 连接进度改由 HostResponseTypes.RemoteWorkspaceConnectionLog 按 requestId 上报。

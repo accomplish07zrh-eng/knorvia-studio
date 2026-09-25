@@ -36,12 +36,33 @@ const icons: Partial<Record<StudioKernelId, string>> = {
 };
 
 /** 自定义 ACP 没有可验证的厂商标识，只显示中性缩写。 */
-function CustomKernelMark({ kernelId, className }: { kernelId: StudioKernelId; className?: string }) {
+function CustomKernelMark({
+  kernelId,
+  className,
+}: {
+  kernelId: StudioKernelId;
+  className?: string;
+}) {
   const initials = kernelId.startsWith("acp:") ? kernelId.slice(4, 6).toUpperCase() : "AI";
   return (
-    <svg aria-hidden="true" className={cn("size-5 shrink-0", className)} viewBox="0 0 24 24" fill="none">
+    <svg
+      aria-hidden="true"
+      className={cn("size-5 shrink-0", className)}
+      viewBox="0 0 24 24"
+      fill="none"
+    >
       <circle cx="12" cy="12" r="9.5" stroke="currentColor" strokeWidth="1.4" />
-      <text x="12" y="15.2" textAnchor="middle" fill="currentColor" fontSize="8.5" fontWeight="700" fontFamily="system-ui, sans-serif">{initials}</text>
+      <text
+        x="12"
+        y="15.2"
+        textAnchor="middle"
+        fill="currentColor"
+        fontSize="8.5"
+        fontWeight="700"
+        fontFamily="system-ui, sans-serif"
+      >
+        {initials}
+      </text>
     </svg>
   );
 }
@@ -60,8 +81,16 @@ export function StudioKernelIcon({
   if (kernelId === "opencode")
     return (
       <span className={cn("relative inline-flex size-5 shrink-0", className)} aria-hidden="true">
-        <img src={opencodeLightLogo} alt="" className="absolute inset-0 size-full object-contain dark:hidden" />
-        <img src={opencodeDarkLogo} alt="" className="absolute inset-0 hidden size-full object-contain dark:block" />
+        <img
+          src={opencodeLightLogo}
+          alt=""
+          className="absolute inset-0 size-full object-contain dark:hidden"
+        />
+        <img
+          src={opencodeDarkLogo}
+          alt=""
+          className="absolute inset-0 hidden size-full object-contain dark:block"
+        />
       </span>
     );
   const source = icons[kernelId];
@@ -71,7 +100,11 @@ export function StudioKernelIcon({
       src={source}
       alt=""
       aria-hidden="true"
-      className={cn("size-5 shrink-0 object-contain", kernelId === "copilot" && "dark:invert", className)}
+      className={cn(
+        "size-5 shrink-0 object-contain",
+        kernelId === "copilot" && "dark:invert",
+        className,
+      )}
     />
   );
 }

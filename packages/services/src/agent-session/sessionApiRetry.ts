@@ -114,7 +114,9 @@ function apiRetryFromSessionPayload(
   if (runtimeRetry !== undefined) {
     return runtimeRetry;
   }
-  const metaRetry = normalizeKnorviaApiRetryStatus(asRecord(asRecord(payload._meta).knorvia).apiRetry);
+  const metaRetry = normalizeKnorviaApiRetryStatus(
+    asRecord(asRecord(payload._meta).knorvia).apiRetry,
+  );
   if (metaRetry !== undefined) {
     return metaRetry;
   }

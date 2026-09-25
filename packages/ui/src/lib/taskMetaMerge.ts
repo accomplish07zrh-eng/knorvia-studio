@@ -9,7 +9,10 @@ function isPlaceholderTaskTitle(title: string): boolean {
   return normalizedTitle.length === 0 || normalizedTitle === "new session";
 }
 
-function resolveMergedTaskTitle(preferredTask: KnorviaTaskMeta, fallbackTask: KnorviaTaskMeta): string {
+function resolveMergedTaskTitle(
+  preferredTask: KnorviaTaskMeta,
+  fallbackTask: KnorviaTaskMeta,
+): string {
   if (fallbackTask.titleOverridden && !preferredTask.titleOverridden) {
     return fallbackTask.title;
   }

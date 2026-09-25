@@ -129,7 +129,9 @@ export async function prepareModelTelemetryEnv(
   const existingInstallationId = normalizeTelemetryDeviceMid(env.KNORVIA_TELEMETRY_DEVICE_MID);
   const installationId =
     existingInstallationId ?? (await resolveStandaloneDeviceMid(env.KNORVIA_HOME?.trim()));
-  const preparedEnv = installationId ? { ...env, KNORVIA_TELEMETRY_DEVICE_MID: installationId } : env;
+  const preparedEnv = installationId
+    ? { ...env, KNORVIA_TELEMETRY_DEVICE_MID: installationId }
+    : env;
 
   if (!preparingOwner && !preparedOwner) {
     preparingOwner = createPreparedOwner(preparedEnv, options);

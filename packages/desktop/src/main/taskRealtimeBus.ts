@@ -19,11 +19,18 @@ import { logger as defaultLogger } from "./logger.js";
 
 // Main 只校验并转发线协议；透传的业务载荷不能假定已通过 Host 的业务类型校验。
 type ParsedHostResponse = ReturnType<typeof hostResponseMessageSchema.parse>;
-type TaskRealtimeEvent = Extract<ParsedHostResponse, { type: typeof HostResponseTypes.TaskRealtimePublish }>["event"];
-type TaskStreamMirrorPublishOp = Extract<ParsedHostResponse, { type: typeof HostResponseTypes.TaskStreamOpPublish }>["op"];
+type TaskRealtimeEvent = Extract<
+  ParsedHostResponse,
+  { type: typeof HostResponseTypes.TaskRealtimePublish }
+>["event"];
+type TaskStreamMirrorPublishOp = Extract<
+  ParsedHostResponse,
+  { type: typeof HostResponseTypes.TaskStreamOpPublish }
+>["op"];
 type TaskStreamMirrorBatchEvent = Extract<TaskRealtimeEvent, { type: "task_stream_mirror_batch" }>;
 type TaskStreamMirrorOp = TaskStreamMirrorBatchEvent["ops"][number];
-type TaskRealtimeDeliveredEvent = TaskRealtimeEvent & Pick<BusinessDeliveredEvent, "originHostId" | "deliveryPurpose">;
+type TaskRealtimeDeliveredEvent = TaskRealtimeEvent &
+  Pick<BusinessDeliveredEvent, "originHostId" | "deliveryPurpose">;
 
 const STREAM_MIRROR_FLUSH_INTERVAL_MS = 1000;
 const STREAM_MIRROR_MAX_REPLAY_BATCHES = 60;
@@ -595,7 +602,11 @@ export class TaskRealtimeBus {
     const coalesced: TaskStreamMirrorPublishOp[] = [];
     for (const op of ops) {
       const previous = coalesced[coalesced.length - 1];
-      if (op.kind === "stream_event" && typeof op.event.content === "string" && this.canMergeTextChunk(previous, op)) {
+      if (
+        op.kind === "stream_event" &&
+        typeof op.event.content === "string" &&
+        this.canMergeTextChunk(previous, op)
+      ) {
         coalesced[coalesced.length - 1] = {
           kind: "stream_event",
           event: {

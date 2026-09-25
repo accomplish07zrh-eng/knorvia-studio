@@ -1,4 +1,8 @@
-import type { McpServerStatus, KnorviaMcpServer, KnorviaMcpServerStatusSnapshot } from "@knorvia/shared";
+import type {
+  McpServerStatus,
+  KnorviaMcpServer,
+  KnorviaMcpServerStatusSnapshot,
+} from "@knorvia/shared";
 
 type MappedMcpServerStatus = {
   authorization?: KnorviaMcpServerStatusSnapshot["authorization"];

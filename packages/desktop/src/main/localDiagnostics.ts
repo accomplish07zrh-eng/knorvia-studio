@@ -40,8 +40,11 @@ const previews = new Map<string, FrozenPreview>();
 
 function isOwnedStageDirectory(root: string, directory: string): boolean {
   const rel = relative(resolve(root), resolve(directory));
-  return !rel.includes(sep) && /^diagnostic-[a-zA-Z0-9-]+$/.test(rel) &&
-    dirname(resolve(directory)) === resolve(root);
+  return (
+    !rel.includes(sep) &&
+    /^diagnostic-[a-zA-Z0-9-]+$/.test(rel) &&
+    dirname(resolve(directory)) === resolve(root)
+  );
 }
 
 async function removeOwnedStage(root: string, directory: string): Promise<void> {
@@ -61,7 +64,9 @@ function systemSummary(): string {
     `Chromium: ${about.chromiumVersion}`,
     `Node.js: ${about.nodeVersion}`,
     "",
-  ].map(redactDiagnosticText).join("\n");
+  ]
+    .map(redactDiagnosticText)
+    .join("\n");
 }
 
 function safeKernelProjection(input: LocalDiagnosticRequest): LocalDiagnosticRequest {
@@ -102,14 +107,19 @@ async function moveLogsToAnonymousNames(directory: string, source: string): Prom
   for (const path of files) {
     const kind = path.startsWith(".knorvia-studio/cli/log/")
       ? "cli"
-      : path.startsWith(".knorvia-studio/computer-use/run/") ? "helper" : "app";
+      : path.startsWith(".knorvia-studio/computer-use/run/")
+        ? "helper"
+        : "app";
     const number = String(++counters[kind]).padStart(4, "0");
     await rename(join(source, ...path.split("/")), join(target, `${kind}-${number}.log`));
   }
   await rm(source, { recursive: true, force: true });
 }
 
-async function describeSnapshotFile(directory: string, archivePath: string): Promise<LocalDiagnosticPreviewFile> {
+async function describeSnapshotFile(
+  directory: string,
+  archivePath: string,
+): Promise<LocalDiagnosticPreviewFile> {
   const full = join(directory, ...archivePath.split("/"));
   const bytes = (await stat(full)).size;
   const hash = createHash("sha256");
@@ -148,7 +158,11 @@ export async function previewLocalDiagnostics(
     // The older log-export about file contains a hostname, so it is never
     // moved into this user-facing package.
     await writeFile(join(directory, "system.txt"), systemSummary(), "utf8");
-    await writeFile(join(directory, "kernels.json"), JSON.stringify(safeKernelProjection(input), null, 2) + "\n", "utf8");
+    await writeFile(
+      join(directory, "kernels.json"),
+      JSON.stringify(safeKernelProjection(input), null, 2) + "\n",
+      "utf8",
+    );
     const paths = await listSnapshotFiles(directory);
     const files = await Promise.all(paths.map((path) => describeSnapshotFile(directory, path)));
     if (files.reduce((sum, file) => sum + file.bytes, 0) > MAX_TOTAL_BYTES) {
@@ -156,7 +170,9 @@ export async function previewLocalDiagnostics(
     }
     const id = randomUUID();
     const preview = { id, createdAt: now().toISOString(), files };
-    const timer = setTimeout(() => { void discardLocalDiagnosticPreview(id); }, PREVIEW_TTL_MS);
+    const timer = setTimeout(() => {
+      void discardLocalDiagnosticPreview(id);
+    }, PREVIEW_TTL_MS);
     timer.unref?.();
     previews.set(id, { root, directory, preview, timer });
     return preview;
@@ -174,10 +190,16 @@ export async function discardLocalDiagnosticPreview(id: string): Promise<void> {
   await removeOwnedStage(frozen.root, frozen.directory);
 }
 
-async function writeSnapshotZip(directory: string, files: LocalDiagnosticPreviewFile[], output: string): Promise<void> {
+async function writeSnapshotZip(
+  directory: string,
+  files: LocalDiagnosticPreviewFile[],
+  output: string,
+): Promise<void> {
   const zip = new ZipFile();
   const stream = createWriteStream(output);
-  zip.once("error", (error) => stream.destroy(error instanceof Error ? error : new Error(String(error))));
+  zip.once("error", (error) =>
+    stream.destroy(error instanceof Error ? error : new Error(String(error))),
+  );
   for (const file of files) zip.addFile(join(directory, ...file.path.split("/")), file.path);
   const writing = pipeline(zip.outputStream, stream);
   zip.end();
@@ -203,10 +225,12 @@ export async function exportLocalDiagnostics(
     const path = join(outputDir, "knorvia-diagnostics.zip");
     try {
       await writeSnapshotZip(frozen.directory, frozen.preview.files, path);
-      const show = dependencies.showItemInFolder ?? (async (file: string) => {
-        const { shell } = await import("electron");
-        shell.showItemInFolder(file);
-      });
+      const show =
+        dependencies.showItemInFolder ??
+        (async (file: string) => {
+          const { shell } = await import("electron");
+          shell.showItemInFolder(file);
+        });
       await show(path);
       await discardLocalDiagnosticPreview(id);
       return { success: true, path };

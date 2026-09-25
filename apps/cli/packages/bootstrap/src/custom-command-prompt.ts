@@ -6,7 +6,10 @@ import {
   type SessionId,
   type TraceContext,
 } from "@knorvia/contracts";
-import { loadKnorviaCustomCommand, type ListKnorviaCustomCommandsOptions } from "./custom-commands.js";
+import {
+  loadKnorviaCustomCommand,
+  type ListKnorviaCustomCommandsOptions,
+} from "./custom-commands.js";
 import { expandCustomCommandShellSyntax } from "./custom-command-shell-expansion.js";
 import { isReservedKnorviaSlashCommandName } from "./slash-command-surface.js";
 

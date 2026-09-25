@@ -23,7 +23,12 @@ test("CLI JSONL logger does not persist a credential from message, context or er
     const names = await readdir(root);
     assert.equal(names.length, 1);
     const persisted = await readFile(join(root, names[0]!), "utf8");
-    for (const marker of ["fake-secret-value", "sk-abcdefghijklmnopqrstuvwxyz", "opaque-token-value", "ghp_abcdef"]) {
+    for (const marker of [
+      "fake-secret-value",
+      "sk-abcdefghijklmnopqrstuvwxyz",
+      "opaque-token-value",
+      "ghp_abcdef",
+    ]) {
       assert.equal(persisted.includes(marker), false);
     }
     assert.match(persisted, /request failed/);

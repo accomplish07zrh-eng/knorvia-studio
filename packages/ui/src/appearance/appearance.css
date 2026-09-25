@@ -59,7 +59,8 @@
   --color-menu: var(--color-card);
   --color-terminal-bg: var(--knorvia-reading-base);
 }
-.knorvia-materials [data-workspace-conversation-frame]
+.knorvia-materials
+  [data-workspace-conversation-frame]
   :is(main, [data-testid="studio-external-chat"]) {
   /* 外部内核使用 section，过去只处理 main 会留下不透明大块；阅读底色统一归外层 frame。 */
   background-color: transparent;

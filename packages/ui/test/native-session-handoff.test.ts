@@ -12,29 +12,49 @@ import {
 
 const secret = "sk-abcdefghijklmnopqrstuvwxyz123456";
 const base = (rowId: number) => ({
-  rowId, turnId: "turn", createdAt: rowId * 1000, createdAtSeq: rowId,
+  rowId,
+  turnId: "turn",
+  createdAt: rowId * 1000,
+  createdAtSeq: rowId,
 });
 const user = (rowId: number): ConversationRow => ({
-  ...base(rowId), kind: "userInput", origin: "realUser", text: `Check ${secret}\n[hidden epilogue]`,
+  ...base(rowId),
+  kind: "userInput",
+  origin: "realUser",
+  text: `Check ${secret}\n[hidden epilogue]`,
   epilogueStart: `Check ${secret}`.length,
 });
 const tool = (rowId: number): ConversationRow => ({
-  ...base(rowId), kind: "toolCall", toolCallId: "tool", toolName: "read_file",
-  status: "success", inputText: `private input ${secret}`,
+  ...base(rowId),
+  kind: "toolCall",
+  toolCallId: "tool",
+  toolName: "read_file",
+  status: "success",
+  inputText: `private input ${secret}`,
   output: { kind: "text", text: `private output ${secret}` } as never,
 });
 const assistant = (rowId: number): ConversationRow => ({
-  ...base(rowId), kind: "assistantText", state: "complete", text: "Done",
+  ...base(rowId),
+  kind: "assistantText",
+  state: "complete",
+  text: "Done",
 });
 const snapshot = { logEpoch: "epoch", rows: { window: [assistant(4)] } };
-function result(rows: ConversationRow[], hasMore: boolean, atRevision = 2): V4ConversationRowsRangeResult {
+function result(
+  rows: ConversationRow[],
+  hasMore: boolean,
+  atRevision = 2,
+): V4ConversationRowsRangeResult {
   return { rows, hasMore, atSeq: 4, atRevision, atLogEpoch: "epoch" };
 }
 
 test("native source keeps real user text and visible tool metadata only", () => {
   const hidden = { ...user(2), origin: "synthetic" as const };
   const messages = nativeVisibleMessages([user(1), hidden, tool(3), assistant(4)], "session");
-  assert.deepEqual(messages.map((item) => item.kind), ["text", "tool", "text"]);
+  assert.deepEqual(
+    messages.map((item) => item.kind),
+    ["text", "tool", "text"],
+  );
   assert.equal(messages[0]?.text.includes("hidden epilogue"), false);
   assert.equal(messages[1]?.text, "");
   assert.equal(messages[1]?.name, "read_file");
@@ -61,7 +81,13 @@ test("native Markdown export reads the full branch and omits hidden payloads and
 test("native export rejects changing history and stalled pages", async () => {
   const changing = async (params: V4ConversationRowsRangeParams) =>
     params.beforeRowId === 5 ? result([assistant(4)], true) : result([user(1)], false, 3);
-  await assert.rejects(exportNativeConversationMarkdown(changing, "session", snapshot, "Review"), /发生变化/);
+  await assert.rejects(
+    exportNativeConversationMarkdown(changing, "session", snapshot, "Review"),
+    /发生变化/,
+  );
   const stalled = async () => result([], true);
-  await assert.rejects(exportNativeConversationMarkdown(stalled, "session", snapshot, "Review"), /分页/);
+  await assert.rejects(
+    exportNativeConversationMarkdown(stalled, "session", snapshot, "Review"),
+    /分页/,
+  );
 });

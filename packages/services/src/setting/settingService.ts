@@ -139,7 +139,9 @@ async function readSettingsWithMeta(): Promise<ReadSettingsResult> {
     // A pre-existing settings file without the new flag belongs to an existing
     // installation. Only a genuinely missing file gets the fresh-profile default.
     const parsedInput =
-      rawValue && typeof rawValue === "object" && !Array.isArray(rawValue) &&
+      rawValue &&
+      typeof rawValue === "object" &&
+      !Array.isArray(rawValue) &&
       !("studioFirstRunGuideStatus" in rawValue)
         ? { ...rawValue, studioFirstRunGuideStatus: "legacy" }
         : rawValue;

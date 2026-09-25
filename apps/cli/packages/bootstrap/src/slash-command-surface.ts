@@ -1,4 +1,7 @@
-import { BUILTIN_KNORVIA_SLASH_COMMAND_HELP_ENTRIES, type KnorviaSlashCommand } from "@knorvia/shared";
+import {
+  BUILTIN_KNORVIA_SLASH_COMMAND_HELP_ENTRIES,
+  type KnorviaSlashCommand,
+} from "@knorvia/shared";
 
 export const APP_PROTOCOL_VISIBLE_BUILTIN_SLASH_COMMAND_NAMES = [
   "goal",

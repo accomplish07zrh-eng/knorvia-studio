@@ -146,4 +146,4 @@ graph coordinates only. Nothing resolves a cached result by position: an ask's
 cache identity is (actor name, per-actor ask sequence) checked against the
 recorded `inputHash`, and a world node's is `{op, args}` content plus occurrence
 index. Structural AST-path hashes would only be needed if world nodes ever
-required a *positional* identity of their own.
+required a _positional_ identity of their own.

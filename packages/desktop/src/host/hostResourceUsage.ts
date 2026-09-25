@@ -12,7 +12,9 @@ import {
 } from "@knorvia/shared";
 
 interface CreateHostResourceUsageResponderOptions {
-  getAgentService: () => Pick<IKnorviaAgentService, "collectLocalRuntimeChildProcesses"> | undefined;
+  getAgentService: () =>
+    | Pick<IKnorviaAgentService, "collectLocalRuntimeChildProcesses">
+    | undefined;
   postMessage: (message: HostResourceUsageSnapshotResultResponse) => void;
   hostPid?: number;
   sampler?: ProcessResourceSampler;

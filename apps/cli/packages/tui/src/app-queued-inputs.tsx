@@ -81,11 +81,7 @@ export function upsertQueuedInput(
   };
   if (existing.id === nextInput.id && existing.text === nextInput.text) return current;
 
-  return [
-    ...current.slice(0, existingIndex),
-    nextInput,
-    ...current.slice(existingIndex + 1),
-  ];
+  return [...current.slice(0, existingIndex), nextInput, ...current.slice(existingIndex + 1)];
 }
 
 export function removeQueuedInputs(current: QueuedInput[], ids: readonly string[]): QueuedInput[] {

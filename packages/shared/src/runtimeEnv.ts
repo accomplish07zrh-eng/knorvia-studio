@@ -109,7 +109,9 @@ const NON_TOOL_PASSTHROUGH_RUNTIME_ENV_KEYS = [
 const SANITIZED_PACKAGE_MANAGER_ENV_PATTERN =
   /^(npm_config|yarn|pnpm)_(http_proxy|https_proxy|proxy|all_proxy|no_proxy|cafile|ca)$/i;
 
-export function normalizeKnorviaRuntimeEnv(value: string | undefined): KnorviaRuntimeEnv | undefined {
+export function normalizeKnorviaRuntimeEnv(
+  value: string | undefined,
+): KnorviaRuntimeEnv | undefined {
   const normalized = value?.trim().toLowerCase();
   if (normalized === "development" || normalized === "production" || normalized === "test") {
     return normalized;

@@ -29,9 +29,15 @@ export class StudioScheduleOutcomeObserver {
 
   constructor(
     private readonly service: Pick<IStudioRuntimeService, "timeline" | "onDidChange">,
-    private readonly repo: Pick<AutomationRepo,
-      "ensureRunClaimed" | "markRunOutcome" | "touchManualClaim" |
-      "releaseManualClaim" | "markRunDispatch" | "listUnsettledStudioWorkflowRuns">,
+    private readonly repo: Pick<
+      AutomationRepo,
+      | "ensureRunClaimed"
+      | "markRunOutcome"
+      | "touchManualClaim"
+      | "releaseManualClaim"
+      | "markRunDispatch"
+      | "listUnsettledStudioWorkflowRuns"
+    >,
     private readonly log: (message: string, error: unknown) => void,
   ) {
     this.timer = setInterval(() => void this.recover(), 30_000);
@@ -41,8 +47,7 @@ export class StudioScheduleOutcomeObserver {
   async recover() {
     if (this.disposed) return;
     try {
-      for (const item of await this.repo.listUnsettledStudioWorkflowRuns())
-        this.observe(item);
+      for (const item of await this.repo.listUnsettledStudioWorkflowRuns()) this.observe(item);
     } catch (error) {
       this.log("Studio 工作流计划结果恢复失败", error);
     }
@@ -90,17 +95,21 @@ export class StudioScheduleOutcomeObserver {
       }
     };
     const subscription = this.service.onDidChange(() => void check());
-    const heartbeat = item.trigger === "manual"
-      ? startManualClaimHeartbeat({
-          automationId: item.automationId,
-          runId: automationRunId,
-          workspaceKey: item.workspaceKey,
-          repo: this.repo,
-          logWarn: this.log,
-        })
-      : null;
+    const heartbeat =
+      item.trigger === "manual"
+        ? startManualClaimHeartbeat({
+            automationId: item.automationId,
+            runId: automationRunId,
+            workspaceKey: item.workspaceKey,
+            repo: this.repo,
+            logWarn: this.log,
+          })
+        : null;
     this.subscriptions.set(automationRunId, {
-      dispose() { subscription.dispose(); heartbeat?.dispose(); },
+      dispose() {
+        subscription.dispose();
+        heartbeat?.dispose();
+      },
     });
     void check();
   }

@@ -35,22 +35,31 @@ export interface CreationModel {
 }
 
 /** Template placeholders are the explicit capability contract for reference uploads. */
-export function creationReferenceSlots(model: Pick<CreationModel, "kind" | "protocol" | "workflowJson" | "apiMapping">) {
-  const template = model.protocol === "comfyui"
-    ? model.workflowJson ?? ""
-    : model.protocol === "json-api"
-      ? model.apiMapping?.requestTemplate ?? ""
-      : "";
+export function creationReferenceSlots(
+  model: Pick<CreationModel, "kind" | "protocol" | "workflowJson" | "apiMapping">,
+) {
+  const template =
+    model.protocol === "comfyui"
+      ? (model.workflowJson ?? "")
+      : model.protocol === "json-api"
+        ? (model.apiMapping?.requestTemplate ?? "")
+        : "";
   return {
-    image: model.kind === "image" && (model.protocol === "openai-images" ||
-      (model.protocol === "comfyui" && template.includes("{{image}}")) ||
-      (model.protocol === "json-api" && /\{\{image(?:Base64|DataUrl)\}\}/u.test(template))),
-    firstFrame: model.kind === "video" && (model.protocol === "comfyui"
-      ? template.includes("{{firstFrame}}")
-      : model.protocol === "json-api" && /\{\{firstFrame(?:Base64|DataUrl)\}\}/u.test(template)),
-    lastFrame: model.kind === "video" && (model.protocol === "comfyui"
-      ? template.includes("{{lastFrame}}")
-      : model.protocol === "json-api" && /\{\{lastFrame(?:Base64|DataUrl)\}\}/u.test(template)),
+    image:
+      model.kind === "image" &&
+      (model.protocol === "openai-images" ||
+        (model.protocol === "comfyui" && template.includes("{{image}}")) ||
+        (model.protocol === "json-api" && /\{\{image(?:Base64|DataUrl)\}\}/u.test(template))),
+    firstFrame:
+      model.kind === "video" &&
+      (model.protocol === "comfyui"
+        ? template.includes("{{firstFrame}}")
+        : model.protocol === "json-api" && /\{\{firstFrame(?:Base64|DataUrl)\}\}/u.test(template)),
+    lastFrame:
+      model.kind === "video" &&
+      (model.protocol === "comfyui"
+        ? template.includes("{{lastFrame}}")
+        : model.protocol === "json-api" && /\{\{lastFrame(?:Base64|DataUrl)\}\}/u.test(template)),
   };
 }
 

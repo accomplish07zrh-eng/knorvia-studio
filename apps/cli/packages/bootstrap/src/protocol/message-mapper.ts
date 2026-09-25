@@ -1,4 +1,8 @@
-import type { KnorviaMessagePart, KnorviaMessageWithParts, KnorviaToolState } from "@knorvia/shared";
+import type {
+  KnorviaMessagePart,
+  KnorviaMessageWithParts,
+  KnorviaToolState,
+} from "@knorvia/shared";
 import type { MessagePart, MessageWithParts, ToolState } from "@knorvia/contracts";
 import { shouldHideInvalidToolCallFromProduct } from "../tool-call-product-visibility.js";
 

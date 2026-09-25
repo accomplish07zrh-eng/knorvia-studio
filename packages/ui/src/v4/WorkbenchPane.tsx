@@ -265,7 +265,10 @@ export interface WorkbenchShellBinding {
   provider?: KnorviaProvider;
   onSessionCreated?: (sessionId: string) => void;
   onSessionDeleted?: () => void;
-  onHandoffComplete?: (kernel: import("@knorvia/services").StudioKernelId, sessionId: string) => void;
+  onHandoffComplete?: (
+    kernel: import("@knorvia/services").StudioKernelId,
+    sessionId: string,
+  ) => void;
   draftComposerHeader?: ReactNode;
   onPrimaryDraftDropTargetControllerChange?: (
     controller: ConversationDropTargetController | null,

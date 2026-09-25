@@ -27,7 +27,9 @@ try {
   await guide.waitFor();
   await guide.getByTestId("studio-first-run-later").click();
   await guide.waitFor({ state: "hidden" });
-  const settings = JSON.parse(await readFile(join(root, "data", ".knorvia-studio", "v2", "setting.json"), "utf8"));
+  const settings = JSON.parse(
+    await readFile(join(root, "data", ".knorvia-studio", "v2", "setting.json"), "utf8"),
+  );
   assert.equal(settings.studioFirstRunGuideStatus, "deferred");
   console.log("PASS extracted portable starts and saves settings beside its executable");
 } finally {

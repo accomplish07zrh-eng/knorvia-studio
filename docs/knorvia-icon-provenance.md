@@ -31,7 +31,6 @@ Do not redesign, move, stretch, crop, resize or change any part of the foregroun
 Genuine alpha transparency, zero-opacity pixels outside the clean subject. No black background, no white background, no checkerboard, no border, no drop shadow. The result is one transparent PNG of the same composition, with professionally clean cutout edges.
 ```
 
-
 ## Extraction prompt
 
 Use case: background-extraction. Edit target is Image 1, the original Knorvia K-and-small-robot app icon. Image 2 is ONLY an annotated selection guide, not the artwork source: its red outline loosely indicates the desired subject. Remove the entire dark/black photographic background to ACTUAL alpha transparency, including between the detached three cyan/white/purple light strokes and the robot. Preserve the complete white rounded K sculpture/tile, black robot with its antenna and hands, the three detached light strokes, original geometry, framing, colors, lighting and surface texture as faithfully as possible. The robot is black and MUST remain; do not remove its black body as background. Use tight clean antialiased silhouette edges of the artwork (not the loose red outline). Keep the subject uncut, full height, with small transparent safety margin. Output square PNG with genuine transparent alpha. No black rectangle, no backdrop, no added border, no outlines, no red annotation, no checkerboard baked into the pixels, no new shadows outside the subject, no text, no redesign.

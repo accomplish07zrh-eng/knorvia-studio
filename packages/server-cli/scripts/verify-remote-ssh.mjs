@@ -182,7 +182,9 @@ async function main() {
   );
 
   log("start daemon on remote");
-  const { stdout: daemonOutput } = await ssh("/root/knorvia-server/bin/knorvia serve --daemon --json");
+  const { stdout: daemonOutput } = await ssh(
+    "/root/knorvia-server/bin/knorvia serve --daemon --json",
+  );
   const daemonStatus = JSON.parse(daemonOutput.trim().split("\n").pop());
   assert(daemonStatus.state === "ready", `daemon ready, got: ${daemonOutput}`);
   assert(

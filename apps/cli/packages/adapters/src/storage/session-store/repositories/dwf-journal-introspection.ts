@@ -9,7 +9,12 @@
  */
 
 import type { DatabaseSync } from "node:sqlite";
-import type { NodeRecord, NodeRecordStatus, RunStatus, StoredEvent } from "@knorvia/dynamic-workflow";
+import type {
+  NodeRecord,
+  NodeRecordStatus,
+  RunStatus,
+  StoredEvent,
+} from "@knorvia/dynamic-workflow";
 import type { DwfArtifactItem, DwfArtifactItemsQuery } from "./dwf-journal-artifacts.js";
 import {
   decodeEvent,

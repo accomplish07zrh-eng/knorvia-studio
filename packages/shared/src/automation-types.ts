@@ -58,7 +58,12 @@ export type KnorviaAutomationRunDispatchStatus =
   | "skipped";
 
 /** 单次 run 产出 session 后的运行结果（由 session runtime 回写，仅用于展示）。 */
-export type KnorviaAutomationRunOutcome = "running" | "succeeded" | "failed" | "stopped" | "interrupted";
+export type KnorviaAutomationRunOutcome =
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "stopped"
+  | "interrupted";
 
 /** 一条定时任务定义 + 调度状态。 */
 export interface KnorviaAutomation {

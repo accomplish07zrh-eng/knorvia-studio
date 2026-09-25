@@ -5,10 +5,16 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 let crashReporterStarts = 0;
-mock.module("electron", { namedExports: {
-  app: { name: "Knorvia Studio", getName: () => "Knorvia Studio", setPath() {} },
-  crashReporter: { start() { crashReporterStarts++; } },
-} });
+mock.module("electron", {
+  namedExports: {
+    app: { name: "Knorvia Studio", getName: () => "Knorvia Studio", setPath() {} },
+    crashReporter: {
+      start() {
+        crashReporterStarts++;
+      },
+    },
+  },
+});
 
 function annotation(key: string, value: string): Buffer {
   const keyBytes = Buffer.from(key);
@@ -37,17 +43,30 @@ test("archived crash metadata hides credentials found in native annotations", as
     const { archiveCrashDumps } = await import("../src/main/desktopCrashCapture.js");
     const reports = join(paths.stagingDir, "reports");
     await mkdir(reports, { recursive: true });
-    await writeFile(join(reports, "test.dmp"), Buffer.concat([
-      annotation("v8-oom-location", "OOM"),
-      annotation("v8-oom-stack", `apiKey=${marker}`),
-      annotation("v8-oom-last-few-messages", `Authorization: Bearer ${token}\nsshPassword=${sshPassword}\n-----BEGIN OPENSSH PRIVATE KEY-----\n${privateBody}\n-----END OPENSSH PRIVATE KEY-----`),
-    ]));
-    const result = archiveCrashDumps(paths, { platform: "win32", now: new Date(Date.now() + 2_000) });
+    await writeFile(
+      join(reports, "test.dmp"),
+      Buffer.concat([
+        annotation("v8-oom-location", "OOM"),
+        annotation("v8-oom-stack", `apiKey=${marker}`),
+        annotation(
+          "v8-oom-last-few-messages",
+          `Authorization: Bearer ${token}\nsshPassword=${sshPassword}\n-----BEGIN OPENSSH PRIVATE KEY-----\n${privateBody}\n-----END OPENSSH PRIVATE KEY-----`,
+        ),
+      ]),
+    );
+    const result = archiveCrashDumps(paths, {
+      platform: "win32",
+      now: new Date(Date.now() + 2_000),
+    });
     assert.equal(result.archivedDumps.length, 1);
     const metadata = await readFile(join(paths.archiveDir, "test.dmp.json"), "utf8");
     for (const secret of [marker, sshPassword, token, privateBody]) {
       assert.equal(metadata.includes(secret), false, secret);
-      assert.equal(JSON.stringify(result.archivedDumps[0]?.v8OomSummary).includes(secret), false, secret);
+      assert.equal(
+        JSON.stringify(result.archivedDumps[0]?.v8OomSummary).includes(secret),
+        false,
+        secret,
+      );
     }
     assert.match(metadata, /v8OomSummary/);
   } finally {
@@ -63,11 +82,14 @@ test("default desktop startup does not enable raw memory dump capture", async ()
     const { initializeCrashCapture } = await import("../src/main/desktopCrashCapture.js");
     const before = crashReporterStarts;
     const messages: string[] = [];
-    initializeCrashCapture({
-      info: (...args) => messages.push(args.join(" ")),
-      warn() {},
-      error() {},
-    }, false);
+    initializeCrashCapture(
+      {
+        info: (...args) => messages.push(args.join(" ")),
+        warn() {},
+        error() {},
+      },
+      false,
+    );
     assert.equal(crashReporterStarts, before);
     assert.ok(messages.some((message) => message.includes("raw local dumps disabled")));
   } finally {

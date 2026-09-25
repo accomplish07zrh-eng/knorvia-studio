@@ -6,7 +6,11 @@ import type {
   KnorviaInstalledPluginData,
   KnorviaMarketplaceSummaryData,
 } from "@knorvia/bootstrap";
-import type { PluginDiagnostic, PluginListItem, PluginListOutcome } from "./plugins-command-shared.js";
+import type {
+  PluginDiagnostic,
+  PluginListItem,
+  PluginListOutcome,
+} from "./plugins-command-shared.js";
 
 export function writeWarnings(ctx: RunContext, diagnostics: readonly PluginDiagnostic[]): void {
   const warnings = diagnostics.filter((diagnostic) => diagnostic.severity !== "error");
@@ -100,10 +104,7 @@ export const formatPluginSetJson = (result: SetKnorviaPluginEnabledResult): stri
   });
 
 /** 已加载插件的 JSON 形态；诊断按 pluginId 归到各自条目上，顶层不再有 cwd/diagnostics 包装。 */
-export function formatPluginJson(
-  plugin: PluginListItem,
-  diagnostics: readonly PluginDiagnostic[],
-) {
+export function formatPluginJson(plugin: PluginListItem, diagnostics: readonly PluginDiagnostic[]) {
   return {
     commandRootCount: plugin.commandRootCount,
     dataPath: plugin.dataPath,

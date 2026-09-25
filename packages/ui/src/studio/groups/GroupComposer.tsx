@@ -138,7 +138,10 @@ export function GroupComposer({
           {group.workspacePath?.split(/[\\/]/).filter(Boolean).at(-1) || t("selectProject")}
         </span>
       </Button>
-      <div data-knorvia-composer="" className="rounded-2xl border border-input-border bg-input shadow-sm">
+      <div
+        data-knorvia-composer=""
+        className="rounded-2xl border border-input-border bg-input shadow-sm"
+      >
         <Textarea
           ref={input}
           aria-label={t("composerLabel")}

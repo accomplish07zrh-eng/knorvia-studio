@@ -124,7 +124,12 @@ export async function resolveExecutable(
       candidates.push(join(process.env.LOCALAPPDATA, "qwen-code", "bin", "qwen.exe"));
     if (kernel === "antigravity" && process.env.LOCALAPPDATA)
       candidates.push(
-        join(process.env.LOCALAPPDATA, "agy", "bin", process.platform === "win32" ? "agy.exe" : "agy"),
+        join(
+          process.env.LOCALAPPDATA,
+          "agy",
+          "bin",
+          process.platform === "win32" ? "agy.exe" : "agy",
+        ),
       );
   }
   for (const candidate of new Set(candidates)) {

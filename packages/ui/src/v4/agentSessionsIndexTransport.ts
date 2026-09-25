@@ -77,7 +77,10 @@ export function createAgentSessionsIndexTransport(
       return Promise.reject(new Error("fault.connection.handshakeUnavailable"));
     }
     return ensureAgentV4ConnectionHandshake(
-      agentService as Pick<IKnorviaAgentService, "helloConversationV4" | "initializeConversationV4">,
+      agentService as Pick<
+        IKnorviaAgentService,
+        "helloConversationV4" | "initializeConversationV4"
+      >,
     );
   };
   const topic = sessionsIndexTopic(target.workspaceIdentity?.trim() || target.workspacePath);

@@ -307,8 +307,12 @@ async function jsonApi(
   const mapping = input.model.apiMapping;
   if (!mapping) throw new Error("API 映射未配置");
   const base64 = input.reference ? Buffer.from(input.reference.bytes).toString("base64") : "";
-  const firstFrameBase64 = input.firstFrame ? Buffer.from(input.firstFrame.bytes).toString("base64") : "";
-  const lastFrameBase64 = input.lastFrame ? Buffer.from(input.lastFrame.bytes).toString("base64") : "";
+  const firstFrameBase64 = input.firstFrame
+    ? Buffer.from(input.firstFrame.bytes).toString("base64")
+    : "";
+  const lastFrameBase64 = input.lastFrame
+    ? Buffer.from(input.lastFrame.bytes).toString("base64")
+    : "";
   const requestBody = substituteWorkflow(JSON.parse(mapping.requestTemplate), {
     prompt: input.prompt,
     model: input.model.model,
@@ -316,8 +320,12 @@ async function jsonApi(
     imageDataUrl: input.reference ? `data:${input.reference.mimeType};base64,${base64}` : "",
     firstFrameBase64,
     lastFrameBase64,
-    firstFrameDataUrl: input.firstFrame ? `data:${input.firstFrame.mimeType};base64,${firstFrameBase64}` : "",
-    lastFrameDataUrl: input.lastFrame ? `data:${input.lastFrame.mimeType};base64,${lastFrameBase64}` : "",
+    firstFrameDataUrl: input.firstFrame
+      ? `data:${input.firstFrame.mimeType};base64,${firstFrameBase64}`
+      : "",
+    lastFrameDataUrl: input.lastFrame
+      ? `data:${input.lastFrame.mimeType};base64,${lastFrameBase64}`
+      : "",
   });
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (input.apiKey) headers.Authorization = `Bearer ${input.apiKey}`;
@@ -370,6 +378,16 @@ export async function runCreationProvider(
   const fetchImpl = options.fetchImpl ?? fetch;
   if (input.model.protocol === "openai-images") return openAiImage(input, fetchImpl);
   if (input.model.protocol === "comfyui")
-    return comfyUi(input, fetchImpl, options.pollIntervalMs ?? 1500, options.deadlineMs ?? 15 * 60 * 1000);
-  return jsonApi(input, fetchImpl, options.pollIntervalMs ?? 1500, options.deadlineMs ?? 15 * 60 * 1000);
+    return comfyUi(
+      input,
+      fetchImpl,
+      options.pollIntervalMs ?? 1500,
+      options.deadlineMs ?? 15 * 60 * 1000,
+    );
+  return jsonApi(
+    input,
+    fetchImpl,
+    options.pollIntervalMs ?? 1500,
+    options.deadlineMs ?? 15 * 60 * 1000,
+  );
 }

@@ -101,7 +101,10 @@ export function createOwnedAgentTelemetryRuntime(
     contextManager.disable();
   }
 
-  const tracer = provider.getTracer("@knorvia/cli-agent-telemetry", String(TELEMETRY_SCHEMA_VERSION));
+  const tracer = provider.getTracer(
+    "@knorvia/cli-agent-telemetry",
+    String(TELEMETRY_SCHEMA_VERSION),
+  );
   const meter = meterProvider.getMeter(
     "@knorvia/cli-agent-telemetry",
     String(TELEMETRY_SCHEMA_VERSION),

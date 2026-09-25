@@ -52,9 +52,11 @@ export function nativeLauncherMatches(
   if (basename(actual).toLowerCase() === expectedName) return true;
   return Boolean(
     native.versionedTarget &&
-      dirname(actual).toLowerCase() === dirname(candidate).toLowerCase() &&
-      new RegExp(`^${native.name}-\\d+\\.\\d+\\.\\d+(?:-[a-z0-9.-]+)?${extension.replace(".", "\\.")}$`, "i")
-        .test(basename(actual)),
+    dirname(actual).toLowerCase() === dirname(candidate).toLowerCase() &&
+    new RegExp(
+      `^${native.name}-\\d+\\.\\d+\\.\\d+(?:-[a-z0-9.-]+)?${extension.replace(".", "\\.")}$`,
+      "i",
+    ).test(basename(actual)),
   );
 }
 

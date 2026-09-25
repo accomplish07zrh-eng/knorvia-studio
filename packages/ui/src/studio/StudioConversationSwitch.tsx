@@ -21,11 +21,17 @@ export function StudioConversationSwitch({
         aria-label={intl.formatMessage({ id: "studio.chatMode" })}
         className="h-8 w-full gap-1 bg-transparent p-0"
       >
-        <TabsTrigger value="single" className="h-8 flex-1 gap-1.5 text-ui-sm hover:bg-surface-hover">
+        <TabsTrigger
+          value="single"
+          className="h-8 flex-1 gap-1.5 text-ui-sm hover:bg-surface-hover"
+        >
           <MessageSquare className="size-3.5" />
           {intl.formatMessage({ id: "studio.single" })}
         </TabsTrigger>
-        <TabsTrigger value="groups" className="h-8 flex-1 gap-1.5 text-ui-sm hover:bg-surface-hover">
+        <TabsTrigger
+          value="groups"
+          className="h-8 flex-1 gap-1.5 text-ui-sm hover:bg-surface-hover"
+        >
           <Users className="size-3.5" />
           {intl.formatMessage({ id: "studio.groups" })}
         </TabsTrigger>

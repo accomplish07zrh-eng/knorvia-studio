@@ -12,18 +12,27 @@ export function readFrame(socket: Socket, limit: number, signal: AbortSignal): P
       socket.off("close", closed);
       signal.removeEventListener("abort", aborted);
     };
-    const fail = (error: unknown) => { cleanup(); reject(error); };
+    const fail = (error: unknown) => {
+      cleanup();
+      reject(error);
+    };
     const closed = () => fail(new Error("Broker closed before returning a response"));
     const aborted = () => fail(signal.reason ?? new DOMException("aborted", "AbortError"));
     const data = (chunk: Buffer) => {
       bytes += chunk.length;
-      if (bytes > limit) { fail(new Error(`Broker frame exceeded ${limit} bytes`)); return; }
+      if (bytes > limit) {
+        fail(new Error(`Broker frame exceeded ${limit} bytes`));
+        return;
+      }
       const end = chunk.indexOf(10);
       chunks.push(end < 0 ? chunk : chunk.subarray(0, end));
       if (end < 0) return;
       cleanup();
-      try { resolve(JSON.parse(Buffer.concat(chunks).toString("utf8"))); }
-      catch (error) { reject(error); }
+      try {
+        resolve(JSON.parse(Buffer.concat(chunks).toString("utf8")));
+      } catch (error) {
+        reject(error);
+      }
       chunks = [];
     };
     socket.on("data", data).once("error", fail).once("close", closed);
@@ -41,15 +50,20 @@ export async function brokerCall(
   const id = randomUUID();
   const socket = createConnection(connection.socketPath);
   const response = readFrame(socket, 32 * 1024 * 1024, signal);
-  socket.once("connect", () => socket.write(JSON.stringify({ ...payload, token: connection.token, id }) + "\n"));
+  socket.once("connect", () =>
+    socket.write(JSON.stringify({ ...payload, token: connection.token, id }) + "\n"),
+  );
   try {
     const value = await response;
     if (!value || typeof value !== "object") throw new Error("Invalid broker response");
     const frame = value as Record<string, unknown>;
     if (frame.id !== id) throw new Error("Broker response id mismatch");
-    if (frame.ok !== true) throw new Error(typeof frame.error === "string" ? frame.error : "Broker rejected request");
+    if (frame.ok !== true)
+      throw new Error(typeof frame.error === "string" ? frame.error : "Broker rejected request");
     return frame;
-  } finally { socket.destroy(); }
+  } finally {
+    socket.destroy();
+  }
 }
 
 export function textField(record: Record<string, unknown>, key: string): string | undefined {
@@ -57,19 +71,33 @@ export function textField(record: Record<string, unknown>, key: string): string 
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
-export function callContext(meta: Record<string, unknown>, computerUse = false): Record<string, unknown> {
+export function callContext(
+  meta: Record<string, unknown>,
+  computerUse = false,
+): Record<string, unknown> {
   const sessionId = textField(meta, "session_id");
   if (!sessionId) throw new Error("Request is missing session_id metadata");
   const context: Record<string, unknown> = { sessionId, runtimeScope: "main" };
-  const fields = { turn_id: "turnId", workspace_path: "workspacePath", workspace_identity: "workspaceIdentity", remote_session_id: "remoteSessionId" };
+  const fields = {
+    turn_id: "turnId",
+    workspace_path: "workspacePath",
+    workspace_identity: "workspaceIdentity",
+    remote_session_id: "remoteSessionId",
+  };
   for (const [source, target] of Object.entries(fields)) {
     const value = textField(meta, source);
     if (value) context[target] = value;
   }
   const traceId = textField(meta, "trace_id");
-  if (traceId) context.trace = { traceId, spanId: textField(meta, "span_id"), parentSpanId: textField(meta, "parent_span_id") };
+  if (traceId)
+    context.trace = {
+      traceId,
+      spanId: textField(meta, "span_id"),
+      parentSpanId: textField(meta, "parent_span_id"),
+    };
   if (computerUse) {
-    context.workspaceKey = textField(meta, "workspace_key") ?? context.workspaceIdentity ?? context.workspacePath;
+    context.workspaceKey =
+      textField(meta, "workspace_key") ?? context.workspaceIdentity ?? context.workspacePath;
     if (!context.workspaceKey) throw new Error("Request is missing workspaceKey metadata");
     context.clientMode = textField(meta, "client_mode") ?? "desktop-continuous";
     context.deliveryKind = textField(meta, "delivery_kind") ?? context.clientMode;

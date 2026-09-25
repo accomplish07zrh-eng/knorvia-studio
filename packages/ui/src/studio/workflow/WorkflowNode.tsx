@@ -41,9 +41,9 @@ export const WorkflowNode = memo(function WorkflowNode({
       ? studioKernelOption(data.kernel, statuses).name
       : data.kind === "creation"
         ? t(data.creationModelId ? "creationReady" : "creationModelRequired")
-      : data.kind === "join"
-        ? t(data.joinPolicy === "all" ? "waitAll" : "waitAny")
-        : t(`kind.${data.kind}`);
+        : data.kind === "join"
+          ? t(data.joinPolicy === "all" ? "waitAll" : "waitAny")
+          : t(`kind.${data.kind}`);
   return (
     <div
       className={cn(

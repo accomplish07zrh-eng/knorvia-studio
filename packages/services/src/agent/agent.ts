@@ -601,7 +601,9 @@ export interface IKnorviaAgentService {
   grantWorkspaceHookTrust(
     params: KnorviaAgentGrantWorkspaceHookTrustParams,
   ): Promise<KnorviaWorkspaceHookTrustGrantResult>;
-  listMcpServerStatuses(params: KnorviaAgentListMcpServerStatusesParams): Promise<KnorviaMcpListResult>;
+  listMcpServerStatuses(
+    params: KnorviaAgentListMcpServerStatusesParams,
+  ): Promise<KnorviaMcpListResult>;
   listPlugins(params: KnorviaAgentPluginViewParams): Promise<KnorviaPluginsListResult>;
   /**
    * Plugin 对话引用 catalog：session-scoped 只读投影。
@@ -616,7 +618,9 @@ export interface IKnorviaAgentService {
   ): Promise<KnorviaSkillsReferenceCatalogResult>;
   // 已保存工作流的 GUI 中枢：workspace 级、无会话，每次调用现扫 `<cwd>/.knorvia-studio/workflows/`。
   // 全局档传 `scope: "global"`：带 workspace 就用它当载体，不带则由 services 层自选本机载体运行时。
-  listSavedWorkflows(params: KnorviaAgentListSavedWorkflowsParams): Promise<KnorviaWorkflowsListResult>;
+  listSavedWorkflows(
+    params: KnorviaAgentListSavedWorkflowsParams,
+  ): Promise<KnorviaWorkflowsListResult>;
   getSavedWorkflow(params: KnorviaAgentGetSavedWorkflowParams): Promise<KnorviaWorkflowsGetResult>;
   updateSavedWorkflowMeta(
     params: KnorviaAgentUpdateSavedWorkflowMetaParams,
@@ -629,7 +633,9 @@ export interface IKnorviaAgentService {
   ): Promise<KnorviaWorkflowsRunsResult>;
   // 在项目档 / 全局档之间移动同名文件：
   // `workspace` 是载体（移到项目传目标项目、移到全局传源项目），`to` 是落点档；不覆盖已存在的目标。
-  moveSavedWorkflow(params: KnorviaAgentMoveSavedWorkflowParams): Promise<KnorviaWorkflowsMoveResult>;
+  moveSavedWorkflow(
+    params: KnorviaAgentMoveSavedWorkflowParams,
+  ): Promise<KnorviaWorkflowsMoveResult>;
   resolveSuggestedPluginReference(
     params: KnorviaAgentResolveSuggestedPluginReferenceParams,
   ): Promise<import("@knorvia/shared").KnorviaPluginsResolveSuggestedReferenceResult>;
@@ -658,18 +664,24 @@ export interface IKnorviaAgentService {
   cancelPluginOperation(
     params: KnorviaAgentCancelPluginOperationParams,
   ): Promise<KnorviaPluginsCancelOperationResult>;
-  uninstallPlugin(params: KnorviaAgentUninstallPluginParams): Promise<KnorviaPluginsUninstallResult>;
+  uninstallPlugin(
+    params: KnorviaAgentUninstallPluginParams,
+  ): Promise<KnorviaPluginsUninstallResult>;
   updatePlugin(params: KnorviaAgentUpdatePluginParams): Promise<KnorviaPluginsInstallResult>;
   restoreBuiltinPlugin(
     params: KnorviaAgentRestoreBuiltinPluginParams,
   ): Promise<KnorviaPluginsRestoreBuiltinResult>;
-  configurePlugin(params: KnorviaAgentConfigurePluginParams): Promise<KnorviaPluginsConfigureResult>;
+  configurePlugin(
+    params: KnorviaAgentConfigurePluginParams,
+  ): Promise<KnorviaPluginsConfigureResult>;
   resetPluginConfig(
     params: KnorviaAgentResetPluginConfigParams,
   ): Promise<KnorviaPluginsConfigureResult>;
   validatePlugin(params: KnorviaAgentValidatePluginParams): Promise<KnorviaPluginsValidateResult>;
   describePlugin(params: KnorviaAgentDescribePluginParams): Promise<KnorviaPluginsDescribeResult>;
-  setPluginEnabled(params: KnorviaAgentSetPluginEnabledParams): Promise<KnorviaPluginsSetEnabledResult>;
+  setPluginEnabled(
+    params: KnorviaAgentSetPluginEnabledParams,
+  ): Promise<KnorviaPluginsSetEnabledResult>;
   // ---- 定时任务(automation)管理 ----
   listAutomations(params: KnorviaAgentWorkspaceTarget): Promise<KnorviaAutomation[]>;
   listAllAutomations(): Promise<KnorviaAutomation[]>;
@@ -678,7 +690,9 @@ export interface IKnorviaAgentService {
   deleteAutomation(params: KnorviaAgentAutomationIdParams): Promise<void>;
   setAutomationEnabled(params: KnorviaAgentSetAutomationEnabledParams): Promise<void>;
   restartAutomation(params: KnorviaAgentAutomationIdParams): Promise<void>;
-  runAutomationNow(params: KnorviaAgentAutomationIdParams): Promise<KnorviaAgentRunAutomationNowResult>;
+  runAutomationNow(
+    params: KnorviaAgentAutomationIdParams,
+  ): Promise<KnorviaAgentRunAutomationNowResult>;
   listAutomationRuns(params: KnorviaAgentAutomationIdParams): Promise<KnorviaAutomationRun[]>;
   deleteAutomationRun(params: KnorviaAgentDeleteAutomationRunParams): Promise<void>;
   generateWorkspaceText(
@@ -723,7 +737,9 @@ export interface IKnorviaAgentService {
    * 仅剩 taskServiceAdapter.onDynamicTaskEvent（replayable 读路径）消费。
    * 写路径已收敛 v4 命令面；本订阅是读路径投影源。
    */
-  onDynamicSessionEvent(params: KnorviaAgentSessionSubscribeParams): Event<KnorviaAgentServiceEvent>;
+  onDynamicSessionEvent(
+    params: KnorviaAgentSessionSubscribeParams,
+  ): Event<KnorviaAgentServiceEvent>;
   // ── v4 conversation 通道（竖切）──
   /** RPC attachment 建立后先读取 host 可信 hello。 */
   helloConversationV4(): Promise<HelloMessage>;
@@ -783,10 +799,14 @@ export interface IKnorviaAgentService {
     params: KnorviaAgentConversationFileRewindPreviewParams,
   ): Promise<V4ConversationFileRewindPreviewResult>;
   sendConversationCommandV4(params: KnorviaAgentConversationCommandParams): Promise<CommandAck>;
-  queryConversationCommandsV4(params: KnorviaAgentCommandsQueryParams): Promise<CommandsQueryResult>;
+  queryConversationCommandsV4(
+    params: KnorviaAgentCommandsQueryParams,
+  ): Promise<CommandsQueryResult>;
   attachmentBeginV4(params: KnorviaAgentAttachmentBeginParams): Promise<V4AttachmentBeginResult>;
   attachmentChunkV4(params: KnorviaAgentAttachmentChunkParams): Promise<V4AttachmentChunkResult>;
-  attachmentCommitV4(params: KnorviaAgentAttachmentTerminalParams): Promise<V4AttachmentCommitResult>;
+  attachmentCommitV4(
+    params: KnorviaAgentAttachmentTerminalParams,
+  ): Promise<V4AttachmentCommitResult>;
   attachmentAbortV4(params: KnorviaAgentAttachmentTerminalParams): Promise<void>;
   /** Desktop local 已发送视频 source query；远端与 Web 返回 chunked。 */
   attachmentPreviewSourceV4(

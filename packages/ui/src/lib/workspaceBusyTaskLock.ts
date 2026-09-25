@@ -29,7 +29,10 @@ function buildTaskProviderByTaskId(
 
 export function hasBusyTaskInWorkspaceProvider(
   selectedProvider: KnorviaProvider,
-  taskRuntimeByTaskId: Record<string, { status: KnorviaTaskRuntimeStatus; provider?: KnorviaProvider }>,
+  taskRuntimeByTaskId: Record<
+    string,
+    { status: KnorviaTaskRuntimeStatus; provider?: KnorviaProvider }
+  >,
   optimisticTaskMetaByTaskId: Record<string, { provider?: KnorviaProvider }>,
   taskListCache?: Array<{ taskId: string; provider?: KnorviaProvider }> | null,
   activeTaskId?: string | null,

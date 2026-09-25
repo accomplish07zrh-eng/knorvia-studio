@@ -30,7 +30,6 @@ export const officialSeaPlugins = [
     version: "0.6.0",
   },
   {
-
     marketplace: "knorvia-plugins-bundled",
     name: "browser-use",
     packageName: "@knorvia/browser-use-plugin",

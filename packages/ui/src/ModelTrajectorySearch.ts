@@ -1,5 +1,8 @@
 import { createContext } from "react";
-import type { KnorviaModelTrajectoryMessage, KnorviaModelTrajectoryRecord } from "@knorvia/services";
+import type {
+  KnorviaModelTrajectoryMessage,
+  KnorviaModelTrajectoryRecord,
+} from "@knorvia/services";
 import {
   trajectoryToolCallInputs,
   trajectoryToolMetadata,

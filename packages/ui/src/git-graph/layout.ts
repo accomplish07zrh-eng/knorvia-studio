@@ -1,4 +1,8 @@
-import type { GitCommitGraphCommit, GitCommitGraphRef, GitCommitGraphRefKind } from "@knorvia/shared";
+import type {
+  GitCommitGraphCommit,
+  GitCommitGraphRef,
+  GitCommitGraphRefKind,
+} from "@knorvia/shared";
 import {
   createGitGraphLayoutModel,
   type BranchLineSeed,

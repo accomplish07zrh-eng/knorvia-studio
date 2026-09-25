@@ -21,7 +21,10 @@ import type {
   KnorviaMcpServerStatusSnapshot,
   KnorviaPluginInfo,
 } from "@knorvia/shared";
-import { isKnorviaAgentMcpStatusModeUnsupportedError, type IMcpSyncService } from "@knorvia/services";
+import {
+  isKnorviaAgentMcpStatusModeUnsupportedError,
+  type IMcpSyncService,
+} from "@knorvia/services";
 import { Button } from "@/components/ui/button.js";
 import { toast } from "@/components/ui/toast.js";
 import { ControlHintTooltip } from "@/ControlHintTooltip.js";

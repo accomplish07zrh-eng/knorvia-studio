@@ -51,10 +51,12 @@ async function main() {
   log(`client connected: ${ack.clientId} (v${ack.version})`);
 
   // Phase 3: Initialize services and start stdio RPC server
-  const knorviaBuiltinProviderConfigFilePath = await materializeBundledKnorviaBuiltinProviderConfig({
-    environmentConfigRoot: getAppConfigDir(),
-    content: readBundledKnorviaBuiltinProviderConfig(),
-  });
+  const knorviaBuiltinProviderConfigFilePath = await materializeBundledKnorviaBuiltinProviderConfig(
+    {
+      environmentConfigRoot: getAppConfigDir(),
+      content: readBundledKnorviaBuiltinProviderConfig(),
+    },
+  );
   const { authorityModeParseResult, services } = createStdioServices({
     env: process.env,
     knorviaBuiltinProviderConfigFilePath,

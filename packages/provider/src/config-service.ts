@@ -120,7 +120,8 @@ export class ProviderConfigService implements ProviderSource<ProviderConfigSnaps
       knorviaBuiltinRevision: knorviaBuiltin.revision,
       personalRevision: personal.revision,
       knorviaBuiltinProviders: knorviaBuiltin.providers,
-      knorviaBuiltinProviderTemplates: knorviaBuiltin.providerTemplates ?? ProviderTemplateMap.empty(),
+      knorviaBuiltinProviderTemplates:
+        knorviaBuiltin.providerTemplates ?? ProviderTemplateMap.empty(),
       personalProviders: personal.providers,
       knorviaBuiltinModelRules: knorviaBuiltin.models,
       personalModels: personal.models,
@@ -238,7 +239,10 @@ export class ProviderConfigService implements ProviderSource<ProviderConfigSnaps
       const occupied = new Set([...knorviaBuiltin.providers.keys(), ...current.providers.keys()]);
       const providerId = nextPersonalProviderId(occupied, templateId);
       createdProviderId = providerId;
-      const effectiveProviders = resolvePersonalProviderBaselines(knorviaBuiltin, current.providers);
+      const effectiveProviders = resolvePersonalProviderBaselines(
+        knorviaBuiltin,
+        current.providers,
+      );
       const label = nextPersonalProviderLabel(
         input.providerName ??
           (template && templateId
@@ -289,7 +293,11 @@ export class ProviderConfigService implements ProviderSource<ProviderConfigSnaps
     return this.#updatePersonal((current) => ({
       providers: current.providers,
       models: current.models,
-      providerOrder: normalizeProviderOrder(knorviaBuiltin.providers, current.providers, providerIds),
+      providerOrder: normalizeProviderOrder(
+        knorviaBuiltin.providers,
+        current.providers,
+        providerIds,
+      ),
     }));
   }
 

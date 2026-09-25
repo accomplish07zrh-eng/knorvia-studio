@@ -43,7 +43,10 @@ function resolveWebThemePreference(defaultTheme: Theme = WEB_DEFAULT_THEME): The
           ? "knorvia-light"
           : saved;
   document.documentElement.classList.toggle("dark", resolved === "dark");
-  document.documentElement.classList.toggle("theme-knorvia-light", appliedTheme === "knorvia-light");
+  document.documentElement.classList.toggle(
+    "theme-knorvia-light",
+    appliedTheme === "knorvia-light",
+  );
   document.documentElement.classList.toggle("theme-knorvia-dark", appliedTheme === "knorvia-dark");
 }
 const root = createRoot(document.getElementById("root")!);

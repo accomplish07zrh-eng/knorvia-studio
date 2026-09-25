@@ -1,5 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import type { KnorviaImportSessionsResult, KnorviaImportableSessionCandidate } from "@knorvia/shared";
+import type {
+  KnorviaImportSessionsResult,
+  KnorviaImportableSessionCandidate,
+} from "@knorvia/shared";
 import { logger } from "@/logger.js";
 import { useTaskService } from "@/hooks/useTaskService.js";
 import { useTabStoreApi } from "@/store/TabStoreProvider.js";
@@ -74,7 +77,9 @@ export function useClaudeSessionMigration(params: {
   const [selectedSessionIds, setSelectedSessionIds] = useState<string[]>([]);
   const [scanError, setScanError] = useState<string | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
-  const [lastImportResult, setLastImportResult] = useState<KnorviaImportSessionsResult | null>(null);
+  const [lastImportResult, setLastImportResult] = useState<KnorviaImportSessionsResult | null>(
+    null,
+  );
   const [isScanning, setIsScanning] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
 

@@ -85,7 +85,11 @@ export function registerPlatformIpcHandlers(options: {
     runningAgentSessionCount: number;
   };
   // Main 只同步原生窗口所消费的字段，不接管配置存储层的输入归一化。
-  syncAppSettings: (patch: Partial<Pick<AppSettings, "closeToTrayOnWindows" | "keepAwakeWhileRunning" | "shortcutBindings">>) => void;
+  syncAppSettings: (
+    patch: Partial<
+      Pick<AppSettings, "closeToTrayOnWindows" | "keepAwakeWhileRunning" | "shortcutBindings">
+    >,
+  ) => void;
   /** 快捷键设置页录制态开关：true 时 main 重建菜单摘除可配置 accelerator */
   setShortcutRecordingActive?: (active: boolean, ownerWebContentsId?: number | null) => void;
   /** 桌面端设备标识符（基于 userData 路径的 SHA-256） */
@@ -227,10 +231,17 @@ export function registerPlatformIpcHandlers(options: {
 
   ipcMain.handle(PlatformChannels.SetWindowGlass, (event, enabled: unknown) => {
     const win = BrowserWindow.fromWebContents(event.sender);
-    if (typeof enabled !== "boolean" || !win || win.isDestroyed() ||
-      win.webContents !== event.sender || event.senderFrame !== event.sender.mainFrame) return false;
-    try { return applyDesktopWindowGlass(win, enabled); }
-    catch (error) {
+    if (
+      typeof enabled !== "boolean" ||
+      !win ||
+      win.isDestroyed() ||
+      win.webContents !== event.sender ||
+      event.senderFrame !== event.sender.mainFrame
+    )
+      return false;
+    try {
+      return applyDesktopWindowGlass(win, enabled);
+    } catch (error) {
       options.logger.warn("[window-glass] native material unavailable", error);
       return false;
     }
@@ -377,8 +388,11 @@ export function registerPlatformIpcHandlers(options: {
   ipcMain.handle(PlatformChannels.ExportLocalDiagnostics, (_event, id: unknown) =>
     exportLocalDiagnostics(typeof id === "string" ? id : ""),
   );
-  ipcMain.handle(PlatformChannels.CheckReleaseUpdate, () =>
-    options.checkReleaseUpdate?.() ?? Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }),
+  ipcMain.handle(
+    PlatformChannels.CheckReleaseUpdate,
+    () =>
+      options.checkReleaseUpdate?.() ??
+      Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }),
   );
   ipcMain.handle(PlatformChannels.CaptureWindowScreenshot, async (event) => {
     const senderWindow = BrowserWindow.fromWebContents(event.sender);

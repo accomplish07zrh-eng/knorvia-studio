@@ -803,8 +803,7 @@ export function App({
       getChatMessageCount: () => testMessages?.length ?? 0,
       getPluginsOverview: (params) => services.agentService.getPluginsOverview(params),
       addPluginMarketplace: (params) => services.agentService.addPluginMarketplace(params),
-      updatePluginMarketplace: (params) =>
-        services.agentService.updatePluginMarketplace(params),
+      updatePluginMarketplace: (params) => services.agentService.updatePluginMarketplace(params),
       installPlugin: (params) => services.agentService.installPlugin(params),
       listPlugins: (params) => services.agentService.listPlugins(params),
       getPluginReferenceCatalog: (params) =>

@@ -536,7 +536,9 @@ function nodeToTopLevelRef(
   };
 }
 
-function viewToOrderInput(params: { view: KnorviaGroupedTaskView }): KnorviaGroupedTaskViewOrderInput {
+function viewToOrderInput(params: {
+  view: KnorviaGroupedTaskView;
+}): KnorviaGroupedTaskViewOrderInput {
   return {
     workspaceScopes: collectViewWorkspaceScopes(params.view),
     topLevelNodes: params.view.nodes.map(nodeToTopLevelRef),

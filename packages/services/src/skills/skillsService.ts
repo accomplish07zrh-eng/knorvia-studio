@@ -126,7 +126,9 @@ async function isUserAgentsSkillCoveredByKnorvia(params: {
   if (rootPath !== getUserAgentsSkillRoot()) {
     return false;
   }
-  if (await exists(join(getUserKnorviaSkillRoot(), basename(dirname(skillPath)), SKILL_FILE_NAME))) {
+  if (
+    await exists(join(getUserKnorviaSkillRoot(), basename(dirname(skillPath)), SKILL_FILE_NAME))
+  ) {
     return true;
   }
   return userKnorviaSkillNameKeys.has(await readSkillNameKey(skillPath));

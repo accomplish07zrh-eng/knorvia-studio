@@ -21,6 +21,5 @@
   "dependencies": {
     "@knorvia/contracts": "workspace:*"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

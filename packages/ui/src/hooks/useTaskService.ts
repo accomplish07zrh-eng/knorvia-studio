@@ -183,7 +183,11 @@ function readPersistedSnapshotEntry(key: string) {
   return { etag: entry.etag, snapshot: entry.snapshot };
 }
 
-function writePersistedSnapshotEntry(key: string, etag: string, snapshot: KnorviaTaskSnapshot): void {
+function writePersistedSnapshotEntry(
+  key: string,
+  etag: string,
+  snapshot: KnorviaTaskSnapshot,
+): void {
   ensurePersistedSnapshotCacheLoaded();
   const serializedSnapshot = JSON.stringify(snapshot);
   const sizeBytes = new TextEncoder().encode(serializedSnapshot).byteLength;

@@ -35,7 +35,9 @@ type SetFn = (
   partial:
     | KnorviaSessionStoreState
     | Partial<KnorviaSessionStoreState>
-    | ((state: KnorviaSessionStoreState) => KnorviaSessionStoreState | Partial<KnorviaSessionStoreState>),
+    | ((
+        state: KnorviaSessionStoreState,
+      ) => KnorviaSessionStoreState | Partial<KnorviaSessionStoreState>),
 ) => void;
 
 let groupedDraftSequence = 0;

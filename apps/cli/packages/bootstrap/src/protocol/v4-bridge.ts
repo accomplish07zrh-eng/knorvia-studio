@@ -56,10 +56,7 @@ import {
   loadPersistentCommandFacts,
   savePersistentCommandFact,
 } from "../protocol-v4/persistent-command-facts.js";
-import {
-  ConversationV4Gateway,
-  V4CommandNotImplementedError,
-} from "../protocol-v4/v4-gateway.js";
+import { ConversationV4Gateway, V4CommandNotImplementedError } from "../protocol-v4/v4-gateway.js";
 import {
   SESSION_ENTRY_TARGET_COMPLETION_VERIFICATION,
   SessionEventType,

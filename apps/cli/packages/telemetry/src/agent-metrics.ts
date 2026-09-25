@@ -78,10 +78,13 @@ export class OtelAgentTelemetryMetrics implements AgentTelemetryMetricRecorder {
     );
     this.modelAttemptFirstContent = duration(meter, "knorvia.model.attempt.time_to_first_content");
     this.modelAttemptFirstText = duration(meter, "knorvia.model.attempt.time_to_first_text");
-    this.modelAttemptStreamStalls = meter.createCounter("knorvia.model.attempt.stream_stall.count", {
-      description: "Observed stream stalls",
-      unit: "{stall}",
-    });
+    this.modelAttemptStreamStalls = meter.createCounter(
+      "knorvia.model.attempt.stream_stall.count",
+      {
+        description: "Observed stream stalls",
+        unit: "{stall}",
+      },
+    );
     this.modelAttemptStreamMaxIdle = duration(meter, "knorvia.model.attempt.stream_max_idle");
     this.commandFirstOutput = duration(meter, "knorvia.command.execution.time_to_first_output");
     this.creationDrop = meter.createCounter("knorvia.telemetry.creation_drop.count", {

@@ -1,6 +1,9 @@
 import { randomUUID } from "node:crypto";
 import { cpus, totalmem } from "node:os";
-import { KNORVIA_MCP_RESOURCE_SAMPLE_INTERVAL_MS, type KnorviaMcpResourceSample } from "@knorvia/shared";
+import {
+  KNORVIA_MCP_RESOURCE_SAMPLE_INTERVAL_MS,
+  type KnorviaMcpResourceSample,
+} from "@knorvia/shared";
 import {
   createProcessProbe,
   type ProcessProbe,

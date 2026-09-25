@@ -8,9 +8,12 @@ import { stopOwnedTree } from "./processTransport.js";
 /** AGY uses its own NDJSON event protocol, not ACP. Keep prompts out of process arguments. */
 export function antigravityArgs(turn: StudioKernelTurn): string[] {
   return [
-    "--input-format", "stream-json",
-    "--output-format", "stream-json",
-    "--print-timeout", "12h",
+    "--input-format",
+    "stream-json",
+    "--output-format",
+    "stream-json",
+    "--print-timeout",
+    "12h",
     ...(turn.nativeSessionId ? ["--conversation", turn.nativeSessionId] : []),
     ...(turn.model ? ["--model", turn.model] : []),
     ...(turn.reasoningEffort ? ["--effort", turn.reasoningEffort] : []),
@@ -37,7 +40,9 @@ export function antigravityMessage(run: KernelRun, message: Record<string, unkno
   const result = record(message.result);
   const update = record(message.step_update);
   const conversationId = text(
-    event === "result" ? result.conversation_id : message.conversation_id ?? update.conversation_id,
+    event === "result"
+      ? result.conversation_id
+      : (message.conversation_id ?? update.conversation_id),
   );
   if (conversationId) {
     if (run.turn.nativeSessionId && conversationId !== run.turn.nativeSessionId)
@@ -45,8 +50,7 @@ export function antigravityMessage(run: KernelRun, message: Record<string, unkno
     run.setSession(conversationId);
   }
   if (event === "step_update") {
-    if (update.step_type === "agent_response")
-      run.delta("answer", text(update.text_delta));
+    if (update.step_type === "agent_response") run.delta("answer", text(update.text_delta));
     if (update.step_type === "tool") {
       const tool = record(update.tool_info);
       const error = record(tool.error);
@@ -54,7 +58,12 @@ export function antigravityMessage(run: KernelRun, message: Record<string, unkno
         type: "tool",
         id: String(update.step_index ?? "tool"),
         name: text(update.tool_name) || text(tool.name) || "tool",
-        state: update.state === "DONE" ? (Object.keys(error).length ? "failed" : "succeeded") : "running",
+        state:
+          update.state === "DONE"
+            ? Object.keys(error).length
+              ? "failed"
+              : "succeeded"
+            : "running",
         input: safeDetail(tool.parameters ?? ""),
         output: safeDetail(tool.output ?? error.message ?? ""),
       });
@@ -119,7 +128,11 @@ export async function antigravityModelOptions(
     });
     child.once("error", (error) => finish(error));
     child.once("close", (code) =>
-      finish(code === 0 ? undefined : new Error(safeDetail(stderr || stdout) || `agy models 失败 (${code})`)),
+      finish(
+        code === 0
+          ? undefined
+          : new Error(safeDetail(stderr || stdout) || `agy models 失败 (${code})`),
+      ),
     );
     signal?.addEventListener("abort", abort, { once: true });
     if (signal?.aborted) abort();
@@ -127,11 +140,13 @@ export async function antigravityModelOptions(
   const models = output.split(/\r?\n/).flatMap((line) => {
     const match = line.match(/^\s*([a-z0-9][a-z0-9._-]{0,127})\s{2,}(.+?)\s*$/i);
     return match
-      ? [{
-          id: match[1]!,
-          label: match[2]!,
-          reasoning: ["low", "medium", "high"].map((id) => ({ id, label: id })),
-        }]
+      ? [
+          {
+            id: match[1]!,
+            label: match[2]!,
+            reasoning: ["low", "medium", "high"].map((id) => ({ id, label: id })),
+          },
+        ]
       : [];
   });
   if (!models.length) throw new Error("Antigravity CLI 没有返回可识别的模型目录");

@@ -23,13 +23,13 @@ The active releases and SHA-256 pins are defined in
 [`scripts/native-search-tools-config.mjs`](../../../scripts/native-search-tools-config.mjs)
 and [`scripts/remote-native-search-tools-config.mjs`](../../../scripts/remote-native-search-tools-config.mjs):
 
-| Target | bfs | ugrep | ripgrep |
-| --- | --- | --- | --- |
-| macOS arm64 / x64 | 4.1.1-1 | 7.8.4-1 | 14.1.1-1 |
-| Linux arm64 / x64 | 4.1.1-2 | 7.8.4-1 | 14.1.1-1 |
-| Windows arm64 / x64 | — | 7.8.4-1 | 14.1.1-1 |
-| Remote macOS arm64 / x64 | — | — | 13.0.0-10 |
-| Remote Linux arm64 / x64 | 4.1.1-2 | 7.8.4-1 | 14.1.1-1 |
+| Target                   | bfs     | ugrep   | ripgrep   |
+| ------------------------ | ------- | ------- | --------- |
+| macOS arm64 / x64        | 4.1.1-1 | 7.8.4-1 | 14.1.1-1  |
+| Linux arm64 / x64        | 4.1.1-2 | 7.8.4-1 | 14.1.1-1  |
+| Windows arm64 / x64      | —       | 7.8.4-1 | 14.1.1-1  |
+| Remote macOS arm64 / x64 | —       | —       | 13.0.0-10 |
+| Remote Linux arm64 / x64 | 4.1.1-2 | 7.8.4-1 | 14.1.1-1  |
 
 Remote packaging uses `resolveRemoteNativeSearchPrebuiltPlan` to retain the
 deployed macOS rg13 contract. Its component versions come from the same plan as

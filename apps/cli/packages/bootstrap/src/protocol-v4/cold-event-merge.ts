@@ -36,7 +36,9 @@ interface PersistedConversationMaterializationStore {
       targetMessageID?: import("@knorvia/contracts").MessageId;
     };
   } | null>;
-  messages(input: { sessionID: import("@knorvia/contracts").SessionId }): Promise<MessageWithParts[]>;
+  messages(input: {
+    sessionID: import("@knorvia/contracts").SessionId;
+  }): Promise<MessageWithParts[]>;
   readTarget(input: {
     sessionID: import("@knorvia/contracts").SessionId;
   }): Promise<SessionGoal | null>;

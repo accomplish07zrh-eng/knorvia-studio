@@ -1,6 +1,9 @@
 import { existsSync } from "node:fs";
 import { delimiter } from "node:path";
-import { buildKnorviaToolEnvPassthroughEnv, sanitizeKnorviaRuntimeEnvInPlace } from "@knorvia/shared";
+import {
+  buildKnorviaToolEnvPassthroughEnv,
+  sanitizeKnorviaRuntimeEnvInPlace,
+} from "@knorvia/shared";
 import { appendPathEntries, buildRuntimeToolEnvPatch } from "./runtimeToolResolver.js";
 import {
   buildShellBootstrapPath,

@@ -61,7 +61,9 @@ export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<Pr
     return snapshotFromRelease(release, this.#sourceKey);
   }
 
-  async applyRemoteRelease(release: KnorviaBuiltinRelease): Promise<ApplyKnorviaBuiltinReleaseResult> {
+  async applyRemoteRelease(
+    release: KnorviaBuiltinRelease,
+  ): Promise<ApplyKnorviaBuiltinReleaseResult> {
     this.#assertNotDisposed();
     await this.#ensureWatcher();
     const result = await withFileLock(this.#activeFilePath, async () => {
@@ -185,7 +187,8 @@ function selectReleaseCandidate(
     bundled?.release &&
     active?.release &&
     bundled.release.revision === active.release.revision &&
-    serializeKnorviaBuiltinRelease(bundled.release) !== serializeKnorviaBuiltinRelease(active.release)
+    serializeKnorviaBuiltinRelease(bundled.release) !==
+      serializeKnorviaBuiltinRelease(active.release)
   ) {
     // 同 revision 冲突属于 Active 缓存失效，不能反向使可信 Bundled 无法启动。
     // 返回 Bundled 后调用方会在能够写入时原子替换 Active。

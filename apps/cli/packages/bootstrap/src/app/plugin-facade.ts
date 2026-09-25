@@ -13,10 +13,7 @@ import type {
   KnorviaPluginUninstallResult,
 } from "./types.js";
 
-type PluginFacade = Pick<
-  KnorviaApp,
-  "listPlugins" | "setPluginEnabled" | "uninstallPlugin"
->;
+type PluginFacade = Pick<KnorviaApp, "listPlugins" | "setPluginEnabled" | "uninstallPlugin">;
 
 interface CreatePluginFacadeOptions {
   configResult: ConfigResult;
@@ -41,10 +38,7 @@ function createPluginFacade(options: CreatePluginFacadeOptions): PluginFacade {
 
   return {
     listPlugins: async (): Promise<PluginLoadOutcome> => listKnorviaPlugins(commonOptions()),
-    setPluginEnabled: async (
-      plugin: string,
-      enabled: boolean,
-    ): Promise<KnorviaPluginSetResult> => {
+    setPluginEnabled: async (plugin: string, enabled: boolean): Promise<KnorviaPluginSetResult> => {
       const result = await setKnorviaPluginEnabled({
         ...commonOptions(),
         enabled,

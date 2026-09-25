@@ -102,7 +102,10 @@ import {
   type KnorviaProtocolSessionRecord,
   type KnorviaProtocolToolInputTransmissionState,
 } from "./server-types.js";
-import { createWorkspaceKnorviaApp, ensureSessionModelAvailable } from "./workspace-model-runtime.js";
+import {
+  createWorkspaceKnorviaApp,
+  ensureSessionModelAvailable,
+} from "./workspace-model-runtime.js";
 import { buildAppUsageSnapshot, resolveTzOffsetMs } from "./usage-stats-builder.js";
 import { createProtocolInteractionBroker } from "./interaction-broker.js";
 import { createProtocolAutomationPort } from "./automation-port.js";
@@ -1306,15 +1309,18 @@ async function createSessionWithProjection<T>(
       } else if (initialThoughtLevel) {
         // workspace 默认 thoughtLevel 可能来自上一个模型。新 session 继承另一模型时，
         // 不能把不支持的档位硬塞给 runtime，否则创建阶段会抛 Unsupported reasoning effort。
-        context.logger?.warn("Knorvia Studio Protocol session/create skipped unsupported thought level", {
-          event: "knorvia_protocol.session_create.thought_level_skipped",
-          module: "bootstrap.knorvia_protocol",
-          requestedThoughtLevel: initialThoughtLevel,
-          sessionId,
-          supportedThoughtLevels: record.app.listThoughtLevels(),
-          workspaceKey: workspace.workspaceKey,
-          workspacePath: workspace.workspacePath,
-        });
+        context.logger?.warn(
+          "Knorvia Studio Protocol session/create skipped unsupported thought level",
+          {
+            event: "knorvia_protocol.session_create.thought_level_skipped",
+            module: "bootstrap.knorvia_protocol",
+            requestedThoughtLevel: initialThoughtLevel,
+            sessionId,
+            supportedThoughtLevels: record.app.listThoughtLevels(),
+            workspaceKey: workspace.workspaceKey,
+            workspacePath: workspace.workspacePath,
+          },
+        );
       }
     });
     if (params.importedHistory) {
@@ -1515,7 +1521,10 @@ export async function activateSessionForResume(
   };
 }
 
-export async function resumeSession(context: KnorviaProtocolAgentServerContext, rawParams: unknown) {
+export async function resumeSession(
+  context: KnorviaProtocolAgentServerContext,
+  rawParams: unknown,
+) {
   const params = parseParams(sessionResumeParamsSchema, rawParams);
   const activated = await activateSessionForResume(context, params);
   return await snapshot(context, activated.record, activated.knownSession);
@@ -1764,7 +1773,10 @@ export async function listSessionSubagents(
 
 const APP_USAGE_RANGE_DAYS: Record<string, number> = { "7d": 7, "30d": 30 };
 
-export async function getUsageStats(context: KnorviaProtocolAgentServerContext, rawParams: unknown) {
+export async function getUsageStats(
+  context: KnorviaProtocolAgentServerContext,
+  rawParams: unknown,
+) {
   const params = parseParams(knorviaUsageStatsParamsSchema, rawParams ?? {});
   const timeZone = params.timeZone ?? "UTC";
   const until = Date.now();
@@ -2010,7 +2022,10 @@ export async function sendPrompt(context: KnorviaProtocolAgentServerContext, raw
   return afterPromptAccepted(context, record, "prompt_started");
 }
 
-export async function compactSession(context: KnorviaProtocolAgentServerContext, rawParams: unknown) {
+export async function compactSession(
+  context: KnorviaProtocolAgentServerContext,
+  rawParams: unknown,
+) {
   const params = parseParams(sessionCompactParamsSchema, rawParams);
   const record = requireSession(context, params.sessionId);
   assertExpectedRevision(record, params.expectedRevision);
@@ -3200,9 +3215,15 @@ async function requestSessionRuntimePreferences(
     if (errorCode === -32022) {
       // 诊断：偏好请求超时发生在 runtime 注册前；记录 session/scope，区分
       // “Host 没收到/没回包”和“恢复过程中其他阶段失败”。
-      context.logger?.warn("Knorvia Studio Protocol runtime preferences request timed out", diagnostic);
+      context.logger?.warn(
+        "Knorvia Studio Protocol runtime preferences request timed out",
+        diagnostic,
+      );
     } else if (errorCode !== -32601 && errorCode !== -32020) {
-      context.logger?.warn("Knorvia Studio Protocol runtime preferences request failed", diagnostic);
+      context.logger?.warn(
+        "Knorvia Studio Protocol runtime preferences request failed",
+        diagnostic,
+      );
     } else {
       context.logger?.debug(
         "Knorvia Studio Protocol runtime preferences compatibility fallback",

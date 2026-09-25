@@ -1041,7 +1041,9 @@ function normalizeText(value: string): string {
   return value.trim().replace(/\s+/g, " ").toLowerCase();
 }
 
-function mapSessionGoal(goal: SessionGoal | null | undefined): KnorviaSessionGoal | null | undefined {
+function mapSessionGoal(
+  goal: SessionGoal | null | undefined,
+): KnorviaSessionGoal | null | undefined {
   if (goal === undefined) return undefined;
   if (goal === null) return null;
   return {

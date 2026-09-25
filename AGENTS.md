@@ -41,7 +41,7 @@
 | 未使用依赖与导出 | `pnpm knip`                               |
 | 导出引用查询     | `pnpm dep:refs --list-exports <file>`     |
 
-`pnpm test:studio` 汇总 services、ui、desktop、shared、rpc 及 CLI 相关包的离线测试文件（见 `scripts/test-studio.mjs`），运行前需 `pnpm build:cli-packages` 生成 `apps/cli` 各包的 `dist`；其他测试入口以目标包的 `package.json` 和实际测试文件为准，不假定存在统一的 E2E 命令。`.github/workflows/studio-offline.yml` 在每个 PR 上于 Linux 运行 typecheck、lint、全量架构检查与 `test:studio`，推送 `main` 或手动触发时另在 Windows 上运行。测试涉及路径、大小写或主目录时须同时兼容 Windows 与 POSIX。
+`pnpm test:studio` 汇总 services、ui、desktop、shared、rpc 及 CLI 相关包的离线测试文件（见 `scripts/test-studio.mjs`），运行前需 `pnpm build:cli-packages` 生成 `apps/cli` 各包的 `dist`；其他测试入口以目标包的 `package.json` 和实际测试文件为准，不假定存在统一的 E2E 命令。`.github/workflows/studio-offline.yml` 在每个 PR 上于 Linux 运行 typecheck、lint、`fmt:check`、全量架构检查与 `test:studio`，推送 `main` 或手动触发时另在 Windows 上运行。测试涉及路径、大小写或主目录时须同时兼容 Windows 与 POSIX。
 
 - `packages/desktop`：Electron main、host、renderer。
 - `packages/web`、`packages/server`：Web 客户端与服务端。

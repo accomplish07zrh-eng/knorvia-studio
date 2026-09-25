@@ -519,36 +519,63 @@ test("failed and cancelled Claude turns remove the temporary private MCP config"
         return {
           async run(turn) {
             calls++;
-            assert.equal((await readFile(turn.sharedMcpConfigPath!, "utf8")).includes("fake-key"), true);
+            assert.equal(
+              (await readFile(turn.sharedMcpConfigPath!, "utf8")).includes("fake-key"),
+              true,
+            );
             if (calls === 1) throw new Error("local CLI substitute failed");
             controller.abort();
             return { status: "cancelled", text: "", resultKnown: true } as const;
           },
         };
       },
-      async inspect() { return []; },
-      async manage() { throw new Error("unused"); },
+      async inspect() {
+        return [];
+      },
+      async manage() {
+        throw new Error("unused");
+      },
       async dispose() {},
     },
     {
       dataDir: root,
       skills: {
-        async list() { return { skills: [], diagnostics: [], capability: { userScopeAvailable: true } }; },
-        async buildPromptContext({ prompt }) { return { prompt, activatedSkillNames: [] }; },
+        async list() {
+          return { skills: [], diagnostics: [], capability: { userScopeAvailable: true } };
+        },
+        async buildPromptContext({ prompt }) {
+          return { prompt, activatedSkillNames: [] };
+        },
       },
       mcp: {
         async loadMcpFromUserDirectory() {
           return { servers: [record("local", { command: "node", env: { API_KEY: "fake-key" } })] };
         },
       },
-      plugins: { async listPlugins() { return { plugins: [], diagnostics: [] } as never; } },
+      plugins: {
+        async listPlugins() {
+          return { plugins: [], diagnostics: [] } as never;
+        },
+      },
     },
   );
-  const sink = { async emit() {}, async ask() { return {}; } };
+  const sink = {
+    async emit() {},
+    async ask() {
+      return {};
+    },
+  };
   try {
-    await assert.rejects(wrapped.adapter("claude-code").run(baseTurn("claude-code"), sink, new AbortController().signal), /local CLI substitute failed/);
+    await assert.rejects(
+      wrapped
+        .adapter("claude-code")
+        .run(baseTurn("claude-code"), sink, new AbortController().signal),
+      /local CLI substitute failed/,
+    );
     assert.deepEqual(await readdir(join(root, "shared-mcp")), []);
-    const result = await wrapped.adapter("claude-code").run(baseTurn("claude-code"), sink, controller.signal);
+    const result = await wrapped
+      .adapter("claude-code")
+      .run(baseTurn("claude-code"), sink, controller.signal);
     assert.equal(result.status, "cancelled");
     assert.deepEqual(await readdir(join(root, "shared-mcp")), []);
   } finally {

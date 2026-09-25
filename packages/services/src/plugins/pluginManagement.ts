@@ -74,18 +74,24 @@ export interface IPluginManagementService {
   cancelPluginOperation(
     params: KnorviaAgentCancelPluginOperationParams,
   ): Promise<KnorviaPluginsCancelOperationResult>;
-  uninstallPlugin(params: KnorviaAgentUninstallPluginParams): Promise<KnorviaPluginsUninstallResult>;
+  uninstallPlugin(
+    params: KnorviaAgentUninstallPluginParams,
+  ): Promise<KnorviaPluginsUninstallResult>;
   updatePlugin(params: KnorviaAgentUpdatePluginParams): Promise<KnorviaPluginsInstallResult>;
   restoreBuiltinPlugin(
     params: KnorviaAgentRestoreBuiltinPluginParams,
   ): Promise<KnorviaPluginsRestoreBuiltinResult>;
-  configurePlugin(params: KnorviaAgentConfigurePluginParams): Promise<KnorviaPluginsConfigureResult>;
+  configurePlugin(
+    params: KnorviaAgentConfigurePluginParams,
+  ): Promise<KnorviaPluginsConfigureResult>;
   resetPluginConfig(
     params: KnorviaAgentResetPluginConfigParams,
   ): Promise<KnorviaPluginsConfigureResult>;
   validatePlugin(params: KnorviaAgentValidatePluginParams): Promise<KnorviaPluginsValidateResult>;
   describePlugin(params: KnorviaAgentDescribePluginParams): Promise<KnorviaPluginsDescribeResult>;
-  setPluginEnabled(params: KnorviaAgentSetPluginEnabledParams): Promise<KnorviaPluginsSetEnabledResult>;
+  setPluginEnabled(
+    params: KnorviaAgentSetPluginEnabledParams,
+  ): Promise<KnorviaPluginsSetEnabledResult>;
 }
 
 export const IPluginManagementService = createServiceDescriptor<IPluginManagementService>(

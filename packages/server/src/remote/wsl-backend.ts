@@ -17,7 +17,11 @@ import {
   normalizeRemotePlatform,
   resolveRemotePlatform,
 } from "@knorvia/server/remote/detectEnv.js";
-import { isWSLAvailable, listWSLDistros, type WSLDistro } from "@knorvia/server/remote/wsl-detect.js";
+import {
+  isWSLAvailable,
+  listWSLDistros,
+  type WSLDistro,
+} from "@knorvia/server/remote/wsl-detect.js";
 import {
   buildWslHostGatewayCommand,
   buildWslProxyPortProbeCommand,

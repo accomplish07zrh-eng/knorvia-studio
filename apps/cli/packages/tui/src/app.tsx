@@ -53,7 +53,8 @@ export function TuiApp({
 }: TuiAppProps): React.ReactElement {
   // Startup sentinels are diagnostics, not user-visible transcript messages.
   const initialResult = options.initialResult;
-  const initialModelConfigurationRequired = initialResult?.modelConfigurationRequired ?? options.modelConfigurationRequired ?? false;
+  const initialModelConfigurationRequired =
+    initialResult?.modelConfigurationRequired ?? options.modelConfigurationRequired ?? false;
   const initialLocale = options.locale ?? "en-US";
   const initialCopy = getKnorviaCopy(initialLocale).tui;
   useTuiThemeSync(options);
@@ -74,10 +75,14 @@ export function TuiApp({
   const [lastEvent, setLastEvent] = useState("idle");
   const [lastError, setLastError] = useState<string | undefined>();
   const copy = useMemo(() => getKnorviaCopy(locale), [locale]);
-  const [modelConfigurationRequired, setModelConfigurationRequired] = useState(initialModelConfigurationRequired);
+  const [modelConfigurationRequired, setModelConfigurationRequired] = useState(
+    initialModelConfigurationRequired,
+  );
   const [status, setStatus] = useState(
     initialResult?.selection?.prompt ??
-      (initialModelConfigurationRequired ? initialCopy.modelConfigurationRequired.status : initialCopy.status.ready),
+      (initialModelConfigurationRequired
+        ? initialCopy.modelConfigurationRequired.status
+        : initialCopy.status.ready),
   );
   const [statusDetails, setStatusDetails] = useState<string[]>([]);
   const [traceId, setTraceId] = useState<string | undefined>();

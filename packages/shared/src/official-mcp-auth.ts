@@ -207,7 +207,9 @@ export function isOfficialMcpOriginTrusted(
     }
   }
 
-  const expected = input.knorviaApiOrigin ? normalizeHttpsOrigin(input.knorviaApiOrigin) : undefined;
+  const expected = input.knorviaApiOrigin
+    ? normalizeHttpsOrigin(input.knorviaApiOrigin)
+    : undefined;
   if (!expected) return { detail: "knorvia_origin_unresolved", trusted: false };
   if (normalizeHttpsOrigin(origin) !== expected) {
     return { detail: "origin_mismatch", trusted: false };

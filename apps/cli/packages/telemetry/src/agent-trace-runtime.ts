@@ -389,7 +389,9 @@ export class AgentExecutionTelemetryRuntime
             "knorvia.model_call.model_role": safeEnum(input.modelRole),
             "knorvia.model_call.requested_provider_id": safeString(input.requested.providerId, 128),
             "knorvia.model_call.requested_model": safeString(input.requested.requestedModel, 128),
-            "knorvia.model_call.reasoning_capability": safeEnum(input.requested.reasoning.capability),
+            "knorvia.model_call.reasoning_capability": safeEnum(
+              input.requested.reasoning.capability,
+            ),
             "knorvia.model_call.reasoning_requested_state": safeEnum(
               input.requested.reasoning.requestedState,
             ),
@@ -790,7 +792,9 @@ class TurnWriter extends TrackedBaseWriter implements AgentTurnSpanWriter {
   finishCompleted(
     resultType: "assistant_message" | "tool_request" | "no_output" | "other" = "other",
   ): void {
-    this.finishCompletedIfOpen(() => this.setAttribute("knorvia.agent_turn.result_type", resultType));
+    this.finishCompletedIfOpen(() =>
+      this.setAttribute("knorvia.agent_turn.result_type", resultType),
+    );
   }
 
   finishFailed(
@@ -1358,7 +1362,12 @@ class ModelAttemptWriter extends TrackedBaseWriter implements ModelAttemptSpanWr
   }
 
   setCacheReadTokens(tokens: number): void {
-    this.setUsage("cacheReadTokens", "cache_read", tokens, "knorvia.model_attempt.cache_read_tokens");
+    this.setUsage(
+      "cacheReadTokens",
+      "cache_read",
+      tokens,
+      "knorvia.model_attempt.cache_read_tokens",
+    );
   }
 
   setCacheWriteTokens(tokens: number): void {
@@ -1385,7 +1394,10 @@ class ModelAttemptWriter extends TrackedBaseWriter implements ModelAttemptSpanWr
   }
 
   setProviderErrorMessage(message: string): void {
-    this.setAttribute("knorvia.model_attempt.provider_error_message", sanitizeErrorMessage(message));
+    this.setAttribute(
+      "knorvia.model_attempt.provider_error_message",
+      sanitizeErrorMessage(message),
+    );
   }
 
   setRetryAfterMs(delayMs: number): void {

@@ -12,16 +12,16 @@
 
 ## 已执行检查
 
-| 检查 | 结果 |
-| --- | --- |
-| 外观状态离线回归 | 6 / 6 通过：非法配置、参数边界、重置、保存失败、过期异步结果、跨窗口更新、取消加载、损坏 JSON 恢复 |
-| `pnpm typecheck` | 通过 |
-| `pnpm lint` | 0 错误，29 条原有警告 |
-| `pnpm architecture:check --changed` | 0 违规 |
-| Desktop renderer / preload 独立类型检查 | 通过 |
-| `pnpm build:bootstrap` | 通过 |
-| 打包完整性 | ASAR、程序完整性、透明图标、Agent bundle、便携目录标记通过 |
-| 用户数据保留 | 原地更新前后 351 个文件逐项 SHA-256 一致 |
+| 检查                                    | 结果                                                                                               |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 外观状态离线回归                        | 6 / 6 通过：非法配置、参数边界、重置、保存失败、过期异步结果、跨窗口更新、取消加载、损坏 JSON 恢复 |
+| `pnpm typecheck`                        | 通过                                                                                               |
+| `pnpm lint`                             | 0 错误，29 条原有警告                                                                              |
+| `pnpm architecture:check --changed`     | 0 违规                                                                                             |
+| Desktop renderer / preload 独立类型检查 | 通过                                                                                               |
+| `pnpm build:bootstrap`                  | 通过                                                                                               |
+| 打包完整性                              | ASAR、程序完整性、透明图标、Agent bundle、便携目录标记通过                                         |
+| 用户数据保留                            | 原地更新前后 351 个文件逐项 SHA-256 一致                                                           |
 
 额外执行的 `packages/desktop/tsconfig.main.json` 独立类型检查没有通过：76 条诊断，涉及原有 applicationIcons、browserGuestManager、browserPlaywrightDOM、存储导出与 Main 集成等代码；本次外观新增文件无诊断。不能将此项写成通过。完整日志：`D:/tools/.cache/knorvia-appearance-main-types.log`。
 

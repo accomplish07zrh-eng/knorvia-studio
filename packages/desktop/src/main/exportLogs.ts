@@ -1187,10 +1187,9 @@ export async function writeSanitizedDiagnosticLogSnapshot(
   outputDir: string,
   options: { sourceDir?: string; now?: () => Date } = {},
 ): Promise<void> {
-  const artifacts = await createLogArchiveArtifacts(
-    options.sourceDir ?? getKnorviaDataDir(),
-    { now: options.now },
-  );
+  const artifacts = await createLogArchiveArtifacts(options.sourceDir ?? getKnorviaDataDir(), {
+    now: options.now,
+  });
   await writeLogArchiveDirectory(outputDir, artifacts);
 }
 

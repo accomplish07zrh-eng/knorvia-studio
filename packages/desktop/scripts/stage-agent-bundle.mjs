@@ -14,7 +14,14 @@ import { resolve } from "node:path";
 export const AGENT_BUNDLE_SOURCE_RELATIVE = "apps/cli/packages/cli/dist/knorvia.cjs";
 
 export function resolveAgentBundlePaths({ repoRoot, platformKey }) {
-  const agentDir = resolve(repoRoot, "packages", "desktop", "bundled-agents", platformKey, "knorvia");
+  const agentDir = resolve(
+    repoRoot,
+    "packages",
+    "desktop",
+    "bundled-agents",
+    platformKey,
+    "knorvia",
+  );
   return {
     cliBundlePath: resolve(repoRoot, AGENT_BUNDLE_SOURCE_RELATIVE),
     agentDir,

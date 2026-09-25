@@ -173,7 +173,9 @@ export function StudioGroupsPage({
         <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_auto]">
           <div className="relative flex min-h-0 lg:contents">
             <div className="flex min-h-0 min-w-0 flex-1 flex-col lg:col-start-1 lg:row-start-1">
-              {latestRun?.taskMode ? <GroupProgressPanel key={latestRun.id} timeline={runtime.timeline} /> : null}
+              {latestRun?.taskMode ? (
+                <GroupProgressPanel key={latestRun.id} timeline={runtime.timeline} />
+              ) : null}
               {hasContent ? (
                 <StudioTimeline targetId={group.id} />
               ) : (

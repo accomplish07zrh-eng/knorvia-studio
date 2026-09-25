@@ -23,7 +23,13 @@ type SavedWorkflowRunBadgeKind = "completed" | "errored" | "running" | "stopped"
  * `failed` / `cancelled`，按同一语义折进去而不是让徽标缺席。
  */
 export function savedWorkflowRunBadgeKind(
-  status: KnorviaSavedWorkflowRunStatus | "errored" | "stopped" | "failed" | "cancelled" | undefined,
+  status:
+    | KnorviaSavedWorkflowRunStatus
+    | "errored"
+    | "stopped"
+    | "failed"
+    | "cancelled"
+    | undefined,
 ): SavedWorkflowRunBadgeKind {
   switch (status) {
     case undefined:

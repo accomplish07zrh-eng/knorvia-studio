@@ -34,7 +34,8 @@ export async function loadCustomCommandForTui(deps: RunDependencies, name: strin
 export async function listSkillsForTui(deps: RunDependencies) {
   const env = deps.env ?? process.env;
   const workingDirectory = (deps.cwd ?? process.cwd)();
-  const listKnorviaSkillsForTui = deps.listSkills ?? (await loadBootstrapModule()).listKnorviaSkills;
+  const listKnorviaSkillsForTui =
+    deps.listSkills ?? (await loadBootstrapModule()).listKnorviaSkills;
   return await listKnorviaSkillsForTui({
     env,
     logger: deps.logger,

@@ -36,6 +36,8 @@ jobs:
         run: pnpm typecheck
       - name: Lint
         run: pnpm lint
+      - name: Format check
+        run: pnpm fmt:check
       - name: Architecture check (full repository)
         run: pnpm architecture:check
       - name: Build CLI packages used by offline tests
@@ -66,6 +68,8 @@ jobs:
         run: pnpm typecheck
       - name: Lint
         run: pnpm lint
+      - name: Format check
+        run: pnpm fmt:check
       - name: Architecture check (full repository)
         run: pnpm architecture:check
       - name: Build CLI packages used by offline tests

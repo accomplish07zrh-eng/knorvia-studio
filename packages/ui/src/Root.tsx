@@ -161,7 +161,11 @@ function RootInner({
   // 工作区级 ServiceProvider 内（远程 Host 的 accessor），由它们取数会拿到另一台 Host 的答案。
   const { intl, locale } = useKnorviaIntl();
   const theme = useKnorviaStore((state) => state.theme);
-  const { settings: appSettings, update: updateAppSettings, refresh: refreshAppSettings } = useSettings();
+  const {
+    settings: appSettings,
+    update: updateAppSettings,
+    refresh: refreshAppSettings,
+  } = useSettings();
   const [firstRunGuideDismissed, setFirstRunGuideDismissed] = useState(false);
   const firstMessageCommitInFlight = useRef(false);
   useEffect(
@@ -171,7 +175,8 @@ function RootInner({
           firstMessageCommitInFlight.current ||
           (appSettings?.studioFirstRunGuideStatus !== "pending" &&
             appSettings?.studioFirstRunGuideStatus !== "deferred")
-        ) return;
+        )
+          return;
         firstMessageCommitInFlight.current = true;
         void updateAppSettings({ studioFirstRunGuideStatus: "complete" })
           .catch((error: unknown) => {
@@ -800,8 +805,11 @@ function RootInner({
             isDesktop={isDesktop}
           />
         </ScopedErrorBoundary>
-        {isDesktop && workspaceShellPath && !workspaceShellRemoteSessionId &&
-        !isSettingsTabActive && !firstRunGuideDismissed &&
+        {isDesktop &&
+        workspaceShellPath &&
+        !workspaceShellRemoteSessionId &&
+        !isSettingsTabActive &&
+        !firstRunGuideDismissed &&
         appSettings?.studioFirstRunGuideStatus === "pending" ? (
           <StudioFirstRunGuide
             onDismiss={() => setFirstRunGuideDismissed(true)}

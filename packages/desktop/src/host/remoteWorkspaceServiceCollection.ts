@@ -89,102 +89,96 @@ export function createRemoteWorkspaceServiceCollection(params: {
   // desktop-attached remote 的 Agent 运行在远端，但 app-global 设置权威仍在
   // desktop shared Host。通过窄化的 runtime-preferences 请求原路返回，避免远端读取自己的 setting。
   const { onError } = params.runtimePreferencesBridge;
-  params.connectionServices.agentService.onDynamicSessionRuntimePreferencesRequest()(
-    (request) => {
-      const startedAt = Date.now();
-      const requestContext = {
-        event: "knorvia_protocol.runtime_preferences.host_request_received",
-        module: "desktop.host.remote_workspace",
-        requestId: request.requestId,
-        scope: request.scope,
-        sessionId: request.sessionId,
+  params.connectionServices.agentService.onDynamicSessionRuntimePreferencesRequest()((request) => {
+    const startedAt = Date.now();
+    const requestContext = {
+      event: "knorvia_protocol.runtime_preferences.host_request_received",
+      module: "desktop.host.remote_workspace",
+      requestId: request.requestId,
+      scope: request.scope,
+      sessionId: request.sessionId,
+    };
+    // 诊断：Agent 侧超时只能说明没有拿到响应；这里记录 Host 是否收到请求，
+    // 用“收到但无 response”区分 transport 丢包和设置读取卡住。
+    runtimePreferencesLogger.info(
+      undefined,
+      "runtime preferences host request received",
+      requestContext,
+    );
+    void (async () => {
+      const trackStage = <T>(stage: string, promise: Promise<T>): Promise<T> => {
+        const stageStartedAt = Date.now();
+        return promise.then(
+          (value) => {
+            runtimePreferencesLogger.debug(undefined, "runtime preferences host stage completed", {
+              ...requestContext,
+              durationMs: Math.max(0, Date.now() - stageStartedAt),
+              stage,
+            });
+            return value;
+          },
+          (error: unknown) => {
+            runtimePreferencesLogger.warn(undefined, "runtime preferences host stage failed", {
+              ...requestContext,
+              durationMs: Math.max(0, Date.now() - stageStartedAt),
+              error: error instanceof Error ? error.message : String(error),
+              stage,
+            });
+            throw error;
+          },
+        );
       };
-      // 诊断：Agent 侧超时只能说明没有拿到响应；这里记录 Host 是否收到请求，
-      // 用“收到但无 response”区分 transport 丢包和设置读取卡住。
-      runtimePreferencesLogger.info(
-        undefined,
-        "runtime preferences host request received",
-        requestContext,
-      );
-      void (async () => {
-        const trackStage = <T>(stage: string, promise: Promise<T>): Promise<T> => {
-          const stageStartedAt = Date.now();
-          return promise.then(
-            (value) => {
-              runtimePreferencesLogger.debug(
-                undefined,
-                "runtime preferences host stage completed",
-                {
-                  ...requestContext,
-                  durationMs: Math.max(0, Date.now() - stageStartedAt),
-                  stage,
-                },
-              );
-              return value;
-            },
-            (error: unknown) => {
-              runtimePreferencesLogger.warn(undefined, "runtime preferences host stage failed", {
-                ...requestContext,
-                durationMs: Math.max(0, Date.now() - stageStartedAt),
-                error: error instanceof Error ? error.message : String(error),
-                stage,
-              });
-              throw error;
-            },
-          );
+      let resolution:
+        | { status: "resolved"; preferences: KnorviaSessionRuntimePreferencesResult }
+        | { status: "failed"; message: string };
+      try {
+        // 与本地 Host 同源：固定预算不依赖配置网关，远程/手机偏好响应不再串行等待网络。
+        const settings = await trackStage("settings", localSettingService.get());
+        const modelContextBudgetStrategy = DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY;
+        resolution = {
+          status: "resolved",
+          preferences: {
+            askUserQuestionAutoResolutionEnabled:
+              settings.askUserQuestionAutoResolutionEnabled !== false,
+            nativeSearchEnhancementsEnabled: settings.nativeSearchEnhancementsEnabled !== false,
+            memoryEnabled: settings.memoryEnabled === true,
+            modelContextBudgetStrategy,
+            // remote workspace 与本地 Host 保持同一 scope 边界，首次执行不得再次等待 client config。
+            ...(request.scope === "user-execution" && settings.integratedTerminalShell
+              ? { integratedTerminalShell: settings.integratedTerminalShell }
+              : {}),
+          },
         };
-        let resolution:
-          | { status: "resolved"; preferences: KnorviaSessionRuntimePreferencesResult }
-          | { status: "failed"; message: string };
-        try {
-          // 与本地 Host 同源：固定预算不依赖配置网关，远程/手机偏好响应不再串行等待网络。
-          const settings = await trackStage("settings", localSettingService.get());
-          const modelContextBudgetStrategy = DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY;
-          resolution = {
-            status: "resolved",
-            preferences: {
-              askUserQuestionAutoResolutionEnabled:
-                settings.askUserQuestionAutoResolutionEnabled !== false,
-              nativeSearchEnhancementsEnabled: settings.nativeSearchEnhancementsEnabled !== false,
-              memoryEnabled: settings.memoryEnabled === true,
-              modelContextBudgetStrategy,
-              // remote workspace 与本地 Host 保持同一 scope 边界，首次执行不得再次等待 client config。
-              ...(request.scope === "user-execution" && settings.integratedTerminalShell
-                ? { integratedTerminalShell: settings.integratedTerminalShell }
-                : {}),
-            },
-          };
-        } catch (error) {
-          resolution = {
-            status: "failed",
-            message: error instanceof Error ? error.message : String(error),
-          };
-          runtimePreferencesLogger.warn(undefined, "runtime preferences host resolution failed", {
-            ...requestContext,
-            durationMs: Math.max(0, Date.now() - startedAt),
-            error: resolution.message,
-          });
-        }
-        // 只把设置读取失败编码为 -32603；发送失败交给最终 onError 记录，不能重试同一请求。
-        await params.connectionServices.agentService.respondSessionRuntimePreferences({
-          requestId: request.requestId,
-          resolution,
-        });
-        runtimePreferencesLogger.info(undefined, "runtime preferences host response sent", {
+      } catch (error) {
+        resolution = {
+          status: "failed",
+          message: error instanceof Error ? error.message : String(error),
+        };
+        runtimePreferencesLogger.warn(undefined, "runtime preferences host resolution failed", {
           ...requestContext,
           durationMs: Math.max(0, Date.now() - startedAt),
-          resolutionStatus: resolution.status,
+          error: resolution.message,
         });
-      })().catch((error: unknown) => {
-        runtimePreferencesLogger.warn(undefined, "runtime preferences host response failed", {
-          ...requestContext,
-          durationMs: Math.max(0, Date.now() - startedAt),
-          error: error instanceof Error ? error.message : String(error),
-        });
-        onError(error);
+      }
+      // 只把设置读取失败编码为 -32603；发送失败交给最终 onError 记录，不能重试同一请求。
+      await params.connectionServices.agentService.respondSessionRuntimePreferences({
+        requestId: request.requestId,
+        resolution,
       });
-    },
-  );
+      runtimePreferencesLogger.info(undefined, "runtime preferences host response sent", {
+        ...requestContext,
+        durationMs: Math.max(0, Date.now() - startedAt),
+        resolutionStatus: resolution.status,
+      });
+    })().catch((error: unknown) => {
+      runtimePreferencesLogger.warn(undefined, "runtime preferences host response failed", {
+        ...requestContext,
+        durationMs: Math.max(0, Date.now() - startedAt),
+        error: error instanceof Error ? error.message : String(error),
+      });
+      onError(error);
+    });
+  });
 
   // Web 手机远控进入 SSH task 时只连到 remote workspace host，
   // 没有桌面 renderer 那层 `baseServices + remoteServices` 合并。

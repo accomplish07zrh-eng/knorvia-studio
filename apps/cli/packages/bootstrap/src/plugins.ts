@@ -49,7 +49,10 @@ import type {
   PluginStoreListing,
 } from "@knorvia/contracts";
 import { KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE, isOfficialMarketplaceId } from "@knorvia/contracts";
-import { KNORVIA_CUA_OFFICIAL_PLUGIN_ID, isKnorviaCuaInternalFeatureEnabled } from "@knorvia/shared";
+import {
+  KNORVIA_CUA_OFFICIAL_PLUGIN_ID,
+  isKnorviaCuaInternalFeatureEnabled,
+} from "@knorvia/shared";
 import { resolveOfficialPluginRoots } from "./app/bundled-plugins.js";
 import {
   DEFAULT_ENABLED_OFFICIAL_PLUGIN_IDS,
@@ -247,7 +250,9 @@ function countVisibleMarketplacePlugins(
   return plugins.filter((entry) => entry.name !== OFFICIAL_NODE_REPL_HOST_PLUGIN_NAME).length;
 }
 
-export function resolveKnorviaPlugins(options: ResolveKnorviaPluginsOptions = {}): PluginLoadOutcome {
+export function resolveKnorviaPlugins(
+  options: ResolveKnorviaPluginsOptions = {},
+): PluginLoadOutcome {
   const { configResult, pluginStorageRoot, workingDirectory } = resolvePluginContext(options);
 
   return discoverNodePluginsSync({
@@ -343,7 +348,8 @@ export function getKnorviaPluginsOverview(
     (def) =>
       suppressed.has(`${def.name}@${KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE}`) &&
       // computer-use 的恢复入口需要 internal 特性开启（与 restoreBuiltinPluginCore 同口径）。
-      (def.name !== "computer-use" || isKnorviaCuaInternalFeatureEnabled(options.env ?? process.env)),
+      (def.name !== "computer-use" ||
+        isKnorviaCuaInternalFeatureEnabled(options.env ?? process.env)),
   ).map((def) => {
     const listing = def.listing
       ? parseEntryStoreListing({ name: def.name, ...def.listing })
@@ -896,7 +902,9 @@ async function restoreBuiltinPluginCore(options: RestoreBuiltinPluginOptions): P
   ) {
     // overview 虽然隐藏了恢复入口，但协议调用仍可绕过 UI 写用户配置。
     // 功能开关关闭时在写盘前失败，确保用户配置与插件缓存都保持零痕迹。
-    throw new Error("computer-use built-in plugin requires KNORVIA_CUA_PRODUCT_HELPER to be enabled");
+    throw new Error(
+      "computer-use built-in plugin requires KNORVIA_CUA_PRODUCT_HELPER to be enabled",
+    );
   }
   const { configResult } = resolvePluginContext(options);
   await removeSuppressedBuiltinInFileConfig(configResult.sources.user.path, options.pluginId);
@@ -915,7 +923,9 @@ export async function restoreBuiltinPlugin(options: RestoreBuiltinPluginOptions)
   await withPluginStorageLock(pluginStorageRoot, () => restoreBuiltinPluginCore(options));
 }
 
-export async function configureKnorviaPlugin(options: ConfigureKnorviaPluginOptions): Promise<void> {
+export async function configureKnorviaPlugin(
+  options: ConfigureKnorviaPluginOptions,
+): Promise<void> {
   const normalizedOptions = normalizePluginOptions(options.options);
   const clearOptionKeys = normalizePluginOptionKeys(options.clearOptionKeys);
   const { configResult, pluginStorageRoot, workingDirectory } = resolvePluginContext(options);

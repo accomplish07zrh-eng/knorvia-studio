@@ -6,7 +6,6 @@ export function normalizeStoredThemePreference(value: unknown): CanonicalThemePr
   if (value === "system") return "system";
   if (value === "light" || value === "knorvia-light" || value === "zai-light")
     return "knorvia-light";
-  if (value === "dark" || value === "knorvia-dark" || value === "zai-dark")
-    return "knorvia-dark";
+  if (value === "dark" || value === "knorvia-dark" || value === "zai-dark") return "knorvia-dark";
   return null;
 }

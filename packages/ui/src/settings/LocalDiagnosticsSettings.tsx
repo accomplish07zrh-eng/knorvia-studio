@@ -78,16 +78,24 @@ export function LocalDiagnosticsSettings() {
           </Button>
         }
       />
-      {error ? <p role="alert" className="px-4 pb-3 text-ui-sm text-destructive">{t("error")}</p> : null}
+      {error ? (
+        <p role="alert" className="px-4 pb-3 text-ui-sm text-destructive">
+          {t("error")}
+        </p>
+      ) : null}
       {exportedPath ? (
         <p className="break-all px-4 pb-3 text-ui-sm text-foreground-subtle" role="status">
           {t("saved")}: {exportedPath}
         </p>
       ) : null}
       {preview ? (
-        <div className="space-y-3 border-t border-border px-4 py-4" data-testid="local-diagnostics-files">
+        <div
+          className="space-y-3 border-t border-border px-4 py-4"
+          data-testid="local-diagnostics-files"
+        >
           <p className="text-ui-sm text-foreground-subtle">
-            {t("frozenAt")}: {new Date(preview.createdAt).toLocaleString()} · {preview.files.length} {t("files")}
+            {t("frozenAt")}: {new Date(preview.createdAt).toLocaleString()} · {preview.files.length}{" "}
+            {t("files")}
           </p>
           <div className="max-h-72 space-y-2 overflow-y-auto">
             {preview.files.map((file) => (
@@ -95,16 +103,25 @@ export function LocalDiagnosticsSettings() {
                 <summary className="cursor-pointer text-ui-sm font-medium">
                   {file.path} · {file.bytes} B
                 </summary>
-                <p className="mt-2 break-all text-ui-xs text-foreground-subtle">SHA-256: {file.sha256}</p>
+                <p className="mt-2 break-all text-ui-xs text-foreground-subtle">
+                  SHA-256: {file.sha256}
+                </p>
                 <pre className="mt-2 max-h-40 overflow-auto whitespace-pre-wrap break-all text-ui-xs text-foreground-subtle">
                   {file.snippet}
                 </pre>
-                {file.snippetTruncated ? <p className="text-ui-xs text-foreground-subtle">{t("truncated")}</p> : null}
+                {file.snippetTruncated ? (
+                  <p className="text-ui-xs text-foreground-subtle">{t("truncated")}</p>
+                ) : null}
               </details>
             ))}
           </div>
           <div className="flex justify-end">
-            <Button type="button" disabled={busy} onClick={() => void exportPreview()} data-testid="local-diagnostics-export">
+            <Button
+              type="button"
+              disabled={busy}
+              onClick={() => void exportPreview()}
+              data-testid="local-diagnostics-export"
+            >
               {t("export")}
             </Button>
           </div>

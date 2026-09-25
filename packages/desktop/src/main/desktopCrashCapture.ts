@@ -374,7 +374,9 @@ export function initializeCrashCapture(
     logCrashArchiveCleanup(logger, startupArchiveResult, "startup");
     logArchivedCrashDumpSummaries(logger, startupArchiveResult, "startup");
   } else {
-    logger.info("[crash-capture] raw local dumps disabled; process exit diagnostics remain available");
+    logger.info(
+      "[crash-capture] raw local dumps disabled; process exit diagnostics remain available",
+    );
   }
 
   logger.info(

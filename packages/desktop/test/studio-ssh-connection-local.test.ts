@@ -5,7 +5,10 @@ import { createWindowRemoteConnectionRegistry } from "../src/host/windowRemoteCo
 test("local SSH connector keeps workspace identity across disconnect and reconnect", async () => {
   let nextSession = 0;
   let nextConnection = 0;
-  const closeListeners = new Map<number, (event: { exitCode: number | null; signal: string | null }) => void>();
+  const closeListeners = new Map<
+    number,
+    (event: { exitCode: number | null; signal: string | null }) => void
+  >();
   const seenTargets: string[] = [];
   const registry = createWindowRemoteConnectionRegistry({
     createId: () => `session-${++nextSession}`,
@@ -41,14 +44,21 @@ test("local SSH connector keeps workspace identity across disconnect and reconne
       workspacePath: path,
       workspaceIdentity: firstIdentity,
     });
-    assert.equal(registry.resolveScopedServices(attach(first.remoteSessionId, firstIdentity)).connection, 1);
+    assert.equal(
+      registry.resolveScopedServices(attach(first.remoteSessionId, firstIdentity)).connection,
+      1,
+    );
     assert.equal(registry.getSession(first.remoteSessionId)?.state, "online");
-    assert.throws(() => registry.resolveScopedServices(attach(first.remoteSessionId, "other-identity")));
+    assert.throws(() =>
+      registry.resolveScopedServices(attach(first.remoteSessionId, "other-identity")),
+    );
 
     closeListeners.get(1)?.({ exitCode: null, signal: null });
     assert.equal(registry.getSession(first.remoteSessionId)?.state, "disconnected");
     assert.equal(registry.getSession(first.remoteSessionId)?.sourceAvailability, "offline");
-    assert.throws(() => registry.resolveScopedServices(attach(first.remoteSessionId, firstIdentity)));
+    assert.throws(() =>
+      registry.resolveScopedServices(attach(first.remoteSessionId, firstIdentity)),
+    );
 
     const reconnected = await registry.connect({
       requestId: "connect-a-2",
@@ -57,9 +67,18 @@ test("local SSH connector keeps workspace identity across disconnect and reconne
       workspacePath: path,
       workspaceIdentity: firstIdentity,
     });
-    assert.equal(registry.resolveScopedServices(attach(reconnected.remoteSessionId, firstIdentity)).connection, 2);
-    assert.equal(registry.findSessionForWorkspace({ workspacePath: path, workspaceIdentity: firstIdentity })?.remoteSessionId, reconnected.remoteSessionId);
-    assert.throws(() => registry.resolveScopedServices(attach(first.remoteSessionId, firstIdentity)));
+    assert.equal(
+      registry.resolveScopedServices(attach(reconnected.remoteSessionId, firstIdentity)).connection,
+      2,
+    );
+    assert.equal(
+      registry.findSessionForWorkspace({ workspacePath: path, workspaceIdentity: firstIdentity })
+        ?.remoteSessionId,
+      reconnected.remoteSessionId,
+    );
+    assert.throws(() =>
+      registry.resolveScopedServices(attach(first.remoteSessionId, firstIdentity)),
+    );
 
     const other = await registry.connect({
       requestId: "connect-b",
@@ -68,7 +87,11 @@ test("local SSH connector keeps workspace identity across disconnect and reconne
       workspacePath: path,
       workspaceIdentity: "fixture-host-b:project",
     });
-    assert.equal(registry.resolveScopedServices(attach(other.remoteSessionId, "fixture-host-b:project")).connection, 3);
+    assert.equal(
+      registry.resolveScopedServices(attach(other.remoteSessionId, "fixture-host-b:project"))
+        .connection,
+      3,
+    );
     assert.deepEqual(seenTargets, ["fixture-a.invalid", "fixture-a.invalid", "fixture-b.invalid"]);
   } finally {
     await registry.dispose();

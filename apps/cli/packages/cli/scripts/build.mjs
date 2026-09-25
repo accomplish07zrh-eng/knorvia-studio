@@ -1,5 +1,8 @@
 import { chmod, readFile, rm } from "node:fs/promises";
-import { readThirdPartyNotices, stageThirdPartyNotices } from "../../../../../scripts/third-party-notices.mjs";
+import {
+  readThirdPartyNotices,
+  stageThirdPartyNotices,
+} from "../../../../../scripts/third-party-notices.mjs";
 import { basename, dirname, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { build } from "esbuild";
@@ -158,7 +161,10 @@ export const resolveBuildAliases = ({
     "../../packages/shared/src/model-selection.ts",
   ),
   // 共享 Model Schema 新增的子路径不能被通用 alias 拼到 index.ts 后面。
-  "@knorvia/shared/model-config": resolve(rootDirectory, "../../packages/shared/src/model-config.ts"),
+  "@knorvia/shared/model-config": resolve(
+    rootDirectory,
+    "../../packages/shared/src/model-config.ts",
+  ),
   // 进程异常边界在 bootstrap 之前使用该轻量契约，不能落入 shared 的通用前缀 alias。
   "@knorvia/shared/process-diagnostic": resolve(
     rootDirectory,
@@ -192,10 +198,7 @@ export const resolveBuildAliases = ({
     rootDirectory,
     "../../packages/shared/src/workspace-hook-trust-store-file.ts",
   ),
-  "@knorvia/shared/endpoint": resolve(
-    rootDirectory,
-    "../../packages/shared/src/endpoint.ts",
-  ),
+  "@knorvia/shared/endpoint": resolve(rootDirectory, "../../packages/shared/src/endpoint.ts"),
   "@knorvia/shared/node": resolve(rootDirectory, "../../packages/shared/src/node.ts"),
   "@knorvia/shared": resolve(rootDirectory, "../../packages/shared/src/index.ts"),
   "@knorvia/core": resolve(cliDirectory, "../core/dist/index.js"),

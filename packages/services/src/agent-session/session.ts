@@ -133,7 +133,9 @@ export interface KnorviaSessionWorkspaceRuntimeIdentity {
 }
 
 export interface IKnorviaSessionService {
-  initializeWorkspace(params: KnorviaSessionWorkspaceTarget): Promise<KnorviaSessionInitializeResult>;
+  initializeWorkspace(
+    params: KnorviaSessionWorkspaceTarget,
+  ): Promise<KnorviaSessionInitializeResult>;
   getWorkspaceRuntimeIdentity(
     params: KnorviaSessionWorkspaceTarget,
   ): Promise<KnorviaSessionWorkspaceRuntimeIdentity>;
@@ -150,7 +152,9 @@ export interface IKnorviaSessionService {
   closeSession(params: KnorviaTaskTarget): Promise<void>;
   closeDeferredDraftSession(params: KnorviaTaskTarget): Promise<boolean>;
   setModel(params: KnorviaSessionSetModelParams): Promise<KnorviaSessionStateSnapshot>;
-  setThoughtLevel(params: KnorviaSessionSetThoughtLevelParams): Promise<KnorviaSessionStateSnapshot>;
+  setThoughtLevel(
+    params: KnorviaSessionSetThoughtLevelParams,
+  ): Promise<KnorviaSessionStateSnapshot>;
   setMode(params: KnorviaSessionSetModeParams): Promise<KnorviaSessionStateSnapshot>;
   // renderer 订阅面走 agentService 的 conversation/sessions-index 帧通道。
 }

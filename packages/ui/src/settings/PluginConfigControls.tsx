@@ -1,6 +1,10 @@
 import { Eye, EyeOff, RotateCcw, Save, Trash2 } from "lucide-react";
 import { useState } from "react";
-import type { KnorviaPluginInfo, KnorviaPluginScope, KnorviaPluginUserConfigOption } from "@knorvia/shared";
+import type {
+  KnorviaPluginInfo,
+  KnorviaPluginScope,
+  KnorviaPluginUserConfigOption,
+} from "@knorvia/shared";
 import { Button } from "@/components/ui/button.js";
 import { Input } from "@/components/ui/input.js";
 import { Switch } from "@/components/ui/switch.js";

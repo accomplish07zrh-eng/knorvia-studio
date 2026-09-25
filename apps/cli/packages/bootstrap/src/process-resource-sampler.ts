@@ -100,7 +100,8 @@ function toRoundedUnit(value: number, divisor: number): number | undefined {
 export function createKnorviaProcessResourceSampler(
   options: CreateKnorviaProcessResourceSamplerOptions,
 ): KnorviaProcessResourceSampler {
-  const platform = options.platform ?? (process.platform as KnorviaProcessResourceSample["platform"]);
+  const platform =
+    options.platform ?? (process.platform as KnorviaProcessResourceSample["platform"]);
   const arch = options.arch ?? (process.arch as KnorviaProcessResourceSample["arch"]);
   const logicalCpuCount = Math.max(
     1,

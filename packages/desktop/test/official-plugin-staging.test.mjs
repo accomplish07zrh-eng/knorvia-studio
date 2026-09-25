@@ -1,5 +1,13 @@
 import assert from "node:assert/strict";
-import { cpSync, mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  mkdtempSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -94,12 +102,17 @@ test("new office plugin assets stage byte-for-byte and exclude superseded files"
       .filter((entry) => entry.isFile() && !entry.name.endsWith(".pyc"))
       .map((entry) => {
         const file = resolve(entry.parentPath, entry.name);
-        return [file.slice(root.length + 1).replaceAll("\\", "/"), createHash("sha256").update(readFileSync(file)).digest("hex")];
+        return [
+          file.slice(root.length + 1).replaceAll("\\", "/"),
+          createHash("sha256").update(readFileSync(file)).digest("hex"),
+        ];
       })
       .sort(([left], [right]) => left.localeCompare(right));
   }
   for (const plugin of selected) {
-    cpSync(resolve(repoRoot, plugin.relativePath), resolve(input.repoRoot, plugin.relativePath), { recursive: true });
+    cpSync(resolve(repoRoot, plugin.relativePath), resolve(input.repoRoot, plugin.relativePath), {
+      recursive: true,
+    });
     const destination = resolve(input.agentDir, plugin.stagedPath);
     mkdirSync(destination, { recursive: true });
     writeFileSync(resolve(destination, "superseded-template.txt"), "must not ship");
@@ -109,7 +122,9 @@ test("new office plugin assets stage byte-for-byte and exclude superseded files"
     const source = resolve(repoRoot, plugin.relativePath);
     const staged = resolve(input.agentDir, plugin.stagedPath);
     assert.deepEqual(fingerprints(staged), fingerprints(source));
-    const manifest = JSON.parse(readFileSync(resolve(staged, ".knorvia-plugin/plugin.json"), "utf8"));
+    const manifest = JSON.parse(
+      readFileSync(resolve(staged, ".knorvia-plugin/plugin.json"), "utf8"),
+    );
     assert.equal(manifest.version, "0.2.0");
     assert.equal(manifest.author.name, "Knorvia Studio");
     assert.equal(fingerprints(staged).length, 6);

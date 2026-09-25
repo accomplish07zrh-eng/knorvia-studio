@@ -54,7 +54,8 @@ export function useTuiApplyResult(input: TuiApplyResultInput) {
       input.setMode(result.mode ?? input.fallback.mode);
       input.setModel(result.model ?? input.fallback.model);
       if (result.locale) input.setLocale(result.locale);
-      if (result.modelConfigurationRequired !== undefined) input.setModelConfigurationRequired(result.modelConfigurationRequired);
+      if (result.modelConfigurationRequired !== undefined)
+        input.setModelConfigurationRequired(result.modelConfigurationRequired);
       if (result.effortOptions) input.setEffortOptions(result.effortOptions);
       if (result.modelOptions) input.setModelOptions(result.modelOptions);
       if ("thoughtLevel" in result) input.setThoughtLevel(result.thoughtLevel ?? "");
@@ -88,7 +89,8 @@ export function useTuiApplyResult(input: TuiApplyResultInput) {
 
       input.setSelection(createSelectionState(result.selection));
       input.setQueuedInputs([]);
-      const activeModelConfigurationRequired = result.modelConfigurationRequired ?? input.fallback.modelConfigurationRequired;
+      const activeModelConfigurationRequired =
+        result.modelConfigurationRequired ?? input.fallback.modelConfigurationRequired;
       input.setStatus(
         result.selection
           ? result.selection.prompt

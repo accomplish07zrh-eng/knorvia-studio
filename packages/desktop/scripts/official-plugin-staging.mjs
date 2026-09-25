@@ -35,22 +35,42 @@ const contentPluginPackages = [
   {
     name: "documents",
     version: "0.2.0",
-    requiredSeedPaths: ["agents/visual-judge.md", "skills/docx/SKILL.md", "skills/docx/LICENSE.txt", "skills/docx/scripts/inspect.py"],
+    requiredSeedPaths: [
+      "agents/visual-judge.md",
+      "skills/docx/SKILL.md",
+      "skills/docx/LICENSE.txt",
+      "skills/docx/scripts/inspect.py",
+    ],
   },
   {
     name: "pdf",
     version: "0.2.0",
-    requiredSeedPaths: ["agents/visual-judge.md", "skills/pdf/SKILL.md", "skills/pdf/LICENSE.txt", "skills/pdf/scripts/inspect.py"],
+    requiredSeedPaths: [
+      "agents/visual-judge.md",
+      "skills/pdf/SKILL.md",
+      "skills/pdf/LICENSE.txt",
+      "skills/pdf/scripts/inspect.py",
+    ],
   },
   {
     name: "presentations",
     version: "0.2.0",
-    requiredSeedPaths: ["agents/visual-judge.md", "skills/pptx/SKILL.md", "skills/pptx/LICENSE.txt", "skills/pptx/scripts/inspect.py"],
+    requiredSeedPaths: [
+      "agents/visual-judge.md",
+      "skills/pptx/SKILL.md",
+      "skills/pptx/LICENSE.txt",
+      "skills/pptx/scripts/inspect.py",
+    ],
   },
   {
     name: "spreadsheets",
     version: "0.2.0",
-    requiredSeedPaths: ["agents/visual-judge.md", "skills/xlsx/SKILL.md", "skills/xlsx/LICENSE.txt", "skills/xlsx/scripts/inspect.py"],
+    requiredSeedPaths: [
+      "agents/visual-judge.md",
+      "skills/xlsx/SKILL.md",
+      "skills/xlsx/LICENSE.txt",
+      "skills/xlsx/scripts/inspect.py",
+    ],
   },
   {
     name: "plugin-creator",
@@ -264,7 +284,9 @@ export function stageOfficialPluginAssets({ repoRoot, agentDir, log = console.lo
     }
     // 许可守卫：manifest 声明了 license 字段时，被指向的许可正文必须真实存在且已 staged。
     // 这是 specs/knorvia-builtin-plugins.md 对"发行来源与权利依据需单独记录"的机械兜底。
-    const manifest = JSON.parse(readFileSync(resolve(sourceRoot, ".knorvia-plugin", "plugin.json"), "utf8"));
+    const manifest = JSON.parse(
+      readFileSync(resolve(sourceRoot, ".knorvia-plugin", "plugin.json"), "utf8"),
+    );
     const declaredLicense = typeof manifest.license === "string" ? manifest.license : "";
     const seeLicenseIn = /^SEE LICENSE IN\s+(.+)$/u.exec(declaredLicense.trim());
     if (seeLicenseIn) {

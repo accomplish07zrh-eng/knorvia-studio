@@ -39,7 +39,10 @@ test("storage startup reports a close failure after successful migration", async
     throw failure;
   });
   const phases: string[] = [];
-  await assert.rejects(prepareTasksIndexStorage(join(dir, "tasks.sqlite"), (phase) => phases.push(phase)), (error) => error === failure);
+  await assert.rejects(
+    prepareTasksIndexStorage(join(dir, "tasks.sqlite"), (phase) => phases.push(phase)),
+    (error) => error === failure,
+  );
   assert.equal(phases.includes("ready"), false);
 });
 
@@ -47,10 +50,21 @@ test("preparation failure wins while both repositories are closed", async (t) =>
   const dir = await mkdtemp(join(tmpdir(), "knorvia-startup-repos-"));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const failure = new Error("prepare failed");
-  t.mock.method(TaskIndexRepo.prototype, "ensureReady", async () => { throw failure; });
+  t.mock.method(TaskIndexRepo.prototype, "ensureReady", async () => {
+    throw failure;
+  });
   const closed: string[] = [];
-  t.mock.method(TaskIndexRepo.prototype, "close", () => { closed.push("tasks"); throw new Error("close tasks"); });
-  t.mock.method(AutomationRepo.prototype, "close", () => { closed.push("automation"); throw new Error("close automation"); });
-  await assert.rejects(prepareTasksIndexStorage(join(dir, "tasks.sqlite"), () => {}), (error) => error === failure);
+  t.mock.method(TaskIndexRepo.prototype, "close", () => {
+    closed.push("tasks");
+    throw new Error("close tasks");
+  });
+  t.mock.method(AutomationRepo.prototype, "close", () => {
+    closed.push("automation");
+    throw new Error("close automation");
+  });
+  await assert.rejects(
+    prepareTasksIndexStorage(join(dir, "tasks.sqlite"), () => {}),
+    (error) => error === failure,
+  );
   assert.deepEqual(closed, ["tasks", "automation"]);
 });

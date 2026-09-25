@@ -112,7 +112,13 @@ export interface GitChangeSummary {
   removed: number;
 }
 
-export type WorkspaceMainView = "chat" | "automations" | "workflows" | "creation" | "groups" | "external-chat";
+export type WorkspaceMainView =
+  | "chat"
+  | "automations"
+  | "workflows"
+  | "creation"
+  | "groups"
+  | "external-chat";
 
 export interface WorkspaceShellLayoutProps extends AppProps {
   workspaceReadOnlyReason?: string;

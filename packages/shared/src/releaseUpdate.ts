@@ -25,8 +25,13 @@ export function validReleaseInfoUrl(value: string): boolean {
     const sensitiveQuery = [...url.searchParams.keys()].some((key) =>
       /(?:api[-_]?key|auth|credential|password|secret|token)/i.test(key),
     );
-    return (url.protocol === "https:" || (url.protocol === "http:" && loopback)) &&
-      !url.username && !url.password && !url.hash && !sensitiveQuery;
+    return (
+      (url.protocol === "https:" || (url.protocol === "http:" && loopback)) &&
+      !url.username &&
+      !url.password &&
+      !url.hash &&
+      !sensitiveQuery
+    );
   } catch {
     return false;
   }

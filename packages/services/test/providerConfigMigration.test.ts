@@ -8,9 +8,7 @@ import { createProviderConfigRuntime } from "../src/model-provider/providerConfi
 import { createProviderRuntime } from "../src/model-provider/providerRuntime.js";
 import { getAppConfigDir, setDataBaseDir } from "../src/paths.js";
 
-const builtin = fileURLToPath(
-  new URL("../../../config/provider/builtin.json", import.meta.url),
-);
+const builtin = fileURLToPath(new URL("../../../config/provider/builtin.json", import.meta.url));
 
 async function setup() {
   const dir = await mkdtemp(join(tmpdir(), "knorvia-provider-isolation-"));

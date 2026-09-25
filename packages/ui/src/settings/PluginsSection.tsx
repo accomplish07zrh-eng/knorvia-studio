@@ -23,7 +23,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs.js";
 import { Switch } from "@/components/ui/switch.js";
 import { ControlHintTooltip } from "@/ControlHintTooltip.js";
-import type { KnorviaPluginInfo, KnorviaPluginScope, KnorviaPluginUserConfigOption } from "@knorvia/shared";
+import type {
+  KnorviaPluginInfo,
+  KnorviaPluginScope,
+  KnorviaPluginUserConfigOption,
+} from "@knorvia/shared";
 import type { CreateTaskRequest } from "@/app-shell/types.js";
 import {
   useBaseWorkspaceServices,
