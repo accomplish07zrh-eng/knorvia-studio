@@ -2,12 +2,24 @@ import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { createRequire } from "node:module";
 import type { DatabaseSync as DatabaseType } from "node:sqlite";
+import { createSqliteSnapshot } from "#src/session/tasksDatabase/sqliteSnapshot.js";
 import type { StoredRun, StudioListOptions, StudioRepository } from "../app/storePort.js";
 
 const { DatabaseSync } = createRequire(import.meta.url)(
   "node:sqlite",
 ) as typeof import("node:sqlite");
 const LEASE_MS = 8_000;
+
+/** 空库（首次安装）没有可保护的数据，不产生备份文件。 */
+function hasStudioData(db: DatabaseType): boolean {
+  return Boolean(
+    db
+      .prepare(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' LIMIT 1",
+      )
+      .get(),
+  );
+}
 
 export class StudioDatabase implements StudioRepository {
   private readonly db: DatabaseType;
@@ -17,12 +29,17 @@ export class StudioDatabase implements StudioRepository {
   constructor(path: string) {
     mkdirSync(dirname(path), { recursive: true });
     this.db = new DatabaseSync(path);
-    this.db.exec("PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;");
-    this.db.exec("BEGIN IMMEDIATE");
+    this.db.exec("PRAGMA busy_timeout=5000; PRAGMA synchronous=FULL;");
     try {
       const version = this.db.prepare("PRAGMA user_version").get()?.user_version;
       if (version !== 0 && version !== 1 && version !== 2)
         throw new Error("Studio 数据版本较新，请使用较新版本打开。");
+      // 升级保护：先写一致快照，再切 WAL，再进写事务。备份失败时原库连日志模式都未改动
+      //（抛出 kind="backup_failed"），也不会删除或覆盖原库（见 specs/knorvia-upgrade-protection.md）。
+      if (version !== 2 && hasStudioData(this.db))
+        createSqliteSnapshot(this.db, path, `v${version}`);
+      this.db.exec("PRAGMA journal_mode=WAL;");
+      this.db.exec("BEGIN IMMEDIATE");
       this.db.exec(`
       CREATE TABLE IF NOT EXISTS studio_entities (
         kind TEXT NOT NULL, id TEXT NOT NULL, scope TEXT NOT NULL DEFAULT '',
@@ -57,7 +74,12 @@ export class StudioDatabase implements StudioRepository {
         COMMIT;
       `);
     } catch (error) {
-      this.db.exec("ROLLBACK");
+      try {
+        // 版本检查与备份在事务之前失败时没有事务可回滚，不能让回滚异常覆盖真正的首因。
+        if (this.db.isTransaction) this.db.exec("ROLLBACK");
+      } catch {
+        /* 回滚失败仍抛首因，交给关闭连接清理。 */
+      }
       this.db.close();
       throw error;
     }

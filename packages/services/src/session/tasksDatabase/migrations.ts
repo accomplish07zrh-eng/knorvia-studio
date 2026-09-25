@@ -9,6 +9,7 @@ import {
 import { importLegacyAutomationSelections } from "#src/session/tasksDatabase/provider-selection-v2.js";
 import { OFFICIAL_GLM_SELECTION_MIGRATION_SQL } from "#src/session/tasksDatabase/official-glm-selection-v3.js";
 import { AGENT_IDENTITY_MIGRATION_SQL } from "#src/session/tasksDatabase/agent-identity-v4.js";
+import { createSqliteSnapshot } from "#src/session/tasksDatabase/sqliteSnapshot.js";
 
 // 冻结历史列声明，不能以实时 Repo/schema 代替，否则新版构建会改变已应用 checksum。
 const columns = [
@@ -84,7 +85,12 @@ export function runTasksDatabaseMigrations(
     onProgress?: (phase: "migrating" | "committing", migration: DatabaseMigrationFacts) => void;
   } = {},
 ): void {
-  if (!options.transactionOpen) db.exec("BEGIN IMMEDIATE");
+  if (!options.transactionOpen) {
+    // 自持事务的调用方（Repo 直接打开旧库）同样先落迁移前快照；备份失败即抛错，不进入写事务。
+    // 由 startup 传入已开启事务的调用方，备份已在 BEGIN IMMEDIATE 之前完成，此处不重复。
+    if (inspectTasksMigrationKind(db) === "upgrade") createTasksDatabaseSnapshot(db);
+    db.exec("BEGIN IMMEDIATE");
+  }
   const migrationFacts: DatabaseMigrationFacts = options.migration ?? {
     kind: "none",
     executedCount: 0,
@@ -148,6 +154,25 @@ export function runTasksDatabaseMigrations(
       Object.assign(error, { migrationId: currentMigrationId });
     throw error;
   }
+}
+
+/** 备份文件名里的“迁移起点”：最后一次已应用迁移；账本不存在或为空时返回 null。 */
+export function lastAppliedTasksMigrationId(db: DatabaseSync): string | null {
+  if (
+    !db
+      .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
+      .get()
+  )
+    return null;
+  const row = db.prepare("SELECT id FROM tasks_schema_migration ORDER BY id DESC LIMIT 1").get();
+  return row ? String(row.id) : null;
+}
+
+/** 迁移前快照：无文件路径（:memory:）没有可保护的数据，返回 undefined 不写备份。 */
+export function createTasksDatabaseSnapshot(db: DatabaseSync): string | undefined {
+  const path = db.location();
+  if (!path) return undefined;
+  return createSqliteSnapshot(db, path, lastAppliedTasksMigrationId(db) ?? "unversioned");
 }
 
 function adoptSchema(db: DatabaseSync): void {

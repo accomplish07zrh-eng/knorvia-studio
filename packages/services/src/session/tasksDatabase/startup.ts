@@ -1,6 +1,7 @@
 import { AutomationRepo } from "#src/session/automationRepo.js";
 import { TaskIndexRepo } from "#src/session/taskIndexRepo.js";
 import {
+  createTasksDatabaseSnapshot,
   inspectTasksMigrationKind,
   runTasksDatabaseMigrations,
 } from "#src/session/tasksDatabase/migrations.js";
@@ -73,6 +74,8 @@ export async function prepareTasksIndexStorage(
       migration = { kind: inspectTasksMigrationKind(db), executedCount: 0, committedCount: 0 };
     });
     report("checking", migration);
+    // 升级保护：写锁之前先落一致快照；备份失败直接抛出，不进入写事务（见 specs/knorvia-upgrade-protection.md）。
+    if (migration?.kind === "upgrade") await acquire(() => createTasksDatabaseSnapshot(db));
     await acquire("BEGIN IMMEDIATE");
     runTasksDatabaseMigrations(db, { transactionOpen: true, migration, onProgress: report });
     // COMMIT 已成功，先发布事实；后续 close 失败不能把已提交误报为未提交。

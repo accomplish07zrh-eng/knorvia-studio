@@ -1,0 +1,362 @@
+{
+  "description": "Knorvia Studio 上一版本（0.8.0-preview.1 世代）本地数据的脱敏夹具。全部为示例值，不含真实用户数据、路径或凭据。studio 段是 user_version=1 的 Studio 主库内容；tasksIndex 段是账本停在 0001+0002 的任务索引内容（0003/0004/0005 尚未应用）。",
+  "studio": {
+    "userVersion": 1,
+    "meta": {
+      "revision": "42"
+    },
+    "entities": [
+      {
+        "kind": "conversation",
+        "id": "demo-chat",
+        "scope": "",
+        "sequence": 1,
+        "value": {
+          "id": "demo-chat",
+          "title": "示例单聊",
+          "kind": "chat",
+          "workspacePath": "/example/workspace",
+          "kernel": "demo-kernel",
+          "createdAt": 1700000000000,
+          "updatedAt": 1700000004000
+        }
+      },
+      {
+        "kind": "group",
+        "id": "demo-group",
+        "scope": "",
+        "sequence": 2,
+        "value": {
+          "id": "demo-group",
+          "title": "示例群聊",
+          "members": ["demo-chat", "demo-chat-2"],
+          "workspacePath": "/example/workspace",
+          "createdAt": 1700000000001,
+          "updatedAt": 1700000004001
+        }
+      },
+      {
+        "kind": "workflow",
+        "id": "demo-workflow",
+        "scope": "",
+        "sequence": 3,
+        "value": {
+          "id": "demo-workflow",
+          "title": "示例工作流",
+          "nodes": [
+            { "id": "collect", "title": "收集" },
+            { "id": "summarize", "title": "汇总" }
+          ],
+          "createdAt": 1700000000002,
+          "updatedAt": 1700000004002
+        }
+      },
+      {
+        "kind": "message",
+        "id": "message-1",
+        "scope": "demo-chat",
+        "sequence": 4,
+        "value": {
+          "id": "message-1",
+          "role": "user",
+          "text": "示例提问一",
+          "createdAt": 1700000001000
+        }
+      },
+      {
+        "kind": "message",
+        "id": "message-2",
+        "scope": "demo-chat",
+        "sequence": 4,
+        "value": {
+          "id": "message-2",
+          "role": "assistant",
+          "text": "示例回答一",
+          "createdAt": 1700000002000,
+          "usage": { "inputTokens": 12, "outputTokens": 34 }
+        }
+      },
+      {
+        "kind": "message",
+        "id": "message-3",
+        "scope": "demo-chat",
+        "sequence": 4,
+        "value": {
+          "id": "message-3",
+          "role": "user",
+          "text": "示例提问二",
+          "createdAt": 1700000003000
+        }
+      },
+      {
+        "kind": "message",
+        "id": "message-4",
+        "scope": "demo-chat",
+        "sequence": 5,
+        "value": {
+          "id": "message-4",
+          "role": "assistant",
+          "text": "示例回答二",
+          "createdAt": 1700000004000
+        }
+      },
+      {
+        "kind": "run",
+        "id": "run-completed",
+        "scope": "demo-chat",
+        "sequence": 6,
+        "value": {
+          "id": "run-completed",
+          "targetId": "demo-chat",
+          "kind": "chat",
+          "state": "completed",
+          "resultKnown": true,
+          "startedAt": 1700000005000,
+          "finishedAt": 1700000006000,
+          "checkpoint": {
+            "steps": {
+              "collect": { "id": "collect", "status": "succeeded", "text": "示例步骤输出" }
+            },
+            "values": {}
+          }
+        }
+      },
+      {
+        "kind": "run",
+        "id": "run-interrupted",
+        "scope": "demo-chat",
+        "sequence": 7,
+        "value": {
+          "id": "run-interrupted",
+          "targetId": "demo-chat",
+          "kind": "chat",
+          "state": "interrupted",
+          "resultKnown": false,
+          "startedAt": 1700000007000,
+          "checkpoint": { "steps": {}, "values": {} }
+        }
+      },
+      {
+        "kind": "run",
+        "id": "run-queued",
+        "scope": "demo-chat",
+        "sequence": 8,
+        "value": {
+          "id": "run-queued",
+          "targetId": "demo-chat",
+          "kind": "chat",
+          "state": "queued",
+          "resultKnown": false,
+          "startedAt": 1700000008000,
+          "checkpoint": { "steps": {}, "values": {} }
+        }
+      },
+      {
+        "kind": "active",
+        "id": "run-queued",
+        "scope": "demo-chat",
+        "sequence": 9,
+        "value": { "id": "run-queued", "targetId": "demo-chat", "enqueuedAt": 1700000008001 }
+      },
+      {
+        "kind": "interaction",
+        "id": "interaction-approval",
+        "scope": "demo-chat",
+        "sequence": 10,
+        "value": {
+          "id": "interaction-approval",
+          "runId": "run-completed",
+          "kind": "approval",
+          "status": "pending",
+          "question": "是否允许写入示例文件？",
+          "createdAt": 1700000009000
+        }
+      },
+      {
+        "kind": "interaction",
+        "id": "interaction-resolved",
+        "scope": "demo-chat",
+        "sequence": 11,
+        "value": {
+          "id": "interaction-resolved",
+          "runId": "run-completed",
+          "kind": "approval",
+          "status": "answered",
+          "answer": { "approved": true },
+          "createdAt": 1700000009100
+        }
+      },
+      {
+        "kind": "steering",
+        "id": "steering-pending",
+        "scope": "demo-chat",
+        "sequence": 12,
+        "value": {
+          "id": "steering-pending",
+          "runId": "run-queued",
+          "text": "示例补充要求",
+          "state": "pending",
+          "createdAt": 1700000009200
+        }
+      },
+      {
+        "kind": "step-result",
+        "id": "run-completed:collect",
+        "scope": "run-completed",
+        "sequence": 13,
+        "value": {
+          "id": "collect",
+          "status": "succeeded",
+          "text": "示例步骤输出",
+          "changesSummary": "1 file changed"
+        }
+      },
+      {
+        "kind": "checkpoint-value",
+        "id": "run-completed:topic",
+        "scope": "run-completed",
+        "sequence": 14,
+        "value": { "value": "{\"text\":\"示例主题\"}" }
+      },
+      {
+        "kind": "turn",
+        "id": "turn-1",
+        "scope": "run-completed",
+        "sequence": 15,
+        "value": { "id": "turn-1", "runId": "run-completed", "index": 1, "kernelId": "demo-kernel" }
+      },
+      {
+        "kind": "usage",
+        "id": "turn-1",
+        "scope": "",
+        "sequence": 16,
+        "value": { "inputTokens": 12, "outputTokens": 34, "cachedTokens": 0 }
+      },
+      {
+        "kind": "group-workspace",
+        "id": "demo-group",
+        "scope": "",
+        "sequence": 17,
+        "value": { "identity": "demo-group-identity", "generation": "1" }
+      }
+    ]
+  },
+  "tasksIndex": {
+    "pendingFrom": [
+      "0003_official_glm_selection",
+      "0004_agent_identity",
+      "0005_studio_workflow_schedule"
+    ],
+    "tasks": [
+      {
+        "workspace_key": "demo-workspace",
+        "workspace_path": "/example/workspace",
+        "workspace_identity": "demo-workspace",
+        "task_id": "task-visible",
+        "title": "示例任务",
+        "task_status": "completed",
+        "provider": "glm",
+        "mode": "build",
+        "model": "GLM-5.3",
+        "created_at": 1700000000000,
+        "updated_at": 1700000005000,
+        "unread_at": null,
+        "last_unread_at": 0,
+        "pinned": 1,
+        "archived": 0,
+        "deleted": 0,
+        "title_overridden": 1,
+        "meta_json": "{\"taskId\":\"task-visible\",\"title\":\"示例任务\",\"provider\":\"glm\",\"model\":\"GLM-5.3\",\"extra\":\"preserve\"}"
+      },
+      {
+        "workspace_key": "demo-workspace",
+        "workspace_path": "/example/workspace",
+        "workspace_identity": null,
+        "task_id": "task-damaged",
+        "title": "坏 JSON 示例任务",
+        "task_status": "failed",
+        "provider": "glm",
+        "mode": "plan",
+        "model": null,
+        "created_at": 1700000000100,
+        "updated_at": 1700000005100,
+        "unread_at": 1700000005100,
+        "last_unread_at": 1700000005100,
+        "pinned": 0,
+        "archived": 0,
+        "deleted": 0,
+        "title_overridden": 0,
+        "meta_json": "invalid-json"
+      }
+    ],
+    "automations": [
+      {
+        "automation_id": "automation-plan",
+        "title": "示例定时任务",
+        "cron_expr": "0 9 * * *",
+        "prompt": "示例提示词，保持原样",
+        "model": "custom:builtin:zai-start-plan:glm-5.3",
+        "provider": "glm",
+        "mode": "build",
+        "thought_level": "high",
+        "model_selection": "{\"providerId\":\"account:zai-start-plan\",\"modelId\":\"glm-5.3\",\"options\":{\"reasoningLevel\":\"high\"}}",
+        "workspace_key": "demo-workspace",
+        "workspace_path": "/example/workspace",
+        "workspace_identity": "demo-workspace",
+        "run_count": 3,
+        "scheduled_run_count": 3,
+        "created_at": 1700000000200,
+        "updated_at": 1700000005200
+      }
+    ],
+    "automationRuns": [
+      {
+        "run_id": "automation-run-1",
+        "automation_id": "automation-plan",
+        "workspace_key": "demo-workspace",
+        "scheduled_at": 1700000000300,
+        "trigger": "schedule",
+        "model_selection": "{\"providerId\":\"account:zai-start-plan\",\"modelId\":\"glm-5.3\"}",
+        "dispatch_status": "claimed",
+        "outcome": "succeeded",
+        "created_at": 1700000000300,
+        "updated_at": 1700000005300
+      }
+    ],
+    "offPeakTasks": [
+      {
+        "off_peak_task_id": "off-peak-1",
+        "server_ticket_id": null,
+        "title": "示例闲时任务",
+        "conversation_id": "demo-chat",
+        "session_id": null,
+        "prompt": "示例闲时提示词",
+        "permission_mode": "default",
+        "model": "GLM-5.3",
+        "thought_level": "medium",
+        "model_selection": "null",
+        "workspace_key": "demo-workspace",
+        "workspace_path": "/example/workspace",
+        "workspace_identity": null,
+        "status": "settled",
+        "queued_at": 1700000000400,
+        "started_at": 1700000000401,
+        "ended_at": 1700000000450,
+        "failure_reason": null,
+        "files_changed": 0,
+        "settled_at": 1700000000451,
+        "history_deleted_at": null,
+        "registered_at": 1700000000400,
+        "schedulable": 0,
+        "queue_position": null,
+        "next_poll_at": null,
+        "claim_running": 0,
+        "claimed_at": null,
+        "attempt_count": 1,
+        "last_error": null,
+        "created_at": 1700000000400,
+        "updated_at": 1700000000451
+      }
+    ]
+  }
+}
