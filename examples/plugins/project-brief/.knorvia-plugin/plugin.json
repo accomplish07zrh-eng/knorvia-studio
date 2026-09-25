@@ -1,0 +1,10 @@
+{
+  "name": "project-brief",
+  "version": "0.1.0",
+  "description": "Read an explicitly selected local project and produce a concise, sourced handoff brief.",
+  "author": {
+    "name": "Knorvia Studio"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "skills": "./skills"
+}
