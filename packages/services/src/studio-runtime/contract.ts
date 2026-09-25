@@ -20,8 +20,19 @@ export { studioConditionReferences } from "./domain/condition.js";
 export type StudioCommand = { commandId: string } & (
   | { type: "configure"; kernel: StudioKernelId; config: StudioKernelConfig }
   | { type: "create-conversation"; id: string; kernel: StudioKernelId; workspacePath: string }
-  | { type: "save-group"; group: StudioGroupDefinition; onlyIfAbsent?: boolean }
-  | { type: "save-workflow"; workflow: StudioWorkflowDefinition; onlyIfAbsent?: boolean }
+  | {
+      type: "save-group";
+      group: StudioGroupDefinition;
+      onlyIfAbsent?: boolean;
+      /** 编辑所依据的服务端 `updatedAt`；与当前记录不一致时拒绝，防止多窗口静默覆盖。 */
+      baseUpdatedAt?: number;
+    }
+  | {
+      type: "save-workflow";
+      workflow: StudioWorkflowDefinition;
+      onlyIfAbsent?: boolean;
+      baseUpdatedAt?: number;
+    }
   | { type: "delete"; kind: "conversation" | "group" | "workflow"; id: string }
   | {
       type: "send";

@@ -21,11 +21,14 @@ import {
 } from "../src/studio/workflow/workflowFiles.js";
 
 function storage() {
-  let raw: string | null = null;
+  const values = new Map<string, string>();
   return {
-    getItem: () => raw,
-    setItem: (_key: string, value: string) => {
-      raw = value;
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      values.set(key, value);
+    },
+    removeItem: (key: string) => {
+      values.delete(key);
     },
   };
 }

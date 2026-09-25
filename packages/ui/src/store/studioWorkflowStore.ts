@@ -31,11 +31,18 @@ interface WorkflowState {
   importedIds: string[];
   backendVersions: Record<string, string>;
   backendRevisions: Record<string, number>;
+  /** 每个工作流草稿所依据的服务端 `updatedAt`，保存时交给 Host 做冲突检测。 */
+  baseUpdatedAt: Record<string, number>;
+  /** 因其他窗口修改而保存被拒的工作流，仅内存保留。 */
+  conflictIds: string[];
   observedIds: string[];
   inputDrafts: Record<string, string>;
   saveInput: (id: string, input: string) => void;
   syncDefinitions: (definitions: StudioWorkflow[], revision?: number) => void;
   acceptDefinition: (definition: StudioWorkflow, revision?: number) => void;
+  markConflict: (id: string) => void;
+  /** 放弃本地修改，采用服务端最新定义。 */
+  adoptDefinition: (definition: StudioWorkflow) => void;
   markImported: (id: string) => void;
   setWorkspace: (id: string, path: string) => void;
   hydrate: () => void;
@@ -77,6 +84,7 @@ export function createStudioWorkflowStore(storage?: StoragePort) {
             importedIds: get().importedIds,
             backendVersions: get().backendVersions,
             backendRevisions: get().backendRevisions,
+            baseUpdatedAt: get().baseUpdatedAt,
             observedIds: get().observedIds,
             inputDrafts: get().inputDrafts,
           }),
@@ -133,6 +141,8 @@ export function createStudioWorkflowStore(storage?: StoragePort) {
       importedIds: [],
       backendVersions: {},
       backendRevisions: {},
+      baseUpdatedAt: {},
+      conflictIds: [],
       observedIds: [],
       inputDrafts: {},
       saveInput(id, input) {
@@ -148,6 +158,7 @@ export function createStudioWorkflowStore(storage?: StoragePort) {
           get().backendRevisions,
           get().observedIds,
           revision,
+          get().baseUpdatedAt,
         );
         const observedIds = [
           ...new Set([...get().observedIds, ...definitions.map((item) => item.id)]),
@@ -185,6 +196,28 @@ export function createStudioWorkflowStore(storage?: StoragePort) {
           },
           importedIds: [...new Set([...get().importedIds, definition.id])],
           backendRevisions: { ...get().backendRevisions, [definition.id]: revision },
+          baseUpdatedAt: { ...get().baseUpdatedAt, [definition.id]: definition.updatedAt },
+          conflictIds: get().conflictIds.filter((id) => id !== definition.id),
+        });
+        persist();
+      },
+      markConflict(id) {
+        if (!get().conflictIds.includes(id)) set({ conflictIds: [...get().conflictIds, id] });
+      },
+      adoptDefinition(definition) {
+        const history = { ...get().history };
+        delete history[definition.id];
+        set({
+          workflows: get().workflows.some((item) => item.id === definition.id)
+            ? get().workflows.map((item) => (item.id === definition.id ? definition : item))
+            : [...get().workflows, definition],
+          backendVersions: {
+            ...get().backendVersions,
+            [definition.id]: workflowFingerprint(definition),
+          },
+          baseUpdatedAt: { ...get().baseUpdatedAt, [definition.id]: definition.updatedAt },
+          conflictIds: get().conflictIds.filter((id) => id !== definition.id),
+          history,
         });
         persist();
       },

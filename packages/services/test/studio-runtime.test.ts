@@ -76,15 +76,33 @@ test("external kernel credentials in output and failure are absent from Studio S
   const privateBody = "FAKE_PRIVATE_KEY_MATERIAL_NEVER_PERSIST";
   const f = fixture(path, {
     async run(_turn, sink) {
-      await sink.emit({ type: "tool", id: "fixture", name: "local-substitute", state: "failed", output: `apiKey=${secret}\nsshPassword=${sshPassword}` });
-      await sink.emit({ type: "text", text: `Bearer ${token}\n-----BEGIN OPENSSH PRIVATE KEY-----\n${privateBody}\n-----END OPENSSH PRIVATE KEY-----` });
-      return { status: "failed", text: `token=${secret}`, error: `Authorization: Bearer ${token}`, resultKnown: true };
+      await sink.emit({
+        type: "tool",
+        id: "fixture",
+        name: "local-substitute",
+        state: "failed",
+        output: `apiKey=${secret}\nsshPassword=${sshPassword}`,
+      });
+      await sink.emit({
+        type: "text",
+        text: `Bearer ${token}\n-----BEGIN OPENSSH PRIVATE KEY-----\n${privateBody}\n-----END OPENSSH PRIVATE KEY-----`,
+      });
+      return {
+        status: "failed",
+        text: `token=${secret}`,
+        error: `Authorization: Bearer ${token}`,
+        resultKnown: true,
+      };
     },
   });
   try {
     await createChat(f.service, path);
     const sent = await f.service.command({
-      commandId: commandId(), type: "send", kind: "chat", targetId: "chat", text: "local test",
+      commandId: commandId(),
+      type: "send",
+      kind: "chat",
+      targetId: "chat",
+      text: "local test",
     });
     await until(() => {
       f.service.tick();
@@ -164,17 +182,23 @@ test("group member usage and execution time come from durable turns after restar
   const f = fixture(path, {
     run: async (turn, sink) => {
       const step = turn.dispatchId ?? "";
-      if (step.includes("group:plan:")) return {
-        status: "succeeded", resultKnown: true,
-        text: JSON.stringify({ tasks: [
-          { id: "build", member: "codex", instruction: "Build" },
-          { id: "check", member: "claude-code", instruction: "Check" },
-        ] }),
-      };
-      if (step.includes("group:review:")) return {
-        status: "succeeded", resultKnown: true,
-        text: JSON.stringify({ status: "complete", summary: "Both tasks checked." }),
-      };
+      if (step.includes("group:plan:"))
+        return {
+          status: "succeeded",
+          resultKnown: true,
+          text: JSON.stringify({
+            tasks: [
+              { id: "build", member: "codex", instruction: "Build" },
+              { id: "check", member: "claude-code", instruction: "Check" },
+            ],
+          }),
+        };
+      if (step.includes("group:review:"))
+        return {
+          status: "succeeded",
+          resultKnown: true,
+          text: JSON.stringify({ status: "complete", summary: "Both tasks checked." }),
+        };
       const usage = step.includes(":build")
         ? { type: "usage" as const, scope: "turn" as const, inputTokens: 10, outputTokens: 5 }
         : { type: "usage" as const, scope: "turn" as const, inputTokens: 7, outputTokens: 3 };
@@ -185,15 +209,29 @@ test("group member usage and execution time come from durable turns after restar
   });
   try {
     await f.service.command({
-      commandId: commandId(), type: "save-group",
+      commandId: commandId(),
+      type: "save-group",
       group: {
-        id: "group", name: "Team", goal: "ship", members: ["codex", "claude-code"],
-        host: "codex", sharedSummary: "", mode: "task", workspaceMode: "isolated",
-        workspacePath: path, createdAt: 1, updatedAt: 1,
+        id: "group",
+        name: "Team",
+        goal: "ship",
+        members: ["codex", "claude-code"],
+        host: "codex",
+        sharedSummary: "",
+        mode: "task",
+        workspaceMode: "isolated",
+        workspacePath: path,
+        createdAt: 1,
+        updatedAt: 1,
       },
     });
     const accepted = await f.service.command({
-      commandId: commandId(), type: "send", kind: "group", targetId: "group", text: "ship", taskMode: true,
+      commandId: commandId(),
+      type: "send",
+      kind: "group",
+      targetId: "group",
+      text: "ship",
+      taskMode: true,
     });
     await until(() => {
       f.service.tick();
@@ -201,12 +239,27 @@ test("group member usage and execution time come from durable turns after restar
     });
     const before = await f.service.timeline("group");
     assert.equal(before.groupMetrics?.total.tokens, 25);
-    assert.equal(before.groupMetrics?.total.tokensPartial, true, "host planning and review do not report usage");
-    assert.deepEqual(before.groupMetrics?.members.map((item) => item.tokens), [15, 10]);
-    assert.equal(before.turns?.filter((item) => item.stepId.includes(":task:")).every((item) =>
-      item.memberId && item.startedAt !== undefined && item.endedAt !== undefined), true);
+    assert.equal(
+      before.groupMetrics?.total.tokensPartial,
+      true,
+      "host planning and review do not report usage",
+    );
+    assert.deepEqual(
+      before.groupMetrics?.members.map((item) => item.tokens),
+      [15, 10],
+    );
+    assert.equal(
+      before.turns
+        ?.filter((item) => item.stepId.includes(":task:"))
+        .every(
+          (item) => item.memberId && item.startedAt !== undefined && item.endedAt !== undefined,
+        ),
+      true,
+    );
     assert.deepEqual((before.runs[0]!.checkpoint.plan as { review?: unknown }).review, {
-      round: 0, status: "complete", summary: "Both tasks checked.",
+      round: 0,
+      status: "complete",
+      summary: "Both tasks checked.",
     });
     await f.service.disposeAllAndWait();
     const reopened = fixture(path, success);
@@ -478,5 +531,79 @@ test("save or delete active definitions is rejected without losing saved draft",
     /先停止/,
   );
   assert.equal((await f.service.overview()).groups[0]?.name, "Team");
+  await f.service.disposeAllAndWait();
+});
+
+test("definition saves based on a stale version are rejected without overwriting", async () => {
+  const path = root();
+  const f = fixture(path, success);
+  const group = {
+    id: "concurrent-group",
+    name: "Team",
+    goal: "",
+    members: ["codex" as const],
+    host: "codex" as const,
+    sharedSummary: "",
+    mode: "manual" as const,
+    workspaceMode: "isolated" as const,
+    workspacePath: path,
+    createdAt: 1,
+    updatedAt: 1,
+  };
+  await f.service.command({ commandId: commandId(), type: "save-group", group });
+  // 窗口 A 基于版本 1 保存成功，得到版本 2。
+  const replayed = {
+    commandId: commandId(),
+    type: "save-group" as const,
+    group: { ...group, name: "From A", updatedAt: 2 },
+    baseUpdatedAt: 1,
+  };
+  const first = await f.service.command(replayed);
+  // 同一请求重放返回原结果，不按新版本再次判定为冲突。
+  assert.deepEqual(await f.service.command(replayed), first);
+  // 窗口 B 仍基于版本 1，保存被拒绝，A 的修改保留。
+  await assert.rejects(
+    f.service.command({
+      commandId: commandId(),
+      type: "save-group",
+      group: { ...group, name: "From B", updatedAt: 3 },
+      baseUpdatedAt: 1,
+    }),
+    /其他窗口修改/,
+  );
+  assert.equal((await f.service.overview()).groups[0]?.name, "From A");
+  const workflow = {
+    id: "concurrent-workflow",
+    name: "Flow",
+    workspacePath: null,
+    nodes: [],
+    edges: [],
+    updatedAt: 5,
+  };
+  await f.service.command({ commandId: commandId(), type: "save-workflow", workflow });
+  await f.service.command({
+    commandId: commandId(),
+    type: "delete",
+    kind: "workflow",
+    id: workflow.id,
+  });
+  await assert.rejects(
+    f.service.command({
+      commandId: commandId(),
+      type: "save-workflow",
+      workflow: { ...workflow, name: "Stale", updatedAt: 6 },
+      baseUpdatedAt: 5,
+    }),
+    /已被删除/,
+  );
+  await assert.rejects(
+    f.service.command({
+      commandId: commandId(),
+      type: "save-group",
+      group,
+      baseUpdatedAt: Number.NaN,
+    }),
+    /无效的定义版本/,
+  );
   await f.service.disposeAllAndWait();
 });

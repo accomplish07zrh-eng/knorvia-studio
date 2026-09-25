@@ -18,6 +18,8 @@ export const workflowZhCN: Record<string, string> = {
   "studio.workflow.missingWorkflow": "此工作流已被删除，请返回工作流列表。",
   "studio.workflow.title": "工作流",
   "studio.workflow.retry": "重试",
+  "studio.workflow.conflict": "此工作流已在其他窗口修改，本地修改未保存。",
+  "studio.workflow.reloadLatest": "载入最新版本",
   "studio.workflow.definitionHint": "定义由本机服务保存；未保存的画布修改会保留为草稿。",
   "studio.workflow.selectProject": "选择项目",
   "studio.workflow.stop": "停止运行",
@@ -70,7 +72,8 @@ export const workflowZhCN: Record<string, string> = {
   "studio.workflow.compareState.cancelled": "已停止",
   "studio.workflow.compareState.interrupted": "已中断",
   "studio.workflow.schedule": "计划运行工作流",
-  "studio.workflow.scheduleDescription": "每天按本机时间运行已保存的工作流。可在主侧栏“自动化”中暂停、编辑或查看历史。",
+  "studio.workflow.scheduleDescription":
+    "每天按本机时间运行已保存的工作流。可在主侧栏“自动化”中暂停、编辑或查看历史。",
   "studio.workflow.scheduleDefaultTitle": "{name} · 每日运行",
   "studio.workflow.scheduleDefaultInput": "按工作流节点指令检查所选项目，记录实际结果。",
   "studio.workflow.scheduleTitle": "计划名称",
@@ -213,6 +216,9 @@ export const workflowEnUS: Record<string, string> = {
   "studio.workflow.missingWorkflow": "This workflow was deleted. Return to the workflow list.",
   "studio.workflow.title": "Workflows",
   "studio.workflow.retry": "Retry",
+  "studio.workflow.conflict":
+    "This workflow was changed in another window. Your local edits are not saved.",
+  "studio.workflow.reloadLatest": "Load latest version",
   "studio.workflow.definitionHint":
     "Definitions are saved by the local service. Unsaved canvas edits remain as drafts.",
   "studio.workflow.selectProject": "Select project",
@@ -269,9 +275,11 @@ export const workflowEnUS: Record<string, string> = {
   "studio.workflow.compareState.cancelled": "Stopped",
   "studio.workflow.compareState.interrupted": "Interrupted",
   "studio.workflow.schedule": "Schedule workflow",
-  "studio.workflow.scheduleDescription": "Run the saved workflow daily at local time. Pause, edit, or inspect runs in Automations.",
+  "studio.workflow.scheduleDescription":
+    "Run the saved workflow daily at local time. Pause, edit, or inspect runs in Automations.",
   "studio.workflow.scheduleDefaultTitle": "{name} · Daily",
-  "studio.workflow.scheduleDefaultInput": "Follow the workflow's node instructions for the selected project and record actual results.",
+  "studio.workflow.scheduleDefaultInput":
+    "Follow the workflow's node instructions for the selected project and record actual results.",
   "studio.workflow.scheduleTitle": "Schedule name",
   "studio.workflow.scheduleTime": "Daily time",
   "studio.workflow.scheduleInput": "Input for each run",

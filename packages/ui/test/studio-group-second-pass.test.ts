@@ -7,11 +7,14 @@ import { projectGroupDefinitions } from "../src/studio/groups/groupDefinitions.j
 import { submitGroupDraft } from "../src/studio/groups/groupSubmission.js";
 
 function storage() {
-  let value: string | null = null;
+  const values = new Map<string, string>();
   return {
-    getItem: () => value,
-    setItem: (_key: string, next: string) => {
-      value = next;
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      values.set(key, value);
+    },
+    removeItem: (key: string) => {
+      values.delete(key);
     },
   };
 }
@@ -76,7 +79,7 @@ test("mode ACK remains the source for immediate send before the overview catches
   assert.equal(refreshed[0]!.mode, "manual");
 });
 
-test("create and delete ACKs survive stale overview and restart without losing drafts", () => {
+test("create and delete ACKs resist stale overviews while only drafts survive restart", () => {
   const persistence = storage();
   let store = createStudioGroupStore(persistence);
   store.getState().acknowledgeDefinition(group, 4);
@@ -86,9 +89,13 @@ test("create and delete ACKs survive stale overview and restart without losing d
       ?.id,
     group.id,
   );
-  store = createStudioGroupStore(persistence);
   store.getState().ensureDraft({ ...group, name: "Stale" }, 3);
   assert.equal(store.getState().groups[0]!.name, "Group");
+  // 重启后定义以 Host 快照为准，本地只恢复输入草稿。
+  store = createStudioGroupStore(persistence);
+  assert.deepEqual(store.getState().groups, []);
+  store.getState().ensureDraft({ ...group, name: "Server" }, 4);
+  assert.equal(store.getState().groups[0]!.name, "Server");
   assert.equal(store.getState().groups[0]!.draft, "Unsent");
   store.getState().deleteGroup(group.id, 5);
   store.getState().ensureDraft(group, 4);
@@ -96,7 +103,7 @@ test("create and delete ACKs survive stale overview and restart without losing d
     projectGroupDefinitions([group], store.getState().groups, store.getState().backendRevisions, 4),
     [],
   );
-  assert.equal(createStudioGroupStore(persistence).getState().backendRevisions[group.id], 5);
+  assert.deepEqual(createStudioGroupStore(persistence).getState().groups, []);
 });
 
 test("an older save ACK cannot replace a later accepted group definition", () => {
