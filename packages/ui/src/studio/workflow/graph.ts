@@ -1,8 +1,7 @@
 import { isStudioKernelId } from "../types.js";
-import { validateStudioWorkflow } from "@knorvia/services";
+import { STUDIO_WORKFLOW_NODE_KINDS, validateStudioWorkflow } from "@knorvia/services";
 import { workflowDefinition } from "./workflowDrafts.js";
 import {
-  WORKFLOW_NODE_KINDS,
   WORKFLOW_LIMITS,
   type StudioWorkflow,
   type WorkflowGraph,
@@ -168,7 +167,9 @@ export function isStudioWorkflow(value: unknown, legacy = false): value is Studi
     !shortString(value.workspacePath, 4000) ||
     (value.workspaceMode !== undefined &&
       !["isolated", "shared"].includes(value.workspaceMode as string)) ||
-    !Number.isFinite(value.updatedAt)
+    !Number.isFinite(value.updatedAt) ||
+    (value.version !== undefined &&
+      (!Number.isSafeInteger(value.version) || (value.version as number) < 0))
   )
     return false;
   if (
@@ -196,7 +197,7 @@ export function isStudioWorkflow(value: unknown, legacy = false): value is Studi
     ids.add(node.id);
     const data = node.data;
     if (
-      !WORKFLOW_NODE_KINDS.includes(data.kind as never) ||
+      !STUDIO_WORKFLOW_NODE_KINDS.includes(data.kind as never) ||
       !shortString(data.label, 120) ||
       !isStudioKernelId(data.kernel) ||
       !shortString(data.prompt, 20000) ||

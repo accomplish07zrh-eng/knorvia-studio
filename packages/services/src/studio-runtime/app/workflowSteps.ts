@@ -1,6 +1,12 @@
 import type { StudioExecutionPort } from "./ports.js";
 import type { StudioStepResult, StudioWorkflowNode } from "../workflowTypes.js";
 import { evaluateStudioCondition } from "../domain/condition.js";
+import {
+  decodeStepOutputs,
+  StudioOutputRefError,
+  StudioUnsupportedCheckpointVersionError,
+  type StudioStepOutputsVerdict as StepOutputsVerdict,
+} from "../domain/outputRef.js";
 import { StudioInteractionCancelledError } from "./runtimeInteractions.js";
 
 export interface WorkflowOutcome extends StudioStepResult {
@@ -50,6 +56,16 @@ export function workflowUnknown(error: unknown): WorkflowOutcome {
     error: error instanceof Error ? error.message : String(error),
   };
 }
+/**
+ * 读取上一次 attempt 的节点结果。
+ *
+ * 失败模式刻意分为两类，便于上层区分"记录坏了"与"记录比本进程新"：
+ * - `Invalid workflow checkpoint for <id>`：字段或输出契约非法；
+ * - `Unsupported workflow checkpoint version for <id>`：契约版本高于本进程。
+ *
+ * 两类都只影响读取，**都不会改写磁盘上的原始记录**；高版本记录按原字节保留，
+ * 只有显式的新 attempt 才会写入新结构。
+ */
 export function workflowCached(port: StudioExecutionPort, id: string): WorkflowOutcome | undefined {
   const raw = port.checkpoint.values[workflowValueKey(id)];
   if (raw === undefined) return undefined;
@@ -75,6 +91,20 @@ export function workflowCached(port: StudioExecutionPort, id: string): WorkflowO
     ("branch" in result && !["yes", "no"].includes(String(result.branch)))
   )
     throw new Error(`Invalid workflow checkpoint for ${id}.`);
+  // 输出契约先判定再抛错：版本高于本进程是单独的可测错误，其余非法字段沿用既有报告。
+  let outputs: StepOutputsVerdict;
+  try {
+    outputs = decodeStepOutputs(result);
+  } catch (error) {
+    if (error instanceof StudioOutputRefError)
+      throw new Error(`Invalid workflow checkpoint for ${id}.`);
+    throw error;
+  }
+  if (outputs.kind === "unsupported")
+    throw new StudioUnsupportedCheckpointVersionError(
+      outputs.version,
+      `Unsupported workflow checkpoint version for ${id}.`,
+    );
   // 终态留作历史展示；失败、中断与取消不能成为下一次显式 attempt 的已完成缓存。
   if (!["succeeded", "skipped"].includes(String(result.status))) return undefined;
   return result as WorkflowOutcome;

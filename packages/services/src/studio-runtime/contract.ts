@@ -14,6 +14,7 @@ import type { StudioGroupDefinition, StudioWorkflowDefinition } from "./workflow
 export * from "./kernelTypes.js";
 export * from "./workflowTypes.js";
 export * from "./types.js";
+export * from "./domain/outputRef.js";
 export { validateStudioWorkflow } from "./domain/workflowGraph.js";
 export { studioConditionReferences } from "./domain/condition.js";
 

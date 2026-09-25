@@ -1,8 +1,28 @@
+import { STUDIO_OUTPUT_REF_VERSION, type StudioWorkflowDefinition } from "@knorvia/services";
 import { isStudioWorkflow, validateWorkflowGraph } from "./graph.js";
 import { duplicateWorkflow } from "./workflowDrafts.js";
 import type { StudioWorkflow } from "./types.js";
 
 export const WORKFLOW_FILE_LIMIT = 8 * 1024 * 1024;
+/**
+ * 信封版本。2 起节点 `data` 可携带契约版本字段（`version`）；
+ * 1 仍然可导入，旧文件不需要迁移。
+ */
+export const WORKFLOW_FILE_VERSION = 2;
+/** 节点 `data` 允许出现的键；闭合白名单，未知键一律报 fileInvalid。 */
+const NODE_DATA_KEYS = [
+  "kind",
+  "label",
+  "kernel",
+  "prompt",
+  "condition",
+  "retryCount",
+  "retryDelay",
+  "joinPolicy",
+  "creationModelId",
+  "creationReferencePath",
+  "version",
+] as const;
 export class WorkflowFileError extends Error {
   constructor(readonly code: "fileTooLarge" | "fileInvalid" | "fileVersion") {
     super(code);
@@ -21,7 +41,7 @@ export function encodeWorkflowFile(workflow: StudioWorkflow): string {
   const text = JSON.stringify(
     {
       format: "knorvia-workflow",
-      version: 1,
+      version: WORKFLOW_FILE_VERSION,
       workflow: {
         name: workflow.name,
         nodes: workflow.nodes.map(({ id, position, data }) => ({
@@ -43,6 +63,8 @@ export function encodeWorkflowFile(workflow: StudioWorkflow): string {
                   creationReferencePath: data.creationReferencePath ?? "",
                 }
               : {}),
+            // 定义契约版本必须随文件往返，否则导入会静默丢字段。
+            ...(data.version === undefined ? {} : { version: data.version }),
           },
         })),
         edges: workflow.edges.map(({ id, source, target, sourceHandle }) => ({
@@ -74,7 +96,8 @@ export function decodeWorkflowFile(text: string, workspacePath = "") {
   }
   if (!plain(value) || value.format !== "knorvia-workflow")
     throw new WorkflowFileError("fileInvalid");
-  if (value.version !== 1) throw new WorkflowFileError("fileVersion");
+  if (value.version !== 1 && value.version !== WORKFLOW_FILE_VERSION)
+    throw new WorkflowFileError("fileVersion");
   if (!keys(value, ["format", "version", "workflow"]) || !plain(value.workflow))
     throw new WorkflowFileError("fileInvalid");
   const candidate = value.workflow;
@@ -95,18 +118,9 @@ export function decodeWorkflowFile(text: string, workspacePath = "") {
       typeof node.position.y !== "number" ||
       Math.abs(node.position.y) > 1_000_000 ||
       !plain(node.data) ||
-      !keys(node.data, [
-        "kind",
-        "label",
-        "kernel",
-        "prompt",
-        "condition",
-        "retryCount",
-        "retryDelay",
-        "joinPolicy",
-        "creationModelId",
-        "creationReferencePath",
-      ])
+      !keys(node.data, [...NODE_DATA_KEYS]) ||
+      (node.data.version !== undefined &&
+        (!Number.isSafeInteger(node.data.version) || (node.data.version as number) < 0))
     )
       throw new WorkflowFileError("fileInvalid");
   }
@@ -120,12 +134,25 @@ export function decodeWorkflowFile(text: string, workspacePath = "") {
     )
       throw new WorkflowFileError("fileInvalid");
   }
-  const definition = {
-    ...candidate,
+  const version = candidate.version;
+  // 高于本进程的定义版本按 fileVersion 明确拒绝，不按当前语义继续，也不静默降级。
+  if (
+    version !== undefined &&
+    (!Number.isSafeInteger(version) ||
+      (version as number) < 0 ||
+      (version as number) > STUDIO_OUTPUT_REF_VERSION)
+  )
+    throw new WorkflowFileError("fileVersion");
+  const definition: StudioWorkflowDefinition = {
     id: "import",
+    name: candidate.name as string,
     workspacePath,
     workspaceMode: "isolated",
     updatedAt: Date.now(),
+    // 节点与边已按上方的闭合白名单逐项校验过；类型收窄由 isStudioWorkflow 复查。
+    nodes: candidate.nodes as StudioWorkflowDefinition["nodes"],
+    edges: candidate.edges as StudioWorkflowDefinition["edges"],
+    ...(version === undefined ? {} : { version: version as number }),
   };
   if (!isStudioWorkflow(definition)) throw new WorkflowFileError("fileInvalid");
   // 导入永远建立新身份，避免覆盖本机同名流程；前置节点引用随节点 ID 一起重写。

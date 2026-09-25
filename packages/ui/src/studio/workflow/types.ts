@@ -1,17 +1,16 @@
 import type { Edge, Node } from "@xyflow/react";
-import type { StudioKernelId } from "../types.js";
+import {
+  STUDIO_WORKFLOW_NODE_KINDS,
+  type StudioWorkflowNodeData,
+  type StudioWorkflowNodeKind,
+} from "@knorvia/services";
 
-export const WORKFLOW_NODE_KINDS = [
-  "start",
-  "agent",
-  "creation",
-  "condition",
-  "parallel",
-  "join",
-  "approval",
-  "end",
-] as const;
-export type WorkflowNodeKind = (typeof WORKFLOW_NODE_KINDS)[number];
+/**
+ * 业务来源只有一处：services 的浏览器安全公开入口。
+ * 这里只做重导出，避免 UI 与运行时各自维护一份节点种类清单。
+ */
+export const WORKFLOW_NODE_KINDS = STUDIO_WORKFLOW_NODE_KINDS;
+export type WorkflowNodeKind = StudioWorkflowNodeKind;
 export const WORKFLOW_TEMPLATES = [
   "blank",
   "sequence",
@@ -24,17 +23,11 @@ export const WORKFLOW_TEMPLATES = [
 export type WorkflowTemplate = (typeof WORKFLOW_TEMPLATES)[number];
 export const WORKFLOW_LIMITS = { name: 100, nodes: 200, edges: 800 } as const;
 
-export interface WorkflowNodeData extends Record<string, unknown> {
-  kind: WorkflowNodeKind;
-  label: string;
-  kernel: StudioKernelId;
-  prompt: string;
-  condition: string;
-  retryCount: number;
-  retryDelay: number;
-  joinPolicy: "all" | "any";
-  creationModelId?: string;
-  creationReferencePath?: string;
+/**
+ * 显示层数据：业务字段来自 services 契约，UI 只叠加画布执行态。
+ * React Flow 的 `Node`／`Edge`／`position` 仍留在 UI，不进入业务核心。
+ */
+export interface WorkflowNodeData extends StudioWorkflowNodeData {
   executionState?: string;
 }
 export type StudioWorkflowNode = Node<WorkflowNodeData, "studio">;

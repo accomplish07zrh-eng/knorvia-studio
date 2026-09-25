@@ -1,4 +1,5 @@
 import type { StudioCheckpoint, StudioStepResult } from "../workflowTypes.js";
+import { assertStudioOutputsForResult } from "../domain/outputRef.js";
 import type { StoredRun, StudioRepository } from "./storePort.js";
 
 function projectText(text: string, size = 1024): string {
@@ -7,8 +8,12 @@ function projectText(text: string, size = 1024): string {
     : `${text.slice(0, size)}\n[Full result is retained in the execution record.]`;
 }
 export function projectStudioStep(result: StudioStepResult): StudioStepResult {
+  // 写入边界：输出引用必须是有界的、且只挂在结果已知的终态上。
+  // 超限在这里直接抛错，而不是截断后落盘——被截断的检查点无法与真实产物核对。
+  const outputs = assertStudioOutputsForResult(result);
   return {
     ...result,
+    ...(outputs === undefined ? {} : { outputs }),
     text: projectText(result.text),
     changesSummary: result.changesSummary ? projectText(result.changesSummary) : undefined,
   };

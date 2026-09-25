@@ -3,19 +3,13 @@ import type {
   StudioWorkflowEdge,
   StudioWorkflowNode,
 } from "../workflowTypes.js";
+import { STUDIO_OUTPUT_REF_VERSION } from "./outputRef.js";
 import { studioConditionReferences } from "./condition.js";
 import { isStudioKernelId } from "./kernelIdentity.js";
+import { STUDIO_WORKFLOW_NODE_KINDS } from "../workflowTypes.js";
 
-const KINDS = new Set([
-  "start",
-  "agent",
-  "creation",
-  "condition",
-  "parallel",
-  "join",
-  "approval",
-  "end",
-]);
+// 节点种类清单只有一份来源（workflowTypes），这里只转成查询集合。
+const KINDS = new Set<string>(STUDIO_WORKFLOW_NODE_KINDS);
 export interface StudioWorkflowGraph {
   nodes: Map<string, StudioWorkflowNode>;
   incoming: Map<string, StudioWorkflowEdge[]>;
@@ -54,6 +48,15 @@ export function workflowAncestors(graph: StudioWorkflowGraph, id: string): Set<s
 export function validateStudioWorkflow(definition: StudioWorkflowDefinition): string[] {
   if (!definition || !Array.isArray(definition.nodes) || !Array.isArray(definition.edges))
     return ["Workflow nodes and edges must be arrays."];
+  // 定义契约版本先于结构检查：缺省为 legacy，接受 <= CURRENT；更高的版本必须显式失败，
+  // 不能按当前语义继续执行未知结构（原始记录由读取方保留，不做降级重写）。
+  if (
+    definition.version !== undefined &&
+    (!Number.isSafeInteger(definition.version) || definition.version < 0)
+  )
+    return ["Invalid workflow definition version."];
+  if (definition.version !== undefined && definition.version > STUDIO_OUTPUT_REF_VERSION)
+    return [`Unsupported workflow definition version: ${definition.version}.`];
   if (!definition.nodes.length || definition.nodes.length > 200 || definition.edges.length > 800)
     return ["Workflow requires 1–200 nodes and at most 800 edges."];
   const issues: string[] = [];
