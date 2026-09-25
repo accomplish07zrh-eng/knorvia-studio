@@ -10,7 +10,7 @@ import type {
   StudioSharedMcpServer,
 } from "../kernelTypes.js";
 import { projectStudioPluginMcp } from "./pluginMcpProjection.js";
-import type { CreationAgentBridge } from "../../creation/creationAgentBridge.js";
+import type { CreationAgentBridge } from "./creationAgentBridge.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { recoverTemporaryMcpConfigs, writeTemporaryMcpConfig } from "./temporaryMcpConfig.js";
 

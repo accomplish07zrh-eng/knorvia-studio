@@ -7,7 +7,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { createInterface } from "node:readline";
 import { createCreationService } from "../src/creation/creationService.js";
-import { createCreationAgentBridge } from "../src/creation/creationAgentBridge.js";
+import { createCreationAgentBridge } from "../src/studio-runtime/adapters/creationAgentBridge.js";
 import type { CreationJob } from "../src/creation/contract.js";
 
 const png = Buffer.from(

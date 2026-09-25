@@ -37,11 +37,17 @@ modules:
   - id: studio-runtime
     roots: [packages/services/src/studio-runtime]
     managed: true
-    requires: [shared, rpc, services, session]
+    requires: [shared, rpc, services, session, creation]
     publicEntrypoints: [packages/services/src/studio-runtime/contract.ts, packages/services/src/studio-runtime/node.ts]
     layers: { domain: domain, app: app, adapters: adapters }
     layerOrder: [domain, app, adapters]
     owner: studio-runtime
+  - id: creation
+    roots: [packages/services/src/creation]
+    managed: true
+    requires: [shared, rpc, services]
+    publicEntrypoints: [packages/services/src/creation/contract.ts, packages/services/src/creation/node.ts]
+    owner: creation
   - id: server
     roots: [packages/server/src]
     managed: false
