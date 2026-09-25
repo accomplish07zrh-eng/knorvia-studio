@@ -48,7 +48,24 @@ for (const key of Object.keys(env)) {
   }
 }
 
-console.log(`[test:studio] ${tests.length} offline test files, Node ${process.version}`);
+// 每个用例的挂起上限：用 Node 测试运行器自带的 --test-timeout 让挂起的用例以超时失败，
+// 而不是让整轮回归无限等待。刻意不做子进程强杀：Windows 上杀进程树容易误伤或静默失效。
+// 默认 120 秒远高于当前最慢用例；可用 KNORVIA_TEST_TIMEOUT_MS 覆盖。
+const DEFAULT_TEST_TIMEOUT_MS = 120_000;
+const configuredTimeout = Number(process.env.KNORVIA_TEST_TIMEOUT_MS ?? DEFAULT_TEST_TIMEOUT_MS);
+const testTimeoutMs =
+  Number.isSafeInteger(configuredTimeout) && configuredTimeout > 0
+    ? configuredTimeout
+    : DEFAULT_TEST_TIMEOUT_MS;
+if (testTimeoutMs !== configuredTimeout) {
+  console.warn(
+    `[test:studio] 忽略无效的 KNORVIA_TEST_TIMEOUT_MS=${process.env.KNORVIA_TEST_TIMEOUT_MS}，改用 ${DEFAULT_TEST_TIMEOUT_MS}`,
+  );
+}
+
+console.log(
+  `[test:studio] ${tests.length} offline test files, Node ${process.version}, per-test timeout ${testTimeoutMs}ms`,
+);
 try {
   const child = spawn(
     process.execPath,
@@ -58,6 +75,7 @@ try {
       "tsx",
       "--test",
       "--test-concurrency=2",
+      `--test-timeout=${testTimeoutMs}`,
       ...tests,
     ],
     { cwd: repoRoot, env, stdio: "inherit" },

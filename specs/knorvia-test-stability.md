@@ -8,7 +8,9 @@
 - **缺陷 A：Python 解释器解析不确定，失败无诊断。** `packages/desktop/test/office-plugin-assets.test.mjs` 按 `process.platform` 在 `python`/`python3` 之间硬选，然后 `assert.ifError(result.error)` + `assert.equal(result.status, 0, result.stderr || result.stdout)`。当解释器缺失（`ENOENT`）或 PATH 命中 Microsoft Store 占位程序时，失败信息不可用。本机实测：`python` → `C:\Users\17018\AppData\Local\Programs\Python\Python313\python.exe`，`status 0`，输出 `Python 3.13.14`；`python3` → `C:\Users\17018\AppData\Local\Microsoft\WindowsApps\python3.exe`（Store 占位），`status 9009`，**stdout 与 stderr 均为空字符串**。因为占位程序不产出任何字节，现有断言的消息参数 `result.stderr || result.stdout` 求值为空串，断言失败时看不到任何原因。[S02]
 - **缺陷 B：`terminal()` 超时诊断缺失且分类粗糙。** `packages/services/test/creation-polish.test.ts` 的 `terminal()` 轮询 `getJob` 100 次 × 10ms，超时后抛 `fixture did not settle`，不含 taskId、最后状态与已观察事件，无法区分“结果明确失败”“结果未知”“用户取消”三类语义。任务书要求超时输出 taskId、最后观察到的状态与观察事件，并按三类语义区分，而不是笼统重试。[S03]
 - **缺陷 C：计划工作流测试依赖真实时钟与固定 `sleep`。** `packages/desktop/test/studio-workflow-schedule.test.ts` 在 `:63-67` 注入 `now: Date.now`、`delay: sleep`，并在 `:145` 使用固定 `await sleep(40)`、`until()` 使用真实 5s 截止时间（`:20-26`）。固定 `sleep` 只是“等状态推进”的近似，机器越忙越不可靠；任务书要求到期、取消、重启、重复触发用可注入时钟确定性驱动。[S04]
-- **缺陷 D：runner 无子进程超时。** `scripts/test-studio.mjs` 用 `spawn` 启动 `--test` 子进程，未设置任何超时，测试挂起时整轮无界等待。[S05]
+- **缺陷 D：runner 无超时。** `scripts/test-studio.mjs` 用 `spawn` 启动 `--test` 子进程，未设置任何超时，测试挂起时整轮无界等待。[S05]
+  - **后续修复（本轮）：** 已为 runner 增加**逐用例**上限 `--test-timeout`（默认 120000ms，可用 `KNORVIA_TEST_TIMEOUT_MS` 覆盖，非法值回退默认并告警）。挂起的用例由 Node 测试运行器判为 `test timed out after <n>ms` 并以非 0 退出码结束，不会被转换成通过。
+  - **刻意不做整轮子进程强杀：** Windows 上杀进程树容易误伤或静默失效，且会掩盖真正需要诊断的挂起；逐用例超时已经保证「有界 + 不掩盖失败」，且诊断由运行器给出。
 - **环境差异（风险，不修改）。** `mise.toml` 固定 Node `24.14.0`，本机为 `v26.3.0`；三套件在 v26.3.0 上全绿，但 v24.14.0 未在本机复验。
 - **不在范围内的已知限制：** `StudioScheduleOutcomeObserver` 在 `packages/desktop/src/host/studioScheduleOutcome.ts:43` 硬编码 `setInterval(..., 30_000)` 且无注入点，该文件不在本次写入范围，因此不修改，仅在本规格与报告中记录为剩余风险。[S06]
 
@@ -38,7 +40,7 @@
    - **id 必须跨实例唯一**：多个 runtime 实例共用同一个 sqlite 文件，若每个实例的 `id()` 都从 1 重新计数，运行/回合 id 会互相覆盖，使“重启后不重放已完成节点”出现**假通过**（节点被误判为已执行）。确定性前缀（如 `rt1-`、`rt2-`）即可，无需随机数。
    - **到期推进不得硬编码实现的租约常量**：租约时长 `LEASE_MS` 定义在 `studioDatabase.ts`，测试应以“远超任何合理租约时长”的虚拟推进量表达“租约一定已到期”，避免该常量调整后测试失效。
    - 驱动循环必须有轮数上限，超限抛出带条件的诊断；等待状态推进只用事件循环让步（`setImmediate`），不读真实时间。
-5. **R5 runner 有界超时且不掩盖失败。** 如为 `scripts/test-studio.mjs` 引入子进程超时，必须：超时后终止子进程、打印含存活测试文件/已用时间的诊断、以非 0 退出码结束；**禁止**把超时转换为通过，也禁止把失败重跑成通过。
+5. **R5 runner 有界超时且不掩盖失败。** 已实现为**逐用例超时**：`scripts/test-studio.mjs` 给子进程传 `--test-timeout=<ms>`（默认 120000ms，`KNORVIA_TEST_TIMEOUT_MS` 可覆盖，非法值回退默认并告警），并把实际值打印在启动行里。挂起的用例以 `test timed out after <n>ms` 失败、整轮以非 0 退出码结束；**禁止**把超时转换为通过，也禁止把失败重跑成通过。整轮子进程强杀刻意不做（Windows 杀进程树易误伤或静默失效，且会掩盖需要诊断的挂起）。验收证据：一个刻意永不 resolve 的用例在 `--test-timeout=2000` 下 2 秒内以该诊断失败；加上默认值后 `pnpm test:studio` 仍为 751/751。
 
 ## 判定表：解释器候选
 

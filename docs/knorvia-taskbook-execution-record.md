@@ -117,10 +117,10 @@
 
 1. Agent 会话库（`apps/cli/.../storage/session-store/migration-runner.ts`）仍无迁移前备份。
 2. 任务索引遇到未知的更新账本会按 `none` 放行（静默降级解释），防护点在中心迁移逻辑，本轮未动。
-3. `scripts/test-studio.mjs` 仍无子进程超时，挂起的测试无界。
+3. ~~`scripts/test-studio.mjs` 仍无子进程超时，挂起的测试无界。~~ **已关闭**：runner 现在传入 `--test-timeout`（默认 120000ms，`KNORVIA_TEST_TIMEOUT_MS` 可覆盖），挂起用例以 `test timed out after <n>ms` 失败并非 0 退出；刻意不做整轮子进程强杀（Windows 杀进程树易误伤）。证据：一个永不 resolve 的用例在 `--test-timeout=2000` 下 2 秒内以该诊断失败，默认值下 `pnpm test:studio` 仍 751/751。
 4. 云端 CI 从未运行；工作流改动只做了本地 YAML 解析与逻辑夹具验证。
 5. 无任何真实模型、真实 CLI、真实 SSH、真实付费调用；全部为离线夹具与依赖注入替身。
-6. Node 24.14.0（mise 固定）未复验。
+6. ~~Node 24.14.0（mise 固定）未复验。~~ **已关闭**：已在官方 Node v24.14.0 上重跑整套门禁（751/751）并用它重建交付便携包。
 
 ## 回滚
 
