@@ -18,17 +18,17 @@ Not yet done in this preview: Computer Use is evaluation only (`@knorvia/cua` is
 
 Requires Node.js 24.14.0 and pnpm 10.33.2 (see `mise.toml`). From the repository root:
 
-| Purpose                              | Command                             |
-| ------------------------------------ | ----------------------------------- |
-| Install                              | `pnpm install --frozen-lockfile`    |
-| Desktop dev                          | `pnpm dev:desktop`                  |
-| Web dev                              | `pnpm dev:web`                      |
-| Typecheck (includes i18n key parity) | `pnpm typecheck`                    |
-| Lint                                 | `pnpm lint`                         |
-| Architecture check                   | `pnpm architecture:check --changed` |
-| Offline regression tests             | `pnpm test:studio`                  |
+| Purpose                              | Command                                            |
+| ------------------------------------ | -------------------------------------------------- |
+| Install                              | `pnpm install --frozen-lockfile`                   |
+| Desktop dev                          | `pnpm dev:desktop`                                 |
+| Web dev                              | `pnpm dev:web`                                     |
+| Typecheck (includes i18n key parity) | `pnpm typecheck`                                   |
+| Lint                                 | `pnpm lint`                                        |
+| Architecture check                   | `pnpm architecture:check --changed`                |
+| Offline regression tests             | `pnpm build:cli-packages`, then `pnpm test:studio` |
 
-The `Studio offline checks` GitHub Actions workflow runs these checks on Windows for pushes to `main` and pull requests, and can also be run manually.
+The `Studio offline checks` GitHub Actions workflow runs these checks on Linux for every pull request, and additionally on Windows for pushes to `main` and manual runs.
 
 Windows portable data lives in the `data` directory beside the executable. After a full exit the portable folder can be copied as a whole.
 

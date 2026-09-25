@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test, type TestContext } from "node:test";
 import { createStudioWorkspaceManager } from "../src/studio-runtime/adapters/workspaceManager.js";
+import { sameLocation } from "../src/studio-runtime/adapters/longPath.js";
 import { MAX_FILE_BYTES } from "../src/studio-runtime/adapters/workspaceFiles.js";
 
 async function fixture(t: TestContext) {
@@ -125,16 +126,25 @@ test("user edits are conflicts and reject the whole selected batch before any ch
 test("two isolated group members cannot silently overwrite the same file", async (t) => {
   const f = await fixture(t);
   const first = await f.manager.prepare({
-    runId: "group-run", stepId: "codex", sourcePath: f.source, mode: "isolated",
+    runId: "group-run",
+    stepId: "codex",
+    sourcePath: f.source,
+    mode: "isolated",
   });
   const second = await f.manager.prepare({
-    runId: "group-run", stepId: "claude-code", sourcePath: f.source, mode: "isolated",
+    runId: "group-run",
+    stepId: "claude-code",
+    sourcePath: f.source,
+    mode: "isolated",
   });
   await fs.writeFile(join(first, "a.txt"), "first member\n");
   await fs.writeFile(join(second, "a.txt"), "second member\n");
   await f.manager.apply("group-run", "codex", ["a.txt"]);
   assert.equal((await f.manager.changes("group-run", "claude-code"))[0]?.conflict, true);
-  await assert.rejects(f.manager.apply("group-run", "claude-code", ["a.txt"]), /changed since isolation/);
+  await assert.rejects(
+    f.manager.apply("group-run", "claude-code", ["a.txt"]),
+    /changed since isolation/,
+  );
   assert.equal(await fs.readFile(join(f.source, "a.txt"), "utf8"), "first member\n");
 });
 
@@ -242,4 +252,18 @@ test("shared mode returns the exact project and does not imply a review/apply bo
   assert.equal(await f.prepare("shared"), f.source);
   assert.deepEqual(await f.manager.changes("run", "step"), []);
   await assert.rejects(f.manager.apply("run", "step", ["a.txt"]), /already write directly/);
+});
+
+test("Windows 8.3 short names resolve to the same location but other parents are redirects", () => {
+  const parent = "C:\\Users";
+  assert.equal(sameLocation(parent, "RUNNER~1", "C:\\Users\\runneradmin", "win32"), true);
+  assert.equal(sameLocation(parent, "PROGRA~2.X", "C:\\Users\\Program Files.xyz", "win32"), true);
+  assert.equal(sameLocation(parent, "project", "c:\\users\\PROJECT", "win32"), true);
+  // 名字不是短名时，改名后的 realpath 仍视为重定向。
+  assert.equal(sameLocation(parent, "project", "C:\\Users\\other", "win32"), false);
+  // 短名只能展开为同一父目录下的条目，junction 指向别处仍被拒绝。
+  assert.equal(sameLocation(parent, "RUNNER~1", "D:\\elsewhere\\runneradmin", "win32"), false);
+  assert.equal(sameLocation("/home", "user", "/home/user", "linux"), true);
+  assert.equal(sameLocation("/home", "USER~1", "/home/user", "linux"), false);
+  assert.equal(sameLocation("/home", "User", "/home/user", "linux"), false);
 });

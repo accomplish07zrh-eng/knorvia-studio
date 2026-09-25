@@ -18,17 +18,17 @@ Knorvia Studio 是基于 [ZCode 上游源码](https://github.com/zai-org/ZCode) 
 
 需要 Node.js 24.14.0 和 pnpm 10.33.2（见 `mise.toml`）。在仓库根目录执行：
 
-| 用途                       | 命令                                |
-| -------------------------- | ----------------------------------- |
-| 安装依赖                   | `pnpm install --frozen-lockfile`    |
-| 桌面开发                   | `pnpm dev:desktop`                  |
-| Web 开发                   | `pnpm dev:web`                      |
-| 类型检查（含中英文键校验） | `pnpm typecheck`                    |
-| Lint                       | `pnpm lint`                         |
-| 架构检查                   | `pnpm architecture:check --changed` |
-| 离线回归测试               | `pnpm test:studio`                  |
+| 用途                       | 命令                                            |
+| -------------------------- | ----------------------------------------------- |
+| 安装依赖                   | `pnpm install --frozen-lockfile`                |
+| 桌面开发                   | `pnpm dev:desktop`                              |
+| Web 开发                   | `pnpm dev:web`                                  |
+| 类型检查（含中英文键校验） | `pnpm typecheck`                                |
+| Lint                       | `pnpm lint`                                     |
+| 架构检查                   | `pnpm architecture:check --changed`             |
+| 离线回归测试               | `pnpm build:cli-packages` 后 `pnpm test:studio` |
 
-GitHub Actions 的 `Studio offline checks` 在推送到 `main` 和提交 PR 时于 Windows 上运行以上检查，也可手动触发。
+GitHub Actions 的 `Studio offline checks` 在每个 PR 上于 Linux 运行以上检查；推送到 `main` 或手动触发时，另在 Windows 上运行一遍平台回归。
 
 便携版数据保存在可执行程序旁的 `data` 文件夹。完整退出后可复制整个便携文件夹。
 

@@ -1,6 +1,7 @@
 import { lstat, readFile, readdir, realpath, rm, writeFile } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 import { record, type ExternalKernel } from "../../domain/kernelPolicy.js";
+import { expandShortNames } from "../longPath.js";
 import { hashFile } from "./installSource.js";
 import { safeManagedPath, validateManagedEntry, type ManagedKernel } from "./managedPaths.js";
 
@@ -115,6 +116,9 @@ export async function versionForExecutable(
   path: string,
 ): Promise<ManagedKernel | undefined> {
   if (!isAbsolute(path)) return;
+  // root 已是 realpath 长名；用户配置的路径可能写成 8.3 短名，先展开短名（不跟随链接），
+  // 否则合法受管内核会被误判为「外部重定向」。
+  path = await expandShortNames(path);
   if (!inside(root, path)) {
     let actual: string;
     try {

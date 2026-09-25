@@ -392,6 +392,8 @@ test("ACP rejects a missing absolute Studio MCP command before the prompt", asyn
 test("DeepSeek Harness resolves only the existing verified profile package, without npx", async () => {
   const f = await context();
   const priorHome = process.env.USERPROFILE;
+  // os.homedir() 在 POSIX 上读取 HOME、在 Windows 上读取 USERPROFILE，两者都指向夹具目录。
+  const priorPosixHome = process.env.HOME;
   const priorPath = process.env.PATH;
   try {
     const root = join(f.directory, ".dsh", "profiles", "node_modules", "@deepseek-ai", "dsh");
@@ -406,6 +408,7 @@ test("DeepSeek Harness resolves only the existing verified profile package, with
     );
     await writeFile(join(root, "lib", "bin.js"), "console.log('fixture 1.2.3')");
     process.env.USERPROFILE = f.directory;
+    process.env.HOME = f.directory;
     process.env.PATH = f.directory;
     const resolved = await resolveExecutable("deepseek-harness");
     assert.equal(resolved.path, join(root, "lib", "bin.js"));
@@ -422,6 +425,8 @@ test("DeepSeek Harness resolves only the existing verified profile package, with
   } finally {
     if (priorHome === undefined) delete process.env.USERPROFILE;
     else process.env.USERPROFILE = priorHome;
+    if (priorPosixHome === undefined) delete process.env.HOME;
+    else process.env.HOME = priorPosixHome;
     if (priorPath === undefined) delete process.env.PATH;
     else process.env.PATH = priorPath;
     await f.close();
