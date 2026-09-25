@@ -7,8 +7,10 @@
 // 再走真实的群聊界面发任务。
 //
 // 覆盖：群聊页 → 选中种子群聊 → 真实发送 → 群聊审批（拒绝 / 允许这一次）→
-//       核对写入落在隔离快照的 working/ 目录，且真实项目文件未被直接改写。
-// 明确不覆盖（脚本会打印）：差异审阅卡与应用接纳在本夹具下未出现（群运行未进入终态）。
+//       核对写入落在隔离快照的 working/ 目录、真实项目未被直接改写 →
+//       打开群聊信息面板的运行历史 → 展开运行 → 查看修改 → 应用此文件 →
+//       核对真实项目按隔离快照内容被写入。
+// 明确不覆盖（脚本会打印）：真实模型/CLI/付费调用；差异审阅与接纳只覆盖单文件路径。
 //
 // 用法：node scripts/t13-isolated-workspace-acceptance.mjs <未打便携标记的 win-unpacked/Knorvia Studio.exe>
 // 说明：只允许 127.0.0.1 回环地址；项目与数据根都在临时目录，结束后删除。
@@ -333,18 +335,32 @@ try {
       : "INFO 差异审阅：复核面板未出现（群运行未进入终态），不构成通过条件",
   );
 
-  // ── 用户接纳：打开该运行的修改审阅，点「应用此文件」并核对真实项目被改写 ──────
+  // ── 用户接纳：打开群聊信息面板（承载运行历史的审阅卡），点「应用此文件」并核对真实项目被改写 ──
   if (reviewVisible) {
-    const viewChanges = page.getByText(/查看修改|View changes/u).first();
-    if ((await viewChanges.count()) > 0) {
-      await viewChanges.click({ force: true, timeout: 10_000 }).catch(() => {});
+    // 修改审阅入口由 StudioRunHistory 承载，挂在群聊信息面板里（StudioGroupsPage 的
+    // aria-label=studio.groups.details 按钮），群聊页的「查看修改」并不直达它。
+    const detailsToggle = page.getByRole("button", { name: /群聊信息|Group details/u }).first();
+    if ((await detailsToggle.count()) > 0) {
+      await detailsToggle.click({ force: true, timeout: 10_000 }).catch(() => {});
       await page.waitForTimeout(4000);
     }
+    // 运行历史里每个运行是一个 <details>，步骤行上的「查看修改」按钮只在运行结束后出现，
+    // 且要先展开所属 <details> 才可见。这里先把它们全部展开。
+    await page
+      .locator("details")
+      .evaluateAll((nodes) => nodes.forEach((node) => (node.open = true)))
+      .catch(() => {});
+    await page.waitForTimeout(2000);
     const applyButton = page.getByRole("button", { name: /应用此文件|Apply this file/u }).first();
     let applyCount = 0;
     for (let attempt = 0; attempt < 20 && applyCount === 0; attempt++) {
       applyCount = await applyButton.count();
-      if (applyCount === 0) await page.waitForTimeout(2000);
+      if (applyCount === 0) {
+        const viewChanges = page.getByRole("button", { name: /查看修改|Review changes/u }).first();
+        if ((await viewChanges.count()) > 0)
+          await viewChanges.click({ force: true, timeout: 10_000 }).catch(() => {});
+        await page.waitForTimeout(2000);
+      }
     }
     if (applyCount > 0) {
       await applyButton.click({ force: true, timeout: 15_000 });
@@ -358,7 +374,7 @@ try {
       results.push("PASS 用户接纳：应用后真实项目文件按隔离快照内容被写入");
     } else {
       results.push(
-        "INFO 用户接纳：复核面板已出现，但未找到「应用此文件」入口（修改审阅入口可能在其他面板），未做断言",
+        "INFO 用户接纳：已打开群聊信息面板并等待 40 秒，仍未找到「应用此文件」入口，未做断言",
       );
     }
   }
@@ -381,7 +397,7 @@ try {
 
   console.log(results.join("\n"));
   console.log(
-    "未覆盖（本脚本不声称）：用户接纳（未找到「应用此文件」入口，未做断言）、真实模型或付费调用。",
+    "未覆盖（本脚本不声称）：真实模型、真实 CLI/ACP 内核与付费调用；差异审阅与接纳只覆盖单个文件路径。",
   );
 } finally {
   if (app) await app.close();
