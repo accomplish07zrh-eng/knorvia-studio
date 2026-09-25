@@ -1,28 +1,37 @@
 import { randomUUID } from "node:crypto";
-import { mkdir, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { rm } from "node:fs/promises";
+import { join } from "node:path";
 import type { ICredentialService } from "../credential/credential.js";
-import { creationReferenceSlots } from "./contract.js";
+import { assertCreationCapability, creationPrompt } from "./contract.js";
 import type {
   CreateCreationJobInput,
   CreationJob,
   CreationModel,
   CreationModelInput,
+  CreationReuseDraft,
+  CreationVerification,
   ICreationService,
 } from "./contract.js";
 import { runCreationProvider } from "./providers.js";
 import { validateCreationModel } from "./modelValidation.js";
 import {
-  creationFailure,
   newCreationJob,
   providerReferences,
   sameCreationRequest,
+  verifyStoredJob,
 } from "./creationJobs.js";
 import {
+  commitJobReferences,
+  creationFailure,
+  creationProvenance,
   decodeReference,
   publicJob,
   readRecords,
+  recoverInterruptedJobs,
+  reuseStoredJob,
   savedReference,
+  validId,
+  writeCreationOutput,
   writeRecords,
   type StoredJob,
 } from "./creationStorage.js";
@@ -34,15 +43,12 @@ export interface CreationServiceOptions {
   pollIntervalMs?: number;
   runTimeoutMs?: number;
   providerDeadlineMs?: number;
+  /** 只读远程验证的单次查询上限。 */
+  verifyTimeoutMs?: number;
 }
 
 function credentialKey(id: string): string {
   return `knorvia-creation:${id}`;
-}
-
-function validId(value: string): string {
-  if (!/^[\w-]{1,100}$/.test(value)) throw new Error("无效的创作记录编号");
-  return value;
 }
 
 export class CreationService implements ICreationService {
@@ -67,16 +73,7 @@ export class CreationService implements ICreationService {
     if (!this.ready) {
       this.ready = this.mutate(async () => {
         await readRecords<CreationModel>(this.modelsPath);
-        const jobs = await readRecords<StoredJob>(this.jobsPath);
-        let changed = false;
-        for (const job of jobs) {
-          if (job.status !== "queued" && job.status !== "running") continue;
-          job.status = "interrupted";
-          job.updatedAt = new Date().toISOString();
-          job.error = "应用上次退出时任务仍在运行；结果未知。请检查生成服务，再决定是否重新创建。";
-          changed = true;
-        }
-        if (changed) await writeRecords(this.jobsPath, jobs);
+        await recoverInterruptedJobs(this.jobsPath);
       });
     }
     return this.ready;
@@ -154,57 +151,36 @@ export class CreationService implements ICreationService {
       const firstFrame = decodeReference(input.firstFrame);
       const lastFrame = decodeReference(input.lastFrame);
       const jobs = await readRecords<StoredJob>(this.jobsPath);
+      const provenance = creationProvenance(input.provenance);
       const duplicate = jobs.find((job) => job.requestId === input.requestId);
       if (duplicate) {
-        if (!sameCreationRequest(duplicate, input, { reference, firstFrame, lastFrame }))
+        if (
+          !sameCreationRequest(duplicate, input, { reference, firstFrame, lastFrame }, provenance)
+        )
           throw new Error("这次生成编号已用于其他内容");
         return publicJob(duplicate);
       }
       if (this.controllers.size >= 2) throw new Error("已有两个生成任务正在运行，请稍后再试");
       const models = await readRecords<CreationModel>(this.modelsPath);
       const model = models.find((item) => item.id === input.modelId);
-      if (!model || !model.enabled || model.kind !== input.kind)
-        throw new Error("所选模型不可用于此次创作");
-      if (reference && input.kind !== "image") throw new Error("参考图只支持图片生成");
-      if ((firstFrame || lastFrame) && input.kind !== "video")
-        throw new Error("首尾帧仅支持视频生成");
-      const slots = creationReferenceSlots(model);
-      if (reference && !slots.image) throw new Error("当前模型未配置图生图输入");
-      if (firstFrame && !slots.firstFrame) throw new Error("当前模型未配置首帧输入");
-      if (lastFrame && !slots.lastFrame) throw new Error("当前模型未配置尾帧输入");
+      if (!model || !model.enabled) throw new Error("所选模型不可用于此次创作");
+      assertCreationCapability(model, input.kind, { reference, firstFrame, lastFrame });
       const publicModel = await this.publicModel(model);
       if (!publicModel.configured) throw new Error("请先配置所选模型");
-      const prompt = input.prompt.trim();
-      if (!prompt || prompt.length > 8000) throw new Error("提示词需在 1–8000 字符之间");
-      const job = newCreationJob(input, model, prompt, { reference, firstFrame, lastFrame });
-      const writtenReferences: string[] = [];
-      try {
-        for (const [slot, item] of [
-          ["reference", reference],
-          ["firstFrame", firstFrame],
-          ["lastFrame", lastFrame],
-        ] as const) {
-          if (!item) continue;
-          const path = join(
-            this.options.rootDir,
-            "references",
-            `${job.id}-${slot}.${item.extension}`,
-          );
-          await mkdir(dirname(path), { recursive: true });
-          await writeFile(path, item.bytes, { flag: "wx", mode: 0o600 });
-          writtenReferences.push(path);
-          if (slot === "reference") job.referencePath = path;
-          if (slot === "firstFrame") job.firstFramePath = path;
-          if (slot === "lastFrame") job.lastFramePath = path;
-        }
-        jobs.push(job);
-        await writeRecords(this.jobsPath, jobs);
-      } catch (error) {
-        await Promise.all(
-          writtenReferences.map((path) => rm(path, { force: true }).catch(() => undefined)),
-        );
-        throw error;
-      }
+      const prompt = creationPrompt(input.prompt);
+      const job = newCreationJob(
+        input,
+        model,
+        prompt,
+        { reference, firstFrame, lastFrame },
+        provenance,
+      );
+      await commitJobReferences(
+        this.options.rootDir,
+        job,
+        { reference, firstFrame, lastFrame },
+        () => writeRecords(this.jobsPath, [...jobs, job]),
+      );
       const controller = new AbortController();
       this.controllers.set(job.id, controller);
       // 接纳事务落盘后才启动供应商请求；不把 provider 延迟传给 Renderer。
@@ -261,6 +237,8 @@ export class CreationService implements ICreationService {
       kind: source.kind,
       modelId: source.modelId,
       prompt: source.prompt,
+      // 重试是同一意图的再次提交：来源关系记录原始任务，便于追溯付费请求。
+      provenance: { parentJobId: source.id, repeatOfRequestId: source.requestId },
       ...(reference ? { reference } : {}),
       ...(firstFrame ? { firstFrame } : {}),
       ...(lastFrame ? { lastFrame } : {}),
@@ -285,11 +263,49 @@ export class CreationService implements ICreationService {
     });
   }
 
-  private async updateJob(id: string, update: (job: StoredJob) => void): Promise<boolean> {
+  /**
+   * 复用：返回一份带新编号的草稿，供调用方显式再次提交。
+   * 只读源记录与参考图文件（校验哈希）；不写盘、不提交供应商请求、不产生副作用。
+   */
+  async reuseJob(id: string): Promise<CreationReuseDraft> {
+    await this.initialize();
+    return reuseStoredJob(
+      { rootDir: this.options.rootDir, jobsPath: this.jobsPath, modelsPath: this.modelsPath },
+      id,
+    );
+  }
+
+  /**
+   * 只读远程验证：只对确实有查询能力的协议发起 GET，绝不提交新的生成请求。
+   * 串行写入仍由本服务唯一的 updateJob 提供；无法确认时保持原状态并只写 checkedAt。
+   */
+  async verifyJob(id: string): Promise<CreationVerification> {
+    await this.initialize();
+    return verifyStoredJob(
+      {
+        rootDir: this.options.rootDir,
+        jobsPath: this.jobsPath,
+        modelsPath: this.modelsPath,
+        loadApiKey: (modelId) =>
+          this.options.credentials.load(credentialKey(modelId)).catch(() => null),
+        fetchImpl: this.options.fetchImpl,
+        verifyTimeoutMs: this.options.verifyTimeoutMs,
+        updateJob: (jobId, update, options) => this.updateJob(jobId, update, options),
+        getJob: (jobId) => this.getJob(jobId),
+      },
+      id,
+    );
+  }
+
+  private async updateJob(
+    id: string,
+    update: (job: StoredJob) => void,
+    options: { allowCancelled?: boolean } = {},
+  ): Promise<boolean> {
     return this.mutate(async () => {
       const jobs = await readRecords<StoredJob>(this.jobsPath);
       const job = jobs.find((item) => item.id === id);
-      if (!job || job.status === "cancelled") return false;
+      if (!job || (!options.allowCancelled && job.status === "cancelled")) return false;
       update(job);
       job.updatedAt = new Date().toISOString();
       await writeRecords(this.jobsPath, jobs);
@@ -338,28 +354,22 @@ export class CreationService implements ICreationService {
         },
       );
       controller.signal.throwIfAborted();
-      const name = `creation-${job.id}.${result.extension}`;
-      const path = join(this.options.rootDir, "assets", name);
-      await mkdir(dirname(path), { recursive: true });
-      await writeFile(path, result.bytes, { flag: "wx", mode: 0o600 });
+      const { output, created } = await writeCreationOutput(
+        this.options.rootDir,
+        job.id,
+        result,
+        job.kind,
+      );
       if (controller.signal.aborted) {
-        await rm(path, { force: true });
+        if (created) await rm(output.path, { force: true });
         return;
       }
       const saved = await this.updateJob(job.id, (record) => {
         record.status = "succeeded";
         record.error = undefined;
-        record.outputs = [
-          {
-            id: randomUUID(),
-            name,
-            mimeType: result.mimeType,
-            path,
-            size: result.bytes.byteLength,
-          },
-        ];
+        record.outputs = [output];
       });
-      if (!saved) await rm(path, { force: true });
+      if (!saved && created) await rm(output.path, { force: true });
     } catch (error) {
       const apiKey = await this.options.credentials.load(credentialKey(model.id)).catch(() => null);
       const failure = creationFailure(error, {

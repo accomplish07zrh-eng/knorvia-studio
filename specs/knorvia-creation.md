@@ -25,3 +25,72 @@
 2. 无模型时不能提交，配置模型后能出现真实任务；失败、取消、中断均有真实状态，没有假预览或无限加载。
 3. API 密钥在模型／任务 RPC 响应、日志和 UI 中不回显；便携版与其他应用各自使用独立数据。
 4. 使用本地 HTTP fixture 验证图片与视频生成、图生图、幂等、取消、重启状态和输出校验；用真实 stdio MCP 握手验证 Agent 创作工具、权限标注、会话撤销与原生 Knorvia 单聊连接，不调用付费模型。完成 typecheck、lint、构建、架构检查与桌面 GUI 验证；更新便携包并保留 `data`。
+
+## T09 参数复用、来源关系与工作流交接
+
+本节补充“复用已接纳的参数、记录来源关系、以及在结果未知时先验证再决定是否重新提交”的服务层规则。状态所有者仍是唯一的本机 Host Creation Service：参数快照、来源关系与验证标记都由它写入 `jobs.json`，Renderer、工作流节点与 Agent 桥接都只能读取，不得各自保存副本或另建状态。
+
+### 参数快照
+
+- 每次接纳新任务时写入 `parameterSnapshot`：`kind`、`modelId`、`modelName`、`protocol`、`prompt`、各槽位的参考图名称与内容哈希（`referenceName`／`referenceHash`、`firstFrameName`／`firstFrameHash`、`lastFrameName`／`lastFrameHash`）、有效参数 `params`（当前仅 `prompt` 与提交给供应商的 `model` 标识）以及 `capturedAt`。
+- 快照只从显式白名单取值，绝不展开 `CreationModel`、`workflowJson`、`apiMapping` 或任何供应商／映射对象。参考图字节、base64 与凭据永不进入任务记录。
+- 读取任务时由 `publicJob` 计算 `reconstructible` 与 `missing`：字段齐全且与任务记录一致时为 `true` 与 `[]`；旧记录没有快照时诚实地给出 `false` 与 `["parameterSnapshot"]`，不伪造可重建。
+- `reconstructible` 只判断记录层参数是否齐全；参考图文件是否存在、哈希是否仍一致由 `reuseJob` 与工作流交接再次校验。当前没有尺寸、时长、画幅、质量等参数，新增参数必须先在本规格与契约里显式声明，才能进入快照。
+
+### 来源关系
+
+- `provenance` 只包含三个白名单字段：`parentJobId`（直接来源任务）、`referencedOutputId`（被引用的成果编号）、`repeatOfRequestId`（被重复提交的原始生成编号）。取值必须满足现有记录编号格式 `^[\w-]{1,100}$`，未知键忽略，格式错误直接拒绝。
+- 幂等比较把来源关系算作提交内容的一部分：同一 `requestId` 只有内容与来源关系都相同才算同一次提交。一键重试沿用 `retry-<id>` 编号并记录 `parentJobId` 与 `repeatOfRequestId`；复用会给出新的编号（见下）。
+
+### 凭据排除规则
+
+- 快照、来源关系与任务可见字段一律由允许清单构造。凭据只保存在 Credential Service，`load` 得到的密钥只用于构造供应商请求头，不进入任何落盘记录。
+- 已有失败文本的脱敏继续生效：替换当前密钥后再经 `redactDiagnosticText` 截断 500 字符。残余风险仍然存在——供应商回显经过变形（base64、片段、截断）的凭据无法被 `replaceAll` 命中，因此任何新增记录都必须坚持允许清单，不得把供应商响应或映射对象整体写入任务。
+
+### 能力门控
+
+- 三种槽位（参考图、首帧、尾帧）仍由 `creationReferenceSlots` 这一个谓词判定；`createJob` 用它在服务端强制校验。复用、工作流节点与 UI 必须复用同一个谓词，不得各自根据协议字符串另写判断。
+- `reuseJob` 在返回草稿前重新校验：原任务模型仍存在、启用、类型一致，且原任务用到的槽位在当前模型下仍被声明；否则明确拒绝，不产生一份注定失败的草稿。
+
+### 幂等规则
+
+- 同一次提交必须使用同一个 `requestId`：应答丢失后重复调用返回已存在的任务，不产生第二次供应商请求。
+- 新的意图必须使用新的 `requestId`；`reuseJob` 每次返回全新的目标编号，且自身不产生任何副作用（不写记录、不提交请求）。
+- 同一 `requestId` 对应不同内容或不同来源关系时直接拒绝（“这次生成编号已用于其他内容”），这是服务端规则，不能用界面禁用按钮替代。
+- 仅 `failed` 可以一键重试；`interrupted`／`cancelled` 属于结果未知，必须先验证。
+
+### 未知结果规则
+
+- `interrupted` 就是未知状态，没有单独的 unknown 成员。未知结果不得自动创建第二次付费请求：不自动重试、不自动重放、不在工作流恢复时重复提交。
+- `verifyJob(id)` 是唯一的补救入口，只读且只对供应商发起查询，绝不 POST 新的生成请求：
+  - 只接受 `interrupted`／`cancelled` 且仍保有 `providerTaskId` 的任务；已有确定结果或仍在运行的任务直接拒绝。
+  - 有真实只读查询能力的协议才发起查询：ComfyUI 走 `GET /history/{taskId}`，JSON API 走已配置的 `pollPath`＋`statusPath`。
+  - `openai-images` 没有只读查询接口，明确返回“无法远程验证”，不得猜测结果。
+  - 查询确认成功：写入成果文件（含内容哈希）并把任务置为 `succeeded`；查询确认失败：置为 `failed`；仍无确定结果或查询不可用：保持原状态，只写入 `checkedAt` 与诚实说明，提醒远端可能仍在运行或计费。
+  - 查询过程中的网络错误、超时、5xx 一律按“结果仍未知”处理，不得改判为失败。
+
+事件顺序（验证路径，唯一写入者仍是 `mutate()` 串行的 Host Service）：
+
+```text
+Renderer/工作流  verifyJob(id)
+      │
+      ├─ 读 jobs.json（无副作用，不持锁做网络 IO）
+      ├─ 校验状态与 providerTaskId ── 不合格 → 明确报错，不查询
+      ├─ 只读查询供应商（GET /history、GET pollPath；超时/网络错误 → 未知）
+      └─ mutate：写回状态、成果文件与 checkedAt（保持唯一写入路径）
+```
+
+### 工作流交接规则
+
+- 创作节点把成果交给下游时必须先校验文件版本与可访问性：来源必须是同一 Host 记录中 `succeeded` 任务的输出，文件仍位于创作数据目录内，且其 sha256 与 `CreationOutput.hash` 一致。
+- 哈希缺失（旧记录）或与磁盘内容不一致时拒绝交接并要求先生成新版本，不得静默使用被替换或已删除的文件。
+- 结果未知（`interrupted`／`cancelled`）的任务不能作为交接来源；下游创作节点只能引用已确认成果。
+- 交接产生的下游任务在 `provenance.referencedOutputId` 记录被引用成果编号，形成可追溯的生成链。
+
+### 验收补充
+
+1. 新旧记录都能读取：有快照的任务 `reconstructible: true` 且 `missing: []`，旧记录为 `false` 且 `missing` 诚实列出缺失项。
+2. `reuseJob` 返回新编号、不写盘、不提交；`verifyJob` 成功／失败／仍然未知三条路径都不产生新的供应商提交（测试断言供应商层未收到 POST）。
+3. 同一编号 + 相同内容幂等；同一编号 + 不同内容或不同来源被拒绝。
+4. 密钥不出现在 `jobs.json`、快照与任何导出结果中；参考图 base64 不进入任务记录。
+5. 全程使用本地 fixture，不调用付费模型。
