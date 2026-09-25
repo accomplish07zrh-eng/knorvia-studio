@@ -65,6 +65,11 @@ const enUS: Record<string, string> = {
   ...agentsEnUS,
   ...workflowEnUS,
   "studio.workflow.parameters": "Parameters",
+  "studio.workflow.contentPack": "Content + illustration pack",
+  "studio.workflow.contentPackDescription":
+    "Chain copy, references, an illustration, and the delivery list",
+  "studio.workflow.templateParameters": "{count} parameters",
+  "studio.workflow.templateEvidence": "Evidence rule: unreproduced claims are marked unverified",
   "studio.workflow.parameterRequired": "Required",
   "studio.workflow.parameterInvalidNumber": "Enter a number.",
   "studio.workflow.parameterInvalidBoolean": "Enter true or false.",

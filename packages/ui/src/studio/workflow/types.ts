@@ -4,6 +4,15 @@ import {
   type StudioWorkflowNodeData,
   type StudioWorkflowNodeKind,
 } from "@knorvia/services";
+import {
+  EVIDENCE_RULE,
+  TASK_TEMPLATES,
+  TEMPLATE_SCENARIOS,
+  type ScenarioLanguage,
+  type TaskTemplate,
+  type TemplateScenario,
+  type TemplateStep,
+} from "./templateScenarios.js";
 
 /**
  * 业务来源只有一处：services 的浏览器安全公开入口。
@@ -11,14 +20,21 @@ import {
  */
 export const WORKFLOW_NODE_KINDS = STUDIO_WORKFLOW_NODE_KINDS;
 export type WorkflowNodeKind = StudioWorkflowNodeKind;
+/** 场景模板的数据在 `templateScenarios.ts`；这里只把它们并入唯一一份模板清单。 */
+export {
+  TASK_TEMPLATES,
+  TEMPLATE_SCENARIOS,
+  templateParameterNames,
+  workflowParamHint,
+  type ScenarioLanguage,
+  type TaskTemplate,
+} from "./templateScenarios.js";
 export const WORKFLOW_TEMPLATES = [
   "blank",
   "sequence",
   "parallel",
   "branch",
-  "releaseCheck",
-  "codeReview",
-  "documentCleanup",
+  ...TASK_TEMPLATES,
 ] as const;
 export type WorkflowTemplate = (typeof WORKFLOW_TEMPLATES)[number];
 export const WORKFLOW_LIMITS = { name: 100, nodes: 200, edges: 800 } as const;
@@ -75,87 +91,50 @@ export function makeWorkflowNode(
   };
 }
 
-const taskTemplates = {
-  releaseCheck: {
-    zh: [
-      [
-        "检查发布条件",
-        "检查项目的测试、构建、版本号与待提交改动。逐项列出实际执行的命令、结果及未验证项；不要发布或推送。",
-      ],
-      [
-        "整理发布风险",
-        "根据上一步结果整理阻断项、回退建议和可供人工确认的发布清单；不要把未运行的检查写成通过。",
-      ],
-    ],
-    en: [
-      [
-        "Check release readiness",
-        "Inspect tests, build, version, and pending changes. Report commands actually run, results, and gaps. Do not publish or push.",
-      ],
-      [
-        "Summarize release risks",
-        "From the previous result, list blockers, rollback considerations, and a checklist for human review. Do not claim unrun checks passed.",
-      ],
-    ],
-  },
-  codeReview: {
-    zh: [
-      [
-        "审查代码改动",
-        "检查项目中的待审改动，定位可能的正确性、安全性和兼容性问题；按文件给出可核对的依据。不要修改文件。",
-      ],
-      [
-        "汇总审查结论",
-        "核对上一步发现，按严重程度整理问题、建议测试和仍需人工确认的事项；不要把推测写成已复现。",
-      ],
-    ],
-    en: [
-      [
-        "Review code changes",
-        "Inspect pending changes for correctness, security, and compatibility issues. Cite verifiable files. Do not edit files.",
-      ],
-      [
-        "Summarize findings",
-        "Check the previous findings and organize issues by severity, useful tests, and open questions. Do not present guesses as reproduced bugs.",
-      ],
-    ],
-  },
-  documentCleanup: {
-    zh: [
-      [
-        "盘点文档",
-        "检查项目文档的重复、过期信息和断链，列出需要整理的具体文件与原因。不要删除用户资料。",
-      ],
-      ["整理文档", "依据上一步清单修正明确的文档问题，保留事实依据；汇报改动和无法核实的内容。"],
-    ],
-    en: [
-      [
-        "Inventory documentation",
-        "Find duplicate, stale, or broken documentation and identify exact files and reasons. Do not delete user data.",
-      ],
-      [
-        "Clean up documentation",
-        "Fix clear issues from the inventory while preserving factual sources. Report changes and anything you could not verify.",
-      ],
-    ],
-  },
-} as const;
+function isTaskTemplate(template: WorkflowTemplate): template is TaskTemplate {
+  return (TASK_TEMPLATES as readonly string[]).includes(template);
+}
+
+/**
+ * 把一个场景步骤变成画布节点。
+ * 参数 label 在构造时按当前语言落地（参数 schema 是单语言字符串）；`{{param.*}}` 的
+ * 可用性仍由服务端校验，这里不预判。
+ */
+function scenarioNode(
+  scenario: TemplateScenario,
+  step: TemplateStep,
+  language: ScenarioLanguage,
+  x: number,
+): StudioWorkflowNode {
+  const node = makeWorkflowNode(step.kind, { x, y: 220 }, step.label[language]);
+  node.data.prompt =
+    step.kind === "agent"
+      ? `${step.prompt[language]} ${EVIDENCE_RULE[language]}`
+      : step.prompt[language];
+  if (step.params?.length)
+    node.data.params = step.params.map((param) => ({
+      ...param,
+      label: scenario.paramText[param.name]?.label[language] ?? param.name,
+    }));
+  if (step.outputNames?.length) node.data.outputNames = [...step.outputNames];
+  if (step.permission) node.data.permission = step.permission;
+  if (step.creationModelId) node.data.creationModelId = step.creationModelId;
+  return node;
+}
 
 export function createWorkflowGraph(
   template: WorkflowTemplate,
-  language: "zh" | "en" = "zh",
+  language: ScenarioLanguage = "zh",
 ): WorkflowGraph {
   if (template === "blank") return { nodes: [], edges: [] };
-  if (template in taskTemplates) {
-    const tasks = taskTemplates[template as keyof typeof taskTemplates][language];
+  if (isTaskTemplate(template)) {
+    const scenario = TEMPLATE_SCENARIOS[template];
     const nodes = [
       makeWorkflowNode("start", { x: 120, y: 220 }),
-      ...tasks.map(([label, prompt], index) => {
-        const node = makeWorkflowNode("agent", { x: 420 + index * 300, y: 220 }, label);
-        node.data.prompt = prompt;
-        return node;
-      }),
-      makeWorkflowNode("end", { x: 420 + tasks.length * 300, y: 220 }),
+      ...scenario.steps.map((step, index) =>
+        scenarioNode(scenario, step, language, 420 + index * 300),
+      ),
+      makeWorkflowNode("end", { x: 420 + scenario.steps.length * 300, y: 220 }),
     ];
     return {
       nodes,

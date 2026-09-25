@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { studioWorkflowParams, type StudioWorkflowParam } from "@knorvia/services";
 import { useStudioWorkflowStore } from "../../store/studioWorkflowStore.js";
+import { useKnorviaIntl } from "../../i18n/IntlProvider.js";
 import { Button } from "../../components/ui/button.js";
 import { Input } from "../../components/ui/input.js";
 import { Textarea } from "../../components/ui/textarea.js";
@@ -12,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../components/ui/dialog.js";
+import { workflowParamHint } from "./templateScenarios.js";
 import { useWorkflowText } from "./useWorkflowText.js";
 
 /** 参数值的本地形状校验；服务端仍会独立复核，这里只是提交前的即时反馈。 */
@@ -44,6 +46,9 @@ export function WorkflowRunDialog({
   workflowId: string;
 }) {
   const t = useWorkflowText();
+  const { locale } = useKnorviaIntl();
+  // 参数说明只来自模板场景数据；自建参数没有说明时不显示占位文案。
+  const language = locale.startsWith("zh") ? "zh" : "en";
   const input = useStudioWorkflowStore((state) => state.inputDrafts[workflowId] ?? "");
   const saveInput = useStudioWorkflowStore((state) => state.saveInput);
   const workflow = useStudioWorkflowStore((state) =>
@@ -120,31 +125,35 @@ export function WorkflowRunDialog({
         {declared.length > 0 && (
           <div className="space-y-3">
             <p className="text-ui-sm text-foreground-subtle">{t("parameters")}</p>
-            {declared.map((param) => (
-              <label
-                key={param.name}
-                className="grid gap-2 text-ui-sm text-foreground-subtle"
-                htmlFor={`workflow-param-${param.name}`}
-              >
-                <span>
-                  {param.label || param.name}
-                  {param.required === true && param.default === undefined
-                    ? ` · ${t("parameterRequired")}`
-                    : ""}
-                </span>
-                <Input
-                  id={`workflow-param-${param.name}`}
-                  type={param.type === "number" ? "number" : "text"}
-                  disabled={busy}
-                  maxLength={4000}
-                  value={values[param.name] ?? param.default ?? ""}
-                  placeholder={param.type === "boolean" ? "true / false" : ""}
-                  onChange={(event) =>
-                    setValues((current) => ({ ...current, [param.name]: event.target.value }))
-                  }
-                />
-              </label>
-            ))}
+            {declared.map((param) => {
+              const hint = workflowParamHint(param.name, language);
+              return (
+                <label
+                  key={param.name}
+                  className="grid gap-2 text-ui-sm text-foreground-subtle"
+                  htmlFor={`workflow-param-${param.name}`}
+                >
+                  <span>
+                    {param.label || param.name}
+                    {param.required === true && param.default === undefined
+                      ? ` · ${t("parameterRequired")}`
+                      : ""}
+                  </span>
+                  <Input
+                    id={`workflow-param-${param.name}`}
+                    type={param.type === "number" ? "number" : "text"}
+                    disabled={busy}
+                    maxLength={4000}
+                    value={values[param.name] ?? param.default ?? ""}
+                    placeholder={param.type === "boolean" ? "true / false" : ""}
+                    onChange={(event) =>
+                      setValues((current) => ({ ...current, [param.name]: event.target.value }))
+                    }
+                  />
+                  {hint && <span className="text-ui-sm text-foreground-subtle">{hint}</span>}
+                </label>
+              );
+            })}
           </div>
         )}
         <Textarea

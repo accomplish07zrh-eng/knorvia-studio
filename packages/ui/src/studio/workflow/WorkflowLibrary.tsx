@@ -10,7 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu.js";
 import { WORKFLOW_TEMPLATES, type StudioWorkflow, type WorkflowTemplate } from "./types.js";
+import { TASK_TEMPLATES, templateParameterNames, type TaskTemplate } from "./templateScenarios.js";
 import { useWorkflowText } from "./useWorkflowText.js";
+
+/** 场景模板（有参数与证据要求）与结构模板在库页分别标注。 */
+const TASK_TEMPLATE_NAMES = new Set<string>(TASK_TEMPLATES);
 
 interface Props {
   workflows: StudioWorkflow[];
@@ -85,6 +89,16 @@ export function WorkflowLibrary({
                 <span className="mt-1 block text-ui-sm text-foreground-subtle">
                   {t(`${template}Description`)}
                 </span>
+                {TASK_TEMPLATE_NAMES.has(template) && (
+                  <span
+                    className="mt-1 block text-ui-sm text-foreground-subtle"
+                    title={t("templateEvidence")}
+                  >
+                    {t("templateParameters", {
+                      count: templateParameterNames(template as TaskTemplate).length,
+                    })}
+                  </span>
+                )}
               </button>
             ))}
           </div>
