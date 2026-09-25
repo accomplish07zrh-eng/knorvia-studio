@@ -2,8 +2,9 @@
 // T13 桌面端到端验收：在打包应用上跑一条真实路径，全程离线。
 //
 // 覆盖：引导 → 配置本地回环供应商 → 选择模型 → 真实发送 → 真实运行时执行并收到回复
+//       → 夹具发出 Write 工具调用 → 核对应用真的执行并落盘
 //       → 关闭应用 → 用同一数据根重开 → 核对会话与配置仍在。
-// 明确不覆盖（脚本会打印）：隔离工作区产生文件改动、差异审阅与用户接纳、真实模型/付费调用。
+// 明确不覆盖（脚本会打印）：真实项目上的隔离工作区差异审阅与用户接纳、真实模型/付费调用。
 //
 // 用法：node scripts/t13-desktop-acceptance.mjs <未打便携标记的 win-unpacked/Knorvia Studio.exe>
 // 未打标记的包有两种来源：安装包构建（不设 KNORVIA_PORTABLE_BUILD），
@@ -34,34 +35,92 @@ if (
 }
 
 const requests = [];
+const toolFileName = "t13-probe.txt";
+const toolFileBody = "hello from t13\n";
+let toolCallIssued = false;
+let toolResultServed = false;
+const chunkOf = (payload) => `data: ${JSON.stringify(payload)}\n\n`;
+const chunkBase = {
+  id: "chatcmpl-local-fixture",
+  object: "chat.completion.chunk",
+  created: 0,
+  model: "local-fixture-model",
+};
 const server = createServer(async (request, response) => {
   const chunks = [];
   for await (const chunk of request) chunks.push(chunk);
-  requests.push({ method: request.method, url: request.url });
+  const body = Buffer.concat(chunks).toString("utf8");
+  let parsed = {};
+  try {
+    parsed = JSON.parse(body);
+  } catch {
+    /* 非 JSON 请求体只记录，不影响夹具行为 */
+  }
+  const messages = JSON.stringify(parsed.messages ?? []);
+  const lastUser = [...(parsed.messages ?? [])]
+    .reverse()
+    .find((message) => message?.role === "user");
+  const toolCount = Array.isArray(parsed.tools) ? parsed.tools.length : 0;
+  const record = {
+    method: request.method,
+    url: request.url,
+    toolResult: messages.includes("tool_call_id"),
+    toolCount,
+    lastUser: typeof lastUser?.content === "string" ? lastUser.content.slice(0, 80) : undefined,
+  };
+  requests.push(record);
   response.writeHead(200, { "content-type": "text/event-stream; charset=utf-8" });
+  // 第一个携带工具定义的请求回一个 Write 工具调用，工具结果回来后收尾；
+  // 之后的请求（含标题/摘要这类无工具调用）一律回纯文本。
+  const isToolTurn = !toolCallIssued && toolCount > 0 && !messages.includes("tool_call_id");
+  record.fired = isToolTurn;
+  if (isToolTurn) {
+    toolCallIssued = true;
+    response.write(
+      chunkOf({
+        ...chunkBase,
+        choices: [
+          {
+            index: 0,
+            delta: {
+              role: "assistant",
+              tool_calls: [
+                {
+                  index: 0,
+                  id: "call_t13_acceptance",
+                  type: "function",
+                  function: {
+                    name: "Write",
+                    arguments: JSON.stringify({ file_path: toolFileName, content: toolFileBody }),
+                  },
+                },
+              ],
+            },
+            finish_reason: null,
+          },
+        ],
+      }),
+    );
+    response.end(
+      chunkOf({ ...chunkBase, choices: [{ index: 0, delta: {}, finish_reason: "tool_calls" }] }) +
+        "data: [DONE]\n\n",
+    );
+    return;
+  }
+  // 工具结果只回一次收尾文本；后续请求（历史里仍带 tool_call_id）一律回普通回复。
+  const hasToolResult = messages.includes("tool_call_id");
+  const text =
+    hasToolResult && !toolResultServed ? "Tool fixture finished." : "Local fixture reply.";
+  if (hasToolResult) toolResultServed = true;
   response.write(
-    `data: ${JSON.stringify({
-      id: "chatcmpl-local-fixture",
-      object: "chat.completion.chunk",
-      created: 0,
-      model: "local-fixture-model",
-      choices: [
-        {
-          index: 0,
-          delta: { role: "assistant", content: "Local fixture reply." },
-          finish_reason: null,
-        },
-      ],
-    })}\n\n`,
+    chunkOf({
+      ...chunkBase,
+      choices: [{ index: 0, delta: { role: "assistant", content: text }, finish_reason: null }],
+    }),
   );
   response.end(
-    `data: ${JSON.stringify({
-      id: "chatcmpl-local-fixture",
-      object: "chat.completion.chunk",
-      created: 0,
-      model: "local-fixture-model",
-      choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
-    })}\n\ndata: [DONE]\n\n`,
+    chunkOf({ ...chunkBase, choices: [{ index: 0, delta: {}, finish_reason: "stop" }] }) +
+      "data: [DONE]\n\n",
   );
 });
 await new Promise((resolveServer, reject) => {
@@ -164,9 +223,59 @@ try {
   await modelOption.first().click();
   await page.getByTestId("v4-composer-input").fill(messageText);
   await page.getByTestId("v4-composer-send").click();
-  await page.getByText("Local fixture reply.").first().waitFor({ timeout: 60_000 });
+  results.push("PASS 真实发送：消息经真实运行时发出，只到达回环夹具");
+
+  // ── 权限门禁：写文件默认需要授权，脚本显式批准（这正是 T13 的「参数/权限检查」一步）──
+  let permissionPromptSeen = false;
+  const allowOption = page.locator('[data-permission-option-kind="allowOnce"]').first();
+  try {
+    await allowOption.waitFor({ timeout: 30_000 });
+    permissionPromptSeen = true;
+    // 选项首次点击只选中，需再点确认按钮；用 force 绕过列表项的可操作性检查。
+    await allowOption.click({ force: true, timeout: 10_000 }).catch(() => {});
+    const confirm = page.getByRole("button", { name: /^(确认|Confirm)$/ });
+    if ((await confirm.count()) > 0)
+      await confirm
+        .first()
+        .click({ force: true, timeout: 10_000 })
+        .catch(() => {});
+  } catch {
+    /* 未出现门禁（已授权策略）时继续 */
+  }
+  results.push(
+    permissionPromptSeen
+      ? "PASS 参数/权限检查：写文件的工具调用触发权限门禁，脚本显式批准后才继续"
+      : "INFO 参数/权限检查：本次未出现权限门禁（默认工作区策略允许）",
+  );
+
+  // ── 真实工具执行：首个携带工具的请求会收到 Write 工具调用，核对应用真的执行并落盘 ──
+  const writtenFile = join(root, ".knorvia-studio", "workspace", "default", toolFileName);
+  let toolFileWritten = false;
+  for (let attempt = 0; attempt < 120 && !toolFileWritten; attempt++) {
+    try {
+      toolFileWritten = (await readFile(writtenFile, "utf8")) === toolFileBody;
+    } catch {
+      /* 尚未落盘 */
+    }
+    if (!toolFileWritten) await page.waitForTimeout(1000);
+  }
+  assert(
+    toolFileWritten,
+    `夹具发出的 Write 工具调用应真的落盘：${writtenFile}（未找到或内容不符）；请求记录：${JSON.stringify(
+      requests,
+    )}`,
+  );
+  await page.getByText("Tool fixture finished.").first().waitFor({ timeout: 60_000 });
   assert(requests.some((request) => request.url?.includes("chat/completions")));
-  results.push("PASS 真实发送与执行：消息经真实运行时发出，只到达回环夹具并收到回复");
+  results.push(
+    `PASS 真实工具执行：夹具的 Write 调用经真实运行时执行并落盘（${toolFileName}，${toolFileBody.trim()}）`,
+  );
+
+  // ── 第二轮纯文本对话：确认同一会话可以继续 ─────────────────────────────────
+  await page.getByTestId("v4-composer-input").fill("Second acceptance message");
+  await page.getByTestId("v4-composer-send").click();
+  await page.getByText("Local fixture reply.").first().waitFor({ timeout: 60_000 });
+  results.push("PASS 会话继续：第二轮消息同样只到达回环夹具并收到回复");
 
   // 引导状态已持久化，重开时不应再次出现。
   const settings = JSON.parse(
@@ -213,7 +322,7 @@ try {
 
   console.log(results.join("\n"));
   console.log(
-    "未覆盖（本脚本不声称）：隔离工作区产生文件改动、差异审阅与用户接纳、真实模型或付费调用。",
+    "未覆盖（本脚本不声称）：真实项目上的隔离工作区差异审阅与用户接纳、真实模型或付费调用。",
   );
 } finally {
   if (app) await app.close();
