@@ -194,7 +194,16 @@ INFO 差异审阅：复核面板未出现，应用按钮 0 个（本夹具下群
 
 要点：**写入确实落在隔离快照 `studio/workspaces/<hash>/working/` 而不是项目里，真实项目文件逐字未变**——这就是任务书要求的「隔离执行」。群聊路径的审批 UI 与单聊**不是同一套**：单聊是 `PermissionDialog` + `data-permission-option-kind`，群聊是「任务进展」面板里的普通按钮（`拒绝` / `允许这一次`）。
 
-**仍未跑通的是「差异审阅 → 用户接纳」**：上面这次运行里复核面板没有出现，原因是本夹具的群运行没有进入终态（夹具只回一轮文本，主持人的收尾流程没走完）。要补齐需要让夹具把群运行的完整回合跑完，或改为在群运行结束后再打开运行历史。这一段目前仍只有离线用例覆盖（`studio-workspace.test.ts`、`studio-workspace-recovery.test.ts`、`studio-runtime-polish.test.ts`）。
+**仍未跑通的是「差异审阅 → 用户接纳」**：上面这次运行里复核面板没有出现。后续继续实测，已经查明**卡点具体在哪一步**，并记录成可复现的协议事实：
+
+1. **主持人规划必须回结构化 JSON**（不是文本）。`packages/services/src/studio-runtime/domain/groupPolicy.ts:202` 的 `parseStudioGroupPlan` 要求一个 JSON 对象，`tasks` 为 1–8 项，每项含 `id`（`^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$` 且唯一）、`member`（必须在 `group.members` 里）、`instruction`（非空、≤12000）、可选 `dependsOn`；不合法会报 `Host must return one valid JSON object.` / `Host plan requires 1–8 tasks.` 等。夹具改成先回 `{"tasks":[{"id":"t1","member":"knorvia","instruction":"…"}]}` 之后，界面确实出现「主持人安排 · 已完成」「成员执行 · 第 1 轮」，即**规划这一步已经通了**。
+2. **主持人复核同样必须回 JSON**：`parseStudioGroupReview`（`groupPolicy.ts:205`）要求 `summary`（非空、≤12000）与 `status`（只能是 `complete` 或 `revise`，`revise` 时还要带 `tasks`）。
+3. **成员回合本身不需要结构化输出**（仓库里只有 plan / review / steering plan 三个解析器，没有成员结果解析器）。
+4. **当前卡在群聊审批的提交**：规划通过后成员开始执行，写文件的工具调用弹出「待审批」，界面上有 `拒绝` / `允许这一次` 两个按钮；脚本点击后界面显示「已提交」，但运行仍停在「待审批 · Write 执行中」，并且请求记录显示成员回合被**重复请求**（6 次请求里有 3 次带工具结果）。另外：这组按钮**不是**单聊那套 `PermissionDialog`（该运行里 `[data-permission-option-kind]` 数量为 0），也不是 `GroupProgressPanel` 自己渲染的（该文件里没有 `允许`/`拒绝` 字样），来源还没定位。
+
+为方便继续排查，验收脚本新增了两个**可选**能力（不影响断言）：`T13_DUMP_LOGS=1` 会打印应用日志尾部与页面尾部文本；运行进入终态前会**有界轮询**复核面板（最多 60 秒）。
+
+这一段目前仍只有离线用例覆盖（`studio-workspace.test.ts`、`studio-workspace-recovery.test.ts`、`studio-runtime-polish.test.ts`）。
 
 ## 故障矩阵覆盖情况（如实）
 

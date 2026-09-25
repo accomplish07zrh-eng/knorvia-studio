@@ -282,14 +282,36 @@ try {
   assert.equal(await readFile(join(project, "README.md"), "utf8"), projectReadmeBefore);
   results.push("PASS 项目保护：真实项目文件未被直接改写，README 内容不变");
 
+  // 给群运行留出收尾时间：复核结论只在运行进入终态后才出现，因此有界轮询。
+  const reviewPanel = page.getByTestId("studio-group-review");
+  for (let attempt = 0; attempt < 30; attempt++) {
+    if ((await reviewPanel.count()) > 0) break;
+    await page.waitForTimeout(2000);
+  }
   // 复核结论/审阅卡在本夹具下是否出现，如实记录而不作为通过条件。
-  const reviewVisible = (await page.getByTestId("studio-group-review").count()) > 0;
+  const reviewVisible = (await reviewPanel.count()) > 0;
   const applyButtons = await page
     .getByRole("button", { name: /应用此文件|Apply this file/ })
     .count();
   results.push(
     `INFO 差异审阅：复核面板${reviewVisible ? "已出现" : "未出现"}，应用按钮 ${applyButtons} 个（本夹具下群运行未进入终态，因此不构成通过条件）`,
   );
+
+  // 需要排查群运行卡在哪一步时，用 T13_DUMP_LOGS=1 打印应用日志尾部（默认关闭）。
+  if (process.env.T13_DUMP_LOGS === "1") {
+    const logFiles = (await walk(root)).filter(
+      (file) => file.endsWith(".jsonl") || file.endsWith(".log"),
+    );
+    for (const file of logFiles) {
+      const lines = (await readFile(file, "utf8")).split("\n").filter(Boolean);
+      const relevant = lines.filter((line) =>
+        /group|host|review|plan|approval|permission|task|run/i.test(line),
+      );
+      console.log(`--- ${file.slice(root.length + 1)} (${lines.length} lines) ---`);
+      console.log(relevant.slice(-14).join("\n").slice(0, 3000));
+    }
+    console.log(`--- 页面尾部 ---\n${(await page.locator("body").innerText()).slice(-800)}`);
+  }
 
   console.log(results.join("\n"));
   console.log(
