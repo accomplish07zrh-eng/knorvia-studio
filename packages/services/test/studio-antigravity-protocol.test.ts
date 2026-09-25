@@ -31,7 +31,11 @@ test("Antigravity CLI discovery, native model list, streaming reply and explicit
   await writeFile(entry, fixture);
   const registry = createStudioKernelRegistry({
     dataDir: join(root, "data"),
-    builtin: { async run() { return { status: "succeeded", text: "", resultKnown: true }; } },
+    builtin: {
+      async run() {
+        return { status: "succeeded", text: "", resultKnown: true };
+      },
+    },
   });
   const turn = (selection: Partial<StudioKernelTurn> = {}): StudioKernelTurn => ({
     kernel: "antigravity",
@@ -45,35 +49,64 @@ test("Antigravity CLI discovery, native model list, streaming reply and explicit
     ...selection,
   });
   try {
-    const status = (await registry.inspect({ antigravity: { executablePath: entry, permission: "ask" } }))
-      .find((item) => item.id === "antigravity");
+    const status = (
+      await registry.inspect({ antigravity: { executablePath: entry, permission: "ask" } })
+    ).find((item) => item.id === "antigravity");
     assert.equal(status?.installed, true, status?.error);
     assert.equal(status.capabilities.resume, true);
     assert.equal(status.capabilities.approval, false);
     const options = await registry.options!({
-      kernel: "antigravity", workspacePath: root,
+      kernel: "antigravity",
+      workspacePath: root,
       config: { executablePath: entry, permission: "ask" },
     });
-    assert.deepEqual(options.models.map((item) => item.id), ["gemini-flash", "claude-sonnet"]);
-    assert.deepEqual(options.models[0]?.reasoning.map((item) => item.id), ["low", "medium", "high"]);
+    assert.deepEqual(
+      options.models.map((item) => item.id),
+      ["gemini-flash", "claude-sonnet"],
+    );
+    assert.deepEqual(
+      options.models[0]?.reasoning.map((item) => item.id),
+      ["low", "medium", "high"],
+    );
     const events: StudioKernelEvent[] = [];
     const sink = {
-      async emit(event: StudioKernelEvent) { events.push(event); },
-      async ask() { throw new Error("headless AGY cannot request interactive approval"); },
+      async emit(event: StudioKernelEvent) {
+        events.push(event);
+      },
+      async ask() {
+        throw new Error("headless AGY cannot request interactive approval");
+      },
     };
-    const first = await registry.adapter("antigravity").run(turn({ model: "gemini-flash", reasoningEffort: "low" }), sink, new AbortController().signal);
+    const first = await registry
+      .adapter("antigravity")
+      .run(
+        turn({ model: "gemini-flash", reasoningEffort: "low" }),
+        sink,
+        new AbortController().signal,
+      );
     assert.equal(first.status, "succeeded");
     assert.equal(first.text, "fixture reply");
     assert.equal(first.nativeSessionId, "fixture-agy-session");
     assert.ok(events.some((event) => event.type === "tool" && event.name === "read_file"));
-    const second = await registry.adapter("antigravity").run(turn({ nativeSessionId: first.nativeSessionId }), sink, new AbortController().signal);
+    const second = await registry
+      .adapter("antigravity")
+      .run(turn({ nativeSessionId: first.nativeSessionId }), sink, new AbortController().signal);
     assert.equal(second.status, "succeeded");
-    const args = (await readFile(join(root, "agy-args.jsonl"), "utf8")).trim().split("\n").map((line) => JSON.parse(line) as string[]);
+    const args = (await readFile(join(root, "agy-args.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line) as string[]);
     assert.ok(args[0]?.includes("--model"));
     assert.ok(args[0]?.includes("--effort"));
-    assert.deepEqual(args[1]?.slice(args[1].indexOf("--conversation"), args[1].indexOf("--conversation") + 2), ["--conversation", first.nativeSessionId]);
+    assert.deepEqual(
+      args[1]?.slice(args[1].indexOf("--conversation"), args[1].indexOf("--conversation") + 2),
+      ["--conversation", first.nativeSessionId],
+    );
     assert.ok(!args.some((value) => value.includes("hello")));
-    const inputs = (await readFile(join(root, "agy-input.jsonl"), "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+    const inputs = (await readFile(join(root, "agy-input.jsonl"), "utf8"))
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
     assert.equal(inputs[0]?.message?.content, "hello");
   } finally {
     await registry.dispose();
@@ -83,9 +116,19 @@ test("Antigravity CLI discovery, native model list, streaming reply and explicit
 
 test("Antigravity full-access flag is explicit and read-only is never silently weakened", () => {
   const base: StudioKernelTurn = {
-    kernel: "antigravity", runId: "r", turnId: "t", conversationId: "c",
-    workspacePath: "C:\\workspace", permission: "ask", text: "text",
+    kernel: "antigravity",
+    runId: "r",
+    turnId: "t",
+    conversationId: "c",
+    workspacePath: "C:\\workspace",
+    permission: "ask",
+    text: "text",
   };
   assert.equal(antigravityArgs(base).includes("--dangerously-skip-permissions"), false);
-  assert.equal(antigravityArgs({ ...base, permission: "full-access" }).includes("--dangerously-skip-permissions"), true);
+  assert.equal(
+    antigravityArgs({ ...base, permission: "full-access" }).includes(
+      "--dangerously-skip-permissions",
+    ),
+    true,
+  );
 });

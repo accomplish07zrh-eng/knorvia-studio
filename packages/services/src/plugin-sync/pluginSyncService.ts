@@ -356,7 +356,11 @@ async function importMarketplaceSourceArchiveInternal(
   archive: Uint8Array,
   maxArchiveBytes: number,
 ) {
-  const tempRoot = join(getKnorviaDataRootDir(), "tmp", `plugin-marketplace-source-${randomUUID()}`);
+  const tempRoot = join(
+    getKnorviaDataRootDir(),
+    "tmp",
+    `plugin-marketplace-source-${randomUUID()}`,
+  );
   try {
     await extractPluginSyncArchive(archive, tempRoot, {
       maxExtractedBytes: maxArchiveBytes,

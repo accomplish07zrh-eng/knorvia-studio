@@ -1,4 +1,8 @@
-import { SessionEventType, type SessionEvent, type ToolCallResultPayload } from "@knorvia/contracts";
+import {
+  SessionEventType,
+  type SessionEvent,
+  type ToolCallResultPayload,
+} from "@knorvia/contracts";
 import {
   cuaPermissionObservationSchema,
   cuaRequestAccessStatusSchema,

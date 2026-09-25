@@ -4,17 +4,36 @@ import type { StudioRun, StudioTimeline } from "@knorvia/services";
 import { groupProgress } from "../src/studio/groups/groupProgress.js";
 
 const run: StudioRun = {
-  id: "run-1", kind: "group", targetId: "group", state: "running", input: "ship",
-  createdAt: 1, updatedAt: 1, attempt: 1, taskMode: true,
+  id: "run-1",
+  kind: "group",
+  targetId: "group",
+  state: "running",
+  input: "ship",
+  createdAt: 1,
+  updatedAt: 1,
+  attempt: 1,
+  taskMode: true,
   definition: {
-    id: "group", name: "Team", goal: "ship", members: ["codex", "claude-code"],
-    host: "codex", sharedSummary: "", mode: "task", workspaceMode: "isolated",
-    createdAt: 1, updatedAt: 1,
+    id: "group",
+    name: "Team",
+    goal: "ship",
+    members: ["codex", "claude-code"],
+    host: "codex",
+    sharedSummary: "",
+    mode: "task",
+    workspaceMode: "isolated",
+    createdAt: 1,
+    updatedAt: 1,
   },
   checkpoint: {
-    steps: {}, values: {}, completedRounds: 0,
+    steps: {},
+    values: {},
+    completedRounds: 0,
     plan: {
-      version: 1, round: 0, phase: "tasks", dispatched: 2,
+      version: 1,
+      round: 0,
+      phase: "tasks",
+      dispatched: 2,
       tasks: [
         { id: "a", member: "codex", instruction: "Implement", dependsOn: [] },
         { id: "b", member: "claude-code", instruction: "Review", dependsOn: ["a"] },
@@ -22,18 +41,34 @@ const run: StudioRun = {
     },
   },
 };
-const timeline = (value: StudioRun, turns: StudioTimeline["turns"] = [], interactions: StudioTimeline["interactions"] = []): StudioTimeline => ({
-  revision: 1, messages: [], interactions, runs: [value], turns,
+const timeline = (
+  value: StudioRun,
+  turns: StudioTimeline["turns"] = [],
+  interactions: StudioTimeline["interactions"] = [],
+): StudioTimeline => ({
+  revision: 1,
+  messages: [],
+  interactions,
+  runs: [value],
+  turns,
 });
 
 test("task progress follows persisted turns and pending approval, not member prose", () => {
   const snapshot = timeline(run, [
     { id: "turn-a", runId: run.id, stepId: "group:round:0:task:a", state: "running", attempt: 1 },
   ]);
-  assert.deepEqual(groupProgress(snapshot)?.members.map((member) => member.state), ["running", "queued"]);
+  assert.deepEqual(
+    groupProgress(snapshot)?.members.map((member) => member.state),
+    ["running", "queued"],
+  );
   snapshot.interactions.push({
-    id: "approval", runId: run.id, turnId: "turn-a", status: "pending",
-    kind: "approval", title: "Approve", kernel: "codex",
+    id: "approval",
+    runId: run.id,
+    turnId: "turn-a",
+    status: "pending",
+    kind: "approval",
+    title: "Approve",
+    kernel: "codex",
   });
   assert.equal(groupProgress(snapshot)?.members[0]?.state, "waiting");
 });
@@ -46,10 +81,19 @@ test("replanned tasks ignore old-round results and retain the last review and ev
       ...run.checkpoint,
       steps: {
         "group:round:0:task:a": { status: "succeeded", text: "old", resultKnown: true },
-        [stepId]: { status: "succeeded", text: "done", resultKnown: true, workspacePath: "C:/isolated", changesSummary: "added report.md" },
+        [stepId]: {
+          status: "succeeded",
+          text: "done",
+          resultKnown: true,
+          workspacePath: "C:/isolated",
+          changesSummary: "added report.md",
+        },
       },
       plan: {
-        version: 1, round: 1, phase: "tasks", dispatched: 3,
+        version: 1,
+        round: 1,
+        phase: "tasks",
+        dispatched: 3,
         tasks: [{ id: "a", member: "codex", instruction: "Revise report", dependsOn: [] }],
         review: { round: 0, status: "revise", summary: "Needs a report." },
       },
@@ -85,7 +129,9 @@ test("stop request keeps an active member in stopping state until a confirmed ou
 
 test("host failure before a plan is saved is visible as failed, not unassigned", () => {
   const failed: StudioRun = {
-    ...run, state: "failed", resultKnown: true,
+    ...run,
+    state: "failed",
+    resultKnown: true,
     checkpoint: { steps: {}, values: {}, completedRounds: 0 },
   };
   const snapshot = timeline(failed, [
@@ -105,5 +151,8 @@ test("a task behind a failed dependency is not shown as queued for dispatch", ()
       },
     },
   };
-  assert.deepEqual(groupProgress(timeline(blocked))?.members.map((member) => member.state), ["failed", "blocked"]);
+  assert.deepEqual(
+    groupProgress(timeline(blocked))?.members.map((member) => member.state),
+    ["failed", "blocked"],
+  );
 });

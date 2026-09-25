@@ -107,11 +107,15 @@ export function savedStudioGroupPlan(
     throw new Error("Invalid saved group steering state.");
   if ((record.phase === "steering") !== Boolean(state?.pending?.length))
     throw new Error("Saved group steering batch does not match its phase.");
-  if (record.review && (
-    !Number.isSafeInteger(record.review.round) || record.review.round < 0 ||
-    !["complete", "revise"].includes(record.review.status) ||
-    typeof record.review.summary !== "string" || record.review.summary.length > SUMMARY_CHARS
-  )) throw new Error("Invalid saved group review.");
+  if (
+    record.review &&
+    (!Number.isSafeInteger(record.review.round) ||
+      record.review.round < 0 ||
+      !["complete", "revise"].includes(record.review.status) ||
+      typeof record.review.summary !== "string" ||
+      record.review.summary.length > SUMMARY_CHARS)
+  )
+    throw new Error("Invalid saved group review.");
   return {
     ...record,
     tasks: parseStudioGroupPlan(JSON.stringify({ tasks: record.tasks }), group).tasks,

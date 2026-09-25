@@ -17,11 +17,11 @@
     "lint:fix": "oxlint --fix"
   },
   "dependencies": {
+    "@knorvia/cua": "workspace:*",
     "@knorvia/provider": "workspace:*",
     "@knorvia/provider-node": "workspace:*",
     "@knorvia/rpc": "workspace:*",
     "@knorvia/shared": "workspace:*",
-    "@knorvia/cua": "workspace:*",
     "croner": "^10.0.1",
     "ignore": "^5.3.2",
     "node-forge": "^1.4.0",

@@ -42,7 +42,10 @@ function applyResourceManagerTheme(): void {
           ? "knorvia-light"
           : savedTheme;
   document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
-  document.documentElement.classList.toggle("theme-knorvia-light", appliedTheme === "knorvia-light");
+  document.documentElement.classList.toggle(
+    "theme-knorvia-light",
+    appliedTheme === "knorvia-light",
+  );
   document.documentElement.classList.toggle("theme-knorvia-dark", appliedTheme === "knorvia-dark");
 }
 

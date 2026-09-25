@@ -65,7 +65,9 @@ try {
       outDir: options.outDir,
       querySource: options.querySource,
     });
-    console.log(`Converted model-io JSONL into ${join(options.outDir, "anthropic_trajectory.json")}`);
+    console.log(
+      `Converted model-io JSONL into ${join(options.outDir, "anthropic_trajectory.json")}`,
+    );
   } else {
     printUsageAndExit();
   }

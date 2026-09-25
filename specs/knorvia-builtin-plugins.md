@@ -11,16 +11,16 @@
 
 ## 插件清单
 
-| 插件 id | 目录（`apps/cli/packages/`） | 版本 | 类型 | 默认启用 |
-| --- | --- | --- | --- | --- |
-| `browser-use` | `browser-use-plugin` | 0.6.0 | skill + client runtime | 是 |
-| `node-repl-host` | `node-repl-host` | 0.7.0 | MCP runtime 宿主（无 listing、商店不露出） | 是 |
-| `documents` | `documents-plugin` | 0.2.0 | skill + agent + inspector | 是 |
-| `pdf` | `pdf-plugin` | 0.2.0 | skill + agent + inspector | 是 |
-| `presentations` | `presentations-plugin` | 0.2.0 | skill + agent + inspector | 是 |
-| `spreadsheets` | `spreadsheets-plugin` | 0.2.0 | skill + agent + inspector | 是 |
-| `plugin-creator` | `plugin-creator-plugin` | 0.2.0 | skill + 脚手架脚本 | 是 |
-| `skill-creator` | `skill-creator-plugin` | 0.2.0 | skill | 是 |
+| 插件 id          | 目录（`apps/cli/packages/`） | 版本  | 类型                                       | 默认启用 |
+| ---------------- | ---------------------------- | ----- | ------------------------------------------ | -------- |
+| `browser-use`    | `browser-use-plugin`         | 0.6.0 | skill + client runtime                     | 是       |
+| `node-repl-host` | `node-repl-host`             | 0.7.0 | MCP runtime 宿主（无 listing、商店不露出） | 是       |
+| `documents`      | `documents-plugin`           | 0.2.0 | skill + agent + inspector                  | 是       |
+| `pdf`            | `pdf-plugin`                 | 0.2.0 | skill + agent + inspector                  | 是       |
+| `presentations`  | `presentations-plugin`       | 0.2.0 | skill + agent + inspector                  | 是       |
+| `spreadsheets`   | `spreadsheets-plugin`        | 0.2.0 | skill + agent + inspector                  | 是       |
+| `plugin-creator` | `plugin-creator-plugin`      | 0.2.0 | skill + 脚手架脚本                         | 是       |
+| `skill-creator`  | `skill-creator-plugin`       | 0.2.0 | skill                                      | 是       |
 
 当前来源：仓库内插件新实现。原资产与逐文件核验记录保存在仓库外，见 `docs/knorvia-plugin-license-audit.md`。
 
@@ -37,20 +37,20 @@
 
 对全部文本资产做确定性替换：
 
-| 上游写法 | 本项目写法 | 说明 |
-| --- | --- | --- |
-| `.zcode-plugin/plugin.json` | `.knorvia-plugin/plugin.json` | 插件清单目录名 |
-| `~/.zcode`、`.zcode/`、裸 `.zcode` | `~/.knorvia-studio`、`.knorvia-studio/` | 数据目录、技能/命令根 |
-| `ZCODE_*` | `KNORVIA_*` | 环境变量、模板变量（`${KNORVIA_PLUGIN_ROOT}` 等） |
-| `zcode.json` | `knorvia.json` | 工作区配置文件 |
-| `zcode-plugins-official` | `knorvia-plugins-bundled` | 官方市场 id |
-| `ZCode` | `Knorvia Studio` | 产品名 |
-| 插件 manifest/listing、技能 frontmatter、脚本默认作者中的**产品署名** | `Knorvia Studio` | 用户可见产品署名统一。第三方 `author`/`license` 字段不在此列，保持上游原值 |
-| `::zcode-file-citation` | 新输出 `::knorvia-file-citation` | 渲染器继续读取旧会话中的原格式；新技能示例只教新格式 |
-| `/* zcode-workflow` | 新保存 `/* knorvia-workflow` | 读取已有工作流时接受两种起始标记；新工具说明只教新格式 |
-| `Symbol.for("zcode.node-repl.computer-use-bridge")` | `Symbol.for("knorvia.node-repl.computer-use-bridge")` | 宿主和消费者同包同步更新，不向原版应用写入全局符号 |
-| `zcode-artifact://`、`zcode/…` 响应元数据 | 新写入 `knorvia-artifact://`、`knorvia/…` | 旧会话的 artifact URI 和可持久化响应元数据继续可读 |
-| `x-zcode-rpc-host-capability`、`__zcode_rpc_nested_uint8array_v1` | `x-knorvia-rpc-host-capability`、`__knorvia_rpc_nested_uint8array_v1` | 两端同版切换；远端旧 bundle 由能力检查触发更新 |
+| 上游写法                                                              | 本项目写法                                                            | 说明                                                                       |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `.zcode-plugin/plugin.json`                                           | `.knorvia-plugin/plugin.json`                                         | 插件清单目录名                                                             |
+| `~/.zcode`、`.zcode/`、裸 `.zcode`                                    | `~/.knorvia-studio`、`.knorvia-studio/`                               | 数据目录、技能/命令根                                                      |
+| `ZCODE_*`                                                             | `KNORVIA_*`                                                           | 环境变量、模板变量（`${KNORVIA_PLUGIN_ROOT}` 等）                          |
+| `zcode.json`                                                          | `knorvia.json`                                                        | 工作区配置文件                                                             |
+| `zcode-plugins-official`                                              | `knorvia-plugins-bundled`                                             | 官方市场 id                                                                |
+| `ZCode`                                                               | `Knorvia Studio`                                                      | 产品名                                                                     |
+| 插件 manifest/listing、技能 frontmatter、脚本默认作者中的**产品署名** | `Knorvia Studio`                                                      | 用户可见产品署名统一。第三方 `author`/`license` 字段不在此列，保持上游原值 |
+| `::zcode-file-citation`                                               | 新输出 `::knorvia-file-citation`                                      | 渲染器继续读取旧会话中的原格式；新技能示例只教新格式                       |
+| `/* zcode-workflow`                                                   | 新保存 `/* knorvia-workflow`                                          | 读取已有工作流时接受两种起始标记；新工具说明只教新格式                     |
+| `Symbol.for("zcode.node-repl.computer-use-bridge")`                   | `Symbol.for("knorvia.node-repl.computer-use-bridge")`                 | 宿主和消费者同包同步更新，不向原版应用写入全局符号                         |
+| `zcode-artifact://`、`zcode/…` 响应元数据                             | 新写入 `knorvia-artifact://`、`knorvia/…`                             | 旧会话的 artifact URI 和可持久化响应元数据继续可读                         |
+| `x-zcode-rpc-host-capability`、`__zcode_rpc_nested_uint8array_v1`     | `x-knorvia-rpc-host-capability`、`__knorvia_rpc_nested_uint8array_v1` | 两端同版切换；远端旧 bundle 由能力检查触发更新                             |
 
 当前资产状态：
 
@@ -106,7 +106,6 @@
 - 创建前验证名称、组件、所有目标路径和索引冲突；拒绝符号链接/越界路径。默认不覆盖；显式 force 只覆盖脚手架对应文件并保留其他文件。写入失败应回滚本次修改，失败不可报成功。
 - 本地来源索引只有带排他锁的写入路径，锁冲突明确失败；损坏索引不自动重建。已有条目指向其他目录时必须明确报冲突。预检默认只读，不调用 PATH 中的 CLI；显式绝对 CLI 路径才执行宿主校验。
 - 验收覆盖完整脚手架与真实宿主 validate、重复创建保护、越界/符号链接拒绝、来源冲突、损坏索引不覆盖、显式模型无绑定，以及插件列表和打包资产完整性。
-
 
 1. `pnpm typecheck`、`pnpm lint`（0 错误、0 警告）、`pnpm architecture:check --changed` 通过。
 2. 打包期逐个插件校验 seed 资产；打包产物 `resources/knorvia/packages/<dir>` 与仓库源码一致（逐文件哈希）。

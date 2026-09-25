@@ -1058,34 +1058,37 @@ const knorviaComputerUseTurnStartedEventSchema = knorviaComputerUseOperationEven
   kind: z.literal("turn-started"),
   turnId: nonEmptyString,
 });
-const knorviaComputerUseTurnCompletedEventSchema = knorviaComputerUseOperationEventBaseSchema.extend({
-  kind: z.literal("turn-completed"),
-  turnId: nonEmptyString,
-});
+const knorviaComputerUseTurnCompletedEventSchema =
+  knorviaComputerUseOperationEventBaseSchema.extend({
+    kind: z.literal("turn-completed"),
+    turnId: nonEmptyString,
+  });
 const knorviaComputerUseTurnFailedEventSchema = knorviaComputerUseOperationEventBaseSchema.extend({
   kind: z.literal("turn-failed"),
   turnId: nonEmptyString,
 });
-const knorviaComputerUseToolScheduledEventSchema = knorviaComputerUseOperationEventBaseSchema.extend({
-  kind: z.literal("tool-scheduled"),
-  turnId: nonEmptyString,
-  toolCallId: nonEmptyString,
-  toolName: nonEmptyString,
-  // 这个 cell 是否在用 Computer Use。只表达布尔事实，不再携带动作名——旧的
-  // operationAction 靠从模型源码里抽取动作名得到，SDK 面一变就整体失配（见
-  // bootstrap/src/protocol/computer-use-operation-event.ts 的 usesComputerUse）。
-  // 只挂在 scheduled 上：ToolCallStartedPayload 没有 input，start 时已拿不到模型源码。
-  computerUse: z.literal(true).optional(),
-});
+const knorviaComputerUseToolScheduledEventSchema =
+  knorviaComputerUseOperationEventBaseSchema.extend({
+    kind: z.literal("tool-scheduled"),
+    turnId: nonEmptyString,
+    toolCallId: nonEmptyString,
+    toolName: nonEmptyString,
+    // 这个 cell 是否在用 Computer Use。只表达布尔事实，不再携带动作名——旧的
+    // operationAction 靠从模型源码里抽取动作名得到，SDK 面一变就整体失配（见
+    // bootstrap/src/protocol/computer-use-operation-event.ts 的 usesComputerUse）。
+    // 只挂在 scheduled 上：ToolCallStartedPayload 没有 input，start 时已拿不到模型源码。
+    computerUse: z.literal(true).optional(),
+  });
 const knorviaComputerUseToolStartedEventSchema = knorviaComputerUseOperationEventBaseSchema.extend({
   kind: z.literal("tool-started"),
   turnId: nonEmptyString.optional(),
   toolCallId: nonEmptyString,
   toolName: nonEmptyString.optional(),
 });
-const knorviaComputerUseSessionClosedEventSchema = knorviaComputerUseOperationEventBaseSchema.extend({
-  kind: z.literal("session-closed"),
-});
+const knorviaComputerUseSessionClosedEventSchema =
+  knorviaComputerUseOperationEventBaseSchema.extend({
+    kind: z.literal("session-closed"),
+  });
 
 export const knorviaComputerUseOperationEventSchema = z.discriminatedUnion("kind", [
   knorviaComputerUseTurnStartedEventSchema,
@@ -1095,7 +1098,9 @@ export const knorviaComputerUseOperationEventSchema = z.discriminatedUnion("kind
   knorviaComputerUseToolStartedEventSchema,
   knorviaComputerUseSessionClosedEventSchema,
 ]);
-export type KnorviaComputerUseOperationEvent = z.infer<typeof knorviaComputerUseOperationEventSchema>;
+export type KnorviaComputerUseOperationEvent = z.infer<
+  typeof knorviaComputerUseOperationEventSchema
+>;
 
 export const sessionEventTypeSchema = z.enum([
   "session.created",
@@ -1697,7 +1702,9 @@ export const DEFAULT_KNORVIA_MODEL_CONTEXT_BUDGET_STRATEGY = "preflight-v1" as c
 
 // 3.12.2：legacy 仅为旧协议接收兼容；Runtime 一律归一为上面的共享默认策略。
 export const knorviaModelContextBudgetStrategySchema = z.enum(["legacy", "preflight-v1"]);
-export type KnorviaModelContextBudgetStrategy = z.infer<typeof knorviaModelContextBudgetStrategySchema>;
+export type KnorviaModelContextBudgetStrategy = z.infer<
+  typeof knorviaModelContextBudgetStrategySchema
+>;
 
 export const sessionRuntimePreferencesResultSchema = z
   .object({
@@ -2512,7 +2519,13 @@ export type KnorviaPluginUserConfigOption = z.infer<typeof knorviaPluginUserConf
 
 // 组件类型与详情弹窗/市场详情共用的分组顺序保持一致：agent / command / skill / hook / mcp。
 // 注意：这三个 schema 必须定义在 knorviaPluginInfoSchema 之前，因为后者（.strict()）的 components 字段引用了它们。
-export const knorviaPluginComponentKindSchema = z.enum(["agent", "command", "skill", "hook", "mcp"]);
+export const knorviaPluginComponentKindSchema = z.enum([
+  "agent",
+  "command",
+  "skill",
+  "hook",
+  "mcp",
+]);
 export type KnorviaPluginComponentKind = z.infer<typeof knorviaPluginComponentKindSchema>;
 
 export const knorviaPluginComponentItemSchema = z
@@ -2659,7 +2672,9 @@ export const knorviaSkillReferenceCatalogEntrySchema = z
     pluginName: nonEmptyString.optional(),
   })
   .strict();
-export type KnorviaSkillReferenceCatalogEntry = z.infer<typeof knorviaSkillReferenceCatalogEntrySchema>;
+export type KnorviaSkillReferenceCatalogEntry = z.infer<
+  typeof knorviaSkillReferenceCatalogEntrySchema
+>;
 
 export const knorviaSkillsReferenceCatalogParamsSchema = z
   .object({
@@ -2732,7 +2747,9 @@ export type KnorviaSavedWorkflowEntry = z.infer<typeof knorviaSavedWorkflowEntry
 export const knorviaSavedWorkflowInvalidEntrySchema = z
   .object({ path: nonEmptyString, reason: nonEmptyString })
   .strict();
-export type KnorviaSavedWorkflowInvalidEntry = z.infer<typeof knorviaSavedWorkflowInvalidEntrySchema>;
+export type KnorviaSavedWorkflowInvalidEntry = z.infer<
+  typeof knorviaSavedWorkflowInvalidEntrySchema
+>;
 /** 名字非法 / 未找到 / frontmatter 坏 / 读错——与 core store 的 resolve 失败四态逐字对应。 */
 export const knorviaSavedWorkflowFailureReasonSchema = z.enum([
   "invalid_name",
@@ -2740,7 +2757,9 @@ export const knorviaSavedWorkflowFailureReasonSchema = z.enum([
   "parse_error",
   "read_error",
 ]);
-export type KnorviaSavedWorkflowFailureReason = z.infer<typeof knorviaSavedWorkflowFailureReasonSchema>;
+export type KnorviaSavedWorkflowFailureReason = z.infer<
+  typeof knorviaSavedWorkflowFailureReasonSchema
+>;
 const knorviaSavedWorkflowFailureSchema = z
   .object({
     ok: z.literal(false),
@@ -2802,12 +2821,16 @@ export const knorviaWorkflowsUpdateMetaParamsSchema = z
     scope: knorviaSavedWorkflowScopeSchema.optional(),
   })
   .strict();
-export type KnorviaWorkflowsUpdateMetaParams = z.infer<typeof knorviaWorkflowsUpdateMetaParamsSchema>;
+export type KnorviaWorkflowsUpdateMetaParams = z.infer<
+  typeof knorviaWorkflowsUpdateMetaParamsSchema
+>;
 export const knorviaWorkflowsUpdateMetaResultSchema = z.union([
   z.object({ ok: z.literal(true), path: nonEmptyString }).strict(),
   knorviaSavedWorkflowFailureSchema,
 ]);
-export type KnorviaWorkflowsUpdateMetaResult = z.infer<typeof knorviaWorkflowsUpdateMetaResultSchema>;
+export type KnorviaWorkflowsUpdateMetaResult = z.infer<
+  typeof knorviaWorkflowsUpdateMetaResultSchema
+>;
 
 export const knorviaWorkflowsDeleteParamsSchema = z
   .object({
@@ -3332,7 +3355,9 @@ export const knorviaAutomationScheduleRuleSchema = z
     monthlyMode: z.enum(["date", "weekday"]).optional(),
   })
   .strict();
-export type KnorviaAutomationScheduleRuleProtocol = z.infer<typeof knorviaAutomationScheduleRuleSchema>;
+export type KnorviaAutomationScheduleRuleProtocol = z.infer<
+  typeof knorviaAutomationScheduleRuleSchema
+>;
 
 /** 会话侧长间隔周期 carrier 的 unit 枚举（与 scheduleRule.unit 同集）。 */
 export const knorviaAutomationIntervalUnitSchema = z.enum([
@@ -3404,12 +3429,16 @@ export const knorviaAutomationCreateParamsSchema = z
     message: "intervalUnit is a recurring carrier and cannot combine with maxRuns",
     path: ["maxRuns"],
   });
-export type KnorviaAutomationCreateProtocolParams = z.infer<typeof knorviaAutomationCreateParamsSchema>;
+export type KnorviaAutomationCreateProtocolParams = z.infer<
+  typeof knorviaAutomationCreateParamsSchema
+>;
 
 export const knorviaAutomationCreateResultSchema = z
   .object({ automation: knorviaAutomationProtocolSchema })
   .strict();
-export type KnorviaAutomationCreateProtocolResult = z.infer<typeof knorviaAutomationCreateResultSchema>;
+export type KnorviaAutomationCreateProtocolResult = z.infer<
+  typeof knorviaAutomationCreateResultSchema
+>;
 
 export const knorviaAutomationUpdateParamsSchema = z
   .object({
@@ -3462,11 +3491,15 @@ export const knorviaAutomationUpdateParamsSchema = z
       path: ["maxRuns"],
     },
   );
-export type KnorviaAutomationUpdateProtocolParams = z.infer<typeof knorviaAutomationUpdateParamsSchema>;
+export type KnorviaAutomationUpdateProtocolParams = z.infer<
+  typeof knorviaAutomationUpdateParamsSchema
+>;
 export const knorviaAutomationUpdateResultSchema = z
   .object({ automation: knorviaAutomationProtocolSchema })
   .strict();
-export type KnorviaAutomationUpdateProtocolResult = z.infer<typeof knorviaAutomationUpdateResultSchema>;
+export type KnorviaAutomationUpdateProtocolResult = z.infer<
+  typeof knorviaAutomationUpdateResultSchema
+>;
 
 export const knorviaAutomationListParamsSchema = z.object({}).strict();
 export type KnorviaAutomationListProtocolParams = z.infer<typeof knorviaAutomationListParamsSchema>;
@@ -3491,16 +3524,22 @@ export type KnorviaAutomationCheckTaskBindingProtocolResult = z.infer<
 export const knorviaAutomationDeleteParamsSchema = z
   .object({ automationId: nonEmptyString })
   .strict();
-export type KnorviaAutomationDeleteProtocolParams = z.infer<typeof knorviaAutomationDeleteParamsSchema>;
+export type KnorviaAutomationDeleteProtocolParams = z.infer<
+  typeof knorviaAutomationDeleteParamsSchema
+>;
 export const knorviaAutomationDeleteResultSchema = z.object({ deleted: z.boolean() }).strict();
-export type KnorviaAutomationDeleteProtocolResult = z.infer<typeof knorviaAutomationDeleteResultSchema>;
+export type KnorviaAutomationDeleteProtocolResult = z.infer<
+  typeof knorviaAutomationDeleteResultSchema
+>;
 
 // ---- Off-Peak（闲时任务）会话内创建协议----
 // 与 automation 兄弟并列（独立域，禁止互相复用标记/表）。workspace 由 host 端从
 // 当前 session 注入，不进协议参数（对称 automation/create）。permissionMode 只开放产品
 // 四档词表；缺省解析在 host 端（yolo / allowed_models 末位 / 最高推理档）。
 export const knorviaOffPeakPermissionModeSchema = z.enum(["build", "edit", "plan", "yolo"]);
-export type KnorviaOffPeakProtocolPermissionMode = z.infer<typeof knorviaOffPeakPermissionModeSchema>;
+export type KnorviaOffPeakProtocolPermissionMode = z.infer<
+  typeof knorviaOffPeakPermissionModeSchema
+>;
 
 export const knorviaOffPeakCreateParamsSchema = z
   .object({
@@ -3665,7 +3704,8 @@ export const knorviaProtocolMethods = {
   interactionBrowserExecute: "interaction/browserExecute",
 } as const;
 
-export type KnorviaProtocolMethod = (typeof knorviaProtocolMethods)[keyof typeof knorviaProtocolMethods];
+export type KnorviaProtocolMethod =
+  (typeof knorviaProtocolMethods)[keyof typeof knorviaProtocolMethods];
 
 export const knorviaProtocolEmptyResultSchema = z.object({}).strict();
 

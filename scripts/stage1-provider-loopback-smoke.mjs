@@ -8,34 +8,54 @@ import { basename, dirname, join, resolve } from "node:path";
 import { _electron } from "playwright-core";
 
 const executable = resolve(process.argv[2] ?? "");
-if (!existsSync(executable) || existsSync(join(dirname(executable), "resources", "knorvia-portable.json"))) {
+if (
+  !existsSync(executable) ||
+  existsSync(join(dirname(executable), "resources", "knorvia-portable.json"))
+) {
   throw new Error("Use an existing unmarked Windows package for loopback smoke testing");
 }
 
 const root = await mkdtemp(join(tmpdir(), "knorvia-provider-smoke-"));
-if (dirname(resolve(root)) !== resolve(tmpdir()) || !/^knorvia-provider-smoke-[\w-]+$/.test(basename(root))) {
+if (
+  dirname(resolve(root)) !== resolve(tmpdir()) ||
+  !/^knorvia-provider-smoke-[\w-]+$/.test(basename(root))
+) {
   throw new Error(`Unexpected smoke-test directory: ${root}`);
 }
 const requests = [];
 const server = createServer(async (request, response) => {
   const chunks = [];
   for await (const chunk of request) chunks.push(chunk);
-  requests.push({ method: request.method, url: request.url, body: Buffer.concat(chunks).toString("utf8") });
+  requests.push({
+    method: request.method,
+    url: request.url,
+    body: Buffer.concat(chunks).toString("utf8"),
+  });
   response.writeHead(200, { "content-type": "text/event-stream; charset=utf-8" });
-  response.write(`data: ${JSON.stringify({
-    id: "chatcmpl-local-fixture",
-    object: "chat.completion.chunk",
-    created: 0,
-    model: "local-fixture-model",
-    choices: [{ index: 0, delta: { role: "assistant", content: "Local fixture reply." }, finish_reason: null }],
-  })}\n\n`);
-  response.end(`data: ${JSON.stringify({
-    id: "chatcmpl-local-fixture",
-    object: "chat.completion.chunk",
-    created: 0,
-    model: "local-fixture-model",
-    choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
-  })}\n\ndata: [DONE]\n\n`);
+  response.write(
+    `data: ${JSON.stringify({
+      id: "chatcmpl-local-fixture",
+      object: "chat.completion.chunk",
+      created: 0,
+      model: "local-fixture-model",
+      choices: [
+        {
+          index: 0,
+          delta: { role: "assistant", content: "Local fixture reply." },
+          finish_reason: null,
+        },
+      ],
+    })}\n\n`,
+  );
+  response.end(
+    `data: ${JSON.stringify({
+      id: "chatcmpl-local-fixture",
+      object: "chat.completion.chunk",
+      created: 0,
+      model: "local-fixture-model",
+      choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
+    })}\n\ndata: [DONE]\n\n`,
+  );
 });
 await new Promise((resolveServer, reject) => {
   server.once("error", reject);
@@ -86,19 +106,23 @@ try {
 
   await page.getByTestId("settings-back-button").click();
   await page.getByTestId("chat-model-select-trigger").click();
-  const modelOption = page.locator('[data-testid^="chat-model-select-item-"]').filter({ hasText: "local-fixture-model" });
-  if (await modelOption.count() === 0) {
+  const modelOption = page
+    .locator('[data-testid^="chat-model-select-item-"]')
+    .filter({ hasText: "local-fixture-model" });
+  if ((await modelOption.count()) === 0) {
     const groups = page.locator('[data-testid^="chat-model-select-group-"]');
     const labels = await groups.allTextContents();
     console.log(`Model provider menu groups: ${JSON.stringify(labels)}`);
-    if (await groups.count() > 0) await groups.first().hover();
+    if ((await groups.count()) > 0) await groups.first().hover();
   }
   await modelOption.first().click();
   await page.getByTestId("v4-composer-input").fill("Hello from the offline smoke test");
   await page.getByTestId("v4-composer-send").click();
   await page.getByText("Local fixture reply.").first().waitFor({ timeout: 60000 });
   assert(requests.some((request) => request.url?.includes("chat/completions")));
-  const settings = JSON.parse(await readFile(join(root, ".knorvia-studio", "v2", "setting.json"), "utf8"));
+  const settings = JSON.parse(
+    await readFile(join(root, ".knorvia-studio", "v2", "setting.json"), "utf8"),
+  );
   assert.equal(settings.studioFirstRunGuideStatus, "complete");
   console.log("PASS first chat reaches only the loopback fixture and completes the guide");
 } finally {

@@ -21,21 +21,29 @@ export async function startProcessProviderRegistryRuntime(
   options: ProcessProviderRegistryRuntimeOptions = {},
 ) {
   const paths = resolveNodeProviderRuntimePaths(env);
-  if (!paths) throw new Error("Knorvia Studio requires bundled and personal provider configuration paths.");
+  if (!paths)
+    throw new Error("Knorvia Studio requires bundled and personal provider configuration paths.");
   // 账号已移除；保留协议所需的空配置层，不加载产品凭据或下载上游配置。
   const accountSource = new MutableAccountProviderConfigSource();
   const runtime = new NodeProviderRegistryRuntime({
     ...paths,
     accountSource,
-    ...(options.standalone?.legacyCliUserConfigFilePath ? {
-      importLegacy: () => readLegacyCliPersonalProviderConfig({filePath: options.standalone!.legacyCliUserConfigFilePath!}),
-    } : {}),
+    ...(options.standalone?.legacyCliUserConfigFilePath
+      ? {
+          importLegacy: () =>
+            readLegacyCliPersonalProviderConfig({
+              filePath: options.standalone!.legacyCliUserConfigFilePath!,
+            }),
+        }
+      : {}),
   });
   let repository: NodeModelSelectionConfigRepository | undefined;
   try {
     await runtime.start();
     const snapshot = runtime.registryService.getSnapshot()!;
-    const modelSelectionConfigRepository = new NodeModelSelectionConfigRepository({personalRepository: runtime.personalRepository});
+    const modelSelectionConfigRepository = new NodeModelSelectionConfigRepository({
+      personalRepository: runtime.personalRepository,
+    });
     repository = modelSelectionConfigRepository;
     const configuredDefaultModelSelection = await modelSelectionConfigRepository.read();
     return Object.freeze({
@@ -45,14 +53,21 @@ export async function startProcessProviderRegistryRuntime(
         await runtime.registryService.refresh("host-account-config");
         return changed;
       },
-      dispose() { modelSelectionConfigRepository.dispose(); runtime.dispose(); },
+      dispose() {
+        modelSelectionConfigRepository.dispose();
+        runtime.dispose();
+      },
       providerRuntimeHeadersPort: undefined,
       runtime,
       snapshot,
       modelSelectionConfigRepository,
       configuredDefaultModelSelection,
     });
-  } catch (error) { repository?.dispose(); runtime.dispose(); throw error; }
+  } catch (error) {
+    repository?.dispose();
+    runtime.dispose();
+    throw error;
+  }
 }
 
 /** 把协议信封解析为进程 Registry 使用的第三层 Account Config Overlay。 */

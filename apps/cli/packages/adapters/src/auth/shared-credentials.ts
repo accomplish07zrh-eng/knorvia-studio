@@ -3,13 +3,13 @@ import { readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import { atomicWritePrivateTextFile, backupCorruptFile, withFileLock } from "@knorvia/shared/node";
-import { createKnorviaCredentialCipher, type KnorviaCredentialCipher } from "./credential-cipher.js";
+import {
+  createKnorviaCredentialCipher,
+  type KnorviaCredentialCipher,
+} from "./credential-cipher.js";
 
 const KNORVIA_DATA_BASE_DIR_ENV_KEY = "KNORVIA_DATA_BASE_DIR";
-const credentialChangeListeners = new Map<
-  string,
-  Set<() => void | Promise<void>>
->();
+const credentialChangeListeners = new Map<string, Set<() => void | Promise<void>>>();
 
 export interface SharedKnorviaCredentialStoreOptions {
   baseDir?: string;
@@ -190,7 +190,7 @@ export function createSharedKnorviaCredentialStore(
           if (replacedKey !== validatedKey) delete rawCredentials[replacedKey];
         }
       });
-    }
+    },
   };
 }
 
@@ -239,7 +239,9 @@ async function readRawCredentialRecord(filePath: string): Promise<Record<string,
     if (getErrorCode(error) === "ENOENT") {
       return {};
     }
-    throw new Error(`Unable to read shared Knorvia Studio credentials: ${filePath}`, { cause: error });
+    throw new Error(`Unable to read shared Knorvia Studio credentials: ${filePath}`, {
+      cause: error,
+    });
   }
 
   try {

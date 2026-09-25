@@ -63,7 +63,9 @@ export function OnboardingDialog(props: {
     isDesktop: props.isDesktop,
   });
   const onboardingDialogRequested = useKnorviaStore((state) => state.onboardingDialogRequested);
-  const clearOnboardingDialogRequest = useKnorviaStore((state) => state.clearOnboardingDialogRequest);
+  const clearOnboardingDialogRequest = useKnorviaStore(
+    (state) => state.clearOnboardingDialogRequest,
+  );
   const [view, setView] = useState<OnboardingView>("welcome");
   const [wizardStep, setWizardStep] = useState<OnboardingWizardStep>("session");
   const [selectedWorkspacePaths, setSelectedWorkspacePaths] = useState<string[]>([]);

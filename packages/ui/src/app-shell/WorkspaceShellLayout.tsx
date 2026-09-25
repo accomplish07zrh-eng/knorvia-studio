@@ -1890,7 +1890,9 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                             </div>
                           </AutomationsMainBreadcrumbFrame>
                         </main>
-                      ) : workspaceMainView === "workflows" || workspaceMainView === "groups" || workspaceMainView === "creation" ? (
+                      ) : workspaceMainView === "workflows" ||
+                        workspaceMainView === "groups" ||
+                        workspaceMainView === "creation" ? (
                         <StudioPageFrame
                           label={intl.formatMessage({
                             id:
@@ -1959,8 +1961,12 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                                 onOpenAgentSettings={openAgentSettings}
                                 onHandoffComplete={(kernelId, externalSessionId) =>
                                   studioNavigation.navigate({
-                                    view: "external-chat", chatMode: "single", kernelId, externalSessionId,
-                                  })}
+                                    view: "external-chat",
+                                    chatMode: "single",
+                                    kernelId,
+                                    externalSessionId,
+                                  })
+                                }
                                 onNativeHandoffComplete={(sessionId, targetWorkspacePath) => {
                                   studioNavigation.showTask();
                                   handleSelectTaskInChat(targetWorkspacePath, sessionId);
@@ -1998,8 +2004,12 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                               onSessionDeleted={handleV4SessionDeleted}
                               onHandoffComplete={(kernelId, externalSessionId) =>
                                 studioNavigation.navigate({
-                                  view: "external-chat", chatMode: "single", kernelId, externalSessionId,
-                                })}
+                                  view: "external-chat",
+                                  chatMode: "single",
+                                  kernelId,
+                                  externalSessionId,
+                                })
+                              }
                               draftComposerHeader={draftComposerHeader}
                               onPrimaryDraftDropTargetControllerChange={
                                 setDraftHeaderDropTargetController

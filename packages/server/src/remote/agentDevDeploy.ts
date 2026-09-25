@@ -167,9 +167,7 @@ function assertDevelopmentOfficialPluginRequiredAssets(
     const localRelativePath = requiredRelativePath.slice(packagePrefix.length);
     const requiredPath = join(packageRoot, ...localRelativePath.split("/"));
     if (!existsSync(requiredPath)) {
-      throw new Error(
-        `[agent-deploy] missing official plugin required asset: ${requiredPath}`,
-      );
+      throw new Error(`[agent-deploy] missing official plugin required asset: ${requiredPath}`);
     }
   }
 }
@@ -240,9 +238,7 @@ async function shouldSkipDevelopmentKnorviaAgentDeploy(params: {
     return false;
   }
 
-  params.loggers.log(
-    `[agent-deploy] ${KNORVIA_AGENT_PROVIDER}: 开发态 knorvia.cjs 未变化，跳过`,
-  );
+  params.loggers.log(`[agent-deploy] ${KNORVIA_AGENT_PROVIDER}: 开发态 knorvia.cjs 未变化，跳过`);
   return true;
 }
 

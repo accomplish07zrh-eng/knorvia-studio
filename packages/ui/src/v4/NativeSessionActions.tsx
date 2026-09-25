@@ -9,7 +9,11 @@ import { exportNativeConversationMarkdown, nativeVisibleMessages } from "./nativ
 
 /** The native owner supplies rows; Studio Runtime is used only for a confirmed external target. */
 export function NativeSessionActions({
-  sessionId, snapshot, workspacePath, remote, onHandoffComplete,
+  sessionId,
+  snapshot,
+  workspacePath,
+  remote,
+  onHandoffComplete,
 }: {
   sessionId: string;
   snapshot: ConversationSnapshot;
@@ -30,7 +34,9 @@ export function NativeSessionActions({
     <StudioSessionActions
       service={studioService}
       messages={messages}
-      exportTranscript={() => exportNativeConversationMarkdown(rowsRange, sessionId, snapshot, title)}
+      exportTranscript={() =>
+        exportNativeConversationMarkdown(rowsRange, sessionId, snapshot, title)
+      }
       sourceKernel="knorvia"
       workspacePath={workspacePath}
       title={title}

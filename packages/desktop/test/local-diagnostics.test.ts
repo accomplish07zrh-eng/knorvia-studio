@@ -44,7 +44,8 @@ test("local diagnostic preview freezes a redacted, allowlisted ZIP", async () =>
   const secret = ["sk", "abcdefghijklmnopqrstuvwxyz123456"].join("-");
   const token = ["ghp", "abcdefghijklmnopqrstuvwxyz123456"].join("_");
   try {
-    const { previewLocalDiagnostics, exportLocalDiagnostics } = await import("../src/main/localDiagnostics.js");
+    const { previewLocalDiagnostics, exportLocalDiagnostics } =
+      await import("../src/main/localDiagnostics.js");
     await mkdir(join(source, "logs"), { recursive: true });
     await mkdir(join(source, "creation"), { recursive: true });
     await mkdir(join(source, "studio"), { recursive: true });
@@ -53,17 +54,40 @@ test("local diagnostic preview freezes a redacted, allowlisted ZIP", async () =>
     await writeFile(join(source, "creation", "models.json"), secret);
     await writeFile(join(source, "studio", "runtime.sqlite"), secret);
     await writeFile(join(source, "credentials.json"), token);
-    const preview = await previewLocalDiagnostics({
-      inspection: "complete",
-      kernels: [{ id: "codex", name: `Local ${secret}`, installed: true, version: token, origin: "external" }],
-    }, {
-      sourceDir: source,
-      stageRootDir: join(root, "stage"),
-    });
-    assert.deepEqual(preview.files.map((file) => file.path), ["kernels.json", "logs/app-0001.log", "system.txt"]);
-    assert.equal(preview.files.some((file) => file.snippet.includes(secret) || file.snippet.includes(token)), false);
-    assert.match(preview.files.find((file) => file.path === "kernels.json")?.snippet ?? "", /\[redacted\]/);
-    assert.equal(preview.files.find((file) => file.path === "system.txt")?.snippet.includes("Hostname"), false);
+    const preview = await previewLocalDiagnostics(
+      {
+        inspection: "complete",
+        kernels: [
+          {
+            id: "codex",
+            name: `Local ${secret}`,
+            installed: true,
+            version: token,
+            origin: "external",
+          },
+        ],
+      },
+      {
+        sourceDir: source,
+        stageRootDir: join(root, "stage"),
+      },
+    );
+    assert.deepEqual(
+      preview.files.map((file) => file.path),
+      ["kernels.json", "logs/app-0001.log", "system.txt"],
+    );
+    assert.equal(
+      preview.files.some((file) => file.snippet.includes(secret) || file.snippet.includes(token)),
+      false,
+    );
+    assert.match(
+      preview.files.find((file) => file.path === "kernels.json")?.snippet ?? "",
+      /\[redacted\]/,
+    );
+    assert.equal(
+      preview.files.find((file) => file.path === "system.txt")?.snippet.includes("Hostname"),
+      false,
+    );
 
     await writeFile(sourceLog, "rotated log after preview\n");
     const result = await exportLocalDiagnostics(preview.id, {
@@ -73,7 +97,10 @@ test("local diagnostic preview freezes a redacted, allowlisted ZIP", async () =>
     assert.equal(result.success, true, result.error);
     assert(result.path);
     const entries = await readZip(result.path);
-    assert.deepEqual([...entries.keys()].sort(), preview.files.map((file) => file.path));
+    assert.deepEqual(
+      [...entries.keys()].sort(),
+      preview.files.map((file) => file.path),
+    );
     for (const file of preview.files) {
       const contents = entries.get(file.path);
       assert(contents);

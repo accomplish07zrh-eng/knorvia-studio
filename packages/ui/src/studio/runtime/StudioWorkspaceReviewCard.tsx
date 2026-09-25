@@ -43,23 +43,24 @@ export function StudioWorkspaceReviewCard({
             : "The source file changed or was deleted after isolation and differs from both the original and this member's version. Applying it would overwrite those changes."}
         </p>
       )}
-      {expanded && (diff.canShowText && diff.oldFile && diff.newFile ? (
-        <DiffViewer
-          oldFile={diff.oldFile}
-          newFile={diff.newFile}
-          className="mt-3 max-h-80 min-h-12 rounded-md border border-border"
-          fontSizePx={codePreviewSettings.fontSizePx}
-          lightTheme={codePreviewSettings.lightTheme}
-          darkTheme={codePreviewSettings.darkTheme}
-          themeType={resolveTheme(theme)}
-        />
-      ) : (
-        <p className="mt-3 text-foreground-subtle">
-          {zh
-            ? "二进制文件或无法读取的文本，没有可用的文字差异预览。"
-            : "Binary or unreadable file; no text diff is available."}
-        </p>
-      ))}
+      {expanded &&
+        (diff.canShowText && diff.oldFile && diff.newFile ? (
+          <DiffViewer
+            oldFile={diff.oldFile}
+            newFile={diff.newFile}
+            className="mt-3 max-h-80 min-h-12 rounded-md border border-border"
+            fontSizePx={codePreviewSettings.fontSizePx}
+            lightTheme={codePreviewSettings.lightTheme}
+            darkTheme={codePreviewSettings.darkTheme}
+            themeType={resolveTheme(theme)}
+          />
+        ) : (
+          <p className="mt-3 text-foreground-subtle">
+            {zh
+              ? "二进制文件或无法读取的文本，没有可用的文字差异预览。"
+              : "Binary or unreadable file; no text diff is available."}
+          </p>
+        ))}
       <Button
         className="mt-2"
         size="sm"
@@ -67,13 +68,7 @@ export function StudioWorkspaceReviewCard({
         disabled={busy || !diff.canApply}
         onClick={onApply}
       >
-        {applying
-          ? zh
-            ? "正在应用…"
-            : "Applying…"
-          : zh
-            ? "应用此文件"
-            : "Apply this file"}
+        {applying ? (zh ? "正在应用…" : "Applying…") : zh ? "应用此文件" : "Apply this file"}
       </Button>
     </div>
   );

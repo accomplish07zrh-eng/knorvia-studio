@@ -19,7 +19,11 @@ import { useWorkbenchGroupStore } from "@/v4/workbenchGroupStore.js";
 import type { WorkbenchNewTaskTarget } from "@/v4/workbenchNewTaskTarget.js";
 import { resolveWorkbenchNewTaskTarget } from "@/v4/workbenchNewTaskTarget.js";
 import type { IServiceAccessor } from "@knorvia/services";
-import { type IPlatformService, type RemoteTarget, type KnorviaTaskClientMode } from "@knorvia/shared";
+import {
+  type IPlatformService,
+  type RemoteTarget,
+  type KnorviaTaskClientMode,
+} from "@knorvia/shared";
 import { useCallback, useEffect, useState } from "react";
 
 interface OpenRemoteConnectionPreference {

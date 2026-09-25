@@ -2,7 +2,8 @@ import { randomUUID } from "node:crypto";
 import { lstat, mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-const OWNED_DIRECTORY = /^turn-([1-9]\d*)-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const OWNED_DIRECTORY =
+  /^turn-([1-9]\d*)-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function processAlive(pid: number): boolean {
   try {
@@ -42,7 +43,10 @@ export async function recoverTemporaryMcpConfigs(
 }
 
 /** The caller owns this directory until its turn finally settles. */
-export async function writeTemporaryMcpConfig(dataDir: string, content: string): Promise<{
+export async function writeTemporaryMcpConfig(
+  dataDir: string,
+  content: string,
+): Promise<{
   directory: string;
   path: string;
 }> {

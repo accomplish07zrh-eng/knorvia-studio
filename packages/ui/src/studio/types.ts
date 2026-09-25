@@ -50,10 +50,12 @@ export function studioKernelOption(
   const remoteBase = remote ? STUDIO_KERNELS.find((kernel) => kernel.id === remote[2]) : undefined;
   return {
     id,
-    name: candidate && candidate.length <= 120
-      ? candidate
-      : remote ? `${remoteBase?.name ?? remote[2]} · SSH ${remote[1]!.slice(0, 6)}`
-      : (fallback?.name ?? id.slice(4)),
+    name:
+      candidate && candidate.length <= 120
+        ? candidate
+        : remote
+          ? `${remoteBase?.name ?? remote[2]} · SSH ${remote[1]!.slice(0, 6)}`
+          : (fallback?.name ?? id.slice(4)),
     vendor: status?.remoteEnvironmentLabel ?? fallback?.vendor ?? remoteBase?.vendor ?? "Local ACP",
     builtin: id === "knorvia",
   };
@@ -87,6 +89,9 @@ export function studioSelectableKernelOptions(
 export function studioManagesKernel(id: StudioKernelId, status?: StudioKernelStatus): boolean {
   return (
     !id.startsWith("ssh:") &&
-    (status?.management === "studio" || id === "codex" || id === "claude-code" || id === "grok-build")
+    (status?.management === "studio" ||
+      id === "codex" ||
+      id === "claude-code" ||
+      id === "grok-build")
   );
 }

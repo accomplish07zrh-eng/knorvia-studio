@@ -87,7 +87,9 @@ export function createLocalTtftExporter(options: {
     "knorvia.local_ttft.preparation.observation.duration",
     { unit: "ms" },
   );
-  const systemDuration = meter.createHistogram("knorvia.local_ttft.system.duration", { unit: "ms" });
+  const systemDuration = meter.createHistogram("knorvia.local_ttft.system.duration", {
+    unit: "ms",
+  });
   const preparationDuration = meter.createHistogram("knorvia.local_ttft.preparation.duration", {
     unit: "ms",
   });

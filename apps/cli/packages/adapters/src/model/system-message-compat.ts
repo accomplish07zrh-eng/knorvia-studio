@@ -1,7 +1,4 @@
-import {
-  modelMessageContentToText,
-  type ModelInputMessage,
-} from "@knorvia/contracts";
+import { modelMessageContentToText, type ModelInputMessage } from "@knorvia/contracts";
 
 export function normalizeOpenAiCompatibleSystemMessages(
   messages: readonly ModelInputMessage[],

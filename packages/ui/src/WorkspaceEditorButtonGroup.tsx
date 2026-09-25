@@ -1,4 +1,8 @@
-import { createOpenInEditorRemoteTarget, type EditorInfo, type RemoteTarget } from "@knorvia/shared";
+import {
+  createOpenInEditorRemoteTarget,
+  type EditorInfo,
+  type RemoteTarget,
+} from "@knorvia/shared";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button.js";
 import { ChevronDown } from "lucide-react";

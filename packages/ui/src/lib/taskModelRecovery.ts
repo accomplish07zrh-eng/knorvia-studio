@@ -67,7 +67,10 @@ function resolveModelOptionName(modelValue: string): string {
   return customModel?.modelName?.trim() || providerQualifiedModel?.modelName || modelValue;
 }
 
-function ensureModelOptionValue(option: KnorviaConfigOption, modelValue: string): KnorviaConfigOption {
+function ensureModelOptionValue(
+  option: KnorviaConfigOption,
+  modelValue: string,
+): KnorviaConfigOption {
   const options = option.options ?? [];
   const hasOption = options.some((candidate) => candidate.value === modelValue);
   if (hasOption && option.currentValue === modelValue) {

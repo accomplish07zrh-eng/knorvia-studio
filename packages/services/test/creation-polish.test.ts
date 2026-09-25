@@ -11,12 +11,19 @@ const first = Buffer.from([...pngHeader, 1]);
 const last = Buffer.from([...pngHeader, 2]);
 const mp4 = Buffer.from([0, 0, 0, 16, 0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6f, 0x6d]);
 const frame = (name: string, bytes: Buffer) => ({
-  name, mimeType: "image/png", dataBase64: bytes.toString("base64"),
+  name,
+  mimeType: "image/png",
+  dataBase64: bytes.toString("base64"),
 });
 const credentials = () => ({
-  load: async () => null, save: async () => {}, delete: async () => {},
+  load: async () => null,
+  save: async () => {},
+  delete: async () => {},
 });
-async function terminal(service: ReturnType<typeof createCreationService>, id: string): Promise<CreationJob> {
+async function terminal(
+  service: ReturnType<typeof createCreationService>,
+  id: string,
+): Promise<CreationJob> {
   for (let i = 0; i < 100; i++) {
     const job = await service.getJob(id);
     if (job && !["queued", "running"].includes(job.status)) return job;
@@ -26,22 +33,52 @@ async function terminal(service: ReturnType<typeof createCreationService>, id: s
 }
 
 test("reference controls follow each model's explicit placeholders", () => {
-  assert.deepEqual(creationReferenceSlots({ kind: "video", protocol: "json-api", apiMapping: {
-    requestPath: "/video", requestTemplate: '{"start":"{{firstFrameBase64}}"}', outputPath: "asset",
-  } }), { image: false, firstFrame: true, lastFrame: false });
-  assert.deepEqual(creationReferenceSlots({ kind: "video", protocol: "comfyui", workflowJson: '{"a":"{{firstFrame}}","b":"{{lastFrame}}"}' }),
-    { image: false, firstFrame: true, lastFrame: true });
-  assert.deepEqual(creationReferenceSlots({ kind: "video", protocol: "json-api", apiMapping: {
-    requestPath: "/video", requestTemplate: '{"prompt":"{{prompt}}"}', outputPath: "asset",
-  } }), { image: false, firstFrame: false, lastFrame: false });
+  assert.deepEqual(
+    creationReferenceSlots({
+      kind: "video",
+      protocol: "json-api",
+      apiMapping: {
+        requestPath: "/video",
+        requestTemplate: '{"start":"{{firstFrameBase64}}"}',
+        outputPath: "asset",
+      },
+    }),
+    { image: false, firstFrame: true, lastFrame: false },
+  );
+  assert.deepEqual(
+    creationReferenceSlots({
+      kind: "video",
+      protocol: "comfyui",
+      workflowJson: '{"a":"{{firstFrame}}","b":"{{lastFrame}}"}',
+    }),
+    { image: false, firstFrame: true, lastFrame: true },
+  );
+  assert.deepEqual(
+    creationReferenceSlots({
+      kind: "video",
+      protocol: "json-api",
+      apiMapping: {
+        requestPath: "/video",
+        requestTemplate: '{"prompt":"{{prompt}}"}',
+        outputPath: "asset",
+      },
+    }),
+    { image: false, firstFrame: false, lastFrame: false },
+  );
 });
 
 test("JSON video frames survive a known failure and exactly one parameter-preserving retry", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-frames-retry-"));
   let submissions = 0;
-  const service = createCreationService({ rootDir: root, credentials: credentials(),
+  const service = createCreationService({
+    rootDir: root,
+    credentials: credentials(),
     fetchImpl: async (_url, init) => {
-      const body = JSON.parse(String(init?.body)) as { first: string; last: string; prompt: string };
+      const body = JSON.parse(String(init?.body)) as {
+        first: string;
+        last: string;
+        prompt: string;
+      };
       assert.equal(body.first, first.toString("base64"));
       assert.equal(body.last, last.toString("base64"));
       assert.equal(body.prompt, "Clip");
@@ -55,20 +92,36 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
   });
   try {
     const model = await service.saveModel({
-      name: "Video", kind: "video", protocol: "json-api", baseUrl: "http://127.0.0.1:1",
-      model: "fixture", enabled: true, apiMapping: {
-        requestPath: "/video", requestTemplate: '{"prompt":"{{prompt}}","first":"{{firstFrameBase64}}","last":"{{lastFrameBase64}}"}',
+      name: "Video",
+      kind: "video",
+      protocol: "json-api",
+      baseUrl: "http://127.0.0.1:1",
+      model: "fixture",
+      enabled: true,
+      apiMapping: {
+        requestPath: "/video",
+        requestTemplate:
+          '{"prompt":"{{prompt}}","first":"{{firstFrameBase64}}","last":"{{lastFrameBase64}}"}',
         outputPath: "asset",
       },
     });
-    const input = { requestId: "video-frames", kind: "video" as const, modelId: model.id,
-      prompt: "Clip", firstFrame: frame("first.png", first), lastFrame: frame("last.png", last) };
+    const input = {
+      requestId: "video-frames",
+      kind: "video" as const,
+      modelId: model.id,
+      prompt: "Clip",
+      firstFrame: frame("first.png", first),
+      lastFrame: frame("last.png", last),
+    };
     const failed = await terminal(service, (await service.createJob(input)).id);
     assert.equal(failed.status, "failed");
     assert.equal(failed.firstFrameName, "first.png");
     assert.equal(failed.lastFrameName, "last.png");
     assert.equal("firstFramePath" in failed, false);
-    const [retried, duplicate] = await Promise.all([service.retryJob(failed.id), service.retryJob(failed.id)]);
+    const [retried, duplicate] = await Promise.all([
+      service.retryJob(failed.id),
+      service.retryJob(failed.id),
+    ]);
     assert.equal(retried.id, duplicate.id);
     assert.equal(retried.requestId, `retry-${failed.id}`);
     assert.equal((await terminal(service, retried.id)).status, "succeeded");
@@ -77,7 +130,10 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
     assert.equal((await reopened.retryJob(failed.id)).id, retried.id);
     assert.equal(submissions, 2);
     await assert.rejects(service.retryJob(retried.id), /仅结果明确失败/);
-    await assert.rejects(service.createJob({ ...input, lastFrame: frame("other.png", first) }), /已用于其他内容/);
+    await assert.rejects(
+      service.createJob({ ...input, lastFrame: frame("other.png", first) }),
+      /已用于其他内容/,
+    );
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -87,7 +143,10 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
   const root = await mkdtemp(join(tmpdir(), "knorvia-comfy-frames-"));
   let uploads = 0;
   let graph: unknown;
-  const service = createCreationService({ rootDir: root, credentials: credentials(), pollIntervalMs: 1,
+  const service = createCreationService({
+    rootDir: root,
+    credentials: credentials(),
+    pollIntervalMs: 1,
     fetchImpl: async (url, init) => {
       const path = new URL(String(url)).pathname;
       if (path === "/upload/image") {
@@ -101,23 +160,45 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
         return new Response(JSON.stringify({ prompt_id: "job-1" }));
       }
       if (path === "/history/job-1")
-        return new Response(JSON.stringify({ "job-1": { outputs: { node: { videos: [{ filename: "clip.mp4" }] } } } }));
+        return new Response(
+          JSON.stringify({
+            "job-1": { outputs: { node: { videos: [{ filename: "clip.mp4" }] } } },
+          }),
+        );
       if (path === "/view") return new Response(mp4);
       throw new Error(`Unexpected fixture path: ${path}`);
     },
   });
   try {
-    const model = await service.saveModel({ name: "Comfy video", kind: "video", protocol: "comfyui",
-      baseUrl: "http://127.0.0.1:1", model: "fixture", enabled: true,
-      workflowJson: '{"node":{"class_type":"Video","inputs":{"start":"{{firstFrame}}","end":"{{lastFrame}}"}}}',
+    const model = await service.saveModel({
+      name: "Comfy video",
+      kind: "video",
+      protocol: "comfyui",
+      baseUrl: "http://127.0.0.1:1",
+      model: "fixture",
+      enabled: true,
+      workflowJson:
+        '{"node":{"class_type":"Video","inputs":{"start":"{{firstFrame}}","end":"{{lastFrame}}"}}}',
     });
-    const job = await service.createJob({ requestId: "comfy-frames", kind: "video", modelId: model.id,
-      prompt: "Clip", firstFrame: frame("first.png", first), lastFrame: frame("last.png", last) });
+    const job = await service.createJob({
+      requestId: "comfy-frames",
+      kind: "video",
+      modelId: model.id,
+      prompt: "Clip",
+      firstFrame: frame("first.png", first),
+      lastFrame: frame("last.png", last),
+    });
     assert.equal((await terminal(service, job.id)).status, "succeeded");
     assert.equal(uploads, 2);
-    assert.deepEqual(graph, { node: { class_type: "Video", inputs: {
-      start: "uploaded-1.png", end: "uploaded-2.png",
-    } } });
+    assert.deepEqual(graph, {
+      node: {
+        class_type: "Video",
+        inputs: {
+          start: "uploaded-1.png",
+          end: "uploaded-2.png",
+        },
+      },
+    });
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -125,8 +206,11 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
 
 test("asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-json-async-"));
-  const service = createCreationService({ rootDir: root, credentials: credentials(),
-    pollIntervalMs: 2, providerDeadlineMs: 35,
+  const service = createCreationService({
+    rootDir: root,
+    credentials: credentials(),
+    pollIntervalMs: 2,
+    providerDeadlineMs: 35,
     fetchImpl: async (url, init) => {
       const path = new URL(String(url)).pathname;
       if (path === "/submit") {
@@ -135,26 +219,51 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       }
       if (path.startsWith("/poll/")) {
         const id = path.slice("/poll/".length);
-        return new Response(JSON.stringify(id === "pending"
-          ? { status: "pending" }
-          : id === "failure"
-            ? { status: "failed" }
-            : { status: "completed", asset: id === "invalid" ? "bm90LW1lZGlh" : mp4.toString("base64") }));
+        return new Response(
+          JSON.stringify(
+            id === "pending"
+              ? { status: "pending" }
+              : id === "failure"
+                ? { status: "failed" }
+                : {
+                    status: "completed",
+                    asset: id === "invalid" ? "bm90LW1lZGlh" : mp4.toString("base64"),
+                  },
+          ),
+        );
       }
       throw new Error(`Unexpected fixture path: ${path}`);
     },
   });
   try {
-    const model = await service.saveModel({ name: "Async", kind: "video", protocol: "json-api",
-      baseUrl: "http://127.0.0.1:1", model: "fixture", enabled: true,
-      apiMapping: { requestPath: "/submit", requestTemplate: '{"prompt":"{{prompt}}"}',
-        outputPath: "asset", taskIdPath: "id", pollPath: "/poll/{{taskId}}", statusPath: "status" },
+    const model = await service.saveModel({
+      name: "Async",
+      kind: "video",
+      protocol: "json-api",
+      baseUrl: "http://127.0.0.1:1",
+      model: "fixture",
+      enabled: true,
+      apiMapping: {
+        requestPath: "/submit",
+        requestTemplate: '{"prompt":"{{prompt}}"}',
+        outputPath: "asset",
+        taskIdPath: "id",
+        pollPath: "/poll/{{taskId}}",
+        statusPath: "status",
+      },
     });
     for (const [prompt, expected] of [
-      ["good", "succeeded"], ["failure", "failed"],
-      ["pending", "interrupted"], ["invalid", "failed"],
+      ["good", "succeeded"],
+      ["failure", "failed"],
+      ["pending", "interrupted"],
+      ["invalid", "failed"],
     ] as const) {
-      const job = await service.createJob({ requestId: prompt, kind: "video", modelId: model.id, prompt });
+      const job = await service.createJob({
+        requestId: prompt,
+        kind: "video",
+        modelId: model.id,
+        prompt,
+      });
       assert.equal((await terminal(service, job.id)).status, expected, prompt);
     }
   } finally {
@@ -165,29 +274,77 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
 test("unsupported frame, timeout, cancel and unknown result never become retryable failures", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-creation-unknown-"));
   let submissions = 0;
-  const service = createCreationService({ rootDir: root, credentials: credentials(), runTimeoutMs: 40,
+  const service = createCreationService({
+    rootDir: root,
+    credentials: credentials(),
+    runTimeoutMs: 40,
     fetchImpl: async (_url, init) => {
       submissions++;
       return new Promise<Response>((_resolve, reject) => {
-        init?.signal?.addEventListener("abort", () => reject(init.signal?.reason ?? new Error("aborted")), { once: true });
+        init?.signal?.addEventListener(
+          "abort",
+          () => reject(init.signal?.reason ?? new Error("aborted")),
+          { once: true },
+        );
       });
     },
   });
   try {
-    const model = await service.saveModel({ name: "Video", kind: "video", protocol: "json-api",
-      baseUrl: "http://127.0.0.1:1", model: "fixture", enabled: true,
-      apiMapping: { requestPath: "/video", requestTemplate: '{"prompt":"{{prompt}}"}', outputPath: "asset" },
+    const model = await service.saveModel({
+      name: "Video",
+      kind: "video",
+      protocol: "json-api",
+      baseUrl: "http://127.0.0.1:1",
+      model: "fixture",
+      enabled: true,
+      apiMapping: {
+        requestPath: "/video",
+        requestTemplate: '{"prompt":"{{prompt}}"}',
+        outputPath: "asset",
+      },
     });
-    await assert.rejects(service.createJob({ requestId: "unsupported", kind: "video", modelId: model.id,
-      prompt: "Clip", firstFrame: frame("first.png", first) }), /未配置首帧/);
-    const unknown = await terminal(service, (await service.createJob({ requestId: "timeout", kind: "video",
-      modelId: model.id, prompt: "Clip" })).id);
+    await assert.rejects(
+      service.createJob({
+        requestId: "unsupported",
+        kind: "video",
+        modelId: model.id,
+        prompt: "Clip",
+        firstFrame: frame("first.png", first),
+      }),
+      /未配置首帧/,
+    );
+    const unknown = await terminal(
+      service,
+      (
+        await service.createJob({
+          requestId: "timeout",
+          kind: "video",
+          modelId: model.id,
+          prompt: "Clip",
+        })
+      ).id,
+    );
     assert.equal(unknown.status, "interrupted");
     assert.match(unknown.error ?? "", /可能继续运行或计费/);
-    assert.equal((await service.createJob({ requestId: "timeout", kind: "video", modelId: model.id, prompt: "Clip" })).id, unknown.id);
+    assert.equal(
+      (
+        await service.createJob({
+          requestId: "timeout",
+          kind: "video",
+          modelId: model.id,
+          prompt: "Clip",
+        })
+      ).id,
+      unknown.id,
+    );
     assert.equal(submissions, 1);
     await assert.rejects(service.retryJob(unknown.id), /仅结果明确失败/);
-    const pending = await service.createJob({ requestId: "cancel", kind: "video", modelId: model.id, prompt: "Clip" });
+    const pending = await service.createJob({
+      requestId: "cancel",
+      kind: "video",
+      modelId: model.id,
+      prompt: "Clip",
+    });
     assert.equal((await service.cancelJob(pending.id)).status, "cancelled");
     await assert.rejects(service.retryJob(pending.id), /仅结果明确失败/);
   } finally {
@@ -197,15 +354,31 @@ test("unsupported frame, timeout, cancel and unknown result never become retryab
 
 test("a server error after submission is uncertain, so it cannot trigger a paid one-click retry", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-creation-5xx-"));
-  const service = createCreationService({ rootDir: root, credentials: credentials(),
+  const service = createCreationService({
+    rootDir: root,
+    credentials: credentials(),
     fetchImpl: async () => new Response("server error", { status: 503 }),
   });
   try {
-    const model = await service.saveModel({ name: "Video", kind: "video", protocol: "json-api",
-      baseUrl: "http://127.0.0.1:1", model: "fixture", enabled: true,
-      apiMapping: { requestPath: "/video", requestTemplate: '{"prompt":"{{prompt}}"}', outputPath: "asset" },
+    const model = await service.saveModel({
+      name: "Video",
+      kind: "video",
+      protocol: "json-api",
+      baseUrl: "http://127.0.0.1:1",
+      model: "fixture",
+      enabled: true,
+      apiMapping: {
+        requestPath: "/video",
+        requestTemplate: '{"prompt":"{{prompt}}"}',
+        outputPath: "asset",
+      },
     });
-    const job = await service.createJob({ requestId: "server-error", kind: "video", modelId: model.id, prompt: "Clip" });
+    const job = await service.createJob({
+      requestId: "server-error",
+      kind: "video",
+      modelId: model.id,
+      prompt: "Clip",
+    });
     assert.equal((await terminal(service, job.id)).status, "interrupted");
     await assert.rejects(service.retryJob(job.id), /仅结果明确失败/);
   } finally {
@@ -216,18 +389,44 @@ test("a server error after submission is uncertain, so it cannot trigger a paid 
 test("retry rejects a changed or redirected private frame instead of forwarding its bytes", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-frame-integrity-"));
   let submissions = 0;
-  const service = createCreationService({ rootDir: root, credentials: credentials(),
-    fetchImpl: async () => { submissions++; return new Response("rejected", { status: 400 }); },
+  const service = createCreationService({
+    rootDir: root,
+    credentials: credentials(),
+    fetchImpl: async () => {
+      submissions++;
+      return new Response("rejected", { status: 400 });
+    },
   });
   try {
-    const model = await service.saveModel({ name: "Video", kind: "video", protocol: "json-api",
-      baseUrl: "http://127.0.0.1:1", model: "fixture", enabled: true,
-      apiMapping: { requestPath: "/video", requestTemplate: '{"first":"{{firstFrameBase64}}"}', outputPath: "asset" },
+    const model = await service.saveModel({
+      name: "Video",
+      kind: "video",
+      protocol: "json-api",
+      baseUrl: "http://127.0.0.1:1",
+      model: "fixture",
+      enabled: true,
+      apiMapping: {
+        requestPath: "/video",
+        requestTemplate: '{"first":"{{firstFrameBase64}}"}',
+        outputPath: "asset",
+      },
     });
-    const failed = await terminal(service, (await service.createJob({ requestId: "integrity", kind: "video",
-      modelId: model.id, prompt: "Clip", firstFrame: frame("first.png", first) })).id);
+    const failed = await terminal(
+      service,
+      (
+        await service.createJob({
+          requestId: "integrity",
+          kind: "video",
+          modelId: model.id,
+          prompt: "Clip",
+          firstFrame: frame("first.png", first),
+        })
+      ).id,
+    );
     const jobsPath = join(root, "jobs.json");
-    const stored = JSON.parse(await readFile(jobsPath, "utf8")) as { items: Array<{ firstFramePath: string }> };
+    const stored = JSON.parse(await readFile(jobsPath, "utf8")) as {
+      items: Array<{ firstFramePath: string }>;
+    };
     const originalPath = stored.items[0]!.firstFramePath;
     await writeFile(originalPath, last);
     await assert.rejects(service.retryJob(failed.id), /已变化/);
@@ -249,41 +448,77 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
     const keys = new Map<string, string>();
     let mode: "known-fail" | "success" | "hang" = "known-fail";
     let submissions = 0;
-    const service = createCreationService({ rootDir: root, runTimeoutMs: 500, pollIntervalMs: 1,
+    const service = createCreationService({
+      rootDir: root,
+      runTimeoutMs: 500,
+      pollIntervalMs: 1,
       credentials: {
         load: async (key) => keys.get(key) ?? null,
-        save: async (key, value) => { keys.set(key, value); },
-        delete: async (key) => { keys.delete(key); },
+        save: async (key, value) => {
+          keys.set(key, value);
+        },
+        delete: async (key) => {
+          keys.delete(key);
+        },
       },
       fetchImpl: async (url, init) => {
         const path = new URL(String(url)).pathname;
         if (path === "/history/task")
-          return new Response(JSON.stringify({ task: { outputs: { node: { images: [{ filename: "image.png" }] } } } }));
+          return new Response(
+            JSON.stringify({
+              task: { outputs: { node: { images: [{ filename: "image.png" }] } } },
+            }),
+          );
         if (path === "/view") return new Response(first);
         submissions++;
         if (mode === "hang")
           return new Promise<Response>((_resolve, reject) => {
-            init?.signal?.addEventListener("abort", () => reject(init.signal?.reason ?? new Error("aborted")), { once: true });
+            init?.signal?.addEventListener(
+              "abort",
+              () => reject(init.signal?.reason ?? new Error("aborted")),
+              { once: true },
+            );
           });
         if (mode === "known-fail") return new Response("failed", { status: 400 });
-        const result = protocol === "openai-images"
-          ? { data: [{ b64_json: first.toString("base64") }] }
-          : protocol === "comfyui"
-            ? { prompt_id: "task" }
-            : { asset: first.toString("base64") };
-        return new Response(JSON.stringify(result), { headers: { "content-type": "application/json" } });
+        const result =
+          protocol === "openai-images"
+            ? { data: [{ b64_json: first.toString("base64") }] }
+            : protocol === "comfyui"
+              ? { prompt_id: "task" }
+              : { asset: first.toString("base64") };
+        return new Response(JSON.stringify(result), {
+          headers: { "content-type": "application/json" },
+        });
       },
     });
     try {
-      const model = await service.saveModel({ name: protocol, kind: "image", protocol,
-        baseUrl: "http://127.0.0.1:1", model: "fixture", enabled: true,
+      const model = await service.saveModel({
+        name: protocol,
+        kind: "image",
+        protocol,
+        baseUrl: "http://127.0.0.1:1",
+        model: "fixture",
+        enabled: true,
         apiKey: protocol === "openai-images" ? "fixture-only-key" : undefined,
-        ...(protocol === "comfyui" ? { workflowJson: '{"node":{"class_type":"Image","inputs":{"text":"{{prompt}}"}}}' } : {}),
-        ...(protocol === "json-api" ? { apiMapping: {
-          requestPath: "/generate", requestTemplate: '{"prompt":"{{prompt}}"}', outputPath: "asset",
-        } } : {}),
+        ...(protocol === "comfyui"
+          ? { workflowJson: '{"node":{"class_type":"Image","inputs":{"text":"{{prompt}}"}}}' }
+          : {}),
+        ...(protocol === "json-api"
+          ? {
+              apiMapping: {
+                requestPath: "/generate",
+                requestTemplate: '{"prompt":"{{prompt}}"}',
+                outputPath: "asset",
+              },
+            }
+          : {}),
       });
-      const request = (requestId: string) => ({ requestId, kind: "image" as const, modelId: model.id, prompt: "Frame" });
+      const request = (requestId: string) => ({
+        requestId,
+        kind: "image" as const,
+        modelId: model.id,
+        prompt: "Frame",
+      });
       const failed = await terminal(service, (await service.createJob(request("failed"))).id);
       assert.equal(failed.status, "failed");
       mode = "success";

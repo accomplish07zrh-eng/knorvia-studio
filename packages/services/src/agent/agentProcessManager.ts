@@ -783,7 +783,9 @@ export class KnorviaAgentProcessManager {
     return cleanupPromise;
   }
 
-  private async cleanupManagedProcessForShutdown(managed: ManagedKnorviaAgentProcess): Promise<void> {
+  private async cleanupManagedProcessForShutdown(
+    managed: ManagedKnorviaAgentProcess,
+  ): Promise<void> {
     await this.cleanupManagedProcessWithRetry(
       managed,
       "manager-dispose",

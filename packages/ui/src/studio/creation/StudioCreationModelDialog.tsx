@@ -266,7 +266,9 @@ export function StudioCreationModelDialog({
                   className="min-h-32 resize-y font-mono text-ui-sm"
                   placeholder={'{"1":{"class_type":"...","inputs":{"text":"{{prompt}}"}}}'}
                 />
-                {draft.kind === "video" ? <span className="text-ui-xs">{t("comfyFrameHint")}</span> : null}
+                {draft.kind === "video" ? (
+                  <span className="text-ui-xs">{t("comfyFrameHint")}</span>
+                ) : null}
               </label>
             ) : null}
             {draft.protocol === "json-api" ? (

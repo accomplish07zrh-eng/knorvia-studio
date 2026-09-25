@@ -13,7 +13,10 @@ if (existsSync(join(dirname(executable), "resources", "knorvia-portable.json")))
 }
 
 const root = await mkdtemp(join(tmpdir(), "knorvia-first-run-smoke-"));
-if (dirname(resolve(root)) !== resolve(tmpdir()) || !/^knorvia-first-run-smoke-[\w-]+$/.test(basename(root))) {
+if (
+  dirname(resolve(root)) !== resolve(tmpdir()) ||
+  !/^knorvia-first-run-smoke-[\w-]+$/.test(basename(root))
+) {
   throw new Error(`Unexpected smoke-test directory: ${root}`);
 }
 const settingsPath = (profile) => join(profile, ".knorvia-studio", "v2", "setting.json");
@@ -72,7 +75,10 @@ try {
     assert.equal(snapshot.studioFirstRunGuideStatus, "pending");
     await guide.getByTestId("studio-first-run-later").click();
     await guide.waitFor({ state: "hidden" });
-    assert.equal(JSON.parse(await readFile(settingsPath(profiles.fresh), "utf8")).studioFirstRunGuideStatus, "deferred");
+    assert.equal(
+      JSON.parse(await readFile(settingsPath(profiles.fresh), "utf8")).studioFirstRunGuideStatus,
+      "deferred",
+    );
   });
   await withApp(profiles.fresh, async (page) => {
     await page.getByTestId("studio-first-run-guide").waitFor({ state: "hidden", timeout: 30000 });
@@ -85,7 +91,11 @@ try {
     await guide.waitFor();
     await guide.getByRole("button", { name: /^(关闭|Close)$/i }).click();
     await guide.waitFor({ state: "hidden" });
-    assert.equal(JSON.parse(await readFile(settingsPath(profiles.interrupted), "utf8")).studioFirstRunGuideStatus, "pending");
+    assert.equal(
+      JSON.parse(await readFile(settingsPath(profiles.interrupted), "utf8"))
+        .studioFirstRunGuideStatus,
+      "pending",
+    );
   });
   await withApp(profiles.interrupted, async (page) => {
     await page.getByTestId("studio-first-run-guide").waitFor();
@@ -98,8 +108,14 @@ try {
     await guide.waitFor();
     await guide.getByTestId("studio-first-run-provider").click();
     await guide.waitFor({ state: "hidden" });
-    await page.getByText(/模型设置|Model settings/i).first().waitFor();
-    assert.equal(JSON.parse(await readFile(settingsPath(profiles.provider), "utf8")).studioFirstRunGuideStatus, "pending");
+    await page
+      .getByText(/模型设置|Model settings/i)
+      .first()
+      .waitFor();
+    assert.equal(
+      JSON.parse(await readFile(settingsPath(profiles.provider), "utf8")).studioFirstRunGuideStatus,
+      "pending",
+    );
   });
   console.log("PASS provider route opens existing model settings");
 
@@ -108,15 +124,21 @@ try {
     const guide = page.getByTestId("studio-first-run-guide");
     await guide.waitFor();
     const detected = guide.locator('[data-testid^="studio-first-run-cli-"]');
-    await detected.first().waitFor({ timeout: 15000 }).catch(() => {});
-    if (await detected.count() === 0) {
+    await detected
+      .first()
+      .waitFor({ timeout: 15000 })
+      .catch(() => {});
+    if ((await detected.count()) === 0) {
       console.log("SKIP local CLI route: no installed local CLI was detected");
       return;
     }
     await detected.first().click();
     await guide.waitFor({ state: "hidden" });
     await page.getByTestId("studio-external-chat").waitFor();
-    assert.equal(JSON.parse(await readFile(settingsPath(profiles.cli), "utf8")).studioFirstRunGuideStatus, "pending");
+    assert.equal(
+      JSON.parse(await readFile(settingsPath(profiles.cli), "utf8")).studioFirstRunGuideStatus,
+      "pending",
+    );
     console.log("PASS detected local CLI opens its conversation without sending a message");
   });
 
@@ -126,7 +148,10 @@ try {
   await writeFile(settingsPath(profiles.legacy), JSON.stringify(legacySettings), "utf8");
   await withApp(profiles.legacy, async (page) => {
     await page.getByTestId("studio-first-run-guide").waitFor({ state: "hidden", timeout: 30000 });
-    assert.equal(JSON.parse(await readFile(settingsPath(profiles.legacy), "utf8")).studioFirstRunGuideStatus, "legacy");
+    assert.equal(
+      JSON.parse(await readFile(settingsPath(profiles.legacy), "utf8")).studioFirstRunGuideStatus,
+      "legacy",
+    );
   });
   console.log("PASS existing configuration migrates without a new guide");
 } finally {

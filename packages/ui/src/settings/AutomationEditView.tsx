@@ -1778,8 +1778,10 @@ export function AutomationEditView({
       }
       if (!canSubmit) return false;
       // 防止刚改选择尚未取得对应 View 时，快速保存采用上一个输入的有效结果。
-      if (!editing?.studioWorkflowId &&
-        (modelSelection.current !== model || thoughtLevelRef.current !== thoughtLevel))
+      if (
+        !editing?.studioWorkflowId &&
+        (modelSelection.current !== model || thoughtLevelRef.current !== thoughtLevel)
+      )
         return false;
       const input: CreateAutomationInput | UpdateAutomationInput = {
         // 权限下拉和保存按钮是两个独立控件，快速选择 Plan 后立即保存时，
@@ -2642,26 +2644,28 @@ export function AutomationEditView({
 
                     {/* 自动化曾复制首页权限菜单，导致图标、字号和选中态逐渐分叉。
                         直接复用首页 ConfigSelect，只覆盖紧凑 trigger 布局。 */}
-                    {!editing?.studioWorkflowId && <ConfigSelect
-                      option={modeOption}
-                      onValueChange={(value) => {
-                        markFieldTouched("mode");
-                        modeRef.current = value;
-                        setMode(value);
-                      }}
-                      tooltipTitle={intl.formatMessage({
-                        id: "chat.toolbar.mode.label",
-                      })}
-                      triggerVariant="ghost"
-                      triggerSize="default"
-                      triggerClassName={cn(
-                        AUTOMATION_INSTRUCTIONS_TOOLBAR_TRIGGER_CLASSNAME,
-                        "w-fit max-w-56 min-w-0 shrink justify-start gap-1 px-2",
-                      )}
-                      labelVisibilityClassName="inline-flex min-w-0 truncate text-left"
-                      provider={KNORVIA_AGENT_PROVIDER}
-                      restoreFocusSelector={null}
-                    />}
+                    {!editing?.studioWorkflowId && (
+                      <ConfigSelect
+                        option={modeOption}
+                        onValueChange={(value) => {
+                          markFieldTouched("mode");
+                          modeRef.current = value;
+                          setMode(value);
+                        }}
+                        tooltipTitle={intl.formatMessage({
+                          id: "chat.toolbar.mode.label",
+                        })}
+                        triggerVariant="ghost"
+                        triggerSize="default"
+                        triggerClassName={cn(
+                          AUTOMATION_INSTRUCTIONS_TOOLBAR_TRIGGER_CLASSNAME,
+                          "w-fit max-w-56 min-w-0 shrink justify-start gap-1 px-2",
+                        )}
+                        labelVisibilityClassName="inline-flex min-w-0 truncate text-left"
+                        provider={KNORVIA_AGENT_PROVIDER}
+                        restoreFocusSelector={null}
+                      />
+                    )}
                     {editing?.studioWorkflowId && (
                       <span className="px-2 text-ui-sm text-foreground-subtle">
                         {intl.formatMessage({ id: "automations.studioWorkflow" })}
@@ -2670,69 +2674,71 @@ export function AutomationEditView({
                   </div>
 
                   {/* 模型 / 推理强度在右侧成组，和左侧 workspace / 权限形成清晰分区。 */}
-                  {!editing?.studioWorkflowId && <div className="flex min-w-0 flex-wrap items-center justify-end gap-0 text-foreground-subtle">
-                    <ModelConfigSelect
-                      modelGroups={modelSelectGroups}
-                      normalizedValue={selectedModelItem?.value ?? ""}
-                      triggerLabel={modelTriggerLabel}
-                      showManageModelsAction={Boolean(onManageModels)}
-                      lockReasonMessage=""
-                      isItemLocked={MODEL_ITEM_NEVER_LOCKED}
-                      onValueChange={handleModelValueChange}
-                      tooltipTitle={intl.formatMessage({
-                        id: "chat.toolbar.model.label",
-                      })}
-                      manageModelsLabel={intl.formatMessage({
-                        id: "chat.toolbar.model.manageModels",
-                      })}
-                      onManageModels={onManageModels}
-                      contentSide="top"
-                      focusSelectorOnClose={null}
-                      labelVisibilityClassName="hidden @sm/composer:inline-flex"
-                      indicatorClassName="hidden @sm/composer:block"
-                      triggerClassName={cn(
-                        AUTOMATION_INSTRUCTIONS_TOOLBAR_TRIGGER_CLASSNAME,
-                        "w-fit max-w-72 min-w-0 shrink @max-sm/composer:size-7 @max-sm/composer:justify-center @max-sm/composer:gap-0 @max-sm/composer:p-0",
-                      )}
-                      triggerIconClassName="inline-flex @sm/composer:hidden"
-                      disabled={modelSelectionRead.state.status !== "ready"}
-                    />
-                    {modelSelectionRead.state.status === "error" ? (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="xs"
-                        onClick={modelSelectionRead.reload}
-                      >
-                        {intl.formatMessage({ id: "common.retry" })}
-                      </Button>
-                    ) : null}
-                    {thoughtLevelOption ? (
-                      <ThoughtLevelCycleControl
-                        intl={intl}
-                        option={thoughtLevelOption}
-                        provider={KNORVIA_AGENT_PROVIDER}
-                        triggerRef={thoughtTriggerRef}
-                        indicatorClassName="hidden @xl/composer:block"
+                  {!editing?.studioWorkflowId && (
+                    <div className="flex min-w-0 flex-wrap items-center justify-end gap-0 text-foreground-subtle">
+                      <ModelConfigSelect
+                        modelGroups={modelSelectGroups}
+                        normalizedValue={selectedModelItem?.value ?? ""}
+                        triggerLabel={modelTriggerLabel}
+                        showManageModelsAction={Boolean(onManageModels)}
+                        lockReasonMessage=""
+                        isItemLocked={MODEL_ITEM_NEVER_LOCKED}
+                        onValueChange={handleModelValueChange}
+                        tooltipTitle={intl.formatMessage({
+                          id: "chat.toolbar.model.label",
+                        })}
+                        manageModelsLabel={intl.formatMessage({
+                          id: "chat.toolbar.model.manageModels",
+                        })}
+                        onManageModels={onManageModels}
+                        contentSide="top"
+                        focusSelectorOnClose={null}
+                        labelVisibilityClassName="hidden @sm/composer:inline-flex"
+                        indicatorClassName="hidden @sm/composer:block"
                         triggerClassName={cn(
                           AUTOMATION_INSTRUCTIONS_TOOLBAR_TRIGGER_CLASSNAME,
-                          "@max-sm/composer:size-7 @max-sm/composer:justify-center @max-sm/composer:p-0",
+                          "w-fit max-w-72 min-w-0 shrink @max-sm/composer:size-7 @max-sm/composer:justify-center @max-sm/composer:gap-0 @max-sm/composer:p-0",
                         )}
-                        restoreFocusSelector={null}
-                        labelVisibilityClassName="hidden @xl/composer:inline-flex"
-                        onValueChange={(value) => {
-                          if (!effectiveSelection) return;
-                          markFieldTouched("thoughtLevel");
-                          // 用户改档位时以正在显示的模型身份形成新意图；只读刷新不改表单。
-                          modelSelection.current = effectiveModelValue;
-                          setModel(effectiveModelValue);
-                          thoughtManuallyChangedRef.current = true;
-                          thoughtLevelRef.current = value;
-                          setThoughtLevel(value);
-                        }}
+                        triggerIconClassName="inline-flex @sm/composer:hidden"
+                        disabled={modelSelectionRead.state.status !== "ready"}
                       />
-                    ) : null}
-                  </div>}
+                      {modelSelectionRead.state.status === "error" ? (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="xs"
+                          onClick={modelSelectionRead.reload}
+                        >
+                          {intl.formatMessage({ id: "common.retry" })}
+                        </Button>
+                      ) : null}
+                      {thoughtLevelOption ? (
+                        <ThoughtLevelCycleControl
+                          intl={intl}
+                          option={thoughtLevelOption}
+                          provider={KNORVIA_AGENT_PROVIDER}
+                          triggerRef={thoughtTriggerRef}
+                          indicatorClassName="hidden @xl/composer:block"
+                          triggerClassName={cn(
+                            AUTOMATION_INSTRUCTIONS_TOOLBAR_TRIGGER_CLASSNAME,
+                            "@max-sm/composer:size-7 @max-sm/composer:justify-center @max-sm/composer:p-0",
+                          )}
+                          restoreFocusSelector={null}
+                          labelVisibilityClassName="hidden @xl/composer:inline-flex"
+                          onValueChange={(value) => {
+                            if (!effectiveSelection) return;
+                            markFieldTouched("thoughtLevel");
+                            // 用户改档位时以正在显示的模型身份形成新意图；只读刷新不改表单。
+                            modelSelection.current = effectiveModelValue;
+                            setModel(effectiveModelValue);
+                            thoughtManuallyChangedRef.current = true;
+                            thoughtLevelRef.current = value;
+                            setThoughtLevel(value);
+                          }}
+                        />
+                      ) : null}
+                    </div>
+                  )}
                 </AutomationInstructionsToolbar>
               </AutomationInstructionsComposer>
             </div>
@@ -2802,7 +2808,9 @@ export function AutomationEditView({
                           <span className={RUN_STATUS_TEXT_CLASS[status]}>{statusLabel}</span>
                         </span>
                       );
-                      const canOpenSession = Boolean(!editing?.studioWorkflowId && run.sessionId && onOpenSession);
+                      const canOpenSession = Boolean(
+                        !editing?.studioWorkflowId && run.sessionId && onOpenSession,
+                      );
                       const hasActions = canOpenSession || Boolean(onDeleteRun);
                       return (
                         <tr

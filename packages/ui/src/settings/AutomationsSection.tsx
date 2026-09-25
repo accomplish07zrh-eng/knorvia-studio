@@ -684,15 +684,7 @@ export function AutomationsSection({
         toast(intl.formatMessage({ id: getAutomationRunNowToastId(result) }));
       }
     },
-    [
-      intl,
-      loadRuns,
-      onOpenSession,
-      platform,
-      providerSettingsView,
-      runAutomationNow,
-      agentService,
-    ],
+    [intl, loadRuns, onOpenSession, platform, providerSettingsView, runAutomationNow, agentService],
   );
 
   const handleDelete = useCallback(

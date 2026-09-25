@@ -56,7 +56,10 @@ export interface OfficialPluginDefinition {
 
 const KNORVIA_AUTHOR = { name: "Knorvia Studio" } as const;
 
-const OFFICIAL_NODE_REPL_HOST_REQUIRED_SEED_PATHS = ["dist/mcp/server.js", "docs/LICENSE.txt"] as const;
+const OFFICIAL_NODE_REPL_HOST_REQUIRED_SEED_PATHS = [
+  "dist/mcp/server.js",
+  "docs/LICENSE.txt",
+] as const;
 
 export const OFFICIAL_BROWSER_USE_REQUIRED_SEED_PATHS = [
   "docs/LICENSE.txt",
@@ -169,7 +172,12 @@ export const OFFICIAL_PLUGIN_DEFINITIONS: readonly OfficialPluginDefinition[] = 
         description_i18n: { "zh-CN": `创建、编辑与审阅${chineseName}（${skill.toUpperCase()}）。` },
       },
       name,
-      requiredSeedPaths: ["agents/visual-judge.md", `skills/${skill}/SKILL.md`, `skills/${skill}/LICENSE.txt`, `skills/${skill}/scripts/inspect.py`],
+      requiredSeedPaths: [
+        "agents/visual-judge.md",
+        `skills/${skill}/SKILL.md`,
+        `skills/${skill}/LICENSE.txt`,
+        `skills/${skill}/scripts/inspect.py`,
+      ],
       rootCandidates: [
         `packages/${name}-plugin`,
         `../${name}-plugin`,

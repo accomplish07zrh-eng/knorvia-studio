@@ -16,23 +16,32 @@ const enUS: Record<string, string> = {
   "settings.materials.transparencyHint": "Higher values reveal more of the background.",
   "settings.materials.reading": "Reading surface opacity",
   "settings.materials.readingHint": "Make inputs, menus and cards more solid.",
-  "settings.materials.retained": "The system softens what is behind the window. Turning glass off keeps your adjustments.",
-  "settings.materials.fallback": "System glass is unavailable here; background images still work. Adjustments are kept. The system's reduced-transparency preference takes priority.",
+  "settings.materials.retained":
+    "The system softens what is behind the window. Turning glass off keeps your adjustments.",
+  "settings.materials.fallback":
+    "System glass is unavailable here; background images still work. Adjustments are kept. The system's reduced-transparency preference takes priority.",
   "settings.materials.reset": "Reset glass effect",
   "settings.materials.background": "Background image",
-  "settings.materials.backgroundDescription": "Upload or drop an image. Your background stays as you switch pages.",
+  "settings.materials.backgroundDescription":
+    "Upload or drop an image. Your background stays as you switch pages.",
   "settings.materials.choose": "Choose a favorite landscape",
   "settings.materials.formats": "JPG, PNG, WebP · Up to 20 MB",
   "settings.materials.upload": "Upload image",
   "settings.materials.replace": "Replace image",
   "settings.materials.remove": "Remove image",
-  "settings.materials.local": "Saved on this device across restarts. Never sent to a model. Large images are resized.",
+  "settings.materials.local":
+    "Saved on this device across restarts. Never sent to a model. Large images are resized.",
   "settings.materials.error.tooLarge": "This image exceeds 20 MB. Choose a smaller image.",
-  "settings.materials.error.invalidImage": "Could not read this image. Choose a valid JPG, PNG or WebP.",
-  "settings.materials.error.dimensions": "This image exceeds 48 megapixels. Resize it before uploading.",
-  "settings.materials.error.saveFailed": "Could not save your appearance. Check available device storage and try again.",
-  "settings.materials.error.missingImage": "The saved background cannot be read. Please upload it again.",
-  "settings.materials.error.cleanupFailed": "Appearance updated, but the old image could not be removed. Try removing it again.",
+  "settings.materials.error.invalidImage":
+    "Could not read this image. Choose a valid JPG, PNG or WebP.",
+  "settings.materials.error.dimensions":
+    "This image exceeds 48 megapixels. Resize it before uploading.",
+  "settings.materials.error.saveFailed":
+    "Could not save your appearance. Check available device storage and try again.",
+  "settings.materials.error.missingImage":
+    "The saved background cannot be read. Please upload it again.",
+  "settings.materials.error.cleanupFailed":
+    "Appearance updated, but the old image could not be removed. Try removing it again.",
   "chat.metrics.label": "Conversation metrics",
   "chat.metrics.counters": "{rounds} rounds {steps} steps",
   "chat.metrics.execution": "Rounds and generation speed",
@@ -346,16 +355,20 @@ const enUS: Record<string, string> = {
     "Project “{projectName}” will be removed from the sidebar, but files on disk will remain untouched.",
   "settings.onboarding": "Onboard",
   "settings.releaseUpdate.title": "Update reminders",
-  "settings.releaseUpdate.description": "Checks release information only. Never downloads or installs automatically. Disabling this sends no check requests.",
+  "settings.releaseUpdate.description":
+    "Checks release information only. Never downloads or installs automatically. Disabling this sends no check requests.",
   "settings.releaseUpdate.source": "Release information URL",
-  "settings.releaseUpdate.sourceDescription": "Enter a public HTTPS JSON endpoint. Leave blank to stay offline.",
+  "settings.releaseUpdate.sourceDescription":
+    "Enter a public HTTPS JSON endpoint. Leave blank to stay offline.",
   "settings.releaseUpdate.save": "Save",
   "settings.releaseUpdate.check": "Check for updates",
   "settings.releaseUpdate.unconfigured": "No update source configured",
   "settings.releaseUpdate.disabled": "Update checks are off",
   "settings.releaseUpdate.current": "Already up to date",
-  "settings.releaseUpdate.noCompatibleRelease": "This source offers a preview release; stable installations will not be prompted.",
-  "settings.releaseUpdate.available": "Version {version} is available. See its release information.",
+  "settings.releaseUpdate.noCompatibleRelease":
+    "This source offers a preview release; stable installations will not be prompted.",
+  "settings.releaseUpdate.available":
+    "Version {version} is available. See its release information.",
   "settings.releaseUpdate.failed": "Check failed: {reason}",
   "settings.releaseUpdate.reason.settings": "Could not read settings",
   "settings.releaseUpdate.reason.invalid-source": "Invalid update source URL",
@@ -3319,11 +3332,14 @@ const enUS: Record<string, string> = {
   "onboarding.welcome.eyebrow": "First run setup",
   "onboarding.welcome.title": "Welcome to Knorvia Studio",
   "studio.firstRun.title": "Get started with Knorvia Studio",
-  "studio.firstRun.description": "Choose how to connect. You can change this later in Settings; nothing is signed in or sent here.",
+  "studio.firstRun.description":
+    "Choose how to connect. You can change this later in Settings; nothing is signed in or sent here.",
   "studio.firstRun.provider": "Connect a model provider",
-  "studio.firstRun.providerHint": "Open the existing model settings to choose a provider and enter your own configuration.",
+  "studio.firstRun.providerHint":
+    "Open the existing model settings to choose a provider and enter your own configuration.",
   "studio.firstRun.cli": "Use a local CLI",
-  "studio.firstRun.cliHint": "Only detected local installations are listed. Select one to open its conversation.",
+  "studio.firstRun.cliHint":
+    "Only detected local installations are listed. Select one to open its conversation.",
   "studio.firstRun.cliCaveat": "Detection does not confirm sign-in or available credits.",
   "studio.firstRun.checking": "Checking local CLIs…",
   "studio.firstRun.checkFailed": "Detection failed. Retry later in Agent management.",
@@ -3333,15 +3349,18 @@ const enUS: Record<string, string> = {
   "studio.firstRun.saveFailed": "Could not save your choice. Try again.",
   "studio.firstRun.close": "Close",
   "settings.localDiagnostics.title": "Export diagnostics",
-  "settings.localDiagnostics.description": "Preview the version, system, kernel detection and three days of redacted logs before saving locally. Nothing is uploaded automatically.",
+  "settings.localDiagnostics.description":
+    "Preview the version, system, kernel detection and three days of redacted logs before saving locally. Nothing is uploaded automatically.",
   "settings.localDiagnostics.preview": "Preview diagnostics",
   "settings.localDiagnostics.preparing": "Preparing…",
   "settings.localDiagnostics.export": "Export this diagnostic package",
-  "settings.localDiagnostics.error": "Diagnostics failed or the preview expired. Preview again to retry.",
+  "settings.localDiagnostics.error":
+    "Diagnostics failed or the preview expired. Preview again to retry.",
   "settings.localDiagnostics.saved": "Saved",
   "settings.localDiagnostics.frozenAt": "Snapshot time",
   "settings.localDiagnostics.files": "files",
-  "settings.localDiagnostics.truncated": "Only the beginning is shown here. The export contains the full redacted file.",
+  "settings.localDiagnostics.truncated":
+    "Only the beginning is shown here. The export contains the full redacted file.",
   "onboarding.welcome.start": "Start Knorvia Studio",
   "onboarding.welcome.migrate": "Migration Guide",
   "onboarding.welcome.helper":
@@ -4798,7 +4817,8 @@ const enUS: Record<string, string> = {
   // Knorvia Agent
   "knorvia.unavailable": "AI agent not available",
   "knorvia.initFailed": "Failed to start AI agent",
-  "knorvia.error.TASK_OWNED_BY_OTHER_HOST": "This task is already running in another connected view.",
+  "knorvia.error.TASK_OWNED_BY_OTHER_HOST":
+    "This task is already running in another connected view.",
   "knorvia.error.STALE_TASK_OWNER_COMMAND": "This action belongs to an older run and was ignored.",
   "knorvia.error.NO_ACTIVE_TASK_OWNER": "No active task owner is available for this action.",
   "knorvia.error.OWNER_COMMAND_FAILED": "The task owner could not complete this action.",

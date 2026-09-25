@@ -68,7 +68,9 @@ const KNORVIA_FILE_CITATION_SYNTAX = {
   allowTripleColon: true,
 } as const;
 
-export function extractKnorviaFileCitationDirectives(content: string): KnorviaFileCitationDirective[] {
+export function extractKnorviaFileCitationDirectives(
+  content: string,
+): KnorviaFileCitationDirective[] {
   return FILE_CITATION_DIRECTIVE_NAMES.flatMap((name) =>
     extractAssistantDirectives(content, name, KNORVIA_FILE_CITATION_SYNTAX),
   )

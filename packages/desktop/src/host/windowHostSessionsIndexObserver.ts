@@ -1,5 +1,8 @@
 import type { IDisposable } from "@knorvia/rpc";
-import { KNORVIA_AGENT_RUNTIME_UNAVAILABLE_CODE, type IKnorviaAgentService } from "@knorvia/services";
+import {
+  KNORVIA_AGENT_RUNTIME_UNAVAILABLE_CODE,
+  type IKnorviaAgentService,
+} from "@knorvia/services";
 import {
   PROTOCOL_V4_LIMITS,
   sessionsIndexTopic,

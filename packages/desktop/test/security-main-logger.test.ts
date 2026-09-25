@@ -20,7 +20,11 @@ test("desktop main writes sanitized log lines to disk", async () => {
     assert.equal(names.length, 1);
     const log = await readFile(join(root, names[0]!), "utf8");
     assert.match(log, /\[main\]/);
-    for (const marker of ["fake-main-token", "fake-main-password", "sk-abcdefghijklmnopqrstuvwxyz"]) {
+    for (const marker of [
+      "fake-main-token",
+      "fake-main-password",
+      "sk-abcdefghijklmnopqrstuvwxyz",
+    ]) {
       assert.equal(log.includes(marker), false);
     }
   } finally {

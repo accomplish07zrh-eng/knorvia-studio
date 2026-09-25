@@ -27,7 +27,9 @@ for (const directory of testDirectories) {
   if (names.length === 0) {
     throw new Error(`No offline studio tests found in ${directory}`);
   }
-  tests.push(...names.map((name) => relative(repoRoot, join(absoluteDirectory, name)).split(sep).join("/")));
+  tests.push(
+    ...names.map((name) => relative(repoRoot, join(absoluteDirectory, name)).split(sep).join("/")),
+  );
 }
 
 const testHome = await mkdtemp(join(tmpdir(), "knorvia-studio-test-"));
@@ -50,7 +52,14 @@ console.log(`[test:studio] ${tests.length} offline test files, Node ${process.ve
 try {
   const child = spawn(
     process.execPath,
-    ["--experimental-test-module-mocks", "--import", "tsx", "--test", "--test-concurrency=2", ...tests],
+    [
+      "--experimental-test-module-mocks",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-concurrency=2",
+      ...tests,
+    ],
     { cwd: repoRoot, env, stdio: "inherit" },
   );
   const result = await new Promise((resolveResult, reject) => {

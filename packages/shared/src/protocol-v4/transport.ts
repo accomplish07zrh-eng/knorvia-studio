@@ -807,7 +807,8 @@ export const v4AttachmentBeginParamsSchema = z
       .string()
       .min(1)
       .max(255)
-      .regex(/^[^\r\n]+$/).refine((value) => !value.includes("\0"), "File name must not contain NUL"),
+      .regex(/^[^\r\n]+$/)
+      .refine((value) => !value.includes("\0"), "File name must not contain NUL"),
     mime: z
       .string()
       .min(3)

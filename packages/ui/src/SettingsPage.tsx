@@ -1306,7 +1306,9 @@ export function SettingsPage({
                             onToolGroupingChangesEnabledChange={
                               handleToolGroupingChangesEnabledChange
                             }
-                            onKnorviaInteractionBehaviorChange={handleKnorviaInteractionBehaviorChange}
+                            onKnorviaInteractionBehaviorChange={
+                              handleKnorviaInteractionBehaviorChange
+                            }
                             onAskUserQuestionAutoResolutionEnabledChange={
                               handleAskUserQuestionAutoResolutionEnabledChange
                             }

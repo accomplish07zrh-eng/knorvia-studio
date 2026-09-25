@@ -1,4 +1,3 @@
-
 export function shouldPublishCompleteWorkspaceSnapshot(
   hasCompletedFullTabRestore: boolean,
 ): boolean {

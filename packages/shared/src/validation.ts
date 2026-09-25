@@ -1,7 +1,5 @@
 import { databaseStartupControlSchema, databaseStartupStateSchema } from "./database-startup.js";
-import {
-  automationSessionCreateTelemetrySchema,
-} from "./sessionCreateTelemetry.js";
+import { automationSessionCreateTelemetrySchema } from "./sessionCreateTelemetry.js";
 /* eslint-disable max-lines -- 运行时 schema 当前集中在共享包入口，外部 relay payload 校验加入后先保持单一导出面。 */
 import { z } from "zod";
 import { knorviaProcessDiagnosticSchema } from "./process-diagnostic.js";
@@ -1070,7 +1068,12 @@ export const knorviaPersistedMessageSchema = z.object({
     .optional(),
 });
 
-export const knorviaTaskGoalStatusSchema = z.enum(["active", "paused", "budget_limited", "complete"]);
+export const knorviaTaskGoalStatusSchema = z.enum([
+  "active",
+  "paused",
+  "budget_limited",
+  "complete",
+]);
 
 export const knorviaTaskTargetChangedActionSchema = z.enum([
   "set",

@@ -1,6 +1,10 @@
 import { randomBytes, randomUUID } from "node:crypto";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
-import type { IFileService, IMediaPreviewService, MediaPreviewPreparation } from "@knorvia/services";
+import type {
+  IFileService,
+  IMediaPreviewService,
+  MediaPreviewPreparation,
+} from "@knorvia/services";
 import { getMediaPreviewFormat, type WindowHostAttachmentScope } from "@knorvia/shared";
 import {
   isPathWithinWorkspace,

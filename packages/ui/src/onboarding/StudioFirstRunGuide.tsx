@@ -46,7 +46,12 @@ export function StudioFirstRunGuide({
   };
 
   return (
-    <Dialog open onOpenChange={(open) => { if (!open && !saving) onDismiss(); }}>
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open && !saving) onDismiss();
+      }}
+    >
       <DialogContent
         showCloseButton={false}
         className="max-h-[min(720px,calc(100dvh-2rem))] w-full max-w-xl overflow-y-auto p-6"
@@ -73,7 +78,9 @@ export function StudioFirstRunGuide({
             <Settings2 className="size-5 shrink-0" />
             <span className="flex min-w-0 flex-col gap-0.5">
               <span className="font-medium">{t("provider")}</span>
-              <span className="text-ui-sm font-normal text-foreground-subtle">{t("providerHint")}</span>
+              <span className="text-ui-sm font-normal text-foreground-subtle">
+                {t("providerHint")}
+              </span>
             </span>
           </Button>
 
@@ -100,7 +107,11 @@ export function StudioFirstRunGuide({
               ))}
               {localKernels.length === 0 ? (
                 <p className="px-1 py-1 text-ui-sm text-foreground-subtle" role="status">
-                  {checking || !inspected ? t("checking") : inspectionError ? t("checkFailed") : t("noneFound")}
+                  {checking || !inspected
+                    ? t("checking")
+                    : inspectionError
+                      ? t("checkFailed")
+                      : t("noneFound")}
                 </p>
               ) : null}
             </div>
@@ -118,11 +129,17 @@ export function StudioFirstRunGuide({
             <Clock3 className="size-5 shrink-0" />
             <span className="flex min-w-0 flex-col gap-0.5">
               <span className="font-medium">{t("later")}</span>
-              <span className="text-ui-sm font-normal text-foreground-subtle">{t("laterHint")}</span>
+              <span className="text-ui-sm font-normal text-foreground-subtle">
+                {t("laterHint")}
+              </span>
             </span>
           </Button>
         </div>
-        {error ? <p role="alert" className="text-ui-sm text-destructive">{t("saveFailed")}</p> : null}
+        {error ? (
+          <p role="alert" className="text-ui-sm text-destructive">
+            {t("saveFailed")}
+          </p>
+        ) : null}
         <div className="flex justify-end">
           <Button type="button" variant="ghost" size="sm" onClick={onDismiss} disabled={saving}>
             {t("close")}

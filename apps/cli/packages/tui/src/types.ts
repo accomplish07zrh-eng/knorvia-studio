@@ -22,7 +22,13 @@ export type TuiContextUsage = Pick<SessionProjection, "contextUsed" | "contextWi
 
 export type TuiSessionMetadata = Pick<
   TuiSubmitPromptResult,
-  "locale" | "model" | "theme" | "thoughtLevel" | "modelOptions" | "effortOptions" | "modelConfigurationRequired"
+  | "locale"
+  | "model"
+  | "theme"
+  | "thoughtLevel"
+  | "modelOptions"
+  | "effortOptions"
+  | "modelConfigurationRequired"
 >;
 
 export type TuiSwitchableMode = Extract<CollaborationMode, "plan" | "build" | "edit" | "yolo">;

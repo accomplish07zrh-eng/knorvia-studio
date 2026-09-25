@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { isKnorviaAgentProvider, KNORVIA_AGENT_PROVIDER, type KnorviaProvider } from "@knorvia/shared";
+import {
+  isKnorviaAgentProvider,
+  KNORVIA_AGENT_PROVIDER,
+  type KnorviaProvider,
+} from "@knorvia/shared";
 import type { IModelSelectionService, ModelSelectionView } from "@knorvia/services";
 import {
   buildModelConfigMissingUiError,

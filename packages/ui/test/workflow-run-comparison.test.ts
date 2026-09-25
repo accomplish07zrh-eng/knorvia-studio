@@ -7,8 +7,13 @@ import { makeWorkflowNode } from "../src/studio/workflow/types.js";
 const node = (id: string, label: string) => ({
   ...makeWorkflowNode("agent", { x: 0, y: 0 }, label, id),
 });
-const result = (status: string, text: string) => JSON.stringify({ status, text, resultKnown: true });
-const run = (id: string, nodes: ReturnType<typeof node>[], values: Record<string, string>): StudioRun => ({
+const result = (status: string, text: string) =>
+  JSON.stringify({ status, text, resultKnown: true });
+const run = (
+  id: string,
+  nodes: ReturnType<typeof node>[],
+  values: Record<string, string>,
+): StudioRun => ({
   id,
   kind: "workflow",
   targetId: "same-workflow",
@@ -19,8 +24,12 @@ const run = (id: string, nodes: ReturnType<typeof node>[], values: Record<string
   attempt: 1,
   checkpoint: { steps: {}, values, completedRounds: 0 },
   definition: {
-    id: "same-workflow", name: "Example", workspacePath: "C:/example", updatedAt: 0,
-    nodes, edges: [],
+    id: "same-workflow",
+    name: "Example",
+    workspacePath: "C:/example",
+    updatedAt: 0,
+    nodes,
+    edges: [],
   },
 });
 const key = (id: string) => JSON.stringify(["workflow-node", id]);
@@ -35,7 +44,10 @@ test("comparison uses each frozen run definition and persisted node output", () 
     [key("c")]: result("failed", "failed output"),
   });
   const compared = compareWorkflowRuns(first, second);
-  assert.deepEqual(compared.map((item) => item.id), ["a", "b", "c"]);
+  assert.deepEqual(
+    compared.map((item) => item.id),
+    ["a", "b", "c"],
+  );
   assert.equal(compared[0]?.first.label, "Original name");
   assert.equal(compared[0]?.second.label, "New name");
   assert.equal(compared[0]?.first.output, "original");

@@ -274,8 +274,11 @@ export function createKnorviaAgentConnectionScope(
     subscriptionId: string,
     connectionId: string,
   ) => `${kind}\0${workspaceKey(target)}\0${topic}\0${subscriptionId}\0${connectionId}`;
-  const ownershipKey = (kind: SubscriptionKind, target: KnorviaAgentWorkspaceTarget, topic: string) =>
-    `${kind}\0${workspaceKey(target)}\0${topic}`;
+  const ownershipKey = (
+    kind: SubscriptionKind,
+    target: KnorviaAgentWorkspaceTarget,
+    topic: string,
+  ) => `${kind}\0${workspaceKey(target)}\0${topic}`;
   const routedEventKey = (kind: SubscriptionKind, target: KnorviaAgentWorkspaceTarget) =>
     `${kind}\0${workspaceKey(target)}`;
   const flowRouteKey = (target: KnorviaAgentWorkspaceTarget, connectionId: string) =>

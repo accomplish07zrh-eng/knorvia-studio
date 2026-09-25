@@ -32,10 +32,14 @@ export const appSettingsOccupationEnum = appSettingsOccupationSchema;
 
 const nonEmptyStringSchema = z.string().trim().min(1);
 
-const releaseInfoUrlSchema = z.string().trim().max(2048).refine(
-  (value) => !value || validReleaseInfoUrl(value),
-  "更新源须为 HTTPS 地址（本机测试可用 loopback HTTP），且不能包含账号、密码或密钥参数",
-);
+const releaseInfoUrlSchema = z
+  .string()
+  .trim()
+  .max(2048)
+  .refine(
+    (value) => !value || validReleaseInfoUrl(value),
+    "更新源须为 HTTPS 地址（本机测试可用 loopback HTTP），且不能包含账号、密码或密钥参数",
+  );
 
 export const localeSchema = z.enum(["zh-CN", "en-US"]);
 const localePreferenceSchema = z.enum(["system", "zh-CN", "en-US"]);
@@ -467,7 +471,9 @@ const appSettingsObjectSchema = z.object({
   providerFamilyDomainMigrated: z.boolean().default(false),
   nativeSearchEnhancementsEnabled: z.boolean().default(true),
   onboardingOccupation: appSettingsOccupationSchema.nullish(),
-  studioFirstRunGuideStatus: z.enum(["pending", "deferred", "complete", "legacy"]).default("pending"),
+  studioFirstRunGuideStatus: z
+    .enum(["pending", "deferred", "complete", "legacy"])
+    .default("pending"),
   proactiveSuggestionsEnabled: z.boolean().optional(),
   memoryEnabled: z.boolean().default(false),
   lastWorkspaceSession: z.array(appWorkspaceSessionEntrySchema).default([]),

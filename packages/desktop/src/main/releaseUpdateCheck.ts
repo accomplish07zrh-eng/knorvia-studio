@@ -1,5 +1,9 @@
 import * as semver from "semver";
-import { validReleaseInfoUrl, type AppSettings, type ReleaseUpdateCheckResult } from "@knorvia/shared";
+import {
+  validReleaseInfoUrl,
+  type AppSettings,
+  type ReleaseUpdateCheckResult,
+} from "@knorvia/shared";
 
 export const FIRST_RELEASE_CHECK_DELAY_MS = 30_000;
 export const RELEASE_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1_000;
@@ -46,7 +50,8 @@ export async function checkReleaseUpdate(options: {
   timeoutMs?: number;
 }): Promise<ReleaseUpdateCheckResult> {
   const currentVersion = versionFromTag(options.currentVersion);
-  if (!currentVersion) return { status: "failed", currentVersion: options.currentVersion, reason: "invalid-response" };
+  if (!currentVersion)
+    return { status: "failed", currentVersion: options.currentVersion, reason: "invalid-response" };
   let settings: Pick<AppSettings, "releaseInfoUrl" | "releaseChecksEnabled">;
   try {
     settings = await options.getSettings();
@@ -56,10 +61,14 @@ export async function checkReleaseUpdate(options: {
   if (settings.releaseChecksEnabled === false) return { status: "disabled", currentVersion };
   const source = settings.releaseInfoUrl?.trim();
   if (!source) return { status: "unconfigured", currentVersion };
-  if (!validReleaseInfoUrl(source)) return { status: "failed", currentVersion, reason: "invalid-source" };
+  if (!validReleaseInfoUrl(source))
+    return { status: "failed", currentVersion, reason: "invalid-source" };
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), options.timeoutMs ?? RELEASE_REQUEST_TIMEOUT_MS);
+  const timer = setTimeout(
+    () => controller.abort(),
+    options.timeoutMs ?? RELEASE_REQUEST_TIMEOUT_MS,
+  );
   try {
     const response = await (options.fetchImpl ?? fetch)(source, {
       method: "GET",
@@ -68,7 +77,8 @@ export async function checkReleaseUpdate(options: {
       redirect: "error",
       signal: controller.signal,
     });
-    if (!response.ok) return { status: "failed", currentVersion, reason: "http", httpStatus: response.status };
+    if (!response.ok)
+      return { status: "failed", currentVersion, reason: "http", httpStatus: response.status };
     let payload: unknown;
     try {
       payload = await readBoundedJson(response);
@@ -86,11 +96,22 @@ export async function checkReleaseUpdate(options: {
     if (!semver.gt(latestVersion, currentVersion))
       return { status: "up-to-date", currentVersion, latestVersion };
     const candidateUrl = release.html_url ?? release.url;
-    const releaseUrl = typeof candidateUrl === "string" && validReleaseInfoUrl(candidateUrl)
-      ? candidateUrl : undefined;
-    return { status: "available", currentVersion, latestVersion, ...(releaseUrl ? { releaseUrl } : {}) };
+    const releaseUrl =
+      typeof candidateUrl === "string" && validReleaseInfoUrl(candidateUrl)
+        ? candidateUrl
+        : undefined;
+    return {
+      status: "available",
+      currentVersion,
+      latestVersion,
+      ...(releaseUrl ? { releaseUrl } : {}),
+    };
   } catch {
-    return { status: "failed", currentVersion, reason: controller.signal.aborted ? "timeout" : "offline" };
+    return {
+      status: "failed",
+      currentVersion,
+      reason: controller.signal.aborted ? "timeout" : "offline",
+    };
   } finally {
     clearTimeout(timer);
   }
@@ -101,9 +122,12 @@ export function scheduleReleaseUpdateChecks(
   onResult: (result: ReleaseUpdateCheckResult) => void,
 ): () => void {
   let disposed = false;
-  const run = () => void check().then((result) => {
-    if (!disposed) onResult(result);
-  }).catch(() => undefined);
+  const run = () =>
+    void check()
+      .then((result) => {
+        if (!disposed) onResult(result);
+      })
+      .catch(() => undefined);
   const first = setTimeout(() => {
     if (disposed) return;
     run();

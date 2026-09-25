@@ -1,8 +1,4 @@
-import type {
-  JsonSchema,
-  McpToolAnnotations,
-  McpToolDescriptor,
-} from "@knorvia/contracts";
+import type { JsonSchema, McpToolAnnotations, McpToolDescriptor } from "@knorvia/contracts";
 
 export function normalizeMcpToolDescriptor(
   serverName: string,

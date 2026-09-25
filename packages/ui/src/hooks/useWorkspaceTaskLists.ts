@@ -162,7 +162,10 @@ async function buildWorkspaceGroupsFromSessions(params: {
  * 依赖 sessions-index 聚合层的引用稳定化：条目引用不变 = 内容等价。
  * 前后两轮 items 里引用有出入的条目所属的 workspace 才算"有变化"。
  */
-function diffChangedWorkspaceKeys(previous: KnorviaTaskMeta[], next: KnorviaTaskMeta[]): Set<string> {
+function diffChangedWorkspaceKeys(
+  previous: KnorviaTaskMeta[],
+  next: KnorviaTaskMeta[],
+): Set<string> {
   const changed = new Set<string>();
   const previousSet = new Set(previous);
   const nextSet = new Set(next);

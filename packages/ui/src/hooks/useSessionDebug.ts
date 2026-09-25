@@ -62,16 +62,7 @@ export function useSessionDebug({
       disposed = true;
       clearTimeout(timer);
     };
-  }, [
-    enabled,
-    poll,
-    refreshKey,
-    scopeKey,
-    taskId,
-    workspaceIdentity,
-    workspacePath,
-    agentService,
-  ]);
+  }, [enabled, poll, refreshKey, scopeKey, taskId, workspaceIdentity, workspacePath, agentService]);
   const current = result?.key === scopeKey && result.service === agentService ? result : null;
   return { ...(current?.data ?? EMPTY_DEBUG), error: current?.error ?? false };
 }

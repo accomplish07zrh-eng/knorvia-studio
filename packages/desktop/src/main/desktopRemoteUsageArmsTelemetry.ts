@@ -115,7 +115,9 @@ export function configureRemoteUsageArmsTelemetry(config: RemoteUsageArmsTelemet
   stopRemoteUsageArmsPeriodicSampling();
   telemetryConfig = config;
   // 显式选择 Node 的泛型重载，DOM 类型并存时仍返回可 unref 的计时器。
-  const schedule = config.setInterval ?? ((callback: () => void, delayMs: number) => setInterval<[]>(callback, delayMs));
+  const schedule =
+    config.setInterval ??
+    ((callback: () => void, delayMs: number) => setInterval<[]>(callback, delayMs));
   periodicTimer = schedule(reportPeriodicGauge, REMOTE_USAGE_GAUGE_INTERVAL_MS);
   periodicTimer.unref?.();
 }

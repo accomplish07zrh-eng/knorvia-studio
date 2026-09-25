@@ -7,16 +7,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.js";
-import { compareWorkflowRuns, type WorkflowNodeComparisonSide } from "./workflowComparisonProjection.js";
+import {
+  compareWorkflowRuns,
+  type WorkflowNodeComparisonSide,
+} from "./workflowComparisonProjection.js";
 import { useWorkflowText } from "./useWorkflowText.js";
 
 function RunSide({ value, label }: { value: WorkflowNodeComparisonSide; label: string }) {
   const t = useWorkflowText();
   return (
     <div className="rounded-md border border-border bg-background p-2">
-      <p className="text-ui-xs text-foreground-subtle">{label} · {t(`compareState.${value.state}`)}</p>
-      {value.output && <pre className="mt-1 whitespace-pre-wrap break-words font-sans text-ui-xs">{value.output}</pre>}
-      {value.truncated && <p className="mt-1 text-ui-xs text-foreground-subtle">{t("compareTruncated")}</p>}
+      <p className="text-ui-xs text-foreground-subtle">
+        {label} · {t(`compareState.${value.state}`)}
+      </p>
+      {value.output && (
+        <pre className="mt-1 whitespace-pre-wrap break-words font-sans text-ui-xs">
+          {value.output}
+        </pre>
+      )}
+      {value.truncated && (
+        <p className="mt-1 text-ui-xs text-foreground-subtle">{t("compareTruncated")}</p>
+      )}
     </div>
   );
 }
@@ -40,23 +51,39 @@ export function WorkflowRunComparison({ runs }: { runs: StudioRun[] }) {
       <summary className="cursor-pointer">{t("compareRuns")}</summary>
       <div className="mt-3 grid gap-2">
         <Select value={first.id} onValueChange={setFirstId}>
-          <SelectTrigger aria-label={t("compareFirst")}><SelectValue /></SelectTrigger>
+          <SelectTrigger aria-label={t("compareFirst")}>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
-            {ordered.map((run) => <SelectItem key={run.id} value={run.id}>{runLabel(run)}</SelectItem>)}
+            {ordered.map((run) => (
+              <SelectItem key={run.id} value={run.id}>
+                {runLabel(run)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <Select value={second.id} onValueChange={setSecondId}>
-          <SelectTrigger aria-label={t("compareSecond")}><SelectValue /></SelectTrigger>
+          <SelectTrigger aria-label={t("compareSecond")}>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
-            {ordered.map((run) => <SelectItem key={run.id} value={run.id}>{runLabel(run)}</SelectItem>)}
+            {ordered.map((run) => (
+              <SelectItem key={run.id} value={run.id}>
+                {runLabel(run)}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
-        {first.id === second.id && <p className="text-foreground-subtle">{t("compareChooseDifferent")}</p>}
+        {first.id === second.id && (
+          <p className="text-foreground-subtle">{t("compareChooseDifferent")}</p>
+        )}
         {comparison.map((node) => (
           <div key={node.id} className="rounded-md border border-border bg-surface p-2">
             <p className="mb-2 font-medium [overflow-wrap:anywhere]">
               {node.second.label !== node.id ? node.second.label : node.first.label}
-              {node.changed && <span className="ml-2 text-foreground-subtle">· {t("compareChanged")}</span>}
+              {node.changed && (
+                <span className="ml-2 text-foreground-subtle">· {t("compareChanged")}</span>
+              )}
             </p>
             <div className="grid gap-2">
               <RunSide value={node.first} label={t("compareFirst")} />

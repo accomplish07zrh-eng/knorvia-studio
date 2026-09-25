@@ -11,7 +11,9 @@ export function resolveWebInitialTheme({
   storedTheme?: string | null;
   defaultTheme?: WebThemeSeed;
 }): WebThemeSeed {
-  return normalizeStoredThemePreference(storedTheme)
-    ?? normalizeStoredThemePreference(defaultTheme)
-    ?? "knorvia-light";
+  return (
+    normalizeStoredThemePreference(storedTheme) ??
+    normalizeStoredThemePreference(defaultTheme) ??
+    "knorvia-light"
+  );
 }

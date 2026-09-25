@@ -8,7 +8,9 @@ export interface DesktopProductIdentity {
   readonly cuaHelperInstallVariant: "preview" | null;
 }
 export const KNORVIA_PREVIEW_IDENTITY_ENV: "KNORVIA_PREVIEW_IDENTITY";
-export const desktopProductIdentities: Readonly<Record<DesktopProductFlavor, DesktopProductIdentity>>;
+export const desktopProductIdentities: Readonly<
+  Record<DesktopProductFlavor, DesktopProductIdentity>
+>;
 export function isPreviewIdentityRequested(env?: NodeJS.ProcessEnv): boolean;
 export function resolveDesktopProductFlavor(env?: NodeJS.ProcessEnv): DesktopProductFlavor;
 export function resolveDesktopProductIdentity(env?: NodeJS.ProcessEnv): DesktopProductIdentity;

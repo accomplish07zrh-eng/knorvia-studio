@@ -2,11 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import type { ICreationService } from "../../creation/contract.js";
 import type { KnorviaAgentMcpServer } from "@knorvia/shared";
-import type {
-  StudioKernelSink,
-  StudioKernelTurn,
-  StudioSharedMcpServer,
-} from "../kernelTypes.js";
+import type { StudioKernelSink, StudioKernelTurn, StudioSharedMcpServer } from "../kernelTypes.js";
 import { readCreationReference } from "../../creation/node.js";
 
 const MAX_REQUEST_BYTES = 64 * 1024;

@@ -38,7 +38,9 @@ export interface ParamsSchema<T> {
 }
 
 export interface KnorviaProtocolAgentDependencies {
-  createKnorviaApp(options?: Omit<KnorviaAppOptions, "providerRegistry">): KnorviaApp | Promise<KnorviaApp>;
+  createKnorviaApp(
+    options?: Omit<KnorviaAppOptions, "providerRegistry">,
+  ): KnorviaApp | Promise<KnorviaApp>;
   /**
    * 每个 session record 的内存 event store 工厂。
    * 默认 turn 窗口保留策略；测试可注入 spy 或 unbounded 实现做对照。

@@ -25,7 +25,9 @@ export function isKnorviaGoalContinuationReminderText(text: string): boolean {
   );
 }
 
-export function isKnorviaGoalContinuationReminderMessage(message: KnorviaMessageWithParts): boolean {
+export function isKnorviaGoalContinuationReminderMessage(
+  message: KnorviaMessageWithParts,
+): boolean {
   return (
     message.info.role === "user" &&
     (message.info.source === "goal-continuation" ||
@@ -85,7 +87,10 @@ export function getKnorviaUserVisibleMessages(
 ): KnorviaMessageWithParts[] {
   const visibleMessages: KnorviaMessageWithParts[] = [];
   for (const message of messages) {
-    if (isKnorviaModelOnlySyntheticUserMessage(message) || isKnorviaCompactSummaryMessage(message)) {
+    if (
+      isKnorviaModelOnlySyntheticUserMessage(message) ||
+      isKnorviaCompactSummaryMessage(message)
+    ) {
       // /goal 续跑、后台任务、子 agent、rewind 通知和 compact summary
       // 都是 runtime 注入给模型继续推理的上下文，不是用户真实 query；可见投影必须过滤，
       // 避免快照/远控恢复时渲染成右侧用户气泡或挤占 timeline 位置。
@@ -209,7 +214,10 @@ function compareKnorviaMessagesByCreatedTime(
   return left.info.messageId.localeCompare(right.info.messageId);
 }
 
-function isVisibleRealGoalUserMessage(message: KnorviaMessageWithParts, target: KnorviaSessionGoal) {
+function isVisibleRealGoalUserMessage(
+  message: KnorviaMessageWithParts,
+  target: KnorviaSessionGoal,
+) {
   if (
     message.info.role !== "user" ||
     getConversationMessageProjectionPolicy(message) !== "realUserInput"

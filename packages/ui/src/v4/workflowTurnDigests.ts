@@ -1,7 +1,4 @@
-import type {
-  WorkflowLaunchMeta,
-  WorkflowSettingsAmendMeta,
-} from "@knorvia/shared/protocol-v4";
+import type { WorkflowLaunchMeta, WorkflowSettingsAmendMeta } from "@knorvia/shared/protocol-v4";
 import type { WorkflowCausalityGraphData } from "@/components/workflow-graph/types.js";
 import type { WorkflowRunCardSummary } from "@/ToolCallBlocks/fileSummaryTypes.js";
 import { readWorkflowName } from "@/ToolCallBlocks/renderers/createWorkflowInput.js";

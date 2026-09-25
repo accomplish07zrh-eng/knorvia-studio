@@ -203,7 +203,10 @@ export function groupCommandsByPlugin(
   return { local, plugin };
 }
 
-export function filterLocalMcpServers(servers: KnorviaMcpServer[], query: string): KnorviaMcpServer[] {
+export function filterLocalMcpServers(
+  servers: KnorviaMcpServer[],
+  query: string,
+): KnorviaMcpServer[] {
   return servers.filter((server) => {
     if (server.source !== "knorviaagentmcp") {
       return false;

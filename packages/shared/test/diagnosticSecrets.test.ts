@@ -10,7 +10,12 @@ test("diagnostic text hides common credentials and private-key blocks", () => {
     "-----BEGIN OPENSSH PRIVATE KEY-----\nFAKE_PRIVATE_MATERIAL\n-----END OPENSSH PRIVATE KEY-----",
   ];
   const result = redactDiagnosticText(samples.join("\n"));
-  for (const marker of ["sk-abcdefghijklmnopqrstuvwxyz", "ghp_abcdef", "fake-query-secret", "FAKE_PRIVATE_MATERIAL"]) {
+  for (const marker of [
+    "sk-abcdefghijklmnopqrstuvwxyz",
+    "ghp_abcdef",
+    "fake-query-secret",
+    "FAKE_PRIVATE_MATERIAL",
+  ]) {
     assert.equal(result.includes(marker), false);
   }
   assert.match(result, /local\.example\.test/);
@@ -26,7 +31,12 @@ test("diagnostic objects redact nested keys, error causes and cycles without cha
   input.self = input;
   const safe = JSON.stringify(redactDiagnosticValue(input));
   assert.match(safe, /scan/);
-  for (const marker of ["opaque-value", "fake-password", "fake-bearer-value", "sk-abcdefghijklmnopqrstuvwxyz"]) {
+  for (const marker of [
+    "opaque-value",
+    "fake-password",
+    "fake-bearer-value",
+    "sk-abcdefghijklmnopqrstuvwxyz",
+  ]) {
     assert.equal(safe.includes(marker), false);
   }
   assert.equal(input.authToken, "opaque-value");

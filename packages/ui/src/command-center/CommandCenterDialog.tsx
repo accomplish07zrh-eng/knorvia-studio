@@ -13,7 +13,11 @@ import {
   SearchIcon,
   Trash2Icon,
 } from "lucide-react";
-import type { WorkspaceFileEntry, KnorviaTaskChangeSummary, KnorviaTaskMeta } from "@knorvia/shared";
+import type {
+  WorkspaceFileEntry,
+  KnorviaTaskChangeSummary,
+  KnorviaTaskMeta,
+} from "@knorvia/shared";
 import {
   Command,
   CommandDialog,

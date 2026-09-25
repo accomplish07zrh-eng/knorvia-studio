@@ -609,10 +609,11 @@ const disposingHostProcessTimers = new WeakMap<
   ReturnType<typeof setTimeout>
 >();
 const mainSettingService = createSettingService();
-const checkLocalRelease = () => checkReleaseUpdate({
-  getSettings: () => mainSettingService.get(),
-  currentVersion: KNORVIA_VERSION,
-});
+const checkLocalRelease = () =>
+  checkReleaseUpdate({
+    getSettings: () => mainSettingService.get(),
+    currentVersion: KNORVIA_VERSION,
+  });
 async function resolveCurrentKnorviaEndpointOrigin() {
   return "";
 }
@@ -1356,10 +1357,14 @@ app.whenReady().then(async () => {
     lastNotifiedRelease = result.latestVersion;
     if (!Notification.isSupported()) return;
     new Notification({
-      title: currentApplicationLocale === "en-US" ? "Knorvia Studio update available" : "Knorvia Studio 有新版本",
-      body: currentApplicationLocale === "en-US"
-        ? `Version ${result.latestVersion} is available. Check Settings for details.`
-        : `版本 ${result.latestVersion} 已发布，请在设置中查看。`,
+      title:
+        currentApplicationLocale === "en-US"
+          ? "Knorvia Studio update available"
+          : "Knorvia Studio 有新版本",
+      body:
+        currentApplicationLocale === "en-US"
+          ? `Version ${result.latestVersion} is available. Check Settings for details.`
+          : `版本 ${result.latestVersion} 已发布，请在设置中查看。`,
     }).show();
   });
   app.once("before-quit", stopReleaseChecks);

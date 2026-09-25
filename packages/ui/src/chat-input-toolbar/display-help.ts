@@ -9,7 +9,10 @@ export const KNORVIA_MODE_OPTION_LABEL_IDS: Record<KnorviaProvider, Record<strin
   },
 };
 
-export const KNORVIA_MODE_OPTION_DESCRIPTION_IDS: Record<KnorviaProvider, Record<string, string>> = {
+export const KNORVIA_MODE_OPTION_DESCRIPTION_IDS: Record<
+  KnorviaProvider,
+  Record<string, string>
+> = {
   knorvia: {
     build: "mode.description.knorvia.build",
     edit: "mode.description.knorvia.edit",

@@ -331,7 +331,12 @@ export function StudioExternalChat({
           messages={runtime.timeline?.messages ?? []}
           exportTranscript={() => {
             if (!runtime.service) throw new Error("Studio Runtime unavailable");
-            return exportStudioConversationMarkdown(runtime.service, sessionId, conversation.title || kernel.name, kernel.name);
+            return exportStudioConversationMarkdown(
+              runtime.service,
+              sessionId,
+              conversation.title || kernel.name,
+              kernel.name,
+            );
           }}
           sourceKernel={kernelId}
           workspacePath={workspacePath}

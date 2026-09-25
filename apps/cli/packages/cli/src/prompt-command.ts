@@ -167,7 +167,8 @@ export const runPrompt = async (
     const prepareTelemetry =
       deps.prepareKnorviaTelemetryEnv ?? bootstrapModule?.prepareKnorviaTelemetryEnv;
     if (prepareTelemetry) {
-      shutdownTelemetry = deps.shutdownKnorviaTelemetry ?? bootstrapModule?.shutdownKnorviaTelemetry;
+      shutdownTelemetry =
+        deps.shutdownKnorviaTelemetry ?? bootstrapModule?.shutdownKnorviaTelemetry;
     }
     const appEnv = prepareTelemetry
       ? await prepareTelemetry(env, {

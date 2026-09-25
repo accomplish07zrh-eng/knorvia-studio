@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
-import type { KnorviaModelTrajectoryContentPart, KnorviaModelTrajectoryRecord } from "@knorvia/services";
+import type {
+  KnorviaModelTrajectoryContentPart,
+  KnorviaModelTrajectoryRecord,
+} from "@knorvia/services";
 import { Badge } from "@/components/ui/badge.js";
 import { cn } from "@/components/lib/utils.js";
 import type { useKnorviaIntl } from "@/i18n/IntlProvider.js";

@@ -48,20 +48,21 @@ export function createBuiltinStudioKernel(taskService: IKnorviaTaskService): Stu
       let nativeKey: string | undefined;
       try {
         const mode = turn.permission === "full-access" ? "yolo" : "build";
-        const mcpServers: KnorviaAgentMcpServer[] | undefined = turn.sharedMcpServers?.map((server) =>
-          server.type === "stdio"
-            ? {
-                name: server.name,
-                command: server.command,
-                args: server.args,
-                env: Object.entries(server.env).map(([name, value]) => ({ name, value })),
-              }
-            : {
-                name: server.name,
-                type: server.type,
-                url: server.url,
-                headers: Object.entries(server.headers).map(([name, value]) => ({ name, value })),
-              },
+        const mcpServers: KnorviaAgentMcpServer[] | undefined = turn.sharedMcpServers?.map(
+          (server) =>
+            server.type === "stdio"
+              ? {
+                  name: server.name,
+                  command: server.command,
+                  args: server.args,
+                  env: Object.entries(server.env).map(([name, value]) => ({ name, value })),
+                }
+              : {
+                  name: server.name,
+                  type: server.type,
+                  url: server.url,
+                  headers: Object.entries(server.headers).map(([name, value]) => ({ name, value })),
+                },
         );
         const task = nativeSessionId
           ? await taskService.resumeTask({

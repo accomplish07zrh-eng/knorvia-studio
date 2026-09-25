@@ -48,7 +48,8 @@ export const creationZhCN: Record<string, string> = {
   "studio.creation.apiKey": "API 密钥",
   "studio.creation.apiKeyHint": "留空则保留已有密钥；密钥不会显示在模型列表中。",
   "studio.creation.workflowJson": "ComfyUI API 工作流 JSON",
-  "studio.creation.comfyFrameHint": "在支持首尾帧的视频工作流里填入 {{firstFrame}} 和／或 {{lastFrame}}，页面才会显示对应上传入口。",
+  "studio.creation.comfyFrameHint":
+    "在支持首尾帧的视频工作流里填入 {{firstFrame}} 和／或 {{lastFrame}}，页面才会显示对应上传入口。",
   "studio.creation.advanced": "接口映射",
   "studio.creation.requestPath": "提交路径",
   "studio.creation.requestTemplate": "请求 JSON 模板",
@@ -97,13 +98,15 @@ export const creationEnUS: Record<string, string> = {
     "Reference limit: 10 MB. Image models can use it for image editing.",
   "studio.creation.firstFrame": "First frame",
   "studio.creation.lastFrame": "Last frame",
-  "studio.creation.frameHint": "Only available for supported models; each PNG, JPEG or WebP frame is limited to 10 MB.",
+  "studio.creation.frameHint":
+    "Only available for supported models; each PNG, JPEG or WebP frame is limited to 10 MB.",
   "studio.creation.cancel": "Stop waiting",
   "studio.creation.reuse": "Edit again",
   "studio.creation.openFile": "Open file location",
   "studio.creation.retry": "Retry loading",
   "studio.creation.retryJob": "Retry with original inputs",
-  "studio.creation.retryCostHint": "Retry starts a new generation task and may incur another charge.",
+  "studio.creation.retryCostHint":
+    "Retry starts a new generation task and may incur another charge.",
   "studio.creation.failed": "Failed",
   "studio.creation.cancelled": "Stopped",
   "studio.creation.interrupted": "Interrupted",
@@ -120,7 +123,8 @@ export const creationEnUS: Record<string, string> = {
   "studio.creation.apiKeyHint":
     "Leave blank to keep the existing key. It never appears in model lists.",
   "studio.creation.workflowJson": "ComfyUI API workflow JSON",
-  "studio.creation.comfyFrameHint": "Use {{firstFrame}} and/or {{lastFrame}} in a video workflow to enable those upload controls.",
+  "studio.creation.comfyFrameHint":
+    "Use {{firstFrame}} and/or {{lastFrame}} in a video workflow to enable those upload controls.",
   "studio.creation.advanced": "API mapping",
   "studio.creation.requestPath": "Submit path",
   "studio.creation.requestTemplate": "Request JSON template",

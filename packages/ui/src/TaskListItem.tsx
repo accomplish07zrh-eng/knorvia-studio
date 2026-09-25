@@ -84,7 +84,9 @@ function areJsonFieldsEqual(left: unknown, right: unknown) {
 }
 
 function getTaskAutomationIdentity(task: KnorviaTaskMeta): string | undefined {
-  return task.cronAutomationId ?? (task as KnorviaTaskMeta & { automationId?: string }).automationId;
+  return (
+    task.cronAutomationId ?? (task as KnorviaTaskMeta & { automationId?: string }).automationId
+  );
 }
 
 function areTaskListItemTaskFieldsEqual(left: KnorviaTaskMeta, right: KnorviaTaskMeta) {

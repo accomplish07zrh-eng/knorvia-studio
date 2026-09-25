@@ -69,12 +69,7 @@ export function useWorkspaceSessionReload({
       // Reload session 之前只调用了服务层重建流程，没有同步 workspaceInit 状态到 UI store。
       // 草稿态下后续准备流程会继续读到旧状态，用户会误判本次重建没有生效。
       // 这里显式写入 initializing/ready/failed，保证重建状态和会话流程保持一致。
-      sessionStore.setWorkspaceInitState(
-        workspaceAbsPath,
-        "initializing",
-        null,
-        workspaceIdentity,
-      );
+      sessionStore.setWorkspaceInitState(workspaceAbsPath, "initializing", null, workspaceIdentity);
       if (shouldPrepareWorkspace) {
         sessionStore.setConfigOptionsStatus(workspaceAbsPath, "loading", workspaceIdentity);
         // 草稿态点击 reload 后若不清空旧错误，输入区会继续显示上一轮失败提示，
@@ -114,11 +109,7 @@ export function useWorkspaceSessionReload({
                 prepareResult.configOptions ?? [],
                 workspaceIdentity,
               );
-              sessionStore.setConfigOptionsStatus(
-                workspaceAbsPath,
-                "ready",
-                workspaceIdentity,
-              );
+              sessionStore.setConfigOptionsStatus(workspaceAbsPath, "ready", workspaceIdentity);
               sessionStore.setSlashCommands(
                 workspaceAbsPath,
                 prepareResult.slashCommands ?? [],
@@ -149,12 +140,7 @@ export function useWorkspaceSessionReload({
             message,
           },
         );
-        sessionStore.setWorkspaceInitState(
-          workspaceAbsPath,
-          "failed",
-          message,
-          workspaceIdentity,
-        );
+        sessionStore.setWorkspaceInitState(workspaceAbsPath, "failed", message, workspaceIdentity);
         if (shouldPrepareWorkspace) {
           sessionStore.setConfigOptionsStatus(workspaceAbsPath, "error", workspaceIdentity);
           // 草稿态下 reload 前会先清空旧错误；如果失败后不回填 draftError，

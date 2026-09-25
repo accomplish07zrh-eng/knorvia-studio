@@ -14,14 +14,14 @@
 
 **A 类：许可与署名。** 任何替换都不得触及：
 
-| 禁改内容 | 位置 | 依据 |
-| --- | --- | --- |
-| `Copyright 2026 Z.AI Co., Ltd` | `LICENSE:190` | Apache-2.0 §4(c) |
-| `modified by ZCode; … patches/…` | `THIRD-PARTY-NOTICES.md:2477,2479,2481` | 上游原文，改即伪造来源 |
-| `Modified by ZCode: …` | 35 个 `packages/ui/src/components/ai-elements/*.tsx:4`、`.agents/skills/agent-browser/SKILL.md:10` | Apache-2.0 §4(b) 修改告知 |
-| `Copyright 2023 Vercel, Inc.` / `Copyright 2025 Vercel Inc.` | `ai-elements/*.tsx:3`、agent-browser/dogfood/electron 技能 | §4(c) |
-| `Copyright (c) 2025 Jesse Vincent` | `apps/cli/packages/superpowers-plugin/LICENSE:3` | MIT |
-| `Copyright (c) Microsoft Corporation` | `dynamic-workflow/src/compiler/libs.generated.ts:8-64` | Apache-2.0 |
+| 禁改内容                                                     | 位置                                                                                               | 依据                      |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- | ------------------------- |
+| `Copyright 2026 Z.AI Co., Ltd`                               | `LICENSE:190`                                                                                      | Apache-2.0 §4(c)          |
+| `modified by ZCode; … patches/…`                             | `THIRD-PARTY-NOTICES.md:2477,2479,2481`                                                            | 上游原文，改即伪造来源    |
+| `Modified by ZCode: …`                                       | 35 个 `packages/ui/src/components/ai-elements/*.tsx:4`、`.agents/skills/agent-browser/SKILL.md:10` | Apache-2.0 §4(b) 修改告知 |
+| `Copyright 2023 Vercel, Inc.` / `Copyright 2025 Vercel Inc.` | `ai-elements/*.tsx:3`、agent-browser/dogfood/electron 技能                                         | §4(c)                     |
+| `Copyright (c) 2025 Jesse Vincent`                           | `apps/cli/packages/superpowers-plugin/LICENSE:3`                                                   | MIT                       |
+| `Copyright (c) Microsoft Corporation`                        | `dynamic-workflow/src/compiler/libs.generated.ts:8-64`                                             | Apache-2.0                |
 
 **供应商名与商标。** `智谱`、`Z.ai`、`BigModel`、`Moonshot`、`MiniMax`、`DeepSeek`、`Alibaba`、`Xiaomi`、
 `OpenAI`、`Anthropic`、`xAI`、`OpenRouter`、`OpenCode`，以及
@@ -46,18 +46,18 @@
 
 ### 目录（10 个）
 
-| 现名 | 新名 |
-| --- | --- |
-| `apps/cli` | `apps/cli` |
-| `apps/cli/packages/bootstrap/src/protocol` | `…/bootstrap/src/protocol` |
-| `apps/cli/packages/bootstrap/src/protocol-v4` | `…/bootstrap/src/protocol-v4` |
-| `packages/services/src/agent` | `packages/services/src/agent` |
-| `packages/services/src/agent-session` | `packages/services/src/agent-session`（`session` 已被占用） |
-| `packages/shared/src/protocol` | `packages/shared/src/protocol` |
-| `packages/shared/src/protocol-v4` | `packages/shared/src/protocol-v4` |
-| `packages/cua` | `packages/cua` |
-| `packages/server-cli` | `packages/server-cli` |
-| `scripts/distribution` | `scripts/distribution` |
+| 现名                                          | 新名                                                        |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| `apps/cli`                                    | `apps/cli`                                                  |
+| `apps/cli/packages/bootstrap/src/protocol`    | `…/bootstrap/src/protocol`                                  |
+| `apps/cli/packages/bootstrap/src/protocol-v4` | `…/bootstrap/src/protocol-v4`                               |
+| `packages/services/src/agent`                 | `packages/services/src/agent`                               |
+| `packages/services/src/agent-session`         | `packages/services/src/agent-session`（`session` 已被占用） |
+| `packages/shared/src/protocol`                | `packages/shared/src/protocol`                              |
+| `packages/shared/src/protocol-v4`             | `packages/shared/src/protocol-v4`                           |
+| `packages/cua`                                | `packages/cua`                                              |
+| `packages/server-cli`                         | `packages/server-cli`                                       |
+| `scripts/distribution`                        | `scripts/distribution`                                      |
 
 ### 文件（88 个）
 
@@ -82,21 +82,21 @@
 
 **已持久化或跨进程的常量保留双读**，只把新写入改为 knorvia：
 
-| 常量 | 处理 |
-| --- | --- |
+| 常量                                                                           | 处理                                                             |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | `zcode-artifact://`（`shared/src/artifact-uri.ts:3` `LEGACY_ARTIFACT_SCHEME`） | **值保留**，作为旧数据读取分支；新写入已是 `knorvia-artifact://` |
-| `::zcode-file-citation` | **值保留**（旧会话读取）；新输出已是 `::knorvia-file-citation` |
-| `/* zcode-workflow` | **值保留**（旧工作流读取）；新保存已是 `/* knorvia-workflow` |
-| `x-zcode-rpc-host-capability`、`__zcode_rpc_nested_uint8array_v1` | **值保留**（旧远端 bundle 读取） |
-| `protocol` / `protocol-v4` 模块路径 | 随目录/文件重命名改（非线上值） |
+| `::zcode-file-citation`                                                        | **值保留**（旧会话读取）；新输出已是 `::knorvia-file-citation`   |
+| `/* zcode-workflow`                                                            | **值保留**（旧工作流读取）；新保存已是 `/* knorvia-workflow`     |
+| `x-zcode-rpc-host-capability`、`__zcode_rpc_nested_uint8array_v1`              | **值保留**（旧远端 bundle 读取）                                 |
+| `protocol` / `protocol-v4` 模块路径                                            | 随目录/文件重命名改（非线上值）                                  |
 
 **纯粹内部、无持久化兼容负担的常量直接改名：**
 
-| 常量 | 处理 |
-| --- | --- |
-| i18n message id `knorvia.error.*`（4 文件 58 行） | → `knorvia.error.*`，同步更新引用点 |
+| 常量                                                    | 处理                                            |
+| ------------------------------------------------------- | ----------------------------------------------- |
+| i18n message id `knorvia.error.*`（4 文件 58 行）       | → `knorvia.error.*`，同步更新引用点             |
 | `_meta.knorvia.target`、`data.knorvia.error` 的注释描述 | 更新为当前实际写入的 knorvia 名称（先核对代码） |
-| `Symbol.for("knorvia.node-repl…")` | 代码已用 `knorvia.`，仅文档残留 |
+| `Symbol.for("knorvia.node-repl…")`                      | 代码已用 `knorvia.`，仅文档残留                 |
 
 **需先核实的疑似缺陷**：`packages/shared/src/conversation-share.ts:122` 的正则
 `/^knorvia-artifact:\/\/share\/…/` 只接受旧 scheme，若新写入用 `knorvia-artifact://share/` 则会被拒绝。
@@ -141,6 +141,7 @@
 5. `pnpm install --frozen-lockfile` 在重建 lock 后可重复执行成功。
 6. 桌面构建成功；便携版覆盖后产品名、便携标记、内置 Agent 包与图标校验通过。
 7. 便携版 `data` 目录既有文件逐一 SHA-256 不变。
+
 # 2026-09-24 追加清理范围
 
 用户要求去除产品内部残留的供应商品牌字段，包括 glm 运行身份、目录、打包名称和默认标识。模型提供商配置中的真实厂商、模型名、协议及用户填写的端点保留。内部身份迁移必须贯穿调用方、协议、打包和已有会话/配置；不得仅做全文替换导致已保存数据不可读。旧字段只用于必要迁移读取，新写入统一使用 Knorvia 名称。保留已归档原件与备份引用，不重写用户数据或远端历史。

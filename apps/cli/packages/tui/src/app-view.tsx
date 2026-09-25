@@ -261,7 +261,9 @@ function ComposerInputArea(props: {
   return h(
     React.Fragment,
     null,
-    props.modelConfigurationRequired ? h(ModelConfigurationRequiredPanel, { copy: props.copy }) : null,
+    props.modelConfigurationRequired
+      ? h(ModelConfigurationRequiredPanel, { copy: props.copy })
+      : null,
     props.fileMention
       ? h(FileMentionPanel, {
           contentWidth: props.contentWidth,

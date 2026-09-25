@@ -59,7 +59,12 @@ export function savedWorkflowRoots(
 ): SavedWorkflowRoot[] {
   return [
     { scope: "project", dir: join(cwd, SAVED_WORKFLOW_PROJECT_DIR) },
-    { scope: "global", dir: options?.homeDir ? join(options.homeDir, SAVED_WORKFLOW_GLOBAL_DIR) : join(resolveKnorviaDataRoot(), "workflows") },
+    {
+      scope: "global",
+      dir: options?.homeDir
+        ? join(options.homeDir, SAVED_WORKFLOW_GLOBAL_DIR)
+        : join(resolveKnorviaDataRoot(), "workflows"),
+    },
   ];
 }
 

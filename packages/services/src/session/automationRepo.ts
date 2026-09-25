@@ -1331,24 +1331,28 @@ export class AutomationRepo {
   }
 
   /** Reattach Studio result observers after Host restart; ordinary sessions are excluded. */
-  async listUnsettledStudioWorkflowRuns(): Promise<Array<{
-    automationRunId: string;
-    automationId: string;
-    workspaceKey: string;
-    scheduledAt: number | null;
-    trigger: KnorviaAutomationTrigger;
-    studioRunId: string;
-    workflowId: string;
-  }>> {
+  async listUnsettledStudioWorkflowRuns(): Promise<
+    Array<{
+      automationRunId: string;
+      automationId: string;
+      workspaceKey: string;
+      scheduledAt: number | null;
+      trigger: KnorviaAutomationTrigger;
+      studioRunId: string;
+      workflowId: string;
+    }>
+  > {
     await this.ensureReady();
-    const rows = this.getDatabase().prepare(
-      `SELECT r.run_id, r.automation_id, r.workspace_key, r.scheduled_at, r.trigger,
+    const rows = this.getDatabase()
+      .prepare(
+        `SELECT r.run_id, r.automation_id, r.workspace_key, r.scheduled_at, r.trigger,
               r.session_id, a.studio_workflow_id
        FROM automation_runs r JOIN automations a ON a.automation_id = r.automation_id
        WHERE a.studio_workflow_id IS NOT NULL AND r.session_id IS NOT NULL
          AND (r.outcome IS NULL OR r.outcome = 'running')
        ORDER BY r.created_at DESC LIMIT 1000`,
-    ).all() as Array<{
+      )
+      .all() as Array<{
       run_id: string;
       automation_id: string;
       workspace_key: string;

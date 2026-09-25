@@ -11,7 +11,10 @@ import { AutomationRepo } from "../../services/src/session/automationRepo.js";
 import { AutomationService } from "../../services/src/session/automationService.js";
 import { StudioDatabase } from "../../services/src/studio-runtime/adapters/studioDatabase.js";
 import { StudioRuntimeService } from "../../services/src/studio-runtime/app/studioRuntimeService.js";
-import { StudioScheduleOutcomeObserver, type StudioScheduledRun } from "../src/host/studioScheduleOutcome.js";
+import {
+  StudioScheduleOutcomeObserver,
+  type StudioScheduledRun,
+} from "../src/host/studioScheduleOutcome.js";
 import { submitScheduledStudioWorkflow } from "../src/host/studioWorkflowSchedule.js";
 
 async function until(check: () => boolean | Promise<boolean>) {
@@ -24,14 +27,26 @@ async function until(check: () => boolean | Promise<boolean>) {
 
 function workflow(path: string): StudioWorkflowDefinition {
   const data = {
-    label: "", kernel: "codex" as const, prompt: "", condition: "",
-    retryCount: 0, retryDelay: 0, joinPolicy: "all" as const,
+    label: "",
+    kernel: "codex" as const,
+    prompt: "",
+    condition: "",
+    retryCount: 0,
+    retryDelay: 0,
+    joinPolicy: "all" as const,
   };
   return {
-    id: "workflow-1", name: "Offline review", workspacePath: path, updatedAt: Date.now(),
+    id: "workflow-1",
+    name: "Offline review",
+    workspacePath: path,
+    updatedAt: Date.now(),
     nodes: [
       { id: "start", data: { ...data, kind: "start" }, position: { x: 0, y: 0 } },
-      { id: "agent", data: { ...data, kind: "agent", prompt: "Review {{input}}" }, position: { x: 100, y: 0 } },
+      {
+        id: "agent",
+        data: { ...data, kind: "agent", prompt: "Review {{input}}" },
+        position: { x: 100, y: 0 },
+      },
       { id: "end", data: { ...data, kind: "end" }, position: { x: 200, y: 0 } },
     ],
     edges: [
@@ -45,14 +60,22 @@ function runtime(path: string, called: () => void) {
   const db = new StudioDatabase(join(path, "studio.sqlite"));
   const service = new StudioRuntimeService({
     db,
-    clock: { now: Date.now, id: randomUUID, delay: (ms, signal) => sleep(ms, undefined, { signal }) },
+    clock: {
+      now: Date.now,
+      id: randomUUID,
+      delay: (ms, signal) => sleep(ms, undefined, { signal }),
+    },
     kernels: {
-      adapter: () => ({ run: async () => {
-        called();
-        return { status: "succeeded", text: "local result", resultKnown: true };
-      } }),
+      adapter: () => ({
+        run: async () => {
+          called();
+          return { status: "succeeded", text: "local result", resultKnown: true };
+        },
+      }),
       inspect: async () => [],
-      manage: async () => { throw new Error("unused"); },
+      manage: async () => {
+        throw new Error("unused");
+      },
       dispose: async () => {},
     },
     workspaces: {
@@ -70,18 +93,34 @@ test("scheduled workflow uses the saved definition and a restart does not replay
   const dir = await mkdtemp(join(tmpdir(), "knorvia-scheduled-workflow-"));
   const project = join(dir, "project");
   const repo = new AutomationRepo(join(dir, "tasks.sqlite"));
-  t.after(async () => { repo.close(); await rm(dir, { recursive: true, force: true }); });
+  t.after(async () => {
+    repo.close();
+    await rm(dir, { recursive: true, force: true });
+  });
   const automation = await new AutomationService(repo).create({
-    title: "Daily review", cronExpr: "0 9 * * *", prompt: "Check project",
-    recurring: true, workspacePath: project, studioWorkflowId: "workflow-1",
+    title: "Daily review",
+    cronExpr: "0 9 * * *",
+    prompt: "Check project",
+    recurring: true,
+    workspacePath: project,
+    studioWorkflowId: "workflow-1",
   });
   let calls = 0;
-  const first = runtime(dir, () => { calls++; });
+  const first = runtime(dir, () => {
+    calls++;
+  });
   try {
-    await first.service.command({ commandId: "save", type: "save-workflow", workflow: workflow(project) });
+    await first.service.command({
+      commandId: "save",
+      type: "save-workflow",
+      workflow: workflow(project),
+    });
     const firstRunId = await submitScheduledStudioWorkflow({
-      service: first.service, automation, runId: "automation-run-1",
-      workspacePath: project, prompt: automation.prompt,
+      service: first.service,
+      automation,
+      runId: "automation-run-1",
+      workspacePath: project,
+      prompt: automation.prompt,
     });
     await until(() => {
       first.service.tick();
@@ -90,43 +129,73 @@ test("scheduled workflow uses the saved definition and a restart does not replay
     assert.equal(calls, 1);
     await first.service.disposeAllAndWait();
 
-    const reopened = runtime(dir, () => { calls++; });
+    const reopened = runtime(dir, () => {
+      calls++;
+    });
     try {
       const duplicate = await submitScheduledStudioWorkflow({
-        service: reopened.service, automation, runId: "automation-run-1",
-        workspacePath: project, prompt: automation.prompt,
+        service: reopened.service,
+        automation,
+        runId: "automation-run-1",
+        workspacePath: project,
+        prompt: automation.prompt,
       });
       assert.equal(duplicate, firstRunId);
       reopened.service.tick();
       await sleep(40);
       assert.equal(calls, 1);
       assert.equal((await reopened.service.timeline("workflow-1")).runs.length, 1);
-      await assert.rejects(submitScheduledStudioWorkflow({
-        service: reopened.service, automation, runId: "automation-run-2",
-        workspacePath: join(dir, "other"), prompt: automation.prompt,
-      }), /目标项目已改变/);
-      await assert.rejects(submitScheduledStudioWorkflow({
-        service: reopened.service,
-        automation: { ...automation, studioWorkflowId: "deleted" },
-        runId: "automation-run-2", workspacePath: project, prompt: automation.prompt,
-      }), /已不存在/);
+      await assert.rejects(
+        submitScheduledStudioWorkflow({
+          service: reopened.service,
+          automation,
+          runId: "automation-run-2",
+          workspacePath: join(dir, "other"),
+          prompt: automation.prompt,
+        }),
+        /目标项目已改变/,
+      );
+      await assert.rejects(
+        submitScheduledStudioWorkflow({
+          service: reopened.service,
+          automation: { ...automation, studioWorkflowId: "deleted" },
+          runId: "automation-run-2",
+          workspacePath: project,
+          prompt: automation.prompt,
+        }),
+        /已不存在/,
+      );
       let invalidGraphCommands = 0;
       const invalidGraph = {
         overview: async () => ({ workflows: [{ ...workflow(project), nodes: [] }] }),
-        command: async () => { invalidGraphCommands++; return { id: "unexpected", revision: 1 }; },
+        command: async () => {
+          invalidGraphCommands++;
+          return { id: "unexpected", revision: 1 };
+        },
       } as unknown as Pick<IStudioRuntimeService, "overview" | "command">;
-      await assert.rejects(submitScheduledStudioWorkflow({
-        service: invalidGraph, automation, runId: "automation-run-2",
-        workspacePath: project, prompt: automation.prompt,
-      }), /尚不能运行/);
+      await assert.rejects(
+        submitScheduledStudioWorkflow({
+          service: invalidGraph,
+          automation,
+          runId: "automation-run-2",
+          workspacePath: project,
+          prompt: automation.prompt,
+        }),
+        /尚不能运行/,
+      );
       assert.equal(invalidGraphCommands, 0);
       const queuedRunId = await submitScheduledStudioWorkflow({
-        service: reopened.service, automation, runId: "automation-run-2",
-        workspacePath: project, prompt: automation.prompt,
+        service: reopened.service,
+        automation,
+        runId: "automation-run-2",
+        workspacePath: project,
+        prompt: automation.prompt,
       });
       assert.equal(reopened.db.read<StudioRun>("run", queuedRunId)?.state, "queued");
       await reopened.service.disposeAllAndWait();
-      const resumed = runtime(dir, () => { calls++; });
+      const resumed = runtime(dir, () => {
+        calls++;
+      });
       try {
         await until(() => {
           resumed.service.tick();
@@ -147,9 +216,13 @@ test("scheduled workflow uses the saved definition and a restart does not replay
 
 test("result observer restores manual claim and records terminal outcomes after restart", async () => {
   const item: StudioScheduledRun = {
-    automationRunId: "automation-1:manual:1", automationId: "automation-1",
-    workspaceKey: "project", scheduledAt: null, trigger: "manual",
-    studioRunId: "studio-1", workflowId: "workflow-1",
+    automationRunId: "automation-1:manual:1",
+    automationId: "automation-1",
+    workspaceKey: "project",
+    scheduledAt: null,
+    trigger: "manual",
+    studioRunId: "studio-1",
+    workflowId: "workflow-1",
   };
   const listeners = new Set<() => void>();
   let state: StudioRun["state"] = "running";
@@ -159,19 +232,29 @@ test("result observer restores manual claim and records terminal outcomes after 
     timeline: async () => ({ runs: [{ id: item.studioRunId, state }] }),
     onDidChange: (listener: () => void) => {
       listeners.add(listener);
-      return { dispose: () => { listeners.delete(listener); } };
+      return {
+        dispose: () => {
+          listeners.delete(listener);
+        },
+      };
     },
   } as unknown as Pick<IStudioRuntimeService, "timeline" | "onDidChange">;
   const repo = {
-    listUnsettledStudioWorkflowRuns: async () => recorded ? [] : [item],
+    listUnsettledStudioWorkflowRuns: async () => (recorded ? [] : [item]),
     ensureRunClaimed: async () => {},
     markRunDispatch: async () => {},
-    markRunOutcome: async (_id: string, outcome: string) => { recorded = outcome; },
+    markRunOutcome: async (_id: string, outcome: string) => {
+      recorded = outcome;
+    },
     touchManualClaim: async () => {},
-    releaseManualClaim: async () => { released++; },
+    releaseManualClaim: async () => {
+      released++;
+    },
   };
   const errors: unknown[] = [];
-  const observer = new StudioScheduleOutcomeObserver(service, repo, (_message, error) => errors.push(error));
+  const observer = new StudioScheduleOutcomeObserver(service, repo, (_message, error) =>
+    errors.push(error),
+  );
   try {
     await observer.recover();
     assert.equal(recorded, undefined);
@@ -201,14 +284,21 @@ test("disposed result observer cannot write a late terminal result", async () =>
     listUnsettledStudioWorkflowRuns: async () => [],
     ensureRunClaimed: async () => {},
     markRunDispatch: async () => {},
-    markRunOutcome: async () => { writes++; },
+    markRunOutcome: async () => {
+      writes++;
+    },
     touchManualClaim: async () => {},
     releaseManualClaim: async () => {},
   };
   const observer = new StudioScheduleOutcomeObserver(service, repo, () => {});
   observer.observe({
-    automationRunId: "run", automationId: "automation", workspaceKey: "project",
-    scheduledAt: 1000, trigger: "schedule", studioRunId: "studio", workflowId: "workflow",
+    automationRunId: "run",
+    automationId: "automation",
+    workspaceKey: "project",
+    scheduledAt: 1000,
+    trigger: "schedule",
+    studioRunId: "studio",
+    workflowId: "workflow",
   });
   observer.dispose();
   finishTimeline({ runs: [{ id: "studio", state: "succeeded" }] });

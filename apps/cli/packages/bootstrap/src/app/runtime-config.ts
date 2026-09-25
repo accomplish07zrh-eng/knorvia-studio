@@ -1,6 +1,10 @@
 import type { ConfigResult } from "@knorvia/adapters/config";
 import { resolveInitialModelSelection, type ModelSelectionOptions } from "@knorvia/provider";
-import { resolveBashTimeoutPolicy, type AgentProfile, type AgentRuntimeConfig } from "@knorvia/core";
+import {
+  resolveBashTimeoutPolicy,
+  type AgentProfile,
+  type AgentRuntimeConfig,
+} from "@knorvia/core";
 import { type BuiltInSubagentModelSelectionOverrides } from "@knorvia/shared";
 import {
   type CollaborationMode,

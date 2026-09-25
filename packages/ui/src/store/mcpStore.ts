@@ -97,7 +97,11 @@ interface McpStoreState {
   ) => Promise<void>;
   deleteScopedMcpServer: (source: McpSource, name: string, projectPath?: string) => void;
   addKnorviaAgentMcpServer: (name: string, config: McpServerConfig, projectPath?: string) => void;
-  updateKnorviaAgentMcpServer: (name: string, config: McpServerConfig, projectPath?: string) => void;
+  updateKnorviaAgentMcpServer: (
+    name: string,
+    config: McpServerConfig,
+    projectPath?: string,
+  ) => void;
   deleteKnorviaAgentMcpServer: (name: string, projectPath?: string) => void;
   toggleServer: (id: string, enabled: boolean) => Promise<void>;
   updateServerStatus: (

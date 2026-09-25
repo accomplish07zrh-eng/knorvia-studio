@@ -10,7 +10,8 @@ function duration(milliseconds: number | undefined): string {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const rest = seconds % 60;
-  return hours ? `${hours}:${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`
+  return hours
+    ? `${hours}:${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`
     : `${minutes}:${String(rest).padStart(2, "0")}`;
 }
 
@@ -20,7 +21,9 @@ export function GroupMetricsBar({ metrics }: { metrics?: StudioGroupMetrics }) {
   const t = (key: string) => intl.formatMessage({ id: `studio.groups.metrics.${key}` });
   if (!metrics) return null;
   const tokenText = (tokens: number | undefined, partial: boolean) =>
-    tokens === undefined ? "—" : `${partial ? "≥" : ""}${formatCompactTokenNumber("en-US", tokens)}`;
+    tokens === undefined
+      ? "—"
+      : `${partial ? "≥" : ""}${formatCompactTokenNumber("en-US", tokens)}`;
   const timeText = (elapsed: number | undefined, partial: boolean) =>
     elapsed === undefined ? "—" : `${partial ? "≥" : ""}${duration(elapsed)}`;
   return (
@@ -31,11 +34,18 @@ export function GroupMetricsBar({ metrics }: { metrics?: StudioGroupMetrics }) {
       aria-describedby="studio-group-metrics-scope"
       tabIndex={0}
     >
-      <span id="studio-group-metrics-scope" className="sr-only">{t("scope")}</span>
-      <span className="font-medium text-foreground">{t("total")} · {tokenText(metrics.total.tokens, metrics.total.tokensPartial)} tok · {timeText(metrics.total.durationMs, metrics.total.durationPartial)}</span>
+      <span id="studio-group-metrics-scope" className="sr-only">
+        {t("scope")}
+      </span>
+      <span className="font-medium text-foreground">
+        {t("total")} · {tokenText(metrics.total.tokens, metrics.total.tokensPartial)} tok ·{" "}
+        {timeText(metrics.total.durationMs, metrics.total.durationPartial)}
+      </span>
       {metrics.members.map((item) => (
         <span key={item.member}>
-          {studioKernelOption(item.member, statuses).name} · {tokenText(item.tokens, item.tokensPartial)} tok · {timeText(item.durationMs, item.durationPartial)}
+          {studioKernelOption(item.member, statuses).name} ·{" "}
+          {tokenText(item.tokens, item.tokensPartial)} tok ·{" "}
+          {timeText(item.durationMs, item.durationPartial)}
         </span>
       ))}
       {metrics.truncated || metrics.total.tokensPartial || metrics.total.durationPartial ? (

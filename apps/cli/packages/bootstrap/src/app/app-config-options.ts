@@ -7,7 +7,9 @@ export function isMessageEnabled(env: NodeJS.ProcessEnv): boolean {
   return env.KNORVIA_MESSAGE_ENABLED === "1" || env.KNORVIA_MESSAGE_ENABLED === "true";
 }
 
-export function createConfigCliOverrides(options: KnorviaAppOptions): RuntimeConfigPatch | undefined {
+export function createConfigCliOverrides(
+  options: KnorviaAppOptions,
+): RuntimeConfigPatch | undefined {
   const overrides: RuntimeConfigPatch = {};
   const permission: NonNullable<RuntimeConfigPatch["permission"]> = {};
 

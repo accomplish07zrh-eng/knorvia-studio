@@ -8,17 +8,28 @@ import { useSettings } from "@/hooks/useSettingService.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { SettingsGroupCard, SettingsRow } from "./SettingsPageParts.js";
 
-function resultMessage(result: ReleaseUpdateCheckResult, format: (id: string, values?: Record<string, string | number>) => string): string {
+function resultMessage(
+  result: ReleaseUpdateCheckResult,
+  format: (id: string, values?: Record<string, string | number>) => string,
+): string {
   switch (result.status) {
-    case "unconfigured": return format("settings.releaseUpdate.unconfigured");
-    case "disabled": return format("settings.releaseUpdate.disabled");
-    case "up-to-date": return format("settings.releaseUpdate.current");
-    case "no-compatible-release": return format("settings.releaseUpdate.noCompatibleRelease");
-    case "available": return format("settings.releaseUpdate.available", { version: result.latestVersion });
-    case "failed": return format("settings.releaseUpdate.failed", {
-      reason: result.reason === "http" && result.httpStatus
-        ? `HTTP ${result.httpStatus}` : format(`settings.releaseUpdate.reason.${result.reason}`),
-    });
+    case "unconfigured":
+      return format("settings.releaseUpdate.unconfigured");
+    case "disabled":
+      return format("settings.releaseUpdate.disabled");
+    case "up-to-date":
+      return format("settings.releaseUpdate.current");
+    case "no-compatible-release":
+      return format("settings.releaseUpdate.noCompatibleRelease");
+    case "available":
+      return format("settings.releaseUpdate.available", { version: result.latestVersion });
+    case "failed":
+      return format("settings.releaseUpdate.failed", {
+        reason:
+          result.reason === "http" && result.httpStatus
+            ? `HTTP ${result.httpStatus}`
+            : format(`settings.releaseUpdate.reason.${result.reason}`),
+      });
   }
 }
 
@@ -102,7 +113,13 @@ export function ReleaseUpdateSettings() {
               aria-label={format("settings.releaseUpdate.source")}
               disabled={!settings || working}
             />
-            <Button type="button" size="lg" variant="outline" onClick={() => void saveSource()} disabled={!settings || working || !dirty}>
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              onClick={() => void saveSource()}
+              disabled={!settings || working || !dirty}
+            >
               {format("settings.releaseUpdate.save")}
             </Button>
           </div>
@@ -110,13 +127,31 @@ export function ReleaseUpdateSettings() {
       />
       <SettingsRow
         label={format("settings.releaseUpdate.check")}
-        description={saveFailed ? format("settings.releaseUpdate.saveFailed") : dirty
-          ? format("settings.releaseUpdate.saveFirst")
-          : result ? resultMessage(result, format) : savedSource
-            ? format("settings.releaseUpdate.notChecked") : format("settings.releaseUpdate.unconfigured")}
+        description={
+          saveFailed
+            ? format("settings.releaseUpdate.saveFailed")
+            : dirty
+              ? format("settings.releaseUpdate.saveFirst")
+              : result
+                ? resultMessage(result, format)
+                : savedSource
+                  ? format("settings.releaseUpdate.notChecked")
+                  : format("settings.releaseUpdate.unconfigured")
+        }
         control={
-          <Button type="button" size="lg" variant="outline" onClick={() => void check()}
-            disabled={!settings || working || dirty || !platform.checkReleaseUpdate || settings.releaseChecksEnabled === false}>
+          <Button
+            type="button"
+            size="lg"
+            variant="outline"
+            onClick={() => void check()}
+            disabled={
+              !settings ||
+              working ||
+              dirty ||
+              !platform.checkReleaseUpdate ||
+              settings.releaseChecksEnabled === false
+            }
+          >
             {format("settings.releaseUpdate.check")}
           </Button>
         }

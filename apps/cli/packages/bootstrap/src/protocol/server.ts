@@ -392,7 +392,9 @@ export class KnorviaProtocolAgentServer {
   }
 
   /** production NDJSON 取完整 batch；只有全部 write 成功后才调 commit。 */
-  takePostResponseBatch(requestId: KnorviaProtocolRequestId): KnorviaProtocolPostResponseBatch | null {
+  takePostResponseBatch(
+    requestId: KnorviaProtocolRequestId,
+  ): KnorviaProtocolPostResponseBatch | null {
     const batch = this.postResponseOutbox.get(requestId) ?? null;
     this.postResponseOutbox.delete(requestId);
     return batch;
@@ -613,8 +615,9 @@ export class KnorviaProtocolAgentServer {
           await notifyWorkspaceHookTrustGrantSessions({
             // dispatch 层的 params 是弱类型；grant 内部已用同一 schema parse 过，这里
             // safeParse 只为取出 workspaceKey 做匹配，失败即跳过通知（防御，正常必成功）。
-            grantedWorkspaceKey: knorviaWorkspaceHookTrustGrantParamsSchema.safeParse(request.params)
-              .success
+            grantedWorkspaceKey: knorviaWorkspaceHookTrustGrantParamsSchema.safeParse(
+              request.params,
+            ).success
               ? knorviaWorkspaceHookTrustGrantParamsSchema.parse(request.params).workspace
                   .workspaceKey
               : undefined,
@@ -812,7 +815,10 @@ export class KnorviaProtocolAgentServer {
       throw this.clientDisconnectError;
     }
     if (!this.messageSink) {
-      throw new ProtocolRequestError(-32020, `No Knorvia Studio Protocol client is attached for ${method}`);
+      throw new ProtocolRequestError(
+        -32020,
+        `No Knorvia Studio Protocol client is attached for ${method}`,
+      );
     }
 
     return new Promise<T>((resolve, reject) => {

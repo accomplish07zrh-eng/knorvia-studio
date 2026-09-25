@@ -91,7 +91,10 @@ function registerE2EStoreBridgesIfEnabled() {
           ? "knorvia-light"
           : saved;
   if (resolved === "dark") document.documentElement.classList.add("dark");
-  document.documentElement.classList.toggle("theme-knorvia-light", appliedTheme === "knorvia-light");
+  document.documentElement.classList.toggle(
+    "theme-knorvia-light",
+    appliedTheme === "knorvia-light",
+  );
   document.documentElement.classList.toggle("theme-knorvia-dark", appliedTheme === "knorvia-dark");
 }
 

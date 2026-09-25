@@ -136,7 +136,9 @@ function liveStatusFromMeta(meta: KnorviaTaskMeta): WindowHostControllerTaskRow[
  */
 export function createWindowHostControllerRuntime(options: {
   createId: () => string;
-  resolveSource: (scope: KnorviaTaskListWorkspaceScope) => ResolvedWindowHostControllerSource | null;
+  resolveSource: (
+    scope: KnorviaTaskListWorkspaceScope,
+  ) => ResolvedWindowHostControllerSource | null;
   onSourceError?: (
     scope: WindowHostControllerSourceScope,
     operation: "refresh" | "search",

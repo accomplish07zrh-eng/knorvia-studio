@@ -18,6 +18,6 @@ export async function recordSlashCommandInHistory(
 }
 
 function shouldRecordSlashCommand(command: SlashCommand): boolean {
-    const name = command.type === "known" ? command.name : command.rawName;
-    return name !== "login" || !API_KEY_LOGIN_PATTERN.test(command.args);
+  const name = command.type === "known" ? command.name : command.rawName;
+  return name !== "login" || !API_KEY_LOGIN_PATTERN.test(command.args);
 }

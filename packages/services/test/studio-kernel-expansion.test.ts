@@ -54,7 +54,9 @@ test("official ACP and safe custom IDs work across groups and workflows", () => 
   assert.deepEqual(routeStudioGroupMembers(members, "@OpenCode please check"), ["opencode"]);
   assert.deepEqual(routeStudioGroupMembers(members, "@Qoder CN please check"), ["qoder-cn"]);
   const agyGroup = { ...group, members: ["knorvia", "antigravity"], host: "knorvia" } as const;
-  assert.deepEqual(routeStudioGroupMembers(agyGroup, "@Google Antigravity please check"), ["antigravity"]);
+  assert.deepEqual(routeStudioGroupMembers(agyGroup, "@Google Antigravity please check"), [
+    "antigravity",
+  ]);
   assert.throws(() => routeStudioGroupMembers(members, "@qoder please check"));
   const largerGroup = {
     ...group,

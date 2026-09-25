@@ -92,8 +92,10 @@ Slash Commands:
     },
     modelConfigurationRequired: {
       help: "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
-      message: "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
-      status: "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
+      message:
+        "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
+      status:
+        "Configure an API key in Knorvia Studio model settings. Use /model to view available models.",
       title: "model setup required",
     },
     model: {

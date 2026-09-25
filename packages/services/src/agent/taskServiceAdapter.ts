@@ -3755,7 +3755,8 @@ function textFromParts(parts: readonly KnorviaMessagePart[]): string {
 function reasoningFromParts(parts: readonly KnorviaMessagePart[]): string | undefined {
   const text = parts
     .filter(
-      (part): part is Extract<KnorviaMessagePart, { type: "reasoning" }> => part.type === "reasoning",
+      (part): part is Extract<KnorviaMessagePart, { type: "reasoning" }> =>
+        part.type === "reasoning",
     )
     .map((part) => part.text)
     .join("");
@@ -5360,7 +5361,9 @@ function apiRetryFromSessionInfoPayload(
     return runtimeRetry;
   }
 
-  const metaRetry = normalizeKnorviaApiRetryStatus(asRecord(asRecord(payload._meta).knorvia).apiRetry);
+  const metaRetry = normalizeKnorviaApiRetryStatus(
+    asRecord(asRecord(payload._meta).knorvia).apiRetry,
+  );
   if (metaRetry !== undefined) {
     return metaRetry;
   }

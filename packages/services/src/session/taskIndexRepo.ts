@@ -153,7 +153,8 @@ const TASK_SEARCH_SNIPPET_SUFFIX_RADIUS = 72;
 const TASK_SEARCH_SNIPPET_MAX_CHARS = 140;
 const TASK_SEARCH_SNIPPET_LIMIT = 4;
 const GROUPED_TASK_ORDER_STEP = 1000;
-const GROUPED_WORKSPACE_BOOTSTRAP_ONCE_KEY = "__knorvia_internal_grouped_workspace_bootstrap_once__";
+const GROUPED_WORKSPACE_BOOTSTRAP_ONCE_KEY =
+  "__knorvia_internal_grouped_workspace_bootstrap_once__";
 const DEFAULT_TASK_GROUP_COLOR: KnorviaTaskGroupColor = "gray";
 const WORKSPACE_BOOTSTRAP_TASK_GROUP_COLORS = [
   "red",

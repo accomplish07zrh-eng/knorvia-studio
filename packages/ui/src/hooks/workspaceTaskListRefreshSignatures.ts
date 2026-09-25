@@ -26,7 +26,10 @@ export function buildWorkspaceRemoteSessionSignature(
     .join("|");
 }
 
-export function areTaskListItemsEquivalent(left: KnorviaTaskMeta[], right: KnorviaTaskMeta[]): boolean {
+export function areTaskListItemsEquivalent(
+  left: KnorviaTaskMeta[],
+  right: KnorviaTaskMeta[],
+): boolean {
   if (left.length !== right.length) {
     return false;
   }

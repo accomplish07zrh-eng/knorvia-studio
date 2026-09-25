@@ -171,7 +171,8 @@ export function inferScriptWorkflowScope(
   scriptPath: string,
   workingDirectory: string,
 ): "explicit" | "project" | "user" {
-  if (isWithin(scriptPath, join(workingDirectory, ".knorvia-studio", "workflows"))) return "project";
+  if (isWithin(scriptPath, join(workingDirectory, ".knorvia-studio", "workflows")))
+    return "project";
   if (isWithin(scriptPath, join(resolveKnorviaDataRoot(), "workflows"))) return "user";
   return "explicit";
 }

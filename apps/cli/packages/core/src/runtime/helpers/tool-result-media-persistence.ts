@@ -47,9 +47,7 @@ export async function persistToolResultMediaAttachments(input: {
 
   const attachments: FilePart[] = [];
   for (const [index, block] of projection.mediaBlocks.entries()) {
-    const existingArtifactUri = isArtifactUri(block.source?.uri)
-      ? block.source.uri
-      : undefined;
+    const existingArtifactUri = isArtifactUri(block.source?.uri) ? block.source.uri : undefined;
     const artifactUri =
       existingArtifactUri ??
       (

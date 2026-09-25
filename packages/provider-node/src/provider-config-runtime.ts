@@ -79,7 +79,8 @@ export class NodeProviderConfigRuntime {
       pollingIntervalMs: options.personalPollingIntervalMs,
       ...(options.importLegacy
         ? {
-            importLegacy: async () => options.importLegacy!(await this.#knorviaBuiltinSource.read()),
+            importLegacy: async () =>
+              options.importLegacy!(await this.#knorviaBuiltinSource.read()),
           }
         : {}),
     });
@@ -130,7 +131,9 @@ export class NodeProviderConfigRuntime {
     return startPromise;
   }
 
-  refreshKnorviaBuiltin(options?: { readonly force?: boolean }): Promise<KnorviaBuiltinRefreshResult> {
+  refreshKnorviaBuiltin(options?: {
+    readonly force?: boolean;
+  }): Promise<KnorviaBuiltinRefreshResult> {
     if (this.#disposed) return Promise.resolve("disposed");
     if (this.#knorviaBuiltinSource instanceof EndpointScopedKnorviaBuiltinSource) {
       return this.#knorviaBuiltinSource.refresh(options);

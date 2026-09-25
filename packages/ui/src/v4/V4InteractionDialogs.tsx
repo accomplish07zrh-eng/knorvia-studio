@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { KnorviaElicitationRequest, KnorviaPermissionOption, KnorviaProvider } from "@knorvia/shared";
+import type {
+  KnorviaElicitationRequest,
+  KnorviaPermissionOption,
+  KnorviaProvider,
+} from "@knorvia/shared";
 import type { ConversationSnapshot } from "@knorvia/shared/protocol-v4";
 import { ElicitationDialog } from "@/ElicitationDialog.js";
 import { PermissionDialog } from "@/PermissionDialog.js";
@@ -9,11 +13,7 @@ import { usePendingInteractionTaskNotifications } from "@/hooks/useTaskNotificat
 import { logger } from "@/logger.js";
 import { useKnorviaStoreWithDefault } from "@/store/StoreProvider.js";
 import { useWorkspaceHookReviewStore } from "@/store/workspaceHookReviewStore.js";
-import {
-  getTaskUiState,
-  getWorkspaceState,
-  useKnorviaSessionStore,
-} from "@/store/sessionStore.js";
+import { getTaskUiState, getWorkspaceState, useKnorviaSessionStore } from "@/store/sessionStore.js";
 import type { ElicitationFormDraft } from "@/store/sessionStoreTypes.js";
 import { createCommandEnvelope } from "@/v4/commandFactory.js";
 import { pendingCommandRegistry } from "@/v4/pendingCommandRegistry.js";
@@ -109,7 +109,10 @@ export function V4InteractionDialogs({
   const workspaceHookReview = currentSnapshot?.pendingInteractions.find(
     (interaction) => interaction.payload.kind === "workspaceHookReview",
   );
-  const notificationEnabled = useKnorviaStoreWithDefault((state) => state.notificationEnabled, true);
+  const notificationEnabled = useKnorviaStoreWithDefault(
+    (state) => state.notificationEnabled,
+    true,
+  );
   const localElicitationDraft = useKnorviaSessionStore((state) => {
     if (!pending || pending.payload.kind !== "userInput") return undefined;
     return getTaskUiState(getWorkspaceState(state, workspacePath, workspaceIdentity), sessionId)

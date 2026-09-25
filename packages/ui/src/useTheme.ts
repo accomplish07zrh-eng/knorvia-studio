@@ -63,7 +63,10 @@ export function applyTheme(theme: Theme) {
         : "knorvia-light"
       : normalizeThemePreference(theme);
   document.documentElement.classList.toggle("dark", resolved === "dark");
-  document.documentElement.classList.toggle("theme-knorvia-light", appliedTheme === "knorvia-light");
+  document.documentElement.classList.toggle(
+    "theme-knorvia-light",
+    appliedTheme === "knorvia-light",
+  );
   document.documentElement.classList.toggle("theme-knorvia-dark", appliedTheme === "knorvia-dark");
   syncBrowserThemeSurface(resolved);
 }

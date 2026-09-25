@@ -109,8 +109,8 @@ function responseInputItemToMessage(item: unknown): OpenAiMessage[] {
 function isOpenAiMessage(value: unknown): value is OpenAiMessage {
   return Boolean(
     value &&
-      typeof value === "object" &&
-      !Array.isArray(value) &&
-      typeof (value as { role?: unknown }).role === "string",
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    typeof (value as { role?: unknown }).role === "string",
   );
 }

@@ -992,8 +992,9 @@ export function SessionPane({
               ...(groupedDraftTask ? { groupedDraftTask } : {}),
               sessionCreateSource:
                 sessionCreateSource ??
-                useKnorviaSessionStore.getState().getWorkspaceState(workspacePath, workspaceIdentity)
-                  .draftCreateSource,
+                useKnorviaSessionStore
+                  .getState()
+                  .getWorkspaceState(workspacePath, workspaceIdentity).draftCreateSource,
             }
           : undefined,
       );
@@ -3628,17 +3629,21 @@ export function SessionPane({
         onClosePane={onClosePane}
         workspaceBadge={workspaceBadge}
       />
-      {sessionId && timelineSnapshot &&
-        !rootSessionId && !selectionSideChat && !readOnly && onHandoffComplete ? (
-          <NativeSessionActions
-            key={sessionId}
-            sessionId={sessionId}
-            snapshot={timelineSnapshot}
-            workspacePath={workspacePath}
-            remote={Boolean(remoteSessionId || workspaceIdentity)}
-            onHandoffComplete={onHandoffComplete}
-          />
-        ) : null}
+      {sessionId &&
+      timelineSnapshot &&
+      !rootSessionId &&
+      !selectionSideChat &&
+      !readOnly &&
+      onHandoffComplete ? (
+        <NativeSessionActions
+          key={sessionId}
+          sessionId={sessionId}
+          snapshot={timelineSnapshot}
+          workspacePath={workspacePath}
+          remote={Boolean(remoteSessionId || workspaceIdentity)}
+          onHandoffComplete={onHandoffComplete}
+        />
+      ) : null}
 
       <div
         ref={conversationLayoutContainerRef}

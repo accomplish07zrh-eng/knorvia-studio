@@ -46,20 +46,29 @@ test("diagnostic export excludes private state and removes credentials from actu
   const privateBody = "FAKE_PRIVATE_KEY_MATERIAL_NEVER_EXPORT";
   try {
     const { exportLogs } = await import("../src/main/exportLogs.js");
-    for (const path of ["logs", "studio/shared-mcp/turn-1-test", "creation", "crash/archive", "other"]) {
+    for (const path of [
+      "logs",
+      "studio/shared-mcp/turn-1-test",
+      "creation",
+      "crash/archive",
+      "other",
+    ]) {
       await mkdir(join(source, path), { recursive: true });
     }
-    await writeFile(join(source, "logs", "today.log"), [
-      "ready: true",
-      `apiKey=${apiKey}`,
-      `Authorization: Bearer ${token}`,
-      `ssh_password=${sshPassword}`,
-      "-----BEGIN OPENSSH PRIVATE KEY-----",
-      privateBody,
-      "-----END OPENSSH PRIVATE KEY-----",
-      `unstructured ${token}`,
-      "last line: usable",
-    ].join("\n"));
+    await writeFile(
+      join(source, "logs", "today.log"),
+      [
+        "ready: true",
+        `apiKey=${apiKey}`,
+        `Authorization: Bearer ${token}`,
+        `ssh_password=${sshPassword}`,
+        "-----BEGIN OPENSSH PRIVATE KEY-----",
+        privateBody,
+        "-----END OPENSSH PRIVATE KEY-----",
+        `unstructured ${token}`,
+        "last line: usable",
+      ].join("\n"),
+    );
     await writeFile(join(source, "studio", "shared-mcp", "turn-1-test", "mcp.json"), apiKey);
     await writeFile(join(source, "creation", "models.json"), apiKey);
     await writeFile(join(source, "crash", "archive", "memory.dmp"), Buffer.from(`\0${apiKey}\0`));
@@ -69,7 +78,9 @@ test("diagnostic export excludes private state and removes credentials from actu
       getKnorviaDataDir: () => source,
       getExportLogDir: () => join(root, "output"),
       getExportLogStageDir: () => join(root, "stage"),
-      writeLogArchiveZip: async () => { throw new Error("exercise directory export"); },
+      writeLogArchiveZip: async () => {
+        throw new Error("exercise directory export");
+      },
       showItemInFolder: async () => {},
     });
     assert.equal(result.success, true);
@@ -102,7 +113,10 @@ test("diagnostic export excludes private state and removes credentials from actu
     assert.deepEqual([...entries.keys()].sort(), ["about.txt", "logs/today.log"]);
     assert.equal(entries.get("logs/today.log"), log);
     for (const secret of [apiKey, token, sshPassword, privateBody]) {
-      assert.equal([...entries.values()].some((value) => value.includes(secret)), false);
+      assert.equal(
+        [...entries.values()].some((value) => value.includes(secret)),
+        false,
+      );
     }
   } finally {
     if (previous === undefined) delete process.env.KNORVIA_DATA_BASE_DIR;

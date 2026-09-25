@@ -1,9 +1,4 @@
-import type {
-  InteractionRequestOrigin,
-  SessionId,
-  ToolCallId,
-  TurnId,
-} from "@knorvia/contracts";
+import type { InteractionRequestOrigin, SessionId, ToolCallId, TurnId } from "@knorvia/contracts";
 
 export interface SubagentInteractionOriginContext {
   agentId: string;

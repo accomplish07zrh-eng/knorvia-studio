@@ -375,7 +375,10 @@ export async function createElectronBrowserWebmRecorder(
   recorderWindow.webContents.on("render-process-gone", onRendererGone);
   const onConsoleMessage = (
     // 当前 Electron 将消息字段放在首个事件参数，后续位置参数已弃用。
-    details: { level?: string; message?: string },
+    details: {
+      level?: string;
+      message?: string;
+    },
   ): void => {
     debug?.(
       `[browser-recording] recorder console level=${details.level ?? "unknown"} message=${details.message ?? ""}`,

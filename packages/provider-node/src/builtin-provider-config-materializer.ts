@@ -1,10 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { atomicWritePrivateTextFile, withFileLock } from "@knorvia/shared/node";
-import {
-  decodeKnorviaBuiltinRelease,
-  serializeKnorviaBuiltinRelease,
-} from "./builtin-release.js";
+import { decodeKnorviaBuiltinRelease, serializeKnorviaBuiltinRelease } from "./builtin-release.js";
 
 export interface MaterializeKnorviaBuiltinProviderConfigOptions {
   readonly environmentConfigRoot: string;

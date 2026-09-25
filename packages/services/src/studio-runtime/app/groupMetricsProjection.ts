@@ -8,9 +8,7 @@ import type {
 } from "../types.js";
 
 function reported(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isSafeInteger(value) && value >= 0
-    ? value
-    : undefined;
+  return typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : undefined;
 }
 
 /** Group totals are sums of observed member turns, never estimates from message text. */
@@ -50,7 +48,12 @@ export function projectStudioGroupMetrics(
       const started = reported(turn.startedAt);
       const ended = reported(turn.endedAt);
       const observedEnd = ended ?? (active && turn.state === "running" ? reported(now) : undefined);
-      if (started !== undefined && observedEnd !== undefined && observedEnd >= started && !durationOverflow) {
+      if (
+        started !== undefined &&
+        observedEnd !== undefined &&
+        observedEnd >= started &&
+        !durationOverflow
+      ) {
         const next = (durationMs ?? 0) + observedEnd - started;
         durationMs = Number.isSafeInteger(next) ? next : undefined;
         if (durationMs === undefined) {
@@ -64,18 +67,34 @@ export function projectStudioGroupMetrics(
     }
     return { member, tokens, durationMs, tokensPartial, durationPartial };
   });
-  const knownTokens = output.map((item) => item.tokens).filter((value): value is number => value !== undefined);
-  const knownDurations = output.map((item) => item.durationMs).filter((value): value is number => value !== undefined);
-  const totalTokens = knownTokens.length ? knownTokens.reduce((sum, value) => sum + value, 0) : undefined;
-  const totalDuration = knownDurations.length ? knownDurations.reduce((sum, value) => sum + value, 0) : undefined;
+  const knownTokens = output
+    .map((item) => item.tokens)
+    .filter((value): value is number => value !== undefined);
+  const knownDurations = output
+    .map((item) => item.durationMs)
+    .filter((value): value is number => value !== undefined);
+  const totalTokens = knownTokens.length
+    ? knownTokens.reduce((sum, value) => sum + value, 0)
+    : undefined;
+  const totalDuration = knownDurations.length
+    ? knownDurations.reduce((sum, value) => sum + value, 0)
+    : undefined;
   return {
     runId: run.id,
     members: output,
     total: {
-      tokens: totalTokens !== undefined && Number.isSafeInteger(totalTokens) ? totalTokens : undefined,
-      durationMs: totalDuration !== undefined && Number.isSafeInteger(totalDuration) ? totalDuration : undefined,
-      tokensPartial: output.some((item) => item.tokensPartial) || (totalTokens !== undefined && !Number.isSafeInteger(totalTokens)),
-      durationPartial: output.some((item) => item.durationPartial) || (totalDuration !== undefined && !Number.isSafeInteger(totalDuration)),
+      tokens:
+        totalTokens !== undefined && Number.isSafeInteger(totalTokens) ? totalTokens : undefined,
+      durationMs:
+        totalDuration !== undefined && Number.isSafeInteger(totalDuration)
+          ? totalDuration
+          : undefined,
+      tokensPartial:
+        output.some((item) => item.tokensPartial) ||
+        (totalTokens !== undefined && !Number.isSafeInteger(totalTokens)),
+      durationPartial:
+        output.some((item) => item.durationPartial) ||
+        (totalDuration !== undefined && !Number.isSafeInteger(totalDuration)),
     },
     truncated,
   };

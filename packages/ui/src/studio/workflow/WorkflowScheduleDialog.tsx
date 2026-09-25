@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useServices } from "@/hooks/useServices.js";
 import { Button } from "@/components/ui/button.js";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog.js";
 import { Input } from "@/components/ui/input.js";
 import { Textarea } from "@/components/ui/textarea.js";
@@ -59,31 +64,69 @@ export function WorkflowScheduleDialog({
     }
   };
   return (
-    <Dialog open={open} onOpenChange={(value) => { if (!value && !busy) onClose(); }}>
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        if (!value && !busy) onClose();
+      }}
+    >
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>{t("schedule")}</DialogTitle>
           <DialogDescription>{t("scheduleDescription")}</DialogDescription>
         </DialogHeader>
         {created ? (
-          <p role="status" className="text-ui-sm">{t("scheduleCreated")}</p>
+          <p role="status" className="text-ui-sm">
+            {t("scheduleCreated")}
+          </p>
         ) : (
           <div className="grid gap-3">
-            <label className="grid gap-1 text-ui-sm">{t("scheduleTitle")}
-              <Input value={title} maxLength={100} onChange={(event) => setTitle(event.target.value)} disabled={busy} />
+            <label className="grid gap-1 text-ui-sm">
+              {t("scheduleTitle")}
+              <Input
+                value={title}
+                maxLength={100}
+                onChange={(event) => setTitle(event.target.value)}
+                disabled={busy}
+              />
             </label>
-            <label className="grid gap-1 text-ui-sm">{t("scheduleTime")}
-              <Input type="time" value={time} onChange={(event) => setTime(event.target.value)} disabled={busy} />
+            <label className="grid gap-1 text-ui-sm">
+              {t("scheduleTime")}
+              <Input
+                type="time"
+                value={time}
+                onChange={(event) => setTime(event.target.value)}
+                disabled={busy}
+              />
             </label>
-            <label className="grid gap-1 text-ui-sm">{t("scheduleInput")}
-              <Textarea value={prompt} maxLength={32000} onChange={(event) => setPrompt(event.target.value)} disabled={busy} />
+            <label className="grid gap-1 text-ui-sm">
+              {t("scheduleInput")}
+              <Textarea
+                value={prompt}
+                maxLength={32000}
+                onChange={(event) => setPrompt(event.target.value)}
+                disabled={busy}
+              />
             </label>
-            {error && <p role="alert" className="text-ui-sm text-destructive">{error}</p>}
+            {error && (
+              <p role="alert" className="text-ui-sm text-destructive">
+                {error}
+              </p>
+            )}
           </div>
         )}
         <DialogFooter>
-          <Button variant="outline" disabled={busy} onClick={onClose}>{t("close")}</Button>
-          {!created && <Button disabled={busy || !saved || !title.trim() || !prompt.trim()} onClick={() => void submit()}>{t("scheduleCreate")}</Button>}
+          <Button variant="outline" disabled={busy} onClick={onClose}>
+            {t("close")}
+          </Button>
+          {!created && (
+            <Button
+              disabled={busy || !saved || !title.trim() || !prompt.trim()}
+              onClick={() => void submit()}
+            >
+              {t("scheduleCreate")}
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

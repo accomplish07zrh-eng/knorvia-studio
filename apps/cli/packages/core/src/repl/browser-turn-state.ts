@@ -40,7 +40,8 @@ export function recordBrowserTurnToolResult(input: {
   const output = asRecord(input.output);
   const responseMeta = asRecord(output?._meta) ?? asRecord(output?.responseMeta);
   const candidate = asRecord(
-    responseMeta?.["knorvia/browserTurnScreenshot"] ?? responseMeta?.["knorvia/browserTurnScreenshot"],
+    responseMeta?.["knorvia/browserTurnScreenshot"] ??
+      responseMeta?.["knorvia/browserTurnScreenshot"],
   );
   if (
     typeof candidate?.browserId !== "string" ||

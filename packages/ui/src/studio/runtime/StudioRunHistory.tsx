@@ -150,7 +150,11 @@ export function StudioRunHistory({
             const step = run.checkpoint.steps[stepId];
             const label = studioRunStepLabel(run, stepId, locale);
             return (
-              <div key={stepId} id={`studio-run-step-${run.id}-${stepId}`} className="mt-2 border-t border-border pt-2">
+              <div
+                key={stepId}
+                id={`studio-run-step-${run.id}-${stepId}`}
+                className="mt-2 border-t border-border pt-2"
+              >
                 <div className="flex items-center justify-between gap-2">
                   <span className="min-w-0 truncate" title={label}>
                     {label}
@@ -250,20 +254,20 @@ export function StudioRunHistory({
               busy={review.loading || Boolean(review.applying)}
               applying={review.applying === change.path}
               onApply={() =>
-                  void actions.applyReview(
-                    change.path,
-                    () =>
-                      runtime.service!.applyWorkspaceChanges({
-                        runId: review.run.id,
-                        stepId: review.stepId,
-                        paths: [change.path],
-                      }),
-                    () =>
-                      runtime.service!.workspaceChanges({
-                        runId: review.run.id,
-                        stepId: review.stepId,
-                      }),
-                  )
+                void actions.applyReview(
+                  change.path,
+                  () =>
+                    runtime.service!.applyWorkspaceChanges({
+                      runId: review.run.id,
+                      stepId: review.stepId,
+                      paths: [change.path],
+                    }),
+                  () =>
+                    runtime.service!.workspaceChanges({
+                      runId: review.run.id,
+                      stepId: review.stepId,
+                    }),
+                )
               }
             />
           ))}

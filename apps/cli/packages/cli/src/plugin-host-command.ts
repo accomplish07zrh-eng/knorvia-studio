@@ -56,7 +56,10 @@ export async function runPluginHostCommand(ctx: RunContext, argv: string[]): Pro
     // shared node_repl 把同一凭据组恢复到环境，由 broker bridge 读取；旧的独立 CUA
     // MCP 不再拥有执行入口。
     process.argv = [process.execPath, serverPath, ...serverArgs];
-    if (capturedBrokerCredentials.socket && process.env[KNORVIA_CUA_NODE_REPL_HOST_ENV_KEY] === "1") {
+    if (
+      capturedBrokerCredentials.socket &&
+      process.env[KNORVIA_CUA_NODE_REPL_HOST_ENV_KEY] === "1"
+    ) {
       process.env[KNORVIA_CUA_BROKER_SOCKET_ENV_KEY] = capturedBrokerCredentials.socket;
     }
     try {

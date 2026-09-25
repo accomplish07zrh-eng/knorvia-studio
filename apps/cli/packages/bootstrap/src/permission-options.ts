@@ -1,5 +1,8 @@
 import type { PermissionOptionsPolicy, PermissionUpdate } from "@knorvia/contracts";
-import { OFFICIAL_CUA_PERMISSION_RULE_TOOL_NAME, type KnorviaPermissionOption } from "@knorvia/shared";
+import {
+  OFFICIAL_CUA_PERMISSION_RULE_TOOL_NAME,
+  type KnorviaPermissionOption,
+} from "@knorvia/shared";
 
 const PROJECT_RULE_INPUT_KEYS = ["command", "url", "file_path", "path", "pattern"] as const;
 

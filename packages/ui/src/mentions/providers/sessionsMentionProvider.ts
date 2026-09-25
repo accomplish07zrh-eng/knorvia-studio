@@ -60,7 +60,10 @@ function getWorkspaceLabel(task: KnorviaTaskMeta): string {
   return raw.split(/[\\/]/).filter(Boolean).at(-1) ?? raw;
 }
 
-function mapTaskToMentionItem(task: KnorviaTaskMeta, provider: KnorviaProvider): SessionMentionItem {
+function mapTaskToMentionItem(
+  task: KnorviaTaskMeta,
+  provider: KnorviaProvider,
+): SessionMentionItem {
   const sessionId = task.taskId;
   const itemProvider = task.provider ?? provider;
   return {

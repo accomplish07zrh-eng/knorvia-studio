@@ -38,7 +38,10 @@ function loadEnvFiles(): Record<string, string> {
 const env = loadEnvFiles();
 const knorviaEnv = env.KNORVIA_ENV?.trim().toLowerCase() === "test" ? "test" : "production";
 // 安装包身份与后端环境分轴：KNORVIA_PREVIEW_IDENTITY=1 让生产后端的构建仍以 Knorvia Studio Preview 身份打包运行。
-const knorviaProductFlavor = resolveDesktopProductFlavor({ ...process.env, KNORVIA_ENV: knorviaEnv });
+const knorviaProductFlavor = resolveDesktopProductFlavor({
+  ...process.env,
+  KNORVIA_ENV: knorviaEnv,
+});
 console.log(`[tsup] KNORVIA_ENV=${knorviaEnv} KNORVIA_PRODUCT_FLAVOR=${knorviaProductFlavor}`);
 
 export function resolveDesktopTsupBundleSecurityOptions(

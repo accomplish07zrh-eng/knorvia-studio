@@ -3,10 +3,7 @@ import type {
   AiSdkNetworkConfig,
   EnvRecord,
 } from "@knorvia/adapters/model";
-import {
-  resolveRuntimeKnorviaEnv,
-  KNORVIA_APP_VERSION_ENV,
-} from "@knorvia/shared";
+import { resolveRuntimeKnorviaEnv, KNORVIA_APP_VERSION_ENV } from "@knorvia/shared";
 import {
   createRuntimePlatformHeaders,
   normalizePrintableHeaderValue,

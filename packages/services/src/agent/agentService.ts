@@ -1738,9 +1738,7 @@ export function createKnorviaAgentService(
               workspaceKey: resolveWorkspaceKey(workspace),
             });
           };
-          const parsed = sessionRequestRuntimePreferencesParamsSchema.safeParse(
-            request.params,
-          );
+          const parsed = sessionRequestRuntimePreferencesParamsSchema.safeParse(request.params);
           if (!parsed.success) {
             void client
               .respondError(request.id, {
@@ -3267,7 +3265,9 @@ export function createKnorviaAgentService(
       );
     },
 
-    async resolveSuggestedPluginReference(params: KnorviaAgentResolveSuggestedPluginReferenceParams) {
+    async resolveSuggestedPluginReference(
+      params: KnorviaAgentResolveSuggestedPluginReferenceParams,
+    ) {
       const client = await getPluginManagementClient();
       return client.request(
         knorviaProtocolMethods.pluginsResolveSuggestedReference,
@@ -3990,9 +3990,7 @@ export function createKnorviaAgentService(
       }
       let preferences: KnorviaSessionRuntimePreferencesResult;
       try {
-        preferences = sessionRuntimePreferencesResultSchema.parse(
-          params.resolution.preferences,
-        );
+        preferences = sessionRuntimePreferencesResultSchema.parse(params.resolution.preferences);
       } catch (error) {
         logger.warn(undefined, "Host 返回运行时偏好格式非法", {
           ...responseContext,

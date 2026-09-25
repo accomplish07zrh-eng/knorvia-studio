@@ -27,7 +27,12 @@ function side(run: StudioRun, nodeId: string): WorkflowNodeComparisonSide {
   if (!node) return { label: nodeId, state: "absent", output: "", truncated: false };
   const raw = run.checkpoint.values[valueKey(nodeId)];
   if (raw === undefined)
-    return { label: node.data.label || node.data.kind, state: "notRecorded", output: "", truncated: false };
+    return {
+      label: node.data.label || node.data.kind,
+      state: "notRecorded",
+      output: "",
+      truncated: false,
+    };
   try {
     const parsed: unknown = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") throw new Error("Invalid result");
@@ -42,7 +47,12 @@ function side(run: StudioRun, nodeId: string): WorkflowNodeComparisonSide {
       truncated: full.length > OUTPUT_LIMIT,
     };
   } catch {
-    return { label: node.data.label || node.data.kind, state: "unreadable", output: "", truncated: false };
+    return {
+      label: node.data.label || node.data.kind,
+      state: "unreadable",
+      output: "",
+      truncated: false,
+    };
   }
 }
 
@@ -50,7 +60,12 @@ function side(run: StudioRun, nodeId: string): WorkflowNodeComparisonSide {
 export function compareWorkflowRuns(first: StudioRun, second: StudioRun): WorkflowNodeComparison[] {
   if (first.kind !== "workflow" || second.kind !== "workflow" || first.targetId !== second.targetId)
     throw new Error("Runs must belong to the same workflow.");
-  const ids = [...new Set([...frozenNodes(first).map((node) => node.id), ...frozenNodes(second).map((node) => node.id)])];
+  const ids = [
+    ...new Set([
+      ...frozenNodes(first).map((node) => node.id),
+      ...frozenNodes(second).map((node) => node.id),
+    ]),
+  ];
   return ids.map((id) => {
     const before = side(first, id);
     const after = side(second, id);
@@ -58,7 +73,10 @@ export function compareWorkflowRuns(first: StudioRun, second: StudioRun): Workfl
       id,
       first: before,
       second: after,
-      changed: before.state !== after.state || before.output !== after.output || before.truncated !== after.truncated,
+      changed:
+        before.state !== after.state ||
+        before.output !== after.output ||
+        before.truncated !== after.truncated,
     };
   });
 }

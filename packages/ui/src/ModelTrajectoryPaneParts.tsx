@@ -133,7 +133,9 @@ function SourceTitle({ record, intl }: { record: KnorviaModelTrajectoryRecord; i
   );
 }
 
-function sourceLabelId(callSource: NonNullable<KnorviaModelTrajectoryRecord["callSource"]>): string {
+function sourceLabelId(
+  callSource: NonNullable<KnorviaModelTrajectoryRecord["callSource"]>,
+): string {
   switch (callSource.querySource) {
     case "main_turn":
       return "modelTrajectory.source.main";

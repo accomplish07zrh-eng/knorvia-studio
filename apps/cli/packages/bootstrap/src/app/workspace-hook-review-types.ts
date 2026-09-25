@@ -6,7 +6,10 @@ import {
   type Logger,
   type WorkspaceHookAdmissionUpdatedPayload,
 } from "@knorvia/contracts";
-import type { WorkspaceHookRuntimeAdmissionPort, WorkspaceHookTrustCoordinator } from "@knorvia/core";
+import type {
+  WorkspaceHookRuntimeAdmissionPort,
+  WorkspaceHookTrustCoordinator,
+} from "@knorvia/core";
 import type { WorkspaceHookReviewRequestPayload } from "@knorvia/shared/protocol-v4";
 
 export type WorkspaceHookReviewLifecycleEvent =

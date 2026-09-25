@@ -1,8 +1,9 @@
 {
   "name": "@knorvia/node-repl-host",
-  "private": true,
   "version": "0.7.0",
+  "private": true,
   "description": "Knorvia isolated JavaScript execution host and authenticated local bridges.",
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": "./src/server.ts",
@@ -19,11 +20,11 @@
     "lint": "oxlint src --no-ignore"
   },
   "dependencies": {
-    "@modelcontextprotocol/server": "2.0.0",
     "@knorvia/contracts": "workspace:*",
     "@knorvia/core": "workspace:*",
-    "@knorvia/shared": "workspace:*",
     "@knorvia/cua": "workspace:*",
+    "@knorvia/shared": "workspace:*",
+    "@modelcontextprotocol/server": "2.0.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -31,6 +32,5 @@
     "@types/node": "^24.0.0",
     "esbuild": "^0.25.0",
     "typescript": "^5.9.0"
-  },
-  "license": "MIT"
+  }
 }

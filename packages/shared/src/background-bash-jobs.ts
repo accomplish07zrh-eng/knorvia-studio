@@ -37,6 +37,8 @@ export function collectVisibleKnorviaBackgroundBashJobs(
   >;
 }
 
-function isBackgroundBashJob(job: KnorviaBackgroundTaskControlItem): job is KnorviaBackgroundBashJob {
+function isBackgroundBashJob(
+  job: KnorviaBackgroundTaskControlItem,
+): job is KnorviaBackgroundBashJob {
   return job.taskKind === "bash";
 }

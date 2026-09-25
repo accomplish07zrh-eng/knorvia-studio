@@ -511,8 +511,8 @@ function createProviderProxyFetch(options: ProviderProxyFetchOptions): ProviderF
  * 模型请求始终使用用户配置的供应商地址，并沿用统一 HTTP 代理和取消语义。
  */
 function createProviderTransportFetch(options: ProviderProxyFetchOptions): ProviderFetch {
-    // Knorvia uses the explicitly configured provider endpoint, without a product account gateway.
-    return createProviderProxyFetch(options);
+  // Knorvia uses the explicitly configured provider endpoint, without a product account gateway.
+  return createProviderProxyFetch(options);
 }
 
 async function detectProviderBusinessError(

@@ -85,7 +85,9 @@ const REQUIRED_LOCAL_RUNTIME_ASSETS = [
           label: "Windows browser import helper",
           script: "prepare:browser-import-helper",
           isReady: () =>
-            existsSync(join(bundledToolsRoot, "browser-import", "knorvia-browser-import-helper.exe")),
+            existsSync(
+              join(bundledToolsRoot, "browser-import", "knorvia-browser-import-helper.exe"),
+            ),
         },
       ]
     : []),

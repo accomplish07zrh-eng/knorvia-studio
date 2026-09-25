@@ -487,7 +487,9 @@ export const knorviaContextUsageBreakdownItemSchema = z
     chars: z.number().int().nonnegative(),
   })
   .strict();
-export type KnorviaContextUsageBreakdownItem = z.infer<typeof knorviaContextUsageBreakdownItemSchema>;
+export type KnorviaContextUsageBreakdownItem = z.infer<
+  typeof knorviaContextUsageBreakdownItemSchema
+>;
 export const knorviaContextUsageBreakdownSchema = z.array(knorviaContextUsageBreakdownItemSchema);
 export const sessionContextUsageSchema = z
   .object({
@@ -520,7 +522,9 @@ export const sessionRuntimeStateSchema = z
   })
   .strict();
 export type KnorviaSessionRuntimeState = z.infer<typeof sessionRuntimeStateSchema>;
-export type KnorviaSessionActiveTurnKind = NonNullable<KnorviaSessionRuntimeState["activeTurnKind"]>;
+export type KnorviaSessionActiveTurnKind = NonNullable<
+  KnorviaSessionRuntimeState["activeTurnKind"]
+>;
 export function textFromKnorviaMessageParts(parts: readonly KnorviaMessagePart[]): string {
   return parts
     .filter((part): part is Extract<KnorviaMessagePart, { type: "text" }> => part.type === "text")

@@ -133,7 +133,10 @@ function readTrimmedEnv(name: string): string | undefined {
 
 function resolveServerId(options: HttpServerOptions): string {
   return (
-    options.serverId?.trim() || readTrimmedEnv("KNORVIA_SERVER_ID") || hostname() || "knorvia-server"
+    options.serverId?.trim() ||
+    readTrimmedEnv("KNORVIA_SERVER_ID") ||
+    hostname() ||
+    "knorvia-server"
   );
 }
 

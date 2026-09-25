@@ -12,10 +12,7 @@ import { createStudioRuntimeService } from "./studio-runtime/node.js";
 import type { RemoteStudioEnvironment } from "./studio-runtime/adapters/kernels/remoteKernelBridge.js";
 import { ICreationService } from "./creation/contract.js";
 import { createCreationService } from "./creation/node.js";
-import {
-  createCreationAgentBridge,
-  type CreationAgentBridge,
-} from "./studio-runtime/node.js";
+import { createCreationAgentBridge, type CreationAgentBridge } from "./studio-runtime/node.js";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getKnorviaDataRootDir, getAppConfigDir as resolveAppConfigDir } from "./paths.js";

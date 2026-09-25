@@ -13,13 +13,16 @@ export async function prepareKnorviaTelemetryEnv(
   env: NodeJS.ProcessEnv = process.env,
   options: PrepareModelTelemetryOptions = {},
 ): Promise<NodeJS.ProcessEnv> {
-  const prepared = await prepareModelTelemetryEnv({
-    ...getCapturedKnorviaAgentTelemetryEnv(),
-    ...env,
-  }, {
-    ...options,
-    productVersion: options.productVersion ?? env.KNORVIA_APP_VERSION,
-  });
+  const prepared = await prepareModelTelemetryEnv(
+    {
+      ...getCapturedKnorviaAgentTelemetryEnv(),
+      ...env,
+    },
+    {
+      ...options,
+      productVersion: options.productVersion ?? env.KNORVIA_APP_VERSION,
+    },
+  );
   const deviceMid = prepared.KNORVIA_TELEMETRY_DEVICE_MID;
   return deviceMid ? { ...env, KNORVIA_TELEMETRY_DEVICE_MID: deviceMid } : env;
 }

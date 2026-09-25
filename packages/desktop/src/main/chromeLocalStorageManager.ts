@@ -329,7 +329,9 @@ async function navigateToStorageOrigin(transport: CdpTransport, origin: string):
   }
 }
 
-async function waitForChromeDebuggerUrl(child: ChildProcessByStdio<null, Readable, Readable>): Promise<string> {
+async function waitForChromeDebuggerUrl(
+  child: ChildProcessByStdio<null, Readable, Readable>,
+): Promise<string> {
   return withTimeout(
     new Promise<string>((resolve, reject) => {
       let stderr = "";
@@ -380,7 +382,9 @@ async function findChromePageTarget(browserDebuggerUrl: string): Promise<string>
   throw new Error("chrome_helper_page_missing");
 }
 
-async function stopChromeHelper(child: ChildProcessByStdio<null, Readable, Readable>): Promise<void> {
+async function stopChromeHelper(
+  child: ChildProcessByStdio<null, Readable, Readable>,
+): Promise<void> {
   if (child.exitCode !== null) return;
   const exited = new Promise<void>((resolve) => child.once("exit", () => resolve()));
   child.kill();

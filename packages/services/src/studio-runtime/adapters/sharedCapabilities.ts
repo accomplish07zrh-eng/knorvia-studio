@@ -287,7 +287,10 @@ export function withStudioSharedCapabilities(
                 text: `Studio 插件 MCP 兼容提示：${warnings.join("；").slice(0, 12_000)}`,
               });
             if (kernel === "claude-code" && servers.length) {
-              const config = await writeTemporaryMcpConfig(options.dataDir, claudeMcpConfig(servers));
+              const config = await writeTemporaryMcpConfig(
+                options.dataDir,
+                claudeMcpConfig(servers),
+              );
               temporaryDirectory = config.directory;
               projected.sharedMcpConfigPath = config.path;
             }

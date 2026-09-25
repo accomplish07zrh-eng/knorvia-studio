@@ -64,8 +64,7 @@ function isPathProjectableUserMedia(
   // path 是可选增强；只有 artifact URI 或已有本地 path 才参与物化，避免阻断既有媒体发送。
   return (
     (block.type === "image" || block.type === "video" || isPdfBlock(block)) &&
-    ((block.source?.kind === "inline" &&
-      isArtifactUri(block.source.uri)) ||
+    ((block.source?.kind === "inline" && isArtifactUri(block.source.uri)) ||
       (block.source?.kind === "local_file" && Boolean(block.source.path)))
   );
 }

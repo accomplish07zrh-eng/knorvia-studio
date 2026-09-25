@@ -12,10 +12,7 @@ export function resolveKnorviaBuiltinProviderConfigFilePath(options?: {
   ]?.trim();
   if (explicitPath) return explicitPath;
   if (options?.isPackaged ?? app.isPackaged) {
-    return join(
-      options?.resourcesPath ?? process.resourcesPath,
-      "config/provider/builtin.json",
-    );
+    return join(options?.resourcesPath ?? process.resourcesPath, "config/provider/builtin.json");
   }
   // 开发态与打包共用唯一线上配置源。
   const filename = "builtin.json";
