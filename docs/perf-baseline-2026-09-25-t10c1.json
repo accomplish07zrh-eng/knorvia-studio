@@ -1,0 +1,146 @@
+{
+  "measuredAt": "2026-09-25T15:29:14.952Z",
+  "platform": "win32",
+  "node": "v26.3.0",
+  "scroll": {
+    "syntheticMessages": 10000,
+    "frames": 180,
+    "headlessRafCallbacksPerSecond": 94.5,
+    "frameIntervalP50Ms": 9.9,
+    "frameIntervalP95Ms": 23.5,
+    "slowFramesOver33Ms": 0,
+    "maxMountedRows": 20,
+    "offscreenAppendShiftPx": 0,
+    "prependAnchorShiftPx": 0,
+    "viewport": "1440x900",
+    "browserVersion": "154.0.8037.57"
+  },
+  "desktop": {
+    "executable": "D:\\tools\\knorvia-studio\\packages\\desktop\\dist\\win-unpacked\\Knorvia Studio.exe",
+    "env": "KNORVIA_ENV=production",
+    "dataProfile": "isolated temp profile (KNORVIA_PORTABLE_DIR), fresh for the cold sample",
+    "samples": [
+      {
+        "kind": "cold",
+        "launcherToProcessMs": 1172,
+        "firstWindowMs": 1724,
+        "firstInteractiveMs": 5904,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 5897,
+        "hostUtilityProcessSpawnMs": 2143,
+        "launcherClockSkewMs": -7,
+        "phases": {
+          "processToMainModuleMs": 881,
+          "mainModuleToAppReadyMs": 69,
+          "appReadyToWindowLoadMs": 327,
+          "windowLoadToRendererStartMs": 842,
+          "rendererStartToFirstCommitMs": 18,
+          "firstCommitToHostSpawnMs": 6,
+          "hostSpawnToFirstInteractiveMs": 3754
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1153.5,
+          "privateCommitMiB": 1143.7
+        },
+        "readyToSend": null
+      },
+      {
+        "kind": "warm",
+        "launcherToProcessMs": 948,
+        "firstWindowMs": 1457,
+        "firstInteractiveMs": 5501,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 5496,
+        "hostUtilityProcessSpawnMs": 2000,
+        "launcherClockSkewMs": -5,
+        "phases": {
+          "processToMainModuleMs": 808,
+          "mainModuleToAppReadyMs": 70,
+          "appReadyToWindowLoadMs": 304,
+          "windowLoadToRendererStartMs": 794,
+          "rendererStartToFirstCommitMs": 19,
+          "firstCommitToHostSpawnMs": 5,
+          "hostSpawnToFirstInteractiveMs": 3496
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1154.4,
+          "privateCommitMiB": 1146.6
+        },
+        "readyToSend": null
+      },
+      {
+        "kind": "warm",
+        "launcherToProcessMs": 955,
+        "firstWindowMs": 1490,
+        "firstInteractiveMs": 5554,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 5550,
+        "hostUtilityProcessSpawnMs": 2034,
+        "launcherClockSkewMs": -4,
+        "phases": {
+          "processToMainModuleMs": 817,
+          "mainModuleToAppReadyMs": 69,
+          "appReadyToWindowLoadMs": 327,
+          "windowLoadToRendererStartMs": 797,
+          "rendererStartToFirstCommitMs": 19,
+          "firstCommitToHostSpawnMs": 5,
+          "hostSpawnToFirstInteractiveMs": 3516
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1155.8,
+          "privateCommitMiB": 1150.2
+        },
+        "readyToSend": null
+      }
+    ],
+    "firstInteractiveMs": {
+      "samples": 3,
+      "min": 5501,
+      "median": 5554,
+      "max": 5904
+    },
+    "hostStartup": {
+      "bytes": 17760,
+      "mainWindowRequestedAtMs": 0,
+      "domReadyAtMs": 997,
+      "hostForkAtMs": 1007,
+      "hostServicesInitAtMs": 4184,
+      "hostServicesReadyAtMs": 4468,
+      "databaseStartup": {
+        "status": "ready",
+        "durationMs": 2654
+      },
+      "anchorFromProcessCreateMs": 1136,
+      "fromProcessCreateMs": {
+        "domReady": 2133,
+        "hostFork": 2143,
+        "hostServicesInit": 5320,
+        "hostServicesReady": 5604
+      }
+    },
+    "readyToSend": {
+      "firstInteractiveMs": 5529,
+      "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+      "readyToSendMs": 1526,
+      "readyToSendReached": true,
+      "readyToSendSelector": "[data-testid=\"v4-composer-input\"]",
+      "readyToSendReason": null,
+      "note": "onboarding was skipped in this isolated profile before measuring the composer"
+    },
+    "coldStartToOnboardingMs": 5904,
+    "idle": {
+      "processCount": 7,
+      "summedWorkingSetMiB": 1153.5,
+      "privateCommitMiB": 1143.7
+    }
+  },
+  "portable": {
+    "path": "D:\\tools\\knorvia-studio\\packages\\desktop\\dist\\win-unpacked",
+    "bytes": 660219249,
+    "files": 118,
+    "excludes": ["data/"]
+  }
+}

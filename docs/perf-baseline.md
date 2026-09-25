@@ -110,3 +110,38 @@ Host 侧归因来自应用自己的生产日志（Host 日志经 main 转发，�
 - 内核/CLI 探测开销：本机没有检测到本机安装的 CLI 内核（Host 日志为 `Knorvia agent binary path: <not found>`、`providerCount: 0`），而内核探测本来就是首屏之后的 renderer 行为；`packages/services/src/studio-runtime/adapters/kernels/README.md` 记录的“约 20 s 握手、每次刷新重复”在本机无法复现，因此没有改动 `kernelRegistry.ts`。
 - 真实模型 / CLI / SSH 发送延迟、真实 10,000 条持久历史的内存测量、安装向导、人工目视复核、物理显示器帧率。
 - 桌面侧源码改动（若日后要做）必须重新打包后按同样命令重测，本轮的数字不能用于验证打包改动。
+
+## T10 后续：并行准备两个数据库（6e1b4f2）
+
+### 证据与改动
+
+只读复核确认启动链里 2.8–3.0 s 的存储准备由两段组成，且**串行**执行：`prepareHostStorage`（tasks-index，`<configDir>/tasks-index.sqlite`）先被 await，之后才是逐个 cwd 的 `prepareSessionStorage`（CLI 会话库，`<dataRoot>/cli/db/db.sqlite`）。两者是不同文件、不同 WAL，互不依赖，串行只是把两段固定成本相加。
+
+改动（`packages/desktop/src/host/hostDatabaseStartup.ts`）：两库并行准备，同时保持原有可观察行为——阶段通知仍按 `preparing_host_storage → preparing_session_storage → starting_services` 顺序发出（会话阶段先缓冲、tasks-index 结束后补发），失败优先级仍按同一顺序判定；tasks-index 失败时不补发缓冲通知，直接进入 failed；会话库的拒绝先挂空处理器避免未处理拒绝。
+
+明确**不做**（复核报告列为禁止项）：不删除第 2/3 个工作目录的会话库准备（相对 `sessionDbPath` 按各自 cwd 解析，删掉会让某个库静默未准备）；不跳过迁移前快照、backfill 与账本校验；不在 `prepare` 完成前释放端口或挂载服务。
+
+### 测量条件与前后对比
+
+同一台机器（Windows 11 26200 / Ryzen 9 7845HX / 31.2 GiB / Node v26.3.0）、同一命令、同一脚本版本、每个样本使用独立的临时数据根：
+
+```text
+node scripts/perf-baseline.mjs --executable <win-unpacked/Knorvia Studio.exe> \
+  --portable-dir <win-unpacked> --desktop-samples 3
+```
+
+| 指标                             | 改动前 `dc51d26`      | 改动后 `6e1b4f2`      | 变化                  |
+| -------------------------------- | --------------------- | --------------------- | --------------------- |
+| 首次可交互 min / median / max    | 5747 / 5799 / 6264 ms | 5501 / 5554 / 5904 ms | −246 / −245 / −360 ms |
+| Host fork → 首次可交互（3 样本） | 3731 / 3782 / 4078 ms | 3516 / 3496 / 3754 ms | 约 −266 ms            |
+| `[database-startup]` durationMs  | 2906 ms               | 2654 ms               | −252 ms               |
+| hostFork → hostServicesInit      | 3451 ms               | 3177 ms               | −274 ms               |
+| 从进程创建到首次可交互           | 5907 ms               | 5604 ms               | −303 ms               |
+
+机器可读记录：`docs/perf-baseline-2026-09-25-t10c1.json`（改动后）。
+
+### 结论（如实）
+
+- 收益约 **250–300 ms**（总冷启动约 5 %、存储准备约 9 %），三个独立指标方向一致；落在复核预估 0.3–0.8 s 的下沿。
+- **`<3 秒` 仍未达标**（改动后约 5.5 s）。该区域的固定成本（15.9 MB CLI 包启动、SQLite 建库/WAL/fsync）无法靠存储层改动消除；要达标必须把「首次可交互」与数据库就绪解耦，这属于产品/架构决策，本轮没有擅自改动。
+- 对比的两个构建是不同提交、不同时间点测量，条件已逐项对齐（同机、同命令、同脚本、独立临时数据根）；不把该差值当作跨机器结论。
