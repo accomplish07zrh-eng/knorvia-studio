@@ -52,18 +52,30 @@ export interface StudioAgentStep {
 /**
  * 已核验的上游输出作为下游输入。
  *
- * **刻意不接受绝对路径**：来源完全由 (sourceRunId, sourceStepId, relativePath) 决定，
- * 由 Host 自己从上游工作区解析。这样既能让下游拿到副本，又不会因为"加一个导入能力"而放开
- * Studio 自己的整个数据目录（通用 `importFile` 仍然拒绝导入内部存储）。
+ * **刻意不接受调用方给的任意绝对路径**：`workspace-file` 的来源完全由
+ * (sourceRunId, sourceStepId, relativePath) 决定；`creation-output` 的绝对路径只在 Host 侧
+ * 由 CreationService 解析得到，并且**必须带哈希**——导入时核对不符即拒绝。
+ * 这样既能让下游拿到副本，又不会因为"加一个导入能力"而放开 Studio 自己的整个数据目录
+ * （通用 `importFile` 仍然拒绝导入内部存储）。
  */
-export interface StudioStepInput {
-  name: string;
-  sourceRunId: string;
-  sourceStepId: string;
-  relativePath: string;
-  /** 记录时的哈希；给出时导入必须核对，不一致即拒绝。 */
-  sha256?: string;
-}
+export type StudioStepInput =
+  | {
+      kind: "workspace-file";
+      name: string;
+      sourceRunId: string;
+      sourceStepId: string;
+      relativePath: string;
+      /** 记录时的哈希；给出时导入必须核对，不一致即拒绝。 */
+      sha256?: string;
+    }
+  | {
+      kind: "creation-output";
+      name: string;
+      /** 目标工作区内的落点（与绑定文本给下游的路径一致）。 */
+      targetPath: string;
+      sourcePath: string;
+      sha256: string;
+    };
 /** 跨隔离目录导入的回执：来源记录 + 复制后的真实版本。源文件永不被写回。 */
 export interface StudioImportReceipt {
   /** 导入到本次运行工作区内的相对路径。 */
@@ -150,18 +162,25 @@ export interface StudioWorkspacePort {
     relativePath: string,
   ): Promise<StudioReferenceVersion>;
   /**
-   * 把**已核验的上游输出**复制进本次运行的工作区，并把副本放回同一相对路径。
+   * 把**已核验的上游输出**复制进本次运行的工作区，并把副本放到 `relativePath`。
    *
-   * 与 `importFile` 的区别在来源：这里不接收调用方给的绝对路径，而是按
-   * (sourceRunId, sourceStepId, relativePath) 从上游工作区自己解析，因此不需要放开
-   * Studio 数据目录。`expectedSha256` 给出时必须核对，不一致或读不到一律失败关闭。
+   * 与 `importFile` 的区别在来源：这里不接收调用方给的任意绝对路径。
+   * `workspace-file` 按 (sourceRunId, sourceStepId, relativePath) 从上游工作区自己解析；
+   * `creation-output` 的 `sourcePath` 由 Host 经 CreationService 解析，且**必须**带 `sha256`，
+   * 导入前核对不符即拒绝。
    */
   importReference?(params: {
     runId: string;
     stepId: string;
-    sourceRunId: string;
-    sourceStepId: string;
+    /** 目标工作区内的落点。 */
     relativePath: string;
-    expectedSha256?: string;
+    source:
+      | {
+          kind: "workspace-file";
+          sourceRunId: string;
+          sourceStepId: string;
+          expectedSha256?: string;
+        }
+      | { kind: "creation-output"; sourcePath: string; sha256: string };
   }): Promise<StudioImportReceipt>;
 }

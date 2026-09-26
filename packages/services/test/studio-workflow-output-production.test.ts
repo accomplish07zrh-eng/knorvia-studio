@@ -54,6 +54,14 @@ async function fixture(t: TestContext, adapter: StudioKernelAdapter, creation?: 
       prepare: async ({ sourcePath }) => sourcePath,
       changes: async () => [],
       apply: async () => {},
+      // 本用例的工作区是假的（prepare 直接返回项目路径），跨隔离导入只需一个可用的替身；
+      // 真实的导入语义与失败关闭由 studio-workflow-input-handoff.test.ts 用真实工作区管理器覆盖。
+      importReference: async ({ relativePath }) => ({
+        path: relativePath,
+        sourcePath: `/fake/${relativePath}`,
+        hash: "a".repeat(64),
+        size: 1,
+      }),
     },
     onDidChange: Event.None,
     notify: () => {},
@@ -284,6 +292,8 @@ test("a creation node produces creation-output refs from the real job and downst
     runId: accepted.id,
     creationJobId: "job-1",
     outputId: "out-1",
+    // 成果文件名来自真实落盘路径的文件名，下游按它拿副本。
+    fileName: "out-1.png",
     sha256: HASH,
   });
   // 下游节点确实执行了（说明引用经 CreationService 证据核验后被接受）。

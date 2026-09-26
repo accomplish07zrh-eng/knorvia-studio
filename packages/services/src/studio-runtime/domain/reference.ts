@@ -14,6 +14,7 @@
 import {
   decodeStepOutputs,
   isStudioOutputRelativePath,
+  studioCreationInputPath,
   StudioUnsupportedCheckpointVersionError,
   type StudioOutputRef,
 } from "./outputRef.js";
@@ -238,22 +239,35 @@ export interface StudioWorkflowReferenceHost {
   creationOutputVersion?(
     jobId: string,
     outputId: string,
-  ): Promise<{ exists: boolean; sha256: string | null } | null>;
+  ): Promise<{ exists: boolean; sha256: string | null; path?: string } | null>;
 }
 
 export const STUDIO_REFERENCE_PLACEHOLDER = /\{\{ref\.([^{}]+)\}\}/g;
 
 /**
- * 已核验的 `workspace-file` 引用。下游隔离工作区里并没有这个文件，因此需要 Host 按这份身份
- * 把副本导入目标工作区（见 `specs/knorvia-host-references.md`「跨隔离输入」）。
+ * 已核验的引用输入。下游隔离工作区里并没有这些文件，因此需要 Host 按这份身份把副本导入目标工作区
+ * （见 `specs/knorvia-host-references.md`「跨隔离输入」）。
+ *
+ * - `workspace-file`：来源是上游隔离工作区里的相对路径；
+ * - `creation-output`：来源是创作存储里的绝对路径，只在 Host 侧解析得到，且**必须带哈希**才能交接。
  */
-export interface StudioResolvedReferenceInput {
-  name: string;
-  sourceRunId: string;
-  sourceStepId: string;
-  relativePath: string;
-  sha256?: string;
-}
+export type StudioResolvedReferenceInput =
+  | {
+      kind: "workspace-file";
+      name: string;
+      sourceRunId: string;
+      sourceStepId: string;
+      relativePath: string;
+      sha256?: string;
+    }
+  | {
+      kind: "creation-output";
+      name: string;
+      /** 目标工作区内的固定落点（与 `studioReferenceText` 给下游的路径一致）。 */
+      targetPath: string;
+      sourcePath: string;
+      sha256: string;
+    };
 
 /** 解析结果：供提示词代入的文本值，以及需要由 Host 导入的文件输入。 */
 export interface StudioWorkflowBindings {
@@ -296,6 +310,7 @@ export async function resolveStudioWorkflowBindings(params: {
       referenceWorkspaceIdentity: studioReferenceIdentity(params.host.workspaceIdentity),
     };
     let evidence: StudioReferenceFileEvidence | undefined;
+    let creationSource: { exists: boolean; sha256: string | null; path?: string } | undefined;
     if (found.ref.kind === "workspace-file") {
       if (!params.host.fileVersion)
         throw new Error(
@@ -318,6 +333,7 @@ export async function resolveStudioWorkflowBindings(params: {
         found.ref.outputId,
       );
       evidence = version ?? { exists: false, sha256: null };
+      creationSource = version?.exists ? version : undefined;
     }
     const verdict = studioReferenceResolve({ ref: found.ref, context, evidence });
     if (!verdict.ok) throw new Error(`Workflow reference ${name} was rejected: ${verdict.detail}.`);
@@ -325,11 +341,22 @@ export async function resolveStudioWorkflowBindings(params: {
     // 文件引用还要交给 Host 导入下游工作区：上游工作区里有这个相对路径，不代表下游也有。
     if (found.ref.kind === "workspace-file")
       files.push({
+        kind: "workspace-file",
         name,
         sourceRunId: found.ref.runId,
         sourceStepId: found.ref.stepId,
         relativePath: found.ref.relativePath,
         ...(found.ref.sha256 ? { sha256: found.ref.sha256 } : {}),
+      });
+    // 创作成果同理：下游拿不到创作存储路径，必须由 Host 把副本放进目标工作区。
+    // 没有哈希就无法核对字节，因此**不交接**（引用本身仍可用于文本/结构校验）。
+    else if (found.ref.kind === "creation-output" && creationSource?.path && creationSource.sha256)
+      files.push({
+        kind: "creation-output",
+        name,
+        targetPath: studioCreationInputPath(found.ref.fileName),
+        sourcePath: creationSource.path,
+        sha256: creationSource.sha256,
       });
   }
   return { values, files };
@@ -356,7 +383,7 @@ function findWorkflowOutput(
   return undefined;
 }
 
-/** 引用的可执行文本：内联值原样使用，文件类引用只交出经过校验的引用位置。 */
+/** 引用的可执行文本：内联值原样使用，文件类引用交出**下游工作区内**的落点。 */
 function studioReferenceText(ref: StudioOutputRef): string {
   switch (ref.kind) {
     case "text":
@@ -366,6 +393,7 @@ function studioReferenceText(ref: StudioOutputRef): string {
     case "workspace-file":
       return ref.relativePath;
     default:
-      return ref.outputId;
+      // 创作成果由 Host 复制到固定落点，这里给出同一路径，保证两边一致。
+      return studioCreationInputPath(ref.fileName);
   }
 }

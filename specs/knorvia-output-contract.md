@@ -168,15 +168,28 @@ export interface StudioOutputRefsDecodeResult {
 对非 `text`/`json` 引用在没有证据时一律 `reject("missing", ...)`。所以当时的行为是**因缺证据被拒绝**，
 不是「无证据放行」；本次补的是生产者与取证方法，以及缺失的运行归属。
 
+### 创作成果的跨隔离交接
+
+创作成果存在 Studio 的创作存储里，下游 Agent 的隔离工作区里没有它，因此也要受控交接：
+
+| 环节     | 规则                                                                                                                                                                                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 引用     | `creation-output` 引用携带 `fileName`（来自成果真实落盘路径的文件名，含扩展名）；只允许单段、无路径分隔符、无 `..`                                                                                                                                           |
+| 绑定文本 | `studioReferenceText` 对创作引用返回**固定落点** `creation-input/<fileName>`（`studioCreationInputPath`），与真实导入落点一致                                                                                                                                |
+| 证据     | 宿主经 CreationService 解析出成果的**绝对路径**与哈希；查不到即失败关闭                                                                                                                                                                                      |
+| 交接     | `resolveStudioWorkflowBindings` 产出 `{ kind: "creation-output", targetPath, sourcePath, sha256 }` 输入；`turnExecutor` 在目标工作区准备好后调用 `importReference`，导入前**必须**核对哈希（无哈希或哈希不符一律拒绝），副本落在 `creation-input/<fileName>` |
+| 边界     | 绝对路径只在 Host 侧解析，**不进入引用、不来自前端**；通用 `importFile` 对内部存储的限制不变                                                                                                                                                                 |
+
+端到端验收：`studio-workflow-file-handoff.test.ts` 的「a creation output reaches the downstream workspace as a media copy」
+——创作节点产出 `creation-output` 引用（带 `fileName` 与真实哈希），下游在自己的工作区里读到 `creation-input/art.png` 的媒体副本。
+
 ### 仍未接通（不得当成已完成）
 
-- **创作引用的文件交接**：`{{ref.<creation-output>}}` 目前解析出的文本是 `outputId`（`studioReferenceText` 的
-  默认分支），不是可打开的文件路径；下游隔离工作区里也没有那份媒体文件。要真正交付媒体，
-  需要把创作成果也纳入 `importReference` 的受控导入（当前受控导入只覆盖 `workspace-file`）。
 - 创作任务的运行归属只在引用层面核对（`runId` 字段）；CreationService 的 job 记录里没有运行来源字段，
   因此做不到「按 job 反查归属」。若要更强的归属保证，需要在创作契约里补来源字段。
 - 创作节点的命名输出仍按「名字数 → text/json」推断：`creation-output` 由创作服务记录决定，
   不读节点的 `outputs` 声明（`outputs` 的三种来源只用于 Agent 节点）。
+- 媒体路径只在**服务层**端到端跑通，尚未在打包应用上跑工作流界面。
 
 ## 检查点边界
 

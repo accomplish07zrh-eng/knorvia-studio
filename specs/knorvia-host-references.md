@@ -69,10 +69,12 @@
 
 **已接通**：节点用 `outputs: [{ name, from: "file" }]` 声明文件来源，Host 核对文件与哈希后产出
 `workspace-file` 引用；下游引用时由本节的 `importReference` 把副本导入目标工作区。
-端到端验收见 `packages/services/test/studio-workflow-file-handoff.test.ts`。
+**创作成果也已接通**：`creation-output` 引用携带 `fileName`，绑定文本与真实落点都是
+`creation-input/<fileName>`；`importReference` 的 `creation-output` 来源由 Host 经 CreationService 解析出
+绝对路径，且**必须**带 `sha256`，导入前核对不符即拒绝。
+端到端验收见 `packages/services/test/studio-workflow-file-handoff.test.ts`（上游文件副本 + 创作媒体副本两条）。
 
-**仍未接通**：创作成果（`creation-output`）还没有纳入受控导入——`{{ref.<creation-output>}}` 目前解析出的
-文本是 `outputId`，不是可打开的文件路径，下游工作区里也没有那份媒体文件。
+**仍未接通**：媒体路径只在服务层跑通，未在打包应用上跑工作流界面。
 
 ## 4. 参数 schema 规则
 

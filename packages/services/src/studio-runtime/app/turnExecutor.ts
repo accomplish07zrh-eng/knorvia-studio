@@ -21,6 +21,7 @@ import { pendingStudioSteering } from "./pendingInbox.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { saveTurnEvent as writeTurnEvent } from "./turnEvents.js";
 import { produceStudioStepOutputs } from "./stepOutputProduction.js";
+import { importStudioStepInputs } from "./stepInputs.js";
 
 export interface StudioTurnDependencies {
   db: StudioRepository;
@@ -119,7 +120,8 @@ export async function executeStudioTurn(
     // 跨隔离输入：上游工作区里有这个相对路径，不代表下游工作区也有这份文件。
     // 由 Host 按「运行/步骤/输出身份」从上游工作区取到副本，放进本次工作区的**同一相对路径**，
     // 因此提示词里的相对路径在下游依然有效；源文件始终只读，通用 importFile 的内部存储限制不变。
-    await importStudioStepInputs(deps, {
+    await importStudioStepInputs({
+      workspaces: deps.workspaces,
       runId: workspaceRunId,
       stepId: workspaceStepId,
       inputs: step.inputs ?? [],
@@ -352,35 +354,6 @@ export async function executeStudioTurn(
       db.write("run", current.id, current, current.targetId);
     });
   return outcome;
-}
-
-/**
- * 把已核验的上游文件输出导入本次运行的隔离工作区。
- *
- * 只对隔离工作区生效（共享项目模式下游直接看同一个项目，不需要复制）；
- * 宿主没有实现窄范围导入能力时**失败关闭**，不退化为让下游去读上游路径。
- */
-async function importStudioStepInputs(
-  deps: StudioTurnDependencies,
-  params: {
-    runId: string;
-    stepId: string;
-    inputs: readonly StudioStepInput[];
-    isolated: boolean;
-  },
-): Promise<void> {
-  if (!params.inputs.length || !params.isolated) return;
-  const importReference = deps.workspaces.importReference?.bind(deps.workspaces);
-  if (!importReference) throw new Error("宿主不支持跨隔离输入导入，无法把上游输出交给下游步骤。");
-  for (const input of params.inputs)
-    await importReference({
-      runId: params.runId,
-      stepId: params.stepId,
-      sourceRunId: input.sourceRunId,
-      sourceStepId: input.sourceStepId,
-      relativePath: input.relativePath,
-      ...(input.sha256 ? { expectedSha256: input.sha256 } : {}),
-    });
 }
 
 function saveTurnEvent(

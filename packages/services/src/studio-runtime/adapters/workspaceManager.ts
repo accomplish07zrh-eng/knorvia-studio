@@ -173,44 +173,62 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
     /**
      * 把已核验的上游输出复制进本次运行的工作区（见 `ports.ts` 的 `importReference`）。
      *
-     * 与 `importFile` 的关键区别是**来源不是调用方给的绝对路径**，而是按
-     * `(sourceRunId, sourceStepId, relativePath)` 从上游工作区元数据解析出来的，
-     * 所以不需要放开 Studio 数据目录，`importFile` 对内部存储的限制保持不变。
+     * 与 `importFile` 的关键区别是**来源不是调用方给的任意绝对路径**：
+     * - `workspace-file` 按 `(sourceRunId, sourceStepId, relativePath)` 从上游工作区元数据解析；
+     * - `creation-output` 的绝对路径由 Host 经 CreationService 解析，且**必须**带哈希。
+     * 两种来源都要在复制前核对哈希，因此不需要放开 Studio 数据目录，
+     * `importFile` 对内部存储的限制保持不变。
      */
-    async importReference({
-      runId,
-      stepId,
-      sourceRunId,
-      sourceStepId,
-      relativePath,
-      expectedSha256,
-    }) {
+    async importReference({ runId, stepId, relativePath, source }) {
       const location = workspaceLocation(storage, runId, stepId);
       const metadata = (await readWorkspace(location, runId, stepId)) as MetadataWithImports | null;
       if (!metadata) throw new Error("Isolated workspace not found.");
       const relative = relativeFile(relativePath);
-      const upstream = workspaceLocation(storage, sourceRunId, sourceStepId);
-      const upstreamMetadata = await readWorkspace(upstream, sourceRunId, sourceStepId);
-      if (!upstreamMetadata) throw new Error("Referenced upstream workspace not found.");
-      return locked(sourceKey(metadata.sourcePath), async () => {
+
+      // 解析来源：workspace-file 读上游隔离工作区；creation-output 读创作存储里的真实成果。
+      let sourcePath: string;
+      let expected: string | undefined;
+      let data: Buffer | null;
+      if (source.kind === "workspace-file") {
+        const upstream = workspaceLocation(storage, source.sourceRunId, source.sourceStepId);
+        const upstreamMetadata = await readWorkspace(
+          upstream,
+          source.sourceRunId,
+          source.sourceStepId,
+        );
+        if (!upstreamMetadata) throw new Error("Referenced upstream workspace not found.");
         const upstreamRoot =
           upstreamMetadata.mode === "shared" ? upstreamMetadata.sourcePath : upstream.working;
-        const data = await readSafeFile(upstreamRoot, relative);
-        if (!data) throw new Error("Referenced upstream output does not exist.");
-        const sourceHash = digest(data);
-        if (expectedSha256 && expectedSha256 !== sourceHash)
-          throw new Error("Referenced upstream output changed since it was recorded.");
+        sourcePath = join(upstreamRoot, relative);
+        expected = source.expectedSha256;
+        data = await readSafeFile(upstreamRoot, relative);
+      } else {
+        if (!isAbsolute(source.sourcePath))
+          throw new Error("Referenced creation output requires an absolute source path.");
+        const absolute = resolve(source.sourcePath);
+        // readSafeFile 只接受相对文件名，这里把绝对路径拆成目录 + 文件名再校验。
+        sourcePath = join(dirname(absolute), basename(absolute));
+        expected = source.sha256;
+        data = await readSafeFile(dirname(sourcePath), basename(sourcePath));
+      }
+      if (!data) throw new Error("Referenced input does not exist.");
+      const sourceHash = digest(data);
+      // 创作成果必须核对哈希：没有可信哈希就不交接。
+      if (!expected) throw new Error("Referenced input has no recorded hash to verify.");
+      if (expected !== sourceHash)
+        throw new Error("Referenced input changed since it was recorded.");
+
+      return locked(sourceKey(metadata.sourcePath), async () => {
         const root = metadata.mode === "shared" ? metadata.sourcePath : location.working;
         const destination = join(root, relative);
         if (!inside(root, destination))
           throw new Error("Referenced input would escape the run workspace.");
-        const source = join(upstreamRoot, relative);
         // 恢复/重跑去重：已经导入过同一来源同一版本、且目标仍是那份字节时不再重写。
         const existing = metadata.imports?.[relative];
-        if (existing && existing.hash === sourceHash && existing.sourcePath === source) {
+        if (existing && existing.hash === sourceHash && existing.sourcePath === sourcePath) {
           const current = await readSafeFile(root, relative);
           if (current && digest(current) === sourceHash)
-            return { path: relative, sourcePath: source, hash: sourceHash, size: data.length };
+            return { path: relative, sourcePath, hash: sourceHash, size: data.length };
         }
         await safeDirectory(root);
         await exclusiveWrite(destination, data, 0o600);
@@ -218,11 +236,11 @@ export function createStudioWorkspaceManager(dataDir: string): StudioWorkspacePo
         if (!copied || digest(copied) !== sourceHash || copied.length !== data.length)
           throw new Error("Referenced input changed while copying.");
         await recordImport(location, metadata, relative, {
-          sourcePath: source,
+          sourcePath,
           hash: sourceHash,
           size: data.length,
         });
-        return { path: relative, sourcePath: source, hash: sourceHash, size: data.length };
+        return { path: relative, sourcePath, hash: sourceHash, size: data.length };
       });
     },
   };

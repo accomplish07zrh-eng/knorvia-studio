@@ -9,6 +9,7 @@
 import {
   assertStudioOutputRefs,
   isJsonValue,
+  isStudioOutputFileName,
   isStudioOutputId,
   isStudioOutputName,
   isStudioOutputRelativePath,
@@ -116,7 +117,7 @@ export function buildStudioCreationOutputs(input: {
   names: readonly string[];
   runId: string;
   jobId: string;
-  outputs: ReadonlyArray<{ id: string; hash?: string }>;
+  outputs: ReadonlyArray<{ id: string; fileName: string; hash?: string }>;
 }): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
   const names = [...new Set(input.names)];
   if (!names.length) return { ok: true, refs: [] };
@@ -134,12 +135,15 @@ export function buildStudioCreationOutputs(input: {
     const output = input.outputs[index]!;
     if (!isStudioOutputId(output.id))
       return { ok: false, error: `Creation output ${index} has no id.` };
+    if (!isStudioOutputFileName(output.fileName))
+      return { ok: false, error: `Creation output ${index} has no usable file name.` };
     refs.push({
       kind: "creation-output",
       name,
       runId: input.runId,
       creationJobId: input.jobId,
       outputId: output.id,
+      fileName: output.fileName,
       ...(output.hash ? { sha256: output.hash } : {}),
     });
   }

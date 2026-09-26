@@ -1,6 +1,7 @@
 import type { StudioExecutionPort } from "./ports.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import { createHash } from "node:crypto";
+import { basename } from "node:path";
 import { readCreationReference } from "../../creation/node.js";
 import type {
   StudioGroupDefinition,
@@ -119,7 +120,11 @@ export async function executeStudioRun(
               names: request.outputNames ?? [],
               runId,
               jobId: job.id,
-              outputs: job.outputs,
+              outputs: job.outputs.map((item) => ({
+                id: item.id,
+                fileName: creationOutputFileName(item),
+                ...(item.hash ? { hash: item.hash } : {}),
+              })),
             });
             if (!built.ok)
               return { status: "failed", text: "", error: built.error, resultKnown: true };
@@ -212,7 +217,8 @@ export async function executeStudioRun(
               if (!job || job.status !== "succeeded") return { exists: false, sha256: null };
               const output = job.outputs.find((item) => item.id === outputId);
               if (!output) return { exists: false, sha256: null };
-              return { exists: true, sha256: output.hash ?? null };
+              // 成果的真实落盘路径只在 Host 侧解析：引用本身不带绝对路径。
+              return { exists: true, sha256: output.hash ?? null, path: output.path };
             },
           }
         : {}),
@@ -316,4 +322,14 @@ export function expireRunInteractions(db: StudioTurnDependencies["db"], run: Sto
     if (item.runId === run.id)
       db.write("interaction", item.id, { ...item, status: "expired" }, run.targetId);
   }
+}
+
+/**
+ * 创作成果的文件名：优先取真实落盘路径的文件名（含扩展名），取不到时退回成果名。
+ * 下游拿不到创作存储的绝对路径，交接时按这个名字复制进目标工作区的固定落点。
+ */
+function creationOutputFileName(output: { name: string; path: string }): string {
+  const base = basename(output.path ?? "");
+  if (base && base !== "." && base !== ".." && !/[\\/]/u.test(base)) return base;
+  return output.name;
 }

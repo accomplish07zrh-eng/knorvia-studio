@@ -62,10 +62,13 @@ test("importReference copies a verified upstream output into the downstream work
   const receipt = await f.manager.importReference!({
     runId: "run-b",
     stepId: "step-b",
-    sourceRunId: "run-a",
-    sourceStepId: "step-a",
     relativePath: relative,
-    expectedSha256: hash,
+    source: {
+      kind: "workspace-file",
+      sourceRunId: "run-a",
+      sourceStepId: "step-a",
+      expectedSha256: hash,
+    },
   });
 
   assert.equal(receipt.path, relative, "副本放回同一相对路径，提示词里的路径在下游依然有效");
@@ -81,10 +84,13 @@ test("the downstream edit never reaches the upstream copy", async (t) => {
   await f.manager.importReference!({
     runId: "run-b",
     stepId: "step-b",
-    sourceRunId: "run-a",
-    sourceStepId: "step-a",
     relativePath: relative,
-    expectedSha256: hash,
+    source: {
+      kind: "workspace-file",
+      sourceRunId: "run-a",
+      sourceStepId: "step-a",
+      expectedSha256: hash,
+    },
   });
 
   // 下游改自己工作区里的副本：上游必须保持原样。
@@ -103,10 +109,13 @@ test("a changed upstream output is rejected instead of being handed downstream",
     f.manager.importReference!({
       runId: "run-b",
       stepId: "step-b",
-      sourceRunId: "run-a",
-      sourceStepId: "step-a",
       relativePath: relative,
-      expectedSha256: hash,
+      source: {
+        kind: "workspace-file",
+        sourceRunId: "run-a",
+        sourceStepId: "step-a",
+        expectedSha256: hash,
+      },
     }),
     /changed since it was recorded/,
   );
@@ -119,10 +128,13 @@ test("a missing upstream output is rejected", async (t) => {
     f.manager.importReference!({
       runId: "run-b",
       stepId: "step-b",
-      sourceRunId: "run-a",
-      sourceStepId: "step-a",
       relativePath: `out/missing-${relative}`,
-      expectedSha256: hash,
+      source: {
+        kind: "workspace-file",
+        sourceRunId: "run-a",
+        sourceStepId: "step-a",
+        expectedSha256: hash,
+      },
     }),
     /does not exist/,
   );
@@ -134,10 +146,13 @@ test("re-importing an unchanged output is idempotent (no duplicate write)", asyn
   const request = {
     runId: "run-b",
     stepId: "step-b",
-    sourceRunId: "run-a",
-    sourceStepId: "step-a",
     relativePath: relative,
-    expectedSha256: hash,
+    source: {
+      kind: "workspace-file",
+      sourceRunId: "run-a",
+      sourceStepId: "step-a",
+      expectedSha256: hash,
+    },
   };
   await f.manager.importReference!(request);
   const first = await readFile(join(downstream, relative), "utf8");
@@ -154,10 +169,13 @@ test("importReference never accepts a relative path that escapes the workspace",
     f.manager.importReference!({
       runId: "run-b",
       stepId: "step-b",
-      sourceRunId: "run-a",
-      sourceStepId: "step-a",
       relativePath: "../escape.md",
-      expectedSha256: hash,
+      source: {
+        kind: "workspace-file",
+        sourceRunId: "run-a",
+        sourceStepId: "step-a",
+        expectedSha256: hash,
+      },
     }),
     /Unsafe workspace path/,
   );
@@ -174,10 +192,13 @@ test("an existing different file in the destination is never overwritten", async
     f.manager.importReference!({
       runId: "run-b",
       stepId: "step-b",
-      sourceRunId: "run-a",
-      sourceStepId: "step-a",
       relativePath: relative,
-      expectedSha256: hash,
+      source: {
+        kind: "workspace-file",
+        sourceRunId: "run-a",
+        sourceStepId: "step-a",
+        expectedSha256: hash,
+      },
     }),
   );
   assert.equal(await readFile(join(downstream, relative), "utf8"), "下游自己的内容\n");

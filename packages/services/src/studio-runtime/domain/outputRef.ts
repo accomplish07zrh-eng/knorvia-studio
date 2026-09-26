@@ -51,6 +51,11 @@ export type StudioOutputRef =
       runId: string;
       creationJobId: string;
       outputId: string;
+      /**
+       * 成果文件名（含扩展名）。下游拿不到创作存储的绝对路径，因此交接时按这个名字
+       * 复制进目标工作区的固定落点（见 `studioCreationInputPath`）。
+       */
+      fileName: string;
       sha256?: string;
     };
 
@@ -116,6 +121,21 @@ export function isStudioOutputName(value: unknown): value is string {
 /** 运行/步骤/任务 id 边界（同上）。 */
 export function isStudioOutputId(value: unknown): value is string {
   return bounded(value, ID_LIMIT);
+}
+
+/** 成果文件名：只允许单段、无路径分隔符、无 `..`，避免交接时被用来跳出目标目录。 */
+export function isStudioOutputFileName(value: unknown): value is string {
+  if (!bounded(value, NAME_LIMIT)) return false;
+  if (value === "." || value === "..") return false;
+  if (/[\\/]/u.test(value) || value.includes("\0")) return false;
+  return !/^[A-Za-z]:/u.test(value);
+}
+
+/**
+ * 创作成果在下游工作区里的固定落点。绑定文本与真实导入都用它，保证两边一致。
+ */
+export function studioCreationInputPath(fileName: string): string {
+  return `creation-input/${fileName}`;
 }
 
 export function isJsonValue(value: unknown): value is JsonValue {
@@ -198,7 +218,8 @@ function assertStudioOutputRef(ref: unknown, index: number): number {
       if (
         !bounded(ref.runId, ID_LIMIT) ||
         !bounded(ref.creationJobId, ID_LIMIT) ||
-        !bounded(ref.outputId, ID_LIMIT)
+        !bounded(ref.outputId, ID_LIMIT) ||
+        !isStudioOutputFileName(ref.fileName)
       )
         throw malformed(detail);
       checkSha256(ref.sha256, detail);

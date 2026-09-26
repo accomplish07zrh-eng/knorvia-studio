@@ -3,7 +3,7 @@ import { test, type TestContext } from "node:test";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
 import { Event } from "@knorvia/rpc";
 import type {
@@ -34,7 +34,7 @@ const ok = (text: string): StudioKernelTurnResult => ({
   text,
 });
 
-async function fixture(t: TestContext, adapter: StudioKernelAdapter) {
+async function fixture(t: TestContext, adapter: StudioKernelAdapter, creation?: unknown) {
   const root = await mkdtemp(join(tmpdir(), "knorvia-file-handoff-"));
   const project = join(root, "project");
   const dataDir = join(root, "studio-data");
@@ -43,6 +43,7 @@ async function fixture(t: TestContext, adapter: StudioKernelAdapter) {
   const db = new StudioDatabase(join(root, "runtime.sqlite"));
   const service = new StudioRuntimeService({
     db,
+    ...(creation ? { creation: creation as never } : {}),
     clock: {
       now: Date.now,
       id: randomUUID,
@@ -162,4 +163,123 @@ test("a file output that does not exist fails the step instead of becoming a str
   const produced = nodeOutcome(f, accepted.id, "n1");
   assert.equal(produced?.outputs, undefined, "缺文件时不得产出引用");
   assert.match(produced?.error ?? "", /does not exist: out\/missing\.diff/);
+});
+
+// ── 第二条路径：文案产出 → 创作节点 → 读取真实媒体引用 ─────────────────────────
+
+/** 创作服务替身：成果是**磁盘上真实存在的文件**，带真实哈希。 */
+function mediaCreationService(mediaPath: string, hash: string) {
+  return {
+    listModels: async () => [
+      { id: "image-model", name: "Image", kind: "image", enabled: true, configured: true },
+    ],
+    createJob: async () => ({ id: "job-media" }),
+    getJob: async (id: string) => ({
+      id,
+      status: "succeeded",
+      outputs: [
+        {
+          id: "out-media",
+          name: "illustration",
+          mimeType: "image/png",
+          path: mediaPath,
+          size: 12,
+          hash,
+        },
+      ],
+    }),
+  };
+}
+
+test("a creation output reaches the downstream workspace as a media copy", async (t) => {
+  const root = await mkdtemp(join(tmpdir(), "knorvia-media-handoff-"));
+  const project = join(root, "project");
+  const mediaDir = join(root, "creation-store");
+  await mkdir(project, { recursive: true });
+  await mkdir(mediaDir, { recursive: true });
+  await writeFile(join(project, "README.md"), "baseline\n", "utf8");
+  // 创作成果是磁盘上真实存在的文件（创作存储的替身），带真实哈希。
+  const mediaPath = join(mediaDir, "art.png");
+  await writeFile(mediaPath, "PNG-BYTES-01", "utf8");
+  const hash = createHash("sha256").update("PNG-BYTES-01").digest("hex");
+
+  const prompts: string[] = [];
+  const seen: string[] = [];
+  const db = new StudioDatabase(join(root, "runtime.sqlite"));
+  const service = new StudioRuntimeService({
+    db,
+    creation: mediaCreationService(mediaPath, hash) as never,
+    clock: {
+      now: Date.now,
+      id: randomUUID,
+      delay: (ms, signal) => sleep(Math.min(ms, 5), undefined, { signal }),
+    },
+    kernels: {
+      adapter: () => ({
+        run: async (turn) => {
+          prompts.push(turn.text);
+          // 下游必须能在自己的工作区里读到那份媒体副本。
+          seen.push(await readFile(join(turn.workspacePath, "creation-input", "art.png"), "utf8"));
+          return ok("汇总完成");
+        },
+      }),
+      inspect: async () => [],
+      manage: async () => {
+        throw new Error("unused");
+      },
+      dispose: async () => {},
+    },
+    workspaces: createStudioWorkspaceManager(join(root, "studio-data")),
+    onDidChange: Event.None,
+    notify: () => {},
+  });
+  t.after(async () => {
+    await service.disposeAllAndWait();
+    assert.equal(dirname(resolve(root)), resolve(tmpdir()));
+    await rm(root, { recursive: true, force: true });
+  });
+
+  const definition = {
+    ...workflow(
+      ["start", "creation", "agent", "end"],
+      [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+      ],
+    ),
+    workspacePath: project,
+  };
+  definition.nodes[1]!.data.creationModelId = "image-model";
+  definition.nodes[1]!.data.outputNames = ["illustration"];
+  definition.nodes[2]!.data.prompt = "汇总：{{ref.illustration}}";
+  await service.command({ commandId: randomUUID(), type: "save-workflow", workflow: definition });
+  const accepted = await service.command({
+    commandId: randomUUID(),
+    type: "send",
+    kind: "workflow",
+    targetId: definition.id,
+    text: "产出一张配图",
+  });
+
+  const end = Date.now() + 30_000;
+  while (db.read<StoredRun>("run", accepted.id)?.state !== "succeeded" && Date.now() < end) {
+    service.tick();
+    await sleep(2);
+  }
+  assert.equal(db.read<StoredRun>("run", accepted.id)?.state, "succeeded", "媒体路径应当跑通");
+
+  // 创作节点产出 creation-output 引用，带文件名与真实哈希。
+  const raw = db.read<StoredRun>("run", accepted.id)?.checkpoint?.values?.[workflowValueKey("n1")];
+  const produced = raw ? (JSON.parse(raw) as StudioStepResult) : undefined;
+  const ref = produced?.outputs?.[0];
+  assert.equal(ref?.kind, "creation-output");
+  assert.equal(ref?.name, "illustration");
+  assert.equal(ref?.fileName, "art.png", "成果文件名来自真实落盘路径");
+  assert.equal(ref?.sha256, hash);
+
+  // 下游读到的是副本：内容与创作存储里的一致，且提示词给出的是固定落点。
+  assert.equal(seen.length, 1, "下游节点应当执行");
+  assert.equal(seen[0], "PNG-BYTES-01");
+  assert.match(prompts[0]!, /creation-input\/art\.png/);
 });

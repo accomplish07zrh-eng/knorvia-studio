@@ -374,6 +374,7 @@ test("known outputs round-trip through a bounded checkpoint and stay reusable", 
       runId: "run-1",
       creationJobId: "job-1",
       outputId: "out-1",
+      fileName: "cover.png",
     },
   ];
   assert.deepEqual(assertStudioOutputRefs(refs), refs);
