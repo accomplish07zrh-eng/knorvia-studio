@@ -5,6 +5,10 @@ import { ServiceProvider } from "@/hooks/useServices.js";
 import { logger } from "@/logger.js";
 import type { RootProps } from "@/root/types.js";
 import { WorkspaceSettingsLayer } from "@/root/WorkspaceSettingsLayer.js";
+import { StudioActivityRail } from "@/studio/StudioActivityRail.js";
+import { StudioWorkspaceFrame } from "@/studio/StudioWorkspaceFrame.js";
+import { useActivityRailLayout } from "@/studio/useActivityRailLayout.js";
+import { useStudioNavigation } from "@/studio/useStudioNavigation.js";
 import { ConversationTelemetryWorkspaceAttachment } from "@/v4/telemetry/ConversationTelemetryAttachment.js";
 import type { IServiceAccessor } from "@knorvia/services";
 import { memo, useEffect } from "react";
@@ -79,6 +83,8 @@ export function RootWorkspaceContent({
   windowsWindowControlsRightPaddingPx,
 }: RootWorkspaceContentProps) {
   const workspaceKey = workspaceIdentity?.trim() || workspaceShellPath;
+  const studioNavigation = useStudioNavigation(handleCreateTask);
+  const hasActivityRail = useActivityRailLayout(isDesktop);
 
   useEffect(() => {
     logger.info("[RootWorkspaceContent] settings layer visibility changed", {
@@ -89,14 +95,31 @@ export function RootWorkspaceContent({
   }, [isSettingsTabActive, workspaceShellPath]);
 
   return (
-    <>
-      <div
-        className={isSettingsTabActive ? "h-full opacity-0 pointer-events-none" : "h-full"}
-        aria-hidden={isSettingsTabActive}
-        data-root-workspace-surface={isSettingsTabActive ? "inert" : "interactive"}
-        inert={isSettingsTabActive ? true : undefined}
-      >
-        {/* 设置页之前通过条件分支直接替换整个 App，关闭设置时会把主界面整棵树卸载再重建，
+    <div className="flex h-full min-h-0" data-studio-activity-layout={hasActivityRail}>
+      {hasActivityRail ? (
+        <ServiceProvider services={workspaceScopedServices}>
+          <StudioActivityRail
+            navigation={studioNavigation}
+            settingsActive={isSettingsTabActive}
+            onReturnToWorkspace={handleBackFromSettings}
+            isDesktop={isDesktop}
+            isMacDesktop={isMacDesktop}
+          />
+        </ServiceProvider>
+      ) : null}
+      <ServiceProvider services={workspaceScopedServices}>
+        <StudioWorkspaceFrame
+          enabled={hasActivityRail}
+          isDesktop={isDesktop}
+          isMacDesktop={isMacDesktop}
+        >
+          <div
+            className={isSettingsTabActive ? "h-full opacity-0 pointer-events-none" : "h-full"}
+            aria-hidden={isSettingsTabActive}
+            data-root-workspace-surface={isSettingsTabActive ? "inert" : "interactive"}
+            inert={isSettingsTabActive ? true : undefined}
+          >
+            {/* 设置页之前通过条件分支直接替换整个 App，关闭设置时会把主界面整棵树卸载再重建，
             聊天区、终端等本地 UI 状态都会被当成一次“重新进入 workspace”。
             这里改成让 workspace 壳层常驻挂载，只把设置页覆盖到上面。
             之前再额外按 workspacePath 改 key，会让跨工作区切 task 时把侧边栏和任务列表整棵卸载重建，
@@ -113,81 +136,86 @@ export function RootWorkspaceContent({
             用户在设置页按 Cmd/Ctrl+K 时状态已打开却完全不可见，所以必须保持布局占位只关闭交互。
             只用 opacity 和 pointer-events 仍会让底层权限/AskUserQuestion 卡片的 autofocus
             抢走设置表单焦点；设置页覆盖期间必须把整棵 workspace 标为 inert，等用户显式返回后再恢复交互。 */}
-        <ConversationTelemetryWorkspaceAttachment
-          enabled={isDesktop === true}
-          foregroundEnabled={!isSettingsTabActive}
-          services={workspaceScopedServices}
-          workspacePath={workspaceShellPath}
-          workspaceIdentity={workspaceIdentity}
-          remoteSessionId={workspaceRemoteSessionId}
-        >
-          <ServiceProvider services={workspaceScopedServices}>
-            <ScopedErrorBoundary
-              scope="workspace-app"
-              resetKeys={[workspaceKey]}
-              variant="panel"
-              className="h-full"
+            <ConversationTelemetryWorkspaceAttachment
+              enabled={isDesktop === true}
+              foregroundEnabled={!isSettingsTabActive}
+              services={workspaceScopedServices}
+              workspacePath={workspaceShellPath}
+              workspaceIdentity={workspaceIdentity}
+              remoteSessionId={workspaceRemoteSessionId}
             >
-              <StableWorkspaceApp
-                services={workspaceScopedServices}
-                onConnectRemote={handleConnectRemote}
-                onSelectRemoteProject={handleSelectRemoteProject}
-                onCancelRemoteProject={handleCancelRemoteProject}
-                onReconnectRemoteWorkspace={handleReconnectRemoteWorkspace}
-                reconnectingRemoteWorkspaceKeys={reconnectingRemoteWorkspaceKeys}
-                remoteWorkspaceErrorByWorkspaceKey={remoteWorkspaceErrorByWorkspaceKey}
-                reconnectingRemoteWorkspaceLogsByWorkspaceKey={
-                  reconnectingRemoteWorkspaceLogsByWorkspaceKey
-                }
-                remoteConnectionLogs={remoteConnectionLogs}
-                workspaceAbsPath={workspaceShellPath}
-                workspaceRemoteSessionId={workspaceRemoteSessionId}
-                workspaceIdentity={workspaceIdentity}
-                onCreateTask={handleCreateTask}
-                onCreateConversationTask={handleCreateConversationTask}
-                onResolveConversationWorkspace={handleResolveConversationWorkspace}
-                onOpenWorkspace={handleOpenWorkspace}
-                onOpenFolderFromWorkspaceMenu={handleOpenFolderFromWorkspaceMenu}
-                onOpenRemoteWorkspace={handleOpenRemoteWorkspace}
-                onCreateScratchWorkspace={handleCreateScratchWorkspace}
-                remoteConnectionInProgress={remoteConnectionInProgress}
-                onReturnToWorkspace={handleBackFromSettings}
-                allowOpenWorkspace={allowOpenWorkspace}
-                allowRemoteWorkspace={allowRemoteWorkspace}
-                remoteWorkspaceSessions={remoteWorkspaceSessions}
-                isWorkspaceVisible={!isSettingsTabActive}
+              <ServiceProvider services={workspaceScopedServices}>
+                <ScopedErrorBoundary
+                  scope="workspace-app"
+                  resetKeys={[workspaceKey]}
+                  variant="panel"
+                  className="h-full"
+                >
+                  <StableWorkspaceApp
+                    studioNavigation={studioNavigation}
+                    hasActivityRail={hasActivityRail}
+                    services={workspaceScopedServices}
+                    onConnectRemote={handleConnectRemote}
+                    onSelectRemoteProject={handleSelectRemoteProject}
+                    onCancelRemoteProject={handleCancelRemoteProject}
+                    onReconnectRemoteWorkspace={handleReconnectRemoteWorkspace}
+                    reconnectingRemoteWorkspaceKeys={reconnectingRemoteWorkspaceKeys}
+                    remoteWorkspaceErrorByWorkspaceKey={remoteWorkspaceErrorByWorkspaceKey}
+                    reconnectingRemoteWorkspaceLogsByWorkspaceKey={
+                      reconnectingRemoteWorkspaceLogsByWorkspaceKey
+                    }
+                    remoteConnectionLogs={remoteConnectionLogs}
+                    workspaceAbsPath={workspaceShellPath}
+                    workspaceRemoteSessionId={workspaceRemoteSessionId}
+                    workspaceIdentity={workspaceIdentity}
+                    onCreateTask={handleCreateTask}
+                    onCreateConversationTask={handleCreateConversationTask}
+                    onResolveConversationWorkspace={handleResolveConversationWorkspace}
+                    onOpenWorkspace={handleOpenWorkspace}
+                    onOpenFolderFromWorkspaceMenu={handleOpenFolderFromWorkspaceMenu}
+                    onOpenRemoteWorkspace={handleOpenRemoteWorkspace}
+                    onCreateScratchWorkspace={handleCreateScratchWorkspace}
+                    remoteConnectionInProgress={remoteConnectionInProgress}
+                    onReturnToWorkspace={handleBackFromSettings}
+                    allowOpenWorkspace={allowOpenWorkspace}
+                    allowRemoteWorkspace={allowRemoteWorkspace}
+                    remoteWorkspaceSessions={remoteWorkspaceSessions}
+                    isWorkspaceVisible={!isSettingsTabActive}
+                    isDesktop={isDesktop}
+                    isMacDesktop={isMacDesktop}
+                    isWindowsDesktop={isWindowsDesktop}
+                    supportsEmbeddedBrowser={supportsEmbeddedBrowser}
+                  />
+                </ScopedErrorBoundary>
+              </ServiceProvider>
+            </ConversationTelemetryWorkspaceAttachment>
+          </div>
+
+          {isSettingsTabActive ? (
+            <ScopedErrorBoundary
+              scope="workspace-settings-layer"
+              resetKeys={[workspaceKey, isSettingsTabActive]}
+              variant="panel"
+              className="absolute inset-0 z-10"
+            >
+              <WorkspaceSettingsLayer
+                hasActivityRail={hasActivityRail}
+                workspaceScopedServices={workspaceScopedServices}
                 isDesktop={isDesktop}
                 isMacDesktop={isMacDesktop}
                 isWindowsDesktop={isWindowsDesktop}
-                supportsEmbeddedBrowser={supportsEmbeddedBrowser}
+                windowsWindowControlsRightPaddingPx={windowsWindowControlsRightPaddingPx}
+                captionWorkspacePath={activeWorkspacePath}
+                onBack={activeWorkspacePath ? handleBackFromSettings : undefined}
+                onCreateTask={handleCreateTask}
+                onOpenWorkspace={handleOpenWorkspace}
+                onOpenRemoteWorkspace={handleOpenRemoteWorkspace}
+                allowOpenWorkspace={allowOpenWorkspace}
               />
             </ScopedErrorBoundary>
-          </ServiceProvider>
-        </ConversationTelemetryWorkspaceAttachment>
-      </div>
-
-      {isSettingsTabActive ? (
-        <ScopedErrorBoundary
-          scope="workspace-settings-layer"
-          resetKeys={[workspaceKey, isSettingsTabActive]}
-          variant="panel"
-          className="absolute inset-0 z-10"
-        >
-          <WorkspaceSettingsLayer
-            workspaceScopedServices={workspaceScopedServices}
-            isDesktop={isDesktop}
-            isMacDesktop={isMacDesktop}
-            isWindowsDesktop={isWindowsDesktop}
-            windowsWindowControlsRightPaddingPx={windowsWindowControlsRightPaddingPx}
-            captionWorkspacePath={activeWorkspacePath}
-            onBack={activeWorkspacePath ? handleBackFromSettings : undefined}
-            onCreateTask={handleCreateTask}
-            onOpenWorkspace={handleOpenWorkspace}
-            onOpenRemoteWorkspace={handleOpenRemoteWorkspace}
-            allowOpenWorkspace={allowOpenWorkspace}
-          />
-        </ScopedErrorBoundary>
-      ) : null}
-    </>
+          ) : null}
+        </StudioWorkspaceFrame>
+      </ServiceProvider>
+    </div>
   );
 }

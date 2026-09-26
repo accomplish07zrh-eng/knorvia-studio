@@ -1,23 +1,23 @@
 import { KnorviaMark } from "@/components/knorvia/KnorviaMark.js";
-import openaiLogo from "@/assets/provider-icons/model-provider-openai.png";
-import kimiLogo from "@/assets/provider-icons/model-provider-moonshot-kimi.png";
-import deepseekLogo from "@/assets/provider-icons/model-provider-deepseek.png";
+import openaiLogo from "@/assets/cli-icons/mark-openai.svg";
+import kimiLogo from "@/assets/cli-icons/mark-kimi.svg";
+import deepseekLogo from "@/assets/cli-icons/mark-deepseek.svg";
 import opencodeLightLogo from "@/assets/provider-icons/model-provider-opencode-light.svg";
 import opencodeDarkLogo from "@/assets/provider-icons/model-provider-opencode-dark.svg";
-import claudeLogo from "@/assets/cli-icons/kernel-claude.png";
-import grokLogo from "@/assets/cli-icons/kernel-grok.png";
-import qoderLogo from "@/assets/cli-icons/kernel-qoder.png";
-import antigravityLogo from "@/assets/cli-icons/kernel-antigravity.png";
-import qwenCodeLogo from "@/assets/cli-icons/kernel-qwen-code.png";
-import geminiCliLogo from "@/assets/cli-icons/kernel-gemini-cli.png";
-import gooseLogo from "@/assets/cli-icons/kernel-goose.png";
+import claudeLogo from "@/assets/cli-icons/mark-claude.svg";
+import grokLogo from "@/assets/cli-icons/mark-grok.svg";
+import qoderLogo from "@/assets/cli-icons/mark-qoder.svg";
+import antigravityLogo from "@/assets/cli-icons/mark-antigravity.svg";
+import qwenCodeLogo from "@/assets/cli-icons/mark-qwen.svg";
+import geminiCliLogo from "@/assets/cli-icons/mark-gemini.svg";
+import gooseLogo from "@/assets/cli-icons/mark-goose.svg";
 import hermesLogo from "@/assets/cli-icons/kernel-hermes.ico?url";
 import mistralVibeLogo from "@/assets/cli-icons/kernel-mistral-vibe.svg";
 import copilotLogo from "@/assets/cli-icons/kernel-copilot.svg";
 import { cn } from "@/components/lib/utils.js";
 import type { StudioKernelId } from "../types.js";
 
-/** 此前将母公司标志和手绘示意图当成产品图标；统一映射官方标识，供所有入口复用。 */
+/** 位图的白/黑方底在玻璃和深色上很突兀；共用有来源记录的透明矢量产品标识。 */
 const icons: Partial<Record<StudioKernelId, string>> = {
   codex: openaiLogo,
   "claude-code": claudeLogo,
@@ -102,7 +102,7 @@ export function StudioKernelIcon({
       aria-hidden="true"
       className={cn(
         "size-5 shrink-0 object-contain",
-        kernelId === "copilot" && "dark:invert",
+        kernelId !== "hermes" && kernelId !== "mistral-vibe" && "dark:invert",
         className,
       )}
     />

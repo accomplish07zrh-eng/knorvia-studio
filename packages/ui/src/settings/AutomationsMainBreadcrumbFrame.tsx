@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { DesktopWindowControls } from "@/DesktopWindowControls.js";
 import { WorkspaceHelpMenuButton } from "@/WorkspaceHelpMenuButton.js";
 import { cn } from "@/components/lib/utils.js";
+import { useStudioWindowChrome } from "@/studio/StudioWorkspaceFrame.js";
 import {
   SettingsBreadcrumbProvider,
   SettingsHeaderBreadcrumb,
@@ -28,6 +29,7 @@ export function AutomationsMainBreadcrumbFrame({
   sectionLabel: string;
 }) {
   const [items, setItems] = useState<readonly SettingsBreadcrumbItem[]>([]);
+  const sharedChrome = useStudioWindowChrome();
 
   return (
     <SettingsBreadcrumbProvider onItemsChange={setItems} sectionLabel={sectionLabel}>
@@ -36,7 +38,7 @@ export function AutomationsMainBreadcrumbFrame({
           <div
             className={cn(
               "flex h-12 shrink-0 items-center gap-2 pr-3 [app-region:drag]",
-              !isSidebarVisible && (isMacDesktop ? "pl-64" : "pl-44"),
+              !sharedChrome && !isSidebarVisible && (isMacDesktop ? "pl-64" : "pl-44"),
             )}
             data-testid="automations-main-drag-region"
           >
@@ -44,10 +46,12 @@ export function AutomationsMainBreadcrumbFrame({
               <SettingsHeaderBreadcrumb ariaLabel={ariaLabel} items={items} />
             </div>
             {/* 自动化使用独立面包屑顶栏，不经过聊天 Header，必须保留帮助和原生窗控入口。 */}
-            <div className="flex shrink-0 items-center gap-0.5 [app-region:no-drag]">
-              <WorkspaceHelpMenuButton isDesktop />
-              {!isMacDesktop ? <DesktopWindowControls /> : null}
-            </div>
+            {!sharedChrome ? (
+              <div className="flex shrink-0 items-center gap-0.5 [app-region:no-drag]">
+                <WorkspaceHelpMenuButton isDesktop />
+                {!isMacDesktop ? <DesktopWindowControls /> : null}
+              </div>
+            ) : null}
           </div>
         ) : null}
         {children}

@@ -2152,8 +2152,19 @@ body {
 
 /* 只给实际阅读面板纸片边缘，避免命中侧栏浮层、拖拽条和外层布局造成多重框线。 */
 :is(.theme-knorvia-light, .theme-knorvia-dark)
-  :is([data-workspace-conversation-frame="true"], [data-settings-panel-frame="true"]) {
+  :is(
+    [data-workspace-conversation-frame="true"],
+    [data-settings-panel-frame="true"],
+    [data-studio-workspace-sheet="true"]
+  ) {
   box-shadow: var(--knorvia-paper-edge);
+}
+
+/* 窄栏布局的外框属于整张工作面，内部面板不能再次画纸片边缘。 */
+:is(.theme-knorvia-light, .theme-knorvia-dark)
+  [data-studio-workspace-sheet]
+  :is([data-workspace-conversation-frame], [data-settings-panel-frame]) {
+  box-shadow: none;
 }
 
 /* 主输入框是一块软板：大圆角、安静的投影；聚焦时一圈中性光环。 */

@@ -495,6 +495,8 @@ Depth rules:
 
 ## Workspace layout
 
+The workspace navigation follows `specs/knorvia-activity-rail.md`: a 56px activity rail, the existing resizable context sidebar, and the main workspace. The rail persists beside settings; tools, including the plugin-management shortcut, and kernel shortcuts occupy separate sections on one flat structural surface. In this layout, a single rounded sheet contains both the context sidebar and the main content, below a shared 40px titlebar. Internal conversation, terminal and Side Pane frames use dividers without additional rounded outlines or paper shadows. Settings uses the same sheet. Keep the current paper selection tokens and accessible names on icon actions. Narrow Web retains the existing compact navigation and its plugin settings entry.
+
 Desktop and wide Web workspace content uses independent conversation, bottom terminal, and Side Pane frames. The conversation frame contains WorkspaceHeader and conversation; the optional terminal has its own frame below it, and Side Pane owns its tab bar. Frames use their own background and border, with 4px resizable gaps matching the macOS outer inset. Resize handles keep a transparent 4px hit area and show a 2px tertiary foreground (`foreground-subtlest/50`) line on hover, focus or drag. The indicator extends along the panel edge, inset by the panel radius at both ends, with rounded ends and no mask. Layout frames do not count toward content radius levels. Mobile remote control retains its single-column and drawer presentation.
 
 ## Responsive Behavior

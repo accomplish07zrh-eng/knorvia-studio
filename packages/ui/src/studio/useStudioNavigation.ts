@@ -62,7 +62,7 @@ export function studioNavigationReducer(state: NavigationState, action: Action):
 }
 
 /** Shell history owns only frontend locations; native task history stays with the session store. */
-export function useStudioNavigation() {
+export function useStudioNavigation(onCreateNativeTask: () => void) {
   const [state, dispatch] = useReducer(studioNavigationReducer, {
     entries: [initialRoute],
     index: 0,
@@ -95,6 +95,18 @@ export function useStudioNavigation() {
     (groupId: string | null) => navigate({ view: "groups", chatMode: "groups", groupId }),
     [navigate],
   );
+  const openKernel = useCallback(
+    (kernelId: StudioKernelId) => {
+      // 工具栏重复点击当前内核只返回原会话，避免每次离开设置或工作流都生成空草稿。
+      if (kernelId === route.kernelId) {
+        navigate({ view: kernelId === "knorvia" ? "chat" : "external-chat", chatMode: "single" });
+        return;
+      }
+      if (kernelId === "knorvia") onCreateNativeTask();
+      selectKernel(kernelId);
+    },
+    [navigate, onCreateNativeTask, route.kernelId, selectKernel],
+  );
   const createGroup = useCallback(() => dispatch({ type: "create-group" }), []);
   const consumeCreateGroup = useCallback(() => dispatch({ type: "consume-create-group" }), []);
   const back = useCallback(() => dispatch({ type: "back" }), []);
@@ -105,6 +117,7 @@ export function useStudioNavigation() {
       navigate,
       showTask,
       selectKernel,
+      openKernel,
       selectGroup,
       createGroup,
       consumeCreateGroup,
@@ -119,6 +132,7 @@ export function useStudioNavigation() {
       navigate,
       showTask,
       selectKernel,
+      openKernel,
       selectGroup,
       createGroup,
       consumeCreateGroup,

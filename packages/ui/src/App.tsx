@@ -3,7 +3,6 @@ import { WorkspaceShellLayout } from "@/app-shell/WorkspaceShellLayout.js";
 import type { AppProps, WorkspaceMainView } from "@/app-shell/types.js";
 import { useAppChromeState } from "@/app-shell/useAppChromeState.js";
 import { useTaskSidePaneMemoryBridge } from "@/app-shell/useTaskSidePaneMemoryBridge.js";
-import { useStudioNavigation } from "@/studio/useStudioNavigation.js";
 import { addStudioNewTaskListener } from "@/studio/newTaskIntent.js";
 import { useWorkspaceSessionReload } from "@/app-shell/useWorkspaceSessionReload.js";
 import { useWorkspaceShellLifecycle } from "@/app-shell/useWorkspaceShellLifecycle.js";
@@ -87,6 +86,8 @@ const EMPTY_REMOTE_CONNECTION_LOGS: NonNullable<AppProps["remoteConnectionLogs"]
 const EMPTY_REMOTE_WORKSPACE_SESSIONS: NonNullable<AppProps["remoteWorkspaceSessions"]> = [];
 
 export function App({
+  studioNavigation,
+  hasActivityRail = false,
   services,
   onConnectRemote,
   onSelectRemoteProject,
@@ -128,7 +129,6 @@ export function App({
   const isLinuxDesktop = Boolean(isDesktop && !isMacDesktop && !isWindowsDesktop);
   const supportsEmbeddedBrowser = explicitSupportsEmbeddedBrowser ?? Boolean(isDesktop);
   const { intl, locale, setLocale } = useKnorviaIntl();
-  const studioNavigation = useStudioNavigation();
   const { navigate: navigateStudio, showTask: showStudioTask } = studioNavigation;
   const workspaceMainView = studioNavigation.route.view;
   const setWorkspaceMainView = useCallback(
@@ -1059,6 +1059,7 @@ export function App({
         workspaceReadOnlyReason={workspaceReadOnlyReason}
         workspaceMainView={workspaceMainView}
         studioNavigation={studioNavigation}
+        hasActivityRail={hasActivityRail}
         openAutomationId={openAutomationId}
         openAutomationTab={openAutomationTab}
         onWorkspaceMainViewChange={setWorkspaceMainView}

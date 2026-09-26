@@ -153,6 +153,7 @@ function SettingsSidebarButton({
 }
 
 export function SettingsPage({
+  hasActivityRail = false,
   isDesktop,
   isWindowsDesktop,
   isMacDesktop,
@@ -162,6 +163,7 @@ export function SettingsPage({
   onCreateTask,
   onOpenRemoteWorkspace,
 }: {
+  hasActivityRail?: boolean;
   isDesktop?: boolean;
   isWindowsDesktop?: boolean;
   isMacDesktop?: boolean;
@@ -198,6 +200,7 @@ export function SettingsPage({
     return visibleInitialSection;
   });
   const [pluginTab, setPluginTab] = useState(() => consumePendingSettingsPluginTab());
+  const isFullWidthPluginPage = hasActivityRail && activeSection === "plugin";
   const [pluginScopeKey, setPluginScopeKey] = useState(() =>
     consumePendingSettingsPluginScopeKey(),
   );
@@ -935,11 +938,17 @@ export function SettingsPage({
           data-active-section={activeSection}
           // 隐式 auto 行会按 Memory viewer 的内容高度撑出窗口，随后被 DesktopWindowFrame 裁切且没有滚动条。
           // 固定为单个 minmax(0, 1fr) 行，让普通设置页和内部滚动 viewer 都以窗口剩余高度为边界。
-          className="relative grid h-screen min-h-full w-full grid-cols-[68px_minmax(0,1fr)] grid-rows-[minmax(0,1fr)] lg:grid-cols-[268px_minmax(0,1fr)]"
+          className={cn(
+            "relative grid w-full grid-rows-[minmax(0,1fr)]",
+            isFullWidthPluginPage
+              ? "grid-cols-[minmax(0,1fr)]"
+              : "grid-cols-[68px_minmax(0,1fr)] lg:grid-cols-[268px_minmax(0,1fr)]",
+            hasActivityRail ? "h-full min-h-0" : "h-screen min-h-full",
+          )}
         >
-          {isWindowsDesktop ? <WindowsTopLeftLogo /> : null}
+          {isWindowsDesktop && !hasActivityRail ? <WindowsTopLeftLogo /> : null}
 
-          {usesInlineWindowControls ? (
+          {usesInlineWindowControls && !hasActivityRail ? (
             <div className="absolute right-1 top-1 z-30 mt-px mr-px flex h-12 items-center gap-0.5 px-2 pointer-events-auto [app-region:no-drag]">
               {/* Windows/Linux 设置页仍保留旧 caption 下箭头，与主界面和 macOS 的帮助入口不一致。
                   统一复用问号帮助按钮，并让它在普通 flex 流中紧邻自绘窗控。
@@ -948,9 +957,15 @@ export function SettingsPage({
               <DesktopWindowControls />
             </div>
           ) : null}
-          <aside className="min-w-0">
+          <aside
+            data-settings-sidebar="true"
+            hidden={isFullWidthPluginPage}
+            className={cn("min-w-0", hasActivityRail && "border-r border-border/50 bg-sidebar")}
+          >
             <div className="flex h-full flex-col">
-              <div className="h-12 [app-region:drag]"></div>
+              <div className="flex h-12 shrink-0 items-center px-4 text-ui-base font-medium [app-region:drag]">
+                {hasActivityRail ? intl.formatMessage({ id: "settings.title" }) : null}
+              </div>
               <div className="px-2 pb-3 pt-3">
                 {onBack ? (
                   <ControlHintTooltip
@@ -1028,38 +1043,42 @@ export function SettingsPage({
                         >
                           {groupLabel}
                         </div>
-                        {group.sections.map(({ id, icon: Icon, titleId }) => {
-                          const isActive = activeSection === id;
-                          const label = intl.formatMessage({ id: titleId });
+                        {group.sections
+                          .filter(({ id }) => !hasActivityRail || id !== "plugin")
+                          .map(({ id, icon: Icon, titleId }) => {
+                            const isActive = activeSection === id;
+                            const label = intl.formatMessage({ id: titleId });
 
-                          return (
-                            <SettingsSidebarButton
-                              key={id}
-                              icon={Icon}
-                              label={label}
-                              active={isActive}
-                              aria-current={isActive ? "page" : undefined}
-                              data-testid={testId(TID_SETTINGS_SECTION_NAV, id)}
-                              onClick={() => {
-                                runUserAction({
-                                  input: {
-                                    featureId: "settings.navigation",
-                                    action: "open_section",
-                                    trigger: "button",
-                                  },
-                                  operation: () => {
-                                    setSettingsSectionNavigationVersion((version) => version + 1);
-                                    setActiveSettingsSection(id);
-                                  },
-                                  completed: { resultSource: "local_commit", sectionId: id },
-                                  failureStage: "navigation_commit",
-                                });
-                              }}
-                            >
-                              <span className="truncate text-ui-base text-foreground">{label}</span>
-                            </SettingsSidebarButton>
-                          );
-                        })}
+                            return (
+                              <SettingsSidebarButton
+                                key={id}
+                                icon={Icon}
+                                label={label}
+                                active={isActive}
+                                aria-current={isActive ? "page" : undefined}
+                                data-testid={testId(TID_SETTINGS_SECTION_NAV, id)}
+                                onClick={() => {
+                                  runUserAction({
+                                    input: {
+                                      featureId: "settings.navigation",
+                                      action: "open_section",
+                                      trigger: "button",
+                                    },
+                                    operation: () => {
+                                      setSettingsSectionNavigationVersion((version) => version + 1);
+                                      setActiveSettingsSection(id);
+                                    },
+                                    completed: { resultSource: "local_commit", sectionId: id },
+                                    failureStage: "navigation_commit",
+                                  });
+                                }}
+                              >
+                                <span className="truncate text-ui-base text-foreground">
+                                  {label}
+                                </span>
+                              </SettingsSidebarButton>
+                            );
+                          })}
                       </div>
                     );
                   })}
@@ -1088,20 +1107,22 @@ export function SettingsPage({
                 </SettingsSidebarButton>
               </nav>
 
-              <div className="max-lg:hidden">
-                <WorkspaceSidebarFooter
-                  theme={theme}
-                  localeMenuValue={localePreference}
-                  onLocaleChange={handleFooterLocaleChange}
-                  onThemeChange={handleFooterThemeChange}
-                  onSettingsButtonClick={onBack}
-                  onUsageClick={handleOpenUsageSettings}
-                  settingsButtonMode="back"
-                  // 头像菜单是 WorkspaceSidebarFooter 的共享菜单，Settings 场景不能丢失桌面平台能力。
-                  // 之前这里没透传 isDesktop，导致同一个头像菜单在设置页缺少界面缩放入口。
-                  isDesktop={isDesktop}
-                />
-              </div>
+              {!hasActivityRail ? (
+                <div className="max-lg:hidden">
+                  <WorkspaceSidebarFooter
+                    theme={theme}
+                    localeMenuValue={localePreference}
+                    onLocaleChange={handleFooterLocaleChange}
+                    onThemeChange={handleFooterThemeChange}
+                    onSettingsButtonClick={onBack}
+                    onUsageClick={handleOpenUsageSettings}
+                    settingsButtonMode="back"
+                    // 头像菜单是 WorkspaceSidebarFooter 的共享菜单，Settings 场景不能丢失桌面平台能力。
+                    // 之前这里没透传 isDesktop，导致同一个头像菜单在设置页缺少界面缩放入口。
+                    isDesktop={isDesktop}
+                  />
+                </div>
+              ) : null}
             </div>
           </aside>
 
@@ -1110,22 +1131,29 @@ export function SettingsPage({
             className={cn(
               "flex min-h-0 flex-col",
               // 桌面平台统一复用主工作区的面板 inset；左侧仍与导航相接，顶部由独立拖拽留白承接。
-              isDesktop ? "p-1 pl-0 pt-0" : "p-0",
+              isDesktop && !hasActivityRail ? "p-1 pl-0 pt-0" : "p-0",
             )}
           >
             <div
               data-settings-top-inset={isDesktop ? "true" : undefined}
-              className={cn("[app-region:drag]", isDesktop && "h-1", isMacDesktop && "max-lg:h-16")}
+              className={cn(
+                "[app-region:drag]",
+                !hasActivityRail && isDesktop && "h-1",
+                !hasActivityRail && isMacDesktop && "max-lg:h-16",
+              )}
             />
             <div
               data-settings-panel-frame="true"
               className={cn(
-                "relative flex flex-col min-h-0 h-full border border-border bg-background",
+                "relative flex flex-col min-h-0 h-full bg-background",
                 // Windows 设置页已有 4px 外层留白，不再承担系统窗口外沿；圆角与主工作区统一为 5px。
-                isWindowsDesktop ? "rounded-[5px]" : "rounded-xl",
+                !hasActivityRail &&
+                  (isWindowsDesktop
+                    ? "rounded-[5px] border border-border"
+                    : "rounded-xl border border-border"),
               )}
             >
-              {!usesInlineWindowControls ? (
+              {!usesInlineWindowControls && !hasActivityRail ? (
                 <div
                   className={cn(
                     // Settings 使用和 new task 一致的问号定位：在内容面板内定位，外层让出自绘窗口按钮区，内层保持 top-2.5/right-2.5。
@@ -1157,7 +1185,7 @@ export function SettingsPage({
                       className={cn(
                         "min-w-0 flex-1 [app-region:drag]",
                         // 四个 28px 按钮、组内 2px 间距和左右 8px padding，共 134px。
-                        usesInlineWindowControls ? "mr-[134px]" : "mr-12",
+                        !hasActivityRail && (usesInlineWindowControls ? "mr-[134px]" : "mr-12"),
                       )}
                     >
                       <SettingsHeaderBreadcrumb

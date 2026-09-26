@@ -73,7 +73,7 @@ export function StudioGroupsPage({
 
   return (
     <section
-      className="flex h-full min-h-0 min-w-0 flex-col bg-background text-foreground"
+      className="flex h-full min-h-0 min-w-0 flex-col text-foreground"
       data-testid="studio-groups-page"
     >
       <header className="flex min-h-12 shrink-0 items-center gap-3 border-b border-border px-4 py-2">

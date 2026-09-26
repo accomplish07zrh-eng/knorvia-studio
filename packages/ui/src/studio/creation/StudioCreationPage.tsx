@@ -201,7 +201,7 @@ export function StudioCreationPage() {
   };
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-background">
+    <div data-testid="studio-creation-page" className="flex h-full min-h-0 flex-col">
       <div className="flex shrink-0 items-center justify-between border-b border-border/50 px-5 py-3">
         <div
           className="flex items-center gap-1 rounded-lg bg-surface p-1"
@@ -251,7 +251,10 @@ export function StudioCreationPage() {
         onRetry={(job) => void retry(job)}
         onAction={(request) => void runAction(request)}
       />
-      <div className="shrink-0 border-t border-border/50 bg-background px-4 py-4 md:px-8">
+      <div
+        data-studio-creation-composer-region="true"
+        className="shrink-0 border-t border-border/50 px-4 py-4 md:px-8"
+      >
         <div className="mx-auto w-full max-w-3xl">
           {!loading && !availableModels.length ? (
             <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface px-3 py-2 text-ui-sm text-foreground-subtle">

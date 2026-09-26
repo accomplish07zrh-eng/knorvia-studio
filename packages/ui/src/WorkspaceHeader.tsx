@@ -16,6 +16,7 @@ import type {
 } from "@knorvia/shared";
 import { TID_WORKSPACE_HEADER } from "@knorvia/shared";
 import { useState } from "react";
+import { useStudioWindowChrome } from "@/studio/StudioWorkspaceFrame.js";
 
 export function WorkspaceHeader({
   variant = "task",
@@ -109,8 +110,9 @@ export function WorkspaceHeader({
   onOpenWorkspace: () => void;
   allowOpenWorkspace?: boolean;
 }) {
+  const sharedChrome = useStudioWindowChrome();
   const [selectedEditor, setSelectedEditor] = useState<EditorInfo | null>(null);
-  const shouldOffsetHeaderForWindowControls = !isSidebarVisible;
+  const shouldOffsetHeaderForWindowControls = !sharedChrome && !isSidebarVisible;
   // Linux 与 Windows 共用内联窗控，不再预留旧悬浮窗控的标题栏区域。
   const usesInlineWindowControls = Boolean(isWindowsDesktop || (isDesktop && !isMacDesktop));
 
@@ -207,8 +209,8 @@ export function WorkspaceHeader({
           onToggleSidePane={onToggleSidePane}
           toggleSidePaneShortcutLabel={toggleSidePaneShortcutLabel}
           simplifyForNarrowRemote={simplifyForNarrowRemote}
-          hideHelpMenu={false}
-          showWindowControls={usesInlineWindowControls}
+          hideHelpMenu={Boolean(sharedChrome)}
+          showWindowControls={usesInlineWindowControls && !sharedChrome}
           // 面板操作按钮沿用 macOS 紧凑样式，Windows/Linux 窗控跟随最右侧 Header。
           onSelectedEditorChange={setSelectedEditor}
         />

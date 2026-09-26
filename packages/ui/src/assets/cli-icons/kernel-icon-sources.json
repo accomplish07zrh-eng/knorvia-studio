@@ -75,5 +75,65 @@
       "sourceOwner": "Microsoft / GitHub",
       "note": "Current-color product glyph used for identification; dark theme inverts the monochrome mark."
     }
-  ]
+  ],
+  "vectorMarks": {
+    "retrievedAt": "2026-09-26",
+    "project": "Lobe Icons",
+    "sourcePage": "https://github.com/lobehub/lobe-icons",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2023 LobeHub",
+    "usage": "Unmodified transparent vector marks for product identification. Trademarks remain with their respective owners; no endorsement implied. These assets are maintained by LobeHub, not claimed to be vendor-authored.",
+    "assets": [
+      {
+        "file": "mark-openai.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/openai.svg",
+        "sha256": "A595DF6B423920C67A7F8F73C063E4BFB72D415948097B6CAC063A2366BB5186"
+      },
+      {
+        "file": "mark-claude.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/claude.svg",
+        "sha256": "365A70A7EB3956D9B9A96086058EBE04E1DBD8E291A756AD964E8A283FBD6D38"
+      },
+      {
+        "file": "mark-grok.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/grok.svg",
+        "sha256": "9175FC90C22655160231976C849F25A03B888D7CC0E04C5F1B987B659BB07C95"
+      },
+      {
+        "file": "mark-qoder.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/qoder.svg",
+        "sha256": "F8503AACC41A58E723430488D082F6730C8A6A9FFECDD0A00C522E6BCDB4ABB9"
+      },
+      {
+        "file": "mark-antigravity.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/antigravity.svg",
+        "sha256": "43F551FD125C17FB54C8C74EB461924FB97F32BB64AC89F73BB73852753A6461"
+      },
+      {
+        "file": "mark-qwen.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/qwen.svg",
+        "sha256": "DCB3BA2F2B55CCBACBADE0CA0BF98921FBAF8A07848972974B4A9BF8077376CF"
+      },
+      {
+        "file": "mark-gemini.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/gemini.svg",
+        "sha256": "87D5B3C4BE75A66F54C1936482A263DF68185545B741129BADD1B7C2449C18D3"
+      },
+      {
+        "file": "mark-goose.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/goose.svg",
+        "sha256": "8779D9A61C5B0BE78A3D36CAB6843BA5AF86218BA2FF1B18EB918C7A8D25BB99"
+      },
+      {
+        "file": "mark-kimi.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/kimi.svg",
+        "sha256": "ED08131B46ACF70E6E2144ECEB775E74098B58EA65FA21EAEE04BE7B05CFE63B"
+      },
+      {
+        "file": "mark-deepseek.svg",
+        "sourceUrl": "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/deepseek.svg",
+        "sha256": "8F9443E351B6DACCE71871790201B799D92E8BF96A45EF79AEB5E9BF4DB423E2"
+      }
+    ]
+  }
 }

@@ -3,6 +3,8 @@ import { DesktopTopOverlayActionButton } from "@/DesktopTopOverlayActionButton.j
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { createWindowsCaptionControlsStyle } from "@/windowCaptionControls.js";
 import type { IPlatformService } from "@knorvia/shared";
+import { createPortal } from "react-dom";
+import { useStudioWindowChrome } from "@/studio/StudioWorkspaceFrame.js";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -13,6 +15,10 @@ import {
 } from "lucide-react";
 
 interface DesktopTopOverlayProps {
+  visible?: boolean;
+  showBrandLogo?: boolean;
+  showSidebarToggle?: boolean;
+  sidebarWidthPx?: number;
   workspaceAbsPath: string;
   isMacDesktop?: boolean;
   isMacFullscreen?: boolean;
@@ -43,6 +49,10 @@ interface DesktopTopOverlayProps {
 }
 
 export function DesktopTopOverlay({
+  visible = true,
+  showBrandLogo = true,
+  showSidebarToggle = true,
+  sidebarWidthPx,
   workspaceAbsPath: _workspaceAbsPath,
   isMacDesktop,
   isMacFullscreen,
@@ -71,6 +81,7 @@ export function DesktopTopOverlay({
   searchShortcutLabel,
 }: DesktopTopOverlayProps) {
   const { intl } = useKnorviaIntl();
+  const sharedChrome = useStudioWindowChrome();
   const SidebarToggleIcon = isSidebarVisible ? PanelLeftClose : PanelLeftOpen;
   const isLinuxDesktop = Boolean(isDesktop && !isMacDesktop && !isWindowsDesktop);
   const usesCustomCaptionArea = isWindowsDesktop || isLinuxDesktop;
@@ -83,7 +94,9 @@ export function DesktopTopOverlay({
   const isNewTaskButtonVisible = showNewTaskButton ?? !isSidebarVisible;
   const macTopOverlayPaddingStyle =
     isMacDesktop && !isMacFullscreen && Number.isFinite(macWindowControlsLeftPaddingPx)
-      ? { paddingLeft: `${Math.round(macWindowControlsLeftPaddingPx ?? 96)}px` }
+      ? {
+          paddingLeft: `${Math.max(0, Math.round(macWindowControlsLeftPaddingPx ?? 96) - (sharedChrome ? 56 : 0))}px`,
+        }
       : undefined;
   const windowsTopOverlayPaddingStyle = isWindowsDesktop
     ? {
@@ -93,16 +106,17 @@ export function DesktopTopOverlay({
       }
     : undefined;
   const topOverlayWidthStyle = isSidebarVisible
-    ? { width: "var(--workspace-sidebar-panel-width)" }
+    ? { width: sharedChrome ? sidebarWidthPx : "var(--workspace-sidebar-panel-width)" }
     : undefined;
 
-  return (
+  const overlay = (
     <div
       style={topOverlayWidthStyle}
       className={cn(
-        "@container/topoverlayer pointer-events-none absolute h-14 flex left-0 top-0 z-20 w-fit",
+        "@container/topoverlayer pointer-events-none flex left-0 top-0 z-20 w-fit max-w-full",
+        sharedChrome ? "relative h-10" : "absolute h-14",
         // Windows/Linux 主面板新增 4px 留白及 1px 边框，左侧工具组需同步偏移才能对齐 Header 中心线。
-        usesCustomCaptionArea && "top-1 mt-px",
+        !sharedChrome && usesCustomCaptionArea && "top-1 mt-px",
       )}
     >
       <div
@@ -112,11 +126,11 @@ export function DesktopTopOverlay({
         }}
         className={cn(
           "flex items-center",
-          isMacDesktop && "h-14",
-          usesCustomCaptionArea && "h-12",
+          sharedChrome ? "h-10" : isMacDesktop ? "h-14" : "h-12",
           // Windows/Linux 工具组计入 4px 外沿留白和 1px 边框，较 8px 左边距右移 5px。
           usesCustomCaptionArea && "pl-3 ml-px",
-          isMacDesktop &&
+          !sharedChrome &&
+            isMacDesktop &&
             (isMacFullscreen ? (!isSidebarVisible ? "pl-5 pt-1" : "pl-3 pt-1") : "pt-1"),
         )}
       >
@@ -128,7 +142,7 @@ export function DesktopTopOverlay({
             "pointer-events-auto flex items-center gap-1 shrink-0 [app-region:no-drag]",
           )}
         >
-          {usesCustomCaptionArea && (
+          {showSidebarToggle && usesCustomCaptionArea && (
             <DesktopTopOverlayActionButton
               title={toggleSidebarTitle}
               shortcut={toggleSidebarShortcutLabel}
@@ -136,17 +150,25 @@ export function DesktopTopOverlay({
               buttonClassName="group relative overflow-hidden rounded-lg"
               onClick={onToggleSidebar}
             >
-              <img
-                src={appLogoUrl}
-                alt="Knorvia Studio"
-                className="size-5 transition-opacity duration-150 group-hover:opacity-0"
-                draggable={false}
+              {showBrandLogo ? (
+                <img
+                  src={appLogoUrl}
+                  alt="Knorvia Studio"
+                  className="size-5 transition-opacity duration-150 group-hover:opacity-0"
+                  draggable={false}
+                />
+              ) : null}
+              <SidebarToggleIcon
+                className={cn(
+                  "absolute inset-0 m-auto size-4",
+                  showBrandLogo &&
+                    "opacity-0 transition-opacity duration-150 group-hover:opacity-100",
+                )}
               />
-              <SidebarToggleIcon className="absolute inset-0 m-auto size-4 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
             </DesktopTopOverlayActionButton>
           )}
 
-          {isMacDesktop && (
+          {showSidebarToggle && isMacDesktop && (
             <DesktopTopOverlayActionButton
               title={toggleSidebarTitle}
               shortcut={toggleSidebarShortcutLabel}
@@ -184,6 +206,7 @@ export function DesktopTopOverlay({
 
           <div
             aria-hidden={!isNewTaskButtonVisible}
+            inert={!isNewTaskButtonVisible ? true : undefined}
             className={cn(
               "inline-flex overflow-hidden transition-[opacity,width] duration-300 ease-out",
               isNewTaskButtonVisible ? "w-7 opacity-100" : "pointer-events-none w-0 opacity-0",
@@ -210,7 +233,7 @@ export function DesktopTopOverlay({
         </div>
       </div>
       {onOpenSearch ? (
-        <div className="pointer-events-auto ml-auto flex h-12 shrink-0 items-center pr-3 [app-region:no-drag]">
+        <div className="pointer-events-auto ml-auto flex h-full shrink-0 items-center pr-3 [app-region:no-drag]">
           <DesktopTopOverlayActionButton
             title={intl.formatMessage({ id: "commandCenter.open" })}
             shortcut={searchShortcutLabel}
@@ -224,4 +247,12 @@ export function DesktopTopOverlay({
       ) : null}
     </div>
   );
+  // Portal 只改变几何归属；展开、历史和搜索仍调用工作区的原动作。
+  return !visible
+    ? null
+    : sharedChrome
+      ? sharedChrome.navigationHost
+        ? createPortal(overlay, sharedChrome.navigationHost)
+        : null
+      : overlay;
 }

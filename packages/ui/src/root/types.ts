@@ -41,6 +41,7 @@ export interface RootProps {
 }
 
 export interface WorkspaceSettingsLayerProps {
+  hasActivityRail?: boolean;
   workspaceScopedServices?: IServiceAccessor;
   isDesktop?: boolean;
   isMacDesktop?: boolean;

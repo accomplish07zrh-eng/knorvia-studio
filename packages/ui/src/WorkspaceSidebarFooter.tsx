@@ -36,6 +36,8 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
   onSettingsButtonClick,
   settingsButtonMode = "settings",
   isDesktop = false,
+  compact = false,
+  settingsActive = false,
   className,
 }: {
   theme: Theme;
@@ -50,6 +52,8 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
   workspaceRemoteSessionId?: string;
   activeTaskId?: string | null;
   isDesktop?: boolean;
+  compact?: boolean;
+  settingsActive?: boolean;
   className?: string;
 }) {
   const { intl } = useKnorviaIntl();
@@ -61,8 +65,12 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
   const resetZoomShortcutLabel = useShortcutCommandLabel("resetZoom");
   const profileContent = (
     <>
-      <img src={knorviaLogo} alt="" className="size-8 shrink-0 rounded-lg" />
-      <div className="min-w-0 flex-1 overflow-hidden text-left">
+      <img
+        src={knorviaLogo}
+        alt=""
+        className={cn("shrink-0 rounded-lg", compact ? "size-6" : "size-8")}
+      />
+      <div className={cn("min-w-0 flex-1 overflow-hidden text-left", compact && "sr-only")}>
         <span className="min-w-0 truncate text-ui-base font-semibold text-foreground">
           Knorvia Studio
         </span>
@@ -113,8 +121,14 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
 
   return (
     // footer 被 Settings 复用，页面专属边距由调用方传入，避免修改共享默认样式。
-    <footer className={cn("flex shrink-0 flex-col gap-2.5 px-4 pt-2 pb-4", className)}>
-      <div className="flex min-w-0 gap-2">
+    <footer
+      className={cn(
+        "flex shrink-0 flex-col gap-2.5 px-4 pt-2 pb-4",
+        compact && "px-2 pb-2",
+        className,
+      )}
+    >
+      <div className={cn("flex min-w-0 gap-2", compact && "flex-col-reverse items-center gap-1")}>
         <DropdownMenu open={profileMenuOpen} onOpenChange={setProfileMenuOpen}>
           <DropdownMenuTrigger asChild>
             {/* 原位置继续打开语言、主题和界面偏好。 */}
@@ -122,7 +136,10 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
               type="button"
               variant="ghost"
               size={"lg"}
-              className="min-w-0 flex-1 justify-start gap-2 overflow-hidden rounded-tl-2xl rounded-bl-2xl border-0 pl-0"
+              className={cn(
+                "min-w-0 flex-1 justify-start gap-2 overflow-hidden rounded-tl-2xl rounded-bl-2xl border-0 pl-0",
+                compact && "size-9 flex-none justify-center p-0",
+              )}
               data-testid="app-preferences-trigger"
               aria-label="Knorvia Studio"
             >
@@ -132,7 +149,12 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
             </Button>
           </DropdownMenuTrigger>
           {/* 菜单内容保持挂载，避免每次点击头像菜单都重建 footer 内部状态。*/}
-          <DropdownMenuContent align="start" className="w-max min-w-50" forceMount>
+          <DropdownMenuContent
+            side={compact ? "right" : undefined}
+            align={compact ? "end" : "start"}
+            className="w-max min-w-50"
+            forceMount
+          >
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
                 <Globe className="size-4" />
@@ -250,6 +272,8 @@ export const WorkspaceSidebarFooter = memo(function WorkspaceSidebarFooterCompon
               variant="ghost"
               size="icon-lg"
               data-testid={TID_TASK_SETTINGS_BUTTON}
+              className={cn(compact && "size-9", settingsActive && "bg-selected")}
+              aria-pressed={settingsActive}
               aria-label={settingsButtonLabel}
               disabled={!onSettingsButtonClick}
               onClick={onSettingsButtonClick}

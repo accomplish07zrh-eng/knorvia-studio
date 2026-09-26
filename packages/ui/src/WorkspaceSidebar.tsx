@@ -177,6 +177,7 @@ export interface SidebarFileTreeOpenRequest {
 }
 
 export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
+  hasActivityRail = false,
   workspacePath,
   workspaceRemoteSessionId,
   activePreviewPath,
@@ -220,6 +221,7 @@ export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
   creationActive = false,
   onFileTreeOpenChange,
 }: {
+  hasActivityRail?: boolean;
   workspacePath: string;
   workspaceRemoteSessionId?: string;
   activePreviewPath?: string | null;
@@ -760,7 +762,7 @@ export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
       // 这里用设计系统的结构面 token 固定侧栏层级，避免不同合成器把左侧容器混成异常灰块。
       className="flex h-full flex-col overflow-hidden"
     >
-      <div className="h-12 [app-region:drag]"></div>
+      {!hasActivityRail ? <div className="h-12 [app-region:drag]" /> : null}
       <div className="relative flex-1 min-h-0 overflow-hidden">
         <div
           className={cn(
@@ -769,6 +771,7 @@ export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
           )}
           aria-hidden={isFileTreeOpen}
         >
+          {hasActivityRail ? conversationNavigation : null}
           <div className={cn("flex flex-col gap-1 px-2", isWindowsDesktop ? "py-2" : "py-3")}>
             <WorkspaceNewTaskTooltip disabledReason={workspaceReadOnlyReason}>
               <NewTaskButtonGroup
@@ -803,54 +806,58 @@ export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
                 }
               />
             ) : null} */}
-            <Button
-              variant="ghost"
-              onClick={handleOpenAutomationsMain}
-              data-icon="inline-start"
-              data-testid={TID_AUTOMATIONS_OPEN}
-              size="lg"
-              aria-pressed={automationsActive}
-              className={cn(
-                "w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground",
-                automationsActive && "bg-selected text-foreground",
-              )}
-            >
-              <CalendarClock className="size-4" />
-              {intl.formatMessage({ id: "workspace.openScheduledSettings" })}
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={onOpenWorkflows}
-              data-icon="inline-start"
-              data-testid="studio-workflows-open"
-              size="lg"
-              aria-pressed={workflowsActive}
-              className={cn(
-                "w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground",
-                workflowsActive && "bg-selected text-foreground",
-              )}
-            >
-              <Workflow className="size-4" />
-              {intl.formatMessage({ id: "studio.workflows" })}
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={onOpenCreation}
-              data-icon="inline-start"
-              data-testid="studio-creation-open"
-              size="lg"
-              aria-pressed={creationActive}
-              className={cn(
-                "w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground",
-                creationActive && "bg-selected text-foreground",
-              )}
-            >
-              <Images className="size-4" />
-              {intl.formatMessage({ id: "studio.creation.title" })}
-            </Button>
+            {!hasActivityRail ? (
+              <>
+                <Button
+                  variant="ghost"
+                  onClick={handleOpenAutomationsMain}
+                  data-icon="inline-start"
+                  data-testid={TID_AUTOMATIONS_OPEN}
+                  size="lg"
+                  aria-pressed={automationsActive}
+                  className={cn(
+                    "w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground",
+                    automationsActive && "bg-selected text-foreground",
+                  )}
+                >
+                  <CalendarClock className="size-4" />
+                  {intl.formatMessage({ id: "workspace.openScheduledSettings" })}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={onOpenWorkflows}
+                  data-icon="inline-start"
+                  data-testid="studio-workflows-open"
+                  size="lg"
+                  aria-pressed={workflowsActive}
+                  className={cn(
+                    "w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground",
+                    workflowsActive && "bg-selected text-foreground",
+                  )}
+                >
+                  <Workflow className="size-4" />
+                  {intl.formatMessage({ id: "studio.workflows" })}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={onOpenCreation}
+                  data-icon="inline-start"
+                  data-testid="studio-creation-open"
+                  size="lg"
+                  aria-pressed={creationActive}
+                  className={cn(
+                    "w-full justify-start gap-2 text-foreground hover:bg-surface-hover hover:text-foreground",
+                    creationActive && "bg-selected text-foreground",
+                  )}
+                >
+                  <Images className="size-4" />
+                  {intl.formatMessage({ id: "studio.creation.title" })}
+                </Button>
+              </>
+            ) : null}
           </div>
 
-          {conversationNavigation}
+          {!hasActivityRail ? conversationNavigation : null}
           <div className="relative flex min-h-0 flex-1 flex-col">
             <div
               ref={workspaceScrollRef}
@@ -1130,20 +1137,22 @@ export const WorkspaceSidebar = memo(function WorkspaceSidebarComponent({
             </div>
           </div>
 
-          <WorkspaceSidebarFooter
-            className="pr-3"
-            theme={theme}
-            localeMenuValue={localeMenuValue}
-            onLocaleChange={handleLocaleChange}
-            onThemeChange={handleThemeChange}
-            onSettingsButtonClick={openSettingsTab}
-            onUsageClick={openSettingsTab}
-            workspacePath={workspacePath}
-            workspaceIdentity={workspaceIdentity}
-            workspaceRemoteSessionId={workspaceRemoteSessionId}
-            activeTaskId={activeTaskId}
-            isDesktop={isDesktop}
-          />
+          {!hasActivityRail ? (
+            <WorkspaceSidebarFooter
+              className="pr-3"
+              theme={theme}
+              localeMenuValue={localeMenuValue}
+              onLocaleChange={handleLocaleChange}
+              onThemeChange={handleThemeChange}
+              onSettingsButtonClick={openSettingsTab}
+              onUsageClick={openSettingsTab}
+              workspacePath={workspacePath}
+              workspaceIdentity={workspaceIdentity}
+              workspaceRemoteSessionId={workspaceRemoteSessionId}
+              activeTaskId={activeTaskId}
+              isDesktop={isDesktop}
+            />
+          ) : null}
         </div>
         <div
           className={cn(

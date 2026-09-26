@@ -72,6 +72,8 @@ export interface CreateTaskOptions {
 export type CreateTaskRequest = KnorviaProvider | CreateTaskOptions;
 
 export interface AppProps {
+  studioNavigation: StudioNavigation;
+  hasActivityRail?: boolean;
   services: IServiceAccessor;
   onConnectRemote: (options: RemoteTarget, requestId?: string) => Promise<string>;
   onSelectRemoteProject: (
@@ -123,7 +125,6 @@ export type WorkspaceMainView =
 export interface WorkspaceShellLayoutProps extends AppProps {
   workspaceReadOnlyReason?: string;
   workspaceMainView: WorkspaceMainView;
-  studioNavigation: StudioNavigation;
   openAutomationId: string | null;
   openAutomationTab: AutomationsNavigationTab | null;
   onWorkspaceMainViewChange: (view: WorkspaceMainView) => void;

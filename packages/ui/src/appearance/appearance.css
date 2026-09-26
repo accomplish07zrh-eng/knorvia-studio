@@ -65,12 +65,24 @@
   /* 外部内核使用 section，过去只处理 main 会留下不透明大块；阅读底色统一归外层 frame。 */
   background-color: transparent;
 }
-.knorvia-materials :is([data-workspace-conversation-frame], [data-settings-panel-frame]) {
+.knorvia-materials
+  :is(
+    [data-workspace-conversation-frame],
+    [data-settings-panel-frame],
+    [data-studio-workspace-sheet]
+  ) {
   background: color-mix(
     in srgb,
     var(--knorvia-reading-base) calc(var(--knorvia-reading-opacity) * 0.75),
     transparent
   );
+}
+
+/* 统一工作面只合成一次阅读底色，防止会话和设置叠出不同深浅的玻璃块。 */
+.knorvia-materials
+  [data-studio-workspace-sheet]
+  :is([data-workspace-conversation-frame], [data-settings-panel-frame]) {
+  background: transparent;
 }
 .knorvia-materials
   :is(

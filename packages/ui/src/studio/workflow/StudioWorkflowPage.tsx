@@ -158,7 +158,7 @@ export function StudioWorkflowPage({ workspacePath }: { workspacePath?: string }
     });
   return (
     <section
-      className="flex h-full min-h-0 min-w-0 flex-col bg-background text-foreground"
+      className="flex h-full min-h-0 min-w-0 flex-col text-foreground"
       aria-label={t("title")}
       data-testid="studio-workflows"
     >

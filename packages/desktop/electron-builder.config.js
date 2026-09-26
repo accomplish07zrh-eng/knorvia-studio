@@ -583,6 +583,10 @@ export default {
     { from: "resources/creation-mcp.cjs", to: "creation-mcp.cjs" },
     { from: resolve(workspaceRoot, "LICENSE"), to: "LICENSE.knorvia.txt" },
     { from: resolve(workspaceRoot, "NOTICE.md"), to: "NOTICE.md" },
+    {
+      from: resolve(workspaceRoot, "third-party/ui/lobe-icons-LICENSE.txt"),
+      to: "licenses/lobe-icons-LICENSE.txt",
+    },
     { from: resolve(workspaceRoot, "FORK-NOTES.md"), to: "FORK-NOTES.md" },
     { from: resolve(workspaceRoot, noticesFileName), to: noticesFileName },
     ...(targetPlatform.os === "darwin"

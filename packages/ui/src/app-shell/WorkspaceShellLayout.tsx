@@ -58,7 +58,6 @@ import { StudioGroupList } from "@/studio/groups/StudioGroupList.js";
 import { onStudioLocalKernelRequested } from "@/onboarding/studioFirstRunGuideEvents.js";
 import { setPendingSettingsSection } from "@/lib/settingsNavigation.js";
 import { useShortcutCommandLabel } from "@/shortcuts/useShortcutBindings.js";
-import type { StudioKernelId } from "@/studio/types.js";
 import type {
   SavedWorkflowLaunchTarget,
   SavedWorkflowsOpenArtifactParams,
@@ -210,6 +209,7 @@ function persistWorkspaceSidebarWidthPx(widthPx: number) {
 }
 
 export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent({
+  hasActivityRail = false,
   services,
   workspaceReadOnlyReason,
   workspaceMainView,
@@ -353,6 +353,8 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
   const isLinuxDesktop = Boolean(isDesktop && !isMacDesktop && !isWindowsDesktop);
   const isExternalChat = workspaceMainView === "external-chat";
   const isSingleChat = workspaceMainView === "chat" || isExternalChat;
+  // 工具页使用整张工作面；这里只派生可见性，保留用户的侧栏开关和宽度偏好。
+  const hasContextSidebar = !hasActivityRail || isSingleChat || workspaceMainView === "groups";
   // Windows/Linux 也需要外层留白，避免独立面板贴住窗口边缘；桌面统一使用 4px 间距。
   const hasDesktopPanelInset = isMacDesktop || isWindowsDesktop || isLinuxDesktop;
   const usesInlineWindowControls = Boolean(isWindowsDesktop || isLinuxDesktop);
@@ -366,7 +368,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
   const workspaceResizeHandleInsetPx = resolveWorkspaceShellResizeHandleInsetPx(
     workspaceShellRadiusOptions,
   );
-  const collapsedSidebarWidthPx = hasDesktopPanelInset ? 4 : 0;
+  const collapsedSidebarWidthPx = hasDesktopPanelInset && hasContextSidebar ? 4 : 0;
   const [draftHeaderDropTargetController, setDraftHeaderDropTargetController] =
     useState<ConversationDropTargetController | null>(null);
   const fileTreeOpenRequestIdRef = useRef(0);
@@ -417,7 +419,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
       (entry) => Boolean(entry.workspaceKey) && !retained.has(entry.workspaceKey),
     );
   }, [openWorkspaceKeys]);
-  const isSidebarPanelVisible = isSidebarVisible;
+  const isSidebarPanelVisible = isSidebarVisible && hasContextSidebar;
   const {
     panelRef: terminalPanelRef,
     panelElementRef: terminalPanelElementRef,
@@ -444,7 +446,8 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
     Boolean(workspaceReadOnlyReason) || reloadSessionDisabled || reloadSessionPending;
   // 文件树打开时任务列表整屏滑出，侧栏里的 New Task 入口也随之不可见。
   // 顶部浮层需要临时露出 New Task，关闭文件树后继续沿用侧栏收起态规则。
-  const showTopOverlayNewTaskButton = !isSidebarVisible || isSidebarFileTreeOpen;
+  const showTopOverlayNewTaskButton =
+    hasContextSidebar && (!isSidebarVisible || isSidebarFileTreeOpen);
   const workspaceSidebarResizeLabel = intl.formatMessage({
     id: "workspaceSidebar.resizeSidebar",
   });
@@ -848,15 +851,6 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
         studioNavigation.selectKernel(id);
       }),
     [showChatMainView, studioNavigation],
-  );
-  const handleSelectKernel = useCallback(
-    (kernelId: StudioKernelId) => {
-      // 只有显式换内核才新建会话；选择历史草稿使用独立路径，不隐式复制上下文。
-      if (kernelId === studioNavigation.route.kernelId) return;
-      if (kernelId === "knorvia") onCreateTask();
-      studioNavigation.selectKernel(kernelId);
-    },
-    [onCreateTask, studioNavigation],
   );
   const handleCreateStudioTask = useCallback(() => {
     if (studioNavigation.route.chatMode === "groups") studioNavigation.createGroup();
@@ -1476,16 +1470,20 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
       services={services}
       isDesktop={isDesktop}
       isWindowsDesktop={isWindowsDesktop}
-      frameClassName={resolveWorkspaceShellWindowChromeClass({
-        isMacDesktop,
-        isWindowsDesktop,
-        isLinuxDesktop,
-        macOSMajorVersion: desktopWindowChromeState?.macOSMajorVersion,
-        isWindowsMaximized: desktopWindowChromeState?.isMaximized ?? false,
-        supportsNativeRoundedCorners:
-          desktopWindowChromeState?.supportsNativeRoundedCorners ?? null,
-      })}
-      showWindowControls={usesInlineWindowControls}
+      frameClassName={
+        hasActivityRail
+          ? "border-l border-border"
+          : resolveWorkspaceShellWindowChromeClass({
+              isMacDesktop,
+              isWindowsDesktop,
+              isLinuxDesktop,
+              macOSMajorVersion: desktopWindowChromeState?.macOSMajorVersion,
+              isWindowsMaximized: desktopWindowChromeState?.isMaximized ?? false,
+              supportsNativeRoundedCorners:
+                desktopWindowChromeState?.supportsNativeRoundedCorners ?? null,
+            })
+      }
+      showWindowControls={usesInlineWindowControls && !hasActivityRail}
       isVisible={isSidePaneVisible}
       onCloseSidePane={handleToggleSidePane}
       toggleSidePaneShortcutLabel={toggleSidePaneShortcutLabel}
@@ -1587,6 +1585,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
           id="sidebar"
           className={cn(
             "w-[var(--workspace-sidebar-panel-width)] max-w-[50%] flex-none overflow-hidden duration-200 ease-out transition-[width,opacity] data-[workspace-sidebar-resizing=true]:transition-opacity",
+            hasActivityRail && "bg-sidebar",
             // 拖动侧栏宽度时如果继续过渡 width，会让指针移动和实际宽度之间产生滞后。
             // 拖拽 active 通过 DOM 标记切 transition，避免 pointerdown/up 为了切 class 重渲染整棵 workspace。
             isSidebarPanelVisible ? "opacity-100" : "pointer-events-none opacity-0",
@@ -1596,6 +1595,8 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
             ref={sidebarContainerRef}
             className="h-full overflow-hidden select-none"
             aria-hidden={!isSidebarPanelVisible}
+            // 收起后仍保留列表挂载，但键盘焦点不能进入不可见的内容侧栏。
+            inert={!isSidebarPanelVisible ? true : undefined}
           >
             <ScopedErrorBoundary
               scope="workspace-sidebar"
@@ -1611,6 +1612,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
               >
                 <WorkflowRunOpenProvider onOpenRun={handleOpenSidebarWorkflowRun}>
                   <WorkspaceSidebar
+                    hasActivityRail={hasActivityRail}
                     workspacePath={workspaceAbsPath}
                     workspaceRemoteSessionId={workspaceRemoteSessionId}
                     activePreviewPath={activePreviewPath}
@@ -1659,16 +1661,22 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                     }
                     conversationNavigation={
                       <div className="space-y-1 px-2 pb-2 pt-1">
-                        <StudioConversationSwitch
-                          value={studioNavigation.route.chatMode}
-                          onValueChange={handleChatModeChange}
-                        />
+                        {!hasActivityRail ? (
+                          <StudioConversationSwitch
+                            value={studioNavigation.route.chatMode}
+                            onValueChange={handleChatModeChange}
+                          />
+                        ) : null}
                         {studioNavigation.route.chatMode === "single" ? (
                           <StudioKernelSelect
                             value={studioNavigation.route.kernelId}
-                            onValueChange={handleSelectKernel}
+                            onValueChange={studioNavigation.openKernel}
                             onManage={openAgentSettings}
                           />
+                        ) : hasActivityRail ? (
+                          <div className="flex h-8 items-center px-2.5 text-ui-base font-medium">
+                            {intl.formatMessage({ id: "studio.groups" })}
+                          </div>
                         ) : null}
                       </div>
                     }
@@ -1697,7 +1705,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
           </aside>
         </div>
 
-        {isSidebarVisible ? (
+        {isSidebarPanelVisible ? (
           <div
             role="separator"
             tabIndex={0}
@@ -1716,6 +1724,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
               "group/handle relative z-10 flex h-full w-1 shrink-0 touch-none cursor-ew-resize items-center justify-center bg-transparent outline-none [app-region:no-drag] focus:outline-none focus-visible:ring-0",
               "after:pointer-events-none after:absolute after:rounded-full after:bg-foreground-subtlest/50 after:opacity-0 after:transition-opacity after:content-[''] after:inset-y-[var(--workspace-panel-radius)] after:w-0.5",
               "hover:after:opacity-100 data-[separator=hover]:after:opacity-100 data-[separator=active]:after:opacity-100 focus-visible:after:opacity-100 [[data-workspace-sidebar-resizing=true]_&]:after:opacity-100",
+              hasActivityRail && "border-l border-border/50",
               hasDesktopPanelInset && "after:inset-y-[var(--workspace-resize-handle-inset)]",
             )}
           />
@@ -1726,11 +1735,11 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
           id="content"
           className={cn(
             "flex min-w-[320px] flex-1 flex-col",
-            hasDesktopPanelInset ? "p-1 pl-0 pt-0" : "p-0",
+            hasDesktopPanelInset && !hasActivityRail ? "p-1 pl-0 pt-0" : "p-0",
           )}
         >
           {
-            hasDesktopPanelInset && (
+            hasDesktopPanelInset && !hasActivityRail && (
               <div className="h-1 w-full [app-region:drag]" />
             ) /* 修复 macOS 顶部窗口控制按钮被 header 遮挡无法点击的问题 */
           }
@@ -1760,18 +1769,21 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                     data-knorvia-scope="true"
                     className={cn(
                       "relative flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-background",
-                      isSidePaneVisible
-                        ? "rounded-[var(--workspace-panel-radius)] border border-border"
-                        : resolveWorkspaceShellWindowChromeClass({
-                            isMacDesktop,
-                            isWindowsDesktop,
-                            isLinuxDesktop,
-                            macOSMajorVersion: desktopWindowChromeState?.macOSMajorVersion,
-                            isWindowsMaximized: desktopWindowChromeState?.isMaximized ?? false,
-                            supportsNativeRoundedCorners:
-                              desktopWindowChromeState?.supportsNativeRoundedCorners ?? null,
-                          }),
-                      isTerminalVisible && "rounded-b-[var(--workspace-panel-radius)] border-b",
+                      !hasActivityRail &&
+                        (isSidePaneVisible
+                          ? "rounded-[var(--workspace-panel-radius)] border border-border"
+                          : resolveWorkspaceShellWindowChromeClass({
+                              isMacDesktop,
+                              isWindowsDesktop,
+                              isLinuxDesktop,
+                              macOSMajorVersion: desktopWindowChromeState?.macOSMajorVersion,
+                              isWindowsMaximized: desktopWindowChromeState?.isMaximized ?? false,
+                              supportsNativeRoundedCorners:
+                                desktopWindowChromeState?.supportsNativeRoundedCorners ?? null,
+                            })),
+                      !hasActivityRail &&
+                        isTerminalVisible &&
+                        "rounded-b-[var(--workspace-panel-radius)] border-b",
                     )}
                   >
                     {shouldRenderWorkspaceHeader ? (
@@ -1843,7 +1855,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                           <AutomationsMainBreadcrumbFrame
                             isDesktop={Boolean(isDesktop)}
                             isMacDesktop={isMacDesktop}
-                            isSidebarVisible={isSidebarVisible}
+                            isSidebarVisible={isSidebarPanelVisible}
                             sectionLabel={intl.formatMessage({
                               id: "settings.automations.title",
                             })}
@@ -1904,7 +1916,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                           })}
                           isDesktop={isDesktop}
                           isMacDesktop={isMacDesktop}
-                          isSidebarVisible={isSidebarVisible}
+                          isSidebarVisible={isSidebarPanelVisible}
                         >
                           <ScopedErrorBoundary
                             scope="studio-page"
@@ -2065,18 +2077,20 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
                 {isSingleChat ? (
                   <AnimatedTerminalPanel
                     frameClassName={cn(
-                      isSidePaneVisible
-                        ? "rounded-[var(--workspace-panel-radius)] border border-border"
-                        : resolveWorkspaceShellWindowChromeClass({
-                            isMacDesktop,
-                            isWindowsDesktop,
-                            isLinuxDesktop,
-                            macOSMajorVersion: desktopWindowChromeState?.macOSMajorVersion,
-                            isWindowsMaximized: desktopWindowChromeState?.isMaximized ?? false,
-                            supportsNativeRoundedCorners:
-                              desktopWindowChromeState?.supportsNativeRoundedCorners ?? null,
-                          }),
-                      "rounded-t-[var(--workspace-panel-radius)] border-t",
+                      hasActivityRail
+                        ? "border-t border-border"
+                        : isSidePaneVisible
+                          ? "rounded-[var(--workspace-panel-radius)] border border-border"
+                          : resolveWorkspaceShellWindowChromeClass({
+                              isMacDesktop,
+                              isWindowsDesktop,
+                              isLinuxDesktop,
+                              macOSMajorVersion: desktopWindowChromeState?.macOSMajorVersion,
+                              isWindowsMaximized: desktopWindowChromeState?.isMaximized ?? false,
+                              supportsNativeRoundedCorners:
+                                desktopWindowChromeState?.supportsNativeRoundedCorners ?? null,
+                            }),
+                      !hasActivityRail && "rounded-t-[var(--workspace-panel-radius)] border-t",
                     )}
                     services={services}
                     workspaceAbsPath={workspaceAbsPath}
@@ -2103,6 +2117,10 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
           variant="silent"
         >
           <DesktopTopOverlay
+            visible={isWorkspaceVisible}
+            sidebarWidthPx={workspaceSidebarPanelWidthPx}
+            showBrandLogo={!hasActivityRail}
+            showSidebarToggle={hasContextSidebar}
             newTaskDisabledReason={workspaceReadOnlyReason}
             workspaceAbsPath={workspaceAbsPath}
             isMacDesktop={isMacDesktop}
@@ -2111,7 +2129,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
             windowsWindowControlsRightPaddingPx={windowsWindowControlsRightPaddingPx}
             isWindowsDesktop={isWindowsDesktop}
             isDesktop={isDesktop}
-            isSidebarVisible={isSidebarVisible}
+            isSidebarVisible={isSidebarPanelVisible}
             toggleSidebarShortcutLabel={toggleSidebarShortcutLabel}
             newTaskShortcutLabel={newTaskShortcutLabel}
             goBackShortcutLabel={goBackShortcutLabel}
@@ -2127,7 +2145,7 @@ export const WorkspaceShellLayout = memo(function WorkspaceShellLayoutComponent(
             onCreateTask={handleCreateStudioTask}
             onGoBack={primaryNavigationBack}
             onGoForward={handleTaskNavForward}
-            onOpenSearch={handleOpenCommandCenter}
+            onOpenSearch={hasContextSidebar ? handleOpenCommandCenter : undefined}
             searchShortcutLabel={searchShortcutLabel}
           />
         </ScopedErrorBoundary>

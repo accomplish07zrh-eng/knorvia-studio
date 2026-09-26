@@ -280,12 +280,13 @@ function EditorCanvas({
               "edge.a11yDescription.default": t("deleteEdgeHint"),
             }}
           >
+            {/* 点阵保留，整块底色继承工作面，避免盖住玻璃和本地背景。 */}
             <Background
               variant={BackgroundVariant.Dots}
               gap={24}
               size={1}
               color="var(--color-border)"
-              bgColor="var(--color-background)"
+              bgColor="transparent"
             />
             <WorkflowCanvasControls locked={locked} onToggleLock={() => setLocked(!locked)} />
             {!workflow.nodes.length && (
@@ -312,7 +313,7 @@ function EditorCanvas({
         </div>
         {rightPane && (
           <aside
-            className="absolute inset-y-0 right-0 z-10 flex w-80 max-w-full shrink-0 flex-col border-l border-border bg-background shadow-md lg:static lg:shadow-none"
+            className="absolute inset-y-0 right-0 z-10 flex w-80 max-w-full shrink-0 flex-col border-l border-border bg-card shadow-md lg:static lg:shadow-none"
             aria-label={t(rightPane === "validation" ? "validationTitle" : rightPane)}
           >
             <div className="flex h-12 shrink-0 items-center justify-between border-b border-border px-4">

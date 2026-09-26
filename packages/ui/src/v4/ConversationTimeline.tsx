@@ -3,6 +3,7 @@ import { cn } from "@/components/lib/utils.js";
 import {
   CONVERSATION_DRAFT_LAYOUT,
   CONVERSATION_DRAFT_COMPACT_LAYOUT,
+  CONVERSATION_DRAFT_COMPOSER_LAYOUT,
 } from "@/v4/conversationDraftLayout.js";
 import { Button } from "@/components/ui/button.js";
 import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
@@ -1868,7 +1869,7 @@ function ConversationTimelineImpl({
                 // 在 composer 左侧留白内的按钮。外壳不接事件，只让实际内容列恢复命中。
                 "pointer-events-none z-20 flex w-full justify-center",
                 responsiveCenteredEmptyLayout
-                  ? "mt-3 shrink-0"
+                  ? CONVERSATION_DRAFT_COMPOSER_LAYOUT
                   : centeredEmptyLayout
                     ? "shrink-0"
                     : "sticky bottom-0",

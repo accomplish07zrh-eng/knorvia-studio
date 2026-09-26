@@ -11,7 +11,10 @@ import { externalChatMetrics } from "@/chat-input-toolbar/chatMetrics.js";
 import { useStudioAgentStore } from "@/store/studioAgentStore.js";
 import { reportStudioFirstMessageAccepted } from "@/onboarding/studioFirstRunGuideEvents.js";
 import { ConversationDraftEmptyState } from "@/v4/ConversationDraftEmptyState.js";
-import { CONVERSATION_DRAFT_LAYOUT } from "@/v4/conversationDraftLayout.js";
+import {
+  CONVERSATION_DRAFT_LAYOUT,
+  CONVERSATION_DRAFT_COMPOSER_LAYOUT,
+} from "@/v4/conversationDraftLayout.js";
 import { getConversationContentWidthClassName } from "@/v4/conversationLayout.js";
 import { studioKernelOption, type StudioKernelId } from "../types.js";
 import { STUDIO_DRAFT_TEXT_LIMIT } from "./agentDrafts.js";
@@ -385,7 +388,9 @@ export function StudioExternalChat({
         <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto [scrollbar-gutter:stable]">
           <div className={CONVERSATION_DRAFT_LAYOUT}>
             <ConversationDraftEmptyState />
-            <div className={cn("mx-auto w-full", contentWidth)}>{composer}</div>
+            <div className={cn("mx-auto w-full", CONVERSATION_DRAFT_COMPOSER_LAYOUT, contentWidth)}>
+              {composer}
+            </div>
           </div>
         </div>
       )}

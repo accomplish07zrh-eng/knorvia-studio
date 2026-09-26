@@ -5,6 +5,7 @@ import type { WorkspaceSettingsLayerProps } from "@/root/types.js";
 import { useEffect } from "react";
 
 export function WorkspaceSettingsLayer({
+  hasActivityRail = false,
   workspaceScopedServices,
   isDesktop,
   isMacDesktop,
@@ -29,6 +30,7 @@ export function WorkspaceSettingsLayer({
       {workspaceScopedServices ? (
         <ServiceProvider services={workspaceScopedServices}>
           <SettingsPage
+            hasActivityRail={hasActivityRail}
             isDesktop={isDesktop}
             isMacDesktop={isMacDesktop}
             isWindowsDesktop={isWindowsDesktop}
@@ -43,6 +45,7 @@ export function WorkspaceSettingsLayer({
         </ServiceProvider>
       ) : (
         <SettingsPage
+          hasActivityRail={hasActivityRail}
           isDesktop={isDesktop}
           isMacDesktop={isMacDesktop}
           isWindowsDesktop={isWindowsDesktop}

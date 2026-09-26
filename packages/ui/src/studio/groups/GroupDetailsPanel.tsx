@@ -24,7 +24,7 @@ export function GroupDetailsPanel({
   return (
     <aside
       aria-label={t("details")}
-      className="absolute inset-y-0 right-0 z-10 flex w-72 max-w-full shrink-0 flex-col border-l border-border bg-background shadow-md lg:static lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:shadow-none"
+      className="absolute inset-y-0 right-0 z-10 flex w-72 max-w-full shrink-0 flex-col border-l border-border bg-card shadow-md lg:static lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:shadow-none"
     >
       <div className="flex h-12 shrink-0 items-center justify-between gap-2 px-4">
         <h2 className="text-ui-base font-medium">{t("details")}</h2>

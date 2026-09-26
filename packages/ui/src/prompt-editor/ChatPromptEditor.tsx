@@ -33,8 +33,8 @@ import { useComposerToolbarFit } from "@/prompt-editor/useComposerToolbarFit.js"
 
 function runAfterFrame(callback: () => void) {
   if (typeof requestAnimationFrame === "function") {
-    requestAnimationFrame(callback);
-    return;
+    const frame = requestAnimationFrame(callback);
+    return () => cancelAnimationFrame(frame);
   }
   callback();
 }
@@ -198,7 +198,10 @@ export function ChatPromptEditor({
     hasSyncedInitialValueRef.current = true;
 
     latestTextRef.current = initialValue;
-    runAfterFrame(() => {
+    return runAfterFrame(() => {
+      // 隐藏窗口或快速切换时首帧可能晚于用户输入；旧初值不能清空已经保存的新草稿。
+      // effect 清理同时取消已卸载编辑器或旧 props 留下的待回填帧。
+      if (latestTextRef.current !== initialValue) return;
       // task 草稿恢复时外层 input state 已经更新，但 Lexical 内部文本不会自动跟随 props。
       // 同时普通打字也会更新 input prop，必须先比较当前编辑器文本，避免每个字符都程序化重写编辑器。
       if (resolvedInputApiRef.current?.getMarkdown() === initialValue) {
