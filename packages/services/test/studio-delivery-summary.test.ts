@@ -516,3 +516,85 @@ test("runs without a checkpoint are still projected instead of throwing", (t) =>
   assert.equal(outcome.outcome, "unverified");
   assert.doesNotThrow(() => readStudioTimeline(db, 100, "group"));
 });
+
+// 回归：群聊运行时业务运行身份与物理工作区身份**不是同一个值**
+// （工作区形如 `group-<群组ID>...`，成员工作区会复用）。
+// 验收记录必须按业务身份写入与查询；否则文件已经应用，交付摘要里却查不到接纳事实。
+test("group runs record acceptance under the business identity, not the workspace identity", async (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "knorvia-group-acceptance-"));
+  // 先关掉当前打开的库再删目录：Windows 上删不掉仍被占用的 sqlite 文件。
+  t.after(() => {
+    try {
+      db.close();
+    } catch {
+      /* 已经关闭 */
+    }
+    rmSync(directory, { recursive: true, force: true });
+  });
+  const databasePath = join(directory, "runtime.sqlite");
+  const businessRunId = "run-business";
+  const businessStepId = "step-business";
+  const workspaceRunId = "group-grp1";
+  const workspaceStepId = "member-1";
+
+  let db = new StudioDatabase(databasePath);
+  // 业务运行记录按业务 runId 存储。
+  db.transaction(() =>
+    db.write(
+      "run",
+      businessRunId,
+      {
+        id: businessRunId,
+        targetId: "group",
+        kind: "group",
+        state: "succeeded",
+        input: "",
+        createdAt: 1,
+        updatedAt: 1,
+        attempt: 1,
+        resultKnown: true,
+        checkpoint: steps(businessStepId),
+      },
+      "group",
+    ),
+  );
+  // 物理工作区记录：**键**是业务身份（turnExecutor 按业务 run/step 查询），
+  // 但记录内容里的 runId/stepId 是物理工作区身份（群聊成员工作区会复用）。
+  db.transaction(() =>
+    db.write(
+      "workspace",
+      `${businessRunId}:${businessStepId}`,
+      { runId: workspaceRunId, stepId: workspaceStepId, path: "D:/p", sourcePath: "D:/p" },
+      businessRunId,
+    ),
+  );
+
+  await applyStudioWorkspaceChanges(deps(db, workspaces()), {
+    runId: businessRunId,
+    stepId: businessStepId,
+    paths: ["a.txt"],
+  });
+
+  // 1) 记录写在业务身份下，物理工作区身份另存字段。
+  const row = db.list<StudioApplyAcceptance>(STUDIO_ACCEPTANCE_KIND, { scope: businessRunId })[0];
+  assert.equal(row?.runId, businessRunId, "接纳记录必须按业务 runId 归属");
+  assert.equal(row?.stepId, businessStepId, "接纳记录必须按业务 stepId 归属");
+  assert.equal(row?.workspaceRunId, workspaceRunId, "物理工作区身份应另存字段");
+  assert.equal(row?.workspaceStepId, workspaceStepId);
+  assert.equal(
+    db.list<StudioApplyAcceptance>(STUDIO_ACCEPTANCE_KIND, { scope: workspaceRunId }).length,
+    0,
+    "不得再把接纳记录写进物理工作区 scope",
+  );
+
+  // 2) 交付摘要按业务 runId 必须查到该步骤的接纳事实。
+  const outcome = readStudioRunOutcome(db, db.read<StoredRun>("run", businessRunId)!);
+  assert.equal(outcome.steps[0]?.acceptance?.operationId, "op-host");
+
+  // 3) 关闭数据库后重开仍能查到。
+  db.close();
+  db = new StudioDatabase(databasePath);
+  const reopened = readStudioRunOutcome(db, db.read<StoredRun>("run", businessRunId)!);
+  assert.equal(reopened.steps[0]?.acceptance?.operationId, "op-host");
+  assert.equal(reopened.steps[0]?.acceptance?.workspaceStepId, workspaceStepId);
+});

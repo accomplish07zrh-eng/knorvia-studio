@@ -47,11 +47,21 @@ run 级结论按步骤汇总，优先级 `unknown` > `produced` > `checked` > `u
 
 写入位置：`StudioRepository` 的新 kind `apply-acceptance`，id = `${runId}:${stepId}:${operationId}`，scope = `runId`。这是**辅助证据**，不是任务状态机：
 
+**这里的 `runId`/`stepId` 是业务运行身份，不是物理工作区身份。** 群聊运行时两者不同：业务身份是本次任务的 `run.id`/步骤 id；物理工作区身份形如 `group-<群组ID>...` 加成员 id，并且成员工作区会被复用。规则：
+
+- 交付投影按业务 `run.id` 查询，因此接纳记录必须按业务身份写入与归属；否则文件已经应用、摘要里却查不到接纳事实。
+- 文件操作、`versions()` 复核与恢复定位继续使用物理工作区身份（`workspace` 记录的 `runId`/`stepId`）；记录里用单独字段 `workspaceRunId`/`workspaceStepId` 保存它，不复用同名字段表达两件事。
+- 旧记录（没有 `workspaceRunId`）不做猜测性回填：能在业务身份下查到的保留，查不到的按历史处理。
+
 ```ts
 export interface StudioApplyAcceptance {
   version: 1;
+  /** 业务运行身份：交付摘要按它查询。 */
   runId: string;
   stepId: string;
+  /** 物理工作区身份：文件操作与恢复定位用它；群聊下与业务身份不同。 */
+  workspaceRunId?: string;
+  workspaceStepId?: string;
   projectKey: string;
   operationId: string;
   acceptedAt: number;

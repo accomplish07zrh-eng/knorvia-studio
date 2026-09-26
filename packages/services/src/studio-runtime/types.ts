@@ -139,8 +139,16 @@ export interface StudioFileVersion {
  */
 export interface StudioApplyAcceptance {
   version: 1;
+  /** 业务运行身份：交付摘要按它查询，必须与 `run`/`step-result` 记录一致。 */
   runId: string;
   stepId: string;
+  /**
+   * 物理工作区身份：群聊成员工作区会复用，文件操作与恢复定位用它。
+   * 它与业务运行身份不是同一个值（群聊下形如 `group-<群组ID>...`），因此单独存放，
+   * 不用同名字段表达两件事。旧记录可能没有这两个字段。
+   */
+  workspaceRunId?: string;
+  workspaceStepId?: string;
   projectKey: string;
   operationId: string;
   acceptedAt: number;

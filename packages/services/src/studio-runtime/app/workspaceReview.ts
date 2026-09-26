@@ -130,6 +130,8 @@ export async function applyStudioWorkspaceChanges(
     if (!remote && (!receipt || !receipt.files.length)) return;
     const acceptance = await readAcceptance(deps, {
       saved,
+      runId: params.runId,
+      stepId: params.stepId,
       targetId,
       token,
       remote: Boolean(remote),
@@ -141,9 +143,10 @@ export async function applyStudioWorkspaceChanges(
         throw new Error("应用锁已失效，未写入验收记录");
       db.write(
         STUDIO_ACCEPTANCE_KIND,
-        `${saved.runId}:${saved.stepId}:${acceptance.operationId}`,
+        `${params.runId}:${params.stepId}:${acceptance.operationId}`,
         acceptance,
-        saved.runId,
+        // scope 用业务运行 ID：交付摘要按 run.id 查询，物理工作区身份另存字段。
+        params.runId,
       );
       db.remove("apply-lock", targetId);
     });
@@ -177,6 +180,9 @@ export async function applyStudioWorkspaceChanges(
 
 interface AcceptanceInput {
   saved: StoredWorkspace;
+  /** 业务运行身份（调用参数），与 saved 的物理工作区身份区分开。 */
+  runId: string;
+  stepId: string;
   targetId: string;
   token: string;
   remote: boolean;
@@ -214,14 +220,18 @@ async function readAcceptance(
   }
   return {
     version: 1,
-    runId: saved.runId,
-    stepId: saved.stepId,
+    // 业务运行身份：交付摘要按 `run.id` 查询，所以这里必须写业务 ID 而不是物理工作区 ID。
+    runId: input.runId,
+    stepId: input.stepId,
+    workspaceRunId: saved.runId,
+    workspaceStepId: saved.stepId,
     projectKey: input.targetId,
     operationId: receipt?.operationId ?? input.token,
     acceptedAt: deps.clock.now(),
     paths: files.length ? files.map((file) => file.path) : input.paths,
     fileVersions: files,
-    creation: studioStepCreation(deps.db, saved.runId, saved.stepId),
+    // 创作引用从业务步骤结果读取：`run` 记录按业务 runId 存储。
+    creation: studioStepCreation(deps.db, input.runId, input.stepId),
     confirmation,
     result,
     // 远端没有本地 journal，就不写 journal 状态；不把"没有"写成"complete"。
