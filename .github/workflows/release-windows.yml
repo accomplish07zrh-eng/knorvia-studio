@@ -117,15 +117,19 @@ jobs:
             *.zip.sha256
             release-artifacts.json
           if-no-files-found: error
-
-  publish:
+  # 只读的发布校验：标签查询与同版本不可变判定**普通发布与 dry run 都要跑**。
+  # 这里刻意只申请 contents: read —— 本 job 不创建、不上传、不删除任何东西。
+  validate-release:
     needs: [quality, package]
-    # 普通提交的构建只作为验证产物；只有非 dry_run 的显式发布才创建 Release。
-    if: ${{ !inputs.dry_run }}
     runs-on: windows-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
     env:
       GH_TOKEN: ${{ github.token }}
+    outputs:
+      action: ${{ steps.decide.outputs.action }}
+      to-upload: ${{ steps.decide.outputs.to-upload }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -195,15 +199,46 @@ jobs:
           "action=$($decision.action)" >> $env:GITHUB_OUTPUT
           "to-upload=$($decision.toUpload -join ',')" >> $env:GITHUB_OUTPUT
           {
-            echo "## 同版本不可变判定"
+            echo "## 同版本不可变判定（只读校验）"
             echo ""
+            echo "- 标签：\`${{ steps.state.outputs.tag }}\`"
             echo "- 结论：\`$($decision.action)\`（$($decision.reason)）"
             echo "- 说明：$($decision.message)"
+            echo "- 本次触发：\`${{ inputs.dry_run && 'dry run（只校验，不发布）' || '正式发布' }}\`"
           } >> $env:GITHUB_STEP_SUMMARY
           if ($code -ne 0) { throw "拒绝发布：$($decision.message)" }
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: knorvia-release-decision
+          path: |
+            release-decision.json
+            release-existing.json
+          if-no-files-found: warn
+
+  publish:
+    needs: [quality, package, validate-release]
+    # 只有创建 Release、上传附件这类**写**操作才受 dry_run 控制；
+    # 标签查询与不可变判定已经在上面的只读 job 里对两种触发都跑过了。
+    if: ${{ !inputs.dry_run }}
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.quality.outputs.checked-sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+      - uses: actions/download-artifact@v4
+        with:
+          name: knorvia-windows-portable
+
       - name: Create release
-        if: ${{ steps.decide.outputs.action == 'create' }}
+        if: ${{ needs.validate-release.outputs.action == 'create' }}
         shell: pwsh
         run: |
           $tag = "${{ needs.package.outputs.tag }}"
@@ -214,16 +249,16 @@ jobs:
           gh release upload $tag "${{ needs.package.outputs.artifact-name }}" "${{ needs.package.outputs.artifact-name }}.sha256"
 
       - name: Upload missing assets
-        if: ${{ steps.decide.outputs.action == 'upload' }}
+        if: ${{ needs.validate-release.outputs.action == 'upload' }}
         shell: pwsh
         run: |
           $tag = "${{ needs.package.outputs.tag }}"
-          $names = "${{ steps.decide.outputs.to-upload }}".Split(",") | Where-Object { $_ }
+          $names = "${{ needs.validate-release.outputs.to-upload }}".Split(",") | Where-Object { $_ }
           # 不使用 --clobber：只补传缺失附件，绝不覆盖已发布字节。
           gh release upload $tag @names
 
       - name: Idempotent finish
-        if: ${{ steps.decide.outputs.action == 'skip' }}
+        if: ${{ needs.validate-release.outputs.action == 'skip' }}
         shell: pwsh
         run: |
           Write-Host "同版本已发布相同字节：${{ needs.package.outputs.artifact-name }} (${{ needs.package.outputs.artifact-sha256 }})"

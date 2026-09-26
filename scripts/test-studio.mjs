@@ -17,7 +17,9 @@ const testDirectories = [
   "apps/cli/packages/plugin-creator-plugin/test",
   "apps/cli/packages/node-repl-host/test",
 ];
-const tests = ["scripts/knorvia-agent-base.test.ts"];
+// `scripts/` 不在上面的目录扫描范围内，必须逐个显式列入，否则不会被统一入口跑到。
+// 发布判定（release-gate）必须在这里，不能只靠质量工作流“碰巧”覆盖。
+const tests = ["scripts/knorvia-agent-base.test.ts", "scripts/release-gate.test.ts"];
 
 for (const directory of testDirectories) {
   const absoluteDirectory = resolve(repoRoot, directory);

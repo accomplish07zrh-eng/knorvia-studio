@@ -31,6 +31,16 @@
    - Release 存在但没有同名附件 → 允许补传该附件。
 8. **禁止破坏性操作**：不使用 `--clobber`，不删除标签、Release 或附件，不使用 `--cleanup-tag`。判断逻辑集中在 `scripts/release-immutability.mjs`，可用本地夹具独立验证，不依赖网络。
 9. **日志可查**：Release 说明与工作流 summary 记录交付 SHA、产物名与 SHA-256。产物哈希同时写入 `<artifact>.sha256` 附件。
+10. **dry run 也要做不可变性校验**：标签查询与不可变判定放在**只读** job `validate-release`（`permissions: contents: read`）里，
+    普通发布与 `dry_run` 都会执行；只有创建 Release、上传附件这类**写**操作才受 `!inputs.dry_run` 控制。
+    因此 dry run 能发现旧标签冲突或已有附件内容不一致，并阻断（`release-decision.json` 作为产物保留）。
+    `publish` job 通过 `needs.validate-release.outputs.action` 决定 create / upload / skip。
+11. **发布判定测试必须进入统一入口**：`scripts/` 不在 `scripts/test-studio.mjs` 的目录扫描范围内，必须逐个显式列入。
+    `scripts/release-gate.test.ts`（11 例判定表夹具）已在其中，因此 `pnpm test:studio` 与质量工作流都会跑到它。
+    **验收不能只看它通过一次**：故意改坏一条断言后 `pnpm test:studio` 必须失败并指出该文件（实测 783/784，失败点 `scripts/release-gate.test.ts:24`）。
+12. **版本号与既有标签**：`v0.8.0-preview.2` 已指向旧基线 `bcc63b6`，按规则 7 不能再往该标签发布；
+    收尾时把根 `package.json` 升到 `0.8.0-preview.3`，**原标签与附件保留不动**。
+    历史文档里出现 `0.8.0-preview.2` 是对当时构建的记录，不随版本升级改写。
 
 ## 判定表
 

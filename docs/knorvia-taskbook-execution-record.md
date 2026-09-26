@@ -4,15 +4,15 @@
 
 ## T00 执行基线与最小变更边界
 
-| 项目         | 实际值                                                                                                                      |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| 仓库         | `https://github.com/accomplish07zrh-eng/knorvia-studio`（私有，具有 push 权限）                                             |
-| 工作目录     | `D:\tools\knorvia-studio`                                                                                                   |
-| 分支         | `main`                                                                                                                      |
-| 基线提交     | `bcc63b6ff684e8ee9b8070f326d70ac007ece19b`（与任务书规划基线完全一致，未回退分支）                                          |
-| 版本         | `0.8.0-preview.2`                                                                                                           |
-| 检出时工作区 | 干净（`git status --porcelain` 0 行）                                                                                       |
-| 新鲜度检查   | `node scripts/check-workspace-freshness.mjs` 退出 0，`基线新鲜：main（与 origin/main 同步），ahead 0 / behind 0（阈值 50）` |
+| 项目         | 实际值                                                                                                                                                           |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 仓库         | `https://github.com/accomplish07zrh-eng/knorvia-studio`（私有，具有 push 权限）                                                                                  |
+| 工作目录     | `D:\tools\knorvia-studio`                                                                                                                                        |
+| 分支         | `main`                                                                                                                                                           |
+| 基线提交     | `bcc63b6ff684e8ee9b8070f326d70ac007ece19b`（与任务书规划基线完全一致，未回退分支）                                                                               |
+| 版本         | `0.8.0-preview.3`（收尾时从 `0.8.0-preview.2` 升级：远端 `v0.8.0-preview.2` 已指向旧基线 `bcc63b6`，按同版本不可变规则不能再往该标签发布；原标签与附件保留不动） |
+| 检出时工作区 | 干净（`git status --porcelain` 0 行）                                                                                                                            |
+| 新鲜度检查   | `node scripts/check-workspace-freshness.mjs` 退出 0，`基线新鲜：main（与 origin/main 同步），ahead 0 / behind 0（阈值 50）`                                      |
 
 工具链（含后续补齐的固定版本复验）：`mise.toml` 固定 `node=24.14.0`、`pnpm=10.33.2`；本机未安装 mise，早期检查在系统 Node `v26.3.0` 上用 `npx pnpm@10.33.2` 执行（pnpm 版本与锁定一致），Python `3.13.14`。**后续已下载官方 Node `v24.14.0` 并在该固定版本上重跑整套门禁：`install --frozen-lockfile` / `typecheck` / `lint` / `fmt:check` / `architecture:check` / `build:cli-packages` 全部退出 0，`test:studio` 751/751 通过 0 失败；交付的便携包也改用 Node 24.14.0 重新构建**，因此原先「未在固定 Node 版本上复验」的偏差已关闭。`node_modules/ssh2` 的可选 crypto 原生绑定在 Node 26 下编译失败（可选优化，安装脚本自行跳过，`pnpm install` 整体退出 0）；Node 24 下 `install --frozen-lockfile` 同样退出 0。
 
