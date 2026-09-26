@@ -15,6 +15,7 @@ import { waitStudioInteraction } from "./runtimeInteractions.js";
 import { readStudioStep, saveStudioStep } from "./checkpointStorage.js";
 import { pendingStudioSteering } from "./pendingInbox.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
+import { buildStudioStepOutputs } from "../domain/outputRef.js";
 
 export interface StudioTurnDependencies {
   db: StudioRepository;
@@ -281,6 +282,19 @@ export async function executeStudioTurn(
     workspacePath,
     changesSummary,
   };
+  // 命名输出由真实 Agent 结果生产（见 specs/knorvia-output-contract.md）：
+  // 单名 → 节点文本；多名 → 必须是以这些名字为键的 JSON 对象。构造失败就把步骤判为失败，
+  // 让下游拿到明确错误，而不是缺失或重复的引用。
+  const declaredOutputs = step.outputNames ?? [];
+  if (declaredOutputs.length && outcome.status === "succeeded" && outcome.resultKnown) {
+    const built = buildStudioStepOutputs({ names: declaredOutputs, text: outcome.text });
+    if (built.ok) {
+      if (built.refs.length) outcome.outputs = built.refs;
+    } else {
+      outcome.status = "failed";
+      outcome.error = redactDiagnosticText(built.error);
+    }
+  }
   if (db.owns(deps.owner, clock.now()))
     db.transaction(() => {
       const current = requiredRun(db, runId);

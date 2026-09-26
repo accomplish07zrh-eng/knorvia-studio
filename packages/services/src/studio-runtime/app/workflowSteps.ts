@@ -14,7 +14,7 @@ import {
   type StudioStepOutputsVerdict as StepOutputsVerdict,
 } from "../domain/outputRef.js";
 import { resolveStudioWorkflowBindings } from "../domain/reference.js";
-import { stricterStudioPermission } from "../domain/workflowParams.js";
+import { stricterStudioPermission, studioWorkflowOutputNames } from "../domain/workflowParams.js";
 import { StudioInteractionCancelledError } from "./runtimeInteractions.js";
 
 export interface WorkflowOutcome extends StudioStepResult {
@@ -190,6 +190,7 @@ async function agentNode(
   for (let attempt = 0; attempt <= node.data.retryCount; attempt++) {
     if (signal.aborted) return workflowStopped(signal);
     let result: StudioStepResult;
+    const outputNames = studioWorkflowOutputNames(node.data);
     try {
       result = await port.agent({
         id: `workflow:${node.id}:attempt:${attempt}`,
@@ -198,6 +199,8 @@ async function agentNode(
         prompt,
         // 实际要求已经与运行授权取过更严格的一方；执行器必须把它交给内核，而不是留在提示词里。
         ...(permission ? { permission } : {}),
+        // 声明的命名输出交给生产者：它决定 Agent 结果怎样变成可引用的 outputs。
+        ...(outputNames.length ? { outputNames } : {}),
         signal,
       });
     } catch (error) {

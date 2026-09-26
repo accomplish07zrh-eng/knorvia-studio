@@ -236,6 +236,67 @@ export function assertStudioOutputsForResult(result: {
 }
 
 /**
+ * 由节点声明的输出名与 Agent 的最终文本构造输出引用
+ * （见 specs/knorvia-output-contract.md「命名输出的生产规则」）。
+ *
+ * 刻意不做猜测，也不把同一段全文复制成多个不同输出：
+ * - 未声明输出名 → 不产出任何引用；
+ * - 只声明一个名字 → 该名字接收节点文本（`text`）；
+ * - 声明多个名字 → 文本必须是 JSON 对象且以这些名字为键；解析失败或缺键都算失败，
+ *   由调用方把步骤判为失败，而不是让下游拿到一个空的或重复的引用。
+ */
+export function buildStudioStepOutputs(input: {
+  names: readonly string[];
+  text: string;
+}): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
+  const names = [...new Set(input.names)];
+  if (!names.length) return { ok: true, refs: [] };
+  for (const name of names)
+    if (!bounded(name, NAME_LIMIT) || !NAME_PATTERN.test(name))
+      return { ok: false, error: `Invalid workflow output name: ${name}` };
+
+  const keyed = `Node declares ${names.length} outputs (${names.join(", ")}), so its result must be a JSON object keyed by those names.`;
+  if (names.length === 1) {
+    const name = names[0]!;
+    return guardRefs([{ kind: "text", name, text: input.text }]);
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(input.text);
+  } catch {
+    return { ok: false, error: keyed };
+  }
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed))
+    return { ok: false, error: keyed };
+  const source = parsed as Record<string, unknown>;
+  const missing = names.filter((name) => !Object.hasOwn(source, name));
+  if (missing.length)
+    return {
+      ok: false,
+      error: `Workflow outputs missing from the node result: ${missing.join(", ")}.`,
+    };
+  const refs: StudioOutputRef[] = [];
+  for (const name of names) {
+    const value = source[name];
+    if (!isJsonValue(value))
+      return { ok: false, error: `Workflow output ${name} must be a JSON value.` };
+    refs.push({ kind: "json", name, value });
+  }
+  return guardRefs(refs);
+}
+
+function guardRefs(
+  refs: StudioOutputRef[],
+): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
+  try {
+    return { ok: true, refs: assertStudioOutputRefs(refs) };
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+/**
  * 解码 step 结果里的输出契约。
  *
  * - 没有 `version`：legacy，按旧语义继续，不解析引用；

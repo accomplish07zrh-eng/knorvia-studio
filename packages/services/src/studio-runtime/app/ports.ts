@@ -35,6 +35,11 @@ export interface StudioAgentStep {
   prompt: string;
   memberId?: string;
   permission?: StudioPermission;
+  /**
+   * 节点声明的命名输出（下游用 `{{ref.<name>}}` 引用）。
+   * 生产者按它把 Agent 结果转成 `StudioStepResult.outputs`；未声明时不产出引用。
+   */
+  outputNames?: readonly string[];
   signal?: AbortSignal;
 }
 /** 跨隔离目录导入的回执：来源记录 + 复制后的真实版本。源文件永不被写回。 */

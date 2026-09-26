@@ -124,6 +124,33 @@ export interface StudioOutputRefsDecodeResult {
 - 读取：`version > CURRENT` → 该 step 结果不可复用，`workflowCached` 抛 `Unsupported workflow checkpoint version for <nodeId>.`；**磁盘上的原始记录保持原字节不变**。
 - 不支持的版本不会被"修复式"重写；只有显式的新 attempt 才会写入新结构。
 
+## 命名输出的生产规则
+
+节点用 `StudioWorkflowNodeData.outputNames` 声明输出名；生产者（真实 Agent 结果）按下面的规则把它们变成
+`StudioStepResult.outputs`，**不做猜测，也不把同一段全文复制成多个不同输出**：
+
+| 节点声明      | 生产结果                                                              | 失败条件                                                                  |
+| ------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 未声明        | 不产出任何引用（保持旧语义）                                          | —                                                                         |
+| 恰好 1 个名字 | 该名字接收节点文本，产出 1 条 `text` 引用                             | 文本超过内联上限（16 KiB）                                                |
+| ≥2 个名字     | 节点文本必须是 JSON 对象且以这些名字为键，每个键产出 1 条 `json` 引用 | 文本不是合法 JSON、不是对象、缺少某个声明键、某个值不是 JSON 值、总量超限 |
+
+- 构造失败时**该步骤判为 `failed`** 并带上可读错误（`... must be a JSON object keyed by those names.` /
+  `Workflow outputs missing from the node result: <names>.`），**不写半成品引用**；下游因此不会拿到缺失或重复的引用。
+- 只有 `status === "succeeded"` 且 `resultKnown === true` 的结果才生产引用（与 `assertStudioOutputsForResult` 一致）。
+- 接线位置：`workflowSteps.agentNode` 把声明交给 `StudioAgentStep.outputNames`，
+  `turnExecutor` 在构造 `StudioStepResult` 时调用 `buildStudioStepOutputs`。
+- **`workspace-file` 与 `creation-output` 不在本规则内**：前者需要 Host 核对真实文件与哈希，
+  后者来自创作服务记录，两者都还没接通（见「未接通项」）。
+
+### 未接通项（不得当成已完成）
+
+- `workspace-file` 输出：节点声明里没有相对路径来源，Host 也没有按声明核对文件与哈希。
+- `creation-output` 输出：`runExecutor.ts` 的创作节点仍只回 `text`，没有从真实 `job.id` 构造引用；
+  `reference.ts` 也没有为创作引用向 CreationService 取归属/存在性/版本证据。
+- 跨隔离工作区输入：引用解析只交出 `relativePath`，下游隔离工作区里并没有那份文件，
+  受控导入入口尚未接线。
+
 ## 检查点边界
 
 检查点（`checkpoint.values` / `checkpoint.steps`）只保存：
@@ -170,6 +197,11 @@ export interface StudioOutputRefsDecodeResult {
 6. 导入导出往返保留新增键。
 7. 既有工作流行为回归：outcomes、orchestration workflow、task templates、studio workflow、schedule 测试全部通过。
 8. `pnpm typecheck`、`pnpm lint` 通过（scoped `oxfmt` 后）。
+9. **生产 → 持久化 → 消费（真实执行入口）**：`studio-workflow-output-production.test.ts` 从
+   `StudioRuntimeService` 启动工作流，只替换 kernel adapter，**不预填 `outputs`**：
+   单名节点产出 `text` 引用且下游读到该值；多名节点返回按名建键的 JSON 时产出多条 `json` 引用且下游读到值。
+10. **生产失败必须显式失败**：多名节点返回纯文本 → 该步骤 `failed`、错误指出「必须是按名建键的 JSON 对象」、
+    下游节点不执行、检查点里不留半成品 `outputs`；缺少某个声明键 → 错误点名缺失的输出名。
 
 ## 风险与回滚
 
