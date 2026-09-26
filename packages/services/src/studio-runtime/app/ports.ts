@@ -40,7 +40,27 @@ export interface StudioAgentStep {
    * 生产者按它把 Agent 结果转成 `StudioStepResult.outputs`；未声明时不产出引用。
    */
   outputNames?: readonly string[];
+  /**
+   * 已核验的上游文件输出，需要在本次运行的隔离工作区准备好之后由 Host 复制进来。
+   * 提示词里仍然是原来的相对路径：复制到目标工作区的**同一相对路径**，因此下游读到的是副本。
+   */
+  inputs?: readonly StudioStepInput[];
   signal?: AbortSignal;
+}
+/**
+ * 已核验的上游输出作为下游输入。
+ *
+ * **刻意不接受绝对路径**：来源完全由 (sourceRunId, sourceStepId, relativePath) 决定，
+ * 由 Host 自己从上游工作区解析。这样既能让下游拿到副本，又不会因为"加一个导入能力"而放开
+ * Studio 自己的整个数据目录（通用 `importFile` 仍然拒绝导入内部存储）。
+ */
+export interface StudioStepInput {
+  name: string;
+  sourceRunId: string;
+  sourceStepId: string;
+  relativePath: string;
+  /** 记录时的哈希；给出时导入必须核对，不一致即拒绝。 */
+  sha256?: string;
 }
 /** 跨隔离目录导入的回执：来源记录 + 复制后的真实版本。源文件永不被写回。 */
 export interface StudioImportReceipt {
@@ -127,4 +147,19 @@ export interface StudioWorkspacePort {
     stepId: string,
     relativePath: string,
   ): Promise<StudioReferenceVersion>;
+  /**
+   * 把**已核验的上游输出**复制进本次运行的工作区，并把副本放回同一相对路径。
+   *
+   * 与 `importFile` 的区别在来源：这里不接收调用方给的绝对路径，而是按
+   * (sourceRunId, sourceStepId, relativePath) 从上游工作区自己解析，因此不需要放开
+   * Studio 数据目录。`expectedSha256` 给出时必须核对，不一致或读不到一律失败关闭。
+   */
+  importReference?(params: {
+    runId: string;
+    stepId: string;
+    sourceRunId: string;
+    sourceStepId: string;
+    relativePath: string;
+    expectedSha256?: string;
+  }): Promise<StudioImportReceipt>;
 }

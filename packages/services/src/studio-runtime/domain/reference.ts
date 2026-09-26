@@ -243,6 +243,24 @@ export interface StudioWorkflowReferenceHost {
 
 export const STUDIO_REFERENCE_PLACEHOLDER = /\{\{ref\.([^{}]+)\}\}/g;
 
+/**
+ * 已核验的 `workspace-file` 引用。下游隔离工作区里并没有这个文件，因此需要 Host 按这份身份
+ * 把副本导入目标工作区（见 `specs/knorvia-host-references.md`「跨隔离输入」）。
+ */
+export interface StudioResolvedReferenceInput {
+  name: string;
+  sourceRunId: string;
+  sourceStepId: string;
+  relativePath: string;
+  sha256?: string;
+}
+
+/** 解析结果：供提示词代入的文本值，以及需要由 Host 导入的文件输入。 */
+export interface StudioWorkflowBindings {
+  values: Map<string, string>;
+  files: StudioResolvedReferenceInput[];
+}
+
 /** 提示词与创作参考路径里要求解析的上游输出名（去重）。 */
 export function studioRequestedOutputs(sources: Array<string | undefined>): string[] {
   const requested = new Set<string>();
@@ -261,10 +279,11 @@ export async function resolveStudioWorkflowBindings(params: {
   outcomes: ReadonlyMap<string, StudioWorkflowOutcomeView>;
   ancestors?: ReadonlySet<string>;
   host?: StudioWorkflowReferenceHost;
-}): Promise<Map<string, string>> {
+}): Promise<StudioWorkflowBindings> {
   const values = new Map<string, string>();
+  const files: StudioResolvedReferenceInput[] = [];
   const requested = studioRequestedOutputs(params.sources);
-  if (!requested.length) return values;
+  if (!requested.length) return { values, files };
   for (const name of requested) {
     const found = findWorkflowOutput(params.outcomes, name, params.ancestors);
     if (!found) throw new Error(`Workflow reference is unavailable before execution: ref.${name}.`);
@@ -303,8 +322,17 @@ export async function resolveStudioWorkflowBindings(params: {
     const verdict = studioReferenceResolve({ ref: found.ref, context, evidence });
     if (!verdict.ok) throw new Error(`Workflow reference ${name} was rejected: ${verdict.detail}.`);
     values.set(name, studioReferenceText(found.ref));
+    // 文件引用还要交给 Host 导入下游工作区：上游工作区里有这个相对路径，不代表下游也有。
+    if (found.ref.kind === "workspace-file")
+      files.push({
+        name,
+        sourceRunId: found.ref.runId,
+        sourceStepId: found.ref.stepId,
+        relativePath: found.ref.relativePath,
+        ...(found.ref.sha256 ? { sha256: found.ref.sha256 } : {}),
+      });
   }
-  return values;
+  return { values, files };
 }
 
 /** 在可见范围内按名字查找输出引用；同时返回产出它的节点 id。 */

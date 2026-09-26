@@ -1,4 +1,4 @@
-import type { StudioExecutionPort } from "./ports.js";
+import type { StudioExecutionPort, StudioStepInput } from "./ports.js";
 import type {
   StudioStepResult,
   StudioWorkflowNode,
@@ -186,6 +186,7 @@ async function agentNode(
   port: StudioExecutionPort,
   signal: AbortSignal,
   permission: StudioPermission | undefined,
+  inputs: readonly StudioStepInput[] = [],
 ): Promise<WorkflowOutcome> {
   for (let attempt = 0; attempt <= node.data.retryCount; attempt++) {
     if (signal.aborted) return workflowStopped(signal);
@@ -201,6 +202,8 @@ async function agentNode(
         ...(permission ? { permission } : {}),
         // 声明的命名输出交给生产者：它决定 Agent 结果怎样变成可引用的 outputs。
         ...(outputNames.length ? { outputNames } : {}),
+        // 已核验的上游文件由 Host 在目标工作区准备好之后复制进来。
+        ...(inputs.length ? { inputs } : {}),
         signal,
       });
     } catch (error) {
@@ -247,13 +250,13 @@ export async function executeWorkflowNode(
   const cached = workflowCached(port, node.id);
   if (cached) return cached;
   // 结构化引用在调用内核之前解析：缺失、越界或已变化都必须先失败，而不是带着坏引用去执行。
-  const bindings = await resolveStudioWorkflowBindings({
+  const resolved = await resolveStudioWorkflowBindings({
     sources: [node.data.prompt, node.data.creationReferencePath],
     outcomes,
     ...(scope?.ancestors ? { ancestors: scope.ancestors } : {}),
     ...(port.reference ? { host: port.reference } : {}),
   });
-  const options = { params: workflowParams(port), bindings };
+  const options = { params: workflowParams(port), bindings: resolved.values };
   const requirement = stricterStudioPermission(
     node.data.permission as StudioPermission | undefined,
     workflowAuthorisation(port),
@@ -299,6 +302,7 @@ export async function executeWorkflowNode(
         port,
         signal,
         requirement,
+        resolved.files,
       );
     case "creation": {
       if (!port.createMedia || !node.data.creationModelId)

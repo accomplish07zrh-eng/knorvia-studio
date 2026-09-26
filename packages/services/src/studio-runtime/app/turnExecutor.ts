@@ -7,7 +7,12 @@ import type {
   StudioStepResult,
   StudioWorkflowDefinition,
 } from "../workflowTypes.js";
-import type { StudioAgentStep, StudioKernelRegistry, StudioWorkspacePort } from "./ports.js";
+import type {
+  StudioAgentStep,
+  StudioKernelRegistry,
+  StudioStepInput,
+  StudioWorkspacePort,
+} from "./ports.js";
 import type { ICreationService } from "../../creation/contract.js";
 import type { StoredRun, StoredSession, StudioClock, StudioRepository } from "./storePort.js";
 import { requiredRun } from "./commandAdmission.js";
@@ -16,6 +21,7 @@ import { readStudioStep, saveStudioStep } from "./checkpointStorage.js";
 import { pendingStudioSteering } from "./pendingInbox.js";
 import { parseRemoteStudioKernelId } from "../domain/remoteAgentIdentity.js";
 import { buildStudioStepOutputs } from "../domain/outputRef.js";
+import { saveTurnEvent as writeTurnEvent } from "./turnEvents.js";
 
 export interface StudioTurnDependencies {
   db: StudioRepository;
@@ -108,6 +114,15 @@ export async function executeStudioTurn(
             mode: definition?.workspaceMode ?? "isolated",
           });
     signal.throwIfAborted();
+    // 跨隔离输入：上游工作区里有这个相对路径，不代表下游工作区也有这份文件。
+    // 由 Host 按「运行/步骤/输出身份」从上游工作区取到副本，放进本次工作区的**同一相对路径**，
+    // 因此提示词里的相对路径在下游依然有效；源文件始终只读，通用 importFile 的内部存储限制不变。
+    await importStudioStepInputs(deps, {
+      runId: workspaceRunId,
+      stepId: workspaceStepId,
+      inputs: step.inputs ?? [],
+      isolated: run.kind !== "chat" && !remoteMember,
+    });
     const resolvedWorkspace = workspacePath;
     const sessionKey = `${key}:${workspacePath}`;
     const session = db.read<StoredSession>("session", sessionKey);
@@ -342,6 +357,35 @@ export async function executeStudioTurn(
   return outcome;
 }
 
+/**
+ * 把已核验的上游文件输出导入本次运行的隔离工作区。
+ *
+ * 只对隔离工作区生效（共享项目模式下游直接看同一个项目，不需要复制）；
+ * 宿主没有实现窄范围导入能力时**失败关闭**，不退化为让下游去读上游路径。
+ */
+async function importStudioStepInputs(
+  deps: StudioTurnDependencies,
+  params: {
+    runId: string;
+    stepId: string;
+    inputs: readonly StudioStepInput[];
+    isolated: boolean;
+  },
+): Promise<void> {
+  if (!params.inputs.length || !params.isolated) return;
+  const importReference = deps.workspaces.importReference?.bind(deps.workspaces);
+  if (!importReference) throw new Error("宿主不支持跨隔离输入导入，无法把上游输出交给下游步骤。");
+  for (const input of params.inputs)
+    await importReference({
+      runId: params.runId,
+      stepId: params.stepId,
+      sourceRunId: input.sourceRunId,
+      sourceStepId: input.sourceStepId,
+      relativePath: input.relativePath,
+      ...(input.sha256 ? { expectedSha256: input.sha256 } : {}),
+    });
+}
+
 function saveTurnEvent(
   deps: StudioTurnDependencies,
   run: StoredRun,
@@ -350,37 +394,5 @@ function saveTurnEvent(
   event: Exclude<StudioKernelEvent, { type: "session" }>,
   stepId: string,
 ): void {
-  const { db, clock } = deps;
-  if (event.type === "usage") {
-    // 同一 turn 可先收到窗口、再收到计费用量；局部快照不能清空已有字段或重复累加。
-    const previous = db.read<import("../kernelTypes.js").StudioKernelUsage>("usage", turnId);
-    const usage = mergeKernelUsage(previous, event);
-    if (JSON.stringify(previous) !== JSON.stringify(usage))
-      db.write("usage", turnId, usage, run.id);
-    return;
-  }
-  const id = `${turnId}:${event.type}${event.type === "tool" ? `:${event.id}` : ""}`;
-  const old = db.read<StudioMessage>("message", id);
-  const value = redactDiagnosticText(
-    event.type === "tool" ? (event.output ?? event.input ?? "") : (old?.text ?? "") + event.text,
-  );
-  if (value.length > 1_000_000) throw new Error("单条输出超过保存限制，任务已停止");
-  const now = clock.now();
-  const hostPhase = event.type === "text" && /^group:(?:plan|review|steer|steering):/.test(stepId);
-  const message: StudioMessage = {
-    id,
-    targetId: run.targetId,
-    runId: run.id,
-    turnId,
-    sender: kernel,
-    kind: hostPhase ? "tool" : event.type,
-    text: value,
-    createdAt: old?.createdAt ?? now,
-    updatedAt: now,
-    ...(hostPhase
-      ? { name: stepId.startsWith("group:review:") ? "主持人复核" : "主持人安排", state: "running" }
-      : {}),
-    ...(event.type === "tool" ? { name: event.name, state: event.state } : {}),
-  };
-  db.write("message", id, message, run.targetId);
+  return writeTurnEvent(deps.db, deps.clock, run, turnId, kernel, event, stepId);
 }

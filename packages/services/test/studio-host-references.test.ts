@@ -188,7 +188,12 @@ test("structured references stay unverified without host evidence and reject pat
     outcomes,
     host: { runId: "run-1", fileVersion: async () => sha256("content") },
   });
-  assert.equal(resolved.get("design"), "out/design.md");
+  assert.equal(resolved.values.get("design"), "out/design.md");
+  // 文件引用还要交给 Host 导入下游工作区：身份与路径必须一起带出来。
+  assert.equal(resolved.files.length, 1);
+  assert.equal(resolved.files[0]?.name, "design");
+  assert.equal(resolved.files[0]?.relativePath, "out/design.md");
+  assert.equal(resolved.files[0]?.sha256, sha256("content"));
 });
 
 /* ------------------------------------------------------------------ *

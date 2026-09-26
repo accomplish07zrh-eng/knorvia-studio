@@ -48,6 +48,29 @@
 - 隔离目录内的工作区文件引用以"复制进工作区的那一份"为准；项目目录只在 `shared` 模式下直接被写入。
 - 并发沿用 `sourceKey` 锁约定（按项目路径串行）。
 
+## 3.5 跨隔离输入（`importReference`）
+
+上游隔离工作区位于 Studio 自己的数据目录里，因此**通用 `importFile` 拒绝导入它**（第 3 节）。但
+下游 Agent 有另一个隔离工作区：上游有相对路径不代表下游也有那份文件。第 3 节的限制**不放宽**，
+而是另开一个窄范围入口：
+
+- `StudioWorkspacePort.importReference({ runId, stepId, sourceRunId, sourceStepId, relativePath, expectedSha256? })`。
+  **不接收绝对路径**：来源完全由运行/步骤身份 + 相对路径经**上游工作区元数据**解析，调用方无法指定任意文件。
+- 复制前校验：上游工作区必须存在、相对路径必须是可移植相对路径、文件必须是普通未链接文件；
+  `expectedSha256` 给出时（引用记录了哈希）必须一致，否则 `Referenced upstream output changed since it was recorded.`
+- 副本放回**同一相对路径**，因此提示词里的 `{{ref.<name>}}`（解析为上游相对路径）在下游依然有效。
+- 目标已存在且内容与来源一致（同一来源同一版本）→ 直接返回，**不重复写入**；
+  目标存在但内容不同 → `exclusiveWrite` 的 `wx` 语义使其**失败而不是覆盖**。
+- 沿用第 3 节的 `sourceKey` 锁、复制后重读比对哈希与大小、以及元数据 `{ sourcePath, hash, size }` 来源记录；
+  **源文件始终只读**。
+- 接线：`workflowSteps.agentNode` 把已核验的文件引用交给 `StudioAgentStep.inputs`，
+  `turnExecutor` 在**目标工作区准备好之后**调用导入，再让内核执行。
+  共享项目模式不复制（上下游看同一个项目）；宿主未实现该能力时**失败关闭**，不退化为让下游去读上游路径。
+
+**尚未接通**：当前还没有生产者会产出 `workspace-file` 引用（节点声明只有名字、没有来源类型），
+所以这条链路在真实运行里还走不到；下一步是先让节点声明输出**来源**（文本 / JSON 字段 / 工作区文件），
+再由 Host 核对文件与哈希后产出 `workspace-file` 引用。
+
 ## 4. 参数 schema 规则
 
 节点可选 `params: StudioWorkflowParam[]`：
