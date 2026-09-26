@@ -232,6 +232,7 @@ export const contentPackScenario: TemplateScenario = {
           {
             kind: "creation-output",
             name: "illustration-output",
+            runId: "run-fixture-1",
             creationJobId: "job-fixture-1",
             outputId: "out-fixture-1",
             sha256: "c".repeat(64),

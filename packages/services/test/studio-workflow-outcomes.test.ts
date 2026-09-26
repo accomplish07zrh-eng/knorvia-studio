@@ -370,6 +370,8 @@ test("known outputs round-trip through a bounded checkpoint and stay reusable", 
     {
       kind: "creation-output" as const,
       name: "cover",
+      // 创作任务记录本身不带运行来源，归属由引用上的 runId 声明并在解析时核对。
+      runId: "run-1",
       creationJobId: "job-1",
       outputId: "out-1",
     },

@@ -232,6 +232,7 @@ test("creation output hash is host evidence, bare references stay produced", (t)
       {
         kind: "creation-output" as const,
         name: "clip",
+        runId: "run",
         creationJobId: "job-1",
         outputId: "out-1",
         ...(sha256 ? { sha256 } : {}),
@@ -341,6 +342,7 @@ test("acceptance carries the creation job references of the step", async (t) => 
         {
           kind: "creation-output",
           name: "clip",
+          runId: "run",
           creationJobId: "job-9",
           outputId: "out-9",
           sha256: HOST_HASH,

@@ -63,6 +63,14 @@ export interface StudioReferencePort {
   workspaceIdentity?: string;
   /** 重新读取 `workspace-file` 引用目标；不实现时该引用无法取证。 */
   fileVersion?(runId: string, stepId: string, relativePath: string): Promise<string | null>;
+  /**
+   * 经 CreationService 核对 `creation-output` 引用（归属、存在性、版本/哈希）。
+   * 不实现时该引用无法取证，解析必须失败关闭。
+   */
+  creationOutputVersion?(
+    jobId: string,
+    outputId: string,
+  ): Promise<{ exists: boolean; sha256: string | null } | null>;
 }
 export interface StudioExecutionPort {
   steering?(): Array<{ id: string; text: string }>;
@@ -80,6 +88,8 @@ export interface StudioExecutionPort {
     modelId: string;
     prompt: string;
     referencePath?: string;
+    /** 节点声明的命名输出；生产者按它把真实创作成果转成 `creation-output` 引用。 */
+    outputNames?: readonly string[];
     signal: AbortSignal;
   }): Promise<StudioStepResult>;
   confirm(id: string, title: string, signal?: AbortSignal): Promise<boolean>;

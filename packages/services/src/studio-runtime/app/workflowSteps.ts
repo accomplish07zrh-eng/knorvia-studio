@@ -304,6 +304,7 @@ export async function executeWorkflowNode(
       if (!port.createMedia || !node.data.creationModelId)
         return workflowFailed("创作服务或模型不可用");
       const prompt = workflowText(node.data.prompt, input, output, outcomes, options);
+      const creationOutputs = studioWorkflowOutputNames(node.data);
       try {
         return await port.createMedia({
           nodeId: node.id,
@@ -320,6 +321,7 @@ export async function executeWorkflowNode(
                 ),
               }
             : {}),
+          ...(creationOutputs.length ? { outputNames: creationOutputs } : {}),
           signal,
         });
       } catch (error) {

@@ -17,36 +17,22 @@ import {
   StudioUnsupportedCheckpointVersionError,
   type StudioOutputRef,
 } from "./outputRef.js";
+import {
+  studioReferenceIdentity,
+  studioReferencePathDetail,
+  studioReferencePathReason,
+  type StudioReferenceReason,
+} from "./referencePath.js";
+
+// 路径与身份规则住在 `referencePath.ts`；这里继续对外暴露同一组符号，调用方无需改动。
+export {
+  studioReferenceIdentity,
+  studioReferencePathReason,
+  type StudioReferenceReason,
+} from "./referencePath.js";
 
 /** 引用解析契约版本。新增判定类别必须先升版本，不能原地改变已有理由的含义。 */
 export const STUDIO_REFERENCE_VERSION = 1;
-
-/**
- * 拒绝理由。刻意细分为互不重叠的类别，便于 UI 给出不同文案与处理建议。
- */
-export type StudioReferenceReason =
-  /** 结构非法（缺字段、类型不对、超长）。 */
-  | "malformed"
-  /** 绝对路径或盘符：无法限定在本次运行的工作区里。 */
-  | "absolute-path"
-  /** `..`、空段或 `.` 段：试图离开声明的范围。 */
-  | "traversal"
-  /** ADS、反斜杠、尾随点/空格、保留设备名：会别名到另一个文件。 */
-  | "dangerous-name"
-  /** 引用的工作区身份与当前运行不一致。 */
-  | "workspace-mismatch"
-  /** 引用属于另一个运行。 */
-  | "foreign-task"
-  /** 引用由非前置（后继、旁支或未知）步骤产出。 */
-  | "foreign-step"
-  /** 引用超出了当前节点可见的范围。 */
-  | "scope"
-  /** 目标不存在。 */
-  | "missing"
-  /** 目标存在但版本已变化。 */
-  | "changed"
-  /** 引用契约版本高于本进程。 */
-  | "unsupported-version";
 
 export interface StudioReferenceContext {
   /** 当前运行的运行 id；`workspace-file` 引用必须属于它。 */
@@ -72,58 +58,14 @@ export type StudioReferenceVerdict =
   | { ok: true; kind: StudioOutputRef["kind"]; relativePath?: string }
   | { ok: false; reason: StudioReferenceReason; detail: string };
 
-/** 身份 key 的唯一来源：`workspaceIdentity?.trim() || workspacePath`。 */
-export function studioReferenceIdentity(
-  workspaceIdentity?: string | null,
-  workspacePath?: string | null,
-): string {
-  const identity = typeof workspaceIdentity === "string" ? workspaceIdentity.trim() : "";
-  if (identity) return identity;
-  return typeof workspacePath === "string" ? workspacePath.trim() : "";
-}
-
-const RESERVED_SEGMENT = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?$/iu;
-const PATH_LIMIT = 1024;
 const SHA256_PATTERN = /^[a-f0-9]{64}$/u;
 
 function reject(reason: StudioReferenceReason, detail: string): StudioReferenceVerdict {
   return { ok: false, reason, detail };
 }
 
-/**
- * 把路径问题分类到具体理由。
- * 返回 `undefined` 表示该路径段层面可接受（仍需结构校验兜底）。
- */
-export function studioReferencePathReason(value: unknown): StudioReferenceReason | undefined {
-  if (typeof value !== "string" || !value || value.length > PATH_LIMIT) return "malformed";
-  if (
-    value.startsWith("/") ||
-    value.startsWith("\\") ||
-    /^[A-Za-z]:/u.test(value) ||
-    value.includes("\\")
-  )
-    return "absolute-path";
-  if (value.includes("\0")) return "dangerous-name";
-  const segments = value.split("/");
-  if (segments.some((segment) => segment === "." || segment === "")) return "traversal";
-  if (segments.some((segment) => segment === "..")) return "traversal";
-  if (segments.some((segment) => segment.includes(":") || /[. ]$/u.test(segment)))
-    return "dangerous-name";
-  if (segments.some((segment) => RESERVED_SEGMENT.test(segment))) return "dangerous-name";
-  return undefined;
-}
-
 function detailFor(reason: StudioReferenceReason, value: string): string {
-  switch (reason) {
-    case "absolute-path":
-      return `Reference path must stay inside the run workspace: ${value}`;
-    case "traversal":
-      return `Reference path escapes its declared scope: ${value}`;
-    case "dangerous-name":
-      return `Reference path is not a portable file name: ${value}`;
-    default:
-      return `Invalid reference path: ${value}`;
-  }
+  return studioReferencePathDetail(reason, value);
 }
 
 /**
@@ -170,6 +112,11 @@ export function studioReferenceOrigin(
         return reject("malformed", "Invalid studio reference: creation job id is missing");
       if (typeof record.outputId !== "string" || !record.outputId)
         return reject("malformed", "Invalid studio reference: creation output id is missing");
+      // 创作任务记录本身不带运行来源，归属只能在引用上声明并在这里核对。
+      if (typeof record.runId !== "string" || !record.runId)
+        return reject("malformed", "Invalid studio reference: run id is missing");
+      if (record.runId !== context.runId)
+        return reject("foreign-task", `Reference belongs to another run: ${record.runId}`);
       if (
         record.sha256 !== undefined &&
         (typeof record.sha256 !== "string" || !SHA256_PATTERN.test(record.sha256))
@@ -284,6 +231,14 @@ export interface StudioWorkflowReferenceHost {
   stepOwners?: readonly string[];
   workspaceIdentity?: string;
   fileVersion?(runId: string, stepId: string, relativePath: string): Promise<string | null>;
+  /**
+   * 经 CreationService 核对创作引用的归属、存在性与版本/哈希。
+   * 返回 `null` 表示宿主无法核对（视同不可用）；不实现时创作引用失败关闭。
+   */
+  creationOutputVersion?(
+    jobId: string,
+    outputId: string,
+  ): Promise<{ exists: boolean; sha256: string | null } | null>;
 }
 
 export const STUDIO_REFERENCE_PLACEHOLDER = /\{\{ref\.([^{}]+)\}\}/g;
@@ -333,6 +288,17 @@ export async function resolveStudioWorkflowBindings(params: {
         found.ref.relativePath,
       );
       evidence = { exists: hash !== null, sha256: hash };
+    } else if (found.ref.kind === "creation-output") {
+      // 创作引用必须经 CreationService 核对归属/存在性/版本，而不是只看字段形状。
+      if (!params.host.creationOutputVersion)
+        throw new Error(
+          `Workflow reference cannot be verified without creation evidence: ref.${name}.`,
+        );
+      const version = await params.host.creationOutputVersion(
+        found.ref.creationJobId,
+        found.ref.outputId,
+      );
+      evidence = version ?? { exists: false, sha256: null };
     }
     const verdict = studioReferenceResolve({ ref: found.ref, context, evidence });
     if (!verdict.ok) throw new Error(`Workflow reference ${name} was rejected: ${verdict.detail}.`);

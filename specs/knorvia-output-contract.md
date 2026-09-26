@@ -140,22 +140,36 @@ export interface StudioOutputRefsDecodeResult {
 - 只有 `status === "succeeded"` 且 `resultKnown === true` 的结果才生产引用（与 `assertStudioOutputsForResult` 一致）。
 - 接线位置：`workflowSteps.agentNode` 把声明交给 `StudioAgentStep.outputNames`，
   `turnExecutor` 在构造 `StudioStepResult` 时调用 `buildStudioStepOutputs`。
-- **`workspace-file` 与 `creation-output` 不在本规则内**：前者需要 Host 核对真实文件与哈希，
-  后者来自创作服务记录，两者都还没接通（见「未接通项」）。
+- **`workspace-file` 不在本规则内**：它需要 Host 按声明核对真实文件与哈希，尚未接通（见「仍未接通」）。
+  创作节点的命名输出见下一节。
 
-### 未接通项（不得当成已完成）
+### 创建（creation）引用的生产与证据
+
+创作节点的命名输出同样由**真实创作成果**生产，并必须由 CreationService 取证：
+
+| 环节     | 规则                                                                                                                                                                                                                                                               |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 生产     | `runExecutor.createMedia` 在 `job.status === "succeeded"` 时按 `request.outputNames` 构造 `creation-output` 引用；名字数必须与 `job.outputs` 数量相等、按顺序一一对应，**不做猜测也不复制**；数量不符则该步骤判 `failed`（`... but the creation job produced N.`） |
+| 归属     | 创作任务记录本身**不带运行来源**，因此引用上新增 `runId` 字段声明产出它的运行；`studioReferenceOrigin` 要求该字段存在且等于当前运行，否则 `foreign-task`                                                                                                           |
+| 证据     | 宿主必须实现 `creationOutputVersion(jobId, outputId)`（经 CreationService 核对存在性与哈希）。`resolveStudioWorkflowBindings` 为 `creation-output` 取该证据；查不到就是不可用                                                                                      |
+| 失败关闭 | 缺证据、成果不存在、`sha256` 不符都在**调用下游内核之前**拒绝，错误形如 `Workflow reference <name> was rejected: Referenced creation-output is not available.`                                                                                                     |
+
+**更正**：上一轮本文件曾写「`creation-output` 只校验字段形状就放行，不要求宿主证据」——这是错的。
+`studioReferenceResolve` 依次执行「结构 → 身份 → 归属 → 版本证据」，其中 `studioReferenceEvidence`
+对非 `text`/`json` 引用在没有证据时一律 `reject("missing", ...)`。所以当时的行为是**因缺证据被拒绝**，
+不是「无证据放行」；本次补的是生产者与取证方法，以及缺失的运行归属。
+
+### 仍未接通（不得当成已完成）
 
 - `workspace-file` 输出：节点声明里没有相对路径来源，Host 也没有按声明核对文件与哈希。
-- `creation-output` 输出：`runExecutor.ts` 的创作节点仍只回 `text`，没有从真实 `job.id` 构造引用；
-  `reference.ts` 也没有为创作引用向 CreationService 取归属/存在性/版本证据。
-- **已知隐患（接线时必须一起修）**：`studioReferenceResolve` 目前对 `creation-output` 只校验字段形状
-  （job id / output id / sha256 格式）就放行，**不要求任何宿主证据**。因此一旦只补生产者而不补证据，
-  创作引用会以「未核验」状态被下游使用——这正是「只验证字段形状」的问题。
-  正确接线是：`StudioWorkflowReferenceHost` 增加创作证据查询（经 CreationService 核对归属、
-  输出存在性与版本/哈希），`resolveStudioWorkflowBindings` 为 `creation-output` 取证据，
-  `studioReferenceResolve` 在缺证据、不存在或哈希不符时**失败关闭**；生产者与证据必须同批落地。
+- **创作引用的文件交接**：`{{ref.<creation-output>}}` 目前解析出的文本是 `outputId`（`studioReferenceText` 的
+  默认分支），不是可打开的文件路径；下游隔离工作区里也没有那份媒体文件。要真正交付媒体，
+  需要优先级 4 的受控导入：由 Host 按已核验的引用把成果复制进目标工作区，再把**目标工作区内的路径**
+  交给下游内核。
 - 跨隔离工作区输入：引用解析只交出 `relativePath`，下游隔离工作区里并没有那份文件，
   受控导入入口尚未接线。
+- 创作任务的运行归属只在引用层面核对（`runId` 字段）；CreationService 的 job 记录里没有运行来源字段，
+  因此做不到「按 job 反查归属」。若要更强的归属保证，需要在创作契约里补来源字段。
 
 ## 检查点边界
 

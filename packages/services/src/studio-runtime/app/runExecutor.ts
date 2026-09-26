@@ -10,6 +10,7 @@ import type {
 import type { StudioConversation, StudioMessage } from "../types.js";
 import type { StoredRun } from "./storePort.js";
 import { requiredRun } from "./commandAdmission.js";
+import { buildStudioCreationOutputs } from "../domain/outputRef.js";
 import { executeStudioGroup } from "./groupExecutor.js";
 import { executeStudioWorkflow } from "./workflowExecutor.js";
 import { StudioInteractionCancelledError, waitStudioInteraction } from "./runtimeInteractions.js";
@@ -112,12 +113,23 @@ export async function executeStudioRun(
         for (;;) {
           const job = await creation.getJob(created.id);
           if (!job) throw new Error("创作任务记录丢失");
-          if (job.status === "succeeded")
+          if (job.status === "succeeded") {
+            // 命名输出由**真实创作成果**生产：名字数与成果数必须一一对应，不做猜测。
+            const built = buildStudioCreationOutputs({
+              names: request.outputNames ?? [],
+              runId,
+              jobId: job.id,
+              outputs: job.outputs,
+            });
+            if (!built.ok)
+              return { status: "failed", text: "", error: built.error, resultKnown: true };
             return {
               status: "succeeded",
               text: job.outputs.map((item) => item.path).join("\n"),
               resultKnown: true,
+              ...(built.refs.length ? { outputs: built.refs } : {}),
             };
+          }
           if (job.status === "failed")
             return {
               status: "failed",
@@ -190,6 +202,18 @@ export async function executeStudioRun(
         ? {
             fileVersion: async (refRunId: string, refStepId: string, relativePath: string) =>
               (await deps.workspaces.referenceVersion!(refRunId, refStepId, relativePath)).hash,
+          }
+        : {}),
+      // 创作引用必须经 CreationService 核对存在性与版本；查不到就是不可用，不退化为"当作没变化"。
+      ...(deps.creation
+        ? {
+            creationOutputVersion: async (jobId: string, outputId: string) => {
+              const job = await deps.creation!.getJob(jobId);
+              if (!job || job.status !== "succeeded") return { exists: false, sha256: null };
+              const output = job.outputs.find((item) => item.id === outputId);
+              if (!output) return { exists: false, sha256: null };
+              return { exists: true, sha256: output.hash ?? null };
+            },
           }
         : {}),
     },

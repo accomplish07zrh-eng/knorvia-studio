@@ -47,6 +47,8 @@ export type StudioOutputRef =
   | {
       kind: "creation-output";
       name: string;
+      /** 产出该成果的运行 id：解析侧据此判定归属（创作任务记录本身不带运行来源）。 */
+      runId: string;
       creationJobId: string;
       outputId: string;
       sha256?: string;
@@ -183,7 +185,11 @@ function assertStudioOutputRef(ref: unknown, index: number): number {
       return 0;
     }
     case "creation-output": {
-      if (!bounded(ref.creationJobId, ID_LIMIT) || !bounded(ref.outputId, ID_LIMIT))
+      if (
+        !bounded(ref.runId, ID_LIMIT) ||
+        !bounded(ref.creationJobId, ID_LIMIT) ||
+        !bounded(ref.outputId, ID_LIMIT)
+      )
         throw malformed(detail);
       checkSha256(ref.sha256, detail);
       return 0;
@@ -294,6 +300,47 @@ function guardRefs(
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : String(error) };
   }
+}
+
+/**
+ * 由节点声明的输出名与**真实创作成果**构造 `creation-output` 引用。
+ *
+ * 与文本生产者同样的原则：不做猜测、不复制。名字数与成果数必须相等，按顺序一一对应；
+ * 数量不符时返回错误，由调用方把该步骤判为失败。`sha256` 只在成果记录带哈希时写入，
+ * 旧记录没有哈希时留空（消费侧要求宿主证据，不会把"没有哈希"当成"未变化"）。
+ */
+export function buildStudioCreationOutputs(input: {
+  names: readonly string[];
+  runId: string;
+  jobId: string;
+  outputs: ReadonlyArray<{ id: string; hash?: string }>;
+}): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
+  const names = [...new Set(input.names)];
+  if (!names.length) return { ok: true, refs: [] };
+  if (!bounded(input.runId, ID_LIMIT)) return { ok: false, error: "Creation run id is missing." };
+  if (!bounded(input.jobId, ID_LIMIT)) return { ok: false, error: "Creation job id is missing." };
+  if (names.length !== input.outputs.length)
+    return {
+      ok: false,
+      error: `Node declares ${names.length} outputs (${names.join(", ")}) but the creation job produced ${input.outputs.length}.`,
+    };
+  const refs: StudioOutputRef[] = [];
+  for (const [index, name] of names.entries()) {
+    if (!bounded(name, NAME_LIMIT) || !NAME_PATTERN.test(name))
+      return { ok: false, error: `Invalid workflow output name: ${name}` };
+    const output = input.outputs[index]!;
+    if (!bounded(output.id, ID_LIMIT))
+      return { ok: false, error: `Creation output ${index} has no id.` };
+    refs.push({
+      kind: "creation-output",
+      name,
+      runId: input.runId,
+      creationJobId: input.jobId,
+      outputId: output.id,
+      ...(output.hash ? { sha256: output.hash } : {}),
+    });
+  }
+  return guardRefs(refs);
 }
 
 /**
