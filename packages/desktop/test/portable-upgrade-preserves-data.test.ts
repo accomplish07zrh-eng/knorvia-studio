@@ -7,6 +7,7 @@ import {
   readdirSync,
   rmSync,
   statSync,
+  utimesSync,
   writeFileSync,
 } from "node:fs";
 import { createHash } from "node:crypto";
@@ -109,6 +110,60 @@ function deliverProgramFiles(source: string, target: string): number {
   };
   walk(source);
   return copied;
+}
+
+/** 取路径的 8.3 短名；该卷未启用 8.3 时返回原路径。 */
+function shortPath(path: string): string {
+  // 用 windowsVerbatimArguments 让 cmd 原样收到命令，避免 Node 的引号转义把 for 变量弄坏。
+  const result = spawnSync("cmd.exe", ["/d", "/c", `for %I in ("${path}") do @echo %~sI`], {
+    encoding: "utf8",
+    windowsVerbatimArguments: true,
+  });
+  const raw = (result.stdout ?? "").trim().split(/\r?\n/)[0]?.trim() ?? "";
+  const value = raw.replace(/^"+|"+$/g, "").replace(/[\\/]+$/, "");
+  return value || path;
+}
+
+/** 找到可用的 PowerShell（优先 pwsh）。 */
+function findShell(): string | undefined {
+  return ["pwsh", "powershell"].find(
+    (candidate) =>
+      spawnSync(candidate, ["-NoProfile", "-Command", "exit 0"], { encoding: "utf8" }).status === 0,
+  );
+}
+
+function deliverScriptPath(): string {
+  return resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    "..",
+    "..",
+    "..",
+    "scripts",
+    "deliver-portable.ps1",
+  );
+}
+
+function runDeliverScript(
+  shell: string,
+  source: string,
+  target: string,
+): { status: number | null; stdout: string; stderr: string } {
+  const result = spawnSync(
+    shell,
+    [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      deliverScriptPath(),
+      "-Source",
+      source,
+      "-Target",
+      target,
+    ],
+    { encoding: "utf8" },
+  );
+  return { status: result.status, stdout: result.stdout ?? "", stderr: result.stderr ?? "" };
 }
 
 function buildPortableFixture(t: TestContext, prefix: string): PortableFixture {
@@ -224,18 +279,7 @@ test("反例对照：连源 data 一起复制时，清单比对必须检出差�
 });
 
 test("真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时）", (t) => {
-  const script = resolve(
-    dirname(fileURLToPath(import.meta.url)),
-    "..",
-    "..",
-    "..",
-    "scripts",
-    "deliver-portable.ps1",
-  );
-  const shell = ["pwsh", "powershell"].find(
-    (candidate) =>
-      spawnSync(candidate, ["-NoProfile", "-Command", "exit 0"], { encoding: "utf8" }).status === 0,
-  );
+  const shell = findShell();
   if (process.platform !== "win32" || !shell) {
     t.skip("需要 Windows 与 PowerShell 才能运行真实交付脚本");
     return;
@@ -243,21 +287,7 @@ test("真实交付脚本在模拟目录上端到端验证 data 不变（PowerShe
 
   const { build, portable } = buildPortableFixture(t, "knorvia-portable-script-");
   const dataBefore = manifest(join(portable, "data"));
-  const result = spawnSync(
-    shell,
-    [
-      "-NoProfile",
-      "-ExecutionPolicy",
-      "Bypass",
-      "-File",
-      script,
-      "-Source",
-      build,
-      "-Target",
-      portable,
-    ],
-    { encoding: "utf8" },
-  );
+  const result = runDeliverScript(shell, build, portable);
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   assert.deepEqual(manifest(join(portable, "data")), dataBefore);
   const verification = JSON.parse(readFileSync(join(portable, "构建校验.json"), "utf8")) as {
@@ -266,4 +296,96 @@ test("真实交付脚本在模拟目录上端到端验证 data 不变（PowerShe
   };
   assert.equal(verification.dataUnchanged, true);
   assert.equal(verification.dataFiles, dataBefore.length);
+});
+
+// Windows CI 上 %TEMP% 常是 8.3 短名（如 C:\Users\RUNNER~1\...）：Resolve-Path 保留短名，
+// 而 Get-ChildItem 返回长名，两者长度不同。旧实现用 `FullName.Substring($root.Length + 1)`
+// 算相对路径，会算出 `ld\Knorvia Studio.exe` 这类被截断的名字并误报“程序文件与构建不一致”。
+// 这里用短名作为 Source 复现同一条件。
+test("真实交付脚本在 8.3 短名 Source 上也能正确交付", (t) => {
+  const shell = findShell();
+  if (process.platform !== "win32" || !shell) {
+    t.skip("需要 Windows 与 PowerShell 才能运行真实交付脚本");
+    return;
+  }
+  const { build, portable } = buildPortableFixture(t, "knorvia-portable-shortname-");
+  const shortBuild = shortPath(build);
+  if (shortBuild === build) {
+    t.skip("该卷未启用 8.3 短名，无法复现长短名混用");
+    return;
+  }
+  assert.notEqual(shortBuild.length, build.length, "短名应与长名长度不同，否则该用例是空断言");
+
+  const dataBefore = manifest(join(portable, "data"));
+  const result = runDeliverScript(shell, shortBuild, portable);
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.deepEqual(manifest(join(portable, "data")), dataBefore);
+  assert.equal(
+    readFileSync(join(portable, "Knorvia Studio.exe"), "utf8"),
+    readFileSync(join(build, "Knorvia Studio.exe"), "utf8"),
+  );
+});
+
+test("Source 末尾带分隔符时仍能正确交付", (t) => {
+  const shell = findShell();
+  if (process.platform !== "win32" || !shell) {
+    t.skip("需要 Windows 与 PowerShell 才能运行真实交付脚本");
+    return;
+  }
+  const { build, portable } = buildPortableFixture(t, "knorvia-portable-separator-");
+  const dataBefore = manifest(join(portable, "data"));
+  const result = runDeliverScript(shell, `${build}${sep}`, portable);
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.deepEqual(manifest(join(portable, "data")), dataBefore);
+});
+
+test("路径含空格与中文时仍能正确交付", (t) => {
+  const shell = findShell();
+  if (process.platform !== "win32" || !shell) {
+    t.skip("需要 Windows 与 PowerShell 才能运行真实交付脚本");
+    return;
+  }
+  const { build, portable } = buildPortableFixture(t, "knorvia 便携 升级-");
+  assert.ok(build.includes(" "), "夹具路径应包含空格");
+  const dataBefore = manifest(join(portable, "data"));
+  const result = runDeliverScript(shell, build, portable);
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.deepEqual(manifest(join(portable, "data")), dataBefore);
+  const verification = JSON.parse(readFileSync(join(portable, "构建校验.json"), "utf8")) as {
+    dataUnchanged: boolean;
+  };
+  assert.equal(verification.dataUnchanged, true);
+});
+
+// 反例对照：确实篡改过的程序文件必须让交付失败，并且诊断要给出双方路径与相对路径。
+test("程序文件确实被篡改时交付必须失败并给出可定位诊断", (t) => {
+  const shell = findShell();
+  if (process.platform !== "win32" || !shell) {
+    t.skip("需要 Windows 与 PowerShell 才能运行真实交付脚本");
+    return;
+  }
+  const { build, portable } = buildPortableFixture(t, "knorvia-portable-tamper-");
+  const first = runDeliverScript(shell, build, portable);
+  assert.equal(first.status, 0, `${first.stdout}\n${first.stderr}`);
+
+  // robocopy 默认会修复内容不同的目标文件，所以“篡改”必须在复制阶段被跳过才到得了哈希校验。
+  // 同长度 + 与源相同的时间戳正好满足 robocopy 的“无需复制”判断，从而把内容差异留给校验环节。
+  const sourceAsar = join(build, "resources", "app.asar");
+  const targetAsar = join(portable, "resources", "app.asar");
+  const original = readFileSync(targetAsar, "utf8");
+  writeFileSync(targetAsar, `${original.slice(0, -1)}X`);
+  // 两个文件必须设成同一个显式时间戳：只把目标的 mtime 抄成源的毫秒值会因亚毫秒精度差被判为不同。
+  const stamp = new Date(2026, 0, 1, 0, 0, 0);
+  utimesSync(sourceAsar, stamp, stamp);
+  utimesSync(targetAsar, stamp, stamp);
+  assert.equal(statSync(sourceAsar).size, statSync(targetAsar).size, "反例必须保持同长度");
+
+  const second = runDeliverScript(shell, build, portable);
+  assert.notEqual(second.status, 0, "被篡改且复制阶段跳过时，交付必须失败");
+  const output = `${second.stdout}\n${second.stderr}`;
+  assert.match(output, /differs from build/u);
+  assert.match(output, /resources[\\/]app\.asar/u);
+  assert.match(output, /source root/u);
+  assert.match(output, /target root/u);
+  assert.match(output, /[0-9A-F]{64}/u, "诊断应给出实际哈希");
 });

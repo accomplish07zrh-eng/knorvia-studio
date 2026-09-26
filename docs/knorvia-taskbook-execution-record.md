@@ -118,7 +118,10 @@
 1. Agent 会话库（`apps/cli/.../storage/session-store/migration-runner.ts`）仍无迁移前备份。
 2. 任务索引遇到未知的更新账本会按 `none` 放行（静默降级解释），防护点在中心迁移逻辑，本轮未动。
 3. ~~`scripts/test-studio.mjs` 仍无子进程超时，挂起的测试无界。~~ **已关闭**：runner 现在传入 `--test-timeout`（默认 120000ms，`KNORVIA_TEST_TIMEOUT_MS` 可覆盖），挂起用例以 `test timed out after <n>ms` 失败并非 0 退出；刻意不做整轮子进程强杀（Windows 杀进程树易误伤）。证据：一个永不 resolve 的用例在 `--test-timeout=2000` 下 2 秒内以该诊断失败，默认值下 `pnpm test:studio` 仍 751/751。
-4. 云端 CI 从未运行；工作流改动只做了本地 YAML 解析与逻辑夹具验证。
+4. **云端 CI 事实更正**：先前记录的「云端 CI 从未运行」已不成立。据用户通过 GitHub 插件核对，`main` 上的运行 **`36173833394`** 中 `linux / quality` 通过、**`windows / quality` 失败**（Windows 的类型检查、Lint、格式、架构检查、CLI 构建均通过，`Offline Studio regression` 失败：751 项测试 750 通过 1 失败）。失败项是 `packages/desktop/test/portable-upgrade-preserves-data.test.ts` 的真实交付脚本用例，报 `scripts/deliver-portable.ps1` 的 `Delivered program file differs from build: ld\Knorvia Studio.exe`。
+   - **本机已复现该失败条件并修复**：Windows CI 上 `%TEMP%` 常是 8.3 短名（`C:\Users\RUNNER~1\...`），`Resolve-Path` 保留短名而 `Get-ChildItem` 返回长名，旧实现用 `FullName.Substring($root.Length + 1)` 算相对路径因此算错（本机用短名复现得到 `e-probe-directory\build\Knorvia Studio.exe`，与 CI 的 `ld\...` 同一类）。已改为遍历时逐级拼接相对路径，不再做长度截取，并在失败诊断里输出双方完整路径与根。
+   - 本机**无法独立访问 GitHub Actions**（未安装 `gh`，仓库为私有），因此该运行结论以用户核对为准；本机只声称复现了失败条件并修复。
+   - 修复后本机 `pnpm test:studio` 为 **755/755 通过 0 失败**（新增 4 个反例用例）；云端是否转绿需等下一次 CI 运行确认，**尚未验证**。
 5. 无任何真实模型、真实 CLI、真实 SSH、真实付费调用；全部为离线夹具与依赖注入替身。
 6. ~~Node 24.14.0（mise 固定）未复验。~~ **已关闭**：已在官方 Node v24.14.0 上重跑整套门禁（751/751）并用它重建交付便携包。
 
