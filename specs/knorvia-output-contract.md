@@ -148,6 +148,12 @@ export interface StudioOutputRefsDecodeResult {
 - `workspace-file` 输出：节点声明里没有相对路径来源，Host 也没有按声明核对文件与哈希。
 - `creation-output` 输出：`runExecutor.ts` 的创作节点仍只回 `text`，没有从真实 `job.id` 构造引用；
   `reference.ts` 也没有为创作引用向 CreationService 取归属/存在性/版本证据。
+- **已知隐患（接线时必须一起修）**：`studioReferenceResolve` 目前对 `creation-output` 只校验字段形状
+  （job id / output id / sha256 格式）就放行，**不要求任何宿主证据**。因此一旦只补生产者而不补证据，
+  创作引用会以「未核验」状态被下游使用——这正是「只验证字段形状」的问题。
+  正确接线是：`StudioWorkflowReferenceHost` 增加创作证据查询（经 CreationService 核对归属、
+  输出存在性与版本/哈希），`resolveStudioWorkflowBindings` 为 `creation-output` 取证据，
+  `studioReferenceResolve` 在缺证据、不存在或哈希不符时**失败关闭**；生产者与证据必须同批落地。
 - 跨隔离工作区输入：引用解析只交出 `relativePath`，下游隔离工作区里并没有那份文件，
   受控导入入口尚未接线。
 
