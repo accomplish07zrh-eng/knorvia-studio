@@ -108,6 +108,16 @@ function malformed(detail: string): StudioOutputRefError {
 }
 
 /** 只有真正可序列化的 JSON 值才能进入检查点；undefined／函数／NaN／循环引用一律拒绝。 */
+/** 输出名边界（生产者与校验共用，避免第二个文件复制同一份规则）。 */
+export function isStudioOutputName(value: unknown): value is string {
+  return bounded(value, NAME_LIMIT) && NAME_PATTERN.test(value);
+}
+
+/** 运行/步骤/任务 id 边界（同上）。 */
+export function isStudioOutputId(value: unknown): value is string {
+  return bounded(value, ID_LIMIT);
+}
+
 export function isJsonValue(value: unknown): value is JsonValue {
   if (value === null || typeof value === "boolean" || typeof value === "string") return true;
   if (typeof value === "number") return Number.isFinite(value);
@@ -239,108 +249,6 @@ export function assertStudioOutputsForResult(result: {
   if (result.outputs === undefined) return undefined;
   if (result.resultKnown !== true) throw malformed("outputs require a known result");
   return assertStudioOutputRefs(result.outputs);
-}
-
-/**
- * 由节点声明的输出名与 Agent 的最终文本构造输出引用
- * （见 specs/knorvia-output-contract.md「命名输出的生产规则」）。
- *
- * 刻意不做猜测，也不把同一段全文复制成多个不同输出：
- * - 未声明输出名 → 不产出任何引用；
- * - 只声明一个名字 → 该名字接收节点文本（`text`）；
- * - 声明多个名字 → 文本必须是 JSON 对象且以这些名字为键；解析失败或缺键都算失败，
- *   由调用方把步骤判为失败，而不是让下游拿到一个空的或重复的引用。
- */
-export function buildStudioStepOutputs(input: {
-  names: readonly string[];
-  text: string;
-}): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
-  const names = [...new Set(input.names)];
-  if (!names.length) return { ok: true, refs: [] };
-  for (const name of names)
-    if (!bounded(name, NAME_LIMIT) || !NAME_PATTERN.test(name))
-      return { ok: false, error: `Invalid workflow output name: ${name}` };
-
-  const keyed = `Node declares ${names.length} outputs (${names.join(", ")}), so its result must be a JSON object keyed by those names.`;
-  if (names.length === 1) {
-    const name = names[0]!;
-    return guardRefs([{ kind: "text", name, text: input.text }]);
-  }
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(input.text);
-  } catch {
-    return { ok: false, error: keyed };
-  }
-  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed))
-    return { ok: false, error: keyed };
-  const source = parsed as Record<string, unknown>;
-  const missing = names.filter((name) => !Object.hasOwn(source, name));
-  if (missing.length)
-    return {
-      ok: false,
-      error: `Workflow outputs missing from the node result: ${missing.join(", ")}.`,
-    };
-  const refs: StudioOutputRef[] = [];
-  for (const name of names) {
-    const value = source[name];
-    if (!isJsonValue(value))
-      return { ok: false, error: `Workflow output ${name} must be a JSON value.` };
-    refs.push({ kind: "json", name, value });
-  }
-  return guardRefs(refs);
-}
-
-function guardRefs(
-  refs: StudioOutputRef[],
-): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
-  try {
-    return { ok: true, refs: assertStudioOutputRefs(refs) };
-  } catch (error) {
-    return { ok: false, error: error instanceof Error ? error.message : String(error) };
-  }
-}
-
-/**
- * 由节点声明的输出名与**真实创作成果**构造 `creation-output` 引用。
- *
- * 与文本生产者同样的原则：不做猜测、不复制。名字数与成果数必须相等，按顺序一一对应；
- * 数量不符时返回错误，由调用方把该步骤判为失败。`sha256` 只在成果记录带哈希时写入，
- * 旧记录没有哈希时留空（消费侧要求宿主证据，不会把"没有哈希"当成"未变化"）。
- */
-export function buildStudioCreationOutputs(input: {
-  names: readonly string[];
-  runId: string;
-  jobId: string;
-  outputs: ReadonlyArray<{ id: string; hash?: string }>;
-}): { ok: true; refs: StudioOutputRef[] } | { ok: false; error: string } {
-  const names = [...new Set(input.names)];
-  if (!names.length) return { ok: true, refs: [] };
-  if (!bounded(input.runId, ID_LIMIT)) return { ok: false, error: "Creation run id is missing." };
-  if (!bounded(input.jobId, ID_LIMIT)) return { ok: false, error: "Creation job id is missing." };
-  if (names.length !== input.outputs.length)
-    return {
-      ok: false,
-      error: `Node declares ${names.length} outputs (${names.join(", ")}) but the creation job produced ${input.outputs.length}.`,
-    };
-  const refs: StudioOutputRef[] = [];
-  for (const [index, name] of names.entries()) {
-    if (!bounded(name, NAME_LIMIT) || !NAME_PATTERN.test(name))
-      return { ok: false, error: `Invalid workflow output name: ${name}` };
-    const output = input.outputs[index]!;
-    if (!bounded(output.id, ID_LIMIT))
-      return { ok: false, error: `Creation output ${index} has no id.` };
-    refs.push({
-      kind: "creation-output",
-      name,
-      runId: input.runId,
-      creationJobId: input.jobId,
-      outputId: output.id,
-      ...(output.hash ? { sha256: output.hash } : {}),
-    });
-  }
-  return guardRefs(refs);
 }
 
 /**

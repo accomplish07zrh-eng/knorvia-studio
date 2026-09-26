@@ -67,9 +67,12 @@
   `turnExecutor` 在**目标工作区准备好之后**调用导入，再让内核执行。
   共享项目模式不复制（上下游看同一个项目）；宿主未实现该能力时**失败关闭**，不退化为让下游去读上游路径。
 
-**尚未接通**：当前还没有生产者会产出 `workspace-file` 引用（节点声明只有名字、没有来源类型），
-所以这条链路在真实运行里还走不到；下一步是先让节点声明输出**来源**（文本 / JSON 字段 / 工作区文件），
-再由 Host 核对文件与哈希后产出 `workspace-file` 引用。
+**已接通**：节点用 `outputs: [{ name, from: "file" }]` 声明文件来源，Host 核对文件与哈希后产出
+`workspace-file` 引用；下游引用时由本节的 `importReference` 把副本导入目标工作区。
+端到端验收见 `packages/services/test/studio-workflow-file-handoff.test.ts`。
+
+**仍未接通**：创作成果（`creation-output`）还没有纳入受控导入——`{{ref.<creation-output>}}` 目前解析出的
+文本是 `outputId`，不是可打开的文件路径，下游工作区里也没有那份媒体文件。
 
 ## 4. 参数 schema 规则
 

@@ -14,7 +14,11 @@ import {
   type StudioStepOutputsVerdict as StepOutputsVerdict,
 } from "../domain/outputRef.js";
 import { resolveStudioWorkflowBindings } from "../domain/reference.js";
-import { stricterStudioPermission, studioWorkflowOutputNames } from "../domain/workflowParams.js";
+import {
+  stricterStudioPermission,
+  studioWorkflowOutputNames,
+  studioWorkflowOutputSources,
+} from "../domain/workflowParams.js";
 import { StudioInteractionCancelledError } from "./runtimeInteractions.js";
 
 export interface WorkflowOutcome extends StudioStepResult {
@@ -202,6 +206,7 @@ async function agentNode(
         ...(permission ? { permission } : {}),
         // 声明的命名输出交给生产者：它决定 Agent 结果怎样变成可引用的 outputs。
         ...(outputNames.length ? { outputNames } : {}),
+        ...(outputNames.length ? { outputSources: studioWorkflowOutputSources(node.data) } : {}),
         // 已核验的上游文件由 Host 在目标工作区准备好之后复制进来。
         ...(inputs.length ? { inputs } : {}),
         signal,

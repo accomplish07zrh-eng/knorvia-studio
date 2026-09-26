@@ -126,22 +126,31 @@ export interface StudioOutputRefsDecodeResult {
 
 ## 命名输出的生产规则
 
-节点用 `StudioWorkflowNodeData.outputNames` 声明输出名；生产者（真实 Agent 结果）按下面的规则把它们变成
-`StudioStepResult.outputs`，**不做猜测，也不把同一段全文复制成多个不同输出**：
+节点用 `StudioWorkflowNodeData.outputs`（名字 + **来源**）声明输出；旧字段 `outputNames`（只有名字）
+仍可读，来源按名字数推断。生产者（真实 Agent 结果）按下表把它们变成 `StudioStepResult.outputs`，
+**不做猜测，也不把同一段全文复制成多个不同输出**：
 
-| 节点声明      | 生产结果                                                              | 失败条件                                                                  |
-| ------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| 未声明        | 不产出任何引用（保持旧语义）                                          | —                                                                         |
-| 恰好 1 个名字 | 该名字接收节点文本，产出 1 条 `text` 引用                             | 文本超过内联上限（16 KiB）                                                |
-| ≥2 个名字     | 节点文本必须是 JSON 对象且以这些名字为键，每个键产出 1 条 `json` 引用 | 文本不是合法 JSON、不是对象、缺少某个声明键、某个值不是 JSON 值、总量超限 |
+| 声明的来源 | 生产结果                                                                                                          | 失败条件                                                            |
+| ---------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `text`     | 节点文本本身就是该输出，产出 1 条 `text` 引用（**只允许单名节点**）                                               | 节点声明了多个输出；文本超过内联上限（16 KiB）                      |
+| `json`     | 节点文本必须是按名建键的 JSON 对象，该名字取对应字段，产出 1 条 `json` 引用                                       | 文本不是合法 JSON／不是对象／缺少声明键／字段不是 JSON 值／总量超限 |
+| `file`     | 该字段必须是**可移植工作区相对路径**；Host 用 `referenceVersion` 核对存在性与真实哈希后产出 `workspace-file` 引用 | 字段不是字符串或不是可移植相对路径／文件不存在／宿主不支持核对      |
+
+旧 `outputNames` 的推断规则：未声明 → 不产出引用；恰好 1 个名字 → 按 `text`；≥2 个名字 → 按 `json`。
+这是确定性规则，不是猜测：多名字节点永远不会把同一段全文复制成多个输出。
 
 - 构造失败时**该步骤判为 `failed`** 并带上可读错误（`... must be a JSON object keyed by those names.` /
-  `Workflow outputs missing from the node result: <names>.`），**不写半成品引用**；下游因此不会拿到缺失或重复的引用。
+  `Workflow outputs missing from the node result: <names>.` /
+  `Workflow output <name> points at a file that does not exist: <path>.`），**不写半成品引用**；
+  下游因此不会拿到缺失或重复的引用。`file` 来源**不会**退化成普通字符串。
 - 只有 `status === "succeeded"` 且 `resultKnown === true` 的结果才生产引用（与 `assertStudioOutputsForResult` 一致）。
-- 接线位置：`workflowSteps.agentNode` 把声明交给 `StudioAgentStep.outputNames`，
-  `turnExecutor` 在构造 `StudioStepResult` 时调用 `buildStudioStepOutputs`。
-- **`workspace-file` 不在本规则内**：它需要 Host 按声明核对真实文件与哈希，尚未接通（见「仍未接通」）。
-  创作节点的命名输出见下一节。
+- 接线位置：`workflowSteps.agentNode` 把声明交给 `StudioAgentStep.outputNames` / `outputSources`，
+  `turnExecutor` 在构造 `StudioStepResult` 时调用 `app/stepOutputProduction.ts` 的
+  `produceStudioStepOutputs`（文件来源在这一步向 Host 取证）。
+- 端到端验收：`packages/services/test/studio-workflow-file-handoff.test.ts` 从真实执行入口启动，
+  上游 Agent 在自己的隔离工作区写出文件 → 产出 `workspace-file` 引用（带真实哈希）→
+  下游引用时由 `importReference` 把副本导入下游工作区，下游读到副本、上游文件不被改写；
+  文件缺失时步骤失败且不产出引用。
 
 ### 创建（creation）引用的生产与证据
 
@@ -161,15 +170,13 @@ export interface StudioOutputRefsDecodeResult {
 
 ### 仍未接通（不得当成已完成）
 
-- `workspace-file` 输出：节点声明里没有相对路径来源，Host 也没有按声明核对文件与哈希。
 - **创作引用的文件交接**：`{{ref.<creation-output>}}` 目前解析出的文本是 `outputId`（`studioReferenceText` 的
   默认分支），不是可打开的文件路径；下游隔离工作区里也没有那份媒体文件。要真正交付媒体，
-  需要优先级 4 的受控导入：由 Host 按已核验的引用把成果复制进目标工作区，再把**目标工作区内的路径**
-  交给下游内核。
-- 跨隔离工作区输入：引用解析只交出 `relativePath`，下游隔离工作区里并没有那份文件，
-  受控导入入口尚未接线。
+  需要把创作成果也纳入 `importReference` 的受控导入（当前受控导入只覆盖 `workspace-file`）。
 - 创作任务的运行归属只在引用层面核对（`runId` 字段）；CreationService 的 job 记录里没有运行来源字段，
   因此做不到「按 job 反查归属」。若要更强的归属保证，需要在创作契约里补来源字段。
+- 创作节点的命名输出仍按「名字数 → text/json」推断：`creation-output` 由创作服务记录决定，
+  不读节点的 `outputs` 声明（`outputs` 的三种来源只用于 Agent 节点）。
 
 ## 检查点边界
 

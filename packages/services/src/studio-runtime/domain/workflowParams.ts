@@ -9,14 +9,17 @@ import type {
   StudioWorkflowDefinition,
   StudioWorkflowNode,
   StudioWorkflowNodeData,
+  StudioWorkflowOutputDeclaration,
+  StudioWorkflowOutputSource,
   StudioWorkflowParam,
   StudioWorkflowParamValues,
 } from "../workflowTypes.js";
-import { STUDIO_WORKFLOW_PARAM_TYPES } from "../workflowTypes.js";
+import { STUDIO_WORKFLOW_OUTPUT_SOURCES, STUDIO_WORKFLOW_PARAM_TYPES } from "../workflowTypes.js";
 import type { StudioKernelId, StudioPermission } from "../kernelTypes.js";
 import { kernelCapabilities } from "./kernelPolicy.js";
 
 const PARAM_TYPES = new Set<string>(STUDIO_WORKFLOW_PARAM_TYPES);
+const OUTPUT_SOURCES = new Set<string>(STUDIO_WORKFLOW_OUTPUT_SOURCES);
 const PARAM_NAME = /^[a-z][a-z0-9_]{0,39}$/;
 const OUTPUT_NAME = /^[a-z][a-z0-9-]{0,63}$/;
 export const STUDIO_WORKFLOW_PARAM_LIMIT = 12;
@@ -35,10 +38,43 @@ const PERMISSION_RANK: Record<StudioPermission, number> = {
 export function studioWorkflowParams(data: StudioWorkflowNodeData): StudioWorkflowParam[] {
   return Array.isArray(data.params) ? (data.params as StudioWorkflowParam[]) : [];
 }
+/**
+ * 声明的输出名。`outputs`（带来源）优先；没有时才读旧的 `outputNames`。
+ * 来源的推断规则见 `studioWorkflowOutputSources`。
+ */
 export function studioWorkflowOutputNames(data: StudioWorkflowNodeData): string[] {
+  if (Array.isArray(data.outputs))
+    return data.outputs
+      .filter(
+        (entry): entry is StudioWorkflowOutputDeclaration =>
+          Boolean(entry) && typeof entry === "object" && typeof entry.name === "string",
+      )
+      .map((entry) => entry.name);
   return Array.isArray(data.outputNames)
     ? data.outputNames.filter((name): name is string => typeof name === "string")
     : [];
+}
+
+/**
+ * 每个输出名的来源。
+ *
+ * 有 `outputs` 时以声明为准；只有旧 `outputNames` 时按名字数推断：
+ * 单个名字 → `text`（节点文本就是它），多个名字 → `json`（必须按名建键）。
+ * 这是确定性规则，不是猜测：多名字节点永远不会把同一段全文复制成多个输出。
+ */
+export function studioWorkflowOutputSources(
+  data: StudioWorkflowNodeData,
+): Map<string, StudioWorkflowOutputSource> {
+  const sources = new Map<string, StudioWorkflowOutputSource>();
+  if (Array.isArray(data.outputs)) {
+    for (const entry of data.outputs)
+      if (entry && typeof entry === "object" && typeof entry.name === "string")
+        sources.set(entry.name, entry.from);
+    return sources;
+  }
+  const names = studioWorkflowOutputNames(data);
+  for (const name of names) sources.set(name, names.length === 1 ? "text" : "json");
+  return sources;
 }
 
 /** 节点参数、输出声明与权限字段的结构校验；错误文案带节点 id 便于定位。 */
@@ -73,7 +109,29 @@ export function nodeParameterIssues(data: StudioWorkflowNodeData, id: string): s
         issues.push(`Invalid parameter required flag: ${id}.`);
     }
   }
-  if (data.outputNames !== undefined) {
+  if (data.outputs !== undefined) {
+    if (!Array.isArray(data.outputs) || data.outputs.length > STUDIO_WORKFLOW_OUTPUT_LIMIT)
+      issues.push(`Invalid node outputs: ${id}.`);
+    else {
+      const names = new Set<string>();
+      for (const entry of data.outputs) {
+        if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+          issues.push(`Invalid node output: ${id}.`);
+          continue;
+        }
+        const value = entry as unknown as Record<string, unknown>;
+        if (
+          typeof value.name !== "string" ||
+          !OUTPUT_NAME.test(value.name) ||
+          names.has(value.name)
+        )
+          issues.push(`Invalid or duplicate output name: ${id}.`);
+        else names.add(value.name);
+        if (typeof value.from !== "string" || !OUTPUT_SOURCES.has(value.from))
+          issues.push(`Unknown output source: ${id}.`);
+      }
+    }
+  } else if (data.outputNames !== undefined) {
     if (!Array.isArray(data.outputNames) || data.outputNames.length > STUDIO_WORKFLOW_OUTPUT_LIMIT)
       issues.push(`Invalid node output names: ${id}.`);
     else {

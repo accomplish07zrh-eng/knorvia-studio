@@ -40,6 +40,8 @@ export interface StudioAgentStep {
    * 生产者按它把 Agent 结果转成 `StudioStepResult.outputs`；未声明时不产出引用。
    */
   outputNames?: readonly string[];
+  /** 每个输出名的来源（`text` / `json` / `file`）；缺省时按名字数推断。 */
+  outputSources?: ReadonlyMap<string, string>;
   /**
    * 已核验的上游文件输出，需要在本次运行的隔离工作区准备好之后由 Host 复制进来。
    * 提示词里仍然是原来的相对路径：复制到目标工作区的**同一相对路径**，因此下游读到的是副本。

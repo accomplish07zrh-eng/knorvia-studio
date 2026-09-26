@@ -51,11 +51,30 @@ export interface StudioWorkflowNodeData {
   creationReferencePath?: string;
   /** 该节点声明的参数 schema；提示词用 `{{param.<name>}}` 引用。 */
   params?: StudioWorkflowParam[];
-  /** 该节点声明会产出的输出名；下游用 `{{ref.<name>}}` 引用。 */
+  /**
+   * 该节点声明的输出**来源**：名字 + 从哪里取。
+   * 见 `specs/knorvia-output-contract.md`「命名输出的生产规则」。
+   */
+  outputs?: StudioWorkflowOutputDeclaration[];
+  /** 旧字段：只有名字、没有来源。没有 `outputs` 时才读它（按名字数推断来源）。 */
   outputNames?: string[];
   /** 该节点的执行要求；与运行授权取更严格的一方，见第 6 节。 */
   permission?: StudioPermission;
   [key: string]: unknown;
+}
+/**
+ * 输出从哪里来。
+ *
+ * - `text`：节点文本本身就是这个输出（只允许单名节点，避免把同一段全文复制成多个输出）；
+ * - `json`：节点文本是按名建键的 JSON 对象，该名字取对应字段；
+ * - `file`：JSON 对象里该名字是一个**工作区相对路径**，由 Host 核对文件存在性与哈希后
+ *   产出 `workspace-file` 引用（缺文件即失败，不退化成普通字符串）。
+ */
+export const STUDIO_WORKFLOW_OUTPUT_SOURCES = ["text", "json", "file"] as const;
+export type StudioWorkflowOutputSource = (typeof STUDIO_WORKFLOW_OUTPUT_SOURCES)[number];
+export interface StudioWorkflowOutputDeclaration {
+  name: string;
+  from: StudioWorkflowOutputSource;
 }
 export interface StudioWorkflowNode {
   id: string;
