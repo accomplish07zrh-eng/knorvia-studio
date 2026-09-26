@@ -196,6 +196,9 @@ test("document path: inventory → approval → cleanup → review changes → a
   const callsBeforeRestart = prompts.length;
   await f.service.disposeAllAndWait();
   const reopenedDb = new StudioDatabase(join(f.root, "runtime.sqlite"));
+  // 重启后的适配器必须有**自己的**计数器：旧适配器维护的 prompts 不会被新实例触碰，
+  // 只断言 prompts 长度会让「重启后重新派单」这条缺陷从断言下面溜过去。
+  let restartCalls = 0;
   const reopened = new StudioRuntimeService({
     db: reopenedDb,
     clock: {
@@ -205,7 +208,12 @@ test("document path: inventory → approval → cleanup → review changes → a
     },
     kernels: {
       adapter: () => ({
-        run: async () => ok("restart should not execute this"),
+        run: async () => {
+          restartCalls += 1;
+          // 意外调用直接抛错，但**不只依赖抛错**：运行时可能把异常转成任务状态，
+          // 所以下面还要显式断言计数为零。
+          throw new Error("restart must not dispatch a model request");
+        },
       }),
       inspect: async () => [],
       manage: async () => {
@@ -221,6 +229,12 @@ test("document path: inventory → approval → cleanup → review changes → a
     // 安全网：正常路径已在用例末尾释放；这里容忍重复释放。
     await reopened.disposeAllAndWait().catch(() => {});
   });
+
+  // 先驱动恢复与调度到明确检查点（tick 若干轮），再查询正式接口。
+  for (let attempt = 0; attempt < 20; attempt++) {
+    reopened.tick();
+    await sleep(10);
+  }
 
   // 正式查询接口（timeline）而不是内部投影函数：重启后仍能查到该步骤的接纳事实。
   const timeline = await reopened.timeline(definition.id);
@@ -238,9 +252,12 @@ test("document path: inventory → approval → cleanup → review changes → a
   assert.equal(restoredStep?.acceptance?.stepId, CLEANUP_STEP);
   assert.equal(restoredStep?.acceptance?.workspaceStepId, CLEANUP_STEP);
 
-  // 项目内容仍是应用后的结果；已完成节点没有重新执行（重启不产生新的模型派单）。
+  // 项目内容仍是应用后的结果；已完成节点没有重新执行。
   assert.equal(await readFile(join(f.project, "docs", "cleanup.md"), "utf8"), "整理结果\n");
-  assert.equal(prompts.length, callsBeforeRestart, "重启不得重新执行已完成的节点");
+  // 旧适配器的计数（prompts）与重启无关，只能说明旧实例没被再用；真正要断言的是
+  // **重启后的适配器一次都没被调用**。
+  assert.equal(prompts.length, callsBeforeRestart, "旧实例不应再收到调用");
+  assert.equal(restartCalls, 0, "重启后不得产生任何新的模型派单");
 
   // 主动释放重开的实例：t.after 是先进先出，夹具的目录清理注册得更早。
   // （服务的 dispose 会一并关闭它持有的数据库，不要再单独 close。）

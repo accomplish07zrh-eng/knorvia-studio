@@ -10,8 +10,10 @@ import { createCreationService } from "../src/creation/creationService.js";
 import { createCreationAgentBridge } from "../src/studio-runtime/adapters/creationAgentBridge.js";
 import type { CreationJob } from "../src/creation/contract.js";
 
+// 4×4 的有效 PNG（逐块 CRC 与解压都通过）。先前那份 1×1 样本的 IDAT 块 CRC 不符，
+// 只凭八字节文件头会被误判为有效，因此换掉。
 const png = Buffer.from(
-  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lXcAAAAASUVORK5CYII=",
+  "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAEElEQVR4nGP4z8AARwzEcQCukw/x0F8jngAAAABJRU5ErkJggg==",
   "base64",
 );
 const mp4 = Buffer.from([0, 0, 0, 16, 0x66, 0x74, 0x79, 0x70, 0x69, 0x73, 0x6f, 0x6d, 0, 0, 0, 0]);

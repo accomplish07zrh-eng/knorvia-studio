@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setTimeout as sleep } from "node:timers/promises";
+import { inflateSync } from "node:zlib";
 import { Event } from "@knorvia/rpc";
 import type {
   StudioKernelAdapter,
@@ -30,17 +31,75 @@ import { workflow } from "./studio-orchestration-support.js";
  * 全程只连 `127.0.0.1`，不需要真实模型或付费调用。
  */
 
-/** 真正有效的 1×1 PNG（与 creation-service.test.ts 同一份夹具）。 */
+/**
+ * 两份**校验和正确**的 4×4 PNG。
+ *
+ * 复核指出：先前用的那份 1×1 样本 IDAT 块 CRC 不符（记录 `efbf9577`，实际应为 `efa2a75b`），
+ * 严格校验器会报 `bad header checksum in b'IDAT'`。仅凭八字节文件头不能判定文件完整有效，
+ * 因此这里换成正常编码器生成的两份小图，并在用例开头用 `assertValidPng` 做**逐块 CRC + 解压**校验。
+ */
 const png = Buffer.from(
-  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lXcAAAAASUVORK5CYII=",
+  "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAEElEQVR4nGP4z8AARwzEcQCukw/x0F8jngAAAABJRU5ErkJggg==",
   "base64",
 );
 const PNG_MAGIC = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-/** 编辑后的产物：另一个有效 PNG（换一份字节以便区分）。 */
+/** 编辑后的产物：另一份有效 PNG（像素不同，字节也不同，便于区分）。 */
 const editedPng = Buffer.from(
-  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+  "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAEElEQVR4nGNgYPiPhIjiAACOsw/xs6MvMwAAAABJRU5ErkJggg==",
   "base64",
 );
+
+const CRC_TABLE = (() => {
+  const table = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    table[n] = c >>> 0;
+  }
+  return table;
+})();
+function crc32(buffer: Buffer): number {
+  let c = 0xffffffff;
+  for (const byte of buffer) c = CRC_TABLE[(c ^ byte) & 0xff]! ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+/**
+ * 严格 PNG 校验：签名 → 逐块 CRC（覆盖块类型与块数据）→ IDAT 解压后的扫描线长度。
+ * 只用八字节文件头判定"是 PNG"是不够的——这正是先前样本漏掉的问题。
+ */
+function assertValidPng(buffer: Buffer, label: string): void {
+  assert.ok(buffer.subarray(0, 8).equals(PNG_MAGIC), `${label}：签名不对`);
+  let offset = 8;
+  let width = 0;
+  let height = 0;
+  const idat: Buffer[] = [];
+  while (offset < buffer.length) {
+    const length = buffer.readUInt32BE(offset);
+    const type = buffer.toString("ascii", offset + 4, offset + 8);
+    const data = buffer.subarray(offset + 8, offset + 8 + length);
+    const recorded = buffer.readUInt32BE(offset + 8 + length);
+    const computed = crc32(Buffer.concat([Buffer.from(type, "ascii"), data]));
+    assert.equal(
+      recorded,
+      computed,
+      `${label}：${type} 块 CRC 不符（记录 ${recorded.toString(16)}，实际 ${computed.toString(16)}）`,
+    );
+    if (type === "IHDR") {
+      width = data.readUInt32BE(0);
+      height = data.readUInt32BE(4);
+    }
+    if (type === "IDAT") idat.push(Buffer.from(data));
+    offset += 12 + length;
+  }
+  // 解压成功且扫描线长度符合预期，才算这份图片真的可解码。
+  assert.equal(
+    inflateSync(Buffer.concat(idat)).length,
+    height * (1 + width * 3),
+    `${label}：解压后的扫描线长度不符`,
+  );
+  assert.ok(width > 0 && height > 0, `${label}：尺寸非法`);
+}
 
 const ok = (text: string): StudioKernelTurnResult => ({
   status: "succeeded",
@@ -49,6 +108,9 @@ const ok = (text: string): StudioKernelTurnResult => ({
 });
 
 async function loopback(t: TestContext) {
+  // 夹具自检：两份样本必须真的可解码（逐块 CRC + 解压），否则整个用例的"真 PNG"前提不成立。
+  assertValidPng(png, "fixture:png");
+  assertValidPng(editedPng, "fixture:editedPng");
   const edits: Buffer[] = [];
   let generations = 0;
   const server: Server = createServer(async (request, response) => {
@@ -213,6 +275,8 @@ test("creation → agent: the agent reads the real PNG produced through the loop
     `Agent 工作区里应有上游产物的真实 PNG 副本；实际：${JSON.stringify(seen.map((entry) => entry.name))}；工作区：${JSON.stringify(workspaceListings)}`,
   );
   assert.equal(real!.bytes.equals(png), true, "副本字节必须与回环供应商返回的 PNG 一致");
+  // 不只是八字节文件头：逐块 CRC 与解压都要过，才算"真正可解码的 PNG"。
+  assertValidPng(real!.bytes, "agent-copy");
   // 项目里的同名"图片"仍在工作区里（它是基线的一部分），但它不是被引用的那一份。
   const decoy = seen.find((entry) => entry.bytes.toString("utf8") === "PROJECT-DECOY");
   assert.ok(decoy, "反例文件应当仍在工作区里，用来证明引用没有指向它");
@@ -246,9 +310,25 @@ test("creation → creation: the second request receives the upstream PNG as its
   // edits 是 multipart：断言请求体里确实带着**上游产物的 PNG 字节**，而不是项目里的同名文件。
   const body = server.edits[0]!;
   assert.ok(body.includes(PNG_MAGIC), "参考图请求体里应包含真实 PNG 字节");
+  assert.ok(body.includes(png.subarray(8)), "参考图请求体里应包含该 PNG 的块数据（不只是文件头）");
   assert.equal(
     body.includes(Buffer.from("PROJECT-DECOY", "utf8")),
     false,
     "不得使用项目里的同名文件",
+  );
+});
+
+// 反例：先前使用的那份 1×1 样本 IDAT 块 CRC 不符（记录 efbf9577，实际应为 efa2a75b），
+// 严格校验必须拒绝它——这条用例既记录了复核发现的具体缺陷，也证明上面的校验不是空断言。
+test("the strict PNG verifier rejects the previously used broken sample", () => {
+  const broken = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lXcAAAAASUVORK5CYII=",
+    "base64",
+  );
+  assert.ok(broken.subarray(0, 8).equals(PNG_MAGIC), "旧样本的八字节文件头看起来仍是 PNG");
+  assert.throws(
+    () => assertValidPng(broken, "old-fixture"),
+    /IDAT 块 CRC 不符/u,
+    "只凭文件头会误判为有效；逐块 CRC 才能发现它坏了",
   );
 });

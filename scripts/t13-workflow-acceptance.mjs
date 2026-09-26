@@ -391,6 +391,10 @@ try {
 
   // ── ⑥ 重开核验：真的关掉应用，用**同一个数据根**重开，再查该次运行 ────────────
   // 只在本进程里查一次不能证明「重启后能恢复接纳事实」。
+  //
+  // 请求基线必须在 **app.close() 之前**采集：若在重启之后才采集，恢复期间发生的重复派单
+  // 会被算进基线，断言就只证明「最后几秒没有新请求」，而不是「重启全程没有重放」。
+  const requestsBeforeRestart = requests.length;
   await app.close();
   app = await _electron.launch({ executablePath: executable, env, timeout: 90_000 });
   page = await app.firstWindow({ timeout: 90_000 });
@@ -430,12 +434,18 @@ try {
   const reopened = await page.locator("body").innerText();
   assert.match(reopened, /已完成/u, "重开后该次运行仍应显示为已完成");
   assert.match(reopened, /已产出/u, "重开后该步骤仍应显示为已产出");
-  // 重开不得重新执行：重启后的请求数必须与关闭前一致。
-  const requestsAtRestart = requests.length;
+  // 重开不得重新执行：与 **app.close() 之前**采集的基线比较（覆盖整个重启过程），
+  // 而不是只看重启之后的一段时间。
+  assert.equal(
+    requests.length,
+    requestsBeforeRestart,
+    `重启全程不得产生新的模型请求（关闭前 ${requestsBeforeRestart}，现在 ${requests.length}）`,
+  );
+  // 再经过观察窗口，确认恢复与历史加载之后仍然没有新请求。
   await page.waitForTimeout(5000);
-  assert.equal(requests.length, requestsAtRestart, "重开不得重新执行已完成的节点");
+  assert.equal(requests.length, requestsBeforeRestart, "观察窗口内也不得产生新的模型请求");
   assert.equal(await readFile(join(project, cleanupPath), "utf8"), cleanupBody);
-  results.push("PASS 重开核验：关闭应用后用同一数据根重开，运行历史与已产出仍在，且未重新执行");
+  results.push("PASS 重开核验：关闭应用后用同一数据根重开，运行历史与已产出仍在，且全程未重新执行");
 
   console.log(results.join("\n"));
   console.log(
