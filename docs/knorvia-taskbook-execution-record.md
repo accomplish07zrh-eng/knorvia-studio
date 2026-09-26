@@ -119,14 +119,20 @@
 3. ~~`scripts/test-studio.mjs` 仍无子进程超时，挂起的测试无界。~~ **已关闭**：runner 现在传入 `--test-timeout`（默认 120000ms，`KNORVIA_TEST_TIMEOUT_MS` 可覆盖），挂起用例以 `test timed out after <n>ms` 失败并非 0 退出；刻意不做整轮子进程强杀（Windows 杀进程树易误伤）。证据：一个永不 resolve 的用例在 `--test-timeout=2000` 下 2 秒内以该诊断失败，默认值下 `pnpm test:studio` 仍 751/751。
 4. **云端 CI 事实更正**：先前记录的「云端 CI 从未运行」已不成立。据用户通过 GitHub 插件核对，`main` 上的运行 **`36173833394`** 中 `linux / quality` 通过、**`windows / quality` 失败**（Windows 的类型检查、Lint、格式、架构检查、CLI 构建均通过，`Offline Studio regression` 失败：751 项测试 750 通过 1 失败）。失败项是 `packages/desktop/test/portable-upgrade-preserves-data.test.ts` 的真实交付脚本用例，报 `scripts/deliver-portable.ps1` 的 `Delivered program file differs from build: ld\Knorvia Studio.exe`。
    - **本机已复现该失败条件并修复**：Windows CI 上 `%TEMP%` 常是 8.3 短名（`C:\Users\RUNNER~1\...`），`Resolve-Path` 保留短名而 `Get-ChildItem` 返回长名，旧实现用 `FullName.Substring($root.Length + 1)` 算相对路径因此算错（本机用短名复现得到 `e-probe-directory\build\Knorvia Studio.exe`，与 CI 的 `ld\...` 同一类）。已改为遍历时逐级拼接相对路径，不再做长度截取，并在失败诊断里输出双方完整路径与根。
-   - 本机**无法独立访问 GitHub Actions**（未安装 `gh`，仓库为私有），因此该运行结论以用户核对为准；本机只声称复现了失败条件并修复。
-   - 修复后本机 `pnpm test:studio` 为 **755/755 通过 0 失败**（新增 4 个反例用例）；云端是否转绿需等下一次 CI 运行确认，**尚未验证**。
+   - **云端已转绿（据用户核对）**：提交 `e82e9f3` 对应的 **`Studio offline checks #76`，运行编号 `36224595039`，结果 `success`**，完成时间 2026-09-26 06:50:39 UTC；Linux 与 Windows 的质量检查、构建与离线回归均已通过。**该阻塞项关闭。**
+   - **区分两件事**：通过的是 `Studio offline checks`，**不是**一次 Windows 发布工作流的完整 dry run。发布侧仍需一份固定 SHA 的「检查 → 打包 → `validate-release`」成功记录；正式发布再由明确的发布操作放行。**不能把普通 CI 转绿等同于发布路径已实测。**
+   - 本机**读不到 GitHub Actions**：这是本执行环境的访问限制（未安装 `gh`）。仓库当前为**公开**（`private: false` / `visibility: public`，据用户核对），先前记录里「仓库私有」的说法已不成立并在此更正。运行结论均以用户核对为准，本机只声称复现了失败条件并修复。
 5. 无任何真实模型、真实 CLI、真实 SSH、真实付费调用；全部为离线夹具与依赖注入替身。
 6. ~~Node 24.14.0（mise 固定）未复验。~~ **已关闭**：已在官方 Node v24.14.0 上重跑整套门禁（751/751）并用它重建交付便携包。
 
 ## 回滚
 
 - 按任务回退对应提交；代码回滚不自动撤销用户已应用的文件。
+- **历史可构建性**：当前 HEAD 已恢复可构建；**历史中存在一个已知不可构建的提交 `5d988d2`**
+  （它漏提交了 `runExecutor.ts` 的导入改动）。后续补齐（`dcb2aae`）**不会让旧提交变得可构建**。
+  用 bisect 定位其他问题时不必一律从 `dcb2aae` 起算：遇到 `5d988d2` 且其构建失败与正在定位的问题无关时，
+  可在 bisect 会话中跳过该提交（自动 bisect 用退出码 `125` 表示无法测试）；
+  **若定位的恰好就是这次类型检查破坏，它应当算 bad，不能跳过。**
 - 数据恢复：应用完全退出后，用 T03 生成的 `<db>.pre-<起点>.<时间戳>.bak` 覆盖回数据库并清除 `-wal`/`-shm`，步骤见 `docs/knorvia-upgrade-protection-report.md`。
 - 便携包回退：用上一版已验证的 `win-unpacked` 重新执行 `scripts/deliver-portable.ps1`，脚本会保证 `data` 不被替换。
 - 每个任务的独立回滚说明见各自的 `docs/knorvia-*-report.md`。
