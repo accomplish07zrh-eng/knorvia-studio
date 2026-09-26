@@ -10,7 +10,7 @@ import type {
 import type { StudioConversation, StudioMessage } from "../types.js";
 import type { StoredRun } from "./storePort.js";
 import { requiredRun } from "./commandAdmission.js";
-import { buildStudioCreationOutputs } from "../domain/outputRef.js";
+import { buildStudioCreationOutputs } from "../domain/outputBuild.js";
 import { executeStudioGroup } from "./groupExecutor.js";
 import { executeStudioWorkflow } from "./workflowExecutor.js";
 import { StudioInteractionCancelledError, waitStudioInteraction } from "./runtimeInteractions.js";
