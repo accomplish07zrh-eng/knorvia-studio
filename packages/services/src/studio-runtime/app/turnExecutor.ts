@@ -1,7 +1,6 @@
 import type { StudioKernelEvent, StudioKernelId, StudioKernelTurnResult } from "../kernelTypes.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import type { StudioConversation, StudioMessage } from "../types.js";
-import { mergeKernelUsage } from "../domain/kernelUsage.js";
 import type {
   StudioGroupDefinition,
   StudioStepResult,
