@@ -1,6 +1,6 @@
 # Knorvia Studio 0.8.0-preview.3 交付记录
 
-版本：`0.8.0-preview.3` ｜ 构建提交：`f357ed4`（其后仅文档提交 `c110512`，不影响程序行为） ｜ 整理日期：2026-09-26
+版本：`0.8.0-preview.3` ｜ 构建提交：`f8d1b22` ｜ 整理日期：2026-09-26
 
 ## 为什么升版本
 
@@ -16,12 +16,13 @@
 
 | 交付物                                              | 大小             | SHA-256                                                            |
 | --------------------------------------------------- | ---------------- | ------------------------------------------------------------------ |
-| `Knorvia Studio.exe`                                | 222 899 200 字节 | `C62B73B89FD07F69C3D60A4E7620CFEA246E278664FFFEEE0948F647776C7487` |
-| `resources/app.asar`                                | 291 632 187 字节 | `00E2CD2382DBEFAC4009E2D183C6CFBBB0E917DB375AFD590537FFD6B80F3494` |
-| 安装包 `Knorvia Studio-0.8.0-preview.3-win-x64.exe` | 150 072 776 字节 | `30482750B90E806F8E9F32CCB0268453351DCBEFB527119EFA28780C6974DB54` |
+| `Knorvia Studio.exe`                                | 222 899 200 字节 | `C5C18176BD4D5C48AB8D7ECC37440996588C1355BF200AE859C70D65C52D0D94` |
+| `resources/app.asar`                                | 291 635 187 字节 | `2A898E9F6728FF00ADDBF010D2F57869C7464F4D2CECCED497B0ABDFA8F3D1F9` |
+| 安装包 `Knorvia Studio-0.8.0-preview.3-win-x64.exe` | 150 126 938 字节 | `2F3F019A7BFA079A9260804A4F9034FDEBBCC7F8BFC782329302C1A441954B3A` |
 
-> 本记录先后覆盖两次构建：`94805dd`（首次交付，exe `F0F24D87…8356ED`）与 `f357ed4`
-> （补上创作媒体交接等服务层改动后的重新交付，上表为**当前**交付物）。两次都保留了 `data` 不动。
+> 本记录先后覆盖三次构建：`94805dd`（首次交付，exe `F0F24D87…8356ED`）、`f357ed4`
+> （补上创作媒体交接等服务层改动）、`f8d1b22`（补上输出契约派发、创作参考图受控读取与
+> 界面重开核验后的重新交付）。**上表为当前交付物**；三次都保留了 `data` 不动。
 
 ## 交付校验（`scripts/deliver-portable.ps1` 的真实输出）
 
@@ -29,7 +30,7 @@
 Portable data before: 431 files, 54930656 bytes
 Portable data verified: 431 files, 54930656 bytes, SHA-256 identical; robocopy code 3
 Program files verified: 118 SHA-256 identical to the build
-Delivered executable SHA-256: C62B73B89FD07F69C3D60A4E7620CFEA246E278664FFFEEE0948F647776C7487
+Delivered executable SHA-256: C5C18176BD4D5C48AB8D7ECC37440996588C1355BF200AE859C70D65C52D0D94
 ```
 
 `构建校验.json`：`version=0.8.0-preview.3`、`dataFiles=431`、`dataUnchanged=true`、
@@ -52,7 +53,7 @@ Delivered executable SHA-256: C62B73B89FD07F69C3D60A4E7620CFEA246E278664FFFEEE09
 
 ## 交付后在**本版构建**上重跑的桌面端到端验收
 
-用本版 `win-unpacked`（去掉便携标记的副本）重跑三个脚本，全部通过：
+用本版 `win-unpacked`（去掉便携标记的副本）重跑**三个**脚本，全部通过：
 
 `node scripts/t13-desktop-acceptance.mjs` → **8/8 PASS**
 
@@ -114,9 +115,8 @@ PASS 重开核验：关闭应用后用同一数据根重开，运行历史与已
   （`studio-workflow-media-loopback.test.ts`：创作 → Agent、创作 → 创作参考图两类消费者），
   但**创作媒体路径未在界面上**跑（工作流界面验收目前只覆盖文档路径）。
 - 文档路径既在服务层（`studio-workflow-delivery-path.test.ts`）也在打包应用的工作流界面上跑通了。
-- **交付包与源码的一致性**：当前交付包构建自 `f357ed4`（含创作成果跨隔离交接等服务层改动）；
-  其后仅有文档提交 `c110512`，不影响程序行为。因此交付包与 `main` 在**程序行为上一致**。
-  若之后再改服务层/界面代码，必须重新构建并重新交付，否则交付包会落后于源码。
+- **交付包与源码的一致性**：当前交付包构建自 `f8d1b22`，与 `main` 在**程序行为上一致**
+  （`f8d1b22` 之后仅有文档提交）。若之后再改服务层/界面代码，必须重新构建并重新交付。
 
 ## 回滚
 
