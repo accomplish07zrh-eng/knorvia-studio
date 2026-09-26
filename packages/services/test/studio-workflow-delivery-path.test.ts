@@ -63,6 +63,15 @@ async function fixture(t: TestContext, adapter: StudioKernelAdapter) {
   t.after(async () => {
     await service.disposeAllAndWait();
     assert.equal(dirname(resolve(root)), resolve(tmpdir()));
+    // 用例可能自己重开过数据库；Windows 上仍被占用的 -wal 会让删除失败，因此重试几次。
+    for (let attempt = 0; attempt < 10; attempt++) {
+      try {
+        await rm(root, { recursive: true, force: true });
+        return;
+      } catch {
+        await sleep(200);
+      }
+    }
     await rm(root, { recursive: true, force: true });
   });
   return { root, project, db, service };
@@ -182,12 +191,61 @@ test("document path: inventory → approval → cleanup → review changes → a
   });
   assert.equal(await readFile(join(f.project, "docs", "cleanup.md"), "utf8"), "整理结果\n");
 
-  // ⑤ 重开核验：接纳事实能在本次任务的交付摘要里查到。
-  const outcome = readStudioRunOutcome(f.db, run(f, accepted.id));
-  const step = outcome.steps.find((item) => item.stepId === CLEANUP_STEP);
-  assert.equal(step?.acceptance?.result, "accepted");
-  assert.equal(step?.acceptance?.confirmation, "host-verified");
-  assert.deepEqual(step?.acceptance?.paths, ["docs/cleanup.md"]);
+  // ⑤ 重开核验：**真的关掉再重开**——释放当前服务与数据库，用同一个数据库路径、
+  // 同一个工作区目录新建实例，再通过正式查询接口核对接纳事实。
+  // 只在原进程里读一次不能证明「重启后能恢复」，因此这里必须重建。
+  const callsBeforeRestart = prompts.length;
+  await f.service.disposeAllAndWait();
+  const reopenedDb = new StudioDatabase(join(f.root, "runtime.sqlite"));
+  const reopened = new StudioRuntimeService({
+    db: reopenedDb,
+    clock: {
+      now: Date.now,
+      id: randomUUID,
+      delay: (ms, signal) => sleep(Math.min(ms, 5), undefined, { signal }),
+    },
+    kernels: {
+      adapter: () => ({
+        run: async () => ok("restart should not execute this"),
+      }),
+      inspect: async () => [],
+      manage: async () => {
+        throw new Error("unused");
+      },
+      dispose: async () => {},
+    },
+    workspaces: createStudioWorkspaceManager(join(f.root, "studio-data")),
+    onDidChange: Event.None,
+    notify: () => {},
+  });
+  t.after(async () => {
+    // 安全网：正常路径已在用例末尾释放；这里容忍重复释放。
+    await reopened.disposeAllAndWait().catch(() => {});
+  });
+
+  // 正式查询接口（timeline）而不是内部投影函数：重启后仍能查到该步骤的接纳事实。
+  const timeline = await reopened.timeline(definition.id);
+  const restored = timeline.runs.find((item) => item.id === accepted.id);
+  assert.ok(restored, "重启后应能查到该次运行");
+  const restoredStep = restored.outcome?.steps.find((item) => item.stepId === CLEANUP_STEP);
+  // 运行级摘要是各步骤证据的聚合（盘点节点只有 model-claim，因此运行级是 produced）；
+  // 真正要核对的是**该步骤**：重启后仍是已核验，且接纳记录完整。
+  assert.equal(restoredStep?.outcome, "checked", "重启后该步骤仍应是已核验");
+  assert.equal(restoredStep?.acceptance?.result, "accepted");
+  assert.equal(restoredStep?.acceptance?.confirmation, "host-verified");
+  assert.deepEqual(restoredStep?.acceptance?.paths, ["docs/cleanup.md"]);
+  // 业务运行身份与步骤身份在重启后依然正确（不是物理工作区身份）。
+  assert.equal(restoredStep?.acceptance?.runId, accepted.id);
+  assert.equal(restoredStep?.acceptance?.stepId, CLEANUP_STEP);
+  assert.equal(restoredStep?.acceptance?.workspaceStepId, CLEANUP_STEP);
+
+  // 项目内容仍是应用后的结果；已完成节点没有重新执行（重启不产生新的模型派单）。
+  assert.equal(await readFile(join(f.project, "docs", "cleanup.md"), "utf8"), "整理结果\n");
+  assert.equal(prompts.length, callsBeforeRestart, "重启不得重新执行已完成的节点");
+
+  // 主动释放重开的实例：t.after 是先进先出，夹具的目录清理注册得更早。
+  // （服务的 dispose 会一并关闭它持有的数据库，不要再单独 close。）
+  await reopened.disposeAllAndWait();
 });
 
 test("document path: a denied approval stops before the cleanup node runs", async (t) => {

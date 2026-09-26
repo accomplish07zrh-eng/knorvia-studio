@@ -209,6 +209,61 @@ test("a multi-output node missing a declared key names the missing output", asyn
   assert.match(produced?.error ?? "", /Workflow outputs missing from the node result: deletions/);
 });
 
+// 复核点名的缺口：Host 会在返回后校验输出，但要求必须**真的进入模型请求**。
+// 这个夹具从提示词里解析被点名的键再据此作答——提示词没给要求，它就答不出正确的 JSON，
+// 用例会因此失败。这样才排除「夹具事先知道键、碰巧答对」的假通过。
+test("the declared output contract reaches the model request", async (t) => {
+  const prompts: string[] = [];
+  const f = await fixture(t, {
+    run: async (turn) => {
+      prompts.push(turn.text);
+      const keys = [...turn.text.matchAll(/^- ([a-z][a-z0-9-]*)：/gmu)].map((match) => match[1]!);
+      if (!keys.length) return ok("没有收到输出契约，无法按名建键。");
+      return ok(JSON.stringify(Object.fromEntries(keys.map((key) => [key, `值-${key}`]))));
+    },
+  });
+  const definition = graph(f.path, ["inventory", "deletions"], "盘点：{{ref.inventory}}");
+  const accepted = await startWorkflow(f, definition);
+  await until(f, () => run(f, accepted.id).state === "succeeded", "contract dispatch run");
+
+  // 派发出去的提示词里必须点名两个输出键，并说明要返回 JSON 对象。
+  assert.match(prompts[0]!, /\[输出契约\]/u);
+  assert.match(prompts[0]!, /inventory/u);
+  assert.match(prompts[0]!, /deletions/u);
+  assert.match(prompts[0]!, /JSON/u);
+
+  // 夹具按提示词给出的键作答，因此产出的引用正好是声明的两个名字。
+  const produced = stepOf(f, accepted.id, "workflow:n1:attempt:0");
+  assert.deepEqual(
+    produced?.outputs?.map((ref) => [ref.kind, ref.name]),
+    [
+      ["json", "inventory"],
+      ["json", "deletions"],
+    ],
+  );
+});
+
+// 复核点名的重试保护：后处理失败（格式不合规）不得自动重跑整个节点，
+// 否则已经执行过的工具副作用会被重放。夹具每次调用都返回纯文本，因此每次都会走到后处理失败。
+test("a post-processing failure does not re-run the node", async (t) => {
+  const prompts: string[] = [];
+  const f = await fixture(t, {
+    run: async (turn) => {
+      prompts.push(turn.text);
+      return ok("纯文本，不是 JSON。");
+    },
+  });
+  const definition = graph(f.path, ["inventory", "deletions"], "盘点：{{ref.inventory}}");
+  // 节点配置了 2 次重试：如果没有不可重试标记，夹具会被调用 3 次。
+  definition.nodes[1]!.data.retryCount = 2;
+  const accepted = await startWorkflow(f, definition);
+  await until(f, () => run(f, accepted.id).state === "failed", "post-processing failure");
+
+  assert.equal(prompts.length, 1, "后处理失败不得重跑节点（否则已执行的工具会被重放）");
+  const produced = stepOf(f, accepted.id, "workflow:n1:attempt:0");
+  assert.equal(produced?.retryable, false, "后处理失败必须显式标记为不可自动重试");
+});
+
 // ── 创作节点的命名输出：生产 + CreationService 证据 ─────────────────────────────
 
 const HASH = "a".repeat(64);

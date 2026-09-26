@@ -77,6 +77,38 @@ export function studioWorkflowOutputSources(
   return sources;
 }
 
+/**
+ * 把冻结的输出声明转成给模型的**有界格式要求**。
+ *
+ * Host 知道答案必须长什么样（`buildStudioStepOutputs` 会在返回后校验），但模型只能从请求里得知；
+ * 因此派发前必须把这份要求加进实际请求，而不是只在返回后校验——否则模型只能靠猜键名。
+ * 没有声明输出的旧工作流返回 `undefined`，行为与之前完全一致。
+ */
+export function studioWorkflowOutputInstruction(data: StudioWorkflowNodeData): string | undefined {
+  const names = studioWorkflowOutputNames(data);
+  if (!names.length) return undefined;
+  const sources = studioWorkflowOutputSources(data);
+  const sourceOf = (name: string) => sources.get(name) ?? (names.length === 1 ? "text" : "json");
+
+  if (names.length === 1 && sourceOf(names[0]!) === "text")
+    return `[输出契约] 直接回复正文即可；本节点会把整段回复登记为输出 ${names[0]}。`;
+
+  const lines = names.map((name) => {
+    const from = sourceOf(name);
+    if (from === "file")
+      return `- ${name}：工作区内一个**真实存在**的相对路径（例如 out/patch.diff），不要写成绝对路径`;
+    if (from === "text") return `- ${name}：本节点回复的正文`;
+    return `- ${name}：该键对应的值`;
+  });
+  const instruction = [
+    "[输出契约] 本次回复**只**输出一个 JSON 对象，必须包含下列键（键名必须完全一致）：",
+    ...lines,
+    "除该 JSON 对象外不要输出任何解释、前后缀或代码块标记；键名不一致或缺少键都会被判为失败。",
+  ].join("\n");
+  // 有界：名字数量与长度在节点校验阶段已有上限，这里再兜一次，避免把提示词撑爆。
+  return instruction.length <= 4096 ? instruction : instruction.slice(0, 4096);
+}
+
 /** 节点参数、输出声明与权限字段的结构校验；错误文案带节点 id 便于定位。 */
 export function nodeParameterIssues(data: StudioWorkflowNodeData, id: string): string[] {
   const issues: string[] = [];

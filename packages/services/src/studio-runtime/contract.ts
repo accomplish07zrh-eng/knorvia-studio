@@ -27,6 +27,7 @@ export { validateStudioWorkflow } from "./domain/workflowGraph.js";
 export {
   stricterStudioPermission,
   studioWorkflowNodeRequirement,
+  studioWorkflowOutputInstruction,
   studioWorkflowOutputNames,
   studioWorkflowParams,
   resolveStudioWorkflowParams,

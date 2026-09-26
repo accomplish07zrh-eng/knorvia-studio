@@ -283,3 +283,161 @@ test("a creation output reaches the downstream workspace as a media copy", async
   assert.equal(seen[0], "PNG-BYTES-01");
   assert.match(prompts[0]!, /creation-input\/art\.png/);
 });
+
+// ── 创作节点作为下游消费者：上游图片 → 下一个创作节点的参考图 ──────────────────
+
+/**
+ * 创作服务替身：记录每次 `createJob` 收到的参考图字节，并让 `listJobs()` 报告上游成果，
+ * 以便 Host 侧核对「来源必须是已记录的创作成果」。
+ */
+function chainedCreationService(options: { mediaPath: string; hash: string }) {
+  const submitted: Array<{ reference?: { name: string; dataBase64: string } }> = [];
+  let counter = 0;
+  const output = {
+    id: "out-media",
+    name: "illustration",
+    mimeType: "image/png",
+    path: options.mediaPath,
+    size: 12,
+    hash: options.hash,
+  };
+  return {
+    submitted,
+    listModels: async () => [
+      { id: "image-model", name: "Image", kind: "image", enabled: true, configured: true },
+    ],
+    createJob: async (input: { reference?: { name: string; dataBase64: string } }) => {
+      submitted.push({ reference: input.reference });
+      counter += 1;
+      return { id: `job-${counter}` };
+    },
+    listJobs: async () => [{ id: "job-1", status: "succeeded", outputs: [output] }],
+    getJob: async (id: string) => ({ id, status: "succeeded", outputs: [output] }),
+  };
+}
+
+async function chainedFixture(t: TestContext) {
+  const root = await mkdtemp(join(tmpdir(), "knorvia-media-chain-"));
+  const project = join(root, "project");
+  const mediaDir = join(root, "creation-store");
+  await mkdir(join(project, "creation-input"), { recursive: true });
+  await mkdir(mediaDir, { recursive: true });
+  await writeFile(join(project, "README.md"), "baseline\n", "utf8");
+  // 反例：原项目里放一张**同名但不同内容**的图片。旧实现把占位路径按项目解析，
+  // 就会读到这一张；正确实现必须读到上游产物。
+  await writeFile(join(project, "creation-input", "art.png"), "PROJECT-DECOY", "utf8");
+  const mediaPath = join(mediaDir, "art.png");
+  await writeFile(mediaPath, "UPSTREAM-ART", "utf8");
+  const hash = createHash("sha256").update("UPSTREAM-ART").digest("hex");
+
+  const creation = chainedCreationService({ mediaPath, hash });
+  const db = new StudioDatabase(join(root, "runtime.sqlite"));
+  const service = new StudioRuntimeService({
+    db,
+    creation: creation as never,
+    clock: {
+      now: Date.now,
+      id: randomUUID,
+      delay: (ms, signal) => sleep(Math.min(ms, 5), undefined, { signal }),
+    },
+    kernels: {
+      adapter: () => ({
+        run: async () => ok("done"),
+      }),
+      inspect: async () => [],
+      manage: async () => {
+        throw new Error("unused");
+      },
+      dispose: async () => {},
+    },
+    workspaces: createStudioWorkspaceManager(join(root, "studio-data")),
+    onDidChange: Event.None,
+    notify: () => {},
+  });
+  t.after(async () => {
+    await service.disposeAllAndWait();
+    assert.equal(dirname(resolve(root)), resolve(tmpdir()));
+    await rm(root, { recursive: true, force: true });
+  });
+  return { root, project, db, service, creation, hash, mediaPath };
+}
+
+function chainedGraph(project: string) {
+  const definition = {
+    ...workflow(
+      ["start", "creation", "creation", "end"],
+      [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+      ],
+    ),
+    workspacePath: project,
+  };
+  definition.nodes[1]!.data.creationModelId = "image-model";
+  definition.nodes[1]!.data.outputNames = ["illustration"];
+  definition.nodes[2]!.data.creationModelId = "image-model";
+  definition.nodes[2]!.data.creationReferencePath = "{{ref.illustration}}";
+  definition.nodes[2]!.data.outputNames = ["edited"];
+  return definition;
+}
+
+async function runChained(
+  f: Awaited<ReturnType<typeof chainedFixture>>,
+  definition: ReturnType<typeof chainedGraph>,
+) {
+  await f.service.command({ commandId: randomUUID(), type: "save-workflow", workflow: definition });
+  const accepted = await f.service.command({
+    commandId: randomUUID(),
+    type: "send",
+    kind: "workflow",
+    targetId: definition.id,
+    text: "先出图再改图",
+  });
+  const end = Date.now() + 30_000;
+  while (
+    !["succeeded", "failed"].includes(f.db.read<StoredRun>("run", accepted.id)?.state ?? "") &&
+    Date.now() < end
+  ) {
+    f.service.tick();
+    await sleep(2);
+  }
+  return accepted;
+}
+
+test("a creation node consumes an upstream image as its reference, not the same-named project file", async (t) => {
+  const f = await chainedFixture(t);
+  const accepted = await runChained(f, chainedGraph(f.project));
+  assert.equal(f.db.read<StoredRun>("run", accepted.id)?.state, "succeeded", "创作链应当跑通");
+
+  // 两次派单：第一次无参考图，第二次必须拿到**上游产物**的字节。
+  assert.equal(f.creation.submitted.length, 2, "两个创作节点各派一次");
+  assert.equal(f.creation.submitted[0]?.reference, undefined);
+  const reference = f.creation.submitted[1]?.reference;
+  assert.ok(reference, "第二个创作节点必须收到参考图");
+  assert.equal(Buffer.from(reference!.dataBase64, "base64").toString("utf8"), "UPSTREAM-ART");
+  assert.notEqual(
+    Buffer.from(reference!.dataBase64, "base64").toString("utf8"),
+    "PROJECT-DECOY",
+    "不得读到项目里的同名文件",
+  );
+});
+
+test("a stale upstream image fails before the second creation request is dispatched", async (t) => {
+  const f = await chainedFixture(t);
+  // 上游成果在交接前被改动：哈希与引用记录不一致。
+  await writeFile(f.mediaPath, "TAMPERED-ART", "utf8");
+  const accepted = await runChained(f, chainedGraph(f.project));
+  assert.equal(f.db.read<StoredRun>("run", accepted.id)?.state, "failed", "失效引用必须让运行失败");
+
+  const raw = f.db.read<StoredRun>("run", accepted.id)?.checkpoint?.values?.[
+    workflowValueKey("n2")
+  ];
+  const produced = raw ? (JSON.parse(raw) as StudioStepResult) : undefined;
+  assert.match(produced?.error ?? "", /创作成果/u);
+  assert.equal(
+    f.creation.submitted.length,
+    1,
+    "失效引用必须在派单之前失败，不得发起第二次创作请求",
+  );
+});

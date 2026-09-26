@@ -2,7 +2,7 @@ import type { StudioExecutionPort } from "./ports.js";
 import { redactDiagnosticText } from "@knorvia/shared";
 import { createHash } from "node:crypto";
 import { basename } from "node:path";
-import { readCreationReference } from "../../creation/node.js";
+import { readCreationReference, readVerifiedCreationReference } from "../../creation/node.js";
 import type {
   StudioGroupDefinition,
   StudioStepResult,
@@ -83,7 +83,19 @@ export async function executeStudioRun(
       if (request.referencePath && model.kind !== "image")
         return { status: "failed", text: "", resultKnown: true, error: "视频模型不能使用参考图" };
       let reference: Awaited<ReturnType<typeof readCreationReference>> | undefined;
-      if (request.referencePath) {
+      if (request.referenceInput) {
+        // 参考图来自上游已核验输出：按身份重新核对来源、字节与哈希，**不**按项目路径去读。
+        try {
+          reference = await readVerifiedCreationReference(request.referenceInput, creation);
+        } catch (error) {
+          return {
+            status: "failed",
+            text: "",
+            resultKnown: true,
+            error: error instanceof Error ? error.message : String(error),
+          };
+        }
+      } else if (request.referencePath) {
         try {
           reference = await readCreationReference(
             request.referencePath,

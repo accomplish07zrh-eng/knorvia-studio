@@ -122,6 +122,12 @@ export interface StudioExecutionPort {
     modelId: string;
     prompt: string;
     referencePath?: string;
+    /**
+     * 参考图来自**已核验的上游输出**时的受控输入计划。
+     * 给出时 Host 必须按它重新核对来源、字节与哈希再交给 CreationService，
+     * **不能**把展开后的占位路径当成项目内路径去读。
+     */
+    referenceInput?: StudioStepInput;
     /** 节点声明的命名输出；生产者按它把真实创作成果转成 `creation-output` 引用。 */
     outputNames?: readonly string[];
     signal: AbortSignal;

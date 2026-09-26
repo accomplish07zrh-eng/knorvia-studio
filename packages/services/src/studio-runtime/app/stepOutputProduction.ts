@@ -35,6 +35,9 @@ export async function produceStudioStepOutputs(params: {
   if (!built.ok) {
     outcome.status = "failed";
     outcome.error = redactDiagnosticText(built.error);
+    // 这是**后处理失败**：工具副作用可能已经执行，重跑整个节点会把它们再做一遍。
+    // 因此显式标记不可自动重试——要修的是输出表达，不是重放工具。
+    outcome.retryable = false;
     return;
   }
   if (!built.outputs.length) return;
@@ -71,6 +74,8 @@ export async function produceStudioStepOutputs(params: {
   if (failure) {
     outcome.status = "failed";
     outcome.error = redactDiagnosticText(failure);
+    // 同上：文件核对失败属于后处理失败，不自动重跑已经执行过的工具。
+    outcome.retryable = false;
     return;
   }
   outcome.outputs = refs;

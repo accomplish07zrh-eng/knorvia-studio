@@ -21,6 +21,7 @@ export {
   resolveStudioWorkflowParams,
   stricterStudioPermission,
   studioWorkflowNodeRequirement,
+  studioWorkflowOutputInstruction,
   studioWorkflowOutputNames,
   studioWorkflowParams,
   validateStudioWorkflowPermissions,

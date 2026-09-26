@@ -13,9 +13,10 @@ import {
   StudioUnsupportedCheckpointVersionError,
   type StudioStepOutputsVerdict as StepOutputsVerdict,
 } from "../domain/outputRef.js";
-import { resolveStudioWorkflowBindings } from "../domain/reference.js";
+import { resolveStudioWorkflowBindings, studioRequestedOutputs } from "../domain/reference.js";
 import {
   stricterStudioPermission,
+  studioWorkflowOutputInstruction,
   studioWorkflowOutputNames,
   studioWorkflowOutputSources,
 } from "../domain/workflowParams.js";
@@ -192,16 +193,19 @@ async function agentNode(
   permission: StudioPermission | undefined,
   inputs: readonly StudioStepInput[] = [],
 ): Promise<WorkflowOutcome> {
+  const outputNames = studioWorkflowOutputNames(node.data);
+  // Host 会在返回后校验输出，但模型只能从请求里得知格式要求：派发前必须把契约加进实际提示词。
+  const outputInstruction = studioWorkflowOutputInstruction(node.data);
+  const dispatchPrompt = outputInstruction ? `${prompt}\n\n${outputInstruction}` : prompt;
   for (let attempt = 0; attempt <= node.data.retryCount; attempt++) {
     if (signal.aborted) return workflowStopped(signal);
     let result: StudioStepResult;
-    const outputNames = studioWorkflowOutputNames(node.data);
     try {
       result = await port.agent({
         id: `workflow:${node.id}:attempt:${attempt}`,
         kernel: node.data.kernel,
         memberId: `workflow:${node.id}`,
-        prompt,
+        prompt: dispatchPrompt,
         // 实际要求已经与运行授权取过更严格的一方；执行器必须把它交给内核，而不是留在提示词里。
         ...(permission ? { permission } : {}),
         // 声明的命名输出交给生产者：它决定 Agent 结果怎样变成可引用的 outputs。
@@ -314,22 +318,28 @@ export async function executeWorkflowNode(
         return workflowFailed("创作服务或模型不可用");
       const prompt = workflowText(node.data.prompt, input, output, outcomes, options);
       const creationOutputs = studioWorkflowOutputNames(node.data);
+      // 参考图若来自上游输出，交出**已核验的输入计划**而不是展开后的占位路径：
+      // 占位路径是下游工作区里的落点，创作节点并没有那个工作区，按项目路径读会读错或读不到。
+      const referenceNames = studioRequestedOutputs([node.data.creationReferencePath]);
+      const referenceInput = resolved.files.find((file) => referenceNames.includes(file.name));
       try {
         return await port.createMedia({
           nodeId: node.id,
           modelId: node.data.creationModelId,
           prompt,
-          ...(node.data.creationReferencePath?.trim()
-            ? {
-                referencePath: workflowText(
-                  node.data.creationReferencePath,
-                  input,
-                  output,
-                  outcomes,
-                  options,
-                ),
-              }
-            : {}),
+          ...(referenceInput
+            ? { referenceInput }
+            : node.data.creationReferencePath?.trim()
+              ? {
+                  referencePath: workflowText(
+                    node.data.creationReferencePath,
+                    input,
+                    output,
+                    outcomes,
+                    options,
+                  ),
+                }
+              : {}),
           ...(creationOutputs.length ? { outputNames: creationOutputs } : {}),
           signal,
         });
