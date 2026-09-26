@@ -47,6 +47,36 @@ Delivered executable SHA-256: F0F24D874AEC8A3042C1E64B830D9D1AE267A7C625675CDC43
 `pnpm typecheck`、`pnpm lint`、`pnpm fmt:check`、`pnpm architecture:check`（0 violations）、
 `pnpm build:cli-packages` 全部退出 0；`pnpm test:studio` **784/784 通过 0 失败**。
 
+## 交付后在**本版构建**上重跑的桌面端到端验收
+
+用本版 `win-unpacked`（去掉便携标记的副本）重跑两个脚本，全部通过：
+
+`node scripts/t13-desktop-acceptance.mjs` → **8/8 PASS**
+
+```text
+PASS 选择内核/供应商与模型：打包界面保存成功，且未产生任何请求
+PASS 真实发送：消息经真实运行时发出，只到达回环夹具
+PASS 参数/权限检查：写文件的工具调用触发权限门禁，脚本显式批准后才继续
+PASS 真实工具执行：夹具的 Write 调用经真实运行时执行并落盘（t13-probe.txt，hello from t13）
+PASS 会话继续：第二轮消息同样只到达回环夹具并收到回复
+PASS 停止：停止按钮中止了在途请求，停止控件随之收回
+PASS 会话与配置写入本地数据根
+PASS 重开核对：引导不再出现，上一轮消息与回复仍在本地存储，供应商配置仍在
+```
+
+`node scripts/t13-isolated-workspace-acceptance.mjs` → **6/6 PASS**
+
+```text
+PASS 选择内核与项目：在群聊页选中种子群聊（workspaceMode=isolated，指向真实项目）
+PASS 参数/权限检查：写文件的工具调用触发群聊审批，显式批准后才继续
+PASS 隔离执行：写入落在隔离快照 .knorvia-studio\studio\workspaces\<hash>\working\notes.txt
+PASS 项目保护：真实项目文件未被直接改写，README 内容不变
+PASS 差异审阅：复核面板已出现（群运行进入复核阶段）
+PASS 用户接纳：应用后真实项目文件按隔离快照内容被写入
+```
+
+两次运行全程只连 `127.0.0.1`，数据根都在临时目录并在结束后删除；真实便携目录未被触碰。
+
 ## 未验证（如实）
 
 - **云端 CI 是否转绿未验证**：本机无法访问 GitHub Actions（未安装 `gh`，仓库私有）。
@@ -54,8 +84,9 @@ Delivered executable SHA-256: F0F24D874AEC8A3042C1E64B830D9D1AE267A7C625675CDC43
 - 未做真实模型、真实 CLI/ACP 内核、真实 SSH、真实付费调用（未获授权）。
 - 未做代码签名：安装包与 exe 未签名，首次运行会触发 SmartScreen。
 - `main` 分支保护未配置（需仓库管理员，见 `docs/knorvia-release-admin-rules.md`）。
-- 交付后未重新跑桌面端到端验收脚本；脚本本身在上一版构建上通过（见
-  `docs/knorvia-t13-batch-acceptance.md`）。
+- 创作成果（图片/视频）尚未纳入跨隔离的受控导入，因此「文案产出 → 创作节点 → 读取真实媒体引用」
+  这条路径还不能端到端跑通；`{{ref.<creation-output>}}` 目前解析为输出 id 而不是可打开的文件路径。
+- 文档路径的服务层端到端用例已通过（`studio-workflow-delivery-path.test.ts`），但**未在打包应用上**跑工作流界面。
 
 ## 回滚
 
