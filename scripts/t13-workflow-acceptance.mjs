@@ -389,6 +389,54 @@ try {
   assert.equal(await readFile(join(project, cleanupPath), "utf8"), cleanupBody);
   results.push("PASS 用户接纳：界面里应用修改后，真实项目按隔离快照内容被写入");
 
+  // ── ⑥ 重开核验：真的关掉应用，用**同一个数据根**重开，再查该次运行 ────────────
+  // 只在本进程里查一次不能证明「重启后能恢复接纳事实」。
+  await app.close();
+  app = await _electron.launch({ executablePath: executable, env, timeout: 90_000 });
+  page = await app.firstWindow({ timeout: 90_000 });
+  page.setDefaultTimeout(60_000);
+  await page.getByTestId("v4-composer-input").waitFor({ timeout: 90_000 });
+  await page
+    .getByText(/^工作流$|^Workflows$/)
+    .first()
+    .click();
+  await page.getByTestId("studio-workflows").waitFor({ timeout: 30_000 });
+  // 重开后可能直接恢复了上次选中的工作流（编辑器已打开），也可能停在列表；
+  // 先按 Escape 关掉可能的残留菜单，再按需点列表项——列表项按钮名形如「名字\nN 个节点 · 本机工作流」，
+  // 不能只按名字匹配，否则会点到编辑器标题上的「重命名」入口。
+  await page.keyboard.press("Escape");
+  // 重启后编辑器与工具栏是异步恢复的：轮询到「运行历史」按钮出现为止（最多 40 秒）。
+  // 用角色定位而不是 innerText —— 被 CSS 隐藏的元素不会出现在 innerText 里。
+  const historyButton = page.getByRole("button", { name: /^运行历史$|^Run history$/ }).first();
+  let historyReady = false;
+  for (let attempt = 0; attempt < 20 && !historyReady; attempt++) {
+    historyReady = (await historyButton.count()) > 0;
+    if (!historyReady) {
+      if (attempt === 3) {
+        const listEntry = page
+          .getByRole("button", { name: new RegExp(`${workflowName}[\\s\\S]{0,20}个节点`, "u") })
+          .first();
+        if ((await listEntry.count()) > 0) await listEntry.click().catch(() => {});
+      }
+      await page.waitForTimeout(2000);
+    }
+  }
+  assert(
+    historyReady,
+    `重开后仍应能看到「运行历史」入口；完整页面：${await page.locator("body").innerText()}`,
+  );
+  await historyButton.click();
+  await page.waitForTimeout(3000);
+  const reopened = await page.locator("body").innerText();
+  assert.match(reopened, /已完成/u, "重开后该次运行仍应显示为已完成");
+  assert.match(reopened, /已产出/u, "重开后该步骤仍应显示为已产出");
+  // 重开不得重新执行：重启后的请求数必须与关闭前一致。
+  const requestsAtRestart = requests.length;
+  await page.waitForTimeout(5000);
+  assert.equal(requests.length, requestsAtRestart, "重开不得重新执行已完成的节点");
+  assert.equal(await readFile(join(project, cleanupPath), "utf8"), cleanupBody);
+  results.push("PASS 重开核验：关闭应用后用同一数据根重开，运行历史与已产出仍在，且未重新执行");
+
   console.log(results.join("\n"));
   console.log(
     "未覆盖（本脚本不声称）：真实模型、真实 CLI/ACP 内核与付费调用；创作媒体路径未在界面上跑。",
