@@ -1,6 +1,6 @@
 # Knorvia Studio 0.8.0-preview.3 交付记录
 
-版本：`0.8.0-preview.3` ｜ 构建提交：`94805dd84f421783816a252ae95967e311b71538` ｜ 整理日期：2026-09-26
+版本：`0.8.0-preview.3` ｜ 构建提交：`f357ed4`（其后仅文档提交 `c110512`，不影响程序行为） ｜ 整理日期：2026-09-26
 
 ## 为什么升版本
 
@@ -16,9 +16,12 @@
 
 | 交付物                                              | 大小             | SHA-256                                                            |
 | --------------------------------------------------- | ---------------- | ------------------------------------------------------------------ |
-| `Knorvia Studio.exe`                                | —                | `F0F24D874AEC8A3042C1E64B830D9D1AE267A7C625675CDC43150FAB108356ED` |
-| `resources/app.asar`                                | —                | `74844EEC4DA928C68CE52EC625492B15F7BA44809D0CBC538D20C9CC22417FBA` |
-| 安装包 `Knorvia Studio-0.8.0-preview.3-win-x64.exe` | 150 070 283 字节 | `9D2FB4F28AFA3AEB56E8794E13A4A328534B8F7D0E19EE6623ADB211292AF1E6` |
+| `Knorvia Studio.exe`                                | 222 899 200 字节 | `C62B73B89FD07F69C3D60A4E7620CFEA246E278664FFFEEE0948F647776C7487` |
+| `resources/app.asar`                                | 291 632 187 字节 | `00E2CD2382DBEFAC4009E2D183C6CFBBB0E917DB375AFD590537FFD6B80F3494` |
+| 安装包 `Knorvia Studio-0.8.0-preview.3-win-x64.exe` | 150 072 776 字节 | `30482750B90E806F8E9F32CCB0268453351DCBEFB527119EFA28780C6974DB54` |
+
+> 本记录先后覆盖两次构建：`94805dd`（首次交付，exe `F0F24D87…8356ED`）与 `f357ed4`
+> （补上创作媒体交接等服务层改动后的重新交付，上表为**当前**交付物）。两次都保留了 `data` 不动。
 
 ## 交付校验（`scripts/deliver-portable.ps1` 的真实输出）
 
@@ -26,7 +29,7 @@
 Portable data before: 431 files, 54930656 bytes
 Portable data verified: 431 files, 54930656 bytes, SHA-256 identical; robocopy code 3
 Program files verified: 118 SHA-256 identical to the build
-Delivered executable SHA-256: F0F24D874AEC8A3042C1E64B830D9D1AE267A7C625675CDC43150FAB108356ED
+Delivered executable SHA-256: C62B73B89FD07F69C3D60A4E7620CFEA246E278664FFFEEE0948F647776C7487
 ```
 
 `构建校验.json`：`version=0.8.0-preview.3`、`dataFiles=431`、`dataUnchanged=true`、
@@ -87,9 +90,9 @@ PASS 用户接纳：应用后真实项目文件按隔离快照内容被写入
 - 创作成果的跨隔离交接已在**服务层**跑通（`studio-workflow-file-handoff.test.ts` 的媒体副本用例），
   但工作流界面**未在打包应用上**验收。
 - 文档路径的服务层端到端用例已通过（`studio-workflow-delivery-path.test.ts`），但同样**未在打包应用上**跑工作流界面。
-- **本记录描述的是构建提交 `94805dd` 的产物**。此后还有 `7e7b18a`、`c7f5360`、`3cd6f4f`、`f357ed4` 等提交，
-  其中 `f357ed4` 改了**服务层**（创作成果的跨隔离交接）——服务层会被打进应用包，因此
-  **当前交付包不含这些改动**，需要重新构建并重新交付才能一致（见文末「交付包与源码的一致性」）。
+- **交付包与源码的一致性**：当前交付包构建自 `f357ed4`（含创作成果跨隔离交接等服务层改动）；
+  其后仅有文档提交 `c110512`，不影响程序行为。因此交付包与 `main` 在**程序行为上一致**。
+  若之后再改服务层/界面代码，必须重新构建并重新交付，否则交付包会落后于源码。
 
 ## 回滚
 
