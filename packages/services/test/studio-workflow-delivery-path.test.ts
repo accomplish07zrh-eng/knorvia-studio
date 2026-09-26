@@ -15,7 +15,6 @@ import type { StudioStepResult } from "../src/studio-runtime/workflowTypes.js";
 import { StudioDatabase } from "../src/studio-runtime/adapters/studioDatabase.js";
 import { createStudioWorkspaceManager } from "../src/studio-runtime/adapters/workspaceManager.js";
 import { StudioRuntimeService } from "../src/studio-runtime/app/studioRuntimeService.js";
-import { readStudioRunOutcome } from "../src/studio-runtime/app/runOutcomeProjection.js";
 import { workflowValueKey } from "../src/studio-runtime/app/workflowSteps.js";
 import { workflow } from "./studio-orchestration-support.js";
 

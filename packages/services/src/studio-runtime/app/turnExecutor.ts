@@ -6,12 +6,7 @@ import type {
   StudioStepResult,
   StudioWorkflowDefinition,
 } from "../workflowTypes.js";
-import type {
-  StudioAgentStep,
-  StudioKernelRegistry,
-  StudioStepInput,
-  StudioWorkspacePort,
-} from "./ports.js";
+import type { StudioAgentStep, StudioKernelRegistry, StudioWorkspacePort } from "./ports.js";
 import type { ICreationService } from "../../creation/contract.js";
 import type { StoredRun, StoredSession, StudioClock, StudioRepository } from "./storePort.js";
 import { requiredRun } from "./commandAdmission.js";
