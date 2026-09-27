@@ -23286,6 +23286,39 @@
         "specs/knorvia-core-repl-tool.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/scripts/build.mjs",
+      "normalizedSha256": "6c2043a322dcf678a5c1b3bd677ed0f9d0479f73b7e13a2458f775d21334eee8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A new memory-compilation and publication transaction replaces direct compiler writes. It validates one requested output, acquires a uniquely named same-directory file exclusively, writes and closes it before rename, and only removes a temporary file it actually owns. Failure aggregation preserves write, close and cleanup causes. Import identity uses the full module URL so a query-qualified import is not a command invocation. Public contract tests preceded implementation; added transaction cases and an initially failing import-identity regression now pass. The resulting runtime bundle is byte-identical to the pre-change artifact under the same inputs. Prior source was read; this is not a no-access clean-room assertion. Public option names, output paths, esbuild settings, environment identifiers and standard Node interop are compatibility constraints, not evidence of original authorship. esbuild remains a third-party compiler. This record covers only the listed file, not inherited configuration, standard license text, remaining host modules or the whole application.",
+      "evidence": [
+        "specs/knorvia-repl-host-build.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/build-publication.test.mjs",
+      "normalizedSha256": "8aa5b72f74646f387379e12c2ebaa5f8290c9b5322b2215e418a91c0d45c72b9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New deterministic tests substitute compiler and filesystem ports to verify public build parameters, defaults, encoded helper identity, output validation, publication ordering, exclusive ownership, cleanup and combined failures. Two compatibility cases passed on the former entry; six new transaction requirements did not, which is not asserted as evidence of actual old-bundle corruption. A query-qualified import case failed on the first draft before correction. The real build and existing host suites separately verify runnable output. Prior source was read; this is not a no-access clean-room assertion. Public option names, output paths, esbuild settings, environment identifiers and standard Node interop are compatibility constraints, not evidence of original authorship. esbuild remains a third-party compiler. This record covers only the listed file, not inherited configuration, standard license text, remaining host modules or the whole application.",
+      "evidence": [
+        "specs/knorvia-repl-host-build.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-repl-host-build.md",
+      "normalizedSha256": "0464814823c9293c4cd982123310ba989b55bfa50f154f74c44f8a68cdb5c4de",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New specification defines build/publication ownership and order, compatibility of paths, build identity and third-party compiler settings, error/cleanup requirements, import behavior, acceptance criteria and scoped licensing limits. It does not claim invention of filesystem rename or the bundle format. Prior source was read; this is not a no-access clean-room assertion. Public option names, output paths, esbuild settings, environment identifiers and standard Node interop are compatibility constraints, not evidence of original authorship. esbuild remains a third-party compiler. This record covers only the listed file, not inherited configuration, standard license text, remaining host modules or the whole application.",
+      "evidence": [
+        "specs/knorvia-repl-host-build.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
