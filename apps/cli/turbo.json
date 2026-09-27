@@ -15,9 +15,28 @@
     },
     "@knorvia/node-repl-host#build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "!dist/**", "!.turbo/**", "$TURBO_ROOT$/../../packages/cua/**"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!dist/**",
+        "!.turbo/**",
+        "$TURBO_ROOT$/../../packages/cua/**",
+        "$TURBO_ROOT$/../../packages/shared/package.json",
+        "$TURBO_ROOT$/../../packages/shared/src/**"
+      ],
       "outputs": ["dist/**"],
       "env": ["KNORVIA_CUA_HELPER_BUILD_ID"]
+    },
+    "@knorvia/browser-use-plugin#build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!dist/**",
+        "!.turbo/**",
+        "!scripts/browser-client.mjs",
+        "$TURBO_ROOT$/../../packages/shared/package.json",
+        "$TURBO_ROOT$/../../packages/shared/src/**"
+      ],
+      "outputs": ["dist/**", "scripts/browser-client.mjs"]
     },
     "build:desktop-agent": {
       "dependsOn": [
@@ -79,6 +98,7 @@
         "$TURBO_ROOT$/../../packages/provider-node/src/builtin-release.ts",
         "$TURBO_ROOT$/../../packages/model-option-map/src/**",
         "$TURBO_ROOT$/../../packages/shared/src/**",
+        "$TURBO_ROOT$/../../packages/shared/package.json",
         "$TURBO_ROOT$/../../.env",
         "$TURBO_ROOT$/../../.env.production",
         "$TURBO_ROOT$/../../.env.development",

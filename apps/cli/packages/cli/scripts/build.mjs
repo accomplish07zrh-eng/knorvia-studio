@@ -143,6 +143,15 @@ export const resolveBuildAliases = ({
   // plugin-host 启动只需这些独立入口，不能经通用 alias 重新求值 shared 总入口。
   "@knorvia/shared/runtime-env": resolve(rootDirectory, "../../packages/shared/src/runtimeEnv.ts"),
   "@knorvia/shared/mcp": resolve(rootDirectory, "../../packages/shared/src/mcp.ts"),
+  // 显式解析浏览器公共子路径，避免根别名把它拼到 index.ts 后导致 CLI 打包失败。
+  "@knorvia/shared/browser-use": resolve(
+    rootDirectory,
+    "../../packages/shared/src/browser-use/index.ts",
+  ),
+  "@knorvia/shared/browser-use/viewport-limits": resolve(
+    rootDirectory,
+    "../../packages/shared/src/browser-use/viewport-limits.ts",
+  ),
   "@knorvia/shared/runtime-tool-runtime": resolve(
     rootDirectory,
     "../../packages/shared/src/runtime-tool-runtime.ts",

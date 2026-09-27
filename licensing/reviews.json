@@ -22417,6 +22417,182 @@
         "specs/knorvia-creation-polish.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/backend.ts",
+      "normalizedSha256": "61505404ee1bb7e9501bd71445b332a8a76dbe24b0a11e9eba3778639099311f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/command-metadata.ts",
+      "normalizedSha256": "f1f2326c782a7a7b8a766e229249ca3369266509c0088bdc634e6eeb3051433f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/commands.ts",
+      "normalizedSha256": "15f382556dd871a4a7f9c48b3c76e535ad35ec2f00122f0d5a993211f705f887",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/index.ts",
+      "normalizedSha256": "88cfdb070ef023c0614977d578aa7d82c85b3d46756a806c7b949648c3140a41",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/input-fields.ts",
+      "normalizedSha256": "564a144b2ff5300b37eded839b30cddf14c0dbdb88f34dec665ce626a7c08180",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/nodeReplBroker.ts",
+      "normalizedSha256": "3a8dec2ef06e457a50809f539a28d4ca96d7b910247ce80b325be25aabd7e3aa",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/playwright-actions.ts",
+      "normalizedSha256": "6065d7e1710f954f8e9e39bbc86a58b4b43b3b2e014d7abc65ae4938b315d598",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/recording-actions.ts",
+      "normalizedSha256": "b8885976a52d89e1e0cf464806f1a552d5600bd3c017ee3caaa8bc0bf3d7fdd3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/result.ts",
+      "normalizedSha256": "c5ab1e5e3626113691ebf08ecdbcd1c126db12744061447b6fb7130ec6e36e42",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/snapshot.ts",
+      "normalizedSha256": "7b47e12ab2972361958b0942b556bc1db37c321d3d5edc9394cc51e574b78bbd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/viewport-limits.ts",
+      "normalizedSha256": "7cade297050014fe8bb75b2312acef7e4879a0febac137c8c47f94062c4fb308",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/src/browser-use/wire-schema.ts",
+      "normalizedSha256": "a167cad29d0fd2cc29ab1cf9c60b99e43a6679ad77cd436a3b6bdb4f5c19907e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+      "normalizedSha256": "8b2eca425d7d26dc77221b228164d3b4fddfe18ed7af4caa28a085e1153fe8cb",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/test/browser-wire-fixtures.ts",
+      "normalizedSha256": "759821c6f5f040a2063d6b4e5346910d6ab078f62cec555debe61a37621409d8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/test/browser-wire-commands.test.ts",
+      "normalizedSha256": "5b1a802d783ca3f7282bc96561ebb33d6baad0b2cfd79ff3c8c5bac9399979f2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "packages/shared/test/browser-wire-data.test.ts",
+      "normalizedSha256": "107d9fe95138975d7870fdee467c8499fc8d1e72dc4750a07e4e937147085767",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser wire implementation organized around field vocabulary and keyed command/action directories with composable strict schema constructors. CLI payload types derive from the shared public surface; runtime constants have a validation-free entry. Existing public names, protocol field vocabulary, bounds, normalized values and diagnostics are retained as interoperability constraints. Nineteen behavioral test groups ran against the prior implementation before replacement; pinned external black-box comparison and bidirectional legacy CLI type checks verify compatibility. Prior access to existing source is disclosed, not a no-access clean-room claim; equivalent behavior and different hashes alone do not establish provenance. Zod remains an attributed third-party runtime. Changes to build scripts and manifests are scoped integration fixes, not independently classified here.",
+      "evidence": [
+        "specs/knorvia-browser-wire-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
