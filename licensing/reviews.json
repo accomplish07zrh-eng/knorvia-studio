@@ -23407,6 +23407,72 @@
         "specs/knorvia-independent-implementation.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/json-schema.ts",
+      "normalizedSha256": "0752f74d7f4789abad9fb5529ef55ee18e619888dfd07b3c5ff5d4d79ec365a7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The former recursive validator is removed. This stable public entry now starts a per-invocation explicit evaluation machine and preserves valid/errors/issues and public type re-exports. Prior source was accessed; this is not a no-access clean-room claim. Standard schema keywords, public signatures and diagnostic shapes are compatibility requirements, not evidence of original authorship. Existing issue factories, model formatting and the wider executor remain separate, not covered by this decision.",
+      "evidence": [
+        "specs/knorvia-core-schema-validation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/schema-validation/frame.ts",
+      "normalizedSha256": "76127d2809c4be11736a720c44dd2e78dcf2097debe54df8ae8ba44bcd873f3c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A new linked-path and diagnostic-frame model represents validation location without copying all ancestor path segments at every depth. Paths are materialized only for emitted issues. Prior source was accessed; this is not a no-access clean-room claim. Standard schema keywords, public signatures and diagnostic shapes are compatibility requirements, not evidence of original authorship. Existing issue factories, model formatting and the wider executor remain separate, not covered by this decision.",
+      "evidence": [
+        "specs/knorvia-core-schema-validation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/schema-validation/constraints.ts",
+      "normalizedSha256": "82f3bdff88839042d616ac027d530b9e3e7558189dee489641bf8fe793bd98b7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent rule tables implement type matching, value constraints and numerical/string/array bounds against the preserved interface. Numeric exclusive limits are now evaluated before tool dispatch with non-inclusive issue metadata; the original supported subset and serialized issue contracts are tested. Prior source was accessed; this is not a no-access clean-room claim. Standard schema keywords, public signatures and diagnostic shapes are compatibility requirements, not evidence of original authorship. Existing issue factories, model formatting and the wider executor remain separate, not covered by this decision.",
+      "evidence": [
+        "specs/knorvia-core-schema-validation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/schema-validation/machine.ts",
+      "normalizedSha256": "038a98bf6f434386dd7b8e3b164d96dc88aee2e21599ee309736fb7bb61cf770",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A new explicit work stack owns visit, exit and deferred projection actions, with branch/missing-field collectors and active schema/value pairs. Structural cycles abort validation and cannot be hidden by a successful union sibling; finite recursive values and sibling reuse remain supported. This replaces recursive per-type traversal rather than copying its call structure. Prior source was accessed; this is not a no-access clean-room claim. Standard schema keywords, public signatures and diagnostic shapes are compatibility requirements, not evidence of original authorship. Existing issue factories, model formatting and the wider executor remain separate, not covered by this decision.",
+      "evidence": [
+        "specs/knorvia-core-schema-validation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/schema-validation.test.ts",
+      "normalizedSha256": "095564cf44b55aafcbbb2e28aa5b0b17780011b6a82051e0927477364f68222e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contract tests preceded replacement and exposed exclusive-bound and recursion failures. They preserve diagnostics/order, sparse/inherited data boundaries, scalar identity and unsupported keyword behavior; added cycle masking and compiled-executor integration requirements cover structural rejection and model-visible budget failures. Prior source was accessed; this is not a no-access clean-room claim. Standard schema keywords, public signatures and diagnostic shapes are compatibility requirements, not evidence of original authorship. Existing issue factories, model formatting and the wider executor remain separate, not covered by this decision.",
+      "evidence": [
+        "specs/knorvia-core-schema-validation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-schema-validation.md",
+      "normalizedSha256": "af60fe7a42b143f24c5939db9dc357dc53872890fb71acc340496d80e45d2deb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New specification records evaluation ownership, the intentionally limited schema subset, ordering, cycle and exclusive-bound semantics, acceptance requirements, independent scope, and the still-unreplaced model formatter depth limitation. Prior source was accessed; this is not a no-access clean-room claim. Standard schema keywords, public signatures and diagnostic shapes are compatibility requirements, not evidence of original authorship. Existing issue factories, model formatting and the wider executor remain separate, not covered by this decision.",
+      "evidence": [
+        "specs/knorvia-core-schema-validation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
