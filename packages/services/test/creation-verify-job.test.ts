@@ -340,6 +340,9 @@ test("verifyJob refuses jobs without a remote task id or with a known result", a
       requests.push(`${init?.method ?? "GET"} ${path}`);
       if (path === "/submit") {
         if (submitMode === "reject") return new Response("rejected", { status: 400 });
+        // 云端可能在磁盘写入期间先触发取消；真实 fetch 会立即拒绝已取消的信号，
+        // 模拟请求也必须如此，不能只监听未来事件而永远等不到完成。
+        init?.signal?.throwIfAborted();
         return new Promise<Response>((_resolve, reject) => {
           init?.signal?.addEventListener(
             "abort",
