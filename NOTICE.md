@@ -6,7 +6,7 @@
 
 本仓库适用根目录 [LICENSE](LICENSE) 中的 Apache-2.0 条款。第三方依赖、复制代码、插件、字体、图标、原生工具及其他资产各自的许可与版权声明，见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) 及对应目录内的许可文件。产品名称和产品文案不改变这些文件记录的权利归属。
 
-2026-09-27 起按[独立实现规格](specs/knorvia-independent-implementation.md) 逐文件核验并替换实现。新编写的来源审计工具、REPL 编译与会话执行器、core/browser-client 下的浏览器 SDK 与安装入口、bootstrap 中的浏览器协议与本地 IPC 转发器、shared/browser-use 下的线协议及 CLI 浏览器端口，以及执行宿主的本地帧传输、身份投影、能力桥、Computer Use 本地请求服务、结果呈现、单次执行/进程生命周期、MCP 调度与启动收尾、工具 schema 规范化、REPL 数据契约、core 的 REPL 工具入口及 JSON Schema 校验器采用 [MIT](licensing/MIT.txt)，范围以 [licensing/](licensing/README.md) 中绑定摘要的逐文件记录为准；其他协议、错误投影与呈现、其余 MCP 宿主模块、执行后端及未确认完成替换的代码仍保留适用的原许可，不将整个应用提前声明为 MIT。Zod、zod-to-json-schema 等第三方依赖不属于 Knorvia 原创实现，继续保留其许可及署名。
+2026-09-27 起按[独立实现规格](specs/knorvia-independent-implementation.md) 逐文件核验并替换实现。新编写的来源审计工具、REPL 编译与会话执行器、core/browser-client 下的浏览器 SDK 与安装入口、bootstrap 中的浏览器协议与本地 IPC 转发器、shared/browser-use 下的线协议及 CLI 浏览器端口，以及执行宿主的本地帧传输、身份投影、能力桥、Computer Use 本地请求服务、结果呈现、单次执行/进程生命周期、MCP 调度与启动收尾、工具 schema 规范化、REPL 数据契约、core 的 REPL 工具入口、JSON Schema 校验器及模型输入错误呈现采用 [MIT](licensing/MIT.txt)，范围以 [licensing/](licensing/README.md) 中绑定摘要的逐文件记录为准；其他协议、错误对象工厂与执行器其余边界、其余 MCP 宿主模块、执行后端及未确认完成替换的代码仍保留适用的原许可，不将整个应用提前声明为 MIT。Zod、zod-to-json-schema 等第三方依赖不属于 Knorvia 原创实现，继续保留其许可及署名。
 
 内置插件逐项许可与实现范围见[插件记录](docs/knorvia-plugin-license-audit.md)。八项插件随包提供 MIT 许可，独立新增的资产与适配代码按逐文件记录确认；执行宿主构建入口已按规格独立实现，五项沿用配置与标准许可文本已另行[记录性质](licensing/evidence/node-repl-host-retained.md)，不计为独立实现，包级声明不能代替逐文件来源复核。构建编译器 esbuild 保留原许可。浏览器与执行宿主通过 core 公共 SDK 接入，各依赖保留其许可和权利归属。外部文档工具适用各自许可。
 

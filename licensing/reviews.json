@@ -23473,6 +23473,105 @@
         "specs/knorvia-core-schema-validation.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/input-validation-model-content.ts",
+      "normalizedSha256": "b12c14c45ffa31137739d876d1ddae9cc27292495a92652f623ff4a09c4c606b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The old monolithic recursive presentation implementation is removed. A stable public entry now composes invocation-owned issue projection and text rendering while retaining the model wrapper and initial-call API. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/validation-display/identity.ts",
+      "normalizedSha256": "90be4be81996116b734a953c74e9ffd7db57f8e3e5be31f8304b0697053f7e6a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New type-tagged path keys distinguish strict-equality matching from serialized content deduplication. They preserve NaN non-matching, signed-zero equivalence and sparse index reads. Schema path access and own-default structural policy are explicit shared boundaries. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/validation-display/runtime.ts",
+      "normalizedSha256": "9633246178be3c4e2df3a4df855b92684a1ac35e7f2ccd98146b4f7099fbf671",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "An explicit visit/leave stack independently expands unpaired runtime unions with ancestry cycle detection and legal sibling reuse. A limited dialect adapter uses the still-unreplaced issue factories and preserves supported canonical fields. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/validation-display/projection.ts",
+      "normalizedSha256": "7b933bae10911776584ad743389646ccfc7e027d4f502738ba32410243b3dc19",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Indexed candidate queues and one invocation-local claimed-index set replace repeated list matching; JSON claims precede deduplication, exact and alias candidates retain source precedence, and parameter and constraint projections have separate ownership and fallback rules. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/validation-display/order.ts",
+      "normalizedSha256": "1e363d843915a75fa5cdda6a6bbe5c4a0ca513f0eac78d23b16f4df4a368eeed",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A new stable dependency scheduler represents array-bound ordering with later-descendant counts and an original-index minimum heap. It replaces reverse-splice mutation, preserves measured ordering, and avoids repeated all-item scans when no array dependency exists. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/validation-display/issue-json.ts",
+      "normalizedSha256": "f4a74f6032f9fea3b72dd9edbf36634a0e36b9d92951b6b5d190817594854679",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New explicit issue-tree, object-field and array-element work items serialize standard union trees without recursive calls. Ordinary payloads use native encoding through a controlled holder to preserve parent keys, hook return semantics and visit order without accidentally invoking a data field named toJSON. Active ancestors reject cycles; shared sibling trees remain legal. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/validation-display/text.ts",
+      "normalizedSha256": "229436cc68bb4813df2937806aa08e303fa5372380e41cf1f0d372e59698ec43",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A single issue traversal fills ordered parameter-message categories and routes constraint-only results to the explicit issue-tree writer. Sparse keys, path labels and existing public message text remain compatibility contracts. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/validation-display.test.ts",
+      "normalizedSha256": "ae5a5e3e7e395002cd3f8b6e764b7ee3c4b729d3a70ba5c9dc0e5295550689fd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation tests exposed runtime expansion, real first-executor union display depth and cycle failure modes. Additional fixtures preserve index claims, defaults, aliases, ordering, exact JSON and sparse/native hook behavior; review findings were reproduced as failures before fixes. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-validation-display.md",
+      "normalizedSha256": "af6d6a68fbdd4847cef3adba8709fe7925c0d1f33eb2adeeeee0da1f88f3d6fc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New specification records invocation state ownership, matching and projection rules, standard-tree depth handling, parent-key-aware native payload encoding, migration boundaries, finite compatibility acceptance and remaining resource limits. Prior implementation source was accessed; this is not a no-access clean-room claim. Public signatures, parser issue names, model-visible text, ordering and JSON wire fields are compatibility requirements, not independent-authorship evidence. Existing issue factories, input normalization and the remainder of the executor are explicitly outside this decision.",
+      "evidence": [
+        "specs/knorvia-validation-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
