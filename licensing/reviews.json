@@ -24221,6 +24221,127 @@
         "specs/knorvia-workflow-display.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "normalizedSha256": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent entry adapter separates telemetry classification from a fresh business registration inspection and delegates accepted calls to an invocation owner. Registry rejection remains a dedicated outcome with its own publication contract, instead of a branch in the former monolithic executor. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/identity.ts",
+      "normalizedSha256": "49891c1b729026e6706fb94ec32d95b9dee1335bbf8d4b51ed3675bdf69fe53d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous identity projection binds registration, model contract, trace ancestry and canonical business identity without creating global state or merging the independently timed telemetry and execution lookups. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/admission.ts",
+      "normalizedSha256": "ae2c6b608fc888e5e90803eda418dc269b106e3705e09d2207530cc9a8f20a18",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New invocation-owned Admission keeps one input slot and interprets prepared, resolved and Hook facts into a closed AdmissionExit protocol. It separates result decoration from event/telemetry commitment, preserving method receivers and different initial versus Hook rejection obligations. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "normalizedSha256": "24210fc1f42a4da047049a8fbbbca8a92e7a17d7da5c770dedc44a9b9ec8c97a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent typed context adapter connects existing execution ports and metadata callbacks to one call owner, evaluates runtime capabilities at the execution boundary, and preserves the distinct entry-time versus execution-time model readings. Contract-required field names and projection values are retained as compatibility facts. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/outcome.ts",
+      "normalizedSha256": "59f4cfee48403d0e6356ccfb916a1ce0dcba7354127a4b0fe12c85ec2cee89c6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New result policy confines temporary frame authority to a serialization projection, checks the final model envelope and resolves failure text after error normalization. It uses an own-key error-category table and never stores registration or session state. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/invocation.ts",
+      "normalizedSha256": "bc72d5be07cee12c847aaa96684982d90bd5575bff76cc5682f888d48b65bec5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New per-call coordinator owns one Admission instance, failure phase and metadata slots. It commits finite admission decisions, connects one guarded execution lifetime, and keeps terminal effects and cancellation unlinking in the same async continuation. The former monolithic implementation has been replaced, not retained as a fallback. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
+      "normalizedSha256": "bfb108d1f3a29384f751ff655c63542bd87775bb23c860c5c098f50251675ace",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New in-memory dependency fixture records call identity, event timelines, input and metadata references, hooks and terminal telemetry. It invokes no real model, process, filesystem, browser or device action. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-admission.test.ts",
+      "normalizedSha256": "22af731bc5feb8413629ee80b5dcf18b074144ceedfaf0fda0a9095a3692581e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New fixed expectation contracts cover lookup/privacy, alias and capability ordering, cancellation, resolver and validation exits, single input preparation, Hook rewrite/deny, permission categories and plan/workflow feedback, plus separate reason accessor failure. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-execution.test.ts",
+      "normalizedSha256": "b16a85ed14a8ceca9df02b0d53b28e18aa5e28f7d9e884fe1df6739f742f56c2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New execution contracts cover guarded failure stages, raw exceptions, automation/terminal control, metadata interleaving, parent/child signal ownership, model status clock ordering, explicit sink precedence and precise duration boundaries. Three review regressions were established before their corrections, including terminal microtask unlink timing and late Hook context reads. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-authority.test.ts",
+      "normalizedSha256": "776106794ffda2b909a6ad7e7a61c0c0f62060a8de07eb981807c1ea7df079a3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated module substitutions test only authority consumer behavior: per-output REPL serialization protection, unchanged registration/display trust, failed final attestation and child-signal propagation. They explicitly do not assert real CUA device or authority producer success. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-invocation.md",
+      "normalizedSha256": "3da92c061653efab4d503af926ada7e766b714b9789adc1c5c74dad5d79184be",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New phase/ownership specification precedes implementation and records the closed admission protocol, single invocation state, effect and failure boundaries, exact timing, licensing scope and two adjacent unresolved implementation defects. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-invocation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
