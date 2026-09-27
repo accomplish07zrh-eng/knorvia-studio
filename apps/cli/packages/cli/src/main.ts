@@ -9,7 +9,7 @@ import { scheduleCliExitWatchdog } from "./shutdown.js";
 import { installCliProcessErrorBoundary } from "./process-errors.js";
 import { installProtocolStderrBoundary } from "./protocol-stderr.js";
 import { createProtocolProcessLifecycle } from "./protocol-lifecycle.js";
-import { isProtocolServerInvocation } from "./arguments.js";
+import { isProtocolServerInvocation, isStoragePreparationInvocation } from "./arguments.js";
 
 void main();
 
@@ -57,6 +57,13 @@ async function main(): Promise<void> {
       stdin: process.stdin,
       stdout: process.stdout,
     };
+    // Host 的数据库准备过去先加载 run/bootstrap 总入口，连带求值所有 Agent 依赖。
+    // 标准内部调用直达同一存储实现，仍等待观察握手、迁移、关闭成功后才返回。
+    if (isStoragePreparationInvocation(argv)) {
+      const { runStoragePreparationCommand } = await import("./storage-preparation-command.js");
+      process.exitCode = await runStoragePreparationCommand(context);
+      return;
+    }
     // plugin-host 只承载插件；先导入 run 会求值 Agent、工具注册表和工作流模块，
     // 即使最终没有创建 AgentRuntime，也会让每个 MCP 子进程持有整套业务依赖。
     if (isPluginHostInvocation(argv)) {

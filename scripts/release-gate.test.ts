@@ -20,6 +20,39 @@ const OTHER_COMMIT = "d".repeat(40);
 
 const artifact = { name: "Knorvia-Studio-0.8.0-preview.2-win-x64-portable.zip", sha256: SHA_A };
 
+test("双产物发布中断后仅补传缺少的附件", () => {
+  const artifacts = ["setup.exe", "setup.exe.sha256", "portable.zip", "portable.zip.sha256"].map(
+    (name) => ({ name, sha256: SHA_A }),
+  );
+  const decision = decideReleasePlan({
+    tag: "v0.8.0-preview.3",
+    deliveredSha: COMMIT,
+    tagExists: true,
+    tagSha: COMMIT,
+    releaseState: "exists",
+    artifacts,
+    existingAssets: artifacts.slice(0, 2),
+  });
+  assert.equal(decision.action, "upload");
+  assert.deepEqual(decision.toUpload, ["portable.zip", "portable.zip.sha256"]);
+  assert.deepEqual(decision.alreadyPresent, ["setup.exe", "setup.exe.sha256"]);
+});
+
+test("一个产物缺失但另一个已发布产物冲突时，拒绝整次发布", () => {
+  const decision = decideReleasePlan({
+    tag: "v0.8.0-preview.3",
+    deliveredSha: COMMIT,
+    tagExists: true,
+    tagSha: COMMIT,
+    releaseState: "exists",
+    artifacts: [artifact, { name: "setup.exe", sha256: SHA_A }],
+    existingAssets: [{ name: "setup.exe", sha256: SHA_B }],
+  });
+  assert.equal(decision.action, "reject");
+  assert.equal(decision.exitCode, EXIT_ASSET_HASH_MISMATCH);
+  assert.deepEqual(decision.toUpload, []);
+});
+
 test("normalizeSha256 去掉前缀并转小写", () => {
   assert.equal(normalizeSha256("sha256:ABCDEF"), "abcdef");
   assert.equal(normalizeSha256("  AB  "), "ab");

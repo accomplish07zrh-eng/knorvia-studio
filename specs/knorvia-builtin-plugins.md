@@ -1,6 +1,6 @@
 # Knorvia Studio 内置插件
 
-本规格记录当前八个内置插件的功能、身份、打包链路和验收边界。2026-09-24 用户要求独立重写替代；四个文档类插件已切换为新编写的 0.2.0 资产，其余四个继续逐项处理。
+本规格记录内置插件的功能、身份、打包链路和验收边界。2026-09-27 新增默认关闭的 Windows Computer Use 插件（0.7.0），视觉控制契约见 [Windows Computer Use](knorvia-windows-computer-use.md)。以下 2026-09-24 的八包数字与验证结果保留为当时的验收记录。
 
 ## 范围与边界
 
@@ -26,7 +26,7 @@
 
 明确不移植（用户范围限定，且各有产品原因）：
 
-- `computer-use`：用户确认删除；本仓库的 CUA 运行时（`@knorvia/cua`）本身是占位实现，即使保留插件也无法实际控制桌面。
+- `computer-use`：2026-09-24 移除旧插件；2026-09-27 按用户新要求加入独立 Windows 视觉控制插件。旧占位接口仍对不支持的平台报不可用；Windows 走新的 `@knorvia/cua/windows` 公共接口，不恢复旧插件文件。
 - `image-search`：MCP 地址来自本机不存在的 `KNORVIA_BASE_URL`，启用只会产生缺失变量错误。
 - `knorvia-guide`、`android-emulator`、`ios-simulator`：不在指定插件集合内；模拟器插件还依赖 Xcode/Android SDK 与预编译产物。
 - `restore-legacy-sessions`：读取 ZCode 旧版会话数据，与 Knorvia 独立数据目录的隔离原则冲突。

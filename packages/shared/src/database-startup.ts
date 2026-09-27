@@ -9,6 +9,8 @@ export const databaseStartupErrorCodeSchema = z.enum([
   "open_failed",
   "lock_timeout",
   "checksum_mismatch",
+  "newer_database",
+  "backup_failed",
   "sql_failed",
   "startup_status_timeout",
   "transport_closed",
@@ -170,6 +172,7 @@ export function canRetryDatabaseStartup(
     ![
       "corrupt",
       "checksum_mismatch",
+      "newer_database",
       "transport_closed",
       "startup_status_timeout",
       "unsupported_runtime",

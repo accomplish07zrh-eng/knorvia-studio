@@ -111,6 +111,23 @@ export function shouldLoadCliDotenvForProtocolServer(env: CliEnv): boolean {
   return resolveCliRuntimeEnv(env, process.argv) === "development";
 }
 
+/** 普通协议与存储窄入口共用环境规则，生产模式不读取项目 .env。 */
+export function prepareProtocolCommandEnv(options: {
+  env?: CliEnv;
+  cwd: string;
+  loadDotenv?: typeof loadCliDotenv;
+}): CliEnv {
+  const env = prepareCliRuntimeEnv(options.env ?? process.env);
+  const result = shouldLoadCliDotenvForProtocolServer(env)
+    ? (options.loadDotenv ?? loadCliDotenv)({ cwd: options.cwd, env })
+    : { keys: [], loaded: false };
+  applyCliRuntimeEnvSanitization(env);
+  if (result.error) {
+    throw new Error(`Failed to load environment file: ${result.path}`, { cause: result.error });
+  }
+  return env;
+}
+
 function applyCliRuntimeEnvDefaults(env: CliEnv, argv: readonly string[]): void {
   env[KNORVIA_RUNTIME_ENV_KEY] = resolveCliRuntimeEnv(env, argv);
   applyBetaStorageDefault(env, argv);

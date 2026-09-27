@@ -22,10 +22,8 @@ import {
   createNodeReplBrowserBroker,
   type NodeReplBrowserBroker,
 } from "./app/node-repl-browser-broker.js";
-import {
-  openProtocolStartupStorage,
-  prepareProtocolStartupStorage,
-} from "./protocol/storage-startup.js";
+import { openProtocolStartupStorage } from "./protocol/storage-startup.js";
+import { prepareKnorviaStorage } from "./storage-startup-entrypoint.js";
 import { closeSessionStore, getSessionDbPath } from "./app/session-store.js";
 import { startProcessProviderRegistryRuntime } from "./app/process-provider-registry-runtime.js";
 import { scheduleStartupLogRetentionCleanup } from "./log-retention.js";
@@ -73,12 +71,7 @@ export async function runKnorviaProtocolAgent(
   options: RunKnorviaProtocolAgentOptions = {},
 ): Promise<void> {
   if (options.prepareStorageOnly) {
-    const config = createConfig({ env: options.env });
-    await prepareProtocolStartupStorage({
-      dbPath: getSessionDbPath(config, options.cwd),
-      input: options.input ?? process.stdin,
-      output: options.output ?? process.stdout,
-    });
+    await prepareKnorviaStorage(options);
     return;
   }
   const startupStartedAt = startupNow();

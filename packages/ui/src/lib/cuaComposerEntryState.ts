@@ -103,8 +103,8 @@ function resolveUiState(inputs: CuaComposerEntryInputs): CuaComposerEntryUiState
   if (inputs.pluginToggling) return "starting";
   if (inputs.pluginError) return "error";
 
-  // Windows 无 TCC：插件启用即就绪，不参与权限判定。
-  if (!inputs.macLocalDesktop) return "ready";
+  // 开启插件不代表窗口已授权或驱动已验证；实际使用时才请求本轮窗口授权。
+  if (!inputs.macLocalDesktop) return "idle";
 
   // 懒启动入口不承载状态展示，permissionStatus 恒为 null——
   // 不存在「冷启动查询中」的中间态（查询会按需启动 Helper，挂载即查等于打开 app

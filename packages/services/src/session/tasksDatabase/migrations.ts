@@ -98,7 +98,9 @@ export function runTasksDatabaseMigrations(
   };
   let currentMigrationId: string | undefined;
   try {
-    if (!options.migration) migrationFacts.kind = inspectTasksMigrationKind(db);
+    // 进程内 ready 凭据及锁前预检都不是账本授权；锁内必须再次拒绝新版本。
+    const currentKind = inspectTasksMigrationKind(db);
+    if (!options.migration) migrationFacts.kind = currentKind;
     db.exec(`CREATE TABLE IF NOT EXISTS tasks_schema_migration (
       id TEXT PRIMARY KEY, checksum TEXT NOT NULL, time_applied INTEGER NOT NULL
     )`);
@@ -196,6 +198,7 @@ function adoptSchema(db: DatabaseSync): void {
 
 /** 交接只复用已完成初始化；每个新连接仍按冻结账本确认，替换/清空文件不能假 ready。 */
 export function areTasksDatabaseMigrationsApplied(db: DatabaseSync): boolean {
+  assertKnownTasksMigrations(db);
   if (
     !db
       .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
@@ -220,6 +223,7 @@ export function areTasksDatabaseMigrationsApplied(db: DatabaseSync): boolean {
 
 /** 只读账本的展示预检，不授权执行；迁移 runner 拿锁后仍复查每一项。 */
 export function inspectTasksMigrationKind(db: DatabaseSync): DatabaseMigrationFacts["kind"] {
+  assertKnownTasksMigrations(db);
   const hasLedger = db
     .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
     .get();
@@ -246,4 +250,24 @@ export function inspectTasksMigrationKind(db: DatabaseSync): DatabaseMigrationFa
     .get()
     ? "upgrade"
     : "initialize";
+}
+
+/** 未知 id 无论排序高低都代表不兼容；拒绝时不回传数据库中的任意编号原文。 */
+function assertKnownTasksMigrations(db: DatabaseSync): void {
+  if (
+    !db
+      .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='tasks_schema_migration'")
+      .get()
+  )
+    return;
+  const knownIds: ReadonlySet<string> = new Set(definitions.map((migration) => migration.id));
+  if (
+    db
+      .prepare("SELECT id FROM tasks_schema_migration")
+      .all()
+      .some((row) => !knownIds.has(String(row.id)))
+  )
+    throw Object.assign(new Error("任务数据库版本较新，请使用兼容的较新版本打开。"), {
+      kind: "newer_database",
+    });
 }

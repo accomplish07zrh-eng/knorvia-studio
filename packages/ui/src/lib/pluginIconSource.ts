@@ -1,17 +1,21 @@
-import documentsIconUrl from "@/assets/plugin-icons/documents.png";
-import imageSearchIconUrl from "@/assets/plugin-icons/image-search.png";
-import pdfIconUrl from "@/assets/plugin-icons/pdf.png";
-import pluginCreatorIconUrl from "@/assets/plugin-icons/plugin-creator.png";
-import presentationsIconUrl from "@/assets/plugin-icons/presentations.png";
-import spreadsheetsIconUrl from "@/assets/plugin-icons/spreadsheets.png";
+import browserUseIconUrl from "@/assets/plugin-icons/browser-use.svg";
+import documentsIconUrl from "@/assets/plugin-icons/documents.svg";
+import imageSearchIconUrl from "@/assets/plugin-icons/image-search.svg";
+import pdfIconUrl from "@/assets/plugin-icons/pdf.svg";
+import pluginCreatorIconUrl from "@/assets/plugin-icons/plugin-creator.svg";
+import presentationsIconUrl from "@/assets/plugin-icons/presentations.svg";
+import skillCreatorIconUrl from "@/assets/plugin-icons/skill-creator.svg";
+import spreadsheetsIconUrl from "@/assets/plugin-icons/spreadsheets.svg";
 import { isTrustedImageUrl } from "@/lib/trustedImageUrl.js";
 
 const OFFICIAL_PLUGIN_ICON_BY_ID: Readonly<Record<string, string>> = {
+  "browser-use@knorvia-plugins-bundled": browserUseIconUrl,
   "documents@knorvia-plugins-bundled": documentsIconUrl,
   "image-search@knorvia-plugins-bundled": imageSearchIconUrl,
   "pdf@knorvia-plugins-bundled": pdfIconUrl,
   "plugin-creator@knorvia-plugins-bundled": pluginCreatorIconUrl,
   "presentations@knorvia-plugins-bundled": presentationsIconUrl,
+  "skill-creator@knorvia-plugins-bundled": skillCreatorIconUrl,
   "spreadsheets@knorvia-plugins-bundled": spreadsheetsIconUrl,
 };
 

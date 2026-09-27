@@ -16,9 +16,17 @@
           "--knorvia-startup-background",
           dark ? "#171717" : "#fff",
         );
+        document.documentElement.setAttribute(
+          "data-knorvia-startup-theme",
+          dark ? "dark" : "light",
+        );
       } catch {}
     </script>
     <style>
+      /* 进入动画（specs/knorvia-entrance-motion.md）：
+         入场——Logo 柔焦浮现、光泽扫过、三道笔画依次展开、字标收拢；
+         退场——启动壳轻微放大淡出，工作面上浮落位，工具栏与内核栏逐个滑入。
+         只动 opacity / transform（Logo 另有小面积模糊），全部尊重减少动态效果。 */
       html,
       body,
       #root {
@@ -27,13 +35,26 @@
         height: 100%;
       }
 
+      :root {
+        --knorvia-intro-ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --knorvia-intro-ink: #111113;
+        --knorvia-intro-mute: #8a8a8f;
+        --knorvia-intro-halo: rgba(0, 0, 0, 0.05);
+      }
+
+      :root[data-knorvia-startup-theme="dark"] {
+        --knorvia-intro-ink: #f4f4f5;
+        --knorvia-intro-mute: #8d8d93;
+        --knorvia-intro-halo: rgba(255, 255, 255, 0.06);
+      }
+
       #root {
         opacity: 0;
-        transition: opacity 0.16s ease;
       }
 
       body.knorvia-studio-startup-ready #root {
         opacity: 1;
+        animation: knorvia-root-enter 0.42s ease both;
       }
 
       #loading {
@@ -43,8 +64,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: opacity 0.16s ease;
         background: var(--knorvia-startup-background, #fff);
+        transition: opacity 0.52s var(--knorvia-intro-ease);
       }
 
       body.knorvia-studio-startup-ready #loading {
@@ -52,54 +73,241 @@
         opacity: 0;
       }
 
-      .startup-logo-shell {
+      .knorvia-intro {
         position: relative;
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition:
+          transform 0.52s var(--knorvia-intro-ease),
+          filter 0.52s var(--knorvia-intro-ease);
+      }
+
+      body.knorvia-studio-startup-ready .knorvia-intro {
+        transform: scale(1.045);
+        filter: blur(6px);
+      }
+
+      .knorvia-intro__halo {
+        position: absolute;
+        top: -70px;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        margin-left: -150px;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, var(--knorvia-intro-halo), transparent);
+        opacity: 0;
+        transform: scale(0.6);
+        animation: knorvia-intro-halo 1.1s var(--knorvia-intro-ease) forwards;
+        pointer-events: none;
+      }
+
+      .startup-logo-shell {
+        position: relative;
         width: 96px;
         height: 96px;
-        align-items: center;
-        justify-content: center;
-        transform: scale(0.72);
         opacity: 0;
-        animation: startup-logo-pop 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        transform-origin: center;
+        transform: translateY(10px) scale(0.9);
+        filter: blur(12px);
+        animation: knorvia-intro-logo 0.72s var(--knorvia-intro-ease) forwards;
       }
 
       .startup-logo {
+        display: block;
         width: 96px;
         height: 96px;
         object-fit: contain;
       }
 
-      @keyframes startup-logo-pop {
-        0% {
-          opacity: 0;
-          transform: scale(0.72);
-        }
+      /* 光泽只落在 Logo 本身：遮罩由脚本在运行时指向同一张图片。 */
+      .knorvia-intro__sheen {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          105deg,
+          transparent 38%,
+          rgba(255, 255, 255, 0.78) 50%,
+          transparent 62%
+        );
+        background-size: 260% 100%;
+        background-position: 130% 0;
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        opacity: 0;
+        animation: knorvia-intro-sheen 0.9s 0.4s ease-in-out forwards;
+        pointer-events: none;
+      }
 
-        38% {
-          opacity: 1;
-          transform: scale(1.045);
-        }
+      .knorvia-intro__strokes {
+        display: flex;
+        gap: 4px;
+        margin-top: 22px;
+        transform: skewX(-28deg);
+      }
 
-        58% {
-          transform: scale(0.985);
-        }
+      .knorvia-intro__strokes i {
+        display: block;
+        width: 13px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--knorvia-intro-ink);
+        transform: scaleX(0);
+        transform-origin: left center;
+        animation: knorvia-intro-stroke 0.46s var(--knorvia-intro-ease) forwards;
+      }
 
-        76% {
-          transform: scale(1.008);
-        }
+      .knorvia-intro__strokes i:nth-child(1) {
+        animation-delay: 0.3s;
+      }
 
-        100% {
+      .knorvia-intro__strokes i:nth-child(2) {
+        opacity: 0.55;
+        animation-delay: 0.38s;
+      }
+
+      .knorvia-intro__strokes i:nth-child(3) {
+        opacity: 0.24;
+        animation-delay: 0.46s;
+      }
+
+      .knorvia-intro__word {
+        margin-top: 14px;
+        color: var(--knorvia-intro-mute);
+        font:
+          500 12px/1 "Segoe UI Variable Text",
+          "Segoe UI",
+          -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          sans-serif;
+        letter-spacing: 0.34em;
+        text-indent: 0.34em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        opacity: 0;
+        filter: blur(4px);
+        animation: knorvia-intro-word 0.52s 0.38s var(--knorvia-intro-ease) forwards;
+      }
+
+      @keyframes knorvia-intro-halo {
+        to {
           opacity: 1;
           transform: scale(1);
         }
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        .startup-logo-shell {
+      @keyframes knorvia-intro-logo {
+        to {
           opacity: 1;
-          transform: scale(1);
+          transform: none;
+          filter: none;
+        }
+      }
+
+      @keyframes knorvia-intro-sheen {
+        0% {
+          opacity: 0;
+          background-position: 130% 0;
+        }
+
+        25% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0;
+          background-position: -30% 0;
+        }
+      }
+
+      @keyframes knorvia-intro-stroke {
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      @keyframes knorvia-intro-word {
+        to {
+          opacity: 1;
+          filter: none;
+          letter-spacing: 0.16em;
+          text-indent: 0.16em;
+        }
+      }
+
+      @keyframes knorvia-root-enter {
+        from {
+          opacity: 0;
+        }
+      }
+
+      /* 工作面与导航的落位：只在进入期间生效，结束后由脚本移除类名，不影响之后挂载的元素。 */
+      body.knorvia-studio-entering [data-studio-workspace-sheet="true"] {
+        animation: knorvia-sheet-enter 0.68s 0.04s var(--knorvia-intro-ease) both;
+      }
+
+      body.knorvia-studio-entering [data-knorvia-enter-item] {
+        animation: knorvia-rail-item-enter 0.46s var(--knorvia-intro-ease) both;
+        animation-delay: calc(0.12s + var(--knorvia-enter-index, 0) * 0.036s);
+      }
+
+      @keyframes knorvia-sheet-enter {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.99);
+        }
+      }
+
+      @keyframes knorvia-rail-item-enter {
+        from {
+          opacity: 0;
+          transform: translateX(-8px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .knorvia-intro__halo,
+        .startup-logo-shell,
+        .knorvia-intro__strokes i,
+        .knorvia-intro__word {
+          opacity: 1;
+          transform: none;
+          filter: none;
+          animation: none;
+        }
+
+        .knorvia-intro__strokes i:nth-child(2) {
+          opacity: 0.55;
+        }
+
+        .knorvia-intro__strokes i:nth-child(3) {
+          opacity: 0.24;
+        }
+
+        .knorvia-intro__word {
+          letter-spacing: 0.16em;
+          text-indent: 0.16em;
+        }
+
+        .knorvia-intro__sheen {
+          display: none;
+        }
+
+        #loading,
+        .knorvia-intro {
+          transition-duration: 0.16s;
+        }
+
+        body.knorvia-studio-startup-ready .knorvia-intro {
+          transform: none;
+          filter: none;
+        }
+
+        body.knorvia-studio-startup-ready #root,
+        body.knorvia-studio-entering [data-studio-workspace-sheet="true"],
+        body.knorvia-studio-entering [data-knorvia-enter-item] {
           animation: none;
         }
       }
@@ -114,27 +322,64 @@
       aria-busy="true"
       aria-label="Loading..."
     >
-      <div class="startup-logo-shell">
-        <img src="/knorvia-icon.png" class="startup-logo" alt="Knorvia Studio" />
+      <div class="knorvia-intro">
+        <div class="knorvia-intro__halo" aria-hidden="true"></div>
+        <div class="startup-logo-shell">
+          <img src="/knorvia-icon.png" class="startup-logo" alt="Knorvia Studio" />
+          <span class="knorvia-intro__sheen" aria-hidden="true"></span>
+        </div>
+        <div class="knorvia-intro__strokes" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="knorvia-intro__word" aria-hidden="true">Knorvia Studio</div>
       </div>
     </div>
     <script type="module">
-      const startupLogoShell = document.querySelector(".startup-logo-shell");
       const startupLoading = document.getElementById("loading");
+      const startupLogo = document.querySelector(".startup-logo");
+      const startupSheen = document.querySelector(".knorvia-intro__sheen");
+      const startupWord = document.querySelector(".knorvia-intro__word");
       const isUpdateStatusWindow =
         new URLSearchParams(window.location.search).get("windowKind") === "update-status";
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // 进入期间依次滑入的导航元素：工具栏按钮、内核按钮与底部操作。
+      const ENTER_ITEM_SELECTOR = [
+        '[data-testid="studio-activity-rail"] nav > *',
+        '[data-testid^="studio-rail-kernel"]',
+        '[data-testid="studio-activity-rail"] > :last-child button',
+      ].join(",");
       let finished = false;
       let animationDone = false;
       let reactReady = false;
+
+      if (startupLogo && startupSheen) {
+        // 遮罩用解析后的绝对地址，保证 file:// 与开发服务器下都指向同一张 Logo。
+        startupSheen.style.webkitMaskImage = `url("${startupLogo.currentSrc || startupLogo.src}")`;
+      }
+
+      const stageEnterItems = () => {
+        const items = Array.from(document.querySelectorAll(ENTER_ITEM_SELECTOR));
+        items.forEach((item, index) => {
+          item.setAttribute("data-knorvia-enter-item", "");
+          item.style.setProperty("--knorvia-enter-index", String(index));
+        });
+        return items;
+      };
 
       // 主入口不能依赖动画结束后的动态 import；一旦导入路径在 Electron/Vite 下失败，
       // 页面会永久停在 HTML loading。这里让主入口静态加载，只把启动壳作为动画遮罩延迟移除。
       const tryFinishStartupAnimation = () => {
         if (finished || !animationDone || !reactReady) return;
         finished = true;
+        const items = reduceMotion ? [] : stageEnterItems();
+        if (!reduceMotion) document.body.classList.add("knorvia-studio-entering");
         document.body.classList.add("knorvia-studio-startup-ready");
-        window.setTimeout(() => startupLoading?.remove(), 500);
+        window.setTimeout(() => startupLoading?.remove(), 600);
+        window.setTimeout(() => {
+          document.body.classList.remove("knorvia-studio-entering");
+          for (const item of items) {
+            item.removeAttribute("data-knorvia-enter-item");
+            item.style.removeProperty("--knorvia-enter-index");
+          }
+        }, 1400);
       };
 
       const markAnimationDone = () => {
@@ -157,11 +402,12 @@
         window.addEventListener("knorvia-react-startup-ready", markReactReady, { once: true });
       }
 
-      if (isUpdateStatusWindow || reduceMotion || !startupLogoShell) {
+      if (isUpdateStatusWindow || reduceMotion || !startupWord) {
         markAnimationDone();
       } else {
-        startupLogoShell.addEventListener("animationend", markAnimationDone, { once: true });
-        window.setTimeout(markAnimationDone, 1000);
+        // 字标是入场最后一段；以它结束为准，另设兜底避免动画事件缺失时卡住。
+        startupWord.addEventListener("animationend", markAnimationDone, { once: true });
+        window.setTimeout(markAnimationDone, 1400);
       }
 
       if (!isUpdateStatusWindow) {

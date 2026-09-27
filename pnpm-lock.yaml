@@ -397,6 +397,8 @@ importers:
         specifier: ^24.0.0
         version: 24.12.2
 
+  apps/cli/packages/cua-plugin: {}
+
   apps/cli/packages/debug:
     dependencies:
       '@hono/node-server':

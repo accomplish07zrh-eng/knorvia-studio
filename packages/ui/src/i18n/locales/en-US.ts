@@ -6,6 +6,12 @@ import { workflowEnUS } from "@/studio/workflow/messages.js";
 import { workflowConflictEnUS } from "@/studio/workflow/conflictMessages.js";
 import { creationEnUS } from "@/studio/creation/messages.js";
 const enUS: Record<string, string> = {
+  "settings.computerUse.windows.visualGuide":
+    "Once enabled, ask the agent in chat to operate Windows apps using screenshots. A vision-capable model is required; the driver starts on demand.",
+  "settings.computerUse.windows.accessGuide":
+    "Each turn requests temporary access to a specific window. Screenshots are shared with the current chat model. Enabling the plugin does not grant desktop control.",
+  "settings.computerUse.windows.stopGuide":
+    "Actions may move the pointer or focus a window. Stop the chat task before taking over; stopped actions are never automatically replayed. Secure desktops and elevated windows are unsupported.",
   "settings.materials.glass": "Glass effect",
   "settings.materials.glassDescription": "Soft frosted glass, with clear reading surfaces.",
   "settings.materials.preview": "Appearance preview",
@@ -255,6 +261,10 @@ const enUS: Record<string, string> = {
     "The database appears damaged. Preserve your data and diagnostics and contact support. Do not delete the database.",
   "startup.global.error.checksum_mismatch":
     "The migration records do not match this app version. Preserve your data and diagnostics and contact support.",
+  "startup.global.error.newer_database":
+    "This database was upgraded by a newer version. Open it with a compatible newer app; do not delete the database.",
+  "startup.global.error.backup_failed":
+    "The pre-upgrade data snapshot could not be saved, so the upgrade was stopped. Check free space and write permissions, then retry.",
   "startup.global.error.open_failed":
     "The database could not be opened. Check that the data directory exists and is accessible, then retry.",
   "startup.global.error.lock_timeout":

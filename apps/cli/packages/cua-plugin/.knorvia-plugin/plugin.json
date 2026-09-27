@@ -1,0 +1,8 @@
+{
+  "name": "computer-use",
+  "version": "0.7.0",
+  "author": { "name": "Knorvia Studio" },
+  "license": "SEE LICENSE IN docs/LICENSE.txt",
+  "description": "Windows visual computer control: observe an authorized window, act, and inspect the result.",
+  "skills": "skills"
+}

@@ -1,6 +1,6 @@
-name: Release Windows portable
+name: Release Windows installer and portable
 
-# 手动触发：先在 Windows 上跑完全部质量检查，再打包便携版并发布到 GitHub Release。
+# 手动触发：先在 Windows 上跑完全部质量检查，再打包安装版与便携版并发布到 GitHub Release。
 # Release 标签取根 package.json 的版本（v<version>），含 preview 的版本标为预发布。
 # 同版本内容不可变：不使用 --clobber，不删除标签/Release/附件（specs/knorvia-release-gates.md）。
 on:
@@ -41,7 +41,7 @@ jobs:
     timeout-minutes: 90
     env:
       KNORVIA_ENV: production
-      KNORVIA_PORTABLE_BUILD: "1"
+      KNORVIA_PORTABLE_BUILD: "0"
       # 桌面安装包不依赖 remote 资产（见 prepare-runtime-assets.mjs）。
       KNORVIA_SKIP_REMOTE_ASSETS: "1"
     outputs:
@@ -81,41 +81,31 @@ jobs:
           "tag=v$version" >> $env:GITHUB_OUTPUT
       - name: Build Windows x64 package
         run: node packages/desktop/scripts/bundle.mjs --os win --arch x64
-      - name: Package portable zip
+      - name: Package installer and portable assets
         id: zip
         shell: pwsh
         run: |
-          $unpacked = "packages/desktop/dist/win-unpacked"
-          if (-not (Test-Path "$unpacked/resources/knorvia-portable.json")) { throw "Portable marker missing" }
-          $stage = "release-stage/Knorvia Studio Portable"
-          New-Item -ItemType Directory -Force -Path $stage | Out-Null
-          Copy-Item -Recurse -Force "$unpacked/*" $stage
-          $name = "Knorvia-Studio-${{ steps.version.outputs.version }}-win-x64-portable.zip"
-          Compress-Archive -Path $stage -DestinationPath $name -CompressionLevel Optimal
-          $zipSha = (Get-FileHash $name -Algorithm SHA256).Hash.ToLower()
-          "$zipSha  $name" | Out-File -Encoding ascii "$name.sha256"
-          $sumName = "$name.sha256"
-          $sumSha = (Get-FileHash $sumName -Algorithm SHA256).Hash.ToLower()
-          @(
-            @{ name = $name; sha256 = $zipSha },
-            @{ name = $sumName; sha256 = $sumSha }
-          ) | ConvertTo-Json | Out-File -Encoding utf8 release-artifacts.json
+          ./scripts/package-windows-release.ps1 -DistPath packages/desktop/dist -OutputDirectory dist-release/windows -DeliveredSha $env:DELIVERED_SHA
+          $artifacts = Get-Content dist-release/windows/release-artifacts.json -Raw | ConvertFrom-Json
+          $portable = $artifacts | Where-Object { $_.name.EndsWith('-portable.zip') }
+          $name = $portable.name
+          $zipSha = $portable.sha256
           "name=$name" >> $env:GITHUB_OUTPUT
           "sha256=$zipSha" >> $env:GITHUB_OUTPUT
           {
             echo "## 打包产物"
             echo ""
             echo "- 交付 SHA：\`$env:DELIVERED_SHA\`"
-            echo "- 产物：\`$name\`"
-            echo "- SHA-256：\`$zipSha\`"
+            foreach ($artifact in $artifacts) { echo "- $($artifact.name): $($artifact.sha256)" }
           } >> $env:GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@v4
         with:
-          name: knorvia-windows-portable
+          name: knorvia-windows-release
           path: |
-            *.zip
-            *.zip.sha256
-            release-artifacts.json
+            dist-release/windows/*.exe
+            dist-release/windows/*.zip
+            dist-release/windows/*.sha256
+            dist-release/windows/release-artifacts.json
           if-no-files-found: error
   # 只读的发布校验：标签查询与同版本不可变判定**普通发布与 dry run 都要跑**。
   # 这里刻意只申请 contents: read —— 本 job 不创建、不上传、不删除任何东西。
@@ -140,7 +130,7 @@ jobs:
           node-version: 24.14.0
       - uses: actions/download-artifact@v4
         with:
-          name: knorvia-windows-portable
+          name: knorvia-windows-release
 
       - name: Resolve tag and release state
         id: state
@@ -235,7 +225,7 @@ jobs:
           node-version: 24.14.0
       - uses: actions/download-artifact@v4
         with:
-          name: knorvia-windows-portable
+          name: knorvia-windows-release
 
       - name: Create release
         if: ${{ needs.validate-release.outputs.action == 'create' }}
@@ -245,8 +235,12 @@ jobs:
           $version = "${{ needs.package.outputs.version }}"
           $sha = "${{ needs.quality.outputs.checked-sha }}"
           $prerelease = if ($version -match "preview|dev|beta|alpha") { "--prerelease" } else { "" }
-          gh release create $tag --target $sha --title "Knorvia Studio $tag" --notes "Windows x64 便携版：解压后直接运行 Knorvia Studio.exe，数据保存在程序旁的 data 目录。构建提交 $sha。产物 SHA-256 见同名 .sha256 附件。" $prerelease
-          gh release upload $tag "${{ needs.package.outputs.artifact-name }}" "${{ needs.package.outputs.artifact-name }}.sha256"
+          $notes = "Windows x64 安装版与便携版。安装版使用系统用户目录；便携版解压后运行 Knorvia Studio.exe，数据保存在程序旁的 data 目录。预览包尚未签名。构建提交 $sha。产物 SHA-256 见同名 .sha256 附件。"
+          [IO.File]::WriteAllText('release-notes.md', $notes, [Text.UTF8Encoding]::new($false))
+          $names = @(Get-Content release-artifacts.json -Raw | ConvertFrom-Json | ForEach-Object { $_.name })
+          gh release create $tag --target $sha --title "Knorvia Studio $tag" --notes-file release-notes.md $prerelease
+          if ($LASTEXITCODE -ne 0) { throw "Release creation failed" }
+          gh release upload $tag @names
 
       - name: Upload missing assets
         if: ${{ needs.validate-release.outputs.action == 'upload' }}

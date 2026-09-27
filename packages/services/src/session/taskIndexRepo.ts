@@ -527,12 +527,14 @@ export class TaskIndexRepo {
       // 多窗口 Host 共用 tasks-index；写事务和首次 schema 升级应短暂等待，而不是立即 SQLITE_BUSY。
       this.db.exec(`PRAGMA busy_timeout = ${this.startupBusyTimeoutMs}`);
       this.db.exec("PRAGMA foreign_keys = ON");
-      this.db.exec("PRAGMA journal_mode = WAL");
-      this.db.exec("PRAGMA synchronous = NORMAL");
     }
     // Worker 已完成该路径的原始准备，业务连接不再重复全表修复。
-    if (isTasksStoragePrepared(path, this.db)) return;
+    const prepared = isTasksStoragePrepared(path, this.db);
     if (!isTasksStorageMigrated(path, this.db)) runTasksDatabaseMigrations(this.db);
+    // 直开 Repo 也先验证账本和完成快照；不能在拒绝新库或备份失败前改写 WAL。
+    this.db.exec("PRAGMA journal_mode = WAL");
+    this.db.exec("PRAGMA synchronous = NORMAL");
+    if (prepared) return;
     this.backfillOffPeakTaskMarkers();
     this.backfillOffPeakGroupMemberships();
     this.cleanupDeletedTaskGroupingReferences();

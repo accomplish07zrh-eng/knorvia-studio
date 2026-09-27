@@ -138,6 +138,11 @@ export async function initializeMcp(
     const registered = registerMcpTools(this.registry, mcpPort, snapshot.tools, {
       allowedTools: this.config.toolAllowlist,
       disallowedTools: this.config.toolDisallowlist,
+      trustedWindowsComputerUseServerNames: new Set(
+        this.config.runtimeFeatures?.computerUse === true
+          ? (this.config.mcp?.trustedWindowsComputerUseServerNames ?? [])
+          : [],
+      ),
       officialCuaServerNames: computeOfficialCuaServerNames(
         this.config.mcp?.servers ?? {},
         new Set(this.config.mcp?.trustedOfficialCuaServerNames ?? []),

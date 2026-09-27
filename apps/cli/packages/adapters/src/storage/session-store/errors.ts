@@ -6,12 +6,14 @@ export interface SqliteSessionMigrationErrorOptions {
   dbPath: string;
   kind: SqliteSessionMigrationErrorKind;
   migrationId?: string;
+  snapshotPath?: string;
 }
 
 export class SqliteSessionMigrationError extends Error {
   readonly dbPath: string;
   readonly kind: SqliteSessionMigrationErrorKind;
   readonly migrationId?: string;
+  readonly snapshotPath?: string;
 
   constructor(message: string, options: SqliteSessionMigrationErrorOptions) {
     super(message, { cause: options.cause });
@@ -19,5 +21,6 @@ export class SqliteSessionMigrationError extends Error {
     this.dbPath = options.dbPath;
     this.kind = options.kind;
     this.migrationId = options.migrationId;
+    this.snapshotPath = options.snapshotPath;
   }
 }

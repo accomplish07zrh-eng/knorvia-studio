@@ -267,6 +267,8 @@ export type ToolHandler<TInput = unknown, TOutput = unknown> = (
 // -----------------------------------------------
 
 export interface ToolEntry extends ToolContractDeclaration {
+  /** 仅宿主注册时写入：明确要求用户应答的接管操作，不能由自动 hook 或持久规则授予。 */
+  approvalAuthority?: "user";
   aliases?: readonly string[];
   /**
    * Host-issued atomicity policy for model content. Only an authority-verified

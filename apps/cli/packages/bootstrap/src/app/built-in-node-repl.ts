@@ -37,6 +37,8 @@ export function resolveBuiltInNodeReplMcpServers(input: {
       // 领域 root 各自注入，且只在对应能力启用时注入：宿主据此决定哪一半文档可用。
       ...(browserUsePackage ? { KNORVIA_PLUGIN_ROOT: browserUsePackage.rootPath } : {}),
       ...(cuaPackage ? { KNORVIA_CUA_PLUGIN_ROOT: cuaPackage.rootPath } : {}),
+      // Always write the disabled value too: an inherited shell flag cannot enable a plugin.
+      KNORVIA_WINDOWS_COMPUTER_USE: cuaPackage && process.platform === "win32" ? "1" : "0",
     },
     rootPath: hostPackage.rootPath,
     timeoutMs: 600_000,

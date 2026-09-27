@@ -37,3 +37,15 @@
 2. 用户点击“显示更早运行”每次多渲染一页；重复点击后**全部**历史运行与步骤行都能重新出现（不丢条、不重排）。
 3. 新增运行把旧运行挤出首屏窗口时，正在复核的运行与活动运行的渲染不受影响。
 4. 启动测量脚本在既有 JSON 上只新增字段：`desktop.samples[].phases`、`desktop.firstInteractiveMs`、`desktop.hostStartup`、`desktop.readyToSend`、`runHistory`；旧键 `coldStartToOnboardingMs`、`idle`、`portable`、`scroll` 语义不变。
+
+## 2026-09-27：存储准备窄入口与可复现启动测量
+
+- Host 的 `DatabaseStartupCoordinator` 仍是唯一启动状态所有者；两个数据库继续并行准备，所有实际 cwd 均须准备。CLI 的配置解析、会话路径、观察握手、迁移、快照、关闭检查使用原有实现。
+- 内部标准 `app-server/agent-server --stdio --prepare-storage [--cwd ...]` 调用从 CLI main 进入 bootstrap 的公开 `storage-startup` 子入口，不再求值通用 CLI 命令、Agent、Provider、MCP 或工作流模块。带其他参数的调用仍走原路由，保留帮助、版本、prompt、非法参数的既有行为。
+- bootstrap 原协议 `prepareStorageOnly` 分支委托同一个准备函数；不引入第二套数据库打开或配置规则。窄入口失败非零退出，不能报告 ready；stdout 仍只有协议帧。
+- 事件顺序保持：`Host → CLI 窄入口 → 真实存储路径 → Host 观察/复用许可 → 迁移及校验/快照 → 关闭存储 → prepared → Host 等待两库成功 → 服务注册 → ready`。不提前展示可发送状态、不略过数据库工作、不缓存跨启动成功标记。
+- 性能脚本支持 `--desktop-only`，避免滚动夹具预热污染桌面测量。每个冷样本使用新临时资料，暖样本明确复用资料；分组给出统计，混合汇总保留为兼容字段，不能用来宣称冷启动收益。
+- 被测包必须完整复制到源码仓库外，以自身目录启动；入口检查真实路径及全部祖先目录，拒绝可能命中开发 CLI 的位置。记录 exe、asar、包内 CLI 的 SHA-256 与运行时 resourcesPath，不能把源码 CLI 的结果当成包内结果。
+- 启动时显式隔离 `appData`、`LOCALAPPDATA`、`USERPROFILE`、`KNORVIA_DATA_BASE_DIR` 与 `KNORVIA_STORAGE_DIR`，并检查 Electron 实际 userData 落在临时资料内；不能仅设置便携目录后假定其他环境路径也已隔离。
+- 输入框可见只能证明“可输入”，不能证明配置有效或模型可发送。保留旧 JSON 字段供读取兼容，同时明确标记该测量只探测输入框，不进行发送或模型调用。
+- 验收包含：标准内部调用命中窄入口；帮助/版本/prompt/非法参数仍由正常路由处理；cwd 与环境规则一致；真实握手在 ACK 前不写库、成功关闭后才 prepared、失败非零；同条件最新生产包的冷/暖样本与完整阶段记录。未完成打包实测前不声明毫秒收益。

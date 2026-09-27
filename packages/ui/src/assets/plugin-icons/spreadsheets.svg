@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="Spreadsheets">
+<defs><linearGradient id="p" x1="24" y1="2" x2="24" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#3b3b3f"/><stop offset="1" stop-color="#0f0f11"/></linearGradient><linearGradient id="r" x1="8" y1="2" x2="40" y2="46" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity=".34"/><stop offset=".5" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".16"/></linearGradient></defs>
+<rect x="2" y="2" width="44" height="44" rx="13" fill="url(#p)"/><rect x="2.5" y="2.5" width="43" height="43" rx="12.5" stroke="url(#r)"/>
+<g transform="translate(10.4 10.4) scale(1.133)" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect fill="#fff" fill-opacity=".16" stroke="none" x="4" y="4.5" width="16" height="15" rx="3"/><rect x="4" y="4.5" width="16" height="15" rx="3"/><path d="M4 9.5h16M4 14.5h16M10 9.5v10"/></g>
+</svg>

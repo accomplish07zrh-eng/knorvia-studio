@@ -1,0 +1,229 @@
+{
+  "measuredAt": "2026-09-27T04:15:13.252Z",
+  "platform": "win32",
+  "node": "v24.14.0",
+  "scroll": null,
+  "desktop": {
+    "executable": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\Knorvia Studio.exe",
+    "packageEvidence": {
+      "packageRoot": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked",
+      "resourcesPath": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources",
+      "executable": {
+        "path": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\Knorvia Studio.exe",
+        "sha256": "50756801b1e3fd4f11945f6af1574c5707d652ffcb136741bbab405f42524d19"
+      },
+      "appAsar": {
+        "path": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources\\app.asar",
+        "sha256": "60c231828f4f196d7db7682a90b8d0f4f1faa57608dc0d584c3d45d75f186349"
+      },
+      "cli": {
+        "path": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources\\knorvia\\knorvia.cjs",
+        "sha256": "f99be7dc03bca905329bd2327a196e3230b8fa03a259831f0cbca2baa970036f"
+      }
+    },
+    "env": "KNORVIA_ENV=production",
+    "dataProfile": "isolated portable + OS profile; every cold sample is fresh; warm samples reuse the last cold profile without skipping onboarding",
+    "samples": [
+      {
+        "kind": "cold",
+        "launcherToProcessMs": 636,
+        "firstWindowMs": 893,
+        "firstInteractiveMs": 3973,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 3961,
+        "hostUtilityProcessSpawnMs": 1184,
+        "launcherClockSkewMs": -12,
+        "phases": {
+          "processToMainModuleMs": 474,
+          "mainModuleToAppReadyMs": 91,
+          "appReadyToWindowLoadMs": 152,
+          "windowLoadToRendererStartMs": 454,
+          "rendererStartToFirstCommitMs": 10,
+          "firstCommitToHostSpawnMs": 3,
+          "hostSpawnToFirstInteractiveMs": 2777
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1158.4,
+          "privateCommitMiB": 1145.5
+        },
+        "readyToSend": null,
+        "runtime": {
+          "userData": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-perf-profile-RF4RLw\\data\\profile",
+          "version": "0.8.0-preview.3",
+          "packaged": true,
+          "resourcesPath": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources"
+        }
+      },
+      {
+        "kind": "cold",
+        "launcherToProcessMs": 650,
+        "firstWindowMs": 935,
+        "firstInteractiveMs": 4074,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 4072,
+        "hostUtilityProcessSpawnMs": 1256,
+        "launcherClockSkewMs": -2,
+        "phases": {
+          "processToMainModuleMs": 491,
+          "mainModuleToAppReadyMs": 114,
+          "appReadyToWindowLoadMs": 165,
+          "windowLoadToRendererStartMs": 471,
+          "rendererStartToFirstCommitMs": 11,
+          "firstCommitToHostSpawnMs": 4,
+          "hostSpawnToFirstInteractiveMs": 2816
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1158.7,
+          "privateCommitMiB": 1143
+        },
+        "readyToSend": null,
+        "runtime": {
+          "userData": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-perf-profile-x0W7to\\data\\profile",
+          "version": "0.8.0-preview.3",
+          "packaged": true,
+          "resourcesPath": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources"
+        }
+      },
+      {
+        "kind": "cold",
+        "launcherToProcessMs": 669,
+        "firstWindowMs": 939,
+        "firstInteractiveMs": 3794,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 3791,
+        "hostUtilityProcessSpawnMs": 1270,
+        "launcherClockSkewMs": -3,
+        "phases": {
+          "processToMainModuleMs": 512,
+          "mainModuleToAppReadyMs": 110,
+          "appReadyToWindowLoadMs": 153,
+          "windowLoadToRendererStartMs": 480,
+          "rendererStartToFirstCommitMs": 11,
+          "firstCommitToHostSpawnMs": 4,
+          "hostSpawnToFirstInteractiveMs": 2521
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1152.9,
+          "privateCommitMiB": 1147.7
+        },
+        "readyToSend": null,
+        "runtime": {
+          "userData": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-perf-profile-GgANh0\\data\\profile",
+          "version": "0.8.0-preview.3",
+          "packaged": true,
+          "resourcesPath": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources"
+        }
+      },
+      {
+        "kind": "warm",
+        "launcherToProcessMs": 866,
+        "firstWindowMs": 1210,
+        "firstInteractiveMs": 4083,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 4081,
+        "hostUtilityProcessSpawnMs": 1638,
+        "launcherClockSkewMs": -2,
+        "phases": {
+          "processToMainModuleMs": 692,
+          "mainModuleToAppReadyMs": 114,
+          "appReadyToWindowLoadMs": 187,
+          "windowLoadToRendererStartMs": 630,
+          "rendererStartToFirstCommitMs": 12,
+          "firstCommitToHostSpawnMs": 3,
+          "hostSpawnToFirstInteractiveMs": 2443
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1150.8,
+          "privateCommitMiB": 1148.7
+        },
+        "readyToSend": null,
+        "runtime": {
+          "userData": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-perf-profile-GgANh0\\data\\profile",
+          "version": "0.8.0-preview.3",
+          "packaged": true,
+          "resourcesPath": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources"
+        }
+      },
+      {
+        "kind": "warm",
+        "launcherToProcessMs": 672,
+        "firstWindowMs": 914,
+        "firstInteractiveMs": 3643,
+        "firstInteractiveMarker": "[data-testid=\"onboarding-page\"]",
+        "firstInteractiveFromProcessCreateMs": 3641,
+        "hostUtilityProcessSpawnMs": 1235,
+        "launcherClockSkewMs": -2,
+        "phases": {
+          "processToMainModuleMs": 521,
+          "mainModuleToAppReadyMs": 94,
+          "appReadyToWindowLoadMs": 147,
+          "windowLoadToRendererStartMs": 459,
+          "rendererStartToFirstCommitMs": 10,
+          "firstCommitToHostSpawnMs": 4,
+          "hostSpawnToFirstInteractiveMs": 2406
+        },
+        "idle": {
+          "processCount": 7,
+          "summedWorkingSetMiB": 1162.1,
+          "privateCommitMiB": 1156.7
+        },
+        "readyToSend": null,
+        "runtime": {
+          "userData": "C:\\Users\\17018\\AppData\\Local\\Temp\\knorvia-perf-profile-GgANh0\\data\\profile",
+          "version": "0.8.0-preview.3",
+          "packaged": true,
+          "resourcesPath": "D:\\tools.cache\\knorvia-baseline-20260927\\win-unpacked\\resources"
+        }
+      }
+    ],
+    "firstInteractiveMs": {
+      "samples": 5,
+      "min": 3643,
+      "median": 3973,
+      "max": 4083
+    },
+    "firstInteractiveByKind": {
+      "cold": {
+        "samples": 3,
+        "min": 3794,
+        "median": 3973,
+        "max": 4074
+      },
+      "warm": {
+        "samples": 2,
+        "min": 3643,
+        "median": 3863,
+        "max": 4083
+      }
+    },
+    "hostStartup": {
+      "bytes": 17764,
+      "mainWindowRequestedAtMs": 0,
+      "domReadyAtMs": 542,
+      "hostForkAtMs": 547,
+      "hostServicesInitAtMs": 2783,
+      "hostServicesReadyAtMs": 2896,
+      "databaseStartup": {
+        "status": "ready",
+        "durationMs": 1896
+      },
+      "anchorFromProcessCreateMs": 637,
+      "fromProcessCreateMs": {
+        "domReady": 1179,
+        "hostFork": 1184,
+        "hostServicesInit": 3420,
+        "hostServicesReady": 3533
+      }
+    },
+    "coldStartToOnboardingMs": 3973,
+    "idle": {
+      "processCount": 7,
+      "summedWorkingSetMiB": 1158.4,
+      "privateCommitMiB": 1145.5
+    }
+  }
+}

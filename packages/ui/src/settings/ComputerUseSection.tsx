@@ -768,61 +768,76 @@ export function ComputerUseSection({
       {/* 受限电脑控制（实验）：默认关闭。契约见 specs/knorvia-cua-restricted.md。
           面板必须同时显示诚实状态——本构建无法观察，也没有可派发的动作；
           打开开关只记录会话内偏好，不启动 Helper、不申请系统权限、不发网络请求。 */}
-      <SettingsGroupCard>
-        <SettingsRow
-          label={intl.formatMessage({
-            id: "settings.computerUse.restricted.experiment.toggleLabel",
-          })}
-          description={intl.formatMessage({
-            id: "settings.computerUse.restricted.experiment.description",
-          })}
-          control={
-            <Switch
-              data-testid="cua-restricted-experiment-switch"
-              aria-label={intl.formatMessage({
-                id: "settings.computerUse.restricted.experiment.toggleLabel",
-              })}
-              checked={restrictedExperimentView.enabled}
-              onCheckedChange={(checked) =>
-                setRestrictedExperiment((current) =>
-                  setCuaRestrictedExperimentEnabled(current, checked),
-                )
-              }
-            />
-          }
-        />
-        <div
-          className="space-y-2 border-t border-border px-4 py-3"
-          data-testid="cua-restricted-experiment-status"
-          data-experiment-enabled={restrictedExperimentView.enabled ? "true" : "false"}
-          data-can-observe={restrictedExperimentView.canObserve ? "true" : "false"}
-        >
-          <div className="text-ui-xs font-medium text-foreground">
-            {intl.formatMessage({ id: "settings.computerUse.restricted.experiment.title" })}
+      {supportsLocalWindowsWorkspace ? (
+        <SettingsGroupCard>
+          <div className="space-y-2 px-4 py-3" data-testid="windows-computer-use-guide">
+            <p className="text-ui-sm text-foreground">
+              {intl.formatMessage({ id: "settings.computerUse.windows.visualGuide" })}
+            </p>
+            <p className="text-ui-sm text-foreground-subtle">
+              {intl.formatMessage({ id: "settings.computerUse.windows.accessGuide" })}
+            </p>
+            <p className="text-ui-sm text-foreground-subtle">
+              {intl.formatMessage({ id: "settings.computerUse.windows.stopGuide" })}
+            </p>
           </div>
-          <p className="text-ui-sm text-foreground-subtle">
-            {intl.formatMessage({ id: restrictedExperimentView.availabilityMessageId })}
-          </p>
-          <p className="text-ui-sm text-foreground-subtle">
-            {intl.formatMessage({ id: restrictedExperimentView.observationMessageId })}
-          </p>
-          <div className="text-ui-xs font-medium text-foreground">
-            {intl.formatMessage({ id: "settings.computerUse.restricted.stopFirst.title" })}
+        </SettingsGroupCard>
+      ) : (
+        <SettingsGroupCard>
+          <SettingsRow
+            label={intl.formatMessage({
+              id: "settings.computerUse.restricted.experiment.toggleLabel",
+            })}
+            description={intl.formatMessage({
+              id: "settings.computerUse.restricted.experiment.description",
+            })}
+            control={
+              <Switch
+                data-testid="cua-restricted-experiment-switch"
+                aria-label={intl.formatMessage({
+                  id: "settings.computerUse.restricted.experiment.toggleLabel",
+                })}
+                checked={restrictedExperimentView.enabled}
+                onCheckedChange={(checked) =>
+                  setRestrictedExperiment((current) =>
+                    setCuaRestrictedExperimentEnabled(current, checked),
+                  )
+                }
+              />
+            }
+          />
+          <div
+            className="space-y-2 border-t border-border px-4 py-3"
+            data-testid="cua-restricted-experiment-status"
+            data-experiment-enabled={restrictedExperimentView.enabled ? "true" : "false"}
+            data-can-observe={restrictedExperimentView.canObserve ? "true" : "false"}
+          >
+            <div className="text-ui-xs font-medium text-foreground">
+              {intl.formatMessage({ id: "settings.computerUse.restricted.experiment.title" })}
+            </div>
+            <p className="text-ui-sm text-foreground-subtle">
+              {intl.formatMessage({ id: restrictedExperimentView.availabilityMessageId })}
+            </p>
+            <p className="text-ui-sm text-foreground-subtle">
+              {intl.formatMessage({ id: restrictedExperimentView.observationMessageId })}
+            </p>
+            <div className="text-ui-xs font-medium text-foreground">
+              {intl.formatMessage({ id: "settings.computerUse.restricted.stopFirst.title" })}
+            </div>
+            <ol className="list-decimal space-y-0.5 pl-5 text-ui-sm text-foreground-subtle">
+              {restrictedExperimentView.stopRuleMessageIds.map((messageId) => (
+                <li key={messageId}>{intl.formatMessage({ id: messageId })}</li>
+              ))}
+            </ol>
+            <p className="text-ui-sm text-foreground-subtle">
+              {intl.formatMessage({ id: "settings.computerUse.restricted.stopFirst.noUndoNote" })}
+            </p>
+            <p className="text-ui-sm text-foreground-subtlest">
+              {intl.formatMessage({ id: "settings.computerUse.restricted.experiment.sessionOnly" })}
+            </p>
           </div>
-          <ol className="list-decimal space-y-0.5 pl-5 text-ui-sm text-foreground-subtle">
-            {restrictedExperimentView.stopRuleMessageIds.map((messageId) => (
-              <li key={messageId}>{intl.formatMessage({ id: messageId })}</li>
-            ))}
-          </ol>
-          <p className="text-ui-sm text-foreground-subtle">
-            {intl.formatMessage({ id: "settings.computerUse.restricted.stopFirst.noUndoNote" })}
-          </p>
-          <p className="text-ui-sm text-foreground-subtlest">
-            {intl.formatMessage({ id: "settings.computerUse.restricted.experiment.sessionOnly" })}
-          </p>
-        </div>
-      </SettingsGroupCard>
-
+        </SettingsGroupCard>
+      )}
       {/* CUA 未启用时隐藏下方权限配置，只留总开关，避免一堆禁用项。 */}
       {cuaEnabled && supportsLocalMacWorkspace ? (
         <>

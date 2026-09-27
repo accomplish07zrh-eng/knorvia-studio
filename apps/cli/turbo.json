@@ -7,6 +7,18 @@
       "outputs": ["dist/**"],
       "cache": true
     },
+    "@knorvia/cua-plugin#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "cache": false,
+      "passThroughEnv": ["KNORVIA_CUA_DRIVER_ARCHIVE"]
+    },
+    "@knorvia/node-repl-host#build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!dist/**", "!.turbo/**", "$TURBO_ROOT$/../../packages/cua/**"],
+      "outputs": ["dist/**"],
+      "env": ["KNORVIA_CUA_HELPER_BUILD_ID"]
+    },
     "build:desktop-agent": {
       "dependsOn": [
         "@knorvia/shared-types#build",

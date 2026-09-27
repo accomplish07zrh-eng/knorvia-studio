@@ -1,0 +1,12 @@
+# Knorvia Studio 官网
+
+`index.html` 来自用户提供的新站设计，包含内嵌素材和演示，不依赖前端构建服务。
+
+- 官网仅展示 Windows 安装版下载、安装版 SHA-256、发行说明和源码入口。
+- GitHub Release 同时保存安装版、便携版及两种校验文件。
+- 发布时先完成同提交打包、附件上传与摘要核验，再原子切换现有官网入口。不得把未上传的附件链接提前上线。
+- 页面不包含服务器凭据或项目交接手册。产品界面演示在浏览器本地运行。
+
+在 Windows 上运行 `node scripts/product-site-acceptance.mjs`，使用已安装的 Edge 验证四种视口、图片解码、外观控件、下载入口和页面错误。`KNORVIA_SITE_URL` 可指定已上线页面，`KNORVIA_SITE_REPORT_DIR` 可指定仓库外验收结果目录。验收不会调用模型或实际操作访客电脑。
+
+安装器品牌位图来自 `scripts/generate-installer-branding.ps1`；源码在同一仓库，更新时一起提交，勿手动替换成另一套品牌。

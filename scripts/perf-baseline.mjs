@@ -5,12 +5,14 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
+import { mkdir, mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium, _electron } from "playwright-core";
 import { createServer } from "vite";
+import { desktopBenchmarkEnvironment, summarizeLaunchSamples } from "./perf-baseline-support.mjs";
+import { packagedRuntimeEvidence } from "./packaged-runtime-evidence.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const webRoot = resolve(repoRoot, "packages/web");
@@ -500,7 +502,10 @@ function cimEpochMs(value) {
 
 /** Host 侧启动阶段的唯一证据来源：应用自己的生产日志（只取时间戳与结构化字段）。 */
 function parseHostStartupLog(text) {
-  const lines = text.split("\n");
+  // 暖启动与冷启动共用日志文件时，只分析最近一次启动，不能重复上一次的阶段时间。
+  const allLines = text.split("\n");
+  const latestStart = allLines.findLastIndex((line) => line.includes("[startup] 创建主窗口"));
+  const lines = latestStart < 0 ? allLines : allLines.slice(latestStart);
   const timestamp = (line) => {
     const match = /^\[(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}\.\d{3})\]/.exec(line);
     if (!match) return null;
@@ -560,7 +565,7 @@ async function readHostStartup(profile) {
   };
 }
 
-/** 只等待「可发送」的既有输入框；onboarding 需要显式跳过后才会出现。 */
+/** 兼容旧 readyToSend 字段：实际只证明输入框可见，不证明供应商已配置或能发送。 */
 async function probeReadyToSend(page, budgetMs) {
   const started = performance.now();
   // page.evaluate 会把函数序列化后在页面里求值，选择器必须写在函数体内，不能闭包引用脚本变量。
@@ -643,7 +648,12 @@ async function waitForFirstInteractive(page, timeout) {
         '[data-testid="studio-external-composer-input"]',
         '[data-testid="studio-first-run-guide"]',
       ];
-      return markers.find((selector) => document.querySelector(selector)) ?? null;
+      return (
+        markers.find((selector) => {
+          const element = document.querySelector(selector);
+          return element instanceof HTMLElement && element.offsetParent !== null;
+        }) ?? null
+      );
     },
     undefined,
     { timeout, polling: 50 },
@@ -652,20 +662,40 @@ async function waitForFirstInteractive(page, timeout) {
 }
 
 async function measureDesktopLaunch(executable, profile, options) {
+  const env = desktopBenchmarkEnvironment(profile);
+  await Promise.all([
+    mkdir(env.APPDATA, { recursive: true }),
+    mkdir(env.LOCALAPPDATA, { recursive: true }),
+  ]);
   const monotonicStart = performance.now();
   const clockSkewProbe = Date.now();
   let app;
   try {
     app = await _electron.launch({
       executablePath: resolve(executable),
+      // CLI resolver 优先开发目录；从源码仓库启动会误用 repo 中的 runtime，污染旧/新包对比。
+      cwd: dirname(resolve(executable)),
       timeout: 90_000,
-      env: { ...process.env, KNORVIA_ENV: "production", KNORVIA_PORTABLE_DIR: profile },
+      env,
     });
     const launcherToProcessMs = Math.round(performance.now() - monotonicStart);
     const page = await app.firstWindow({ timeout: 90_000 });
     const firstWindowMs = Math.round(performance.now() - monotonicStart);
     const firstInteractive = await waitForFirstInteractive(page, 90_000);
     const firstInteractiveMs = Math.round(performance.now() - monotonicStart);
+    const runtime = await app.evaluate(({ app }) => ({
+      userData: app.getPath("userData"),
+      version: app.getVersion(),
+      packaged: app.isPackaged,
+      resourcesPath: process.resourcesPath,
+    }));
+    assert.equal(
+      resolve(runtime.userData).toLowerCase(),
+      resolve(profile, "data", "profile").toLowerCase(),
+      "benchmark must use only the isolated portable profile",
+    );
+    assert.equal(runtime.packaged, true, "desktop baseline requires a packaged build");
+    assert.equal(resolve(runtime.resourcesPath), resolve(dirname(executable), "resources"));
     // launch marks 是绝对时间戳，等首屏出现后再读既不影响数值，又能保证首屏渲染已写入这些标记。
     await page
       .waitForFunction(() => typeof window.__KNORVIA_RENDERER_START__ === "number", undefined, {
@@ -742,6 +772,7 @@ async function measureDesktopLaunch(executable, profile, options) {
       phases,
       idle,
       readyToSend,
+      runtime,
     };
   } finally {
     await app?.close();
@@ -750,24 +781,36 @@ async function measureDesktopLaunch(executable, profile, options) {
 
 async function measureDesktop(executable, options) {
   if (process.platform !== "win32") throw new Error("Desktop baseline currently requires Windows");
-  const profile = await mkdtemp(resolve(tmpdir(), "knorvia-perf-profile-"));
-  if (!resolve(profile).startsWith(`${resolve(tmpdir())}${sep}`))
-    throw new Error("Unexpected fixture profile path");
+  const packageEvidence = await packagedRuntimeEvidence(executable);
+  const profiles = [];
+  let profile;
   const samples = [];
   let hostStartup = null;
   let readyToSendSample = null;
   try {
-    // 可比的冷/热样本：只等首次可交互，不改动配置目录里的引导状态。
-    for (let index = 0; index < options.samples; index++) {
-      // 第 0 次是全新配置的冷启动，之后复用同一配置目录测热启动。
+    // 冷启动是全新资料（不是清空 OS 磁盘缓存）；每个样本拥有不同目录。
+    for (let index = 0; index < options.coldSamples; index++) {
+      profile = await mkdtemp(resolve(tmpdir(), "knorvia-perf-profile-"));
+      if (!resolve(profile).startsWith(`${resolve(tmpdir())}${sep}`))
+        throw new Error("Unexpected fixture profile path");
+      profiles.push(profile);
       samples.push(
         await measureDesktopLaunch(executable, profile, {
-          kind: index === 0 ? "cold" : "warm",
+          kind: "cold",
           probeReadyToSend: false,
           readyToSendBudgetMs: options.readyToSendBudgetMs,
         }),
       );
       if (index === 0) hostStartup = await readHostStartup(profile);
+    }
+    for (let index = 0; index < options.samples - 1; index++) {
+      samples.push(
+        await measureDesktopLaunch(executable, profile, {
+          kind: "warm",
+          probeReadyToSend: false,
+          readyToSendBudgetMs: options.readyToSendBudgetMs,
+        }),
+      );
     }
     // “可发送”样本必须跳过首次引导，会把引导状态写进配置目录，因此放在最后单独跑。
     if (options.probeReadyToSend) {
@@ -778,10 +821,8 @@ async function measureDesktop(executable, options) {
       });
     }
   } finally {
-    await rm(profile, { recursive: true, force: true });
+    for (const directory of profiles) await rm(directory, { recursive: true, force: true });
   }
-  const firstInteractive = samples.map((sample) => sample.firstInteractiveMs).sort((a, b) => a - b);
-  const median = firstInteractive[Math.floor((firstInteractive.length - 1) / 2)];
   // 日志只有相对自己锚点的偏移；用冷样本的 Host 派发时刻把锚点换算到「进程创建」。
   if (
     hostStartup &&
@@ -800,14 +841,15 @@ async function measureDesktop(executable, options) {
   }
   return {
     executable: resolve(executable),
+    packageEvidence,
     env: "KNORVIA_ENV=production",
-    dataProfile: "isolated temp profile (KNORVIA_PORTABLE_DIR), fresh for the cold sample",
+    dataProfile:
+      "isolated portable + OS profile; every cold sample is fresh; warm samples reuse the last cold profile without skipping onboarding",
     samples,
-    firstInteractiveMs: {
-      samples: firstInteractive.length,
-      min: firstInteractive[0],
-      median,
-      max: firstInteractive.at(-1),
+    firstInteractiveMs: summarizeLaunchSamples(samples),
+    firstInteractiveByKind: {
+      cold: summarizeLaunchSamples(samples, "cold"),
+      warm: summarizeLaunchSamples(samples, "warm"),
     },
     hostStartup,
     ...(readyToSendSample
@@ -819,7 +861,9 @@ async function measureDesktop(executable, options) {
             readyToSendReached: readyToSendSample.readyToSend?.reached ?? false,
             readyToSendSelector: readyToSendSample.readyToSend?.selector ?? null,
             readyToSendReason: readyToSendSample.readyToSend?.reason ?? null,
-            note: "onboarding was skipped in this isolated profile before measuring the composer",
+            capability: "composer-visible-only",
+            modelSendVerified: false,
+            note: "onboarding was skipped in this isolated profile; this proves only a visible input, not a configured provider or permission to send; no message was sent",
           },
         }
       : {}),
@@ -855,8 +899,10 @@ const result = {
   measuredAt: new Date().toISOString(),
   platform: process.platform,
   node: process.version,
-  scroll: await measureScroll(),
+  scroll: flag("--desktop-only") ? null : await measureScroll(),
 };
+if (flag("--desktop-only") && !argument("--executable"))
+  throw new Error("--desktop-only requires --executable");
 if (flag("--run-history")) {
   result.runHistory = await measureRunHistory(
     numberArgument("--run-history-runs", 100, { min: 1, max: 1_000 }),
@@ -867,6 +913,7 @@ const executable = argument("--executable");
 if (executable) {
   result.desktop = await measureDesktop(executable, {
     samples: numberArgument("--desktop-samples", 3, { min: 1, max: 10 }),
+    coldSamples: numberArgument("--desktop-cold-samples", 1, { min: 1, max: 10 }),
     probeReadyToSend: !flag("--no-ready-to-send"),
     readyToSendBudgetMs: numberArgument("--ready-to-send-budget-ms", 20_000, {
       min: 1_000,

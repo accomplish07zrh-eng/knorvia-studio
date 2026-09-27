@@ -1,5 +1,6 @@
 !include nsDialogs.nsh
 !include FileFunc.nsh
+!include "${BUILD_RESOURCES_DIR}\installer-branding.nsh"
 
 !ifndef KNORVIA_INSTALLER_DEFAULT_LOG_PATH
   !define KNORVIA_INSTALLER_DEFAULT_LOG_PATH "$TEMP\Knorvia-Studio-installer.log"
@@ -314,6 +315,7 @@
 !define KNORVIA_INSTALL_DIR_BACK_BUTTON_WIDTH 180
 
 !macro customHeader
+  !insertmacro KnorviaBrandLanguageStrings
   !ifndef BUILD_UNINSTALLER
     ; 异步生成的 header 可能先 include 本文件，再注册 UAC 插件目录。
     ; 在 customHeader 展开函数，确保插件已注册；preInit 仍调用同一函数和真实 UAC 判据。

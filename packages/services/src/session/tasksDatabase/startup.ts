@@ -68,14 +68,14 @@ export async function prepareTasksIndexStorage(
         }
       }
     };
-    await acquire("PRAGMA journal_mode = WAL");
-    db.exec("PRAGMA synchronous = NORMAL");
     await acquire(() => {
       migration = { kind: inspectTasksMigrationKind(db), executedCount: 0, committedCount: 0 };
     });
     report("checking", migration);
     // 升级保护：写锁之前先落一致快照；备份失败直接抛出，不进入写事务（见 specs/knorvia-upgrade-protection.md）。
     if (migration?.kind === "upgrade") await acquire(() => createTasksDatabaseSnapshot(db));
+    await acquire("PRAGMA journal_mode = WAL");
+    db.exec("PRAGMA synchronous = NORMAL");
     await acquire("BEGIN IMMEDIATE");
     runTasksDatabaseMigrations(db, { transactionOpen: true, migration, onProgress: report });
     // COMMIT 已成功，先发布事实；后续 close 失败不能把已提交误报为未提交。

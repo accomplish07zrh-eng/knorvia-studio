@@ -8,7 +8,7 @@ import {
   applyCliRuntimeEnvSanitization,
   loadCliDotenv,
   prepareCliRuntimeEnv,
-  shouldLoadCliDotenvForProtocolServer,
+  prepareProtocolCommandEnv,
 } from "./env.js";
 import { formatCliHelp } from "./help.js";
 import { runHooksCommand } from "./hooks-trust-command.js";
@@ -237,27 +237,15 @@ const runKnorviaProtocolCommand = async (
   prepareStorageOnly = false,
 ): Promise<number> => {
   try {
-    const env = prepareCliRuntimeEnv(deps.env ?? process.env);
     const workingDirectory = (deps.cwd ?? process.cwd)();
     // 打包态 app-server 是 desktop host 的内部协议子进程。
     // 如果这里继续从 workspace 向上读取用户 .env，读文件失败或环境污染会在协议建立前
     // 直接退出，外层只能看到 Knorvia agent transport closed。
-    const dotenvResult = shouldLoadCliDotenvForProtocolServer(env)
-      ? (deps.loadDotenv ?? loadCliDotenv)({
-          cwd: workingDirectory,
-          env,
-        })
-      : {
-          keys: [],
-          loaded: false,
-        };
-    applyCliRuntimeEnvSanitization(env);
-
-    if (dotenvResult.error) {
-      throw new Error(`Failed to load environment file: ${dotenvResult.path}`, {
-        cause: dotenvResult.error,
-      });
-    }
+    const env = prepareProtocolCommandEnv({
+      env: deps.env,
+      cwd: workingDirectory,
+      loadDotenv: deps.loadDotenv,
+    });
 
     const runProtocolAgent =
       deps.runKnorviaProtocolAgent ?? (await loadBootstrapModule()).runKnorviaProtocolAgent;

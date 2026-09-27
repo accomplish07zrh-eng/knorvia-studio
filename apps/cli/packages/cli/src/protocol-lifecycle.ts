@@ -16,7 +16,8 @@ export function createProtocolProcessLifecycle(
     exitProcess?: (code: number) => void;
   } = {},
 ) {
-  const source = options.input ?? process.stdin;
+  // 两种输入共享 ReadableStream 契约；显式收敛避免 Node 类型版本的 on() 重载形成不可调用联合。
+  const source: NodeJS.ReadableStream = options.input ?? process.stdin;
   const output = options.output ?? process.stdout;
   const stderr = options.stderr ?? process.stderr;
   const input = new PassThrough();

@@ -63,3 +63,23 @@
 4. 相同版本重跑且内容一致时决策为 `skip`，不调用上传；不一致时退出码非 0。
 5. 预览版本仍使用 `--prerelease`。
 6. 分支保护与必需检查由管理员配置，见 `docs/knorvia-release-admin-rules.md`，本轮不声称已配置。
+
+## Windows 双产物与官网发布（2026-09-27）
+
+用户本轮要求提交当前源码、提供安装包和便携包，并上线其提供的新官网。
+
+- 继续使用尚未发布的 `0.8.0-preview.3`。两种程序使用同一受检提交、`KNORVIA_ENV=production`，保留当前前端与 Computer Use 插件改动。
+- Electron Builder 以 `KNORVIA_PORTABLE_BUILD=0` 生成 NSIS 安装包与 `win-unpacked`；安装包不得携带 `resources/knorvia-portable.json`，使用正常用户目录。
+- `scripts/package-windows-release.ps1` 是发布附件清单的唯一生成者：从同一 `win-unpacked` 创建独立便携 staging，再加便携标记并压缩；不修改安装包来源目录，不带入任何 `data/`、用户配置或凭据。输出安装包、便携 ZIP 及各自 SHA-256，共四个附件。
+- 本地发布与 Actions 使用同一产物脚本和不可变判定。任何同名附件摘要不同均阻断，不能因为另一个附件缺失而覆盖冲突文件。
+- 所有附件确认上传且摘要一致后，才切换官网入口。官网源码放在 `product-site/`，具体边界见 `specs/knorvia-product-site.md`。
+- 安装向导沿用 Knorvia 黑白、纸片和三道笔画语言：自有欢迎页、完成页文案及灰阶页头/侧图，保留 Windows 原生键盘与辅助功能。首次安装创建桌面及开始菜单的 `Knorvia Studio` 快捷方式，使用应用图标；覆盖升级继续保留现有快捷方式与用户主动删除的选择，不重复创建或改变固定项。
+
+```text
+当前源码 → 质量检查 → 源码提交（唯一交付 SHA） → production 安装版构建
+                                                ├─ NSIS + SHA-256
+                                                └─ 独立便携 staging → ZIP + SHA-256
+四附件 → 不可变校验 → 同一 GitHub Release → 官网原子切换 → 公网核验
+```
+
+验收：安装版无便携标记，便携版有标记且无用户数据；两者版本与构建提交一致；发布计划覆盖四附件与部分上传重试；官网分别可下载两种产物及校验文件。NSIS 未经过真实用户系统安装时必须注明，不以解包或启动检查代替安装/卸载验收。

@@ -2105,6 +2105,38 @@ body {
   stroke-width: 1.6;
 }
 
+/* 丝带线图标（specs/knorvia-icon-language.md）：软板外形下垫一层同色纸片底；
+   悬停、选中时纸片加深，与「纸片式选中」同一语义。 */
+.theme-knorvia-light {
+  --knorvia-icon-tint: 0.1;
+  --knorvia-icon-tint-active: 0.2;
+}
+
+.theme-knorvia-dark {
+  --knorvia-icon-tint: 0.14;
+  --knorvia-icon-tint-active: 0.26;
+}
+
+.knorvia-icon .knorvia-icon-tint {
+  fill-opacity: var(--knorvia-icon-tint, 0.1);
+  transition: fill-opacity 0.2s var(--knorvia-ease, ease);
+}
+
+:is(button, a, [role="menuitem"], [role="tab"], [role="option"]):hover
+  > .knorvia-icon
+  .knorvia-icon-tint,
+:is([aria-pressed="true"], [aria-selected="true"], [data-state="active"], .bg-selected)
+  .knorvia-icon
+  .knorvia-icon-tint {
+  fill-opacity: var(--knorvia-icon-tint-active, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knorvia-icon .knorvia-icon-tint {
+    transition: none;
+  }
+}
+
 /* 更细的滚动条。 */
 :is(.theme-knorvia-light, .theme-knorvia-dark) *::-webkit-scrollbar {
   width: 11px;

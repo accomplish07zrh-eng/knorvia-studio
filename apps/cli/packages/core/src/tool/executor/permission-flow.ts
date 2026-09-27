@@ -14,15 +14,13 @@ import type { HookRunResult } from "../../hooks/index.js";
 import type { PermissionContext } from "../../permission/service.js";
 import type { ExecutableToolCall, ToolEntry, ToolExecutionResult } from "../types.js";
 import { normalizeToolExecutionInput } from "../input-normalization.js";
+import { applyResolvedPermissionGrants } from "./permission-grants.js";
 import { resolveToolApproval } from "./approval-gate.js";
 import { createErrorResult, createPermissionErrorResult } from "./errors.js";
 import { emitPermissionDenied, emitPermissionRequested, emitPermissionResolved } from "./events.js";
 import { applyPreToolPermissionDecision, runPermissionRequestHooks } from "./hook-flow.js";
 import { racePermissionResponders } from "./permission-responder-race.js";
-import {
-  loadProjectPermissionRuleset,
-  persistProjectPermissionUpdates,
-} from "./permission-rules-persistence.js";
+import { loadProjectPermissionRuleset } from "./permission-rules-persistence.js";
 import {
   resolveRuntimePermissionCapability,
   resolveRuntimePermissionContext,
@@ -63,8 +61,14 @@ export async function resolveToolPermission(
   const runtimePermissionContext = resolveRuntimePermissionContext(deps);
   const rulePolicy = entry.resolvePermissionRulePolicy?.(executionInput, runtimePermissionContext);
   const suggestedPermissionUpdates =
-    rulePolicy?.suggestedPermissionUpdates ??
-    buildDefaultPermissionUpdates(toolCall.name, executionInput, entry.permissionCapabilityGroup);
+    entry.approvalAuthority === "user"
+      ? []
+      : (rulePolicy?.suggestedPermissionUpdates ??
+        buildDefaultPermissionUpdates(
+          toolCall.name,
+          executionInput,
+          entry.permissionCapabilityGroup,
+        ));
 
   let projectRules: PermissionRuleset | null;
   try {
@@ -221,8 +225,8 @@ export async function resolveToolPermission(
             timeoutMs: deps.permissionTimeoutMs,
           },
         ),
-      runHooks: (hookSignal) =>
-        runPermissionRequestHooks(
+      runHooks: async (hookSignal) => {
+        const result = await runPermissionRequestHooks(
           deps,
           toolCall,
           executionInput,
@@ -231,7 +235,14 @@ export async function resolveToolPermission(
           mode,
           traceContext,
           hookSignal,
-        ),
+        );
+        // Windows 接管承诺的是用户本次窗口授权；自动 hook 的 allow/modify 不能代用户
+        // 点击。拒绝仍参加原来的竞速；普通工具完全沿用既有 hook 应答行为。
+        return entry.approvalAuthority === "user" &&
+          (result?.decision === "allow" || result?.decision === "modify")
+          ? undefined
+          : result;
+      },
       ...(signal === undefined ? {} : { signal }),
     });
     brokerResult = raceOutcome.result;
@@ -356,52 +367,15 @@ export async function resolveToolPermission(
     };
   }
 
-  if (resolvedPermission.permissionUpdates?.length) {
-    try {
-      await persistProjectPermissionUpdates(
-        deps,
-        resolvedPermission.permissionUpdates,
-        traceContext,
-      );
-    } catch (error) {
-      return {
-        allowed: false,
-        result: createErrorResult(
-          toolCall,
-          createCoreError(
-            CoreErrorType.StorageError,
-            "Failed to persist project permission update",
-            {
-              cause: error instanceof Error ? error : undefined,
-              context: {
-                requestId,
-                sessionId: deps.sessionId,
-                toolCallId: toolCall.id,
-                toolName: toolCall.name,
-              },
-              recoverable: true,
-            },
-          ),
-        ),
-      };
-    }
-  }
-
-  if (resolvedPermission.sessionPermissionUpdates?.length) {
-    // 会话免确认：只进内存里的会话 ruleset，
-    // 与上面的项目级持久化互不可见。
-    deps.permissionService.grantSessionPermission(resolvedPermission.sessionPermissionUpdates);
-    deps.logger?.info("Session permission granted", {
-      ...traceContextToLogContext(traceContext),
-      event: "tool.permission.session_grant.applied",
-      module: "core.tool.executor",
-      requestId,
-      status: "completed",
-      toolCallId: toolCall.id,
-      toolName: toolCall.name,
-      updateCount: resolvedPermission.sessionPermissionUpdates.length,
-    });
-  }
+  const grantError = await applyResolvedPermissionGrants({
+    deps,
+    toolCall,
+    entry,
+    resolvedPermission,
+    requestId,
+    traceContext,
+  });
+  if (grantError) return { allowed: false, result: grantError };
 
   telemetry?.setPermissionDecision("granted");
   if (resolvedPermission.decision !== "modify") {

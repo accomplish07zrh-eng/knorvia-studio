@@ -1,6 +1,6 @@
 {
   "name": "@knorvia/node-repl-host",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "description": "Knorvia isolated JavaScript execution host and authenticated local bridges.",
   "license": "MIT",

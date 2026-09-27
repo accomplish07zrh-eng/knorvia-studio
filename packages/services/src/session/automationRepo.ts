@@ -1,7 +1,4 @@
-import {
-  isTasksStorageMigrated,
-  isTasksStoragePrepared,
-} from "#src/session/tasksDatabase/prepared.js";
+import { isTasksStorageMigrated } from "#src/session/tasksDatabase/prepared.js";
 /* eslint-disable max-lines -- automation 仓库集中维护 automations / automation_runs 的 sqlite schema、
    调度状态机写入与运行历史，稳定后再按读写职责拆分。 */
 import { mkdir } from "node:fs/promises";
@@ -279,12 +276,12 @@ export class AutomationRepo {
       this.db = new DatabaseSync(path);
       this.dbPath = path;
       this.db.exec(`PRAGMA busy_timeout = ${this.startupBusyTimeoutMs}`);
-      this.db.exec("PRAGMA journal_mode = WAL");
-      this.db.exec("PRAGMA synchronous = NORMAL");
     }
     // Worker 已完成该路径的原始准备，业务连接不再重复全表修复。
-    if (isTasksStoragePrepared(path, this.db)) return;
     if (!isTasksStorageMigrated(path, this.db)) runTasksDatabaseMigrations(this.db);
+    // 与任务 Repo 一样先拒绝未知账本／完成备份，避免失败开库改变日志模式。
+    this.db.exec("PRAGMA journal_mode = WAL");
+    this.db.exec("PRAGMA synchronous = NORMAL");
   }
 
   private getDatabase(): DatabaseSyncInstance {

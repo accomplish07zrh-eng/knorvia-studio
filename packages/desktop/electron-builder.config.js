@@ -768,6 +768,13 @@ export default {
   nsis: {
     oneClick: false,
     allowToChangeInstallationDirectory: true,
+    createDesktopShortcut: true,
+    createStartMenuShortcut: true,
+    shortcutName: "Knorvia Studio",
+    installerLanguages: ["en_US", "zh_CN"],
+    installerHeader: "build/installerHeader.bmp",
+    installerSidebar: "build/installerSidebar.bmp",
+    uninstallerSidebar: "build/installerSidebar.bmp",
     // Windows 安装流程使用独立安装图标，和应用运行时图标解耦。
     installerIcon: "build/icon_installer.ico",
     uninstallerIcon: "build/icon_installer.ico",

@@ -119,6 +119,23 @@ export function isProtocolServerInvocation(argv: string[]): boolean {
   }
 }
 
+/** 仅内部标准存储调用走窄入口；其它选项仍由原命令路由负责校验与优先级。 */
+export function isStoragePreparationInvocation(argv: string[]): boolean {
+  if (!argv.includes("--prepare-storage")) return false;
+  try {
+    const parsed = parseGlobalArgs(argv);
+    return (
+      parsed.values["prepare-storage"] === true &&
+      parsed.values.stdio === true &&
+      parsed.positionals.length === 1 &&
+      (parsed.positionals[0] === "app-server" || parsed.positionals[0] === "agent-server") &&
+      Object.keys(parsed.values).every((key) => ["prepare-storage", "stdio", "cwd"].includes(key))
+    );
+  } catch {
+    return false;
+  }
+}
+
 const DISALLOWED_TOOLS_FLAGS = new Set(["--disallowedTools", "--disallowed-tools"]);
 
 export const extractDisallowedToolsArgs = (

@@ -2,6 +2,8 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "ignorePatterns": [
     "THIRD-PARTY-NOTICES.md",
+    "apps/cli/packages/cua-plugin/docs/THIRD-PARTY-NOTICES-CUA-DRIVER.md",
+    "apps/cli/packages/cua-plugin/docs/cua-license-inventory.json",
     "third-party/inventory.json",
     "third-party/upstream/**",
     "third-party/native-search/licenses/**",

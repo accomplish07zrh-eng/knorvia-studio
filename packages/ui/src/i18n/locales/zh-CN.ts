@@ -6,6 +6,12 @@ import { workflowConflictZhCN } from "@/studio/workflow/conflictMessages.js";
 import { creationZhCN } from "@/studio/creation/messages.js";
 /** 中文翻译 */
 const zhCN: Record<string, string> = {
+  "settings.computerUse.windows.visualGuide":
+    "启用后，可在聊天中让 Agent 根据截图操作 Windows 应用。需要支持图像的模型，驱动在使用时启动。",
+  "settings.computerUse.windows.accessGuide":
+    "每轮任务先申请指定窗口的临时授权；截图会交给当前聊天模型分析。启用插件本身不会授权控制电脑。",
+  "settings.computerUse.windows.stopGuide":
+    "操作可能移动鼠标或切换窗口。需要接管时请先停止聊天任务；停止后不会自动重放操作。不支持系统安全桌面和管理员窗口。",
   "settings.materials.glass": "玻璃效果",
   "settings.materials.glassDescription": "磨砂玻璃质感，阅读区域清晰易读。",
   "settings.materials.preview": "外观效果预览",
@@ -227,6 +233,10 @@ const zhCN: Record<string, string> = {
     "数据库无法通过完整性检查。请保留数据和诊断信息，联系支持人员处理；不要删除数据库。",
   "startup.global.error.checksum_mismatch":
     "数据库迁移记录与当前程序不匹配。请保留数据和诊断信息，联系支持人员处理。",
+  "startup.global.error.newer_database":
+    "此数据库由较新版本更新，当前程序不能安全打开。请使用兼容的较新版本；不要删除数据库。",
+  "startup.global.error.backup_failed":
+    "无法保存升级前的数据快照，已停止升级。请检查数据目录的可用空间和写入权限，处理后重试。",
   "startup.global.error.open_failed":
     "无法打开数据库。请检查数据目录是否存在且可访问，处理后点击重试。",
   "startup.global.error.lock_timeout":

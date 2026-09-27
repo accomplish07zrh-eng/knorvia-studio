@@ -6,6 +6,10 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
+    "./storage-startup": {
+      "types": "./dist/storage-startup-entrypoint.d.ts",
+      "import": "./dist/storage-startup-entrypoint.js"
+    },
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"

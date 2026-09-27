@@ -20,9 +20,9 @@ import { useKnorviaIntl } from "@/i18n/IntlProvider.js";
 import { useOptionalPlatform } from "@/hooks/usePlatform.js";
 import { PluginStoreAvatar } from "@/settings/PluginStoreAvatar.js";
 import { ThemeHeroVisual } from "@/openWorkspacePageThemeHero.js";
-import documentsIconUrl from "@/assets/document-skill-icons/documents@2x.png";
-import pdfIconUrl from "@/assets/document-skill-icons/pdf@2x.png";
-import spreadsheetsIconUrl from "@/assets/document-skill-icons/spreadsheets@2x.png";
+import documentsIconUrl from "@/assets/plugin-icons/documents.svg";
+import pdfIconUrl from "@/assets/plugin-icons/pdf.svg";
+import spreadsheetsIconUrl from "@/assets/plugin-icons/spreadsheets.svg";
 import {
   PluginStoreInstallButton,
   PluginStoreItemMenu,

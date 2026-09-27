@@ -1,11 +1,11 @@
 /* eslint-disable max-lines -- 推荐语料按表格逐条维护，集中放置便于对照审核。 */
-import finderIcon from "@/onboarding/assets/finder.png";
-import terminalIcon from "@/onboarding/assets/terminal.png";
+import finderIcon from "@/assets/plugin-icons/files.svg";
+import terminalIcon from "@/assets/plugin-icons/terminal.svg";
 import feishuIcon from "@/onboarding/assets/feishu.png";
-import documentsIcon from "@/assets/plugin-icons/documents.png";
-import pdfIcon from "@/assets/plugin-icons/pdf.png";
-import presentationsIcon from "@/assets/plugin-icons/presentations.png";
-import spreadsheetsIcon from "@/assets/plugin-icons/spreadsheets.png";
+import documentsIcon from "@/assets/plugin-icons/documents.svg";
+import pdfIcon from "@/assets/plugin-icons/pdf.svg";
+import presentationsIcon from "@/assets/plugin-icons/presentations.svg";
+import spreadsheetsIcon from "@/assets/plugin-icons/spreadsheets.svg";
 import type { DraftSuggestedPromptItem } from "@/v4/draftSuggestedPromptItems.js";
 
 type FeatureRecommendedPrompt = DraftSuggestedPromptItem & {

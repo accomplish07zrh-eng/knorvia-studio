@@ -62,6 +62,7 @@ import {
 import { scheduleProjectMemoryExtraction } from "../helpers/project-memory-extraction.js";
 import { appendBrowserTurnScreenshot } from "./browser-turn-screenshot.js";
 import { clearBrowserTurnState } from "../../repl/browser-turn-state.js";
+import { endWindowsComputerTurn } from "./windows-computer-turn-end.js";
 import { applySubmissionExecutionState, createTurnModel } from "./turn-model.js";
 import { rebuildContextPrefix } from "./context-refresh.js";
 
@@ -826,6 +827,7 @@ export async function executeTurnCommand(
     }
     this.releaseTurnStart(turnId);
     clearBrowserTurnState(this.sessionId, turnId);
+    await endWindowsComputerTurn(this, turnTraceContext);
     this.finishActiveTurn(activeTurn);
     turnAbortScope.dispose();
     try {

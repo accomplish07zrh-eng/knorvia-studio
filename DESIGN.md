@@ -58,6 +58,8 @@ Spec: `specs/knorvia-visual-language.md`. The language grows from the Knorvia ic
 - **Paper layering**: selection is a slightly raised sheet (`--knorvia-paper` + `--knorvia-paper-edge`), not a grey block. The workspace panel is a sheet too.
 - **Three strokes**: the icon's three light strokes become three graded, K-slanted black/white dashes (above the empty-conversation greeting).
 - **Fine line and light motion**: icon stroke 1.6; one easing curve; a 0.97 press; respect reduced motion.
+- **Ribbon-line icons** (`specs/knorvia-icon-language.md`): every small icon is a Knorvia glyph — soft-slab outlines over a same-colour paper tint that deepens on hover/selection, breathing gaps between parts, solid dots. Keep importing icons from `lucide-react`; the Vite plugin routes them to `packages/ui/src/icons`. A new icon name needs a glyph in `packages/ui/src/icons/glyphs/` plus `node scripts/generate-knorvia-icons.mjs`. Bundled plugin and suggestion tiles are graphite SVG tiles in `assets/plugin-icons`, never coloured PNGs.
+- **Entrance** (`specs/knorvia-entrance-motion.md`): the desktop startup shell plays one short intro (logo focus-in, sheen, three strokes, wordmark), then the workspace sheet rises and rail items slide in. Opacity/transform only on the app; reduced motion gets a plain fade.
 - Implement through existing hooks (`data-slot`, `.bg-selected`, `data-knorvia-composer`, send-button test ids, `data-v4-draft-greeting`, `aria-pressed`), not per-component overrides.
 
 ## Color Palette

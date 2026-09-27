@@ -2,6 +2,10 @@ version: 1
 
 # 存量模块先标记为 legacy；新模块或完成迁移的模块设置 managed: true。
 modules:
+  - id: cua
+    roots: [packages/cua]
+    managed: false
+    owner: desktop-computer-use
   - id: rpc
     roots: [packages/rpc/src]
     managed: false

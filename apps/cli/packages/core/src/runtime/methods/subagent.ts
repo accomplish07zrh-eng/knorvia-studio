@@ -29,6 +29,7 @@ import { cloneModelSelection } from "../model-selection.js";
 import { resolveSubagentSelection } from "../helpers/subagent-selection.js";
 import type { AgentRuntimeDeps } from "../types.js";
 import { toMcpToolName } from "../../mcp/index.js";
+import { restrictBorrowedWindowsComputerUse } from "../../mcp/windows-computer-use.js";
 import { createBorrowedSubagentMcpAccess } from "../../subagent/borrowed-mcp-port.js";
 import { createSubagentMessageSink } from "../../subagent/message-steering.js";
 import {
@@ -604,11 +605,14 @@ async function resolveSubagentMcpAccess(
     );
   }
 
-  const borrowed = createBorrowedSubagentMcpAccess(
-    this.mcpPort,
-    parentStartupSnapshot,
-    scopedServerNames,
-    officialCuaServerNames,
+  const borrowed = restrictBorrowedWindowsComputerUse(
+    createBorrowedSubagentMcpAccess(
+      this.mcpPort,
+      parentStartupSnapshot,
+      scopedServerNames,
+      officialCuaServerNames,
+    ),
+    new Set(this.config.mcp?.trustedWindowsComputerUseServerNames ?? []),
   );
   return {
     config: { enabled: true },

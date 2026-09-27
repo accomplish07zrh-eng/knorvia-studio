@@ -1,6 +1,6 @@
 # Knorvia Studio 插件技能包交付说明
 
-本文件记录 2026-09-25 交付的**三个示例技能包**、它们的安装方式、逐文件来源与许可、本轮实际执行的验证，以及明确未做的部分。
+本文件记录 2026-09-25 交付的**三个示例技能包**、它们的安装方式、逐文件来源与许可，以及截至 2026-09-27 的验证结果和未验证边界。
 术语与规则见 [技能契约](../specs/knorvia-skill-contract.md) 与 [插件兼容性声明](../specs/knorvia-plugin-compatibility.md)；逐包逐内核状态见 [兼容性矩阵](./knorvia-plugin-compatibility-matrix.md)。
 
 ## 交付了什么
@@ -112,13 +112,26 @@ examples/plugins/project-handoff/
 - `packages/ui/test/plugin-settings-visibility.test.ts`：确认既有设置页插件可见性分区未被本波改动影响。
 - 插件创建器的只读预检逐个包执行；并在临时目录用 `upsert-dev-marketplace.mjs` 验证本地来源登记可用（不写入仓库）。
 
-未验证（**本轮明确未做**）：
+### 打包界面安装与重开验证（2026-09-27）
 
-1. **真实安装与启用**：没有在应用的设置页把这三个包加进本地来源、安装或启用。上面的安装命令只做了离线的预检与临时目录登记。
-2. **真实模型行为**：没有调用真实模型，因此技能是否按 `## Trigger` / `## Near misses` 正确激活与拒绝、交接文档质量、索引分类质量、报告质量**全部未验证**。夹具描述的是"应当观察到什么"，不是运行记录。
-3. **逐内核运行验证**：没有任何内核上的真实执行，矩阵中所有内核的运行列都是"未验证"。
-4. **Settings 兼容性面板**：面板本身已在现有插件管理入口内交付（只读、逐能力显示 `available` / `unavailable` / `unverified`，缺文件或畸形降级为 `unknown`），但**没有为这三个包做过真实渲染验证**：包没有被安装进应用，面板从未针对它们显示过，界面交互也没有 DOM 测试环境可跑。面板读到的数据来自 `compatibility.json` 的静态声明，不是运行时实测。
-5. **打包与默认启用**：这三个包**没有**加入内置插件清单，也没有进入桌面包；因此默认启用集合与打包产物均未变化。这一点由测试断言机械复核（两个权威文件里都不出现包名）。
+`scripts/studio-plugin-install-acceptance.mjs` 在仓库外完整 Windows 包上运行：`D:/tools.cache/knorvia-candidate-20260927/win-unpacked/Knorvia Studio.exe`，版本 `0.8.0-preview.3`。结果 **5/5 通过，退出码 0**；`pageErrors=[]`、`resourceErrors=[]`。
+
+- 三个包从临时本地来源经真实设置页安装，逐个启用、禁用、再启用；核对安装目录确实位于隔离 data，以及 manifest、`SKILL.md`、兼容声明的字节与来源一致。
+- 三个包的只读 Settings 兼容性面板均实际渲染。启用时宿主枚举证据使 `skills.enabled-catalog` 显示 `available`，禁用时显示 `unverified`；包级状态保持 `declared`，其余未验证能力没有被升级为已验证。面板仍主要读取 `compatibility.json` 的静态声明，宿主枚举证据不等于技能执行证据。
+- 退出前保留 `project-handoff`、`material-organizer` 启用，`document-quality-check` 禁用。确认原进程实际退出后再启动新进程，核对两启用一禁用、安装文件和对应宿主枚举状态均保留，避免默认启用状态掩盖持久化缺失。
+- 完整包的 resources 路径和 exe、`app.asar`、包内 CLI 的 SHA-256 均留存在结果中；数据根是独立临时目录，未使用桌面真实用户 data，未调用真实模型。
+
+本机证据：`C:/Users/17018/AppData/Local/Temp/knorvia-plugin-install-qSHxyU/result.json`。详细整合记录见 [打包验收记录](./knorvia-packaged-acceptance-20260927.md)。统一复跑入口：
+
+```powershell
+pnpm test:studio:packaged '<仓库外完整包>/Knorvia Studio.exe'
+```
+
+当前未验证与保持的边界：
+
+1. **真实模型行为**：没有调用真实模型，因此技能是否按 `## Trigger` / `## Near misses` 正确激活与拒绝、交接文档质量、索引分类质量、报告质量**全部未验证**。夹具描述的是"应当观察到什么"，不是运行记录。
+2. **逐内核运行验证**：没有任何内核上的技能真实执行，矩阵中所有内核的运行列仍是"未验证"；安装与宿主技能枚举不能代替此项。各包 `compatibility.json` 不因安装验收而改成 `verified`。
+3. **打包与默认启用**：这三个包**没有**加入内置插件清单，也没有作为内置插件进入桌面包；此次只在隔离数据根中从本地来源安装。默认启用集合未变化，该边界继续由测试断言机械复核。
 
 ## 相关文档
 

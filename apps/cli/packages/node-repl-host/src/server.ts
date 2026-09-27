@@ -4,6 +4,8 @@ import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import { JsInputJsonSchema } from "@knorvia/contracts/tools/node-repl";
 import { createComputerUseRuntime, type ComputerUseRuntime } from "@knorvia/cua";
 import { z } from "zod";
+import type { WindowsComputerRuntime } from "@knorvia/cua/windows";
+import { captureWindowsComputerRuntime, windowsComputerContext } from "./windows-computer.js";
 import {
   createInProcessNodeReplExecutor,
   executeInWorker,
@@ -32,7 +34,7 @@ export {
 export type { NodeReplExecuteInput, NodeReplExecutor } from "./executor.js";
 export const NODE_REPL_MCP_PROCESS_TITLE = "knorvia-node-repl-mcp";
 export interface NodeReplMcpRuntime {
-  dispose(): void;
+  dispose(): Promise<void>;
   server: Server;
 }
 const argumentsSchema = z
@@ -65,11 +67,18 @@ export function captureComputerUseRuntimeFromEnvironment(
 }
 
 export function createNodeReplMcpRuntime(
-  options: { executeJs?: NodeReplExecutor; cuaRuntime?: ComputerUseRuntime } = {},
+  options: {
+    executeJs?: NodeReplExecutor;
+    cuaRuntime?: ComputerUseRuntime;
+    windowsRuntime?: WindowsComputerRuntime;
+  } = {},
 ): NodeReplMcpRuntime {
   const execute = options.executeJs ?? ((input) => executeInWorker(import.meta.url, input));
   const cua = options.cuaRuntime ?? captureComputerUseRuntimeFromEnvironment();
   const broker = cua ? createNodeReplCuaBroker({ runtime: cua }) : undefined;
+  const windowsReady = options.windowsRuntime
+    ? Promise.resolve(options.windowsRuntime)
+    : captureWindowsComputerRuntime();
   const lifetime = new AbortController();
   const tails = new Map<string, Promise<unknown>>();
   const server = new Server(
@@ -78,6 +87,9 @@ export function createNodeReplMcpRuntime(
   );
   server.setRequestHandler("tools/list", async () => ({
     tools: [
+      ...((await windowsReady)
+        ?.listTools()
+        .map((tool) => ({ ...tool, inputSchema: tool.inputSchema as Tool["inputSchema"] })) ?? []),
       {
         name: "js",
         description: JS_TOOL_DESCRIPTION,
@@ -87,6 +99,17 @@ export function createNodeReplMcpRuntime(
   }));
   server.setRequestHandler("tools/call", async (request, extra) => {
     lifetime.signal.throwIfAborted();
+    const windows = await windowsReady;
+    lifetime.signal.throwIfAborted();
+    if (windows?.listTools().some((tool) => tool.name === request.params.name)) {
+      const result = await windows.execute({
+        toolName: request.params.name,
+        arguments: request.params.arguments,
+        context: windowsComputerContext(extra.mcpReq._meta?.["com.knorvia-studio/request-context"]),
+        signal: AbortSignal.any([lifetime.signal, extra.mcpReq.signal]),
+      });
+      return { ...result };
+    }
     const parsed = argumentsSchema.safeParse(request.params.arguments);
     if (request.params.name !== "js" || !parsed.success)
       throw Object.assign(new Error("Invalid js tool arguments"), { code: INVALID_PARAMS });
@@ -133,11 +156,11 @@ export function createNodeReplMcpRuntime(
   });
   return {
     server,
-    dispose: () => {
+    dispose: async () => {
       if (lifetime.signal.aborted) return;
       lifetime.abort(new Error("node_repl runtime is disposed"));
-      void broker?.close();
-      void cua?.dispose();
+      const windows = await windowsReady;
+      await Promise.allSettled([broker?.close(), cua?.dispose(), windows?.dispose()]);
     },
   };
 }
@@ -158,9 +181,9 @@ export async function main(): Promise<void> {
   const shutdown = () => {
     if (stopped) return;
     stopped = true;
-    for (const runtime of runtimes) runtime.dispose();
-    void stdio
-      .close()
+    // Cua 持久驱动必须退出后再结束宿主，不能 fire-and-forget 留下后台进程。
+    void Promise.allSettled([...runtimes].map((runtime) => runtime.dispose()))
+      .then(() => stdio.close())
       .catch(() => undefined)
       .finally(() => process.exit(0));
   };

@@ -2,7 +2,10 @@ import { existsSync } from "node:fs";
 import { access } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { stageOfficialPluginAssets } from "../packages/desktop/scripts/official-plugin-staging.mjs";
+import {
+  buildOfficialPluginRuntimes,
+  stageOfficialPluginAssets,
+} from "../packages/desktop/scripts/official-plugin-staging.mjs";
 import { stageAgentBundle } from "../packages/desktop/scripts/stage-agent-bundle.mjs";
 import { runCommand } from "./spawn-command.mjs";
 
@@ -51,6 +54,14 @@ const cliWorkspaceBuilds = [
 // 连接 MCP 才报错，造成“Helper ready 但 CUA 工具不存在”的半启动状态。所有普通 Dev 必需的
 // 独立 MCP runtime 必须集中登记，并在构建后验证真实入口文件，再允许 Agent bundle 启动。
 const requiredDevPluginRuntimeBuilds = [
+  ...(process.platform === "win32"
+    ? [
+        {
+          packageName: "@knorvia/cua-plugin",
+          artifactPath: "cua-plugin/dist/windows/cua-driver.exe",
+        },
+      ]
+    : []),
   {
     // node_repl 宿主：Browser Use 与 Computer Use 共用，产物归属独立包。
     packageName: "@knorvia/node-repl-host",
@@ -96,7 +107,17 @@ async function verifyRequiredDevPluginRuntimeArtifacts() {
  *
  * dev 只跑宿主平台，所以 platformKey 直接取 process；打包链的跨平台 target 由它自己解析。
  */
-function stageDevAgentBundle() {
+async function stageDevAgentBundle({ buildRuntimes = false } = {}) {
+  // Turbo/bootstrap 不经过默认的插件构建循环；暂存前统一补齐，不能按旧 dist 存在就复用。
+  if (buildRuntimes) {
+    buildOfficialPluginRuntimes({
+      repoRoot,
+      runCommand,
+      env: pnpmRunEnv,
+      isBootstrapWithRemote: useBootstrapWithRemoteBuild,
+    });
+  }
+  await verifyRequiredDevPluginRuntimeArtifacts();
   const platformKey = `${process.platform}-${process.arch}`;
   stageAgentBundle({
     repoRoot,
@@ -148,7 +169,7 @@ async function runBootstrapWithRemoteBuild() {
 
 if (useBootstrapWithRemoteBuild) {
   await runBootstrapWithRemoteBuild();
-  stageDevAgentBundle();
+  await stageDevAgentBundle({ buildRuntimes: true });
   process.exit(0);
 }
 
@@ -164,12 +185,11 @@ if (!useTurboBuild) {
     });
   }
 
-  await verifyRequiredDevPluginRuntimeArtifacts();
   runCommand("pnpm", ["--filter", "@knorvia/cli", "build:desktop-agent"], {
     env: pnpmRunEnv,
     stdio: "inherit",
   });
-  stageDevAgentBundle();
+  await stageDevAgentBundle();
   process.exit(0);
 }
 
@@ -190,4 +210,4 @@ runCommand(
     stdio: "inherit",
   },
 );
-stageDevAgentBundle();
+await stageDevAgentBundle({ buildRuntimes: true });

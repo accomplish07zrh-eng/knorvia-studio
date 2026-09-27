@@ -30,6 +30,8 @@
     "i18n:check": "node scripts/check-i18n-parity.mjs",
     "build:cli-packages": "turbo run build --cwd apps/cli",
     "test:studio": "node scripts/test-studio.mjs",
+    "test:studio:ui": "node scripts/studio-activity-rail-smoke.mjs",
+    "test:studio:packaged": "node scripts/test-studio-packaged.mjs",
     "perf:baseline": "node scripts/perf-baseline.mjs",
     "bundle:desktop": "pnpm --filter @knorvia/desktop run bundle --",
     "fmt": "oxfmt",

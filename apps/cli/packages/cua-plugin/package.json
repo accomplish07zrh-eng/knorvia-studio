@@ -1,0 +1,11 @@
+{
+  "name": "@knorvia/cua-plugin",
+  "version": "0.7.0",
+  "private": true,
+  "description": "Optional Windows visual computer control for Knorvia Studio.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node ../../../../packages/cua/scripts/stage-windows-driver.mjs"
+  }
+}

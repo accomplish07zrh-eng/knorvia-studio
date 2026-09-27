@@ -76,7 +76,11 @@ export const OFFICIAL_BROWSER_USE_REQUIRED_SEED_PATHS = [
 
 const OFFICIAL_CUA_REQUIRED_SEED_PATHS = [
   "docs/computer-use.md",
-  "scripts/computer-use-client.mjs",
+  "docs/LICENSE.txt",
+  "docs/CUA-LICENSE.txt",
+  "docs/THIRD-PARTY-NOTICES.md",
+  "docs/THIRD-PARTY-NOTICES-CUA-DRIVER.md",
+  "docs/cua-license-inventory.json",
   "skills/computer-use/SKILL.md",
 ] as const;
 
@@ -106,7 +110,7 @@ export const OFFICIAL_PLUGIN_DEFINITIONS: readonly OfficialPluginDefinition[] = 
       "../../node-repl-host",
       "../../../node-repl-host",
     ],
-    version: "0.7.0",
+    version: "0.8.0",
   },
   {
     listing: {
@@ -357,11 +361,9 @@ export const OFFICIAL_PLUGIN_DEFINITIONS: readonly OfficialPluginDefinition[] = 
       "../../../cua-plugin",
     ],
     requiredSeedPaths: OFFICIAL_CUA_REQUIRED_SEED_PATHS,
-    // 当前 CUA 为不可用占位包，无需复制 native runtime；避免把本地旧依赖继续带入缓存。
-    runtimeTopLevelPaths: [],
-    // 这里的 version 追踪上游 cua runtime 版本，使插件 UI 展示、缓存路径、
-    // marketplace 条目都对齐；具体版本由原子 producer bump 工作流维护。
-    version: "0.6.3",
+    // Windows 驱动随插件缓存分发；不开启插件就不暴露工具，也不启动驱动。
+    runtimeTopLevelPaths: ["dist"],
+    version: "0.7.0",
   },
 ];
 

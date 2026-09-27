@@ -182,6 +182,8 @@ export interface AgentRuntimeConfig {
      * official plugins. Never derive this list from serialized MCP config.
      */
     trustedOfficialCuaServerNames?: readonly string[];
+    /** Bootstrap 验证过的 Windows 内置宿主；仅 computer_* 精确白名单使用，不能来自用户 MCP 配置。 */
+    trustedWindowsComputerUseServerNames?: readonly string[];
   };
   /**
    * Session 冻结的 Plugin 身份 catalog。

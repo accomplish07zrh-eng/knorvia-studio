@@ -112,12 +112,39 @@ export const officialPluginPackages = [
     // 它没有 listing（不进插件市场展示面），但必须随包携带 dist runtime。
     packageName: "@knorvia/node-repl-host",
     name: "node-repl-host",
-    version: "0.7.0",
+    version: "0.8.0",
     relativePath: "apps/cli/packages/node-repl-host",
     requiresRuntime: true,
     requiredRuntimePaths: ["dist/mcp/server.js", "docs/LICENSE.txt"],
     runtimeBuildScript: "scripts/build.mjs",
     stagedPath: "packages/node-repl-host",
+  },
+  {
+    packageName: "@knorvia/cua-plugin",
+    name: "computer-use",
+    version: "0.7.0",
+    relativePath: "apps/cli/packages/cua-plugin",
+    requiresRuntime: process.platform === "win32",
+    requiredSeedPaths: [
+      "docs/LICENSE.txt",
+      "docs/CUA-LICENSE.txt",
+      "docs/THIRD-PARTY-NOTICES.md",
+      "docs/THIRD-PARTY-NOTICES-CUA-DRIVER.md",
+      "docs/cua-license-inventory.json",
+      "docs/computer-use.md",
+      "skills/computer-use/SKILL.md",
+    ],
+    requiredRuntimePaths:
+      process.platform === "win32"
+        ? [
+            "dist/windows/cua-driver.exe",
+            "dist/windows/cua-driver-uia.exe",
+            "dist/windows/cua-cursor-theme.exe",
+            "dist/windows/driver.json",
+          ]
+        : [],
+    runtimeBuildScript: "../../../../packages/cua/scripts/stage-windows-driver.mjs",
+    stagedPath: "packages/cua-plugin",
   },
   ...contentPluginPackages.map((plugin) => {
     const dirName = plugin.dirName ?? plugin.name;
@@ -173,7 +200,7 @@ export function buildOfficialPluginRuntimes({
     }
     console.log(`[prepare:agent-bundle] building ${plugin.packageName} runtime ...`);
     if (isBootstrapWithRemote) {
-      buildOfficialPluginRuntimeForBootstrap({ plugin, repoRoot, runCommand });
+      buildOfficialPluginRuntimeForBootstrap({ plugin, repoRoot, runCommand, env });
       assertOfficialPluginRuntime({ plugin, repoRoot });
       continue;
     }
@@ -190,30 +217,26 @@ export function buildOfficialPluginRuntimes({
   }
 }
 
-function buildOfficialPluginRuntimeForBootstrap({ plugin, repoRoot, runCommand }) {
+function buildOfficialPluginRuntimeForBootstrap({ plugin, repoRoot, runCommand, env }) {
   const pluginRoot = resolve(repoRoot, plugin.relativePath);
-  const hasCompleteRuntime = plugin.requiredRuntimePaths.every((relativePath) =>
-    existsSync(resolve(pluginRoot, ...relativePath.split("/"))),
-  );
-  if (plugin.packageName !== BROWSER_USE_PLUGIN_PACKAGE_NAME && hasCompleteRuntime) {
-    console.log(
-      `[prepare:agent-bundle] reuse existing official plugin runtime: ${plugin.packageName}`,
-    );
+  if (plugin.packageName === "@knorvia/cua-plugin") {
+    runCommand(process.execPath, [plugin.runtimeBuildScript], {
+      cwd: pluginRoot,
+      env,
+    });
     return;
   }
-
   // bootstrap:with-remote 会连续构建 remote assets 和桌面 agent bundle。
   // 通过 pnpm/filter 进入插件 build 时，tsc shim 在本地低内存环境中容易被 SIGKILL；
   // 这里仅在 bootstrap 开关下用当前 Node 直接执行等价 tsc + build-mcp，不改变插件自身 build 脚本。
-  // browser-use 的 server 与 browser-client 是同一发布对；即使旧 server.js 存在也必须重建，
-  // 否则会把旧 server 与当前 client（或缺失 client）一起 stage 到桌面安装包。
+  // 宿主包含当前 CUA 适配器；与 browser-client 一样不能仅凭旧 server.js 存在而跳过重建。
   runCommand(process.execPath, ["../../node_modules/typescript/bin/tsc"], {
     cwd: pluginRoot,
-    env: process.env,
+    env,
   });
   runCommand(process.execPath, [plugin.runtimeBuildScript], {
     cwd: pluginRoot,
-    env: process.env,
+    env,
   });
 }
 

@@ -5,6 +5,7 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
+import { knorviaIconsPlugin } from "../ui/vite/knorviaIconsPlugin.js";
 import { pdfJsCMapsPlugin } from "../ui/vite/pdfJsCMapsPlugin.js";
 import { getBuildMetadata } from "./scripts/build-metadata.mjs";
 import { resolveDesktopProductFlavor } from "./scripts/desktop-product-identity.mjs";
@@ -43,7 +44,8 @@ export const desktopRendererDependencyAliases = {
   // 通过 Node 解析真实安装根目录，既保留单 React runtime，又兼容不同 node-linker。
   react: resolveInstalledPackageRoot("react"),
   "react-dom": resolveInstalledPackageRoot("react-dom"),
-  "lucide-react": resolveInstalledPackageRoot("lucide-react"),
+  // lucide-react 不在此别名：knorviaIconsPlugin 统一把它指向 Knorvia 图标模块，
+  // 只有图标模块内部解析真实包，因此仍只有一份 lucide 运行时。
 } as const;
 
 function resolveKnorviaEnv(value: string | undefined): "test" | "production" {
@@ -157,6 +159,7 @@ export default defineConfig(({ mode }) => {
     env.VITE_KNORVIA_E2E_STORE_BRIDGE === "1" || process.env.VITE_KNORVIA_E2E_STORE_BRIDGE === "1";
   const plugins = [
     ...(e2eCoverageEnabled ? [createE2EUIRendererCoveragePlugin(repoRoot)] : []),
+    knorviaIconsPlugin(),
     pdfJsCMapsPlugin(),
     react(),
     tailwindcss(),

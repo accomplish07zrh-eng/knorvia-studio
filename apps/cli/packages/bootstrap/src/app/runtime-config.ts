@@ -20,7 +20,6 @@ import { getProjectMemoryRoot } from "./paths.js";
 import type { KnorviaAppOptions } from "./types.js";
 import {
   resolveRegistryOwnedModelSelection,
-  resolveRegistryModelSelection,
   type ResolvedRegistrySelection,
 } from "./provider-registry-selection.js";
 
@@ -99,12 +98,27 @@ export function resolveAppRuntimeConfig(input: {
     ...(options.runtimeConfig?.mcp?.servers ?? configResult.config.mcp.servers),
     ...builtInMcpServers,
   };
+  // 信任来自最后合并的宿主对象与已启用的内置插件，不能从同名用户配置或 MCP annotations 推断。
+  const builtInWindowsHost = builtInMcpServers?.node_repl;
+  const trustedWindowsComputerUseServerNames =
+    process.platform === "win32" &&
+    pluginRuntimeFeatures?.computerUse === true &&
+    builtInWindowsHost?.type === "stdio" &&
+    builtInWindowsHost.enabled !== false &&
+    builtInWindowsHost.env?.KNORVIA_WINDOWS_COMPUTER_USE === "1" &&
+    configuredMcpServers.node_repl === builtInWindowsHost
+      ? ["node_repl"]
+      : [];
   const trustedOfficialCuaServerNames = resolveTrustedOfficialCuaServerNames(
     configuredMcpServers,
     pluginMcpServers ?? {},
   );
   const cuaBridgeServerNames = new Set(trustedOfficialCuaServerNames);
-  if (pluginRuntimeFeatures?.computerUse === true && configuredMcpServers.node_repl) {
+  if (
+    pluginRuntimeFeatures?.computerUse === true &&
+    builtInMcpServers?.node_repl &&
+    configuredMcpServers.node_repl === builtInMcpServers.node_repl
+  ) {
     // node_repl 需要 broker 注入，但不是 CUA MCP server。注入资格与官方 CUA 图片
     // authority 必须分开；把它塞进 trustedOfficialCuaServerNames 会让整个
     // 通用 node_repl 结果被误送进 exact-raster gate，Browser 截图和 console 日志都会失败。
@@ -160,6 +174,7 @@ export function resolveAppRuntimeConfig(input: {
       enabled: options.runtimeConfig?.mcp?.enabled ?? configResult.config.features.mcp,
       servers: autoConnectMcpServers,
       trustedOfficialCuaServerNames: [...trustedOfficialCuaServerNames],
+      trustedWindowsComputerUseServerNames,
     },
     hooks: mergeRuntimeHooks(
       options.runtimeConfig?.hooks
@@ -172,7 +187,7 @@ export function resolveAppRuntimeConfig(input: {
       enabled: options.runtimeConfig?.subagents?.enabled ?? configResult.config.features.subagent,
       outputRootDir: options.runtimeConfig?.subagents?.outputRootDir ?? subagentOutputRootDir,
       builtInModelSelectionOverrides: {
-        ...(input.builtInSubagentModelSelectionOverrides ?? {}),
+        ...input.builtInSubagentModelSelectionOverrides,
         ...runtimeBuiltInModelSelectionOverrides,
       },
       profiles: [...(options.runtimeConfig?.subagents?.profiles ?? []), ...subagentProfiles],

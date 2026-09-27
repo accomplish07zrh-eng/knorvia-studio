@@ -8,6 +8,7 @@ import { createHash } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 import { SqliteSessionMigrationError } from "./errors.js";
 import { SQLITE_MIGRATIONS } from "./migrations.js";
+import { createSessionMigrationSnapshot } from "./migration-snapshot.js";
 import type { SchemaMigrationRow } from "./rows.js";
 
 export const DEFAULT_SQLITE_STARTUP_LOCK_TIMEOUT_MS = 5_000;
@@ -70,6 +71,7 @@ export async function runSqliteSessionMigrationsAsync(
     options.lockWaitTimeoutMs ?? DEFAULT_SQLITE_MIGRATION_WAIT_MS,
   );
   let failed = false;
+  let failure: unknown;
   try {
     for (const step of steps) {
       if ("delayMs" in step)
@@ -84,16 +86,21 @@ export async function runSqliteSessionMigrationsAsync(
     }
   } catch (error) {
     failed = true;
-    throw error;
+    failure = error;
   } finally {
     // 通知传输失败也会关闭 generator 的事务，不能将半迁移连接交给业务。
     try {
       steps.return();
       db.exec(`pragma busy_timeout = ${DEFAULT_SQLITE_STARTUP_LOCK_TIMEOUT_MS}`);
     } catch (error) {
-      if (!failed) throw error;
+      // 清理错误只能在没有首因时成为失败原因，保留包括 undefined 在内的原异常。
+      if (!failed) {
+        failed = true;
+        failure = error;
+      }
     }
   }
+  if (failed) throw failure;
 }
 
 function* migrationSteps(
@@ -135,6 +142,15 @@ function* migrationSteps(
   try {
     yield progress("checking");
     db.exec("pragma foreign_keys = on");
+    // 旧版本必须在任何持久化 PRAGMA 前拒绝新账本，快照失败也不能改变原库日志模式。
+    yield* acquire(() => {
+      migrationFacts = {
+        kind: inspectMigrationKind(db, dbPath),
+        executedCount: 0,
+        committedCount: 0,
+      };
+      if (migrationFacts.kind === "upgrade") createSessionMigrationSnapshot(db, dbPath);
+    });
     yield* acquire(() => {
       const current = readJournalMode(db);
       if (current === "wal" || isMemoryJournalMode(dbPath, current)) return;
@@ -158,6 +174,8 @@ function* migrationSteps(
     // SQLite 是唯一协调者；拿锁后读取真实账本，等待者不会重复迁移已提交项。
     yield* acquire(() => db.exec("begin immediate"));
     transactionStarted = true;
+    // 等待写锁期间其他程序可能已经升级；再次校验，不能以预检授权旧版写新库。
+    inspectMigrationKind(db, dbPath);
     db.exec(`create table if not exists schema_migration (
       id text primary key, checksum text not null, app_version text, time_applied integer not null
     )`);
@@ -319,6 +337,19 @@ function inspectMigrationKind(db: DatabaseSync, dbPath: string): DatabaseMigrati
   const hasLedger = db
     .prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='schema_migration'")
     .get();
+  if (hasLedger) {
+    const knownIds = new Set(SQLITE_MIGRATIONS.map((migration) => migration.id));
+    if (
+      db
+        .prepare("SELECT id FROM schema_migration")
+        .all()
+        .some((row) => !knownIds.has(String(row.id)))
+    )
+      throw new SqliteSessionMigrationError(
+        "Session database has migrations unknown to this build; open it with a newer compatible version.",
+        { dbPath, kind: "newer_database" },
+      );
+  }
   let pending = false;
   for (const migration of SQLITE_MIGRATIONS) {
     const row = hasLedger ? readAppliedMigration(db, migration.id) : undefined;
