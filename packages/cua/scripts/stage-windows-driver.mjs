@@ -34,14 +34,29 @@ export async function stageWindowsCuaDriver({
     if (digest(await readFile(archive)) !== artifact.sha256)
       throw new Error("Cua official archive SHA-256 mismatch");
     const extracted = join(scratch, "extracted");
-    // 环境变量传入路径，避免把本地路径拼入 PowerShell 代码。
+    // Windows runner 两次在 Expand-Archive 解压阶段耗尽 60 秒；直接用系统 ZIP API
+    // 提取三个已钉住的文件，不加载归档命令模块或提取未使用的 SDK，也不放宽超时。
+    // 路径与文件名经环境变量传入，避免把本地路径拼入 PowerShell 代码。
     await execute(
       "powershell.exe",
       [
         "-NoProfile",
         "-NonInteractive",
         "-Command",
-        "Expand-Archive -LiteralPath $env:KNORVIA_CUA_STAGE_ARCHIVE -DestinationPath $env:KNORVIA_CUA_STAGE_DESTINATION",
+        [
+          "$ErrorActionPreference = 'Stop'",
+          "Add-Type -AssemblyName System.IO.Compression.FileSystem",
+          "$zip = [IO.Compression.ZipFile]::OpenRead($env:KNORVIA_CUA_STAGE_ARCHIVE)",
+          "try {",
+          "[IO.Directory]::CreateDirectory($env:KNORVIA_CUA_STAGE_DESTINATION) | Out-Null",
+          "foreach ($name in ($env:KNORVIA_CUA_STAGE_FILES | ConvertFrom-Json)) {",
+          "$entry = $zip.GetEntry($name)",
+          "if ($null -eq $entry) { throw 'Required Cua binary is missing' }",
+          "$destination = [IO.Path]::Combine($env:KNORVIA_CUA_STAGE_DESTINATION, $name)",
+          "[IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destination)",
+          "}",
+          "} finally { $zip.Dispose() }",
+        ].join("\n"),
       ],
       {
         windowsHide: true,
@@ -50,6 +65,7 @@ export async function stageWindowsCuaDriver({
           ...process.env,
           KNORVIA_CUA_STAGE_ARCHIVE: archive,
           KNORVIA_CUA_STAGE_DESTINATION: extracted,
+          KNORVIA_CUA_STAGE_FILES: JSON.stringify(Object.keys(artifact.files)),
         },
       },
     );
