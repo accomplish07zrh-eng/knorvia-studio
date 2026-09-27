@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, realpath, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import test from "node:test";
 import { packagedRuntimeEvidence } from "../../../scripts/packaged-runtime-evidence.mjs";
 
@@ -28,18 +28,21 @@ test("a complete external package reports canonical paths and known SHA-256 dige
   const directory = join(root, "standalone");
   const executable = await packageFiles(directory);
   const evidence = await packagedRuntimeEvidence(executable);
-  assert.equal(evidence.packageRoot, resolve(directory));
-  assert.equal(evidence.resourcesPath, join(resolve(directory), "resources"));
+  // Windows runner 的 tmpdir 可能是 RUNNER~1 短名称；resolve 不会将它展开。
+  // 契约返回 realpath，预期也应使用物理路径，保留精确路径与目录逃逸检查。
+  const canonicalDirectory = await realpath(directory);
+  assert.equal(evidence.packageRoot, canonicalDirectory);
+  assert.equal(evidence.resourcesPath, join(canonicalDirectory, "resources"));
   assert.deepEqual(evidence.executable, {
-    path: resolve(executable),
+    path: await realpath(executable),
     sha256: "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
   });
   assert.deepEqual(evidence.appAsar, {
-    path: join(resolve(directory), "resources", "app.asar"),
+    path: join(canonicalDirectory, "resources", "app.asar"),
     sha256: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
   });
   assert.deepEqual(evidence.cli, {
-    path: join(resolve(directory), "resources", "knorvia", "knorvia.cjs"),
+    path: join(canonicalDirectory, "resources", "knorvia", "knorvia.cjs"),
     sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   });
 });
