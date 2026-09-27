@@ -22098,6 +22098,193 @@
         "specs/knorvia-browser-playwright.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/facade.ts",
+      "normalizedSha256": "e2df5402526d1793ac325de24d47157e976b7abaf26ee1fc96eb6a77ba933b94",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/facade-contract.ts",
+      "normalizedSha256": "5c6d200f9d9925b93d0443b29cf2b3b4b3a4c676dd6e4e0840d58782d22bda19",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-commands.ts",
+      "normalizedSha256": "f769c41b4d79f76843983048d34c663ec36bda24938eb3d00ccc6994591a1deb",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/raw-tab.ts",
+      "normalizedSha256": "9ea6e3219d0c7f9c87dba713035254322005ff3e2006727d00471a8ac5c77cd8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/tab.ts",
+      "normalizedSha256": "28026bf7583204e434286c188f22da5be90b4d5c9b5d16142a4cfed5d6c83d88",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/tab-cua.ts",
+      "normalizedSha256": "42c8cb575ddba140e5f4d9ddb35ee139cab4781c7f81931fc9c6742fb38685af",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-capabilities.ts",
+      "normalizedSha256": "aa2c6047326efb9aef295e6009d34594950eb8ef7d90caf3b1d56cfb85eb1448",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-dialogs.ts",
+      "normalizedSha256": "2bd1527c5ff7431927e44bd57e43b1468062a63c3baf78168422ae1acf978ae5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-recording.ts",
+      "normalizedSha256": "451f8f63ab5953d89bd06827517f67a213a505361faa454fb1cf282637729899",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-objects.ts",
+      "normalizedSha256": "c21b2f922d9fec9b4231219108000cb8e7e113a4c1c25a34438b5eba78cd7332",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-tabs.ts",
+      "normalizedSha256": "c9c4e8d293edf36b7b76fc4552d926de3ac1a1a82a7e99b7c48f45554fc049c9",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-connection.ts",
+      "normalizedSha256": "baab5b1e459dd9fc5eb8bba660a0a6012a3ea7fa43d070021c32498b64bf66cd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/browser-registry.ts",
+      "normalizedSha256": "7353e405103edbc54445feb5d4567ea62eec869025d35263a4c3d27e105d5511",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-tab-contract.test.ts",
+      "normalizedSha256": "416da7d7b56a5e732ef1b28a74e68aea9719aa2f226b063aad73b4ed4396b79c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-capabilities-dialogs.test.ts",
+      "normalizedSha256": "aa652444ecd60cac56d52ffd907bc6c10aaff49436daa49c35ef9f5dec853803",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-registry-contract.test.ts",
+      "normalizedSha256": "a84388bd41f3a86a1ea2eabe2dc8912ad1007d59b2148122971f5deea3855b97",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-interface-surface.test.ts",
+      "normalizedSha256": "7ba89ec6cb0e8eba8d62a8de921efe50e057628b363f0500bfa1ef9de1f3aec8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent browser object and registry implementation from public declarations, BrowserControlPort schemas and black-box compatibility scenarios. Pure command factories, private scoped state and explicit connection/registry ownership replace the old facade body. API names and protocol shapes remain for interoperability. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-facade.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
