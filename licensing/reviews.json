@@ -21966,6 +21966,138 @@
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
       "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
+      "normalizedSha256": "72639a5f4f9a8deb0a95eae217d972903db88ee78ff1b94b441b03e1977153a0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-contract.ts",
+      "normalizedSha256": "dbfbd960de3fe7a6d571d4ba5f82ddc279606e3a10f4873ee43d793124863900",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-frame.ts",
+      "normalizedSha256": "f2c67c9a7968c4a862ffff8e07373c00ddbef863feaffd16f0c0483fc91056c2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-handles.ts",
+      "normalizedSha256": "be06cfa08762ffb9a5ded5484e959739837f20f8241db34680cc4bc787e65dc7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-locator.ts",
+      "normalizedSha256": "c340ff87e4114898629a1da21f7cccbb4f596151dfeeb8d95c2e3f54aab92d85",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-page.ts",
+      "normalizedSha256": "dbf85038cc4c240842ef08bd667a9e4637a891034450a34987b608deee96c346",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-runtime.ts",
+      "normalizedSha256": "f2575bc7cc116801ff94e18e7a0fd559ea36b02ba54c581198db71fee1f0e4a2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/playwright-selectors.ts",
+      "normalizedSha256": "cc78aac8085bbd35ba11770d0ade194e704a2a35bbcd9440a8e505f5a5b2bf44",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-playwright-actions.test.ts",
+      "normalizedSha256": "a1df94ac1e64581c3026a26454c48dbbf426ca5db8fea48d3bad15168f7d6de0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-playwright-runtime.test.ts",
+      "normalizedSha256": "078af01d4069f0112870516ce2caaece0e6c75562b673fd834414f0aa3b72195",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-playwright-selectors.test.ts",
+      "normalizedSha256": "91f95e76b01f023b31905849d4e65bc3e32c1da78d5100782a693a7b0860f692",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-playwright-validation.test.ts",
+      "normalizedSha256": "47b6e698b6b1d8d70cbe240470e45f7c04c68381e5a83c456ac8c429d3a473ba",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently implemented from public TypeScript contracts, protocol action schemas and black-box compatibility tests. Private state, composable selector/transport helpers and the single API catalog replace the old monolithic client. Compatibility names/signatures are retained; baseline validation and async ordering were tested before acceptance. Prior exposure to upstream source is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-playwright.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
