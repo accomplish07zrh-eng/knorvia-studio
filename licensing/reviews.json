@@ -21889,7 +21889,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
-      "normalizedSha256": "21b8ab6dea283a0884c33bf83e707213944eba1f67a7b350f2bfea7bc56ce9e1",
+      "normalizedSha256": "871e0a245acbce6a817b2e236515a110d2a18d7d5975b688e8f4771863aad50d",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
@@ -21905,7 +21905,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
-      "normalizedSha256": "e80662c9b85fbb97dcbbf7513ed6c841a9b47d43f5c78970f67526f8bb8f87ba",
+      "normalizedSha256": "970cfb7d189dd092dd4a195f10b1c09c2b410174ac07f415b8abe09f46f6d42e",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
@@ -21913,7 +21913,7 @@
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
-      "normalizedSha256": "275f212760db37aadd6c4aea14de60aee2f717fce1a4b4f1fb46e1a66c99f0a7",
+      "normalizedSha256": "689c1739d126f4fe67fda804a42868ca7774a680acc6258d48290134d67ff008",
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
@@ -21937,10 +21937,34 @@
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
-      "normalizedSha256": "b70a5a6dc2b6596019f3bccc857e34419c1775a94dd8563f866cb2c7e7985345",
+      "normalizedSha256": "fbfef16c86896b3aea5c02d23fd6f08858ac74fb8ad487183b1fa1e703c880cd",
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
+      "normalizedSha256": "633102bbd9e8bdf655b3f4f5946191e3ea2d85ed95d3a1fd9db9280a4755f5c6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
+      "normalizedSha256": "4a62cdbd04ac61521764e4d3ca9c7d0cf7d5f20134a7c228ea42bc885dd3bba2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
+      "normalizedSha256": "6ac1217fd4f17df8b8a7b605e230dc1cd475ccbff3cd52f09e21edf39e280aad",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
       "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     }
   ]

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Knorvia Studio contributors
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import type { BrowserBackendDescriptor } from "@knorvia/contracts/browser-control";
+import { Tab } from "../src/browser-client/facade.js";
 import {
   BrowserApiPolicy,
   createBrowserApiProxy,
@@ -120,6 +121,27 @@ test("host overrides can enable or disable known members without declaring unkno
   assert.equal(policy.supports("Example", "unknown"), true);
 });
 
+test("supported member views filter overloads without exposing mutable member records", () => {
+  const policy = new BrowserApiPolicy(
+    manifest,
+    descriptor({ type: "extension", capabilities: { browser: features("feature") } }),
+  );
+  const member = policy.supportedMembers("Example").find((item) => item.name === "overloaded")!;
+  assert.deepEqual(
+    member.declarations?.map((declaration) => declaration.signature),
+    ["overloaded(1)"],
+  );
+  assert.notEqual(
+    member,
+    manifest.objects.Example!.members.find((item) => item.name === "overloaded"),
+  );
+  member.signature = "mutated()";
+  assert.equal(
+    policy.supportedMembers("Example").find((item) => item.name === "overloaded")!.signature,
+    "overloaded()",
+  );
+});
+
 test("proxy reads and reflection share one policy and see descriptor updates", () => {
   const symbol = Symbol("fixture");
   const target = { plain: 1, blocked: 2, unknown: 3, [symbol]: 4 };
@@ -167,7 +189,7 @@ test("fallback public surface preserves all declared object and member names", (
     Agent: "browsers documentation",
     Documentation: "get",
     Browsers: "list get getDefault getForUrl open",
-    Browser: "browserId capabilities documentation tabs user",
+    Browser: "browserId capabilities documentation tabs user nameSession",
     BrowserUser: "claimTab history openTabs",
     Tabs: "get new selected list finalize",
     Tab: "id capabilities back close forward getJsDialog goto reload screenshot title url finalize markDeliverable markHandoff cua dom_cua playwright recording setViewportSize viewportSize",
@@ -184,6 +206,10 @@ test("fallback public surface preserves all declared object and member names", (
     PlaywrightFileChooser: "isMultiple setFiles",
     CUAAPI: "click double_click drag keypress move scroll type downloadMedia",
     DomCUAAPI: "click double_click get_visible_dom keypress scroll type downloadMedia",
+    AlertDialog: "type dismiss",
+    BeforeUnloadDialog: "type dismiss",
+    ConfirmDialog: "type accept dismiss",
+    PromptDialog: "type accept dismiss",
   };
   const api = loadBrowserApiManifest();
   assert.deepEqual(Object.keys(api.objects).sort(), Object.keys(expected).sort());
@@ -203,16 +229,61 @@ test("fallback public surface preserves all declared object and member names", (
   assert.equal(internal.supports("PlaywrightFileChooser", "setFiles"), false);
 });
 
+test("fallback and shipped interface catalogs cannot silently drift in surface or capability rules", () => {
+  const shipped: BrowserApiManifest = JSON.parse(
+    readFileSync(new URL("../../browser-use-plugin/docs/api.json", import.meta.url), "utf8"),
+  );
+  const fallback = loadBrowserApiManifest();
+  assert.equal(fallback.version, shipped.version);
+  assert.deepEqual(Object.keys(fallback.objects).sort(), Object.keys(shipped.objects).sort());
+  for (const [name, object] of Object.entries(shipped.objects)) {
+    assert.deepEqual(
+      fallback.objects[name]!.members.map((item) => item.name).sort(),
+      object.members.map((item) => item.name).sort(),
+      name,
+    );
+    for (const type of ["iab", "extension", "cdp"] as const) {
+      const expected = new BrowserApiPolicy(shipped, descriptor({ type }));
+      const actual = new BrowserApiPolicy(fallback, descriptor({ type }));
+      for (const item of object.members)
+        assert.equal(
+          actual.supports(name, item.name),
+          expected.supports(name, item.name),
+          `${type}:${name}.${item.name}`,
+        );
+    }
+  }
+});
+
+test("fallback dialog wrappers expose their existing response methods", async () => {
+  const calls: unknown[] = [];
+  const tab = new Tab(async (command) => {
+    calls.push(command);
+    return command.method === "getDialog"
+      ? { ok: true, elapsedMs: 0, dialog: { type: "confirm", message: "Fixture" } }
+      : { ok: true, elapsedMs: 0 };
+  }).applyPlaywrightPolicy(new BrowserApiPolicy(loadBrowserApiManifest(), descriptor()));
+  const dialog = await tab.getJsDialog();
+  assert.equal(dialog?.type, "confirm");
+  if (dialog?.type !== "confirm") throw new Error("Expected confirm dialog");
+  await dialog.accept();
+  await dialog.dismiss();
+  assert.deepEqual(calls.slice(1), [
+    { method: "handleDialog", accept: true, promptText: undefined },
+    { method: "handleDialog", accept: false, promptText: undefined },
+  ]);
+});
+
 test("manifest loader accepts explicit interface data and falls back on missing or invalid files", () => {
   const directory = mkdtempSync(join(tmpdir(), "knorvia-api-manifest-test-"));
   const path = join(directory, "api.json");
   try {
-    assert.equal(loadBrowserApiManifest(directory).version, 10);
+    assert.equal(loadBrowserApiManifest(directory).version, 12);
     writeFileSync(path, JSON.stringify(manifest));
     assert.deepEqual(loadBrowserApiManifest(directory), manifest);
     for (const invalid of ["not json", JSON.stringify({ version: "wrong", objects: {} }), "[]"]) {
       writeFileSync(path, invalid);
-      assert.equal(loadBrowserApiManifest(directory).version, 10);
+      assert.equal(loadBrowserApiManifest(directory).version, 12);
     }
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -251,6 +322,29 @@ test("structurally invalid manifest data falls back before a policy can crash", 
       writeFileSync(join(directory, "api.json"), JSON.stringify({ version: 1, objects }));
       assert.ok(loadBrowserApiManifest(directory).objects?.Agent, JSON.stringify(objects));
     }
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("duplicate members trigger a safe fallback with a diagnostic that omits document data", (t) => {
+  const warning = t.mock.method(console, "warn", () => {});
+  const directory = mkdtempSync(join(tmpdir(), "knorvia-duplicate-manifest-test-"));
+  try {
+    writeFileSync(
+      join(directory, "api.json"),
+      JSON.stringify({
+        version: 1,
+        objects: { Example: { members: [member("duplicate"), member("duplicate")] } },
+      }),
+    );
+    assert.equal(loadBrowserApiManifest(directory).version, 12);
+    writeFileSync(join(directory, "api.json"), "PRIVATE_DOCUMENT_FIXTURE");
+    assert.equal(loadBrowserApiManifest(directory).version, 12);
+    assert.equal(warning.mock.calls.length, 2);
+    const text = warning.mock.calls.map((call) => call.arguments.join(" ")).join("\n");
+    assert.equal(text.includes(directory), false);
+    assert.equal(text.includes("PRIVATE_DOCUMENT_FIXTURE"), false);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

@@ -47,7 +47,7 @@ export function createBrowserApiCatalog(): BrowserApiManifest {
         "tabs: Tabs",
         "user: BrowserUser",
       ]),
-      ...methods(["documentation(): Promise<string>"]),
+      ...methods(["documentation(): Promise<string>", "nameSession(name: string): Promise<void>"]),
     ],
     BrowserUser: [
       ...methods(["claimTab(tab: string | { id: string }): Promise<Tab>"], extensionOnly),
@@ -239,9 +239,22 @@ export function createBrowserApiCatalog(): BrowserApiManifest {
         documented: false,
       }),
     ],
+    AlertDialog: [...fields(['type: "alert"']), ...methods(["dismiss(): Promise<void>"])],
+    BeforeUnloadDialog: [
+      ...fields(['type: "beforeunload"']),
+      ...methods(["dismiss(): Promise<void>"]),
+    ],
+    ConfirmDialog: [
+      ...fields(['type: "confirm"']),
+      ...methods(["accept(): Promise<void>", "dismiss(): Promise<void>"]),
+    ],
+    PromptDialog: [
+      ...fields(['type: "prompt"']),
+      ...methods(["accept(text: string): Promise<void>", "dismiss(): Promise<void>"]),
+    ],
   };
   return {
-    version: 10,
+    version: 12,
     types: {
       BrowserViewportSize: "{ width: number; height: number }",
       TabInfo:

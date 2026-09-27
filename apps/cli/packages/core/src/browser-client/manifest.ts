@@ -55,7 +55,11 @@ function manifest(value: unknown): value is BrowserApiManifest {
     optional(value.types, stringMap) &&
     record(value.objects) &&
     Object.values(value.objects).every(
-      (object) => record(object) && Array.isArray(object.members) && object.members.every(member),
+      (object) =>
+        record(object) &&
+        Array.isArray(object.members) &&
+        object.members.every(member) &&
+        new Set(object.members.map((item) => item.name)).size === object.members.length,
     )
   );
 }
@@ -65,8 +69,13 @@ export function loadBrowserApiManifest(documentationRoot?: string): BrowserApiMa
     try {
       const parsed: unknown = JSON.parse(readFileSync(join(documentationRoot, "api.json"), "utf8"));
       if (manifest(parsed)) return parsed;
-    } catch {
+      console.warn("[Knorvia Browser API] Invalid api.json; using the built-in interface catalog.");
+    } catch (error) {
       // 可选文档损坏不能让浏览器 SDK 无法初始化，继续使用内置接口目录。
+      if (!record(error) || error.code !== "ENOENT")
+        console.warn(
+          "[Knorvia Browser API] Unable to load api.json; using the built-in interface catalog.",
+        );
     }
   }
   return createBrowserApiCatalog();

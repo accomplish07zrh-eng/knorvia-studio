@@ -46,9 +46,18 @@ export class BrowserApiPolicy {
   }
 
   supportedMembers(objectName: string): BrowserApiManifestMember[] {
-    return (this.manifest.objects[objectName]?.members ?? []).filter((member) =>
-      this.supports(objectName, member.name),
-    );
+    return (this.manifest.objects[objectName]?.members ?? [])
+      .filter((member) => this.supports(objectName, member.name))
+      .map((member) => ({
+        ...member,
+        ...(member.declarations
+          ? {
+              declarations: member.declarations.filter((declaration) =>
+                this.#satisfies(declaration),
+              ),
+            }
+          : {}),
+      }));
   }
 
   #satisfies(requirement: BrowserApiRequirement): boolean {
