@@ -22681,6 +22681,105 @@
         "specs/knorvia-repl-transport.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/browser-bridge.ts",
+      "normalizedSha256": "2936258f79a3e04523779c2404e2a11ac578cd84e1309ed4aea4f10ad9bbea39",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/cua-bridge.ts",
+      "normalizedSha256": "6db5d9690941b6e968a479680083ceeef22f27f6d3cecf9ba6ff54c4c3a1918b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/runtime-bridge.ts",
+      "normalizedSha256": "b32b29147d07cf4b3579548d94b7679712b2fb2c15a5b1185bb3b472ff741cc9",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/execution-binding.ts",
+      "normalizedSha256": "65e016f3740973130ddf91be24ce7bdacec487cb814684a206f94497da3f4d13",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/bridge-observations.ts",
+      "normalizedSha256": "be660d916e6b85ccd336502fa2cc89dfb268e142935508b03bc0e0c65c4d3399",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/bridge-test-support.ts",
+      "normalizedSha256": "8f17ec746564b9c0b0c96ac107c7c61367331c30b6a40e9532b35cea044858e2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/bridge-contract.test.ts",
+      "normalizedSha256": "cfe48fa94626656a75018ca093e1d09978ea5e5197199905217fc20e8a78c506",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/browser-bridge.test.ts",
+      "normalizedSha256": "bb08467257934565fd78609277eb7c40231413c9520afaa99a93c04831a9d8a2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/computer-bridge.test.ts",
+      "normalizedSha256": "7bbcbff70fd825a0faafdf0d832db8cb0781eb4031950635ebaf962ab10d586b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host capability design separates execution validity, namespaced transport, and pure observation projection with one publisher to the existing Session owner. Public symbol and method contracts, metadata keys, command observation membership and error vocabulary remain compatibility constraints. Eighteen test groups first passed the former implementation, then the replacement; they cover all 49 browser methods, all 16 locator operations, request identities, response validation, reset/cancel gates, image provenance and primary app records. Real built MCP and browser SDK are checked with local simulated brokers. Prior source access is disclosed and this is not a no-access clean-room claim; neither moved files nor behavioral equivalence alone establishes authorship. The remaining MCP service, lifecycle and third-party drivers are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-bridges.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

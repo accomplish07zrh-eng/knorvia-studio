@@ -1,11 +1,13 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia contributors
 import type { NodeReplSession } from "@knorvia/core/repl";
 import type { CallToolResult } from "@modelcontextprotocol/server";
-import { CUA_APP_ASSOCIATIONS_META_KEY } from "@knorvia/cua/host-display-contract";
-import { activeCall, type ActiveNodeReplCall } from "./browser-bridge.js";
-import { brokerCall, callContext, textField } from "./ipc.js";
+import { ExecutionBinding, type ActiveNodeReplCall } from "./execution-binding.js";
+import { brokerCall, callContext } from "./ipc.js";
+import { computerObservations, publishObservations } from "./bridge-observations.js";
 
 export const NODE_REPL_CUA_BRIDGE_SYMBOL = Symbol.for("knorvia.node-repl.computer-use-bridge");
-export const CUA_UNAVAILABLE_IN_SUBAGENT_MESSAGE = "Computer Use is not available in subagent";
+export { CUA_UNAVAILABLE_IN_SUBAGENT_MESSAGE } from "./execution-binding.js";
 export type ActiveCuaNodeReplCall = ActiveNodeReplCall;
 export interface NodeReplCuaBrokerConnection {
   socketPath: string;
@@ -23,41 +25,31 @@ export function createComputerUseBridgeGlobals(input: {
   session(): NodeReplSession;
   documentationRoot: string;
 }): Record<PropertyKey, unknown> {
-  const available = () => {
-    const call = activeCall(input, "Computer Use");
+  const binding = new ExecutionBinding(input, "Computer Use");
+  const connection = () => {
     if (!input.broker) throw new Error("Computer Use is unavailable for this node_repl session");
-    return { call, broker: input.broker };
+    return input.broker;
   };
   const bridge: ComputerUseRuntimeBridge = {
     documentationRoot: input.documentationRoot,
-    assertAvailable: () => {
-      available();
+    assertAvailable() {
+      binding.current();
+      connection();
     },
-    call: async (method, payload) => {
-      const { call, broker } = available();
-      const frame = await brokerCall(
-        broker,
-        { method, input: payload, context: callContext(call.requestMeta, true) },
-        call.signal,
-      );
-      activeCall(input, "Computer Use");
-      const result = frame.result as CallToolResult | undefined;
-      if (!result || !Array.isArray(result.content))
-        throw new Error("Computer Use broker returned no result");
-      if (frame.responseMeta && typeof frame.responseMeta === "object")
-        input.session().mergeResponseMeta(frame.responseMeta as Record<string, unknown>);
-      const associations = result._meta?.[CUA_APP_ASSOCIATIONS_META_KEY] as
-        | { primary?: Record<string, unknown> }
-        | undefined;
-      const primary = associations?.primary;
-      if (primary && typeof primary === "object") {
-        const appKey = textField(primary, "appKey");
-        const displayName = textField(primary, "displayName");
-        if (appKey)
-          input.session().recordCuaAppIdentity({ appKey, ...(displayName ? { displayName } : {}) });
-      }
-      return result;
-    },
+    call: (method, payload) =>
+      binding.exchange(
+        (execution) =>
+          brokerCall(
+            connection(),
+            { method, input: payload, context: callContext(execution.requestMeta, true) },
+            execution.signal,
+          ),
+        (frame) => {
+          const { result, observations } = computerObservations(frame);
+          if (observations.length) publishObservations(input.session(), observations);
+          return result;
+        },
+      ),
   };
   return { [NODE_REPL_CUA_BRIDGE_SYMBOL]: bridge };
 }
