@@ -23132,6 +23132,160 @@
         "specs/knorvia-tool-schema-contracts.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/repl/session-registry.ts",
+      "normalizedSha256": "c35003b331268e84f2cee042ad9c079eab433028030f29e26319a353dfa7d2f5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Specification-driven entry ownership and AsyncLocalStorage invocation lifetimes replace the prior three shared mutable tables. Opaque per-entry injection epochs, pre/post-await origin checks and entry revocation prevent Busy cleanup and completed-call continuations from borrowing another turn. NodeReplSession remains the sole VM/admission/reset owner. Original failures were reproduced before implementation; controlled real-handler and SDK probes verify both rejection of old work and intentional reuse of persistent functions. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/repl/browser-observations.ts",
+      "normalizedSha256": "feb11d6c8b247211cd7a02fbd9eda23bc491d9ad5d6f945e9be88bae0aca3919",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New pure observation projection takes the command and returned facts, produces a screenshot source and metadata independently, and keeps the core-specific evaluate/locator policy distinct from MCP host policy. The transport applies this projection only after validating the originating invocation. All 49 command methods across success/failure, 16 locator operations, page evaluate and missing observations are exercised. Required protocol sets and metadata fields are retained functional facts. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/repl/artifacts.ts",
+      "normalizedSha256": "a4abb78245278e2ce982424b09f745813ed1c040c0ffcbb8e5d437204558775b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New focused port adapter persists only Session-attested image positions using the owning request context, original method receiver and cancellation signal. MIME extension selection and returned-path handling are isolated from evaluation and presentation. A first-draft absolute-path normalization difference was caught by a failing compatibility case and corrected; 180 pinned-source comparisons agree. The standard binary request fields and sequential write behavior are compatibility requirements, not a novel algorithm claim. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/repl/output.ts",
+      "normalizedSha256": "6ef8c037f191fc70277875cc69571f0a4a247d7ce90ab37ff94e758dd03533a7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New explicit projection restricts core output to its supported channels. A text-section iterator separates error-stack normalization, logs, completion values and artifact notices from image-block construction, preserving multi-line headers and image-before-text order. Eight thousand fixed-seed valid-shape output comparisons to pinned prior source agree. Output wording and data field names needed by existing consumers are functional compatibility facts. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/repl/description.ts",
+      "normalizedSha256": "fe55babbb094f1814aedfbe6ecd8629e63ae3517f322f834310393f6632952b8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Newly authored, numbered browser workflow describes the current persistent core tool and retained behavioral requirements from the migration specification: explicit browser selection, visible DOM evidence, joint popup observations, conditional same-cell images, failure recovery and untrusted page data. It does not copy the old paragraph sequence/body or claim invention of the SDK method names and browser workflow requirements. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/node-repl.ts",
+      "normalizedSha256": "39cd2857d3573df8a57763e91b5e1144a8fb2780edcd07b0dcc08b50da02491c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New stable-entry composition delegates validated execution, artifact persistence and output formatting to the independently designed boundaries. The static tool declaration retains permission/risk/trace/result/time budgets required by the executor; capability and explanatory text are newly written. Public registry validation confirms the raw JS surface remains explicit opt-in. This file no longer owns mutable active-context/generation maps or embedded browser observation and prompt implementations. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/node-repl-model-content.ts",
+      "normalizedSha256": "52c3cedce04708b66b51a351653bd2680ab2fda74539587f778be4cb3ad1affc",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Minimal compatibility export routes the existing import path to the newly authored output presenter. The trivial export itself is not claimed as a new algorithm; the former formatter implementation has been replaced by the reviewed presenter. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-tool-fixture.ts",
+      "normalizedSha256": "6c044dd8b2c6abd85114825ad10aac126150d51d6a2f77a90128aa38fd4cc915",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline handler fixture retains the real VM/session while substituting only browser runtime installation, with synthetic contexts, deterministic Promise gates and automatic session cleanup. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-tool-lifetime.test.ts",
+      "normalizedSha256": "86457ff67a6849dc40adf5af79dce8337b5459cd87027da7d161533a1aa38b76",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New executable lifecycle scenarios characterize persistence, validation-before-construction, pinned capability settings, request/trace propagation, Busy overlap, completed-call continuations, disposal, cancellation and timeout reset. Four original failures were executed and recorded before the replacement. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-tool-observations.test.ts",
+      "normalizedSha256": "53baa8ac5c4bc8059659a473b62d065c8bf0c55cd03bd9b0d51a7754456e38a4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline compatibility cases enumerate the public command vocabulary, checking success/failure metadata, preview exclusions, the distinct core evaluate policy and missing observations through the real handler. Synthetic transport installation does not constitute real browser/device coverage. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-tool-output.test.ts",
+      "normalizedSha256": "192be8c871fd547edea0971a812aa075e425d3bce93e86b22f3483ed2ef96976",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New tests check model block/text order, multi-line errors, static approval and budget declarations, trusted image occurrence counts, binary store receiver/context, failed writes and overlapping artifact waits. Fixtures contain no user data and perform no disk artifact writes. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-tool-artifacts.test.ts",
+      "normalizedSha256": "84028687c37308e7b5577429aaae75a6740ca6cac435d46c4e4a81af1544731b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New focused tests capture MIME and optional-writer behavior, missing image positions, absolute path spelling, relative resolution and core output trust-channel exclusion. The absolute-path test failed on the initial replacement before its correction. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-tool-sdk.test.ts",
+      "normalizedSha256": "4cf3737c327826962d416c26443aaf9678be2b2f302952b22551f812045d419c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New integration tests use the actual core Browser SDK and Session with an in-memory backend. They verify persistent tabs, screenshots, explicitly advertised finalization, request identity, rejection of a completed-cell promise continuation and legitimate next-cell invocation of a persistent function. No real browser is driven. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-core-repl-tool.md",
+      "normalizedSha256": "6e6ba4efacb015b9715a1a2afe51fbf773984f72b0688d45803b81471168ab37",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New migration specification records state ownership, event order, browser capability lifetime, authority revocation, output and permission compatibility, acceptance evidence and scoped licensing limitations. Existing protocol facts are documented without claiming their invention. Prior source access is disclosed; this is not a no-access clean-room claim. Existing API identifiers, command policies, field ordering and permission constants are interoperability constraints, not evidence of original authorship. This decision is limited to the listed file and does not relicense other core code, Node, third-party SDKs, UI or remaining upstream modules.",
+      "evidence": [
+        "specs/knorvia-core-repl-tool.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
