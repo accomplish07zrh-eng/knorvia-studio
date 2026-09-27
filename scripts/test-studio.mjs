@@ -26,6 +26,7 @@ const tests = [
   "packages/cua/test/stage-windows-driver.test.mjs",
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
   "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
+  "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
 ];
 
 for (const directory of testDirectories) {

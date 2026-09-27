@@ -171,3 +171,19 @@ CLI 构建 17/17 成功，15.64 秒，仍有已有动态 import 和 Turbo output
 完整离线回归 `pnpm test:studio` 1,066/1,066 通过，0 失败、0 跳过，185.33 秒；格式检查通过。来源清单 7,486 项：44 项独立替换、22 项自有新增、1,806 项第三方、2,173 项上游原样、2,407 项上游修改、1,033 项待复核及 1 项生成报告，复核问题 0。
 
 下一边界的本地 socket 探测已确认：workspacePath/workspaceIdentity 元数据被旧 strict schema 拒绝；含中文的合法 fill 命令跨 UTF-8 字节分块后，旧接收器把“中文”变成“���文”却报告成功；存在空闲客户端时旧 close 未在探测期限内完成，断开客户端后才完成。它们尚未包含在本协议转发器的修复中，不将本批通过扩展为整个浏览器 MCP 链路已无问题。
+
+协议检查点已提交并推送为 `887e070`，暂存密钥扫描 38.21 KB、0 发现；GitHub 工作流 run `36325769384` 的 Windows、Linux job 均成功。
+
+## 浏览器本地 IPC 转发
+
+按 `specs/knorvia-browser-local-broker.md` 独立实现 server 生命周期、按字节收集的帧读取器和已鉴权连接处理器，替换旧 node-repl-browser-broker 正文。工厂拥有 socket 集和关闭 Promise；每次关闭立即撤销请求，再销毁连接与关闭 server，避免等待不合作的空闲客户端。帧拼接后才解码，保留 UTF-8 中文与表情；schema、token、main scope、同一请求 ID 及底层端口边界继续生效。
+
+8 项正常契约在旧版通过；UTF-8 分块、空闲连接关闭和浏览器 metadata/schema 不一致的 3 项在旧版失败。新实现通过全部 11 项，另补真实宿主桥接、在途关闭、诊断不回显凭据和 1 MiB 精确边界，共 15/15 通过。关闭的 AbortController 在 close 返回前撤销，以防已读完的帧在 socket close 事件前再次 admission；幂等 Promise 先登记，避免 abort 回调重入时创建第二条关闭流程。
+
+node-repl-host 的共享 IPC 模块只调整 metadata：浏览器不再发送不属于协议的 workspace 字段，Computer Use 仍完整保留它们。本次没有给该既有文件新增独立实现认定。工作区身份仍由宿主 session 决定，没有放宽 strict schema 或信任客户端身份。新增错误诊断不会回显 broker token，也不会使用 JSON.parse 附带的输入片段。
+
+根/CLI 类型、根/CLI lint 0/0、严格检查变更的 5 个源码/测试文件（0 诊断）、变更架构 0 违规通过。独立测试类型检查首次缺少 Node 类型入口，并发现 Buffer/string、stdio 配置联合类型与环境变量键类型问题；显式采用 Node 类型并修正测试后通过。CLI 构建 17/17 成功，15.72 秒；已有两类构建提示仍保留。
+
+实际构建的 MCP 宿主、浏览器插件和本地 broker 已共同执行发现、新建标签页及 Playwright 中文 fill：包含 workspace metadata 的真实宿主桥接成功通过鉴权管道。CLI source map 的 3 个新模块与 dist 字节一致（归一换行）。第一次模拟回执缺少协议要求的 viewport，按既有 schema 补齐测试夹具后通过，没有放宽协议。全程未操作真实浏览器、调用模型、修改 UI、打包桌面或覆盖便携数据。
+
+完整离线回归 `pnpm test:studio` 1,081/1,081 通过，0 失败、0 跳过，183.08 秒。最终根/CLI 类型、严格变更 lint、新测试类型、格式与变更架构检查通过。此检查点来源清单共 7,490 项：47 项独立替换、23 项自有新增、1,806 项第三方、2,173 项上游原样、2,406 项上游修改、1,034 项待复核及 1 项生成报告，复核问题 0；这些计数不代表全量迁移或根许可证调整已完成。

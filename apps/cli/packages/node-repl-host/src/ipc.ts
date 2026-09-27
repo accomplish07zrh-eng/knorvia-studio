@@ -80,9 +80,15 @@ export function callContext(
   const context: Record<string, unknown> = { sessionId, runtimeScope: "main" };
   const fields = {
     turn_id: "turnId",
-    workspace_path: "workspacePath",
-    workspace_identity: "workspaceIdentity",
-    remote_session_id: "remoteSessionId",
+    // Browser 的 strict wire schema 不接受工作区断言；身份由宿主会话派生。
+    // Computer Use 仍需要这些字段，不可为修复 Browser 而同时移除。
+    ...(computerUse
+      ? {
+          workspace_path: "workspacePath",
+          workspace_identity: "workspaceIdentity",
+          remote_session_id: "remoteSessionId",
+        }
+      : {}),
   };
   for (const [source, target] of Object.entries(fields)) {
     const value = textField(meta, source);

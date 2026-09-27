@@ -22362,6 +22362,50 @@
         "specs/knorvia-browser-protocol-broker.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/node-repl-browser-broker.ts",
+      "normalizedSha256": "11e3d365aa2b153ec55be525271ce88f5bad42f382b21637949323ee153336e2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-local-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/browser-broker-frame.ts",
+      "normalizedSha256": "39909f8a17d7cf875418562e6b88cf09964b97b09edc5a25042b9abb0066ec08",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-local-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/browser-broker-connection.ts",
+      "normalizedSha256": "093933548ff64d80300ce8f74488a47d9acf12c6a7939fb7e1c4e9196c5972cd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-local-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
+      "normalizedSha256": "ae4c7f1fdf664c6a10b0cdc490aeb6d529844cae605f58408572a6bd0286c6de",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent broker lifecycle, bounded byte framing and authenticated request dispatch designed from the documented local protocol and observable port contracts. Server ownership, per-connection cancellation and frame decoding are separated. Eight baseline contracts were verified before replacement, with UTF-8 corruption, stalled shutdown and metadata rejection reproduced. Shared schemas and port interfaces remain compatibility dependencies. Existing node-repl-host IPC only receives a scoped bug fix and is not assigned a new provenance decision here. Prior source exposure is disclosed; not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-local-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
