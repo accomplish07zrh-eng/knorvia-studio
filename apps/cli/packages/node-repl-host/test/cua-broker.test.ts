@@ -2,7 +2,7 @@
 // Copyright (c) 2026 Knorvia contributors
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { addAbortListener, once } from "node:events";
+import { addAbortListener } from "node:events";
 import { access } from "node:fs/promises";
 import { test } from "node:test";
 import { promisify } from "node:util";
@@ -231,7 +231,14 @@ test(
     partial.socket.write('{"id":');
     running.send();
     const signal = await entered.promise;
-    const finished = [once(running.socket, "close"), once(partial.socket, "close")];
+    // Linux 对未读完的请求可能以 ECONNRESET 结束；events.once 会先据此拒绝，
+    // 但本用例验证的是强制关闭屏障，因此直接等待 close，错误由 client 夹具接收。
+    const finished = [running, partial].map(
+      ({ socket }) =>
+        new Promise<void>((resolve) => {
+          socket.once("close", resolve);
+        }),
+    );
     const closing = broker.close();
     assert.equal(broker.close(), closing);
     await closing;

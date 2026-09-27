@@ -22827,12 +22827,56 @@
     },
     {
       "path": "apps/cli/packages/node-repl-host/test/cua-broker.test.ts",
-      "normalizedSha256": "e627c1282a1fff4dd7c5c9ea430963d2a6ca16bddf0658c836ca95fbe39f730a",
+      "normalizedSha256": "d4836938d1cb17bbfe1fe74fcf0e2794e79de91450380cf5863d2d76fadf7639",
       "decision": "original",
       "license": "MIT",
       "basis": "Independent local service architecture separates the one-frame socket lifetime owner from authenticated Computer Use request adaptation and diagnostic serialization. Public connection, runtime and identity contracts remain compatible. Fourteen real local IPC contract groups ran before replacement: thirteen passed and an isolated child demonstrated that an unprintable thrown value crashes the former host; all pass after replacement. Actual built MCP stdio and worker verify context, app provenance, error containment and subsequent availability. Prior source access is disclosed; this is not a no-access clean-room claim and file splitting, new hashes or compatibility alone do not establish authorship. Runtime device code, permissions and the remaining host modules are outside this decision.",
       "evidence": [
         "specs/knorvia-repl-computer-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/result.ts",
+      "normalizedSha256": "b6f73b24be278525aba73778a394549cf9f85677d8c0768304397228cc7c6c6a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent pure result projection separates presentation selection, a content tape with host image-location mapping, indivisible frame-pair reduction, and metadata/authority policy. Existing MCP shapes, content order, explicit-versus-fallback deduplication and public metadata keys remain compatibility requirements. Fifteen contract groups first ran against the former adapter (fourteen passed; JSON __proto__ metadata replaced the output prototype); all pass on the new implementation. Frame authority branches use a mocked public predicate because the current CUA implementation does not attest them. Actual built MCP stdio/worker and Browser/CUA simulated integration verify ordering, provenance, error isolation and continued calls. Prior source access is disclosed, not a no-access clean-room claim; different hashes or equivalent behavior alone do not establish independent authorship. Remaining process/queue/worker implementations and third-party contracts stay outside this scope.",
+      "evidence": [
+        "specs/knorvia-repl-results.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/result-layout.ts",
+      "normalizedSha256": "3a8637dd3d61a3d6146bc541bf534b67353179913c75a76c9a54191746de6657",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent pure result projection separates presentation selection, a content tape with host image-location mapping, indivisible frame-pair reduction, and metadata/authority policy. Existing MCP shapes, content order, explicit-versus-fallback deduplication and public metadata keys remain compatibility requirements. Fifteen contract groups first ran against the former adapter (fourteen passed; JSON __proto__ metadata replaced the output prototype); all pass on the new implementation. Frame authority branches use a mocked public predicate because the current CUA implementation does not attest them. Actual built MCP stdio/worker and Browser/CUA simulated integration verify ordering, provenance, error isolation and continued calls. Prior source access is disclosed, not a no-access clean-room claim; different hashes or equivalent behavior alone do not establish independent authorship. Remaining process/queue/worker implementations and third-party contracts stay outside this scope.",
+      "evidence": [
+        "specs/knorvia-repl-results.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/result-contract.test.ts",
+      "normalizedSha256": "10d256500fd8d691fba9025a42a3d4933efeef3d1085cc83d17873343b064c50",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pure result projection separates presentation selection, a content tape with host image-location mapping, indivisible frame-pair reduction, and metadata/authority policy. Existing MCP shapes, content order, explicit-versus-fallback deduplication and public metadata keys remain compatibility requirements. Fifteen contract groups first ran against the former adapter (fourteen passed; JSON __proto__ metadata replaced the output prototype); all pass on the new implementation. Frame authority branches use a mocked public predicate because the current CUA implementation does not attest them. Actual built MCP stdio/worker and Browser/CUA simulated integration verify ordering, provenance, error isolation and continued calls. Prior source access is disclosed, not a no-access clean-room claim; different hashes or equivalent behavior alone do not establish independent authorship. Remaining process/queue/worker implementations and third-party contracts stay outside this scope.",
+      "evidence": [
+        "specs/knorvia-repl-results.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/result-frames.test.ts",
+      "normalizedSha256": "6dc71d67b547dafccdb9e657549976df9bc3f1e0159e97d562f6c367d778aa1d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pure result projection separates presentation selection, a content tape with host image-location mapping, indivisible frame-pair reduction, and metadata/authority policy. Existing MCP shapes, content order, explicit-versus-fallback deduplication and public metadata keys remain compatibility requirements. Fifteen contract groups first ran against the former adapter (fourteen passed; JSON __proto__ metadata replaced the output prototype); all pass on the new implementation. Frame authority branches use a mocked public predicate because the current CUA implementation does not attest them. Actual built MCP stdio/worker and Browser/CUA simulated integration verify ordering, provenance, error isolation and continued calls. Prior source access is disclosed, not a no-access clean-room claim; different hashes or equivalent behavior alone do not establish independent authorship. Remaining process/queue/worker implementations and third-party contracts stay outside this scope.",
+      "evidence": [
+        "specs/knorvia-repl-results.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
     }
