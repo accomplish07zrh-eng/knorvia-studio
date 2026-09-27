@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type { BrowserCommand, BrowserCommandResult } from "@knorvia/contracts/browser-control";
 
 export class BrowserCommandError extends Error {
@@ -6,8 +8,9 @@ export class BrowserCommandError extends Error {
   readonly result: BrowserCommandResult;
 
   constructor(command: BrowserCommand, result: BrowserCommandResult, fallbackCode: string) {
-    const code = result.error?.code ?? fallbackCode;
-    super(result.error?.message ?? `Browser command failed: ${code}`);
+    const detail = result.error;
+    const code = detail?.code ?? fallbackCode;
+    super(detail?.message ?? `Browser command failed: ${code}`);
     this.name = "BrowserCommandError";
     this.code = code;
     this.command = command;
@@ -16,17 +19,15 @@ export class BrowserCommandError extends Error {
 }
 
 export function base64ToBytes(base64: string): Uint8Array {
-  return new Uint8Array(Buffer.from(base64, "base64"));
+  return Uint8Array.from(Buffer.from(base64, "base64"));
 }
 
 export function expectOk(
   command: BrowserCommand,
   result: BrowserCommandResult,
 ): BrowserCommandResult {
-  if (!result.ok) {
-    throw new BrowserCommandError(command, result, "browser_command_failed");
-  }
-  return result;
+  if (result.ok) return result;
+  throw new BrowserCommandError(command, result, "browser_command_failed");
 }
 
 export function expectPayload<T>(
@@ -36,16 +37,11 @@ export function expectPayload<T>(
   payloadName: string,
 ): T {
   expectOk(command, result);
-  if (value === undefined) {
-    throw new BrowserCommandError(
-      command,
-      {
-        ...result,
-        ok: false,
-        error: { code: "execution_error", message: `Browser result missing ${payloadName}` },
-      },
-      "execution_error",
-    );
-  }
-  return value;
+  if (value !== undefined) return value;
+  const missing: BrowserCommandResult = {
+    ...result,
+    ok: false,
+    error: { code: "execution_error", message: `Browser result missing ${payloadName}` },
+  };
+  throw new BrowserCommandError(command, missing, "execution_error");
 }
