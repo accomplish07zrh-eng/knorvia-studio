@@ -66,5 +66,8 @@
       "types": "./restricted-gate.d.ts",
       "import": "./restricted-gate.js"
     }
+  },
+  "devDependencies": {
+    "fflate": "0.8.3"
   }
 }

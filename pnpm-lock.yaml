@@ -627,7 +627,11 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
 
-  packages/cua: {}
+  packages/cua:
+    devDependencies:
+      fflate:
+        specifier: 0.8.3
+        version: 0.8.3
 
   packages/desktop:
     dependencies:

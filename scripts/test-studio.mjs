@@ -22,6 +22,7 @@ const testDirectories = [
 const tests = [
   "scripts/knorvia-agent-base.test.ts",
   "scripts/release-gate.test.ts",
+  "packages/cua/test/stage-windows-driver.test.mjs",
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
 ];
 

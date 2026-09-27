@@ -1,18 +1,37 @@
-import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
-import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { promisify } from "node:util";
+import { unzipSync } from "fflate";
 import { WINDOWS_CUA_ARTIFACT as artifact } from "../windows-artifact.js";
 
-const execute = promisify(execFile);
 const packageRoot = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../../../apps/cli/packages/cua-plugin",
 );
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const MAX_ARCHIVE_BYTES = 64 * 1024 * 1024;
+
+export function verifyWindowsCuaArchive(bytes, pinned = artifact) {
+  if (bytes.length > MAX_ARCHIVE_BYTES || digest(bytes) !== pinned.sha256)
+    throw new Error("Cua official archive SHA-256 mismatch");
+  // 云端的两种 PowerShell 解压命令均卡住；在 Node 内解压固定清单，消除子进程依赖。
+  // 先验整包、后验每个文件，未校验通过前不写入插件目录，也不提取归档提供的任意路径。
+  const files = unzipSync(bytes, {
+    filter: ({ name, originalSize }) => {
+      if (!Object.hasOwn(pinned.files, name)) return false;
+      if (originalSize > MAX_ARCHIVE_BYTES) throw new Error(`Cua binary is too large: ${name}`);
+      return true;
+    },
+  });
+  for (const [filename, sha256] of Object.entries(pinned.files)) {
+    if (!Object.hasOwn(files, filename))
+      throw new Error(`Required Cua binary is missing: ${filename}`);
+    if (digest(files[filename]) !== sha256)
+      throw new Error(`Cua binary SHA-256 mismatch: ${filename}`);
+  }
+  return files;
+}
 
 export async function stageWindowsCuaDriver({
   outDir = join(packageRoot, "dist/windows"),
@@ -20,81 +39,32 @@ export async function stageWindowsCuaDriver({
 } = {}) {
   if (process.platform !== "win32" || process.arch !== "x64")
     throw new Error("Cua desktop packaging currently supports Windows x64 only.");
-  const scratch = await mkdtemp(join(tmpdir(), "knorvia-cua-stage-"));
-  try {
-    let archive = archivePath ? resolve(archivePath) : join(scratch, "driver.zip");
-    if (!archivePath) {
-      const response = await fetch(artifact.url, { signal: AbortSignal.timeout(120_000) });
-      if (!response.ok) throw new Error(`Cua artifact download failed: HTTP ${response.status}`);
-      const bytes = Buffer.from(await response.arrayBuffer());
-      if (bytes.length > 64 * 1024 * 1024 || digest(bytes) !== artifact.sha256)
-        throw new Error("Cua official archive SHA-256 mismatch");
-      await writeFile(archive, bytes);
-    }
-    if (digest(await readFile(archive)) !== artifact.sha256)
-      throw new Error("Cua official archive SHA-256 mismatch");
-    const extracted = join(scratch, "extracted");
-    // Windows runner 两次在 Expand-Archive 解压阶段耗尽 60 秒；直接用系统 ZIP API
-    // 提取三个已钉住的文件，不加载归档命令模块或提取未使用的 SDK，也不放宽超时。
-    // 路径与文件名经环境变量传入，避免把本地路径拼入 PowerShell 代码。
-    await execute(
-      "powershell.exe",
-      [
-        "-NoProfile",
-        "-NonInteractive",
-        "-Command",
-        [
-          "$ErrorActionPreference = 'Stop'",
-          "Add-Type -AssemblyName System.IO.Compression.FileSystem",
-          "$zip = [IO.Compression.ZipFile]::OpenRead($env:KNORVIA_CUA_STAGE_ARCHIVE)",
-          "try {",
-          "[IO.Directory]::CreateDirectory($env:KNORVIA_CUA_STAGE_DESTINATION) | Out-Null",
-          "foreach ($name in ($env:KNORVIA_CUA_STAGE_FILES | ConvertFrom-Json)) {",
-          "$entry = $zip.GetEntry($name)",
-          "if ($null -eq $entry) { throw 'Required Cua binary is missing' }",
-          "$destination = [IO.Path]::Combine($env:KNORVIA_CUA_STAGE_DESTINATION, $name)",
-          "[IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destination)",
-          "}",
-          "} finally { $zip.Dispose() }",
-        ].join("\n"),
-      ],
-      {
-        windowsHide: true,
-        timeout: 60_000,
-        env: {
-          ...process.env,
-          KNORVIA_CUA_STAGE_ARCHIVE: archive,
-          KNORVIA_CUA_STAGE_DESTINATION: extracted,
-          KNORVIA_CUA_STAGE_FILES: JSON.stringify(Object.keys(artifact.files)),
-        },
-      },
-    );
-    for (const [filename, sha256] of Object.entries(artifact.files)) {
-      if (digest(await readFile(join(extracted, filename))) !== sha256)
-        throw new Error(`Cua binary SHA-256 mismatch: ${filename}`);
-    }
-    await mkdir(outDir, { recursive: true });
-    for (const filename of Object.keys(artifact.files))
-      await copyFile(join(extracted, filename), join(outDir, filename));
-    // 只移除本轮原型的确切产物，禁止把旧原型混进正式插件。
-    await rm(join(outDir, "knorvia-computer-driver.exe"), { force: true });
-    const manifest = {
-      schemaVersion: 2,
-      platform: "win32",
-      arch: "x64",
-      backend: "cua-driver",
-      version: artifact.version,
-      filename: "cua-driver.exe",
-      source: artifact.url,
-      archiveSha256: artifact.sha256,
-      files: artifact.files,
-    };
-    await writeFile(join(outDir, "driver.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-    return manifest;
-  } finally {
-    // scratch 是本函数刚创建的临时目录，不接受调用者指定的清理目标。
-    await rm(scratch, { recursive: true, force: true });
+  let bytes;
+  if (archivePath) bytes = await readFile(resolve(archivePath));
+  else {
+    const response = await fetch(artifact.url, { signal: AbortSignal.timeout(120_000) });
+    if (!response.ok) throw new Error(`Cua artifact download failed: HTTP ${response.status}`);
+    bytes = Buffer.from(await response.arrayBuffer());
   }
+  const files = verifyWindowsCuaArchive(bytes);
+  await mkdir(outDir, { recursive: true });
+  for (const filename of Object.keys(artifact.files))
+    await writeFile(join(outDir, filename), files[filename]);
+  // 只移除本轮原型的确切产物，禁止把旧原型混进正式插件。
+  await rm(join(outDir, "knorvia-computer-driver.exe"), { force: true });
+  const manifest = {
+    schemaVersion: 2,
+    platform: "win32",
+    arch: "x64",
+    backend: "cua-driver",
+    version: artifact.version,
+    filename: "cua-driver.exe",
+    source: artifact.url,
+    archiveSha256: artifact.sha256,
+    files: artifact.files,
+  };
+  await writeFile(join(outDir, "driver.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+  return manifest;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
