@@ -22285,6 +22285,39 @@
         "specs/knorvia-browser-facade.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/index.ts",
+      "normalizedSha256": "83ffc6c32c35318668940eb5b0bd1263e70c50f082dc0ccda8056f31ca52bcd8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent runtime installation and compatibility exports from documented namespace/document routing behavior. Namespace construction, provider delegation and browser view installation are separated. The previous Computer Use provider retains its receiver; behavior and legacy failure were verified with offline tests. Public API names are retained. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-runtime-installation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/browser-client/runtime-installation.ts",
+      "normalizedSha256": "d6d4b26315aa5f4b0b3ecf042084bfa1543be0028716d6a5c5a0bd054bcfa431",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent runtime installation and compatibility exports from documented namespace/document routing behavior. Namespace construction, provider delegation and browser view installation are separated. The previous Computer Use provider retains its receiver; behavior and legacy failure were verified with offline tests. Public API names are retained. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-runtime-installation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-runtime-installation.test.ts",
+      "normalizedSha256": "014a025b07cd13c926862f4c39f08f9a4df577695c7dcf4fa6509f170890cedc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent runtime installation and compatibility exports from documented namespace/document routing behavior. Namespace construction, provider delegation and browser view installation are separated. The previous Computer Use provider retains its receiver; behavior and legacy failure were verified with offline tests. Public API names are retained. Prior source exposure is disclosed; no no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-runtime-installation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

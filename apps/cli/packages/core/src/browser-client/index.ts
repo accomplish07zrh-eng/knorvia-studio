@@ -1,18 +1,13 @@
-import {
-  BrowsersFacade,
-  type BrowserAvailabilityGuard,
-  type BrowserClientTransport,
-} from "./facade.js";
-import { loadBrowserDocumentation } from "./documentation.js";
-
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 export {
   BrowsersFacade,
   Browser,
   BrowserTabs,
   BrowserRecordingAPI,
-  type BrowserTabInfo,
   RawTab,
   Tab,
+  type BrowserTabInfo,
   type BrowserBackendType,
   type BrowserAvailabilityGuard,
   type BrowserCapabilityInfo,
@@ -43,30 +38,4 @@ export {
   type BrowserApiManifest,
   type BrowserApiManifestMember,
 } from "./manifest.js";
-
-export function setupBrowserRuntime(opts: {
-  globals: Record<string, unknown>;
-  transport: BrowserClientTransport;
-  documentationRoot?: string;
-  assertAvailable?: BrowserAvailabilityGuard;
-}): void {
-  opts.assertAvailable?.();
-  const agent = (opts.globals.agent ??= {}) as {
-    browsers?: BrowsersFacade;
-    documentation?: { get(name: string): Promise<string> };
-  };
-  agent.browsers = new BrowsersFacade(opts.transport, {
-    documentationRoot: opts.documentationRoot,
-    assertAvailable: opts.assertAvailable,
-  }).asRuntimeObject();
-  const previousDocumentation = agent.documentation;
-  const previousGet = previousDocumentation?.get;
-  agent.documentation = Object.freeze({
-    get: async (name: string) => {
-      opts.assertAvailable?.();
-      if (!name) throw new TypeError("agent.documentation.get requires a document name");
-      if (name === "computer-use" && previousGet) return await previousGet(name);
-      return loadBrowserDocumentation(opts.documentationRoot, name);
-    },
-  });
-}
+export { setupBrowserRuntime } from "./runtime-installation.js";
