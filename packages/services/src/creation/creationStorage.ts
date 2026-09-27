@@ -148,13 +148,12 @@ export function creationFailure(
   options: { apiKey: string | null; aborted: boolean; submissionStarted: boolean },
 ): Pick<StoredJob, "status" | "error"> {
   const raw = error instanceof Error ? error.message : String(error);
+  // 只有进入提交后才存在远端结果未知；提交前的截止时间不能暗示已产生费用。
   const unknown =
-    options.aborted ||
-    (options.submissionStarted &&
-      (error instanceof TypeError ||
-        /(?:network|fetch|ECONNRESET|ETIMEDOUT|socket hang up|超时|生成服务返回 5\d{2})/i.test(
-          raw,
-        )));
+    options.submissionStarted &&
+    (options.aborted ||
+      error instanceof TypeError ||
+      /(?:network|fetch|ECONNRESET|ETIMEDOUT|socket hang up|超时|生成服务返回 5\d{2})/i.test(raw));
   if (unknown)
     return {
       status: "interrupted",

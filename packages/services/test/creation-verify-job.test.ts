@@ -334,22 +334,14 @@ test("verifyJob refuses jobs without a remote task id or with a known result", a
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
-    runTimeoutMs: 30,
     fetchImpl: async (url, init) => {
       const path = new URL(String(url)).pathname;
       requests.push(`${init?.method ?? "GET"} ${path}`);
       if (path === "/submit") {
         if (submitMode === "reject") return new Response("rejected", { status: 400 });
-        // 云端可能在磁盘写入期间先触发取消；真实 fetch 会立即拒绝已取消的信号，
-        // 模拟请求也必须如此，不能只监听未来事件而永远等不到完成。
-        init?.signal?.throwIfAborted();
-        return new Promise<Response>((_resolve, reject) => {
-          init?.signal?.addEventListener(
-            "abort",
-            () => reject(init.signal?.reason ?? new Error("aborted")),
-            { once: true },
-          );
-        });
+        // 在提交入口确定性模拟回执丢失；短计时器可能在慢磁盘上提前到期，
+        // 那是“未提交”的另一条路径，由 creation-deadline 用例单独覆盖。
+        throw new TypeError("fetch failed before task receipt");
       }
       if (path === "/poll/poll-1")
         return json({ status: "completed", asset: png.toString("base64") });

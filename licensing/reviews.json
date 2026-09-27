@@ -22406,6 +22406,17 @@
         "specs/knorvia-browser-local-broker.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "packages/services/test/creation-deadline.test.ts",
+      "normalizedSha256": "8310036f9bc70da3a18f9c1de05d68c562cb02cc909db0edea30c05c1eda8a11",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New deterministic regression fixture authored from the observable task lifecycle: controlled persistence barriers and virtual time reproduce both abandoned-running deadline exits and verify cancellation preservation and file cleanup. Existing creation product implementations receive a bounded bug fix only and are not classified as independently replaced.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

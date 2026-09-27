@@ -328,9 +328,11 @@ export class CreationService implements ICreationService {
       await this.updateJob(job.id, (record) => {
         record.status = "running";
       });
-      if (controller.signal.aborted) return;
+      // 超时可能发生在 running 写盘期间；必须经失败路径落终态，不能遗留 running。
+      controller.signal.throwIfAborted();
       const apiKey = await this.options.credentials.load(credentialKey(model.id));
       const references = await providerReferences(job);
+      controller.signal.throwIfAborted();
       const result = await runCreationProvider(
         {
           model,
@@ -362,7 +364,8 @@ export class CreationService implements ICreationService {
       );
       if (controller.signal.aborted) {
         if (created) await rm(output.path, { force: true });
-        return;
+        // 成果写盘期间超时也要保存终态；updateJob 仍保护已落盘的用户取消。
+        controller.signal.throwIfAborted();
       }
       const saved = await this.updateJob(job.id, (record) => {
         record.status = "succeeded";
