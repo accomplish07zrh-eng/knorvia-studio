@@ -418,13 +418,15 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
   }
 });
 
-test("unsupported frame, timeout, cancel and unknown result never become retryable failures", async () => {
+test("unsupported frame, timeout, cancel and unknown result never become retryable failures", async (t) => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-creation-unknown-"));
   let submissions = 0;
+  const submitted = Promise.withResolvers<void>();
+  const deadlineMs = 40;
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
-    runTimeoutMs: 40,
+    runTimeoutMs: deadlineMs,
     fetchImpl: async (_url, init) => {
       submissions++;
       return new Promise<Response>((_resolve, reject) => {
@@ -433,6 +435,7 @@ test("unsupported frame, timeout, cancel and unknown result never become retryab
           () => reject(init.signal?.reason ?? new Error("aborted")),
           { once: true },
         );
+        submitted.resolve();
       });
     },
   });
@@ -460,17 +463,18 @@ test("unsupported frame, timeout, cancel and unknown result never become retryab
       }),
       /未配置首帧/,
     );
-    const unknown = await terminal(
-      service,
-      (
-        await service.createJob({
-          requestId: "timeout",
-          kind: "video",
-          modelId: model.id,
-          prompt: "Clip",
-        })
-      ).id,
-    );
+    // Windows CI 可能在 40ms 内尚未完成初始写盘；只有实际提交后超时才是未知结果。
+    t.mock.timers.enable({ apis: ["setTimeout"] });
+    const timedJob = await service.createJob({
+      requestId: "timeout",
+      kind: "video",
+      modelId: model.id,
+      prompt: "Clip",
+    });
+    await submitted.promise;
+    t.mock.timers.tick(deadlineMs);
+    t.mock.timers.reset();
+    const unknown = await terminal(service, timedJob.id);
     assert.equal(unknown.status, "interrupted");
     assert.match(unknown.error ?? "", /可能继续运行或计费/);
     assert.equal(
@@ -486,6 +490,8 @@ test("unsupported frame, timeout, cancel and unknown result never become retryab
     );
     assert.equal(submissions, 1);
     await assert.rejects(service.retryJob(unknown.id), /仅结果明确失败/);
+    // 本分支验证用户取消，不让真实截止时间与取消操作竞争。
+    t.mock.timers.enable({ apis: ["setTimeout"] });
     const pending = await service.createJob({
       requestId: "cancel",
       kind: "video",
@@ -495,6 +501,7 @@ test("unsupported frame, timeout, cancel and unknown result never become retryab
     assert.equal((await service.cancelJob(pending.id)).status, "cancelled");
     await assert.rejects(service.retryJob(pending.id), /仅结果明确失败/);
   } finally {
+    t.mock.timers.reset();
     await rm(root, { recursive: true, force: true });
   }
 });
