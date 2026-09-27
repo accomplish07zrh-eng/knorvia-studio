@@ -22956,6 +22956,127 @@
         "specs/knorvia-repl-execution-lifetime.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/server.ts",
+      "normalizedSha256": "709b190482de06899947cbde3d3943065881435a7df3cc85705c78adcb320473",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/mcp-runtime.ts",
+      "normalizedSha256": "f9a5ea68c3e79f6740e30cbafd3ebe5d2353a5dd6c8ee1bb80b9b78ec7c0eedc",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/runtime-lifetime.ts",
+      "normalizedSha256": "a6763e11c3e9b976a316c9be424546a114764d1e9b715a083c573f900d71da8a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/session-admission.ts",
+      "normalizedSha256": "0622e5da77906abef2e86b4fa166025126f69efb61a24f995e5e2892e54cfad3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/runtime-environment.ts",
+      "normalizedSha256": "d085c75774ef01d6cf0a5010d0cb30c7c9ed9f7ce47be239051dfdab4acb3f20",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/stdio-host.ts",
+      "normalizedSha256": "597c7e5d64275de5322153de0264489c96f69a54b7664c9c072e41a6c836d74a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/dispatch-test-support.ts",
+      "normalizedSha256": "c63ea2e11f408cafb3c983912bfb2585ce2641073e724d63563f6036e740beb2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/dispatch-fixture.ts",
+      "normalizedSha256": "4f9f62168556fa221f0907a87dcd49d55dcb4f9ec5828663f4d7d0d704c6f3ba",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/host-dispatch.test.ts",
+      "normalizedSha256": "6ee20d240c98e738266035cd76f7170d275b3ee590a92e4f26c9339f37762ac8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/host-close.test.ts",
+      "normalizedSha256": "74fcedf345c8139bbdf139bde73f6a53e178d6f35b74712c8e2bb0c104540f25",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/stdio-host.test.ts",
+      "normalizedSha256": "749db2c0658350cc9aa569a8e4b97c92b28ebe6fcc147de0dd65964cf32c71ec",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "The dispatch design uses one explicit FIFO owner per normalized session, a separate promise-only completion registry and shared close barrier, and a stdio instance owner. Eighteen public behavior groups ran against the prior server: eleven passed and seven exposed unscoped-key collision, premature or incomplete closure, late success, and skipped cleanup. The independent scheduling/lifecycle composition passes those groups and four stdio ownership/reentrant-construction groups plus two structured error cancellation groups. Review found and reproduced a constructor-close leak and loss of explicit/fallback isError diagnostics in the initial design; tests failed before the targeted corrections and now pass. Actual built MCP checks serial/concurrent routing and closed discovery, while the unchanged stable executable URL still starts real isolated workers. Argument fields, schema constraints, exported names, environment names, protocol text and external SDK calls are retained interoperability requirements; those facts alone do not prove originality. Source access is disclosed and this is not a no-access clean-room claim. Third-party MCP/Zod and the remaining plugin loader, core, desktop and UI are outside this limited license decision.",
+      "evidence": [
+        "specs/knorvia-repl-dispatch.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

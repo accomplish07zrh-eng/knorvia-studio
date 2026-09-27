@@ -1,220 +1,69 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia contributors
 import { isMainThread, parentPort, workerData } from "node:worker_threads";
-import { INVALID_PARAMS, Server, type Tool } from "@modelcontextprotocol/server";
-import { serveStdio } from "@modelcontextprotocol/server/stdio";
-import { JsInputJsonSchema } from "@knorvia/contracts/tools/node-repl";
-import { createComputerUseRuntime, type ComputerUseRuntime } from "@knorvia/cua";
-import { z } from "zod";
-import type { WindowsComputerRuntime } from "@knorvia/cua/windows";
-import { captureWindowsComputerRuntime, windowsComputerContext } from "./windows-computer.js";
 import {
-  createInProcessNodeReplExecutor,
-  executeInWorker,
-  WORKER_KIND,
-  type NodeReplExecutor,
-} from "./executor.js";
-import { createNodeReplCuaBroker } from "./cua-broker.js";
-import {
-  installNodeReplProcessGuards,
-  installNodeReplShutdownTriggers,
-  isDirectMcpEntrypoint,
-} from "./process-lifecycle.js";
-import { toMcpRunResult } from "./result.js";
-import {
-  JS_TOOL_DESCRIPTION,
-  NODE_REPL_DEFAULT_TIMEOUT_MS,
-  NODE_REPL_SERVER_INSTRUCTIONS,
-  NODE_REPL_SERVER_VERSION,
-} from "./tool-contract.js";
+  createMcpRuntime,
+  type NodeReplRuntimeOptions,
+  type NodeReplMcpRuntime,
+} from "./mcp-runtime.js";
+import { createInProcessNodeReplExecutor, WORKER_KIND } from "./executor.js";
+import { isDirectMcpEntrypoint } from "./process-lifecycle.js";
+import { setNodeReplMcpProcessTitle } from "./runtime-environment.js";
+import { startStdioHost } from "./stdio-host.js";
 
+export { createInProcessNodeReplExecutor } from "./executor.js";
 export {
-  createInProcessNodeReplExecutor,
   installNodeReplProcessGuards,
   installNodeReplShutdownTriggers,
-};
+} from "./process-lifecycle.js";
+export {
+  NODE_REPL_MCP_PROCESS_TITLE,
+  setNodeReplMcpProcessTitle,
+  captureComputerUseRuntimeFromEnvironment,
+} from "./runtime-environment.js";
 export type { NodeReplExecuteInput, NodeReplExecutor } from "./executor.js";
-export const NODE_REPL_MCP_PROCESS_TITLE = "knorvia-node-repl-mcp";
-export interface NodeReplMcpRuntime {
-  dispose(): Promise<void>;
-  server: Server;
-}
-const argumentsSchema = z
-  .object({
-    code: z.string(),
-    title: z.string().min(1).max(120).optional(),
-    timeout_ms: z.number().int().min(1).max(120_000).optional(),
-  })
-  .strict();
-const contextSchema = z
-  .object({
-    runtime_scope: z.enum(["main", "subagent"]).default("main"),
-    session_id: z.string().trim().min(1).optional(),
-  })
-  .catchall(z.unknown());
+export type { NodeReplMcpRuntime } from "./mcp-runtime.js";
 
-export function setNodeReplMcpProcessTitle(target: { title: string } = process): void {
-  target.title = NODE_REPL_MCP_PROCESS_TITLE;
-}
-export function captureComputerUseRuntimeFromEnvironment(
-  env: NodeJS.ProcessEnv = process.env,
-): ComputerUseRuntime | undefined {
-  const brokerSocketPath = env.KNORVIA_CUA_PERMISSION_BROKER_SOCKET?.trim();
-  return brokerSocketPath
-    ? createComputerUseRuntime({
-        brokerSocketPath,
-        refreshMarkerPath: env.KNORVIA_CUA_PERMISSION_BROKER_REFRESH_MARKER?.trim(),
-      })
-    : undefined;
-}
-
-export function createNodeReplMcpRuntime(
-  options: {
-    executeJs?: NodeReplExecutor;
-    cuaRuntime?: ComputerUseRuntime;
-    windowsRuntime?: WindowsComputerRuntime;
-  } = {},
-): NodeReplMcpRuntime {
-  const execute = options.executeJs ?? ((input) => executeInWorker(import.meta.url, input));
-  const cua = options.cuaRuntime ?? captureComputerUseRuntimeFromEnvironment();
-  const broker = cua ? createNodeReplCuaBroker({ runtime: cua }) : undefined;
-  const windowsReady = options.windowsRuntime
-    ? Promise.resolve(options.windowsRuntime)
-    : captureWindowsComputerRuntime();
-  const lifetime = new AbortController();
-  const tails = new Map<string, Promise<unknown>>();
-  const server = new Server(
-    { name: "node_repl", version: NODE_REPL_SERVER_VERSION },
-    { capabilities: { tools: {} }, instructions: NODE_REPL_SERVER_INSTRUCTIONS },
-  );
-  server.setRequestHandler("tools/list", async () => ({
-    tools: [
-      ...((await windowsReady)
-        ?.listTools()
-        .map((tool) => ({ ...tool, inputSchema: tool.inputSchema as Tool["inputSchema"] })) ?? []),
-      {
-        name: "js",
-        description: JS_TOOL_DESCRIPTION,
-        inputSchema: JsInputJsonSchema as Tool["inputSchema"],
-      },
-    ],
-  }));
-  server.setRequestHandler("tools/call", async (request, extra) => {
-    lifetime.signal.throwIfAborted();
-    const windows = await windowsReady;
-    lifetime.signal.throwIfAborted();
-    if (windows?.listTools().some((tool) => tool.name === request.params.name)) {
-      const result = await windows.execute({
-        toolName: request.params.name,
-        arguments: request.params.arguments,
-        context: windowsComputerContext(extra.mcpReq._meta?.["com.knorvia-studio/request-context"]),
-        signal: AbortSignal.any([lifetime.signal, extra.mcpReq.signal]),
-      });
-      return { ...result };
-    }
-    const parsed = argumentsSchema.safeParse(request.params.arguments);
-    if (request.params.name !== "js" || !parsed.success)
-      throw Object.assign(new Error("Invalid js tool arguments"), { code: INVALID_PARAMS });
-    const context = contextSchema.safeParse(
-      extra.mcpReq._meta?.["com.knorvia-studio/request-context"],
-    );
-    const meta: Record<string, unknown> = context.success ? context.data : {};
-    const key = typeof meta.session_id === "string" ? meta.session_id : "__unscoped__";
-    const args = parsed.data;
-    const predecessor = tails.get(key) ?? Promise.resolve();
-    const task = predecessor
-      .catch(() => undefined)
-      .then(async () => {
-        const timeout = args.timeout_ms ?? NODE_REPL_DEFAULT_TIMEOUT_MS;
-        const signal = AbortSignal.any([
-          lifetime.signal,
-          extra.mcpReq.signal,
-          AbortSignal.timeout(timeout),
-        ]);
-        signal.throwIfAborted();
-        if (!args.code.trim())
-          return {
-            content: [{ type: "text" as const, text: "js expects non-empty JavaScript source" }],
-            isError: true,
-          };
-        await broker?.ready;
-        signal.throwIfAborted();
-        return toMcpRunResult(
-          await execute({
-            code: args.code,
-            requestMeta: { ...meta, ...(args.title ? { title: args.title } : {}) },
-            signal,
-            syncTimeoutMs: timeout,
-            cuaBroker: broker?.connection,
-          }),
-        );
-      });
-    tails.set(key, task);
-    try {
-      return await task;
-    } finally {
-      if (tails.get(key) === task) tails.delete(key);
-    }
-  });
-  return {
-    server,
-    dispose: async () => {
-      if (lifetime.signal.aborted) return;
-      lifetime.abort(new Error("node_repl runtime is disposed"));
-      const windows = await windowsReady;
-      await Promise.allSettled([broker?.close(), cua?.dispose(), windows?.dispose()]);
-    },
-  };
+export function createNodeReplMcpRuntime(options: NodeReplRuntimeOptions = {}): NodeReplMcpRuntime {
+  return createMcpRuntime(import.meta.url, options);
 }
 
 export async function main(): Promise<void> {
   setNodeReplMcpProcessTitle();
-  const cua = captureComputerUseRuntimeFromEnvironment();
-  const runtimes = new Set<NodeReplMcpRuntime>();
-  const stdio = serveStdio(
-    () => {
-      const runtime = createNodeReplMcpRuntime({ cuaRuntime: cua });
-      runtimes.add(runtime);
-      return runtime.server;
-    },
-    { legacy: "reject" },
-  );
-  let stopped = false;
-  const shutdown = () => {
-    if (stopped) return;
-    stopped = true;
-    // Cua 持久驱动必须退出后再结束宿主，不能 fire-and-forget 留下后台进程。
-    void Promise.allSettled([...runtimes].map((runtime) => runtime.dispose()))
-      .then(() => stdio.close())
-      .catch(() => undefined)
-      .finally(() => process.exit(0));
-  };
-  installNodeReplProcessGuards({
-    process,
-    onOutputClosed: shutdown,
-    writeStderr: (text) => {
-      process.stderr.write(text);
-    },
-  });
-  installNodeReplShutdownTriggers({ process, stdin: process.stdin, shutdown });
+  startStdioHost(createNodeReplMcpRuntime);
 }
 
-if (!isMainThread && workerData?.kind === WORKER_KIND) {
-  void createInProcessNodeReplExecutor()({
-    ...workerData,
-    signal: AbortSignal.timeout(workerData.syncTimeoutMs),
-  })
-    .then((result) => parentPort?.postMessage(result))
-    .catch((error: unknown) =>
-      parentPort?.postMessage({
-        logs: "",
-        error: {
-          name: error instanceof Error ? error.name : "Error",
-          message: error instanceof Error ? error.message : String(error),
-        },
-      }),
-    );
+function failureMessage(reason: unknown): string {
+  try {
+    return reason instanceof Error ? reason.message : String(reason);
+  } catch {
+    return "Unknown execution host failure";
+  }
+}
+
+async function executeWorkerCell(): Promise<void> {
+  let result;
+  try {
+    const signal = AbortSignal.timeout(workerData.syncTimeoutMs);
+    result = await createInProcessNodeReplExecutor()({ ...workerData, signal });
+  } catch (reason) {
+    result = {
+      logs: "",
+      error: {
+        name: reason instanceof Error ? reason.name : "Error",
+        message: failureMessage(reason),
+      },
+    };
+  }
+  parentPort?.postMessage(result);
+}
+
+const workerCell = !isMainThread && workerData?.kind === WORKER_KIND;
+if (workerCell) {
+  void executeWorkerCell();
 } else if (isMainThread && (await isDirectMcpEntrypoint(import.meta.url, process.argv[1]))) {
-  void main().catch((error: unknown) => {
-    process.stderr.write(`${String(error)}\n`);
+  void main().catch((reason) => {
+    process.stderr.write(`${failureMessage(reason)}\n`);
     process.exitCode = 1;
   });
 }
