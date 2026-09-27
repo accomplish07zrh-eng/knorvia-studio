@@ -23682,6 +23682,127 @@
         "specs/knorvia-tool-validation-boundary.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "normalizedSha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The named-error constructors are independently implemented through a declarative family policy and one contextual creation path. Ordinary Error decoration preserves the required prototype and enumerability. The enum and interface remain the public compatibility protocol; their identifiers and the standard object operations are not independently claimed as original expression. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/error-payload.ts",
+      "normalizedSha256": "33ea9d41169e5c5bcff51d5750cd006300d5c29a6fadf768e9e1421e3ef43450",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The former monolithic payload implementation is removed. Stable public entrypoints compose invocation-local frame collection, selection and projection; raw message selection stays separate from compact display and context annotation remains shallow. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/text.ts",
+      "normalizedSha256": "db6fc2ea8891a210d3de757cc4aa43c9a99e9c2678fdba5680debdca2d6b7080",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New text-form policy distinguishes original, trimmed, compact summary and attribution-tag forms, with separate scalar/code acceptance. It centralizes the specified bounds without conflating context detail with display truncation. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/frames.ts",
+      "normalizedSha256": "493f34939c73204bea2d87b4099bac1e38d476ab3ea124113f9904d4c2fba19f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A bounded invocation-owned identity walk captures a private frame representation from one nullish-selected cause path. Frame fields preserve declared source precedence, read stages and explicit wrapper roles; invalid selected values terminate traversal. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/context.ts",
+      "normalizedSha256": "0e509e9ea219ffb6dbdd99aaaf2099a0ddd3335277590b06850b98c84d5065ad",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A declarative context-detail field table and explicit attribution evaluation/output protocols replace separate per-field selectors. Nearest text selection is separated from enum acceptance; status and context-to-frame retry fallback keep their distinct semantics, including finite accessor changes. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/errors/payload/selection.ts",
+      "normalizedSha256": "e84258d1d71d821e0aed8f98d2c81529f30a87e1630e44c449a64d4cfd4144c3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "One ordered selection pass owns first message, first ordinary message, deepest ordinary frame and each code fallback class. Set-backed detail aggregation and independent context projection preserve output field order without reversing/filtering the chain into competing ownership paths. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/errors.ts",
+      "normalizedSha256": "c4633c04c3aa2914cebed96045a8796526ed24f2f4eb8252346ed1dcf4223b39",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A dedicated presentation decision stage precedes result envelope construction. It keeps full feedback separate from display text, preserves first-model-content and handler priorities, and defers identity/type/code/stack reads to the documented result phase. Predicate-only inspection is separated from payload extraction. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/test/core-errors.test.ts",
+      "normalizedSha256": "a949dbad006464df6e16094bba828a3f155435b525c7879739a17d8feaa46217",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation fixtures lock the public error catalogue, standard Error shape, ordered enumerable fields, references, nullish flags, named policies and realm/property-presence recognition. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/error-payload.test.ts",
+      "normalizedSha256": "796feacf1cce0bd5125119463c434898c107597ce4d6bb856235353fda8b5323",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation fixtures cover wrapper/message/code precedence, bounded and cyclic cause chains, enum rejection, numeric/retry fallbacks, raw versus compact text and context detail ordering. A disappearing retry accessor was reproduced as a failure before restoring the original fallback. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-errors.test.ts",
+      "normalizedSha256": "cbc39ae30cae994e447745fb024bce6e02a78775dfdc3f5445e349eba2be57be",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation fixtures cover result shape, handler code zero, original failure identity, full feedback, model content priority and permission context copying. Subsequent failing fixtures exposed extra predicate reads, feedback source checks and message/metadata evaluation order before correction. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-error-boundaries.md",
+      "normalizedSha256": "761dd6017d779b52bd21b81b0e97f7c17fafdb2f7c225ab185d2011b8b24acf2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New specification records public error compatibility, per-invocation state ownership, one bounded cause path, distinct message/code/underlying and attribution policies, finite read stages, result construction order, source-access disclosure and limited acceptance scope. Prior source was accessed; no no-access clean-room claim is made. Public error names, enum values, signatures, fields, messages, standard Error mechanics and finite property-read behavior are retained compatibility facts, not asserted as new inventions or evidence of authorship. Provider implementations, retry scheduling, permission/hook admission, the remaining executor and UI are outside this decision.",
+      "evidence": [
+        "specs/knorvia-error-boundaries.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
