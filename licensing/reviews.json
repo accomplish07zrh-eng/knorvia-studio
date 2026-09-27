@@ -22879,6 +22879,83 @@
         "specs/knorvia-repl-results.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/executor.ts",
+      "normalizedSha256": "ef0bf5d10ab833a0e4cd739cdf715ad1cbb93996511fd639154414bad37f2357",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/execution-contract.ts",
+      "normalizedSha256": "a96c1d7c9389da7c1fb72023a301fa8028c2961ca5c3c60c3de218d49e35e305",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/execution-cell.ts",
+      "normalizedSha256": "892a2548f8486d19654cd43e8062267e04bff38ef2a3891f2af8605313771748",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/worker-call.ts",
+      "normalizedSha256": "d1dacf01e571deaf77f043685f61bcbc356158f43e96d0f44f8f03be9b84c675",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/process-lifecycle.ts",
+      "normalizedSha256": "a35f68876584a749edaff8f0c83bc6903ee6339459f32a2db2da4dd9d2620484",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/execution-lifetime.test.ts",
+      "normalizedSha256": "53db8e3ba2b4a2eae78e104b177447f15785811c9d8a24ec2c4876a69684aca1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/process-lifetime.test.ts",
+      "normalizedSha256": "64b9fe4c3a41034082f6743a3263e6c8b1a2d9f9c170f6d8ab7fea6635606ce1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent execution-lifetime design gives each cell ownership of its revocable Session bridges, each worker one completion arbiter, and each process one output supervisor. The public executor fields, worker kind, event names, default roots and diagnostics remain interoperability constraints. Eighteen black-box groups ran against the former implementation: fifteen passed; interceptable worker cancellation and two unprintable-error paths failed. All pass after replacement, including retained bridge revocation. Actual built MCP verifies fresh VM globals/module caches, deadline recovery, opaque error containment and one output-close callback. Source access is disclosed; this is not a no-access clean-room claim. Generic platform APIs and retained contract declarations do not alone establish originality; ownership/control design, tests and reviewed boundaries support this limited decision. MCP scheduling, platform plugin loading and remaining product code are not included.",
+      "evidence": [
+        "specs/knorvia-repl-execution-lifetime.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

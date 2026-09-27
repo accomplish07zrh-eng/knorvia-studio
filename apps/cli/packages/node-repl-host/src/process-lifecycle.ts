@@ -1,36 +1,56 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia contributors
 import { realpath } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
-const guarded = new WeakSet<object>();
-export function installNodeReplProcessGuards(input: {
+interface ProcessOutput {
   onOutputClosed(error: Error): void;
   process: Pick<NodeJS.Process, "on">;
   writeStderr(text: string): void;
-}): void {
-  if (guarded.has(input.process)) return;
-  guarded.add(input.process);
-  let stopped = false;
-  const handle = (reason: unknown) => {
-    if (stopped) return;
-    const error = reason instanceof Error ? reason : new Error(String(reason));
-    if (
-      ["EPIPE", "EIO", "ENXIO", "EBADF", "ERR_STREAM_DESTROYED"].includes(
-        (error as NodeJS.ErrnoException).code ?? "",
-      )
-    ) {
-      stopped = true;
-      input.onOutputClosed(error);
-      return;
-    }
+}
+const OUTPUT_FAILURES = new Set(["EPIPE", "EIO", "ENXIO", "EBADF", "ERR_STREAM_DESTROYED"]);
+const supervisors = new WeakMap<object, OutputSupervisor>();
+
+function asError(reason: unknown): Error {
+  try {
+    return reason instanceof Error ? reason : new Error(String(reason));
+  } catch {
+    // 原错误观察器对空原型值再次 String 转换会抛错，连关闭路径也会被打断。
+    return new Error("Unknown execution host failure");
+  }
+}
+
+class OutputSupervisor {
+  readonly #output: ProcessOutput;
+  #closed = false;
+  constructor(output: ProcessOutput) {
+    this.#output = output;
+  }
+
+  receive = (reason: unknown): void => {
+    if (this.#closed) return;
+    const error = asError(reason);
+    let failure: Error | undefined;
     try {
-      input.writeStderr(`Knorvia execution host: ${error.stack ?? error.message}\n`);
-    } catch (failure) {
-      stopped = true;
-      input.onOutputClosed(failure instanceof Error ? failure : new Error(String(failure)));
+      if (OUTPUT_FAILURES.has((error as NodeJS.ErrnoException).code ?? "")) failure = error;
+      else this.#output.writeStderr(`Knorvia execution host: ${error.stack ?? error.message}\n`);
+    } catch (reason) {
+      failure = asError(reason);
+    }
+    if (failure) {
+      this.#closed = true;
+      this.#output.onOutputClosed(failure);
     }
   };
-  input.process.on("unhandledRejection", handle);
-  input.process.on("uncaughtException", handle);
+}
+
+export function installNodeReplProcessGuards(input: ProcessOutput): void {
+  if (supervisors.has(input.process)) return;
+  const owner = new OutputSupervisor(input);
+  supervisors.set(input.process, owner);
+  for (const event of ["uncaughtException", "unhandledRejection"] as const) {
+    input.process.on(event, owner.receive);
+  }
 }
 
 export function installNodeReplShutdownTriggers(input: {
@@ -38,15 +58,16 @@ export function installNodeReplShutdownTriggers(input: {
   shutdown(): void;
   stdin: Pick<NodeJS.ReadStream, "once">;
 }): void {
-  let stopped = false;
+  let pending = true;
   const close = () => {
-    if (!stopped) {
-      stopped = true;
-      input.shutdown();
-    }
+    if (!pending) return;
+    pending = false;
+    input.shutdown();
   };
-  for (const signal of ["SIGINT", "SIGTERM"] as const) input.process.once(signal, close);
-  for (const event of ["end", "close"]) input.stdin.once(event, close);
+  input.process.once("SIGINT", close);
+  input.process.once("SIGTERM", close);
+  input.stdin.once("end", close);
+  input.stdin.once("close", close);
 }
 
 export async function isDirectMcpEntrypoint(
@@ -54,10 +75,14 @@ export async function isDirectMcpEntrypoint(
   executable: string | undefined,
 ): Promise<boolean> {
   if (!executable) return false;
+  let modulePath: string;
   try {
-    const paths = await Promise.all([realpath(fileURLToPath(moduleUrl)), realpath(executable)]);
-    return paths[0] === paths[1];
+    modulePath = fileURLToPath(moduleUrl);
   } catch {
     return false;
   }
+  const [module, entry] = await Promise.allSettled([realpath(modulePath), realpath(executable)]);
+  return (
+    module.status === "fulfilled" && entry.status === "fulfilled" && module.value === entry.value
+  );
 }
