@@ -23803,6 +23803,171 @@
         "specs/knorvia-error-boundaries.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-serialization.ts",
+      "normalizedSha256": "93c647b370f70c40b2d088629c25f33db4636ef6678a43e362431326440e0944",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The old single serialization implementation is replaced by an invocation-owned inspection, optional artifact action, protected-frame boundary and explicit original/preview/truncate output decision. A single envelope constructor preserves the initial text snapshot and aggregate byte accounting; only requested persistence introduces await. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-content-projection.ts",
+      "normalizedSha256": "164ea2cfa9d4d4e6f546328682597a7afbea80433d35dd96700bce1537ca131b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "This stable compatibility entrypoint delegates to independently designed byte quota allocation, structured content phases and recognized-frame projection. No former implementation remains in the facade. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/result-persistence-format.ts",
+      "normalizedSha256": "f4f309784e0e46ca9d39284446f010a5868138440d8dafa1723e563b92938688",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The preview renderer uses selected input fields, a decimal-unit policy loop and an explicit excerpt/line envelope stage. Fixed output text and the established cutoff semantics remain compatibility requirements, not novel claims. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/byte-budget.ts",
+      "normalizedSha256": "c18b0b4c85cd854007f30259963e03d67420ef5e68668d039719fd59d3081e19",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently designed directional UTF-16 cursor scans only the retained Unicode code points and allocates byte quotas once; no full code point array, binary search or repeated candidate re-encoding. All suffix/head/tail helpers share this quota allocator. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/model-content.ts",
+      "normalizedSha256": "6f04fe0e3772a4d23fb50b5c627e7e580c5817925eb0de4a4798131f7014d244",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A single pure adapter set defines output formatting, empty-state recognition, budget primitives, source path precedence and media accounting for invocation-owned result facts. It preserves public format callbacks and sparse array semantics without adding external IO. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/serialization-policy.ts",
+      "normalizedSha256": "78ae6e7e1e77fc1c0c2ad6c79b42a1d3582c1a441a1dbcd1980fb48a3d499015",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A discriminated inspection result separates empty content from a sized output snapshot. One explicit output decision selects original, artifact preview or truncation, while the shared envelope constructor keeps text snapshots and counts in a single result. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/artifact-result.ts",
+      "normalizedSha256": "4ebde2caffc75e952dce3434ed93199c58f3f8ee4594a66e4e5d4cf1f9119934",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A narrow effect adapter carries the prepared facts through the existing artifact port exactly once and routes missing/rejected storage to the documented result policy; persisted model rendering is a separate callback/default decision. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/structured-content.ts",
+      "normalizedSha256": "ed812cad292da67c3f5481fdda02d054fca5c1b26ea991f7a30577e70f43d2cd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent structured-content phases separate text capture, byte quota application, media retention and append-only protected output. Finite property sampling and copy order were verified by failures before correction, not assumed from ordinary values. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/protected-frame.ts",
+      "normalizedSha256": "9f3793374a233e2323fdbb8f7e3a2b1a5d869b128a3e0333a3fcd09233f76f87",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Recognized-frame consumer keeps one atomic pair, classifies suffix entries, reserves marker/separator quotas through the new allocator and builds the final ordered sequence. It does not invent or infer frame authority. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result/hook-result.ts",
+      "normalizedSha256": "3bdc221cd848a18453154d74a7f0e77c31bebdfb5e22d69d9afb429492c21749",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "A single Hook augmentation owner filters authority text, chooses append-only frames versus persisted previews versus normal quota projection, and carries irreversible truncation state through one result path. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/result-budget-fixture.ts",
+      "normalizedSha256": "f144532d857b309142b28b49387e667177eef3814f8bd6ff5c36c478e086158a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New bounded in-memory fixtures supply result envelopes, fake artifact responses and explicit trace/signal identities without network, storage or device actions. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/result-text-budget.test.ts",
+      "normalizedSha256": "2920aabb44399d25a838480a7ff8047873b3ae8bc8e346c65f5def18bd042dbd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New fixed-expectation tests establish Unicode byte allocation, decimal preview labels, character cutoffs, structured Hook preservation and finite property sampling before and after replacement. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/result-serialization.test.ts",
+      "normalizedSha256": "20ad08811d9b027558aac12950eed0ed20e9d130fff9f03a20b155bfd1e30989",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contract tests cover formatter identity, empty results, thresholds, artifact request/failure policies, path precedence, Hook ordering and copy behavior; added failing regressions establish synchronous completion and original text snapshot semantics. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/result-protected-budget.test.ts",
+      "normalizedSha256": "73bff6b4100c96df1529a5b2364272dcf7543f6f198f1a8bf24efd9729a0efe7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated mock-contract tests verify canonical-pair rejection, byte accounting, persistence ordering, Hook credential filtering and text-before-media sampling. They explicitly do not claim real frame authority or device validation. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-result-budget.md",
+      "normalizedSha256": "b4ff0f0caaeb2f7a439091671ee2f4bef3409cf54e0907baf39fa134190072b2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior and ownership specification establishes the serialization decision boundary, side-effect ordering, retained compatibility rules, test scope and licensing limits. Prior source was accessed; no no-access clean-room claim is made. Public labels, messages, schema, fields, byte/character policies and finite evaluation order are compatibility facts, not asserted as novel expression. Source separation or renaming alone is not the basis. Artifact storage, Hook execution, model contracts, CUA authority, UI and other executor modules remain outside this decision.",
+      "evidence": [
+        "specs/knorvia-tool-result-budget.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
