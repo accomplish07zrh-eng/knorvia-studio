@@ -24100,6 +24100,127 @@
         "specs/knorvia-tool-display.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/create-workflow-display.ts",
+      "normalizedSha256": "9878f1f080f174edb9f73361c903e40fb0c777a86453887b8ddd842cfb137466",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The compatibility entrypoint is independently implemented as an exact-name gate bound to a complete-snapshot parser and an analysis projection strategy. The old inline diagnostic and card implementation is removed while retaining the public re-export used by confirmation handlers. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-observation-display.ts",
+      "normalizedSha256": "81654ab513e337bbffad1a95062ec004ba44d77e987dfcb8be19e01c08f24f25",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The old sequential per-function name/parse chain is replaced by a finite immutable name registry of typed snapshot projectors. Matching remains synchronous and unknown names never inspect the output. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/policy.ts",
+      "normalizedSha256": "50431c70e63723e4d32e95f142f552ffc6732f6dd81b57648d6c7c0c2bdaced0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent shared policy defines receiver-preserving full output parsing and an invocation-owned CardBudget with head/tail selection, byte clipping and explicit accumulated omission facts. Diagnostics retain a separate character policy rather than accidentally sharing byte truncation semantics. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/analysis-card.ts",
+      "normalizedSha256": "532140d24e4f67369a2b1de21f03aad2b5e3f5090b84746af12d39cfa6d4da3f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New analysis and snippet strategies consume verified snapshots through the per-card quota owner and diagnostic row adapter, then emit the frozen card field protocol. Graph-internal flags and per-message character truncation deliberately remain independent of outer omission state. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/catalog-cards.ts",
+      "normalizedSha256": "64e015d532a7ef13d14b8d73b035b3d8289c0b36672d5693ba4d5e7a750ffd19",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent catalog adapters separate upstream list facts, metadata budgets, model row selection and minimal resume identity. Presence of optional fields, own undefined saved metadata and known post-construction schema gaps are retained explicitly, not hidden by generic filtering. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/workflow-display/run-card.ts",
+      "normalizedSha256": "61edeef403aaec21796d54e86d3fb67b9cf9fe2f439351ad7f014055dffff378",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New run snapshot projection allocates visible sequences through one per-card quota owner and uses a closed ordered optional-column writer to flatten subagent source sections. It excludes provider and waiting diagnostic details and creates no clock/session state. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-display-fixture.ts",
+      "normalizedSha256": "ea691d94b0e6b374f2c11ab149a3596d5a4f22faf019e0dbf7de3cf9e3b01a15",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New inert typed snapshot fixtures supply deterministic workflow, actor/catalog and diagnostic data without engine or device actions. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+      "normalizedSha256": "ceb431db71f2817bc0edc2582bcf6a1ae539726a38ec1e556b641f14a908e5fb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline contracts cover exact routing, complete hidden-field validation, exception identity, diagnostic character/count policies, graph flags, snippet byte quotas and minimal resume projection. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-display.test.ts",
+      "normalizedSha256": "45015a21bcb72e7135bd398d107abf1ed7d33dbbde3e51c9337fec7e61b9af10",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New fixed-expectation tests cover head/tail windows, Unicode byte limits, timestamps without invented values, zero/absent distinctions, subagent flattening, provider-detail filtering and schema rejection of excessive rosters. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-catalog-display.test.ts",
+      "normalizedSha256": "3f59c3ef0ee1575c138ce7443b19067d2eba4cf32270c09150bba2dfcbd5414a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contracts establish upstream list flags, known row/argument/reason schema gaps, own undefined metadata, key order, independent model selection, copied reasoning levels and byte-limited optional metadata. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-workflow-display.md",
+      "normalizedSha256": "c2b62b394deae89bff4d8793c591ec5f9012e703cd4171c2f91db1ea42ca29b7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New implementation/ownership specification records complete-snapshot parsing, per-card quota facts, field and error contracts, current schema gaps, verification plan and retained licensing boundaries before replacement. Prior source was accessed; no no-access clean-room claim is made. Fixed card names, field order, status values and thresholds are compatibility facts, not novel claims. Separation, renaming, registries and passing tests alone are insufficient evidence. The documented basis is the new complete-snapshot adapter, per-card quota ownership and explicit strategies together. Public schemas, graph algorithms, workflow engine, approval/source logic and UI remain outside this decision; existing contract gaps are recorded rather than silently changed.",
+      "evidence": [
+        "specs/knorvia-workflow-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
