@@ -21749,6 +21749,127 @@
         "https://github.com/material-extensions/vscode-material-icon-theme/blob/cb1dfb6d9cb73b15681a93939983d75dbba7bf5b/icons/zip.svg",
         "third-party/upstream/cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670.txt"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/browser-turn-state.ts",
+      "normalizedSha256": "fcb923db67d6eb9fe38014cab3bbb14c5f76492b238e19998cde2b33a77f7319",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/cell-executor.ts",
+      "normalizedSha256": "cdd00aaa5d7833f13a01f82a4d8c1382ccffe4b6d0fa78ef4b4fc49bad446a9b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/context-resources.ts",
+      "normalizedSha256": "1e8bf22e4d97e36e12c67c66e74b1daf80ddabe0d297996a1e0e3f8d94f667fb",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/executors.ts",
+      "normalizedSha256": "5fb1e2ed61a3a0761d6d813f7185622a4d4521690b599dcfb4b4066f5af93278",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/node-repl-session.ts",
+      "normalizedSha256": "0db2422895a2e6d4915cb26d9ad29450bdd8e23ca44f25fa950ed9f8bb275658",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/run-output.ts",
+      "normalizedSha256": "387c7907872845c49ef83498ec0171911705538db24d1d9d8a1845e4b1c6bdff",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/runtime-values.ts",
+      "normalizedSha256": "14ce28d2798bc49906a90b237467dd41933d585cf09de30a304b7411d14240f4",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/session-contract.ts",
+      "normalizedSha256": "fdf96c8a14a4762b5f863e227ea325aa3608c9f13e58a8c5dda3130e585bef01",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/session-runtime.ts",
+      "normalizedSha256": "c52c6f2b3e1b02a0eabf9791829667cb6244f29aff26b3d0ed9626eabbdb9370",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/browser-turn-state.test.ts",
+      "normalizedSha256": "d5df42132f84abab7360cbec28f8a1169a5a0f44b7f44e12581a4d55d4de7e40",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-session.test.ts",
+      "normalizedSha256": "4a2f504e7277ec36eecc130565a546a622b16deab14c2e40516a19d295d3bd36",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently implemented from public interfaces, caller contracts and pre-replacement black-box characterization. Execution output is owned by an async run context; timers by VM generation; browser hints by separate session/turn keys. Public entrypoints preserve compatibility, without retaining the old implementation body.",
+      "evidence": [
+        "specs/knorvia-repl-session.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
