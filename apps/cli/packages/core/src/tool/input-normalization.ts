@@ -1,5 +1,8 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type { Logger } from "@knorvia/contracts";
 import type { ToolEntry } from "./types.js";
+import { runtimeParser } from "./runtime-schema.js";
 
 interface NormalizeToolExecutionInputOptions {
   entry: ToolEntry;
@@ -7,97 +10,60 @@ interface NormalizeToolExecutionInputOptions {
   logger?: Logger;
   source: "initial" | "hook" | "permission";
 }
-
 export type RuntimeInputValidationIssue = Readonly<Record<string, unknown>>;
-
 interface PreparedInitialToolExecutionInput {
   input: unknown;
   runtimeValidationIssues?: readonly RuntimeInputValidationIssue[];
 }
 
-type SafeParseResult<T = unknown> =
-  | { success: true; data: T }
-  | { success: false; error?: unknown };
-
-interface SafeParseSchema<T = unknown> {
-  safeParse(value: unknown): SafeParseResult<T>;
+type Decoded = { ok: true; value: unknown } | { ok: false };
+const WARNING_MESSAGE = "Tool execution input JSON normalization failed";
+function decode(text: string): Decoded {
+  try {
+    return { ok: true, value: JSON.parse(text) };
+  } catch {
+    return { ok: false };
+  }
 }
 
-// Note: some model adapters and hook/broker paths can surface tool
-// inputs as JSON strings instead of objects. We normalize safely here so bad
-// input degrades into a recoverable validation error rather than crashing the
-// executor before it can return a structured tool failure.
-export function normalizeToolExecutionInput(options: NormalizeToolExecutionInputOptions): unknown {
-  return prepareToolExecutionInput(options).input;
+function prepare(options: NormalizeToolExecutionInputOptions): PreparedInitialToolExecutionInput {
+  let input = options.input;
+  if (typeof input === "string") {
+    const decoded = decode(input);
+    if (decoded.ok) input = decoded.value;
+    else
+      options.logger?.warn(WARNING_MESSAGE, {
+        event: "tool.input.normalize_failed",
+        inputLength: input.length,
+        module: "core.tool.input-normalization",
+        source: options.source,
+        status: "failed",
+        toolName: options.entry.metadata.name,
+      });
+  }
+  const parse = runtimeParser(options.entry.runtimeInputSchema);
+  if (!parse) return { input };
+  const result = parse(input);
+  if (result.success) return { input: result.data };
+  const error = result.error;
+  const candidates =
+    error !== null && typeof error === "object"
+      ? (error as { issues?: unknown }).issues
+      : undefined;
+  const issues: RuntimeInputValidationIssue[] = [];
+  if (Array.isArray(candidates))
+    candidates.forEach((issue) => {
+      if (issue !== null && typeof issue === "object" && !Array.isArray(issue)) issues.push(issue);
+    });
+  return issues.length ? { input, runtimeValidationIssues: issues } : { input };
 }
 
 export function prepareInitialToolExecutionInput(
   options: Omit<NormalizeToolExecutionInputOptions, "source">,
 ): PreparedInitialToolExecutionInput {
-  return prepareToolExecutionInput({ ...options, source: "initial" });
+  return prepare({ ...options, source: "initial" });
 }
 
-function prepareToolExecutionInput(
-  options: NormalizeToolExecutionInputOptions,
-): PreparedInitialToolExecutionInput {
-  const jsonNormalized = normalizeTopLevelJsonString(options.input, options);
-  const runtimeSchema = asSafeParseSchema(options.entry.runtimeInputSchema);
-  if (!runtimeSchema) {
-    return { input: jsonNormalized };
-  }
-
-  const parsed = runtimeSchema.safeParse(jsonNormalized);
-  if (!parsed.success) {
-    // runtime schema 已经完成默认值、preprocess 和约束判断；失败时若只
-    // 返回 raw input，后续 JSON Schema 会重新推导一份不完整且顺序不同的错误。
-    const runtimeValidationIssues = readRuntimeValidationIssues(parsed.error);
-    return {
-      input: jsonNormalized,
-      ...(runtimeValidationIssues.length === 0 ? {} : { runtimeValidationIssues }),
-    };
-  }
-
-  return { input: parsed.data };
-}
-
-function normalizeTopLevelJsonString(
-  input: unknown,
-  options: NormalizeToolExecutionInputOptions,
-): unknown {
-  if (typeof input !== "string") {
-    return input;
-  }
-
-  try {
-    return JSON.parse(input);
-  } catch {
-    options.logger?.warn("Tool execution input JSON normalization failed", {
-      event: "tool.input.normalize_failed",
-      inputLength: input.length,
-      module: "core.tool.input-normalization",
-      source: options.source,
-      status: "failed",
-      toolName: options.entry.metadata.name,
-    });
-    return input;
-  }
-}
-
-function asSafeParseSchema(value: unknown): SafeParseSchema | undefined {
-  if (!value || typeof value !== "object") {
-    return undefined;
-  }
-
-  const safeParse = (value as { safeParse?: unknown }).safeParse;
-  return typeof safeParse === "function" ? ({ safeParse } as SafeParseSchema) : undefined;
-}
-
-function readRuntimeValidationIssues(error: unknown): RuntimeInputValidationIssue[] {
-  if (!error || typeof error !== "object") return [];
-  const issues = (error as { issues?: unknown }).issues;
-  if (!Array.isArray(issues)) return [];
-  return issues.filter(
-    (issue): issue is RuntimeInputValidationIssue =>
-      typeof issue === "object" && issue !== null && !Array.isArray(issue),
-  );
+export function normalizeToolExecutionInput(options: NormalizeToolExecutionInputOptions): unknown {
+  return prepare(options).input;
 }

@@ -1,71 +1,54 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import { CoreErrorType, createCoreError, isCoreError } from "@knorvia/contracts";
 import type { RuntimeInputValidationIssue } from "../input-normalization.js";
-import { createInitialInputValidationModelContent } from "../input-validation-model-content.js";
-import { validateJsonSchemaValue } from "../json-schema.js";
+import type { ToolInputValidationIssue } from "../tool-input-validation-issues.js";
 import type { ToolEntry } from "../types.js";
+import { runtimeParser } from "../runtime-schema.js";
+import { validateJsonSchemaValue } from "../json-schema.js";
+import { createInitialInputValidationModelContent } from "../input-validation-model-content.js";
 
-const INITIAL_INPUT_VALIDATION_MODEL_CONTENT_KEY = "initialInputValidationModelContent";
+const MODEL_CONTENT = "initialInputValidationModelContent";
+const CONTEXT_LIMIT = 20;
+const FAILURES = {
+  input: { message: "Tool input failed inputSchema validation", recoverable: true },
+  output: { message: "Tool output failed outputSchema validation", recoverable: false },
+  runtimeOutput: {
+    message: "Tool output failed runtimeOutputSchema validation",
+    recoverable: false,
+  },
+};
 
-export function validateOutput(output: unknown, entry: ToolEntry): void {
-  const runtimeSchemaValidation = validateRuntimeSchema(output, entry.runtimeOutputSchema);
-  if (runtimeSchemaValidation === true) return;
-  if (Array.isArray(runtimeSchemaValidation)) {
-    throw createCoreError(
-      CoreErrorType.ToolExecutionFailed,
-      "Tool output failed runtimeOutputSchema validation",
-      {
-        context: {
-          errors: runtimeSchemaValidation.slice(0, 20),
-          toolName: entry.metadata.name,
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const validation = validateJsonSchemaValue(output, entry.outputSchema);
-  if (validation.valid) return;
-
-  throw createCoreError(
-    CoreErrorType.ToolExecutionFailed,
-    "Tool output failed outputSchema validation",
-    {
-      context: {
-        errors: validation.errors.slice(0, 20),
-        toolName: entry.metadata.name,
-      },
-      recoverable: false,
-    },
-  );
+function failure(
+  stage: keyof typeof FAILURES,
+  entry: ToolEntry,
+  errors: string[],
+  modelContent?: string,
+): Error {
+  const context: Record<string, unknown> = {
+    errors: errors.slice(0, CONTEXT_LIMIT),
+    toolName: entry.metadata.name,
+  };
+  if (modelContent !== undefined) context[MODEL_CONTENT] = modelContent;
+  const policy = FAILURES[stage];
+  return createCoreError(CoreErrorType.ToolExecutionFailed, policy.message, {
+    context,
+    recoverable: policy.recoverable,
+  });
 }
 
-function validateRuntimeSchema(output: unknown, schema: unknown): true | string[] | undefined {
-  if (!isSafeParseSchema(schema)) return undefined;
-  const parsed = schema.safeParse(output);
-  if (parsed.success) return true;
-  return parsed.error.issues.map((issue) => issue.message);
-}
-
-function isSafeParseSchema(schema: unknown): schema is {
-  safeParse: (
-    value: unknown,
-  ) =>
-    | { success: true; data: unknown }
-    | { success: false; error: { issues: Array<{ message: string }> } };
-} {
-  return (
-    typeof schema === "object" &&
-    schema !== null &&
-    "safeParse" in schema &&
-    typeof (schema as { safeParse?: unknown }).safeParse === "function"
-  );
+function inspectInput(
+  input: unknown,
+  entry: ToolEntry,
+  describe?: (issues: ToolInputValidationIssue[]) => string,
+): Error | undefined {
+  const validation = validateJsonSchemaValue(input, entry.inputSchema);
+  if (validation.valid) return undefined;
+  return failure("input", entry, validation.errors, describe?.(validation.issues));
 }
 
 export function validateInput(input: unknown, entry: ToolEntry): Error | undefined {
-  const validation = validateJsonSchemaValue(input, entry.inputSchema);
-  if (validation.valid) return undefined;
-
-  return createInputValidationError(entry, validation.errors);
+  return inspectInput(input, entry);
 }
 
 export function validateInitialModelToolInput(
@@ -73,44 +56,30 @@ export function validateInitialModelToolInput(
   entry: ToolEntry,
   runtimeValidationIssues?: readonly RuntimeInputValidationIssue[],
 ): Error | undefined {
-  const validation = validateJsonSchemaValue(input, entry.inputSchema);
-  if (validation.valid) return undefined;
-
-  // 模型原始参数的首次 schema 失败需要把具体问题回传给模型；Hook 或权限
-  // 修改后的输入属于不同生命周期，不能复用这段 provider-visible 内容。
-  const modelContent = createInitialInputValidationModelContent(
-    entry,
-    validation.issues,
-    runtimeValidationIssues,
+  // 首次调用独有的描述回调不进入后续 Hook/permission 校验，避免复用错误阶段的模型内容。
+  return inspectInput(input, entry, (issues) =>
+    createInitialInputValidationModelContent(entry, issues, runtimeValidationIssues),
   );
-  return createInputValidationError(entry, validation.errors, modelContent);
 }
 
 export function getInitialInputValidationModelContent(error: Error): string | undefined {
-  if (!isCoreError(error) || error.type !== CoreErrorType.ToolExecutionFailed) {
-    return undefined;
-  }
-  const modelContent = error.context?.[INITIAL_INPUT_VALIDATION_MODEL_CONTENT_KEY];
-  return typeof modelContent === "string" ? modelContent : undefined;
+  if (!isCoreError(error) || error.type !== CoreErrorType.ToolExecutionFailed) return undefined;
+  const value = error.context?.[MODEL_CONTENT];
+  return typeof value === "string" ? value : undefined;
 }
 
-function createInputValidationError(
-  entry: ToolEntry,
-  errors: string[],
-  modelContent?: string,
-): Error {
-  return createCoreError(
-    CoreErrorType.ToolExecutionFailed,
-    "Tool input failed inputSchema validation",
-    {
-      context: {
-        errors: errors.slice(0, 20),
-        toolName: entry.metadata.name,
-        ...(modelContent === undefined
-          ? {}
-          : { [INITIAL_INPUT_VALIDATION_MODEL_CONTENT_KEY]: modelContent }),
-      },
-      recoverable: true,
-    },
-  );
+export function validateOutput(output: unknown, entry: ToolEntry): void {
+  const parse = runtimeParser(entry.runtimeOutputSchema, "output");
+  if (parse) {
+    const result = parse(output);
+    if (result.success) return;
+    const error = result.error as { issues: Array<{ message: string }> };
+    throw failure(
+      "runtimeOutput",
+      entry,
+      error.issues.map((issue) => issue.message),
+    );
+  }
+  const validation = validateJsonSchemaValue(output, entry.outputSchema);
+  if (!validation.valid) throw failure("output", entry, validation.errors);
 }
