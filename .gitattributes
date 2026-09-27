@@ -15,3 +15,4 @@ third-party/runtime/*.txt -text -whitespace
 third-party/inventory.json linguist-generated=true
 licensing/upstream-baseline.json linguist-generated=true
 licensing/current-files.json linguist-generated=true
+licensing/evidence/*.json linguist-generated=true

@@ -15,6 +15,7 @@ import {
   serializeReport,
 } from "./model.mjs";
 import { git, readCurrentFiles, readRepositoryFile } from "./git.mjs";
+import { compareMaterialIcons } from "./material-icons.mjs";
 
 const file = (path, content) => ({ path, kind: "file", ...fingerprint(Buffer.from(content)) });
 const baseline = (files) => ({
@@ -153,6 +154,66 @@ test("real Git enumeration includes untracked sources, excludes ignored/deleted 
     assert.equal(result.find((entry) => entry.path === "link").kind, "symlink");
     await assert.rejects(readRepositoryFile(root, "link/outside.txt"), /escapes repository/);
     assert.equal(await readFile(join(external, "outside.txt"), "utf8"), "must not be read");
+  } finally {
+    await rm(fixture, { recursive: true, force: true });
+  }
+});
+
+test("icon provenance requires both a retained publisher license and byte-identical source, not a directory claim", async () => {
+  const fixture = await mkdtemp(join(tmpdir(), "knorvia-icon-provenance-test-"));
+  try {
+    const source = join(fixture, "source");
+    const root = join(fixture, "repo");
+    await mkdir(join(source, "icons"), { recursive: true });
+    await mkdir(join(root, "assets"), { recursive: true });
+    await git(source, ["init", "-q"]);
+    await writeFile(join(source, "LICENSE"), "Publisher license fixture\n");
+    await writeFile(join(source, "icons", "same.svg"), "<svg>source</svg>\n");
+    await writeFile(join(source, "icons", "changed.svg"), "<svg>source</svg>\n");
+    await git(source, ["add", "."]);
+    await git(source, [
+      "-c",
+      "user.name=Fixture",
+      "-c",
+      "user.email=fixture@example.invalid",
+      "-c",
+      "commit.gpgSign=false",
+      "commit",
+      "-qm",
+      "Source fixture",
+    ]);
+    const commit = (await git(source, ["rev-parse", "HEAD"])).toString().trim();
+    // 从 Git 对象读取原字节，避免 Windows 的 core.autocrlf 影响测试夹具自身。
+    const license = await git(source, ["show", `${commit}:LICENSE`]);
+    await writeFile(join(root, "LICENSE.txt"), license);
+    await writeFile(
+      join(root, "assets", "same.svg"),
+      await git(source, ["show", `${commit}:icons/same.svg`]),
+    );
+    await writeFile(join(root, "assets", "changed.svg"), "<svg>custom</svg>\n");
+    await writeFile(join(root, "assets", "missing.svg"), "<svg>unknown</svg>\n");
+    const component = {
+      id: "Material Icon Theme",
+      referenceRevision: commit,
+      file: "LICENSE.txt",
+      sha256: fingerprint(license).sha256,
+      files: ["same.svg", "changed.svg", "missing.svg"].map((name) => ({ file: `assets/${name}` })),
+    };
+    const result = await compareMaterialIcons(root, source, component);
+    assert.deepEqual(
+      result.matched.map((entry) => entry.path),
+      ["assets/same.svg"],
+    );
+    assert.deepEqual(result.unresolved, [
+      { path: "assets/changed.svg", reason: "content-different" },
+      { path: "assets/missing.svg", reason: "source-path-not-found" },
+    ]);
+    await assert.rejects(
+      compareMaterialIcons(root, source, { ...component, sha256: "0".repeat(64) }),
+      /digest mismatch/,
+    );
+    await writeFile(join(root, "LICENSE.txt"), "Unrelated license");
+    await assert.rejects(compareMaterialIcons(root, source, component), /Retained license differs/);
   } finally {
     await rm(fixture, { recursive: true, force: true });
   }

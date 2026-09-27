@@ -3,6 +3,7 @@
   "ignorePatterns": [
     "licensing/upstream-baseline.json",
     "licensing/current-files.json",
+    "licensing/evidence/*.json",
     "THIRD-PARTY-NOTICES.md",
     "apps/cli/packages/cua-plugin/docs/THIRD-PARTY-NOTICES-CUA-DRIVER.md",
     "apps/cli/packages/cua-plugin/docs/cua-license-inventory.json",
