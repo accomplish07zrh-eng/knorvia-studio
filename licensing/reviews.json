@@ -22318,6 +22318,50 @@
         "specs/knorvia-browser-runtime-installation.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/browser-control-broker.ts",
+      "normalizedSha256": "9b17d7315d864cbfb8fed476c63fbf0048a2bd9b2a70c00cc39b27615fd4f76a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent protocol channel, connection ledger and port composition designed from documented request/lifecycle contracts. Per-request identity is captured at admission, cancellation uses that snapshot, and close atomically detaches its own connection set. Eight baseline cases pass the previous implementation; four cancellation/lifecycle failures were reproduced before replacement. Existing protocol names, schemas and session interfaces remain compatibility dependencies with their own provenance. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-protocol-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/browser-request-channel.ts",
+      "normalizedSha256": "326674e7fc15da005638d747198c6e3fd11a011fa3d1b5dc6f72c064181ef49d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent protocol channel, connection ledger and port composition designed from documented request/lifecycle contracts. Per-request identity is captured at admission, cancellation uses that snapshot, and close atomically detaches its own connection set. Eight baseline cases pass the previous implementation; four cancellation/lifecycle failures were reproduced before replacement. Existing protocol names, schemas and session interfaces remain compatibility dependencies with their own provenance. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-protocol-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/browser-session-connections.ts",
+      "normalizedSha256": "a4ed4de414f48b84145ff823e0a5c4a1d7120590b8a183eab8b9d3ce258dda5e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent protocol channel, connection ledger and port composition designed from documented request/lifecycle contracts. Per-request identity is captured at admission, cancellation uses that snapshot, and close atomically detaches its own connection set. Eight baseline cases pass the previous implementation; four cancellation/lifecycle failures were reproduced before replacement. Existing protocol names, schemas and session interfaces remain compatibility dependencies with their own provenance. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-protocol-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
+      "normalizedSha256": "c7fa903f58115a15f5fed3be8fdbd58c85d92476dd8ce00e5e7432c06e0b7f27",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent protocol channel, connection ledger and port composition designed from documented request/lifecycle contracts. Per-request identity is captured at admission, cancellation uses that snapshot, and close atomically detaches its own connection set. Eight baseline cases pass the previous implementation; four cancellation/lifecycle failures were reproduced before replacement. Existing protocol names, schemas and session interfaces remain compatibility dependencies with their own provenance. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
+      "evidence": [
+        "specs/knorvia-browser-protocol-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
