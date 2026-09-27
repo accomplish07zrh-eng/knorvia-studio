@@ -22593,6 +22593,94 @@
         "specs/knorvia-browser-wire-contracts.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/ipc.ts",
+      "normalizedSha256": "133da75016c39159ffa032639312f3c4e78fd27dd6830e4a0a2541d26257b167",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/json-line.ts",
+      "normalizedSha256": "c19346be297ccdc4fbfd18fcb0893858d49717f5143f480c6ccc79a8daacc79b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/broker-transaction.ts",
+      "normalizedSha256": "2d61d8c02fbd3af3eeb09977ab896d7db795ffb605e7f1781e3e0b159a0a3021",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/request-context.ts",
+      "normalizedSha256": "e688630864edcbfcd0e7ffdc1905a8bb518e5ec0ac538c74d586a27a8331d5a5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/ipc-frame.test.ts",
+      "normalizedSha256": "3cf76acf70139b4b2383c2e7764c36b8efda7c8056db8f142ff8212d06daa045",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/ipc-call.test.ts",
+      "normalizedSha256": "d70213115d808bb4c46d894f605b21a5914b887566cf342ec1bd6d70be1f2ffd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/ipc-context.test.ts",
+      "normalizedSha256": "eb0aa6baa28a702750f2ef0c22ec0d1dd4f885911e841caa75f6e723880ffd0e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/ipc-test-support.ts",
+      "normalizedSha256": "e225856f66317497b04a5c9edbdcff9c74ab383be13910fc42efd04d06e8e752",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent host IPC design separates an incremental byte-budgeted UTF-8/JSON reader, a single connection transaction with a pre-connection request snapshot, and explicit browser/computer metadata projection. Public function names and protocol identity/error fields remain interoperability requirements. Thirty initial black-box assertions ran before replacement: 25 passed and 5 exposed serialization crash, over-counted trailing bytes, raw parse diagnostics, EOF waiting, and interceptable cancellation. Thirty-two assertions and actual built MCP/browser/CUA simulated transactions validate the new boundary. Existing source access is disclosed; this is not a no-access clean-room claim or a claim that hash differences establish originality. Node runtime facilities remain third-party dependencies; other host modules are not reclassified.",
+      "evidence": [
+        "specs/knorvia-repl-transport.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
