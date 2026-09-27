@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "scripts/provenance/model.mjs",
+      "normalizedSha256": "16ee281079326b25e91e419f1765073917c6535c0d97d397977004a9cdd29817",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/git.mjs",
+      "normalizedSha256": "4c0a8e0cd6dfe12ac8066f4e978e9e5677ca476902e790155f139c68c03671fb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/cli.mjs",
+      "normalizedSha256": "a55654e1ce41e38247076eafe7325559e346a747a6b3aa27f82e5c42e3ef915d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/provenance.test.mjs",
+      "normalizedSha256": "81d37c70ad76666f294b16c197e18caf1b6f54bde38663f2195322a6acd97785",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/repl/cell-compiler.ts",
+      "normalizedSha256": "fdc39c840c8060367fd44b2d52164d474f301cdc29fd7d5531909bd8b087928a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New implementation or behavioral contract test authored from the REPL cell specification and public type contracts; not a line-by-line rewrite of the removed instrument implementation. Meriyah remains a third-party dependency.",
+      "evidence": [
+        "specs/knorvia-repl-compiler.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/repl-cell-compiler.test.ts",
+      "normalizedSha256": "69699b2331004dc770ca69c6ab598b351389c6442ea2322321d26d154e56cc2e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New implementation or behavioral contract test authored from the REPL cell specification and public type contracts; not a line-by-line rewrite of the removed instrument implementation. Meriyah remains a third-party dependency.",
+      "evidence": [
+        "specs/knorvia-repl-compiler.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    }
+  ]
+}

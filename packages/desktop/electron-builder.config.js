@@ -583,6 +583,7 @@ export default {
     { from: "resources/creation-mcp.cjs", to: "creation-mcp.cjs" },
     { from: resolve(workspaceRoot, "LICENSE"), to: "LICENSE.knorvia.txt" },
     { from: resolve(workspaceRoot, "NOTICE.md"), to: "NOTICE.md" },
+    { from: resolve(workspaceRoot, "licensing/MIT.txt"), to: "licensing/MIT.txt" },
     {
       from: resolve(workspaceRoot, "third-party/ui/lobe-icons-LICENSE.txt"),
       to: "licenses/lobe-icons-LICENSE.txt",

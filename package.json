@@ -32,6 +32,8 @@
     "test:studio": "node scripts/test-studio.mjs",
     "test:studio:ui": "node scripts/studio-activity-rail-smoke.mjs",
     "test:studio:packaged": "node scripts/test-studio-packaged.mjs",
+    "provenance:report": "node scripts/provenance/cli.mjs",
+    "provenance:check": "node scripts/provenance/cli.mjs --check",
     "perf:baseline": "node scripts/perf-baseline.mjs",
     "bundle:desktop": "pnpm --filter @knorvia/desktop run bundle --",
     "fmt": "oxfmt",

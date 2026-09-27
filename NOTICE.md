@@ -6,6 +6,8 @@
 
 本仓库适用根目录 [LICENSE](LICENSE) 中的 Apache-2.0 条款。第三方依赖、复制代码、插件、字体、图标、原生工具及其他资产各自的许可与版权声明，见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) 及对应目录内的许可文件。产品名称和产品文案不改变这些文件记录的权利归属。
 
+2026-09-27 起按[独立实现规格](specs/knorvia-independent-implementation.md) 逐文件核验并替换实现。新编写的来源审计工具及 REPL 单元编译器采用 [MIT](licensing/MIT.txt)，范围以 [licensing/](licensing/README.md) 中绑定摘要的逐文件记录为准；REPL 宿主及其他未替换代码仍保留原有许可，不将整个应用提前声明为 MIT。
+
 内置插件逐项许可与实现范围见[插件记录](docs/knorvia-plugin-license-audit.md)。八项插件使用本次新编写的资产与适配代码，随包提供 MIT 许可；浏览器与执行宿主继续依赖现有 core 公共 SDK，各依赖保留其许可和权利归属。外部文档工具适用各自许可。
 
 ## 当前功能与执行边界

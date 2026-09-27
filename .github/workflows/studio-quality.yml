@@ -73,6 +73,10 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Check file provenance inventory
+        id: provenance
+        run: node scripts/provenance/cli.mjs --check
+
       - name: Install frozen dependencies
         run: pnpm install ${{ inputs.install-args }}
 
@@ -116,6 +120,7 @@ jobs:
             echo "| lint | ${{ steps.lint.outcome }} |"
             echo "| fmt:check | ${{ steps.format.outcome }} |"
             echo "| architecture:check | ${{ steps.architecture.outcome }} |"
+            echo "| provenance:check | ${{ steps.provenance.outcome }} |"
             echo "| build:cli-packages | ${{ steps.build-cli.outcome }} |"
             echo "| test:studio | ${{ steps.test-studio.outcome }} |"
             echo ""
