@@ -3,12 +3,13 @@
   "files": [
     {
       "path": "scripts/provenance/model.mjs",
-      "normalizedSha256": "16ee281079326b25e91e419f1765073917c6535c0d97d397977004a9cdd29817",
+      "normalizedSha256": "973e3f7ec53b6bfa4f7e5791c132af46f6585c9c973ce1cd8512629883384feb",
       "decision": "original",
       "license": "MIT",
-      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
+        "licensing/evidence/node-repl-host-retained.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
     },
@@ -23317,6 +23318,93 @@
       "basis": "New specification defines build/publication ownership and order, compatibility of paths, build identity and third-party compiler settings, error/cleanup requirements, import behavior, acceptance criteria and scoped licensing limits. It does not claim invention of filesystem rename or the bundle format. Prior source was read; this is not a no-access clean-room assertion. Public option names, output paths, esbuild settings, environment identifiers and standard Node interop are compatibility constraints, not evidence of original authorship. esbuild remains a third-party compiler. This record covers only the listed file, not inherited configuration, standard license text, remaining host modules or the whole application.",
       "evidence": [
         "specs/knorvia-repl-host-build.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/.gitignore",
+      "normalizedSha256": "2b86384aac9b1fa17a0b810476f42262e8c5d48d8d5a0ecf8e8b565cd744b16f",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Single generated declaration-output exclusion, present in the first Knorvia snapshot 7619e41. No fixed-baseline match; lack of a match is not evidence of authorship. This is a nature-only review; existing applicable license notices are retained and no new license grant or authorship claim is made.",
+      "evidence": [
+        "licensing/evidence/node-repl-host-retained.md",
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/package.json",
+      "normalizedSha256": "a0badbddd5e47a78c7c495c1be63272589ae7b7238a051742d82cacbd22c136a",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Exports, build/typecheck/lint commands and dependencies retain the fixed upstream configuration relationship (blob d85ac2fdb7363ae80a0d5bda510ab36a1caf3d9e); current identity/version/license fields changed. The package MIT field is not a whole-package implementation provenance decision. This is a nature-only review; existing applicable license notices are retained and no new license grant or authorship claim is made.",
+      "evidence": [
+        "licensing/evidence/node-repl-host-retained.md",
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/tsconfig.json",
+      "normalizedSha256": "a90b3f69c2f3555aadb4ee63d15522edddaf2155d982a1874e9bc3862466e3b0",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Compiler and inclusion configuration is byte-identical to fixed upstream blob d9d9d4f8551401997dad6f2e8a4cbaa137dfb3a5. The upstream-unchanged fact must remain visible. This is a nature-only review; existing applicable license notices are retained and no new license grant or authorship claim is made.",
+      "evidence": [
+        "licensing/evidence/node-repl-host-retained.md",
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/.knorvia-plugin/plugin.json",
+      "normalizedSha256": "ebe0e64a870722f693fc21d658c0d38c1dd6cbe8ad78f92c576f1313ea99d98b",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Explicitly verified path rename from the fixed upstream .zcode-plugin/plugin.json, blob 296aa99fe1cdec43d26fb6882fa210b8bf29746e. Version, author, license and description changes are manifest configuration, not independent implementation. This is a nature-only review; existing applicable license notices are retained and no new license grant or authorship claim is made.",
+      "evidence": [
+        "licensing/evidence/node-repl-host-retained.md",
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/docs/LICENSE.txt",
+      "normalizedSha256": "6e0a0b039fb0879034f6337a8bcec3939c2c6e9c8735293141bd00e590699456",
+      "decision": "reviewed-retained",
+      "nature": "standard-license-text",
+      "license": "NOASSERTION",
+      "basis": "Standard MIT grant/conditions/disclaimer prose matches licensing/MIT.txt apart from the retained Knorvia copyright line. It exists in snapshot 7619e41; this does not establish ownership of every accompanying source file or dependency. This is a nature-only review; existing applicable license notices are retained and no new license grant or authorship claim is made.",
+      "evidence": [
+        "licensing/evidence/node-repl-host-retained.md",
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/retained-review.test.mjs",
+      "normalizedSha256": "1b025b8cd61dde8393d4378d3d12ae8770fbeb48fd1d8109ffa25dc1a5b0dfb7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New Node-only audit contract tests verify non-authorizing nature review, preserved upstream and third-party facts, stale/missing/invalid rejection, separate statistics, serialization/newlines, and the exact evidenced alias plus collisions.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/node-repl-host-retained.md",
+      "normalizedSha256": "a621f3d1a60b3c389a04e2dbcc54f74209c040791488328eb4271e612eb99ad0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New project-specific evidence record enumerates five retained host configuration/license files with pinned upstream blob identities, snapshot limits and non-authorizing review semantics. Standard license wording is not claimed as project-authored.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
     }

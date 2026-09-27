@@ -8,6 +8,8 @@
 
 旧版发行记录、许可证及附件不追溯改写。
 
+功能配置和标准许可正文可使用 `reviewed-retained` 记录“已核验性质、保留声明”。它必须填写 `NOASSERTION`，仅表示这次复核不新增许可判断，不能撤销文件中已有的有效声明，也不代表独立实现。上游路径、摘要和分类照常保留；`summary.reviewedNatures` 是与来源分类重叠的独立统计，不能相加当成总文件数。首批宿主配置依据见[性质复核记录](evidence/node-repl-host-retained.md)。
+
 当前已验证范围见[迁移进展](../docs/knorvia-independence-progress-20260927.md)。
 
 ## 更新和检查

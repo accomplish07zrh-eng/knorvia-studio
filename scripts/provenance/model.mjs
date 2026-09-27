@@ -5,6 +5,20 @@ import { createHash } from "node:crypto";
 export const BASELINE_COMMIT = "872ad960de7ec172591f7e1952f7849229f94521";
 export const BASELINE_SOURCE = "https://github.com/zai-org/ZCode";
 export const REPORT_PATH = "licensing/current-files.json";
+const RETAINED_DECISION = "reviewed-retained";
+const RETAINED_NATURES = new Set(["functional-configuration", "standard-license-text"]);
+const REVIEW_DECISIONS = new Set([
+  "original",
+  "independent-replacement",
+  "third-party",
+  RETAINED_DECISION,
+]);
+const VERIFIED_PATH_ALIASES = new Map([
+  [
+    "apps/cli/packages/node-repl-host/.zcode-plugin/plugin.json",
+    "apps/cli/packages/node-repl-host/.knorvia-plugin/plugin.json",
+  ],
+]);
 
 export function fingerprint(bytes) {
   let normalized = bytes;
@@ -23,7 +37,8 @@ export function fingerprint(bytes) {
 }
 
 export function currentPath(path) {
-  return path.replace(/^apps\/zcode-cli\//, "apps/cli/");
+  const renamed = path.replace(/^apps\/zcode-cli\//, "apps/cli/");
+  return VERIFIED_PATH_ALIASES.get(renamed) ?? renamed;
 }
 
 export function assertRelativePath(path) {
@@ -63,9 +78,15 @@ export function createIndexes(baseline, reviews, thirdParty) {
   const reviewed = new Map();
   for (const entry of reviews.files) {
     assertRelativePath(entry.path);
+    const retained = entry.decision === RETAINED_DECISION;
+    // 性质复核不能新授予许可，也不能作为原创/第三方决定的附加免责标签。
+    const validNature = retained
+      ? RETAINED_NATURES.has(entry.nature) && entry.license === "NOASSERTION"
+      : !Object.hasOwn(entry, "nature");
     if (
       reviewed.has(entry.path) ||
-      !["original", "independent-replacement", "third-party"].includes(entry.decision) ||
+      !REVIEW_DECISIONS.has(entry.decision) ||
+      !validNature ||
       !/^[a-f0-9]{64}$/.test(entry.normalizedSha256) ||
       !entry.license ||
       !entry.basis?.trim() ||
@@ -113,13 +134,16 @@ export function classify(file, indexes) {
   const reviewConflict =
     !!match && ["original", "independent-replacement"].includes(review?.decision);
   const reviewAccepted = !!review && !reviewStale && !reviewConflict;
+  const retained = review?.decision === RETAINED_DECISION;
   return {
     ...file,
-    classification: reviewAccepted
-      ? review.decision
-      : upstream
-        ? `upstream-${upstreamRelation}`
-        : "unreviewed",
+    // 已核验性质仍保留上游事实，不能用 reviewed-retained 抹掉原样/修改关系。
+    classification:
+      reviewAccepted && (!retained || !upstream)
+        ? review.decision
+        : upstream
+          ? `upstream-${upstreamRelation}`
+          : "unreviewed",
     upstream: upstream
       ? {
           relation: upstreamRelation,
@@ -136,6 +160,7 @@ export function classify(file, indexes) {
       ? {
           status: reviewStale ? "stale" : reviewConflict ? "conflict" : "accepted",
           decision: review.decision,
+          ...(retained ? { nature: review.nature } : {}),
           basis: review.basis,
           evidence: review.evidence,
         }
@@ -156,8 +181,14 @@ export function createReport(files, baseline, reviews, thirdParty) {
   });
   records.sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
   const counts = {};
-  for (const record of records)
+  const reviewedNatures = {};
+  for (const record of records) {
     counts[record.classification] = (counts[record.classification] ?? 0) + 1;
+    if (record.review?.status === "accepted" && record.review.decision === RETAINED_DECISION) {
+      const { nature } = record.review;
+      reviewedNatures[nature] = (reviewedNatures[nature] ?? 0) + 1;
+    }
+  }
   return {
     schemaVersion: 1,
     baseline: { source: BASELINE_SOURCE, commit: baseline.commit },
@@ -166,6 +197,7 @@ export function createReport(files, baseline, reviews, thirdParty) {
     summary: {
       total: records.length,
       classifications: counts,
+      reviewedNatures,
       reviewProblems:
         records.filter((file) => file.review && file.review.status !== "accepted").length +
         missingReviews.length,
