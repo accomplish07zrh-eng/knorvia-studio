@@ -23077,6 +23077,61 @@
         "specs/knorvia-repl-dispatch.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/json-schema.ts",
+      "decision": "independent-replacement",
+      "basis": "A specification-driven traversal uses heap-resident iterator positions with object-identity tracking instead of recursive calls, preserving depth-first edge ordering while handling deep and cyclic memory graphs. Shape completion and a literal-kind reduction implement the existing provider subset. Prior behavior tests passed fifteen groups and exposed two stack failures; review reproduced cross-role alias ordering and sparse enum regressions in the first draft, and failing tests preceded both corrections. Twenty-one contract groups and twelve thousand fixed-seed structural/serialized-order comparisons to the prior pinned source pass. Zod conversion is still delegated to the attributed zod-to-json-schema library, not claimed as a Knorvia implementation. Source access is disclosed; this is not a no-access clean-room claim. Public API names, schema vocabulary, compatibility bounds and third-party APIs are functional constraints rather than evidence of original authorship. These decisions cover only the listed files; the conversion library, Zod, remaining contracts, core execution and other application code retain their applicable licenses.",
+      "normalizedSha256": "f92e73e514e6c40f3b743ffac874e72fd5d8dfebdff6ea01db524f4d700703e6",
+      "license": "MIT",
+      "evidence": [
+        "specs/knorvia-tool-schema-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/node-repl.ts",
+      "decision": "independent-replacement",
+      "basis": "The REPL data contract is now composed from a single strict historical input object, from which the advertised required-title object is derived; output field validators and public inferred types remain composable. User-facing field descriptions were newly written for the shared core/MCP lifetime boundary. Validation covers accepted values, rejected fields, issue paths, title/timeout bounds, property order and nested error normalization. Eighty-five built public tool schemas match the pre-change structure and serialized order, apart from the three explicitly rewritten JS input descriptions. Field compatibility itself is not an authorship claim. Source access is disclosed; this is not a no-access clean-room claim. Public API names, schema vocabulary, compatibility bounds and third-party APIs are functional constraints rather than evidence of original authorship. These decisions cover only the listed files; the conversion library, Zod, remaining contracts, core execution and other application code retain their applicable licenses.",
+      "normalizedSha256": "bf4acbb1a28dbd06894a098dc34839ddfbb77b1a9141f1ade89d3f450e4a7b95",
+      "license": "MIT",
+      "evidence": [
+        "specs/knorvia-tool-schema-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/test/tool-schema.test.ts",
+      "decision": "original",
+      "basis": "New public-boundary tests written for this migration cover normalization traversal limits, keyword/type rules, object identity, conversion errors, complex unions, deep/cyclic graphs and the observed alias/sparse-array regressions. Cases were executed before and after the affected implementation changes; they are not copied from an upstream test suite. Source access is disclosed; this is not a no-access clean-room claim. Public API names, schema vocabulary, compatibility bounds and third-party APIs are functional constraints rather than evidence of original authorship. These decisions cover only the listed files; the conversion library, Zod, remaining contracts, core execution and other application code retain their applicable licenses.",
+      "normalizedSha256": "3cf3f5ae4390d761a4b04137801ba7b4f3cc9c952266c60d9eab0dd272b4418c",
+      "license": "MIT",
+      "evidence": [
+        "specs/knorvia-tool-schema-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/test/repl-schema.test.ts",
+      "decision": "original",
+      "basis": "New tests characterize the existing published and historical REPL inputs and output parser using acceptance/rejection, exact parsed values, composable object APIs and emitted constraints. Fixture data is synthetic; field names and limits express the interoperability contract. Source access is disclosed; this is not a no-access clean-room claim. Public API names, schema vocabulary, compatibility bounds and third-party APIs are functional constraints rather than evidence of original authorship. These decisions cover only the listed files; the conversion library, Zod, remaining contracts, core execution and other application code retain their applicable licenses.",
+      "normalizedSha256": "8808313b7428b43cfb08bb9be6f6861df1f744d6fae9fc40a991e3b7814c39e2",
+      "license": "MIT",
+      "evidence": [
+        "specs/knorvia-tool-schema-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-schema-contracts.md",
+      "decision": "original",
+      "basis": "New migration specification written for this boundary records ownership, public compatibility, traversal semantics, independent design, prior-source access, third-party attribution, acceptance criteria and limits of parser versus full execution guarantees. It documents retained protocol facts and does not claim invention of JSON Schema, Zod or the original API. Source access is disclosed; this is not a no-access clean-room claim. Public API names, schema vocabulary, compatibility bounds and third-party APIs are functional constraints rather than evidence of original authorship. These decisions cover only the listed files; the conversion library, Zod, remaining contracts, core execution and other application code retain their applicable licenses.",
+      "normalizedSha256": "ccb5281a763bd3c4128155857143a1c8ba36dd063919c01aea5adeb64c70f827",
+      "license": "MIT",
+      "evidence": [
+        "specs/knorvia-tool-schema-contracts.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

@@ -1,61 +1,52 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import { z } from "zod";
 import { toToolJsonSchema } from "./json-schema.js";
 
-const JsInputBaseShape = {
-  // 同一模型 schema 同时服务 persistent core REPL 与 fresh-kernel Browser Use MCP；
-  // 字段文案不能替任一执行边界承诺跨调用状态，生命周期由各自 tool description 说明。
-  code: z.string().describe("JavaScript code to execute in the Node REPL session"),
-  // 只写 optional 无法让模型判断何时覆盖默认值，长等待容易在副作用完成后超时。
-  timeout_ms: z
-    .number()
-    .int()
-    .positive()
-    .max(120_000)
-    .optional()
-    .describe(
-      "Per-call timeout in milliseconds. You MUST provide this when the code is expected to run longer than 30000 ms, including all awaited operations. Set it to at least the estimated total runtime plus 15000 ms. If that exceeds the 120000 ms maximum, split the work into multiple calls.",
-    ),
-};
-const JsUserTitleSchema = z
+const LIMITS = { titleLength: 120, timeoutMs: 120_000 } as const;
+const title = z
   .string()
   .min(1)
-  .max(120)
+  .max(LIMITS.titleLength)
   .describe(
-    "Required short user-facing title in the user's language that describes the intended action without implementation terms such as js, JavaScript, or node_repl",
+    "Name the intended action briefly in the user's language. This title is required for new calls; avoid implementation labels such as js, JavaScript or node_repl.",
+  );
+const timeout = z
+  .number()
+  .int()
+  .positive()
+  .max(LIMITS.timeoutMs)
+  .optional()
+  .describe(
+    "Execution budget in milliseconds. For work expected to exceed 30000 ms, supply this field explicitly and include every awaited operation. Allow the estimated duration plus 15000 ms; divide the task into separate calls if it cannot fit within 120000 ms.",
   );
 
-/** js：在持久 REPL 里执行一段 JS 代码。 */
-export const JsInputSchema = z
-  .object({
-    ...JsInputBaseShape,
-    title: JsUserTitleSchema,
-  })
-  .strict();
-export type JsInput = z.infer<typeof JsInputSchema>;
-
-// 新调用必须提供用户可读标题，但旧会话和第三方 provider 的历史调用可能没有该字段。
+// 历史调用的标题可缺；新调用从同一对象收紧这一字段，其他校验和对象组合 API 保持一致。
+// 这里只定义数据，不承诺 core 持久会话与 MCP 隔离执行具有相同生命周期。
 export const JsRuntimeInputSchema = z
   .object({
-    ...JsInputBaseShape,
-    title: JsUserTitleSchema.optional(),
+    code: z
+      .string()
+      .describe(
+        "JavaScript source for this call; the selected tool defines the execution lifetime.",
+      ),
+    timeout_ms: timeout,
+    title: title.optional(),
   })
   .strict();
+export const JsInputSchema = JsRuntimeInputSchema.required({ title: true });
 export type JsRuntimeInput = z.infer<typeof JsRuntimeInputSchema>;
+export type JsInput = z.infer<typeof JsInputSchema>;
+
+const failure = z.object({ name: z.string(), message: z.string(), stack: z.string().optional() });
+const image = z.object({ base64: z.string(), mimeType: z.string() }).strict();
 
 export const JsOutputSchema = z
   .object({
     result: z.string().optional(),
     logs: z.string(),
-    error: z
-      .object({
-        name: z.string(),
-        message: z.string(),
-        stack: z.string().optional(),
-      })
-      .optional(),
-    // nodeRepl.emitImage 收集的图片（如 tab.screenshot 的截图）；formatModelContent 会转成 image 内容块给模型。
-    images: z.array(z.object({ base64: z.string(), mimeType: z.string() }).strict()).optional(),
-    // 模型显式 tab.screenshot() 原始 PNG 的 session artifact 绝对路径。
+    error: failure.optional(),
+    images: z.array(image).optional(),
     browserScreenshotPaths: z.array(z.string()).optional(),
     responseMeta: z.record(z.string(), z.unknown()).optional(),
   })

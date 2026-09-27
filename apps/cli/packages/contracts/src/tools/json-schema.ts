@@ -1,131 +1,102 @@
-// ============================================================
-// Zod -> provider-neutral JSON Schema for tool contracts
-// ============================================================
-
-import { zodToJsonSchema } from "zod-to-json-schema";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type { ZodTypeAny } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import type { JsonSchema } from "../model/index.js";
 
-const STRIPPED_SCHEMA_KEYS = new Set(["$schema", "$id", "$ref", "$defs", "definitions"]);
 export const TOOL_JSON_SCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema";
+const REFERENCE_KEYS = ["$schema", "$id", "$ref", "$defs", "definitions"] as const;
+const CHILD_KEYS = ["items", "additionalProperties", "oneOf", "anyOf", "allOf"] as const;
 
-/**
- * Convert a Zod runtime schema into the JSON Schema subset exposed to model
- * providers. Keep all built-in tool schemas on this path so runtime validation
- * and provider-facing function parameters cannot drift.
- */
-export function toToolJsonSchema(schema: ZodTypeAny): JsonSchema {
-  const jsonSchema = zodToJsonSchema(schema, {
-    $refStrategy: "none",
-    effectStrategy: "input",
-    target: "jsonSchema7",
-  }) as JsonSchema;
+const record = (value: unknown): value is JsonSchema =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
 
-  normalizeToolJsonSchema(jsonSchema);
-  jsonSchema.$schema = TOOL_JSON_SCHEMA_VERSION;
-  return jsonSchema;
+function literalType(values: unknown[]): string | undefined {
+  const kinds = new Set<string>();
+  let unsupported = false;
+  // 内存 schema 可能是稀疏数组；既有 every 语义跳过空位，但不跳过显式 undefined。
+  values.forEach((value) => {
+    const kind = value === null ? "null" : typeof value;
+    if (kind === "number") kinds.add(Number.isInteger(value) ? "integer" : "number");
+    else if (kind === "string" || kind === "boolean" || kind === "null") kinds.add(kind);
+    else unsupported = true;
+  });
+  if (unsupported || values.length === 0) return undefined;
+  if (kinds.size === 0) return "string";
+  if (kinds.has("number")) kinds.delete("integer");
+  return kinds.size === 1 ? kinds.values().next().value : undefined;
+}
+
+function inferredType(schema: JsonSchema): string | undefined {
+  if (record(schema.properties) || Array.isArray(schema.required)) return "object";
+  if (schema.items !== undefined || [schema.minItems, schema.maxItems].some(isNumber))
+    return "array";
+  if (Array.isArray(schema.enum)) return literalType(schema.enum);
+  if ("const" in schema) return literalType([schema.const]);
+  if ([schema.minLength, schema.maxLength].some(isNumber)) return "string";
+  if ([schema.minimum, schema.maximum].some(isNumber)) return "number";
+  return undefined;
+}
+
+function isNumber(value: unknown): boolean {
+  return typeof value === "number";
+}
+
+function completeShape(schema: JsonSchema): void {
+  if (schema.type === undefined) {
+    const inferred = inferredType(schema);
+    if (inferred !== undefined) schema.type = inferred;
+  }
+  const types = new Set(Array.isArray(schema.type) ? schema.type : [schema.type]);
+  if (types.has("object") && !record(schema.properties)) {
+    if (schema.additionalProperties === undefined) schema.properties = {};
+    else if (record(schema.additionalProperties) && schema.propertyNames === undefined) {
+      schema.propertyNames = { type: "string" };
+    }
+  }
+  // 联合 type 的补全顺序也保留：旧公开 schema 先发 object 字段，再发 array 字段。
+  if (types.has("array") && schema.items === undefined) schema.items = {};
+}
+
+function* normalizeNode(node: JsonSchema): Generator<unknown> {
+  for (const key of REFERENCE_KEYS) delete node[key];
+  if (record(node.properties)) {
+    for (const child of Object.values(node.properties)) yield child;
+  }
+  for (const key of CHILD_KEYS) yield node[key];
+  if (Array.isArray(node.anyOf) && node.oneOf === undefined) {
+    node.oneOf = node.anyOf;
+    delete node.anyOf;
+  }
+  completeShape(node);
 }
 
 export function normalizeToolJsonSchema(schema: JsonSchema): JsonSchema {
-  normalizeSchemaNode(schema);
+  // 显式保存每层迭代位置，保留旧深度优先次序；反向压入全部节点会改变跨角色别名的结果。
+  // 按身份去重防止循环，生成器只产出下一条边，不互相递归，深层结构不再耗尽调用栈。
+  const pending: Iterator<unknown>[] = [[schema].values()];
+  const visited = new WeakSet<object>();
+  while (pending.length) {
+    const edge = pending[pending.length - 1]!.next();
+    if (edge.done) {
+      pending.pop();
+      continue;
+    }
+    const current = edge.value;
+    if (current === null || typeof current !== "object" || visited.has(current)) continue;
+    visited.add(current);
+    pending.push(Array.isArray(current) ? current.values() : normalizeNode(current as JsonSchema));
+  }
   return schema;
 }
 
-function normalizeSchemaNode(value: unknown): void {
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      normalizeSchemaNode(item);
-    }
-    return;
-  }
-
-  if (!isRecord(value)) return;
-
-  for (const key of STRIPPED_SCHEMA_KEYS) {
-    delete value[key];
-  }
-
-  if (isRecord(value.properties)) {
-    for (const child of Object.values(value.properties)) {
-      normalizeSchemaNode(child);
-    }
-  }
-
-  normalizeSchemaNode(value.items);
-  normalizeSchemaNode(value.additionalProperties);
-  normalizeSchemaNode(value.oneOf);
-  normalizeSchemaNode(value.anyOf);
-  normalizeSchemaNode(value.allOf);
-
-  if (Array.isArray(value.anyOf) && value.oneOf === undefined) {
-    value.oneOf = value.anyOf;
-    delete value.anyOf;
-  }
-
-  if (value.type === undefined) {
-    const inferredType = inferSchemaType(value);
-    if (inferredType) {
-      value.type = inferredType;
-    }
-  }
-
-  const typeValues = Array.isArray(value.type) ? value.type : [value.type];
-  if (
-    typeValues.includes("object") &&
-    !isRecord(value.properties) &&
-    isRecord(value.additionalProperties) &&
-    value.propertyNames === undefined
-  ) {
-    value.propertyNames = { type: "string" };
-  }
-  if (
-    typeValues.includes("object") &&
-    !isRecord(value.properties) &&
-    value.additionalProperties === undefined
-  ) {
-    value.properties = {};
-  }
-  if (typeValues.includes("array") && value.items === undefined) {
-    value.items = {};
-  }
-}
-
-function inferSchemaType(schema: Record<string, unknown>): string | undefined {
-  if (isRecord(schema.properties) || Array.isArray(schema.required)) {
-    return "object";
-  }
-  if (
-    schema.items !== undefined ||
-    typeof schema.minItems === "number" ||
-    typeof schema.maxItems === "number"
-  ) {
-    return "array";
-  }
-  if (Array.isArray(schema.enum)) {
-    return inferTypeFromValues(schema.enum);
-  }
-  if ("const" in schema) {
-    return inferTypeFromValues([schema.const]);
-  }
-  if (typeof schema.minLength === "number" || typeof schema.maxLength === "number") {
-    return "string";
-  }
-  if (typeof schema.minimum === "number" || typeof schema.maximum === "number") {
-    return "number";
-  }
-  return undefined;
-}
-
-function inferTypeFromValues(values: unknown[]): string | undefined {
-  if (values.length === 0) return undefined;
-  if (values.every((value) => typeof value === "string")) return "string";
-  if (values.every((value) => typeof value === "boolean")) return "boolean";
-  if (values.every((value) => Number.isInteger(value))) return "integer";
-  if (values.every((value) => typeof value === "number")) return "number";
-  if (values.every((value) => value === null)) return "null";
-  return undefined;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+export function toToolJsonSchema(schema: ZodTypeAny): JsonSchema {
+  const generated = zodToJsonSchema(schema, {
+    target: "jsonSchema7",
+    effectStrategy: "input",
+    $refStrategy: "none",
+  }) as JsonSchema;
+  const normalized = normalizeToolJsonSchema(generated);
+  normalized.$schema = TOOL_JSON_SCHEMA_VERSION;
+  return normalized;
 }

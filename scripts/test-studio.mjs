@@ -13,6 +13,7 @@ const testDirectories = [
   "packages/shared/test",
   "packages/rpc/test",
   "apps/cli/packages/core/test",
+  "apps/cli/packages/contracts/test",
   "apps/cli/packages/adapters/test",
   "apps/cli/packages/plugin-creator-plugin/test",
   "apps/cli/packages/node-repl-host/test",
