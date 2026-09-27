@@ -22780,6 +22780,61 @@
         "specs/knorvia-repl-bridges.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/cua-broker.ts",
+      "normalizedSha256": "dbe050a88ffdbab01ccb74ce0a829fe6b5a42c9b31dece3473a137b53f8573b4",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent local service architecture separates the one-frame socket lifetime owner from authenticated Computer Use request adaptation and diagnostic serialization. Public connection, runtime and identity contracts remain compatible. Fourteen real local IPC contract groups ran before replacement: thirteen passed and an isolated child demonstrated that an unprintable thrown value crashes the former host; all pass after replacement. Actual built MCP stdio and worker verify context, app provenance, error containment and subsequent availability. Prior source access is disclosed; this is not a no-access clean-room claim and file splitting, new hashes or compatibility alone do not establish authorship. Runtime device code, permissions and the remaining host modules are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-computer-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/cua-request.ts",
+      "normalizedSha256": "79a4140c308d244d590b8e91c4505954340313f7746c1e046eedc6ee800e38ea",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent local service architecture separates the one-frame socket lifetime owner from authenticated Computer Use request adaptation and diagnostic serialization. Public connection, runtime and identity contracts remain compatible. Fourteen real local IPC contract groups ran before replacement: thirteen passed and an isolated child demonstrated that an unprintable thrown value crashes the former host; all pass after replacement. Actual built MCP stdio and worker verify context, app provenance, error containment and subsequent availability. Prior source access is disclosed; this is not a no-access clean-room claim and file splitting, new hashes or compatibility alone do not establish authorship. Runtime device code, permissions and the remaining host modules are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-computer-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/src/local-request-server.ts",
+      "normalizedSha256": "7bf54efaabcbe7ec5b28bfa47fcf168f52398c01743a6b380f6611cdea30c048",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent local service architecture separates the one-frame socket lifetime owner from authenticated Computer Use request adaptation and diagnostic serialization. Public connection, runtime and identity contracts remain compatible. Fourteen real local IPC contract groups ran before replacement: thirteen passed and an isolated child demonstrated that an unprintable thrown value crashes the former host; all pass after replacement. Actual built MCP stdio and worker verify context, app provenance, error containment and subsequent availability. Prior source access is disclosed; this is not a no-access clean-room claim and file splitting, new hashes or compatibility alone do not establish authorship. Runtime device code, permissions and the remaining host modules are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-computer-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/cua-broker-test-support.ts",
+      "normalizedSha256": "7441beab0b051d74e917e67e59355bbbc64d5a209c8489f9ae31a5c29aaa3548",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent local service architecture separates the one-frame socket lifetime owner from authenticated Computer Use request adaptation and diagnostic serialization. Public connection, runtime and identity contracts remain compatible. Fourteen real local IPC contract groups ran before replacement: thirteen passed and an isolated child demonstrated that an unprintable thrown value crashes the former host; all pass after replacement. Actual built MCP stdio and worker verify context, app provenance, error containment and subsequent availability. Prior source access is disclosed; this is not a no-access clean-room claim and file splitting, new hashes or compatibility alone do not establish authorship. Runtime device code, permissions and the remaining host modules are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-computer-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/node-repl-host/test/cua-broker.test.ts",
+      "normalizedSha256": "e627c1282a1fff4dd7c5c9ea430963d2a6ca16bddf0658c836ca95fbe39f730a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent local service architecture separates the one-frame socket lifetime owner from authenticated Computer Use request adaptation and diagnostic serialization. Public connection, runtime and identity contracts remain compatible. Fourteen real local IPC contract groups ran before replacement: thirteen passed and an isolated child demonstrated that an unprintable thrown value crashes the former host; all pass after replacement. Actual built MCP stdio and worker verify context, app provenance, error containment and subsequent availability. Prior source access is disclosed; this is not a no-access clean-room claim and file splitting, new hashes or compatibility alone do not establish authorship. Runtime device code, permissions and the remaining host modules are outside this decision.",
+      "evidence": [
+        "specs/knorvia-repl-computer-broker.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }

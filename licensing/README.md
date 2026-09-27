@@ -4,7 +4,7 @@
 
 `upstream-baseline.json` 固定最初使用的上游提交及逐文件摘要；`current-files.json` 覆盖当前工作区文件；`reviews.json` 保存绑定文件摘要的复核决定。工具说明和完成标准见 [独立实现规格](../specs/knorvia-independent-implementation.md)。没有匹配上游文件只代表需要审查，不代表原创。目录级第三方声明可能仅覆盖文件中的部分内容。
 
-新编写的 `scripts/provenance/` 审计工具、REPL 编译与会话执行器、`core/src/browser-client/` 中的 SDK 与安装入口、bootstrap 浏览器协议与本地 IPC 转发器、`shared/src/browser-use/` 共享线协议与 CLI 浏览器端口、执行宿主的本地帧传输、身份投影与能力桥，以及对应的新契约测试，采用本目录 [MIT 许可](MIT.txt)。具体文件与摘要见 `reviews.json`。这不改变被审计代码、其他协议、其余 MCP 宿主模块、执行后端和未确认文件的许可，也不表示应用已经完成独立替换。Zod 等第三方依赖仍保留其原许可和署名，不计为 Knorvia 原创。新增 Knorvia 代码应注明许可并记录来源；修改现有文件须保留仍适用的版权及许可，贡献者不得提交无权提供的代码、素材或凭据。
+新编写的 `scripts/provenance/` 审计工具、REPL 编译与会话执行器、`core/src/browser-client/` 中的 SDK 与安装入口、bootstrap 浏览器协议与本地 IPC 转发器、`shared/src/browser-use/` 共享线协议与 CLI 浏览器端口、执行宿主的本地帧传输、身份投影、能力桥与 Computer Use 本地请求服务，以及对应的新契约测试，采用本目录 [MIT 许可](MIT.txt)。具体文件与摘要见 `reviews.json`。这不改变被审计代码、其他协议、其余 MCP 宿主模块、执行后端和未确认文件的许可，也不表示应用已经完成独立替换。Zod 等第三方依赖仍保留其原许可和署名，不计为 Knorvia 原创。新增 Knorvia 代码应注明许可并记录来源；修改现有文件须保留仍适用的版权及许可，贡献者不得提交无权提供的代码、素材或凭据。
 
 旧版发行记录、许可证及附件不追溯改写。
 
