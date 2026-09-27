@@ -23968,6 +23968,138 @@
         "specs/knorvia-tool-result-budget.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "normalizedSha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent synchronous invocation router separates primary terminal selection, ordered candidate ports and a named-projector map with generic diff fallback. The former monolithic projection bodies no longer remain in this entrypoint. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display-text.ts",
+      "normalizedSha256": "274c5f8a4b0eca9e12a7772dba4e7afb9c40a95d59b63b278cc43236f11f81a0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The shared display budget entry uses the independently designed directional code-point allocator and a reserved full marker quota. It replaces full code-point-array construction and binary-search candidate encoding without changing the marker contract. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/bash-result-display.ts",
+      "normalizedSha256": "8eddfa33f0b4774d50039fde774dcedd751c0df5628d2e4a0b0704cd0adef4b9",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The independently designed Bash pipeline selects eligible output, assembles streams and encodes directly into a fixed-size buffer before decoding. This bounds temporary encoded allocation while retaining truncation-only BOM and unpaired-surrogate semantics. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/computer-card.ts",
+      "normalizedSha256": "0f4e38dcefb58014a76bb1c0383f681f9c5879e039fbe0984da3b5aa49ca9a26",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New computer-card projection separates text observation, structured text, classified inline image admission against a remaining byte quota, and source-gated metadata consumption. It owns no device or session state and makes no authority inference from tool names. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/repl-card.ts",
+      "normalizedSha256": "dbd246eb86ed12fb9544b84b848053216c95bfbf2f0d886cb28504417f680a36",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New discriminated image candidate classification separates ignored, oversized and usable results from ordered quota admission; host application identity is consumed separately so action-only cards remain possible. The encoded-byte budget deliberately remains independent of CUA decoded-byte accounting. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/task-cards.ts",
+      "normalizedSha256": "55510561ec370088018fa54816fc51b6581a9af52378b12c52c700b5c8e84d23",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent named-projector table exposes strict-schema adapters for task results. Ordered optional-field projection, duplicated-command recognition and separate character/byte budget stages replace embedded dispatcher branches; original schemas and fixed messages remain external compatibility requirements. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/mcp-card.ts",
+      "normalizedSha256": "ef3378e55bb7de0c0abf0abed9611913ccff41a2f383e08ebdbb7aedb7420988",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "The new metadata-to-card adapter writes a bounded labeled record and independently applies the explicit official-source gate for the existing shared error parser. Short record and parser loops are dictated by the retained contract, not asserted as novel algorithms. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/display/diff-card.ts",
+      "normalizedSha256": "1afde7c0d4e76c06af4b3d7fa68d8d0711e66646bc0b560e6f66ea5eae4e7683",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New diff projection constructs an accepted set, obtains whole-result counts through the existing counter and allocates an index-based visible window with one line-consumption owner. Shallow-copy effects and the one-way truncation decision are preserved by a failing-then-passing regression. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-display-text.test.ts",
+      "normalizedSha256": "4a0a3e24bf389d72a6cb24701c0a523c6a3e7fb770b60f18ebb1110c2d615962",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New fixed-expectation tests establish route termination/fallback, strict task schemas, MCP source gates, Unicode/BOM behavior, display budgets and whole-patch counts. A finite shallow-copy side-effect case verifies no accidental removal of later hunks. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-display-media.test.ts",
+      "normalizedSha256": "857c5fd04375613363c0910d4707d7b4eebf6c7acb5b22bc399ab162707ad6f6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contracts cover CUA decoded image quotas, REPL encoded quotas, metadata authority, JSON failure behavior, app-only cards, field order and the real installed unsupported-permission contract. Fixtures perform no device or filesystem operations. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-display-permission.test.ts",
+      "normalizedSha256": "b60bc4cdcc79dfb29f13d978a34ccf398ccb9d7542f07d55e4dec41a0b030156",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated module substitute verifies only the permission-status consumer action/source gate. It explicitly does not assert that the real installed capability or a device permission is available. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-display.md",
+      "normalizedSha256": "7a9d652b01f7490f5394d5f9087e631bad319cd881045a01b84f2fe31a4bf679",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior/ownership specification fixes route ordering, field and media budgets, source-authority boundaries, output compatibility and the independently designed replacement strategies before production implementation. Prior source was accessed; no no-access clean-room claim is made. Fixed names, messages, field order, thresholds and finite read-order compatibility are not claimed as novel expression. Renaming, separation into files and passing tests alone are not the basis. Existing workflow displays, diff counting/generation, public schemas, shared MCP error parsing, CUA authority and UI remain outside this decision and retain their applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-display.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
