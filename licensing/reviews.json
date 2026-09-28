@@ -24430,6 +24430,83 @@
         "specs/knorvia-tool-deadline.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/batch-runner.ts",
+      "normalizedSha256": "f2b04ef5a9ec0fe218463f37452676af8340afb451cc2ab913e785dc547491ca",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent driver submits waves only after their completion receipt, resumes scheduled work around consumer-owned yield barriers, projects invocation options at dispatch and serially reports the cancelled remainder. A shared lazy projection fixes the missing off-peak context without an extra async layer or new cancellation policy. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/batches/execution-ledger.ts",
+      "normalizedSha256": "9677e358abbeb56ebf575d4b79fb7af469909e90ddc76f279b3c08d8d1fa317b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New pure per-run ledgers separate an acknowledged input interval from the schedule selection cursor and accumulated membership. The schedule ledger captures call identity once while consulting the caller-owned future groups when resumed; it returns group receipts and a stopped remainder without performing I/O or copying the plan into a second truth. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-batch-fixture.ts",
+      "normalizedSha256": "1b422fdc194867f7a7055b64de99132ddda1d448e7acd8c42ee25a4798c53403",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New inert calls, results, plans and generator collector reuse the already reviewed invocation fixtures. No product, device, browser or model operation is performed. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-batch-waves.test.ts",
+      "normalizedSha256": "d42c796febbae9e21f402993917d6b60aa19ed8113566afcd34581049fe8ff70",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contract tests establish whole-wave barriers, ordered outcomes, direct options/receiver identity, per-dispatch getter timing, synchronous versus Promise rejection, pre-cancel behavior and live later input. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-batch-schedule.test.ts",
+      "normalizedSha256": "91145b8788c6f5ba20f5aef3dcd7c75fddbc040317dba2f94ce3a8d2ee4f263b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contract tests preserve lazy generator start, yield identities, consumer return, mutable future groups/options and result membership, async-context resumption and actual executor off-peak forwarding. The old implementation fails only the intentional flag-forwarding correction. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-batch-stop.test.ts",
+      "normalizedSha256": "3e4efc21ee65130dbd72788fce0609096b9e5d09040b114bf69f81a00b12a939",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contracts lock strict turn-stop decisions after all current waves, duplicate/missing tail IDs, awaited event then log effects, trace fallback and unaltered rejection values. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-batch-execution.md",
+      "normalizedSha256": "780bbc576961ed8ef78c67bbf93698d89c68b95ab0fdedf906cfff70a60397dc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation specification defines ledger and effect-driver owners, input/options read boundaries, exact wave/yield/stop sequencing, the one declared forwarding correction and limited evidence/license scope. Prior source was accessed; no no-access clean-room claim is made. Public names, standard Promise/async-generator behavior, error fields and compatibility text are not claimed as inventions. The reviewed basis is this batch's per-run wave/schedule ledger ownership and one effect-driving continuation design, implemented from a preceding behavior specification and externally observable contracts. Renaming, class wrapping, splitting or tests alone are not sufficient evidence. The explicit offPeakTurn omission is covered by a failing baseline through the real executor. Dependency scheduling, runtime consumers, event transport, shared contracts and other adjacent implementation remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-batch-execution.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
