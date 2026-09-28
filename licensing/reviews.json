@@ -24760,6 +24760,127 @@
         "specs/knorvia-permission-approval.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow.ts",
+      "normalizedSha256": "7ff8243d79c7e3fcced829da6cd1b1bd9e2b8e85c42a06b3368917696277d4ca",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent compatibility entry creates the new invocation plan without reading external fields before the asynchronous driver boundary; it adds no second Promise adoption layer. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/plan-driver.ts",
+      "normalizedSha256": "a0423b5d06dd189467cdef0fb31b114a6dd1a57162eebebd34b574cf0061030d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New typed suspension vocabulary and single continuation driver separate external waiting from local decisions. Only invoke/await failures enter plan.throw; plan execution failures escape unchanged. The driver does not own approvals, queues or persisted facts. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/plan.ts",
+      "normalizedSha256": "7d96cf240dc3b39c553616c23d02bf31d9833597ba3c5e73d0f6fc0590411c47",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New single invocation plan owns assessment facts, project rules, decision, reply and optional normalized-input record. Named suspensions encode original wait and catch boundaries, with terminal outcomes distinct from emitted and persisted observations; no secondary responder state exists. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/assessment.ts",
+      "normalizedSha256": "d38178768de2431a8cc737637b5e3406abc78c3f0e18336fd4a6f9949ad53ba1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New pre-storage fact capture and post-storage evaluation projections keep context, policy and suggested updates by reference while expressing their separate lifetimes. Existing service, PreTool and memory contracts remain delegated and retain their own provenance. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/observations.ts",
+      "normalizedSha256": "f50a964125ce202e84f33943e3cfeabe36523da756d5d520922944ca6edc3651",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous diagnostic projections consume the plan-owned facts and preserve logger method capture and deferred argument reading. Fixed diagnostic records are compatibility declarations; they carry no approval state or new I/O. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/responders.ts",
+      "normalizedSha256": "98ecc4ae8993af04921551f88c9fc1b3e66c7e854bcbbcc0d973c4d4b06139a7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New per-request callback binding connects the plan to the separately reviewed responder arbitrator. It retains original port receivers and user-only Hook filtering, without registering or buffering a second answer. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/refusals.ts",
+      "normalizedSha256": "9fb3c93bf71a567dd4c7cdd9d76ee51a0f9beef28fcc7d527861240b5a638f0c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New terminal refusal projections preserve separate storage, request, policy and response error boundaries. They consume existing error constructors and the exact public schema rather than introducing an alternate error or permission service. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-flow-fixture.ts",
+      "normalizedSha256": "089d788cded4e9160eb00fefbcb4c79b744d40536ffd101f4c6f29482d99edea",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated permission fixture extends the reviewed invocation fixture with explicit decision state, inert rules store, receiver assertions, broker arguments and grant observations. No model, device or network calls are made. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-flow-assessment.test.ts",
+      "normalizedSha256": "f0f3bc21b3075d13d27ab39da913be5e3c293653f0c1449f72bc3548aea01184",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation contracts cover context capture before storage, original policy/rule references, service and publication failure boundaries, short-circuit priority, PreTool policy, request identities and measured wait scope. Baseline expectation and type issues were corrected before implementation. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-flow-replies.test.ts",
+      "normalizedSha256": "e71156e6722378ee307810ba11459ccc91312e5945c2c6f64bf8c3b1f06e15b5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation contracts cover CoreError propagation, event failure, denial/escalation, grant persistence, reply metadata reads, modified input validation/recheck, user-only authority and parent cancellation. Public event/error omissions are asserted rather than invented. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-permission-flow.md",
+      "normalizedSha256": "8c21026fc692fc938901808df2b6e7111343bd7428f2ab2c65f48c7c9478e095",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New design precedes implementation and identifies the plan owner, typed driver, failure boundaries, original effects order, offline acceptance and explicitly deferred all-broker readiness migration. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-permission-flow.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
