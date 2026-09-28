@@ -25524,6 +25524,94 @@
         "specs/knorvia-tool-hook-boundary.md",
         "docs/knorvia-tool-hook-boundary-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/output.ts",
+      "normalizedSha256": "12342bf3c86ad053c12f4ae153326f0c0163cb878677ba0e1027f60fa04ac641",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New stable entry surface and character-class matcher compiler choose exact alternatives or a regular expression without inherited matcher fallback. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/output-projection.ts",
+      "normalizedSha256": "69d774425c72eb417eda3d98aab13f171771c6ee811bf39379b97d920bb9914a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New event capability table and typed ordered field program project one output; discriminated specific payload handling and final Pre contradiction normalization keep refusal explanations consistent. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/output-reduction.ts",
+      "normalizedSha256": "10c5a373e9b596c6dfbf3182c003bf5392c2a2e48dba3997b106778517b71d00",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New field policy interpreter accumulates one Runner-owned result and pairs winning permission decisions with their reasons; structured refusal survives weaker replies while same-priority original references remain replaceable. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-output-projection.test.ts",
+      "normalizedSha256": "40f12ad4fe4847cc341f187b14668960a729f17b8bdca7f86d7e48738a35aa16",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New seven-event control, context, reference, own-field, wrong-event, matcher and red-first Pre conflict/dispatch-access tests. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-output-reduction.test.ts",
+      "normalizedSha256": "39473aa224b4f165025218137742ae26d5290cfa9dcfa2d04b14e37ce4d48036",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New refusal monotonicity, reason priority, same-priority reference, sticky control and input tests, including red-first live-read/own-undefined compatibility regressions. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-output-runner.test.ts",
+      "normalizedSha256": "f5794ca4ed208d4f4b2133e1068c756365a38703302e22b4f4dddc768090e94e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New real in-memory Runner and tool-admission tests cover refusal, visible explanation, registration sequence, original inputs, background ignore, concurrent isolation and callback/terminal publication failures. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-hook-output-reduction.md",
+      "normalizedSha256": "9d026ac215e1401caabb4ef002de7d4bb62ccfdad603d43ec424954b1dc72fc1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation owner and projection/reduction contracts, two intentional fix classes and explicit retained/deferred boundaries. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-hook-output-reduction-acceptance.md",
+      "normalizedSha256": "50388b0a6bc03c5eae4213691a5f3f2f5494ce7e88552083ab030e6898f993bd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New scoped provenance and red-first evidence, bounded source/compiled/public artifact verification and honest remaining migration limitations. Prior source was accessed; no no-access claim is made. This decision covers the new event-capability and ordered field projection program, explicit field-reduction policies, paired permission decision/reason selection, and primitive matcher classification. Fixed protocol records, text, order and standard collection/regex/evaluation semantics are compatibility requirements, not claimed inventions. Renaming, extraction and tests alone do not establish provenance. Runner execution/timeout/admission/lifecycle, its helpers, public schema/types, configured execution, display sanitization and trust storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-output-reduction.md",
+        "docs/knorvia-hook-output-reduction-acceptance.md"
+      ]
     }
   ]
 }
