@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import type {
   ScriptWorkflowActivityRecord,
   ScriptWorkflowActivityStatus,
@@ -7,8 +10,6 @@ import type {
   ScriptWorkflowRunStatus,
   SessionId,
   SessionTaskLinkRecord,
-  WorkflowAgentOptions,
-  WorkflowScriptMeta,
 } from "@knorvia/contracts";
 import { decodeJson } from "../json.js";
 
@@ -106,7 +107,7 @@ export function decodeDefinition(row: WorkflowDefinitionRow): ScriptWorkflowDefi
   return {
     enabled: row.enabled === 1,
     id: row.id,
-    meta: JSON.parse(row.meta_json) as WorkflowScriptMeta,
+    meta: JSON.parse(row.meta_json) as ScriptWorkflowDefinitionRecord["meta"],
     name: row.name,
     scope: row.scope,
     scriptHash: row.script_hash,
@@ -137,7 +138,7 @@ export function decodeRun(row: WorkflowRunRow): ScriptWorkflowRunRecord {
     scriptHash: row.script_hash,
     scriptPath: row.script_path ?? undefined,
     startedAt: row.time_started ?? undefined,
-    stats: decodeJson(row.stats_json),
+    stats: decodeJson<ScriptWorkflowRunRecord["stats"]>(row.stats_json),
     status: row.status,
     updatedAt: row.time_updated,
   };
@@ -155,7 +156,7 @@ export function decodeActivity(row: WorkflowActivityRow): ScriptWorkflowActivity
     id: row.id,
     inputHash: row.input_hash,
     label: row.label ?? undefined,
-    opts: decodeJson<WorkflowAgentOptions>(row.opts_json),
+    opts: decodeJson<ScriptWorkflowActivityRecord["opts"]>(row.opts_json),
     parentActivityId: row.parent_activity_id ?? undefined,
     phase: row.phase ?? undefined,
     prompt: row.prompt ?? undefined,

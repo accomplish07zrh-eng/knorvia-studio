@@ -26966,6 +26966,162 @@
         "docs/knorvia-session-input-storage-acceptance.md",
         "licensing/evidence/session-input-storage.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-runs.ts",
+      "normalizedSha256": "52fd6119db91f7d67c5db2397d3bcd85b8f7b752658107a36bcaf4a2e0795da9",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh definition/run operations with synchronous current-row patch selection, native writes and complete readback inside the existing borrowed transaction boundary; unchanged Promise surface and one SQLite state owner. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-activities.ts",
+      "normalizedSha256": "0687769f825027b9f41ea2781b5c7ba8b1a6e78d09a963300454c36b317f4fe0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh activity/event/task-link operations with synchronous borrowed owner, native number allocation and specified conflict scope; initial JS numeric-affinity regression corrected from behavioral feedback after red-first native cases. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/script-workflow-codecs.ts",
+      "normalizedSha256": "08b0db617156096b0284fcb8c4fc897ffa8f7641dfe755a9b1f7dd7fec51864e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh output from restricted behavioral/structural inputs for five pure row projections. Fixed ordered field mapping is highly similar to inherited mapping and carries no claim of algorithmic novelty; MIT headers and type-spelling edits are not the evidence. Decision relies on recorded restricted-author creation and verified input/output identities, not resemblance reduction; approved declarations and common expressions are compatibility constraints. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-fixture.ts",
+      "normalizedSha256": "97ddd3d05eef6d536fd2f5aca408018873315f1cee31d7d5a89bf7cf37ed0524",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic public-store fixtures, typed inputs, deterministic clocks and seven-writer setup with full native snapshots. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-runs.test.ts",
+      "normalizedSha256": "a7d74b03010cfbb3da5ad18c5bddc0932bf01d54cf5640170254177108505c0a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first definition/run persistence, JSON, filter/error, scope/clock and disjoint/same-field update behavior tests. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-transactions.test.ts",
+      "normalizedSha256": "82bba9497d652e8459f4ee845ff76bb3c31456b891460f9142098545c2c2a48d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New red-first seven-writer ownership/readback/deferred COMMIT checks and shared primary/cleanup/admission/clock invariants. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-extra-fixture.ts",
+      "normalizedSha256": "16c7f0e8791c6118587facdf4c7c35de38206691f5963e544e038a040f9221d5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored synthetic SQLite fixture for activity/event/link and codec compatibility. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-activities.test.ts",
+      "normalizedSha256": "622a20c3cf5d49a330c83e55c147ab32f53c13759016ec4fdfe2fcf9cdf246f4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first attempt/cache/patch/scope and native-error tests, followed by red-first SQLite text-affinity allocation acceptance. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-links-events.test.ts",
+      "normalizedSha256": "7fded49aa7890f29b60e28e5a49db85dae532e989cbd955cfcc92f8fd55b5f32",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first event-tail/sequence and task-link conflict/dynamic actor/FK checks; extra red-first native numeric allocation regression. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/script-workflow-codecs.test.ts",
+      "normalizedSha256": "f10c0a2ef4b5bedd4124c81805f327fb1c5bbd61e389f582dca7da466afe0db9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first five-record key order/prototype/nullability/JSON and malformed-field order compatibility tests. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-script-workflow-storage.md",
+      "normalizedSha256": "f745d871f7300658723c51e0b4662bbc498b3a28e530eb619755ae8d55eea157",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior full behavior, state ownership, public API and synchronous borrowed transaction design; native number-affinity requirement added before corresponding correction. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-script-workflow-storage-acceptance.md",
+      "normalizedSha256": "15f3d3d7693394d6de9dd7c8e5366929792c8bc8f60bd107b0a898c74961c4c2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, integration failures/fixes, source/compiled comparisons, artifact and quality results with explicit unverified limits. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/script-workflow-storage.md",
+      "normalizedSha256": "60fd1199cb7f7948dbdd9cb569faf0f8f17e50f3e1ab6001095f9599954a980f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New per-file creation record, allowed inputs/exact hashes, correction chronology and high-similarity functional mapping limitations. Root and reviewer read inherited source/callers to prepare the prior complete behavior contract; no whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only contract, approved public structural declarations, dependency signatures, explicit authorization and a source-hash handoff record; old target/history/dist/maps/baseline/tests/other implementations were excluded. Native SQLite compatibility and new synchronous borrowed ownership are tested separately. Public declarations, fixed fields, standard SQL and trivial expressions are compatibility facts, not novel expression; untouched original declarations, facade/schema/runtime and third parties keep applicable licensing. Root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-script-workflow-storage.md",
+        "docs/knorvia-script-workflow-storage-acceptance.md",
+        "licensing/evidence/script-workflow-storage.md"
+      ]
     }
   ]
 }
