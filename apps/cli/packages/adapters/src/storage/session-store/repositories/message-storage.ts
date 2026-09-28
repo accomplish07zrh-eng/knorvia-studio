@@ -83,6 +83,11 @@ export async function saveMessage(
   input: MessageInfo,
   copyFrom?: CopySource,
 ): Promise<void> {
+  saveMessageSync(db, input, copyFrom);
+}
+
+// 提升事务不能跨 await；公开 Promise API 与同域同步调用共用这一条写入路径。
+export function saveMessageSync(db: DatabaseSync, input: MessageInfo, copyFrom?: CopySource): void {
   const document = messageDocument(input);
   const created = input.time.created;
   const updated = input.role === "assistant" ? (input.time.completed ?? Date.now()) : created;
@@ -106,6 +111,10 @@ export async function savePart(
   input: MessagePart,
   copyFrom?: CopySource,
 ): Promise<void> {
+  savePartSync(db, input, copyFrom);
+}
+
+export function savePartSync(db: DatabaseSync, input: MessagePart, copyFrom?: CopySource): void {
   const document = partDocument(input);
   const updated = Date.now();
   const created = partCreatedAt(input, updated);
@@ -129,6 +138,13 @@ export async function messages(
   db: DatabaseSync,
   input: { sessionID: SessionId },
 ): Promise<MessageWithParts[]> {
+  return messagesSync(db, input);
+}
+
+export function messagesSync(
+  db: DatabaseSync,
+  input: { sessionID: SessionId },
+): MessageWithParts[] {
   const messageRows = db
     .prepare(`SELECT * FROM message WHERE session_id = ? ORDER BY ${MESSAGE_ORDER}`)
     .all(input.sessionID) as unknown as MessageRow[];

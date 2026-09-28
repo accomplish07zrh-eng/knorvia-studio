@@ -59,3 +59,9 @@ MessageInfo / MessagePart → 当前存储文档投影与时间
 先运行旧版先行合同，单列 atomicity 红例；再接入独立实现。覆盖角色/模型/特殊片段、复制、同 scope 和改绑、旧字段与清空、创建身份、排序/删除、无 await 时点、外层事务和真实 ABORT/ROLLBACK/延迟外键 COMMIT 失败。源码与编译有限对照普通行为，修复分支独立断言；公开 SqliteSessionStore 和实际 CLI bundle 都须验证。
 
 运行根/CLI 类型和 lint、测试严格类型、变更文件严格 lint、架构、CLI 构建、完整离线、格式和来源摘要检查；暂存扫描为 0 才提交。只用新内存库/虚构输入，不访问用户数据库、模型、设备或生产服务器。UI、schema、migrations、sessions 和 facade 未迁移部分保留原适用许可，根 Apache 和预览身份不改；固定 SQL/字段/通用模式不是算法独创证明。
+
+## 同步组合边界（2026-09-28）
+
+会话输入提升需在同一同步原生事务里组合消息与片段，见[会话输入存储合同](knorvia-session-input-storage.md)。同目录的 message-storage.ts 增加 saveMessageSync、savePartSync、messagesSync 三个内部同步入口，分别承载既有保存/查询体；原 Promise 导出仅委派，不复制 SQL、序列化或事务逻辑。直接调用和外层组合共用原有 own/borrow、copyFrom、JSON 错误和时间线规则；公开 SessionStorePort 与跨包入口不新增同步能力。
+
+该调整只为关闭外层提升事务中的 await 让出点。直接删掉 await、忽略依赖 Promise 的失败会错误提交，不属于有效修复。所有同步方法在数据库阶段完成时返回或抛出；原异步导出把相同错误转换为 Promise 拒绝。相关旧消息回归与新同步组合一同验收；不是新一次独立重写或扩大许可范围。

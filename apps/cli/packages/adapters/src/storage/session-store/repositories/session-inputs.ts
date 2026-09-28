@@ -1,391 +1,116 @@
-// session_input 账本仓库。
-// 语义：admitted（已接受）→ promoted（与 user message/parts 同事务落 transcript）
-// / cancelled / discarded / failed。promotion 的原子性是硬要求：杜绝
-// 「queue 已消费但 transcript 无 user message」的孤儿窗口（旧 drain 跨 store 无事务）。
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import type { DatabaseSync } from "node:sqlite";
-import type {
-  MessageInfo,
-  MessagePart,
-  SessionId,
-  SessionInputDelivery,
-  SessionInputRecord,
-  SessionInputStatus,
-  TurnInputIntentMetadata,
-} from "@knorvia/contracts";
+import type { SessionInputRecord, SessionStorePort } from "@knorvia/contracts";
 import { encodeJson } from "../json.js";
-import { messages as readMessages, saveMessage, savePart } from "./messages.js";
-import * as sessionEntryRepository from "./session-entries.js";
+import { editInputPayload, projectSessionInput } from "./session-input-documents.js";
+import type { SessionInputRow } from "./session-input-documents.js";
+import { withWriteTransaction } from "./write-transaction.js";
 
-interface SessionInputRow {
-  id: string;
-  session_id: string;
-  kind: string;
-  delivery: string;
-  payload: string;
-  admitted_sequence: number;
-  promoted_sequence: number | null;
-  promoted_message_id: string | null;
-  status: string;
-  status_reason: string | null;
-  time_created: number;
-  time_updated: number;
-}
+export { promoteSessionInput } from "./session-input-promotion.js";
 
-export async function saveSessionInput(
-  db: DatabaseSync,
-  input: {
-    id: string;
-    sessionID: SessionId;
-    kind: string;
-    delivery: SessionInputDelivery;
-    payload: { text: string; [key: string]: unknown };
-  },
-): Promise<void> {
-  const now = Date.now();
-  // admitted_sequence 按 session 内账本单调分配；同 id 重入会用 runtime 的实际
-  // kind/delivery/payload 修正执行前预 admission，同时保留原序与状态（幂等）。
-  db.prepare(
-    `
-      insert into session_input (
-        id, session_id, kind, delivery, payload,
-        admitted_sequence, status, time_created, time_updated
-      )
-      values (
-        ?, ?, ?, ?, ?,
-        (
-          select coalesce(max(admitted_sequence), -1) + 1
-          from session_input
-          where session_id = ?
-        ),
-        'admitted', ?, ?
-      )
-      on conflict(id) do update set
-        kind = excluded.kind,
-        delivery = excluded.delivery,
-        payload = excluded.payload,
-        time_updated = excluded.time_updated
-      `,
-  ).run(
+type Admission = Parameters<NonNullable<SessionStorePort["saveSessionInput"]>>[0];
+type Edits = Parameters<NonNullable<SessionStorePort["updateSessionInputs"]>>[0];
+type Marker = Parameters<NonNullable<SessionStorePort["markSessionInputPromoted"]>>[0];
+type Settlement = Parameters<NonNullable<SessionStorePort["settleSessionInput"]>>[0];
+type ListQuery = Parameters<NonNullable<SessionStorePort["listSessionInputs"]>>[0];
+
+const READ_INPUT = `
+  SELECT id, session_id, kind, delivery, payload, admitted_sequence, promoted_sequence,
+    promoted_message_id, status, status_reason, time_created, time_updated
+  FROM session_input
+`;
+
+export async function saveSessionInput(db: DatabaseSync, input: Admission): Promise<void> {
+  const time = Date.now();
+  const statement = db.prepare(`
+    INSERT INTO session_input (
+      id, session_id, kind, delivery, payload, admitted_sequence, status, time_created, time_updated
+    ) VALUES (?, ?, ?, ?, ?, (
+      SELECT COALESCE(MAX(admitted_sequence), -1) + 1 FROM session_input WHERE session_id = ?
+    ), 'admitted', ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      kind = excluded.kind, delivery = excluded.delivery,
+      payload = excluded.payload, time_updated = excluded.time_updated
+  `);
+  statement.run(
     input.id,
     input.sessionID,
     input.kind,
     input.delivery,
     encodeJson(input.payload) ?? "{}",
     input.sessionID,
-    now,
-    now,
+    time,
+    time,
   );
 }
 
-function decodePayload(raw: string): { text: string; [key: string]: unknown } {
-  try {
-    const parsed = JSON.parse(raw) as unknown;
-    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
-      ? ({ text: "", ...(parsed as Record<string, unknown>) } as {
-          text: string;
-          [key: string]: unknown;
-        })
-      : { text: "" };
-  } catch {
-    return { text: "" };
-  }
-}
-
-interface SessionInputPatch {
-  delivery?: SessionInputDelivery;
-  id: string;
-  intent?: TurnInputIntentMetadata;
-  text?: string;
-  queuePosition?: number;
-}
-
-function patchObject(value: unknown, patch: SessionInputPatch): unknown {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
-  const current = value as Record<string, unknown>;
-  const order = current.order;
-  const intent = patch.intent;
-  return {
-    ...current,
-    ...(patch.text !== undefined ? { text: patch.text } : {}),
-    ...(patch.queuePosition !== undefined || intent?.queuePosition !== undefined
-      ? {
-          order:
-            order && typeof order === "object" && !Array.isArray(order)
-              ? {
-                  ...(order as Record<string, unknown>),
-                  queuePosition: patch.queuePosition ?? intent?.queuePosition,
-                }
-              : { queuePosition: patch.queuePosition ?? intent?.queuePosition },
-        }
-      : {}),
-    ...(intent
-      ? {
-          delivery: {
-            requested: intent.requestedDelivery,
-            admitted: intent.admittedDelivery,
-            ...(intent.fallbackReasonCode ? { fallbackReasonCode: intent.fallbackReasonCode } : {}),
-          },
-          steer: intent.fallbackReasonCode
-            ? { state: "fellBack", reasonCode: intent.fallbackReasonCode }
-            : current.steer,
-        }
-      : {}),
-  };
-}
-
-/** queue edit/reorder 必须同步更新 durable intent，避免 CLI restart 后恢复旧 payload。 */
-export async function updateSessionInputs(
-  db: DatabaseSync,
-  input: {
-    sessionID: SessionId;
-    updates: SessionInputPatch[];
-  },
-): Promise<void> {
+export async function updateSessionInputs(db: DatabaseSync, input: Edits): Promise<void> {
   if (input.updates.length === 0) return;
-  const read = db.prepare(
-    "select delivery, payload from session_input where id = ? and session_id = ? and status = 'admitted'",
-  );
-  const write = db.prepare(
-    "update session_input set delivery = ?, payload = ?, time_updated = ? where id = ? and session_id = ? and status = 'admitted'",
-  );
-  db.exec("begin immediate");
-  try {
-    const now = Date.now();
-    for (const update of input.updates) {
-      const row = read.get(update.id, input.sessionID) as
-        | { delivery: SessionInputDelivery; payload: string }
+  const read = db.prepare(`
+    SELECT payload, delivery FROM session_input WHERE id = ? AND session_id = ? AND status = 'admitted'
+  `);
+  const write = db.prepare(`
+    UPDATE session_input SET delivery = ?, payload = ?, time_updated = ?
+    WHERE id = ? AND session_id = ? AND status = 'admitted'
+  `);
+  // 只复用既有自有事务边界，避免 SQLite 已自动回滚后再次清理而覆盖首因。
+  withWriteTransaction(db, "own", () => {
+    const time = Date.now();
+    for (const patch of input.updates) {
+      const row = read.get(patch.id, input.sessionID) as
+        | Pick<SessionInputRow, "payload" | "delivery">
         | undefined;
       if (!row) continue;
-      const payload = decodePayload(row.payload);
-      if (update.text !== undefined) payload.text = update.text;
-      if ("conversationInputIntent" in payload) {
-        payload.conversationInputIntent = patchObject(payload.conversationInputIntent, update);
-      }
-      // 兼容当前 runtime metadata；新写入权威格式仍是 conversationInputIntent。
-      if (update.intent) {
-        payload.intent = update.intent;
-      } else if ("intent" in payload && update.queuePosition !== undefined) {
-        const intent = payload.intent;
-        if (intent && typeof intent === "object" && !Array.isArray(intent)) {
-          payload.intent = {
-            ...(intent as Record<string, unknown>),
-            queuePosition: update.queuePosition,
-          };
-        }
-      }
+      const payload = editInputPayload(row.payload, patch);
       write.run(
-        update.delivery ?? row.delivery,
+        patch.delivery ?? row.delivery,
         encodeJson(payload) ?? "{}",
-        now,
-        update.id,
+        time,
+        patch.id,
         input.sessionID,
       );
     }
-    db.exec("commit");
-  } catch (error) {
-    db.exec("rollback");
-    throw error;
-  }
+  });
 }
 
-export async function promoteSessionInput(
-  db: DatabaseSync,
-  input: {
-    id: string;
-    sessionID: SessionId;
-    message: MessageInfo;
-    parts: MessagePart[];
-  },
-): Promise<void> {
-  const now = Date.now();
-  db.exec("begin immediate");
-  try {
-    await saveMessage(db, input.message);
-    for (const part of input.parts) {
-      await savePart(db, part);
-    }
-    const refs =
-      input.message.metadata && typeof input.message.metadata === "object"
-        ? (input.message.metadata as Record<string, unknown>).inputIntent &&
-          typeof (input.message.metadata as Record<string, unknown>).inputIntent === "object"
-          ? (
-              (input.message.metadata as Record<string, unknown>).inputIntent as Record<
-                string,
-                unknown
-              >
-            ).sharedContextRefs
-          : undefined
-        : undefined;
-    if (Array.isArray(refs)) {
-      for (const ref of refs) {
-        if (
-          !ref ||
-          typeof ref !== "object" ||
-          (ref as Record<string, unknown>).kind !== "shared_context_import"
-        )
-          continue;
-        const contextId = (ref as Record<string, unknown>).context_id;
-        if (typeof contextId !== "string") continue;
-        const entry = sessionEntryRepository
-          .sessionEntries(db, { sessionID: input.sessionID, type: "v4/shared_context_import" })
-          .find((candidate) => {
-            const data = candidate.data;
-            return Boolean(
-              data &&
-              typeof data === "object" &&
-              !Array.isArray(data) &&
-              (data as Record<string, unknown>).contextId === contextId,
-            );
-          });
-        if (!entry) throw new Error("shared context import is missing");
-        const data = entry.data as Record<string, unknown>;
-        if (!["pending", "reserved"].includes(String(data.status))) {
-          throw new Error("shared context import is no longer attachable");
-        }
-        sessionEntryRepository.saveSessionEntry(db, {
-          ...entry,
-          time: { ...entry.time, updated: now },
-          data: { ...data, status: "attached", attachedMessageId: String(input.message.id) },
-        });
-        const contextMessage = (
-          await readMessages(db, {
-            sessionID: input.sessionID,
-          })
-        ).find((candidate) => {
-          const metadata = candidate.info.metadata;
-          return Boolean(
-            metadata &&
-            typeof metadata === "object" &&
-            (metadata as Record<string, unknown>).contextId === contextId,
-          );
-        });
-        if (contextMessage) {
-          await saveMessage(db, {
-            ...contextMessage.info,
-            metadata: {
-              ...(contextMessage.info.metadata ?? {}),
-              sharedContextStatus: "attached",
-            },
-          });
-        }
-      }
-    }
-    db.prepare(
-      `
-        update session_input
-        set status = 'promoted',
-            promoted_message_id = ?,
-            promoted_sequence = (
-              select coalesce(max(promoted_sequence), -1) + 1
-              from session_input
-              where session_id = ?
-            ),
-            time_updated = ?
-        where id = ? and session_id = ?
-        `,
-    ).run(String(input.message.id), input.sessionID, now, input.id, input.sessionID);
-    db.exec("commit");
-  } catch (error) {
-    db.exec("rollback");
-    throw error;
-  }
+export async function markSessionInputPromoted(db: DatabaseSync, input: Marker): Promise<void> {
+  const statement = db.prepare(`
+    UPDATE session_input SET status = 'promoted', promoted_message_id = ?, promoted_sequence = (
+      SELECT COALESCE(MAX(promoted_sequence), -1) + 1 FROM session_input WHERE session_id = ?
+    ), time_updated = ? WHERE id = ? AND session_id = ? AND status = 'admitted'
+  `);
+  statement.run(input.promotedMessageID, input.sessionID, Date.now(), input.id, input.sessionID);
 }
 
-export async function markSessionInputPromoted(
-  db: DatabaseSync,
-  input: { id: string; sessionID: SessionId; promotedMessageID: string },
-): Promise<void> {
-  db.prepare(
-    `
-      update session_input
-      set status = 'promoted',
-          promoted_message_id = ?,
-          promoted_sequence = (
-            select coalesce(max(promoted_sequence), -1) + 1
-            from session_input
-            where session_id = ?
-          ),
-          time_updated = ?
-      where id = ? and session_id = ? and status = 'admitted'
-      `,
-  ).run(input.promotedMessageID, input.sessionID, Date.now(), input.id, input.sessionID);
-}
-
-export async function settleSessionInput(
-  db: DatabaseSync,
-  input: {
-    id: string;
-    sessionID: SessionId;
-    status: "cancelled" | "discarded" | "failed";
-    reason?: string;
-  },
-): Promise<void> {
-  // 只收口未终态的记录：promoted 后到达的迟到 discard 不得回退状态。
-  db.prepare(
-    `
-      update session_input
-      set status = ?, status_reason = ?, time_updated = ?
-      where id = ? and session_id = ? and status = 'admitted'
-      `,
-  ).run(input.status, input.reason ?? null, Date.now(), input.id, input.sessionID);
+export async function settleSessionInput(db: DatabaseSync, input: Settlement): Promise<void> {
+  const statement = db.prepare(`
+    UPDATE session_input SET status = ?, status_reason = ?, time_updated = ?
+    WHERE id = ? AND session_id = ? AND status = 'admitted'
+  `);
+  statement.run(input.status, input.reason ?? null, Date.now(), input.id, input.sessionID);
 }
 
 export async function listSessionInputs(
   db: DatabaseSync,
-  input: { sessionID: SessionId; status?: SessionInputStatus },
+  input: ListQuery,
 ): Promise<SessionInputRecord[]> {
-  const rows = (input.status
-    ? db
-        .prepare(
-          `
-            select * from session_input
-            where session_id = ? and status = ?
-            order by admitted_sequence
-            `,
-        )
-        .all(input.sessionID, input.status)
-    : db
-        .prepare(
-          `
-            select * from session_input
-            where session_id = ?
-            order by admitted_sequence
-            `,
-        )
-        .all(input.sessionID)) as unknown as SessionInputRow[];
-  return rows.map(decodeSessionInputRow);
+  const statement = db.prepare(`${READ_INPUT}
+    WHERE session_id = ?${input.status ? " AND status = ?" : ""} ORDER BY admitted_sequence ASC
+  `);
+  const rows = input.status
+    ? statement.all(input.sessionID, input.status)
+    : statement.all(input.sessionID);
+  return rows.map((row) => projectSessionInput(row as unknown as SessionInputRow));
 }
 
 export async function getSessionInputById(
   db: DatabaseSync,
   id: string,
 ): Promise<SessionInputRecord | null> {
-  const row = db.prepare("select * from session_input where id = ?").get(id) as
+  const row = db.prepare(`${READ_INPUT} WHERE id = ?`).get(id) as unknown as
     | SessionInputRow
     | undefined;
-  return row ? decodeSessionInputRow(row) : null;
-}
-
-function decodeSessionInputRow(row: SessionInputRow): SessionInputRecord {
-  const payload = decodePayload(row.payload);
-  return {
-    id: row.id,
-    sessionID: row.session_id as SessionId,
-    kind: row.kind,
-    delivery:
-      row.delivery === "startNow" || row.delivery === "guide" || row.delivery === "queue"
-        ? row.delivery
-        : "queue",
-    payload,
-    admittedSequence: row.admitted_sequence,
-    ...(row.promoted_sequence !== null ? { promotedSequence: row.promoted_sequence } : {}),
-    ...(row.promoted_message_id !== null
-      ? { promotedMessageID: row.promoted_message_id as SessionInputRecord["promotedMessageID"] }
-      : {}),
-    status: (["admitted", "promoted", "cancelled", "discarded", "failed"].includes(row.status)
-      ? row.status
-      : "admitted") as SessionInputStatus,
-    ...(row.status_reason !== null ? { statusReason: row.status_reason } : {}),
-    time: { created: row.time_created, updated: row.time_updated },
-  };
+  return row ? projectSessionInput(row) : null;
 }

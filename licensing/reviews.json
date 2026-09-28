@@ -26276,14 +26276,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/message-storage.ts",
-      "normalizedSha256": "2cd3ba38ac823bc27c8dcb06d3e860db1837f54852f9600774b7ca549e9f3ad5",
+      "normalizedSha256": "5d5bf9f3f6cd08d2b798e34a104618a7b09e6d19bd01525de9c7d6758e04cdcd",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New synchronous repository orchestration reuses explicit owned/borrowed boundary for source read, scoped UPSERT and touch. Multi-path native JSON1 preservation, sequence/creation identity, read phase order and scoped removal follow prior contract without copying old nested SQL helper. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "basis": "New synchronous repository orchestration reuses explicit owned/borrowed boundary for source read, scoped UPSERT and touch. Multi-path native JSON1 preservation, sequence/creation identity, read phase order and scoped removal follow prior contract without copying old nested SQL helper. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access. Session-input follow-up: root exposed three internal synchronous bodies under the unchanged public Promise wrappers, reusing exactly one existing message implementation. This bounded modification extends the prior reviewed MIT basis and is not a new claim of an unexposed-author rewrite. Message regression and synchronous promotion acceptance are separately recorded.",
       "evidence": [
         "specs/knorvia-message-storage.md",
         "docs/knorvia-message-storage-acceptance.md",
-        "licensing/evidence/message-storage.md"
+        "licensing/evidence/message-storage.md",
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
       ]
     },
     {
@@ -26336,14 +26339,17 @@
     },
     {
       "path": "specs/knorvia-message-storage.md",
-      "normalizedSha256": "4898fecaa3b247d49c7e3f9d255896c6d907dbd7c256a8f61ea035a001c87e94",
+      "normalizedSha256": "add595e7648f64ce8bd98d0e2c6a5e56259fb9c678f3abffba5a1c9405a4a415",
       "decision": "original",
       "license": "MIT",
-      "basis": "Before-implementation behavior specification defines all six public operations, native storage details, scope/time/phase ownership and intentional standalone atomicity improvements. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "basis": "Before-implementation behavior specification defines all six public operations, native storage details, scope/time/phase ownership and intentional standalone atomicity improvements. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access. Session-input follow-up: root exposed three internal synchronous bodies under the unchanged public Promise wrappers, reusing exactly one existing message implementation. This bounded modification extends the prior reviewed MIT basis and is not a new claim of an unexposed-author rewrite. Message regression and synchronous promotion acceptance are separately recorded.",
       "evidence": [
         "specs/knorvia-message-storage.md",
         "docs/knorvia-message-storage-acceptance.md",
-        "licensing/evidence/message-storage.md"
+        "licensing/evidence/message-storage.md",
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
       ]
     },
     {
@@ -26360,14 +26366,17 @@
     },
     {
       "path": "licensing/evidence/message-storage.md",
-      "normalizedSha256": "3ca71125809709a4b01cd1d675f80611bc887a2d93cb978de914845629107f62",
+      "normalizedSha256": "f27ba3261b76d4edc5b3d4c1afcb793dfa859ae4c2c6a503c10c26ea75b35aa8",
       "decision": "original",
       "license": "MIT",
-      "basis": "New permitted-input and per-file implementation evidence explicitly limits clean-room/novelty and whole-product claims. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "basis": "New permitted-input and per-file implementation evidence explicitly limits clean-room/novelty and whole-product claims. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access. Session-input follow-up: root exposed three internal synchronous bodies under the unchanged public Promise wrappers, reusing exactly one existing message implementation. This bounded modification extends the prior reviewed MIT basis and is not a new claim of an unexposed-author rewrite. Message regression and synchronous promotion acceptance are separately recorded.",
       "evidence": [
         "specs/knorvia-message-storage.md",
         "docs/knorvia-message-storage-acceptance.md",
-        "licensing/evidence/message-storage.md"
+        "licensing/evidence/message-storage.md",
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
       ]
     },
     {
@@ -26800,6 +26809,162 @@
         "specs/knorvia-usage-storage.md",
         "docs/knorvia-usage-storage-acceptance.md",
         "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-inputs.ts",
+      "normalizedSha256": "6f93e3addb582a2c2946fd0b4f0c40566c7fda76a21f1f14735daea28f745583",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh ledger admission, guarded edits/marker/settlement and recovery queries with one SQLite fact owner, synchronous single-statement borrowed writes and own batch edit boundary. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-documents.ts",
+      "normalizedSha256": "eb6ed9353c663773cfa82fcadbdb4113b878c66b3c792c52a42d9830d6c4e21b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh tolerant row projection and canonical/legacy intent value edits; preserves unknown members, object boundaries and ordinary JSON order from the prior behavior contract. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-input-promotion.ts",
+      "normalizedSha256": "6580b0d16c972f446d8259e39c592f82a938c8da959afecc4cae989e80d40fa7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh synchronous transcript/context/ledger coordinator using existing synchronous dependencies and the sole transaction helper; preserves legacy promotion edges without copying serializers or cleanup logic. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-fixture.ts",
+      "normalizedSha256": "0436f4ea9cc3e34a3ab613c83c0294ef7c31c634852b4a5e449c4f0ff52efbc7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic public-store memory fixtures, deterministic clocks, branded records and raw row snapshots. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-admission.test.ts",
+      "normalizedSha256": "77395dbaec6a547ce9d87abb979d120af9c48add27015187a01010238153a996",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first admission/replay/scope/borrow/facade guard and tolerant read/encoding/native constraint acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-edit.test.ts",
+      "normalizedSha256": "062cac0796f90d75c4c24c7aa25815d9d53c722a8e07b599542f778f905b1688",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first sequential patch, unknown member, canonical/legacy intent, zero position, empty/outer/no-match and whole-batch rollback acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-lifecycle.test.ts",
+      "normalizedSha256": "31afebfd0dfc7a35dea0aafca428a5631ed82f08e261925fa8571301285cb793",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first single-statement marker and settlement guards, sequence, empty reason, late calls and caller transaction ownership acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-atomic.test.ts",
+      "normalizedSha256": "09bdafa89a83571c30d794b0e018ae624c7661ba70a1361736d407bb65eb6b18",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New red-first native automatic rollback, paired cleanup failure, deferred COMMIT, clock and same-turn transaction isolation acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-promotion.test.ts",
+      "normalizedSha256": "ba4569ea1c2c0d50356c5c3f27bf9a1995681d567b5d74c9e9a10c3776439292",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored old-first full-promotion ordering, no-ledger/terminal/replay/scope legacy edges and message/part/encoding failure acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-input-context.test.ts",
+      "normalizedSha256": "cf88af896febbda8379254eac9a0d1ed89f7dc28aa5d65405833c8ff48aa35ed",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored old-first shared-context selection/status/ref/scope and neighbor corruption acceptance with full snapshots. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-session-input-storage.md",
+      "normalizedSha256": "2123334316aa189064263efdad80b996779102124c982cf54bcc213714056c49",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior full contract defines seven exports, SQLite authority, dependency ownership, legacy boundaries and intentionally repaired synchronous transaction defects. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-session-input-storage-acceptance.md",
+      "normalizedSha256": "4c442bac0d12e8e2031bfd06432150c10b08b34d849069c205d1fa366a0cbb70",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, integrated source/compiled/native review and full quality evidence with unverified limits. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/session-input-storage.md",
+      "normalizedSha256": "abc13816216fb6c2e747efc285bd7a622ea208878624b544bb37272536917761",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New allowed-input, per-file source judgment and bounded existing MIT dependency adjustment record. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "evidence": [
+        "specs/knorvia-session-input-storage.md",
+        "docs/knorvia-session-input-storage-acceptance.md",
+        "licensing/evidence/session-input-storage.md"
       ]
     }
   ]
