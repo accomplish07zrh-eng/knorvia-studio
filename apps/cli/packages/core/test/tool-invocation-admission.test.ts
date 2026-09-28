@@ -34,7 +34,12 @@ test("alias canonicalization, final capability and Started precede handler side 
   f.call.name = "alias";
   f.entry.resolvePermissionCapability = (input) => {
     assert.equal(input, f.call.input);
-    return { readOnly: false, sideEffectScope: "workspace" };
+    // 本例验证 workspace 事件早于 handler；运行时嵌套声明须覆盖夹具静态的 none。
+    return {
+      readOnly: false,
+      sideEffectScope: "workspace",
+      permission: { sideEffectScope: "workspace" },
+    };
   };
   f.behavior.handler = async (_input, context) => {
     assert.equal(eventPayload(f.events[0]!).readOnly, false);

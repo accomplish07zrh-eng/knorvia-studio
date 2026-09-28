@@ -31,6 +31,7 @@ const tests = [
   "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
   "apps/cli/packages/bootstrap/test/interaction-preparation.test.ts",
   "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
+  "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
   "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
 ];
 

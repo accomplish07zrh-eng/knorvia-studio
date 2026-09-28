@@ -24302,13 +24302,15 @@
     },
     {
       "path": "apps/cli/packages/core/test/tool-invocation-admission.test.ts",
-      "normalizedSha256": "22af731bc5feb8413629ee80b5dcf18b074144ceedfaf0fda0a9095a3692581e",
+      "normalizedSha256": "960bf4f10a4eb362300a3453d03c37b793bfe37ec320ce466caf358caa857a01",
       "decision": "original",
       "license": "MIT",
-      "basis": "New fixed expectation contracts cover lookup/privacy, alias and capability ordering, cancellation, resolver and validation exits, single input preparation, Hook rewrite/deny, permission categories and plan/workflow feedback, plus separate reason accessor failure. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "basis": "New fixed expectation contracts cover lookup/privacy, alias and capability ordering, cancellation, resolver and validation exits, single input preparation, Hook rewrite/deny, permission categories and plan/workflow feedback, plus separate reason accessor failure. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses. The Hook-boundary follow-up aligns the existing workspace-event fixture nested declaration with its top-level runtime scope, retaining all admission/event ordering assertions; a separate new test covers conflicting nested none precedence.",
       "evidence": [
         "specs/knorvia-tool-invocation.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
       ]
     },
     {
@@ -25389,6 +25391,138 @@
       "evidence": [
         "specs/knorvia-permission-grants.md",
         "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-capability.ts",
+      "normalizedSha256": "0b8e2a65e97d308fe35b759cc3befad55e16314025988a02dd3fa856865e81bf",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New layered declaration fold seals trusted registration provenance and projects nested explicit scope consistently into Started flags; no capability cache or new defaults. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-input-recheck.ts",
+      "normalizedSha256": "27e390b7112cb68100c52118f456bac8704dfbbf80271bca8571e1f1253d53ec",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous route assessment describes deny/continue/request, preserving original prepared ownership and method-capture timing while retaining declared approval options and trusted CUA suggestions. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/hook-flow.ts",
+      "normalizedSha256": "6035fd8565d4b6c66eb5a788fc8c1b162fbc456844f7b402ea9cfb8ad894a121",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New narrow public adapters choose typed Hook phases and preserve original synchronous dispatch and single-await result boundary; no inherited fallback implementation remains. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/hook-envelope.ts",
+      "normalizedSha256": "c23d6b3f54197585b40319731cbd921263ab2d313f62715fb8db0d6dae24afe1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New event field sequences plus lazy typed readers centralize envelope construction. Required-key coverage, closed field names, reader values and pre-argument runner capture constrain the projection without adding state. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/hook-decisions.ts",
+      "normalizedSha256": "05b1d4f42b34e6a923e8513fb48f22ed739cb8cd35f6f95073416493bef52681",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New single-result reply projection and ordered pre-transition records retain live-read contracts; context assembly snapshots its extent and preserves sparse entries. This does not merge multiple Hook decisions. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-hook-capability.test.ts",
+      "normalizedSha256": "f9a97f8004a2d063b61d1aae42499b1080b6e220504ee7f398c37a328e9d27c6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first capability overlay, provenance, context order and resolver failure tests, with a red-first nested Started scope regression and execution-event assertion. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-hook-requests.test.ts",
+      "normalizedSha256": "0b49699dade41b097940e7c0e0580b5b346a66dc537efc2545ef3188bf181532",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New four-phase Hook envelope contracts for lazy absence, identity, aliases, live modes, preview/error projection, receiver and callback-induced runner replacement. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-hook-decisions.test.ts",
+      "normalizedSha256": "39452ea7edbbebbaf81071f4de55f5f7a4bfe89099fe3bc8716a051b5c5f1b67",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New reply priority, null modification, update alias, pre-transition and context formatting contracts plus red-first finite live-read and entry-length regressions. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-hook-recheck.test.ts",
+      "normalizedSha256": "4e350b5bf04d0a8117d25c0867db81f7225756d70a2c71640d7ff318c24ba91c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synchronous route, original error, prepare/activate/dispose and provenance/options tests; finite broker capture regression retains the selected method across request-field callbacks. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
+      "normalizedSha256": "c291b093c64208da555b93bd04d6ea6ae1004cf2b4b237b90d5c23de2243c0fb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New in-memory public permission flow, Service, protocol broker and V4 registry integration verifies same-ID late RPC isolation, parent cancellation and declared choices across both requests. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-hook-boundary.md",
+      "normalizedSha256": "b674abf25e84d442a62aad6f9bfc41512a9c38d40d46997fcf876d2097adab44",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation ownership, sequencing and compatibility specification with three intentional defect fixes and explicit deferred owner-level limitations. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-tool-hook-boundary-acceptance.md",
+      "normalizedSha256": "c97bfe4f2f5b03f87612fd2c04134f1a679be0a9257d0f537bc9e609e08be491",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New implementation and provenance evidence, honest red-first and tooling/type corrections, bounded baseline/artifact verification and remaining limitations. Prior source was accessed; no no-access claim is made. The decision covers new layered capability adaptation, declarative lazy Hook envelopes, single-result transition projection and three-route modified-input recheck. Fixed signatures, fields/order, compatibility text, standard overlays and JavaScript/Promise evaluation semantics are required contracts, not claimed inventions. Renaming, extraction and passing tests alone do not establish provenance. HookRunner/output arbitration, memory path/IO, public contracts, alias/preview helpers, storage and adjacent boundaries retain applicable licensing. This is not a whole-product MIT determination; multi-hook denial overwrite and concurrent project grant lost updates remain owner-level migration items.",
+      "evidence": [
+        "specs/knorvia-tool-hook-boundary.md",
+        "docs/knorvia-tool-hook-boundary-acceptance.md"
       ]
     }
   ]
