@@ -26249,6 +26249,138 @@
         "docs/knorvia-entry-todo-storage-acceptance.md",
         "licensing/evidence/entry-todo-storage.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/messages.ts",
+      "normalizedSha256": "27164369415113fb9992408c77ce887f8637c7e97b273832627f3a504723e188",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New six-function compatibility export surface points entirely to fresh repository implementation; its trivial forwarding does not constitute an independent algorithm. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/message-documents.ts",
+      "normalizedSha256": "8eb485935ecdfd1f736524ce0475b53f1d4cc6e3f6e39c0cc446ce11cf762fa6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh temporary-document projection removes SQL identities, applies public user/timeline/subtask contracts and exact own-member legacy copy. Input is not mutated; timeline insertion order clarified and verified by a red-first regression. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/message-storage.ts",
+      "normalizedSha256": "2cd3ba38ac823bc27c8dcb06d3e860db1837f54852f9600774b7ca549e9f3ad5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous repository orchestration reuses explicit owned/borrowed boundary for source read, scoped UPSERT and touch. Multi-path native JSON1 preservation, sequence/creation identity, read phase order and scoped removal follow prior contract without copying old nested SQL helper. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/message-storage-fixture.ts",
+      "normalizedSha256": "460458fb4e013ea7b302fa6ad21f072f374a7b8abc534caa770d1c64779e2b85",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New fabricated in-memory public-store fixture exposes complete row snapshots and typed message/part inputs; no real data. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/message-storage-contract.test.ts",
+      "normalizedSha256": "bc229a048a74d42b4e6e352f9df325f75c979a5e713dba8badae5886051c1b18",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-integration storage contract tests cover legacy/current projection, identity, raw field order, rebinding, read/delete scope and error phases; reviewer-driven insertion order failed before correction. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/message-storage-copy.test.ts",
+      "normalizedSha256": "c5f8b6db763d7a7791978f598a27a01de845438dd0e5c33056e715a422545785",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New precise-source copy contracts verify raw snapshots, source/target priority, failure nonmutation and primitive/null boundaries. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/message-storage-atomic.test.ts",
+      "normalizedSha256": "0c641ca00efadb54aaa01fe31a2cd7f66b256707453f669f9bcc7bb0ef4300c9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New native SQLite triggers, deferred foreign keys and authorizer checks demonstrate red-first atomicity, commit phase, snapshot transaction and borrowed owner semantics. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-message-storage.md",
+      "normalizedSha256": "4898fecaa3b247d49c7e3f9d255896c6d907dbd7c256a8f61ea035a001c87e94",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-implementation behavior specification defines all six public operations, native storage details, scope/time/phase ownership and intentional standalone atomicity improvements. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-message-storage-acceptance.md",
+      "normalizedSha256": "d67c4d2c4bff7fc8ef441d96309811380a37f4c2161cc338b1b718fe23b3331f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance evidence separates baseline failures, reviewer correction, finite exact-byte comparisons, compiled/public/full validation and omitted contexts. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/message-storage.md",
+      "normalizedSha256": "3ca71125809709a4b01cd1d675f80611bc887a2d93cb978de914845629107f62",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New permitted-input and per-file implementation evidence explicitly limits clean-room/novelty and whole-product claims. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/message-storage-depth.test.ts",
+      "normalizedSha256": "ce9173a031a04a453b137e7218d1ebed452652924cb889d667025cb0bd3c676c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Reviewer-driven red-first regressions use valid public assistant/text-part metadata to preserve JSON.stringify/parse depth acceptance when no old legacy member needs JSON1 merging. Root and reviewer inspected prior source; no whole-process clean-room or completed MIT assertion. Isolated author used the before-implementation contract, approved public message/part and SQLite declarations, explicitly supplied dependency signatures and behavior-only clarifications. Target source/history/dist/maps/baselines/tests/other repository bodies were prohibited. Source-input report and actual expression reviewed. Common SQL/JSON1, fixed compatibility names and transaction patterns are not novel algorithms. Moving code, wrappers, AI authorship or test success alone does not prove independent source. Existing sessions/touchSession, facade, schema, migrations and adjacent inherited modules retain applicable licensing. Root Apache and preview identity remain; no real user database/model/device access.",
+      "evidence": [
+        "specs/knorvia-message-storage.md",
+        "docs/knorvia-message-storage-acceptance.md",
+        "licensing/evidence/message-storage.md"
+      ]
     }
   ]
 }
