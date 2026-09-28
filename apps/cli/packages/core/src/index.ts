@@ -19,6 +19,12 @@ export { ToolScheduler, defaultToolScheduler, READ_ONLY_TOOLS } from "./tool/sch
 export type { ToolSchedule, ToolScheduleItem, ToolDependency } from "./tool/scheduler.js";
 export { createToolRegistry, ToolRegistry, ToolRegistryImpl } from "./tool/registry.js";
 export { createToolExecutor, ToolExecutor, ToolExecutorImpl } from "./tool/executor.js";
+export {
+  PermissionPreparation,
+  activatePermissionRequest,
+  mapPreparedPermission,
+  awaitPermissionPreparation,
+} from "./permission/prepared-request.js";
 export { builtInTools, registerBuiltInTools } from "./tool/handlers/index.js";
 // dwf driver 的 submit profile 运行时守卫要把 typed 声明换回通用声明。
 export {

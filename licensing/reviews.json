@@ -24290,13 +24290,14 @@
     },
     {
       "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
-      "normalizedSha256": "bfb108d1f3a29384f751ff655c63542bd87775bb23c860c5c098f50251675ace",
+      "normalizedSha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139",
       "decision": "original",
       "license": "MIT",
-      "basis": "New in-memory dependency fixture records call identity, event timelines, input and metadata references, hooks and terminal telemetry. It invokes no real model, process, filesystem, browser or device action. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses.",
+      "basis": "New in-memory dependency fixture records call identity, event timelines, input and metadata references, hooks and terminal telemetry. It invokes no real model, process, filesystem, browser or device action. Prior source was accessed; no no-access clean-room claim is made. Tool names, event/log fields, fixed messages, thresholds, effect ordering and forwarding of public context fields are compatibility constraints, not new inventions. Renaming, splitting, a class wrapper and passing tests alone are not evidence of independence. The basis is the documented finite admission-decision protocol, invocation-owned state and separately reviewed identity/context/result policies implemented for this replacement. Adjacent Hook, permission, deadline, event, telemetry and background services, public contracts and UI remain outside this decision and retain their applicable licenses. Updated in the readiness batch to use the explicit typed two-phase test adapter; the answer callback remains configurable and no real side effect is added.",
       "evidence": [
         "specs/knorvia-tool-invocation.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-permission-readiness.md"
       ]
     },
     {
@@ -24752,13 +24753,14 @@
     },
     {
       "path": "specs/knorvia-permission-approval.md",
-      "normalizedSha256": "278abf399669ef5680d143dd0ee3cd3192e48df96378f9da13ead2b5b7632038",
+      "normalizedSha256": "6a1dff4c6aee7cf03f3e6b734c95f0da36aea4763a1ed144069646546d2a78a9",
       "decision": "original",
       "license": "MIT",
-      "basis": "New pre-implementation design records the single authority state, per-request projection, real broker commit retry contract, promise/cancellation order, retained failure limitations and the separate event-publication-before-registration issue. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "basis": "New pre-implementation design records the single authority state, per-request projection, real broker commit retry contract, promise/cancellation order, retained failure limitations and the separate event-publication-before-registration issue. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made. Readiness follow-up links now replace the deferred caller-boundary note; prior batch comparison scope remains historical and does not claim unchanged timing under the new mandatory contract.",
       "evidence": [
         "specs/knorvia-permission-approval.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-permission-readiness.md"
       ]
     },
     {
@@ -24785,13 +24787,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-flow/plan.ts",
-      "normalizedSha256": "7d96cf240dc3b39c553616c23d02bf31d9833597ba3c5e73d0f6fc0590411c47",
+      "normalizedSha256": "ce94ead41f71e3cb7a4003d59ef8bc25e755f0e65e4cbbac52d7ea1f6524a375",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New single invocation plan owns assessment facts, project rules, decision, reply and optional normalized-input record. Named suspensions encode original wait and catch boundaries, with terminal outcomes distinct from emitted and persisted observations; no secondary responder state exists. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "basis": "Reviewed invocation plan updated to the mandatory preparation/publication contract. It distinguishes preparation, publication and answer failures, measures only successfully published waiting, and retains rule/input/grant ownership in one plan. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
       "evidence": [
-        "specs/knorvia-tool-permission-flow.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
       ]
     },
     {
@@ -24818,13 +24820,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-flow/responders.ts",
-      "normalizedSha256": "98ecc4ae8993af04921551f88c9fc1b3e66c7e854bcbbcc0d973c4d4b06139a7",
+      "normalizedSha256": "c3b5c5e029adf5385575dc6269bab7dc1c08bba169ecebf6a4816482c931481a",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New per-request callback binding connects the plan to the separately reviewed responder arbitrator. It retains original port receivers and user-only Hook filtering, without registering or buffering a second answer. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "basis": "New callback coordinator acquires a prepared handle before Requested, publishes through the cancellation-aware barrier, then activates and admits Hooks. Finally always disposes the same owner. It carries no early-answer cache or legacy-port fallback; user-only Hook restrictions remain. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
       "evidence": [
-        "specs/knorvia-tool-permission-flow.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
       ]
     },
     {
@@ -24873,13 +24875,190 @@
     },
     {
       "path": "specs/knorvia-tool-permission-flow.md",
-      "normalizedSha256": "8c21026fc692fc938901808df2b6e7111343bd7428f2ab2c65f48c7c9478e095",
+      "normalizedSha256": "c369b55a1c45a1c765fafef3001710f7aaec7f9a01187460782417595ac3de56",
       "decision": "original",
       "license": "MIT",
-      "basis": "New design precedes implementation and identifies the plan owner, typed driver, failure boundaries, original effects order, offline acceptance and explicitly deferred all-broker readiness migration. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination.",
+      "basis": "New design precedes implementation and identifies the plan owner, typed driver, failure boundaries, original effects order, offline acceptance and explicitly deferred all-broker readiness migration. Prior source was accessed; no no-access clean-room claim is made. Fixed public records, warning/error text, rule composition order, constrained protocol behavior and standard generator/Promise semantics are compatibility facts, not claimed inventions. This review is limited to the preceding per-invocation suspension-plan design, one driver that returns port values or failures at the original await boundaries, and its assessment/response/observation/refusal projections. Splitting, wrapping or passing comparisons alone does not establish independent provenance. Adjacent permission rules, grants, service, HookRunner, event emitters, broker and public types retain their applicable licenses. The publication/registration readiness gap remains documented, not silently fixed. This is not a whole-product MIT determination. Readiness follow-up links now replace the deferred caller-boundary note; prior batch comparison scope remains historical and does not claim unchanged timing under the new mandatory contract.",
       "evidence": [
         "specs/knorvia-tool-permission-flow.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-permission-readiness.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/prepared-request.ts",
+      "normalizedSha256": "2c050585dff1a1426af14b7e9b9358be491ad3c8181c082b052c80ad2442c2a1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New single lifecycle cell owns prepared/active/finished state, one result, cancellation observer and activation-scoped deadline. Protocol projections reference that owner, while cancelled preparation waits suppress late registration. No second accepted-answer store is introduced. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/broker.ts",
+      "normalizedSha256": "1849dbd832fa7d4201a1dbf8ed03a73342a0936b05aa375d7369bcd53c12c0ca",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Manual requests now index one prepared lifecycle by identity; notification starts only on activation and terminal cleanup conditionally removes the same owner. Default denial uses the same lifecycle. This replaces the previous request-local promise and timer management rather than retaining it as a fallback. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-flow/publication.ts",
+      "normalizedSha256": "4b955ecf43c9fa8cf961b395da91cb43be0281265a02e3a778b7525950a08b73",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New publication barrier owns only publishing/failed/published/cancelled outcomes and Hook admission. Parent cancellation terminates waiting on an uncooperative publisher, preserving a broker error when available; late publication completion cannot reactivate or fabricate resolution. Answers remain in the prepared broker. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/interaction-response-race.ts",
+      "normalizedSha256": "dc893963141bfa30dab5b125ef7952667ed1f58932e73dede0ffb5565d81e2ec",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New prepared protocol coordinator shares the lifecycle owner with registry and RPC completions. It cancels uncooperative RPC without waiting, closes superseded registrations and gates legacy completion behind a currently claimed full-access commit; failed attempts release only their own wakeup. Mapping and persisted input formats remain delegated. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/tui/src/app-permission.ts",
+      "normalizedSha256": "1ffc7bd27cf00d34a55fcc2532220250979a1dd4b43a6fe5d698fa8c4370b3c0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New TUI adapter prepares quietly and delegates terminal state and abort ownership to the common lifecycle. The TUI queue owns only its displayed prompt; removal uses prompt identity, and keyboard cleanup does not reject the pending answer. Fixed workflow exemptions and validation messages remain compatibility facts. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/cli/src/headless-permission.ts",
+      "normalizedSha256": "a13b1ad06a911faee7fde2a2d06214ac4be93a2827f7d36378fb2feee6f17a3c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New prepared headless adapter composes default denial with the two documented workflow confirmation exceptions. Exemptions activate through the same cancellable lifecycle and never persist grants. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/cli/src/tui-permission-broker.ts",
+      "normalizedSha256": "d1016ba9768c6d02968dfaca19e7b7dcfa91c0d38a9ae6fb3ab34882a66990c6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New CLI forwarding adapter binds the current TUI handler during preparation. A later turn cannot change that handle; absence of a handler becomes a quiet prepared denial. The convenience method uses the same lifecycle. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-client-fixture.ts",
+      "normalizedSha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New explicit two-phase test port keeps customizable answer callbacks behind the actual lifecycle and remains statically checked against PermissionBrokerPort. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-broker-lifecycle.test.ts",
+      "normalizedSha256": "dba26727b05e3a75a2487b862d55ff0f67796056044f28909584ca38caf84657",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New prior-to-implementation cases cover quiet preparation, activation, early answer, ownership, deadlines, cancellation and notification failures with inert in-memory requests. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-client-preparation.test.ts",
+      "normalizedSha256": "9ea98b22c6a71e499a71c41faf6b6c883dfc2e1a64b1068202922826225fdebe",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New client cases cover TUI display/keyboard/cancellation, headless policy exceptions, captured CLI handler and nested subagent routing through one prepared lifecycle. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-publication.test.ts",
+      "normalizedSha256": "e04b27ae85a492db6a60a5236af7d6aa6a0ce9c6c6caad32e2c03e0954900fc2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite tests cover blocked-publisher cancellation, exact publication error, preparation failure, first-visible answer and the preserved terminal-activation Hook startup contract. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
+      "normalizedSha256": "bfc00b20f101a0fb55c97233e8d29f3b3813253d967dbb85748d28adb327cf53",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation integration reproduces lost first response through the real core/protocol/registry with asynchronous restoration, plus stale recovery generation and cancellation without late publication. No real persistence or remote service is used. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/interaction-preparation.test.ts",
+      "normalizedSha256": "2797f561c5926ad0907b437e5fab321f556d2bbe379383927a710ed1aef4c6b0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New registry cases cover quiet entries, head activation, retained deadlines, same-ID ownership, snooze/global-off, commit retry and session queue migration; discovered defects were first demonstrated by failures. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
+      "normalizedSha256": "98f9cd1a2f2f69a989343380c226bf107ed5eacf53cb1d97b8a6f83036985014",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New protocol lifecycle cases cover early V4 answer, uncooperative RPC, superseded generations, projection failure and full-access failure/retry/legacy completion ordering. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-permission-readiness.md",
+      "normalizedSha256": "6ed429b136d0d25e0e3a3983d5af399b4d7127c564ca7559a5344406d39a83b5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New design records the readiness defect, mandatory client contract, lifecycle/publication ownership, intentional improvements, cancellation limits and offline acceptance before each implementation change. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-permission-readiness-acceptance.md",
+      "normalizedSha256": "6511b9af466beb7cb1fb4f6140c31d88a9cea6bc2921889c284e2e3ae8baf11e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New batch-specific implementation, source-boundary and verification record; actual failures and pending/unverified scopes are retained. Prior source was accessed; no no-access clean-room claim is made. This decision is limited to the new required prepare/publish/activate lifecycle, one owner for completion and cancellation, and explicitly bound client adapters. Public records, fixed reason strings, policy exceptions and standard Promise/Map behavior are compatibility constraints, not claimed inventions. Renaming, splitting, helper extraction and test success alone do not establish independent provenance. The registry, inherited protocol mappings, stored-state restoration, public types, input recheck, subagent routing, HookRunner, rule persistence and adjacent implementations retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-readiness.md",
+        "docs/knorvia-permission-readiness-acceptance.md"
       ]
     }
   ]

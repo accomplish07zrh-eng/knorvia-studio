@@ -1,54 +1,12 @@
 import {
-  AMEND_WORKFLOW_TOOL_NAME,
-  CREATE_WORKFLOW_TOOL_NAME,
   SessionEventType,
   type DynamicWorkflowRunProgressPayload,
   type SessionEvent,
 } from "@knorvia/contracts";
-import { createDenyPermissionBroker } from "@knorvia/core";
 import type { GlobalOptions } from "@knorvia/shared-types";
-import type { KnorviaAppOptions } from "@knorvia/bootstrap";
 import { readRuntimeFunction } from "./runtime-event-subscriber.js";
 
-/**
- * headless（`-p`）下的 CreateWorkflow 审批旁路。
- *
- * 为什么需要它：headless 从不构造 permissionBroker，core 因此退到
- * `createDenyPermissionBroker()`（`core/src/runtime/agent-runtime.ts`、
- * `core/src/tool/executor/impl.ts`），而 CreateWorkflow 的 `alwaysAsk` gate
- * 在任何模式下都要过 broker（`yolo` 也不能跳，`core/src/permission/service.ts`
- * 的 alwaysAsk 分支在模式分支之前）。合起来的结果是 dwf 在 `-p` 下**必然被立即拒绝**，
- * 错误文案是 "No permission client configured for CreateWorkflow"——不是挂起、不是超时。
- *
- * 旁路只按工具名放行 CreateWorkflow 一个，其余工具**委托给同一个 deny broker**：
- * 复用而不是复写它的拒绝语义，让「其余工具维持今日语义」成为结构性事实而不是巧合
- * （文案漂移不可能发生，因为只有一份）。
- *
- * 这不是权限旁路，只是 gate 旁路：
- * core 零改动，PermissionRequest hook 仍先于 broker 应答（`permission-flow.ts`
- * 的 `??` 短路），权限事件照常发射，run 内 actor 照旧继承会话的权限 profile。
- */
-export const createHeadlessPermissionBroker = (): NonNullable<
-  KnorviaAppOptions["permissionBroker"]
-> => {
-  const denyBroker = createDenyPermissionBroker();
-  return {
-    requestPermission: async (request, options) => {
-      // AmendWorkflow 与 CreateWorkflow 同一道门、同一条例外。
-      if (
-        request.toolName !== CREATE_WORKFLOW_TOOL_NAME &&
-        request.toolName !== AMEND_WORKFLOW_TOOL_NAME
-      ) {
-        return await denyBroker.requestPermission(request, options);
-      }
-      return {
-        decision: "allow",
-        reason: `Headless CLI auto-approves ${request.toolName}: no interactive gate exists in -p mode.`,
-        resolvedAt: new Date(),
-      };
-    },
-  };
-};
+export { createHeadlessPermissionBroker } from "./headless-permission.js";
 
 /**
  * stream-json 里 dwf 进度行的 `type`。

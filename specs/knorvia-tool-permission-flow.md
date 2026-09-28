@@ -36,7 +36,7 @@
 - user approvalAuthority 过滤自动 Hook 的 allow/modify，仅使其退赛；deny 仍可赢。普通工具的 Hook 决定保持原行为。
 - Hook modify 先对 modifiedInput ?? executionInput 规范化。只有 schema 有效（validateInput 返回空）才调用既有复核；无效输入先走原 resolved 事件及最终验证错误路径，不额外请求 broker。复核可更新当前 decision/result，只有复核 broker allow 才沿用这份规范化输入。
 - 竞速、规范化与复核范围内的失败：先标记 denied，已有 CoreError 原样沿用，其他异常包装 PermissionDenied/Permission request failed（Error 才作为 cause）；发布一次 deny 的 PermissionResolved 后返回执行错误。事件发布自身失败继续上抛。
-- 保留 PermissionRequested 发布在此 try 之外：发布失败目前不启动 broker、不包装为 PermissionDenied。不得在替换中挪动这个异常边界。
+- 后续审批就绪改进按 `knorvia-permission-readiness.md` 执行：先准备 broker，再发布 PermissionRequested。发布失败仍原样上抛，不包装为 PermissionDenied；准备失败不发布 Requested 或虚构的 resolved。
 
 ## 收口与执行输入
 
@@ -46,11 +46,11 @@
 - 授权成功标记 granted；非 modify 返回原输入或已复核的规范化输入和 permissionWaitMs。modify 才最终规范化/验证，错误返回原 validation 结果（此时遥测已 granted），不添加新的外部副作用。
 - 保留原 callback receiver、getter 时点、错误原值、事件/日志/遥测先后和异步续接；有限回归覆盖调用端口边界，不宣称任意 Proxy、原型或生成器私有状态篡改等价。
 
-## 就绪缺口与后续端口迁移
+## 审批就绪边界的后续改进
 
-本批保持原 requested→broker 登记顺序，不宣称修复所有客户端的即时回复。已用真实 V4 投影、broker、registry 和命令处理器加可控异步 sessionEntries 复现：可答事件已发布，读取尚悬起，首次回答被当作无待处理交互；登记后第二次才成功。默认 SQLite 查询同步完成，普通 V4 事件按 30/150 ms 批帧，因此没有证据称它是默认桌面的实机点击故障。
+单次计划最初保留 requested→broker 登记顺序；当前已接续 `knorvia-permission-readiness.md` 调整该边界。已用真实 V4 投影、broker、registry 和命令处理器加可控异步 sessionEntries 复现：可答事件已发布，读取尚悬起，首次回答被当作无待处理交互；登记后第二次才成功。默认 SQLite 查询同步完成，普通 V4 事件按 30/150 ms 批帧，因此没有证据称它是默认桌面的实机点击故障。
 
-后续 PermissionBrokerPort 与全部具体 broker 同批迁移时，须提供明确的“已登记、尚未通知”事实，core 发布成功后才开放通知/Hook，并处理取消、发布失败清理、同请求重试及 registry 自动继续事件排序。不能只上移最终答案 Promise 的调用，不能以未适配的可选 callback 假定所有端口已就绪，也不能为早到回答建立第二套缓存/队列。这是未完成事项，不纳入本批修复声明。
+当前 PermissionBrokerPort 与全部生产 broker 已提供必需的 preparePermission。core 等待静默登记后发布，再激活客户端与 Hook，并处理取消、发布失败清理、同请求复核和 registry 自动继续次序。没有旧接口回退、可选 ready 假设或早答缓存。新的预期差异、完整验证及未验证范围见 `knorvia-permission-readiness.md` 和 `../docs/knorvia-permission-readiness-acceptance.md`；本节的旧版有限对照不能代替新合同验收。
 
 ## 验收与许可范围
 

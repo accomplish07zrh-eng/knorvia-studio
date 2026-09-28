@@ -45,7 +45,7 @@
 
 同步端口启动异常与 Promise 拒绝不同：runHooks 同步 throw 会拒绝外层并解绑父监听，已启动 broker 不会立即取消；真实 permission-flow 的 Hook 使用 async wrapper，因此不走此同步分支。onHookFailure 自身抛错会成为分支 Promise 的未处理拒绝，仲裁仍等待 broker；当前回调为日志报告。先记录这些已有边界，不借迁移暗中改变异常归属或扩展自动许可。任意损坏的 thenable、全局 Promise/原型替换不作为完整等价保证。
 
-只读复核另用真实协议 broker/交互注册表确认调用方的可达缺口：permission-flow 先 await PermissionRequested 事件，之后才进入本竞速。事件回调中的立即回复找不到请求，登记后第二次回复才命中。broker-first 只保证本函数内部次序，不能据此宣称整个 UI 已实现可见即可答；调用方的发布/登记时序留给后续 permission-flow 迁移，先单独记录，不在本批声称修复。
+只读复核另用真实协议 broker/交互注册表确认调用方的可达缺口：permission-flow 先 await PermissionRequested 事件，之后才进入本竞速。事件回调中的立即回复找不到请求，登记后第二次回复才命中。broker-first 只保证本函数内部次序，不能据此宣称整个 UI 已实现可见即可答；该调用方边界现已按 `knorvia-permission-readiness.md` 采用强制准备/发布/激活端口修正；修复证据见后续独立验收，不归入本仲裁模块的旧版对照声明。
 
 ## 先行验证与范围
 

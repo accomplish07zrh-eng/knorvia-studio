@@ -6,6 +6,7 @@ import {
   type ToolExecutionSpanWriter,
 } from "@knorvia/contracts";
 import type { HookRunner, HookRunResult } from "../src/hooks/index.js";
+import { fixturePermissionBroker } from "./permission-client-fixture.js";
 import type { PermissionDecisionResult } from "../src/permission/service.js";
 import type { BackgroundTaskTracker } from "../src/tool/executor/background-tasks.js";
 import { executeToolCall } from "../src/tool/executor/call-runner.js";
@@ -142,12 +143,10 @@ export function invocation(overrides: Partial<ToolEntry> = {}) {
         };
       },
     },
-    permissionBroker: {
-      async requestPermission() {
-        timeline.push("broker");
-        return behavior.reply;
-      },
-    },
+    permissionBroker: fixturePermissionBroker(async () => {
+      timeline.push("broker");
+      return behavior.reply;
+    }),
     async emitEvent(event: SessionEvent) {
       timeline.push(event.type);
       events.push(event);

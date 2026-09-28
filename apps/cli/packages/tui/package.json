@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@knorvia/contracts": "workspace:*",
+    "@knorvia/core": "workspace:*",
     "@knorvia/i18n": "workspace:*",
     "@knorvia/shared": "workspace:*",
     "@mbears/opentui-core": "0.2.15",

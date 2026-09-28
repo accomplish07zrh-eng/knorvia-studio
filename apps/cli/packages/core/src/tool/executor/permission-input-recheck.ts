@@ -7,6 +7,7 @@ import {
 } from "@knorvia/contracts";
 
 import type { PermissionDecisionResult, PermissionContext } from "../../permission/service.js";
+import { activatePermissionRequest } from "../../permission/prepared-request.js";
 import type { ExecutableToolCall, ToolEntry } from "../types.js";
 import { applyMemoryFilePermission, targetsMemoryFile } from "./memory-file-permission.js";
 import {
@@ -85,27 +86,29 @@ export async function recheckPermissionHookModifiedInput(input: {
   const suggestedPermissionUpdates =
     rulePolicy?.suggestedPermissionUpdates ??
     buildDefaultPermissionUpdates(input.toolCall.name, input.modifiedInput);
-  const brokerResult = await input.deps.permissionBroker.requestPermission(
-    {
-      input: input.modifiedInput,
-      mode: input.mode,
-      reason: decision.reason ?? `Tool ${input.toolCall.name} requires approval`,
-      requestId: input.requestId,
-      requestedAt: new Date(),
-      riskLevel: decision.riskLevel,
-      ruleId: decision.ruleId,
-      sessionId: input.deps.sessionId,
-      sideEffectScope: decision.sideEffectScope,
-      suggestedPermissionUpdates,
-      toolCallId: input.toolCall.id as PermissionBrokerRequest["toolCallId"],
-      toolName: input.toolCall.name,
-      traceId: input.traceContext.traceId,
-      turnId: input.traceContext.turnId ?? input.deps.turnId,
-    },
-    {
-      signal: input.signal,
-      timeoutMs: input.deps.permissionTimeoutMs,
-    },
+  const brokerResult = await activatePermissionRequest(
+    input.deps.permissionBroker.preparePermission(
+      {
+        input: input.modifiedInput,
+        mode: input.mode,
+        reason: decision.reason ?? `Tool ${input.toolCall.name} requires approval`,
+        requestId: input.requestId,
+        requestedAt: new Date(),
+        riskLevel: decision.riskLevel,
+        ruleId: decision.ruleId,
+        sessionId: input.deps.sessionId,
+        sideEffectScope: decision.sideEffectScope,
+        suggestedPermissionUpdates,
+        toolCallId: input.toolCall.id as PermissionBrokerRequest["toolCallId"],
+        toolName: input.toolCall.name,
+        traceId: input.traceContext.traceId,
+        turnId: input.traceContext.turnId ?? input.deps.turnId,
+      },
+      {
+        signal: input.signal,
+        timeoutMs: input.deps.permissionTimeoutMs,
+      },
+    ),
   );
   return { brokerResult, permissionDecision: decision };
 }

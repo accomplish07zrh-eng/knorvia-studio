@@ -93,8 +93,22 @@ export interface PermissionBrokerRequestOptions {
 }
 
 export interface PermissionBrokerPort {
+  /** Resolves only after the answer route is bound, with notifications still inactive. */
+  preparePermission(
+    request: PermissionBrokerRequest,
+    options?: PermissionBrokerRequestOptions,
+  ): Promise<PreparedPermissionRequest>;
+  /** One-step convenience over the same prepared request; core uses preparePermission. */
   requestPermission(
     request: PermissionBrokerRequest,
     options?: PermissionBrokerRequestOptions,
   ): Promise<PermissionBrokerResult>;
+}
+
+export interface PreparedPermissionRequest {
+  readonly result: Promise<PermissionBrokerResult>;
+  /** Returns whether activation was admitted; already answered/disposed requests return false. */
+  activate(): boolean;
+  /** Idempotently releases this generation only and terminates an unanswered result. */
+  dispose(): void;
 }

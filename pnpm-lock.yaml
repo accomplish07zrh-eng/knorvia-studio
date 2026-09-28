@@ -562,6 +562,9 @@ importers:
       '@knorvia/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@knorvia/core':
+        specifier: workspace:*
+        version: link:../core
       '@knorvia/i18n':
         specifier: workspace:*
         version: link:../i18n

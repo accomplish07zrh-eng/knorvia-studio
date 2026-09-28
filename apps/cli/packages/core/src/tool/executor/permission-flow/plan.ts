@@ -4,11 +4,7 @@ import type { PermissionBrokerResult, PermissionRuleset } from "@knorvia/contrac
 import { normalizeToolExecutionInput } from "../../input-normalization.js";
 import { resolveToolApproval } from "../approval-gate.js";
 import { createErrorResult } from "../errors.js";
-import {
-  emitPermissionDenied,
-  emitPermissionRequested,
-  emitPermissionResolved,
-} from "../events.js";
+import { emitPermissionDenied, emitPermissionResolved } from "../events.js";
 import { applyResolvedPermissionGrants } from "../permission-grants.js";
 import { recheckPermissionHookModifiedInput } from "../permission-input-recheck.js";
 import { racePermissionResponders } from "../permission-responder-race.js";
@@ -19,6 +15,7 @@ import { observeAssessment, observeDenial, observeResolution } from "./observati
 import { suspend, type PermissionInvocation, type PermissionPlan } from "./plan-driver.js";
 import { policyRefusal, replyRefusal, requestFailure, storageRefusal } from "./refusals.js";
 import { permissionResponders } from "./responders.js";
+import { PermissionPublication } from "./publication.js";
 
 const REQUEST_PREFIX = "perm_";
 function normalize(c: PermissionInvocation, input: unknown) {
@@ -59,26 +56,14 @@ export function* permissionPlan(c: PermissionInvocation): PermissionPlan {
 
   const id = REQUEST_PREFIX + crypto.randomUUID();
   c.telemetry?.markPermissionRequested();
-  // 发布仍在应答 catch 之外；本次替换不假定最终答案 Promise 已代表 broker 登记就绪。
-  yield* suspend("requested", () =>
-    emitPermissionRequested(
-      c.deps,
-      c.call,
-      c.input,
-      id,
-      decision.riskLevel,
-      decision.reason,
-      facts.suggestions,
-      c.trace,
-      approval,
-    ),
-  );
+  const publication = new PermissionPublication();
   let reply: PermissionBrokerResult;
   let rewrite: { input: unknown; retain: boolean } | undefined;
-  const startedAt = Date.now();
   try {
     const answer = yield* suspend("responders", () =>
-      racePermissionResponders(permissionResponders(c, decision, id, facts.suggestions, approval)),
+      racePermissionResponders(
+        permissionResponders(c, decision, id, facts.suggestions, approval, publication),
+      ),
     );
     reply = answer.result;
     const hookAnswer = answer.source === "hook" ? answer.result : undefined;
@@ -108,26 +93,28 @@ export function* permissionPlan(c: PermissionInvocation): PermissionPlan {
       }
     }
   } catch (error) {
+    if (publication.failure) throw publication.failure.error;
     c.telemetry?.setPermissionDecision("denied");
     const failure = requestFailure(c, id, error);
-    yield* suspend("resolved", () =>
-      emitPermissionResolved(
-        c.deps,
-        c.call,
-        id,
-        {
-          decision: "deny",
-          reason: failure.message,
-          resolvedAt: new Date(),
-        },
-        c.trace,
-      ),
-    );
+    if (publication.published)
+      yield* suspend("resolved", () =>
+        emitPermissionResolved(
+          c.deps,
+          c.call,
+          id,
+          {
+            decision: "deny",
+            reason: failure.message,
+            resolvedAt: new Date(),
+          },
+          c.trace,
+        ),
+      );
     return { allowed: false, result: createErrorResult(c.call, failure) };
   }
 
   const resolution = { ...reply, resolvedAt: reply.resolvedAt ?? new Date() };
-  const permissionWaitMs = Math.max(0, Math.round(Date.now() - startedAt));
+  const permissionWaitMs = publication.elapsed;
   yield* suspend("resolved", () => emitPermissionResolved(c.deps, c.call, id, resolution, c.trace));
   observeResolution(c, resolution, id);
   const refused = replyRefusal(c, resolution, decision, id);

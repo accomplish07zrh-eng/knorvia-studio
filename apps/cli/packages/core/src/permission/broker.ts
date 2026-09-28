@@ -1,7 +1,5 @@
-// ============================================================
-// Permission Broker - async client permission coordination
-// ============================================================
-
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import {
   CoreErrorType,
   createCoreError,
@@ -9,158 +7,139 @@ import {
   type PermissionBrokerRequest,
   type PermissionBrokerRequestOptions,
   type PermissionBrokerResult,
+  type PreparedPermissionRequest,
 } from "@knorvia/contracts";
+import { PermissionPreparation, activatePermissionRequest } from "./prepared-request.js";
 
 export interface ManualPermissionBrokerOptions {
   onRequest?: (request: PermissionBrokerRequest) => Promise<void> | void;
 }
-
-interface PendingBrokerRecord {
+interface PendingPermission {
   request: PermissionBrokerRequest;
-  resolve: (result: PermissionBrokerResult) => void;
-  reject: (error: Error) => void;
+  owner: PermissionPreparation;
+}
+function cancelled(request: PermissionBrokerRequest) {
+  return createCoreError(CoreErrorType.ToolCancelled, "Permission request cancelled", {
+    context: {
+      requestId: request.requestId,
+      toolCallId: request.toolCallId,
+      toolName: request.toolName,
+    },
+    recoverable: true,
+  });
 }
 
 export class DenyPermissionBroker implements PermissionBrokerPort {
-  async requestPermission(request: PermissionBrokerRequest): Promise<PermissionBrokerResult> {
-    return {
-      decision: "deny",
-      reason: `No permission client configured for ${request.toolName}`,
-      resolvedAt: new Date(),
-    };
+  async preparePermission(
+    request: PermissionBrokerRequest,
+    options?: PermissionBrokerRequestOptions,
+  ): Promise<PreparedPermissionRequest> {
+    return new PermissionPreparation({
+      signal: options?.signal,
+      cancelled: () => cancelled(request),
+      activate: (owner) =>
+        owner.resolve({
+          decision: "deny",
+          reason: `No permission client configured for ${request.toolName}`,
+          resolvedAt: new Date(),
+        }),
+    });
+  }
+  requestPermission(
+    request: PermissionBrokerRequest,
+    options?: PermissionBrokerRequestOptions,
+  ): Promise<PermissionBrokerResult> {
+    return activatePermissionRequest(this.preparePermission(request, options));
   }
 }
 
+/** The ordered registry indexes the same preparation object used by the returned handle. */
 export class ManualPermissionBroker implements PermissionBrokerPort {
-  private readonly pending = new Map<string, PendingBrokerRecord>();
-
+  private readonly pending = new Map<string, PendingPermission>();
   constructor(private readonly options: ManualPermissionBrokerOptions = {}) {}
+
+  async preparePermission(
+    request: PermissionBrokerRequest,
+    options?: PermissionBrokerRequestOptions,
+  ): Promise<PreparedPermissionRequest> {
+    const id = request.requestId;
+    if (this.pending.has(id))
+      throw createCoreError(
+        CoreErrorType.InvalidStateTransition,
+        `Permission request already pending: ${id}`,
+        {
+          context: { requestId: id, toolCallId: request.toolCallId },
+          recoverable: true,
+        },
+      );
+    const owner = new PermissionPreparation({
+      signal: options?.signal,
+      cancelled: () => cancelled(request),
+      activate: () => this.options.onRequest?.(request),
+      dispose: () => {
+        if (this.pending.get(id)?.owner === owner) this.pending.delete(id);
+      },
+      ...(options?.timeoutMs === undefined
+        ? {}
+        : {
+            timeout: {
+              milliseconds: options.timeoutMs,
+              error: () =>
+                createCoreError(
+                  CoreErrorType.PermissionTimeout,
+                  `Permission request timed out after ${options.timeoutMs}ms`,
+                  {
+                    context: {
+                      requestId: id,
+                      timeoutMs: options.timeoutMs,
+                      toolCallId: request.toolCallId,
+                      toolName: request.toolName,
+                    },
+                    recoverable: true,
+                  },
+                ),
+            },
+          }),
+    });
+    this.pending.set(id, { request, owner });
+    return owner;
+  }
 
   requestPermission(
     request: PermissionBrokerRequest,
     options?: PermissionBrokerRequestOptions,
   ): Promise<PermissionBrokerResult> {
-    const key = request.requestId;
-    if (this.pending.has(key)) {
-      return Promise.reject(
-        createCoreError(
-          CoreErrorType.InvalidStateTransition,
-          `Permission request already pending: ${key}`,
-          {
-            context: { requestId: key, toolCallId: request.toolCallId },
-            recoverable: true,
-          },
-        ),
-      );
-    }
-
-    return new Promise<PermissionBrokerResult>((resolve, reject) => {
-      let settled = false;
-      let timeout: ReturnType<typeof setTimeout> | undefined;
-
-      const cleanup = () => {
-        if (timeout) {
-          clearTimeout(timeout);
-          timeout = undefined;
-        }
-        options?.signal?.removeEventListener("abort", abortHandler);
-        this.pending.delete(key);
-      };
-
-      const settle = (result: PermissionBrokerResult) => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        resolve({
-          ...result,
-          resolvedAt: result.resolvedAt ?? new Date(),
-        });
-      };
-
-      const fail = (error: Error) => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        reject(error);
-      };
-
-      const abortHandler = () => {
-        fail(
-          createCoreError(CoreErrorType.ToolCancelled, "Permission request cancelled", {
-            context: { requestId: key, toolCallId: request.toolCallId, toolName: request.toolName },
-            recoverable: true,
-          }),
-        );
-      };
-
-      if (options?.signal?.aborted) {
-        abortHandler();
-        return;
-      }
-
-      if (options?.timeoutMs !== undefined) {
-        timeout = setTimeout(() => {
-          fail(
-            createCoreError(
-              CoreErrorType.PermissionTimeout,
-              `Permission request timed out after ${options.timeoutMs}ms`,
-              {
-                context: {
-                  requestId: key,
-                  timeoutMs: options.timeoutMs,
-                  toolCallId: request.toolCallId,
-                  toolName: request.toolName,
-                },
-                recoverable: true,
-              },
-            ),
-          );
-        }, options.timeoutMs);
-      }
-
-      options?.signal?.addEventListener("abort", abortHandler);
-      this.pending.set(key, { request, resolve: settle, reject: fail });
-
-      Promise.resolve(this.options.onRequest?.(request)).catch(fail);
-    });
+    return activatePermissionRequest(this.preparePermission(request, options));
   }
 
-  resolvePermission(requestIdOrToolCallId: string, result: PermissionBrokerResult): boolean {
-    const record = this.findPendingRecord(requestIdOrToolCallId);
-    if (!record) return false;
-
-    record.resolve(result);
+  resolvePermission(id: string, result: PermissionBrokerResult): boolean {
+    const found = this.lookup(id);
+    if (!found) return false;
+    // 先锁定结算和清理登记，再读取应答；回调重入不能接受第二次结果。
+    found.owner.resolveFrom(() => ({ ...result, resolvedAt: result.resolvedAt ?? new Date() }));
     return true;
   }
-
-  rejectPermission(requestIdOrToolCallId: string, error: Error): boolean {
-    const record = this.findPendingRecord(requestIdOrToolCallId);
-    if (!record) return false;
-
-    record.reject(error);
+  rejectPermission(id: string, error: Error): boolean {
+    const found = this.lookup(id);
+    if (!found) return false;
+    found.owner.reject(error);
     return true;
   }
-
-  getPendingRequest(requestIdOrToolCallId: string): PermissionBrokerRequest | undefined {
-    return this.findPendingRecord(requestIdOrToolCallId)?.request;
+  getPendingRequest(id: string): PermissionBrokerRequest | undefined {
+    return this.lookup(id)?.request;
   }
-
   listPendingRequests(): PermissionBrokerRequest[] {
-    return Array.from(this.pending.values(), (record) => record.request);
+    return Array.from(this.pending.values(), (value) => value.request);
   }
-
-  private findPendingRecord(requestIdOrToolCallId: string): PendingBrokerRecord | undefined {
-    const direct = this.pending.get(requestIdOrToolCallId);
-    if (direct) return direct;
-
-    return Array.from(this.pending.values()).find(
-      (record) => record.request.toolCallId === requestIdOrToolCallId,
+  private lookup(id: string): PendingPermission | undefined {
+    return (
+      this.pending.get(id) ??
+      Array.from(this.pending.values()).find((value) => value.request.toolCallId === id)
     );
   }
 }
 
 export const createDenyPermissionBroker = (): PermissionBrokerPort => new DenyPermissionBroker();
-
 export const createManualPermissionBroker = (
   options?: ManualPermissionBrokerOptions,
 ): ManualPermissionBroker => new ManualPermissionBroker(options);

@@ -8,6 +8,7 @@ import type {
   PermissionBrokerRequest,
   PermissionBrokerRequestOptions,
   PermissionBrokerResult,
+  PermissionBrokerPort,
   SessionEvent,
   SessionProjection,
   SupportedLocale,
@@ -177,10 +178,11 @@ export type TuiSubmitPromptResult = {
   usage?: ModelUsageSummary;
 };
 
-export type TuiRequestPermission = (
+export type TuiRequestPermission = ((
   request: PermissionBrokerRequest,
   options?: PermissionBrokerRequestOptions,
-) => Promise<PermissionBrokerResult>;
+) => Promise<PermissionBrokerResult>) &
+  Pick<PermissionBrokerPort, "preparePermission">;
 
 export type TuiSubmitPrompt = (
   prompt: TuiPromptInput,

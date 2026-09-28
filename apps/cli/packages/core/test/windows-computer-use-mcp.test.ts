@@ -8,6 +8,7 @@ import type {
   PermissionBrokerRequest,
 } from "@knorvia/contracts";
 import { registerMcpTools } from "../src/mcp/index.js";
+import { fixturePermissionBroker } from "./permission-client-fixture.js";
 import { createToolRegistry } from "../src/tool/registry.js";
 import { PermissionService, defaultPermissionConfig } from "../src/permission/service.js";
 import { resolveToolPermission } from "../src/tool/executor/permission-flow.js";
@@ -106,17 +107,15 @@ async function permission(
     emitEvent: async (event: unknown) => {
       events.push(event);
     },
-    permissionBroker: {
-      async requestPermission(request: PermissionBrokerRequest) {
-        requests.push(request);
-        return {
-          decision: await (options.responseWait ?? options.response ?? "allow"),
-          ...(options.responseUpdates
-            ? { permissionUpdates: updates, sessionPermissionUpdates: updates }
-            : {}),
-        };
-      },
-    },
+    permissionBroker: fixturePermissionBroker(async (request: PermissionBrokerRequest) => {
+      requests.push(request);
+      return {
+        decision: await (options.responseWait ?? options.response ?? "allow"),
+        ...(options.responseUpdates
+          ? { permissionUpdates: updates, sessionPermissionUpdates: updates }
+          : {}),
+      };
+    }),
     ...(options.hookResponse
       ? {
           hookRunner: {

@@ -29,6 +29,9 @@ const tests = [
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
   "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
   "apps/cli/packages/bootstrap/test/browser-local-broker.test.ts",
+  "apps/cli/packages/bootstrap/test/interaction-preparation.test.ts",
+  "apps/cli/packages/bootstrap/test/permission-readiness.test.ts",
+  "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
 ];
 
 for (const directory of testDirectories) {

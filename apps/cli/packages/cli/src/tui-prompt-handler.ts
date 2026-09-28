@@ -1,6 +1,6 @@
+import { createTuiPermissionBroker } from "./tui-permission-broker.js";
 import { getDefaultConfigPath, updateUiLocaleInFileConfig } from "@knorvia/adapters/config";
 import type { SessionEvent } from "@knorvia/contracts";
-import type { KnorviaAppOptions } from "@knorvia/bootstrap";
 import { DEFAULT_LOCALE, type SupportedLocale } from "@knorvia/i18n";
 import type { TuiRequestPermission } from "@knorvia/tui";
 import type { GlobalOptions } from "@knorvia/shared-types";
@@ -69,20 +69,7 @@ export function createTuiSubmitPrompt(
     1,
     Math.trunc(deps.shutdownCleanupTimeoutMs ?? DEFAULT_CLI_CLEANUP_TIMEOUT_MS),
   );
-  const permissionBroker: NonNullable<KnorviaAppOptions["permissionBroker"]> = {
-    requestPermission: async (request, requestOptions) => {
-      const requestPermission = activeRequestPermission;
-      if (!requestPermission) {
-        return {
-          decision: "deny",
-          reason: `No interactive approval handler configured for ${request.toolName}`,
-          resolvedAt: new Date(),
-        };
-      }
-
-      return await requestPermission(request, requestOptions);
-    },
-  };
+  const permissionBroker = createTuiPermissionBroker(() => activeRequestPermission);
 
   const closeApp = async (targetApp = app): Promise<void> => {
     if (!targetApp) return;

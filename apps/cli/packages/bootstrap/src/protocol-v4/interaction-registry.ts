@@ -1,21 +1,11 @@
-// v4 交互应答登记表（原生化，resolveInteraction）。
-//
-// 背景：conversation-product-protocol 的权限/AskUserQuestion 是「反向请求」——CLI 经
-// context.requestClient 把请求推给客户端并 await 应答。旧客户端用 RPC RESPONSE 应答
-// （resolveClientRequest 按 server-N id 收口）。v4 客户端不回 RPC response，而是发一条
-// 前向 `resolveInteraction` COMMAND（先到先得，晚到 noop）。
-//
-// 本登记表是两条应答路径的汇合点：interaction-broker 发起反向请求时按业务 requestId
-// （= v4 的 interactionId）注册一个 deferred，并让 requestClient 与该 deferred 竞态；
-// v4 命令面（handlers/interaction-background.ts）拿到 resolveInteraction 后经本表
-// resolve 对应 deferred，broker 侧的 Promise.race 立即用 v4 应答收口、abort 掉悬空的
-// 反向 RPC。
-//
-// 分层：本表只做「按 id 找到 deferred 并投递应答」，不懂 permission/userInput 的 schema
-// 差异——broker 注册时自带各自的 resolve 回调（闭包已知 kind），本表对应答体透明。
-// 归属：本文件是 v4 原生基础设施（放 v4 目录），旧目录（broker/server）import 本文件
-// 合法（依赖方向只允许 旧目录 → v4 目录）。
-import { ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV } from "@knorvia/shared";
+// 原 registry 拥有路由、队列和自动继续；broker 的单一准备句柄拥有结果与取消。
+// 先静默登记，再由 core 发布 Requested，最后激活客户端通知及计时。
+import {
+  ASK_USER_QUESTION_HIDDEN_GRACE_MS,
+  ASK_USER_QUESTION_AUTO_RESOLUTION_MS,
+  type V4InteractionRegistryOptions,
+} from "./interaction-options.js";
+export { resolveV4InteractionRegistryOptionsFromEnv } from "./interaction-options.js";
 
 export type V4InteractionAnswer = {
   optionId?: string;
@@ -26,30 +16,6 @@ export type V4InteractionAnswer = {
   action?: "accept" | "decline" | "cancel";
   content?: Record<string, unknown>;
 };
-
-const ASK_USER_QUESTION_HIDDEN_GRACE_MS = 60_000;
-const ASK_USER_QUESTION_AUTO_RESOLUTION_MS = 300_000;
-interface V4InteractionRegistryOptions {
-  hiddenGraceMs?: number;
-  autoResolutionMs?: number;
-  now?: () => number;
-}
-
-export function resolveV4InteractionRegistryOptionsFromEnv(
-  env: NodeJS.ProcessEnv,
-): V4InteractionRegistryOptions | undefined {
-  if (env.KNORVIA_ENV !== "test") return undefined;
-  const rawScale = env[ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV]?.trim();
-  if (!rawScale) return undefined;
-  const scale = Number(rawScale);
-  if (!Number.isFinite(scale) || scale < 1 || scale > 1_000) {
-    throw new Error(`${ASK_USER_QUESTION_E2E_CLOCK_SCALE_ENV} must be between 1 and 1000`);
-  }
-  return {
-    hiddenGraceMs: Math.max(1, Math.round(ASK_USER_QUESTION_HIDDEN_GRACE_MS / scale)),
-    autoResolutionMs: Math.max(1, Math.round(ASK_USER_QUESTION_AUTO_RESOLUTION_MS / scale)),
-  };
-}
 
 export type V4InteractionAutoResolution =
   | {
@@ -73,6 +39,8 @@ export interface V4InteractionRegistrationOptions {
 }
 
 interface RegisteredInteraction {
+  active: boolean;
+  onSuperseded?: () => void;
   /** broker 侧回调：把 v4 answer 映射成对应 schema 的应答并 resolve 反向请求。 */
   resolve: (answer: V4InteractionAnswer) => void;
   options?: V4InteractionRegistrationOptions;
@@ -112,12 +80,28 @@ export class V4InteractionRegistry {
     resolve: (answer: V4InteractionAnswer) => void,
     options?: V4InteractionRegistrationOptions,
   ): () => void {
+    const prepared = this.prepare(interactionId, resolve, options);
+    prepared.activate();
+    return prepared.dispose;
+  }
+
+  /** Bind the existing answer route without notifying or starting automatic resolution. */
+  prepare(
+    interactionId: string,
+    resolve: (answer: V4InteractionAnswer) => void,
+    options?: V4InteractionRegistrationOptions,
+    onSuperseded?: () => void,
+  ): { activate(): boolean; dispose(): void } {
     const previous = this.pending.get(interactionId);
     const token = Symbol(interactionId);
     if (previous) {
       this.clearTimers(previous);
+      // 同 ID 改变归属时先移除旧队列项，避免旧 session 被不存在的队首阻塞。
+      if (previous.options?.sessionId !== options?.sessionId) this.remove(interactionId, previous);
     }
     const entry: RegisteredInteraction = {
+      active: false,
+      onSuperseded,
       resolve,
       options,
       token,
@@ -129,26 +113,33 @@ export class V4InteractionRegistry {
         : {}),
     };
     this.pending.set(interactionId, entry);
-    if (options && !previous) {
+    if (options && (!previous || previous.options?.sessionId !== options.sessionId)) {
       const queue = this.queuesBySession.get(options.sessionId) ?? [];
       queue.push(interactionId);
       this.queuesBySession.set(options.sessionId, queue);
     }
-    if (options) {
-      if (entry.autoResolution) {
-        if (options.kind === "askUserQuestion" && !entry.autoResolutionEligible) {
+    previous?.onSuperseded?.();
+    return {
+      activate: () => {
+        if (this.pending.get(interactionId) !== entry) return false;
+        if (entry.active) return true;
+        entry.active = true;
+        if (!options) return true;
+        if (!entry.autoResolution) this.activateHead(options.sessionId);
+        else if (
+          options.kind === "askUserQuestion" &&
+          !entry.autoResolutionEligible &&
+          entry.autoResolution.state !== "snoozed"
+        )
           void this.convertToSnoozed(entry);
-        } else {
-          this.resumeAutoResolution(interactionId, entry);
-        }
-      } else {
-        this.activateHead(options.sessionId);
-      }
-    }
-    return () => {
-      const current = this.pending.get(interactionId);
-      if (!current || current.token !== token) return;
-      this.remove(interactionId, current);
+        else this.resumeAutoResolution(interactionId, entry);
+        return this.pending.get(interactionId) === entry;
+      },
+      dispose: () => {
+        const current = this.pending.get(interactionId);
+        if (!current || current.token !== token) return;
+        this.remove(interactionId, current);
+      },
     };
   }
 
@@ -260,10 +251,15 @@ export class V4InteractionRegistry {
     const entry = this.pending.get(interactionId);
     if (
       !entry?.options ||
+      !entry.active ||
       entry.options.kind !== "askUserQuestion" ||
-      !entry.autoResolutionEligible ||
-      entry.autoResolution
+      !entry.autoResolutionEligible
     ) {
+      return;
+    }
+    // 恢复的后续问题原本不在队首；轮到它时也必须恢复已有期限，不能一直静默。
+    if (entry.autoResolution) {
+      this.resumeAutoResolution(interactionId, entry);
       return;
     }
     const startedAt = this.now();
@@ -280,6 +276,7 @@ export class V4InteractionRegistry {
   }
 
   private resumeAutoResolution(interactionId: string, entry: RegisteredInteraction): void {
+    if (!entry.active) return;
     const sessionId = entry.options?.sessionId;
     if (!sessionId || this.queuesBySession.get(sessionId)?.[0] !== interactionId) {
       return;
@@ -293,6 +290,13 @@ export class V4InteractionRegistry {
     const now = this.now();
     if (now >= autoResolution.deadlineAt) {
       queueMicrotask(() => {
+        // 恢复任务可能晚于同 ID 重登记；旧 entry 不能自动回答新请求。
+        if (
+          this.pending.get(interactionId) !== entry ||
+          !entry.autoResolutionEligible ||
+          entry.autoResolution?.state === "snoozed"
+        )
+          return;
         this.resolve(interactionId, {
           action: "accept",
           content: { answers: {} },
@@ -334,6 +338,7 @@ export class V4InteractionRegistry {
     }
     entry.deadlineTimer = setTimeout(
       () => {
+        if (this.pending.get(interactionId) !== entry) return;
         this.resolve(interactionId, {
           action: "accept",
           content: { answers: {} },
@@ -344,7 +349,7 @@ export class V4InteractionRegistry {
   }
 
   private notifyAutoResolution(entry: RegisteredInteraction): void {
-    if (!entry.autoResolution) return;
+    if (!entry.active || !entry.autoResolution) return;
     void entry.options?.onAutoResolutionUpdated?.(entry.autoResolution);
   }
 
@@ -357,7 +362,7 @@ export class V4InteractionRegistry {
       startedAt: autoResolution.startedAt,
       snoozedAt: this.now(),
     };
-    await entry.options?.onAutoResolutionUpdated?.(entry.autoResolution);
+    if (entry.active) await entry.options?.onAutoResolutionUpdated?.(entry.autoResolution);
   }
 
   private clearTimers(entry: RegisteredInteraction): void {
