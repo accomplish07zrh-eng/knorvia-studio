@@ -1,13 +1,9 @@
-// ============================================================
-// Tool Registry - Tool registration and lookup
-// ============================================================
-
-import { type ModelToolContract } from "@knorvia/contracts";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import type { ModelToolContract } from "@knorvia/contracts";
 import type { ToolEntry, ToolMetadata } from "./types.js";
-
-// -----------------------------------------------
-// Tool Registry Interface
-// -----------------------------------------------
+import { NameLedger } from "./registry/name-ledger.js";
+import { modelContracts } from "./registry/model-contracts.js";
 
 export interface ToolRegistry {
   register(entry: ToolEntry, options?: ToolRegistryRegisterOptions): void;
@@ -18,129 +14,75 @@ export interface ToolRegistry {
   getMetadata(name: string): ToolMetadata | undefined;
   toContracts(): ModelToolContract[];
 }
-
 export interface ToolRegistryRegisterOptions {
   silentDuplicateWarning?: boolean;
 }
 
-// -----------------------------------------------
-// Tool Registry Implementation
-// -----------------------------------------------
-
 export class ToolRegistryImpl implements ToolRegistry {
-  private aliases = new Map<string, string>();
-  private tools = new Map<string, ToolEntry>();
+  private readonly names = new NameLedger();
 
   register(entry: ToolEntry, options: ToolRegistryRegisterOptions = {}): void {
-    const displacedAliasTarget = this.aliases.get(entry.metadata.name);
-    if (displacedAliasTarget) {
-      // 查找时 alias 若优先于 canonical，后注册的真实同名工具会继续被旧
-      // alias 遮蔽。canonical 始终优先，并留下告警，避免兼容别名改变工具身份。
-      this.aliases.delete(entry.metadata.name);
+    const displaced = this.names.aliasTarget(entry.metadata.name);
+    if (displaced) {
+      this.names.dropAlias(entry.metadata.name);
       if (options.silentDuplicateWarning !== true) {
+        // 先取得日志方法，再求值消息 getter，保留 console receiver 与同步异常阶段。
         console.warn(
-          `Tool ${entry.metadata.name} replaces alias previously targeting ${displacedAliasTarget}`,
+          `Tool ${entry.metadata.name} replaces alias previously targeting ${displaced}`,
         );
       }
     }
-    if (this.tools.has(entry.metadata.name) && options.silentDuplicateWarning !== true) {
+    if (this.names.hasTool(entry.metadata.name) && options.silentDuplicateWarning !== true) {
       console.warn(`Tool ${entry.metadata.name} already registered, overwriting`);
     }
-    for (const [alias, target] of this.aliases) {
-      if (target === entry.metadata.name) {
-        this.aliases.delete(alias);
-      }
+    for (const [alias, target] of this.names.aliases()) {
+      if (target === entry.metadata.name) this.names.dropAlias(alias);
     }
-    this.tools.set(entry.metadata.name, entry);
+    this.names.putTool(entry.metadata.name, entry);
     for (const alias of entry.aliases ?? []) {
-      const existingAliasTarget = this.aliases.get(alias);
-      if (
+      const target = this.names.aliasTarget(alias);
+      const conflict =
         alias === entry.metadata.name ||
-        this.tools.has(alias) ||
-        (existingAliasTarget !== undefined && existingAliasTarget !== entry.metadata.name)
-      ) {
-        // 兼容 alias 若静默覆盖 canonical/另一个 alias，会把一次工具调用路由到
-        // 错误权限和 handler。冲突时拒绝本 alias，保留已注册身份。
+        this.names.hasTool(alias) ||
+        (target !== undefined && target !== entry.metadata.name);
+      if (conflict) {
         if (options.silentDuplicateWarning !== true) {
           console.warn(`Tool alias ${alias} conflicts with an existing tool or alias; skipping`);
         }
-        continue;
+      } else {
+        this.names.putAlias(alias, entry.metadata.name);
       }
-      this.aliases.set(alias, entry.metadata.name);
     }
   }
 
   unregister(name: string): void {
-    const aliasTarget = this.aliases.get(name);
-    if (aliasTarget) {
-      this.aliases.delete(name);
+    // 空名目标在旧合同中不走 alias 删除分支；槽位必须允许它与同名 canonical 共存。
+    if (this.names.aliasTarget(name)) {
+      this.names.dropAlias(name);
       return;
     }
-
-    this.tools.delete(name);
-    for (const [alias, target] of this.aliases) {
-      if (target === name) {
-        this.aliases.delete(alias);
-      }
+    this.names.dropTool(name);
+    for (const [alias, target] of this.names.aliases()) {
+      if (target === name) this.names.dropAlias(alias);
     }
   }
 
   get(name: string): ToolEntry | undefined {
-    return this.tools.get(this.aliases.get(name) ?? name);
+    return this.names.tool(this.names.aliasTarget(name) ?? name);
   }
-
   has(name: string): boolean {
     return this.get(name) !== undefined;
   }
-
   list(): string[] {
-    return Array.from(this.tools.keys());
+    return this.names.names();
   }
-
   getMetadata(name: string): ToolMetadata | undefined {
     return this.get(name)?.metadata;
   }
-
   toContracts(): ModelToolContract[] {
-    return Array.from(this.tools.values())
-      .filter((entry) => entry.metadata.providerVisible !== false)
-      .map((entry) => ({
-        name: entry.metadata.name,
-        description: toolDescriptionForProvider(entry.metadata),
-        capability: entry.capability,
-        executionMode: entry.executionMode,
-        providerNative: entry.providerNative,
-        inputSchema: entry.inputSchema,
-        outputSchema: entry.outputSchema,
-        ...(entry.strict === undefined ? {} : { strict: entry.strict }),
-        readOnly: entry.metadata.readOnly,
-        destructive: entry.metadata.destructive,
-        concurrentSafe: entry.metadata.concurrentSafe,
-        requiresUserInteraction:
-          entry.requiresUserInteraction ?? entry.metadata.requiresUserInteraction,
-        maxOutputBytes: entry.metadata.maxOutputBytes,
-        timeoutMs: entry.metadata.timeoutMs,
-        needsApproval: entry.metadata.needsApproval,
-        sideEffectScope: entry.metadata.sideEffectScope,
-        permission: entry.permission,
-        resultBudget: entry.resultBudget,
-        execute: undefined,
-      }));
+    return modelContracts(this.names.entries());
   }
 }
-
-function toolDescriptionForProvider(metadata: ToolMetadata): string | undefined {
-  const description = metadata.description;
-  const instructions = metadata.modelInstructions?.map((line) => line.trim()).filter(Boolean) ?? [];
-  if (instructions.length === 0) return description;
-
-  const usage = ["Usage:", ...instructions.map((instruction) => `- ${instruction}`)].join("\n");
-  return description && description.length > 0 ? `${description}\n\n${usage}` : usage;
-}
-
-// -----------------------------------------------
-// Factory
-// -----------------------------------------------
 
 export function createToolRegistry(): ToolRegistry {
   return new ToolRegistryImpl();

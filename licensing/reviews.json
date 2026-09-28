@@ -24595,6 +24595,83 @@
         "specs/knorvia-tool-dependency-planning.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry.ts",
+      "normalizedSha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent public routing facade applies registration/removal phases to the new binding owner and projects canonical snapshots; preserves partial state on failure, public get dispatch, strict warning suppression and empty-target overlap as explicit compatibility obligations. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry/name-ledger.ts",
+      "normalizedSha256": "46fe2eece2c18cd53e50acaf125de0ddeb72c760d57bab1c68e45ffdc9d31f03",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New single ordered Set owns canonical and alias binding facts. Name slots are indexes to the same objects and permit simultaneous bindings, update in place to retain order, delete without historical tombstones and expose live alias iteration. This replaces independently owned tool and alias maps with one binding lifecycle. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "normalizedSha256": "786c52c48ef22eecef37022a44093a91d63d8ec7676656f4563dcf2a13b2adb3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent stateless canonical-snapshot projection separates full visibility filtering from fixed public record construction and description assembly. Required public keys and ordering are compatibility declarations, not inventions; schema and permission references remain owned by callers. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-registry-fixture.ts",
+      "normalizedSha256": "56311ce1ab0305857169cec93eb2c5988e14aaa2fd2bdbc9000214ef8eae94f9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New inert registry fixture reuses the independently reviewed invocation fixture without invoking tools or external services. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-registry-routing.test.ts",
+      "normalizedSha256": "c4f164e70e5dfd858f05dbc95ac54122973aa981a49a1860727ccbf40ec4f2f6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New routing contracts cover order, replacement, aliases, warning text/receiver, strict suppression, mutable entries, empty-name overlap and failure partial state. A regression-first warning method capture test demonstrates and verifies the wrapper correction. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-registry-contracts.test.ts",
+      "normalizedSha256": "ca0511a0d46a2e0d35970171c7ccc00c25824898aa1f728bccafcff639f30374",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contracts establish exact projection keys, own undefined, reference payloads, lazy interaction and strict reads, hidden-but-routable tools, two-stage visibility snapshots, sparse instruction text and original error propagation. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-registration.md",
+      "normalizedSha256": "ef8008834237136964900ec20cfd9117b5f4d9406bfb3bdd99db6a3d2425c9fb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation design defines unified binding ownership, name slots, live iteration, nontransactional routing stages and canonical snapshot projection, including regression-first clarification of warning method capture. Prior source was accessed; no no-access clean-room claim is made. Structural public types, fixed projection fields, warning text, standard collection operations and compatibility evaluation order are not claimed as inventions. This decision is based on the preceding design of a single ordered binding ledger with reference-only lookup slots and a separate canonical-snapshot projection, not renaming, splitting or passing tests alone. A warning-wrapper evaluation-order regression was first reproduced by a failing test and then corrected at the explicit console adapter call sites. MCP registration, public contracts, runtime cache invalidation, invocation, handlers and adjacent modules keep their applicable licenses; this is not a whole-application MIT determination.",
+      "evidence": [
+        "specs/knorvia-tool-registration.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
