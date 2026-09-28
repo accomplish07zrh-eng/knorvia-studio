@@ -24507,6 +24507,94 @@
         "specs/knorvia-tool-batch-execution.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "normalizedSha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent public planner retains constructor configuration and live caller-provided reader Set while giving every scheduling call its own graph and result. It combines explicit capability projection, dependency planning and layer packing without an instance-level mutable last-items map. Public structural types are retained as compatibility declarations. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler/capability-policy.ts",
+      "normalizedSha256": "d1426c78c86c99f7929e4888fe020ab2f30a4ab7bff807d62acc114d62cb5417",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent capability policy expresses ordered safety decisions separately from the public item projection, preserving observable lazy reads, explicit concurrency/destructive precedence and Set receiver rather than inventing a collapsed metadata snapshot. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler/dependency-plan.ts",
+      "normalizedSha256": "224aec81d108807e95f8f0bf849a29fb2815c44fdb3d17ed6e6db846ea66f3ed",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New per-call vertices, completion ledger, reverse dependency index and FIFO cursor release only affected successors for ordinary arrays. Counts retain duplicate dependencies while release edges do not. Own element accessors select delayed stable queries through the same vertices and validation, preserving no-ready-node error priority without a second scheduler. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler/parallel-layers.ts",
+      "normalizedSha256": "6ca61764d5da64b55b82481a79ff626acd97394aaf6dbdb60e8fd8b6b0231a5b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent projection forms dependency-depth buckets and publishes bounded compatible groups while unsafe items delimit their own layer. It preserves observed numeric width and group ordering contracts independently of batch execution slice widths. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-scheduler-fixture.ts",
+      "normalizedSha256": "23d041e0e86cb827aa4d1a19af031ed6f13309d3fe27cc2886bc6c144cd7b052",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New inert branded dependency fixture provides synthetic graph inputs without tool execution. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-scheduler-policy.test.ts",
+      "normalizedSha256": "3750115ceb73921a563623755f93dd1f6c9f06d94b0fc04198464e50a29d7bf8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contracts cover public item identity and field order, safety priority, live reader Sets, metadata getter timing, synchronous failures and actual runtime registry permission-scope projection. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-scheduler-graph.test.ts",
+      "normalizedSha256": "f964226479cc9a2fdc0cf527023ae5f8c9322aec590d7171641684184834a309",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New contracts establish stable FIFO, dependency layers, width edge cases, duplicate and missing edge errors, duplicate-ID compatibility and reuse. Two regression-first own-element accessor tests preserve delayed reads and error priority of the fixed prior implementation. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-dependency-planning.md",
+      "normalizedSha256": "372dc34764ff2f90104bbca978b527e58dcbe97dad63af6f9a6a45837e0dfee0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation design specifies per-call graph ownership, capability read order, FIFO/reverse-index planning, layer packing, known duplicate-ID limitations and exact errors, with the accessor regression correction documented before the fix. Prior source was accessed; no no-access clean-room claim is made. Standard graph algorithms, structural public types, fixed error text and compatibility ordering are not claimed as inventions. This decision is based on the new per-call graph ownership, reverse dependency index/FIFO traversal and separated capability and layer policies designed in the preceding specification, not renaming, splitting or tests alone. The first indexed implementation's eager own-element accessor regression was demonstrated by failing tests, then corrected with descriptor-selected delayed successor queries sharing the same graph and completion state. Runtime, registry, event transport, shared contracts and adjacent tool modules retain their applicable licenses; no whole-application MIT claim is made.",
+      "evidence": [
+        "specs/knorvia-tool-dependency-planning.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
