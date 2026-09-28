@@ -27718,14 +27718,15 @@
     },
     {
       "path": "docs/knorvia-session-store-facade-acceptance.md",
-      "normalizedSha256": "aa43e443496af8abef33003a9ea3a71cc2d601c4f61643b16bb7e5f4a0e935b5",
+      "normalizedSha256": "230f29b5ba0a77833f4fa9f0331acc8f94da43f480add62854d66732832b1c5d",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual investigation and acceptance record retaining initial fixture/type/loader failures, raw generated-name difference, finite coverage limits and actual process exits. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "New factual investigation and acceptance record retaining initial fixture/type/loader failures, raw generated-name difference, finite coverage limits and actual process exits. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain. Records cancellation of the facade-only CI run separately from the succeeding complete CI run on the descendant Python-binding commit.",
       "evidence": [
         "specs/knorvia-session-store-facade.md",
         "docs/knorvia-session-store-facade-acceptance.md",
-        "licensing/evidence/session-store-facade.md"
+        "licensing/evidence/session-store-facade.md",
+        "docs/knorvia-session-target-storage-acceptance.md"
       ]
     },
     {
@@ -27742,14 +27743,183 @@
     },
     {
       "path": "docs/knorvia-ci-python-path-acceptance.md",
-      "normalizedSha256": "f0ff0f1c27cf0db74ed99ba2a704d542985390d330aa2e6b35290444019aaf38",
+      "normalizedSha256": "5ce7ab5dd18ef80a08f62e2d0cb91f468e19954774c41d580d0cc5bff1d212ea",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual acceptance record for binding the CI-installed Python executable to the existing exclusive interpreter override. Preserves the historical hosted timeout, distinguishes local targeted acceptance from new hosted CI, and retains the failed preparation context lookup. Does not relicense the existing workflow, specification, test or product implementation; no whole-product independent/MIT claim.",
+      "basis": "New factual acceptance record for binding the CI-installed Python executable to the existing exclusive interpreter override. Preserves the historical hosted timeout, distinguishes local targeted acceptance from new hosted CI, and retains the failed preparation context lookup. Does not relicense the existing workflow, specification, test or product implementation; no whole-product independent/MIT claim. Subsequent GitHub run 36451934515 actual job logs verify both setup-python absolute path bindings and distinguish Windows full pass from seven Linux platform skips; historical timeout attribution remains unproven.",
       "evidence": [
         "specs/knorvia-test-stability.md",
         "docs/knorvia-ci-python-path-acceptance.md",
-        ".github/workflows/studio-quality.yml"
+        ".github/workflows/studio-quality.yml",
+        "docs/knorvia-session-target-storage-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-target.ts",
+      "normalizedSha256": "1d8ec2e987f6205411fe4d6168d967f46b2c5570fadc633990b5a29044375231",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led synchronous target identity and metadata coordination through the existing transaction owner; guarded create retains identity collision and pre-touch snapshot behavior, while fork retains structural source facts without reading discarded activity fields. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-target-record.ts",
+      "normalizedSha256": "68c5f00b94f480dc3c7e1b3a8695fff2634324cca9f9aaa6829106c2bd412f71",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led fixed row projection, required readback, caller-session touch and common insertion/upsert expression, without an additional connection, schema, validation or cache. Field maps and common SQL are compatibility material. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-target-run.ts",
+      "normalizedSha256": "0da849791873404f5fc1a3a4c3b135735a14048ec414c69222e8e97eacc0cb40",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led native SQLite usage/elapsed-time updates, budget transitions, stale-run CAS and locked re-observation for finish/recover. Reuses one existing transaction cleanup policy, preserving read-only early returns and native binding behavior. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-lifecycle.test.ts",
+      "normalizedSha256": "ee04eecfa5584a416903c56d381174a5b2d3b6d922b74b9c298d11a8d82eefa2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first native memory database lifecycle, ordered row projection, clock/UUID, fork identity, create collision/pre-touch return, monotonic-session time and historical-affinity tests. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-run.test.ts",
+      "normalizedSha256": "33e3a95bc413da80d09801fec99de6af27ccf976f85cae751c8aba0aff4dc129",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first real active-run, four-state budget, stale input, offline recovery, repeated settlement and NaN native binding observations; invalid runtime inputs are compatibility probes, not newly supported public states. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-boundaries.test.ts",
+      "normalizedSha256": "c1fe16656fa5020f58953ebb3a096aa7bcb5d28a050aa608482fbd1f9f5d5ba0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New public twelve-method chain, default states, borrowed transaction ownership, native error precedence, clock/UUID pre-IO evidence and conflict-update trigger acceptance. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-atomicity.test.ts",
+      "normalizedSha256": "3ca84e6e56ea0cf9f9978bbb335e4ab5a5c013e7d929e202a7d8db38a555b067",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New eighteen reliability regressions first genuinely failing on the old helper: eleven touch failures, readbacks, native automatic rollback, cleanup double causes and controlled post-read mutation. Synthetic same-connection interleavings are not claimed as multi-connection race proof. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-source-shape.test.ts",
+      "normalizedSha256": "b92991395fa673534db4b7e2e334d9395ec817126ae09af5d88266807f05f1e5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New root-authored old-first fork tests for inherited required facts and ignored activity accessors, then three real candidate failures together with the binding case before correction. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target.fixture.ts",
+      "normalizedSha256": "2adaefd5090e463a40ffd960bf1e588d67efe14368c05f2c53626e858ee8e4c6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic native SQLite setup, raw-state observation, scoped clock/UUID controls and reliable owned cleanup; public Store initializes the actual current schema. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-operations.fixture.ts",
+      "normalizedSha256": "a10efeccddddd3f500f008253cb21f724b769a6057f55df456f4af18d8b3d328",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite eleven-write invocation fixtures using actual mutation paths, supporting raw-state rollback observations. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-target-test-api.ts",
+      "normalizedSha256": "3aaa514a7f8aad1577f76d48c39a50282e511d5483aa08e1cf7f943084f1302f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New minimal relative test adapter for helper and public storage entry, mechanically mapped to built artifacts during compiled acceptance; thin exports are compatibility glue, not a novel algorithm. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-session-target-storage.md",
+      "normalizedSha256": "352853e8a7747b9b7c6d60c2f3cbc3611f0c65eccfcdeeb5055cdfaaaa4089a3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavior, ownership, exact schema facts and approved atomicity contract, extended with independently observed status-binding and structural-source boundaries before candidate corrections. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-session-target-storage-acceptance.md",
+      "normalizedSha256": "588e1971f23e94daad55117e5386e4dc4f76476b12a1fe92abe0d8ed2ea12f5f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual native investigation, old-first/candidate/compiled/finite-comparison acceptance record retaining initial failures, platform limits and pending work accurately. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/session-target-storage.md",
+      "normalizedSha256": "ae1bc713544bcd076f03ec534c57b9ea8132d9afa3eeeff973821b735f156ebb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New source-input, independent author, candidate correction and retained dependency record with explicit limits on constrained expressions and prior context. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-target-storage.md",
+        "docs/knorvia-session-target-storage-acceptance.md",
+        "licensing/evidence/session-target-storage.md"
       ]
     }
   ]
