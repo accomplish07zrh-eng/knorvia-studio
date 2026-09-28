@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { constants } from "node:sqlite";
 import type { SessionId } from "@knorvia/contracts";
-import { admission, inputFixture, now, otherSession, session } from "./session-input-fixture.js";
+import { inputFixture, now, otherSession, session } from "./session-input-fixture.js";
 
 test("input admission allocates per-session sequence without touching session activity", async (t) => {
   const f = await inputFixture(t);
@@ -54,7 +54,7 @@ test("same global input ID corrects payload but retains terminal status, owner a
     status: "cancelled",
     reason: "removed",
   });
-  const rowid = f.rows("session_input")[0].rowid;
+  const rowid = f.rows("session_input")[0]!.rowid;
   t.mock.method(Date, "now", () => 140);
   await f.add({
     sessionID: otherSession,
@@ -74,7 +74,7 @@ test("same global input ID corrects payload but retains terminal status, owner a
     statusReason: "removed",
     time: { created: now, updated: 140 },
   });
-  assert.equal(f.rows("session_input")[0].rowid, rowid);
+  assert.equal(f.rows("session_input")[0]!.rowid, rowid);
   await f.add({ id: "next" });
   assert.equal((await f.store.getSessionInputById("next"))?.admittedSequence, 1);
   assert.deepEqual(await f.store.listSessionInputs({ sessionID: otherSession }), []);
@@ -99,7 +99,7 @@ test("single-statement admission borrows outer ownership and completes before it
 test("input JSON uses native encoding and nullish fallback while preserving prepare-before-encode priority", async (t) => {
   const f = await inputFixture(t);
   await f.add({ payload: null as never });
-  assert.equal(f.rows("session_input")[0].payload, "{}");
+  assert.equal(f.rows("session_input")[0]!.payload, "{}");
   const cycle: Record<string, unknown> = {};
   cycle.self = cycle;
   const before = f.snapshot();
@@ -152,7 +152,7 @@ test("input readers tolerate legacy payload shapes without repairing cells or lo
     const value = (await f.store.getSessionInputById("input"))!.payload;
     assert.deepEqual(value, expected);
     assert.equal(Object.getPrototypeOf(value), Object.prototype);
-    assert.equal(f.rows("session_input")[0].payload, raw);
+    assert.equal(f.rows("session_input")[0]!.payload, raw);
     value.text = "mutated reader";
     assert.deepEqual((await f.store.getSessionInputById("input"))?.payload, expected);
   }
@@ -195,19 +195,4 @@ test("input row projection retains empty optional values and legacy invalid stat
   ]);
   assert.deepEqual(await f.store.listSessionInputs({ sessionID: otherSession }), []);
   assert.deepEqual(f.snapshot(), before);
-});
-
-test("facade guard still rejects ledger mutation before it reaches the repository", async (t) => {
-  const f = await inputFixture(t);
-  const failure = new Error("fixture write guard");
-  t.mock.method(f.store as unknown as { throwBeforeWrite(): void }, "throwBeforeWrite", () => {
-    throw failure;
-  });
-  await assert.rejects(f.store.saveSessionInput(admission()), (error) => error === failure);
-  await assert.rejects(
-    f.store.updateSessionInputs({ sessionID: session, updates: [] }),
-    (error) => error === failure,
-  );
-  assert.deepEqual(f.rows("session_input"), []);
-  assert.equal(await f.store.getSessionInputById("input"), null);
 });

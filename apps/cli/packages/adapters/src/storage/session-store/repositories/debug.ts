@@ -1,36 +1,39 @@
-import type { DatabaseSync, SQLInputValue } from "node:sqlite";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
+import type { DatabaseSync } from "node:sqlite";
 import type { SessionId } from "@knorvia/contracts";
 import type { SessionStoreDebugCounts } from "../options.js";
 
 export function debugMigrationIds(db: DatabaseSync): string[] {
-  return (
-    db.prepare("select id from schema_migration order by id").all() as Array<{ id: string }>
-  ).map((row) => row.id);
+  return db
+    .prepare("SELECT id FROM schema_migration ORDER BY id ASC")
+    .all()
+    .map((row) => String(row.id));
 }
 
 export function debugCounts(db: DatabaseSync, sessionID?: SessionId): SessionStoreDebugCounts {
-  const scoped = sessionID ? " where session_id = ?" : "";
-  const values = sessionID ? [sessionID] : [];
+  const count = (table: string, scopeColumn?: string): number => {
+    const scoped = Boolean(sessionID && scopeColumn);
+    const statement = db.prepare(
+      `SELECT COUNT(*) AS count FROM ${table}${scoped ? ` WHERE ${scopeColumn} = ?` : ""}`,
+    );
+    const row = scoped ? statement.get(sessionID!) : statement.get();
+    return Number(row?.count ?? 0);
+  };
   return {
-    sessions: count(db, "session", sessionID ? " where id = ?" : "", values),
-    messages: count(db, "message", scoped, values),
-    parts: count(db, "part", scoped, values),
-    todos: count(db, "todo", scoped, values),
-    targets: count(db, "session_target", scoped, values),
-    sessionEntries: count(db, "session_entry", scoped, values),
-    permissions: count(db, "permission", "", []),
-    localSettings: count(db, "local_setting", "", []),
-    schemaMigrations: count(db, "schema_migration", "", []),
-    inputHistory: count(db, "input_history", scoped, values),
-    modelUsage: count(db, "model_usage", scoped, values),
-    toolUsage: count(db, "tool_usage", scoped, values),
-    turnUsage: count(db, "turn_usage", scoped, values),
+    sessions: count("session", "id"),
+    messages: count("message", "session_id"),
+    parts: count("part", "session_id"),
+    todos: count("todo", "session_id"),
+    targets: count("session_target", "session_id"),
+    sessionEntries: count("session_entry", "session_id"),
+    permissions: count("permission"),
+    localSettings: count("local_setting"),
+    schemaMigrations: count("schema_migration"),
+    inputHistory: count("input_history", "session_id"),
+    modelUsage: count("model_usage", "session_id"),
+    toolUsage: count("tool_usage", "session_id"),
+    turnUsage: count("turn_usage", "session_id"),
   };
-}
-
-function count(db: DatabaseSync, table: string, where: string, values: SQLInputValue[]): number {
-  const row = db.prepare(`select count(*) as count from ${table}${where}`).get(...values) as {
-    count: number;
-  };
-  return row.count;
 }

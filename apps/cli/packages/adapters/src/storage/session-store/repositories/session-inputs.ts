@@ -23,6 +23,11 @@ const READ_INPUT = `
 `;
 
 export async function saveSessionInput(db: DatabaseSync, input: Admission): Promise<void> {
+  saveSessionInputSync(db, input);
+}
+
+// 复合提交必须在同步临界段完成入账，避免 await 将其他会话写入卷进本次事务。
+export function saveSessionInputSync(db: DatabaseSync, input: Admission): void {
   const time = Date.now();
   const statement = db.prepare(`
     INSERT INTO session_input (

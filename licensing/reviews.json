@@ -26813,14 +26813,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-inputs.ts",
-      "normalizedSha256": "6f93e3addb582a2c2946fd0b4f0c40566c7fda76a21f1f14735daea28f745583",
+      "normalizedSha256": "3be13c6fd2e8ca9cbdfc469e4ce36bc58c0becbd23b5e6afcadd201c52a04986",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "Fresh ledger admission, guarded edits/marker/settlement and recovery queries with one SQLite fact owner, synchronous single-statement borrowed writes and own batch edit boundary. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "basis": "Fresh ledger admission, guarded edits/marker/settlement and recovery queries with one SQLite fact owner, synchronous single-statement borrowed writes and own batch edit boundary. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices. The facade batch exposes the existing admission body through saveSessionInputSync and forwards the existing async call into it; no second SQL/encoding/time/write path is created. Earlier source evidence remains.",
       "evidence": [
         "specs/knorvia-session-input-storage.md",
         "docs/knorvia-session-input-storage-acceptance.md",
-        "licensing/evidence/session-input-storage.md"
+        "licensing/evidence/session-input-storage.md",
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
       ]
     },
     {
@@ -26861,14 +26864,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/session-input-admission.test.ts",
-      "normalizedSha256": "77395dbaec6a547ce9d87abb979d120af9c48add27015187a01010238153a996",
+      "normalizedSha256": "0db3c447c96fd2766b39b23ed348cf6b8d72859ab25201ba628697a4fe282d43",
       "decision": "original",
       "license": "MIT",
-      "basis": "New old-first admission/replay/scope/borrow/facade guard and tolerant read/encoding/native constraint acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices.",
+      "basis": "New old-first admission/replay/scope/borrow/facade guard and tolerant read/encoding/native constraint acceptance. Root and reviewer inspected old source to extract a complete behavioral contract; no whole-process clean-room or completed product MIT claim. Isolated implementation author used only the prior contract, approved public types and dependency signatures, excluding old target/history/dist/maps/frozen baseline/tests/other repository implementation bodies. Fixed schema fields, standard SQL, status names and small common expressions are compatibility constraints, not novel algorithms. Existing facade, schema, migrations and remaining implementations retain applicable licensing. Root Apache and preview identity remain; synthetic SQLite without real user data/models/devices. The facade batch moves only the private throwBeforeWrite mock case to an isolated public fault-map test; rejection/error metadata/no-side-effect requirements remain. Four non-null type assertions only satisfy strict indexed access and do not alter runtime assertions. Earlier evidence remains.",
       "evidence": [
         "specs/knorvia-session-input-storage.md",
         "docs/knorvia-session-input-storage-acceptance.md",
-        "licensing/evidence/session-input-storage.md"
+        "licensing/evidence/session-input-storage.md",
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
       ]
     },
     {
@@ -27468,6 +27474,270 @@
         "specs/knorvia-storage-bootstrap.md",
         "docs/knorvia-storage-bootstrap-acceptance.md",
         "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/sqlite-session-store.ts",
+      "normalizedSha256": "1c52ffcd57679764895dce8a5a3c7477f76e894a2fcf9d0da06be2cb1fa93a65",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led single owner of connection, path, fault options and lazy journal; 73 explicit public methods and the exact 22 prewrite fault gates, with public-close cleanup on asynchronous startup failure. Short forwarding is reviewed as constrained compatibility expression rather than an independent algorithm. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/session-store-connection.ts",
+      "normalizedSha256": "4a74aabf2bcc3f3569902b9a2da78e59264d1e0da2b17bed4cc8000af294a721",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New narrow connection preparation and synchronous startup cleanup sequence consuming the already reviewed initializer, without duplicating migrations or owning an additional connection. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/fork-commit.ts",
+      "normalizedSha256": "ec3d6bbf5143656b245d0a14c239f388649658d062243708fed6f8f03d0a1d91",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous compound-commit coordination using one existing transaction owner and synchronous repositories, including seven fault stages and parent-command fact replay. Preserves the original failure and prevents unrelated same-turn writes joining a suspended transaction. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/fork-validation.ts",
+      "normalizedSha256": "b5538e3a1c939f5ed120a84c234ceaaafd6690b1c538594f652e5eaaf33e6428",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led ordered child, owner and reference validation with invocation-local sets; identifiers and fixed error text remain constrained interface facts. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/shared-context-commit.ts",
+      "normalizedSha256": "89f405cc7cef4646bbe986cfbb768b504dbcfca3ce9ee05f84489285b83ac715",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous import/transition coordination with per-call false control signal, exact data eligibility and cleanup preservation, sharing the existing transaction and write owners. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/debug.ts",
+      "normalizedSha256": "539080eea87e85159b9371ce4b98526570131733e57673ad367494350b7b68c0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Restricted-contract ordered thirteen-table and migration observations; fixed table names and standard count queries are necessary compatibility vocabulary, not claimed proprietary SQL invention. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-debug.test.ts",
+      "normalizedSha256": "4f584cde65b4d8425070b1a373e49ac468eb91c442854052ed53ae3c02bd7177",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first asymmetric session debug counts, global workflow counts, migration order and tolerant JSON observations. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-false-cleanup-reliability.test.ts",
+      "normalizedSha256": "b3215e7681c747dfa9fc9a6c02b65d79dba05478da39a8394c161b7f513c3fb3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New native false-transition rollback cleanup regression, recording the old two-attempt failure and requiring a single owner to preserve both causes. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-fault-map.test.ts",
+      "normalizedSha256": "25505c9f5cfc06419037c66e4330d13e3182f390f14b9acd512291cb96c0de3c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-isolated public fault-gate coverage for the exact write map and preserved error metadata; includes the existing admission test moved away from an inherited private method mock. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-fork-validation.test.ts",
+      "normalizedSha256": "2e6ecca6613a7528fc2066596b32bd8b2091ed07b33ce303292faf62ddefd1e3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first ordered malformed fork, child/owner/reference and copy-hint boundary acceptance. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-fork.test.ts",
+      "normalizedSha256": "9e1df9332531b04ade32a5d809b1a5df25ccdb17603e247f1bedb476a7a99e69",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New native fork storage, replay and rollback observations using synthetic records and existing public calls. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-lifetime.test.ts",
+      "normalizedSha256": "29bc29f117d1819b6c12f441efdb02df65f2097b3dcdcf3e61259a6bef3ce81f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New public constructor/factory, close, path, lazy journal and startup cleanup acceptance. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-reliability.test.ts",
+      "normalizedSha256": "d983e2ad7de529d296985b119654b4f5c7e8f48771fce68a490ec6ca998c527b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New twelve-regression acceptance for native automatic rollback, injected cleanup double failures and same-turn operation isolation; all twelve genuinely failed on the frozen old facade. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-shared.test.ts",
+      "normalizedSha256": "65ae2389b87298560240a2063eb901fba9f9ec5cef7c42874528c06a3bad3ead",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first shared import/transition, invalid data and false/replay observation cases. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-surface.fixture.ts",
+      "normalizedSha256": "802fe11a3788325eeb27b4170db541867665dff7b79bccec27cb955dcdaa966b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite public-surface fixture and invocation builders from required API signatures; fixed signatures are compatibility facts. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-surface.test.ts",
+      "normalizedSha256": "d1c3350e4dde489f642ee854e2905f3b32a8337676d96c45c82c1b8ebe459a96",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New public method surface and delegation acceptance over synthetic SQLite; method availability does not imply exhaustive behavior coverage. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade-transaction-compat.test.ts",
+      "normalizedSha256": "3289c5c994fcbb658fb99f29c3b68a637ac8b71771487095843c346ab71760b1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first existing-transaction, rollback and fault-stage compatibility acceptance. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade.fixture.ts",
+      "normalizedSha256": "931f7835d658e61ea10901b9f7609e2dd05dd5ffd8be3fed06046548962bb1b1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic native SQLite setup, observation and owned temporary cleanup helpers. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-store-facade.target.ts",
+      "normalizedSha256": "2e6de7fc5239e3787aa5229c57c12b7d5f09618d76b00fc0dbfd55f0fb48c46f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New minimal public test target, remapped to the actual compiled storage public entry for artifact acceptance. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-session-store-facade.md",
+      "normalizedSha256": "4923d5c37470a786fe15831f729c2556eb64bbe3eb867e342f959695be746de3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavior, ownership, lifecycle and approved reliability contract with explicit validation/clock boundaries and bounded startup-close clarification before source integration. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-session-store-facade-acceptance.md",
+      "normalizedSha256": "aa43e443496af8abef33003a9ea3a71cc2d601c4f61643b16bb7e5f4a0e935b5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual investigation and acceptance record retaining initial fixture/type/loader failures, raw generated-name difference, finite coverage limits and actual process exits. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/session-store-facade.md",
+      "normalizedSha256": "dec3f3ca8b41a14df9409c594c72ff111591b96f6dae8fe1565873e114e7d5f9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New per-file author inputs, isolation limits, output scope and retained-dependency provenance record. Root and validation roles read inherited source to extract behavior; the isolated author received approved contracts, stripped public signatures and dependency declarations, not old target bodies/history/baselines/tests/comparers. Prior conversation context remains. The first two author typecheck resolutions loaded 107 product sources through shared paths; the author inspected path lists rather than bodies, but these compiler inputs are not described as declaration-only. Final exact export mappings restricted non-declaration product inputs to six candidates. No whole-process clean-room or legal guarantee is claimed. Fixed fields, errors, signatures, standard SQL and thin delegation are compatibility expression, not novel algorithms; splitting, names, headers and line counts are not independent evidence. Public barrels, options/rows, historical SQL and other retained dependencies keep applicable provenance. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-session-store-facade.md",
+        "docs/knorvia-session-store-facade-acceptance.md",
+        "licensing/evidence/session-store-facade.md"
       ]
     }
   ]
