@@ -24672,6 +24672,94 @@
         "specs/knorvia-tool-registration.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-responder-race.ts",
+      "normalizedSha256": "5ffe45c92ea3173efd1e0c1345cc282e182bc697e159fdd33a42df3af5e3816d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent responder adapter retains synchronous broker-first port calls, receivers, native Promise reactions, publish-before-cancel and final parent unlink order. It delegates all winner and reservation decisions to the new choice owner rather than keeping parallel settled/claimed booleans. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/approval/responder-choice.ts",
+      "normalizedSha256": "742a701ed95e7159a666a100cfe6d6047610079f46182985d34e5e0106a0bf3c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New pure three-phase authority model separates open admission, repeatable broker reservation for commit retries and terminal acceptance. Hook exclusion and finality are derived from one phase; reservation is explicitly not completion and does not create a second accepted queue. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/approval-gate.ts",
+      "normalizedSha256": "55d01d9e00bbda178df8fe6b866c1d573c21820470227610579f4567f2d4f504",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent synchronous preview adapter captures request policy before the tool method, retains method receiver/evaluation boundaries, and reports preview failures before requesting the same constrained ask projection. It performs no filesystem or device access and cannot turn preview failure into execution permission. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/approval/ask-projection.ts",
+      "normalizedSha256": "5e9e4aa6eb3f572a75618c213a45aa4d69520c0680ccea169023e3f5e6036034",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New request projection holds the selected policy value and uses one ordered record writer for normal and failed asks. A declarative exact-key policy table and explicit proceed terminal projection preserve public fields and caller-owned display identity without carrying responder state. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-approval-fixture.ts",
+      "normalizedSha256": "1065725f6425667e5a84981f64a125f3a7c0174a63a2c7efb9dc214df85496cd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New inert responder fixture exposes controlled native promises, signals, callback receiver assertions, fault observations and parent listener counts; it uses no device, model or network. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-responder-contracts.test.ts",
+      "normalizedSha256": "251e3df06f67397873828684e14615cbc432ca9c7c5b5507c92c63bb2bf0efc9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation contracts cover broker-first startup, prefulfilled promises, either winner, uncooperative and late losers, abstention/rejection, repeatable claim, original cancellation reasons, reentry, unlink order and synchronous startup boundaries. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-preview-contracts.test.ts",
+      "normalizedSha256": "0781ce1f674bca7a7444ff5d56078c13c8662261c42fbda2d3719aa38ba71bf9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation contracts cover policy translation, callback/input identity, proceed laziness, policy capture, repeated display reads, warning fields/failures and the two method lookup boundaries; actual invocation proves refusal never reaches the handler. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-permission-approval.md",
+      "normalizedSha256": "278abf399669ef5680d143dd0ee3cd3192e48df96378f9da13ead2b5b7632038",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation design records the single authority state, per-request projection, real broker commit retry contract, promise/cancellation order, retained failure limitations and the separate event-publication-before-registration issue. Prior source was accessed; no no-access clean-room claim is made. Public structural types, constrained protocol fields, fixed warning text and standard Promise/cancellation operations are not claimed as inventions. Review relies on the preceding specification and the single three-phase choice owner separated from signal/Promise delivery, plus per-request policy capture and unified ask record construction; class wrappers, file splits and passing comparisons alone do not establish independent provenance. Existing synchronous startup and failing diagnostic callback limitations remain documented. Permission flow, broker persistence, HookRunner, shared types and adjacent modules keep their applicable licenses; no whole-product MIT determination is made.",
+      "evidence": [
+        "specs/knorvia-permission-approval.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
