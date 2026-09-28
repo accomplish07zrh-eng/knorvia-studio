@@ -1,11 +1,15 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type { DatabaseSync } from "node:sqlite";
-import type { SessionStorePort } from "@knorvia/contracts";
-import { saveSessionEntry } from "./session-entries.js";
+import {
+  applyFullAccessProgram,
+  type FullAccessCommitInput,
+} from "./permission-full-access-program.js";
 
-/** SQLite adapter 的同步事务中不 await，取消检查和提交之间没有异步重入窗口。 */
+/** The storage owner commits synchronously before resolving the existing async port. */
 export async function commitPermissionFullAccess(
   db: DatabaseSync,
-  input: Parameters<NonNullable<SessionStorePort["commitPermissionFullAccess"]>>[0],
+  input: FullAccessCommitInput,
 ): Promise<void> {
   input.signal?.throwIfAborted();
   if (
@@ -14,41 +18,21 @@ export async function commitPermissionFullAccess(
   ) {
     throw new Error("Permission commit session mismatch");
   }
-  db.exec("begin immediate");
+  // 相邻 owner 可能持事务等待；此提交只能取得并终止自己的事务。
+  if (db.isTransaction) throw new Error("Full access commit requires an idle transaction");
+  db.exec("BEGIN IMMEDIATE");
   try {
-    const existing = db
-      .prepare("select session_id from session_entry where id = ?")
-      .get(input.receipt.id);
-    if (existing) {
-      if (existing.session_id !== input.sessionID)
-        throw new Error("Permission receipt session mismatch");
-      db.exec("commit");
-      return;
-    }
-    const read = db.prepare(
-      "select payload from session_input where id = ? and session_id = ? and status = 'admitted'",
-    );
-    const write = db.prepare(
-      "update session_input set payload = ?, time_updated = ? where id = ? and session_id = ? and status = 'admitted'",
-    );
-    for (const id of input.queueItemIds) {
-      const row = read.get(id, input.sessionID);
-      if (!row || typeof row.payload !== "string")
-        throw new Error(`Pending input unavailable: ${id}`);
-      const payload = JSON.parse(row.payload) as Record<string, unknown>;
-      for (const key of ["intent", "conversationInputIntent"]) {
-        const intent = payload[key];
-        if (intent && typeof intent === "object" && !Array.isArray(intent)) {
-          payload[key] = { ...intent, mode: "yolo" };
-        }
+    applyFullAccessProgram(db, input);
+    db.exec("COMMIT");
+  } catch (failure) {
+    // SQLite 的 RAISE(ROLLBACK) 已终止事务；再次回滚会覆盖真正失败的 SQL 原因。
+    if (db.isTransaction) {
+      try {
+        db.exec("ROLLBACK");
+      } catch (rollbackFailure) {
+        throw new AggregateError([failure, rollbackFailure], "Full access rollback failed");
       }
-      write.run(JSON.stringify(payload), Date.now(), id, input.sessionID);
     }
-    saveSessionEntry(db, input.execution);
-    saveSessionEntry(db, input.receipt);
-    db.exec("commit");
-  } catch (error) {
-    db.exec("rollback");
-    throw error;
+    throw failure;
   }
 }

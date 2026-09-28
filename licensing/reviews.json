@@ -25889,6 +25889,114 @@
         "specs/knorvia-project-permission-atomicity.md",
         "docs/knorvia-project-permission-atomicity-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access.ts",
+      "normalizedSha256": "ec75e3a80c8c7f68854910017e8eed3e74a01037477b5d2001b563f912f191fa",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous transaction owner validates admission and delegates one program; only a still-active owned transaction is rolled back, preserving automatic rollback first cause and both errors on cleanup failure. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access-program.ts",
+      "normalizedSha256": "23838713909004a223b41506d7a36b5a06df122671693cef021dc457b1f13e89",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New typed finite-action program expresses receipt replay, queue preparation, ordered per-item operations and live entry access; one local driver executes storage effects without extra awaits or accepted-state copies. Inherited JSON field projection is delegated to the separately Apache-licensed helper. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access-payload.ts",
+      "normalizedSha256": "b4427d5079c0616e59b5be8a7aebcbfdfffa06e69003f2f5f596853cec8cab14",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Inherited JSON parse, two intent-field traversal and mode projection from baseline 872ad960de7ec172591f7e1952f7849229f94521, blob 7e607a2a63d6e9e0ae8e61adffb1e102d0521f31. Helper extraction and constant names do not make this independent; original license retained and precise evidence recorded. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/full-access-fixture.ts",
+      "normalizedSha256": "afd6c190d4eb0b72538c1e4912fd94ef55746581b2c6584982be2673ce079ce3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated in-memory public-store fixture creates only test sessions/queues and exposes the owned connection for failure and transaction assertions. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/full-access-storage.test.ts",
+      "normalizedSha256": "af96cc33df9993a101e4099da2a737230288bf9e16ce9b7bbd1ad7498124e6d2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New atomic full-access, fixed-target, receipt replay, scope, cancellation, entry order and red-first live scope-read compatibility contracts. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/full-access-storage-failure.test.ts",
+      "normalizedSha256": "f125f20fe4a9956da912577e14d817f7912b4f63a7c06448534f303781da886b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New real SQLite rollback trigger, queue/entry failure and red-first cleanup cause regressions; controlled statement getter probe retains parsing-before-port-read ordering. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-full-access-storage.md",
+      "normalizedSha256": "d24235dadaba74af1b6c1839aa13d002a4642ec9770bd10b8e23307eaa4d1de9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation owner/phase specification records deliberate diagnostics, inherited payload boundary, non-migration constraints and required acceptance. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-full-access-storage-acceptance.md",
+      "normalizedSha256": "404055fae4e1ba99a968a5f0f8cc2d50ffad11b7c017b48959205afd363d75ae",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New scoped validation and provenance record separates red-first defects, limited getter probes, compiled/public evidence and retained third-party payload. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/full-access-payload.md",
+      "normalizedSha256": "6d6714ee866bcf1a805a5160415dd38231c843f47f9122996ab1ffe5861cf98f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New evidence document records inherited source path, exact baseline blob/digest and extraction-only nature; its MIT text does not change the referenced implementation license. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-full-access-storage.md",
+        "docs/knorvia-full-access-storage-acceptance.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
     }
   ]
 }
