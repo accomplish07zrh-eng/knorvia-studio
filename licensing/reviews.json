@@ -27900,10 +27900,10 @@
     },
     {
       "path": "docs/knorvia-session-target-storage-acceptance.md",
-      "normalizedSha256": "588e1971f23e94daad55117e5386e4dc4f76476b12a1fe92abe0d8ed2ea12f5f",
+      "normalizedSha256": "c76193e9b19279c98bd38f7759fa1583a62453f676e37792a75d8b4d37143211",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual native investigation, old-first/candidate/compiled/finite-comparison acceptance record retaining initial failures, platform limits and pending work accurately. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain.",
+      "basis": "New factual native investigation, old-first/candidate/compiled/finite-comparison acceptance record retaining initial failures, platform limits and pending work accurately. Root and validation roles extracted behavior from inherited code; the isolated author used approved behavioral inputs, public signatures, exact table facts and a declaration-only existing transaction dependency. No old target body, history, bundle, test or comparer was provided to the author; prior conversation context remains, so no whole-process clean-room or legal guarantee is made. Fixed declarations, row fields, standard SQL, error vocabulary and short operations are necessary compatibility expression, not claimed novel algorithms. Splitting files, line count, names and SPDX headers are not independent provenance evidence. Initial author refinement and three real candidate regression failures remain in the evidence; root supplied only behavior feedback. Public contracts, historical schema/migrations, the existing transaction owner and other retained dependencies keep their earlier provenance. Root Apache-2.0 and preview identity remain. Actual GitHub run 36463959003 job logs record Windows 2383/2383 and Linux 2376 passed with seven explicit platform skips, both with no failures; no retroactive resolution of unrelated historical timeout causes is asserted.",
       "evidence": [
         "specs/knorvia-session-target-storage.md",
         "docs/knorvia-session-target-storage-acceptance.md",
@@ -27920,6 +27920,234 @@
         "specs/knorvia-session-target-storage.md",
         "docs/knorvia-session-target-storage-acceptance.md",
         "licensing/evidence/session-target-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-store.ts",
+      "normalizedSha256": "b637cf6f1f4162e24a2724bc265ad539b0295efbdc8de1b1cd03e84e5f076fdc",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led file-backed record and per-instance queue coordination, capturing grant/factory inputs at their established boundaries and keeping load under the same process lease. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-file.ts",
+      "normalizedSha256": "03c84b69851db225c5f66b417dd4a874b0a06d46f077fac15395a428afacd254",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led corruption isolation and exclusive temporary publication, preserving exact callback/retry/chmod failure behavior and only removing a temporary file created by this operation. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-lock.ts",
+      "normalizedSha256": "a656da833084c3f81cdc8dde57096b5f8d61f5701327443679ae566cd1151630",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led owned lease acquisition/release with finite process-instance identity and conservative legacy live-owner treatment. Native old-first evidence demonstrates a lost write with the inherited boot-time identity; approved changes preserve live locks. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-path.ts",
+      "normalizedSha256": "214525946efcb4623aaf6ce5d3a63c3635e285ab932f467078c467565cff9e05",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led existing configuration, home-prefix and portable data-root resolution, including corrected repeated slash and pre-await snapshot boundaries; delegates to the retained public shared dependency. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-process.ts",
+      "normalizedSha256": "498bc974b66a82825c406a07a01528fd6a2c2525e583d7de633082de33fce5d0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led process-instance facts and existing platform start-time probes. A separate actual Windows probe was checked against a task-owned child; no claim of local Linux/macOS validation. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/workspace-hook-trust-types.ts",
+      "normalizedSha256": "1264d88f6343dda64c6efc5079e9663d939ed254337ec84b6b3fa6d98f357d63",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Necessary public port/type declarations placed in a neutral internal module and re-exported without interface change. Fixed structural declarations are constrained compatibility material, not claimed novel algorithms. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-records.test.ts",
+      "normalizedSha256": "835a08c8eee4cf78a305b9cab7d1a7bdcbd2d2a5f8c8a4e63facd3dc5380699b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first file-backed record lifecycle, queue continuation, copied inputs, timestamp and compaction boundary tests through the public factory. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-files.test.ts",
+      "normalizedSha256": "3483f7846005a8884de48e3a98121956d5c70cd712654ab8c5a57bd0454371a3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New real-file corruption isolation, atomic publication, injected IO errors, callback ordering, retry and temporary ownership checks on task-owned paths. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-paths.test.ts",
+      "normalizedSha256": "a4bfef5bdc5201f88936d4254c591139d4d3b8a47216115f6444f5a241aed04e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first environment/config/home/portable path observations and asynchronous factory capture regressions without accessing actual user authorization records. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-lock-errors.test.ts",
+      "normalizedSha256": "3045321c5d110562bf47d1f5eb0d0945535bdbfcc8be36aa6f67365e87312b02",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first probe Error/ENOENT contention, unrelated rejection identity and temporary-path collision regression retaining original failures. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-lock-reliability.test.ts",
+      "normalizedSha256": "01506369004a3f4c6a23b5bfbc68747077d4754c669eccd279b6187798bb5188",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New task-owned native process and file-lock tests demonstrating process-instance metadata and preserved live owner commits, including legacy/unknown metadata conservatism. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-lock-compatibility.test.ts",
+      "normalizedSha256": "77366b994b5793b24498b45b38006f0444680096a82ea48c5e17e1b93eebe7d4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New eight-case old-first lock compatibility coverage of own PID, malformed/recent owner, finite time boundary, null/dead probes, metadata failure and replacement token release. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust.fixture.ts",
+      "normalizedSha256": "eaff0afa74bab9a1727a18b10e0e88f7cb063b6452b0a7c0414735665a521c42",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New task-owned real-file setup and bounded cleanup support with explicit ports and no reads of real user authorization data. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-test-api.ts",
+      "normalizedSha256": "210b7ab5f5ea17605013ea84e84a7fa926ab5324dbfbf059d3560d652c6d7948",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New minimal relative public-entry adapter, mechanically mapped to actual dist for compiled acceptance; thin exports are compatibility glue. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-child.fixture.ts",
+      "normalizedSha256": "aea63f454da2e80ce0f4f9bbb99663b70068a35cb8964e91f96b62ffb3b4ad94",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New test-only IPC worker using the public storage factory and explicit beforeRename synchronization for an owned child process. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/workspace-hook-trust-process.fixture.ts",
+      "normalizedSha256": "560778ce0f999abcd2cbd00f4993ddd0a5b6da1fe673d74d4bfb6e7d208bcfce",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New bounded test child supervision, IPC observation and cleanup restricted to processes started by the fixture. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-workspace-hook-trust-storage.md",
+      "normalizedSha256": "6463933f116e9ca5626fc56870527fbeadae7d2c6944935bb057a00556a60efd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavioral contract and subsequently disclosed native ownership/error boundary clarifications with exact retained semantics and explicit approved fixes. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+      "normalizedSha256": "3533664dd1fa157702afcd3a259096b431a260426fb5eac3bddd0228d43bbb43",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, candidate correction, source/compiled/build/full acceptance and default Windows probe report preserving failed preparations and limited coverage. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/workspace-hook-trust-storage.md",
+      "normalizedSha256": "e8ffc958edf633d3d6666b51467686838d52c7f3776e4259d8de4252ea3b5e3e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New approved-input, isolated author, archived revisions and retained-dependency provenance record with constrained expression and prior-context caveats. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "evidence": [
+        "specs/knorvia-workspace-hook-trust-storage.md",
+        "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
+        "licensing/evidence/workspace-hook-trust-storage.md"
       ]
     }
   ]
