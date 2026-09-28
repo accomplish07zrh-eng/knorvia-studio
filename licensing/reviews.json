@@ -24342,6 +24342,94 @@
         "specs/knorvia-tool-invocation.md",
         "docs/knorvia-independence-progress-20260927.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/timeout.ts",
+      "normalizedSha256": "0bdc637d588b584946bf3c90dbe37459f587101d01b042c36c6fa382992a9e38",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent public facade dispatches matching clock events through a closed ordered action table, explicitly selects lazy budget candidates and binds one removable parent-to-child cancellation relay. It does not own handler or queue state. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/budget-ledger.ts",
+      "normalizedSha256": "43b29b02b7f9f95983dc22c3c3f6bf9152c573d487470c9dd8722f663c3eb75f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New timer-free per-call budget ledger stores an explicit open wait interval with depth, closed wait total and available running allowance. It computes nested interval union and returns first-wait/final-release decisions without resetting accounting on scheduler cleanup. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/pausable-deadline.ts",
+      "normalizedSha256": "e5a5e1aadabe64bc2012fe7b337e8cda8a3fb3aaa59eb0744dd18ca6a205e695",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New timer adapter uses budget-ledger decisions and one current alarm receipt to translate waiting into cancellation/rearm. It retains legacy clear/restart and repeated-start boundaries rather than silently inventing a new total timeout policy. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/deadline/handler-settlement.ts",
+      "normalizedSha256": "053be704934671885897455239ca6c89d3cdb6154e2e7c9cda0bc9310f0757e1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent handler lifetime uses a discriminated success/failure outcome and one completion gate for handler, cancellation and expiry. Cleanup precedes notification, timeout owns its generated abort, and synchronous throws now enter the same gate while retaining the established two-reaction rejection race. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-deadline-fixture.ts",
+      "normalizedSha256": "bd2061e0737e77c3034645deb24451461a4f68ab0bd885882f4f25430de68e0f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New deterministic clock, inert tool/context and deferred fixtures avoid native application, model, command and network actions while exposing scheduled timer receipts and exact delays. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-deadline-clock.test.ts",
+      "normalizedSha256": "9cef18af75813bca9b6dab514866728ba74eb79a18c87f7ab60bfc77df7ca953",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New clock contracts lock nested wait union, no-timeout accounting, clear/restart and repeated-start behavior, event identity, numeric precedence/coercion and abort-link ownership. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-deadline-settlement.test.ts",
+      "normalizedSha256": "51e5980819b0952d24a58c3374e9300d1521803a762ebecc21b9cab2530a7e16",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New settlement contracts establish synchronous invocation, exact error/abort identity, cleanup and the existing rejection/cancellation race. A baseline failing synchronous-throw test precedes the fix, with added non-Error/throwing then-accessor and late-rejection single-cleanup coverage. The intentional malformed thenable fixture has one documented narrow lint exception. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-tool-deadline.md",
+      "normalizedSha256": "a28069e7d7222b3aaa20aa3e019a54444f516d5cac6dddd3797782e937e59e38",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-implementation specification defines interval and settlement owners, timer/abort effect order, exact legacy arithmetic/queue boundaries, the explicit synchronous cleanup fix, finite acceptance tests and licensing scope. Prior source was accessed; no no-access clean-room claim is made. Standard Promise/AbortSignal/timer semantics, public names, arithmetic order and error text/fields are compatibility facts. Splitting, renaming or passing tests alone is not independent implementation evidence. The reviewed basis is the independent wait-interval budget ledger, timer adapter and a single completion-decision gate, with regression-first cleanup of synchronous handler/setup-chain failures. Invocation, permission racing, Hook clocks, shared error/trace contracts and other adjacent services remain outside this decision and retain applicable licenses.",
+      "evidence": [
+        "specs/knorvia-tool-deadline.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     }
   ]
 }
