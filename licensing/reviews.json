@@ -27122,6 +27122,17 @@
         "docs/knorvia-script-workflow-storage-acceptance.md",
         "licensing/evidence/script-workflow-storage.md"
       ]
+    },
+    {
+      "path": "docs/knorvia-creation-ci-timing-acceptance.md",
+      "normalizedSha256": "b2ff1ff49af7246d7616111326e87770650b69f78512726129bcae8ed2fe09ab",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual investigation and integration record for deterministic synthetic provider-arrival ordering in the existing creation CI fixture. Records original CI failure and retry separately, bounded native-service experiments, exact isolated patch hashes, actual validation and limits. This is not a source review of the existing test file: creation-polish.test.ts remains unreviewed, with its applicable prior licensing unchanged. No production implementation, external model, UI, data or release change.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "docs/knorvia-creation-ci-timing-acceptance.md"
+      ]
     }
   ]
 }

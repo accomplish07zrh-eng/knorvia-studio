@@ -597,9 +597,34 @@ test("retry rejects a changed or redirected private frame instead of forwarding 
 });
 
 for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
-  test(`${protocol} classifies known failure, retry, timeout and cancellation offline`, async () => {
+  test(`${protocol} classifies known failure, retry, timeout and cancellation offline`, async (t) => {
     const root = await mkdtemp(join(tmpdir(), `knorvia-${protocol}-states-`));
     const keys = new Map<string, string>();
+    // 真实看门狗独立于被测截止时间；慢磁盘不能决定“提交后超时/取消”的先后顺序。
+    const realSetTimeout = setTimeout;
+    const realClearTimeout = clearTimeout;
+    let submissionEntered = Promise.withResolvers<void>();
+    const waitForSubmission = async (jobId: string) => {
+      let watchdog: ReturnType<typeof setTimeout> | undefined;
+      try {
+        await Promise.race([
+          submissionEntered.promise,
+          new Promise<never>((_resolve, reject) => {
+            watchdog = realSetTimeout(
+              () =>
+                reject(
+                  new Error(
+                    `任务 ${jobId} 在 ${TERMINAL_BUDGET_MS}ms 内未进入模拟供应商；已提交 ${submissions} 次`,
+                  ),
+                ),
+              TERMINAL_BUDGET_MS,
+            );
+          }),
+        ]);
+      } finally {
+        realClearTimeout(watchdog);
+      }
+    };
     let mode: "known-fail" | "success" | "hang" = "known-fail";
     let submissions = 0;
     const service = createCreationService({
@@ -625,14 +650,17 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
           );
         if (path === "/view") return new Response(first);
         submissions++;
-        if (mode === "hang")
+        if (mode === "hang") {
+          init?.signal?.throwIfAborted();
           return new Promise<Response>((_resolve, reject) => {
             init?.signal?.addEventListener(
               "abort",
               () => reject(init.signal?.reason ?? new Error("aborted")),
               { once: true },
             );
+            submissionEntered.resolve();
           });
+        }
         if (mode === "known-fail") return new Response("failed", { status: 400 });
         const result =
           protocol === "openai-images"
@@ -679,12 +707,20 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       const retried = await service.retryJob(failed.id);
       assert.equal((await terminal(service, retried.id)).status, "succeeded");
       mode = "hang";
-      const timedOut = await terminal(service, (await service.createJob(request("timeout"))).id);
+      // 先确认已提交，再推进原来的 500ms 截止时间；恢复真实时钟后等待终态落盘。
+      t.mock.timers.enable({ apis: ["setTimeout"] });
+      const timeoutJob = await service.createJob(request("timeout"));
+      await waitForSubmission(timeoutJob.id);
+      t.mock.timers.tick(500);
+      t.mock.timers.reset();
+      const timedOut = await terminal(service, timeoutJob.id);
       assert.equal(timedOut.status, "interrupted");
       await assert.rejects(service.retryJob(timedOut.id), /仅结果明确失败/);
+      // 取消用独立的到达信号，冻结截止时间，避免被测取消与自动超时竞速。
+      submissionEntered = Promise.withResolvers<void>();
+      t.mock.timers.enable({ apis: ["setTimeout"] });
       const cancelling = await service.createJob(request("cancel"));
-      for (let i = 0; i < 100 && submissions < 4; i++)
-        await new Promise((resolve) => setTimeout(resolve, 5));
+      await waitForSubmission(cancelling.id);
       assert.equal(submissions, 4);
       const cancelled = await service.cancelJob(cancelling.id);
       assert.equal(cancelled.status, "cancelled");
@@ -692,6 +728,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       await assert.rejects(service.retryJob(cancelled.id), /仅结果明确失败/);
       assert.equal(submissions, 4);
     } finally {
+      t.mock.timers.reset();
       await rm(root, { recursive: true, force: true });
     }
   });
