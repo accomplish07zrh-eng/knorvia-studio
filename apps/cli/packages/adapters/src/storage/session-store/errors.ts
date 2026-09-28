@@ -1,4 +1,8 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import type { DatabaseStartupErrorCode } from "@knorvia/shared";
+
 export type SqliteSessionMigrationErrorKind = DatabaseStartupErrorCode;
 
 export interface SqliteSessionMigrationErrorOptions {
@@ -17,10 +21,10 @@ export class SqliteSessionMigrationError extends Error {
 
   constructor(message: string, options: SqliteSessionMigrationErrorOptions) {
     super(message, { cause: options.cause });
-    this.name = "SqliteSessionMigrationError";
     this.dbPath = options.dbPath;
     this.kind = options.kind;
     this.migrationId = options.migrationId;
     this.snapshotPath = options.snapshotPath;
+    this.name = "SqliteSessionMigrationError";
   }
 }

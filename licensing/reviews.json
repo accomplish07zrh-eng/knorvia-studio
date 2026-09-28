@@ -27289,6 +27289,186 @@
         "docs/knorvia-dwf-journal-storage-acceptance.md",
         "licensing/evidence/dwf-journal-storage.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-runner.ts",
+      "normalizedSha256": "7cfa0f32166d685f36bb72f328b680c160fe3ced55589ccfa32a93d5ac3b9de0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Restricted-contract synchronous and asynchronous effect consumers, original callback rejection and ordered execution/timeout cleanup, consuming one invocation owner. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-execution.ts",
+      "normalizedSha256": "a5f4a731ac327e8bef6bc9bacc0cc89f12c3671c307d428058543c89adcd347c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New internal invocation-owned execution sequence replacing inherited runner control: catalog/ledger validation, bounded native-BUSY acquisition, owned transaction, point-in-time progress and per-item live ledger checks. Root review corrected stale applied-set and unknown-ledger old-column assumptions through behavior feedback before integration. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-native-error.ts",
+      "normalizedSha256": "06c193426526b3fc65a932d03a73e25fdcef382b433658256f3e6e0c92c9133a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New shared internal native error policy used by execution and snapshot, structured BUSY recognition, original typed-error identity and normalization through retained public classifier. This is common protocol policy rather than a new algorithm claim. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/migration-snapshot.ts",
+      "normalizedSha256": "487c312fc46d94cdec3613d39c32f500a3335bff71e589a8f76145c63c4ef5f5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Restricted-contract exclusive snapshot reservation and owned partial-file cleanup. Root review corrected stat-vs-atomic-create decision before native integration; committed WAL copying remains native SQLite. No-match prior snapshot source was not presumed original. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/paths.ts",
+      "normalizedSha256": "db8ef6ccaf8a5abb95172046581a37bcf3b83f726485e0313c3a7c7904b06fa6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh expression from the approved dynamic-root and mkdir-fault contract. These short standard adapter operations necessarily resemble inherited forms; guard style and removed unused import alone are not independent evidence. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/errors.ts",
+      "normalizedSha256": "b07425c151c24809cca2c0c9e17b868019d5c70ed5e599b3cd6163e7a5b05fc2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh public Error subclass projection from approved declarations, fields and native descriptors. Shape and assignments closely match inherited expressions; field-order spelling or MIT header is not evidence by itself. Restricted creation and narrow functional surface are documented without a novel-algorithm claim. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-bootstrap-edges.test.ts",
+      "normalizedSha256": "219addbaeebc559638009975cbffd2dafb36afffc2076a21004b1984fd76fb8a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first native snapshot, field/cause, path and fault-port cases; root adds bounded rollback-first-cause and stat-to-exclusive-create observations before production switching. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-bootstrap-ledger.test.ts",
+      "normalizedSha256": "813c20672cf3633579d33220c82d055130f327236f7e60621ccf954181021bd0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public startup/catalog/progress/ledger/native-WAL cases. Notification gate strengthened before integration; root adds unknown newer-column shape and per-item ledger revalidation cases before switching. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-bootstrap-progress.test.ts",
+      "normalizedSha256": "82f40e54cbc440d20e041e0b0050e54d24440e43d6f9c675c235f23d0733ba30",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New original-callback rejection, transaction ownership, native rollback/LOCKED, bounded BUSY injection and timeout/cleanup precedence tests. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-bootstrap.fixture.ts",
+      "normalizedSha256": "b5a51ed7709585b15376ef507f0effffdc8a929fda08ce5ba18c5117fdb6edfc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New real SQLite fixtures using public startup, synthetic data and checked owned temporary cleanup; private connection access is assertion-only. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-bootstrap.target.ts",
+      "normalizedSha256": "3488a5d811e7990614c591936726c30b8b5e3130ca00f98e84cd61bcb357ad2a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New bounded test target adapter, remapped to compiled public storage entry during acceptance. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-bootstrap-catalog.json",
+      "normalizedSha256": "8ed2081ebfdd56010e6da019f88026a20f2ed3a001cfa95d604fae8dca4753bc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New test observation fixture assembled from 22 immutable migration identity/version/checksum facts, not SQL bodies. These compatibility facts are not claimed as a novel algorithm or exclusive expression; their original catalog implementation is not relicensed. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-storage-bootstrap.md",
+      "normalizedSha256": "54d646112cd7e8e541e8df3c1b7052b225ae4897ced352df073a85b6fb7463ec",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavior, ownership, native transaction/snapshot/timing and restricted-input specification, with explicit bounded clarifications before implementation acceptance. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-storage-bootstrap-acceptance.md",
+      "normalizedSha256": "7daf6cb700f5a61ec240cb853200676b7f268c7b2c57a50fec70e952e32aedf2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual baseline, pre-integration review correction and actual acceptance results with first-run records, injection distinctions and unverified limits. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/storage-bootstrap.md",
+      "normalizedSha256": "0240a290a983f739aab4622139d90cf93dc5e9ba6b695099f604a5de6feec830",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New author-input/output and per-file provenance record, separating fixed compatibility expression and historical catalog from accepted replacement scope. The root and reviewers read inherited implementations to extract behavior; the restricted author read only approved behavior/structural declarations, immutable catalog identities and explicit later observations. No old target bodies/history/dist/maps/tests/comparison code were author inputs. Prior conversation context remains; this is not a whole-process clean-room or legal guarantee. Error/field/type declarations, short path operations, standard SQLite/Node expressions, fixed messages and required control order are highly similar or identical compatibility material; no novelty or ownership claim is inferred from headers, statement reorder, splitting or line counts. Retained SQL/catalog/builders, options/rows, facade and other dependencies keep applicable provenance. Root Apache-2.0 and preview release remain.",
+      "evidence": [
+        "specs/knorvia-storage-bootstrap.md",
+        "docs/knorvia-storage-bootstrap-acceptance.md",
+        "licensing/evidence/storage-bootstrap.md"
+      ]
     }
   ]
 }
