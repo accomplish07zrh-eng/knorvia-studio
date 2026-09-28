@@ -26621,6 +26621,186 @@
         "docs/knorvia-input-history-storage-acceptance.md",
         "licensing/evidence/input-history-storage.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage.ts",
+      "normalizedSha256": "c379a46aad1af1bdc64d70b662a727f89e31d08ccb4d00d622619e9dc6a57af0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh public forwarding surface for the six independently authored storage operations; trivial re-exports alone carry no novelty claim. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-values.ts",
+      "normalizedSha256": "565acefa1a2b9778620d7a7b540ea783f0b72d95bdecc0705dc889709a79c47e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh small shared finite-number count policy for write projection and task inference; generic short expression not a standalone novelty claim. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-writes.ts",
+      "normalizedSha256": "b62cda42385fd1e38e06b65aed3b20fd2c8e599f15f590a6cf0c359138ec7d0a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh declarative per-table mapping/merge policies and shared retention action. Prewrite preparation remains outside admission; existing sole transaction owner covers upsert, post-write clock and all pruning without copying cleanup logic. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-app.ts",
+      "normalizedSha256": "c85ffbd7e410c7a6c4294f79fac311536322e55393220d7fde2f81c4172b2312",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh ordered aggregate-read plan, plain projections and sparse-day merge preserving native null/sort and limited consistency boundaries, authored from contract not extracted old body. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/usage-task.ts",
+      "normalizedSha256": "45f8792523ce95551d0e14f02f87fe2a3fd4896f3e13ab2a7c6c0a8074f5f205",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh session-ordered accounting fold with closed-source incremental baselines, cache-inclusion inference and separate raw totals; no shared generic engine with app aggregates. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-fixture.ts",
+      "normalizedSha256": "331eb05c21acc8f17991fa6bb4054118d3c8e17b573963eb0c75ba4288731f8a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic native SQLite public-store fixtures, raw row snapshots, deterministic retention time and three-table expired rows. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-atomic.test.ts",
+      "normalizedSha256": "1d009dd4d36ba5db2f9d493195911ae54ca95559312a84243756bcad05b089e8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New red-first three-writer insert/update/prune/outer-admission/clock/deferred-COMMIT tests and direct pruning automatic rollback and cleanup-double-failure regressions. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-writes.test.ts",
+      "normalizedSha256": "62526786b1c2754ffa763a340bbd4920bc9c79a92585d8320b731260ef86783f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-integration complete mappings, nonuniform merge policies, stable row identities, constraints, raw JSON and preparation-order acceptance. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-app.test.ts",
+      "normalizedSha256": "4458565454a8b05ec5668a871864b8188268a41b0707c3317dbdc57eb0af9350",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently asserted inclusive windows, grouping, duration sums, sparse/negative date buckets and read visibility. Native old-verified regressions cover per-session null sum and reviewer-discovered null sorting/date-key projection. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-task.test.ts",
+      "normalizedSha256": "b937f50e6d2c5a186aafbc765a421614eec5923bf314056a9b61fd7449e6e65e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently calculated shrinking/growing and separate-source input baseline, exact session scope, ordering and cache-accounting acceptance. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-retention.test.ts",
+      "normalizedSha256": "e8c22d970cdc285b52f2eee8be7405a5ee3c75b5ea8b4677b9764bdbf48901f8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New native global strict retention boundary, explicit-zero/default-clock ordering, self-pruning successful writes and session cascade tests. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/usage-storage-values.test.ts",
+      "normalizedSha256": "5277384cb1a97f9bdbdcdb6901d49cb972f65b0feb5aadedd11d12154bb37a81",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently distinct positive turn counter projections and undefined/null/boolean tool merge tests, strengthened before integration. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-usage-storage.md",
+      "normalizedSha256": "9778250c177a1c489be1f6fa14eaea1ffb09695dd5afc1494cb2af12a13466ae",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New prior full behavior contract defining existing schema facts, ownership, query semantics, intentional atomic fixes and limited native numeric exceptions. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-usage-storage-acceptance.md",
+      "normalizedSha256": "13e9eb62458d5610be395954b7f8d582c1e770fdfb5a16c95b133d8d8396032b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, integration, native-review, compiled/differential and quality results with corrected mistaken assertions and remaining limits. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/usage-storage.md",
+      "normalizedSha256": "e49bc58a4f0e9a183ab41a2f3c6c0bf8b55db6c28c077de1e40767357595d8e5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New allowed-input, fresh-expression and per-file review record disclosing prior source exposure and excluding inherited neighbors. Root and reviewer inspected old implementation to extract a prior contract; no whole-process clean-room or whole-product MIT claim. Isolated author read only behavior policies, selected public declarations and dependency signatures with behavior-only corrections; old target/history/baseline/dist/maps/tests/other repository bodies were excluded. Fixed schema fields, standard SQL/aggregation and tiny generic expressions are compatibility constraints rather than novel algorithms. Existing facade/schema/migrations/helper and consumers retain their applicable licenses. Root Apache and preview identity remain; synthetic memory SQLite only.",
+      "evidence": [
+        "specs/knorvia-usage-storage.md",
+        "docs/knorvia-usage-storage-acceptance.md",
+        "licensing/evidence/usage-storage.md"
+      ]
     }
   ]
 }
