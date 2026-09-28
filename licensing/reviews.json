@@ -26129,6 +26129,126 @@
         "licensing/evidence/storage-value-codecs.md",
         "licensing/evidence/full-access-payload.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-entries.ts",
+      "normalizedSha256": "264a881a0e1e38f3973f2c3983cd152422942d7350449c579eb76f7ac5f025df",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh contract-authored entry writer combines pre-SQL encoding, one scoped UPSERT and explicit borrowed/owned transaction policy. Standalone entry plus touch is atomic; created identity and legacy JSON members stay preserved. Read projection retains established sorting and filtering. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/todos.ts",
+      "normalizedSha256": "33086c2a98272046a741d42fd5154a8c838846c3a87c7ad6b13a8d8bef1ac2a1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh ordered replacement repository captures one timestamp, expresses session-scoped delete/insert/touch in a required owned boundary, and skips unused INSERT preparation for empty input. Uses existing decoder with no new business state. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/write-transaction.ts",
+      "normalizedSha256": "831fc0cd465c05da1d5c1c58c3bac1c38a17df152987ab02ef852f202dc0856c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New small synchronous boundary has explicit own/borrow policies, admission outside cleanup, automatic rollback awareness and aggregate preservation of both failures plus cause. Borrowing never actively terminates the caller transaction. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/entry-todo-fixture.ts",
+      "normalizedSha256": "39222fff87d4f34e9c280e7185ba7bc0243c40b4009b34900e7b9da36395b1fc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New fabricated public-memory-store fixture exposes complete test row snapshots and independently owned connection; no real user data. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/entry-storage-contract.test.ts",
+      "normalizedSha256": "81a7e0131a638138e75056534050069c00b53f7d3f2f0b6ea1359d6e18ad80d0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-implementation entry contracts cover creation/row identity, scope changes, legacy JSON, filters/errors, encoding, touch and red-first standalone atomicity with borrowed ownership. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/todo-storage-contract.test.ts",
+      "normalizedSha256": "d130292f35eecd3d8205fecca8c34ed247c701b2f8036770198ee51cfb4b8bbf",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-implementation Todo contracts cover ordering/scope/timestamps, empty replacement, synchronous writes and red-first automatic/double-rollback failure causes. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/entry-todo-commit-failure.test.ts",
+      "normalizedSha256": "be5856c14b8e4be42a6da9af2a8a4df9510d87f05bc5eca74bb4aa6f062c94b0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Review-driven regression uses actual deferred foreign-key constraints and observed write/commit phases for entry and Todo; checks original state and triggered side writes roll back. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-entry-todo-storage.md",
+      "normalizedSha256": "b0c5c22422afef25234a4bf3a23ddd906bc36052c2bad5056786bd6d91fa2287",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation specification separates ownership, precise ordinary storage contracts, intentional reliability changes and source restrictions. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-entry-todo-storage-acceptance.md",
+      "normalizedSha256": "3face1595510c36bfdc4eeabc34f441a81677a7e4f8e8fbff5d512932b019740",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance record separates baseline failures, repaired contracts, native deferred constraints, finite/compiled checks and excluded contexts. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/entry-todo-storage.md",
+      "normalizedSha256": "b6e33f739e45ccd2832cd5b2fdd039d6a52598d061ec8526fbbb2514b2f38e5d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New exact-input and per-file implementation reasoning record discloses prior source exposure and common contract/SQL limits without whole-product licensing claims. Root and reviewer accessed prior source; no whole-process clean-room or completed MIT assertion. A separate task authored the output from the prior behavior specification, public signatures/types and native DatabaseSync declarations, with old target source/history/compiled files/baselines and other transaction implementations prohibited. Source input record and actual expression were reviewed. Fixed table/column names, common UPSERT/JSON1 and transaction operations are compatibility vocabulary, not claimed novel algorithms. Extraction, SQL movement, wrappers, AI authorship and test success alone do not establish independent source. Adjacent sessions/touchSession, public rows/schema, other owners and migrations retain applicable licensing. No real user database/model/device access; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-entry-todo-storage.md",
+        "docs/knorvia-entry-todo-storage-acceptance.md",
+        "licensing/evidence/entry-todo-storage.md"
+      ]
     }
   ]
 }
