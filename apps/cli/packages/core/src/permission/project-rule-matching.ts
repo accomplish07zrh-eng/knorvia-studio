@@ -1,11 +1,13 @@
-// 纯规则匹配：不保存授权、不决定审批顺序，PermissionService 保持唯一判定所有者。
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import {
   PermissionCapabilityGroup,
   type PermissionRuleset,
   type PermissionRuleValue,
 } from "@knorvia/contracts";
 import { OFFICIAL_CUA_PERMISSION_RULE_TOOL_NAME } from "@knorvia/shared";
-import { webFetchRuleSubjects, wildcardToRegExp } from "./rule-matching.js";
+import { webFetchRuleSubjects } from "./rule-matching.js";
+import { compileRuleContent, evaluateRuleContent } from "./rule-content-program.js";
 import { isWebFetchPreapprovedUrl } from "../tool/webfetch-preapproved.js";
 import type { ToolPermissionRulePolicy } from "../tool/types.js";
 import type {
@@ -14,6 +16,42 @@ import type {
   ResolvedPermissionCapability,
 } from "./types.js";
 
+const WEB_FETCH = "WebFetch";
+const INPUT_FIELDS = ["command", "url", "file_path", "path", "pattern", "patch_text"] as const;
+const RULE_ALIASES = new Map([["Write", "Edit"]]);
+type RuleInput = { value: string; isWebFetch: boolean };
+
+function selectInput(context: PermissionContext): RuleInput | undefined {
+  const input = context.input;
+  if (typeof input === "string") return { value: input, isWebFetch: false };
+  if (input === null || typeof input !== "object") return undefined;
+  const fields = input as Record<string, unknown>;
+  if (context.toolName === WEB_FETCH) {
+    const url = fields.url;
+    if (typeof url === "string") return { value: url, isWebFetch: true };
+  }
+  for (const field of INPUT_FIELDS) {
+    const value = fields[field];
+    if (typeof value === "string") return { value, isWebFetch: false };
+  }
+  return undefined;
+}
+
+function inScope(
+  rule: PermissionRuleValue,
+  context: PermissionContext,
+  capability: ResolvedPermissionCapability,
+): boolean {
+  const name = rule.toolName;
+  // 保留名称不是身份凭据；全组许可必须来自宿主已验证的能力分组。
+  if (name === OFFICIAL_CUA_PERMISSION_RULE_TOOL_NAME) {
+    return capability.permissionCapabilityGroup === PermissionCapabilityGroup.OfficialCua;
+  }
+  const alias = RULE_ALIASES.get(context.toolName);
+  // 缺失工具名与缺失别名都为 undefined，不能把两者相等当成有资格的规则。
+  return name === context.toolName || (alias !== undefined && name === alias);
+}
+
 export function matchesProjectRules(
   ruleset: PermissionRuleset | null | undefined,
   behavior: PermissionBehavior,
@@ -21,82 +59,32 @@ export function matchesProjectRules(
   capability: ResolvedPermissionCapability,
   rulePolicy?: ToolPermissionRulePolicy,
 ): boolean {
-  const rules = ruleset?.[behavior];
-  if (!Array.isArray(rules)) return false;
-  const toolRules = rules.filter((rule) => matchesRuleScope(rule, context.toolName, capability));
-  if (toolRules.length === 0) return false;
-  if (rulePolicy) return rulePolicy.evaluateRules(behavior, toolRules);
-  return toolRules.some((rule) => matchesRule(rule, context, capability));
-}
+  const category = ruleset?.[behavior];
+  if (!Array.isArray(category)) return false;
+  const candidates = category.filter((rule) => inScope(rule, context, capability));
+  if (!candidates.length) return false;
+  if (rulePolicy) return rulePolicy.evaluateRules(behavior, candidates);
 
-function matchesRule(
-  rule: PermissionRuleValue,
-  context: PermissionContext,
-  capability: ResolvedPermissionCapability,
-): boolean {
-  if (!matchesRuleScope(rule, context.toolName, capability)) return false;
-  if (!rule.ruleContent) return true;
-
-  const subjects = ruleSubjects(context.input, context.toolName);
-  if (subjects.length === 0) return false;
-
-  return subjects.some((subject) => matchesRuleContent(subject, rule.ruleContent!));
-}
-
-function matchesRuleToolName(ruleToolName: string, contextToolName: string): boolean {
-  if (ruleToolName === contextToolName) return true;
-  return contextToolName === "Write" && ruleToolName === "Edit";
-}
-
-function matchesRuleScope(
-  rule: PermissionRuleValue,
-  contextToolName: string,
-  capability: ResolvedPermissionCapability,
-): boolean {
-  if (rule.toolName === OFFICIAL_CUA_PERMISSION_RULE_TOOL_NAME) {
-    // 保留 key 只有在当前 tool entry 另行携带宿主验证后的 official_cua
-    // capability 时才匹配。同名第三方 MCP、authority 漂移以及旧普通 tool
-    // 都不能把可解析的 wire/storage 字符串升级成可信能力。
-    return capability.permissionCapabilityGroup === PermissionCapabilityGroup.OfficialCua;
+  for (const rule of candidates) {
+    // 前条内容回调可能改变后条范围；选出的引用不等于永久获得匹配资格。
+    if (!inScope(rule, context, capability)) continue;
+    if (!rule.ruleContent) return true;
+    const input = selectInput(context);
+    if (!input) continue;
+    const subjects = input.isWebFetch ? webFetchRuleSubjects(input.value) : [input.value];
+    if (!subjects.length) continue;
+    // 保持输入取值回调先于实际内容读取，不能使用回调执行前的旧内容。
+    const program = compileRuleContent(rule.ruleContent!, input.isWebFetch);
+    const targets = program.kind === "url" ? [input.value] : subjects;
+    if (targets.some((subject) => evaluateRuleContent(program, subject))) return true;
   }
-  return matchesRuleToolName(rule.toolName, contextToolName);
-}
-
-function ruleSubjects(input: unknown, toolName: string): string[] {
-  if (typeof input === "string") return [input];
-  if (!input || typeof input !== "object") return [];
-
-  const record = input as Record<string, unknown>;
-  if (toolName === "WebFetch" && typeof record.url === "string") {
-    return webFetchRuleSubjects(record.url);
-  }
-
-  for (const key of ["command", "url", "file_path", "path", "pattern", "patch_text"]) {
-    const value = record[key];
-    if (typeof value === "string") return [value];
-  }
-
-  return [];
+  return false;
 }
 
 export function isPreapprovedWebFetchRequest(context: PermissionContext): boolean {
-  if (context.toolName !== "WebFetch") return false;
-  if (!context.input || typeof context.input !== "object") return false;
-  const url = (context.input as Record<string, unknown>).url;
+  if (context.toolName !== WEB_FETCH) return false;
+  const { input } = context;
+  if (typeof input !== "object" || input === null) return false;
+  const { url } = input as Record<string, unknown>;
   return typeof url === "string" && isWebFetchPreapprovedUrl(url);
-}
-
-function matchesRuleContent(subject: string, ruleContent: string): boolean {
-  if (ruleContent.endsWith(":*")) {
-    const prefix = ruleContent.slice(0, -2);
-    return (
-      subject === prefix || subject.startsWith(`${prefix} `) || subject.startsWith(`${prefix}\t`)
-    );
-  }
-
-  if (ruleContent.includes("*")) {
-    return wildcardToRegExp(ruleContent).test(subject);
-  }
-
-  return subject === ruleContent;
 }

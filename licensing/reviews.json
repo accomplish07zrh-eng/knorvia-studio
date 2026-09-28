@@ -25181,6 +25181,116 @@
         "specs/knorvia-permission-policy.md",
         "docs/knorvia-permission-policy-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/project-rule-matching.ts",
+      "normalizedSha256": "132f4033bf5e3c12ec8c18cbeec02d531c8bc2a11872f982b5ad199fd9f7793a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New selection adapter sends fully filtered original references to the custom port or a lazily selected content program. Ordinary and WebFetch subjects have explicit separate input kinds; current scope and content are read at required stages. New exact URL authorization fixes the verified suggestion/matching mismatch without granting host-wide access. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/rule-content-program.ts",
+      "normalizedSha256": "50e2a19f4f4279de15888662ab1102da136ef0b13e0f7f171d0dde28b580ff2a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New explicit content program distinguishes literal URL, command word prefix, compiled glob and literal text. Absolute URL identity is compared without normalization and stars remain literal in that branch; generic string inputs and domain patterns keep separate semantics. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/rule-matching.ts",
+      "normalizedSha256": "df2f0270c656f9c239a5ead759792b6a82f9cfe7c134400483985005edb04247",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New character-based wildcard expression builder and hostname subject adapter expose the existing signatures. RegExp escapes, flags and anchoring and URL normalization are standard compatibility semantics, not claimed inventions. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-rules.ts",
+      "normalizedSha256": "11b4a80306a686b9a113142c73f326e86e47ca5ec64c98b7cfdd86deadd6ff14",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New category-local ordered merger indexes tool name and content as separate identities, fixing NUL tuple collisions. It captures destination and input snapshots before callback-driven mutation and returns owned data properties while preserving first references and untouched categories. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-scope.test.ts",
+      "normalizedSha256": "e19ef9db416b6460ad7db41093c15375e0e57f7838e5c6d6d307c454758af6ee",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New scope, alias, host-trusted CUA, custom callback receiver/exception, input priority, short-circuit and demonstrated accessor regression contracts. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-patterns.test.ts",
+      "normalizedSha256": "f0d5b3bc78b20a813738309139c1899c49cbb3ce5ab408e9e644a6ba084d3660",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New regex meta-character/newline, command prefix, domain/IDN/IPv6 and real Bash/preapproval consumer contracts; initial mistaken newline expectation was corrected against the original runtime. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-updates.test.ts",
+      "normalizedSha256": "331dac68abbe826697004f4cb914a8af86e10c7b5dc1a775701cf056c3b06909",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New rule update ownership/order/reference, frozen input, category separation, tuple collision and finite callback snapshot/destination regression contracts. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-rule-webfetch.test.ts",
+      "normalizedSha256": "ad806b9fbf438d6dc852b1cce9a9cab51a4cc6b463322caf5ccc7c891b65faeb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New real suggestion-to-protocol-to-merge-to-Service tests establish exact URL grant closure and negative scope variants without network calls. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-permission-rule-matching.md",
+      "normalizedSha256": "7b8dea386cbc4435d520487f7201d3ca3345a846e0d86e164040e5c1df3e55d1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New prior-to-implementation design and compatibility contract, with explicitly scoped exact URL and tuple collision improvements and finite review findings. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-permission-rule-matching-acceptance.md",
+      "normalizedSha256": "f343d07221cb2a31632947fd4a2c5c757bd0254b5813eb31da5449cb4ec9700e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New implementation, provenance, red/green, differential, build and remaining-boundary evidence record. Prior source was accessed; no no-access claim is made. The scope is the newly designed content program, character compiler, scoped selection adapter and tuple-indexed ordered merge. Fixed public signatures, tool names, pattern syntax, required reading/order/reference behavior and standard string/collection operations are compatibility constraints, not claimed inventions. Renaming, splitting and test success alone do not establish independent provenance. Suggestion generation, protocol options, specialized Bash policy, URL preapproval, network/security execution, paths, records, persistence and adjacent UI retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-rule-matching.md",
+        "docs/knorvia-permission-rule-matching-acceptance.md"
+      ]
     }
   ]
 }
