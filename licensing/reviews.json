@@ -25612,6 +25612,160 @@
         "specs/knorvia-hook-output-reduction.md",
         "docs/knorvia-hook-output-reduction-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner.ts",
+      "normalizedSha256": "cf46057e678b40c5d5b89ae70dd299cba8d740857cfc616c442ce06847261178",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New public registration facade creates one local action program and driver per call, with emitter receiver identity retained through its publication port. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-plan.ts",
+      "normalizedSha256": "fefe53a23228e2c558c87c15a8e0fc2da7131ca0359649843e37f7c485c08ba3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New internal typed action vocabulary separates invocation occurrence, environment, publication, callback and detachment; no independent accepted state is created. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-program.ts",
+      "normalizedSha256": "d12283fed606dcfae8e204bdd31a2488e4e67535e8d033afa6f12f87c633a9d2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous generators own membership, counts, indices and reduction; each occurrence revalidates admission after awaited Started, while background plans only publish lifecycle. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-driver.ts",
+      "normalizedSha256": "86d78a98a8b4a1fc68a6922c257b3fc31b0e2a437c34e06b3fe21a01707f4c28",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New driver executes yielded ports, sends original result or error back exactly once and starts detached plans without an additional await; errors in plan code are not reinjected. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-callback.ts",
+      "normalizedSha256": "2d1b3dba4138520c01458567de24f2944e57e48501663cdca2f70c086831eb14",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New per-dispatch lease owns the cancellation tree link, deadline, settlement entrance and finally cleanup; synchronous callback failures and late settlement share this owner. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-lifecycle.ts",
+      "normalizedSha256": "bbc64eef37d45275c8afb07987de9206c398227d06accb8ec9cf5b896f0159fb",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New lifecycle result projections bind stable occurrence identity to live input fields; bounded diagnostic field iteration and failure log categories keep callback state out of reporting. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/hooks/runner-helpers.ts",
+      "normalizedSha256": "9c745b0be5e4a945bb9bd69b718c8fac07a7646f2d10020154595bb7bdd438cd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New small contract policies use candidate alias sets, ordered failure outcome records and descriptor defaults while preserving admission receiver/fail-closed semantics and cancellation reason forwarding. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-runner-fixture.ts",
+      "normalizedSha256": "b328b8aea2fe2635c3802a439736f7c067934c4fb649fa14f1eab3daa058dc70",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New typed in-memory invocation, descriptor, event-payload and promise-gate fixtures. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-runner-admission.test.ts",
+      "normalizedSha256": "72ede9cb66132785683e16957a44ffe97827302c652fbd5e7fe09a141f40c49a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New red-first dispatch revocation tests plus participant/index/reference/registration contracts; later additions cover allowed-plus-skipLifecycle and red-first elapsed lifecycle duration. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-runner-lifecycle.test.ts",
+      "normalizedSha256": "8ecd5b788f84a4e695aaf11eb389a3a071df6f9f50ac98bd5d6e4417b98ac19c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New cancellation, timeout, parent unlink, late settlement, callback/port failure, bounded diagnostic and live signal contracts. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-runner-helpers.test.ts",
+      "normalizedSha256": "6b84c33303e7ad9c28d6cc7bba2cc59e6dfb12d24c2312beff7ece6f04fb4493",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New matcher alias, cancellation forwarding, error, descriptor, admission result and receiver contracts. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/hook-runner-order.test.ts",
+      "normalizedSha256": "e830b9dc8aff368c12cbc7cd58680948528ced7d32ac506f5cc8172fe701b2c8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New final-admission-to-callback no-await, background-launch sequencing and failure-logger original-error/no-duplicate-publication regressions. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-hook-runner-lifecycle.md",
+      "normalizedSha256": "ac4726515e4e21e662ba7cdf72e4eac172407c287f74722372a7dae4a1dac46e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation owner/port/time specification, confirmed final-admission defect, compatibility and explicit retained license boundary. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-hook-runner-lifecycle-acceptance.md",
+      "normalizedSha256": "c132c013cf45582fdb1b4a10d8d907c1cb65fd6403effb2c77f32cf12a2231d1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New scoped provenance record with red-first tests, peer-discovered timing report correction, finite comparisons, compiled artifact and complete offline evidence. Prior source was accessed; no no-access claim is made. This decision covers the newly specified synchronous per-run action program, single asynchronous port driver, independent background program, callback resource lease and outcome/event projection. Protocol records, fixed text, required receiver/ordering compatibility and standard Promise, timer and abort semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Configured Hook execution, process ports, display sanitization, public schemas/types and workspace trust/storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-hook-runner-lifecycle.md",
+        "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
     }
   ]
 }
