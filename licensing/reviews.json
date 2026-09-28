@@ -27133,6 +27133,162 @@
         "specs/knorvia-creation-polish.md",
         "docs/knorvia-creation-ci-timing-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal.ts",
+      "normalizedSha256": "7a10b6dbcda765abf2720a82972258a9e65a85dbd88a730f3833398117299398",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh single-connection object factory implementing all synchronous domain and host operations, public receiver diagnostics, complete native upserts and single-statement event sequence allocation. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-codecs.ts",
+      "normalizedSha256": "44ab8d19578c1c5c380468ea4fdbbcad26b2091f57ca42561699cb8e886ad85b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh restricted-contract row projections and compatibility exports. Fixed ordered field mapping and approved structural declarations remain highly similar to inherited forms; headers, type-spelling changes, extraction or line counts are not the evidence. Creation process and exact inputs/outputs are recorded with these limitations. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-artifacts.ts",
+      "normalizedSha256": "2c2b874d366b16f132c3679463b387bfbbc098eb90e8a9609afde29f57ffcf05",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh artifact node and report-event query implementation with selected-row decode, strict cursor, caller pagination probe, version/order and scalar/undefined item preservation. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-introspection.ts",
+      "normalizedSha256": "095445156b8c16086a290943c9d2a8b311205a651e0112e9d837220ccbbaef96",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh six host query operations with narrow run projections, logical SQL filtering, native count/log ordering and in-database world result byte/scalar summaries. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/dwf-journal-run-state.ts",
+      "normalizedSha256": "10139e069fda354f0311e0c8b15c576ac8de12d406b2fed5acc39b4ce3e21e11",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New cohesive internal logical/physical settlement and predicate implementation replacing the state responsibility of the inherited codec module. Initial malformed-envelope recognition regression was observed before correction and repaired using behavioral feedback only; not an extraction of inherited function bodies. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/dwf-journal-run-codec.test.ts",
+      "normalizedSha256": "0bb3789524e0267a35ad3e4f8129b1a942f17fe9879d672308586c2468e15215",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first native synchronous run/legacy-state/codec, error-stage and transaction compatibility tests. Root strengthens invalid/missing/non-string envelope cases before integration, observes old pass and initial new failure. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/dwf-journal-actors-events.test.ts",
+      "normalizedSha256": "053f1a0c12240fed47fac3a866e32f04df163e71777abc5d6ee482e8bb22c959",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first native actor/node replacement, native constraints, event snapshot/reference/sequence, paging and failure-boundary tests. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/dwf-journal-queries-artifacts-world.test.ts",
+      "normalizedSha256": "f05bcc303b6c639b18ccc02c0696f5eb213b0af62516742bfedb9327ab32424f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first exact filtering, limit-plus-one, selected decode, artifact source/version and world SQLite byte/scalar projection tests. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/dwf-journal.fixture.ts",
+      "normalizedSha256": "63fed995712bb9ea6aab6474324c4f767a2d516a2a536223f6593a91cd55aa0b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic public SqliteSessionStore fixture with real isolated memory databases, clocks and explicit native corruption/transaction introspection; no copied user data. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/dwf-journal.target.ts",
+      "normalizedSha256": "42adf6dd71052dfdf24726cf29641b313e39dad791369fd65c6fac01b209d466",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New test target mapping through public storage facade and domain type entry; compiled acceptance remaps storage to built public entry. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-dwf-journal-storage.md",
+      "normalizedSha256": "41bc4fb8cb7fc2aaadb524227cca04f0e7f3aab5919e671eb5ebd4b74d9da97c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior complete behavior, ownership, pure compatibility and implementation-input limits; public parameter/result/export supplement precedes author implementation. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-dwf-journal-storage-acceptance.md",
+      "normalizedSha256": "d7e9d2cec8a9569b9d128cf33170b3aa952aba3f8e3cf7f11adf4932a66a20d3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, initial regression, correction, source/compiled/native and quality validation record with explicit unverified limits. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/dwf-journal-storage.md",
+      "normalizedSha256": "448c2b88230c9e11074a390e10b0964eaffcf4f90a08a40f8efc525380cd0497",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New bounded creation/input-output record and per-file decisions, including similarity limitations of fixed compatibility expressions and original declaration licensing. Root/reviewer read inherited source and callers to prepare the prior behavior contract; this is not a whole-process clean-room, legal guarantee, or whole-product MIT claim. Restricted author received only the approved contract, structural declarations, behavioral supplement, explicit authorization and later behavioral regression feedback; old targets/history/dist/maps/frozen baseline/tests/other implementations were excluded. Fixed declarations, record fields/order and standard SQL/JSON expressions are compatibility facts, not algorithmic novelty or proprietary claims. Pure synchronous compatibility preserves caller transaction ownership and documented O1/O2 legacy limits. Untouched public declarations, facade, schema/migrations/runtime and third parties retain applicable licensing; root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-dwf-journal-storage.md",
+        "docs/knorvia-dwf-journal-storage-acceptance.md",
+        "licensing/evidence/dwf-journal-storage.md"
+      ]
     }
   ]
 }
