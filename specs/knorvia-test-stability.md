@@ -62,3 +62,19 @@
 4. `terminal()` 超时消息包含 taskId、最后状态、去重状态事件与三类结果分类之一，且有回归测试断言这些内容。
 5. 计划工作流测试中不含作为状态推进近似的固定 `sleep`；到期/取消/重启/重复触发由可控时钟驱动，重复运行结果稳定。
 6. 如实报告：未复现的历史失败、未运行的命令（含全量 `pnpm test:studio`、`pnpm typecheck`、`pnpm lint`）、Node 版本差异与 S06 定时器限制。
+
+## CI 解释器路径（2026-09-29）
+
+`f033f92` 的 GitHub run `36442320129` 中，Windows 的 office 资源测试在 `python` 与 `python3 --version` 探测各遇到 ETIMEDOUT，尚未执行资源检查脚本。setup-python 已报告 CPython 3.13.15，但当次日志没有探测实际解析的可执行路径；不据此推断 Store 别名或系统负载为首因。同一测试本机原样 2/2 通过只代表未复现，不撤销云端失败记录。
+
+仅在可复用质量工作流中，为现有 setup-python 步骤设置稳定 id，将其 `python-path` 输出传给离线回归步骤现有的 `KNORVIA_TEST_PYTHON`。安装步骤是解释器选择的唯一所有者；不增加产品配置、第二个选择器或全局 PATH 改写：
+
+```text
+setup-python 安装解释器 → python-path 输出 → 回归步骤环境变量
+  → 既有解析器只探测指定路径 → 执行真实 Python 资源检查
+```
+
+- `python-path` 是 setup-python 提供的绝对可执行路径，依据本次 runner 使用的[官方 action 声明](https://github.com/actions/setup-python/blob/a26af69be951a213d495a4c3e4e4022e16d87065/action.yml)。绑定适用于同一工作流的 Windows 与 Linux，不硬编码本机或 runner 安装目录。
+- 保持 10 秒版本探测、30 秒资源脚本预算，以及显式路径不可用就失败、不回退、不跳过的既有规则。未成功执行脚本不得计为资源检查通过。
+- 验收使用现有解析器用例覆盖显式路径成功与失败不回退，另以本机已安装的真实解释器路径运行完整 office 资源测试；执行根类型、lint、架构和格式/来源门禁。新 workflow 的实际路径传递仍须等待对应提交 CI，不能由本机验证推断成功。
+- 此改动消除 PATH 选择歧义，不宣称已查明或修复之前两次超时的根因；不改写历史日志、不扩超时或重试到通过。

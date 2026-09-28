@@ -70,6 +70,7 @@ jobs:
           node-version: 24.14.0
           cache: pnpm
       - uses: actions/setup-python@v5
+        id: setup-python
         with:
           python-version: "3.13"
 
@@ -102,6 +103,10 @@ jobs:
 
       - name: Offline Studio regression
         id: test-studio
+        env:
+          # 使用安装步骤确认的解释器，避免再次经 PATH 选择另一个同名程序。
+          # 显式路径失败仍由测试报错，不扩大超时或回退到其他候选。
+          KNORVIA_TEST_PYTHON: ${{ steps.setup-python.outputs.python-path }}
         run: pnpm test:studio
 
       # 汇总只是记录，不参与放行判断：任一必需步骤失败/取消都会让本 job 失败，

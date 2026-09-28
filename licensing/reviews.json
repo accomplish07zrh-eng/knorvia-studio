@@ -27739,6 +27739,18 @@
         "docs/knorvia-session-store-facade-acceptance.md",
         "licensing/evidence/session-store-facade.md"
       ]
+    },
+    {
+      "path": "docs/knorvia-ci-python-path-acceptance.md",
+      "normalizedSha256": "f0ff0f1c27cf0db74ed99ba2a704d542985390d330aa2e6b35290444019aaf38",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance record for binding the CI-installed Python executable to the existing exclusive interpreter override. Preserves the historical hosted timeout, distinguishes local targeted acceptance from new hosted CI, and retains the failed preparation context lookup. Does not relicense the existing workflow, specification, test or product implementation; no whole-product independent/MIT claim.",
+      "evidence": [
+        "specs/knorvia-test-stability.md",
+        "docs/knorvia-ci-python-path-acceptance.md",
+        ".github/workflows/studio-quality.yml"
+      ]
     }
   ]
 }
