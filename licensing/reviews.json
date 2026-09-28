@@ -28128,10 +28128,10 @@
     },
     {
       "path": "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-      "normalizedSha256": "3533664dd1fa157702afcd3a259096b431a260426fb5eac3bddd0228d43bbb43",
+      "normalizedSha256": "a54de4d4f5558320cf200bf856e04ee9387ec52bfa1d9bcf204ab35b0a4c2933",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual old-first, candidate correction, source/compiled/build/full acceptance and default Windows probe report preserving failed preparations and limited coverage. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
+      "basis": "New factual old-first, candidate correction, source/compiled/build/full acceptance and default Windows probe report preserving failed preparations and limited coverage. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain. Actual GitHub run 36467001079 passed both quality jobs: Windows 2436/2436; Linux 2429 passed and seven explicit platform skips. This does not independently validate all OS default process probes or resolve unrelated historical timeout causes.",
       "evidence": [
         "specs/knorvia-workspace-hook-trust-storage.md",
         "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
@@ -28148,6 +28148,102 @@
         "specs/knorvia-workspace-hook-trust-storage.md",
         "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
         "licensing/evidence/workspace-hook-trust-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/fs-fault-injection.ts",
+      "normalizedSha256": "bee4cfa37fc5e023a4d08d196c4062595f7684ddc123d994127df4adca4b5ac2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led synchronous fault port with one lazy successful-initialization cache and ordered normalized rule counters. Preserves exact activation, full-array shape validation before field errors, public errors and finite/unlimited matching without IO or an extra public port. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/fs-fault-injection.fixture.ts",
+      "normalizedSha256": "da8ae77f3db5867b31e7cab389f3474bbaae1c34eb67224f9851eea684d33534",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New scoped synthetic environment restoration, fresh module-instance imports with separate cache assertions, and typed public fault observations; relative target is mechanically mapped to actual dist for compiled acceptance. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/fs-fault-injection-lifecycle.test.ts",
+      "normalizedSha256": "b124e206afeee6bfa1319b7dcc58d8355175bb5cd93bc8de31bda2b16d2de163",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first export, lazy initialization, exact activation, disabled malformed JSON, successful empty cache and failed retry checks. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/fs-fault-injection-validation.test.ts",
+      "normalizedSha256": "b3265a2cdf642355f078dd1dc374c19015874aa2e0a2b8f8996389b99a14913f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public errors for JSON/rule shapes, ordered field validation and native regex syntax, retaining the test-lint preparation warning and its correction. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/fs-fault-injection-matching.test.ts",
+      "normalizedSha256": "259d8f43706ddc46150c3aaedcb985301d7eeea7b38debdde0c3d83d8a93aa71",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first operation, priority, finite/unlimited counter, path separator/case/regex, property descriptor and invalid path timing checks. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-storage-fault-injection.md",
+      "normalizedSha256": "34e318280c2db69769fe7f33226a81af03d46f55a595ad28608157d19785d1a1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavioral contract extracted by root from the inherited public port and current callers, before isolated candidate implementation. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-storage-fault-injection-acceptance.md",
+      "normalizedSha256": "9a17fae377891a6e0e0ef79dc1f21f593b2d08f7721c8acc6fe5f9ad63707933",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, candidate, source integration, compiled artifact and full regression acceptance with limits and genuine preparation failures. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/storage-fault-injection.md",
+      "normalizedSha256": "0dad79e7fcd8f338211d2df26188ced2d103d7fdee4e807c774e6dcd58b5cbe0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New frozen behavior/design/source, actual author access and retained-runtime provenance record. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-storage-fault-injection.md",
+        "docs/knorvia-storage-fault-injection-acceptance.md",
+        "licensing/evidence/storage-fault-injection.md"
       ]
     }
   ]

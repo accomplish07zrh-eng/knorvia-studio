@@ -1,7 +1,10 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 export const KNORVIA_E2E_FS_FAULTS_ENV = "KNORVIA_E2E_FS_FAULTS";
 export const KNORVIA_E2E_FS_FAULTS_ALLOW_ENV = "KNORVIA_E2E_FS_FAULTS_ALLOW";
 
-type StorageFsFaultOperation =
+type Operation =
   | "appendFile"
   | "any"
   | "mkdir"
@@ -11,39 +14,26 @@ type StorageFsFaultOperation =
   | "sqliteRun"
   | "writeFile";
 
-interface StorageFsFaultRule {
+interface Rule {
   id: string;
   code: string;
-  operations?: readonly StorageFsFaultOperation[];
-  pathIncludes?: string;
-  pathEndsWith?: string;
-  pathRegex?: string;
-  maxMatches?: number;
-  message?: string;
+  message: string | undefined;
+  operations: Set<Operation> | undefined;
+  pathEndsWith: string | undefined;
+  pathIncludes: string | undefined;
+  expression: RegExp | undefined;
+  maximum: number;
+  consumed: number;
 }
 
-interface StorageFsFaultInput {
-  operation: StorageFsFaultOperation;
+type FaultError = Error & {
+  code: string;
   path: string;
-}
-
-interface NormalizedStorageFsFaultRule {
-  code: string;
-  id: string;
-  maxMatches: number;
-  message?: string;
-  operations: ReadonlySet<StorageFsFaultOperation>;
-  pathEndsWith?: string;
-  pathIncludes?: string;
-  pathRegex?: RegExp;
-  matchedCount: number;
-}
-
-interface InjectedStorageFsFaultError extends NodeJS.ErrnoException {
+  syscall: Operation;
   knorviaFsFaultId: string;
-}
+};
 
-const SUPPORTED_OPERATIONS = new Set<StorageFsFaultOperation>([
+const OPERATIONS = new Set<Operation>([
   "appendFile",
   "any",
   "mkdir",
@@ -53,181 +43,121 @@ const SUPPORTED_OPERATIONS = new Set<StorageFsFaultOperation>([
   "sqliteRun",
   "writeFile",
 ]);
+let cachedRules: Rule[] | undefined;
 
-function normalizePath(path: string): string {
-  return path.replace(/\\/g, "/");
+function invalidRule(index: number, detail: string): Error {
+  return new Error(`Invalid fs fault rule at index ${index}: ${detail}`);
 }
 
-function requireNonEmptyString(value: unknown, field: string, index: number): string {
-  if (typeof value !== "string" || value.trim().length === 0) {
-    throw new Error(`Invalid fs fault rule at index ${index}: ${field} must be a non-empty string`);
+function optionalString(
+  fields: Record<string, unknown>,
+  name: string,
+  index: number,
+): string | undefined {
+  const value = fields[name];
+  if (value === undefined) return undefined;
+  if (typeof value !== "string") throw invalidRule(index, `${name} must be a string`);
+  return value;
+}
+
+function requiredString(fields: Record<string, unknown>, name: string, index: number): string {
+  const value = fields[name];
+  if (typeof value !== "string" || value.trim() === "") {
+    throw invalidRule(index, `${name} must be a non-empty string`);
   }
   return value.trim();
 }
 
-function optionalString(value: unknown, field: string, index: number): string | undefined {
+function operationSet(value: unknown, index: number): Set<Operation> | undefined {
   if (value === undefined) return undefined;
-  if (typeof value !== "string") {
-    throw new Error(`Invalid fs fault rule at index ${index}: ${field} must be a string`);
-  }
-  return value;
-}
-
-function normalizeOperations(value: unknown, index: number): readonly StorageFsFaultOperation[] {
-  if (value === undefined) return ["any"];
   if (!Array.isArray(value) || value.length === 0) {
-    throw new Error(
-      `Invalid fs fault rule at index ${index}: operations must be a non-empty array`,
-    );
+    throw invalidRule(index, "operations must be a non-empty array");
   }
-  return value.map((operation) => {
-    if (
-      typeof operation !== "string" ||
-      !SUPPORTED_OPERATIONS.has(operation as StorageFsFaultOperation)
-    ) {
-      throw new Error(
-        `Invalid fs fault rule at index ${index}: unsupported operation ${String(operation)}`,
-      );
+  const selected = new Set<Operation>();
+  for (const operation of value) {
+    if (!OPERATIONS.has(operation as Operation)) {
+      throw invalidRule(index, `unsupported operation ${String(operation)}`);
     }
-    return operation as StorageFsFaultOperation;
-  });
+    selected.add(operation as Operation);
+  }
+  return selected;
 }
 
-function normalizeRule(rule: StorageFsFaultRule, index: number): NormalizedStorageFsFaultRule {
-  const record = rule as unknown as Record<string, unknown>;
-  const maxMatches = record.maxMatches === undefined ? 1 : record.maxMatches;
-  if (typeof maxMatches !== "number" || !Number.isInteger(maxMatches) || maxMatches < 0) {
-    throw new Error(
-      `Invalid fs fault rule at index ${index}: maxMatches must be a non-negative integer`,
-    );
-  }
-  const pathRegexRaw = optionalString(record.pathRegex, "pathRegex", index);
+function slashes(path: string): string {
+  return path.replace(/\\/g, "/");
+}
 
+function normalizeRule(fields: Record<string, unknown>, index: number): Rule {
+  const maximum = fields.maxMatches === undefined ? 1 : fields.maxMatches;
+  if (typeof maximum !== "number" || !Number.isInteger(maximum) || maximum < 0) {
+    throw invalidRule(index, "maxMatches must be a non-negative integer");
+  }
+  const regexSource = optionalString(fields, "pathRegex", index);
+  const code = requiredString(fields, "code", index);
+  const id = requiredString(fields, "id", index);
+  const message = optionalString(fields, "message", index);
+  const operations = operationSet(fields.operations, index);
+  const ending = optionalString(fields, "pathEndsWith", index);
+  const inclusion = optionalString(fields, "pathIncludes", index);
+  const expression = regexSource === undefined ? undefined : new RegExp(regexSource);
   return {
-    code: requireNonEmptyString(record.code, "code", index),
-    id: requireNonEmptyString(record.id, "id", index),
-    matchedCount: 0,
-    maxMatches,
-    message: optionalString(record.message, "message", index),
-    operations: new Set(normalizeOperations(record.operations, index)),
-    pathEndsWith: optionalString(record.pathEndsWith, "pathEndsWith", index),
-    pathIncludes: optionalString(record.pathIncludes, "pathIncludes", index),
-    pathRegex: pathRegexRaw === undefined ? undefined : new RegExp(pathRegexRaw),
+    id,
+    code,
+    message,
+    operations,
+    pathEndsWith: ending === undefined ? undefined : slashes(ending),
+    pathIncludes: inclusion === undefined ? undefined : slashes(inclusion),
+    expression,
+    maximum,
+    consumed: 0,
   };
 }
 
-function parseRules(rawValue: string): StorageFsFaultRule[] {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(rawValue);
-  } catch (error) {
-    throw new Error(
-      `Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
+function initializeRules(): Rule[] {
+  const raw = (process.env[KNORVIA_E2E_FS_FAULTS_ENV] ?? "").trim();
+  if (!raw) return [];
+  if (process.env.KNORVIA_ENV !== "test" && process.env[KNORVIA_E2E_FS_FAULTS_ALLOW_ENV] !== "1") {
+    return [];
   }
-  if (!Array.isArray(parsed)) {
+  let decoded: unknown;
+  try {
+    decoded = JSON.parse(raw);
+  } catch (error) {
+    throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: ${(error as Error).message}`);
+  }
+  if (!Array.isArray(decoded)) {
     throw new Error(`Invalid ${KNORVIA_E2E_FS_FAULTS_ENV}: expected a JSON array`);
   }
-  return parsed.map((rule, index) => {
-    if (typeof rule !== "object" || rule === null || Array.isArray(rule)) {
-      throw new Error(`Invalid fs fault rule at index ${index}: rule must be an object`);
+  // 先完成全部对象形态检查，后续条目的形态错误必须先于前项字段错误。
+  for (let index = 0; index < decoded.length; index++) {
+    const item: unknown = decoded[index];
+    if (item === null || typeof item !== "object" || Array.isArray(item)) {
+      throw invalidRule(index, "rule must be an object");
     }
-    return rule as StorageFsFaultRule;
-  });
-}
-
-function operationMatches(
-  rule: NormalizedStorageFsFaultRule,
-  operation: StorageFsFaultOperation,
-): boolean {
-  return rule.operations.has("any") || rule.operations.has(operation);
-}
-
-function pathMatches(rule: NormalizedStorageFsFaultRule, path: string): boolean {
-  const normalizedPath = normalizePath(path);
-  const includes =
-    rule.pathIncludes === undefined || normalizedPath.includes(normalizePath(rule.pathIncludes));
-  const endsWith =
-    rule.pathEndsWith === undefined || normalizedPath.endsWith(normalizePath(rule.pathEndsWith));
-  const regex = rule.pathRegex === undefined || rule.pathRegex.test(normalizedPath);
-  return includes && endsWith && regex;
-}
-
-function createInjectedError(input: {
-  code: string;
-  id: string;
-  message?: string;
-  operation: StorageFsFaultOperation;
-  path: string;
-}): InjectedStorageFsFaultError {
-  const error = new Error(
-    input.message ?? `Injected fs fault ${input.code} for ${input.operation}: ${input.path}`,
-  ) as InjectedStorageFsFaultError;
-  error.code = input.code;
-  error.path = input.path;
-  error.syscall = input.operation;
-  error.knorviaFsFaultId = input.id;
-  return error;
-}
-
-interface StorageFsFaultInjector {
-  maybeThrow(input: StorageFsFaultInput): void;
-  reset(): void;
-}
-
-function createStorageFsFaultInjector(
-  rules: readonly StorageFsFaultRule[] = [],
-): StorageFsFaultInjector {
-  const normalizedRules = rules.map((rule, index) => normalizeRule(rule, index));
-  return {
-    maybeThrow(input: StorageFsFaultInput): void {
-      for (const rule of normalizedRules) {
-        if (
-          (rule.maxMatches > 0 && rule.matchedCount >= rule.maxMatches) ||
-          !operationMatches(rule, input.operation) ||
-          !pathMatches(rule, input.path)
-        ) {
-          continue;
-        }
-        rule.matchedCount += 1;
-        throw createInjectedError({
-          code: rule.code,
-          id: rule.id,
-          message: rule.message,
-          operation: input.operation,
-          path: input.path,
-        });
-      }
-    },
-    reset(): void {
-      for (const rule of normalizedRules) {
-        rule.matchedCount = 0;
-      }
-    },
-  };
-}
-
-let envInjector: StorageFsFaultInjector | null = null;
-let injectedForTests: StorageFsFaultInjector | null = null;
-
-function createStorageFsFaultInjectorFromEnv(
-  env: Record<string, string | undefined> = process.env,
-): StorageFsFaultInjector {
-  const rawValue = env[KNORVIA_E2E_FS_FAULTS_ENV]?.trim();
-  if (!rawValue || (env.KNORVIA_ENV !== "test" && env[KNORVIA_E2E_FS_FAULTS_ALLOW_ENV] !== "1")) {
-    return createStorageFsFaultInjector();
   }
-  return createStorageFsFaultInjector(parseRules(rawValue));
+  return (decoded as Record<string, unknown>[]).map(normalizeRule);
 }
 
-function getStorageFsFaultInjector(): StorageFsFaultInjector {
-  if (injectedForTests) return injectedForTests;
-  envInjector ??= createStorageFsFaultInjectorFromEnv();
-  return envInjector;
-}
-
-export function maybeThrowStorageFsFault(input: StorageFsFaultInput): void {
-  getStorageFsFaultInjector().maybeThrow(input);
+export function maybeThrowStorageFsFault(input: { operation: Operation; path: string }): void {
+  // 完整初始化成功才落缓存；失败后下一次调用仍可读取更新后的环境。
+  const rules = cachedRules ?? (cachedRules = initializeRules());
+  for (const rule of rules) {
+    if (rule.maximum > 0 && rule.consumed >= rule.maximum) continue;
+    if (rule.operations && !rule.operations.has("any") && !rule.operations.has(input.operation)) {
+      continue;
+    }
+    const path = slashes(input.path);
+    if (rule.pathEndsWith !== undefined && !path.endsWith(rule.pathEndsWith)) continue;
+    if (rule.pathIncludes !== undefined && !path.includes(rule.pathIncludes)) continue;
+    if (rule.expression && !rule.expression.test(path)) continue;
+    const error = new Error(
+      rule.message ?? `Injected fs fault ${rule.code} for ${input.operation}: ${input.path}`,
+    ) as FaultError;
+    error.code = rule.code;
+    error.path = input.path;
+    error.syscall = input.operation;
+    error.knorviaFsFaultId = rule.id;
+    rule.consumed++;
+    throw error;
+  }
 }
