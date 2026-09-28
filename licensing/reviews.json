@@ -25318,11 +25318,13 @@
     },
     {
       "path": "apps/cli/packages/core/src/tool/executor/permission-rules-persistence.ts",
-      "normalizedSha256": "663910614a14861035cfa8cc096ff2f1d648d04a9f6f372d355d732dc572ca0d",
+      "normalizedSha256": "8f49b264970113db5f73b01e83663d408fd1209fe157200005cb208748be2f5f",
       "decision": "independent-replacement",
       "license": "MIT",
-      "basis": "New explicit project access result drives the store adapter while keeping missing-store diagnostics synchronous and session/project identity live. No new persistence owner, cache or atomicity claim is introduced. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "basis": "Previously independently reviewed project-access/persistence projection now selects optional atomic owner with stable method receiver, original update reference and no failure fallback; missing capability preserves old owner reads, awaits and explicit overwrite path. Prior grant-stage provenance evidence remains applicable. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
       "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md",
         "specs/knorvia-permission-grants.md",
         "docs/knorvia-permission-grants-acceptance.md"
       ]
@@ -25765,6 +25767,127 @@
       "evidence": [
         "specs/knorvia-hook-runner-lifecycle.md",
         "docs/knorvia-hook-runner-lifecycle-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/local-settings.ts",
+      "normalizedSha256": "6ebef3f129e622a3a7c0374cdf9d889edab6d0b1e44439e127865f95ebabe8bf",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New small repository presents rule/mode operations through one fixed permission-cell owner; old explicit-save asynchronous readback and overwrite semantics remain separate from the new committed-transform operation. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/project-permission-cell.ts",
+      "normalizedSha256": "61a56cd268cfaddafdd6e86fa0a63270a1573a3e05005038dff601fa2bd10d65",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New fixed-column cell program creates parameter-bound reads/upserts and local-first legacy projection; timestamps and separate modes obey retained schema without copying a full old repository. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/project-permission-transaction.ts",
+      "normalizedSha256": "e7948214e2a2b1a1ba1ff0999b29e3c4009abcb4a795a6650b282b723454c2c4",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New synchronous transaction owner captures target, refuses foreign active transactions, acquires write ownership before reading, applies transform once, validates/detaches serialized result, commits or preserves failure/rollback causes. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/project-permission-update.port.ts",
+      "normalizedSha256": "64ad532fd62691bf3438a8a4ef384dcf64ef86f33048fb03913324e409cde952",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New optional committed-transformation capability states pure synchronous callback, owner serialization, once-only admission and detached result obligations without migrating existing broad interface provenance. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/project-permission-fixture.ts",
+      "normalizedSha256": "af937e87496cb6aa5438507813f7e22c5e687d8c35c80bb5ea362f6b1a99605a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated memory/file SQLite fixtures and validated temporary cleanup, reusing authoritative migration schema only as the test storage contract. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/project-permission-process-fixture.ts",
+      "normalizedSha256": "951e2b0e8710e081f11ee9d730c48d709b2d80ecb52ef6b5baad52a71471814a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New owned child-process and IPC synchronization fixture tracks exits and diagnostics and closes only its test writers. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/project-permission-process.test.ts",
+      "normalizedSha256": "1e7017d12787ab132a6915377cc6a36ee686aede5332616968dfa463918b1338",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independent-process append, lock-wait latest-read and lock-timeout no-transform/no-foreign-rollback contracts on temporary databases. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/project-permission-repository.test.ts",
+      "normalizedSha256": "cbf97f0f0416c9bd9c70ad4cf8be1bcbda243662d36bc2013c57d2607729c82d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-interface and atomic read/write/failure contracts, red-first scalar/array serialized-root regressions, original target and double-failure preservation. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-atomic-routing.test.ts",
+      "normalizedSha256": "ac00ad3a90393ab22b49721b60ec363cae1082554b095a543a3334c5d2215610",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New atomic selection/no-fallback/receiver/update-reference tests, old fallback ordering and red-first owner-read regression, postcommit log semantics and real in-memory concurrent grants. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-project-permission-atomicity.md",
+      "normalizedSha256": "8a285d709691ef31ba7c6fd0bae749d16ae44d1d3caa372e7e2ad3e09ad0e2f5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation specification of one real storage owner, atomic transformation capability, transaction control, mixed-version limitations and acceptance boundaries. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-project-permission-atomicity-acceptance.md",
+      "normalizedSha256": "77003e8d1b6595c7d1fc60eb90136f2d074dc38b7b8c0b40b6df9330280323de",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New bounded provenance and validation record distinguishes real repository defect, pre-fix and peer regressions, temporary multiprocess evidence, retained strict-lint limitations, compiled integration and full offline checks. Prior source was accessed; no no-access claim is made. This scoped decision concerns the specified permission-cell storage representation, fixed-column SQL construction, transaction-owned synchronous transform and optional public capability. Existing schema, keys, protocol shapes, fixed messages, JSON and SQLite platform semantics are not claimed inventions. Renaming, extraction, finite comparisons and test success alone do not establish provenance. Large SessionStorePort and SQLite facade, existing export barrels, JSON/codecs helpers, migrations and adjacent storage retain applicable licenses. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-project-permission-atomicity.md",
+        "docs/knorvia-project-permission-atomicity-acceptance.md"
       ]
     }
   ]

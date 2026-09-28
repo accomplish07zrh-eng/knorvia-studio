@@ -28,6 +28,7 @@ import type {
   ModelUsageRecord,
   PartId,
   PermissionRuleset,
+  ProjectPermissionUpdateInput,
   ProjectId,
   SessionEntryInfo,
   SessionEntryType,
@@ -886,6 +887,10 @@ export class SqliteSessionStore
     permission: PermissionRuleset;
   }): Promise<PermissionRuleset> {
     return localSettingsRepository.saveProjectPermission(this.db, input);
+  }
+
+  async updateProjectPermission(input: ProjectPermissionUpdateInput): Promise<PermissionRuleset> {
+    return localSettingsRepository.updateProjectPermission(this.db, input);
   }
 
   getProjectPermissionMode(projectID: ProjectId): CollaborationMode | null {

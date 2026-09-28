@@ -60,10 +60,22 @@ export async function persistProjectPermissionUpdates(
     reportSkipped(access.kind, deps, traceContext);
     return;
   }
-  const current = await deps.sessionStore!.getProjectPermission(access.projectID);
-  const permission = applyPermissionUpdates(current ?? { version: 1 }, updates);
-  // 现有 port 是读后覆盖写，不具有原子合并保证；并发修复归真正存储 owner。
-  await deps.sessionStore!.saveProjectPermission({ projectID: access.projectID, permission });
+  const atomicOwner = deps.sessionStore!;
+  const atomicUpdate = atomicOwner.updateProjectPermission;
+  if (atomicUpdate !== undefined) {
+    // 并发授权不能在 core 分别读取后再覆盖；让真实存储 owner 在事务里调用合并。
+    // 该能力一旦存在，故障就向上传播，不能退回不具备原子性的旧保存路径。
+    await atomicUpdate.call(atomicOwner, {
+      projectID: access.projectID,
+      update: (current) => applyPermissionUpdates(current ?? { version: 1 }, updates),
+    });
+  } else {
+    // 外部旧 store 保留既有时序；其全量覆盖接口仍没有跨进程并发保证。
+    // 能力探测已取得本次读取的 owner；额外读取 getter 会改变旧存储的调用时序。
+    const current = await atomicOwner.getProjectPermission(access.projectID);
+    const permission = applyPermissionUpdates(current ?? { version: 1 }, updates);
+    await deps.sessionStore!.saveProjectPermission({ projectID: access.projectID, permission });
+  }
   deps.logger?.info("Project permission updated", {
     ...traceContextToLogContext(traceContext),
     event: "tool.permission.project_update.saved",
