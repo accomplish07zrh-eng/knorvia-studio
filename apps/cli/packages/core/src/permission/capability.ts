@@ -1,4 +1,5 @@
-// 工具默认能力的纯解析；模式和规则决策仍由 PermissionService 负责。
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type { RiskLevel } from "@knorvia/contracts";
 import type {
   PermissionContext,
@@ -6,31 +7,30 @@ import type {
   ResolvedPermissionCapability,
 } from "./types.js";
 
-export function resolveToolRiskLevel(
-  toolName: string,
-  toolCapability?: PermissionToolCapability,
-): RiskLevel {
-  if (toolCapability?.riskLevel) {
-    return toolCapability.riskLevel;
-  }
-
-  if (isReadOnlyTool(toolName)) {
-    return "low";
-  }
-
-  if (isWriteTool(toolName)) {
-    return "medium";
-  }
-
-  if (isDestructiveTool(toolName)) {
-    return "high";
-  }
-
-  return "medium";
+interface NameDefaults {
+  readOnly: boolean;
+  destructive: boolean;
+  sideEffectScope: "none" | "workspace";
+  needsApproval: boolean;
+  riskLevel: RiskLevel;
 }
 
-function isReadOnlyTool(name: string): boolean {
-  return new Set([
+const UNKNOWN: Readonly<NameDefaults> = Object.freeze({
+  readOnly: false,
+  destructive: false,
+  sideEffectScope: "workspace",
+  needsApproval: true,
+  riskLevel: "medium",
+});
+const READ_ONLY: Readonly<NameDefaults> = Object.freeze({
+  readOnly: true,
+  destructive: false,
+  sideEffectScope: "none",
+  needsApproval: false,
+  riskLevel: "low",
+});
+const NAME_DEFAULTS = new Map<string, Readonly<NameDefaults>>(
+  [
     "Read",
     "Glob",
     "Grep",
@@ -42,43 +42,38 @@ function isReadOnlyTool(name: string): boolean {
     "Agent",
     "Task",
     "Skill",
-  ]).has(name);
+  ].map((name) => [name, READ_ONLY]),
+);
+NAME_DEFAULTS.set("Bash", Object.freeze({ ...UNKNOWN, destructive: true }));
+
+export function resolveToolRiskLevel(
+  toolName: string,
+  toolCapability?: PermissionToolCapability,
+): RiskLevel {
+  return toolCapability?.riskLevel || (NAME_DEFAULTS.get(toolName) ?? UNKNOWN).riskLevel;
 }
 
-function isWriteTool(name: string): boolean {
-  return new Set(["Write", "Edit", "ApplyPatch", "Bash"]).has(name);
-}
-
-function isDestructiveTool(name: string): boolean {
-  return new Set(["Bash"]).has(name);
-}
-
+/** Each property has its own precedence; a readOnly override cannot grant unrelated powers. */
 export function resolvePermissionCapability(
   context: PermissionContext,
   toolCapability?: PermissionToolCapability,
 ): ResolvedPermissionCapability {
+  const defaults = NAME_DEFAULTS.get(context.toolName) ?? UNKNOWN;
+  const declared = toolCapability?.permission;
+  const explicitScope = declared?.sideEffectScope ?? toolCapability?.sideEffectScope;
   return {
     allowedInPlanMode: toolCapability?.allowedInPlanMode ?? false,
-    alwaysAsk: toolCapability?.permission?.alwaysAsk ?? toolCapability?.alwaysAsk ?? false,
-    allowSessionApproval: toolCapability?.permission?.askOptions?.allowAlways !== false,
-    readOnly: toolCapability?.readOnly ?? isReadOnlyTool(context.toolName),
-    destructive: toolCapability?.destructive ?? isDestructiveTool(context.toolName),
+    alwaysAsk: declared?.alwaysAsk ?? toolCapability?.alwaysAsk ?? false,
+    allowSessionApproval: declared?.askOptions?.allowAlways !== false,
+    readOnly: toolCapability?.readOnly ?? defaults.readOnly,
+    destructive: toolCapability?.destructive ?? defaults.destructive,
     requiresUserInteraction:
-      toolCapability?.requiresUserInteraction ??
-      (toolCapability?.permission?.sideEffectScope ?? toolCapability?.sideEffectScope) ===
-        "userInteraction",
-    sideEffectScope:
-      toolCapability?.permission?.sideEffectScope ??
-      toolCapability?.sideEffectScope ??
-      (isReadOnlyTool(context.toolName) ? "none" : "workspace"),
-    riskLevel:
-      toolCapability?.permission?.riskLevel ??
-      resolveToolRiskLevel(context.toolName, toolCapability),
+      toolCapability?.requiresUserInteraction ?? explicitScope === "userInteraction",
+    sideEffectScope: explicitScope ?? defaults.sideEffectScope,
+    riskLevel: declared?.riskLevel ?? resolveToolRiskLevel(context.toolName, toolCapability),
     needsApproval:
-      toolCapability?.permission?.needsApproval ??
-      toolCapability?.needsApproval ??
-      !isReadOnlyTool(context.toolName),
+      declared?.needsApproval ?? toolCapability?.needsApproval ?? defaults.needsApproval,
     permissionCapabilityGroup: toolCapability?.permissionCapabilityGroup,
-    permissionName: toolCapability?.permission?.permission,
+    permissionName: declared?.permission,
   };
 }

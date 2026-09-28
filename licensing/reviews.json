@@ -25060,6 +25060,127 @@
         "specs/knorvia-permission-readiness.md",
         "docs/knorvia-permission-readiness-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/service.ts",
+      "normalizedSha256": "9f059dfaf25bd93e1afd3b74fbbd38686b99fab8750fc588ce826f01f8dfd9dc",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New small service owns only ephemeral session grants and the caller-owned config reference, and delegates decisions to an explicit policy program. Session state is read from this same owner at its policy stage, preserving synchronous public callback reentrancy without a snapshot cache. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/capability.ts",
+      "normalizedSha256": "b233d7ba67c7dedf10d5d53c252dc6e74875a4d037b7e27852b15a1715af075d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New module-level name/default index and independent field precedence resolver replace repeated per-check tool-category set construction. Reserved Object names cannot inherit table entries; legacy risk and explicit false semantics remain contractual inputs. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/policy-program.ts",
+      "normalizedSha256": "998d284d29ebc0f431ce778a503cb5d2f63f77299fc4263e8cdef0d8e76d09c8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New ordered program consists of immutable predicate/decision/reason records and mutually selected lazy routes. It captures the plan overlay before callbacks, reads live session grants only at the authorized stage, and replaces the old plan-transition helper without runtime fallback. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/policy-evaluation.ts",
+      "normalizedSha256": "b5b81a5c3f795e3c75bef24697c9fdaaf41785ae348b74ac5c170b5e0ac60112",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New interpreter evaluates only the visited predicates and produces one public decision projection from the first match, without persistent or secondary accepted state. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-fixture.ts",
+      "normalizedSha256": "a3a06a963f30f806ede2e4dadab39450687871c1296eeacb48690b1836d20cc9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New strictly typed inert fixtures for explicit tool permission records, independent config Sets and current-context construction. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-capability.test.ts",
+      "normalizedSha256": "f1e27441c2e895a8d4120c78e430f7cf288f32184a9c4948aef87d8ae06db32d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first tests for fixed name defaults, per-field precedence, Object prototype names, explicit false and complete public result flags. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-priority.test.ts",
+      "normalizedSha256": "0a5103a50cc024fd18d34bc905331c1d690cad9b6b6cb1441f15f4c46ae44bf0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first mode and policy ordering tests, live configuration, callback receiver/trace/exception tests and demonstrated plan-overlay/session-grant reentrancy regression cases. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-modes.test.ts",
+      "normalizedSha256": "d92853f8527a33cc68dd2a79305a6bde96f051b2edbb14e9a3a239fe54c69612",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first tables of public behavior for plan overlays, session controls, destructive/high-risk combinations, build/edit exemptions and reserved auto mode. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-policy-exceptions.test.ts",
+      "normalizedSha256": "fd260da4171e3d3841d7c0ebefb4d59c698acd311ead5e2e61db3ba9382636bf",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New workflow-owner, user-stop, WebFetch/draft precedence and trusted capability scope tests through the real public permission service. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-permission-policy.md",
+      "normalizedSha256": "caa28115e72885021d92319bae0ed19ee219a724b582f3030d7a7915b1dccaff",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New prior-to-implementation policy design and acceptance contract, retaining authorization distinctions and explicitly limiting inherited helper and licensing scope. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-permission-policy-acceptance.md",
+      "normalizedSha256": "a32f5002e0881dd95521a677db638e1e65fe6c5af970ceff985aab3b49c6de32",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New batch evidence record with prior failures, bounded comparison, independent source decisions and remaining whole-product migration gates. Prior source was accessed; no no-access claim is made. The scope is limited to the new lazy policy itinerary, declarative decision records, shared result projection and module-level capability defaults. Public interfaces, prescribed precedence, fixed reason strings and primitive lookup/iteration behavior are compatibility constraints, not claimed inventions. Renaming, extraction, data tables, splitting and test success alone do not establish independent provenance. Existing rule matching, rule update merging, workflow draft paths, WebFetch preapproval, public records, runtime capability adapters, Hook overrides and permission persistence retain their applicable licensing. This is not a whole-product MIT determination.",
+      "evidence": [
+        "specs/knorvia-permission-policy.md",
+        "docs/knorvia-permission-policy-acceptance.md"
+      ]
     }
   ]
 }
