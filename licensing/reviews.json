@@ -26381,6 +26381,138 @@
         "docs/knorvia-message-storage-acceptance.md",
         "licensing/evidence/message-storage.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/sessions.ts",
+      "normalizedSha256": "76135e7403d3adae3a12969c450fc064f5dda6984ab4c51e1db730e53da46707",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New ten-export compatibility surface delegates wholly to fresh contract-based modules; trivial forwarding itself is not claimed as an independent algorithm. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-records.ts",
+      "normalizedSha256": "d3a4ad63cfd9fe7dff42e030ac35003e085e7e4ca618beb65785faa6b526485d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh creation projection and synchronous patch operation own read/gate/encoding/update/result inside existing transaction helper, shared by update/revert/clear. Prior multi-step update source was not supplied to author; fixed columns and standard SQL remain compatibility constraints. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/session-scopes.ts",
+      "normalizedSha256": "376c362d02d2110274f24ea2a42d0a98cba690b4ef0d3806766ce8686bdb021e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New bound predicate builder with literal path escaping, public task-type normalization, strict claim scope and NULL-safe atomic path repair, written from behavior contract without old repository body. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-records-fixture.ts",
+      "normalizedSha256": "87b2477cf99aacbd8744b8ded79b64cc049a32cbb781fc13994f5f67f1d4d05f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New public-store fabricated fixture with actual native row snapshots and correctly typed permission/identity inputs; no real user database. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-records-contract.test.ts",
+      "normalizedSha256": "6b77d365843defa6232d3a92cd1cd384c8efa49d352f6fd786465c3b911a2d5d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-integration tests for create conflict categories, patch null/undefined/default behavior, title gate/time, JSON roundtrips/errors, revert and narrow historical null compatibility. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-records-query.test.ts",
+      "normalizedSha256": "70b24ce78764d044aad820bdb2752516af45196e4c0e0c081db42ea83fcca4af",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-integration native filter/intersection/order/limit contracts and red-first literal percent/underscore/backslash path regressions. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-records-atomic.test.ts",
+      "normalizedSha256": "ed35a09b58afed14d87698e72b2df8d48df08bafd81d34427e8a38ed4ae98807",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New red-first concurrency/title protection, synchronous update, authorizer-observed lock order, native trigger/deferred-COMMIT/rollback and two isolated file-connection contention regressions. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/session-records-repair.test.ts",
+      "normalizedSha256": "3d957768c961a7864970efa46cbf22d5ced76c1d6f8a900e3ca767c84487d895",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New exact allowlist/workspace/path and NULL-empty CAS regressions assert owned columns, activity monotonicity and borrowed transaction persistence. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-session-records.md",
+      "normalizedSha256": "2888ff75617e7f87baf5da257dd8bb49fcea8ac584c33be111d6f82577203822",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New preimplementation ten-export behavior and state ownership contract extracted by root/reviewer; explicitly scopes deliberate concurrent-update and literal-path improvements. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-session-records-acceptance.md",
+      "normalizedSha256": "7e8f2e11cafa9e176fe70251890951685c7e083e3f287283981b983d51012755",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual baseline/integration/artifact/quality evidence separates fixture corrections, intentional differences, completed checks and remaining limitations. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/session-records.md",
+      "normalizedSha256": "412e2dfc3343349d53f19358c888076f20f4cac1fe0040be4287520d92449b5f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New per-file permitted-input/source-expression record discloses prior-source exposure, public compatibility constraints and limited MIT scope. Root and reviewer inspected prior target to extract behavior; no whole-process clean-room or completed MIT assertion. Isolated author received only before-implementation contract, selected public types and supplied dependency signatures, plus behavior-only clarifications. Old target/history/dist/maps/baseline/tests/other repository bodies prohibited. Exact inputs and authored output reviewed. Common SQL, compatibility identifiers, standard transaction patterns and forwarding alone are not novel algorithms or sufficient independence evidence. Existing facade, schema, migrations, rows and other inherited dependencies retain applicable licensing. Root Apache and preview identity remain; tests use fabricated memory/temporary-file SQLite only.",
+      "evidence": [
+        "specs/knorvia-session-records.md",
+        "docs/knorvia-session-records-acceptance.md",
+        "licensing/evidence/session-records.md"
+      ]
     }
   ]
 }
