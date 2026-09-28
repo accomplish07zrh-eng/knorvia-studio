@@ -1,6 +1,5 @@
-// project 级权限规则的读取与持久化（从 permission-flow.ts 拆出）。
-// 拆分原因：permission-flow.ts 引入 responder 竞速后超过单文件 400 行上限；
-// 这三个 helper 只与 sessionStore 的 project permission 存取内聚，与 ask 时序无关。
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import {
   traceContextToLogContext,
   type PermissionRuleset,
@@ -11,13 +10,38 @@ import {
 import { applyPermissionUpdates } from "./permission-rules.js";
 import type { ToolExecutorDeps } from "./types.js";
 
+type ProjectAccess = { kind: "ready"; projectID: ProjectId } | { kind: "no-project" };
+const SKIPPED_MESSAGES = {
+  "no-store": "Project permission update skipped without session store",
+  "no-project": "Project permission update skipped without persisted session",
+} as const;
+const MODULE = "core.tool.executor";
+
+async function locateProject(deps: ToolExecutorDeps): Promise<ProjectAccess> {
+  const session = await deps.sessionStore?.getSession(deps.sessionId);
+  const projectID = session?.projectID;
+  return projectID ? { kind: "ready", projectID } : { kind: "no-project" };
+}
+
 export async function loadProjectPermissionRuleset(
   deps: ToolExecutorDeps,
 ): Promise<PermissionRuleset | null> {
   if (!deps.sessionStore) return null;
-  const projectId = await resolveProjectId(deps);
-  if (!projectId) return null;
-  return deps.sessionStore.getProjectPermission(projectId);
+  const access = await locateProject(deps);
+  return access.kind === "ready" ? deps.sessionStore!.getProjectPermission(access.projectID) : null;
+}
+
+function reportSkipped(
+  reason: keyof typeof SKIPPED_MESSAGES,
+  deps: ToolExecutorDeps,
+  trace: TraceContext,
+) {
+  deps.logger?.warn(SKIPPED_MESSAGES[reason], {
+    ...traceContextToLogContext(trace),
+    event: "tool.permission.project_update.skipped",
+    module: MODULE,
+    status: "completed",
+  });
 }
 
 export async function persistProjectPermissionUpdates(
@@ -25,43 +49,26 @@ export async function persistProjectPermissionUpdates(
   updates: PermissionUpdate[],
   traceContext: TraceContext,
 ): Promise<void> {
-  if (updates.length === 0) return;
-
+  if (!updates.length) return;
+  // 缺 store 的诊断原本同步发生；不能引入 await 让调用者变更 logger 后才记录。
   if (!deps.sessionStore) {
-    deps.logger?.warn("Project permission update skipped without session store", {
-      ...traceContextToLogContext(traceContext),
-      event: "tool.permission.project_update.skipped",
-      module: "core.tool.executor",
-      status: "completed",
-    });
+    reportSkipped("no-store", deps, traceContext);
     return;
   }
-
-  const projectID = await resolveProjectId(deps);
-  if (!projectID) {
-    deps.logger?.warn("Project permission update skipped without persisted session", {
-      ...traceContextToLogContext(traceContext),
-      event: "tool.permission.project_update.skipped",
-      module: "core.tool.executor",
-      status: "completed",
-    });
+  const access = await locateProject(deps);
+  if (access.kind !== "ready") {
+    reportSkipped(access.kind, deps, traceContext);
     return;
   }
-
-  const current = (await deps.sessionStore.getProjectPermission(projectID)) ?? { version: 1 };
-  const next = applyPermissionUpdates(current, updates);
-  await deps.sessionStore.saveProjectPermission({ projectID, permission: next });
-
+  const current = await deps.sessionStore!.getProjectPermission(access.projectID);
+  const permission = applyPermissionUpdates(current ?? { version: 1 }, updates);
+  // 现有 port 是读后覆盖写，不具有原子合并保证；并发修复归真正存储 owner。
+  await deps.sessionStore!.saveProjectPermission({ projectID: access.projectID, permission });
   deps.logger?.info("Project permission updated", {
     ...traceContextToLogContext(traceContext),
     event: "tool.permission.project_update.saved",
-    module: "core.tool.executor",
+    module: MODULE,
     status: "completed",
     updateCount: updates.length,
   });
-}
-
-async function resolveProjectId(deps: ToolExecutorDeps): Promise<ProjectId | undefined> {
-  const session = await deps.sessionStore?.getSession(deps.sessionId);
-  return session?.projectID;
 }

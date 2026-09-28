@@ -25291,6 +25291,105 @@
         "specs/knorvia-permission-rule-matching.md",
         "docs/knorvia-permission-rule-matching-acceptance.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-suggestions.ts",
+      "normalizedSha256": "f45d3bacf37588eeac436f11d9f6299c955bed84f8da28b103af2c68ad90b27f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New lazy candidate stream and single update projection separate trusted group selection from ordinary text selection; output records remain fresh and original text is preserved. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-grants.ts",
+      "normalizedSha256": "83cff083b06d1137e8dc15f2f861de8c60a4fbf52ed6f3796c1527ff0aaae24b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New ordered phase descriptors and lazy phase selection preserve per-stage reply reads. Entry references are captured once; the project phase uses one await and synchronous failure projection, followed by the existing session owner and logging boundary. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-rules-persistence.ts",
+      "normalizedSha256": "663910614a14861035cfa8cc096ff2f1d648d04a9f6f372d355d732dc572ca0d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New explicit project access result drives the store adapter while keeping missing-store diagnostics synchronous and session/project identity live. No new persistence owner, cache or atomicity claim is introduced. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-grant-fixture.ts",
+      "normalizedSha256": "9c8b4a1e9cdbf48d7b75c66e5c134ecd60ae5a5c191e87de34dfc5d7bc4a106a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New inert fixture wrapper uses existing fake permission flow ports and constructs independent rule updates; it performs no real IO. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-suggestions.test.ts",
+      "normalizedSha256": "aeafdbaa748d17a3df613a223165dd5a308e3f6350f789a1fdd405acdb3f32d1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first tests for trusted group short circuit, unsupported group, raw nonblank selection, lazy field order and fresh record ownership. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-project-store.test.ts",
+      "normalizedSha256": "9d0c4b59633c4b52af89152ec03ff17b7ea7b15882f151aef5131863c0918671",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first project identity, port receiver, absence, original error and save/log ordering tests plus a red-first synchronous skipped-log regression. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-grants.test.ts",
+      "normalizedSha256": "299bf7b5a75a3f5fb2715966fa643a535605973ef3ba79dda9573544d9d23e7d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New baseline-first user-only, sequential owners, live updates, error and partial-success contracts with red-first context-owner and single-await microtask regressions. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-permission-grants.md",
+      "normalizedSha256": "2ee249309a4fe92cdabb2bfc66448929d2dab9eb00454a4074e5dd400b02c1b7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New prior-to-implementation contract and ownership specification with bounded migration regressions and explicitly deferred storage atomicity. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-permission-grants-acceptance.md",
+      "normalizedSha256": "eb562bcfb93064e6478aeaa2c84d66e0f3762c3192b6c5c281bb078acc001d35",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New implementation/source evidence, baseline correction, red-green regressions, bounded comparisons and acceptance/limitation record. Prior source was accessed; no no-access claim is made. Scope is limited to the new lazy suggestion projection, project access result and explicit ordered grant phases. Required signatures, fields/order, diagnostic text, ownership, JavaScript timing and conventional operations are compatibility constraints, not claimed inventions. Renaming, extraction and passing tests alone do not establish independent provenance. Storage implementation, public contracts, Hook recheck, capability/memory/path helpers and adjacent UI retain applicable licensing. This is not a whole-product MIT determination; concurrent stored grants still require an atomic owner operation in a later migration.",
+      "evidence": [
+        "specs/knorvia-permission-grants.md",
+        "docs/knorvia-permission-grants-acceptance.md"
+      ]
     }
   ]
 }
