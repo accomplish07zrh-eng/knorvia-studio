@@ -1,74 +1,59 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import {
-  SESSION_TASK_TYPES,
-  SESSION_ENTRY_MODEL_SELECTION,
-  SESSION_TITLE_SOURCES,
   parseModelSelectionValue,
+  SESSION_ENTRY_MODEL_SELECTION,
+  SESSION_TASK_TYPES,
+  SESSION_TITLE_SOURCES,
   type CollaborationMode,
-  type FileDiff,
-  type MessageId,
   type MessageInfo,
   type MessagePart,
-  type PartId,
-  type PermissionRuleset,
-  type ProjectId,
   type SessionEntryInfo,
-  type SessionId,
   type SessionInfo,
-  type SessionRevert,
-  type SessionTitleSource,
-  type SessionEntryType,
-  type TodoItem,
-  type TraceId,
-  type WorkspaceId,
   type SessionTaskType,
+  type SessionTitleSource,
+  type TimelineModelSelection,
+  type TodoItem,
 } from "@knorvia/contracts";
 import { decodeJson } from "./json.js";
+import { isJsonRecord, projectRecord } from "./record-projection.js";
 import type { MessageRow, PartRow, SessionEntryRow, SessionRow, TodoRow } from "./rows.js";
 
+const COLLABORATION_MODES: readonly CollaborationMode[] = ["plan", "build", "edit", "yolo", "auto"];
+const DEFAULT_TASK_TYPE: SessionTaskType = "interactive";
+const DEFAULT_TITLE_SOURCE: SessionTitleSource = "first_input";
+
 export function isCollaborationMode(value: unknown): value is CollaborationMode {
-  return (
-    value === "plan" ||
-    value === "build" ||
-    value === "edit" ||
-    value === "yolo" ||
-    value === "auto"
-  );
-}
-
-function decodeSessionTaskType(value: string | null | undefined): SessionTaskType {
-  return SESSION_TASK_TYPES.includes(value as SessionTaskType)
-    ? (value as SessionTaskType)
-    : "interactive";
-}
-
-function decodeSessionTitleSource(value: string | null | undefined): SessionTitleSource {
-  return SESSION_TITLE_SOURCES.includes(value as SessionTitleSource)
-    ? (value as SessionTitleSource)
-    : "first_input";
+  return typeof value === "string" && COLLABORATION_MODES.includes(value as CollaborationMode);
 }
 
 export function decodeSessionRow(row: SessionRow): SessionInfo {
   return {
-    id: row.id as SessionId,
-    projectID: row.project_id as ProjectId,
-    workspaceID: row.workspace_id ? (row.workspace_id as WorkspaceId) : undefined,
-    parentID: row.parent_id ? (row.parent_id as SessionId) : undefined,
-    traceID: row.trace_id ? (row.trace_id as TraceId) : undefined,
-    taskType: decodeSessionTaskType(row.task_type),
+    id: row.id as SessionInfo["id"],
+    projectID: row.project_id as SessionInfo["projectID"],
+    workspaceID: (row.workspace_id || undefined) as SessionInfo["workspaceID"],
+    parentID: (row.parent_id || undefined) as SessionInfo["parentID"],
+    traceID: (row.trace_id || undefined) as SessionInfo["traceID"],
+    taskType: SESSION_TASK_TYPES.includes(row.task_type as SessionTaskType)
+      ? (row.task_type as SessionTaskType)
+      : DEFAULT_TASK_TYPE,
     slug: row.slug,
     directory: row.directory,
     path: row.path ?? undefined,
     title: row.title,
-    titleSource: decodeSessionTitleSource(row.title_source),
-    titleMessageID: row.title_message_id ? (row.title_message_id as MessageId) : undefined,
+    titleSource: SESSION_TITLE_SOURCES.includes(row.title_source as SessionTitleSource)
+      ? (row.title_source as SessionTitleSource)
+      : DEFAULT_TITLE_SOURCE,
+    titleMessageID: (row.title_message_id || undefined) as SessionInfo["titleMessageID"],
     version: row.version,
     shareURL: row.share_url ?? undefined,
     summaryAdditions: row.summary_additions ?? undefined,
     summaryDeletions: row.summary_deletions ?? undefined,
     summaryFiles: row.summary_files ?? undefined,
-    summaryDiffs: decodeJson<FileDiff[]>(row.summary_diffs),
-    revert: decodeJson<SessionRevert>(row.revert),
-    permission: decodeJson<PermissionRuleset>(row.permission),
+    summaryDiffs: decodeJson<SessionInfo["summaryDiffs"]>(row.summary_diffs),
+    revert: decodeJson<SessionInfo["revert"]>(row.revert),
+    permission: decodeJson<SessionInfo["permission"]>(row.permission),
     time: {
       created: row.time_created,
       updated: row.time_updated,
@@ -79,104 +64,78 @@ export function decodeSessionRow(row: SessionRow): SessionInfo {
   };
 }
 
+function messageDocument(document: Record<string, unknown>): Record<string, unknown> {
+  if (document.role === "user") {
+    const modelSelection = parseModelSelectionValue(document.modelSelection);
+    return projectRecord(
+      document,
+      ["model", "modelSelection"],
+      modelSelection ? { modelSelection } : {},
+    );
+  }
+  if (document.role === "assistant") {
+    return projectRecord(document, ["providerID", "modelID", "variant"]);
+  }
+  return document;
+}
+
+function timelineSelection(value: unknown): TimelineModelSelection | undefined {
+  if (!isJsonRecord(value)) return undefined;
+  const selection = parseModelSelectionValue(projectRecord(value, ["label"]));
+  if (!selection) return undefined;
+  return typeof value.label === "string" ? { ...selection, label: value.label } : selection;
+}
+
+function partDocument(document: Record<string, unknown>): Record<string, unknown> {
+  if (document.type === "timeline" && document.timelineType === "model_change") {
+    const fromModel = timelineSelection(document.fromModelSelection);
+    const toModel = timelineSelection(document.toModelSelection);
+    return projectRecord(
+      document,
+      ["fromModel", "toModel", "fromModelSelection", "toModelSelection"],
+      { ...(fromModel ? { fromModel } : {}), ...(toModel ? { toModel } : {}) },
+    );
+  }
+  if (document.type === "subtask") {
+    const model = parseModelSelectionValue(document.modelSelection);
+    return projectRecord(document, ["model", "modelSelection"], model ? { model } : {});
+  }
+  return document;
+}
+
 export function decodeMessageRow(row: MessageRow): MessageInfo {
-  return {
-    ...decodeStoredMessage(JSON.parse(row.data) as unknown),
-    id: row.id as MessageId,
-    sessionID: row.session_id as SessionId,
-  } as MessageInfo;
-}
-
-function decodeStoredMessage(value: unknown): Record<string, unknown> {
-  if (!isRecord(value)) return {};
-  if (value.role === "user") {
-    const { model: _legacyModel, modelSelection: rawSelection, ...message } = value;
-    // 迁移无法确定身份时可能留下 null；回滚后也可能缺字段。不能让配置残缺阻断整条消息的协议读取。
-    // 这里只校验新结构，不查执行资格、不回读旧快照，磁盘内容保持不变。
-    const modelSelection = parseModelSelectionValue(rawSelection);
-    return { ...message, ...(modelSelection ? { modelSelection } : {}) };
-  }
-  if (value.role === "assistant") {
-    const {
-      providerID: _legacyProviderId,
-      modelID: _legacyModelId,
-      variant: _legacyReasoningLevel,
-      ...message
-    } = value;
-    return message;
-  }
-  return value;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  const decoded: unknown = JSON.parse(row.data);
+  const document = messageDocument(isJsonRecord(decoded) ? decoded : {});
+  return projectRecord(document, [], {
+    id: row.id,
+    sessionID: row.session_id,
+  }) as unknown as MessageInfo;
 }
 
 export function decodePartRow(row: PartRow): MessagePart {
-  return {
-    ...decodeStoredPart(JSON.parse(row.data) as unknown),
-    id: row.id as PartId,
-    sessionID: row.session_id as SessionId,
-    messageID: row.message_id as MessageId,
-  } as MessagePart;
+  const decoded: unknown = JSON.parse(row.data);
+  const document = partDocument(isJsonRecord(decoded) ? decoded : {});
+  return projectRecord(document, [], {
+    id: row.id,
+    sessionID: row.session_id,
+    messageID: row.message_id,
+  }) as unknown as MessagePart;
 }
 
-function decodeStoredPart(value: unknown): Record<string, unknown> {
-  if (!isRecord(value)) return {};
-  if (value.type === "timeline" && value.timelineType === "model_change") {
-    const {
-      fromModel: _oldFrom,
-      toModel: _oldTo,
-      fromModelSelection,
-      toModelSelection,
-      ...part
-    } = value;
-    const fromModel = decodeTimelineSelection(fromModelSelection);
-    const toModel = decodeTimelineSelection(toModelSelection);
-    return {
-      ...part,
-      ...(fromModel ? { fromModel } : {}),
-      ...(toModel ? { toModel } : {}),
-    };
-  }
-  if (value.type === "subtask") {
-    const { model: _oldModel, modelSelection, ...part } = value;
-    const model = parseModelSelectionValue(modelSelection);
-    return { ...part, ...(model ? { model } : {}) };
-  }
-  return value;
-}
-
-function decodeTimelineSelection(value: unknown) {
-  if (!isRecord(value)) return undefined;
-  // label 仅是 Timeline 展示信息，不属于严格的 Selection；不能误删合法的带标签历史。
-  const { label, ...rawSelection } = value;
-  const selection = parseModelSelectionValue(rawSelection);
-  return selection ? { ...selection, ...(typeof label === "string" ? { label } : {}) } : undefined;
+function modelSelectionEntry(document: unknown): unknown {
+  const value = isJsonRecord(document) ? document.modelSelection : undefined;
+  return parseModelSelectionValue(value) ?? value;
 }
 
 export function decodeSessionEntryRow(row: SessionEntryRow): SessionEntryInfo {
-  const rawData = JSON.parse(row.data) as unknown;
+  const decoded: unknown = JSON.parse(row.data);
   return {
     id: row.id,
-    sessionID: row.session_id as SessionId,
-    type: row.type as SessionEntryType | string,
-    time: {
-      created: row.time_created,
-      updated: row.time_updated,
-    },
-    data:
-      row.type === SESSION_ENTRY_MODEL_SELECTION
-        ? decodeStoredSessionModelSelection(rawData)
-        : rawData,
+    sessionID: row.session_id as SessionEntryInfo["sessionID"],
+    type: row.type,
+    time: { created: row.time_created, updated: row.time_updated },
+    data: row.type === SESSION_ENTRY_MODEL_SELECTION ? modelSelectionEntry(decoded) : decoded,
   };
-}
-
-function decodeStoredSessionModelSelection(value: unknown): unknown {
-  // 旧平铺字段只属于升级入口。新成员即使为空/非法也不能借旧快照补值。
-  // 解包在存储边界完成，core/bootstrap/fork 只消费 port 的当前逻辑 Selection。
-  if (!isRecord(value)) return undefined;
-  return parseModelSelectionValue(value.modelSelection) ?? value.modelSelection;
 }
 
 export function decodeTodoRow(row: TodoRow): TodoItem {
@@ -188,15 +147,24 @@ export function decodeTodoRow(row: TodoRow): TodoItem {
 }
 
 export function partCreatedAt(part: MessagePart, fallback: number): number {
-  if (part.type === "text" || part.type === "reasoning") return part.time?.start ?? fallback;
-  if (part.type === "compaction") return part.time?.start ?? fallback;
-  if (part.type === "timeline") return part.time?.start ?? fallback;
-  if (part.type === "tool") {
-    if (part.state.status === "running") return part.state.time.start;
-    if (part.state.status === "completed" || part.state.status === "error") {
-      return part.state.time.start;
-    }
+  switch (part.type) {
+    case "text":
+    case "reasoning":
+    case "compaction":
+    case "timeline":
+      return part.time?.start ?? fallback;
+    case "tool":
+      switch (part.state.status) {
+        case "running":
+        case "completed":
+        case "error":
+          return part.state.time.start;
+        default:
+          return fallback;
+      }
+    case "retry":
+      return part.time.created;
+    default:
+      return fallback;
   }
-  if (part.type === "retry") return part.time.created;
-  return fallback;
 }

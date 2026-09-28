@@ -25916,13 +25916,14 @@
     },
     {
       "path": "apps/cli/packages/adapters/src/storage/session-store/repositories/permission-full-access-payload.ts",
-      "normalizedSha256": "b4427d5079c0616e59b5be8a7aebcbfdfffa06e69003f2f5f596853cec8cab14",
-      "decision": "third-party",
-      "license": "Apache-2.0",
-      "basis": "Inherited JSON parse, two intent-field traversal and mode projection from baseline 872ad960de7ec172591f7e1952f7849229f94521, blob 7e607a2a63d6e9e0ae8e61adffb1e102d0521f31. Helper extraction and constant names do not make this independent; original license retained and precise evidence recorded. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "normalizedSha256": "68160d146b475e7f2b601250d39f73fc48a90bc5466664473f48c520c055e8fc",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Replaces the explicitly inherited da8f6e0 helper through the isolated contract task: collect changed intent branches then construct this call output through shared projection, rather than reusing the prior in-place function body. The prior Apache checkpoint is retained in evidence. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
       "evidence": [
-        "specs/knorvia-full-access-storage.md",
-        "docs/knorvia-full-access-storage-acceptance.md",
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
         "licensing/evidence/full-access-payload.md"
       ]
     },
@@ -25988,13 +25989,144 @@
     },
     {
       "path": "licensing/evidence/full-access-payload.md",
-      "normalizedSha256": "6d6714ee866bcf1a805a5160415dd38231c843f47f9122996ab1ffe5861cf98f",
+      "normalizedSha256": "74b6d30a58bcaa646233911a061132301a4362938dccd6a6ff07691a3113e038",
       "decision": "original",
       "license": "MIT",
-      "basis": "New evidence document records inherited source path, exact baseline blob/digest and extraction-only nature; its MIT text does not change the referenced implementation license. Prior source was accessed; no no-access claim is made. Independent scope is the new synchronous finite-action program and write-transaction owner, not retained payload expression or adjacent storage. Fixed schema, SQL predicates, fields, error text, ordering and native SQLite/JSON semantics are compatibility requirements, not claimed inventions. Extraction, naming, test success and finite comparisons alone do not establish independent authorship. The payload helper explicitly retains Apache-2.0; Runtime, receipt schema, entry storage, JSON/codecs, broad port/facade and migrations retain applicable licensing. This is not a whole-product MIT determination.",
+      "basis": "Updated historical source evidence preserves exact original Apache blob and da8f6e0 extraction-only checkpoint, separately documenting the later independently authored expression without retroactive relicensing. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
       "evidence": [
-        "specs/knorvia-full-access-storage.md",
-        "docs/knorvia-full-access-storage-acceptance.md",
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/json.ts",
+      "normalizedSha256": "2707c36459c1a6a0dbd1d8559448bc06aacab45d71525295f8a8e1840f1e8a87",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-authored optional JSON cell adapter uses native serialization and all-falsy runtime absence without absorbing required-document parsing. Thin functional wrapper has little expressive latitude; not claimed as a new algorithm. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/record-projection.ts",
+      "normalizedSha256": "3c6f6d3ac75e43db5a20be308942fd083e10690e45dd2bdb32fdbcd93acef757",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh shared ordered projection constructs own entries using filtering and Object.fromEntries, retaining positions and ordinary __proto__ data. Reused by member normalization, identity overlays and full-access branch updates; no cache or duplicated business state. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/session-store/codecs.ts",
+      "normalizedSha256": "8740c310b97f8d0f015d883f0b73a952aa31866f2d5131e6a602c43c205be27e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Fresh contract-authored pure row/document projection composes shared ordered output transformations and public model-selection validation. Fixed columns and timestamp selection remain explicit; required versus optional JSON and three invalid-selection policies stay distinct. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/storage-codec-fixture.ts",
+      "normalizedSha256": "67e36c508067c6c7c03b9c57d3b424f56bfaa13a2840a420b5f54be6a9ed2b93",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pure fabricated SQL-row and model-selection fixtures for contract tests, without production user data. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/storage-codec-values.test.ts",
+      "normalizedSha256": "ba8a80e5e52437739d5d3d304281109da6774df198afd119cef83e38838f34a7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-implementation tests for optional JSON/native errors, fixed Session/Todo output, fallback/time policies, full-access shape and prototype/field order. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/storage-codec-documents.test.ts",
+      "normalizedSha256": "c20ed161d54b1aa6c166ac268a84f80bac34fb4fde3dc7cde56ac22d4bdae472",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-implementation document contracts verify legacy-member removal, strict selection policies, required JSON error priority, identity overlay and opaque data. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/storage-codec-store.test.ts",
+      "normalizedSha256": "15616f66105f6ad7d6c4eaf96866c54d26c4ec834a1b2964a709712ac95ccdd8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Before-implementation public fresh memory-store scenarios verify real row decoding, raw-storage nonmutation, selection entries, Todo and damaged JSON reporting. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-storage-value-codecs.md",
+      "normalizedSha256": "4825acf4e56d6b7863e8aff12c298606617013935c103811364a355a863a88e9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New before-implementation behavioral and ownership contract, including runtime declaration limitations, isolated input scope and finite accessor differences. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-storage-value-codecs-acceptance.md",
+      "normalizedSha256": "830e57b6e758fc70ca5cfcc07c975cd11c7e9b263875e20722fced7ff464f1da",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New acceptance record distinguishes first-run baseline tests, limited differential/peer evidence, compiled and broad checks, and explicitly unverified dynamic getter/UI scopes. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
+        "licensing/evidence/full-access-payload.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/storage-value-codecs.md",
+      "normalizedSha256": "68690827ad4beb0145188c8532d372a56cc75012eadf9d57f696cbc92a2fc123",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New implementation-input and per-file reasoning record discloses permitted inherited types, no project-wide no-access claim and precise source limitations. The root and reviewer accessed old source; no project-wide clean-room or legal-completion assertion is made. A separate implementation task received the prior behavior contract and exported signatures, permitted public types/schema, and was prohibited from opening old target implementations, history, compiled output or frozen baselines. Current expression was inspected before integration. Fixed SQL field mappings, native JSON behavior, names, ordinary field projection techniques and common wrappers are compatibility requirements, not claimed novel algorithms. Prior source relationships and old checkpoints remain recorded. Rows, public schema, validator, adjacent repositories, transaction owner and migrations retain their applicable licensing. Finite comparisons prove only bounded behavior; mutable getter differences and inaccurate legacy return declarations are disclosed. Naming, extraction, AI generation and tests alone do not establish authorship.",
+      "evidence": [
+        "specs/knorvia-storage-value-codecs.md",
+        "docs/knorvia-storage-value-codecs-acceptance.md",
+        "licensing/evidence/storage-value-codecs.md",
         "licensing/evidence/full-access-payload.md"
       ]
     }
