@@ -30263,10 +30263,10 @@
     },
     {
       "path": "docs/knorvia-mcp-official-auth-acceptance.md",
-      "normalizedSha256": "af8ce810945cb31d6d938a47831c44453459ad157724e34b0e6edbe13dc0012a",
+      "normalizedSha256": "d8393455f4672297b154fb0c3f5b755384f33f27602f60217c9a429b06bfbc1e",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual first old/candidate/main/dist34 and full3576 acceptance; initial source/test static and main strict-type failures, bounded corrective scope, compiled byte identity and previous pool CI preserved. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "basis": "Factual first old/candidate/main/dist34 and full3576 acceptance; initial source/test static and main strict-type failures, bounded corrective scope, compiled byte identity and previous pool CI preserved. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain. Original official-auth commit020a0b3b286413425b34d2890f85e9923e56d430, Actions run36553647376 attempt1: Linux job109357508893 total3576/pass3569/platformskip7/fail0/cancel0 and Windows job109357509230 total3576/pass3576/skip0/fail0/cancel0; exact-head original job metadata, all steps and full raw logs reviewed. The later process-boundary change is outside that run.",
       "evidence": [
         "specs/knorvia-mcp-official-auth.md",
         "docs/knorvia-mcp-official-auth-acceptance.md",
@@ -30283,6 +30283,162 @@
         "specs/knorvia-mcp-official-auth.md",
         "docs/knorvia-mcp-official-auth-acceptance.md",
         "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/stdio-transport.ts",
+      "normalizedSha256": "18ab12ca560aea99315715cebbc6471a43d7dd0a06b87afcb1c5b0ea852edf91",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently designed SDK extension with per-message metadata, first child exit observation, Windows job ownership and ordered dispose hook while retaining SDK ordinary close. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/process-tree.ts",
+      "normalizedSha256": "3c228a891be1eceab9f72ff0b9b89fd31f087a81de376b0648e96d3834a6a087",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently designed per-call process tree collection, platform command boundary, ordered escalation and bounded per-stage waiting, with retained observable error and injection semantics. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/windows-job-object.ts",
+      "normalizedSha256": "b0fb1db068b5a36ae1ae1e7d9e5c0ff2cc1bebc363e9ff951781745e89ce1ce9",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently designed optional native-loader cache and one-handle job controller with explicit partial-acquisition compensation; standard ABI and Koffi rights retained. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary.fixture.ts",
+      "normalizedSha256": "b6590769e2583d7aff0195889828dcf0d818c0983ada0cf4cac8330e05503d55",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent closed source loader, SDK and child seams observing public transport, meta provider and documented SDK dispose descriptor; root adds MIT and portable bindings. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary-system.fixture.ts",
+      "normalizedSha256": "63c126eff0007f18fc7ef962c0a8ae36d2ad44355456dedb592175e4e622855e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent system fixture with owned clocks, process operations, native ABI functions and exact literal dynamic-import seam; rejects unknown dependencies. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary-meta.test.ts",
+      "normalizedSha256": "b657a799006978da826a4da1e7bb29dbabc6474e2a8b98f9822a591b5c434498",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent public metadata and first-exit behavior cases; root adds only type-erased unknown assertion cast required by real SDK private-field declarations. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary-transport.test.ts",
+      "normalizedSha256": "bf9ad632a38ad4977b973616e23cdec501eb9d64980fe0cabb608f2aba1a9513",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent transport lifecycle, late attach, concurrent disposal and ordinary SDK close behavior cases. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary-tree.test.ts",
+      "normalizedSha256": "ba36a3638837030b7c2fa2e6fb5bd77a406d16be61cd5283aee2ab5dff2653d3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned-process tests for Windows taskkill, POSIX collection/escalation, liveness and dependency errors without actual signals. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary-job.test.ts",
+      "normalizedSha256": "405079eeab27a136b0f1f2b87066cbc69e234d91db5d7471101a98a3f5ca2fbb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent job-controller guards, handle ownership, repeated terminate/close and partial-acquisition compensation cases. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-process-boundary-native.test.ts",
+      "normalizedSha256": "cda49ee75673d0561eb882933ec401682267deebd0264c436bace8cc02042278",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned native-loader cache and ABI field/function binding cases without loading Koffi or calling kernel32. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-process-boundary.md",
+      "normalizedSha256": "58441840ef52a866e560c34abdeb174ba6c648d23fea2662dc7ed226782aed90",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root-approved behavior and state-owner specification based on complete old three-source review and independently prepared finite contract. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-process-boundary-acceptance.md",
+      "normalizedSha256": "05e0997c750121e366ee5ec243cf3e7692e11cd79b2ab8b3f9e4a9d2c9690d31",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual first old/candidate 36, main-source/compiled 36 and full3612 acceptance, preserved initial static/main type failures and prior exact-commit official-auth CI evidence. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-process-boundary.md",
+      "normalizedSha256": "42a09952d0508e912f897957accc9faf54149f8e628aa188e934b37bf282f50a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "File-specific frozen design/read/hash inventories, full author exposure disclosure, mechanical integration and actual acceptance limitations. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-boundary.md",
+        "docs/knorvia-mcp-process-boundary-acceptance.md",
+        "licensing/evidence/mcp-process-boundary.md"
       ]
     }
   ]

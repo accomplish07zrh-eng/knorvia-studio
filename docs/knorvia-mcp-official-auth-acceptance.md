@@ -29,3 +29,7 @@
 首次远端新鲜度检查遇到GitHub TLS失败，保留原日志；相同TLS验证未禁用，经本机已有代理重试actual fetch成功，ahead/behind均0。根Apache、依赖权利与preview保持；本批不表示全量替换、整仓MIT或最终发行完成。来源见[逐文件依据](../licensing/evidence/mcp-official-auth.md)。
 
 前一连接池提交 `ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e` 的 [GitHub Actions 原运行 36550479739](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36550479739) attempt 1 已完成。Linux job `109347152283`：3,542 项中 3,535 通过、7 项平台跳过、0 失败/取消，198118.522381ms；Windows job `109347152006`：3,542/3,542，0 失败/跳过/取消，408446.0289ms。根核对原 run/jobs 的受检 SHA、全部步骤和原日志末尾统计，两个 job 均 success。这是前一连接池提交的云端结果，不算当前认证请求批次 CI；更早提交的 Python 启动超时失败仍保留。
+
+## 当前提交远端检查
+
+原始提交 `020a0b3b286413425b34d2890f85e9923e56d430`、run `36553647376`（attempt 1）：Linux job `109357508893` 3576项中3569通过、7平台跳过、0失败/取消，242865.500891ms；Windows job `109357509230` 3576全过、0失败/跳过/取消，379741.1117ms。两job与全部步骤success，已读取完整原始日志。后续进程边界替换不在这次检查范围内。

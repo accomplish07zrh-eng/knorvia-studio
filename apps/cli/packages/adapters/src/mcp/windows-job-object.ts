@@ -1,9 +1,5 @@
-import type * as Koffi from "koffi";
-
-const JOB_OBJECT_EXTENDED_LIMIT_INFORMATION = 9;
-const JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x0000_2000;
-const PROCESS_SET_QUOTA = 0x0100;
-const PROCESS_TERMINATE = 0x0001;
+// Copyright (c) Knorvia contributors
+// SPDX-License-Identifier: MIT
 
 type WindowsJobHandle = object;
 
@@ -24,61 +20,20 @@ interface AttachOptions {
   platform?: NodeJS.Platform;
 }
 
-export async function attachProcessToWindowsJobObject(
-  pid: number,
-  options: AttachOptions = {},
-): Promise<WindowsJobObjectController | undefined> {
-  if ((options.platform ?? process.platform) !== "win32") return undefined;
-  if (!Number.isInteger(pid) || pid <= 0) return undefined;
-
-  const api = options.api ?? (await loadWindowsJobObjectApi());
-  if (!api) return undefined;
-
-  let job: WindowsJobHandle | undefined;
-  try {
-    job = api.create();
-    if (!job || !api.assign(job, pid)) {
-      if (job) api.close(job);
-      return undefined;
-    }
-  } catch {
-    if (job) {
-      try {
-        api.close(job);
-      } catch {
-        // 原生句柄关闭失败也不能阻断既有 taskkill 回退。
-      }
-    }
-    return undefined;
-  }
-
-  let closed = false;
-  return {
-    terminate() {
-      if (!closed) api.terminate(job);
-    },
-    close() {
-      if (closed) return;
-      closed = true;
-      api.close(job);
-    },
-  };
-}
-
+const KILL_ON_JOB_CLOSE = 0x2000;
+const EXTENDED_LIMIT_INFORMATION_CLASS = 9;
+const PROCESS_SET_QUOTA = 0x0100;
+const PROCESS_TERMINATE = 0x0001;
+const TERMINATION_EXIT_CODE = 1;
 let nativeApiPromise: Promise<WindowsJobObjectApi | undefined> | undefined;
 
-async function loadWindowsJobObjectApi(): Promise<WindowsJobObjectApi | undefined> {
-  nativeApiPromise ??= createWindowsJobObjectApi();
-  return nativeApiPromise;
-}
-
-async function createWindowsJobObjectApi(): Promise<WindowsJobObjectApi | undefined> {
+async function loadNativeApi(): Promise<WindowsJobObjectApi | undefined> {
   try {
-    const koffiModule = await import("koffi");
-    const koffi = ("default" in koffiModule ? koffiModule.default : koffiModule) as typeof Koffi;
-    const kernel32 = koffi.load("kernel32.dll");
+    const imported = await import("koffi");
+    const koffi = ("default" in imported ? imported.default : imported) as typeof import("koffi");
+    const kernel = koffi.load("kernel32.dll");
     const handleType = koffi.pointer("HANDLE", koffi.opaque());
-    const basicLimitInformation = koffi.struct("JOBOBJECT_BASIC_LIMIT_INFORMATION", {
+    const basicType = koffi.struct("JOBOBJECT_BASIC_LIMIT_INFORMATION", {
       PerProcessUserTimeLimit: "int64",
       PerJobUserTimeLimit: "int64",
       LimitFlags: "uint32",
@@ -89,7 +44,7 @@ async function createWindowsJobObjectApi(): Promise<WindowsJobObjectApi | undefi
       PriorityClass: "uint32",
       SchedulingClass: "uint32",
     });
-    const ioCounters = koffi.struct("IO_COUNTERS", {
+    const ioType = koffi.struct("IO_COUNTERS", {
       ReadOperationCount: "uint64",
       WriteOperationCount: "uint64",
       OtherOperationCount: "uint64",
@@ -97,51 +52,44 @@ async function createWindowsJobObjectApi(): Promise<WindowsJobObjectApi | undefi
       WriteTransferCount: "uint64",
       OtherTransferCount: "uint64",
     });
-    const extendedLimitInformation = koffi.struct("JOBOBJECT_EXTENDED_LIMIT_INFORMATION", {
-      BasicLimitInformation: basicLimitInformation,
-      IoInfo: ioCounters,
+    const extendedType = koffi.struct("JOBOBJECT_EXTENDED_LIMIT_INFORMATION", {
+      BasicLimitInformation: basicType,
+      IoInfo: ioType,
       ProcessMemoryLimit: "size_t",
       JobMemoryLimit: "size_t",
       PeakProcessMemoryUsed: "size_t",
       PeakJobMemoryUsed: "size_t",
     });
-
-    const createJobObject = kernel32.func("__stdcall", "CreateJobObjectW", handleType, [
-      "void *",
-      "str16",
-    ]);
-    const setInformationJobObject = kernel32.func("__stdcall", "SetInformationJobObject", "bool", [
+    const createJob = kernel.func("__stdcall", "CreateJobObjectW", handleType, ["void *", "str16"]);
+    const setInformation = kernel.func("__stdcall", "SetInformationJobObject", "bool", [
       handleType,
       "uint32",
-      koffi.pointer(extendedLimitInformation),
+      koffi.pointer(extendedType),
       "uint32",
     ]);
-    const openProcess = kernel32.func("__stdcall", "OpenProcess", handleType, [
+    const openProcess = kernel.func("__stdcall", "OpenProcess", handleType, [
       "uint32",
       "bool",
       "uint32",
     ]);
-    const assignProcessToJobObject = kernel32.func(
-      "__stdcall",
-      "AssignProcessToJobObject",
-      "bool",
-      [handleType, handleType],
-    );
-    const terminateJobObject = kernel32.func("__stdcall", "TerminateJobObject", "bool", [
+    const assignProcess = kernel.func("__stdcall", "AssignProcessToJobObject", "bool", [
+      handleType,
+      handleType,
+    ]);
+    const terminateJob = kernel.func("__stdcall", "TerminateJobObject", "bool", [
       handleType,
       "uint32",
     ]);
-    const closeHandle = kernel32.func("__stdcall", "CloseHandle", "bool", [handleType]);
-
+    const closeHandle = kernel.func("__stdcall", "CloseHandle", "bool", [handleType]);
     return {
       create() {
-        const job = createJobObject(null, null) as WindowsJobHandle | null;
+        const job = createJob(null, null);
         if (!job) return undefined;
         const limits = {
           BasicLimitInformation: {
             PerProcessUserTimeLimit: 0,
             PerJobUserTimeLimit: 0,
-            LimitFlags: JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+            LimitFlags: KILL_ON_JOB_CLOSE,
             MinimumWorkingSetSize: 0,
             MaximumWorkingSetSize: 0,
             ActiveProcessLimit: 0,
@@ -163,12 +111,7 @@ async function createWindowsJobObjectApi(): Promise<WindowsJobObjectApi | undefi
           PeakJobMemoryUsed: 0,
         };
         if (
-          !setInformationJobObject(
-            job,
-            JOB_OBJECT_EXTENDED_LIMIT_INFORMATION,
-            limits,
-            koffi.sizeof(extendedLimitInformation),
-          )
+          !setInformation(job, EXTENDED_LIMIT_INFORMATION_CLASS, limits, koffi.sizeof(extendedType))
         ) {
           closeHandle(job);
           return undefined;
@@ -176,27 +119,62 @@ async function createWindowsJobObjectApi(): Promise<WindowsJobObjectApi | undefi
         return job;
       },
       assign(job, pid) {
-        const processHandle = openProcess(
-          PROCESS_SET_QUOTA | PROCESS_TERMINATE,
-          false,
-          pid,
-        ) as WindowsJobHandle | null;
+        const processHandle = openProcess(PROCESS_SET_QUOTA | PROCESS_TERMINATE, false, pid);
         if (!processHandle) return false;
         try {
-          return Boolean(assignProcessToJobObject(job, processHandle));
+          return Boolean(assignProcess(job, processHandle));
         } finally {
           closeHandle(processHandle);
         }
       },
       terminate(job) {
-        terminateJobObject(job, 1);
+        terminateJob(job, TERMINATION_EXIT_CODE);
       },
       close(job) {
         closeHandle(job);
       },
-    } satisfies WindowsJobObjectApi;
+    };
   } catch {
-    // 原生模块或 Windows API 不可用时保持既有 taskkill 回退，不影响其他平台。
+    return undefined;
+  }
+}
+
+export async function attachProcessToWindowsJobObject(
+  pid: number,
+  options: AttachOptions = {},
+): Promise<WindowsJobObjectController | undefined> {
+  if ((options.platform ?? process.platform) !== "win32") return undefined;
+  if (!Number.isInteger(pid) || pid <= 0) return undefined;
+  const api = options.api ?? (await (nativeApiPromise ??= loadNativeApi()));
+  if (!api) return undefined;
+  let job: WindowsJobHandle | undefined;
+  try {
+    job = api.create();
+    if (!job) return undefined;
+    if (!api.assign(job, pid)) {
+      api.close(job);
+      return undefined;
+    }
+    const attachedJob = job;
+    let closed = false;
+    return {
+      terminate() {
+        if (!closed) api.terminate(attachedJob);
+      },
+      close() {
+        if (closed) return;
+        closed = true;
+        api.close(attachedJob);
+      },
+    };
+  } catch {
+    if (job) {
+      try {
+        api.close(job);
+      } catch {
+        // 只补偿已经返回到 attach 的句柄；create 内尚未交出的资源不在这里接管。
+      }
+    }
     return undefined;
   }
 }

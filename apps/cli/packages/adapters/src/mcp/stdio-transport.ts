@@ -1,21 +1,22 @@
+// Copyright (c) Knorvia contributors
+// SPDX-License-Identifier: MIT
+
+import type { ChildProcess } from "node:child_process";
+import type { JSONRPCMessage } from "@modelcontextprotocol/client";
 import {
   StdioClientTransport,
   type StdioServerParameters,
 } from "@modelcontextprotocol/client/stdio";
-import type { JSONRPCMessage } from "@modelcontextprotocol/client";
-import type { ChildProcess } from "node:child_process";
 import { terminateMcpStdioProcessTree } from "./process-tree.js";
 import {
   attachProcessToWindowsJobObject,
   type WindowsJobObjectController,
 } from "./windows-job-object.js";
 
-type SdkStdioDispose = (this: StdioClientTransport) => Promise<void>;
-
-const sdkDispose = Object.getOwnPropertyDescriptor(StdioClientTransport.prototype, "_dispose")
-  ?.value as SdkStdioDispose | undefined;
-
 type StdioRequestMetaProvider = () => Promise<Record<string, unknown> | undefined>;
+type ProcessTreeStdioServerParameters = StdioServerParameters & {
+  requestMetaProvider?: StdioRequestMetaProvider;
+};
 
 interface StdioProcessExitInfo {
   exitCode: number | null;
@@ -24,136 +25,98 @@ interface StdioProcessExitInfo {
   startedAt: number;
 }
 
-type ProcessTreeStdioServerParameters = StdioServerParameters & {
-  /**
-   * 官方 stdio MCP 的逐消息身份载荷提供器。它作为 spawn 参数的非执行字段保留，确保 SDK
-   * 为 modern probe 克隆 sibling transport 时，`server/discover` 与正式 session 使用同一注入边界。
-   */
-  requestMetaProvider?: StdioRequestMetaProvider;
-};
-
 interface ProcessTreeStdioClientTransportOptions {
   windowsJobObjectFactory?: (pid: number) => Promise<WindowsJobObjectController | undefined>;
 }
 
-/**
- * SDK 2.0 会为 stdio 版本探测创建一次性兄弟进程，但其私有回收钩子只终止直接子进程。
- * launcher/watchdog 派生的后代会因此变成孤儿；在同一个钩子里先回收整棵进程树，再让
- * SDK 清理 pipe 和读取缓冲区。原型上必须直接拥有 `_dispose`，SDK 才会把该 transport
- * 识别为可安全克隆的探测 transport。
- */
+const sdkDispose = Object.getOwnPropertyDescriptor(StdioClientTransport.prototype, "_dispose")
+  ?.value as ((this: StdioClientTransport) => Promise<void>) | undefined;
+
+function objectFields(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
 export class ProcessTreeStdioClientTransport extends StdioClientTransport {
-  private childProcess?: ChildProcess;
-  private lastProcessExit?: StdioProcessExitInfo;
-  private readonly requestMetaProvider?: StdioRequestMetaProvider;
-  private readonly windowsJobObjectFactory: (
-    pid: number,
-  ) => Promise<WindowsJobObjectController | undefined>;
-  private windowsJobObject?: WindowsJobObjectController;
+  readonly #metaProvider: StdioRequestMetaProvider | undefined;
+  readonly #jobFactory: (pid: number) => Promise<WindowsJobObjectController | undefined>;
+  #child: ChildProcess | undefined;
+  #firstExit: StdioProcessExitInfo | undefined;
+  #job: WindowsJobObjectController | undefined;
 
   constructor(
     server: ProcessTreeStdioServerParameters,
     options: ProcessTreeStdioClientTransportOptions = {},
   ) {
     super(server);
-    this.requestMetaProvider = server.requestMetaProvider;
-    this.windowsJobObjectFactory =
-      options.windowsJobObjectFactory ?? attachProcessToWindowsJobObject;
+    this.#metaProvider = server.requestMetaProvider;
+    this.#jobFactory = options.windowsJobObjectFactory ?? attachProcessToWindowsJobObject;
   }
 
   async terminateWindowsJobObject(): Promise<void> {
-    const windowsJobObject = this.windowsJobObject;
-    this.windowsJobObject = undefined;
-    if (!windowsJobObject) return;
+    const controller = this.#job;
+    this.#job = undefined;
+    if (!controller) return;
     try {
-      windowsJobObject.terminate();
+      controller.terminate();
     } catch {
-      // 继续执行 close 与 taskkill 回退。
+      // 终止失败仍进入 close；不等待声明外的 Promise 返回值。
     } finally {
       try {
-        windowsJobObject.close();
+        controller.close();
       } catch {
-        // 句柄关闭失败不能阻断 SDK pipe 清理。
+        // 当前引用已先清空，失败不恢复它或新增重试。
       }
     }
   }
 
   override async send(message: JSONRPCMessage): Promise<void> {
-    const requestMeta = await this.requestMetaProvider?.();
-    await super.send(mergeRequestMeta(message, requestMeta));
+    const meta = await this.#metaProvider?.();
+    if (!("method" in message) || !meta || Object.keys(meta).length === 0) {
+      await super.send(message);
+      return;
+    }
+    const paramsValue = message.params;
+    const params = objectFields(paramsValue) ? paramsValue : {};
+    const oldMeta = params._meta;
+    const prior = objectFields(oldMeta) ? oldMeta : {};
+    await super.send({ ...message, params: { ...params, _meta: { ...prior, ...meta } } });
   }
 
   override async start(): Promise<void> {
     const startedAt = Date.now();
     await super.start();
-    const child = (this as unknown as { _process?: ChildProcess })._process;
+    const child = (this as unknown as { _process?: ChildProcess | null })._process;
     if (!child) return;
-    this.childProcess = child;
+    this.#child = child;
     const recordExit = (exitCode: number | null, signal: NodeJS.Signals | null): void => {
-      this.lastProcessExit ??= {
-        exitCode,
-        exitedAt: Date.now(),
-        signal,
-        startedAt,
-      };
+      this.#firstExit ??= { exitCode, exitedAt: Date.now(), signal, startedAt };
     };
     if (child.exitCode !== null || child.signalCode !== null) {
       recordExit(child.exitCode, child.signalCode);
       return;
     }
     child.once("exit", recordExit);
-
-    // staging 曾把 Job Object 接管和退出观测各自合入成两个同名 start()，导致 CLI
-    // 构建直接报 Duplicate function implementation；这里合并两个职责，保留 Windows
-    // 进程树托管和跨平台退出记录。
     if (process.platform !== "win32" || this.pid == null) return;
     try {
-      this.windowsJobObject = await this.windowsJobObjectFactory(this.pid);
+      this.#job = await this.#jobFactory(this.pid);
     } catch {
-      // 原生托管不可用时保留 taskkill 回退，不能让 MCP 建连因可选能力失败。
-      this.windowsJobObject = undefined;
+      this.#job = undefined;
     }
   }
 
   get processExit(): StdioProcessExitInfo | undefined {
-    return this.lastProcessExit;
+    return this.#firstExit;
   }
 
   get processAlive(): boolean {
-    return Boolean(
-      this.childProcess &&
-      this.childProcess.exitCode === null &&
-      this.childProcess.signalCode === null,
-    );
+    return Boolean(this.#child && this.#child.exitCode === null && this.#child.signalCode === null);
   }
-}
-
-function mergeRequestMeta(
-  message: JSONRPCMessage,
-  requestMeta: Record<string, unknown> | undefined,
-): JSONRPCMessage {
-  // JSON-RPC response 没有 method，不得给响应伪造 params。只修改 client 发出的请求与通知。
-  if (!("method" in message) || !requestMeta || Object.keys(requestMeta).length === 0) {
-    return message;
-  }
-  const params = isRecord(message.params) ? message.params : {};
-  const existingMeta = isRecord(params._meta) ? params._meta : {};
-  return {
-    ...message,
-    params: {
-      ...params,
-      // 宿主刚解析的官方身份载荷必须覆盖调用方残留值，避免旧凭证继续存活。
-      _meta: { ...existingMeta, ...requestMeta },
-    },
-  } as JSONRPCMessage;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 Object.defineProperty(ProcessTreeStdioClientTransport.prototype, "_dispose", {
   configurable: true,
+  enumerable: false,
+  writable: false,
   async value(this: ProcessTreeStdioClientTransport): Promise<void> {
     const pid = this.pid;
     await this.terminateWindowsJobObject();
@@ -161,10 +124,9 @@ Object.defineProperty(ProcessTreeStdioClientTransport.prototype, "_dispose", {
       try {
         await terminateMcpStdioProcessTree(pid);
       } catch {
-        // SDK 的探测回收本来就是 best effort；仍需继续释放 pipe，避免协商永久卡住。
+        // 树终止失败不阻断 SDK 回收；更早的 pid/job 错误仍按原边界传播。
       }
     }
-
     if (sdkDispose) {
       await sdkDispose.call(this);
       return;
