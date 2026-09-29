@@ -31,3 +31,5 @@
 补充来源记录后的首次全仓格式检查只在licensing/reviews.json失败；对该清单正常格式化后重跑，不将首次结果计为通过。源码与测试未因此改变。
 
 检查点`1789ad9`已提交推送，17个完整暂存文件10,643,807字节扫描0发现，全仓格式5,234文件最终通过。原始GitHub run [36517528509](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36517528509)：Linux全部质量步骤通过，2,993通过、0失败、7平台跳过、0取消，232877.26076ms；Windows类型/lint/格式/架构/来源/构建通过，完整回归2,999通过、1失败、0跳过/取消，380733.7231ms。失败为creation-polish的JSON API取消场景在第724行观察到提交3次而预期4次；新fetch用例通过，但这不能把Windows整组记成通过。正在独立核查最初失败场景与真实500ms截止时间的竞速，尚未认定或修复根因。
+
+上述Windows失败的后续独立核查确认一条提交前超时误通过failed断言的路径；测试修正与受控复现见[创作测试时序验收](knorvia-creation-known-failure-ci-acceptance.md)。没有将原始失败改记为成功，也未断言当次CI具体慢操作。

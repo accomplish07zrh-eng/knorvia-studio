@@ -28980,10 +28980,10 @@
     },
     {
       "path": "docs/knorvia-proxy-fetch-acceptance.md",
-      "normalizedSha256": "9d928ff418256cb684a83b92fba0202fb179c035b7d43528f907664616229015",
+      "normalizedSha256": "316973d6dd22c6587b90d673bd8a702f7b9501b855201a5270f5e0f8d22799b5",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual old-first, initial fixture failures, expanded candidate regression/revision, source and CLI-reachable dist acceptance, strict checks and complete offline regression. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged. Original GitHub run 36517528509 is retained: Linux 2993 pass with seven explicit platform skips; Windows 2999 pass and one creation json-api submission-count failure (actual three, expected four), with all other quality steps and new fetch cases passing. This failed run was not rerun or claimed successful.",
+      "basis": "Factual old-first, initial fixture failures, expanded candidate regression/revision, source and CLI-reachable dist acceptance, strict checks and complete offline regression. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged. Original GitHub run 36517528509 is retained: Linux 2993 pass with seven explicit platform skips; Windows 2999 pass and one creation json-api submission-count failure (actual three, expected four), with all other quality steps and new fetch cases passing. This failed run was not rerun or claimed successful. Follow-up creation acceptance proves one timeout-as-failure test path and records the deterministic test-only correction without claiming the precise original worker delay.",
       "evidence": [
         "specs/knorvia-proxy-fetch.md",
         "docs/knorvia-proxy-fetch-acceptance.md",
@@ -29064,10 +29064,10 @@
     },
     {
       "path": "docs/knorvia-subprocess-env-acceptance.md",
-      "normalizedSha256": "6a71fe4fe00608bcd6126b90fbdfd37b5ea80d58526c5809dd53af56859e63a3",
+      "normalizedSha256": "f5f251ed1834a534d77dfeee21d80d8e4e28fb4cffbee4a6d85e81f95e951d71",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual 71-case old/candidate/source/fresh CLI artifact acceptance, strict quality and 3071-case full local regression, with original previous Windows CI failure explicitly retained. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "basis": "Factual 71-case old/candidate/source/fresh CLI artifact acceptance, strict quality and 3071-case full local regression, with original previous Windows CI failure explicitly retained. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee. Original run 36519316617 passed all quality gates: Windows 3071/3071, Linux 3064 pass with seven platform skips; it does not include the subsequent creation test correction.",
       "evidence": [
         "specs/knorvia-subprocess-env.md",
         "docs/knorvia-subprocess-env-acceptance.md",
@@ -29084,6 +29084,17 @@
         "specs/knorvia-subprocess-env.md",
         "docs/knorvia-subprocess-env-acceptance.md",
         "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-creation-known-failure-ci-acceptance.md",
+      "normalizedSha256": "5be346895dc418b029640532b64967d1a4976144ffae6d020289a634ea2114cd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance record of the original Windows CI failure, bounded pre-submission timeout reproduction, test-only phase correction and main acceptance. It retains exact budgets and submission counts, discloses fixture/loader failures, separates confirmed mechanism from unproven worker delay and does not reclassify the existing test/spec or retained implementation.",
+      "evidence": [
+        "docs/knorvia-creation-known-failure-ci-acceptance.md",
+        "specs/knorvia-creation-polish.md"
       ]
     }
   ]

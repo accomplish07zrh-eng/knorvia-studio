@@ -82,10 +82,11 @@ export function terminalTimeoutDiagnostic(
 async function terminal(
   service: Pick<ReturnType<typeof createCreationService>, "getJob">,
   id: string,
-  options: { budgetMs?: number; pollMs?: number } = {},
+  options: { budgetMs?: number; pollMs?: number; pollScheduler?: typeof setTimeout } = {},
 ): Promise<CreationJob> {
   const budgetMs = options.budgetMs ?? TERMINAL_BUDGET_MS;
   const pollMs = options.pollMs ?? TERMINAL_POLL_MS;
+  const pollScheduler = options.pollScheduler ?? setTimeout;
   const events: string[] = [];
   let lastStatus: CreationJobStatus | undefined;
   const startedAt = Date.now();
@@ -98,7 +99,7 @@ async function terminal(
     }
     if (job && !ACTIVE_STATUSES.includes(job.status)) return job;
     if (Date.now() - startedAt >= budgetMs) break;
-    await new Promise((resolve) => setTimeout(resolve, pollMs));
+    await new Promise((resolve) => pollScheduler(resolve, pollMs));
   }
   throw new Error(terminalTimeoutDiagnostic(id, lastStatus, events, budgetMs));
 }
@@ -701,14 +702,24 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
         modelId: model.id,
         prompt: "Frame",
       });
-      const failed = await terminal(service, (await service.createJob(request("failed"))).id);
+      // 提交前超时也会是 failed；冻结业务截止并检查 400，避免把它误作供应商拒绝。
+      // 终态轮询仍走真实计时器，原来的 1000ms 验收预算不会跟着冻结。
+      t.mock.timers.enable({ apis: ["setTimeout"] });
+      const pollOptions = { pollScheduler: realSetTimeout };
+      const failed = await terminal(
+        service,
+        (await service.createJob(request("failed"))).id,
+        pollOptions,
+      );
       assert.equal(failed.status, "failed");
+      assert.match(failed.error ?? "", /生成服务返回 400/);
+      assert.equal(submissions, 1);
       mode = "success";
       const retried = await service.retryJob(failed.id);
-      assert.equal((await terminal(service, retried.id)).status, "succeeded");
+      assert.equal((await terminal(service, retried.id, pollOptions)).status, "succeeded");
+      assert.equal(submissions, 2);
       mode = "hang";
       // 先确认已提交，再推进原来的 500ms 截止时间；恢复真实时钟后等待终态落盘。
-      t.mock.timers.enable({ apis: ["setTimeout"] });
       const timeoutJob = await service.createJob(request("timeout"));
       await waitForSubmission(timeoutJob.id);
       t.mock.timers.tick(500);
