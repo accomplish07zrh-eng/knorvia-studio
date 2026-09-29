@@ -28848,10 +28848,10 @@
     },
     {
       "path": "docs/knorvia-network-config-acceptance.md",
-      "normalizedSha256": "bf264af957d225704a685bb3295efb26fc002131ccc7ecfe6cfefcf08895acaa",
+      "normalizedSha256": "3e7540bfc4c8452061504c4a408d2aa169368282c9c1abae1cebe6bfec4dd2b9",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual acceptance distinguishes old failures, test preparation, incomplete builds/stale compiled results and successful final source/compiled/full regression. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "basis": "New factual acceptance distinguishes old failures, test preparation, incomplete builds/stale compiled results and successful final source/compiled/full regression. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity. Original GitHub run 36515425540 passed every quality step: Windows 2950/2950 and Linux 2943 passed with seven explicit platform skips. Fourteen full staged files scanned with zero findings; 5224 files passed formatting. Normal retries after transient TLS/plugin failures did not change security settings.",
       "evidence": [
         "specs/knorvia-network-config.md",
         "docs/knorvia-network-config-acceptance.md",
@@ -28868,6 +28868,138 @@
         "specs/knorvia-network-config.md",
         "docs/knorvia-network-config-acceptance.md",
         "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch.ts",
+      "normalizedSha256": "8f749b6feedc7da6747ea9a538f77171d31dbedcd77cb337635d4d95b450e9c2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led factory owns captured direct-fetch identity, live options, asynchronous native preparation and successful CA cache. A behavior-only revision restored the GET/HEAD completion boundary after expanded old-first tests exposed two regressions. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/proxy-fetch-exchange.ts",
+      "normalizedSha256": "56b7ace6f6a1f0ddbaabaa34bca9070f95227af372031ff2d3c54ae693c9dd2f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Separate Node streamed owner distinguishes pending Promise from post-Response native lifetime, preserves original abort Error and message-first destruction, contains response conversion failures and uses passive late-event handlers without active-owner capture. It was not copied from the read-to-completion HTTP bridge. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/proxy-fetch.fixture.ts",
+      "normalizedSha256": "cb23b242b195507c853c712ebadf88fc13ffe4f23895ec840dd4be8db494f01b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic owned request/message and isolated network-denial fixture with normalized Request signal observation, explicit open-stream sentinel, safe mock restoration and contained temporary-directory cleanup. Earlier fixture mistakes are retained in the acceptance history. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/proxy-fetch-lifetime.test.ts",
+      "normalizedSha256": "55f286dc4811423405b3d9ecc073f53ab0f501c388becd3f47e8e45740be12d7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavioral cases cover cancellation identity and isolation, setup/end/conversion errors, no-body release, late errors/messages and ordinary-stream cleanup without removing native toWeb observers. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/proxy-fetch-preparation.test.ts",
+      "normalizedSha256": "180daab921d00fbcacb2447fe441c2a89de3c18d849a25d8b513b4669fb5d408",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public/direct routing, live policy, Request/body/CA precedence, successful cache/retry, outgoing bytes and returned headers semantics. One test type narrowing diagnostic was corrected without relaxing behavior. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/proxy-fetch-delivery.test.ts",
+      "normalizedSha256": "18e54dfd8d03c6e36c805fe67895923ad540430b938e0acd1749832a3a43c098",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Four additional old-first cases identified two GET/HEAD CA timing regressions while preserving once-only synchronous direct failure identity; author received behavior feedback rather than this test source. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/proxy-fetch-native-child.ts",
+      "normalizedSha256": "3759da01417f02827bf66076af4e6fb0c756444ac9e4508f8e467cf3241c390b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New owned local proxy child records native response/no-body and post-transfer cancellation outcomes before teardown, never forwarding targets or resolving external DNS. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/proxy-fetch-native.test.ts",
+      "normalizedSha256": "73aa093b10a2ea20456f96c469d11f75b6b25408fcfb692804ca4f971f2c61fd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New five native child observations assert status/null-body/byte semantics, no escaped exceptions and same Error identity after response transfer. Portable TSX resolution replaces external fixture-only absolute paths. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-proxy-fetch.md",
+      "normalizedSha256": "80f88743d71325cadd3e9b9a1419d1a3e1f7283153b7aabdc84968de07d246e4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavior, public boundary and lifecycle contract with later behavior-only asynchronous preparation supplement and ownership sequence diagram. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-proxy-fetch-acceptance.md",
+      "normalizedSha256": "22ab499481041b590d1ba390a072f0c87d0e5cc98775128eb35e7783ed269eb1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual old-first, initial fixture failures, expanded candidate regression/revision, source and CLI-reachable dist acceptance, strict checks and complete offline regression. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/proxy-fetch.md",
+      "normalizedSha256": "af400306cf5c928cb6f2c3ae682270581a891585f0dcb44ea07b4768fb2738d6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Exact approved inputs, first/revised candidate and compiler-program evidence with honest prior-context, retained-dependency and scope limits. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "evidence": [
+        "specs/knorvia-proxy-fetch.md",
+        "docs/knorvia-proxy-fetch-acceptance.md",
+        "licensing/evidence/proxy-fetch.md"
       ]
     }
   ]

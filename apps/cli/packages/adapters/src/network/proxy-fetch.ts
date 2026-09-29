@@ -1,12 +1,12 @@
-import http from "node:http";
-import https from "node:https";
-import { Readable } from "node:stream";
-import { ProxyAgent } from "proxy-agent";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import {
   loadTlsCaCertificates,
   resolveProxyUrlForRequest,
   resolveTlsCaCertFile,
 } from "./http-config.js";
+import { openProxyResponse } from "./proxy-fetch-exchange.js";
 
 type NetworkFetch = typeof globalThis.fetch;
 
@@ -18,214 +18,66 @@ interface NetworkProxyFetchOptions {
   noProxy?: string;
 }
 
-interface NormalizedFetchRequest {
-  body?: Buffer;
-  headers: Headers;
-  method: string;
-  signal?: AbortSignal | null;
-  url: URL;
+async function prepareRequest(
+  input: Parameters<NetworkFetch>[0],
+  init: Parameters<NetworkFetch>[1],
+) {
+  const request = new Request(input, init);
+  const method = request.method.toUpperCase();
+  let body: Buffer | undefined;
+  if (method !== "GET" && method !== "HEAD") {
+    const bytes = await request.arrayBuffer();
+    if (bytes.byteLength) body = Buffer.from(bytes);
+  }
+  return {
+    url: new URL(request.url),
+    method,
+    headers: request.headers,
+    signal: request.signal,
+    body,
+  };
 }
 
 export function createNetworkProxyFetch(options: NetworkProxyFetchOptions): NetworkFetch {
   const directFetch = options.fetch ?? globalThis.fetch.bind(globalThis);
-  if (!hasNetworkFetchPolicy(options)) {
+  if (!options.caCertFile && !options.env && !options.httpProxy && !options.noProxy) {
     return directFetch;
   }
 
-  let tlsCaCertificates: Buffer | undefined;
-  let tlsCaCertificatesLoaded = false;
-
-  const getTlsCaCertificates = (): Buffer | undefined => {
-    if (!tlsCaCertificatesLoaded) {
-      tlsCaCertificates = loadTlsCaCertificates(options);
-      tlsCaCertificatesLoaded = true;
-    }
-    return tlsCaCertificates;
-  };
-
+  let caLoaded = false;
+  let cachedCa: Buffer | undefined;
   return async (input, init) => {
-    const requestUrl = readFetchInputUrl(input);
-    if (!requestUrl || (requestUrl.protocol !== "http:" && requestUrl.protocol !== "https:")) {
+    let url: URL;
+    let supported: boolean;
+    try {
+      url =
+        input instanceof URL
+          ? input
+          : new URL(input instanceof Request ? input.url : String(input));
+      supported = url.protocol === "http:" || url.protocol === "https:";
+    } catch {
       return directFetch(input, init);
     }
+    if (!supported) return directFetch(input, init);
 
-    const proxyUrl = resolveProxyUrlForRequest(requestUrl, options);
-    const caCertFile = resolveTlsCaCertFile(options);
-    if (!proxyUrl && !caCertFile) {
-      return directFetch(input, init);
+    const proxyUrl = resolveProxyUrlForRequest(url, options);
+    const selectedCaPath = resolveTlsCaCertFile(options);
+    if (!proxyUrl && !selectedCaPath) return directFetch(input, init);
+
+    // GET/HEAD 也须等待完整规范化完成，随后才从实时 options 读取 CA，避免同步前缀抢读。
+    const prepared = await prepareRequest(input, init);
+    let ca: Buffer | undefined;
+    if (selectedCaPath) {
+      if (!caLoaded) {
+        cachedCa = loadTlsCaCertificates(options);
+        caLoaded = true;
+      }
+      ca = cachedCa;
     }
-
-    const request = await normalizeFetchRequest(input, init);
-    return fetchWithAgent(request, {
-      ca: caCertFile ? getTlsCaCertificates() : undefined,
+    return openProxyResponse({
+      ...prepared,
       proxyUrl,
+      ca,
     });
   };
-}
-
-function hasNetworkFetchPolicy(options: NetworkProxyFetchOptions): boolean {
-  return Boolean(options.caCertFile || options.env || options.httpProxy || options.noProxy);
-}
-
-function readFetchInputUrl(input: Parameters<NetworkFetch>[0]): URL | undefined {
-  try {
-    if (input instanceof URL) {
-      return input;
-    }
-    if (input instanceof Request) {
-      return new URL(input.url);
-    }
-    return new URL(String(input));
-  } catch {
-    return undefined;
-  }
-}
-
-async function normalizeFetchRequest(
-  input: Parameters<NetworkFetch>[0],
-  init: Parameters<NetworkFetch>[1],
-): Promise<NormalizedFetchRequest> {
-  const request = new Request(input, init);
-  const method = request.method.toUpperCase();
-  const arrayBuffer =
-    method === "GET" || method === "HEAD" ? undefined : await request.arrayBuffer();
-  const body = arrayBuffer && arrayBuffer.byteLength > 0 ? Buffer.from(arrayBuffer) : undefined;
-
-  return {
-    body,
-    headers: request.headers,
-    method,
-    signal: request.signal,
-    url: new URL(request.url),
-  };
-}
-
-function fetchWithAgent(
-  request: NormalizedFetchRequest,
-  options: { ca?: Buffer; proxyUrl?: string },
-): Promise<Response> {
-  const transport = request.url.protocol === "https:" ? https : http;
-
-  return new Promise((resolve, reject) => {
-    const signal = request.signal ?? undefined;
-    if (signal?.aborted) {
-      reject(abortReason(signal));
-      return;
-    }
-
-    let settled = false;
-    let responseMessage: http.IncomingMessage | undefined;
-    let clientRequest: http.ClientRequest | undefined;
-
-    const cleanupAll = (): void => {
-      signal?.removeEventListener("abort", onAbort);
-      clientRequest?.off("error", onRequestError);
-      clientRequest?.off("close", onRequestClose);
-      responseMessage?.off("close", cleanupAll);
-      responseMessage?.off("error", onResponseError);
-    };
-    const rejectOnce = (error: unknown): void => {
-      if (settled) return;
-      settled = true;
-      cleanupAll();
-      reject(error);
-    };
-    const onRequestError = (error: Error): void => {
-      rejectOnce(error);
-    };
-    const onRequestClose = (): void => {
-      if (!responseMessage && settled) cleanupAll();
-    };
-    const onResponseError = (): void => {
-      // The web Response body receives the stream error through Readable.toWeb;
-      // this listener only prevents Node from treating abort destroy as unhandled.
-    };
-    const onAbort = (): void => {
-      const error = abortReason(signal);
-      responseMessage?.destroy(error);
-      clientRequest?.destroy(error);
-      if (!settled) {
-        settled = true;
-        reject(error);
-      }
-    };
-
-    signal?.addEventListener("abort", onAbort, { once: true });
-
-    clientRequest = transport.request(
-      {
-        agent: createRequestAgent(request.url, options),
-        headers: headersToOutgoing(request.headers),
-        hostname: request.url.hostname,
-        method: request.method,
-        path: `${request.url.pathname}${request.url.search}`,
-        port: request.url.port || undefined,
-        protocol: request.url.protocol,
-      },
-      (message) => {
-        responseMessage = message;
-        responseMessage.once("close", cleanupAll);
-        responseMessage.once("error", onResponseError);
-        const headers = new Headers();
-        for (const [name, value] of Object.entries(message.headers)) {
-          if (Array.isArray(value)) {
-            for (const item of value) {
-              headers.append(name, item);
-            }
-          } else if (value !== undefined) {
-            headers.append(name, String(value));
-          }
-        }
-
-        settled = true;
-        resolve(
-          new Response(Readable.toWeb(message) as ReadableStream<Uint8Array>, {
-            headers,
-            status: message.statusCode ?? 502,
-            statusText: message.statusMessage,
-          }),
-        );
-      },
-    );
-
-    clientRequest.once("error", onRequestError);
-    clientRequest.once("close", onRequestClose);
-    clientRequest.end(request.body);
-  });
-}
-
-function abortReason(signal: AbortSignal | undefined): Error {
-  if (signal?.reason instanceof Error) {
-    return signal.reason;
-  }
-
-  const error = new Error("The operation was aborted.");
-  error.name = "AbortError";
-  return error;
-}
-
-function createRequestAgent(
-  url: URL,
-  options: { ca?: Buffer; proxyUrl?: string },
-): http.Agent | https.Agent | ProxyAgent {
-  if (options.proxyUrl) {
-    return new ProxyAgent({
-      ca: options.ca,
-      getProxyForUrl: () => options.proxyUrl ?? "",
-      httpsAgent: options.ca ? new https.Agent({ ca: options.ca }) : undefined,
-    }) as unknown as http.Agent;
-  }
-
-  if (url.protocol === "https:") {
-    return new https.Agent({ ca: options.ca });
-  }
-  return new http.Agent();
-}
-
-function headersToOutgoing(headers: Headers): http.OutgoingHttpHeaders {
-  const outgoing: http.OutgoingHttpHeaders = {};
-  headers.forEach((value, key) => {
-    outgoing[key] = value;
-  });
-  return outgoing;
 }
