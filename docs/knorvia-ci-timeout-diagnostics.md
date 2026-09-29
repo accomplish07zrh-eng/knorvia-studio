@@ -33,3 +33,5 @@ Python仍由同一解析器一次探测显式路径，成功后才运行真实of
 原始GitHub run [36527276423](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36527276423)，受检afb483b：Windows **3,205/3,205**、0失败/取消/跳过，374624.1268ms；Linux **3,198通过、7平台跳过、0失败/取消**，241050.923651ms。两平台来源、类型、lint、格式、架构、构建与完整离线步骤成功。这是该提交的首次运行结果，没有重跑历史失败；本轮通过不证明此前Windows超时首因或全局模拟计时器风险已经消失。
 
 已完成业务截止与IO时钟的有限修补，见[单独验收](knorvia-creation-run-clock-acceptance.md)。一次自有EPERM证明全局setTimeout冻结机制；历史Windows当次首因仍未确认。默认产品时间与终态预算保持。
+
+原始GitHub run [36531446327](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36531446327)，受检5e8d80a：Linux **3,273通过、7平台跳过、0失败/取消**，231511.506319ms；Windows **3,279通过、1失败、0跳过/取消**，325955.6907ms。类型、lint、格式、架构及构建等前置步骤成功，创作时钟相关用例通过。Windows失败是办公插件资源测试指定的Python3.13.15绝对路径执行 --version，在10000ms预算内未返回；诊断elapsed10364.1093ms、ETIMEDOUT、status=null、SIGTERM、pid5632、stdout/stderr为空，插件脚本未启动。没有回退解释器、扩大预算、重跑原始CI或把该失败改记通过，实际启动原因仍未确认。

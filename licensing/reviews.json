@@ -29315,10 +29315,10 @@
     },
     {
       "path": "docs/knorvia-ci-timeout-diagnostics.md",
-      "normalizedSha256": "d70450992d9c2275762691a14cddb091e365cbc5608751a56954b627149ffafa",
+      "normalizedSha256": "bc079825a2e5af664d9bb307ab26b20fc0c70e0220e82ba559d17bf45dd79b46",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed. Original run 36527276423 at afb483b passed all quality gates: Windows 3205/3205, Linux 3198 pass/seven platform skips. No historical run was rerun or its failure reclassified; this passing run does not establish the old timeout cause or remove the separately observed frozen-timer mechanism. Follow-up explicit business deadline separation was verified with one owned EPERM while preserving real IO time and budgets; the original CI first cause remains unknown. See the separate creation run-clock acceptance.",
+      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed. Original run 36527276423 at afb483b passed all quality gates: Windows 3205/3205, Linux 3198 pass/seven platform skips. No historical run was rerun or its failure reclassified; this passing run does not establish the old timeout cause or remove the separately observed frozen-timer mechanism. Follow-up explicit business deadline separation was verified with one owned EPERM while preserving real IO time and budgets; the original CI first cause remains unknown. See the separate creation run-clock acceptance. Original run36531446327 at5e8d80a: Linux3273 pass/seven platform skips; Windows3279 pass/one Python --version ETIMEDOUT at10000ms,original failure retained and actual startup cause unknown. Creation clock checks pass. No rerun or timeout-budget increase.",
       "evidence": [
         "docs/knorvia-ci-timeout-diagnostics.md",
         "specs/knorvia-test-stability.md",
@@ -29447,14 +29447,134 @@
     },
     {
       "path": "docs/knorvia-creation-run-clock-acceptance.md",
-      "normalizedSha256": "5112747d9c04ea13cda3784bb1a440d97fd2332325193b37346e11ac43154e31",
+      "normalizedSha256": "ba90871ea0583700a710f17cce43ca052f0c22bf2af6dd3b7e370107f1944a18",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual investigation/integration report distinguishes initial frozen-clock red tests from final narrow-clock old/new tests, preserves the first architecture failure, and records full3280-case validation without claiming the original Windows CI cause. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees.",
+      "basis": "New factual investigation/integration report distinguishes initial frozen-clock red tests from final narrow-clock old/new tests, preserves the first architecture failure, and records full3280-case validation without claiming the original Windows CI cause. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees. Original run36531446327 at5e8d80a: Linux3273 pass/seven platform skips; Windows3279 pass/one Python --version ETIMEDOUT at10000ms,original failure retained and actual startup cause unknown. Creation clock checks pass. No rerun or timeout-budget increase.",
       "evidence": [
         "docs/knorvia-creation-run-clock-acceptance.md",
         "specs/knorvia-creation-polish.md",
         "specs/knorvia-test-stability.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-credentials.ts",
+      "normalizedSha256": "af46ca2f00b59caa0d1e7b17e52fe1af7e8fae8c92024ab186a9b1e1b14e51b8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led credential projections use one shared canonical field projection and one legacy decision path; native raw hashing, supported-version Set, weak JSON values, own-key/reference/evaluation order remain. Existing store alone owns batch snapshots/publications and guarded invalidation. No second persistence or lock owner. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth.ts",
+      "normalizedSha256": "a2103d0d043fe775a9d4463519431b0634b15383d22220030ecc5fba650dc6b5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led raw five-field namespace digest calls native SHA-256, preserving nullish defaults, UTF-8/native join and first24 lower hex characters. No URL normalization, new framing, secret input or runtime options change. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-credential-pair.fixture.ts",
+      "normalizedSha256": "52647777ef788b118488f0e2ba87945e9dc322851d2df44f5eb04477cfb369d0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New typed source/artifact bindings and synthetic store/credential support without embedded product implementation. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-credential-pair.test.ts",
+      "normalizedSha256": "3d018f5f2d06e54038bc5294f91fa3423b8193911145cf8d2923429913e59f46",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-candidate tests preserve weak version-dependent legacy selection, snapshot property presence, raw generation and one batch load/error identity. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-credential-values.test.ts",
+      "normalizedSha256": "5a30acd9642c777903718fc8cf31ee1e4cd06021323d01cbe3e8da8838b77e91",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-candidate checks cover exact namespace inputs, public predicates/live version Set, native comparisons and stable accessor short circuit. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-credential-publication.test.ts",
+      "normalizedSha256": "4d905d8104ceabf09618b38267153f6c6489c4008163e54e0200e06c7dd701c0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-candidate tests cover ordered publication/stringify/reference semantics, native expiry/random data, one saveMany and exact-raw invalidation guard. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-credential-snapshots.test.ts",
+      "normalizedSha256": "848849d1758030cf15520a727d3bc330dd36e08331508a33434d287a894dd000",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pre-candidate canonical snapshot checks preserve shallow values, exact raw/fallback generation, optional-field presence and one load boundary. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-credential-pair.md",
+      "normalizedSha256": "d5631546b6a2ff686688171792168b32b6150d504447dfa2905d0029d92d253f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavior-only contract records finite observations, accessor clarifications, owner/CAS boundaries and public declarations before candidate integration. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-credential-pair-acceptance.md",
+      "normalizedSha256": "05cafd6c99c8a0e0de736e2cf8b070167d8962277fe01a7e081833bd1b80a086",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual old/candidate/main/CLI71-case and full3351-case acceptance preserves preparation failures and separately reports original cloud3280-case Windows Python timeout. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-credential-pair.md",
+      "normalizedSha256": "ef94487a8c88fca51022558d13fdb27bc82cbd9003943c8a8524fec07bbece4a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Specific content/input/design/compiler evidence with exact hashes, prior context disclosure and retained-rights limits. Root read old bodies/declarations/bounded callers and fully reviewed new design/source/report. Author used only approved behavior/public declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, three approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. First draft and final source bytes match, static first checks pass, no runtime-feedback revision. MIT headers, standard crypto/JSON syntax and successful tests alone do not establish authorship. This digest-bound review does not claim whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-credential-pair.md",
+        "docs/knorvia-mcp-credential-pair-acceptance.md",
+        "licensing/evidence/mcp-credential-pair.md"
       ]
     }
   ]

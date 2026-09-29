@@ -31,3 +31,5 @@
 原始GitHub run [36529205282](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36529205282)，受检cad534f：Windows **3,277/3,277**、0失败/取消/跳过，400279.4268ms；Linux **3,270通过、7平台跳过、0失败/取消**，232406.864823ms。两平台来源、类型、lint、格式、架构、构建和完整离线步骤均成功；72项OAuth新用例通过。没有重跑既往失败，云端本次成功不代替历史首因证据。
 
 本批来源清单 **8,004项、281独立替换、394自有新增、2,486条摘要复核**，问题与缺失0；新增的原生调度提取仍列未审，未审总数1,036，未据此次修补扩大许可。
+
+原始GitHub run [36531446327](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36531446327)，受检5e8d80a：Linux **3,273通过、7平台跳过、0失败/取消**，231511.506319ms；Windows **3,279通过、1失败、0跳过/取消**，325955.6907ms。类型、lint、格式、架构及构建等前置步骤成功，创作时钟相关用例通过。Windows失败是办公插件资源测试指定的Python3.13.15绝对路径执行 --version，在10000ms预算内未返回；诊断elapsed10364.1093ms、ETIMEDOUT、status=null、SIGTERM、pid5632、stdout/stderr为空，插件脚本未启动。没有回退解释器、扩大预算、重跑原始CI或把该失败改记通过，实际启动原因仍未确认。
