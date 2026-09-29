@@ -30839,10 +30839,10 @@
     },
     {
       "path": "docs/knorvia-mcp-client-acceptance.md",
-      "normalizedSha256": "b81cd97045641c8d6b079d21ca10ffc6456b2f7969b17233a4288034b5dc6fb4",
+      "normalizedSha256": "89fce1c97f97873f4329f4c011e60bb7f16d441f87baa50201bad77b791dc265",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual old-first fixture failures and corrections, candidate-first81, main-source/compiled81 and full3693 acceptance with static and real-service verification limits. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "basis": "Factual old-first fixture failures and corrections, candidate-first81, main-source/compiled81 and full3693 acceptance with static and real-service verification limits. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain. Original commit822cfeecd7add20499bff86d220bebb18ea57c5b Actions36562935638 attempt1: Linux job109387890227 total3693/pass3685/fail1/platformskip7/cancel0 (creation idempotency fixture ENOTEMPTY), Windows job109387890371 pass3693/fail0/skip0/cancel0; all prior checks and new MCP cases pass. Original failure retained, fixture-only follow-up does not claim the whole original run succeeded.",
       "evidence": [
         "specs/knorvia-mcp-client.md",
         "docs/knorvia-mcp-client-acceptance.md",
@@ -30859,6 +30859,17 @@
         "specs/knorvia-mcp-client.md",
         "docs/knorvia-mcp-client-acceptance.md",
         "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-creation-cleanup-ci-acceptance.md",
+      "normalizedSha256": "022006aea477df939d54745dc4a6b9f9fba351288dfe5a9ef2a76ede6ae49c45",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual record of original MCP-client commit822cfee Linux3693 total/3685 pass/1 cleanup failure/7 platform skips and Windows3693 pass. Root reviewed exact original logs, unchanged service admission/background persistence flow and entire idempotent test. Owned provider response gate demonstrates original cleanup entry remains running with no outputs; it does not claim exact Linux filesystem scheduling reproduction. Test adds16 lines to release/drain through public terminal state and verify output hash before removal, preserving all original idempotency assertions and limits. Probe1/main7 pass, strict/root types,94-rule/root lint,architecture and formatting pass. No product implementation changed, no whole-file test/production originality or license reassignment, no new local full regression/build for this fixture-only fix. New commit remote CI pending. First full seven-file staged gitleaks scan flagged an existing synthetic credential, preserved as a failed scan receipt. Replaced only that fake literal with an explicit fixture-only placeholder, keeping the configured-credential redaction assertions; targeted credential case1/1 after that change. Original seven-case pass applies before the placeholder-only adjustment. No scanner exclusions or weakened assertions.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "docs/knorvia-creation-cleanup-ci-acceptance.md"
       ]
     }
   ]

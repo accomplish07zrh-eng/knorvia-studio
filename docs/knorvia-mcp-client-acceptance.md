@@ -47,3 +47,7 @@
 十九测试strict/exactOptional/noUnchecked类型检查通过；三十二文件94规则lint0警告0错误；三十三目标格式通过。根typecheck含desktop main与5422中英文键；根lint2784文件和CLI lint97文件均0警告0错误；CLI类型、architecture changed 0违例通过。CLI构建17/17、12缓存、26.942秒，原有动态import提示保留。CLI不属受控架构模块，根另行核对公开边界、单一owner和依赖方向。
 
 这一轮全量对应完整子系统切换；后续文档及摘要修正不重复整仓测试。本批当前远端CI和打包未验证；适用依赖声明、根Apache及preview保持，全量替换与稳定发行仍在进行。
+
+## 原始提交云端检查（后续核验）
+
+提交822cfeecd7add20499bff86d220bebb18ea57c5b的[原运行36562935638](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36562935638)，attempt1：Linux3693项中3685通过、1失败、7平台跳过；Windows3693全过，均0取消。类型、lint、格式、架构、来源及CLI构建步骤通过；新增MCP用例通过。Linux失败是原创作幂等测试清理临时目录的ENOTEMPTY，不把整组记为通过；证据与后续小范围修正见[收尾验收](knorvia-creation-cleanup-ci-acceptance.md)。原失败保留，后续通过不能覆盖这次结果。

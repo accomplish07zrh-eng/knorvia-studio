@@ -315,12 +315,17 @@ test("reuse rejects a job whose recorded reference is no longer declared by the 
 
 test("same requestId is idempotent while changed content or provenance is rejected", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-creation-idempotent-"));
+  const started = Promise.withResolvers<void>();
+  const release = Promise.withResolvers<void>();
+  let activeJobId: string | undefined;
   let submissions = 0;
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
     fetchImpl: async () => {
       submissions++;
+      started.resolve();
+      await release.promise;
       return imageResponse();
     },
   });
@@ -341,6 +346,8 @@ test("same requestId is idempotent while changed content or provenance is reject
       prompt: "同一内容",
     };
     const first = await service.createJob({ ...base, provenance: { parentJobId: "parent-1" } });
+    activeJobId = first.id;
+    await started.promise;
     assert.equal(
       (
         await service.createJob({
@@ -381,14 +388,23 @@ test("same requestId is idempotent while changed content or provenance is reject
       /来源信息/,
     );
     assert.equal(submissions, 1);
+    assert.equal((await service.getJob(first.id))?.status, "running");
   } finally {
+    // 接纳回执不等于后台写入结束；先收尾，避免 Linux 清理目录与成果落盘竞速。
+    release.resolve();
+    if (activeJobId) {
+      const done = await terminal(service, activeJobId);
+      assert.equal(done.status, "succeeded");
+      assert.equal(done.outputs[0]?.hash, pngHash);
+      assert.equal(submissions, 1);
+    }
     await rm(root, { recursive: true, force: true });
   }
 });
 
 test("a model credential never reaches the job record, snapshot or failure text", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-creation-secret-"));
-  const apiKey = "sk-live-creation-secret-0123456789abcdef";
+  const apiKey = "fixture-only-key";
   let submissions = 0;
   const service = createCreationService({
     rootDir: root,
