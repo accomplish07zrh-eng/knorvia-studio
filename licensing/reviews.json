@@ -30131,10 +30131,10 @@
     },
     {
       "path": "docs/knorvia-mcp-connection-pool-acceptance.md",
-      "normalizedSha256": "52fc6d20404c4d3fad24a55a97ae1a8b8d0950e16a2d18d0bd35662ce2eb846a",
+      "normalizedSha256": "30bb2aaf9d656238293f0cbe4e2d29b4f69d9a6ae974b9e060a73ef0d346cd81",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual first old/candidate/main/dist33 and full3542 acceptance; source initial lint/test initial format failures, exact CLI artifact identity and preceding telemetry cloud results retained. Root and contract preparer read old464 lines; source/test authors received separate seven-file approved bundles plus a separately hashed startup clarification and retained prior context. Root fully reviewed all six tests and ran old33 before reading candidate design/source/report. Source program196=2candidate+2approved declaration+192standard/third-party,other product bodies0; test compiler readFile219 uses a distinct scope. First source two lint warnings and first test8-target format failure preserved; final static checks pass. Old/candidate/main and exact CLI artifacts33 each plus full3542 pass without runtime-feedback revision or weakened assertions. Owned ports and native crypto identified; no real MCP/process/network or desktop release claim. Standard syntax/algorithms/interfaces/headers and passing tests alone do not prove authorship. This digest-bound review is not OS auditing,whole-process clean-room or legal guarantee. Root Apache and applicable dependency rights/preview remain.",
+      "basis": "Factual first old/candidate/main/dist33 and full3542 acceptance; source initial lint/test initial format failures, exact CLI artifact identity and preceding telemetry cloud results retained. Root and contract preparer read old464 lines; source/test authors received separate seven-file approved bundles plus a separately hashed startup clarification and retained prior context. Root fully reviewed all six tests and ran old33 before reading candidate design/source/report. Source program196=2candidate+2approved declaration+192standard/third-party,other product bodies0; test compiler readFile219 uses a distinct scope. First source two lint warnings and first test8-target format failure preserved; final static checks pass. Old/candidate/main and exact CLI artifacts33 each plus full3542 pass without runtime-feedback revision or weakened assertions. Owned ports and native crypto identified; no real MCP/process/network or desktop release claim. Standard syntax/algorithms/interfaces/headers and passing tests alone do not prove authorship. This digest-bound review is not OS auditing,whole-process clean-room or legal guarantee. Root Apache and applicable dependency rights/preview remain. Original pool run 36550479739 attempt1 exact ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e: Linux 109347152283 3535pass+7platformskip/0fail/cancel 198118.522381ms; Windows 109347152006 3542pass/0fail/skip/cancel 408446.0289ms; all steps success and original logs verified, not a rerun or proof for later changes. Earlier unrelated Python timeout remains recorded.",
       "evidence": [
         "specs/knorvia-mcp-connection-pool.md",
         "docs/knorvia-mcp-connection-pool-acceptance.md",
@@ -30151,6 +30151,138 @@
         "specs/knorvia-mcp-connection-pool.md",
         "docs/knorvia-mcp-connection-pool-acceptance.md",
         "licensing/evidence/mcp-connection-pool.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/official-auth.ts",
+      "normalizedSha256": "9ef5290438d22e11e91f6034820acca82bb44f0450d8b5e2e9974e9b02e67fa6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently designed configured-origin capture and per-invocation admission/request-attempt/single-retry/terminal-auth owner; preserves dependency receivers, same-identity shared reexport and documented callback/error phases. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/official-auth-response.ts",
+      "normalizedSha256": "40aa8338f21ce32dbcea24ce795cc3612259b52464bb2a3cc0421c154c4ffb3a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Newly designed response diagnostics projection, bounded clone reader, classification and discard companion; no credential store, transport or trust-policy ownership. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-official-auth.fixture.ts",
+      "normalizedSha256": "5668950a1b519cfb2486e51d813371f4ffc82340e73920c12812acdf6f66f8e8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent closed target loader with owned registry/resolver/shared-helper/logger/callback/fetch/clock and bounded controlled readers; native standard request/response values. Root adds MIT header, portable binding and type-only Pick of three mocked shared helpers. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-official-auth-admission.test.ts",
+      "normalizedSha256": "bf20f69766e370492fc752f5304d33b262830ed42c16d4d27303d28bb7954d79",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior6 public cases for exports, captured versus live origin admission, exact trust and rejected/anonymous credentials, receivers and metadata lifetime. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-official-auth-request.test.ts",
+      "normalizedSha256": "c3d6ea3e8a64a61cde70166693d43d6e1fdf63ebb1eea15748278b1c46200d9a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior7 public cases for init-only metadata, native request headers/bytes, reserved policy and ordered diagnostic projection without private-state inspection. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-official-auth-response.test.ts",
+      "normalizedSha256": "dc072b6dc22131ddb7a9bd4bb4bb1bce81660d0b0ea8dc94d1318b484d2ea113",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior7 public cases for diagnostic priorities, tools/call bypass, inclusive64KiB and owned read/cancel/error behavior. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-official-auth-retry.test.ts",
+      "normalizedSha256": "06aa5e7ec521f5c57290b80ccb7454ab53c8827716c37c171c237cd620893768",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior7 public cases for one credential refresh/retry, live arguments, unchanged resource identity and response discard/callback ordering. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-official-auth-errors.test.ts",
+      "normalizedSha256": "a980cbcc12d6d19a08089dc168caf613c90195bdf3a90923325570921211074f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior7 cases for direct pre-send errors, caught send/response failures and logger/callback exceptions with original error identity. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-official-auth.md",
+      "normalizedSha256": "61b9771d3be2fb1e209058eccb118ae833cb3c4486bb3fa156258bbdf2f9ee36",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root behavior and ownership specification after full563-line old source, complete contract and finite public-declaration review. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-official-auth-acceptance.md",
+      "normalizedSha256": "af8ce810945cb31d6d938a47831c44453459ad157724e34b0e6edbe13dc0012a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual first old/candidate/main/dist34 and full3576 acceptance; initial source/test static and main strict-type failures, bounded corrective scope, compiled byte identity and previous pool CI preserved. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-official-auth.md",
+      "normalizedSha256": "5cb1e5001a436d67cdbd86e111859c1462a361a065ca20888349ce481e30f9d5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "File-specific design/read inventories, initial drafts/results, compiler limits and explicit root/author exposure; no whole-process clean-room or repository-wide MIT assertion. Root/preparer read old563 lines; independent source/test authors received seven approved initial files plus separately recorded export-name clarification. Root read all tests and ran old34 before reading candidate source/design/report. Source compiler program196=2candidate+2approved declarations+192standard/third-party, other product bodies0; test readFile221 uses another scope. First source TS2322, test7-file formatting and root TS2740 retained; corrections only type/format, no runtime-feedback source changes or weakened assertions. Old/candidate/main and exact CLI artifacts34 each, full3576 pass. Actual credentials/network, native overflow tee cancellation and desktop release unverified. Retained prior context and limited root adjacent implementation exposure disclosed; not an OS access audit, whole-process clean-room or legal guarantee. Root Apache, applicable dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-official-auth.md",
+        "docs/knorvia-mcp-official-auth-acceptance.md",
+        "licensing/evidence/mcp-official-auth.md"
       ]
     }
   ]

@@ -27,3 +27,5 @@
 既有限制保留：部分注册/引用失败不回滚；lease.close仅自身幂等且不await传输关闭，关闭后其他方法未设fence；pool.close只阻止新lease，不禁止旧端口重建；进行中探活不取消；重复pool.close不join先前close。未验证真实OS timer调度、外部MCP/网络、付费推理、安装/便携程序。根Apache及preview身份保持，整仓MIT、全量独立替换及最终发布未完成。来源见[依据](../licensing/evidence/mcp-connection-pool.md)。
 
 前一提交 `492c4dbc5b3b6ee0616e67227e7b87e48fcffa3a` 的 [GitHub Actions 原运行 36547260847](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36547260847) attempt 1 已完成。Linux job `109336522877`：3,509 项中 3,502 通过、7 项平台跳过、0 失败/取消，183491.3806ms；Windows job `109336523052`：3,509/3,509，0 失败/跳过/取消，386886.4926ms。根核对原 jobs、受检 SHA、所有 steps 及下载日志末尾统计，两个 job 均 success。此为前一遥测替换提交的云端结果，不冒充本批连接池候选 CI；既往其他提交的 Python 超时失败记录仍保留。
+
+前一连接池提交 `ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e` 的 [GitHub Actions 原运行 36550479739](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36550479739) attempt 1 已完成。Linux job `109347152283`：3,542 项中 3,535 通过、7 项平台跳过、0 失败/取消，198118.522381ms；Windows job `109347152006`：3,542/3,542，0 失败/跳过/取消，408446.0289ms。根核对原 run/jobs 的受检 SHA、全部步骤和原日志末尾统计，两个 job 均 success。这是前一连接池提交的云端结果，不算当前认证请求批次 CI；更早提交的 Python 启动超时失败仍保留。
