@@ -30419,10 +30419,10 @@
     },
     {
       "path": "docs/knorvia-mcp-process-boundary-acceptance.md",
-      "normalizedSha256": "05e0997c750121e366ee5ec243cf3e7692e11cd79b2ab8b3f9e4a9d2c9690d31",
+      "normalizedSha256": "7e827ac1e9ea1321147a4df7271262d7712fc7f5a51de93e6e09e340df2e53cf",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual first old/candidate 36, main-source/compiled 36 and full3612 acceptance, preserved initial static/main type failures and prior exact-commit official-auth CI evidence. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain.",
+      "basis": "Factual first old/candidate 36, main-source/compiled 36 and full3612 acceptance, preserved initial static/main type failures and prior exact-commit official-auth CI evidence. Root/preparer read old three sources655 lines; independent source/test authors received approved behavior and finite declarations, with previously retained adjacent context explicitly disclosed. Root reviewed complete tests and old-first36 before candidate; independent integration review checked105 hashes and fixture-only URL bindings. Initial test3 type diagnostics/5 unsafe optional-chain warnings/8 format files and parse-only TypeScript failures retained; final static checks pass. Root main strict2 diagnostics corrected with type-only unknown operand, identical emitted JS; production candidate bytes and assertions unchanged. Old/candidate/main-source/exact CLI artifacts36 each and full3612 pass. Actual OS signals/process trees/native ABI, this-batch remote CI and packaged desktop remain unverified. Directory isolation is not OS auditing, strict clean-room or legal guarantee. Applicable third-party rights, root Apache and preview remain. Original process-boundary commit ac337202145732a40a4e33b221f155852f4b3db1, Actions run36559472325 attempt1: Linux job109376581850 total3612/pass3605/platformskip7/fail0/cancel0 and Windows job109376581359 total3612/pass3612/skip0/fail0/cancel0; exact original head/jobs/steps/full logs reviewed. Subsequent MCP client batch is outside that run.",
       "evidence": [
         "specs/knorvia-mcp-process-boundary.md",
         "docs/knorvia-mcp-process-boundary-acceptance.md",
@@ -30439,6 +30439,426 @@
         "specs/knorvia-mcp-process-boundary.md",
         "docs/knorvia-mcp-process-boundary-acceptance.md",
         "licensing/evidence/mcp-process-boundary.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/index.ts",
+      "normalizedSha256": "bf55f9d8eff4cb4073cd0eb578a5acb8b7b49042be89854bc27296ece758b693",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Public client factories assemble one context with API, configured connection, diagnostics and lifecycle owners. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-api.ts",
+      "normalizedSha256": "bff1d4cb3566cfd24ad7af4c5a781a2d4d45ac5c242d715258c06c843cc05d95",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Public port projection, configured server generations, explicit reconnect and process diagnostics. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-auth.ts",
+      "normalizedSha256": "2213fc637f96a67b12ccdf36535f21eaca9ad1885da4191b20e074c63b2f9c59",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: OAuth launch/cache/close operations and auth-required reconciliation through retained credential and discovery boundaries. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-cleanup.ts",
+      "normalizedSha256": "66cdf6b49e02d642f82bb55b8e718a827dc3ab0c258a67692b0cd1c92f4b2cac",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Connection entry disposal, process tracking and current-generation cleanup ownership. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-connection.ts",
+      "normalizedSha256": "93beffb013c1ff4ca6ade4f6c9ec4706040166099fcb54719756640151f592df",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Transport start and ready/error transitions, callbacks, failure classification and authenticated reconnect. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-context.ts",
+      "normalizedSha256": "5aedce6cdaa58f93022a3a1cbb5084ea408dc7523fbd5178cfaf95964479e11d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Single shared client context assembly with retained connection-pool lease ownership. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-lifecycle.ts",
+      "normalizedSha256": "88ffe44f3176746df5bc1aa97a771bd40a85c8cee677bfc7281553451da341ca",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Background ping, generation-safe server replacement and idempotent ordered shutdown. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-official.ts",
+      "normalizedSha256": "9b899c318378d8118983f6071293186a649aa98f8eebceaced4ebcfa38636a20",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Official descriptor trust, request auth mapping and explicit retained provider behavior. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-state.ts",
+      "normalizedSha256": "8a78473356a5aa1085adc0ef454a521d3f0bac7dd4ae3fb276d1722465559625",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Per-client transient state, identity, diagnostics helpers and no second durable state store. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-stdio-log.ts",
+      "normalizedSha256": "0f3d732fa8110605eabdabf2158a359d72a17ab6419bdff1dfc6d2e92f828245",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Bounded stderr/log projection and approved-field redaction with error-name preservation. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-tools.ts",
+      "normalizedSha256": "2a57782f6fdee64118748f812b5ebd595417c312551c17d2b39df267439f76c1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Public tool discovery/call, timeouts, abort forwarding and error-preserving reconnect. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-transport.ts",
+      "normalizedSha256": "5d45a52571a48cff9930034f874dc2394c0fef03fd1011b028dfed626c734d60",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Explicit stdio/HTTP transport assembly through existing network, auth and process ports. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/client-wait.ts",
+      "normalizedSha256": "b886de0898b447975597e7b4ca8ac405e416442c16c53835a4a3ec5174217436",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored from approved behavior and finite public declarations: Pending connection, overall timeout and public wait observability boundaries. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-configured-generation.test.ts",
+      "normalizedSha256": "c4103401028caa2bf0a5e61a3a2837d1641c7916273fc718e503a10fbb6b6d45",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-configured-generation.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-connection-lifecycle.test.ts",
+      "normalizedSha256": "53cc497ecb6cd8ae0cdfc2488ef2e0b576a96dbb9eedc3722ade7d0dbe183bcd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-connection-lifecycle.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-failure-classification.test.ts",
+      "normalizedSha256": "fbcfa8707a49a38a3cbd100840c2ac422511c93260bc91da3b6bf4c4917f24a8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-failure-classification.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-oauth.test.ts",
+      "normalizedSha256": "07a7c6819129d054a33f03bbc42ee7c4c0b6edc06448ab2f6aabdd9dc30c3582",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-oauth.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-official-auth.test.ts",
+      "normalizedSha256": "f431b970e7465c960aff57f9d1d6e8a35153f141fddcf8b9bff6a001efc2a4af",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-official-auth.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-ping-close.test.ts",
+      "normalizedSha256": "df09d3559e810d11b79dc31454304b4b4fc597463bfc329606393e8b1ac72c3c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-ping-close.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-public-factory.test.ts",
+      "normalizedSha256": "fc02b23fe0cd4ec4e0b9ce63b22fb858999fe048efc37e57859ec5c7016116d2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-public-factory.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-stderr-logging.test.ts",
+      "normalizedSha256": "9816549a185b7339dc9204c9ba5a3ec8b1d46be5151c6e7e5e98ca8aa942b255",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-stderr-logging.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-timing-observability.test.ts",
+      "normalizedSha256": "be6b214956cc909a78834b3d04e21d5726d7393da03c761563a9740d11375bb4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-timing-observability.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-tool-call.test.ts",
+      "normalizedSha256": "b23f81b5ff21fb3b6e3bed12931d1e34ad7f6c7c5345015ec7f25bada23baecc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Separately authored public MCP contract cases before candidate exposure; approved old-first fixture corrections retained in cumulative patch, all original80 cases retained and rejected-wait case81 added. Root applies only MIT header and portable import relocation for mcp-client-tool-call.test.ts. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/bundle.ts",
+      "normalizedSha256": "ffee1bb5a51284825c9cdaf97cecb62604e8f079ab7bc1048c7657fd7f33d6ac",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent allowlisted esbuild loader; root explicitly changes fixed source-root resolution, same-directory ts/js companion selection and audited memory import, preserving unknown-import rejection and all behavior assertions. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/clock.ts",
+      "normalizedSha256": "2221fe29d80dbb83addde394e3e28f9b46e5faec666f8bc34799a00f06497056",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam clock.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/rig.ts",
+      "normalizedSha256": "8af46de4c9f327e3c3385b4a702f81d480b41025b51128031a6608fdf0becda0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam rig.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/seams.ts",
+      "normalizedSha256": "a347a4f3d088a2ec9904cc5e7237f053fed0e116aa17161496349b69892d54e4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam seams.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/shim-product-auth.ts",
+      "normalizedSha256": "69f633803e5b7bec2593842c9dd35a09ad71827d2ef070bb13cf815d54db5dd8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam shim-product-auth.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/shim-product-core.ts",
+      "normalizedSha256": "2a3a4ca7ed2eb5fe15450d624a10fff24d3216949b258d0ecb7f84e77ea1854b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam shim-product-core.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/shim-product-runtime.ts",
+      "normalizedSha256": "6ebbf6157356c48aa2a45f7d4e356609308c7d735d50676839720fe4c7bbeefa",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam shim-product-runtime.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/shim-sdk.ts",
+      "normalizedSha256": "0eb8204a6af837a2c6deb3c75a66524e74f145bcc744371beba079e5210d4229",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam shim-sdk.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-client-harness/types.ts",
+      "normalizedSha256": "4f03b5209cabef5f6579df82d933f22f0a7f1ea21cbae77c95cf7acf4c427147",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent owned SDK, system, auth, timing and public-observation seam types.ts; accepted corrections precede candidate testing, root header/import/format relocation preserves normalized emitted JavaScript. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-client.md",
+      "normalizedSha256": "b4189881a26a2fcf5eb0a2b71024ff362207995a90dfc591c32ca5efaa67cd11",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Approved public behavior and single-owner state/dependency specification for MCP factories, lifecycle, authentication and tool calls. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-client-acceptance.md",
+      "normalizedSha256": "b81cd97045641c8d6b079d21ca10ffc6456b2f7969b17233a4288034b5dc6fb4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual old-first fixture failures and corrections, candidate-first81, main-source/compiled81 and full3693 acceptance with static and real-service verification limits. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-client.md",
+      "normalizedSha256": "a9550dfa1a6891098df34de4bffd2fd493dbe9913796c9e27c4afc5e31263707",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "File-specific source/test authorship, exposure and frozen-hash evidence; retains original failures and mechanical integration boundaries. Root previously saw95 lines of old entry and substantial adjacent MCP/auth/network/telemetry context; contract preparer read complete old entry. Candidate thirteen sources56504 bytes were independently designed, written and frozen before independent test bodies/runtime. Test author did not read candidate; acceptance reader inventoried candidate metadata before old-first but read bodies only after old81 success. Original80 tests retained; fixture loader/metafile/fetch/Node abort/log contract fixes and one rejected-wait case added, all initial failures retained. Candidate-first81/main-source81/exact CLI artifacts81/full3693 pass, root/CLI types and lint/architecture/build pass. Production bytes unchanged after freeze;18 nonloader test files normalized emitted JS identical after mechanical imports, loader separately reviewed. Initial type/lint/format/checker failures disclosed. Not strict clean-room, OS sandbox, real-service/native testing or blanket license assurance; root Apache, preview and third-party rights remain.",
+      "evidence": [
+        "specs/knorvia-mcp-client.md",
+        "docs/knorvia-mcp-client-acceptance.md",
+        "licensing/evidence/mcp-client.md"
       ]
     }
   ]

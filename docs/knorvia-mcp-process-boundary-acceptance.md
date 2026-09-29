@@ -59,3 +59,7 @@
 三源共501物理行（136/185/180），各有效行117/164/170；15733字节，原三源655行20269字节。CLI尚不属于受控架构模块，因此根另行检查公共导出、单一owner、依赖方向和SDK接入点。
 
 这些结果不代表真实child/process group/taskkill、真实Koffi/kernel32 ABI、当前批次远端CI或安装程序已经验收。适用第三方声明和根Apache/preview保持；全量独立替换及稳定发行仍在进行。
+
+## 原始提交远端检查（后续核验）
+
+提交ac337202145732a40a4e33b221f155852f4b3db1的[GitHub Actions原运行36559472325](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36559472325)，attempt1：Linux job109376581850为3612 total、3605 pass、7平台skip、0 fail/cancel，253413.548365ms；Windows job109376581359为3612/3612、0 fail/skip/cancel，358990.0297ms。根已核对确切提交、所有步骤及两份完整原始日志，两个job均success。raw-log JSON SHA-256分别为`0d1851942a653485c252321de1ffba204ad11d260b0fa0d54822bde121859b8e`与`621ad9f455f9650c33ef5792a5ac386419849e45c7658c8883b8c9d05bc76115`。这是进程边界的原始CI，后续MCP客户端替换不在该次run中；前述当时尚未运行CI的历史事实保留。
