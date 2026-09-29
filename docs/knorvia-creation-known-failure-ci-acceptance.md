@@ -28,3 +28,5 @@
 子进程模块原始run [36519316617](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36519316617)，提交13f7d2f，Windows3,071/3,071及Linux3,064通过/7平台跳过，全部质量步骤成功。它不包含本测试修正，也不能推翻较早运行的真实失败；本修正自己的云端结果另记。
 
 未调用真实供应商或付费模型。冻结setTimeout可能影响本机文件重试等待，真实1000ms看门狗仍会如实失败；本次未注入文件锁重试。有限行为测试不证明全部负载条件。原测试/规格的来源分类不因这次小修正改变，只有本篇新文档按具体摘要审阅；根Apache-2.0、保留权利和preview身份继续有效，全量独立目标未完成。
+
+原始GitHub run [36520626246](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36520626246)，提交65c937b：Linux **3,064通过、7平台跳过、0失败/取消**，222507.809732ms；Windows **3,070通过、1失败、0跳过/取消**，397424.1191ms。类型、lint、架构、构建等其他质量步骤均通过。Windows失败为异步JSON映射组合用例（asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs），终态轮询1000ms后仍running，queued@1ms → running@10ms，用例1122.4468ms；日志未指明循环中的prompt，不能判断是哪一种结果。此前修正的三协议计数用例在同一运行均通过。该原始失败未重跑或改记为通过，具体原因正在另行核查。

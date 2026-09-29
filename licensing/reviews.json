@@ -29088,13 +29088,109 @@
     },
     {
       "path": "docs/knorvia-creation-known-failure-ci-acceptance.md",
-      "normalizedSha256": "5be346895dc418b029640532b64967d1a4976144ffae6d020289a634ea2114cd",
+      "normalizedSha256": "fd73fa5be3a94e44dc50a66ff0199fc1cda2726c8c7a2b6259a89a2ad8cd8d0a",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual acceptance record of the original Windows CI failure, bounded pre-submission timeout reproduction, test-only phase correction and main acceptance. It retains exact budgets and submission counts, discloses fixture/loader failures, separates confirmed mechanism from unproven worker delay and does not reclassify the existing test/spec or retained implementation.",
+      "basis": "New factual acceptance record of the original Windows CI failure, bounded pre-submission timeout reproduction, test-only phase correction and main acceptance. It retains exact budgets and submission counts, discloses fixture/loader failures, separates confirmed mechanism from unproven worker delay and does not reclassify the existing test/spec or retained implementation. Original run 36520626246 retained: Linux 3064 pass/seven platform skips; Windows 3070 pass/one asynchronous JSON terminal-wait failure after 1000ms, with unknown loop prompt. All three corrected protocol-count cases passed. No original run was rerun or falsely recorded successful; the separate failure is under investigation.",
       "evidence": [
         "docs/knorvia-creation-known-failure-ci-acceptance.md",
         "specs/knorvia-creation-polish.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/network.ts",
+      "normalizedSha256": "e391831353211105ffd18f98562604df18031f924fd24b591764399017ffe581",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led two-factory boundary separately owns Node PATH availability and environment orchestration. It captures only platform/executable identity, preserves live environment/target identity, ordered retained sanitizer/projection/fetch calls, raw path insertion, platform comparison and ordinary record assignment semantics without copying dependency implementations. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-network.fixture.ts",
+      "normalizedSha256": "84839437b468d12554a8dc32bac46099c43435ce0bfd36969e1e86248c3e7adb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New bounded receiver fixtures record exact public dependency fields and ordering; owned platform/path/exec descriptors are restored after module capture. No real user configuration or external service is read. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-network-boundaries.test.ts",
+      "normalizedSha256": "a913ae6092f6f662982d97c51b98410a9bfa4b3c046100def14148b5377ff35e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New 17-case contract acceptance for precise handoff, caller/source/target identity, synchronous errors, current environment reads, ordinary prototype fields and public exports. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-network-path.test.ts",
+      "normalizedSha256": "ae5483719d2c5453462ad63bdf66823795e323da555b139834a9e660166aea2d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New 38 finite owned path cases cover Windows/Linux/macOS casing, delimiters, quote/space text, inherited path, comparison-before-access and raw directory prepend. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-network-integration.test.ts",
+      "normalizedSha256": "301baf8507b7e8cec4a54790e84b9382e1c61e3d6bb13905823c08f1900f2a75",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New four-case acceptance uses actual retained sanitizer, environment projection and fetch with denied HTTP/access exits and owned arguments, verifying cleanup, network options and non-HTTP passthrough identity. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-network.md",
+      "normalizedSha256": "d6286d78d51ff7b2ecc9c0c0ec002751ed6f401c3f9e3c4c598f617702a1639d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior explicit behavior and ownership contract with public declaration constraints and limited normal-record compatibility supplement. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-network-acceptance.md",
+      "normalizedSha256": "147493918dc1446421069c722bb4b59a76fb96610a194b9d8811198811461de6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual old/candidate/revised/main/CLI-artifact 59-case receipt plus strict checks and 3130-case full local regression; first candidate failures, fixture mapping and type errors and previous Windows CI failure remain visible. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-network.md",
+      "normalizedSha256": "1d73b64642c2d6627554bac4ef15b99dbcf50771ceb658c624ee0cc6126af3fe",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Exact input, design, author, compiler and revision digests support this limited file-content review; distinguishes retained dependencies and prior context from new source. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-mcp-network.md",
+        "docs/knorvia-mcp-network-acceptance.md",
+        "licensing/evidence/mcp-network.md"
       ]
     }
   ]
