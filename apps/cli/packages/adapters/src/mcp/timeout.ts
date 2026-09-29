@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 export class McpTimeoutError extends Error {
   constructor(message: string) {
     super(message);
@@ -10,37 +13,44 @@ export interface McpDeadline {
   timeoutMs: number;
 }
 
+function ignoreSourceRejection(): void {}
+
+function observeSourceRejection(promise: Promise<unknown>): void {
+  // 早退也要观察借用任务的拒绝；回调不捕获等待者状态，也不改变其他消费者。
+  void promise.catch(ignoreSourceRejection);
+}
+
+function abortError(signal?: AbortSignal): Error {
+  const reason: unknown = signal?.reason;
+  return reason instanceof Error ? reason : new Error("Operation aborted");
+}
+
 export function createMcpDeadline(timeoutMs: number): McpDeadline {
-  const normalizedTimeoutMs = Math.max(0, Math.floor(timeoutMs));
-  return {
-    expiresAt: Date.now() + normalizedTimeoutMs,
-    timeoutMs: normalizedTimeoutMs,
-  };
+  const duration = Math.max(0, Math.floor(timeoutMs));
+  return { expiresAt: Date.now() + duration, timeoutMs: duration };
 }
 
 export function remainingMcpDeadlineMs(deadline: McpDeadline, timeoutMessage: string): number {
-  const remainingMs = deadline.expiresAt - Date.now();
-  if (remainingMs <= 0) {
-    throw new McpTimeoutError(timeoutMessage);
-  }
-  return remainingMs;
+  const remaining = deadline.expiresAt - Date.now();
+  if (remaining <= 0) throw new McpTimeoutError(timeoutMessage);
+  return remaining;
 }
 
-/**
- * 只限制当前 waiter，不取消传入的共享 promise。底层任务是否取消由自己的 owner signal 决定。
- */
 export function waitWithinMcpDeadline<T>(
   promise: Promise<T>,
   deadline: McpDeadline,
   timeoutMessage: string,
   signal?: AbortSignal,
 ): Promise<T> {
-  return withTimeout(
-    promise,
-    remainingMcpDeadlineMs(deadline, timeoutMessage),
-    timeoutMessage,
-    signal,
-  );
+  let remaining: number;
+  try {
+    remaining = remainingMcpDeadlineMs(deadline, timeoutMessage);
+  } catch (cause) {
+    // 到期仍同步抛出并优先于 signal；仅补上已有及未来源拒绝的观察。
+    observeSourceRejection(promise);
+    throw cause;
+  }
+  return withTimeout(promise, remaining, timeoutMessage, signal);
 }
 
 export function withTimeout<T>(
@@ -49,50 +59,39 @@ export function withTimeout<T>(
   timeoutMessage: string,
   signal?: AbortSignal,
 ): Promise<T> {
-  return new Promise((resolvePromise, rejectPromise) => {
+  return new Promise<T>((resolve, reject) => {
     if (signal?.aborted) {
-      rejectPromise(
-        signal.reason instanceof Error ? signal.reason : new Error("Operation aborted"),
-      );
+      observeSourceRejection(promise);
+      reject(abortError(signal));
       return;
     }
 
-    let settled = false;
-    const timer = setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      cleanup();
-      rejectPromise(new McpTimeoutError(timeoutMessage));
+    let pending = true;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    function takeSettlement(): boolean {
+      if (!pending) return false;
+      pending = false;
+      if (timer !== undefined) {
+        clearTimeout(timer);
+        timer = undefined;
+      }
+      signal?.removeEventListener("abort", onAbort);
+      return true;
+    }
+    function onAbort(): void {
+      if (takeSettlement()) reject(abortError(signal));
+    }
+
+    timer = setTimeout(() => {
+      if (takeSettlement()) reject(new McpTimeoutError(timeoutMessage));
     }, timeoutMs);
-
-    const cleanup = () => {
-      clearTimeout(timer);
-      signal?.removeEventListener("abort", abortHandler);
-    };
-
-    const abortHandler = () => {
-      if (settled) return;
-      settled = true;
-      cleanup();
-      rejectPromise(
-        signal?.reason instanceof Error ? signal.reason : new Error("Operation aborted"),
-      );
-    };
-
-    signal?.addEventListener("abort", abortHandler);
-
-    promise.then(
+    signal?.addEventListener("abort", onAbort, { once: true });
+    void promise.then(
       (value) => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        resolvePromise(value);
+        if (takeSettlement()) resolve(value);
       },
-      (error) => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        rejectPromise(error);
+      (reason: unknown) => {
+        if (takeSettlement()) reject(reason);
       },
     );
   });

@@ -29171,10 +29171,10 @@
     },
     {
       "path": "docs/knorvia-mcp-network-acceptance.md",
-      "normalizedSha256": "147493918dc1446421069c722bb4b59a76fb96610a194b9d8811198811461de6",
+      "normalizedSha256": "ff7e9533591f019cc2927281381b9cf71e8fc80db2663144c87a5fe706b4e4d9",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual old/candidate/revised/main/CLI-artifact 59-case receipt plus strict checks and 3130-case full local regression; first candidate failures, fixture mapping and type errors and previous Windows CI failure remain visible. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee.",
+      "basis": "Factual old/candidate/revised/main/CLI-artifact 59-case receipt plus strict checks and 3130-case full local regression; first candidate failures, fixture mapping and type errors and previous Windows CI failure remain visible. Root read old bodies, public declarations and bounded MCP callers and reviewed both candidates. The isolated author read only approved contracts/declarations plus its own prior context and ran static checks, not old bodies/tests/history/probes/bundles. After two first-candidate ordinary __proto__ mismatches, a behavior-only supplement led to record-copy correction; 22 original files remain byte-archived. Compiler inventory covers 196 inputs with no other product bodies. Fixed public keys, standard platform expressions, headers and passing tests alone do not prove authorship. Retained dependency rights, root Apache-2.0 and preview identity remain; this is a digest-bound review, not a whole-process clean-room or legal guarantee. Original run 36522980492 retained: Linux 3123 pass/seven platform skips; Windows 3128 pass/two failures, a 10-second explicit-Python version probe timeout before resource tests and an asynchronous JSON job still queued after 1000ms. All other quality gates and new MCP cases passed; no original failure was rerun or reclassified as success.",
       "evidence": [
         "specs/knorvia-mcp-network.md",
         "docs/knorvia-mcp-network-acceptance.md",
@@ -29191,6 +29191,126 @@
         "specs/knorvia-mcp-network.md",
         "docs/knorvia-mcp-network-acceptance.md",
         "licensing/evidence/mcp-network.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/descriptor.ts",
+      "normalizedSha256": "5e53af6c20d7ce878573d7e60c8b58379f114743c58516d3d83df659eddba87e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led stateless projection owns a fresh descriptor and input-schema shallow record, separately qualifies names, preserves ordered fields, own special/symbol data and borrowed nested references, and leaves official authority with the caller. It uses only the existing public contracts types. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/timeout.ts",
+      "normalizedSha256": "3db1d6c0059884ee3dec3889dfb4dc0d1d46cbd3ac4f1a0148f97c982528c095",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led per-waiter terminal gate owns its timer and abort subscription while borrowing the source Promise. Two confirmed early-exit rejection-observer gaps are repaired without changing synchronous expiry, abort priority, raw timer duration, error identity or other consumers. No shared cancellation owner, public hook or framework is added. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-primitives.fixture.ts",
+      "normalizedSha256": "87fe2a9d421e5f8031a520997e33ca37386d5fb2e8ff676cc196ff84921fcd4a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New typed runtime bindings permit source and actual compiled helper acceptance without copying either implementation into tests. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-descriptor.test.ts",
+      "normalizedSha256": "85021eba4a7afd3735b9e1f78d9cb943bce840ee650777be428301dca04c08d0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New 28-case value-projection acceptance covers exact fields and public entry, normal and special schema ownership, name components, raw optional values, records, inherited selection and hints. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-timeout.test.ts",
+      "normalizedSha256": "25d6cbb05f4a5a30ab8f872aac100c81f70a27e0afdcd72a0f8ae75710287260",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New 36-case finite native/value acceptance covers normalized dates, synchronous expiry, arbitrary rejection identity, native ordering and isolated consumers without mocking the implementation. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-timeout-child.fixture.ts",
+      "normalizedSha256": "529b8d872a7f51a639ac0da5218926410a22abbe946b430813f0893cfff63bca",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New owned native child harness observes unhandled source rejections, live timeout resources and abort listeners across seven terminal paths, exiting naturally after observations. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-timeout-lifecycle.test.ts",
+      "normalizedSha256": "5559178b8ea28a9f2f535bad095899448f0a4dc9535bf0ecd1bd2c0a7188d341",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New parent acceptance requires zero escaped rejection/listeners/timers and natural child termination; four old early-observer failures remain explicit evidence rather than being skipped or normalized. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-primitives.md",
+      "normalizedSha256": "10fe2ed2a4c32851e1761de5fb085632d49593504d5ded4c498c126e72bea00f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior bounded behavior contract and ownership/ordering specification incorporating independently reviewed valid-input clarifications before source authorship. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-primitives-acceptance.md",
+      "normalizedSha256": "9d349ef045806bede64e6c6fa4fd2af2276fabf2cf6bd4608fd55e849a77ff0b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual 71-case old/candidate/main/artifact record plus complete 3201-case offline run; retains four old observer failures and previous original Windows CI failures without declaring unrelated incidents fixed. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-primitives.md",
+      "normalizedSha256": "ec2bbf38c040c679a712c9fb74e02a425475273c11bc59b00e432e36217ffd33",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Exact contract, review, author, compiler and source digests with explicit access and retained-rights limitations, rather than inferring authorship from headers or test success. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-primitives.md",
+        "docs/knorvia-mcp-primitives-acceptance.md",
+        "licensing/evidence/mcp-primitives.md"
       ]
     }
   ]

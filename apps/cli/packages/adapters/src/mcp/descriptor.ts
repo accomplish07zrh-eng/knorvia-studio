@@ -1,4 +1,41 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import type { JsonSchema, McpToolAnnotations, McpToolDescriptor } from "@knorvia/contracts";
+
+function isRecord(value: unknown): value is JsonSchema {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function nameComponent(value: string): string {
+  return value.replace(/[^a-zA-Z0-9_-]/g, "_").replace(/_+/g, "_") || "unknown";
+}
+
+function inputSchema(value: unknown): JsonSchema {
+  if (!isRecord(value)) {
+    return { type: "object", properties: {}, additionalProperties: true };
+  }
+  // 展开保留 symbol 与自有 __proto__ 数据字段；后续覆盖不移动已有键位。
+  const projected: JsonSchema = { ...value };
+  projected.type = "object";
+  const properties = value.properties;
+  projected.properties = isRecord(properties) ? properties : {};
+  return projected;
+}
+
+function booleanHint(value: unknown): boolean | undefined {
+  return typeof value === "boolean" ? value : undefined;
+}
+
+function annotations(value: unknown): McpToolAnnotations | undefined {
+  if (!isRecord(value)) return undefined;
+  return {
+    readOnlyHint: booleanHint(value.readOnlyHint),
+    destructiveHint: booleanHint(value.destructiveHint),
+    idempotentHint: booleanHint(value.idempotentHint),
+    openWorldHint: booleanHint(value.openWorldHint),
+  };
+}
 
 export function normalizeMcpToolDescriptor(
   serverName: string,
@@ -6,54 +43,19 @@ export function normalizeMcpToolDescriptor(
   timeoutMs?: number,
   official?: boolean,
 ): McpToolDescriptor {
-  const record = isRecord(tool) ? tool : {};
-  const toolName = typeof record.name === "string" ? record.name : "unknown";
-  return {
+  const source = isRecord(tool) ? tool : {};
+  const rawName = source.name;
+  const toolName = typeof rawName === "string" ? rawName : "unknown";
+  const descriptor: McpToolDescriptor = {
     serverName,
     toolName,
-    name: `mcp__${sanitizeMcpName(serverName)}__${sanitizeMcpName(toolName)}`,
-    description: typeof record.description === "string" ? record.description : undefined,
+    name: `mcp__${nameComponent(serverName)}__${nameComponent(toolName)}`,
+    description: typeof source.description === "string" ? source.description : undefined,
     timeoutMs,
-    inputSchema: normalizeInputSchema(record.inputSchema),
-    outputSchema: isRecord(record.outputSchema) ? (record.outputSchema as JsonSchema) : undefined,
-    annotations: normalizeAnnotations(record.annotations),
-    // 只有 http 官方 MCP 的 tool error 标识才被信任——那种形态的响应来自已校验 origin 的
-    // Knorvia 后端，插件伪造不了（判据与代价见 mcp.port.ts 的 official 字段说明）。
-    ...(official ? { official: true } : {}),
+    inputSchema: inputSchema(source.inputSchema),
+    outputSchema: isRecord(source.outputSchema) ? source.outputSchema : undefined,
+    annotations: annotations(source.annotations),
   };
-}
-
-function normalizeInputSchema(schema: unknown): JsonSchema {
-  if (!isRecord(schema)) {
-    return {
-      type: "object",
-      properties: {},
-      additionalProperties: true,
-    };
-  }
-
-  return {
-    ...schema,
-    type: "object",
-    properties: isRecord(schema.properties) ? schema.properties : {},
-  };
-}
-
-function normalizeAnnotations(value: unknown): McpToolAnnotations | undefined {
-  if (!isRecord(value)) return undefined;
-  return {
-    readOnlyHint: typeof value.readOnlyHint === "boolean" ? value.readOnlyHint : undefined,
-    destructiveHint: typeof value.destructiveHint === "boolean" ? value.destructiveHint : undefined,
-    idempotentHint: typeof value.idempotentHint === "boolean" ? value.idempotentHint : undefined,
-    openWorldHint: typeof value.openWorldHint === "boolean" ? value.openWorldHint : undefined,
-  };
-}
-
-function sanitizeMcpName(name: string): string {
-  const sanitized = name.replace(/[^a-zA-Z0-9_-]/g, "_").replace(/_+/g, "_");
-  return sanitized.length > 0 ? sanitized : "unknown";
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  if (official) descriptor.official = true;
+  return descriptor;
 }
