@@ -29291,10 +29291,10 @@
     },
     {
       "path": "docs/knorvia-mcp-primitives-acceptance.md",
-      "normalizedSha256": "9d349ef045806bede64e6c6fa4fd2af2276fabf2cf6bd4608fd55e849a77ff0b",
+      "normalizedSha256": "c76edd5a96cb32647f8e33cf6d455c50aa7436a863e3c995e935b65490c89889",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual 71-case old/candidate/main/artifact record plus complete 3201-case offline run; retains four old observer failures and previous original Windows CI failures without declaring unrelated incidents fixed. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain.",
+      "basis": "Factual 71-case old/candidate/main/artifact record plus complete 3201-case offline run; retains four old observer failures and previous original Windows CI failures without declaring unrelated incidents fixed. Root read the old bodies, public declarations and bounded callers and fully reviewed the candidate design, source and report. The isolated author read four approved inputs plus one public-export clarification and retained its own prior context, but no old/main bodies/history/tests/probes/bundles; static checks alone were run. Both first drafts are byte-identical to the frozen candidates, with no runtime-feedback revision. The compiler loaded two candidates, one approved contracts declaration and 192 standard/third-party declarations, zero other product bodies. Fixed signatures, standard Error/Promise/record expressions, headers and tests alone do not establish authorship. This is a digest-bound content review, not a whole-process clean-room or legal guarantee; retained dependencies, root Apache-2.0 and preview identity remain. Original run36525198142 retained: Linux 3194 pass/seven platform skips; Windows 3200 pass/one known-failure creation wait still running after 1000ms. New MCP tests and all other quality steps passed; no original CI rerun or incident-fix claim.",
       "evidence": [
         "specs/knorvia-mcp-primitives.md",
         "docs/knorvia-mcp-primitives-acceptance.md",
@@ -29311,6 +29311,18 @@
         "specs/knorvia-mcp-primitives.md",
         "docs/knorvia-mcp-primitives-acceptance.md",
         "licensing/evidence/mcp-primitives.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-ci-timeout-diagnostics.md",
+      "normalizedSha256": "8fdf819441efc8db72780a8da10b0907f7c273c5c92003e2acd516cdb4ec8e4c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed.",
+      "evidence": [
+        "docs/knorvia-ci-timeout-diagnostics.md",
+        "specs/knorvia-test-stability.md",
+        "specs/knorvia-creation-polish.md"
       ]
     }
   ]

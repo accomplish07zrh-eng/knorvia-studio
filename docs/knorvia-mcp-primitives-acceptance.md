@@ -23,6 +23,8 @@
 
 原始GitHub run [36522980492](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36522980492)，提交1abf540：Linux **3,123通过、7平台跳过、0失败/取消**，230096.905928ms；Windows **3,128通过、2失败、0跳过/取消**，418719.4028ms。类型、lint、格式、架构、来源和构建步骤均成功，59项新增MCP网络用例通过。Windows的Office离线测试在指定Python3.13.15绝对路径的启动探测中ETIMEDOUT，用例10538.5588ms；异步JSON映射在1000ms预算后仍queued，只记录queued@0ms，用例1359.7667ms。两项原始失败保留，未重跑掩盖；它们不是MCP网络用例失败，也不能把整轮Windows记为通过。
 
-创作测试已在仓外形成诊断候选，用于区分prompt、provider阶段和状态读取耗时，原预算不变；它尚未整合，更未证明原Windows原因。Python启动问题另行只读核查，不将本机通过当作云端失败已修复。
+此检查点时，创作与Python测试诊断仍在仓外；后续整合验收见[CI超时诊断](knorvia-ci-timeout-diagnostics.md)。诊断不改变原预算，也不证明历史Windows首因。
 
 本批来源清单 **7,993项、279独立替换、384自有新增、2,474条摘要复核**，问题与缺失0；仍有2,155上游未改、2,331上游修改与1,035未审文件。只按已审具体内容确认许可，不扩大到其他MCP或SDK实现。
+
+原始GitHub run [36525198142](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36525198142)，受检16d6ebb：Linux **3,194通过、7平台跳过、0失败/取消**，153393.315144ms；Windows **3,200通过、1失败、0跳过/取消**，376910.1344ms。来源、类型、lint、格式、架构和构建步骤成功，新增71项MCP描述符/截止用例通过。Windows失败为openai-images的已知失败/重试/超时/取消组合，用例1011.4841ms，在第一个failed等待（原测试709行）1000ms后仍running，queued@1ms → running@11ms。该原始失败保留，不因其他用例或本机通过而改记为成功；尚未确认该次实际磁盘或计时原因。

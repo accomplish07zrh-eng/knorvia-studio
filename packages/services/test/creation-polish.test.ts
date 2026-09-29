@@ -82,16 +82,26 @@ export function terminalTimeoutDiagnostic(
 async function terminal(
   service: Pick<ReturnType<typeof createCreationService>, "getJob">,
   id: string,
-  options: { budgetMs?: number; pollMs?: number; pollScheduler?: typeof setTimeout } = {},
+  options: {
+    budgetMs?: number;
+    pollMs?: number;
+    pollScheduler?: typeof setTimeout;
+    timeoutContext?: () => string;
+  } = {},
 ): Promise<CreationJob> {
   const budgetMs = options.budgetMs ?? TERMINAL_BUDGET_MS;
   const pollMs = options.pollMs ?? TERMINAL_POLL_MS;
   const pollScheduler = options.pollScheduler ?? setTimeout;
   const events: string[] = [];
   let lastStatus: CreationJobStatus | undefined;
+  let reads = 0;
+  let maxReadMs = 0;
   const startedAt = Date.now();
   for (;;) {
+    const readStartedAt = performance.now();
     const job = await service.getJob(id);
+    reads++;
+    maxReadMs = Math.max(maxReadMs, performance.now() - readStartedAt);
     if (job && job.status !== lastStatus) {
       // 只记录状态变化：轮询会重复读到同一状态，逐次记录会让诊断失去可读性。
       lastStatus = job.status;
@@ -101,7 +111,40 @@ async function terminal(
     if (Date.now() - startedAt >= budgetMs) break;
     await new Promise((resolve) => pollScheduler(resolve, pollMs));
   }
-  throw new Error(terminalTimeoutDiagnostic(id, lastStatus, events, budgetMs));
+  // 仅在原预算失败后补充诊断；上下文读取失败不能覆盖原来的超时证据。
+  let context: string | undefined;
+  try {
+    context = options.timeoutContext?.();
+  } catch {
+    context = "fixture 上下文读取失败";
+  }
+  throw new Error(
+    [
+      terminalTimeoutDiagnostic(id, lastStatus, events, budgetMs),
+      `getJob reads=${reads}, maxReadMs=${maxReadMs.toFixed(1)}`,
+      ...(context ? [context] : []),
+    ].join("\n"),
+  );
+}
+
+function jsonFixtureTrace() {
+  const startedAt = performance.now();
+  const counts = { "submit:start": 0, "submit:return": 0, "poll:start": 0, "poll:return": 0 };
+  const events: string[] = [];
+  let checkpointWitnessProviderTaskId = "unobserved";
+  return {
+    record(stage: keyof typeof counts, taskId?: string) {
+      counts[stage]++;
+      if (events.length < 16)
+        events.push(`${stage}@${(performance.now() - startedAt).toFixed(1)}ms`);
+      // publicJob 隐藏 providerTaskId；进入 poll 只能证明前置 checkpoint await 已完成。
+      // 未见 poll 不能推断“未持久化”，也不为诊断额外读取私有文件。
+      if (stage === "poll:start" && taskId && /^[a-z-]{1,80}$/u.test(taskId))
+        checkpointWitnessProviderTaskId = taskId;
+    },
+    describe: (prompt: string) =>
+      `fixture prompt=${prompt}; checkpointWitnessProviderTaskId=${checkpointWitnessProviderTaskId} (poll entry witnesses prior checkpoint completion)\nstages=${JSON.stringify(counts)}; firstEvents=${events.join(" → ")}`,
+  };
 }
 
 test("terminal timeout reports taskId, last status, observed events and result classification", async () => {
@@ -178,6 +221,37 @@ test("terminal timeout reports taskId, last status, observed events and result c
     terminal({ getJob: async () => null }, "job-absent", { budgetMs: 5, pollMs: 1 }),
     /job-absent[\s\S]*从未读到任务记录/u,
   );
+
+  // 同样的 running 超时须区分未观察到 poll 与已进入 poll，保留原错误及读取证据。
+  for (const polled of [false, true]) {
+    const trace = jsonFixtureTrace();
+    trace.record("submit:start");
+    trace.record("submit:return");
+    if (polled) {
+      trace.record("poll:start", "pending");
+      trace.record("poll:return");
+    }
+    await assert.rejects(
+      terminal(stuck, "job-json-stuck", {
+        budgetMs: 30,
+        pollMs: 1,
+        timeoutContext: () => trace.describe("pending"),
+      }),
+      (error) => {
+        const message = String(error);
+        assert.match(message, /fixture did not settle.*job-json-stuck/u);
+        assert.match(message, /最后观察到的状态：running/u);
+        assert.match(message, /getJob reads=[1-9]\d*, maxReadMs=\d+\.\d/u);
+        assert.match(message, /fixture prompt=pending/u);
+        assert.ok(
+          message.includes(`checkpointWitnessProviderTaskId=${polled ? "pending" : "unobserved"}`),
+        );
+        assert.ok(message.includes(`"poll:start":${polled ? 1 : 0}`));
+        assert.match(message, /"submit:start":1,"submit:return":1/u);
+        return true;
+      },
+    );
+  }
 });
 
 test("reference controls follow each model's explicit placeholders", () => {
@@ -354,6 +428,7 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
 
 test("asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-json-async-"));
+  let trace = jsonFixtureTrace();
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
@@ -362,12 +437,16 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
     fetchImpl: async (url, init) => {
       const path = new URL(String(url)).pathname;
       if (path === "/submit") {
+        trace.record("submit:start");
         const prompt = (JSON.parse(String(init?.body)) as { prompt: string }).prompt;
-        return new Response(JSON.stringify({ id: prompt }));
+        const response = new Response(JSON.stringify({ id: prompt }));
+        trace.record("submit:return");
+        return response;
       }
       if (path.startsWith("/poll/")) {
         const id = path.slice("/poll/".length);
-        return new Response(
+        trace.record("poll:start", id);
+        const response = new Response(
           JSON.stringify(
             id === "pending"
               ? { status: "pending" }
@@ -379,6 +458,8 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
                   },
           ),
         );
+        trace.record("poll:return");
+        return response;
       }
       throw new Error(`Unexpected fixture path: ${path}`);
     },
@@ -406,13 +487,22 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       ["pending", "interrupted"],
       ["invalid", "failed"],
     ] as const) {
+      trace = jsonFixtureTrace();
       const job = await service.createJob({
         requestId: prompt,
         kind: "video",
         modelId: model.id,
         prompt,
       });
-      assert.equal((await terminal(service, job.id)).status, expected, prompt);
+      assert.equal(
+        (
+          await terminal(service, job.id, {
+            timeoutContext: () => trace.describe(prompt),
+          })
+        ).status,
+        expected,
+        prompt,
+      );
     }
   } finally {
     await rm(root, { recursive: true, force: true });
