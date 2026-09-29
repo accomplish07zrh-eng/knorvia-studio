@@ -21,3 +21,5 @@ crypto和Buffer保持原生；OS元信息、process平台、Date、bare/globalTh
 既有限制仍明确：采样时钟在标busy后、try前抛错会留下busy，stop也不复位；stop不取消probe且仅在await后核代际；void回调返回Promise不await；同步失败不会回滚已发生的tracker事实。本次维持兼容，未宣称这些问题已修复。未验证外部传输、真实OS probe/资源精度、付费模型、桌面安装/便携版。根Apache、保留依赖权利、preview身份不变；整仓MIT/独立替换与最终发布仍进行。连接池下一批仅在仓外编写，不计已合入。来源见[依据](../licensing/evidence/mcp-process-telemetry.md)。
 
 前批交互授权提交92e5a4d的原始GitHub run [36545732896](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36545732896)，attempt1：Linux job109331546945为 **3,477通过、7平台跳过、0失败/取消**，244091.98537ms；Windows job109331547121为 **3,484/3,484通过、0失败/跳过/取消**，365524.1339ms。全部前置检查成功。这是前批提交的云端结果，不算当前遥测批次CI，也不抹去更早5e8d80a的Python启动超时失败。
+
+前一提交 `492c4dbc5b3b6ee0616e67227e7b87e48fcffa3a` 的 [GitHub Actions 原运行 36547260847](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36547260847) attempt 1 已完成。Linux job `109336522877`：3,509 项中 3,502 通过、7 项平台跳过、0 失败/取消，183491.3806ms；Windows job `109336523052`：3,509/3,509，0 失败/跳过/取消，386886.4926ms。根核对原 jobs、受检 SHA、所有 steps 及下载日志末尾统计，两个 job 均 success。此为前一遥测替换提交的云端结果，不冒充本批连接池候选 CI；既往其他提交的 Python 超时失败记录仍保留。

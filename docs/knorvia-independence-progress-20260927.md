@@ -1133,3 +1133,11 @@ MCP网络检查点`1abf540`已推送，14个完整暂存文件10,677,175字节�
 连接池下一批正在仓外按批准合同编写。根Apache、适用依赖权利及preview不变，全量独立替换和最终安装包/便携包/官网仍未完成。
 
 前批交互授权提交92e5a4d的原始GitHub run [36545732896](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36545732896)，attempt1：Linux job109331546945为 **3,477通过、7平台跳过、0失败/取消**，244091.98537ms；Windows job109331547121为 **3,484/3,484通过、0失败/跳过/取消**，365524.1339ms。全部前置检查成功。这是前批提交的云端结果，不算当前遥测批次CI，也不抹去更早5e8d80a的Python启动超时失败。
+
+## MCP连接池与租约（2026-09-29）
+
+两源按批准合同独立实现，六份先行测试33项；根先跑旧实现，再审候选。旧/候选/主仓/实际CLI产物均33通过；首次源码lint警告、测试格式失败保留，不掩盖首轮结果。根/CLI类型、lint、架构、严格测试、格式和CLI构建17/17通过；完整离线 **3,542/3,542**，527681.961ms。单一连接与lease owner保留，identity不存持久状态；UI、真实MCP传输及用户数据未改。详见[验收](knorvia-mcp-connection-pool-acceptance.md)。
+
+认证请求wrapper的下一批仅在仓外按批准合同编写，不计已合入。根Apache、依赖权利及preview不变，全量独立替换与最终安装包/便携包/官网尚未完成。
+
+前一提交 `492c4dbc5b3b6ee0616e67227e7b87e48fcffa3a` 的 [GitHub Actions 原运行 36547260847](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36547260847) attempt 1 已完成。Linux job `109336522877`：3,509 项中 3,502 通过、7 项平台跳过、0 失败/取消，183491.3806ms；Windows job `109336523052`：3,509/3,509，0 失败/跳过/取消，386886.4926ms。根核对原 jobs、受检 SHA、所有 steps 及下载日志末尾统计，两个 job 均 success。此为前一遥测替换提交的云端结果，不冒充本批连接池候选 CI；既往其他提交的 Python 超时失败记录仍保留。
