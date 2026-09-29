@@ -1,49 +1,60 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 type ProgressSubscriber = {
+  active: boolean;
   reading: boolean;
   poll: (isActive: () => boolean) => Promise<void>;
 };
-type PollingGroup = {
-  subscribers: Set<ProgressSubscriber>;
+
+type PollGroup = {
   timer: NodeJS.Timeout;
+  subscribers: Set<ProgressSubscriber>;
 };
 
-// 按周期共享：产品默认只有一个 1 秒轮询器，内部自定义周期不改变其他任务的频率。
-const pollingGroups = new Map<number, PollingGroup>();
+const groups = new Map<number, PollGroup>();
 
-export function subscribeBashOutputProgress(
-  intervalMs: number,
-  poll: ProgressSubscriber["poll"],
-): () => void {
-  let group = pollingGroups.get(intervalMs);
-  if (!group) {
-    const subscribers = new Set<ProgressSubscriber>();
-    const timer = setInterval(() => {
+function createGroup(intervalMs: number): PollGroup {
+  const subscribers = new Set<ProgressSubscriber>();
+  const timer = setInterval(
+    () => {
       for (const subscriber of subscribers) {
-        if (subscriber.reading) continue;
+        if (!subscriber.active || subscriber.reading) continue;
         subscriber.reading = true;
-        const isActive = () => subscribers.has(subscriber);
-        void Promise.resolve()
-          .then(() => {
-            if (isActive()) return subscriber.poll(isActive);
-          })
-          // 预览是尽力读取；单个文件或回调失败不能停止其他 Bash 的共享进度。
+        void Promise.resolve(subscriber.poll(() => subscriber.active))
           .catch(() => undefined)
           .finally(() => {
             subscriber.reading = false;
           });
       }
-    }, intervalMs);
-    timer.unref();
-    group = { subscribers, timer };
-    pollingGroups.set(intervalMs, group);
+    },
+    Math.max(1, intervalMs),
+  );
+  timer.unref();
+  return { subscribers, timer };
+}
+
+export function subscribeBashOutputProgress(
+  intervalMs: number,
+  poll: ProgressSubscriber["poll"],
+): () => void {
+  let group = groups.get(intervalMs);
+  if (!group) {
+    group = createGroup(intervalMs);
+    groups.set(intervalMs, group);
   }
-  const subscriber = { reading: false, poll };
-  const { subscribers, timer } = group;
-  subscribers.add(subscriber);
+  const subscriber: ProgressSubscriber = { active: true, reading: false, poll };
+  group.subscribers.add(subscriber);
+  let removed = false;
   return () => {
-    // 旧订阅重复清理时不能删除同周期的新轮询器。
-    if (!subscribers.delete(subscriber) || subscribers.size > 0) return;
-    clearInterval(timer);
-    pollingGroups.delete(intervalMs);
+    if (removed) return;
+    removed = true;
+    subscriber.active = false;
+    const current = groups.get(intervalMs);
+    if (current !== group) return;
+    current.subscribers.delete(subscriber);
+    if (current.subscribers.size === 0) {
+      clearInterval(current.timer);
+      groups.delete(intervalMs);
+    }
   };
 }

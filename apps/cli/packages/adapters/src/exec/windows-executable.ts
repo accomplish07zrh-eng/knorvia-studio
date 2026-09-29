@@ -1,48 +1,47 @@
-import { extname, win32 } from "node:path";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import path from "node:path";
 
-const DEFAULT_WINDOWS_PATHEXT = [".COM", ".EXE", ".BAT", ".CMD"];
+const DEFAULT_PATHEXT = [".com", ".exe", ".bat", ".cmd"];
 
 export function getWindowsEnvValue(env: NodeJS.ProcessEnv, key: string): string | undefined {
-  const lowerKey = key.toLowerCase();
-  const match = Object.keys(env).find((envKey) => envKey.toLowerCase() === lowerKey);
-  return match ? env[match] : undefined;
+  const wanted = key.toLowerCase();
+  for (const [candidate, value] of Object.entries(env)) {
+    if (candidate.toLowerCase() === wanted) return value;
+  }
+  return undefined;
+}
+
+function executableNames(file: string, env: NodeJS.ProcessEnv): string[] {
+  if (path.win32.extname(file) !== "") return [file];
+  const configured = getWindowsEnvValue(env, "PATHEXT")
+    ?.split(";")
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
+  const suffixes = configured?.length ? configured : DEFAULT_PATHEXT;
+  return [
+    file,
+    ...suffixes.map((suffix) => `${file}${suffix.startsWith(".") ? suffix : `.${suffix}`}`),
+  ];
 }
 
 export function windowsExecutableCandidates(
   file: string,
   env: NodeJS.ProcessEnv,
-  cwd?: string,
+  cwd = process.cwd(),
 ): string[] {
-  const pathExts = getWindowsPathExts(env);
-  const fileCandidates = windowsExtensionCandidates(file, pathExts);
-
-  if (hasWindowsPathSeparator(file) || win32.isAbsolute(file)) {
-    const basePath =
-      !win32.isAbsolute(file) && cwd ? win32.resolve(cwd, file) : win32.normalize(file);
-    return windowsExtensionCandidates(basePath, pathExts);
+  const names = executableNames(file, env);
+  const hasSeparator = file.includes("/") || file.includes("\\");
+  if (hasSeparator) {
+    return names.map((name) =>
+      path.win32.isAbsolute(name) ? name : path.win32.resolve(cwd, name),
+    );
   }
-
-  const dirs =
-    getWindowsEnvValue(env, "PATH")
-      ?.split(win32.delimiter)
-      .filter((dir) => dir.length > 0) ?? [];
-  return dirs.flatMap((dir) => fileCandidates.map((candidate) => win32.join(dir, candidate)));
-}
-
-function windowsExtensionCandidates(file: string, pathExts: string[]): string[] {
-  if (extname(file)) return [file];
-  return [file, ...pathExts.map((extension) => `${file}${extension.toLowerCase()}`)];
-}
-
-function getWindowsPathExts(env: NodeJS.ProcessEnv): string[] {
-  const raw = getWindowsEnvValue(env, "PATHEXT");
-  const values = raw
-    ?.split(";")
-    .map((extension) => extension.trim())
-    .filter((extension) => extension.length > 0);
-  return values && values.length > 0 ? values : DEFAULT_WINDOWS_PATHEXT;
-}
-
-function hasWindowsPathSeparator(value: string): boolean {
-  return value.includes("\\") || value.includes("/");
+  const pathValue = getWindowsEnvValue(env, "PATH") ?? "";
+  const directories = pathValue.split(";").filter((value) => value !== "");
+  const candidates: string[] = [];
+  for (const directory of directories) {
+    for (const name of names) candidates.push(path.win32.join(directory, name));
+  }
+  return candidates;
 }

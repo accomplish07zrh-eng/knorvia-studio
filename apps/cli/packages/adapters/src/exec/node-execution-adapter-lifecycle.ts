@@ -1,102 +1,141 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import { randomUUID } from "node:crypto";
+import { mkdir, open } from "node:fs/promises";
+import path from "node:path";
 import { BACKGROUND_BASH_OUTPUT_MAX_BYTES, type BackgroundBashOutputResult } from "@knorvia/shared";
+import type {
+  BackgroundExecutionSnapshot,
+  BackgroundExecutionStartResult,
+  ExecutionEvent,
+  ExecutionRequest,
+  ExecutionRunOptions,
+} from "@knorvia/contracts";
 import { readBashOutput } from "./bash-file-output.js";
-import { NodeExecutionAdapterRun } from "./node-execution-adapter-run.js";
+import type {
+  BackgroundTaskRecord,
+  BashBackgroundLifecycleMode,
+  BashBackgroundLifecycleResult,
+  OutputPersistenceMode,
+} from "./execution-adapter-types.js";
+import { ExecutionCoordinator } from "./node-execution-adapter-base.js";
+import { applyForegroundArtifactPolicy, emitResult } from "./node-execution-adapter-results.js";
+import { runExecution } from "./node-execution-adapter-run.js";
 import {
   BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
   DEFAULT_TIMEOUT_MS,
   isBashMergedOutputRequest,
 } from "./execution-utils.js";
-import type {
-  BashBackgroundLifecycleMode,
-  BashBackgroundLifecycleResult,
-  InternalExecutionRunOptions,
-} from "./execution-adapter-types.js";
-import type {
-  BackgroundExecutionSnapshot,
-  BackgroundExecutionStartResult,
-  ExecutionRequest,
-  ExecutionResult,
-  ExecutionRunOptions,
-} from "@knorvia/contracts";
 
-export class NodeExecutionAdapterLifecycle extends NodeExecutionAdapterRun {
+function detachedCallback(callback: ExecutionRunOptions["onEvent"], event: ExecutionEvent): void {
+  try {
+    const pending = callback?.(event);
+    if (pending) void Promise.resolve(pending).catch(() => undefined);
+  } catch {
+    // Consumer callbacks cannot alter lifecycle state.
+  }
+}
+
+function linkAbort(source: AbortSignal | undefined, target: AbortController): () => void {
+  if (!source) return () => undefined;
+  const abort = (): void => target.abort(source.reason);
+  if (source.aborted) abort();
+  else source.addEventListener("abort", abort, { once: true });
+  return () => source.removeEventListener("abort", abort);
+}
+
+async function ensureFile(target: string | undefined): Promise<void> {
+  if (!target) return;
+  await mkdir(path.dirname(target), { recursive: true, mode: 0o700 });
+  const handle = await open(target, "a", 0o600);
+  await handle.close();
+}
+
+function startResult(record: BackgroundTaskRecord): BackgroundExecutionStartResult {
+  return {
+    taskId: record.taskId,
+    status: "running",
+    startedAt: record.startedAt,
+    pid: record.pid,
+    outputPath: record.outputPath,
+    stderrPersistedOutputPath: record.stderrPersistedOutputPath,
+    stdoutPersistedOutputPath: record.stdoutPersistedOutputPath,
+  };
+}
+
+export class ExecutionLifecycle {
+  constructor(private readonly coordinator: ExecutionCoordinator) {}
+
   async start(
     request: ExecutionRequest,
     options: ExecutionRunOptions = {},
   ): Promise<BackgroundExecutionStartResult> {
-    if (this.closePromise) {
-      throw new Error("Execution adapter is shutting down");
-    }
-
-    const taskId = `exec_${crypto.randomUUID()}`;
-    const controller = new AbortController();
+    if (this.coordinator.isClosing) throw new Error("Execution adapter is closed.");
+    const taskId = randomUUID();
     const startedAt = new Date();
-    const outputPaths = this.outputPathsForRequest(request);
-    const runRequest =
-      request.captureCwdAfterSuccess === true
-        ? { ...request, captureCwdAfterSuccess: undefined }
-        : request;
-    if (runRequest !== request) {
-      this.outputPathsByRequest.set(runRequest, outputPaths);
-    }
-    if (!isBashMergedOutputRequest(runRequest)) await this.ensureBackgroundOutputFiles(outputPaths);
-    const record = this.createBackgroundTaskRecord({
+    const controller = new AbortController();
+    const backgroundRequest: ExecutionRequest = {
+      ...request,
+      captureCwdAfterSuccess: false,
+      outputLimit: { ...request.outputLimit, persistOutput: "always" },
+    };
+    const paths = this.coordinator.outputPathsForRequest(backgroundRequest);
+    const isBash = isBashMergedOutputRequest(backgroundRequest);
+    const record = this.coordinator.createBackgroundTaskRecord({
       controller,
-      outputPaths,
+      outputPaths: paths,
       startedAt,
       taskId,
-      request,
+      request: backgroundRequest,
+      isBash,
     });
-    this.backgroundTasks.set(taskId, record);
-
-    const externalAbort = () => controller.abort();
-    if (options.signal?.aborted) {
-      controller.abort();
-    } else {
-      options.signal?.addEventListener("abort", externalAbort, { once: true });
-      record.externalAbort = externalAbort;
-    }
-
-    void this.run(runRequest, {
+    record.externalAbort = linkAbort(options.signal, controller);
+    this.coordinator.backgroundTasks.set(taskId, record);
+    const runOptions = {
       ...options,
       signal: controller.signal,
-      onOutputEncodingResolved: (encoding) => {
+      onOutputEncodingResolved: (encoding: string | null) => {
         record.legacyOutputEncoding = encoding;
       },
+      onEvent: (event: ExecutionEvent) => {
+        this.coordinator.updateBackgroundTaskRecordFromEvent(record, event);
+        detachedCallback(options.onEvent, event);
+      },
       shouldRetainExecutionAfterRootExit: () => true,
-      ...(isBashMergedOutputRequest(runRequest)
-        ? { bashLifecycle: { isBackgrounded: () => true } }
-        : {}),
-      onEvent: (event) => {
-        this.updateBackgroundTaskRecordFromEvent(record, event);
-        return options.onEvent?.(event);
-      },
-    } as InternalExecutionRunOptions).then(
-      (result) => {
-        this.finalizeBackgroundTaskRecord(record, result);
-        if (record.externalAbort) {
-          options.signal?.removeEventListener("abort", record.externalAbort);
-        }
-      },
-      (error) => {
-        const failure = this.toFailure("unknown", error);
-        this.finalizeBackgroundTaskRecord(
-          record,
-          this.createStoppedResult(startedAt, "spawn_error", failure.message),
-        );
-        if (record.externalAbort) {
-          options.signal?.removeEventListener("abort", record.externalAbort);
-        }
-      },
-    );
-
-    return {
-      taskId,
-      status: "running",
-      startedAt,
-      pid: record.pid,
-      ...outputPaths,
     };
+    const execution = (async () => {
+      if (!isBash) {
+        await Promise.all([
+          ensureFile(paths.stdoutPersistedOutputPath),
+          ensureFile(paths.stderrPersistedOutputPath),
+        ]);
+      }
+      return runExecution(this.coordinator, backgroundRequest, runOptions);
+    })();
+    void execution
+      .then((result) => this.coordinator.finalizeBackgroundTaskRecord(record, result))
+      .catch((error: unknown) => {
+        const now = new Date();
+        const failure = {
+          type: "spawn_error" as const,
+          message: error instanceof Error ? error.message : String(error),
+          cause: error,
+        };
+        const result = {
+          status: "spawn_error",
+          stdout: { text: "", bytes: 0, truncated: false },
+          stderr: { text: "", bytes: 0, truncated: false },
+          durationMs: now.getTime() - startedAt.getTime(),
+          timedOut: false,
+          cancelled: false,
+          startedAt,
+          completedAt: now,
+          error: failure,
+        } as const;
+        detachedCallback(options.onEvent, { type: "failed", error: failure, timestamp: now });
+        this.coordinator.finalizeBackgroundTaskRecord(record, result);
+      });
+    return startResult(record);
   }
 
   async runBashWithBackgroundLifecycle(
@@ -104,208 +143,126 @@ export class NodeExecutionAdapterLifecycle extends NodeExecutionAdapterRun {
     lifecycle: { mode: BashBackgroundLifecycleMode },
     options: ExecutionRunOptions = {},
   ): Promise<BashBackgroundLifecycleResult> {
-    const useBashFile = isBashMergedOutputRequest(request);
-    const timeoutMs = request.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-    if (lifecycle.mode === "auto_on_timeout" && timeoutMs <= 0) {
-      return {
-        kind: "foreground",
-        result: await this.run(request, options),
-      };
+    if (!isBashMergedOutputRequest(request)) {
+      return { kind: "foreground", result: await runExecution(this.coordinator, request, options) };
     }
-
-    const taskId = `exec_${crypto.randomUUID()}`;
-    const startedAt = new Date();
+    const originalPersistence: OutputPersistenceMode =
+      request.outputLimit?.persistOutput ?? "on_truncate";
     const controller = new AbortController();
-    const originalPersistOutput = request.outputLimit?.persistOutput ?? "none";
-    const originalMaxArtifactBytes = useBashFile
-      ? undefined
-      : (request.outputLimit?.maxArtifactBytes ?? this.persistedOutputLimit(request));
-    const runRequest: ExecutionRequest = {
+    const detachParentAbort = linkAbort(options.signal, controller);
+    const executionRequest: ExecutionRequest = {
       ...request,
       timeoutMs: 0,
       outputLimit: {
         ...request.outputLimit,
-        killProcessOnPersistedLimit: false,
-        maxPersistedBytes: BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
         persistOutput: "always",
+        maxPersistedBytes: BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
+        killProcessOnPersistedLimit: false,
       },
     };
-    const outputPaths = this.outputPathsForRequest(runRequest);
-    if (!isBashMergedOutputRequest(runRequest)) {
-      await this.ensureBackgroundOutputFiles(outputPaths);
-    }
-    const record = this.createBackgroundTaskRecord({
-      controller,
-      outputPaths,
-      startedAt,
-      taskId,
-      request,
-    });
-
-    type LifecycleState = "preparing" | "foreground" | "backgrounded" | "settling" | "terminal";
-    let state: LifecycleState = "preparing";
-    const bashLifecycle: InternalExecutionRunOptions["bashLifecycle"] = useBashFile
-      ? {
-          isBackgrounded: () => state === "backgrounded",
-          onExit: () => {
-            // root 已退出后只是异步读取结果，不能被前台 deadline 再转为后台任务。
-            if (state === "preparing" || state === "foreground") {
-              state = "settling";
-              clearForegroundDeadline();
-              removeExternalAbort();
-            }
-          },
-        }
-      : undefined;
+    let phase: "foreground" | "background" | "settling" = "foreground";
+    let record: BackgroundTaskRecord | undefined;
+    let pid: number | undefined;
+    let startedAt = new Date();
+    let legacyEncoding: string | null = null;
     let persistedLimitReached = false;
-    let timeoutTimer: NodeJS.Timeout | undefined;
-    let resolveOutcome: (result: BashBackgroundLifecycleResult) => void = () => undefined;
-    const outcome = new Promise<BashBackgroundLifecycleResult>((resolve) => {
-      resolveOutcome = resolve;
+    let deadline: NodeJS.Timeout | undefined;
+    let resolveHandoff!: (task: BackgroundExecutionStartResult) => void;
+    const handoff = new Promise<BackgroundExecutionStartResult>((resolve) => {
+      resolveHandoff = resolve;
     });
 
-    const externalAbort = () => {
-      if (state === "backgrounded" || state === "terminal") return;
-      controller.abort();
-    };
-    if (options.signal?.aborted) {
-      controller.abort();
-    } else {
-      options.signal?.addEventListener("abort", externalAbort, { once: true });
-      record.externalAbort = externalAbort;
-    }
-
-    const removeExternalAbort = () => {
-      if (!record.externalAbort) return;
-      options.signal?.removeEventListener("abort", record.externalAbort);
-      record.externalAbort = undefined;
-    };
-
-    const clearForegroundDeadline = () => {
-      if (!timeoutTimer) return;
-      clearTimeout(timeoutTimer);
-      timeoutTimer = undefined;
-    };
-
-    const commitBackground = () => {
-      if (state !== "foreground" || controller.signal.aborted) return false;
-
-      // 旧 explicit background 复用了通用 start()，foreground timeout 与
-      // parent turn abort 会继续挂在子进程上。这里先原子提交状态，再同步清理 deadline、
-      // 脱离 parent abort 并登记 task，避免 abort/completion 在提交缝隙里误杀后台进程。
-      state = "backgrounded";
-      bashLifecycle?.onBackgrounded?.();
-      clearForegroundDeadline();
-      removeExternalAbort();
-      this.backgroundTasks.set(taskId, record);
-      if (persistedLimitReached) {
-        controller.abort("output_limit");
-      }
-      resolveOutcome({
-        kind: "backgrounded",
-        task: {
-          taskId,
-          status: "running",
-          startedAt,
-          pid: record.pid,
-          ...outputPaths,
-        },
+    const moveToBackground = (): void => {
+      if (phase !== "foreground" || pid === undefined || controller.signal.aborted) return;
+      phase = "background";
+      if (deadline) clearTimeout(deadline);
+      detachParentAbort();
+      const taskId = randomUUID();
+      record = this.coordinator.createBackgroundTaskRecord({
+        controller,
+        outputPaths: this.coordinator.outputPathsForRequest(executionRequest),
+        startedAt,
+        taskId,
+        request: executionRequest,
+        isBash: true,
       });
-      return true;
+      record.pid = pid;
+      record.legacyOutputEncoding = legacyEncoding;
+      this.coordinator.backgroundTasks.set(taskId, record);
+      if (persistedLimitReached) controller.abort("output_limit");
+      resolveHandoff(startResult(record));
     };
 
-    const armForegroundDeadline = () => {
-      if (lifecycle.mode !== "auto_on_timeout" || timeoutTimer || state !== "foreground") {
-        return;
-      }
-      timeoutTimer = setTimeout(commitBackground, timeoutMs);
-    };
-
-    const backgroundRunOptions: InternalExecutionRunOptions = {
+    const foregroundTimeout =
+      request.timeoutMs === undefined || !Number.isFinite(request.timeoutMs)
+        ? DEFAULT_TIMEOUT_MS
+        : request.timeoutMs;
+    const runPromise = runExecution(this.coordinator, executionRequest, {
       ...options,
       signal: controller.signal,
       onOutputEncodingResolved: (encoding) => {
-        record.legacyOutputEncoding = encoding;
+        legacyEncoding = encoding;
+        if (record) record.legacyOutputEncoding = encoding;
       },
-      bashLifecycle,
       onPersistedLimit: () => {
-        if (!controller.signal.aborted) {
-          persistedLimitReached = true;
-        }
+        persistedLimitReached = true;
+      },
+      shouldStopOnPersistedLimit: () => phase === "background",
+      shouldRetainExecutionAfterRootExit: () => phase === "background",
+      suppressTerminalEvent: true,
+      bashLifecycle: {
+        isBackgrounded: () => phase === "background",
+        onExit: () => {
+          if (phase === "foreground") phase = "settling";
+          if (deadline) clearTimeout(deadline);
+        },
       },
       onEvent: (event) => {
-        this.updateBackgroundTaskRecordFromEvent(record, event);
-        if (
-          event.type === "started" &&
-          event.pid !== undefined &&
-          state === "preparing" &&
-          !controller.signal.aborted
-        ) {
-          state = "foreground";
-          if (lifecycle.mode === "explicit") {
-            commitBackground();
-          } else {
-            armForegroundDeadline();
+        if (event.type === "started") {
+          pid = event.pid;
+          startedAt = event.timestamp;
+          detachedCallback(options.onEvent, event);
+          if (lifecycle.mode === "explicit") moveToBackground();
+          else if (foregroundTimeout > 0) {
+            deadline = setTimeout(moveToBackground, foregroundTimeout);
+            deadline.unref();
           }
         }
-        if (state === "backgrounded") return;
-        return options.onEvent?.(event);
+        if (record) this.coordinator.updateBackgroundTaskRecordFromEvent(record, event);
+        if (event.type !== "started" && phase !== "background") {
+          detachedCallback(options.onEvent, event);
+        }
       },
-      // 通用 lifecycle 仍使用独立 collector 和共享硬预算；Bash 由文件 watchdog 处理。
-      sharePersistedOutputLimitAcrossStreams: true,
-      shouldStopOnPersistedLimit: () => state === "backgrounded",
-      shouldRetainExecutionAfterRootExit: () => state === "backgrounded",
-    };
-
-    const settleExecution = async (unprocessedResult: ExecutionResult) => {
-      clearForegroundDeadline();
-      if (state === "backgrounded") {
-        this.finalizeBackgroundTaskRecord(
-          record,
-          this.normalizeBashBackgroundOutputLimitResult(unprocessedResult, persistedLimitReached),
-        );
-        return;
+    }).then(async (result) => {
+      if (deadline) clearTimeout(deadline);
+      detachParentAbort();
+      if (record) {
+        this.coordinator.finalizeBackgroundTaskRecord(record, result);
+        return result;
       }
-      if (state === "terminal") return;
+      const stdout = await applyForegroundArtifactPolicy(result.stdout, originalPersistence);
+      const stderr = await applyForegroundArtifactPolicy(result.stderr, originalPersistence);
+      const normalized = { ...result, stdout, stderr };
+      emitResult(options, normalized);
+      return normalized;
+    });
 
-      state = "terminal";
-      removeExternalAbort();
-      const result = await this.normalizeBashBackgroundLifecycleForegroundResult(
-        unprocessedResult,
-        outputPaths,
-        originalMaxArtifactBytes,
-        originalPersistOutput,
-      );
-      // 前台完成仍复用 BackgroundTaskRecord；只结算 outcome 会让
-      // record.completion 永久保持 pending，并被异步资源检测识别为泄漏。
-      this.finalizeBackgroundTaskRecord(record, result);
-      resolveOutcome({
-        kind: "foreground",
-        result,
-      });
-    };
-
-    void (async () => {
-      try {
-        await settleExecution(await this.run(runRequest, backgroundRunOptions));
-      } catch (error) {
-        const failure = this.toFailure("unknown", error);
-        await settleExecution(this.createStoppedResult(startedAt, "spawn_error", failure.message));
-      }
-    })();
-
-    return await outcome;
+    const outcome = await Promise.race([
+      runPromise.then((result) => ({ kind: "foreground" as const, result })),
+      handoff.then((task) => ({ kind: "backgrounded" as const, task })),
+    ]);
+    return outcome;
   }
 
   async readBackgroundBashOutput(
     workId: string,
     sessionId: string,
   ): Promise<BackgroundBashOutputResult> {
-    const record = this.backgroundTasks.get(workId);
-    if (!record || record.sessionId !== sessionId || !record.isBash || !record.outputPath)
-      return { kind: "unavailable", workId };
-    // 先冻结状态，再读文件；若读取期间退出，下次查询才能返回终态及其最终尾窗。
-    const snapshot = this.snapshot(record);
+    const record = this.coordinator.backgroundTasks.get(workId);
+    if (!record || record.sessionId !== sessionId)
+      return { kind: "unavailable", workId, code: "not_found" };
+    if (!record.isBash || !record.outputPath) return { kind: "unsupported", workId };
+    const snapshot = this.coordinator.snapshot(record);
     try {
       const output = await readBashOutput(
         record.outputPath,
@@ -313,57 +270,54 @@ export class NodeExecutionAdapterLifecycle extends NodeExecutionAdapterRun {
         true,
         record.legacyOutputEncoding,
       );
+      const status =
+        !record.result && snapshot.status === "cancelled" ? "running" : snapshot.status;
       return {
         kind: "output",
         workId,
-        // Stop 先标记 cancelled，结算稍后才完成；不能让详情提前停止最终尾读。
-        status: snapshot.result ? snapshot.status : "running",
+        status,
         output: output.text,
         truncated: output.truncated,
         outputPath: record.outputPath,
       };
     } catch (error) {
-      return {
-        kind: "read_failed",
-        workId,
-        code: error instanceof Error && "code" in error ? String(error.code) : undefined,
-      };
+      return { kind: "read_failed", workId, code: (error as NodeJS.ErrnoException).code };
     }
   }
 
   async getBackgroundTask(taskId: string): Promise<BackgroundExecutionSnapshot | undefined> {
-    const record = this.backgroundTasks.get(taskId);
-    return record ? this.snapshot(record) : undefined;
+    const record = this.coordinator.backgroundTasks.get(taskId);
+    return record ? this.coordinator.snapshot(record) : undefined;
   }
 
   async waitForBackgroundTask(
     taskId: string,
     options: { signal?: AbortSignal } = {},
   ): Promise<BackgroundExecutionSnapshot | undefined> {
-    const record = this.backgroundTasks.get(taskId);
+    const record = this.coordinator.backgroundTasks.get(taskId);
     if (!record) return undefined;
-    if (record.status !== "running") return this.snapshot(record);
-    if (options.signal?.aborted) return this.snapshot(record);
-
-    if (!options.signal) return await record.completion;
-
-    return await new Promise<BackgroundExecutionSnapshot>((resolve) => {
-      const abort = () => resolve(this.snapshot(record));
-      options.signal?.addEventListener("abort", abort, { once: true });
-      record.completion.then((snapshot) => {
-        options.signal?.removeEventListener("abort", abort);
+    if (record.result || options.signal?.aborted) return this.coordinator.snapshot(record);
+    return new Promise((resolve) => {
+      let settled = false;
+      const finish = (snapshot: BackgroundExecutionSnapshot): void => {
+        if (settled) return;
+        settled = true;
+        options.signal?.removeEventListener("abort", onAbort);
         resolve(snapshot);
-      });
+      };
+      const onAbort = (): void => finish(this.coordinator.snapshot(record));
+      options.signal?.addEventListener("abort", onAbort, { once: true });
+      void record.completion.then(finish);
     });
   }
 
   async cancelBackgroundTask(taskId: string): Promise<BackgroundExecutionSnapshot | undefined> {
-    const record = this.backgroundTasks.get(taskId);
+    const record = this.coordinator.backgroundTasks.get(taskId);
     if (!record) return undefined;
-    if (record.status === "running") {
+    if (!record.result && record.status === "running") {
       record.status = "cancelled";
-      record.controller.abort();
+      record.controller.abort("cancelled");
     }
-    return this.snapshot(record);
+    return this.coordinator.snapshot(record);
   }
 }

@@ -30863,13 +30863,1052 @@
     },
     {
       "path": "docs/knorvia-creation-cleanup-ci-acceptance.md",
-      "normalizedSha256": "022006aea477df939d54745dc4a6b9f9fba351288dfe5a9ef2a76ede6ae49c45",
+      "normalizedSha256": "43211b4536f9c2895903ab2f26538a0df0f6c7ae9252168a24b1edc4debe3a59",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual record of original MCP-client commit822cfee Linux3693 total/3685 pass/1 cleanup failure/7 platform skips and Windows3693 pass. Root reviewed exact original logs, unchanged service admission/background persistence flow and entire idempotent test. Owned provider response gate demonstrates original cleanup entry remains running with no outputs; it does not claim exact Linux filesystem scheduling reproduction. Test adds16 lines to release/drain through public terminal state and verify output hash before removal, preserving all original idempotency assertions and limits. Probe1/main7 pass, strict/root types,94-rule/root lint,architecture and formatting pass. No product implementation changed, no whole-file test/production originality or license reassignment, no new local full regression/build for this fixture-only fix. New commit remote CI pending. First full seven-file staged gitleaks scan flagged an existing synthetic credential, preserved as a failed scan receipt. Replaced only that fake literal with an explicit fixture-only placeholder, keeping the configured-credential redaction assertions; targeted credential case1/1 after that change. Original seven-case pass applies before the placeholder-only adjustment. No scanner exclusions or weakened assertions.",
+      "basis": "New factual record of original MCP-client commit822cfee Linux3693 total/3685 pass/1 cleanup failure/7 platform skips and Windows3693 pass. Root reviewed exact original logs, unchanged service admission/background persistence flow and entire idempotent test. Owned provider response gate demonstrates original cleanup entry remains running with no outputs; it does not claim exact Linux filesystem scheduling reproduction. Test adds16 lines to release/drain through public terminal state and verify output hash before removal, preserving all original idempotency assertions and limits. Probe1/main7 pass, strict/root types,94-rule/root lint,architecture and formatting pass. No product implementation changed, no whole-file test/production originality or license reassignment, no new local full regression/build for this fixture-only fix. Original commit 5cb937de59d69ce56d0a112331232a8daaec2942 run 36565784277 attempt 1 was subsequently verified from complete original job logs: Linux 3686 pass plus 7 platform skips; Windows 3693 pass; all prerequisite steps passed. Earlier failure remains recorded. First full seven-file staged gitleaks scan flagged an existing synthetic credential, preserved as a failed scan receipt. Replaced only that fake literal with an explicit fixture-only placeholder, keeping the configured-credential redaction assertions; targeted credential case1/1 after that change. Original seven-case pass applies before the placeholder-only adjustment. No scanner exclusions or weakened assertions.",
       "evidence": [
         "specs/knorvia-creation-polish.md",
         "docs/knorvia-creation-cleanup-ci-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-file-output.ts",
+      "normalizedSha256": "e26c6db464378fd3d0fa35393e1a12e8a0772f3d2cfedeb1172b7b41c8928f3f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-output-policy.ts",
+      "normalizedSha256": "4263e84a71b1fb102ea13deccd47e3e049df463a3bbf3756a3e24064ef2b9230",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-output-preview.ts",
+      "normalizedSha256": "44e43934482eac68aa9123b436fda2c404e0c73b14ce2f05e989f70004ebf87f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-progress-poller.ts",
+      "normalizedSha256": "2f47442bca6379a5d8b2bd34803224358323c0f1dd8e5181e937a2cd285f9b93",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-resource-telemetry.ts",
+      "normalizedSha256": "bd15be03f3178428ae3ca15917b857f28789b767f032b5fdf2af18d5132a0b4e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-shell-provider.ts",
+      "normalizedSha256": "af347e79e80cf30fc624b6269b5b70b63fd0028438cfce7ebcd3feb5981cd2ca",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/bash-startup-script.ts",
+      "normalizedSha256": "3cd1b8fed35772c9091b347d5501446ae6fce0a5a68fd444cb0082df6e51197a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/cwd-capture.ts",
+      "normalizedSha256": "13655bdd44db3ccf3b1bee2ab686c902c059022dbf3b9699bb47306eda7ea0ca",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/embedded-search-prelude.ts",
+      "normalizedSha256": "8f027eb6e722f2ce82c8881b883cba1423ce85735b2357dfcbf710f07259dfd7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/execution-adapter-types.ts",
+      "normalizedSha256": "ff907643c44a32d48d263d74510d8d7aceaf78bfda0f121284c37cf981d83ea3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/execution-command.ts",
+      "normalizedSha256": "abe93f4deaae555333c114c2d7b425c0714400d595fcf7b7e6cac97affd25d75",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/execution-utils.ts",
+      "normalizedSha256": "797e5742a1e8644d3c829ee36a1d0b7b26c330139b76b2ac2edbb8d1e1ddb910",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/index.ts",
+      "normalizedSha256": "5081f7b94e81c9c56860d77320c554557258e32d47e3676f81ba3e186159b0c9",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-base.ts",
+      "normalizedSha256": "0b06d594f92def7c7f1815f462a7b5cb91ab5ced201be9140ce8d49418eaccbf",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-lifecycle.ts",
+      "normalizedSha256": "e00fd49da983734ffb08ca6299e96fab8cf71cc16b1cbac440c9d900cef1af03",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-process.ts",
+      "normalizedSha256": "74750d57a84dc44d78c0021987fbc1b238a3e813324222e68ad550397bf7b46d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-results.ts",
+      "normalizedSha256": "23dc1da14eacb88ec6dcd04c76df7bd4e7068675135c90f967842c35f917e5fb",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter-run.ts",
+      "normalizedSha256": "56bf47a7e08018cbb290adca13cbeefec28b3ad67fd0016c85f5fac5fce7295f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/node-execution-adapter.ts",
+      "normalizedSha256": "053cdb97c35bacd0b44cdf28339a11aab4a5886a5c0f4e196a94f18d44787faa",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/output-collector.ts",
+      "normalizedSha256": "dc00e37ad75590fe2363480dcd3677ad7531e427b12b2f0920387920d44c9a2a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/outputEncoding.ts",
+      "normalizedSha256": "81bad6ed20d53f4b8d0701547c34e5b1c1048dfae186727d6f1df1a983b6d4df",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/process-tree.ts",
+      "normalizedSha256": "87e44340e46a75ccdf3df172336bf832eb2c721c412eb031a0b36d1f99b46b39",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/shell-init-snapshot.ts",
+      "normalizedSha256": "99fea314f932b6f5a2e4b7a52e0c01957b45a94936e35b301a505a61d1417f68",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/exec/windows-executable.ts",
+      "normalizedSha256": "48504089638edea6ced364062f91aeced424c41c172d69a1ec55a6b832b90c66",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/closed-loader.ts",
+      "normalizedSha256": "7424580869bedc5c4c9e59ae9643b306cace11f394ec352317d517d53aef7cd1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/contract-case.ts",
+      "normalizedSha256": "b430414539eb46f5986aa714da2338c7694b85de509e0f228217c969f02a1fdf",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/deferred.ts",
+      "normalizedSha256": "8c4a954e7e949f1a17022e1d17ec32d0ba2449c86fb0bfff4715dacc0f37e998",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/fake-child.ts",
+      "normalizedSha256": "ba70e4ba62c94d3559cede389b40d04a61f4c9d364569d736d066b913089d433",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/fake-clock.ts",
+      "normalizedSha256": "aed0aa4bd2ac5d21d69c29f07bc39c1989a3872bbd0e973413c35fb7ad2f933d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/fake-fs.ts",
+      "normalizedSha256": "f05b7aa6784b8effbb4aa6945155bca611f774e7b8b3e63c113b362f0a563d26",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/fixture-world.ts",
+      "normalizedSha256": "2c8891d8065ab356f9bfb03094ed982a931c32aa066cda150f241ef08f14e287",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/globals-inject.ts",
+      "normalizedSha256": "227b2842992fa1699de77997c2a58b223630ff554912484df6b12714497b97ba",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/public-contract.ts",
+      "normalizedSha256": "2bd8f19385fb3de2f71f48425eb99176880e42d9d66b2008c01796a2034fb509",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/scripted.ts",
+      "normalizedSha256": "cb4f2abb26e7ba9c7e060c0eb1bb8d5c20c077217f4d354fde55a2203db9c415",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/harness/seam-sources.ts",
+      "normalizedSha256": "9aa7acb6748c24c51e45a9031e80cf21cbc9970b99089e6ee102e293168f101d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/background.spec.ts",
+      "normalizedSha256": "89fd65af90a17970a2511375b64b5d25f5096086507a80aa898d86d7ad1462ad",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/facade-command-env.spec.ts",
+      "normalizedSha256": "9754d3bbce5cfc262ea0e180921926550d04b16dfaf460d961d6ac45aa9a4f2c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/output-artifacts.spec.ts",
+      "normalizedSha256": "4806224bddf4eadb369cabc516c726d0df7481a6095622f28042eb497da8e29d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/run-result-events.spec.ts",
+      "normalizedSha256": "b7362e3f126331f0f4f310cdadd7c960200196858802a7984ea852110e566d92",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/shell-snapshot-cwd.spec.ts",
+      "normalizedSha256": "9defa6de14e3d79e789ef29f7138dbcc8ee47d8736df7efe4425bcbc0e840f4f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/stop-close.spec.ts",
+      "normalizedSha256": "60fc9a4416b567890c6413c7c11fb53b561d88695fcbbe2028259e99d1025898",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-contract/src/suites/telemetry-security.spec.ts",
+      "normalizedSha256": "f9b2ed8566aa77df1ad47c8e42d67ea6da1aba16e02db74b586af8f68bc43df9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-background.test.ts",
+      "normalizedSha256": "a8238fc795cb183fe4d49ebc3ce63defd3fc8bb92dc627ee5c9c1bb1cf16b55b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-facade-command-env.test.ts",
+      "normalizedSha256": "c9b7f9718f69bb8201f286e3f73dd84b00a094a9962b5f91340a90f80069d683",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-output-artifacts.test.ts",
+      "normalizedSha256": "837f413c6825519520c9870e04e91b1da8ef2cb6f4eb997ee16a81ea01b35f2b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-run-result-events.test.ts",
+      "normalizedSha256": "047748f93a27e5efe57aa03ff71c4b672a6a9f33aeb094596de3125910051134",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-shell-snapshot-cwd.test.ts",
+      "normalizedSha256": "703670f50c3a336338fa3d5053673b7b7b5b8f6070bfacb06adc7667246ffd47",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-stop-close.test.ts",
+      "normalizedSha256": "de522bac1c710a0666aa01ae1d1a2d4a3f2ccbc59c85ba9aaef201dc358fbc9e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/exec-runtime-telemetry-security.test.ts",
+      "normalizedSha256": "ad9694663f3c119dc1906abb1765cf97e823fcbd29df33450cf37374d04d865a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent author designed the complete 24-module execution capability from approved behavior and public declarations; separately authored owned-seam tests established an old-first baseline. Original author repaired two behavior differences, and root repaired generic output-limit result semantics from a bounded public observation without reading old exec bodies. Final frozen candidate, main source and exact CLI-reachable compiled runtime pass 62/62 plus a separately recorded output-limit observation. Main headers, loader portability and JavaScript-equivalent formatting are recorded. Previous failures and reading exposure remain disclosed; retained dependencies and application root Apache are unchanged. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-command-execution-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/exec-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/command-materialization.ts",
+      "normalizedSha256": "c569eddb2a643825f94cde0166e16cad9ca295e940c51461cc65ab3280601c6d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/component-roots.ts",
+      "normalizedSha256": "9637626d4543e4cb0404dc2ea242d2068684b750e409f86c24d014348acd5099",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-candidates.ts",
+      "normalizedSha256": "e8858c5ac1c915de6d6e270f9e08d09d5597f8cbc71b39b8e38c203f277cb1db",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-diagnostics.ts",
+      "normalizedSha256": "c6087d0f32ca8d45e60b73a0629deead56a9b131597550cce2b1ac8130abfcc6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-manifest.ts",
+      "normalizedSha256": "e44b62f3f41ef8cec3f7ef15dcd098da7d5ce02bbbcf7d5f46d9023378e3b693",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/discovery-runtime.ts",
+      "normalizedSha256": "9dae26acbfee47d2f84fb181f750cce5091f63e92ffec8f98b30d8c9a3c6d677",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/hook-runtime.ts",
+      "normalizedSha256": "a6bd3d79c6d133c07af0dd54e7a77df39bbfb1868af425f673f604055ff0d15b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/hook-sources.ts",
+      "normalizedSha256": "3d7c61bd5616af9bc722f62051382f9f80b1c44135ca0a6cf512c47827683351",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/index.ts",
+      "normalizedSha256": "a178166e0b418a4557bfc6362ead8ce0e17b5b8d62315ca9f60eb949fce3016b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/markdown-frontmatter.ts",
+      "normalizedSha256": "68395ea47caf9a1430623abccc9f960607e5e30686b8e3eb6873520dadb607e4",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp-official-auth.ts",
+      "normalizedSha256": "44a86f325f824e4efa8b7a29021de39012cdcf6508ad50f18a0475cff9036b5a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp-templates.ts",
+      "normalizedSha256": "64dcd9f46da02236ae45cbb13fa6349dfad98781486795856ea06fa966ba7242",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp-transport.ts",
+      "normalizedSha256": "d9799c51c565f14186323ce2434ce62a0cb8b98394691719be1f5027034ba26f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/mcp.ts",
+      "normalizedSha256": "d9488ae9edd2cd86d64591bf80a0f17c3194cb0b9775b7d7d644c8e85910d7dd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-components.ts",
+      "normalizedSha256": "484ae0e1bd933e13467f38a8df4b904b146512f7b47504b918b1db72ef3af30b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/types.ts",
+      "normalizedSha256": "4052de3c9e1315f6c3d6dbc98d853aa321fd30951b634af543c42d8f281966e7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/src/harness/ports.ts",
+      "normalizedSha256": "6cb8a9c4922117a43edd88d2bfb62fdbf124072c9e9081cf7ecf1f920a32a57b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/src/harness/target-binder.ts",
+      "normalizedSha256": "ecb44b0180a25fc51513987c670e28bed97e8b70a16e1f43bca607593371ad16",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/src/harness/virtual-modules.ts",
+      "normalizedSha256": "e9b45d66be8765038d19718714540eeb25f8fd02897cd7d93861334024c30db9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/binder-closed.test.ts",
+      "normalizedSha256": "17b9aaf9cdadbb9a7462dcf6bd9e4ad3aad13cc0728d60ff6a4218dc61109370",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/discovery.test.ts",
+      "normalizedSha256": "4bc759737bc908a5275925ab6076b5bb52f0c39b87b05395b11a2c6b054247cc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/hooks.test.ts",
+      "normalizedSha256": "99ed6f2b23008bb4299088c108d024a170b5ec8fb0a8fb8f155906eed751d76e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/mcp.test.ts",
+      "normalizedSha256": "5393f5d0bc973887bd5dc404f9127ff5f16bbac679b3e9acd5f0b07e77aad64c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/ports-and-boundary.test.ts",
+      "normalizedSha256": "cf09cf4880137ce29a486f209abd05ff70094a4c35eb24426763865b2c0a3b1b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/roots-components-frontmatter.test.ts",
+      "normalizedSha256": "dc067c3ecfd2de0220f9ed3bdbadd4be40443183d23c16dc94d23a9e3fe88002",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/support/fixtures.ts",
+      "normalizedSha256": "19528fd1881c5900a2bd4a1cfe3005cc6964b13083e973e88527d0399f5a5707",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-contract/test/support/manifests.ts",
+      "normalizedSha256": "66b6d0213688c98e0a27eadff8938d5922dee4b0893fd347c6eaa16e9c69ad48",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-binder-closed.test.ts",
+      "normalizedSha256": "dbba3075d2e073eccf1c8c5f5ec4bc268f088c3e76bab885bf6dc6c8c8029fdc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-discovery.test.ts",
+      "normalizedSha256": "93182b24e9476ce4e841be4de9da68b45cbe5fe8b45db2d09b57f07cea8f7d90",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-hooks.test.ts",
+      "normalizedSha256": "60336de448ee602be076bbc39b6df2ec029e6e782d39f6641c1b1cfc4b76f132",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-mcp.test.ts",
+      "normalizedSha256": "5d0a08e8da4b5b49cb2d67381500470afb530f6fdad999ad13e5b38a6f268d03",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-ports-and-boundary.test.ts",
+      "normalizedSha256": "90bfbe4bd54398a93e2e126d99af1fef978116e28a6bbe7f87c4eb7c4f9a7f90",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-discovery-roots-components-frontmatter.test.ts",
+      "normalizedSha256": "e62d0efb9b723834824b1ed9dd768aebcc6ca7da949ab5df32a8123a75d831e5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root designed and authored a 16-module replacement from approved behavior and finite public declarations, then froze it before independent test access. Seven old public modules were replaced; eight source/storage helpers remain retained. Independent old-first acceptance preserved original fixture and candidate failures, added two bounded supplement cases, and accepted v3 at 43/43. Main source and exact CLI-reachable compiled runtime also pass 43/43. Test loader portability and exact-entry metafile check are recorded; no behavior assertion was removed to conceal a product failure. Root and preparer reading exposure is disclosed; this is not blanket clean-room or licensing assurance. Applicable dependency rights and root Apache remain. This file is an independently authored fixture, suite or suite-discovery entry; it does not confer originality on tested dependencies.",
+      "evidence": [
+        "specs/knorvia-plugin-discovery-runtime.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md",
+        "licensing/evidence/plugin-discovery-runtime.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-command-execution-runtime.md",
+      "normalizedSha256": "2c2c73f8b2663a54c127ff87062679f3a171690ac4433b6d05e07c7d4e754c10",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-plugin-discovery-runtime.md",
+      "normalizedSha256": "a0d0c692f1bfcbb1e716f388e523bfbed31c0ad48c47d3dc41b8f569b8c9478d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-exec-plugin-runtime-acceptance.md",
+      "normalizedSha256": "c6408420c40ed176cdd72f69a36e5874d090338b16ae2739573d30380eee4306",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/exec-runtime.md",
+      "normalizedSha256": "3dc24f009cdec4af07036ad2927ba23a88e3717a1a1130c45bc711208fd337f5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/plugin-discovery-runtime.md",
+      "normalizedSha256": "35661f7eebee9da3d9513bcc713caf166e616fca77ba65c13642f57a31fe7b0d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change.",
+      "evidence": [
+        "specs/knorvia-independent-implementation.md",
+        "docs/knorvia-exec-plugin-runtime-acceptance.md"
       ]
     }
   ]

@@ -1,9 +1,10 @@
-import { accessSync, constants as fsConstants } from "node:fs";
-import { basename, delimiter, join, win32 } from "node:path";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import { accessSync, constants } from "node:fs";
+import path from "node:path";
+import type { ExecutionShellDialect, ExecutionShellSelection } from "@knorvia/contracts";
 import { windowsExecutableCandidates } from "./windows-executable.js";
-import { type ExecutionShellDialect, type ExecutionShellSelection } from "@knorvia/contracts";
 
-type PosixShellKind = "bash" | "zsh";
 type ExecutableCheck = (path: string) => boolean;
 type EffectiveBashShellResolveOptions = {
   env: NodeJS.ProcessEnv;
@@ -11,12 +12,6 @@ type EffectiveBashShellResolveOptions = {
   exists?: ExecutableCheck;
   override?: ExecutionShellSelection;
 };
-
-const FIXED_POSIX_SHELL_DIRS = ["/bin", "/usr/bin", "/usr/local/bin", "/opt/homebrew/bin"];
-const WINDOWS_GIT_BASH_PATHS = [
-  "C:\\Program Files\\Git\\bin\\bash.exe",
-  "C:\\Program Files (x86)\\Git\\bin\\bash.exe",
-] as const;
 
 export interface BashShellProvider {
   dialect: ExecutionShellDialect;
@@ -30,294 +25,133 @@ interface EffectiveBashShellResolution {
   provider?: BashShellProvider;
 }
 
-export function resolveEffectiveBashShellSelection(
-  options: EffectiveBashShellResolveOptions,
-): EffectiveBashShellResolution {
-  const snapshotResolution = resolveShellSnapshotSelection(options.override);
-  if (snapshotResolution) {
-    return snapshotResolution;
-  }
-
-  return options.platform === "win32"
-    ? resolveEffectiveWindowsBashShellSelection(options)
-    : resolveEffectivePosixBashShellSelection(options);
-}
-
-function resolvePosixBashShell(
-  env: NodeJS.ProcessEnv,
-  exists?: ExecutableCheck,
-): string | undefined {
-  const candidates: string[] = [];
-  const shell = env.SHELL;
-
-  if (shell && posixShellKind(shell)) {
-    candidates.push(shell);
-  }
-
-  for (const kind of preferredPosixShellKinds(env)) {
-    candidates.push(...pathCandidates(kind, env));
-    candidates.push(...fixedPosixShellCandidates(kind));
-  }
-
-  const seen = new Set<string>();
-  for (const candidate of candidates) {
-    if (seen.has(candidate)) continue;
-    seen.add(candidate);
-    if (isExecutableCandidate(candidate, exists)) {
-      return candidate;
-    }
-  }
-
-  return undefined;
-}
-
-function resolveWindowsGitBashShell(
-  env: NodeJS.ProcessEnv,
-  exists?: ExecutableCheck,
-): string | undefined {
-  for (const candidate of WINDOWS_GIT_BASH_PATHS) {
-    if (isExecutableCandidate(candidate, exists)) return candidate;
-  }
-
-  const gitExe = windowsExecutableCandidates("git", env).find((candidate) =>
-    isExecutableCandidate(candidate, exists),
-  );
-  if (!gitExe) return undefined;
-
-  const inferred = inferWindowsGitBashPathsFromGitExe(gitExe);
-  return inferred.find((candidate) => isExecutableCandidate(candidate, exists));
-}
-
-function createGitBashProvider(shellPath: string): BashShellProvider {
-  return {
-    dialect: "git-bash",
-    envOverlay: {
-      GIT_EDITOR: "true",
-      SHELL: shellPath,
-    },
-    file: shellPath,
-    shell: false,
-  };
-}
-
-function createPosixShellProvider(shellPath: string): BashShellProvider {
-  return {
-    dialect: "posix",
-    envOverlay: {
-      GIT_EDITOR: "true",
-      SHELL: shellPath,
-    },
-    file: shellPath,
-    shell: false,
-  };
-}
-
-function resolveShellSnapshotSelection(
-  selection: ExecutionShellSelection | undefined,
-): EffectiveBashShellResolution | undefined {
-  if (!selection || selection.source === "user-config") {
-    return undefined;
-  }
-  return {
-    provider: createShellProviderFromSelection(selection),
-    selection,
-  };
-}
-
-function createShellProviderFromSelection(
-  selection: ExecutionShellSelection,
-): BashShellProvider | undefined {
-  if (!selection.path) return undefined;
-  if (selection.dialect === "git-bash") {
-    return createGitBashProvider(selection.path);
-  }
-  if (selection.dialect === "cmd") {
-    return createWindowsCmdProvider(selection.path);
-  }
-  if (selection.dialect === "posix") {
-    return createPosixShellProvider(selection.path);
-  }
-  return undefined;
-}
-
-function resolveEffectiveWindowsBashShellSelection(
-  options: EffectiveBashShellResolveOptions,
-): EffectiveBashShellResolution {
-  const override = options.override;
-  if (override?.source === "user-config") {
-    if (
-      override.dialect === "git-bash" &&
-      override.path &&
-      isExecutableCandidate(override.path, options.exists)
-    ) {
-      return {
-        provider: createGitBashProvider(override.path),
-        selection: shellSelection({
-          dialect: "git-bash",
-          displayName: "Git Bash",
-          id: override.id,
-          label: override.label,
-          path: override.path,
-          source: "user-config",
-        }),
-      };
-    }
-    if (override.dialect === "cmd") {
-      const cmdPath = resolveWindowsCmdOverridePath(override.path ?? "cmd.exe", options.exists);
-      if (cmdPath) {
-        return {
-          provider: createWindowsCmdProvider(cmdPath),
-          selection: shellSelection({
-            dialect: "cmd",
-            displayName: "CMD",
-            id: override.id,
-            label: override.label,
-            path: cmdPath,
-            source: "user-config",
-          }),
-        };
-      }
-    }
-  }
-
-  const gitBash = resolveWindowsGitBashShell(options.env, options.exists);
-  if (gitBash) {
-    return {
-      provider: createGitBashProvider(gitBash),
-      selection: shellSelection({
-        dialect: "git-bash",
-        displayName: "Git Bash",
-        id: "auto:git-bash",
-        label: "Git Bash",
-        path: gitBash,
-        source: "auto-detected",
-      }),
-    };
-  }
-
-  return legacyShellSelection();
-}
-
-function resolveEffectivePosixBashShellSelection(
-  options: EffectiveBashShellResolveOptions,
-): EffectiveBashShellResolution {
-  const bashShell = resolvePosixBashShell(options.env, options.exists);
-  if (!bashShell) {
-    return legacyShellSelection();
-  }
-  const kind = posixShellKind(bashShell) ?? "bash";
-  return {
-    provider: createPosixShellProvider(bashShell),
-    selection: shellSelection({
-      dialect: "posix",
-      displayName: kind,
-      id: `auto:${kind}`,
-      label: kind,
-      path: bashShell,
-      source: "auto-detected",
-    }),
-  };
-}
-
-function shellSelection(options: {
-  dialect: ExecutionShellDialect;
-  displayName: string;
-  id?: string;
-  label?: string;
-  path: string;
-  source: "auto-detected" | "user-config";
-}): ExecutionShellSelection {
-  return {
-    dialect: options.dialect,
-    display: { name: options.displayName },
-    id: options.id,
-    label: options.label,
-    path: options.path,
-    source: options.source,
-  };
-}
-
-function legacyShellSelection(): EffectiveBashShellResolution {
-  return {
-    selection: {
-      dialect: "legacy-shell",
-      display: { name: "system shell" },
-      source: "legacy-fallback",
-    },
-  };
-}
-
-function inferWindowsGitBashPathsFromGitExe(gitExe: string): string[] {
-  const gitDir = win32.dirname(gitExe);
-  return [
-    win32.normalize(win32.join(gitDir, "..", "bin", "bash.exe")),
-    win32.normalize(win32.join(gitDir, "..", "..", "bin", "bash.exe")),
-  ];
-}
-
-function createWindowsCmdProvider(shellPath: string): BashShellProvider {
-  return {
-    dialect: "cmd",
-    file: shellPath,
-    shell: shellPath,
-  };
-}
-
-function resolveWindowsCmdOverridePath(
-  shellPath: string,
-  exists?: ExecutableCheck,
-): string | undefined {
-  if (isExecutableCandidate(shellPath, exists)) {
-    return shellPath;
-  }
-  // 设置页在 ComSpec 缺失时会暴露系统默认 cmd.exe fallback；它和 generic
-  // Windows shell fallback 一样不能依赖 accessSync 预校验，否则用户显式选择会被 Git Bash 抢走。
-  return isWindowsCmdFallback(shellPath) ? shellPath : undefined;
-}
-
-function isWindowsCmdFallback(shellPath: string): boolean {
-  return (
-    !shellPath.includes("\\") && !shellPath.includes("/") && shellPath.toLowerCase() === "cmd.exe"
-  );
-}
-
-function preferredPosixShellKinds(env: NodeJS.ProcessEnv): PosixShellKind[] {
-  if (env.SHELL && posixShellKind(env.SHELL) === "bash") {
-    return ["bash", "zsh"];
-  }
-  return ["zsh", "bash"];
-}
-
-function pathCandidates(kind: PosixShellKind, env: NodeJS.ProcessEnv): string[] {
-  const pathValue = env.PATH;
-  if (!pathValue) return [];
-
-  return pathValue
-    .split(delimiter)
-    .filter(Boolean)
-    .map((entry) => join(entry, kind));
-}
-
-function fixedPosixShellCandidates(kind: PosixShellKind): string[] {
-  return FIXED_POSIX_SHELL_DIRS.map((dir) => join(dir, kind));
-}
-
-function posixShellKind(path: string): PosixShellKind | undefined {
-  const name = basename(path);
-  if (name.includes("bash")) return "bash";
-  if (name.includes("zsh")) return "zsh";
-  return undefined;
-}
-
-export function isExecutableCandidate(path: string, exists?: ExecutableCheck): boolean {
-  if (exists) {
-    return exists(path);
-  }
-
+const defaultExecutableCheck: ExecutableCheck = (candidate) => {
   try {
-    accessSync(path, fsConstants.X_OK);
+    accessSync(candidate, process.platform === "win32" ? constants.F_OK : constants.X_OK);
     return true;
   } catch {
     return false;
   }
+};
+
+export function isExecutableCandidate(pathValue: string, exists = defaultExecutableCheck): boolean {
+  return pathValue.trim() !== "" && exists(pathValue);
+}
+
+function displayName(file: string, dialect: ExecutionShellSelection["dialect"]): string {
+  if (dialect === "cmd") return "Command Prompt";
+  if (dialect === "git-bash") return "Git Bash";
+  if (dialect === "legacy-shell") return "System Shell";
+  return path.posix.basename(file).toLowerCase().includes("zsh") ? "Zsh" : "Bash";
+}
+
+function selection(
+  file: string | undefined,
+  dialect: ExecutionShellSelection["dialect"],
+  source: ExecutionShellSelection["source"],
+): ExecutionShellSelection {
+  return { path: file, dialect, source, display: { name: displayName(file || "shell", dialect) } };
+}
+
+function providerFor(value: ExecutionShellSelection): BashShellProvider | undefined {
+  if (!value.path || value.dialect === "legacy-shell") return undefined;
+  if (value.dialect === "cmd") {
+    return { dialect: "cmd", file: value.path, shell: false };
+  }
+  return {
+    dialect: value.dialect,
+    file: value.path,
+    shell: false,
+    envOverlay: { SHELL: value.path, GIT_EDITOR: "true" },
+  };
+}
+
+function pathCandidates(names: readonly string[], env: NodeJS.ProcessEnv): string[] {
+  const directories = (env.PATH ?? env.Path ?? "").split(":").filter(Boolean);
+  return directories.flatMap((directory) => names.map((name) => path.posix.join(directory, name)));
+}
+
+function resolveRecorded(
+  value: ExecutionShellSelection,
+  exists: ExecutableCheck,
+): EffectiveBashShellResolution {
+  if (!value.path) return { selection: value };
+  const bareCmd = value.dialect === "cmd" && value.path.toLowerCase() === "cmd.exe";
+  if (!bareCmd && !isExecutableCandidate(value.path, exists)) return { selection: value };
+  return { selection: value, provider: providerFor(value) };
+}
+
+function resolveWindows(
+  env: NodeJS.ProcessEnv,
+  exists: ExecutableCheck,
+  override?: ExecutionShellSelection,
+): EffectiveBashShellResolution {
+  if (override?.source === "user-config" && override.path) {
+    const base = path.win32.basename(override.path).toLowerCase();
+    const accepted =
+      override.dialect === "git-bash" || override.dialect === "cmd" || base === "cmd.exe";
+    if (accepted) return resolveRecorded(override, exists);
+  }
+  const programFiles = [env.ProgramFiles, env["ProgramFiles(x86)"], env.LOCALAPPDATA].filter(
+    (value): value is string => Boolean(value),
+  );
+  const fixed = programFiles.flatMap((root) => [
+    path.win32.join(root, "Git", "bin", "bash.exe"),
+    path.win32.join(root, "Git", "usr", "bin", "bash.exe"),
+    path.win32.join(root, "Programs", "Git", "bin", "bash.exe"),
+    path.win32.join(root, "Programs", "Git", "usr", "bin", "bash.exe"),
+  ]);
+  const inferred: string[] = [];
+  for (const git of windowsExecutableCandidates("git", env)) {
+    if (exists(git))
+      inferred.push(path.win32.resolve(path.win32.dirname(git), "..", "bin", "bash.exe"));
+  }
+  const candidates = [...new Set([...fixed, ...inferred])];
+  const bash = candidates.find((candidate) => isExecutableCandidate(candidate, exists));
+  if (bash) {
+    const selected = selection(bash, "git-bash", "auto-detected");
+    return { selection: selected, provider: providerFor(selected) };
+  }
+  const command = env.ComSpec || env.COMSPEC || "cmd.exe";
+  const selected = selection(command, "legacy-shell", "legacy-fallback");
+  return { selection: selected };
+}
+
+function resolvePosix(
+  env: NodeJS.ProcessEnv,
+  exists: ExecutableCheck,
+  override?: ExecutionShellSelection,
+): EffectiveBashShellResolution {
+  if (override?.source === "user-config") return resolveRecorded(override, exists);
+  const preferred = env.SHELL;
+  const names = preferred && /(?:^|\/)(?:ba|z)sh$/.test(preferred) ? [preferred] : [];
+  const candidates = [
+    ...names,
+    ...pathCandidates(["zsh", "bash"], env),
+    "/bin/zsh",
+    "/usr/bin/zsh",
+    "/bin/bash",
+    "/usr/bin/bash",
+  ];
+  const shell = [...new Set(candidates)].find((candidate) =>
+    isExecutableCandidate(candidate, exists),
+  );
+  if (shell) {
+    const selected = selection(shell, "posix", "auto-detected");
+    return { selection: selected, provider: providerFor(selected) };
+  }
+  const selected = selection(preferred || "/bin/sh", "legacy-shell", "legacy-fallback");
+  return { selection: selected };
+}
+
+export function resolveEffectiveBashShellSelection(
+  options: EffectiveBashShellResolveOptions,
+): EffectiveBashShellResolution {
+  const exists = options.exists ?? defaultExecutableCheck;
+  if (options.override && options.override.source !== "user-config") {
+    return resolveRecorded(options.override, exists);
+  }
+  return options.platform === "win32"
+    ? resolveWindows(options.env, exists, options.override)
+    : resolvePosix(options.env, exists, options.override);
 }

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type {
   CustomCommandRoot,
   HookEventName,
@@ -15,7 +17,6 @@ export interface PluginCandidate {
   rootPath: string;
   source: PluginSource;
 }
-
 export interface LoadedPlugin {
   id: string;
   manifest: PluginManifest;
@@ -24,7 +25,6 @@ export interface LoadedPlugin {
   rootPath: string;
   source: PluginSource;
 }
-
 export interface PluginComponents {
   commandRoots: CustomCommandRoot[];
   hooks: Partial<Record<HookEventName, HookMatcherConfig[]>>;
@@ -33,7 +33,6 @@ export interface PluginComponents {
   skillCount: number;
   skillRoots: SkillRoot[];
 }
-
 export interface PluginAbortOptions {
   signal?: AbortSignal;
 }

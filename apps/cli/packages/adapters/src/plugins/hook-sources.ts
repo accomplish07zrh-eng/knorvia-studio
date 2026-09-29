@@ -1,178 +1,97 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import { readFileSync, realpathSync } from "node:fs";
 import { join } from "node:path";
-import type { HookEventName, PluginDiagnostic } from "@knorvia/contracts";
-import { HookEventName as HookEventNameValue } from "@knorvia/contracts";
-import { fileExists, isRecord, resolveInside } from "./helpers.js";
+import { HookEventName, type PluginDiagnostic } from "@knorvia/contracts";
+import { isRecord, isNotFoundError, resolveInside } from "./helpers.js";
+import { diagnostic } from "./discovery-diagnostics.js";
 import type { LoadedPlugin } from "./types.js";
-
-const STANDARD_HOOKS_PATH = join("hooks", "hooks.json");
-
-const SUPPORTED_HOOK_EVENTS = new Set<string>(Object.values(HookEventNameValue));
 
 interface PluginHookSource {
   rawHooks: unknown;
   sourcePath: string;
   wrapper: boolean;
 }
-
-/**
- * 统一发现插件 hook 来源文件，避免详情枚举和真实 loader 对 `hooks/hooks.json`
- * 与 `manifest.hooks` 的读取口径漂移。
- */
-export function listPluginHookSources(input: {
+interface SourceInput {
   diagnostics: PluginDiagnostic[];
   loaded: LoadedPlugin;
-}): PluginHookSource[] {
-  const sources: PluginHookSource[] = [];
-  const loadedHookPaths = new Set<string>();
-  const standardHooksPath = join(input.loaded.rootPath, STANDARD_HOOKS_PATH);
-
-  if (fileExists(standardHooksPath)) {
-    const source = loadPluginHookSource({
-      diagnostics: input.diagnostics,
-      loaded: input.loaded,
-      path: standardHooksPath,
-    });
-    if (source) {
-      sources.push(source);
-      loadedHookPaths.add(realpathOrSelf(standardHooksPath));
-    }
-  }
-
-  const manifestHooks = input.loaded.manifest.hooks;
-  if (manifestHooks === undefined) return sources;
-  const hookSpecs = Array.isArray(manifestHooks) ? manifestHooks : [manifestHooks];
-
-  for (const hookSpec of hookSpecs) {
-    if (typeof hookSpec === "string") {
-      const hookFilePath = resolveInside(input.loaded.rootPath, hookSpec);
-      if (!hookFilePath) {
-        input.diagnostics.push({
-          code: "plugin_component_path_invalid",
-          message: `Plugin hooks path escapes plugin root: ${hookSpec}`,
-          path: input.loaded.manifestPath,
-          pluginId: input.loaded.id,
-          severity: "error",
-        });
-        continue;
-      }
-      if (!fileExists(hookFilePath)) {
-        input.diagnostics.push({
-          code: "plugin_hook_read_failed",
-          message: `Plugin hooks file not found: ${hookSpec}`,
-          path: hookFilePath,
-          pluginId: input.loaded.id,
-          severity: "error",
-        });
-        continue;
-      }
-
-      const realPath = realpathOrSelf(hookFilePath);
-      if (loadedHookPaths.has(realPath)) {
-        input.diagnostics.push({
-          code: "plugin_hook_invalid",
-          message: `Duplicate plugin hooks file ignored: ${hookSpec}`,
-          path: hookFilePath,
-          pluginId: input.loaded.id,
-          severity: "warning",
-        });
-        continue;
-      }
-
-      const source = loadPluginHookSource({
-        diagnostics: input.diagnostics,
-        loaded: input.loaded,
-        path: hookFilePath,
-      });
-      if (source) {
-        sources.push(source);
-        loadedHookPaths.add(realPath);
-      }
-      continue;
-    }
-
-    sources.push({
-      rawHooks: hookSpec,
-      sourcePath: input.loaded.manifestPath,
-      wrapper: false,
-    });
-  }
-
-  return sources;
 }
 
-/** 只抽取 hook 事件名，供 `plugins/describe` 展示；不会构造可执行 hook。 */
-export function listPluginHookEventNames(input: {
-  diagnostics: PluginDiagnostic[];
-  loaded: LoadedPlugin;
-}): HookEventName[] {
-  const eventNames: HookEventName[] = [];
+export function listPluginHookSources({ diagnostics, loaded }: SourceInput): PluginHookSource[] {
+  const result: PluginHookSource[] = [];
   const seen = new Set<string>();
+  const add = (rawHooks: unknown, sourcePath: string): void => {
+    if (!isRecord(rawHooks)) {
+      diagnostic(
+        diagnostics,
+        "plugin_hook_invalid",
+        "Hook declarations must be objects",
+        loaded,
+        sourcePath,
+      );
+      return;
+    }
+    result.push({ rawHooks, sourcePath, wrapper: Object.hasOwn(rawHooks, "hooks") });
+  };
+  const file = (path: string, optional: boolean): void => {
+    try {
+      const canonical = realpathSync(path);
+      if (seen.has(canonical)) return;
+      seen.add(canonical);
+      const value: unknown = JSON.parse(readFileSync(path, "utf8"));
+      add(value, path);
+    } catch (error) {
+      if (!optional || !isNotFoundError(error))
+        diagnostic(
+          diagnostics,
+          "plugin_hook_read_failed",
+          "Cannot read hook declaration",
+          loaded,
+          path,
+        );
+    }
+  };
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) {
+      for (const entry of value) visit(entry);
+      return;
+    }
+    if (typeof value === "string") {
+      const path = resolveInside(loaded.rootPath, value);
+      if (path) file(path, false);
+      else
+        diagnostic(
+          diagnostics,
+          "plugin_component_path_invalid",
+          "Hook source escapes plugin root",
+          loaded,
+          loaded.manifestPath,
+        );
+    } else if (value !== undefined) add(value, loaded.manifestPath);
+  };
+  file(join(loaded.rootPath, "hooks", "hooks.json"), true);
+  visit(loaded.manifest.hooks);
+  return result;
+}
+
+export function listPluginHookEventNames(input: SourceInput): HookEventName[] {
+  const valid = new Set<string>(Object.values(HookEventName));
+  const names = new Set<HookEventName>();
   for (const source of listPluginHookSources(input)) {
-    const hooksRoot = source.wrapper
-      ? isRecord(source.rawHooks)
-        ? source.rawHooks.hooks
-        : undefined
-      : source.rawHooks;
-    if (!isRecord(hooksRoot)) {
-      input.diagnostics.push({
-        code: "plugin_hook_invalid",
-        message: source.wrapper
-          ? "Plugin hooks file must contain a hooks object"
-          : "Plugin manifest hooks entry must be an object, a path, or an array",
-        path: source.sourcePath,
-        pluginId: input.loaded.id,
-        severity: "error",
-      });
-      continue;
-    }
-    for (const eventName of Object.keys(hooksRoot)) {
-      if (!SUPPORTED_HOOK_EVENTS.has(eventName)) {
-        input.diagnostics.push({
-          code: "plugin_hook_unsupported_event",
-          message: `Plugin hook event is not supported by this Knorvia Studio runtime: ${eventName}`,
-          path: source.sourcePath,
-          pluginId: input.loaded.id,
-          severity: "warning",
-        });
-        continue;
-      }
-      if (seen.has(eventName)) continue;
-      seen.add(eventName);
-      eventNames.push(eventName as HookEventName);
+    const raw =
+      source.wrapper && isRecord(source.rawHooks) ? source.rawHooks.hooks : source.rawHooks;
+    if (!isRecord(raw)) continue;
+    for (const name of Object.keys(raw)) {
+      if (valid.has(name)) names.add(name as HookEventName);
+      else
+        diagnostic(
+          input.diagnostics,
+          "plugin_hook_unsupported_event",
+          `Unsupported hook event ${name}`,
+          input.loaded,
+          source.sourcePath,
+        );
     }
   }
-  return eventNames;
-}
-
-function loadPluginHookSource(input: {
-  diagnostics: PluginDiagnostic[];
-  loaded: LoadedPlugin;
-  path: string;
-}): PluginHookSource | null {
-  try {
-    return {
-      rawHooks: JSON.parse(readFileSync(input.path, "utf8")) as unknown,
-      sourcePath: input.path,
-      wrapper: true,
-    };
-  } catch (error) {
-    input.diagnostics.push({
-      code: "plugin_hook_read_failed",
-      message:
-        error instanceof Error ? error.message : `Failed to read plugin hooks: ${input.path}`,
-      path: input.path,
-      pluginId: input.loaded.id,
-      severity: "error",
-    });
-    return null;
-  }
-}
-
-function realpathOrSelf(path: string): string {
-  try {
-    return realpathSync(path);
-  } catch {
-    return path;
-  }
+  return [...names];
 }

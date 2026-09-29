@@ -1,69 +1,47 @@
-import { mkdirSync, readFileSync, realpathSync, statSync, unlinkSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import {
-  gitBashPathToWindowsPath,
-  type ExecutionCommand,
-  type ExecutionRequest,
-  type ExecutionShellDialect,
-  windowsPathToGitBashPath,
-} from "@knorvia/contracts";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import { randomUUID } from "node:crypto";
+import { readFileSync, realpathSync, statSync, unlinkSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import type { ExecutionCommand, ExecutionRequest, ExecutionShellDialect } from "@knorvia/contracts";
+import { gitBashPathToWindowsPath } from "@knorvia/contracts";
 
 interface CwdCapturePlan {
   command: ExecutionCommand;
   cwdFilePath?: string;
 }
 
+function posixQuote(value: string): string {
+  return `'${value.replace(/'/g, `'"'"'`)}'`;
+}
+
+function cmdQuote(value: string): string {
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
 export function createCwdCapturePlan(
   request: ExecutionRequest,
-  options: {
-    dialect: ExecutionShellDialect;
-    platform: NodeJS.Platform;
-  },
+  options: { dialect: ExecutionShellDialect; platform: NodeJS.Platform },
 ): CwdCapturePlan {
-  if (request.captureCwdAfterSuccess !== true || request.command.mode !== "shell") {
+  if (!request.captureCwdAfterSuccess || request.command.mode !== "shell") {
     return { command: request.command };
   }
-
-  const cwdCaptureDir = tmpdir();
-  mkdirSync(cwdCaptureDir, { recursive: true });
-  const cwdFilePath = join(cwdCaptureDir, `knorvia-${crypto.randomUUID()}-cwd`);
-
-  // 每次 Bash 仍启动新 shell；成功后只把最终 pwd -P 写回主进程，不能持久化 env/alias/function。
-  // 默认 shell、hooks、background command 不走这个分支，避免改变其它执行面。
-  const wrappedCommand =
-    options.dialect === "cmd"
-      ? createWindowsCmdCwdCaptureCommand(request.command.command, cwdFilePath)
-      : createPosixCwdCaptureCommand(
-          request.command.command,
-          options.dialect === "git-bash" ? windowsPathToGitBashPath(cwdFilePath) : cwdFilePath,
-        );
-
-  return {
-    command: {
-      ...request.command,
-      command: wrappedCommand,
-    },
-    cwdFilePath,
-  };
-}
-
-function createPosixCwdCaptureCommand(command: string, cwdFilePath: string): string {
-  return [
-    command,
-    "__knorvia_status=$?",
-    `if [ "$__knorvia_status" -eq 0 ]; then pwd -P > ${shellQuote(cwdFilePath)}; fi`,
-    'exit "$__knorvia_status"',
-  ].join("\n");
-}
-
-function createWindowsCmdCwdCaptureCommand(command: string, cwdFilePath: string): string {
-  return [
-    command,
-    'set "__knorvia_status=%ERRORLEVEL%"',
-    `if "%__knorvia_status%"=="0" cd > ${cmdQuote(cwdFilePath)}`,
-    "exit /b %__knorvia_status%",
-  ].join("\r\n");
+  const cwdFilePath = path.join(os.tmpdir(), `knorvia-cwd-${randomUUID()}.txt`);
+  if (options.dialect === "cmd") {
+    const command =
+      `setlocal EnableDelayedExpansion & ${request.command.command} & ` +
+      `set "__KNORVIA_STATUS=!ERRORLEVEL!" & ` +
+      `if !__KNORVIA_STATUS! EQU 0 (cd > ${cmdQuote(cwdFilePath)}) & ` +
+      `exit /b !__KNORVIA_STATUS!`;
+    return { command: { ...request.command, command }, cwdFilePath };
+  }
+  const shellPath = options.dialect === "git-bash" ? cwdFilePath.replace(/\\/g, "/") : cwdFilePath;
+  const command =
+    `{\n${request.command.command}\n}\n__knorvia_status=$?; ` +
+    `if [ "$__knorvia_status" -eq 0 ]; then pwd -P > ${posixQuote(shellPath)}; fi; ` +
+    `exit "$__knorvia_status"`;
+  return { command: { ...request.command, command }, cwdFilePath };
 }
 
 export function readCapturedCwd(
@@ -72,31 +50,17 @@ export function readCapturedCwd(
 ): string | undefined {
   if (!cwdFilePath) return undefined;
   try {
-    const value = readFileSync(cwdFilePath, "utf8").replace(/\r?\n$/u, "");
-    if (!value) return undefined;
-    const hostValue = normalizeCapturedCwdForHost(value, options.dialect);
-    const stats = statSync(hostValue);
-    if (!stats.isDirectory()) return undefined;
-    return realpathSync(hostValue);
+    let captured = readFileSync(cwdFilePath, "utf8").replace(/(?:\r?\n)$/, "");
+    if (options.dialect === "git-bash") captured = gitBashPathToWindowsPath(captured);
+    if (!statSync(captured).isDirectory()) return undefined;
+    return realpathSync(captured);
   } catch {
     return undefined;
   } finally {
     try {
       unlinkSync(cwdFilePath);
     } catch {
-      // cwd 捕获只影响内部会话状态，清理失败不能影响工具结果。
+      // Capture cleanup is secondary to the execution result.
     }
   }
-}
-
-function normalizeCapturedCwdForHost(value: string, dialect: ExecutionShellDialect): string {
-  return dialect === "git-bash" ? gitBashPathToWindowsPath(value) : value;
-}
-
-function shellQuote(value: string): string {
-  return `'${value.replaceAll("'", "'\\''")}'`;
-}
-
-function cmdQuote(value: string): string {
-  return `"${value.replaceAll('"', '""')}"`;
 }

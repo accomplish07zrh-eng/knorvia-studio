@@ -1,10 +1,13 @@
-import type { SpawnOptions } from "node:child_process";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import type { ChildProcess, SpawnOptions } from "node:child_process";
 import type { KnorviaToolExecResource } from "@knorvia/shared";
 import type { NetworkEgressEnvPolicy } from "../network/subprocess-env.js";
 import type { ResolvedSpawnCommand } from "./execution-command.js";
 import type {
   BackgroundExecutionSnapshot,
   BackgroundExecutionStartResult,
+  ExecutionRequest,
   ExecutionResult,
   ExecutionRunOptions,
   ExecutionShellDialect,
@@ -34,7 +37,6 @@ export interface ExecutionOutputPaths {
 
 export interface InternalExecutionRunOptions extends ExecutionRunOptions {
   onOutputEncodingResolved?: (encoding: string | null) => void;
-  /** Bash 移交时停止前台预览并重启文件 watchdog；不复制进程或输出。 */
   bashLifecycle?: {
     isBackgrounded: () => boolean;
     onBackgrounded?: () => void;
@@ -44,25 +46,25 @@ export interface InternalExecutionRunOptions extends ExecutionRunOptions {
   sharePersistedOutputLimitAcrossStreams?: boolean;
   shouldStopOnPersistedLimit?: () => boolean;
   shouldRetainExecutionAfterRootExit?: () => boolean;
+  suppressTerminalEvent?: boolean;
 }
 
 export type BashBackgroundLifecycleMode = "explicit" | "auto_on_timeout";
-
 export type BashBackgroundLifecycleResult =
-  | {
-      kind: "foreground";
-      result: ExecutionResult;
-    }
-  | {
-      kind: "backgrounded";
-      task: BackgroundExecutionStartResult;
-    };
+  | { kind: "foreground"; result: ExecutionResult }
+  | { kind: "backgrounded"; task: BackgroundExecutionStartResult };
 
 export interface PreparedChildSpawn {
   command: ResolvedSpawnCommand;
   cwdDialect: ExecutionShellDialect;
   cwdFilePath?: string;
   spawnOptions: SpawnOptions;
+}
+
+export interface PreparedExecution extends PreparedChildSpawn {
+  isBash: boolean;
+  legacyOutputEncoding: string | null;
+  request: ExecutionRequest;
 }
 
 export interface ActiveExecutionRecord {
@@ -84,5 +86,9 @@ export interface NodeExecutionAdapterOptions {
 }
 
 export type OutputPersistenceMode = "none" | "on_truncate" | "always";
-
 export type StopReason = "timeout" | "cancelled" | "output_limit";
+
+export interface RunControl {
+  child?: ChildProcess;
+  stop: (reason: StopReason) => void;
+}

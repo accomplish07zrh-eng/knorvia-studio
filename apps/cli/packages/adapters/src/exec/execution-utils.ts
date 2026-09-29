@@ -1,12 +1,10 @@
-import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
-import { homedir } from "node:os";
-import { join } from "node:path";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import path from "node:path";
 import type { ExecutionRequest } from "@knorvia/contracts";
+import { resolveKnorviaDataRoot } from "@knorvia/shared/node";
 
 export const DEFAULT_TIMEOUT_MS = 300_000;
-const MS_PER_SECOND = 1_000;
-const MS_PER_MINUTE = 60 * MS_PER_SECOND;
-const MS_PER_HOUR = 60 * MS_PER_MINUTE;
 export const DEFAULT_INLINE_OUTPUT_BYTES = 10 * 1024 * 1024;
 export const DEFAULT_MAX_PERSISTED_OUTPUT_BYTES = 50 * 1024 * 1024;
 export const BASH_RUNTIME_OUTPUT_LIMIT_BYTES = 5 * 1024 * 1024 * 1024;
@@ -17,13 +15,15 @@ export const DEFAULT_PROGRESS_INTERVAL_MS = 1_000;
 export const DEFAULT_PROGRESS_TAIL_BYTES = 4 * 1024;
 
 export function resolveDefaultOutputRootDir(processEnv: NodeJS.ProcessEnv = process.env): string {
-  const storageRoot = processEnv.KNORVIA_STORAGE_DIR?.trim() || resolveKnorviaDataRoot();
-  return join(storageRoot, "cli", "exec");
+  const root = processEnv.KNORVIA_STORAGE_DIR || resolveKnorviaDataRoot(processEnv);
+  return path.join(root, "cli", "exec");
 }
 
 export function isExpectedChildStdinClosureError(error: Error): boolean {
   const code = (error as NodeJS.ErrnoException).code;
-  return code === "EPIPE" || code === "ERR_STREAM_DESTROYED";
+  return (
+    code === "EPIPE" || code === "ERR_STREAM_DESTROYED" || code === "ERR_STREAM_WRITE_AFTER_END"
+  );
 }
 
 export function isBashMergedOutputRequest(request: ExecutionRequest): boolean {
@@ -31,50 +31,38 @@ export function isBashMergedOutputRequest(request: ExecutionRequest): boolean {
 }
 
 export function sanitizePathSegment(value: string): string {
-  return value.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120) || "unknown";
+  const normalized = value
+    .trim()
+    .replace(/[^a-zA-Z0-9._-]+/g, "_")
+    .replace(/^\.+/, "");
+  return normalized.slice(0, 96) || "unknown";
 }
 
 export function abortSignalReason(signal: AbortSignal | undefined): unknown {
-  if (!signal || !("reason" in signal)) return undefined;
-  return (signal as AbortSignal & { reason?: unknown }).reason;
+  return signal?.aborted ? signal.reason : undefined;
 }
 
-export function waitForPromise(promise: Promise<unknown>, timeoutMs: number): Promise<boolean> {
-  return new Promise<boolean>((resolve) => {
-    let settled = false;
-    let timer: NodeJS.Timeout | undefined;
-    const finish = (completed: boolean) => {
-      if (settled) return;
-      settled = true;
-      if (timer) clearTimeout(timer);
-      resolve(completed);
-    };
-    timer = setTimeout(() => finish(false), timeoutMs);
-    // losing timeout 不应在目标 Promise 已完成后继续单独保活 CLI。
-    timer.unref?.();
-    void promise.then(
-      () => finish(true),
-      () => finish(true),
-    );
+export async function waitForPromise(
+  promise: Promise<unknown>,
+  timeoutMs: number,
+): Promise<boolean> {
+  let timer: NodeJS.Timeout | undefined;
+  const completion = promise.then(
+    () => true,
+    () => true,
+  );
+  const timeout = new Promise<false>((resolve) => {
+    timer = setTimeout(() => resolve(false), Math.max(0, timeoutMs));
+    timer.unref();
   });
+  const completed = await Promise.race([completion, timeout]);
+  if (timer) clearTimeout(timer);
+  return completed;
 }
 
 export function formatTimeoutDuration(timeoutMs: number): string {
-  if (!Number.isFinite(timeoutMs) || timeoutMs < MS_PER_SECOND) {
-    return `${Math.max(0, Math.round(timeoutMs))}ms`;
-  }
-
-  if (timeoutMs < MS_PER_MINUTE) {
-    return `${formatUnitValue(timeoutMs / MS_PER_SECOND)}s`;
-  }
-
-  if (timeoutMs < MS_PER_HOUR) {
-    return `${formatUnitValue(timeoutMs / MS_PER_MINUTE)}m`;
-  }
-
-  return `${formatUnitValue(timeoutMs / MS_PER_HOUR)}h`;
-}
-
-function formatUnitValue(value: number): string {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1).replace(/\.0$/u, "");
+  if (timeoutMs < 1_000) return `${timeoutMs}ms`;
+  if (timeoutMs < 60_000) return `${timeoutMs / 1_000}s`;
+  if (timeoutMs < 3_600_000) return `${timeoutMs / 60_000}m`;
+  return `${timeoutMs / 3_600_000}h`;
 }

@@ -1,37 +1,37 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import type { ExecutionOutputPreview } from "@knorvia/contracts";
 
 const SHORT_PREVIEW_LINES = 5;
 const FULL_PREVIEW_LINES = 100;
 
-/** 只扫描本次有界尾读；原始字节数用于 Windows 编码下的行数估计。 */
+function linesIn(text: string): string[] {
+  if (text === "") return [];
+  const lines = text.split(/\r?\n/);
+  if (lines.at(-1) === "") lines.pop();
+  return lines;
+}
+
 export function buildBashOutputPreview(
   text: string,
   bytesRead: number,
   totalBytes: number,
   previousLines: number,
 ): ExecutionOutputPreview {
-  let cursor = text.length;
-  let shortStart = 0;
-  let fullStart = 0;
-  let lines = 0;
-  while (cursor > 0) {
-    cursor = text.lastIndexOf("\n", cursor - 1);
-    lines += 1;
-    if (lines === SHORT_PREVIEW_LINES) shortStart = cursor <= 0 ? 0 : cursor + 1;
-    if (lines === FULL_PREVIEW_LINES) fullStart = cursor <= 0 ? 0 : cursor + 1;
+  const lines = linesIn(text);
+  const partial = bytesRead < totalBytes;
+  let totalLines = lines.length;
+  if (bytesRead === 0) {
+    totalLines = previousLines;
+  } else if (partial) {
+    const estimate = Math.ceil((lines.length * totalBytes) / bytesRead);
+    totalLines = Math.max(previousLines, lines.length, estimate);
   }
-  const linesEstimated = bytesRead > 0 && bytesRead < totalBytes;
-  const totalLines =
-    bytesRead === 0
-      ? previousLines
-      : linesEstimated
-        ? Math.max(previousLines, Math.round((totalBytes / bytesRead) * lines))
-        : lines;
   return {
-    text: text.slice(shortStart),
-    fullText: text.slice(fullStart),
+    text: lines.slice(-SHORT_PREVIEW_LINES).join("\n"),
+    fullText: lines.slice(-FULL_PREVIEW_LINES).join("\n"),
     totalLines,
     totalBytes,
-    linesEstimated,
+    linesEstimated: partial,
   };
 }

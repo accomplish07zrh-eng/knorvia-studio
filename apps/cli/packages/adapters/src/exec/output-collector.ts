@@ -1,8 +1,11 @@
-import { createWriteStream, mkdirSync, type WriteStream } from "node:fs";
-import { dirname } from "node:path";
-import { decodeExecutionOutputBuffer } from "./outputEncoding.js";
-import type { OutputPersistenceMode } from "./execution-adapter-types.js";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import { mkdirSync } from "node:fs";
+import path from "node:path";
+import { createWriteStream, type WriteStream } from "node:fs";
 import type { ExecutionStreamResult } from "@knorvia/contracts";
+import type { OutputPersistenceMode } from "./execution-adapter-types.js";
+import { decodeExecutionOutputBuffer } from "./outputEncoding.js";
 
 export interface AggregatePersistedOutputBudget {
   bytes: number;
@@ -24,6 +27,7 @@ export class OutputCollector {
   private artifactTruncated = false;
   private inlineBytes = 0;
   private persistenceActive = false;
+  private persistenceFailed = false;
   private tail = Buffer.alloc(0);
   private totalBytes = 0;
   private truncated = false;
@@ -40,8 +44,8 @@ export class OutputCollector {
   }) {
     this.maxInlineBytes = Math.max(0, options.maxInlineBytes);
     this.maxPersistedBytes = Math.max(0, options.maxPersistedBytes);
-    this.maxTailBytes = Math.max(0, options.maxTailBytes);
     this.legacyOutputEncoding = options.legacyOutputEncoding;
+    this.maxTailBytes = Math.max(0, options.maxTailBytes);
     this.onPersistedLimit = options.onPersistedLimit;
     this.outputPath = options.outputPath;
     this.persistOutput = options.persistOutput;
@@ -49,54 +53,61 @@ export class OutputCollector {
   }
 
   append(chunk: Buffer, source?: NodeJS.ReadableStream): void {
-    const shouldStartPersisting =
-      this.persistOutput === "always" ||
-      (this.persistOutput === "on_truncate" &&
-        this.inlineBytes + chunk.byteLength > this.maxInlineBytes);
-
-    if (shouldStartPersisting) this.activatePersistence(source);
-
-    this.totalBytes += chunk.byteLength;
+    if (chunk.length === 0) return;
+    const previousTotal = this.totalBytes;
+    this.totalBytes += chunk.length;
     this.appendTail(chunk);
+    const inlineRemaining = Math.max(0, this.maxInlineBytes - this.inlineBytes);
+    const inlinePart = chunk.subarray(0, inlineRemaining);
+    if (inlinePart.length > 0) {
+      this.chunks.push(Buffer.from(inlinePart));
+      this.inlineBytes += inlinePart.length;
+    }
+    this.truncated = this.totalBytes > this.inlineBytes;
 
-    if (this.inlineBytes >= this.maxInlineBytes) {
-      this.truncated = this.truncated || chunk.byteLength > 0;
-      if (this.persistenceActive) this.writePersisted(chunk, source);
+    if (this.persistOutput === "always") {
+      this.activatePersistence(false);
+      this.writePersisted(chunk, source);
       return;
     }
-
-    const remaining = this.maxInlineBytes - this.inlineBytes;
-    const take = Math.min(remaining, chunk.byteLength);
-    if (take > 0) {
-      this.chunks.push(chunk.subarray(0, take));
-      this.inlineBytes += take;
+    if (
+      this.persistOutput === "on_truncate" &&
+      previousTotal + chunk.length > this.maxInlineBytes
+    ) {
+      if (!this.persistenceActive) {
+        this.activatePersistence(true);
+        const prefixBeforeChunk =
+          previousTotal < this.maxInlineBytes ? this.chunks.slice(0, -1) : this.chunks;
+        for (const prefix of prefixBeforeChunk) this.writePersisted(prefix);
+      }
+      this.writePersisted(chunk, source);
     }
-    if (take < chunk.byteLength) {
-      this.truncated = true;
-    }
-    if (this.persistenceActive) this.writePersisted(chunk, source);
   }
 
   async close(): Promise<void> {
-    if (!this.stream) return;
+    const stream = this.stream;
+    if (!stream || stream.closed || stream.destroyed) return;
     await new Promise<void>((resolve) => {
-      this.stream!.end(resolve);
+      const done = (): void => resolve();
+      stream.once("finish", done);
+      stream.once("close", done);
+      stream.once("error", done);
+      stream.end();
     });
   }
 
   result(): ExecutionStreamResult {
-    const hasArtifact = this.stream !== undefined;
-    return {
-      text: decodeExecutionOutputBuffer(
-        Buffer.concat(this.chunks, this.inlineBytes),
-        this.legacyOutputEncoding,
-      ),
+    const result: ExecutionStreamResult = {
+      text: decodeExecutionOutputBuffer(Buffer.concat(this.chunks), this.legacyOutputEncoding),
       bytes: this.totalBytes,
       truncated: this.truncated,
-      artifactPath: hasArtifact ? this.outputPath : undefined,
-      artifactBytes: hasArtifact ? this.artifactBytes : undefined,
-      artifactTruncated: hasArtifact ? this.artifactTruncated : undefined,
     };
+    if (this.stream && this.outputPath) {
+      result.artifactPath = this.outputPath;
+      result.artifactBytes = this.artifactBytes;
+      result.artifactTruncated = this.artifactTruncated;
+    }
+    return result;
   }
 
   get bytes(): number {
@@ -104,77 +115,78 @@ export class OutputCollector {
   }
 
   tailText(): string | undefined {
-    if (this.tail.length === 0) return undefined;
-    return decodeExecutionOutputBuffer(this.tail, this.legacyOutputEncoding);
+    return this.tail.length > 0
+      ? decodeExecutionOutputBuffer(this.tail, this.legacyOutputEncoding)
+      : undefined;
   }
 
   private appendTail(chunk: Buffer): void {
-    if (this.maxTailBytes <= 0 || chunk.byteLength === 0) return;
-    const next = this.tail.length === 0 ? chunk : Buffer.concat([this.tail, chunk]);
-    this.tail =
-      next.byteLength > this.maxTailBytes
-        ? Buffer.from(next.subarray(next.byteLength - this.maxTailBytes))
-        : Buffer.from(next);
+    if (this.maxTailBytes === 0) return;
+    const combined = this.tail.length === 0 ? chunk : Buffer.concat([this.tail, chunk]);
+    this.tail = Buffer.from(combined.subarray(Math.max(0, combined.length - this.maxTailBytes)));
   }
 
-  private ensurePersistedStream(): void {
-    if (this.stream || !this.outputPath || this.maxPersistedBytes <= 0) return;
-
-    mkdirSync(dirname(this.outputPath), { recursive: true });
-    this.stream = createWriteStream(this.outputPath, { flags: "w" });
-    this.stream.on("error", () => {
+  private ensurePersistedStream(): WriteStream | undefined {
+    if (this.stream || !this.outputPath) return this.stream;
+    try {
+      mkdirSync(path.dirname(this.outputPath), { recursive: true, mode: 0o700 });
+      const stream = createWriteStream(this.outputPath, { flags: "w", mode: 0o600 });
+      stream.on("error", () => {
+        this.artifactTruncated = true;
+        this.persistenceFailed = true;
+      });
+      this.stream = stream;
+    } catch {
       this.artifactTruncated = true;
-    });
+      this.persistenceFailed = true;
+    }
+    return this.stream;
   }
 
-  private activatePersistence(source?: NodeJS.ReadableStream): void {
+  private activatePersistence(_backfill: boolean): void {
     if (this.persistenceActive) return;
-    this.ensurePersistedStream();
-    if (!this.stream) return;
     this.persistenceActive = true;
-    for (const chunk of this.chunks) {
-      this.writePersisted(chunk, source);
-    }
+    this.ensurePersistedStream();
   }
 
   private writePersisted(chunk: Buffer, source?: NodeJS.ReadableStream): void {
-    if (!this.stream || chunk.byteLength === 0 || this.artifactTruncated) {
-      return;
-    }
-
-    // 通用 pipe 执行仍在写盘前限制单路和共享预算；Bash 文件软阈值不经过这里。
-    const streamRemaining = this.maxPersistedBytes - this.artifactBytes;
+    const stream = this.ensurePersistedStream();
+    if (!stream || this.persistenceFailed || chunk.length === 0) return;
+    const streamRemaining = Math.max(0, this.maxPersistedBytes - this.artifactBytes);
     const aggregateRemaining = this.aggregatePersistedBudget
-      ? this.aggregatePersistedBudget.maxBytes - this.aggregatePersistedBudget.bytes
-      : streamRemaining;
-    const remaining = Math.min(streamRemaining, aggregateRemaining);
-    if (remaining <= 0) {
+      ? Math.max(0, this.aggregatePersistedBudget.maxBytes - this.aggregatePersistedBudget.bytes)
+      : Number.POSITIVE_INFINITY;
+    const accepted = Math.min(chunk.length, streamRemaining, aggregateRemaining);
+    if (accepted > 0) {
+      const writable = chunk.subarray(0, accepted);
+      this.artifactBytes += accepted;
+      if (this.aggregatePersistedBudget) this.aggregatePersistedBudget.bytes += accepted;
+      try {
+        if (!stream.write(writable) && source?.pause && source.resume) {
+          source.pause();
+          const resume = (): void => {
+            source.resume?.();
+          };
+          stream.once("drain", resume);
+          stream.once("error", () => {
+            stream.off("drain", resume);
+            resume();
+          });
+        }
+      } catch {
+        this.artifactTruncated = true;
+        this.persistenceFailed = true;
+      }
+    }
+    if (accepted < chunk.length) {
       this.artifactTruncated = true;
       this.notifyPersistedLimit();
-      return;
-    }
-
-    const take = Math.min(remaining, chunk.byteLength);
-    const persistedChunk = chunk.subarray(0, take);
-    this.artifactBytes += persistedChunk.byteLength;
-    if (this.aggregatePersistedBudget) {
-      this.aggregatePersistedBudget.bytes += persistedChunk.byteLength;
-    }
-    if (take < chunk.byteLength) {
-      this.artifactTruncated = true;
-      this.notifyPersistedLimit();
-    }
-
-    const canContinue = this.stream.write(persistedChunk);
-    if (!canContinue && source) {
-      source.pause();
-      this.stream.once("drain", () => source.resume());
     }
   }
 
   private notifyPersistedLimit(): void {
-    if (!this.onPersistedLimit) return;
     const callback = this.onPersistedLimit;
+    if (!callback) return;
     this.onPersistedLimit = undefined;
     callback();
   }

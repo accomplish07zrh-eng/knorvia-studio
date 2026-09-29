@@ -1,18 +1,14 @@
-import { join } from "node:path";
-import { resolveBashMaxOutputLength } from "./bash-output-policy.js";
-import { ShellInitSnapshotManager, cleanupStaleShellInitSnapshots } from "./shell-init-snapshot.js";
-import { OutputCollector, type AggregatePersistedOutputBudget } from "./output-collector.js";
-import {
-  DEFAULT_INLINE_OUTPUT_BYTES,
-  BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
-  DEFAULT_MAX_PERSISTED_OUTPUT_BYTES,
-  DEFAULT_PROGRESS_INTERVAL_MS,
-  DEFAULT_PROGRESS_TAIL_BYTES,
-  DEFAULT_PROGRESS_THRESHOLD_MS,
-  isBashMergedOutputRequest,
-  resolveDefaultOutputRootDir,
-  sanitizePathSegment,
-} from "./execution-utils.js";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import { randomUUID } from "node:crypto";
+import path from "node:path";
+import type {
+  BackgroundExecutionSnapshot,
+  ExecutionEvent,
+  ExecutionRequest,
+  ExecutionResult,
+} from "@knorvia/contracts";
+import { cleanupStaleShellInitSnapshots, ShellInitSnapshotManager } from "./shell-init-snapshot.js";
 import type {
   ActiveExecutionRecord,
   BackgroundTaskRecord,
@@ -20,261 +16,236 @@ import type {
   NodeExecutionAdapterOptions,
   StopReason,
 } from "./execution-adapter-types.js";
-import type {
-  BackgroundExecutionSnapshot,
-  ExecutionEvent,
-  ExecutionRequest,
-  ExecutionResult,
-} from "@knorvia/contracts";
+import {
+  DEFAULT_INLINE_OUTPUT_BYTES,
+  DEFAULT_MAX_PERSISTED_OUTPUT_BYTES,
+  DEFAULT_PROGRESS_INTERVAL_MS,
+  DEFAULT_PROGRESS_TAIL_BYTES,
+  DEFAULT_PROGRESS_THRESHOLD_MS,
+  resolveDefaultOutputRootDir,
+  sanitizePathSegment,
+} from "./execution-utils.js";
+import { resolveBashMaxOutputLength } from "./bash-output-policy.js";
 
-export class NodeExecutionAdapterBase {
-  protected readonly activeExecutions = new Map<string, ActiveExecutionRecord>();
+function completionPair<T>(): { promise: Promise<T>; resolve: (value: T) => void } {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((accepted) => {
+    resolve = accepted;
+  });
+  return { promise, resolve };
+}
 
-  protected readonly backgroundTasks = new Map<string, BackgroundTaskRecord>();
-
-  protected readonly pendingBashProcessTreeKills = new Map<Promise<void>, { ref(): unknown }>();
-
-  protected readonly shellInitRetentionCleanup: Promise<unknown>;
-
-  protected readonly shellInitSnapshots = new ShellInitSnapshotManager();
-
-  protected readonly outputPathsByRequest = new WeakMap<ExecutionRequest, ExecutionOutputPaths>();
-
-  protected closePromise?: Promise<void>;
-
-  protected readonly options: NodeExecutionAdapterOptions;
+export class ExecutionCoordinator {
+  readonly activeExecutions = new Map<string, ActiveExecutionRecord>();
+  readonly backgroundTasks = new Map<string, BackgroundTaskRecord>();
+  readonly pendingBashProcessTreeKills = new Map<Promise<void>, { ref(): unknown }>();
+  readonly shellInitSnapshots = new ShellInitSnapshotManager();
+  readonly outputPathsByRequest = new WeakMap<ExecutionRequest, ExecutionOutputPaths>();
+  readonly options: NodeExecutionAdapterOptions;
+  readonly outputRootDir: string;
+  readonly shellInitRetentionCleanup: Promise<unknown>;
+  private closePromise?: Promise<void>;
+  private closing = false;
 
   constructor(options: NodeExecutionAdapterOptions = {}) {
     this.options = options;
-    const rootDir = options.outputRootDir ?? resolveDefaultOutputRootDir(options.processEnv);
-    this.shellInitRetentionCleanup = cleanupStaleShellInitSnapshots({ rootDir }).catch(
-      () => undefined,
-    );
-  }
-
-  protected createOutputCollector(
-    request: ExecutionRequest,
-    streamName: "stdout" | "stderr",
-    legacyOutputEncoding: string | null,
-    onPersistedLimit?: () => void,
-    aggregatePersistedBudget?: AggregatePersistedOutputBudget,
-  ): OutputCollector {
-    const persistOutput = request.outputLimit?.persistOutput ?? "none";
-    const outputPath = this.outputPathForRequest(request, streamName);
-    return new OutputCollector({
-      maxInlineBytes: this.inlineLimit(request),
-      maxPersistedBytes: this.persistedOutputLimit(request),
-      legacyOutputEncoding,
-      maxTailBytes: this.progressTailBytes,
-      onPersistedLimit,
-      outputPath,
-      persistOutput,
-      aggregatePersistedBudget,
+    this.outputRootDir = options.outputRootDir ?? resolveDefaultOutputRootDir(options.processEnv);
+    this.shellInitRetentionCleanup = cleanupStaleShellInitSnapshots({
+      rootDir: this.outputRootDir,
     });
   }
 
-  protected outputPathForRequest(
-    request: ExecutionRequest,
-    streamName: "stdout" | "stderr",
-  ): string | undefined {
-    const paths = this.outputPathsForRequest(request);
-    return streamName === "stdout"
-      ? paths.stdoutPersistedOutputPath
-      : paths.stderrPersistedOutputPath;
+  get isClosing(): boolean {
+    return this.closing;
   }
 
-  protected outputPathsForRequest(request: ExecutionRequest): ExecutionOutputPaths {
-    const persistOutput = request.outputLimit?.persistOutput ?? "none";
-    const usesBashMergedOutput = isBashMergedOutputRequest(request);
-    if (persistOutput === "none" && !usesBashMergedOutput) return {};
+  get platform(): NodeJS.Platform {
+    return this.options.platform ?? process.platform;
+  }
 
-    const existing = this.outputPathsByRequest.get(request);
-    if (existing) return existing;
+  get processEnv(): NodeJS.ProcessEnv {
+    return this.options.processEnv ?? process.env;
+  }
 
-    const rootDir =
-      this.options.outputRootDir ?? resolveDefaultOutputRootDir(this.options.processEnv);
-    const sessionId = sanitizePathSegment(String(request.trace?.sessionId ?? "unknown-session"));
-    const toolCallId = sanitizePathSegment(
-      String(request.trace?.attributes?.toolCallId ?? crypto.randomUUID()),
+  get progressIntervalMs(): number {
+    return this.options.progressIntervalMs ?? DEFAULT_PROGRESS_INTERVAL_MS;
+  }
+
+  get progressTailBytes(): number {
+    return this.options.progressTailBytes ?? DEFAULT_PROGRESS_TAIL_BYTES;
+  }
+
+  get progressThresholdMs(): number {
+    return this.options.progressThresholdMs ?? DEFAULT_PROGRESS_THRESHOLD_MS;
+  }
+
+  inlineLimit(request: ExecutionRequest): number {
+    return Math.max(
+      0,
+      request.outputLimit?.maxInlineBytes ??
+        request.outputLimit?.maxBufferBytes ??
+        DEFAULT_INLINE_OUTPUT_BYTES,
     );
-    const stdoutPersistedOutputPath = join(rootDir, sessionId, `${toolCallId}-stdout.log`);
-    if (usesBashMergedOutput) {
-      const paths = {
-        outputPath: stdoutPersistedOutputPath,
-        stdoutPersistedOutputPath,
-      };
-      this.outputPathsByRequest.set(request, paths);
-      return paths;
-    }
-    const stderrPersistedOutputPath = join(rootDir, sessionId, `${toolCallId}-stderr.log`);
-    const paths = {
-      outputPath: stdoutPersistedOutputPath,
-      stderrPersistedOutputPath,
-      stdoutPersistedOutputPath,
+  }
+
+  bashInlineLimit(request: ExecutionRequest): number {
+    return resolveBashMaxOutputLength(this.processEnv, request.outputLimit?.maxInlineBytes);
+  }
+
+  persistedOutputLimit(request: ExecutionRequest): number {
+    return Math.max(
+      0,
+      request.outputLimit?.maxPersistedBytes ??
+        this.options.maxPersistedOutputBytes ??
+        DEFAULT_MAX_PERSISTED_OUTPUT_BYTES,
+    );
+  }
+
+  outputPathsForRequest(request: ExecutionRequest): ExecutionOutputPaths {
+    let paths = this.outputPathsByRequest.get(request);
+    if (paths) return paths;
+    const session = sanitizePathSegment(String(request.trace?.sessionId ?? "session"));
+    const identity =
+      request.trace?.attributes?.toolCallId ?? request.trace?.spanId ?? request.trace?.traceId;
+    const run = sanitizePathSegment(String(identity ?? randomUUID()));
+    const root = path.join(this.outputRootDir, session, run);
+    paths = {
+      outputPath: path.join(root, "merged.log"),
+      stdoutPersistedOutputPath: path.join(root, "stdout.log"),
+      stderrPersistedOutputPath: path.join(root, "stderr.log"),
     };
     this.outputPathsByRequest.set(request, paths);
     return paths;
   }
 
-  protected inlineLimit(request: ExecutionRequest): number {
-    return (
-      request.outputLimit?.maxInlineBytes ??
-      request.outputLimit?.maxBufferBytes ??
-      DEFAULT_INLINE_OUTPUT_BYTES
-    );
+  registerActiveExecution(stop: (reason: StopReason) => void): string {
+    const id = randomUUID();
+    const pair = completionPair<void>();
+    let completed = false;
+    this.activeExecutions.set(id, {
+      stop,
+      completion: pair.promise,
+      resolveCompletion: () => {
+        if (completed) return;
+        completed = true;
+        pair.resolve();
+      },
+    });
+    return id;
   }
 
-  protected bashInlineLimit(request: ExecutionRequest): number {
-    return resolveBashMaxOutputLength(this.processEnv, this.inlineLimit(request));
+  completeActiveExecution(executionId: string): void {
+    const record = this.activeExecutions.get(executionId);
+    if (!record) return;
+    this.activeExecutions.delete(executionId);
+    record.resolveCompletion();
   }
 
-  protected persistedOutputLimit(request: ExecutionRequest): number {
-    return (
-      request.outputLimit?.maxPersistedBytes ??
-      this.options.maxPersistedOutputBytes ??
-      (isBashMergedOutputRequest(request)
-        ? BASH_RUNTIME_OUTPUT_LIMIT_BYTES
-        : DEFAULT_MAX_PERSISTED_OUTPUT_BYTES)
-    );
-  }
-
-  protected createBackgroundTaskRecord(args: {
+  createBackgroundTaskRecord(args: {
     controller: AbortController;
     outputPaths: ExecutionOutputPaths;
     startedAt: Date;
     taskId: string;
     request: ExecutionRequest;
+    isBash: boolean;
   }): BackgroundTaskRecord {
-    let resolveCompletion: (snapshot: BackgroundExecutionSnapshot) => void = () => undefined;
-    const completion = new Promise<BackgroundExecutionSnapshot>((resolve) => {
-      resolveCompletion = resolve;
-    });
+    const pair = completionPair<BackgroundExecutionSnapshot>();
     return {
-      completion,
-      controller: args.controller,
-      resolveCompletion,
-      startedAt: args.startedAt,
-      status: "running",
       taskId: args.taskId,
-      sessionId: args.request.trace?.sessionId,
-      isBash: isBashMergedOutputRequest(args.request),
+      status: "running",
+      startedAt: args.startedAt,
+      sessionId: args.request.trace?.sessionId ? String(args.request.trace.sessionId) : undefined,
+      isBash: args.isBash,
       legacyOutputEncoding: null,
+      controller: args.controller,
+      completion: pair.promise,
+      resolveCompletion: pair.resolve,
       ...args.outputPaths,
     };
   }
 
-  protected updateBackgroundTaskRecordFromEvent(
-    record: BackgroundTaskRecord,
-    event: ExecutionEvent,
-  ): void {
-    if (event.type === "started") {
-      record.pid = event.pid;
-      return;
+  updateBackgroundTaskRecordFromEvent(record: BackgroundTaskRecord, event: ExecutionEvent): void {
+    if (event.type === "started") record.pid = event.pid;
+    if (event.type === "stdout" || event.type === "stderr") {
+      const prefix = event.type;
+      const bytesKey = `${prefix}Bytes` as "stdoutBytes" | "stderrBytes";
+      const tailKey = `${prefix}Tail` as "stdoutTail" | "stderrTail";
+      record[bytesKey] = (record[bytesKey] ?? 0) + event.chunk.byteLength;
+      record[tailKey] = `${record[tailKey] ?? ""}${event.text}`.slice(-this.progressTailBytes);
     }
-    if (event.type !== "progress") return;
-    record.pid = event.pid ?? record.pid;
-    record.stderrBytes = event.stderrBytes;
-    record.stderrTail = event.stderrTail;
-    record.stdoutBytes = event.stdoutBytes;
-    record.stdoutTail = event.stdoutTail;
+    if (event.type === "progress") {
+      record.stdoutBytes = event.stdoutBytes;
+      record.stderrBytes = event.stderrBytes;
+      if (event.stdoutTail !== undefined) record.stdoutTail = event.stdoutTail;
+      if (event.stderrTail !== undefined) record.stderrTail = event.stderrTail;
+      if (event.outputPreview?.fullText !== undefined)
+        record.stdoutTail = event.outputPreview.fullText;
+    }
   }
 
-  protected finalizeBackgroundTaskRecord(
-    record: BackgroundTaskRecord,
-    result: ExecutionResult,
-  ): void {
+  finalizeBackgroundTaskRecord(record: BackgroundTaskRecord, result: ExecutionResult): void {
+    if (record.result) return;
     record.status = result.status;
     record.completedAt = result.completedAt;
-    record.pid = result.pid ?? record.pid;
     record.result = result;
     record.error = result.error;
+    record.pid = result.pid ?? record.pid;
+    record.stdoutBytes = result.stdout.bytes;
+    record.stderrBytes = result.stderr.bytes;
+    record.stdoutTail = result.stdout.text.slice(-this.progressTailBytes);
+    record.stderrTail = result.stderr.text.slice(-this.progressTailBytes);
+    record.externalAbort?.();
+    record.externalAbort = undefined;
     record.resolveCompletion(this.snapshot(record));
   }
 
-  protected snapshot(record: BackgroundTaskRecord): BackgroundExecutionSnapshot {
-    return {
-      taskId: record.taskId,
-      status: record.status,
-      startedAt: record.startedAt,
-      completedAt: record.completedAt,
-      pid: record.pid,
-      stderrBytes: record.stderrBytes,
-      stderrTail: record.stderrTail,
-      stdoutBytes: record.stdoutBytes,
-      stdoutTail: record.stdoutTail,
-      outputPath: record.outputPath,
-      stderrPersistedOutputPath: record.stderrPersistedOutputPath,
-      stdoutPersistedOutputPath: record.stdoutPersistedOutputPath,
-      result: record.result,
-      error: record.error,
-    };
+  snapshot(record: BackgroundTaskRecord): BackgroundExecutionSnapshot {
+    const {
+      controller: _controller,
+      completion: _completion,
+      resolveCompletion: _resolveCompletion,
+      externalAbort: _externalAbort,
+      legacyOutputEncoding: _legacyOutputEncoding,
+      isBash: _isBash,
+      sessionId: _sessionId,
+      ...snapshot
+    } = record;
+    return { ...snapshot };
   }
 
-  protected get platform(): NodeJS.Platform {
-    return this.options.platform ?? process.platform;
+  trackBashKill(promise: Promise<void>, timer: { ref(): unknown }): void {
+    this.pendingBashProcessTreeKills.set(promise, timer);
+    void promise.then(
+      () => this.pendingBashProcessTreeKills.delete(promise),
+      () => this.pendingBashProcessTreeKills.delete(promise),
+    );
   }
 
-  protected get processEnv(): NodeJS.ProcessEnv {
-    return this.options.processEnv ?? process.env;
-  }
-
-  protected get progressIntervalMs(): number {
-    return Math.max(1, this.options.progressIntervalMs ?? DEFAULT_PROGRESS_INTERVAL_MS);
-  }
-
-  protected get progressTailBytes(): number {
-    return Math.max(0, this.options.progressTailBytes ?? DEFAULT_PROGRESS_TAIL_BYTES);
-  }
-
-  protected get progressThresholdMs(): number {
-    return Math.max(0, this.options.progressThresholdMs ?? DEFAULT_PROGRESS_THRESHOLD_MS);
-  }
-
-  protected completeActiveExecution(executionId: string): void {
-    const record = this.activeExecutions.get(executionId);
-    if (!record) return;
-    record.resolveCompletion();
-    this.activeExecutions.delete(executionId);
-  }
-
-  protected registerActiveExecution(stop: (reason: StopReason) => void): string {
-    const executionId = crypto.randomUUID();
-    let resolveCompletion: () => void = () => undefined;
-    const completion = new Promise<void>((resolve) => {
-      resolveCompletion = resolve;
-    });
-    this.activeExecutions.set(executionId, {
-      completion,
-      resolveCompletion,
-      stop,
-    });
-    return executionId;
-  }
-
-  async close(): Promise<void> {
+  close(): Promise<void> {
     this.closePromise ??= this.shutdown();
-    return await this.closePromise;
+    return this.closePromise;
   }
 
-  protected async shutdown(): Promise<void> {
+  private async shutdown(): Promise<void> {
+    this.closing = true;
+    const backgroundCompletions: Promise<BackgroundExecutionSnapshot>[] = [];
     for (const record of this.backgroundTasks.values()) {
-      if (record.status === "running") {
+      if (!record.result) {
+        backgroundCompletions.push(record.completion);
         record.status = "cancelled";
-        record.controller.abort();
+        record.controller.abort("cancelled");
       }
     }
-
-    const activeExecutions = Array.from(this.activeExecutions.values());
-    for (const record of activeExecutions) {
-      record.stop("cancelled");
-    }
-
-    await Promise.allSettled(activeExecutions.map((record) => record.completion));
-    // 直写后没有 pipe 保活，仅 await Promise 会让 Node 在 SIGKILL 前退出。
-    // active execution 已结算，所有主动终止均已登记；只在 shutdown 引用既有清理句柄。
-    for (const handle of this.pendingBashProcessTreeKills.values()) handle.ref();
-    await Promise.allSettled(Array.from(this.pendingBashProcessTreeKills.keys()));
-    await this.shellInitRetentionCleanup;
+    const active = [...this.activeExecutions.values()];
+    for (const record of active) record.stop("cancelled");
+    await Promise.allSettled([
+      ...active.map((record) => record.completion),
+      ...backgroundCompletions,
+    ]);
+    const kills = [...this.pendingBashProcessTreeKills.entries()];
+    for (const [, timer] of kills) timer.ref();
+    await Promise.allSettled(kills.map(([promise]) => promise));
+    await Promise.resolve(this.shellInitRetentionCleanup).catch(() => undefined);
     await this.shellInitSnapshots.cleanup();
   }
 }

@@ -1,399 +1,403 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import { spawn, type ChildProcess } from "node:child_process";
+import type { ExecutionRequest, ExecutionResult } from "@knorvia/contracts";
 import { BashFileOutput } from "./bash-file-output.js";
-import { readCapturedCwd } from "./cwd-capture.js";
-import { defaultCwdDialect } from "./execution-command.js";
-import { NodeExecutionAdapterProcess } from "./node-execution-adapter-process.js";
-import { resolveLegacyExecutionOutputEncoding } from "./outputEncoding.js";
-import {
-  DEFAULT_TIMEOUT_MS,
-  FORCE_EXIT_AFTER_KILL_MS,
-  abortSignalReason,
-  isBashMergedOutputRequest,
-  isExpectedChildStdinClosureError,
-} from "./execution-utils.js";
+import { createBashResourceTelemetry } from "./bash-resource-telemetry.js";
 import type {
   ExitState,
   InternalExecutionRunOptions,
+  OutputPersistenceMode,
   StopReason,
 } from "./execution-adapter-types.js";
-import type {
-  ExecutionRequest,
-  ExecutionResult,
-  ExecutionRunOptions,
-  ExecutionShellDialect,
-} from "@knorvia/contracts";
+import { ExecutionCoordinator } from "./node-execution-adapter-base.js";
+import {
+  attachPipedOutput,
+  drainChildOutput,
+  prepareChildSpawn,
+  startGenericProgress,
+  terminateProcessTree,
+  writeChildInput,
+} from "./node-execution-adapter-process.js";
+import {
+  applyForegroundArtifactPolicy,
+  capArtifactStream,
+  createResult,
+  createStoppedResult,
+  emit,
+  emitResult,
+  emptyStream,
+  normalizeBashOutputLimitResult,
+  readBashResult,
+  statusFailure,
+  statusFromExit,
+  toFailure,
+} from "./node-execution-adapter-results.js";
+import { OutputCollector, type AggregatePersistedOutputBudget } from "./output-collector.js";
+import {
+  BASH_RUNTIME_OUTPUT_LIMIT_BYTES,
+  DEFAULT_TIMEOUT_MS,
+  isExpectedChildStdinClosureError,
+} from "./execution-utils.js";
+import { readCapturedCwd } from "./cwd-capture.js";
 
-export class NodeExecutionAdapterRun extends NodeExecutionAdapterProcess {
-  async run(
-    request: ExecutionRequest,
-    options: ExecutionRunOptions = {},
-  ): Promise<ExecutionResult> {
-    const startedAt = new Date();
-    const useBashMergedOutput = isBashMergedOutputRequest(request);
-    let requestStop: (reason: StopReason) => void = () => undefined;
-    let outputLimitExceeded = false;
-    const internalOptions = options as InternalExecutionRunOptions;
-    const aggregatePersistedBudget = internalOptions.sharePersistedOutputLimitAcrossStreams
-      ? {
-          bytes: 0,
-          maxBytes: Math.max(0, this.persistedOutputLimit(request)),
-        }
-      : undefined;
+function stopReasonFromSignal(signal: AbortSignal): StopReason {
+  return signal.reason === "output_limit" ? "output_limit" : "cancelled";
+}
 
-    if (this.closePromise) {
-      return this.createStoppedResult(startedAt, "cancelled", "Execution adapter is shutting down");
-    }
+function persistenceMode(request: ExecutionRequest): OutputPersistenceMode {
+  return request.outputLimit?.persistOutput ?? "on_truncate";
+}
 
-    if (options.signal?.aborted) {
-      return this.createStoppedResult(startedAt, "cancelled", "Execution cancelled before spawn");
-    }
+function safeTimeout(value: number | undefined): number {
+  return value === undefined || !Number.isFinite(value) ? DEFAULT_TIMEOUT_MS : Math.max(0, value);
+}
 
-    let persistedLimitNotified = false;
-    const onPersistedLimit =
-      request.outputLimit?.killProcessOnPersistedLimit === true ||
-      internalOptions.onPersistedLimit ||
-      internalOptions.shouldStopOnPersistedLimit
-        ? () => {
-            if (persistedLimitNotified) return;
-            persistedLimitNotified = true;
-            internalOptions.onPersistedLimit?.();
-            if (
-              request.outputLimit?.killProcessOnPersistedLimit === true ||
-              internalOptions.shouldStopOnPersistedLimit?.() === true
-            ) {
-              requestStop("output_limit");
-            }
-          }
-        : undefined;
-    const legacyOutputEncoding = resolveLegacyExecutionOutputEncoding({
-      platform: this.platform,
-      processEnv: this.processEnv,
-    });
-    // 任务记录单独解析会重复同步执行 Windows chcp；复用执行时的编码值。
-    internalOptions.onOutputEncodingResolved?.(legacyOutputEncoding);
-    const file = useBashMergedOutput
-      ? new BashFileOutput(
-          this.outputPathForRequest(request, "stdout")!,
-          this.platform,
-          legacyOutputEncoding,
-        )
-      : undefined;
-    const stdout = file
-      ? undefined
-      : this.createOutputCollector(
-          request,
-          "stdout",
-          legacyOutputEncoding,
-          onPersistedLimit,
-          aggregatePersistedBudget,
-        );
-    const stderr = file
-      ? undefined
-      : this.createOutputCollector(
-          request,
-          "stderr",
-          legacyOutputEncoding,
-          onPersistedLimit,
-          aggregatePersistedBudget,
-        );
-    let child: ChildProcess | undefined;
-    let cwdDialect: ExecutionShellDialect = defaultCwdDialect(this.platform);
-    let cwdFilePath: string | undefined;
-    let timedOut = false;
-    let cancelled = false;
-    let exited = false;
-    let childClosed = false;
-    let executionSettled = false;
-    let childReadyForTermination = false;
-    let terminationRequested = false;
-    let stopRequested = false;
-    let forceExitTimer: NodeJS.Timeout | undefined;
-    let progressTimer: NodeJS.Timeout | undefined;
-    let timeoutTimer: NodeJS.Timeout | undefined;
-    const timeoutMs = request.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-    let finishExit: (state: ExitState) => void = () => undefined;
-    let finishResourceTelemetry: (state: ExitState) => void = () => undefined;
-    // timeout 计时器在 spawn 后才启动（见下），spawn 前的停止只可能来自取消或 adapter 关闭。
-    const createPreSpawnStoppedResult = () =>
-      this.createStoppedResult(
+function waitForSpawn(child: ChildProcess): Promise<{ spawned: boolean; error?: Error }> {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (value: { spawned: boolean; error?: Error }): void => {
+      if (settled) return;
+      settled = true;
+      child.off("spawn", onSpawn);
+      child.off("error", onError);
+      resolve(value);
+    };
+    const onSpawn = (): void => finish({ spawned: true });
+    const onError = (error: Error): void => finish({ spawned: false, error });
+    child.once("spawn", onSpawn);
+    child.once("error", onError);
+  });
+}
+
+function observeExit(child: ChildProcess): { exit: Promise<ExitState>; closed: Promise<void> } {
+  const exit = new Promise<ExitState>((resolve) => {
+    let settled = false;
+    const finish = (state: ExitState): void => {
+      if (settled) return;
+      settled = true;
+      resolve(state);
+    };
+    child.once("error", (error) => finish({ error }));
+    child.once("exit", (code, signal) =>
+      finish({
+        code: code === null ? undefined : code,
+        signal: signal === null ? undefined : signal,
+      }),
+    );
+  });
+  const closed = new Promise<void>((resolve) => child.once("close", () => resolve()));
+  return { exit, closed };
+}
+
+function createCollector(
+  coordinator: ExecutionCoordinator,
+  request: ExecutionRequest,
+  stream: "stdout" | "stderr",
+  encoding: string | null,
+  onLimit: () => void,
+  aggregate?: AggregatePersistedOutputBudget,
+): OutputCollector {
+  const paths = coordinator.outputPathsForRequest(request);
+  return new OutputCollector({
+    maxInlineBytes: coordinator.inlineLimit(request),
+    maxPersistedBytes: coordinator.persistedOutputLimit(request),
+    legacyOutputEncoding: encoding,
+    maxTailBytes: coordinator.progressTailBytes,
+    onPersistedLimit: onLimit,
+    outputPath:
+      stream === "stdout" ? paths.stdoutPersistedOutputPath : paths.stderrPersistedOutputPath,
+    persistOutput: persistenceMode(request),
+    aggregatePersistedBudget: aggregate,
+  });
+}
+
+export async function runExecution(
+  coordinator: ExecutionCoordinator,
+  request: ExecutionRequest,
+  options: InternalExecutionRunOptions = {},
+): Promise<ExecutionResult> {
+  const startedAt = new Date();
+  if (coordinator.isClosing) {
+    const result = createStoppedResult(startedAt, "cancelled", "Execution adapter is closed.");
+    if (!options.suppressTerminalEvent) emitResult(options, result);
+    return result;
+  }
+  let child: ChildProcess | undefined;
+  let bashFile: BashFileOutput | undefined;
+  let stopReason: StopReason | undefined;
+  let exitObserved = false;
+  let runtimeTimer: NodeJS.Timeout | undefined;
+  let stopProgress: (() => void) | undefined;
+  let activeId = "";
+  let persistedLimitReached = false;
+  let stdout: OutputCollector | undefined;
+  let stderr: OutputCollector | undefined;
+  let preparedCwdFile: string | undefined;
+  let legacyEncoding: string | null = null;
+  let finishTelemetry: ((kind: "completed" | "timeout" | "killed" | "error") => void) | undefined;
+
+  const stop = (reason: StopReason): void => {
+    if (stopReason) return;
+    stopReason = reason;
+    if (child) terminateProcessTree(coordinator, child, Boolean(bashFile));
+  };
+  activeId = coordinator.registerActiveExecution(stop);
+
+  const onAbort = (): void => stop(stopReasonFromSignal(options.signal!));
+  if (options.signal?.aborted) stop(stopReasonFromSignal(options.signal));
+  else options.signal?.addEventListener("abort", onAbort, { once: true });
+
+  try {
+    if (stopReason) {
+      const result = createStoppedResult(
         startedAt,
         "cancelled",
-        this.closePromise
-          ? "Execution adapter is shutting down"
-          : "Execution cancelled before spawn",
+        "Command was cancelled before spawn.",
       );
-    const stoppedBeforeSpawn = (): ExecutionResult | undefined => {
-      if (!stopRequested && !this.closePromise && !options.signal?.aborted) return undefined;
-      return createPreSpawnStoppedResult();
-    };
-
-    const terminateStartedChild = () => {
-      if (!stopRequested || !child || !childReadyForTermination || terminationRequested) {
-        return;
-      }
-      const startedChild = child;
-      terminationRequested = true;
-      // root shell exit 不代表其进程组和继承 pipe 的后代已经退出。
-      // cancel/close 必须在组长 exit 后仍能清理整个 execution，避免 orphan。
-      this.terminateProcessTree(startedChild, useBashMergedOutput);
-      if (file) {
-        finishExit({ code: timedOut ? 143 : 137 });
-        return;
-      }
-      forceExitTimer = setTimeout(() => {
-        if (!exited) {
-          finishExit({
-            signal: "SIGKILL",
-          });
-        }
-        // Windows 的 taskkill 或 POSIX 的 PGID 都可能已无法寻址脱离的后代；
-        // 最终释放 Knorvia 持有的读端，不能继续让未知进程保活 CLI。
-        this.destroyChildOutputStreams(startedChild);
-      }, FORCE_EXIT_AFTER_KILL_MS);
-      forceExitTimer.unref?.();
-    };
-
-    requestStop = (reason: StopReason) => {
-      if (executionSettled || stopRequested || (file && exited)) return;
-      stopRequested = true;
-      if (reason === "timeout") {
-        timedOut = true;
-      } else if (reason === "cancelled") {
-        cancelled = true;
-      } else {
-        outputLimitExceeded = true;
-      }
-      terminateStartedChild();
-    };
-
-    const executionId = this.registerActiveExecution(requestStop);
-    const abortHandler = () => {
-      const reason = abortSignalReason(options.signal);
-      requestStop(reason === "output_limit" ? "output_limit" : "cancelled");
-    };
-    if (options.signal?.aborted) {
-      requestStop("cancelled");
-    } else {
-      options.signal?.addEventListener("abort", abortHandler, { once: true });
+      if (!options.suppressTerminalEvent) emitResult(options, result);
+      return result;
+    }
+    const prepared = await prepareChildSpawn(coordinator, request);
+    preparedCwdFile = prepared.cwdFilePath;
+    legacyEncoding = prepared.legacyOutputEncoding;
+    options.onOutputEncodingResolved?.(legacyEncoding);
+    if (stopReason || coordinator.isClosing) {
+      stopReason ??= "cancelled";
+      const result = createStoppedResult(
+        startedAt,
+        "cancelled",
+        "Command was cancelled before spawn.",
+      );
+      if (!options.suppressTerminalEvent) emitResult(options, result);
+      return result;
     }
 
-    try {
-      const prepared = await this.prepareChildSpawn(request);
-
-      // shell init snapshot 创建是异步的；用户可能在等待期间取消或关闭 adapter。
-
-      const stoppedAfterCommandPreparation = stoppedBeforeSpawn();
-      if (stoppedAfterCommandPreparation) {
-        return stoppedAfterCommandPreparation;
+    const onPersistedLimit = (): void => {
+      persistedLimitReached = true;
+      options.onPersistedLimit?.();
+      const shouldStop =
+        options.shouldStopOnPersistedLimit?.() ??
+        prepared.request.outputLimit?.killProcessOnPersistedLimit !== false;
+      if (shouldStop) stop("output_limit");
+    };
+    const paths = coordinator.outputPathsForRequest(request);
+    if (prepared.isBash) {
+      bashFile = new BashFileOutput(paths.outputPath!, coordinator.platform, legacyEncoding);
+      await bashFile.prepare();
+      if (stopReason || coordinator.isClosing) {
+        stopReason ??= "cancelled";
+        await bashFile.discard();
+        const result = createStoppedResult(
+          startedAt,
+          "cancelled",
+          "Command was cancelled before spawn.",
+        );
+        if (!options.suppressTerminalEvent) emitResult(options, result);
+        return result;
       }
-
-      if (file) {
-        await file.prepare();
-        const stoppedAfterOutputPreparation = stoppedBeforeSpawn();
-        if (stoppedAfterOutputPreparation) {
-          await file.discard();
-          return stoppedAfterOutputPreparation;
-        }
-        prepared.spawnOptions.stdio = [
-          request.stdin === undefined ? "ignore" : "pipe",
-          file.fd!,
-          file.fd!,
-        ];
-      }
-
-      const spawnedChild = spawn(
-        prepared.command.file,
-        prepared.command.args,
-        prepared.spawnOptions,
+      prepared.spawnOptions.stdio = [
+        prepared.request.stdin === undefined ? "ignore" : "pipe",
+        bashFile.fd!,
+        bashFile.fd!,
+      ];
+    } else {
+      const aggregate = options.sharePersistedOutputLimitAcrossStreams
+        ? { bytes: 0, maxBytes: coordinator.persistedOutputLimit(request) }
+        : undefined;
+      stdout = createCollector(
+        coordinator,
+        request,
+        "stdout",
+        legacyEncoding,
+        onPersistedLimit,
+        aggregate,
       );
-      child = spawnedChild;
-      finishResourceTelemetry = this.trackBashResources(spawnedChild, useBashMergedOutput, () => ({
-        timedOut,
-        killed: cancelled || outputLimitExceeded,
-      }));
-      cwdDialect = prepared.cwdDialect;
-      cwdFilePath = prepared.cwdFilePath;
+      stderr = createCollector(
+        coordinator,
+        request,
+        "stderr",
+        legacyEncoding,
+        onPersistedLimit,
+        aggregate,
+      );
+      prepared.spawnOptions.stdio = [
+        prepared.request.stdin === undefined ? "ignore" : "pipe",
+        "pipe",
+        "pipe",
+      ];
+    }
 
-      const exitPromise = new Promise<ExitState>((resolve) => {
-        finishExit = (state) => {
-          if (exited) return;
-          exited = true;
-          finishResourceTelemetry(state);
-          file?.stopWatching();
-          if (file) internalOptions.bashLifecycle?.onExit?.();
-          resolve(state);
-        };
-        spawnedChild.once("error", (error) => finishExit({ error }));
-        spawnedChild.once("exit", (code, signal) =>
-          finishExit({
-            code: code ?? undefined,
-            signal: signal ?? undefined,
-          }),
-        );
-      });
-
-      const closePromise = new Promise<void>((resolve) => {
-        spawnedChild.once("close", () => {
-          childClosed = true;
-          resolve();
-        });
-      });
-
-      await file?.close();
-      const watchBashLimit = () => {
-        if (!file || exited || stopRequested) return;
-        file.watchLimit(this.persistedOutputLimit(request), () => requestStop("output_limit"));
-      };
-      if (file) {
-        watchBashLimit();
-        if (internalOptions.bashLifecycle)
-          internalOptions.bashLifecycle.onBackgrounded = watchBashLimit;
-        if (options.onEvent && !exited && !internalOptions.bashLifecycle?.isBackgrounded()) {
-          file.watchProgress(
-            this.progressTailBytes,
-            this.progressThresholdMs,
-            this.progressIntervalMs,
-            (output, outputPreview) => {
-              this.emit(options, {
-                type: "progress",
-                elapsedMs: Date.now() - startedAt.getTime(),
-                pid: spawnedChild.pid,
-                stdoutBytes: output.bytes,
-                stderrBytes: 0,
-                stdoutTail: output.text,
-                outputPreview,
-                timestamp: new Date(),
-              });
-            },
-          );
-        }
-      }
-      childReadyForTermination = true;
-      terminateStartedChild();
-
-      this.emit(options, { type: "started", pid: spawnedChild.pid, timestamp: startedAt });
-
-      // 复原原因：计时器提前到准备阶段是 protected-resource sandbox 时代的行为——capability
-      // probe 可能无限挂起，总超时必须覆盖准备期。sandbox 撤除后准备阶段只剩 shell snapshot /
-      // artifact 等既有异步步骤，timeoutMs 恢复为只约束子进程运行，避免 shell 初始化较慢或
-      // timeout 较短时命令尚未启动就被判 timed_out；准备期间的取消与关闭仍由 stoppedBeforeSpawn 兜底。
-      if (timeoutMs > 0) {
-        timeoutTimer = setTimeout(() => requestStop("timeout"), timeoutMs);
-      }
-
-      if (stdout && stderr) {
-        if (options.onEvent) {
-          progressTimer = setInterval(() => {
-            if (
-              childClosed ||
-              (exited && internalOptions.shouldRetainExecutionAfterRootExit?.() !== true)
-            )
-              return;
-            const elapsedMs = Date.now() - startedAt.getTime();
-            if (elapsedMs < this.progressThresholdMs) return;
-            this.emit(options, {
-              type: "progress",
-              elapsedMs,
-              pid: spawnedChild.pid,
-              stdoutBytes: stdout.bytes,
-              stderrBytes: stderr.bytes,
-              stdoutTail: stdout.tailText(),
-              stderrTail: stderr.tailText(),
-              timestamp: new Date(),
-            });
-          }, this.progressIntervalMs);
-          progressTimer.unref?.();
-        }
-        this.attachPipedOutput(spawnedChild, stdout, stderr, legacyOutputEncoding, options);
-      }
-      const inputFailure = this.writeChildInput(spawnedChild, request.stdin);
-
-      const exitState = await exitPromise;
-      if (!file) {
-        await this.drainChildOutput(
-          spawnedChild,
-          closePromise,
-          internalOptions,
-          terminationRequested,
-        );
-        await Promise.all([stdout!.close(), stderr!.close()]);
-      } else if (exitState.error) {
-        await file.discard();
-      }
-      const stdoutResult = file
-        ? await this.readBashResult(file, request, internalOptions, exitState, outputLimitExceeded)
-        : stdout!.result();
-      const stderrResult = useBashMergedOutput
-        ? { text: "", bytes: 0, truncated: false }
-        : stderr!.result();
+    child = spawn(prepared.command.file, prepared.command.args, prepared.spawnOptions);
+    const observation = observeExit(child);
+    const spawned = await waitForSpawn(child);
+    if (!spawned.spawned) {
+      await bashFile?.discard();
       const completedAt = new Date();
-      if (file && outputLimitExceeded) cancelled = true;
-      const baseStatus = this.statusFromExit(exitState, timedOut, cancelled, outputLimitExceeded);
-      const stdinWriteError = inputFailure();
-      const unexpectedStdinFailure =
-        baseStatus === "completed" &&
-        stdinWriteError &&
-        !isExpectedChildStdinClosureError(stdinWriteError)
-          ? this.toFailure("unknown", stdinWriteError)
-          : undefined;
-      const failure = exitState.error
-        ? this.toFailure("spawn_error", exitState.error)
-        : file && outputLimitExceeded
-          ? { type: "output_limit" as const, message: "Command killed: output file exceeded 5GB" }
-          : (this.statusFailure(timedOut, cancelled, outputLimitExceeded, timeoutMs) ??
-            unexpectedStdinFailure);
-      const status = unexpectedStdinFailure ? "failed" : baseStatus;
-      const resolvedCwd =
-        status === "completed" && exitState.code === 0
-          ? readCapturedCwd(cwdFilePath, { dialect: cwdDialect })
-          : undefined;
-      const result = this.createResult({
-        status,
-        startedAt,
-        completedAt,
-        pid: spawnedChild.pid,
-        exitCode: exitState.code,
-        signal: exitState.signal,
-        stdout: stdoutResult,
-        stderr: stderrResult,
-        timedOut,
-        cancelled,
-        error: failure,
-        resolvedCwd,
-      });
-
-      this.emitResult(options, result);
-      return result;
-    } catch (error) {
-      if (!child) await file?.discard();
-      if (stopRequested || this.closePromise || options.signal?.aborted) {
-        return createPreSpawnStoppedResult();
-      }
-      const failure = this.toFailure("spawn_error", error);
-      const result = this.createResult({
+      const failure = toFailure(
+        "spawn_error",
+        spawned.error ?? new Error("Failed to spawn command."),
+      );
+      const result = createResult({
         status: "spawn_error",
         startedAt,
-        completedAt: new Date(),
-        stdout: file ? await file.result(this.bashInlineLimit(request)) : stdout!.result(),
-        stderr: useBashMergedOutput ? { text: "", bytes: 0, truncated: false } : stderr!.result(),
-        timedOut: false,
-        cancelled: false,
+        completedAt,
+        stdout: emptyStream(),
+        stderr: emptyStream(),
         error: failure,
       });
-      this.emitResult(options, result);
+      if (!options.suppressTerminalEvent) emitResult(options, result);
       return result;
-    } finally {
-      if (!exited)
-        finishResourceTelemetry({ error: new Error("Execution ended before child exit") });
-      executionSettled = true;
-      file?.stopWatching();
-      if (internalOptions.bashLifecycle) internalOptions.bashLifecycle.onBackgrounded = undefined;
-      await file?.close();
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (progressTimer) clearInterval(progressTimer);
-      if (forceExitTimer) clearTimeout(forceExitTimer);
-      options.signal?.removeEventListener("abort", abortHandler);
-      this.completeActiveExecution(executionId);
     }
+
+    if (bashFile) await bashFile.close();
+    if (!options.bashLifecycle?.isBackgrounded()) {
+      emit(options, { type: "started", pid: child.pid, timestamp: new Date() });
+    }
+    const timeoutMs = safeTimeout(prepared.request.timeoutMs);
+    if (timeoutMs > 0) {
+      runtimeTimer = setTimeout(() => stop("timeout"), timeoutMs);
+      runtimeTimer.unref();
+    }
+    if (stopReason) terminateProcessTree(coordinator, child, prepared.isBash);
+
+    const readInputError = writeChildInput(child, prepared.request.stdin);
+    if (bashFile) {
+      const bashRuntimeLimit =
+        prepared.request.outputLimit?.maxPersistedBytes ??
+        coordinator.options.maxPersistedOutputBytes ??
+        BASH_RUNTIME_OUTPUT_LIMIT_BYTES;
+      bashFile.watchLimit(bashRuntimeLimit, onPersistedLimit);
+      if (!options.bashLifecycle?.isBackgrounded()) {
+        bashFile.watchProgress(
+          coordinator.progressTailBytes,
+          coordinator.progressThresholdMs,
+          coordinator.progressIntervalMs,
+          (output, preview) => {
+            if (options.bashLifecycle?.isBackgrounded()) return;
+            emit(options, {
+              type: "progress",
+              elapsedMs: Date.now() - startedAt.getTime(),
+              pid: child?.pid,
+              stdoutBytes: output.bytes,
+              stderrBytes: 0,
+              outputPreview: preview,
+              stdoutTail: output.text,
+              timestamp: new Date(),
+            });
+          },
+        );
+      }
+    } else if (stdout && stderr) {
+      attachPipedOutput(child, stdout, stderr, legacyEncoding, options);
+      stopProgress = startGenericProgress(coordinator, options, startedAt, child, stdout, stderr);
+    }
+
+    if (prepared.isBash) {
+      const telemetry = createBashResourceTelemetry({
+        processGroupId: child.pid,
+        platform: coordinator.platform,
+        onComplete: coordinator.options.onToolExecResource ?? (() => undefined),
+      });
+      finishTelemetry = (kind) => telemetry.finish(kind);
+    }
+    const exit = await observation.exit;
+    exitObserved = true;
+    options.bashLifecycle?.onExit?.();
+    if (runtimeTimer) clearTimeout(runtimeTimer);
+    runtimeTimer = undefined;
+    await drainChildOutput(child, observation.closed, options, Boolean(stopReason), () =>
+      terminateProcessTree(coordinator, child!, prepared.isBash),
+    );
+    await Promise.all([stdout?.close(), stderr?.close()]);
+
+    const inputError = readInputError();
+    if (inputError && !isExpectedChildStdinClosureError(inputError) && !exit.error && !stopReason) {
+      exit.error = inputError;
+    }
+    let status = statusFromExit(
+      exit,
+      stopReason ?? (persistedLimitReached ? "output_limit" : undefined),
+    );
+    let failure = exit.error
+      ? toFailure("spawn_error", exit.error)
+      : statusFailure(
+          stopReason ?? (persistedLimitReached ? "output_limit" : undefined),
+          timeoutMs,
+        );
+    if (inputError && exit.error === inputError && status === "spawn_error") {
+      status = "failed";
+      failure = toFailure("unknown", inputError);
+    }
+    let stdoutResult = bashFile
+      ? await readBashResult(bashFile, coordinator.bashInlineLimit(request), exit, stopReason)
+      : (stdout?.result() ?? emptyStream());
+    let stderrResult = bashFile ? emptyStream() : (stderr?.result() ?? emptyStream());
+    if (!bashFile) {
+      stdoutResult = await capArtifactStream(stdoutResult, request.outputLimit?.maxArtifactBytes);
+      stderrResult = await capArtifactStream(stderrResult, request.outputLimit?.maxArtifactBytes);
+    }
+    const backgrounded = options.bashLifecycle?.isBackgrounded() ?? false;
+    if (!backgrounded) {
+      stdoutResult = await applyForegroundArtifactPolicy(stdoutResult, persistenceMode(request));
+      stderrResult = await applyForegroundArtifactPolicy(stderrResult, persistenceMode(request));
+    }
+    const resolvedCwd =
+      status === "completed" && !backgrounded
+        ? readCapturedCwd(preparedCwdFile, { dialect: prepared.cwdDialect })
+        : undefined;
+    let result = createResult({
+      status,
+      startedAt,
+      completedAt: new Date(),
+      stdout: stdoutResult,
+      stderr: stderrResult,
+      stopReason: stopReason ?? (persistedLimitReached ? "output_limit" : undefined),
+      pid: child.pid,
+      exitCode: exit.code,
+      signal: exit.signal,
+      error: failure,
+      resolvedCwd,
+    });
+    if (bashFile) result = normalizeBashOutputLimitResult(result, persistedLimitReached);
+    finishTelemetry?.(
+      result.timedOut
+        ? "timeout"
+        : result.cancelled
+          ? "killed"
+          : result.status === "completed"
+            ? "completed"
+            : "error",
+    );
+    if (!backgrounded && !options.suppressTerminalEvent) emitResult(options, result);
+    return result;
+  } catch (error) {
+    await bashFile?.discard();
+    await Promise.all([stdout?.close(), stderr?.close()]);
+    const result = createResult({
+      status: "spawn_error",
+      startedAt,
+      completedAt: new Date(),
+      stdout: stdout?.result() ?? emptyStream(),
+      stderr: stderr?.result() ?? emptyStream(),
+      error: toFailure("spawn_error", error),
+    });
+    finishTelemetry?.("error");
+    if (!options.bashLifecycle?.isBackgrounded() && !options.suppressTerminalEvent) {
+      emitResult(options, result);
+    }
+    return result;
+  } finally {
+    if (runtimeTimer) clearTimeout(runtimeTimer);
+    stopProgress?.();
+    bashFile?.stopWatching();
+    await bashFile?.close();
+    options.signal?.removeEventListener("abort", onAbort);
+    if (preparedCwdFile && (exitObserved || stopReason)) {
+      readCapturedCwd(preparedCwdFile, {
+        dialect: coordinator.platform === "win32" ? "cmd" : "posix",
+      });
+    }
+    coordinator.completeActiveExecution(activeId);
   }
 }

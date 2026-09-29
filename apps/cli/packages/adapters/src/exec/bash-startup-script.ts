@@ -1,34 +1,19 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 import { createHash } from "node:crypto";
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { windowsPathToGitBashPath } from "@knorvia/contracts";
+import path from "node:path";
 import type { ExecutionRequest, ExecutionShellDialect } from "@knorvia/contracts";
+import { windowsPathToGitBashPath } from "@knorvia/contracts";
 import { buildEmbeddedSearchPreludeContent } from "./embedded-search-prelude.js";
+import { sanitizePathSegment } from "./execution-utils.js";
 
 export type StartupShellDialect = ExecutionShellDialect | "legacy-shell";
-
-interface BashInternalScriptMaterializeOptions {
-  rootDir: string;
-  sessionId: string;
-  shellDialect?: StartupShellDialect;
-}
-
-interface BashInternalScriptContent {
-  id: string;
-  content: string;
-}
-
-interface MaterializedBashSourceScript {
-  path: string;
-  shellPath: string;
-}
-
 interface BashSourceScript {
   path: string;
   shellPath: string;
   optional?: boolean;
 }
-
 interface ApplyBashSourcesOptions {
   leadingSources?: BashSourceScript[];
   rootDir: string;
@@ -36,102 +21,61 @@ interface ApplyBashSourcesOptions {
   shellDialect: StartupShellDialect;
 }
 
+function quote(value: string): string {
+  return `'${value.replace(/'/g, `'"'"'`)}'`;
+}
+
+function materializePrelude(content: string, rootDir: string, sessionId: string): string {
+  const digest = createHash("sha256").update(content).digest("hex");
+  const directory = path.join(rootDir, "bash-startup", sanitizePathSegment(sessionId));
+  const target = path.join(directory, `${digest}.sh`);
+  mkdirSync(directory, { recursive: true, mode: 0o700 });
+  let current: string | undefined;
+  if (existsSync(target)) {
+    try {
+      current = readFileSync(target, "utf8");
+    } catch {
+      current = undefined;
+    }
+  }
+  if (current !== content) writeFileSync(target, content, { encoding: "utf8", mode: 0o600 });
+  try {
+    chmodSync(target, 0o600);
+  } catch {
+    // Windows and some mounted filesystems do not implement POSIX modes.
+  }
+  return target;
+}
+
 export function applyBashSourcesToExecutionRequest(
   request: ExecutionRequest,
   options: ApplyBashSourcesOptions,
 ): ExecutionRequest {
-  if (request.command.mode !== "shell" || request.command.shellProfile !== "posix-bash") {
+  if (request.command.mode !== "shell" || request.command.shellProfile !== "posix-bash")
     return request;
+  if (options.shellDialect !== "posix" && options.shellDialect !== "git-bash") return request;
+  const sources = [...(options.leadingSources ?? [])];
+  const prelude = buildEmbeddedSearchPreludeContent(request.bashPrelude, {
+    shellDialect: options.shellDialect,
+  });
+  if (prelude) {
+    const localPath = materializePrelude(prelude, options.rootDir, options.sessionId);
+    sources.push({ path: localPath, shellPath: localPath });
   }
-
-  const embeddedPreludeContent = buildEmbeddedSearchPreludeContent(request.bashPrelude, {
-    shellDialect: options.shellDialect,
+  if (sources.length === 0) return request;
+  const commands = sources.map((source) => {
+    const selected =
+      options.shellDialect === "git-bash"
+        ? windowsPathToGitBashPath(source.path)
+        : source.shellPath;
+    const load = `. ${quote(selected)}`;
+    return source.optional ? `[ ! -r ${quote(selected)} ] || ${load}` : load;
   });
-  const internalScript = embeddedPreludeContent
-    ? {
-        id: "embedded-search-startup",
-        content: embeddedPreludeContent,
-      }
-    : undefined;
-  const materialized = materializeBashInternalSourceScript(internalScript, {
-    rootDir: options.rootDir,
-    sessionId: options.sessionId,
-    shellDialect: options.shellDialect,
-  });
-  const sources = [...(options.leadingSources ?? []), ...(materialized ? [materialized] : [])];
-  const command = applyBashSourceScripts(request.command.command, sources);
-  if (command === request.command.command) return request;
-
   return {
     ...request,
     command: {
       ...request.command,
-      command,
+      command: `${commands.join("\n")}\n${request.command.command}`,
     },
   };
-}
-
-function materializeBashInternalSourceScript(
-  script: BashInternalScriptContent | undefined,
-  options: BashInternalScriptMaterializeOptions,
-): MaterializedBashSourceScript | undefined {
-  if (!script) return undefined;
-  if (!supportsBashSourceScripts(options.shellDialect)) return undefined;
-  if (script.content.length === 0) return undefined;
-
-  const sessionDir = join(options.rootDir, "bash-startup", sanitizePathSegment(options.sessionId));
-  mkdirSync(sessionDir, { recursive: true });
-
-  const hash = hashContent(script.content);
-  const fileName = `${sanitizePathSegment(script.id)}-${hash}.sh`;
-  const path = join(sessionDir, fileName);
-
-  if (!existsSync(path) || readFileSync(path, "utf8") !== script.content) {
-    writeFileSync(path, script.content, { encoding: "utf8", mode: 0o600 });
-    try {
-      chmodSync(path, 0o600);
-    } catch {
-      // Windows 可能不保留 POSIX mode bit；文件仍位于 Knorvia 自有 storage 下。
-    }
-  }
-
-  return {
-    path,
-    shellPath: options.shellDialect === "git-bash" ? windowsPathToGitBashPath(path) : path,
-  };
-}
-
-function applyBashSourceScripts(command: string, sources: BashSourceScript[]): string {
-  const sourceLines = sources.map((source) => {
-    const sourceCommand = `. ${quoteSourcePath(source)}`;
-    return source.optional ? `${sourceCommand} 2>/dev/null || true` : sourceCommand;
-  });
-  return sourceLines.length === 0 ? command : [...sourceLines, command].join("\n");
-}
-
-function supportsBashSourceScripts(shellDialect: StartupShellDialect | undefined): boolean {
-  return shellDialect === "posix" || shellDialect === "git-bash";
-}
-
-function hashContent(content: string): string {
-  return createHash("sha256").update(content).digest("hex").slice(0, 16);
-}
-
-function sanitizePathSegment(value: string): string {
-  return value.replace(/[^A-Za-z0-9._-]+/gu, "-").replace(/^-+|-+$/gu, "") || "unknown";
-}
-
-function shellQuote(value: string): string {
-  if (/^[A-Za-z0-9_/:=.,@%+-]+$/u.test(value)) return value;
-  return `'${value.replaceAll("'", "'\\''")}'`;
-}
-
-function shellQuoteAlways(value: string): string {
-  return `'${value.replaceAll("'", "'\\''")}'`;
-}
-
-function quoteSourcePath(materialized: BashSourceScript): string {
-  return materialized.path === materialized.shellPath
-    ? shellQuoteAlways(materialized.shellPath)
-    : shellQuote(materialized.shellPath);
 }

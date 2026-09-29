@@ -8,6 +8,8 @@
 
 旧版发行记录、许可证及附件不追溯改写。
 
+命令执行的 24 份源码及插件发现、组件、Hook 与 MCP 投影的 16 份源码也已按逐文件证据独立替换；对应 42 份新测试与支撑文件采用本目录 MIT 许可。旧版、候选、主仓源码及实际 CLI 编译产物分别通过 62 项和 43 项契约验收，主仓完整离线 3798 项通过。八个插件来源与存储模块仍保留原实现，模型子系统仍在仓外验收。详见[本批验收](../docs/knorvia-exec-plugin-runtime-acceptance.md)、[执行来源](evidence/exec-runtime.md)与[插件来源](evidence/plugin-discovery-runtime.md)；本批结论不扩大到这些保留模块或整个应用。
+
 功能配置和标准许可正文可使用 `reviewed-retained` 记录“已核验性质、保留声明”。它必须填写 `NOASSERTION`，仅表示这次复核不新增许可判断，不能撤销文件中已有的有效声明，也不代表独立实现。上游路径、摘要和分类照常保留；`summary.reviewedNatures` 是与来源分类重叠的独立统计，不能相加当成总文件数。首批宿主配置依据见[性质复核记录](evidence/node-repl-host-retained.md)。
 
 当前已验证范围见[迁移进展](../docs/knorvia-independence-progress-20260927.md)。
