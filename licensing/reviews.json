@@ -28500,10 +28500,10 @@
     },
     {
       "path": "docs/knorvia-http-response-body-acceptance.md",
-      "normalizedSha256": "cd3a5a944dadd7253c734ff340f879500611f6d5e11339af941a6538ccde6302",
+      "normalizedSha256": "a68e1aacdb9b41de99c00fffca96c73c87436140dd8fb8014fbdb938dcaea95c",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual source/compiled/full acceptance and original failed preparation records; preserves coverage limits and does not claim whole-repository independence. Root fully read the inherited helper and current public/caller boundaries. The isolated author received only approved behavior/declarations and its own prior draft review, not old body/history/tests/probes/bundles; earlier author context remains, so no whole-process clean-room or legal guarantee is claimed. Root read the 146-line candidate and verified old-first failures, new source and compiled behavior. Fixed declarations, errors, comparisons and short standard stream/Promise expressions are compatibility constraints, not claims of novel algorithms. Passing tests or an MIT header alone is not provenance proof. Unchanged HTTP transport, IP/egress policy, public error declarations/factory and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "basis": "New factual source/compiled/full acceptance and original failed preparation records; preserves coverage limits and does not claim whole-repository independence. Root fully read the inherited helper and current public/caller boundaries. The isolated author received only approved behavior/declarations and its own prior draft review, not old body/history/tests/probes/bundles; earlier author context remains, so no whole-process clean-room or legal guarantee is claimed. Root read the 146-line candidate and verified old-first failures, new source and compiled behavior. Fixed declarations, errors, comparisons and short standard stream/Promise expressions are compatibility constraints, not claims of novel algorithms. Passing tests or an MIT header alone is not provenance proof. Unchanged HTTP transport, IP/egress policy, public error declarations/factory and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain. Actual original GitHub run 36505896776 passed all quality steps: Windows 2703/2703; Linux 2696 passed with seven explicit platform skips. Full staged contents of 14 files scanned with zero findings. Results precede the public-DNS replacement.",
       "evidence": [
         "specs/knorvia-http-response-body.md",
         "docs/knorvia-http-response-body-acceptance.md",
@@ -28520,6 +28520,126 @@
         "specs/knorvia-http-response-body.md",
         "docs/knorvia-http-response-body-acceptance.md",
         "licensing/evidence/http-response-body.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/http/public-egress-policy.ts",
+      "normalizedSha256": "a0fb608458bdffcbe219c4ece6d8f4ce92f3b4c8686f967808a08979e99b168d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led public-host/DNS boundary with one query completion owner and immediate observation of an obtained resolver Promise before the existing second cancellation check. Preserves IP rules, native/port failure identity, callback timing, selected all format and runtime arity. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/public-egress-callback.test.ts",
+      "normalizedSha256": "edd372c0d1da828700f8a6ee970535c1d44e555b346ece3667e6795cb181e676",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first callback behavior checks using owned synthetic DNS and exact result/error/callback observations. Preserves initial candidate regressions and genuine old unhandled resolver rejection failures. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/public-egress-cancellation.test.ts",
+      "normalizedSha256": "31f7d8b79d2ce3a5efee096fe0ce554a8455316d7c0b531690444699da9451b9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first cancellation behavior checks using owned synthetic DNS and exact result/error/callback observations. Preserves initial candidate regressions and genuine old unhandled resolver rejection failures. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/public-egress-delivery.test.ts",
+      "normalizedSha256": "f85bfc7dedf16f79375f737c49bb612254be16dc1eb895f0a52af5b469147e12",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first delivery behavior checks using owned synthetic DNS and exact result/error/callback observations. Preserves initial candidate regressions and genuine old unhandled resolver rejection failures. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/public-egress-policy.test.ts",
+      "normalizedSha256": "5748957b03f0ccf33d014d1b392df178450c94aeba288faed7b4210ee54d57ab",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first policy behavior checks using owned synthetic DNS and exact result/error/callback observations. Preserves initial candidate regressions and genuine old unhandled resolver rejection failures. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/public-egress.fixture.ts",
+      "normalizedSha256": "c9526cfd65f64724e44e336dd80b2f091da71e61f854de762d97ddecf2c7f420",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New same-package fixture with owned child process observations, exact error identity and observable late callback count. No production injection port or default DNS execution. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/public-egress-rejection-child.ts",
+      "normalizedSha256": "c8a0edd05560e49a9bf7f3cfd87eb7db86ca78bbe8ba5194bb187cbe4d983087",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New isolated observer distinguishes only its owned resolver rejection from the deliberately preserved user-callback continuation failure and cleans up its own promises. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-http-public-egress.md",
+      "normalizedSha256": "37567921c4cbf27dbd44fa6d6cdd9b85ffdffe37f6b74993af3efb885af580ce",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior root-written behavior contract with explicit ownership, preserved IP/error policy and later pure delivery supplement based on five old-first boundary observations. Original contract remains frozen externally. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-http-public-egress-acceptance.md",
+      "normalizedSha256": "415c9933e585e89d67b008a3c46210f27fc9ad7b0f5e9a06f581fb7c34036df9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance distinguishes inherited four failures, four first-candidate compatibility regressions, successful revised source/compiled runs and failed preparation steps. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/http-public-egress.md",
+      "normalizedSha256": "5086fad6bb800eb8a0e41d8f701bc1d6ab354ba91adaaae15afcc769020b002e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New exact input, retained-context, author static program, candidate archive and root runtime evidence. Keeps dependency rights and scope limits explicit. Root fully read the inherited helper and current public/caller boundaries. The isolated author received approved behavior/declarations plus its own prior review, then a behavior-only delivery addendum, not old body/history/tests/probes/bundles. Prior author context remains; no whole-process clean-room or legal guarantee is claimed. Root read the final 157-line candidate and inspected its changes, old-first failures, source and actual compiled behavior. Fixed declarations, error literals and short standard Promise/IP calls are compatibility constraints rather than evidence of novel algorithms. Passing tests or an MIT header alone does not prove provenance. HTTP transport, network config, public error/IP functions, third-party dependencies, root Apache-2.0 and preview identity retain their previous rights and scope.",
+      "evidence": [
+        "specs/knorvia-http-public-egress.md",
+        "docs/knorvia-http-public-egress-acceptance.md",
+        "licensing/evidence/http-public-egress.md"
       ]
     }
   ]
