@@ -29891,10 +29891,10 @@
     },
     {
       "path": "docs/knorvia-mcp-interactive-authorization-acceptance.md",
-      "normalizedSha256": "426acbc167bb63ac9516e0b92b281d82dd9d6208ce2cd2cf3da991112da37be2",
+      "normalizedSha256": "74e144f73d542a27720e52f34b4b2c2e62b81a42f68a0bce8512763c5be0a7af",
       "decision": "original",
       "license": "MIT",
-      "basis": "Actual independent31/root32, initial candidate31/1 failure and correction, main strict-type integration failure, final source/dist32 and full3484 results with explicit loopback/mock/build limits and preceding-commit CI. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "basis": "Actual independent31/root32, initial candidate31/1 failure and correction, main strict-type integration failure, final source/dist32 and full3484 results with explicit loopback/mock/build limits and preceding-commit CI. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain. Original interactive92e5a4d run36545732896 attempt1 confirms Linux3477 pass/seven platform skips and Windows3484 pass/no skips,zero failures/cancellations; all prerequisite steps succeeded. Preceding-commit evidence,not process-telemetry CI,and not a revision of earlier5e8d80a Python startup timeout.",
       "evidence": [
         "specs/knorvia-mcp-interactive-authorization.md",
         "docs/knorvia-mcp-interactive-authorization-acceptance.md",
@@ -29911,6 +29911,114 @@
         "specs/knorvia-mcp-interactive-authorization.md",
         "docs/knorvia-mcp-interactive-authorization-acceptance.md",
         "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/telemetry.ts",
+      "normalizedSha256": "f9ccd162f25c3e469f3097ac613d7d94c1da8c588bc0d877c42d6a7f24f70545",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Behavior-first tracker owns one registration/owner/process map and closure-based sampled identity observations. Native byte escaping/HMAC, local memory facts, orphan/lifecycle and captured versus live options retain their public contracts; no IO or second state owner added. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/resource-telemetry.ts",
+      "normalizedSha256": "ff85a73c86300dd746e7e234c64faf17a6f56b06b8642722eeb6664c5db66c45",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Separately designed sampling window owns one timer, generation, in-flight state and previous CPU baseline. Ordered global PID contribution and explicit group/window helpers preserve absent/empty results, callback boundaries and documented pre-try clock limitation; retained probe owns OS observations. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-telemetry.fixture.ts",
+      "normalizedSha256": "bd50e19f44c1f27d17e3d7c68df6bf774b6d85542f2424918710f68cae48619e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent closed loader binds tracker/resource/explicit companions and owns synthetic Date/process/OS/probe/timers including global spellings. Crypto/Buffer remain native; root adds headers and portable URLs only. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-telemetry-tracker.test.ts",
+      "normalizedSha256": "f228e98e47a6b094b4755c14974906891dde8a72736fce87eab456a37f28071c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior10 public cases cover native ID/Unicode, owner sessions, lifecycle/currentness, orphan threshold, capture/live sink and mutation/error boundaries without reading private maps. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-resource-telemetry.test.ts",
+      "normalizedSha256": "35510a5a5ed91a5118ade30701a1ac01428c731be72bac14d8a9686d7f585aff",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior12 cases cover ordered probe/global dedup, CPU windows, stop and overlap gates, timer ownership, absence versus empty, callback failures and the existing pre-try clock busy limitation. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-telemetry-integration.test.ts",
+      "normalizedSha256": "1aad931c39530d74ea4dddb0bed9f048441bd699f690ec0755ec96215c824d65",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent prior3 two-module cases prove raw local memory versus globally deduplicated resource facts, process replacement during awaited probe, and retained unregistered processes using a captured sample timestamp. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-process-telemetry.md",
+      "normalizedSha256": "e88bb8b3f559103dfdd8ac0a8f04ecf963376a2555bf8194e755c05b0276096c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root-written specification after complete500-line source/public-contract review and preparer contract verification, covering lifecycle, ownership, field projections, sampling windows and finite acceptance limits. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-process-telemetry-acceptance.md",
+      "normalizedSha256": "8cc8391c22d39ff59896230fc00887d9d0aee3b7d399ad93b635b3eb14b858b1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual old/candidate/main/dist25 and full3509 acceptance with preserved static format failure, source/input scope, exact CLI artifact hashes and distinct preceding-commit cloud results. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-process-telemetry.md",
+      "normalizedSha256": "b85bd404d73450a37988043b3e6d2ce39df82b66ebb56b672081f628353b03eb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "File-specific candidate/test design, approved read/compiler inventories and initial artifacts, root exposure and retained native/probe/schema rights; no whole-process clean-room or repository-wide MIT claim. Root and contract preparer read old500 lines/public interfaces; source and test authors used separate approved-nine-input directories and retained prior context. Root fully reviewed tests and ran old25 before candidate design/source/report review. Source program197=2 candidates+3 approved declarations+192 standard/third-party declarations,other product bodies0; test readFile219=11 task+208 automatic declarations/metadata,distinct count scope. Source first static checks pass; first test formatting failure and pre-runtime review changes remain preserved. Old/candidate/main/actual CLI dist25 and full3509 pass without runtime-feedback revisions or relaxed assertions. Native crypto/Buffer and synthetic probe/timer/process/OS ports are explicitly separated; no actual process-probe or external delivery claim. Standard syntax,algorithms,protocol fields,headers and test success alone do not establish authorship. Digest-bound review is not OS access audit,whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview remain.",
+      "evidence": [
+        "specs/knorvia-mcp-process-telemetry.md",
+        "docs/knorvia-mcp-process-telemetry-acceptance.md",
+        "licensing/evidence/mcp-process-telemetry.md"
       ]
     }
   ]

@@ -23,3 +23,5 @@
 未验证外部OAuth、真实用户凭据、付费模型及桌面安装/便携包。本批不替换所依赖SDK/存储或其余MCP宿主。根Apache、适用第三方权利与preview身份保持；整仓MIT、最终稳定发行及官网仍未完成。遥测下一批在仓外准备，不计入本批已替换项。具体来源证据见[依据](../licensing/evidence/mcp-interactive-authorization.md)。
 
 前批令牌刷新提交9b941e1的原始GitHub run [36541180223](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36541180223)，attempt1：Linux job109316702520为 **3,445通过、7平台跳过、0失败/取消**，237705.587911ms；Windows job109316702673为 **3,452/3,452通过、0失败/跳过/取消**，397262.0277ms。全部前置检查成功。这是前批提交的云端结果，不算当前交互授权批次的CI，也不抹去更早5e8d80a的Python启动超时失败。
+
+前批交互授权提交92e5a4d的原始GitHub run [36545732896](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36545732896)，attempt1：Linux job109331546945为 **3,477通过、7平台跳过、0失败/取消**，244091.98537ms；Windows job109331547121为 **3,484/3,484通过、0失败/跳过/取消**，365524.1339ms。全部前置检查成功。这是前批提交的云端结果，不算当前遥测批次CI，也不抹去更早5e8d80a的Python启动超时失败。

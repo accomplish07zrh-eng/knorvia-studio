@@ -1,40 +1,28 @@
-import { Buffer } from "node:buffer";
+// Copyright (c) Knorvia contributors
+// SPDX-License-Identifier: MIT
+
 import { createHmac, randomUUID } from "node:crypto";
 import type { KnorviaMcpTelemetryEvent } from "@knorvia/shared";
 import {
   createMcpResourceTelemetry,
+  type McpResourceProcess,
   type McpResourceTelemetryOptions,
 } from "./resource-telemetry.js";
 
-const BUILTIN_MCP_ID_PREFIX = "builtin:";
-const BUILTIN_NODE_REPL_SERVER_NAME = "node_repl";
-const MCP_ID_SAFE_CHARACTER_PATTERN = /^[A-Za-z0-9._~-]$/;
-const PLUGIN_MCP_NAMESPACE_PREFIX = "plugin:";
-
 type McpTelemetryEvent = KnorviaMcpTelemetryEvent;
-export type McpTelemetrySource = Extract<
-  KnorviaMcpTelemetryEvent,
-  { kind: "process_start" }
->["mcpSource"];
-export type McpTelemetryIsolation = Extract<
-  KnorviaMcpTelemetryEvent,
-  { kind: "process_start" }
->["mcpIsolation"];
+type StartEvent = Extract<McpTelemetryEvent, { kind: "process_start" }>;
+export type McpTelemetrySource = StartEvent["mcpSource"];
+export type McpTelemetryIsolation = StartEvent["mcpIsolation"];
+
 export interface McpProcessTelemetryIdentity {
   mcpId: string;
   mcpInstanceId: string;
 }
 
-/**
- * 资源管理器用的 MCP 子进程视图：只回 pid 与归属，不含任何采样值。
- * 这里保留明文 serverName / pluginName——只在本机 host ↔ CLI 之间流转，
- * 不出本机，无需脱敏；Host 用它把 ps 进程树上的 pid 归到具体插件。
- */
 export interface McpTrackedProcess {
   pid: number;
   serverName: string;
   mcpSource: McpTelemetrySource;
-  /** `plugin:<name>:<key>` 命名空间里的插件名；builtin host MCP（node_repl）由调用方按官方插件表补齐 */
   pluginName?: string;
 }
 
@@ -65,7 +53,6 @@ export interface McpTelemetryTracker {
     source?: McpTelemetrySource;
   }): void;
   unregisterConnection(input: { connectionId: string }): void;
-  /** 当前仍有存活进程记录的 MCP 连接（纯内存，无 I/O） */
   listProcesses(): McpTrackedProcess[];
   sampleNow(): Promise<void>;
   start(): void;
@@ -73,11 +60,11 @@ export interface McpTelemetryTracker {
 }
 
 interface CreateMcpTelemetryTrackerOptions {
-  arch?: KnorviaMcpTelemetryEvent["arch"];
+  arch?: McpTelemetryEvent["arch"];
   idSalt: string;
   now?: () => number;
   onEvent(event: McpTelemetryEvent): void;
-  platform?: KnorviaMcpTelemetryEvent["platform"];
+  platform?: McpTelemetryEvent["platform"];
   randomId?: () => string;
   onResourceSamples?: McpResourceTelemetryOptions["onResourceSamples"];
   processProbe?: McpResourceTelemetryOptions["processProbe"];
@@ -86,151 +73,181 @@ interface CreateMcpTelemetryTrackerOptions {
   timer?: McpResourceTelemetryOptions["timer"];
 }
 
-interface TrackedConnection {
+interface Registration {
   connectionId: string;
   isolation: McpTelemetryIsolation;
   mcpId: string;
-  mcpSource: McpTelemetrySource;
+  source: McpTelemetrySource;
   serverName: string;
   owners: Map<string, string | undefined>;
-  process?: {
-    instanceId: string;
-    pid: number;
-    startedAt: number;
-  };
+  process?: { instanceId: string; pid: number; startedAt: number };
   unownedAt?: number;
+}
+
+const PLUGIN_PREFIX = "plugin:";
+const HASH_ID_LENGTH = 12;
+const MILLISECONDS_PER_SECOND = 1000;
+const ORPHAN_THRESHOLD_MS = 60_000;
+
+function defaultSource(serverName: string): McpTelemetrySource {
+  if (serverName === "node_repl") return "builtin";
+  return serverName.startsWith(PLUGIN_PREFIX) ? "plugin" : "custom";
+}
+
+function connectionIdentity(serverName: string, source: McpTelemetrySource, salt: string): string {
+  if (source !== "builtin") {
+    const digest = createHmac("sha256", salt).update(serverName).digest("hex");
+    return `${source}:${digest.slice(0, HASH_ID_LENGTH)}`;
+  }
+  const name = serverName.startsWith(PLUGIN_PREFIX)
+    ? serverName.slice(PLUGIN_PREFIX.length)
+    : serverName;
+  const encoded = name.split(":").map((segment) =>
+    Array.from(Buffer.from(segment), (byte) => {
+      const character = String.fromCharCode(byte);
+      return /^[A-Za-z0-9._~-]$/.test(character)
+        ? character
+        : `%${byte.toString(16).toUpperCase().padStart(2, "0")}`;
+    }).join(""),
+  );
+  return `builtin:${encoded.join(":")}`;
+}
+
+function ownerSessionCount(registration: Registration): number {
+  const sessions = new Set<string>();
+  for (const sessionId of registration.owners.values()) {
+    if (sessionId !== undefined) sessions.add(sessionId);
+  }
+  return sessions.size;
+}
+
+export function resolvePluginName(serverName: string): string | undefined {
+  if (!serverName.startsWith(PLUGIN_PREFIX)) return undefined;
+  return serverName.slice(PLUGIN_PREFIX.length).split(":")[0]?.trim() || undefined;
 }
 
 export function createMcpTelemetryTracker(
   options: CreateMcpTelemetryTrackerOptions,
 ): McpTelemetryTracker {
-  const arch = options.arch ?? (process.arch as KnorviaMcpTelemetryEvent["arch"]);
+  const arch = options.arch ?? (process.arch as McpTelemetryEvent["arch"]);
   const now = options.now ?? Date.now;
-  const platform = options.platform ?? (process.platform as KnorviaMcpTelemetryEvent["platform"]);
+  const platform = options.platform ?? (process.platform as McpTelemetryEvent["platform"]);
   const randomId = options.randomId ?? randomUUID;
-  const connections = new Map<string, TrackedConnection>();
-  const emit = (event: McpTelemetryEvent): void => {
+  const registrations = new Map<string, Registration>();
+
+  function emit(event: McpTelemetryEvent): void {
     try {
       options.onEvent(event);
     } catch {
-      // 遥测为旁路，下游通知或 IPC 关闭不得改变 MCP 连接、回收或 crash 处理。
+      // 只忽略同步通知失败；状态修改、字段投影和时钟仍在此边界之外。
     }
-  };
+  }
 
-  const resourceTelemetry = createMcpResourceTelemetry({
-    ...options,
-    arch,
-    platform,
-    now,
-    getProcesses: () =>
-      [...connections.values()].flatMap((connection) => {
-        const trackedProcess = connection.process;
-        if (!trackedProcess) return [];
-        return [
-          {
-            ...trackedProcess,
-            mcpId: connection.mcpId,
-            isCurrent: () =>
-              connections.get(connection.connectionId) === connection &&
-              connection.process === trackedProcess,
-            observed(samples, sampledAt, memoryScope) {
-              if (!samples) {
-                if (connection.owners.size === 0) {
-                  connection.process = undefined;
-                  connections.delete(connection.connectionId);
-                }
-                return;
-              }
-              const sessionIds = new Set(
-                [...connection.owners.values()].filter((id) => id !== undefined),
-              );
-              const unownedMs =
-                connection.owners.size === 0 && connection.unownedAt !== undefined
-                  ? Math.max(0, sampledAt - connection.unownedAt)
-                  : 0;
-              // 保留 tracker 内部孤儿观测口径；bootstrap 不再把旧 memory 事实发上协议。
-              emit({
-                arch,
-                kind: "memory",
-                mcpId: connection.mcpId,
-                mcpInstanceId: trackedProcess.instanceId,
-                mcpIsolation: connection.isolation,
-                mcpSource: connection.mcpSource,
-                platform,
-                occurredAt: sampledAt,
-                memoryKb: samples.reduce((total, sample) => total + sample.rssKb, 0),
-                memoryScope,
-                orphanSuspected: connection.owners.size === 0 && unownedMs > 60_000,
-                ownerSessionCount: sessionIds.size,
-                unownedSeconds: unownedMs / 1_000,
-              });
-            },
-          },
-        ];
-      }),
-  });
+  function getProcesses(): McpResourceProcess[] {
+    const entries: McpResourceProcess[] = [];
+    for (const registration of registrations.values()) {
+      const capturedProcess = registration.process;
+      if (!capturedProcess) continue;
+      entries.push({
+        instanceId: capturedProcess.instanceId,
+        mcpId: registration.mcpId,
+        pid: capturedProcess.pid,
+        startedAt: capturedProcess.startedAt,
+        isCurrent() {
+          return (
+            registrations.get(registration.connectionId) === registration &&
+            registration.process === capturedProcess
+          );
+        },
+        observed(tree, sampledAt, scope) {
+          if (!tree) {
+            if (registration.owners.size === 0) {
+              registration.process = undefined;
+              registrations.delete(registration.connectionId);
+            }
+            return;
+          }
+          const unownedMs =
+            registration.owners.size === 0 && registration.unownedAt !== undefined
+              ? Math.max(0, sampledAt - registration.unownedAt)
+              : 0;
+          emit({
+            arch,
+            kind: "memory",
+            mcpId: registration.mcpId,
+            mcpInstanceId: capturedProcess.instanceId,
+            mcpIsolation: registration.isolation,
+            mcpSource: registration.source,
+            platform,
+            occurredAt: sampledAt,
+            memoryKb: tree.reduce((sum, sample) => sum + sample.rssKb, 0),
+            memoryScope: scope,
+            orphanSuspected: registration.owners.size === 0 && unownedMs > ORPHAN_THRESHOLD_MS,
+            ownerSessionCount: ownerSessionCount(registration),
+            unownedSeconds: unownedMs / MILLISECONDS_PER_SECOND,
+          });
+        },
+      });
+    }
+    return entries;
+  }
+
+  const sampler = createMcpResourceTelemetry({ ...options, arch, platform, now, getProcesses });
 
   return {
     acquireOwner(input) {
-      const connection = connections.get(input.connectionId);
-      if (!connection) return;
-      connection.owners.set(input.ownerId, input.sessionId);
-      connection.unownedAt = undefined;
+      const registration = registrations.get(input.connectionId);
+      if (!registration) return;
+      registration.owners.set(input.ownerId, input.sessionId);
+      registration.unownedAt = undefined;
     },
     recordProcessCrashed(input) {
-      const connection = connections.get(input.connectionId);
-      const trackedProcess = connection?.process;
-      if (!connection || !trackedProcess) return;
-      connection.process = undefined;
+      const registration = registrations.get(input.connectionId);
+      const current = registration?.process;
+      if (!registration || !current) return;
+      registration.process = undefined;
       const occurredAt = now();
-      const sessionIds = new Set(
-        [...connection.owners.values()].filter(
-          (sessionId): sessionId is string => sessionId !== undefined,
-        ),
-      );
       emit({
-        affectedSessionCount: sessionIds.size,
+        affectedSessionCount: ownerSessionCount(registration),
         arch,
         exitCode: input.exitCode,
         kind: "process_crash",
-        mcpId: connection.mcpId,
-        mcpInstanceId: trackedProcess.instanceId,
-        mcpIsolation: connection.isolation,
-        mcpSource: connection.mcpSource,
+        mcpId: registration.mcpId,
+        mcpInstanceId: current.instanceId,
+        mcpIsolation: registration.isolation,
+        mcpSource: registration.source,
         occurredAt,
         platform,
         signal: input.signal,
-        uptimeMs: Math.max(0, occurredAt - trackedProcess.startedAt),
+        uptimeMs: Math.max(0, occurredAt - current.startedAt),
       });
     },
     recordProcessClosed(input) {
-      const connection = connections.get(input.connectionId);
-      if (!connection) return;
-      connection.process = undefined;
-      if (connection.owners.size === 0) connections.delete(input.connectionId);
+      const registration = registrations.get(input.connectionId);
+      if (!registration) return;
+      registration.process = undefined;
+      if (registration.owners.size === 0) registrations.delete(input.connectionId);
     },
     recordProcessStarted(input) {
-      const connection = connections.get(input.connectionId);
-      if (!connection || !Number.isInteger(input.pid) || input.pid <= 0) return undefined;
-      const mcpInstanceId = randomId();
-      const occurredAt = now();
-      connection.process = {
-        instanceId: mcpInstanceId,
-        pid: input.pid,
-        startedAt: occurredAt,
-      };
-      if (connection.owners.size === 0) connection.unownedAt ??= occurredAt;
+      const registration = registrations.get(input.connectionId);
+      if (!registration) return undefined;
+      const pid = input.pid;
+      if (!Number.isInteger(pid) || pid <= 0) return undefined;
+      const instanceId = randomId();
+      const startedAt = now();
+      registration.process = { instanceId, pid, startedAt };
+      if (registration.owners.size === 0) registration.unownedAt ??= startedAt;
       emit({
         arch,
         kind: "process_start",
-        mcpId: connection.mcpId,
-        mcpInstanceId,
-        mcpIsolation: connection.isolation,
-        mcpSource: connection.mcpSource,
-        occurredAt,
+        mcpId: registration.mcpId,
+        mcpInstanceId: instanceId,
+        mcpIsolation: registration.isolation,
+        mcpSource: registration.source,
+        occurredAt: startedAt,
         platform,
       });
-      return { mcpId: connection.mcpId, mcpInstanceId };
+      return { mcpId: registration.mcpId, mcpInstanceId: instanceId };
     },
     recordSessionStartup(input) {
       emit({
@@ -246,86 +263,45 @@ export function createMcpTelemetryTracker(
       });
     },
     releaseOwner(input) {
-      const connection = connections.get(input.connectionId);
-      if (!connection || !connection.owners.delete(input.ownerId)) return;
-      if (connection.owners.size !== 0) return;
-      connection.unownedAt = now();
-      // process crash 后最后一个 owner 释放时，pool entry 仍会在 idle grace 内存活。
-      // 此处提前删除 registration 会让同一 workspace entry 被复用后的新进程永久失去遥测。
-      // registration 的终态由 pool closeEntry 显式 unregister，owner 释放只记录无主时间。
+      const registration = registrations.get(input.connectionId);
+      if (!registration || !registration.owners.delete(input.ownerId)) return;
+      if (registration.owners.size === 0) registration.unownedAt = now();
     },
     registerConnection(input) {
-      const mcpSource = input.source ?? resolveMcpSource(input.serverName);
-      connections.set(input.connectionId, {
+      const source = input.source ?? defaultSource(input.serverName);
+      const mcpId = connectionIdentity(input.serverName, source, options.idSalt);
+      registrations.set(input.connectionId, {
         connectionId: input.connectionId,
         isolation: input.isolation,
-        mcpId: resolveMcpId(input.serverName, mcpSource, options.idSalt),
-        mcpSource,
+        mcpId,
+        source,
         serverName: input.serverName,
         owners: new Map(),
       });
     },
     unregisterConnection(input) {
-      const connection = connections.get(input.connectionId);
-      if (!connection) return;
-      // pool entry 已进入终态，残留 lease 不能继续被视为 owner；若进程树回收失败则保留
-      // process 供后续采样标记 orphan，确认进程关闭或 OS 不再可见后再删除 registration。
-      connection.owners.clear();
-      connection.unownedAt ??= now();
-      if (!connection.process) connections.delete(input.connectionId);
+      const registration = registrations.get(input.connectionId);
+      if (!registration) return;
+      registration.owners.clear();
+      registration.unownedAt ??= now();
+      if (!registration.process) registrations.delete(input.connectionId);
     },
     listProcesses() {
-      const processes: McpTrackedProcess[] = [];
-      for (const connection of connections.values()) {
-        if (!connection.process) continue;
-        const pluginName = resolvePluginName(connection.serverName);
-        processes.push({
-          pid: connection.process.pid,
-          serverName: connection.serverName,
-          mcpSource: connection.mcpSource,
+      const rows: McpTrackedProcess[] = [];
+      for (const registration of registrations.values()) {
+        if (!registration.process) continue;
+        const pluginName = resolvePluginName(registration.serverName);
+        rows.push({
+          pid: registration.process.pid,
+          serverName: registration.serverName,
+          mcpSource: registration.source,
           ...(pluginName ? { pluginName } : {}),
         });
       }
-      return processes;
+      return rows;
     },
-    sampleNow: resourceTelemetry.sampleNow,
-    start: resourceTelemetry.start,
-    stop: resourceTelemetry.stop,
+    sampleNow: sampler.sampleNow,
+    start: sampler.start,
+    stop: sampler.stop,
   };
-}
-
-/** `plugin:<name>:<key>` → `<name>`；非插件命名空间返回 undefined */
-export function resolvePluginName(serverName: string): string | undefined {
-  if (!serverName.startsWith(PLUGIN_MCP_NAMESPACE_PREFIX)) return undefined;
-  const name = serverName.slice(PLUGIN_MCP_NAMESPACE_PREFIX.length).split(":")[0]?.trim();
-  return name ? name : undefined;
-}
-
-function resolveMcpSource(serverName: string): McpTelemetrySource {
-  if (serverName === BUILTIN_NODE_REPL_SERVER_NAME) return "builtin";
-  return serverName.startsWith(PLUGIN_MCP_NAMESPACE_PREFIX) ? "plugin" : "custom";
-}
-
-function resolveMcpId(serverName: string, source: McpTelemetrySource, idSalt: string): string {
-  if (source === "builtin") {
-    const publicName = serverName.startsWith(PLUGIN_MCP_NAMESPACE_PREFIX)
-      ? serverName.slice(PLUGIN_MCP_NAMESPACE_PREFIX.length)
-      : serverName;
-    return `${BUILTIN_MCP_ID_PREFIX}${publicName.split(":").map(encodeMcpIdSegment).join(":")}`;
-  }
-  const digest = createHmac("sha256", idSalt).update(serverName).digest("hex").slice(0, 12);
-  return `${source}:${digest}`;
-}
-
-function encodeMcpIdSegment(value: string): string {
-  // 原因：encodeURIComponent 遇到孤立 surrogate 会抛 URIError，遥测编码不能反向阻断 MCP 启动。
-  // Buffer 的 UTF-8 编码会把畸形序列替换为 U+FFFD，再逐字节转义成协议允许的稳定 `%HH`。
-  let encoded = "";
-  for (const byte of Buffer.from(value, "utf8")) {
-    const character = String.fromCharCode(byte);
-    encoded += MCP_ID_SAFE_CHARACTER_PATTERN.test(character)
-      ? character
-      : `%${byte.toString(16).toUpperCase().padStart(2, "0")}`;
-  }
-  return encoded;
 }
