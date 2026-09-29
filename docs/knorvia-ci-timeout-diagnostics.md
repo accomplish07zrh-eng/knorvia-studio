@@ -35,3 +35,5 @@ Python仍由同一解析器一次探测显式路径，成功后才运行真实of
 已完成业务截止与IO时钟的有限修补，见[单独验收](knorvia-creation-run-clock-acceptance.md)。一次自有EPERM证明全局setTimeout冻结机制；历史Windows当次首因仍未确认。默认产品时间与终态预算保持。
 
 原始GitHub run [36531446327](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36531446327)，受检5e8d80a：Linux **3,273通过、7平台跳过、0失败/取消**，231511.506319ms；Windows **3,279通过、1失败、0跳过/取消**，325955.6907ms。类型、lint、格式、架构及构建等前置步骤成功，创作时钟相关用例通过。Windows失败是办公插件资源测试指定的Python3.13.15绝对路径执行 --version，在10000ms预算内未返回；诊断elapsed10364.1093ms、ETIMEDOUT、status=null、SIGTERM、pid5632、stdout/stderr为空，插件脚本未启动。没有回退解释器、扩大预算、重跑原始CI或把该失败改记通过，实际启动原因仍未确认。
+
+原始GitHub run [36533441310](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36533441310)，受检c2a68cc、attempt1：Linux job109292048556为 **3,344通过、7平台跳过、0失败/取消**，188380.914481ms；Windows job109292048802为 **3,351/3,351通过、0失败/跳过/取消**，362399.5849ms。两job与其前置检查均成功。这是后续凭据配对提交的原始运行，不是5e8d80a的重跑；前次Python --version超时仍记为失败，原因未确认。只读调查没有证据将其归因为路径、权限、DLL、杀毒或负载，也没有据此扩大超时、回退解释器或改变测试。
