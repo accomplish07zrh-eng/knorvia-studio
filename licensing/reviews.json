@@ -29315,10 +29315,10 @@
     },
     {
       "path": "docs/knorvia-ci-timeout-diagnostics.md",
-      "normalizedSha256": "0d6e6b8567f8e81a14d98d068a2c55fba92b426ed7150d2357b022967feeab79",
+      "normalizedSha256": "d70450992d9c2275762691a14cddb091e365cbc5608751a56954b627149ffafa",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed. Original run 36527276423 at afb483b passed all quality gates: Windows 3205/3205, Linux 3198 pass/seven platform skips. No historical run was rerun or its failure reclassified; this passing run does not establish the old timeout cause or remove the separately observed frozen-timer mechanism.",
+      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed. Original run 36527276423 at afb483b passed all quality gates: Windows 3205/3205, Linux 3198 pass/seven platform skips. No historical run was rerun or its failure reclassified; this passing run does not establish the old timeout cause or remove the separately observed frozen-timer mechanism. Follow-up explicit business deadline separation was verified with one owned EPERM while preserving real IO time and budgets; the original CI first cause remains unknown. See the separate creation run-clock acceptance.",
       "evidence": [
         "docs/knorvia-ci-timeout-diagnostics.md",
         "specs/knorvia-test-stability.md",
@@ -29399,10 +29399,10 @@
     },
     {
       "path": "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
-      "normalizedSha256": "7a687efcc83ee995c3bfb85dff83870d5c4bc4451ec18acf9850bed33b38a97d",
+      "normalizedSha256": "7ca8fbc9565ec4907450a78a1a78c0ca996b80eaacfcf2115ece4a65626bfc8d",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual old/candidate/main/actual CLI and full 3277-case acceptance; retains four old failures and distinguishes previous original CI success from historical failure diagnosis. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "basis": "Factual old/candidate/main/actual CLI and full 3277-case acceptance; retains four old failures and distinguishes previous original CI success from historical failure diagnosis. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain. Original run36529205282 at cad534f: Windows3277/3277, Linux3270 pass/seven platform skips, all other quality steps success. No prior failure was rerun or rewritten.",
       "evidence": [
         "specs/knorvia-mcp-oauth-boundaries.md",
         "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
@@ -29419,6 +29419,42 @@
         "specs/knorvia-mcp-oauth-boundaries.md",
         "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
         "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "packages/services/test/creation-run-deadline-clock-fixture.ts",
+      "normalizedSha256": "9c4c20ada5dccc1e87c901e84cb3bbf52a3a479b9cf63e7bdf74d66a0386edf3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New explicitly injected per-test run timer records only callbacks handed to its scheduler. It does not monkey-patch global clocks or infer ownership from delay values; cancellation observation is separate from terminal visibility. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees.",
+      "evidence": [
+        "docs/knorvia-creation-run-clock-acceptance.md",
+        "specs/knorvia-creation-polish.md",
+        "specs/knorvia-test-stability.md"
+      ]
+    },
+    {
+      "path": "packages/services/test/creation-run-deadline-clock.test.ts",
+      "normalizedSha256": "9193ef7e9dfc834f0db0730e9979ec00781300a959cb3e00c3ee62b459bd6e91",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New focused acceptance covers exact injected deadline, cancellation return and one owned HTTP400 terminal rename fault with real IO backoff and the original1000ms observation budget. Native mock forwards all non-owned operations; cleanup validates its own unique temporary root. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees.",
+      "evidence": [
+        "docs/knorvia-creation-run-clock-acceptance.md",
+        "specs/knorvia-creation-polish.md",
+        "specs/knorvia-test-stability.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-creation-run-clock-acceptance.md",
+      "normalizedSha256": "5112747d9c04ea13cda3784bb1a440d97fd2332325193b37346e11ac43154e31",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual investigation/integration report distinguishes initial frozen-clock red tests from final narrow-clock old/new tests, preserves the first architecture failure, and records full3280-case validation without claiming the original Windows CI cause. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees.",
+      "evidence": [
+        "docs/knorvia-creation-run-clock-acceptance.md",
+        "specs/knorvia-creation-polish.md",
+        "specs/knorvia-test-stability.md"
       ]
     }
   ]

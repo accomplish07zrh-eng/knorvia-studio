@@ -14,6 +14,7 @@ import type {
 } from "./contract.js";
 import { runCreationProvider } from "./providers.js";
 import { validateCreationModel } from "./modelValidation.js";
+import { scheduleNativeRunDeadline } from "./creationRunDeadline.js";
 import {
   newCreationJob,
   providerReferences,
@@ -42,6 +43,8 @@ export interface CreationServiceOptions {
   fetchImpl?: typeof fetch;
   pollIntervalMs?: number;
   runTimeoutMs?: number;
+  /** 仅调度运行看门狗；不接管持久化退避或供应商轮询。返回该次安排的取消函数。 */
+  scheduleRunDeadline?: (callback: () => void, delayMs: number) => () => void;
   providerDeadlineMs?: number;
   /** 只读远程验证的单次查询上限。 */
   verifyTimeoutMs?: number;
@@ -319,11 +322,11 @@ export class CreationService implements ICreationService {
     controller: AbortController,
   ): Promise<void> {
     let submissionStarted = false;
-    const timeout = setTimeout(
+    const scheduleRunDeadline = this.options.scheduleRunDeadline ?? scheduleNativeRunDeadline;
+    const cancelRunDeadline = scheduleRunDeadline(
       () => controller.abort(new Error("等待生成服务超时")),
       this.options.runTimeoutMs ?? 16 * 60 * 1000,
     );
-    timeout.unref?.();
     try {
       await this.updateJob(job.id, (record) => {
         record.status = "running";
@@ -385,7 +388,7 @@ export class CreationService implements ICreationService {
         record.error = failure.error;
       }).catch(() => undefined);
     } finally {
-      clearTimeout(timeout);
+      cancelRunDeadline();
       this.controllers.delete(job.id);
     }
   }

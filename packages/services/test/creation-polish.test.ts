@@ -4,6 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createCreationService } from "../src/creation/creationService.js";
+import { createRunDeadlineClock } from "./creation-run-deadline-clock-fixture.js";
 import {
   creationReferenceSlots,
   type CreationJob,
@@ -688,9 +689,10 @@ test("retry rejects a changed or redirected private frame instead of forwarding 
 });
 
 for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
-  test(`${protocol} classifies known failure, retry, timeout and cancellation offline`, async (t) => {
+  test(`${protocol} classifies known failure, retry, timeout and cancellation offline`, async () => {
     const root = await mkdtemp(join(tmpdir(), `knorvia-${protocol}-states-`));
     const keys = new Map<string, string>();
+    const clock = createRunDeadlineClock();
     // 真实看门狗独立于被测截止时间；慢磁盘不能决定“提交后超时/取消”的先后顺序。
     const realSetTimeout = setTimeout;
     const realClearTimeout = clearTimeout;
@@ -721,6 +723,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
     const service = createCreationService({
       rootDir: root,
       runTimeoutMs: 500,
+      scheduleRunDeadline: clock.scheduleRunDeadline,
       pollIntervalMs: 1,
       credentials: {
         load: async (key) => keys.get(key) ?? null,
@@ -792,9 +795,8 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
         modelId: model.id,
         prompt: "Frame",
       });
-      // 提交前超时也会是 failed；冻结业务截止并检查 400，避免把它误作供应商拒绝。
-      // 终态轮询仍走真实计时器，原来的 1000ms 验收预算不会跟着冻结。
-      t.mock.timers.enable({ apis: ["setTimeout"] });
+      // 提交前超时也会是 failed；只控制业务截止并检查 400，避免把它误作供应商拒绝。
+      // 持久化退避与终态轮询仍走真实计时器，原来的 1000ms 验收预算不变。
       const pollOptions = { pollScheduler: realSetTimeout };
       const failed = await terminal(
         service,
@@ -809,17 +811,15 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       assert.equal((await terminal(service, retried.id, pollOptions)).status, "succeeded");
       assert.equal(submissions, 2);
       mode = "hang";
-      // 先确认已提交，再推进原来的 500ms 截止时间；恢复真实时钟后等待终态落盘。
+      // 先确认已提交，再推进原来的 500ms 业务截止；真实 IO 计时器始终正常运行。
       const timeoutJob = await service.createJob(request("timeout"));
       await waitForSubmission(timeoutJob.id);
-      t.mock.timers.tick(500);
-      t.mock.timers.reset();
+      clock.advanceBy(500);
       const timedOut = await terminal(service, timeoutJob.id);
       assert.equal(timedOut.status, "interrupted");
       await assert.rejects(service.retryJob(timedOut.id), /仅结果明确失败/);
-      // 取消用独立的到达信号，冻结截止时间，避免被测取消与自动超时竞速。
+      // 取消用独立的到达信号，不推进业务时钟，避免用户取消与截止竞速。
       submissionEntered = Promise.withResolvers<void>();
-      t.mock.timers.enable({ apis: ["setTimeout"] });
       const cancelling = await service.createJob(request("cancel"));
       await waitForSubmission(cancelling.id);
       assert.equal(submissions, 4);
@@ -829,7 +829,6 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       await assert.rejects(service.retryJob(cancelled.id), /仅结果明确失败/);
       assert.equal(submissions, 4);
     } finally {
-      t.mock.timers.reset();
       await rm(root, { recursive: true, force: true });
     }
   });

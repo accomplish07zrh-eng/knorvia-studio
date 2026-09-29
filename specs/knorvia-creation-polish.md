@@ -56,3 +56,17 @@
   → Host 验证上游引用/哈希 → CreationService 以原 PNG 调编辑端点
   → 页面历史解码两张图 → 真正退出 → 同数据根重开 → 无请求重放
 ```
+
+## 仅调度业务截止的内部依赖（2026-09-29）
+
+原生安排/取消实现位于同模块的私有 `creationRunDeadline.ts`，服务只选择注入或默认调度器；该提取遵守单文件400行限制，不新增状态、公开RPC或第二条运行路径。
+
+本项替代三协议组合用例中恢复/冻结全局setTimeout的接线说明。有限合成EPERM已证实：冻结全局setTimeout会冻结持久化25ms退避，而真实1000ms终态计时仍前进；这不是原CI当次首因证明。CreationServiceOptions新增可信内部可选scheduleRunDeadline(callback, delayMs)，同步登记、返回取消函数，不同步触发callback或抛错；取消无异常并可重复。它只安排已有run watchdog，不成为新任务或存储状态所有者，不进入RPC/用户设置。
+
+```text
+queued持久化 → run入口安排同一deadline → running写盘 → 提交
+  → 同一mutate保存终态 → finally取消该次deadline → 删除controller
+用户cancel → 同一mutate保存cancelled → abort；迟到结果不可覆盖
+```
+
+默认仍在原try前使用原生setTimeout、同一runTimeoutMs或16分钟、立即unref，并在原finally clearTimeout；不改变await、catch、abort理由、终态或写入顺序。测试只记录该端口回调，不根据延迟数值/堆栈过滤timer，不冻结存储、供应商、Date或终态轮询。三协议400/提交1、retry成功/提交2、确认提交后推进500ms得到interrupted、用户取消后总提交4及禁止不确定结果重试均保持；真实1000ms/10ms终态预算保持。新增验收覆盖端口调用/取消、499+1精确截止及一次自有failed-terminal EPERM在原预算内完成25ms真实退避。仅匹配自有临时jobs文件和任务，不访问真实用户数据；既有默认计时持久化用例继续验证。原服务来源分类不因此改为MIT或独立替换。

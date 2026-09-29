@@ -31,3 +31,5 @@ Python仍由同一解析器一次探测显式路径，成功后才运行真实of
 两份既有测试与既有规格继续保持未完成来源复核的分类，本次诊断修订不自动赋予MIT。仅本文的新事实记录按其内容审阅；仍适用的根Apache、第三方声明及preview身份不变。真实联网推理、桌面包和CI超时首因未验证，不满足最终独立发行完成条件。
 
 原始GitHub run [36527276423](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36527276423)，受检afb483b：Windows **3,205/3,205**、0失败/取消/跳过，374624.1268ms；Linux **3,198通过、7平台跳过、0失败/取消**，241050.923651ms。两平台来源、类型、lint、格式、架构、构建与完整离线步骤成功。这是该提交的首次运行结果，没有重跑历史失败；本轮通过不证明此前Windows超时首因或全局模拟计时器风险已经消失。
+
+已完成业务截止与IO时钟的有限修补，见[单独验收](knorvia-creation-run-clock-acceptance.md)。一次自有EPERM证明全局setTimeout冻结机制；历史Windows当次首因仍未确认。默认产品时间与终态预算保持。
