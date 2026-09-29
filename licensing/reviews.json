@@ -29315,14 +29315,110 @@
     },
     {
       "path": "docs/knorvia-ci-timeout-diagnostics.md",
-      "normalizedSha256": "8fdf819441efc8db72780a8da10b0907f7c273c5c92003e2acd516cdb4ec8e4c",
+      "normalizedSha256": "0d6e6b8567f8e81a14d98d068a2c55fba92b426ed7150d2357b022967feeab79",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed.",
+      "basis": "New factual acceptance record authored by the coordinator after reading both isolated diagnostic patches, source hashes, reports, original CI logs and running 17 related cases plus the full 3205-case offline suite. Clearly distinguishes bounded fixture mechanisms from unproven cloud root causes and retains original Windows failures. Existing test/spec files remain unreviewed; this record does not relicense them or claim the incidents fixed. Original run 36527276423 at afb483b passed all quality gates: Windows 3205/3205, Linux 3198 pass/seven platform skips. No historical run was rerun or its failure reclassified; this passing run does not establish the old timeout cause or remove the separately observed frozen-timer mechanism.",
       "evidence": [
         "docs/knorvia-ci-timeout-diagnostics.md",
         "specs/knorvia-test-stability.md",
         "specs/knorvia-creation-polish.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-errors.ts",
+      "normalizedSha256": "0b56a2b1b63c37014688d94b619a7310eb1d742f90d1e1d951818cbbbdf75d14",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led ordinary Error factories preserve cause identities, property descriptors and ordered fields. Per-call iterative classification preserves brand and retained SDK precedence and observes each object/function identity once, repairing circular and deep cause traversal without shared state or primitive-value truncation. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-shared.ts",
+      "normalizedSha256": "fb87e8f7c92ced17ec71d780d4d81252b95a4b27179982b18c51fcc4e015ffad",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led discovery value projection delegates one ordered batch to the existing store. Raw JSON, timestamps, TTL and nullish/single-slash issuer behavior remain; a selected non-string issuer is a miss only when comparison is requested. No new cache, authorization, persistence or network owner. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-oauth-boundaries.fixture.ts",
+      "normalizedSha256": "2f4a583aefc813835042cf41923e8f19aa4c77e65f409972bc6a979c820f7830",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New typed source/artifact bindings and owned store observation support do not embed the implementation. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-oauth-errors.test.ts",
+      "normalizedSha256": "820ee320cef7060cc9566ce7cdf9ea16c80f1585d0075116964ac875662cc516",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New 28-case pre-candidate acceptance covers native Error/SDK identity, brand precedence, opaque cause values, primitive cause behavior, cycle/depth repair and fresh call state. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-oauth-discovery.test.ts",
+      "normalizedSha256": "c007d46b996995995aa8aeb26e8d0ee4f86dcc33d56abc03516200052a7d8859",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New 44-case pre-candidate acceptance covers single ordered store batches, await/failure identity, serialization, TTL/raw numeric boundaries and issuer compatibility/repair. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-oauth-boundaries.md",
+      "normalizedSha256": "89aad428da9a9e975f288b8213222cfdbb2fa5eba284500e2166c54b6300f85a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior bounded behavior contract states ownership, observed compatibility and two explicit repairs before implementation. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+      "normalizedSha256": "7a687efcc83ee995c3bfb85dff83870d5c4bc4451ec18acf9850bed33b38a97d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual old/candidate/main/actual CLI and full 3277-case acceptance; retains four old failures and distinguishes previous original CI success from historical failure diagnosis. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-oauth-boundaries.md",
+      "normalizedSha256": "1f429fb6ec8b579b46d1d8d505001e85a4999e51268557459b59085def1cb134",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Digest-bound source, input, review, author and compiler evidence with explicit access and retained-rights limits. Root read old bodies/public declarations/bounded callers and reviewed the full new design, source and report. The isolated author used only approved behavior/declarations, one primitive-cause scope clarification, native/SDK declarations and its disclosed prior context; no old/main bodies/history/tests/probes/bundles or behavior runs. Compiler inputs: two candidates, two approved declaration projections, 294 standard/SDK/transitive declarations, zero other product bodies. Errors draft changed only formatting; shared draft stayed byte-identical. No runtime-feedback revision. Fixed names, standard Error/JSON/WeakSet expressions, MIT headers and passing tests alone do not establish independent authorship. This is a specific content review, not a whole-process clean-room or legal guarantee; retained SDK/credential rights, root Apache and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-oauth-boundaries.md",
+        "docs/knorvia-mcp-oauth-boundaries-acceptance.md",
+        "licensing/evidence/mcp-oauth-boundaries.md"
       ]
     }
   ]

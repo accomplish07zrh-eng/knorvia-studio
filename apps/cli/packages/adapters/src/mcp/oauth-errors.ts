@@ -1,22 +1,14 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import {
   InsufficientScopeError,
   SdkErrorCode,
   UnauthorizedError,
 } from "@modelcontextprotocol/client";
 
-/**
- * 交互授权需求的稳定标识。
- *
- * 用 `Symbol.for` 注册到全局 symbol registry：bundler 双装或版本偏斜导致同进程存在两份
- * adapter 代码时，两份都解析到同一个 symbol，`instanceof` 做不到这一点。SDK 在 transport
- * auth seam 上用同样的手法（`Symbol.for("mcp.authSeamEscape")`），并且 `markAuthSeamEscape()`
- * 是 identity-preserving 的，所以我们的品牌能原样穿过 SDK 冒泡到编排层。
- */
-const INTERACTIVE_REQUIRED_BRAND = Symbol.for("knorvia.mcp.oauth.interactiveAuthorizationRequired");
-const TEMPORARY_REFRESH_FAILURE_BRAND = Symbol.for("knorvia.mcp.oauth.temporaryRefreshFailure");
-
-const MCP_OAUTH_INTERACTIVE_REQUIRED_ERROR_CODE = "MCP_OAUTH_INTERACTIVE_REQUIRED";
-const MCP_OAUTH_TEMPORARY_REFRESH_FAILURE_ERROR_CODE = "MCP_OAUTH_TEMPORARY_REFRESH_FAILURE";
+const INTERACTIVE_BRAND = Symbol.for("knorvia.mcp.oauth.interactiveAuthorizationRequired");
+const TEMPORARY_BRAND = Symbol.for("knorvia.mcp.oauth.temporaryRefreshFailure");
 
 export type McpOAuthInteractiveRequiredReason =
   | "no_credentials"
@@ -27,15 +19,48 @@ export type McpOAuthInteractiveRequiredReason =
   | "unauthorized"
   | "legacy_provider_seam";
 
-interface McpOAuthInteractiveRequiredError extends Error {
-  code: typeof MCP_OAUTH_INTERACTIVE_REQUIRED_ERROR_CODE;
+export interface InteractiveAuthorizationTrigger {
   reason: McpOAuthInteractiveRequiredReason;
   requiredScope?: string;
   resourceMetadataUrl?: string;
 }
 
-interface McpOAuthTemporaryRefreshFailureError extends Error {
-  code: typeof MCP_OAUTH_TEMPORARY_REFRESH_FAILURE_ERROR_CODE;
+interface InteractiveError extends Error, InteractiveAuthorizationTrigger {
+  code: "MCP_OAUTH_INTERACTIVE_REQUIRED";
+}
+
+interface TemporaryError extends Error {
+  code: "MCP_OAUTH_TEMPORARY_REFRESH_FAILURE";
+}
+
+function markedError(message: string, cause: unknown, brand: symbol): Error {
+  const error = cause === undefined ? new Error(message) : new Error(message, { cause });
+  Object.defineProperty(error, brand, {
+    value: true,
+    configurable: true,
+    enumerable: false,
+    writable: false,
+  });
+  return error;
+}
+
+function trigger(
+  reason: McpOAuthInteractiveRequiredReason,
+  requiredScope?: string,
+  resourceMetadataUrl?: string,
+): InteractiveAuthorizationTrigger {
+  const result: InteractiveAuthorizationTrigger = { reason };
+  if (requiredScope) result.requiredScope = requiredScope;
+  if (resourceMetadataUrl) result.resourceMetadataUrl = resourceMetadataUrl;
+  return result;
+}
+
+function isReference(value: unknown): value is object {
+  return value !== null && (typeof value === "object" || typeof value === "function");
+}
+
+function hasBrand(value: unknown, brand: symbol): boolean {
+  return isReference(value) && (value as Record<symbol, unknown>)[brand] === true;
 }
 
 export function createInteractiveAuthorizationRequiredError(input: {
@@ -44,112 +69,63 @@ export function createInteractiveAuthorizationRequiredError(input: {
   requiredScope?: string;
   resourceMetadataUrl?: string;
   serverName: string;
-}): McpOAuthInteractiveRequiredError {
-  const error = new Error(
+}): InteractiveError {
+  const error = markedError(
     `MCP server ${input.serverName} requires interactive OAuth authorization (${input.reason})`,
-    input.cause === undefined ? undefined : { cause: input.cause },
-  ) as McpOAuthInteractiveRequiredError;
-  Object.defineProperty(error, INTERACTIVE_REQUIRED_BRAND, {
-    configurable: true,
-    value: true,
-  });
-  error.code = MCP_OAUTH_INTERACTIVE_REQUIRED_ERROR_CODE;
-  error.reason = input.reason;
-  if (input.requiredScope) error.requiredScope = input.requiredScope;
-  if (input.resourceMetadataUrl) error.resourceMetadataUrl = input.resourceMetadataUrl;
-  return error;
+    input.cause,
+    INTERACTIVE_BRAND,
+  ) as InteractiveError;
+  error.code = "MCP_OAUTH_INTERACTIVE_REQUIRED";
+  return Object.assign(
+    error,
+    trigger(input.reason, input.requiredScope, input.resourceMetadataUrl),
+  );
 }
 
-/**
- * reactive refresh 的网络 / 5xx 失败。
- *
- * 与 `interactiveRequired` 必须区分：临时 AS 故障不代表 grant 已失效，把它误转成交互授权会
- * 无谓打断用户；而返回已被资源服务器拒绝的旧 token 又必然产生第二次 401。
- */
 export function createTemporaryRefreshFailureError(input: {
   cause?: unknown;
   serverName: string;
-}): McpOAuthTemporaryRefreshFailureError {
-  const error = new Error(
+}): TemporaryError {
+  const error = markedError(
     `MCP server ${input.serverName} OAuth token refresh failed temporarily`,
-    input.cause === undefined ? undefined : { cause: input.cause },
-  ) as McpOAuthTemporaryRefreshFailureError;
-  Object.defineProperty(error, TEMPORARY_REFRESH_FAILURE_BRAND, {
-    configurable: true,
-    value: true,
-  });
-  error.code = MCP_OAUTH_TEMPORARY_REFRESH_FAILURE_ERROR_CODE;
+    input.cause,
+    TEMPORARY_BRAND,
+  ) as TemporaryError;
+  error.code = "MCP_OAUTH_TEMPORARY_REFRESH_FAILURE";
   return error;
 }
 
-function isInteractiveAuthorizationRequiredError(
-  error: unknown,
-): error is McpOAuthInteractiveRequiredError {
-  return hasBrand(error, INTERACTIVE_REQUIRED_BRAND);
-}
-
-function isTemporaryRefreshFailureError(
-  error: unknown,
-): error is McpOAuthTemporaryRefreshFailureError {
-  return hasBrand(error, TEMPORARY_REFRESH_FAILURE_BRAND);
-}
-
-export interface InteractiveAuthorizationTrigger {
-  reason: McpOAuthInteractiveRequiredReason;
-  requiredScope?: string;
-  resourceMetadataUrl?: string;
-}
-
-/**
- * 把连接期 / 运行期错误归类为「需要交互授权」。
- *
- * 纯 AuthProvider 下 SDK 只可能给出这几种确定性认证错误：
- * - 我们自己抛的 `interactiveRequired`（token 缺失、invalid_grant、invalid_client）；
- * - 重试后仍 401 的 `SdkHttpError(ClientHttpAuthentication)`；
- * - 没有 `onUnauthorized` 时的 `UnauthorizedError`（防御路径）；
- * - Streamable HTTP 403 的 `InsufficientScopeError`（带 requiredScope）。
- *
- * `temporaryRefreshFailure` 显式不在此列：它必须保留凭据并原样失败。
- */
 export function classifyInteractiveAuthorizationTrigger(
   error: unknown,
 ): InteractiveAuthorizationTrigger | undefined {
-  if (isTemporaryRefreshFailureError(error)) return undefined;
-  if (isInteractiveAuthorizationRequiredError(error)) {
-    return {
-      reason: error.reason,
-      ...(error.requiredScope ? { requiredScope: error.requiredScope } : {}),
-      ...(error.resourceMetadataUrl ? { resourceMetadataUrl: error.resourceMetadataUrl } : {}),
-    };
-  }
-  if (error instanceof InsufficientScopeError) {
-    return {
-      reason: "insufficient_scope",
-      ...(error.requiredScope ? { requiredScope: error.requiredScope } : {}),
-      ...(error.resourceMetadataUrl
-        ? { resourceMetadataUrl: String(error.resourceMetadataUrl) }
-        : {}),
-    };
-  }
-  if (error instanceof UnauthorizedError) return { reason: "unauthorized" };
-  if (isSdkAuthenticationHttpError(error)) return { reason: "unauthorized" };
-  // cause 链：SDK 在若干 seam 上包裹错误，分类不能只看最外层。
-  const cause = (error as { cause?: unknown } | undefined)?.cause;
-  if (cause !== undefined && cause !== error) {
-    return classifyInteractiveAuthorizationTrigger(cause);
+  const visited = new WeakSet<object>();
+  let current = error;
+  while (current !== null && current !== undefined) {
+    // 循环曾导致栈溢出；仅在本次调用跟踪对象/函数，重访前结束，长链用迭代处理。
+    if (isReference(current)) {
+      if (visited.has(current)) return undefined;
+      visited.add(current);
+    }
+    if (hasBrand(current, TEMPORARY_BRAND)) return undefined;
+    if (hasBrand(current, INTERACTIVE_BRAND)) {
+      const branded = current as InteractiveAuthorizationTrigger;
+      return trigger(branded.reason, branded.requiredScope, branded.resourceMetadataUrl);
+    }
+    if (current instanceof InsufficientScopeError) {
+      const scope = current.requiredScope;
+      const metadata = current.resourceMetadataUrl;
+      return trigger("insufficient_scope", scope, metadata ? String(metadata) : undefined);
+    }
+    if (current instanceof UnauthorizedError) return { reason: "unauthorized" };
+    if (
+      typeof current === "object" &&
+      (current as { code?: unknown }).code === SdkErrorCode.ClientHttpAuthentication
+    ) {
+      return { reason: "unauthorized" };
+    }
+    const cause = (current as { cause?: unknown }).cause;
+    if (cause === undefined || cause === current) return undefined;
+    current = cause;
   }
   return undefined;
-}
-
-/** 重试后仍 401：`SdkHttpError(SdkErrorCode.ClientHttpAuthentication)`。按 code 比较，不依赖 instanceof。 */
-function isSdkAuthenticationHttpError(error: unknown): boolean {
-  if (typeof error !== "object" || error === null) return false;
-  const code = (error as { code?: unknown }).code;
-  return code === SdkErrorCode.ClientHttpAuthentication;
-}
-
-function hasBrand(error: unknown, brand: symbol): boolean {
-  return (typeof error === "object" && error !== null) || typeof error === "function"
-    ? (error as Record<symbol, unknown>)[brand] === true
-    : false;
 }
