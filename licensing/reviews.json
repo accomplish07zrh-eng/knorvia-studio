@@ -29663,10 +29663,10 @@
     },
     {
       "path": "docs/knorvia-mcp-lease-provider-acceptance.md",
-      "normalizedSha256": "8ddb17c4ab124f4f2560b847194ac0009c0c589dc90f4c7c9270290ab0b8f56f",
+      "normalizedSha256": "c2ca16bfed30d4d21f72fbec6970b6f2a6bcd37c0408bc77aff05a9fa0f6969f",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual 71/74-case source/candidate/compiled and 3425-case full acceptance preserves initial three candidate failures, static/runner preparation failures and original cloud CI outcomes. Root read old bodies/public declarations and finite callers/observations, then reviewed candidate design/source/report. Author used only approved behavior/declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, seven approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. Initial71 cases passed; three later getter cases failed the initial candidate, and behavior-only feedback produced one preserved lease revision. Revised74 cases and full3425 passed. Static checks ran and were inventoried. Headers, standard syntax, protocol fields and tests alone do not establish authorship. This digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain.",
+      "basis": "Factual 71/74-case source/candidate/compiled and 3425-case full acceptance preserves initial three candidate failures, static/runner preparation failures and original cloud CI outcomes. Root read old bodies/public declarations and finite callers/observations, then reviewed candidate design/source/report. Author used only approved behavior/declarations, native/SDK type dependencies and disclosed prior context; no old/main bodies/history/tests/probes/bundles or runtime execution. Compiler inputs: two candidates, seven approved product declarations,294 standard/SDK/transitive declarations,zero other product bodies. Initial71 cases passed; three later getter cases failed the initial candidate, and behavior-only feedback produced one preserved lease revision. Revised74 cases and full3425 passed. Static checks ran and were inventoried. Headers, standard syntax, protocol fields and tests alone do not establish authorship. This digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache, retained dependency rights and preview identity remain. Original b24b0af run36537075933 attempt1 confirms Linux3418 pass/seven platform skips and Windows3425 pass/no skips,zero failures/cancellations; all prerequisite steps succeeded. GitHub transport query errors resolved on later reads, not workflow failures. This is preceding-commit evidence, not refresh CI, and does not erase the earlier5e8d80a Python startup timeout.",
       "evidence": [
         "specs/knorvia-mcp-lease-provider.md",
         "docs/knorvia-mcp-lease-provider-acceptance.md",
@@ -29683,6 +29683,102 @@
         "specs/knorvia-mcp-lease-provider.md",
         "docs/knorvia-mcp-lease-provider-acceptance.md",
         "licensing/evidence/mcp-lease-provider.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-refresh.ts",
+      "normalizedSha256": "f16bcc6808082eba8e38f67e7a34eaa9dc7f6a6897af8416ca287932b3e9d3aa",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Behavior-first coordinator with one borrowed-lock operation and explicit discovery, exchange and outer lock recovery boundaries. Preserves captured refresh token, live input reads, actual SDK error classification, publication and exact-raw invalidation; no second state/IO owner. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-refresh.fixture.ts",
+      "normalizedSha256": "432ceecb83582e9054d939cb0fe00545e36fe5e8cf7087e65e6a4ee13d6bac37",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently authored typed source/dist harness with closed dependency ports, actual SDK error classes, native path and owned temporary lock binding; product bodies are loaded only at root runtime acceptance and not embedded. Integration adds SPDX headers and portable default URLs without assertion changes. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-refresh-lock.test.ts",
+      "normalizedSha256": "d573418dc9aeb988881c5b58828b88949517a4baef786a338d9fdd642e5112a6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate tests for generation winner, missing credentials, path/lock budget, entry and recovery boundaries. Explicit gates coordinate two calls through the actual retained lock in an owned directory, confirming a single exchange/publication. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-refresh-discovery.test.ts",
+      "normalizedSha256": "7444906aed3a07963de2d5c4a677fdced743d8996c78a5dfbc93691fa1464c2c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate tests for nullish cache selection versus falsy save, projection/error boundaries, live input and original refresh-token capture, resource selection and publish order. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-refresh-errors.test.ts",
+      "normalizedSha256": "5f673465edc7f044cd9484172d906557c50086254733e74d5e2649aeb23eb814",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate tests for actual SDK invalid-grant/client classification, exact-raw CAS false/rejection, static client failures and logger/publication/factory error boundaries with proactive versus reactive behavior. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-token-refresh.md",
+      "normalizedSha256": "228d77a58fdf6825fc7c3fef6a78fda9f81b194e6b864d0b826c8c198fb7dc76",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root-written prior behavior contract from complete old source/public declaration review, including ownership, conditional fields, discovery projection, capture timing and finite acceptance limits. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-token-refresh-acceptance.md",
+      "normalizedSha256": "84fd1b08515351c8ac6fe253c2821749ccf740c086ce99dd958088f29d69d6fd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual first old/candidate/main/dist 27-case and full3452 acceptance, static first failures, platform-binding adaptation, exact compiled artifact and separate preceding-commit cloud CI evidence. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-token-refresh.md",
+      "normalizedSha256": "1b1177a01a35f724e07dc545ba682925639814145113ce33826b1cf98a3efdb8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Specific source/design/input/compiler and test authorship evidence, first static corrections and retained-rights limitations; no whole-process clean-room claim. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-token-refresh.md",
+        "docs/knorvia-mcp-token-refresh-acceptance.md",
+        "licensing/evidence/mcp-token-refresh.md"
       ]
     }
   ]

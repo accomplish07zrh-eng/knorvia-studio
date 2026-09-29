@@ -19,3 +19,5 @@
 新源191行，旧241行，净减50行。未验证实网OAuth、真实凭据、收费模型、桌面安装/便携包。本批未替换refresh、其他MCP宿主、共享锁和存储实现；root Apache、适用第三方权利及preview身份保持。全量独立替换、最终稳定发行与官网仍未完成。
 
 原始GitHub run [36533441310](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36533441310)，受检c2a68cc、attempt1：Linux job109292048556为 **3,344通过、7平台跳过、0失败/取消**，188380.914481ms；Windows job109292048802为 **3,351/3,351通过、0失败/跳过/取消**，362399.5849ms。两job与其前置检查均成功。这是后续凭据配对提交的原始运行，不是5e8d80a的重跑；前次Python --version超时仍记为失败，原因未确认。只读调查没有证据将其归因为路径、权限、DLL、杀毒或负载，也没有据此扩大超时、回退解释器或改变测试。
+
+上批授权锁/provider提交b24b0af的原始GitHub run [36537075933](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36537075933)，attempt1：Linux job109303455163为 **3,418通过、7平台跳过、0失败/取消**，239998.472464ms；Windows job109303455354为 **3,425/3,425通过、0失败/跳过/取消**，402299.3907ms。全部前置检查成功。这不是当前refresh批次的云端验证，也不改写更早5e8d80a的Python启动超时失败。期间GitHub查询出现网络传输失败，随后已取回原始job结果与日志；查询失败不计为工作流失败。
