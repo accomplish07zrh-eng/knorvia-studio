@@ -23,3 +23,5 @@
 未验证实网OAuth、真实凭据、收费模型、桌面安装/便携包。本批未替换交互式授权、其余MCP宿主或保留SDK/存储；根Apache、适用第三方权利及preview身份保持。下一批交互式授权只在独立目录开始设计/编写，全量独立替换、稳定发行与官网仍未完成。
 
 上批授权锁/provider提交b24b0af的原始GitHub run [36537075933](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36537075933)，attempt1：Linux job109303455163为 **3,418通过、7平台跳过、0失败/取消**，239998.472464ms；Windows job109303455354为 **3,425/3,425通过、0失败/跳过/取消**，402299.3907ms。全部前置检查成功。这不是当前refresh批次的云端验证，也不改写更早5e8d80a的Python启动超时失败。期间GitHub查询出现网络传输失败，随后已取回原始job结果与日志；查询失败不计为工作流失败。
+
+前批令牌刷新提交9b941e1的原始GitHub run [36541180223](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36541180223)，attempt1：Linux job109316702520为 **3,445通过、7平台跳过、0失败/取消**，237705.587911ms；Windows job109316702673为 **3,452/3,452通过、0失败/跳过/取消**，397262.0277ms。全部前置检查成功。这是前批提交的云端结果，不算当前交互授权批次的CI，也不抹去更早5e8d80a的Python启动超时失败。

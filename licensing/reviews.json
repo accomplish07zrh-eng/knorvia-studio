@@ -29759,10 +29759,10 @@
     },
     {
       "path": "docs/knorvia-mcp-token-refresh-acceptance.md",
-      "normalizedSha256": "84fd1b08515351c8ac6fe253c2821749ccf740c086ce99dd958088f29d69d6fd",
+      "normalizedSha256": "4deb959289b6ae1dff241df739a8db50a731c6d3a5b2f368b66e0f0ed333901d",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual first old/candidate/main/dist 27-case and full3452 acceptance, static first failures, platform-binding adaptation, exact compiled artifact and separate preceding-commit cloud CI evidence. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "basis": "Factual first old/candidate/main/dist 27-case and full3452 acceptance, static first failures, platform-binding adaptation, exact compiled artifact and separate preceding-commit cloud CI evidence. Root reviewed old bodies and declarations to prepare the contract, reviewed the independent tests and ran the old baseline before reviewing candidate design/source/report. Source and test authors used separate approved-input-only directories and disclosed prior context; neither read old/main bodies/history/tests/probes/bundles or each other's outputs. Source compiler:1 candidate,8 approved product declarations,294 standard/SDK/transitive declarations,0 other product bodies. Test audit:332 TypeScript readFile inputs including owned tests,approved declarations,standard/SDK types and metadata,not the same counting scope. First source SDK type/spread lint and test metadata/format/audit-helper failures remain documented. Runtime27 cases and full3452 pass without runtime-feedback candidate revision; a real owned lock case is separate from mocked-port coverage. Standard syntax,protocol fields,headers and tests alone do not establish authorship. Digest-bound review is not a whole-process clean-room or legal guarantee. Root Apache,retained dependency rights and preview identity remain. Original refresh9b941e1 run36541180223 attempt1 confirms Linux3445 pass/seven platform skips and Windows3452 pass/no skips,zero failures/cancellations; all prerequisite steps succeeded. This is preceding-commit evidence,not interactive authorization CI,and does not erase earlier5e8d80a Python startup timeout.",
       "evidence": [
         "specs/knorvia-mcp-token-refresh.md",
         "docs/knorvia-mcp-token-refresh-acceptance.md",
@@ -29779,6 +29779,138 @@
         "specs/knorvia-mcp-token-refresh.md",
         "docs/knorvia-mcp-token-refresh-acceptance.md",
         "licensing/evidence/mcp-token-refresh.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-interactive.ts",
+      "normalizedSha256": "05a494a20c13f73cd5f9d33fd9bb522fe6d6cbd6f66da190452f7cdb2fad6477",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Behavior-first authorization coordinator separates leader and follower flows while preserving entry/winner generation, callback budgeting, code-exchange lease ownership and nested close/pending/release error boundaries. No added persistent state or side-effect owner. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/mcp/oauth-interactive-transaction.ts",
+      "normalizedSha256": "025434c8e772eeecce44e081232803d381c8de774dd428a979770c848de0fa5e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Separately designed private closure provider owns only transaction client, PKCE, discovery and issuer memory. Captured inputs and live config/scope, one canonical publication, pending context ordering and SDK-facing public receiver are explicit; no old private class layout is retained as an API. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-interactive.fixture.ts",
+      "normalizedSha256": "308de8e7d1590c7a12115c0109dbcb6b6b9dbd1863812e1c241ded51a77192de",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independently authored closed source/dist harness uses owned SDK/lease/store/discovery/timeout ports, native crypto/URL and an explicit retained callback route. Root integration adds license header, portable bindings and a Pick-only type projection after actual module exports exposed three strict diagnostics; no assertions weakened. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-interactive-leader.test.ts",
+      "normalizedSha256": "2b31d450211ab53ddfe0711909fc471a6d8c7e3f2b1de6057b29595d8c65d76d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate public tests of leader fast paths, authorization code/issuer/scope options, winner recovery, timeout and original error outcomes. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-interactive-provider.test.ts",
+      "normalizedSha256": "cd02c795dfb5c1897be16eaf3af2ef3e02f60889fdcfb9f17506b947cbb6ee6b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate provider tests cover metadata capture, fresh client state, publication, PKCE and discovery, pending/hooks and redacted logging. Root subsequently adds ordinary-function hook receiver behavior, first confirms it on old, observes one candidate failure and verifies the two-call correction. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-interactive-follower.test.ts",
+      "normalizedSha256": "d7d9175441bf1feb0c62c57435e10e040fe9f445dddfc2112e53c7fe210c61b3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate follower tests use owned clocks/timers to cover canonical winners, URL-change notifications, missing/empty pending values, TTL, abort and rejection without acquiring new ownership. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-interactive-lifecycle.test.ts",
+      "normalizedSha256": "448cb556ba5958e30cccfd2892bafb760a99e17293109b84719368a9ae35e423",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate lifecycle checks distinguish synchronous throws from rejected cleanup promises and exercise one retained callback in an owned loopback listener without external OAuth. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/mcp-interactive-overlap.test.ts",
+      "normalizedSha256": "5c11545f1cc81722b8bbe6382ec29efb22bb1e91f2ffdf4384041cb056234c0d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent pre-candidate explicit-gate cases ensure code exchange/publication remain under leader ownership and follower sees the published winner. Uses synthetic shared ports, not real cross-process file lease proof. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-mcp-interactive-authorization.md",
+      "normalizedSha256": "1606f6c8e2f150d86b8d0059076cf495248cabc17e9f699de95e54865064198a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Root-written behavior contract from complete old 497-line and declaration review, including scope capture, receiver clarification, authorization budgets and precise cleanup/error boundaries. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+      "normalizedSha256": "426acbc167bb63ac9516e0b92b281d82dd9d6208ce2cd2cf3da991112da37be2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Actual independent31/root32, initial candidate31/1 failure and correction, main strict-type integration failure, final source/dist32 and full3484 results with explicit loopback/mock/build limits and preceding-commit CI. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/mcp-interactive-authorization.md",
+      "normalizedSha256": "dcbee2b70d2d59906ce6ae643571461ca9136a1540812c09b68657eaff727771",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "File-specific design, approved input/compiler/manual declaration and revision evidence, preserved first failures and root-versus-independent-author exposure. No whole-process clean-room or repository-wide MIT claim. Root read old source/declarations to prepare behavior, reviewed independent tests and ran old31 before reading candidate design/source/report. Separate authors used approved inputs and disclosed retained context; no old/main bodies,history,prior tests/probes/bundles or each other's outputs were read. Source program inputs303=2 candidates+7 approved product declarations+294 standard/SDK/transitive declarations,other product bodies0; test readFile inputs333 use a different scope. Original dependency path was corrected before candidate execution. Root-added public receiver test passed on old32 and failed on candidate31/1; exact two-call behavior revision then passed32. First strict fixture namespace/Pick mismatch and static format failure remain documented. Main source/dist32 and full3484 pass. Standard syntax,interface fields,headers,line counts and tests alone do not establish authorship. Digest-bound review is neither an OS access audit,whole-process clean-room nor legal guarantee. Root Apache,retained dependency rights and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-mcp-interactive-authorization.md",
+        "docs/knorvia-mcp-interactive-authorization-acceptance.md",
+        "licensing/evidence/mcp-interactive-authorization.md"
       ]
     }
   ]
