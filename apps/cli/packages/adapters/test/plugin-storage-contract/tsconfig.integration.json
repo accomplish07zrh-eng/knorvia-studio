@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "lib": ["ES2024"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "skipLibCheck": false,
+    "strict": true,
+    "target": "ES2024",
+    "types": ["node"]
+  },
+  "files": ["../plugin-storage-contract.test.ts"]
+}

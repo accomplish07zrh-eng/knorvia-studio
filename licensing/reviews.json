@@ -31880,7 +31880,7 @@
     },
     {
       "path": "docs/knorvia-exec-plugin-runtime-acceptance.md",
-      "normalizedSha256": "5a85ba0e3dabdb5d2c5ec421bdab730c8bac39d2a3ddd2b93002748a4d8a7927",
+      "normalizedSha256": "038c9ed7df16cdd03f16b6ffc2de9715312b0ff8ce673c846770969c5ce166d9",
       "decision": "original",
       "license": "MIT",
       "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change. Subsequently records original c439b5d CI: Linux 3791 pass/7 platform skip; Windows 3797 pass/one Python startup probe timeout. Earlier local success is not relabeled as cloud success.",
@@ -31946,13 +31946,1276 @@
     },
     {
       "path": "docs/knorvia-python-startup-diagnostic.md",
-      "normalizedSha256": "d68d9f0d628320ac0936493407ba8d34b1770520dc294519b9dcec078be7f1f8",
+      "normalizedSha256": "b0ffe4f2a5bddac02ffe0b2af1f48f1be8284d5207c64f0ec1f756a8f25e1c30",
       "decision": "original",
       "license": "MIT",
-      "basis": "New finite diagnostic authored from measured Windows startup failure evidence and public Node/GitHub interfaces. Independent draft and reading ledger frozen outside the repository; root verified all 11 draft hashes and reviewed complete script/workflow. Root added specification, evidence and license headers, then checked single-call failure behavior with owned ports and real Node-as-target controls. This is a diagnostic only, not a Python fix or license change for tested dependencies.",
+      "basis": "New finite diagnostic authored from measured Windows startup failure evidence and public Node/GitHub interfaces. Independent draft and reading ledger frozen outside the repository; root verified all 11 draft hashes and reviewed complete script/workflow. Root added specification, evidence and license headers, then checked single-call failure behavior with owned ports and real Node-as-target controls. This is a diagnostic only, not a Python fix or license change for tested dependencies. Original bf4fb5c run36595564060 attempt1 subsequently verified: Windows3798 pass, Linux3791 pass+7 platform skips. Diagnostic run36595606453 three single probes passed without retries/timeout changes; non-reproduction, not a root-cause or repair claim. Prior failures remain.",
       "evidence": [
         "specs/knorvia-python-startup-diagnostic.md",
         "docs/knorvia-python-startup-diagnostic.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/archive-entry.ts",
+      "normalizedSha256": "43afa6b375600dff60ed745a2efd8dc248a77b3c996180f7495b4592e06cf7dd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/archive-extract.ts",
+      "normalizedSha256": "c898e566f6a03dfe7085764b05ae246d53e43848a2201f4c51121e1ab0408cc7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-directory.ts",
+      "normalizedSha256": "63d0a367b9b2c67bcf1995bef8802f2c1e1de30c63c50071fe30c0cdf54fb2c2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-file.ts",
+      "normalizedSha256": "37a7148e5a0219c6512af7b1519e4c3e234edb22de487a1087a385d385c278e7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-owner.ts",
+      "normalizedSha256": "66f451c95b1aca6b2ab143aafa69b5f2e40d55f4cf23ec187300181de8408538",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-protocol.ts",
+      "normalizedSha256": "7064058c722e7a8db4566769f3bd29c4e4a612f64733bbef7da03743990e0489",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/atomic-recovery.ts",
+      "normalizedSha256": "a91c434dec4913e3427d5e757d347ca4f0e1eb545e5dbdd6cf6b3792e9678ac1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-defaults.ts",
+      "normalizedSha256": "00f1b9f76a269ac36b9b6a6afc332bd6e011b66c728937cb1169df1d28aa3bb2",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-dependencies.ts",
+      "normalizedSha256": "d959cefc4bc98b27b251f663f15483337e751f4ebd5d04cb4f3e4b3e65a9e15a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-describe.ts",
+      "normalizedSha256": "478e807b2186da239b8967087cbf0c86507a328cd61c8212b64fca70cea49a16",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-install.ts",
+      "normalizedSha256": "1a76c7a11e94d0bbcb4497ae36443f850ae471a68468027486543ab564de3e11",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-listing.ts",
+      "normalizedSha256": "c87343546b32a108be67f7d6dd017cbbab67907cc50a53f24660e875edc4a8ef",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-load-source.ts",
+      "normalizedSha256": "0ba1bb589635ca8a5e9556f083ac7088d5712f61799fe3cdd3125200e52d7ec3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-manifest.ts",
+      "normalizedSha256": "29241e2d170fffe35f52451f94b94df1cd0e82cb2f26bb7ee53b570e782d12fd",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-records.ts",
+      "normalizedSha256": "289b3e6e5ad61177a40b846d76fa7983888d92373ce56a38534a3f1c81ff9594",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-refresh.ts",
+      "normalizedSha256": "a7a00de2fd0521c6d2a20f64c02f300820acc3c03328bb0d0c3cb19b6546473e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-repository.ts",
+      "normalizedSha256": "a4b4c8207cda64d4d2549cc18501ea4b379c254d1282147aa3fe59aa6ecf5554",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-source-input.ts",
+      "normalizedSha256": "8b93670089f80c8f96bb0c47a846b976e0c906c3873ffc4a1da1a4909c0b9c02",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-types.ts",
+      "normalizedSha256": "6585a7a38242aea0b18dd41a721cfa370201626670630af8f236fad38e3c884d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/catalog-validation.ts",
+      "normalizedSha256": "750f4863e9b1ae77a9c730ec34a949e35c482d657779bf573ae4a12217c39bfe",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/github-archive-source.ts",
+      "normalizedSha256": "bf00f6c8811a5fda7b33af4f2495f1734a18532417d1ba3c2d6a896262449e8d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/helpers.ts",
+      "normalizedSha256": "52d920ef571d5c0d3b4429f1a50a701102fd1d4e82c42b4ff8374115415c1e32",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/marketplace.ts",
+      "normalizedSha256": "ce89d8a6bf9125867ba01dd115734f38fde8c349913a494a15ed30e3a6353268",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/official-marketplace.ts",
+      "normalizedSha256": "6d516abf9a28555e3a63ae6f81daf9a0bf4a7a80528eac01f92c9301a7762881",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-document.ts",
+      "normalizedSha256": "38a1c54ff60614b571b6595e35bc27f4b967e3b287bd32804a4a7efb82678e1a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-source.ts",
+      "normalizedSha256": "7619b763d2b54756e9d343a949e029e696cb48549cc245710884956af0b6f109",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/plugin-validation.ts",
+      "normalizedSha256": "7e5163210a8a1fe413144a8174241583197fbb360ebb4e4214b7fa1005b8698e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-download.ts",
+      "normalizedSha256": "ddba34e5cf7ac45a1ae431668e6bc143d8f87767508d12f2ac2703f1681eee5e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-errors.ts",
+      "normalizedSha256": "9cb9211fc0fb4854ecd31cb0b02a2a6cd12592006630aa4c03d150254c6efafc",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-git.ts",
+      "normalizedSha256": "ba6c39f1e3f524bcf8bc6f23af0fb6e556e1bdee44024fc66db0ed086f70b60f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/source-redaction.ts",
+      "normalizedSha256": "de63e1fcedcf73ef00aac3e74224ba3357990ce55957b845b0d258b61c9ecfb8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/version-compare.ts",
+      "normalizedSha256": "a54fa2eb3e0f413e3be06ce129410e14593e5fdf75effd8449b5da6cebb78c44",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/plugins/zip-source.ts",
+      "normalizedSha256": "3d0b4c0c8de547161d81ed712c26b8c9889ad0b5745f33760485dbe8a3d6b835",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Root independently designed and authored the complete 33-module plugin source/storage capability from approved behavioral contracts and finite public declarations, without reading old function bodies or private tests as implementation inputs. Eight public modules were replaced and 25 private collaborators added. Source v3 was frozen before final independent acceptance and copied byte-exact into main. The old-first suite preserves its original failures and 24 preregistered legacy defects; final old225/249, candidate249/249, main source249/249 and exact compiled runtime249/249. CLI map binds all32 executable modules, with one erased type module. Full main offline regression3800/3800. Limited root exposure elsewhere and finite test-seam corrections are disclosed; compatibility, tests and MIT headers alone do not prove originality. This review does not relicense retained declarations, third-party dependencies, other modules or the application root.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract.test.ts",
+      "normalizedSha256": "89f86381b24d038edfecf35d7b8ca7fb7ef6380ee7dd4f46405f56ccbee7a063",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/README.md",
+      "normalizedSha256": "63169d020fec97591b606b93f9a0251af51ef95f85234b965409a07ed3d65e23",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/atomic.mjs",
+      "normalizedSha256": "f193dad292a2d403db4758736171edb4af488c26f909cfc2f10aadbfbda919e4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/git-contract.mjs",
+      "normalizedSha256": "764472df3d3825df10e067aca18fe6e81c15d814a8150ee92c926e4125fedfe9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/installation.mjs",
+      "normalizedSha256": "b2723977750ff93ba5ce0bb1b7294a633be875d06074bace58ba3fc1c33540ed",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/manifest-decoder.mjs",
+      "normalizedSha256": "92f19d53647c7f3093c5ad3124ace2813914062caba3af5de8ab624387abf08d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/marketplace-source.mjs",
+      "normalizedSha256": "3bb44175de21833e215d5e2a3736545378265cea815af3c31cb3349aa7b92e16",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/pure.mjs",
+      "normalizedSha256": "1f6075d47f571f1e7ead80b40b1aea0c900503c3b94dc45117de7284cec90a5c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/registry.mjs",
+      "normalizedSha256": "b513549056b06f9c31244399dc9d2f6a455aadaffbc92eb37fbd5b139ecd3289",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/state-official.mjs",
+      "normalizedSha256": "fcfd0b226b5395b96739dc2c5b15b692a1f83d5e3272c4ff82e1c7bcffc419b6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/util.mjs",
+      "normalizedSha256": "d91ad454ebf3f3aed0b0adeefda11d143cd92b695170b30de654580916568778",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/v5-diagnostics.mjs",
+      "normalizedSha256": "926a1d3f7863b232f6831db2b2f50ae0ffeabf220798eb043ebb939e9099e8a5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/v5-install-manifest.mjs",
+      "normalizedSha256": "23231ebe22bf53d6d1909fed601c6d60b5bbdc327aa8838d749d7366e154d0b3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/v5-marketplace-materialization.mjs",
+      "normalizedSha256": "2a043860a0f762e0ac941fb5dd41f996a05a1fd412a78c32d9d5bcb65047e315",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/v5-uninstall.mjs",
+      "normalizedSha256": "4a3e408b51423170c74666020c1b5268cb8b448f7a8d1e368df400788675b825",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/cases/zip-archive.mjs",
+      "normalizedSha256": "00d41bed7b09f3618fc7a0519679ecb29c67703b0917684570286d04474d9dbd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/contract-schema.json",
+      "normalizedSha256": "2c6a7cd8ea99e43132f01e18bfc26e173dfc547b4926951817fc84a3f5992967",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/declaration-probe.ts",
+      "normalizedSha256": "ad6b50df09ec553862539c92dd2d370e94f3e5e2cca14b382161681c97c3ba6c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/declaration-stubs/contracts.d.ts",
+      "normalizedSha256": "71985e22c14fc5f58d4b8bd09522596f0cbcccf8c57ff3657b7a8be16741879a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/atomic-directory.js",
+      "normalizedSha256": "bc7e14391b35f424d79c37c8d5cbbfac30f3b82062f244ffd9634bfa50717b6a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/github-archive-source.js",
+      "normalizedSha256": "1cbec961d43bd94b85f2b3e6d880e846ba716de3ce762fb13bc6c8a024d49105",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/helpers.js",
+      "normalizedSha256": "4ea9e24e9aa665f689e26e84419014927b4847ab8f817e781b18794b3127dda3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/marketplace.js",
+      "normalizedSha256": "275bc5cdecead69401e8c2999cc4c8edad2683968cbcd457bd564fb5fb500c2c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/official-marketplace.js",
+      "normalizedSha256": "565f648830b0a4eda56a5c586eb5cf9b6ce2e52076d1e1969a931b93151b55ea",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/shared.js",
+      "normalizedSha256": "c3d52940b5f06a0086e02c01c3902a258bcd698714f8d714b1ccf360babc90d8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/source-errors.js",
+      "normalizedSha256": "b62c5d072c1d5fdda481a98d712ee6fcaedd4b784f44c03cc3b3f3fe62cbf343",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/version-compare.js",
+      "normalizedSha256": "96f621afb4c7848fb64177e3d8ab207f08f049d0aa9d75adbababb6b9221cb0b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/loader-smoke/zip-source.js",
+      "normalizedSha256": "81c5b2c317ece6ac52860fbd86aa07966b70f0c1b4730c8ead17bf903f78892a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/matrix-coverage.json",
+      "normalizedSha256": "b8126d2cdb9684f4a4a53aeae02fff8f8abf9ee6db35a198b37eb7d527a3908c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/atomic-directory.d.ts",
+      "normalizedSha256": "48a8c821b430d49ca007b5c8c82b4b97584e1f760352eeefdc35e6c6d3257273",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/github-archive-source.d.ts",
+      "normalizedSha256": "e894a0c3df9b46159661f515d914ff0e4dbe65c895007435335b4b2be5cea90f",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/helpers.d.ts",
+      "normalizedSha256": "fadd331262956d0405c21de029f10c353583c2ca99d527c42a1980b1b5088c94",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/marketplace.d.ts",
+      "normalizedSha256": "945d1cf02a2bf40ea2d2377698b7571acf4189b2d92961c33e0db9410192a54f",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/official-marketplace.d.ts",
+      "normalizedSha256": "a938d8eb9f316c43a731fef9aee2bf1ff023a5b85a8d26de7ea2a44f1af4c619",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/plugin-components.d.ts",
+      "normalizedSha256": "f00076d781de2268b1e4ceb984d4d556199cce2863be23e2d5cf4cfeb4184463",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/source-errors.d.ts",
+      "normalizedSha256": "8d047a2f11f2880bf558ddb6b3e977767969d1809d88daedbc6d7ae9af72c233",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/types.d.ts",
+      "normalizedSha256": "e69b41e2ab64e35ca81bf58c71307ec5155477f4651dc7465497c412590dafc7",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/version-compare.d.ts",
+      "normalizedSha256": "8e9065a595702c35877db8cff466c68423a306784849b596ec0a2fa181ac2f16",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/fixtures/public-declarations/zip-source.d.ts",
+      "normalizedSha256": "a7ba6ba1857f3fe27fa065f1416df29f0c121bffedffa4857cc0788c47528f6c",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Generated public/support declaration snapshot captured from the existing Apache-2.0 implementation at ea6d871207d75be3bd5e1de5830eaf5dd8be2a9e, then formatted for signature compatibility tests. Original paths and exact original hashes are individually recorded in the evidence. The portable draft mechanically added an incorrect MIT/Knorvia originality header; root removed that claim before main integration and retained Apache provenance without altering types. This is copied compatibility material, not an independently authored implementation or a newly granted license.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/harness/arguments.mjs",
+      "normalizedSha256": "7d6ca37cc6420d49dec549f597f135c8e16eedef95c88efac35d92dc09667e1e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/harness/build-world.mjs",
+      "normalizedSha256": "21990c95a8dfe34e703637348ac018055f29b68436e779fce5477c6690d0d499",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/harness/case-worker.mjs",
+      "normalizedSha256": "bd253015252e19136b392861c24cb32453f138cc35dcba8dac2101d7ba0fe817",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/harness/report.mjs",
+      "normalizedSha256": "14698f535d701d7b00c38cc15fe94da727035366bf70c674ac5de9227bedbb78",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/harness/runner.mjs",
+      "normalizedSha256": "5a5673efb7b4ca466cec125550ddaf387ad0ed94010d98d322446629f9be38c8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/harness/world-runtime.mjs",
+      "normalizedSha256": "350f9e115decc3dd2b930db0ee8fec2715e76f7397f07cd5a96b4750af3598a5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/child-process.mjs",
+      "normalizedSha256": "65a66fa71f4e78446f86f6b334fdeba71b2058c2efd0a7b6a0021056c4dd8c16",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/contracts.mjs",
+      "normalizedSha256": "36222dacb3a4210c50d538b0bd4dc833fdad11d715397b0a3fff6b6ef147b6e4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/crypto.mjs",
+      "normalizedSha256": "ba5572861b6c18bc486d57e26aab81b2764bd270ef7cbd61c45d068a8b0ddd84",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/fs-policy.mjs",
+      "normalizedSha256": "85dd45fcd3c26d8c5b4ebe1f91f783edd5024b582f526b45d7d8560be594a399",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/fs-promises.mjs",
+      "normalizedSha256": "75f85e5e485fb258a9f30826b30207909a764cca228148f6d2b0d1e2e3a258b1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/fs.mjs",
+      "normalizedSha256": "fcd1d4b52e597eb2f4d15738fdc057292529727a9eac38397e96f5c1205bd3d6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/http-error.mjs",
+      "normalizedSha256": "2994f313fe9b14dd80e87030ec07852eeb586da7c05389033de571a218dde5a1",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/http.mjs",
+      "normalizedSha256": "c18c7d89779d4c625ba8b4f7a3f4937f2c4399650650a0a005f385b9c849848a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/mcp.mjs",
+      "normalizedSha256": "42b520856a33b9688cbdd67de7a6986423659ece3c2387b26704ea5a34ec2dba",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/network-env.mjs",
+      "normalizedSha256": "518e3262a8c233931cc6c97850f4984063b5c476be2eb7106ab67fe53b2f538e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/os.mjs",
+      "normalizedSha256": "097b7a73fdb354bba6c8d8677297b56e72602bf14dba068a37c3cdab96f76cf9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/plugin-components.mjs",
+      "normalizedSha256": "8e6e81e31828660aa44ac1e0a4798302c8792f81ff19f53d2e165c54c70e74ed",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/process.mjs",
+      "normalizedSha256": "ac3c2b0706b81931076b59aec6f6370e2042f1f5da0bfab88f6544cf5c61a077",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/scan.mjs",
+      "normalizedSha256": "cbce2673df4d1ad145a7c220f2b1e9ab3e2d39b559d1c92fb15614e7d82e85a5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/shared.mjs",
+      "normalizedSha256": "82f999d2850c781be2630901229106780acf0e8db61850d372e64603a20f8712",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/state.mjs",
+      "normalizedSha256": "49b07025ad331bffabb13aeed1c83a68c2d8810f6159df4fc31674e2b49ec9bd",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/timers.mjs",
+      "normalizedSha256": "5649f07a1ab55fcc62dd67a8290f7944f9e60e967aa48908b5431198a052c591",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/seams/yauzl.mjs",
+      "normalizedSha256": "b80767601e5e2970337e5a461aca0308544cb6504c6cf24fb1d0b2c3d054a8f8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/strict-oxlint.json",
+      "normalizedSha256": "c34ed79c42fd28fa654fe16220f5aca15e7ec2b958a029e9106fa6b81e1c2176",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Functional TypeScript/lint configuration used by the independently authored plugin storage test suite. The lint policy derives from the existing repository rules with scoped fixture exceptions; compiler inclusion and declaration mapping are test controls. Nature-only review: no new authorship or license grant and no claim that configuration constitutes a product rewrite.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/tools/check-declaration-probe.mjs",
+      "normalizedSha256": "0cf728d68ac6f5c3914530fd3423050a61710d54147dd70dfd7fd6c628d41f1f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/tools/run-target.mjs",
+      "normalizedSha256": "18d33b2dc7ff3149c8ea24b75a8d5da8363210fab44d5d502071a1f86b7720c4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/tools/static-check.mjs",
+      "normalizedSha256": "a6a991cedf9b2636ef1f23afb28c1151de6ed6c327a88703a1209b3ee36bdd02",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent contract-test expression, owned seam, case data, portability helper or suite entry authored for this project under its MIT migration authorization. Tests were frozen independently of the replacement implementation, with all initial fixture and candidate failures retained. Portable case normalization preserves636 assertion expressions and249 ordered inputs/timeouts; only documented dead bindings and old failure-admission metadata were removed. Main adds hidden Windows child/compiler launches and an emitted-JavaScript-equivalent entry format change. This file is test/support work, not proof that dependencies or copied declaration snapshots are original.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/tsconfig.declarations.json",
+      "normalizedSha256": "c8d00e5c56fd08011cb00957cf5068edf3d94aa43c6019c75c43afc93fba18ba",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Functional TypeScript/lint configuration used by the independently authored plugin storage test suite. The lint policy derives from the existing repository rules with scoped fixture exceptions; compiler inclusion and declaration mapping are test controls. Nature-only review: no new authorship or license grant and no claim that configuration constitutes a product rewrite.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/plugin-storage-contract/tsconfig.integration.json",
+      "normalizedSha256": "4a0bacd0b5e5b81092b15b00a1a395c092874729daf50859568932229c6f3f25",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Functional TypeScript/lint configuration used by the independently authored plugin storage test suite. The lint policy derives from the existing repository rules with scoped fixture exceptions; compiler inclusion and declaration mapping are test controls. Nature-only review: no new authorship or license grant and no claim that configuration constitutes a product rewrite.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-plugin-storage-runtime.md",
+      "normalizedSha256": "6ec790c24aac0a8e51691b35d222b62304389f0b018dcd49bd5eb52a1226ed83",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently written behavioral specification, measured acceptance record or source/provenance evidence for the plugin storage replacement. Explicitly records copied declarations, preserved initial failures, validated boundaries and remaining application migration work; no blanket clean-room or root-license claim.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-plugin-storage-runtime-acceptance.md",
+      "normalizedSha256": "5749bcd604be3d16f3768ce493380e3fd2a210eecd71fea5153ca84714b61ebc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently written behavioral specification, measured acceptance record or source/provenance evidence for the plugin storage replacement. Explicitly records copied declarations, preserved initial failures, validated boundaries and remaining application migration work; no blanket clean-room or root-license claim.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/plugin-storage-runtime.md",
+      "normalizedSha256": "a33d2152db0ee2bf1a778a7127641dbe79f1d9d8aba677bc2203fb44a2bb1418",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently written behavioral specification, measured acceptance record or source/provenance evidence for the plugin storage replacement. Explicitly records copied declarations, preserved initial failures, validated boundaries and remaining application migration work; no blanket clean-room or root-license claim.",
+      "evidence": [
+        "specs/knorvia-plugin-storage-runtime.md",
+        "docs/knorvia-plugin-storage-runtime-acceptance.md",
+        "licensing/evidence/plugin-storage-runtime.md"
       ]
     }
   ]

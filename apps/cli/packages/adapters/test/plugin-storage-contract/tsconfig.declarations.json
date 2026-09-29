@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2024", "DOM"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "paths": {
+      "@knorvia/contracts": ["./fixtures/declaration-stubs/contracts.d.ts"]
+    },
+    "skipLibCheck": false,
+    "strict": true,
+    "types": []
+  },
+  "files": ["./fixtures/declaration-stubs/contracts.d.ts", "./fixtures/declaration-probe.ts"]
+}

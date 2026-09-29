@@ -1,183 +1,157 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
+import { assertAtomicNotAborted } from "./atomic-protocol.js";
 import {
   appendPluginSourceCleanupError,
   cleanupPluginSourceBestEffort,
   directoryExists,
   fileExists,
+  isNotFoundError,
   resolveInside,
 } from "./helpers.js";
+import { redactSourceReference } from "./source-redaction.js";
 import {
   PluginZipDownloadError,
   resolveHttpZipSource,
   type ResolvedZipPluginSourceRoot,
 } from "./zip-source.js";
 
-const GITHUB_HOSTS = new Set(["github.com", "www.github.com"]);
-const GITHUB_REPOSITORY_SEGMENT = /^[A-Za-z0-9_.-]+$/u;
-
-interface PublicGitHubRepository {
-  owner: string;
-  repo: string;
-}
-
-interface ResolveGitHubArchiveSourceInput {
-  path?: string;
-  pin?: string;
-  signal?: AbortSignal;
-  url: string;
-}
-
-class GitHubArchiveRequiresGitError extends Error {
-  readonly reason: string;
-
+class GitRequired extends Error {
   constructor(reason: string) {
     super(`GitHub Archive requires system Git fallback: ${reason}`);
     this.name = "GitHubArchiveRequiresGitError";
-    this.reason = reason;
   }
 }
 
-function parsePublicGitHubRepositoryUrl(value: string): PublicGitHubRepository | null {
+function githubCoordinates(value: string): { owner: string; repository: string } {
   let url: URL;
   try {
     url = new URL(value);
   } catch {
-    return null;
+    throw new GitRequired(
+      `source is not a public GitHub HTTPS repository: ${redactSourceReference(value)}`,
+    );
   }
+  const coordinates = /^\/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\/?$/u.exec(url.pathname);
+  const owner = coordinates?.[1];
+  const repository = coordinates?.[2]?.replace(/\.git$/u, "");
   if (
     url.protocol !== "https:" ||
-    !GITHUB_HOSTS.has(url.hostname.toLowerCase()) ||
+    (url.hostname !== "github.com" && url.hostname !== "www.github.com") ||
     url.username ||
     url.password ||
     url.search ||
-    url.hash
-  ) {
-    return null;
-  }
-  const segments = url.pathname.split("/").filter(Boolean);
-  if (segments.length !== 2) return null;
-  const owner = segments[0] ?? "";
-  const repo = (segments[1] ?? "").replace(/\.git$/u, "");
-  if (
+    url.hash ||
     !owner ||
-    !repo ||
-    owner === "." ||
-    owner === ".." ||
-    repo === "." ||
-    repo === ".." ||
-    !GITHUB_REPOSITORY_SEGMENT.test(owner) ||
-    !GITHUB_REPOSITORY_SEGMENT.test(repo)
+    !repository ||
+    !/^[a-zA-Z0-9_.-]+$/u.test(owner) ||
+    !/^[a-zA-Z0-9_.-]+$/u.test(repository)
   ) {
-    return null;
-  }
-  return { owner, repo };
-}
-
-function buildGitHubArchiveUrl(repository: PublicGitHubRepository, pin = "HEAD"): string {
-  const normalizedPin = pin.trim() || "HEAD";
-  return `https://api.github.com/repos/${repository.owner}/${repository.repo}/zipball/${encodeURIComponent(normalizedPin)}`;
-}
-
-export async function resolveGitHubArchiveSource(
-  input: ResolveGitHubArchiveSourceInput,
-): Promise<ResolvedZipPluginSourceRoot> {
-  const repository = parsePublicGitHubRepositoryUrl(input.url);
-  if (!repository) {
-    throw new GitHubArchiveRequiresGitError(
-      `source is not a public GitHub HTTPS repository: ${input.url}`,
+    throw new GitRequired(
+      `source is not a public GitHub HTTPS repository: ${redactSourceReference(value)}`,
     );
   }
-  const resolved = await resolveHttpZipSource({
+  return { owner, repository };
+}
+
+async function directoryUsesLfs(directory: string, signal?: AbortSignal): Promise<boolean> {
+  assertAtomicNotAborted(signal);
+  let content: string;
+  try {
+    content = await readFile(join(directory, ".gitattributes"), "utf8");
+  } catch (error) {
+    if (isNotFoundError(error)) return false;
+    throw error;
+  }
+  return /(?:^|\s)filter=lfs(?:\s|$)/u.test(content);
+}
+
+async function subtreeUsesLfs(root: string, signal?: AbortSignal): Promise<boolean> {
+  const pending = [root];
+  while (pending.length) {
+    const directory = pending.pop()!;
+    if (await directoryUsesLfs(directory, signal)) return true;
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      if (entry.isDirectory()) pending.push(join(directory, entry.name));
+    }
+  }
+  return false;
+}
+
+async function requireArchiveSemantics(
+  repositoryRoot: string,
+  selectedRoot: string,
+  signal?: AbortSignal,
+): Promise<void> {
+  assertAtomicNotAborted(signal);
+  if (fileExists(join(repositoryRoot, ".gitmodules")))
+    throw new GitRequired("repository declares Git submodules");
+  if (resolve(selectedRoot) === resolve(repositoryRoot)) {
+    if (await subtreeUsesLfs(repositoryRoot, signal))
+      throw new GitRequired("repository declares Git LFS filters");
+    return;
+  }
+  if (await directoryUsesLfs(repositoryRoot, signal))
+    throw new GitRequired("repository declares Git LFS filters");
+  for (
+    let parent = dirname(selectedRoot);
+    resolve(parent) !== resolve(repositoryRoot);
+    parent = dirname(parent)
+  ) {
+    if (await directoryUsesLfs(parent, signal))
+      throw new GitRequired("selected plugin path inherits Git LFS filters");
+  }
+  if (await subtreeUsesLfs(selectedRoot, signal))
+    throw new GitRequired("selected plugin path declares Git LFS filters");
+}
+
+export async function resolveGitHubArchiveSource(input: {
+  path?: string;
+  pin?: string;
+  signal?: AbortSignal;
+  url: string;
+}): Promise<ResolvedZipPluginSourceRoot> {
+  assertAtomicNotAborted(input.signal);
+  const { owner, repository } = githubCoordinates(input.url);
+  const pin = input.pin?.trim() || "HEAD";
+  const source = await resolveHttpZipSource({
+    url: `https://api.github.com/repos/${owner}/${repository}/zipball/${encodeURIComponent(pin)}`,
     headers: {
       Accept: "application/vnd.github+json",
       "User-Agent": "Knorvia Studio-Plugin-Installer",
     },
     requireSingleRoot: true,
-    signal: input.signal,
     stripRoot: true,
-    url: buildGitHubArchiveUrl(repository, input.pin),
+    ...(input.signal ? { signal: input.signal } : {}),
   });
   try {
-    let selectedPath = resolved.path;
-    if (input.path) {
-      const subdir = resolveInside(resolved.path, input.path);
-      if (!subdir || !directoryExists(subdir)) {
-        throw new Error(`Plugin source subdirectory does not exist: ${input.path}`);
-      }
-      selectedPath = subdir;
-    }
-    const gitReason = await detectRequiredGitSemantics(resolved.path, selectedPath);
-    if (gitReason) throw new GitHubArchiveRequiresGitError(gitReason);
-    return { cleanup: resolved.cleanup, path: selectedPath };
+    const selected =
+      input.path !== undefined ? resolveInside(source.path, input.path) : source.path;
+    if (!selected || !directoryExists(selected))
+      throw new Error("Selected plugin path is not a directory inside the repository");
+    await requireArchiveSemantics(source.path, selected, input.signal);
+    assertAtomicNotAborted(input.signal);
+    return { path: selected, cleanup: source.cleanup };
   } catch (error) {
-    const cleanupError = await cleanupPluginSourceBestEffort(resolved.cleanup);
-    throw appendPluginSourceCleanupError(error, cleanupError);
+    throw appendPluginSourceCleanupError(
+      error,
+      await cleanupPluginSourceBestEffort(source.cleanup),
+    );
   }
 }
 
 export function shouldFallbackGitHubArchiveToGit(error: unknown): boolean {
+  if (error instanceof GitRequired) return true;
+  if (
+    error instanceof PluginZipDownloadError &&
+    (error.status === 401 || error.status === 403 || error.status === 404)
+  )
+    return true;
   const message = error instanceof Error ? error.message : String(error);
-  return (
-    error instanceof GitHubArchiveRequiresGitError ||
-    (error instanceof PluginZipDownloadError &&
-      (error.status === 401 || error.status === 403 || error.status === 404)) ||
-    /plugin zip entry symlinks are not supported|unsupported plugin zip entry type/iu.test(message)
+  return /plugin zip entry symlinks are not supported|unsupported plugin zip entry type/iu.test(
+    message,
   );
-}
-
-async function detectRequiredGitSemantics(
-  repositoryRoot: string,
-  selectedRoot: string,
-): Promise<string | null> {
-  // Archive 不会物化 submodule 或 Git LFS 对象；若仍把指针文件当插件安装，
-  // 会得到表面成功但运行时缺文件的损坏缓存，因此这两类仓库必须回到完整 Git 语义。
-  if (fileExists(join(repositoryRoot, ".gitmodules"))) {
-    return "repository declares Git submodules";
-  }
-  if (await directoryDeclaresGitLfs(repositoryRoot, selectedRoot === repositoryRoot)) {
-    return "repository declares Git LFS filters";
-  }
-  if (selectedRoot !== repositoryRoot) {
-    // Git attributes 从仓库根到目标文件逐级继承。只检查仓库根和插件目录
-    // 会漏掉 packages/.gitattributes -> packages/plugin/** 这类父目录 LFS 规则，
-    // 进而把 Archive 内的 LFS pointer 当成真实插件资源写入缓存。
-    if (await ancestorDirectoriesDeclareGitLfs(repositoryRoot, selectedRoot)) {
-      return "selected plugin path inherits Git LFS filters";
-    }
-    if (await directoryDeclaresGitLfs(selectedRoot, true)) {
-      return "selected plugin path declares Git LFS filters";
-    }
-  }
-  return null;
-}
-
-async function ancestorDirectoriesDeclareGitLfs(
-  repositoryRoot: string,
-  selectedRoot: string,
-): Promise<boolean> {
-  const normalizedRepositoryRoot = resolve(repositoryRoot);
-  let current = dirname(resolve(selectedRoot));
-  while (current !== normalizedRepositoryRoot) {
-    if (await directoryDeclaresGitLfs(current, false)) return true;
-    const parent = dirname(current);
-    if (parent === current) break;
-    current = parent;
-  }
-  return false;
-}
-
-async function directoryDeclaresGitLfs(rootPath: string, recursive: boolean): Promise<boolean> {
-  const attributesPath = join(rootPath, ".gitattributes");
-  if (fileExists(attributesPath)) {
-    const attributes = await readFile(attributesPath, "utf8");
-    if (/(?:^|\s)filter=lfs(?:\s|$)/mu.test(attributes)) return true;
-  }
-  if (!recursive) return false;
-  const entries = await readdir(rootPath, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    if (await directoryDeclaresGitLfs(join(rootPath, entry.name), true)) return true;
-  }
-  return false;
 }

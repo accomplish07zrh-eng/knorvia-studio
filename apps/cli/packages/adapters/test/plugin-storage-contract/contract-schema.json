@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "nodeVersion": "v24.14.0",
+  "caseCounts": {
+    "executable": 249,
+    "requiredMatrix": 248
+  },
+  "timeoutsMs": {
+    "workerDefault": 15000,
+    "targetOuter": 1800000
+  },
+  "packageVersions": {
+    "esbuild": "0.25.12",
+    "semver": "7.7.4",
+    "typescript": "6.0.2"
+  },
+  "facades": [
+    "atomic-directory",
+    "github-archive-source",
+    "helpers",
+    "marketplace",
+    "official-marketplace",
+    "source-errors",
+    "version-compare",
+    "zip-source"
+  ],
+  "contractModules": [
+    "archive-entry",
+    "archive-extract",
+    "atomic-directory",
+    "atomic-file",
+    "atomic-owner",
+    "atomic-protocol",
+    "atomic-recovery",
+    "catalog-defaults",
+    "catalog-dependencies",
+    "catalog-describe",
+    "catalog-install",
+    "catalog-listing",
+    "catalog-load-source",
+    "catalog-manifest",
+    "catalog-records",
+    "catalog-refresh",
+    "catalog-repository",
+    "catalog-source-input",
+    "catalog-types",
+    "catalog-validation",
+    "github-archive-source",
+    "helpers",
+    "marketplace",
+    "official-marketplace",
+    "plugin-document",
+    "plugin-source",
+    "plugin-validation",
+    "source-download",
+    "source-errors",
+    "source-git",
+    "source-redaction",
+    "version-compare",
+    "zip-source"
+  ],
+  "runtimeModules": [
+    "archive-entry",
+    "archive-extract",
+    "atomic-directory",
+    "atomic-file",
+    "atomic-owner",
+    "atomic-protocol",
+    "atomic-recovery",
+    "catalog-defaults",
+    "catalog-dependencies",
+    "catalog-describe",
+    "catalog-install",
+    "catalog-listing",
+    "catalog-load-source",
+    "catalog-manifest",
+    "catalog-records",
+    "catalog-refresh",
+    "catalog-repository",
+    "catalog-source-input",
+    "catalog-validation",
+    "github-archive-source",
+    "helpers",
+    "marketplace",
+    "official-marketplace",
+    "plugin-document",
+    "plugin-source",
+    "plugin-validation",
+    "source-download",
+    "source-errors",
+    "source-git",
+    "source-redaction",
+    "version-compare",
+    "zip-source"
+  ],
+  "pureTypeModules": ["catalog-types"],
+  "publicDeclarationFacades": [
+    "atomic-directory",
+    "github-archive-source",
+    "helpers",
+    "marketplace",
+    "official-marketplace",
+    "source-errors",
+    "version-compare",
+    "zip-source"
+  ],
+  "supportDeclarations": ["plugin-components", "types"],
+  "targets": {
+    "source": {
+      "relativeModuleRoot": "src/plugins",
+      "extension": "ts"
+    },
+    "dist": {
+      "relativeModuleRoot": "dist/plugins",
+      "extension": "js",
+      "requiresBuild": true,
+      "fallback": null
+    }
+  }
+}

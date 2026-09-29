@@ -45,7 +45,35 @@ presence/SHA-256。独占创建 JSON 并上传原始日志，任何失败保持�
 证据文件排他写入，以及 direct/node:test 两种真实 Node 目标控制。两个 Node
 目标均产生原生状态 0，再因并非 Python 3.13 正确使诊断退出 1；原日志保留。
 这些验证没有运行 Python，也不证明其可启动。诊断之外没有产品代码变动，
-因此本次没有重复本地完整 3798 项回归。新云端观测仍待推送后执行。
+因此本次没有重复本地完整 3798 项回归。推送后的原始云端结果如下。
+
+## 推送后观测
+
+受检提交 `bf4fb5c7da7f8cfc3bf2111defd03805f1689fcc` 的原始质量
+[run 36595564060](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36595564060)
+（attempt 1）双平台成功，全部前置步骤成功。Windows job `109499439400`
+为 3798/3798，0 失败、取消、跳过，471782.2966ms；Linux job `109499439740`
+为 3791 通过、7 平台跳过、0 失败/取消，212673.522328ms。
+
+手动诊断 [run 36595606453](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36595606453)
+（attempt 1）三个独立 Windows job 均成功，每个只执行一次原定的 10000ms 探测。
+
+| 阶段               | job          | 耗时        | 原生结果                 |
+| ------------------ | ------------ | ----------- | ------------------------ |
+| Python 设置后      | 109499597977 | 816.1014ms  | status 0，Python 3.13.15 |
+| 依赖与 CLI 构建后  | 109499598660 | 581.6628ms  | status 0，Python 3.13.15 |
+| 与本地诊断测试并发 | 109499598217 | 3205.0795ms | status 0，Python 3.13.15 |
+
+三个进程的 error、signal 均为空；并发作业的两项测试通过。运行环境为
+Node 24.14.0、Windows Server 2025，image `win25-vs2026 / 20260925.250.1`。
+这只表示原始 Python 启动超时在本次未复现，原因仍未确定，也不构成修复。
+原始失败保留，未重跑、增加重试、预热或延长时限。
+
+根核对受检提交、attempt、全部步骤与完整原始 job 日志。元数据、五份日志和
+本地摘要保存在上述接入目录的 `remote-final-run-metadata.json`、
+`remote-job-*.json`、`remote-log-receipt.json`。GitHub 返回的三个诊断 artifact
+metadata/digest 已记录，但 ZIP 未下载，不声称做过 ZIP 的本地散列核验。
+这次云端结果不覆盖之后才接入的插件存储或模型替换，也不证明桌面打包结果。
 
 主许可证、预览版号、现有发布记录保持不变。
 

@@ -1,14 +1,18 @@
-import { statSync } from "node:fs";
-import { isAbsolute, relative, resolve, sep } from "node:path";
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
 
-const PLUGIN_SOURCE_CLEANUP_RETRY_DELAYS_MS = [0, 25, 100] as const;
+import { statSync } from "node:fs";
+import { isAbsolute, relative, resolve } from "node:path";
+
+export function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
 
 export function resolveInside(rootPath: string, rawPath: string): string | null {
   if (isAbsolute(rawPath)) return null;
-  const resolved = resolve(rootPath, rawPath);
-  const rel = relative(rootPath, resolved);
-  if (rel === "" || (!rel.startsWith("..") && !rel.includes(`..${sep}`))) return resolved;
-  return null;
+  const result = resolve(rootPath, rawPath);
+  const displacement = relative(rootPath, result);
+  return displacement.startsWith("..") || isAbsolute(displacement) ? null : result;
 }
 
 export function sanitizePluginId(pluginId: string): string {
@@ -17,16 +21,13 @@ export function sanitizePluginId(pluginId: string): string {
 
 export function parsePathList(value: unknown): string[] {
   if (typeof value === "string") return [value];
-  if (Array.isArray(value)) return value.filter((item): item is string => typeof item === "string");
-  return [];
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
 }
 
 export function isPluginOptionValue(value: unknown): value is string | number | boolean {
   return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
-}
-
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 export function directoryExists(path: string): boolean {
@@ -34,20 +35,6 @@ export function directoryExists(path: string): boolean {
     return statSync(path).isDirectory();
   } catch {
     return false;
-  }
-}
-
-/**
- * 「路径缺失」只认 ENOENT/ENOTDIR（stat 的精确错误码）。EACCES 等权限错误
- * 不是缺失——调用方不得据此发「不存在」诊断，避免把权限问题误报成 manifest 配错。
- */
-export function isMissingPath(path: string): boolean {
-  try {
-    statSync(path);
-    return false;
-  } catch (error) {
-    const code = (error as { code?: unknown }).code;
-    return code === "ENOENT" || code === "ENOTDIR";
   }
 }
 
@@ -59,44 +46,45 @@ export function fileExists(path: string): boolean {
   }
 }
 
+export function isMissingPath(path: string): boolean {
+  try {
+    statSync(path);
+    return false;
+  } catch (error) {
+    return isRecord(error) && (error.code === "ENOENT" || error.code === "ENOTDIR");
+  }
+}
+
 export function isNotFoundError(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    (error as { code?: unknown }).code === "ENOENT"
-  );
+  return isRecord(error) && error.code === "ENOENT";
 }
 
 export async function cleanupPluginSourceBestEffort(
   cleanup: (() => Promise<void>) | undefined,
-  retryDelaysMs: readonly number[] = PLUGIN_SOURCE_CLEANUP_RETRY_DELAYS_MS,
+  retryDelaysMs: readonly number[] = [0, 25, 100],
 ): Promise<unknown> {
   if (!cleanup) return undefined;
-  let cleanupError: unknown;
-  for (const delayMs of retryDelaysMs) {
-    if (delayMs > 0) {
-      await new Promise<void>((resolveDelay) => setTimeout(resolveDelay, delayMs));
-    }
+  let failure: unknown;
+  for (const delay of retryDelaysMs) {
+    if (delay > 0) await new Promise<void>((done) => setTimeout(done, delay));
     try {
       await cleanup();
       return undefined;
     } catch (error) {
-      cleanupError = error;
+      failure = error;
     }
   }
-  return cleanupError;
+  return failure;
 }
 
 export function appendPluginSourceCleanupError(
   primaryError: unknown,
   cleanupError: unknown,
 ): unknown {
-  if (cleanupError === undefined || !(primaryError instanceof Error)) return primaryError;
-  const cleanupMessage =
-    cleanupError instanceof Error ? cleanupError.message : String(cleanupError);
-  // 临时目录删除失败只能作为附加诊断，不能覆盖下载、校验或解压的原始错误。
-  primaryError.message = `${primaryError.message}; plugin source cleanup also failed: ${cleanupMessage}`;
+  if (primaryError instanceof Error && cleanupError !== undefined) {
+    const detail = cleanupError instanceof Error ? cleanupError.message : String(cleanupError);
+    primaryError.message += `; plugin source cleanup also failed: ${detail}`;
+  }
   return primaryError;
 }
 
