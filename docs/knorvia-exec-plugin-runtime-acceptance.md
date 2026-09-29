@@ -43,7 +43,9 @@
 
 ## 限制与后续
 
-没有真实模型调用、市场下载、MCP 服务、生产服务器或用户数据操作。有限端口回归不证明所有真实 Windows/POSIX 进程树、代码页、文件系统竞态；本轮也没有打包或覆盖桌面程序。新提交的云端运行待推送后核验。
+没有真实模型调用、市场下载、MCP 服务、生产服务器或用户数据操作。有限端口回归不证明所有真实 Windows/POSIX 进程树、代码页、文件系统竞态；本轮也没有打包或覆盖桌面程序。
+
+提交 `c439b5d991e9e52f8da3e46ebda9cf869911ff74` 的原始云端 run [36581928597](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36581928597) 已核验：Linux 为 3791 通过、7 平台跳过、0 失败；Windows 为 3797 通过、1 失败、0 跳过。前置检查及本批 105 项执行/插件测试均通过。Windows 唯一失败在办公资源检查前的 Python 3.13.15 绝对路径 `--version`：10 秒后 `ETIMEDOUT`，状态 null、SIGTERM、输出为空；资源脚本尚未启动。不能把本地 3798 全过写成该云端运行通过。原因仍未确认，后续有限诊断见[启动诊断记录](knorvia-python-startup-diagnostic.md)。
 
 上一修复提交 `5cb937d` 的原始 run `36565784277` 已双平台通过：Linux 3686 通过、7 平台跳过；Windows 3693 全过。它不是本批执行/插件替换的 CI，详见[原始记录](knorvia-creation-cleanup-ci-acceptance.md)。根 Apache、第三方声明和 preview 身份保持，全量独立替换与最终稳定安装包、便携包、官网尚未完成。
 

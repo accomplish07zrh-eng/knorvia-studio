@@ -31880,10 +31880,10 @@
     },
     {
       "path": "docs/knorvia-exec-plugin-runtime-acceptance.md",
-      "normalizedSha256": "c6408420c40ed176cdd72f69a36e5874d090338b16ae2739573d30380eee4306",
+      "normalizedSha256": "5a85ba0e3dabdb5d2c5ec421bdab730c8bac39d2a3ddd2b93002748a4d8a7927",
       "decision": "original",
       "license": "MIT",
-      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change.",
+      "basis": "New independently authored behavioral specification, acceptance record or per-file provenance evidence for the execution and plugin-discovery replacement. Records measured results, preserved first failures, source exposure and remaining gates; not an implementation copy or blanket application license change. Subsequently records original c439b5d CI: Linux 3791 pass/7 platform skip; Windows 3797 pass/one Python startup probe timeout. Earlier local success is not relabeled as cloud success.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md"
@@ -31909,6 +31909,50 @@
       "evidence": [
         "specs/knorvia-independent-implementation.md",
         "docs/knorvia-exec-plugin-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/ci/python-version-diagnostic.mjs",
+      "normalizedSha256": "ed414de2f134fba4824cb1603630f376cb20f65de4e6794997d12b7ffc50a02e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite diagnostic authored from measured Windows startup failure evidence and public Node/GitHub interfaces. Independent draft and reading ledger frozen outside the repository; root verified all 11 draft hashes and reviewed complete script/workflow. Root added specification, evidence and license headers, then checked single-call failure behavior with owned ports and real Node-as-target controls. This is a diagnostic only, not a Python fix or license change for tested dependencies.",
+      "evidence": [
+        "specs/knorvia-python-startup-diagnostic.md",
+        "docs/knorvia-python-startup-diagnostic.md"
+      ]
+    },
+    {
+      "path": ".github/workflows/python-version-diagnostic.yml",
+      "normalizedSha256": "d8823826a8f1c64f481a7563626d09cc2888a7b88c8b99f196b0bea2da7ec4a5",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite diagnostic authored from measured Windows startup failure evidence and public Node/GitHub interfaces. Independent draft and reading ledger frozen outside the repository; root verified all 11 draft hashes and reviewed complete script/workflow. Root added specification, evidence and license headers, then checked single-call failure behavior with owned ports and real Node-as-target controls. This is a diagnostic only, not a Python fix or license change for tested dependencies.",
+      "evidence": [
+        "specs/knorvia-python-startup-diagnostic.md",
+        "docs/knorvia-python-startup-diagnostic.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-python-startup-diagnostic.md",
+      "normalizedSha256": "edca6a0c6b917546e51ecb3ba67c935e661e993c416590601306ddda9d42755e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite diagnostic authored from measured Windows startup failure evidence and public Node/GitHub interfaces. Independent draft and reading ledger frozen outside the repository; root verified all 11 draft hashes and reviewed complete script/workflow. Root added specification, evidence and license headers, then checked single-call failure behavior with owned ports and real Node-as-target controls. This is a diagnostic only, not a Python fix or license change for tested dependencies.",
+      "evidence": [
+        "specs/knorvia-python-startup-diagnostic.md",
+        "docs/knorvia-python-startup-diagnostic.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-python-startup-diagnostic.md",
+      "normalizedSha256": "d68d9f0d628320ac0936493407ba8d34b1770520dc294519b9dcec078be7f1f8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite diagnostic authored from measured Windows startup failure evidence and public Node/GitHub interfaces. Independent draft and reading ledger frozen outside the repository; root verified all 11 draft hashes and reviewed complete script/workflow. Root added specification, evidence and license headers, then checked single-call failure behavior with owned ports and real Node-as-target controls. This is a diagnostic only, not a Python fix or license change for tested dependencies.",
+      "evidence": [
+        "specs/knorvia-python-startup-diagnostic.md",
+        "docs/knorvia-python-startup-diagnostic.md"
       ]
     }
   ]

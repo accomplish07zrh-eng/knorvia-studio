@@ -1,0 +1,140 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Knorvia Studio contributors
+name: Python 3.13 startup diagnostic (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  immediately-after-setup:
+    name: One probe immediately after setup-python
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+      - uses: actions/setup-python@v5
+        id: setup-python
+        with:
+          python-version: "3.13"
+      - name: Record the one version probe
+        env:
+          KNORVIA_DIAGNOSTIC_PYTHON: ${{ steps.setup-python.outputs.python-path }}
+          KNORVIA_DIAGNOSTIC_OUTPUT: ${{ runner.temp }}/knorvia-python-immediately-after-setup.json
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP "knorvia-python-immediately-after-setup.log"
+          New-Item -ItemType File -Force -Path $log | Out-Null
+          & node scripts/ci/python-version-diagnostic.mjs *> $log
+          $probeExit = $LASTEXITCODE
+          Get-Content -Raw -LiteralPath $log
+          exit $probeExit
+      - name: Retain raw diagnostic output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-immediately-after-setup-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/knorvia-python-immediately-after-setup.json
+            ${{ runner.temp }}/knorvia-python-immediately-after-setup.log
+
+  after-dependencies-and-build:
+    name: One probe after dependencies and CLI build
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        id: setup-python
+        with:
+          python-version: "3.13"
+      - name: Install frozen dependencies without lifecycle scripts
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Build CLI packages used by offline tests
+        run: pnpm build:cli-packages
+      - name: Record the one version probe
+        env:
+          KNORVIA_DIAGNOSTIC_PYTHON: ${{ steps.setup-python.outputs.python-path }}
+          KNORVIA_DIAGNOSTIC_OUTPUT: ${{ runner.temp }}/knorvia-python-after-build.json
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP "knorvia-python-after-build.log"
+          New-Item -ItemType File -Force -Path $log | Out-Null
+          & node scripts/ci/python-version-diagnostic.mjs *> $log
+          $probeExit = $LASTEXITCODE
+          Get-Content -Raw -LiteralPath $log
+          exit $probeExit
+      - name: Retain raw diagnostic output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-after-build-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/knorvia-python-after-build.json
+            ${{ runner.temp }}/knorvia-python-after-build.log
+
+  paired-concurrency-two:
+    name: One probe paired with local diagnostics at concurrency 2
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - uses: actions/setup-python@v5
+        id: setup-python
+        with:
+          python-version: "3.13"
+      - name: Install frozen dependencies without lifecycle scripts
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Build CLI packages used by offline tests
+        run: pnpm build:cli-packages
+      - name: Run only the paired files
+        env:
+          KNORVIA_ENV: test
+          KNORVIA_DATA_BASE_DIR: ${{ runner.temp }}/knorvia-python-paired-data
+          KNORVIA_STORAGE_DIR: ${{ runner.temp }}/knorvia-python-paired-data/cli
+          TSX_TSCONFIG_PATH: ${{ github.workspace }}/packages/ui/tsconfig.json
+          KNORVIA_DIAGNOSTIC_NODE_TEST: "1"
+          KNORVIA_DIAGNOSTIC_PYTHON: ${{ steps.setup-python.outputs.python-path }}
+          KNORVIA_DIAGNOSTIC_OUTPUT: ${{ runner.temp }}/knorvia-python-paired.json
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP "knorvia-python-paired.log"
+          New-Item -ItemType File -Force -Path $log | Out-Null
+          & node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 --test-timeout=120000 packages/desktop/test/local-diagnostics.test.ts scripts/ci/python-version-diagnostic.mjs *> $log
+          $probeExit = $LASTEXITCODE
+          Get-Content -Raw -LiteralPath $log
+          exit $probeExit
+      - name: Retain raw diagnostic output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-paired-concurrency-two-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/knorvia-python-paired.json
+            ${{ runner.temp }}/knorvia-python-paired.log
