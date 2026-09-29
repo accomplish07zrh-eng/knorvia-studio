@@ -28752,10 +28752,10 @@
     },
     {
       "path": "docs/knorvia-http-request-adapter-acceptance.md",
-      "normalizedSha256": "7bbc45c203fd2b2340ce65e8562446e1518f4a3db2b8a21f6d701eb146413f9d",
+      "normalizedSha256": "b54596d1caab9afa44c7cdccf71aa0e8ad8d31685858f7f5bc6704a1d63623b4",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual old/candidate/source/compiled and 2838-case regression acceptance, preserving preparation issues, test lint correction and unverified TLS/desktop limits. Root fully read the old source and retained public/caller boundaries. The isolated author received approved behavior and declarations plus its own design review, not old bodies/history/tests/probes/bundles; prior author context remains. No whole-process clean-room or legal guarantee is claimed. Root fully read the final 352-line pair and checked old-first failures, source behavior and actual CLI-reachable compiled bytes. Fixed public declarations, literals and short standard Node/Headers/Promise expressions are compatibility constraints, not independent evidence of authorship. Passing tests or an MIT header alone does not establish provenance. Retained CA/proxy config, shared environment reader, public error/port contracts, third-party dependencies, root Apache-2.0 and preview identity keep their rights and scope.",
+      "basis": "New factual old/candidate/source/compiled and 2838-case regression acceptance, preserving preparation issues, test lint correction and unverified TLS/desktop limits. Root fully read the old source and retained public/caller boundaries. The isolated author received approved behavior and declarations plus its own design review, not old bodies/history/tests/probes/bundles; prior author context remains. No whole-process clean-room or legal guarantee is claimed. Root fully read the final 352-line pair and checked old-first failures, source behavior and actual CLI-reachable compiled bytes. Fixed public declarations, literals and short standard Node/Headers/Promise expressions are compatibility constraints, not independent evidence of authorship. Passing tests or an MIT header alone does not establish provenance. Retained CA/proxy config, shared environment reader, public error/port contracts, third-party dependencies, root Apache-2.0 and preview identity keep their rights and scope. Original GitHub run 36511692242 passed all quality steps: Windows 2838/2838; Linux 2831 passed with seven explicit platform skips. Full staged contents of 17 files scanned with zero findings; 5217 files passed formatting. These results precede the network configuration replacement.",
       "evidence": [
         "specs/knorvia-http-request-adapter.md",
         "docs/knorvia-http-request-adapter-acceptance.md",
@@ -28772,6 +28772,102 @@
         "specs/knorvia-http-request-adapter.md",
         "docs/knorvia-http-request-adapter-acceptance.md",
         "licensing/evidence/http-request-adapter.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/http-config.ts",
+      "normalizedSha256": "c650cf940d2aec2fe1916acad709780b4cac10adc6625251be5c77cf44fe5be0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led stateless ordered proxy selection and shared no-proxy matcher, with exact port constraints before wildcard/host checks, structurally validated bracket tokens and native URL reparse to preserve explicitly written default ports. Synchronous CA bytes use the retained path/read contract without a helper cache. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-bypass.test.ts",
+      "normalizedSha256": "825142116ddb666af0600ae14d2bb2a232876dcd35d2d9c56d65ba6ea1b1a9c8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New paired explicit/captured pure observations distinguish approved port/bracket corrections from preserved domain, empty-port, native URL and IDN behavior. Twenty genuine old failures remain recorded. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-ca.test.ts",
+      "normalizedSha256": "3ffca930466d0dc1a3a4bc7a0f88ce51de05db380375c2c649d9e875c9fc9e89",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New owned-temporary-file and synthetic native-read checks preserve synchronous error identity, path priority, no fallback/cache and exact Buffer bytes. No real user certificate is read. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config-selection.test.ts",
+      "normalizedSha256": "72d67e713a297219d6db34808bf7b501ea4278011daa7eda72abb7b590e12a12",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first result-presence, ordered fallback, current options/env, direct URL, captured reader and native proxy normalization tests. Initial missing-env mock preparation errors are disclosed. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/network-config.fixture.ts",
+      "normalizedSha256": "bf8cddaacc009fc21a907672d9c0446796a883c306f52083385e7235cad5c93e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New same-package target mapping, exact selection expectations, owned environment restoration and path-contained temporary directory cleanup. No product test injection endpoint. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-network-config.md",
+      "normalizedSha256": "fb27a45dded66214d3c945c2b14957904b2044f21d6fc3c2ce811fd1733f17b3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior finalized behavior/ownership contract settles review ambiguities before implementation and preserves actual native semantics with narrow approved bypass corrections. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-network-config-acceptance.md",
+      "normalizedSha256": "bf264af957d225704a685bb3295efb26fc002131ccc7ecfe6cfefcf08895acaa",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual acceptance distinguishes old failures, test preparation, incomplete builds/stale compiled results and successful final source/compiled/full regression. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/network-config.md",
+      "normalizedSha256": "6910ea5281add57d90cb7d997439c08744941a5cb7a3e145925c54c81da08eea",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New exact approved inputs, frozen source, design and compiler-program evidence with prior-context and retained shared dependency limits. Root fully read the inherited helper and public/caller boundaries, authored behavior requirements after finite pure observations and reviewed the final 205-line candidate. The isolated author used approved behavior/declarations and its own review, not old bodies/history/tests/probes/bundles, but prior context remains. No whole-process clean-room or legal guarantee is claimed. Public signatures, constants and short standard URL/filesystem expressions are compatibility constraints rather than standalone authorship evidence. Candidate static lint corrections were preserved; runtime acceptance did not revise candidate source. Passing tests or MIT headers alone does not prove provenance. The retained shared runtime-env reader/constants, callers, Node and third-party dependencies retain their rights, as do root Apache-2.0 and preview identity.",
+      "evidence": [
+        "specs/knorvia-network-config.md",
+        "docs/knorvia-network-config-acceptance.md",
+        "licensing/evidence/network-config.md"
       ]
     }
   ]

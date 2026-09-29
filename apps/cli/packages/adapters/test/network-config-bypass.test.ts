@@ -1,0 +1,130 @@
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2026 Knorvia Studio contributors
+import assert from "node:assert/strict";
+import test from "node:test";
+import { api, bypass, captured, proxy, selected } from "./network-config.fixture.js";
+const cases: ReadonlyArray<readonly [string, string, string, boolean]> = [
+  ["domain apex", "http://example.invalid/", "example.invalid", true],
+  ["domain subdomain", "http://a.example.invalid/", "example.invalid", true],
+  ["domain label boundary", "http://notexample.invalid/", "example.invalid", false],
+  ["leading dot apex", "http://example.invalid/", ".example.invalid", true],
+  ["leading wildcard apex", "http://example.invalid/", "*.example.invalid", true],
+  ["leading wildcard subdomain", "http://a.example.invalid/", "*.example.invalid", true],
+  ["case whitespace trailing dot", "https://TARGET.invalid./", " \t TaRgEt.InVaLiD. ", true],
+  ["comma separation", "https://target.invalid/", " ,other.invalid,,target.invalid, ", true],
+  ["spaces do not separate", "https://target.invalid/", "other.invalid target.invalid", false],
+  ["blank list", "https://target.invalid/", " , , ", false],
+  ["bare IPv4", "http://127.0.0.1:8181/", "127.0.0.1", true],
+  ["CIDR not introduced", "http://127.0.0.1/", "127.0.0.0/8", false],
+  ["unbracketed IPv6", "http://[::1]:8181/", "::1", true],
+  ["bracketed IPv6 host", "http://[::1]:8181/", "[::1]", true],
+  ["bracketed IPv6 same port", "http://[::1]:8181/", "[::1]:8181", true],
+  ["bracketed IPv6 other port", "http://[::1]:9090/", "[::1]:8181", false],
+  ["bracketed IPv6 default port", "http://[::1]/", "[::1]:8181", false],
+  ["bracketed IPv6 empty port", "http://[::1]:9090/", "[::1]:", true],
+  ["bracketed IPv6 exact port text", "http://[::1]/", "[::1]:00080", false],
+  ["balanced bracket domain", "http://target.invalid:81/", "[target.invalid]", true],
+  ["balanced bracket domain same port", "http://target.invalid:81/", "[target.invalid]:81", true],
+  ["balanced bracket domain other port", "http://target.invalid:82/", "[target.invalid]:81", false],
+  ["wildcard any port", "http://target.invalid:81/", "*", true],
+  ["wildcard matching port", "https://target.invalid/", "*:443", true],
+  ["wildcard other port", "http://target.invalid/", "*:443", false],
+  ["wildcard empty port", "http://target.invalid:81/", "*:", true],
+  ["bare matching port", "http://target.invalid:81/", "target.invalid:81", true],
+  ["bare other port", "http://target.invalid:82/", "target.invalid:81", false],
+  ["bare empty port", "http://target.invalid:82/", "target.invalid:", true],
+  ["bare zero port", "http://target.invalid:0/", "target.invalid:0", true],
+  ["bare leading zeros exact", "http://target.invalid/", "target.invalid:00080", false],
+  ["bare nonnumeric port", "http://target.invalid/", "target.invalid:http", false],
+  ["bare negative port", "http://target.invalid/", "target.invalid:-80", false],
+  ["bare high port", "http://target.invalid/", "target.invalid:65536", false],
+  ["missing closing bracket never truncates", "http://fooba/", "[foobar", false],
+  ["closing bracket alone", "http://target.invalid/", "target.invalid]", false],
+  ["bracket suffix rejected", "http://target.invalid/", "[target.invalid]junk", false],
+  ["bracket duplicate closing rejected", "http://target.invalid/", "[target.invalid]]", false],
+  [
+    "bracket extra colon suffix rejected",
+    "http://target.invalid:81/",
+    "[target.invalid]:81:82",
+    false,
+  ],
+  ["empty brackets ignored", "http://target.invalid/", "[]", false],
+  ["URL no port host-only", "https://target.invalid/", "http://target.invalid/path", true],
+  ["URL empty port host-only", "https://target.invalid/", "http://target.invalid:/path", true],
+  ["URL explicit default same", "http://target.invalid/", "http://target.invalid:80", true],
+  ["URL explicit default other", "https://target.invalid/", "http://target.invalid:80", false],
+  [
+    "URL leading zeros canonical same",
+    "http://target.invalid/",
+    "http://target.invalid:00080",
+    true,
+  ],
+  [
+    "URL leading zeros canonical other",
+    "https://target.invalid/",
+    "http://target.invalid:00080",
+    false,
+  ],
+  ["URL nondefault same", "https://target.invalid:81/", "http://target.invalid:81/path", true],
+  ["URL nondefault other", "https://target.invalid/", "http://target.invalid:81/path", false],
+  [
+    "URL path colon not a port",
+    "https://target.invalid/",
+    "http://target.invalid/path:80?q=:90#part:91",
+    true,
+  ],
+  [
+    "URL userinfo colon not a port",
+    "https://target.invalid/",
+    "http://fixture:example@target.invalid/path",
+    true,
+  ],
+  [
+    "URL userinfo explicit default",
+    "https://target.invalid/",
+    "http://fixture:example@target.invalid:80/path:443",
+    false,
+  ],
+  ["URL FTP default same", "http://target.invalid:21/", "ftp://target.invalid:21/path", true],
+  ["URL FTP default other", "http://target.invalid/", "ftp://target.invalid:21/path", false],
+  ["URL WS default other", "https://target.invalid/", "ws://target.invalid:80", false],
+  ["URL WSS default other", "http://target.invalid/", "wss://target.invalid:443", false],
+  ["URL custom scheme", "http://target.invalid:81/", "custom://target.invalid:81/path", true],
+  ["URL file host-only", "http://target.invalid:81/", "file://target.invalid/path", true],
+  [
+    "URL tab-normalized default other",
+    "https://target.invalid/",
+    "http://target.invalid:8\t0",
+    false,
+  ],
+  [
+    "URL extra slashes default other",
+    "https://target.invalid/",
+    "http:////target.invalid:80/path",
+    false,
+  ],
+  [
+    "URL special backslashes default other",
+    "https://target.invalid/",
+    "http://target.invalid:80\\path",
+    false,
+  ],
+  ["URL IPv6 default other", "https://[::1]/", "http://[::1]:80/", false],
+  ["URL malformed ignored", "http://target.invalid/", "http://[broken", false],
+  ["URL invalid port ignored", "http://target.invalid/", "http://target.invalid:65536", false],
+  ["URL IDN native host", "http://xn--bcher-kva.invalid/", "http://bücher.invalid/path", true],
+  ["bare IDN no new conversion", "http://xn--bcher-kva.invalid/", "bücher.invalid", false],
+];
+for (const [name, requestUrl, noProxy, matched] of cases)
+  test(`same explicit and captured bypass policy: ${name}`, () => {
+    const options = Object.freeze({ httpProxy: proxy, noProxy });
+    assert.deepEqual(
+      api.resolveProxyForRequest(requestUrl, options),
+      matched ? bypass : selected(),
+    );
+    const env = Object.freeze(captured({ no_proxy: noProxy, http_proxy: proxy }));
+    assert.deepEqual(
+      api.resolveWebFetchProxyForRequest(requestUrl, { env }),
+      matched ? bypass : selected("env:KNORVIA_TOOL_ENV_PASSTHROUGH_JSON.http_proxy"),
+    );
+  });
