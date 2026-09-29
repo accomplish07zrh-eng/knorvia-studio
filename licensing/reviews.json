@@ -28224,10 +28224,10 @@
     },
     {
       "path": "docs/knorvia-storage-fault-injection-acceptance.md",
-      "normalizedSha256": "9a17fae377891a6e0e0ef79dc1f21f593b2d08f7721c8acc6fe5f9ad63707933",
+      "normalizedSha256": "7d7028f9ccaade095679daba4ee5ab00d35dd0fc176fa92b825d85e84cd8916f",
       "decision": "original",
       "license": "MIT",
-      "basis": "New factual old-first, candidate, source integration, compiled artifact and full regression acceptance with limits and genuine preparation failures. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain.",
+      "basis": "New factual old-first, candidate, source integration, compiled artifact and full regression acceptance with limits and genuine preparation failures. Root read the inherited implementation and callers; the isolated author received only the approved behavioral contract, not the old body, history, bundle, tests or probes. The author recorded a prior design and fresh implementation; root fully read and verified the frozen output. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Names, fixed declarations/error vocabulary, standard JSON/RegExp and short JavaScript idioms are constrained compatibility expression, not claimed novel algorithms. A license header, shorter file or passing tests is not provenance proof. Existing callers, public contracts, runtime/tool declarations and other dependencies retain their prior rights; root Apache-2.0 and preview identity remain. Actual GitHub run 36469574250 passed both quality jobs: Windows 2493/2493; Linux 2486 passed with seven explicit platform skips. The original jobs were observed, not rerun; this does not include the following artifact-storage change.",
       "evidence": [
         "specs/knorvia-storage-fault-injection.md",
         "docs/knorvia-storage-fault-injection-acceptance.md",
@@ -28244,6 +28244,186 @@
         "specs/knorvia-storage-fault-injection.md",
         "docs/knorvia-storage-fault-injection-acceptance.md",
         "licensing/evidence/storage-fault-injection.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/index.ts",
+      "normalizedSha256": "7d70f48382163bb8fb8eb993f44268051b8c75d7ff875d33bda4845eef6581a0",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led Store and URI pending-flight owner, eight public methods and unchanged retained barrel identities; winning request snapshots and exact shared Promise identity. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/artifact-files.ts",
+      "normalizedSha256": "d2ca966da242085fe5bc4839f09d6f16a466778c5b0c9ec91482bc1bddfac467",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New durable byte IO and shared URI lookup boundary, consistent request captures, preflight abort semantics and native errors without a parallel metadata store. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/artifact-media.ts",
+      "normalizedSha256": "da6089134435aded0d6dee2209e9e107fe6c0d932ebef25d3607e2c3a89f20e5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New ordered derived-media validation and publication module, same-kind data URL decoding, PDF signature, regular-file cache, fault gates and cleanup precedence. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/storage/artifact-policy.ts",
+      "normalizedSha256": "9f2d165cca38f60475cee79d124a9dec147c4c164123b14662192a019abd4ed7",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "New pure URI/path/format policy using fixed compatibility tables and precise dot-session guard; root rejected first prototype-key and dot-basename regressions before bounded revision. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-corrections.test.ts",
+      "normalizedSha256": "b4db905d4bac8de0e6c09c4728c32e8f3229e04c0d52ff7848c69baee671c3e9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public corrections checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-durable.test.ts",
+      "normalizedSha256": "79973932cda9912c692669e8472b477f65a2e335f658431c40a8ca5b10f9b746",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public durable checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-faults.test.ts",
+      "normalizedSha256": "97080fe6b3e68b25b4cbe937338dafe09e1e6904d2d0b749f992343c2a543aee",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public faults checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-flights.test.ts",
+      "normalizedSha256": "f4f0f2abc7dd34dbfcec4863dada145e3e9ae0e8ba8c9891c63f6f482f56b611",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public flights checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-lookup.test.ts",
+      "normalizedSha256": "7e35ed9ab2da496edcdb0cb4b01d9171c5baf1ae2574cca1573751519e5b93a6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public lookup checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-media.test.ts",
+      "normalizedSha256": "835ab040057a856aecd04b2059ad1d8dcecb6d70033fb32780eca581311f03ab",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public media checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store-native-errors.test.ts",
+      "normalizedSha256": "6641aa658a40f594a41bb604f949b57330cd1b00979e576e9e4a68accf00b472",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New old-first public native-errors checks with owned synthetic data, retained genuine failures, matching source and compiled acceptance; no UI or real credentials. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/artifact-store.fixture.ts",
+      "normalizedSha256": "0d0de91634bd8b4782bcff6f924685d6c400ad9604527e8eb93cc878c29f0578",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New scoped owned-root lifecycle, typed request constructors, public target loading, exact byte and cache-path assertions; no product injection API. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-artifact-storage.md",
+      "normalizedSha256": "50548baab100c11b43f5118eda2f053644380684e1cf188e5f64bf6795ebc19a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior root-written behavior contract and recorded fourth repair/compatibility addendum, public state ownership and explicitly bounded failure semantics. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-artifact-storage-acceptance.md",
+      "normalizedSha256": "bf773bf42532d407cce6ee22c95490322e78494678eb718c6dd6b22c62ccf2fa",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New factual old-first, seven rejected candidate regressions, four repair families, source/compiled/full acceptance and preparation failures. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/artifact-storage.md",
+      "normalizedSha256": "0ef0353d3008a6972702d5ba5f4afcba535a2c4a0bccb156c4fe275788df3b6f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New approved-input/design/source/access provenance evidence, frozen first candidate, bounded revision, retained dependency rights and explicit originality limits. Root read the inherited body and current callers; the isolated author received only approved behavior/declarations and later pure behavior feedback, never old body/history/tests/probes/bundle. Root fully read and accepted the new sources. Earlier author context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed public declarations, errors, protocol names, MIME data and short Node/Promise expressions are compatibility constraints, not claimed novel algorithms. Splitting files, MIT headers and passing tests alone are not provenance proof. Retained contracts/shared/barrels and third-party runtimes retain their prior rights. Root Apache-2.0 and preview identity remain.",
+      "evidence": [
+        "specs/knorvia-artifact-storage.md",
+        "docs/knorvia-artifact-storage-acceptance.md",
+        "licensing/evidence/artifact-storage.md"
       ]
     }
   ]

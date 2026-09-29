@@ -3,6 +3,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
+import { createSessionId } from "@knorvia/contracts";
 import { NodeToolArtifactStore } from "../src/storage/index.js";
 
 test("artifact storage writes Knorvia URIs and reads old session URIs", async (t) => {
@@ -15,13 +16,14 @@ test("artifact storage writes Knorvia URIs and reads old session URIs", async (t
     videoCacheRootDir: join(root, "videos"),
   });
   const written = await store.writeToolResultArtifact({
-    sessionId: "session-1",
+    sessionId: createSessionId("session-1"),
     toolCallId: "call-1",
+    toolName: "fixture",
     content: "hello",
     contentType: "text/plain",
   });
   assert.match(written.uri, /^knorvia-artifact:\/\//u);
-  const legacyUri = written.uri.replace(/^knorvia-artifact:/u, "knorvia-artifact:");
+  const legacyUri = written.uri.replace(/^knorvia-artifact:/u, "zcode-artifact:");
   const oldRead = await store.readToolResultArtifact({ uri: legacyUri });
   assert.equal(oldRead.content, "hello");
 });
