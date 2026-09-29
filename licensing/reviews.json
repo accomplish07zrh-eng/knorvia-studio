@@ -28980,10 +28980,10 @@
     },
     {
       "path": "docs/knorvia-proxy-fetch-acceptance.md",
-      "normalizedSha256": "22ab499481041b590d1ba390a072f0c87d0e5cc98775128eb35e7783ed269eb1",
+      "normalizedSha256": "9d928ff418256cb684a83b92fba0202fb179c035b7d43528f907664616229015",
       "decision": "original",
       "license": "MIT",
-      "basis": "Factual old-first, initial fixture failures, expanded candidate regression/revision, source and CLI-reachable dist acceptance, strict checks and complete offline regression. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged.",
+      "basis": "Factual old-first, initial fixture failures, expanded candidate regression/revision, source and CLI-reachable dist acceptance, strict checks and complete offline regression. Root read the old module, declarations and caller/HTTP boundaries and reviewed the entire final candidate. The isolated author read approved behavioral contracts/declarations and retained own prior context; it did not read old bodies/history/tests/probes/bundles. Prior context remains, so no whole-process clean-room or legal guarantee is claimed. Public names, constants, standard platform expressions, MIT headers and test success alone are not authorship evidence. First candidate, supplemental failures and revision evidence are retained externally. The shared/config/Node/ProxyAgent boundaries and other retained dependencies keep their rights; root Apache-2.0 and preview identity are unchanged. Original GitHub run 36517528509 is retained: Linux 2993 pass with seven explicit platform skips; Windows 2999 pass and one creation json-api submission-count failure (actual three, expected four), with all other quality steps and new fetch cases passing. This failed run was not rerun or claimed successful.",
       "evidence": [
         "specs/knorvia-proxy-fetch.md",
         "docs/knorvia-proxy-fetch-acceptance.md",
@@ -29000,6 +29000,90 @@
         "specs/knorvia-proxy-fetch.md",
         "docs/knorvia-proxy-fetch-acceptance.md",
         "licensing/evidence/proxy-fetch.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/network/subprocess-env.ts",
+      "normalizedSha256": "6b84c86f122a079249466dd14abb38cabae6364203b6b815466e026c0f26758a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Contract-led synchronous projection owns the supplied target, preserves live source/target aliasing and ordered metadata removal, retained shared-reader overlay, proxy, no-proxy and CA updates. Small platform read/delete/write helpers implement exact alias and raw-value rules without adding ambient lookup, IO or a copied sanitizer. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/subprocess-env.fixture.ts",
+      "normalizedSha256": "789d5bbe987485e30dabeb866ee120c6ee5d607c90dbd2516b08bb4a23c88af8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New pure owned environment records and assertion fixtures use the actual public shared reader without inspecting real user configuration. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/subprocess-env-selection.test.ts",
+      "normalizedSha256": "783990c41eeaf2c2fbc22941b0cdfe534e29de98cf8c8f5d88deafa2f46191ca",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New finite behavior tests cover explicit/source/overlay precedence, prefix selection, blank values, exact output fields and Windows/POSIX alias semantics. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/subprocess-env-mutation.test.ts",
+      "normalizedSha256": "7b3be9b9401f01f3bb2631bd622626d0432296ed637efb09b81dad12799e753f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New identity, ordered mutation, live alias, inherited property, error and prototype cases retain real public-reader behavior. The isolated ambient nonfallback case restores only its owned environment keys. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-subprocess-env.md",
+      "normalizedSha256": "f8e9f5631184f9e0740002f9d63bf6f1758f201e0bbe8eb55e35fe0b60d49f98",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Prior behavioral contract, public boundary, platform and ownership sequence agreed before independent implementation. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-subprocess-env-acceptance.md",
+      "normalizedSha256": "6a71fe4fe00608bcd6126b90fbdfd37b5ea80d58526c5809dd53af56859e63a3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Factual 71-case old/candidate/source/fresh CLI artifact acceptance, strict quality and 3071-case full local regression, with original previous Windows CI failure explicitly retained. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/subprocess-env.md",
+      "normalizedSha256": "c104c5fbf2077ed0df1752d068b719ca0cd7e8459e5dc751424770e208efcf58",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Exact approved input, author, source and compiler evidence describes limited independent authorship and retained dependency rights without whole-repository or clean-room claims. Root read the old body, declarations and execution/MCP/Git public boundaries and fully reviewed the candidate. The isolated author used approved contracts/declarations plus its own prior context, not old bodies/history/tests/probes/bundles, and ran static checks only. The final candidate had no runtime-feedback revision. Public names, fixed keys, standard platform expressions, MIT headers and successful tests alone do not establish authorship. Shared reader, constants and other retained dependencies keep applicable rights; root Apache-2.0 and preview identity are unchanged. This is a content-digest review, not a whole-process clean-room or legal guarantee.",
+      "evidence": [
+        "specs/knorvia-subprocess-env.md",
+        "docs/knorvia-subprocess-env-acceptance.md",
+        "licensing/evidence/subprocess-env.md"
       ]
     }
   ]
