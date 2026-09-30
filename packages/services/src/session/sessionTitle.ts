@@ -1,18 +1,16 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed reimplementation; see specs/knorvia-session-leaf-contract-8389.md.
 import type { KnorviaPromptAttachment } from "@knorvia/shared";
 
 export function deriveSessionTitle(
   content: string,
   attachments: readonly KnorviaPromptAttachment[],
 ): string {
-  if (content.length > 0) {
-    return content.slice(0, 50) + (content.length > 50 ? "..." : "");
+  if (content.length === 0) {
+    const first = attachments[0];
+    if (!first) return "";
+    const filename = first.filename;
+    return attachments.length > 1 ? `${filename} +${attachments.length - 1}` : filename;
   }
-
-  const firstAttachment = attachments[0];
-  if (!firstAttachment) {
-    return "";
-  }
-
-  const extraCount = attachments.length - 1;
-  return extraCount > 0 ? `${firstAttachment.filename} +${extraCount}` : firstAttachment.filename;
+  return content.length <= 50 ? content : `${content.substring(0, 50)}...`;
 }

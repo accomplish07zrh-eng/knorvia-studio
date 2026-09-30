@@ -25,7 +25,7 @@ const snapshot = (
   afterContent: string,
   writeCount = 1,
 ) => ({ path, beforeContent, afterContent, writeCount });
-const filesystem = (args: string[] = []): KnorviaAgentMcpServer => ({
+const filesystem = (args: string[] = []): Extract<KnorviaAgentMcpServer, { command: string }> => ({
   name: "filesystem",
   command: "npx",
   args: ["-y", "@modelcontextprotocol/server-filesystem", ...args],
@@ -226,4 +226,39 @@ test("MCP case comparison follows platform without changing stored argument spel
   } finally {
     Object.defineProperty(process, "platform", descriptor);
   }
+});
+
+test("sparse title attachments retain base projection behavior", () => {
+  const attachments: KnorviaPromptAttachment[] = [];
+  attachments.length = 2;
+  attachments[1] = attachment("later.txt");
+  assert.equal(deriveSessionTitle("", attachments), "");
+});
+
+test("signed-zero writes retain base projection behavior", () => {
+  const history = [{ turnIndex: 0, snapshots: [snapshot("a", null, "", -0)] }];
+  assert.ok(Object.is(buildTaskChangeSummary(history)!.files[0]!.writeCount, -0));
+  assert.ok(Object.is(buildPerTurnChangeSummaries(history).get(0)!.files[0]!.writeCount, -0));
+});
+
+test("MCP keeps sparse slots, trailing backslashes and native input errors", async (t) => {
+  const directory = await mkdtemp(join(tmpdir(), "knorvia-leaf-sparse-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const servers: KnorviaAgentMcpServer[] = [];
+  servers.length = 3;
+  servers[1] = filesystem();
+  servers[2] = filesystem([`${directory}\\`]);
+  const result = appendWorkspaceToFilesystemMcpServers(servers, directory)!;
+  assert.equal(0 in result, false);
+  assert.equal(result.length, 3);
+  assert.notEqual(result[1], servers[1]);
+  assert.equal(result[2], servers[2]);
+  assert.throws(
+    () => appendWorkspaceToFilesystemMcpServers([filesystem()], null as unknown as string),
+    TypeError,
+  );
+  assert.equal(
+    appendWorkspaceToFilesystemMcpServers(undefined, null as unknown as string),
+    undefined,
+  );
 });

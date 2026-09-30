@@ -12,6 +12,7 @@ The author has read the current implementations to extract observable behavior. 
 
 - A nonempty prompt wins over attachments, including whitespace-only content. Return its first 50 UTF-16 code units and append ASCII `...` only when the original length exceeds 50. Do not trim, normalize newlines or repair split surrogate pairs.
 - With empty content, return the first attachment filename verbatim. Append ` +N` for the number of additional attachments. No attachment means the empty string. Attachment order and inputs remain unchanged.
+- A missing first slot in a sparse attachment array means no first attachment, even when later slots exist.
 
 ### File change summaries
 
@@ -20,6 +21,7 @@ The author has read the current implementations to extract observable behavior. 
 - Visit groups and snapshots in supplied array order, regardless of numeric turn index or `fileState`. Retain a path's first `beforeContent`, its last `afterContent`, the arithmetic sum of supplied `writeCount` values and the last visited group's `turnIndex`. Do not infer previous contents or chronological order.
 - Per-turn aggregation restarts for each nonempty group. A repeated turn index replaces the previous summary in the `Map` while retaining the key's original insertion position. An empty later group does not replace an existing value.
 - Use the existing shared `computeLineChangeStat` public dependency with the aggregated endpoints, preserving newline and large-diff behavior. Include zero-diff files and zero/negative counts; this helper is a projection, not validation.
+- Preserve a first write count of negative zero; only later writes perform addition.
 - Sort files using the existing default `path.localeCompare` ordering. Totals are the sums of the resulting individual file stats. Preserve serialized property order: summary `{fileCount, added, removed, files}`, file `{path, added, removed, writeCount, lastTurnIndex}`. Do not mutate source history.
 
 ### Temporary filesystem MCP scope
@@ -28,6 +30,7 @@ The author has read the current implementations to extract observable behavior. 
 - Only an object containing `command`, named exactly `filesystem`, and having an argument containing `@modelcontextprotocol/server-filesystem` qualifies. HTTP/SSE or similarly named servers remain unchanged. Preserve package-token substring matching.
 - Compare all arguments against the trimmed workspace using native `path.normalize`, stripping trailing slash/backslash runs and lowercasing only on Windows. Do not resolve symlinks, require a directory, canonicalize absolute paths or infer a remote workspace identity.
 - Append the trimmed, unnormalized workspace only when absent. Return the identical collection when no append occurs. On change, return a new array; copy only changed server objects and their `args` arrays, preserving unrelated server/object references and all fields. Do not persist configuration. A second application is idempotent.
+- Sparse server arrays retain their absent slots; absent elements are skipped, as with the previous array mapping.
 - Retain native exceptions for invalid runtime inputs; introduce no validation, fallback or translated error. The synchronous existence probe is required by the unchanged synchronous API.
 
 ## Design and verification
