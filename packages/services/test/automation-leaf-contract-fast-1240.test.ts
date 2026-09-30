@@ -197,6 +197,26 @@ const nextCases: Array<[string, Partial<KnorviaAutomationScheduleRule>, number, 
   ["yearly horizon exhausted", { unit: "yearly" }, at("2500-01-01T00:00:00Z"), null],
   ["invalid date", { anchorAt: NaN }, anchor, null],
   ["nonfinite daily interval", { interval: NaN }, anchor, null],
+  ["huge finite daily interval", { interval: 1e100 }, anchor, null],
+  ["nonfinite from retains null", {}, NaN, null],
+  [
+    "early Date year normalization",
+    { anchorAt: at("0099-01-07T10:23:45Z") },
+    at("0099-01-07T10:23:45Z"),
+    at("1999-01-07T09:30:00Z"),
+  ],
+  [
+    "year 100 calendar",
+    { anchorAt: at("0100-01-07T10:23:45Z") },
+    at("0100-01-07T10:23:45Z"),
+    at("0100-01-08T09:30:00Z"),
+  ],
+  [
+    "valid prefix before Date limit",
+    { anchorAt: at("+275760-09-10T10:23:45Z") },
+    at("+275760-09-10T10:23:45Z"),
+    at("+275760-09-11T09:30:00Z"),
+  ],
 ];
 for (const [name, patch, from, expected] of nextCases) {
   test(`next occurrence: ${name}`, () => {
@@ -424,6 +444,174 @@ test("public error constructors preserve names and default messages", () => {
     "非法的相对时间定时任务：custom",
   );
 });
+
+test("rule validation reads fields in original order and stops after first rejection", () => {
+  const reads: PropertyKey[] = [];
+  const value = new Proxy(rule(), {
+    get(object, key) {
+      reads.push(key);
+      return Reflect.get(object, key);
+    },
+  });
+  validation.assertValidAutomationScheduleRule(value);
+  assert.deepEqual(reads, [
+    "unit",
+    "interval",
+    "interval",
+    "unit",
+    "hour",
+    "hour",
+    "hour",
+    "minute",
+    "minute",
+    "minute",
+    "monthlyMode",
+    "weekdays",
+    "unit",
+    "unit",
+    "months",
+    "monthDays",
+  ]);
+  const rejected: PropertyKey[] = [];
+  assert.throws(
+    () =>
+      validation.assertValidAutomationScheduleRule(
+        new Proxy(rule({ unit: "bad" as "daily" }), {
+          get(object, key) {
+            rejected.push(key);
+            return Reflect.get(object, key);
+          },
+        }),
+      ),
+    /unit 不受支持/,
+  );
+  assert.deepEqual(rejected, ["unit"]);
+});
+
+test("carrier snapshots input fields once, preserving getter order on rejected input", () => {
+  const reads: PropertyKey[] = [];
+  assert.throws(
+    () =>
+      carrier.assertValidAutomationIntervalCarrier(
+        new Proxy(
+          { interval: 0 },
+          {
+            get(object, key) {
+              reads.push(key);
+              return Reflect.get(object, key);
+            },
+          },
+        ),
+      ),
+    /必须同时提交/,
+  );
+  assert.deepEqual(reads, [
+    "intervalUnit",
+    "interval",
+    "scheduleRule",
+    "relativeDelayMinutes",
+    "recurring",
+    "maxRuns",
+  ]);
+});
+
+test("daily accessor retains sequential reads and weekly success does not evaluate later arithmetic", () => {
+  const value = rule();
+  let reads = 0;
+  Object.defineProperty(value, "hour", {
+    get() {
+      reads++;
+      return 9;
+    },
+  });
+  assert.equal(
+    cron.computeScheduleRuleNextRunAt(value, anchor + 86400000 * 2),
+    at("2026-01-10T09:30:00Z"),
+  );
+  assert.equal(reads, 4);
+  const laterWeekday = {
+    toString: () => "6",
+    valueOf() {
+      throw new Error("later weekday must remain unevaluated");
+    },
+  };
+  assert.equal(
+    cron.computeScheduleRuleNextRunAt(
+      rule({ unit: "weekly", weekdays: [1, laterWeekday as unknown as number] }),
+      at("2026-01-05T00:00:00Z"),
+    ),
+    at("2026-01-05T09:30:00Z"),
+  );
+});
+
+for (const [unit, expected] of [
+  ["minute", ["interval", "anchorAt", "unit", "anchorAt", "anchorAt"]],
+  ["hourly", ["interval", "anchorAt", "unit", "unit", "minute"]],
+  ["daily", ["interval", "anchorAt", "unit", "unit", "unit", "hour", "minute", "hour", "minute"]],
+  [
+    "weekly",
+    [
+      "interval",
+      "anchorAt",
+      "unit",
+      "unit",
+      "unit",
+      "unit",
+      "weekdays",
+      "weekdays",
+      "hour",
+      "minute",
+      "hour",
+      "minute",
+    ],
+  ],
+  [
+    "monthly",
+    [
+      "interval",
+      "anchorAt",
+      "unit",
+      "unit",
+      "unit",
+      "unit",
+      "unit",
+      "monthlyMode",
+      "monthDays",
+      "monthDays",
+      "hour",
+      "minute",
+    ],
+  ],
+  [
+    "yearly",
+    [
+      "interval",
+      "anchorAt",
+      "unit",
+      "unit",
+      "unit",
+      "unit",
+      "unit",
+      "months",
+      "months",
+      "monthDays",
+      "hour",
+      "minute",
+    ],
+  ],
+] as const) {
+  test(`calculator preserves field access sequence: ${unit}`, () => {
+    const reads: PropertyKey[] = [];
+    const value = new Proxy(rule({ unit, weekdays: [3], monthDays: [10], months: [1] }), {
+      get(object, key) {
+        reads.push(key);
+        return Reflect.get(object, key);
+      },
+    });
+    cron.computeScheduleRuleNextRunAt(value, anchor);
+    assert.deepEqual(reads, expected);
+  });
+}
 
 test("local calendar DST gap, fold and elapsed hourly semantics", () => {
   process.env.TZ = "America/New_York";

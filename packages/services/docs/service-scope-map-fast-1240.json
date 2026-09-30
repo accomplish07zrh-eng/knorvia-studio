@@ -1,0 +1,2049 @@
+{
+  "baseSha": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "trackedBaselineSourcePaths": 336,
+  "newInternalHelperPaths": ["packages/services/src/session/automationAdmissionConstraints.ts"],
+  "candidateSourcePaths": 337,
+  "previousServiceTip": "5a0def9b6e3ccf831fcbe2a47d5cf178806e1a12",
+  "classificationCounts": {
+    "upstream-modified": 151,
+    "unreviewed": 151,
+    "upstream-unchanged": 34
+  },
+  "scopeCounts": {
+    "outside-current-and-previous-leaf-batches": 284,
+    "deferred-creation-user-exclusion": 10,
+    "deferred-credential-user-exclusion": 3,
+    "deferred-device-filesystem-other-track": 10,
+    "current-bounded-batch-review-pending": 4,
+    "previous-leaf-batch-review-pending-do-not-redo": 3,
+    "deferred-database-user-exclusion": 8,
+    "deferred-storage": 14
+  },
+  "unselectedBaselinePaths": 329,
+  "limitation": "Reported classifications are inventory metadata, not original-author grants. Current and prior batches remain review-pending. Inherited portions remain in all selected existing files; no whole-file independence or license clearance is asserted. Unmatched originals require source/history review before rewrite. This is a countable service source map, not whole-repository completion.",
+  "nextRecommendedSlice": [
+    "packages/services/src/session/claude-native/jsonLineRecord.ts",
+    "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+    "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+    "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+    "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts"
+  ],
+  "files": [
+    {
+      "path": "packages/services/src/accessor.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent-session/session.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agent.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentBrowserAmbientContext.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentConnectionScope.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentErrors.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentPluginParams.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentPresentationSurface.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentProcessManager.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentService.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentSpawnCwd.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentStderrCollector.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/agentWorkflowParams.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/automationToolPolicy.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/configOptions.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/cuaOperationTurnTracker.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/independentPlanSupport.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectory.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectoryFileTail.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/pluginReferenceCatalogRequest.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/protocolClient.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/protocolTransport.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/repairSubagentTaskIndex.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/sessionEventCoalescer.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTransport.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/storageStartupGate.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/taskServiceAdapter.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/agent/v4HostCommand.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/broadcast/broadcast.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/broadcast/broadcastService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/collection.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/commands/commandFileParser.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/commands/commands.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/commands/commandsService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/creation/contract.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/creationJobs.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/creationRunDeadline.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/creationService.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/creationStorage.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/modelValidation.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/module.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/node.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/creation/providers.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-creation-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/credential/credential.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-credential-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/credential/credentialService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-credential-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/credential/providers/credentialCipherProvider.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-credential-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPipSession.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/index.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/descriptors.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/device/deviceMid.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/file/file.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/file/fileService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/file/workspaceFileIgnore.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/file/workspaceFileMentionFilter.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/file/workspaceFileSearch.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcher.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/fs/atomicFileUtils.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/fs/fsFaultInjection.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-device-filesystem-other-track"
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/git.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/gitCheckpoint.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/gitCheckpointService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCheckpointHelpers.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCheckpointRepo.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCheckpointStore.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/hooks/hooks.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/hooks/hooksService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/hooks/workspaceHookConfigMutation.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/hooks/workspaceHookSettingsModel.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/index.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/logger/serviceLogger.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpSync.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpSyncService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/media-preview/mediaPreview.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/memory/memory.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/memory/memoryService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyModelProviderSerialized.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerConfigRuntime.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerFacadeServices.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerRuntime.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerSettingsConnectivity.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/onboarding/onboardingRecord.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/onboarding/onboardingRecordService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/paths.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSync.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncArchive.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncPath.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugins/installedPluginRoots.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginManagement.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginManagementService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugins/plugins.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginsService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processResourceSampler.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processTreeOwnership.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processTreeSnapshot.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processTreeSnapshotAsync.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTerminator.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTypes.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/processTreeWaiter.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/runtimeProcessLifecycle.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/windowsProcessListAsync.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/process/windowsTaskkillRunner.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransfer.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransferService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/apiJson.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/apiKeyHeaders.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/index.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/networkErrorClassifier.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/nodeApiClient.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/nodeApiNetwork.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/providers/api/requestIdHeaders.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/remote-sync/remoteSyncWriteAccess.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/agentProxyEnv.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/appCaCert.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/clientPlatform.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/node-forge.d.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/nodeEnv.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/providerRuntimeResolver.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/runtimeCommandEnv.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/runtimeLoginShellEnvCapture.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/runtimeToolResolver.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/automationCron.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "current-bounded-batch-review-pending"
+    },
+    {
+      "path": "packages/services/src/session/automationCronValidation.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "current-bounded-batch-review-pending"
+    },
+    {
+      "path": "packages/services/src/session/automationIntervalCarrier.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "current-bounded-batch-review-pending"
+    },
+    {
+      "path": "packages/services/src/session/automationRepo.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/automationService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/automationValidation.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "current-bounded-batch-review-pending"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeImportedSessionTypes.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/jsonLineRecord.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/persistImportedClaudeTask.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/contract.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/legacyTaskSessionFile.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/mcpWorkspaceScope.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "previous-leaf-batch-review-pending-do-not-redo"
+    },
+    {
+      "path": "packages/services/src/session/sessionMailbox.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/sessionRealtimePort.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/sessionTitle.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "previous-leaf-batch-review-pending-do-not-redo"
+    },
+    {
+      "path": "packages/services/src/session/taskChangeSummary.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "previous-leaf-batch-review-pending-do-not-redo"
+    },
+    {
+      "path": "packages/services/src/session/taskIndexRepo.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/taskListTypes.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/taskService.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/agent-identity-v4.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/migrations.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/official-glm-selection-v3.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/prepared.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/provider-selection-v2.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/schema-v1.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/sqliteSnapshot.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-database-user-exclusion"
+    },
+    {
+      "path": "packages/services/src/setting/dataLocation.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/setting/normalizeSettingsPatch.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/setting/observableSettingService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/setting/setting.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/setting/settingService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/setting/settingsWriteQueue.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSync.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSyncService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSync.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncArchive.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncErrors.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncPath.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skills/skillDiscoveryWalk.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skills/skills.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/skills/skillsService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/storage-startup.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/fsCleaner.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/fsWalker.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/inProcessScanRunner.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/rootsResolver.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/volumeProbe.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/app/ports.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/app/scanJob.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/app/storageService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/contract.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/domain/cleanPlan.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/domain/storageCatalog.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/domain/usageAggregate.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/storage/module.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "deferred-storage"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/CONTRACT.md",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/builtinEvents.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/builtinKernel.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/creationAgentBridge.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/README.md",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpCatalog.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpCommands.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpManifest.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpMcp.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpOptions.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProbe.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProtocol.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/antigravityProtocol.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeCommands.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeProtocol.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/codexProtocol.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/download.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/executable.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/externalUpdate.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokAuth.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokProtocol.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/installSource.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/isolatedInspection.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelInspection.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRegistry.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRun.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedKernels.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedPaths.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedVersions.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managementLease.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/modelOptions.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/probeResult.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/processTransport.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/protocolBindings.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/publishVersion.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteAgentIdentity.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelBridge.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelCatalog.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/tarExtract.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/longPath.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/pluginMcpProjection.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/sharedCapabilities.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/studioDatabase.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/temporaryMcpConfig.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceApply.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceFiles.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceJournal.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceLocks.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceManager.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceRecovery.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceSnapshot.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/checkpointStorage.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/executionLimiter.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupExecutor.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupMetricsProjection.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupSteering.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupSteps.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupWorkspaceIdentity.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/kernelOperations.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/pendingInbox.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/ports.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runExecutor.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runOutcomeProjection.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runQueries.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeInteractions.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeLifecycle.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/stepInputs.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/stepOutputProduction.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/storePort.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnEvents.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workflowExecutor.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.example.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/capabilityMatrix.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/condition.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/groupPolicy.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/groupPrompts.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelIdentity.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelPolicy.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelUsage.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/outputBuild.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/outputRef.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/projectIdentity.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/reference.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/referencePath.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/remoteAgentIdentity.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/stepReference.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/validation.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/workflowGraph.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/workflowParams.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/kernelTypes.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/module.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/node.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/types.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/workflowTypes.ts",
+      "reportedClassification": "unreviewed",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentMarkdown.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentModelSelection.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentStorage.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/subagents/subagents.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentsService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/system/integratedTerminalShells.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/system/sshConfigAlias.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/system/system.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/system/systemService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/terminal/terminal.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfile.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/types/yazl.d.ts",
+      "reportedClassification": "upstream-unchanged",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/usage-stats/usageStats.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/usage-stats/usageStatsService.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    },
+    {
+      "path": "packages/services/src/window-controller/windowController.ts",
+      "reportedClassification": "upstream-modified",
+      "inventoryDigestMatchesBase": true,
+      "scope": "outside-current-and-previous-leaf-batches"
+    }
+  ]
+}
