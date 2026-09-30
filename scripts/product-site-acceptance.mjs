@@ -44,6 +44,24 @@ try {
       `Horizontal overflow at ${width}: ${dimensions.scroll}`,
     );
     assert.deepEqual(dimensions.images, [], "All embedded images decode");
+    // 仅设置媒体查询环境不会证明页面遵守偏好；实际观察装饰层和转场，防止新稿回退。
+    const motion = await page.evaluate(() => {
+      const grain = document.querySelector(".grain");
+      const reveal = document.querySelector(".reveal");
+      return {
+        grainDisplay: grain ? getComputedStyle(grain).display : null,
+        revealSeconds: reveal
+          ? getComputedStyle(reveal).transitionDuration.split(",").map(Number.parseFloat)
+          : null,
+        hasTrail: !!document.querySelector("#trail"),
+      };
+    });
+    assert.equal(motion.grainDisplay, "none", "Reduced motion hides the animated grain");
+    assert.ok(
+      motion.revealSeconds?.every((duration) => duration <= 0.001),
+      "Reduced motion removes the long reveal transition",
+    );
+    assert.equal(motion.hasTrail, false, "Reduced motion does not start the pointer trail");
     const downloads = await page
       .locator('#download a[href*="/releases/"]')
       .evaluateAll((links) => links.map((link) => link.href));
@@ -77,7 +95,7 @@ try {
     assert.equal(await page.locator("#cuSteps li").count(), 6);
     assert.deepEqual(errors, [], "No uncaught page errors");
     await page.screenshot({ path: join(output, `site-${width}.png`), fullPage: false });
-    results.push({ width, ...dimensions, downloads: downloads.length, errors });
+    results.push({ width, ...dimensions, motion, downloads: downloads.length, errors });
     await page.close();
   }
   await writeFile(join(output, "result.json"), JSON.stringify({ url, version, results }, null, 2));

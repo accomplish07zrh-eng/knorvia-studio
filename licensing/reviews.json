@@ -34732,6 +34732,17 @@
         "docs/knorvia-auth-adapter-runtime-acceptance.md",
         "licensing/evidence/auth-adapter-runtime.md"
       ]
+    },
+    {
+      "path": "docs/knorvia-product-site-closeout-20260930.md",
+      "normalizedSha256": "6d730ce77b127c1756abed48ecea08ee1595e562516301d82fe32d5c4414d8eb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Newly authored measured website publication record: distinguishes the user-provided visual source from limited compatibility repairs, captures reduced-motion regression and exact payload provenance, retains actual release versions and applicable licenses, and separates local checks from remote publication. Does not relicense the source HTML, embedded assets or existing site code.",
+      "evidence": [
+        "specs/knorvia-product-site.md",
+        "docs/knorvia-product-site-closeout-20260930.md"
+      ]
     }
   ]
 }
