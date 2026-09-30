@@ -3,9 +3,11 @@
 import assert from "node:assert/strict";
 import { world } from "./fixture.mjs";
 import { createRequire } from "node:module";
+import { pathToFileURL } from "node:url";
 const require = createRequire(import.meta.url);
 const { knorviaMcpResourceSamplesSchema, knorviaToolExecResourceSchema } = await import(
-  require.resolve("@knorvia/shared")
+  // CI #190：Windows 盘符路径被 ESM 当作 d: 协议，转换后仍使用真实共享 schema。
+  pathToFileURL(require.resolve("@knorvia/shared")).href
 );
 
 /** 实际旧调用方消费新/旧 probe；随机标识只校验形态，不替换确定性数值断言。 */

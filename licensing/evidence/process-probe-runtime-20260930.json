@@ -297,5 +297,29 @@
     "Electron GUI on a runner with correctly configured sandbox helper ownership",
     "Installer and final release payload validation"
   ],
-  "rollback": "Revert this isolated batch; no user directories deleted or data formats migrated"
+  "rollback": "Revert this isolated batch; no user directories deleted or data formats migrated",
+  "ci190Failure": {
+    "headSha": "ad32dfb4aecc8a3d00306ba3a19c540a80d7e1e4",
+    "runId": 36696766563,
+    "linux": {
+      "jobId": 109826472435,
+      "status": "success",
+      "cases": 3872,
+      "passed": 3865,
+      "skipped": 7,
+      "failed": 0
+    },
+    "windows": {
+      "jobId": 109826472758,
+      "status": "failure",
+      "cases": 3872,
+      "passed": 3870,
+      "skipped": 0,
+      "failed": 2
+    },
+    "cause": "Both new runtime wrappers failed because caller-fixture.mjs dynamically imported a bare Windows drive path from require.resolve; ERR_UNSUPPORTED_ESM_URL_SCHEME prevented the two caller cases loading. Other 48 inner cases passed in each mode; 49 reported includes the failed caller file rather than two loaded cases.",
+    "repair": "Convert the fixture dynamic schema import to a file URL; retain real schema and all 50 case assertions/time budgets. No product source change.",
+    "localRevalidation": "Old source/dist and candidate source/dist gates, plus exact unsupported bare-drive URL failure and actual schema loading. Native Windows CI needed for final platform validation.",
+    "buildScope": "Existing successful full regression/static/CLI builds cover identical product source; no unrelated repeat builds."
+  }
 }

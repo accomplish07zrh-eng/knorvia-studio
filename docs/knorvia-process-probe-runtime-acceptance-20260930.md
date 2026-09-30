@@ -25,3 +25,5 @@
 - 原生 Windows/macOS 探针精度与 Electron UI 未执行；独立 QA 的 sandbox helper 所有权阻塞仍需正确配置的受支持 runner，不关闭 sandbox。静态 build:no-runtime-assets 不等于安装包或实际 release payload 验收。
 
 逐文件前后摘要、产物、合同、检查及原失败记录见[来源证据](../licensing/evidence/process-probe-runtime-20260930.json)。可独立 revert 本批恢复旧五模块；不删除用户目录或转换数据。后续继续审查 `cli-device-mid.ts`、文件系统门面/元数据/范围读取，以及更广的 runtime/tool/协议/Studio/UI/Desktop 来源，不重复声称未转移的历史 harness 已完成。
+
+CI #190：Linux 全量成功；Windows 3872 项中 3870 通过、2 失败。两个新 wrapper 均由 fixture 裸 Windows 盘符动态 import 导致 `ERR_UNSUPPORTED_ESM_URL_SCHEME`，两项消费用例尚未加载；不是五模块采样失败。fixture 改用标准 file URL，保留实际共享 schema、50 项及全部超时/断言，重新运行旧/新 source/dist 门，最终 Windows CI 需独立确认。原生 Windows 探针精度仍不由合成门证明。

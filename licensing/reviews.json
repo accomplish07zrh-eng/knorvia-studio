@@ -41337,7 +41337,7 @@
     },
     {
       "path": "specs/knorvia-process-probe-runtime.md",
-      "normalizedSha256": "2fd48df14ebc7bf6bdc113c1eae7100d17fab0d200ae15b9255e1ac03ebe5123",
+      "normalizedSha256": "63096b4eb8036a5f4b1181f593e7a0ecbe7ceae72b61f6efe8b0a6f4adb77a82",
       "decision": "original",
       "license": "MIT",
       "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
@@ -41349,7 +41349,7 @@
     },
     {
       "path": "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
-      "normalizedSha256": "4bcf6773f6603e80b13f8adf2cea96dae268ace93a254a2dbe90ab017748a9a4",
+      "normalizedSha256": "c1aba4907f7397ae260b2e3db772948becc87d674c5d5fe3eb98f9c82e5a4e18",
       "decision": "original",
       "license": "MIT",
       "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
@@ -41385,7 +41385,7 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/process-probe-contract/caller-fixture.mjs",
-      "normalizedSha256": "c9d85c7a573b21a4bc5bc48c33cdcca9cc40d33beab4ea161495542eae183427",
+      "normalizedSha256": "22d79931a74d8fe8027494b90b39fc5d9a1eaf46e210f7effe7d0e5dcfe268f3",
       "decision": "original",
       "license": "MIT",
       "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",

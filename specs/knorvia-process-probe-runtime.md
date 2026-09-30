@@ -49,3 +49,5 @@ reset → 清计数；不取消已有采样，不改变其他 probe 或上报窗
 这些兼容边界不被顺带“修复”为新的输入验证或取消策略；外层仍只返回一次 undefined/诊断。新增 64 并行反例检验后，按同一载荷重新冻结 source/dist。候选可以用新的有界扫描设计，不能从旧正文转写其实现。
 
 48 项门在生产替换前于旧 source/dist 各自通过，含 53 组固定解析输入；后补两项真实 MCP/Bash 消费集成在同一旧/新 source/dist 门运行，总数 50。集成直接使用既有 sampler/tracker 与共享 schema，仅用自有 poller/performance 端口控制调度，保留全部数值、停止及回调断言。初次集成的 tsx 接线和虚构 MCP ID 不合 schema 的问题记录为测试准备失败，不称产品故障。JSON 旧→新→旧使用完全合成输出；随机 instance/completion 标识先验证真实 schema，再从确定性比较剔除。它证明样本字段/消费兼容，不是数据库升级或真实用户遥测证明。
+
+原生平台测试加载器必须使用标准 ESM specifier：`require.resolve` 返回的文件系统路径先经 `pathToFileURL` 转换，不能把 Windows 盘符当作 URL 协议。CI #190 的两个新 wrapper 失败来自 fixture 的裸绝对路径动态 import；其余 3870 项通过。修复须保留真实共享 schema、两项消费验收、50 项计数及既有超时，不绕过平台或删除用例。
