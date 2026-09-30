@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import test from "node:test";
+import test, { mock } from "node:test";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createCreationService } from "../src/creation/creationService.js";
+import { createCreationIoFixtureTrace } from "./creation-io-fixture-trace.js";
 import { createRunDeadlineClock } from "./creation-run-deadline-clock-fixture.js";
 import { createProviderFixtureTrace } from "./creation-provider-fixture-trace.js";
 import {
@@ -11,6 +11,20 @@ import {
   type CreationJob,
   type CreationJobStatus,
 } from "../src/creation/contract.js";
+
+// 仅包装真实存储调用以定位 Windows 的终态等待；不新增 IO、重试或等待层级。
+const creationIo = createCreationIoFixtureTrace();
+const actualStorage = await import("../src/creation/creationStorage.js");
+mock.module("../src/creation/creationStorage.js", {
+  namedExports: {
+    ...actualStorage,
+    writeRecords: (...args: Parameters<typeof actualStorage.writeRecords>) =>
+      creationIo.run(args[0], "records.write", () => actualStorage.writeRecords(...args)),
+    writeCreationOutput: (...args: Parameters<typeof actualStorage.writeCreationOutput>) =>
+      creationIo.run(args[0], "asset.write", () => actualStorage.writeCreationOutput(...args)),
+  },
+});
+const { createCreationService } = await import("../src/creation/creationService.js");
 
 const pngHeader = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 const first = Buffer.from([...pngHeader, 1]);
@@ -293,6 +307,7 @@ test("reference controls follow each model's explicit placeholders", () => {
 
 test("JSON video frames survive a known failure and exactly one parameter-preserving retry", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-frames-retry-"));
+  const io = creationIo.watch(root);
   let submissions = 0;
   const trace = jsonFixtureTrace();
   const service = createCreationService({
@@ -344,7 +359,7 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       lastFrame: frame("last.png", last),
     };
     const failed = await terminal(service, (await service.createJob(input)).id, {
-      timeoutContext: () => trace.describe("Clip"),
+      timeoutContext: () => [trace.describe("Clip"), io.describe()].join("\n"),
     });
     assert.equal(failed.status, "failed");
     assert.equal(submissions, 1);
@@ -358,11 +373,17 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
     assert.equal(retried.id, duplicate.id);
     assert.equal(retried.requestId, `retry-${failed.id}`);
     assert.equal(
-      (await terminal(service, retried.id, { timeoutContext: () => trace.describe("Clip") }))
-        .status,
+      (
+        await terminal(service, retried.id, {
+          timeoutContext: () => [trace.describe("Clip"), io.describe()].join("\n"),
+        })
+      ).status,
       "succeeded",
     );
     assert.equal(submissions, 2);
+    // 健康路径也验证模块包装确实观测到真实落盘，而非只有纯辅助函数通过。
+    assert.match(io.describe(), /"asset.write":\{"started":1,"completed":1,"failed":0\}/);
+    assert.match(io.describe(), /"records.write":/);
     const reopened = createCreationService({ rootDir: root, credentials: credentials() });
     assert.equal((await reopened.retryJob(failed.id)).id, retried.id);
     assert.equal(submissions, 2);
@@ -372,6 +393,7 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       /已用于其他内容/,
     );
   } finally {
+    io.release();
     await rm(root, { recursive: true, force: true });
   }
 });
@@ -463,6 +485,7 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
 test("asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-json-async-"));
   let trace = jsonFixtureTrace();
+  let io = creationIo.watch(root);
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
@@ -522,6 +545,8 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       ["invalid", "failed"],
     ] as const) {
       trace = jsonFixtureTrace();
+      io.release();
+      io = creationIo.watch(root);
       const job = await service.createJob({
         requestId: prompt,
         kind: "video",
@@ -531,7 +556,7 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       assert.equal(
         (
           await terminal(service, job.id, {
-            timeoutContext: () => trace.describe(prompt),
+            timeoutContext: () => [trace.describe(prompt), io.describe()].join("\n"),
           })
         ).status,
         expected,
@@ -539,6 +564,7 @@ test("asynchronous JSON mapping distinguishes completed, failed, timed-out and m
       );
     }
   } finally {
+    io.release();
     await rm(root, { recursive: true, force: true });
   }
 });

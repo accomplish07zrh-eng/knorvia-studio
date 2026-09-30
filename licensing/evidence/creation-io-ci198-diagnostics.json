@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "scope": "Test-only real-IO stage observation for existing Windows creation timeout investigation",
+  "baseCommit": "5caa01fc1545c4cdc16cede76bf5550f42851d42",
+  "observedCI": {
+    "run": 36750884203,
+    "attempt": 2,
+    "windowsJob": 110016183283,
+    "testedMergeSha": "fd70bc14af7fcd50539750a5ad5fc20d18a1c7d1",
+    "test": "asynchronous JSON mapping distinguishes completed, failed, timed-out and malformed outputs",
+    "prompt": "good",
+    "terminalStatus": "running",
+    "budgetMs": 1000,
+    "reads": 66,
+    "providerStages": "submit and poll entered and returned once; poll returned around 10.9ms",
+    "rootCause": "not established"
+  },
+  "changes": [
+    "Observe the original promises from real writeRecords and writeCreationOutput for two synthetic fixture roots only",
+    "Record stage counts, at most 24 events, pending ages and whitelisted error codes; no paths, record values or error messages",
+    "Preserve original promises, errors, arguments and synchronous failures; old observation completions cannot contaminate replacement windows",
+    "Prove real module wiring with healthy-path asset write completion and record write assertions"
+  ],
+  "unchanged": [
+    "No production source changes",
+    "1000ms terminal budget and 10ms polls",
+    "Real filesystem behavior, provider budgets, existing retries and idempotency",
+    "Licence review decisions and all 27 material obligations"
+  ],
+  "validation": {
+    "focused": {
+      "tests": 15,
+      "pass": 15,
+      "fail": 0
+    },
+    "aggregate": {
+      "tests": 5193,
+      "pass": 5127,
+      "fail": 59,
+      "skipped": 7,
+      "cancelled": 0
+    },
+    "baselineFailureNamesExactMatch": true,
+    "rootTypes": "pass",
+    "lint": "pass",
+    "changedArchitecture": "pass",
+    "changedFormat": "pass"
+  },
+  "fileDigests": {
+    "packages/services/test/creation-polish.test.ts": "5dc306fe3069fa1df3f909a4e63bc6e4e2009e2be9eb574e90ae41b6308f0621",
+    "packages/services/test/creation-io-fixture-trace.ts": "ac04b24318f26e1e4963b89a847176e04543269c8483c242dce80e1232eb7b5c",
+    "packages/services/test/creation-io-fixture-trace.test.ts": "62c1cfd8518630d9e142b6ed3f3af1b01be805e4023a212a1149f6fc76669073"
+  },
+  "logDigests": {
+    "creation-io-integration.tap": "61a16bfcfcd7c9ba5c57b3e281a38cf8f584d59e5e8a21d27c2ded97d6d16326",
+    "creation-io-full.tap": "8e7641c2743d315f707c3c447d39b0569ed807d431307e65401c57eba8844d6d",
+    "creation-io-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "creation-io-lint.log": "ddaa4f59d0a57786a0fb82cbb628f2080388aed4a261b4fa962594fb5556697d",
+    "creation-io-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "creation-io-format.log": "51635b88d48c12bc0b883f2b40d2b2637222d1acb9447b950fe61fef14b39d43"
+  },
+  "limitations": [
+    "Diagnostics are not a production fix",
+    "Native Windows verification of this observer is pending",
+    "59 own-cloud socket EPERM failures remain; no tests disabled",
+    "MIT/source clearance is not established by this change"
+  ]
+}
