@@ -24,6 +24,7 @@ interface CitationTextEdit {
 }
 
 const protectedSubtrees = new Set(["code", "html", "image", "inlineCode", "link"]);
+const insertionBatchSize = 8_192;
 
 function textEdits(
   value: string,
@@ -81,7 +82,14 @@ function projectTree(
       continue;
     }
     // 仅提交当前 text node；后续 sibling 抛错不撤回已完成替换，也不重访新 link。
-    parent.children.splice(index, 1, ...pieces);
+    // 大 text node 可生成十万以上节点；分批插入避免引擎参数上限，仍保留原 children 身份与顺序。
+    for (let offset = 0; offset < pieces.length; offset += insertionBatchSize) {
+      parent.children.splice(
+        index + offset,
+        offset === 0 ? 1 : 0,
+        ...pieces.slice(offset, offset + insertionBatchSize),
+      );
+    }
     index += pieces.length;
   }
 }
