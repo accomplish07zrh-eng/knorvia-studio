@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createCreationService } from "../src/creation/creationService.js";
 import { createRunDeadlineClock } from "./creation-run-deadline-clock-fixture.js";
+import { createProviderFixtureTrace } from "./creation-provider-fixture-trace.js";
 import {
   creationReferenceSlots,
   type CreationJob,
@@ -366,6 +367,7 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
   const root = await mkdtemp(join(tmpdir(), "knorvia-comfy-frames-"));
   let uploads = 0;
   let graph: unknown;
+  const trace = createProviderFixtureTrace();
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
@@ -373,22 +375,37 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
     fetchImpl: async (url, init) => {
       const path = new URL(String(url)).pathname;
       if (path === "/upload/image") {
+        trace.record("upload:start");
         uploads++;
         assert(init?.body instanceof FormData);
         assert(init.body.get("image"));
-        return new Response(JSON.stringify({ name: `uploaded-${uploads}.png` }));
+        const response = new Response(JSON.stringify({ name: `uploaded-${uploads}.png` }));
+        trace.record("upload:return");
+        return response;
       }
       if (path === "/prompt") {
+        trace.record("submit:start");
         graph = (JSON.parse(String(init?.body)) as { prompt: unknown }).prompt;
-        return new Response(JSON.stringify({ prompt_id: "job-1" }));
+        const response = new Response(JSON.stringify({ prompt_id: "job-1" }));
+        trace.record("submit:return");
+        return response;
       }
-      if (path === "/history/job-1")
-        return new Response(
+      if (path === "/history/job-1") {
+        trace.record("history:start");
+        const response = new Response(
           JSON.stringify({
             "job-1": { outputs: { node: { videos: [{ filename: "clip.mp4" }] } } },
           }),
         );
-      if (path === "/view") return new Response(mp4);
+        trace.record("history:return");
+        return response;
+      }
+      if (path === "/view") {
+        trace.record("download:start");
+        const response = new Response(mp4);
+        trace.record("download:return");
+        return response;
+      }
       throw new Error(`Unexpected fixture path: ${path}`);
     },
   });
@@ -411,7 +428,10 @@ test("ComfyUI uploads distinct video frames and substitutes only declared slots"
       firstFrame: frame("first.png", first),
       lastFrame: frame("last.png", last),
     });
-    assert.equal((await terminal(service, job.id)).status, "succeeded");
+    assert.equal(
+      (await terminal(service, job.id, { timeoutContext: trace.describe })).status,
+      "succeeded",
+    );
     assert.equal(uploads, 2);
     assert.deepEqual(graph, {
       node: {

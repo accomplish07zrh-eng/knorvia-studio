@@ -34985,6 +34985,39 @@
         "specs/knorvia-third-party-reconciliation.md",
         "docs/knorvia-third-party-reconciliation-acceptance.md"
       ]
+    },
+    {
+      "path": "packages/services/test/creation-provider-fixture-trace.ts",
+      "normalizedSha256": "c3bdb48b245af45f312d62cd41e0ddc2e68b62f58d17d0110452c58843465dd7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New test-only diagnostic expression or acceptance report authored for the observed 2026-09-30 ComfyUI CI timeout. Uses fixed synthetic stage names and Node built-ins, no copied provider/product implementation. Does not relicense existing creation tests, product code or third-party material and does not assert the CI root cause is resolved.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "docs/knorvia-comfy-ci-diagnostic-20260930.md"
+      ]
+    },
+    {
+      "path": "packages/services/test/creation-provider-fixture-trace.test.ts",
+      "normalizedSha256": "77882ebd906d198a6aa6d3bdb58c226fda1969c6699d92dc5a02dbf8d62e14db",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New test-only diagnostic expression or acceptance report authored for the observed 2026-09-30 ComfyUI CI timeout. Uses fixed synthetic stage names and Node built-ins, no copied provider/product implementation. Does not relicense existing creation tests, product code or third-party material and does not assert the CI root cause is resolved.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "docs/knorvia-comfy-ci-diagnostic-20260930.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-comfy-ci-diagnostic-20260930.md",
+      "normalizedSha256": "92adee594998e4208f34992af99d102458f3a0de127edf5928fd8f97ec9d07bf",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New test-only diagnostic expression or acceptance report authored for the observed 2026-09-30 ComfyUI CI timeout. Uses fixed synthetic stage names and Node built-ins, no copied provider/product implementation. Does not relicense existing creation tests, product code or third-party material and does not assert the CI root cause is resolved.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "docs/knorvia-comfy-ci-diagnostic-20260930.md"
+      ]
     }
   ]
 }
