@@ -53,7 +53,12 @@ mock.module(new URL("../src/logger.js", import.meta.url).href, {
 });
 
 const target = process.env.KNORVIA_UI_B1_LIB_DIR
-  ? pathToFileURL(resolve(process.env.KNORVIA_UI_B1_LIB_DIR, "draftSkillInvalidation.ts")).href
+  ? pathToFileURL(
+      resolve(
+        process.env.KNORVIA_UI_B1_LIB_DIR,
+        `draftSkillInvalidation.${process.env.KNORVIA_UI_B1_LIB_EXT ?? "ts"}`,
+      ),
+    ).href
   : new URL("../src/lib/draftSkillInvalidation.js", import.meta.url).href;
 const {
   invalidateDeferredDraftSessionForRuntimeChange: runtime,
@@ -77,6 +82,12 @@ function setup() {
     logScope: "fixture",
     sessionService,
   };
+}
+
+function lastContext(): Record<string, unknown> {
+  const event = events.at(-1);
+  assert.ok(event);
+  return event.args[1] as Record<string, unknown>;
 }
 
 test("B1 draft: missing path performs no reads, invalidation, close or logging", async () => {
@@ -142,7 +153,7 @@ test("B1 draft: whitespace identity is absent in close and null in logs", async 
   const request = events[3]?.args[0] as Record<string, unknown>;
   assert.equal(Object.hasOwn(request, "workspaceIdentity"), false);
   assert.equal(request.workspacePath, "   ");
-  assert.equal((events.at(-1)?.args[1] as Record<string, unknown>).workspaceIdentity, null);
+  assert.equal(lastContext().workspaceIdentity, null);
 });
 
 test("B1 draft: skill entry enforces the skills log scope", async () => {
@@ -182,7 +193,7 @@ test("B1 draft: synchronous close throw follows the same warning route", async (
     throw "sync rejection";
   };
   await runtime(params);
-  assert.equal((events.at(-1)?.args[1] as Record<string, unknown>).error, "sync rejection");
+  assert.equal(lastContext().error, "sync rejection");
 });
 
 for (const boundary of ["state", "query", "invalidate"] as const) {
@@ -208,7 +219,7 @@ test("B1 draft: success logger failure warns, warning logger failure rejects", a
     events.slice(-2).map((event) => event.kind),
     ["info", "warn"],
   );
-  assert.equal((events.at(-1)?.args[1] as Record<string, unknown>).error, "info rejected");
+  assert.equal(lastContext().error, "info rejected");
   setup();
   const failure = new Error("warn rejected");
   warnFailure = failure;

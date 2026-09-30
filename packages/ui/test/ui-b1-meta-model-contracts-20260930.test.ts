@@ -12,7 +12,12 @@ import {
 
 function target(name: string) {
   return process.env.KNORVIA_UI_B1_LIB_DIR
-    ? pathToFileURL(resolve(process.env.KNORVIA_UI_B1_LIB_DIR, `${name}.ts`)).href
+    ? pathToFileURL(
+        resolve(
+          process.env.KNORVIA_UI_B1_LIB_DIR,
+          `${name}.${process.env.KNORVIA_UI_B1_LIB_EXT ?? "ts"}`,
+        ),
+      ).href
     : new URL(`../src/lib/${name}.js`, import.meta.url).href;
 }
 const { mergeTaskWithOptimisticMeta: merge, mergeTaskMetaCandidates: mergeAll } = await import(

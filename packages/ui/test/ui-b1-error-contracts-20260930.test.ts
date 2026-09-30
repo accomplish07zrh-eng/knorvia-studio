@@ -6,7 +6,12 @@ import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
 
 const target = process.env.KNORVIA_UI_B1_LIB_DIR
-  ? pathToFileURL(resolve(process.env.KNORVIA_UI_B1_LIB_DIR, "uiError.ts")).href
+  ? pathToFileURL(
+      resolve(
+        process.env.KNORVIA_UI_B1_LIB_DIR,
+        `uiError.${process.env.KNORVIA_UI_B1_LIB_EXT ?? "ts"}`,
+      ),
+    ).href
   : new URL("../src/lib/uiError.js", import.meta.url).href;
 const { normalizeKnorviaUiError: normalize } = await import(target);
 

@@ -1,0 +1,268 @@
+{
+  "scope": "UI B1 bounded implementation checkpoint",
+  "date": "2026-09-30",
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "basePr": 7,
+  "baseCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "branch": "ui/b1-lib-contracts-20260930-01",
+  "contractCommit": "3e41a6bec6562bc85bad55397cd1785c92285c4f",
+  "toolchain": {
+    "node": "24.14.0",
+    "nodeArchiveSHA256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+    "pnpm": "10.33.2",
+    "install": "frozen lockfile, ignored install scripts"
+  },
+  "sourceExposure": "Author read baseline implementations, selected callers, source inventory and four fixed upstream aliases; no role isolation, clean-room or legal-completion claim",
+  "ownedSources": [
+    {
+      "path": "packages/ui/src/lib/uiError.ts",
+      "beforeSHA256": "fd0b56ff1ceea800b120bdd86081b31095590032dc0b3a25dd7bb489836c84e1",
+      "afterSHA256": "7c312b878462928f4a16f82bab254c6eba0ce4a4e6a199eb35eb743c57600c15",
+      "changed": true,
+      "productionLicense": "Apache-2.0; previous applicable licensing retained",
+      "authorshipDecision": "pending review; no independent-replacement or MIT-ready claim",
+      "lines": 201
+    },
+    {
+      "path": "packages/ui/src/lib/taskMetaMerge.ts",
+      "beforeSHA256": "032aa0cf5dc46822a6e52119df0d626d5d6d09bcd0e1c08e68ecafbd87196e5d",
+      "afterSHA256": "86a188baf769403f5e2497fb5a1a6865292bc75966105e92fe8784f119dd96b9",
+      "changed": true,
+      "productionLicense": "Apache-2.0; previous applicable licensing retained",
+      "authorshipDecision": "pending review; no independent-replacement or MIT-ready claim",
+      "lines": 94
+    },
+    {
+      "path": "packages/ui/src/lib/draftSkillInvalidation.ts",
+      "beforeSHA256": "a44a89eeecd33af05208bd704a6f7dbb1f76a54cfc2ab5915e4319c8ba243686",
+      "afterSHA256": "b5e41d9ec101c7b8438645347b5df1432f1c5b5d7f3046961583fe9f48585f0f",
+      "changed": true,
+      "productionLicense": "Apache-2.0; previous applicable licensing retained",
+      "authorshipDecision": "pending review; no independent-replacement or MIT-ready claim",
+      "lines": 83
+    },
+    {
+      "path": "packages/ui/src/lib/customModelValue.ts",
+      "beforeSHA256": "a3d4c69e11010def52fe9fd712c9353f103d2a2fbbdc148973c612e607a25dd8",
+      "afterSHA256": "a3d4c69e11010def52fe9fd712c9353f103d2a2fbbdc148973c612e607a25dd8",
+      "changed": false,
+      "productionLicense": "Apache-2.0; previous applicable licensing retained",
+      "authorshipDecision": "pending review; no independent-replacement or MIT-ready claim",
+      "lines": 17
+    }
+  ],
+  "aliasReviewProposal": {
+    "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "adaptations": [
+      ["@zcode/", "@knorvia/"],
+      ["ZCode", "Knorvia"],
+      ["zcode", "knorvia"],
+      ["Zcode", "Knorvia"],
+      ["Knorvia session failed", "Knorvia Studio session failed"],
+      ["@knorvia/shared/knorvia-protocol-v4", "@knorvia/shared/protocol-v4"],
+      ["GENERIC_ZCODE_UI_ERROR_MESSAGES", "GENERIC_KNORVIA_UI_ERROR_MESSAGES"],
+      ["knorvia-cli", "cli"],
+      ["@/store/knorviaSessionStore.js", "@/store/sessionStore.js"],
+      ["knorviaSessionService", "sessionService"]
+    ],
+    "tokenNormalization": "skip trivia and trailing comma immediately before CloseParenToken",
+    "files": [
+      {
+        "currentPath": "packages/ui/src/lib/uiError.ts",
+        "upstreamPath": "packages/ui/src/lib/zcodeUiError.ts",
+        "blob": "64b0df306a58e9b8b5aeade2ad372de2216437f2",
+        "upstreamSHA256": "ae0a42c0f7cd7da45268c4e7ac83e56f90e44629929571b779f7342ab7c67097",
+        "baselineSHA256": "fd0b56ff1ceea800b120bdd86081b31095590032dc0b3a25dd7bb489836c84e1",
+        "verifiedUpstreamBytes": true,
+        "brandingSubstitutionExact": false,
+        "tokensEqualAfterDeclaredAdaptations": true
+      },
+      {
+        "currentPath": "packages/ui/src/lib/taskMetaMerge.ts",
+        "upstreamPath": "packages/ui/src/lib/zcodeTaskMetaMerge.ts",
+        "blob": "6ac09f8a56a8baa38e1ab15a067c2849e1f855df",
+        "upstreamSHA256": "5e542cbbf810564fc1e3a7217e38c62d6cefba308488aa0c635ff914601cefee",
+        "baselineSHA256": "032aa0cf5dc46822a6e52119df0d626d5d6d09bcd0e1c08e68ecafbd87196e5d",
+        "verifiedUpstreamBytes": true,
+        "brandingSubstitutionExact": false,
+        "tokensEqualAfterDeclaredAdaptations": true
+      },
+      {
+        "currentPath": "packages/ui/src/lib/draftSkillInvalidation.ts",
+        "upstreamPath": "packages/ui/src/lib/zcodeDraftSkillInvalidation.ts",
+        "blob": "2579d15e586848b45a0f0496b5b42835634afd96",
+        "upstreamSHA256": "676a2003ccb61b032da3e29354d47388a1de2ef0a1c36362bcdc5f9d05cb96eb",
+        "baselineSHA256": "a44a89eeecd33af05208bd704a6f7dbb1f76a54cfc2ab5915e4319c8ba243686",
+        "verifiedUpstreamBytes": true,
+        "brandingSubstitutionExact": false,
+        "tokensEqualAfterDeclaredAdaptations": true
+      },
+      {
+        "currentPath": "packages/ui/src/lib/customModelValue.ts",
+        "upstreamPath": "packages/ui/src/lib/zcodeCustomModelValue.ts",
+        "blob": "f8187bd5ade3e8bf23a4ad1fcf02cffba7e35127",
+        "upstreamSHA256": "4be24644a68de3c0884eee71eb6e8c08fd25c92030bd881bc4b3e83cae0f9d26",
+        "baselineSHA256": "a3d4c69e11010def52fe9fd712c9353f103d2a2fbbdc148973c612e607a25dd8",
+        "verifiedUpstreamBytes": true,
+        "brandingSubstitutionExact": true,
+        "tokensEqualAfterDeclaredAdaptations": true
+      }
+    ]
+  },
+  "checks": [
+    {
+      "check": "old B1 contracts",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "check": "candidate source B1 contracts",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "check": "final focused UI contracts/regression",
+      "passed": 84,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "check": "final compiled UI contracts",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "check": "pnpm typecheck",
+      "exitCode": 0,
+      "i18nMatchingKeys": 5422
+    },
+    {
+      "check": "new tests TypeScript noEmit",
+      "exitCode": 0
+    },
+    {
+      "check": "pnpm lint final",
+      "exitCode": 0,
+      "warnings": 0,
+      "errors": 0,
+      "files": 2800
+    },
+    {
+      "check": "architecture:check --changed before/after",
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    {
+      "check": "owned source/test/spec format",
+      "exitCode": 0
+    },
+    {
+      "check": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "check": "pnpm --filter @knorvia/web build final",
+      "exitCode": 0,
+      "seconds": 11.81,
+      "warnings": [
+        "chunks larger than 500 kB",
+        "ineffective dynamic imports: PDF/PPTX/Office preview modules"
+      ]
+    }
+  ],
+  "finiteComparison": {
+    "errors": 5793,
+    "metadataPairs": 99249,
+    "candidateFolds": 1480,
+    "differences": 0,
+    "compared": "values, own keys/order, object prototype",
+    "limitation": "finite ordinary data plus inherited fields; not arbitrary stateful Proxy/getters"
+  },
+  "finalWebSourceMaps": {
+    "uiError.ts": [
+      {
+        "artifact": "packages/web/dist/assets/index-DgUf4Teq.js.map",
+        "matchesCurrentSource": true,
+        "sourceSHA256": "7c312b878462928f4a16f82bab254c6eba0ce4a4e6a199eb35eb743c57600c15"
+      }
+    ],
+    "taskMetaMerge.ts": [
+      {
+        "artifact": "packages/web/dist/assets/useWorkspaceServices-BeugSnCe.js.map",
+        "matchesCurrentSource": true,
+        "sourceSHA256": "86a188baf769403f5e2497fb5a1a6865292bc75966105e92fe8784f119dd96b9"
+      }
+    ],
+    "draftSkillInvalidation.ts": [
+      {
+        "artifact": "packages/web/dist/assets/index-DgUf4Teq.js.map",
+        "matchesCurrentSource": true,
+        "sourceSHA256": "b5e41d9ec101c7b8438645347b5df1432f1c5b5d7f3046961583fe9f48585f0f"
+      }
+    ],
+    "customModelValue.ts": [
+      {
+        "artifact": "packages/web/dist/assets/kernelProbeView-CKYYoIhd.js.map",
+        "matchesCurrentSource": true,
+        "sourceSHA256": "a3d4c69e11010def52fe9fd712c9353f103d2a2fbbdc148973c612e607a25dd8"
+      }
+    ]
+  },
+  "localExecutionLogDigests": {
+    "oldContracts": {
+      "sha256": "43872d8c75b25fea52889b12db370f35b2a342cf84ae6cf7ef06f7822c7c5632",
+      "bytes": 5051
+    },
+    "candidateContracts": {
+      "sha256": "7bf910ab4b79245ac964b90d51658faf7d913f97a1dafa65b1e499bd1547cd27",
+      "bytes": 5043
+    },
+    "finalFocusedUi": {
+      "sha256": "dbbd2df67874e3d1abb34143f5a678bdc3a326c25801589c089cf9f2bfe8b845",
+      "bytes": 7131
+    },
+    "finalCompiledContracts": {
+      "sha256": "f851891e5586fd8552cf3be6a95836ef2f7bf3d996e7dac6e82172ae909c21df",
+      "bytes": 5050
+    },
+    "finalRootTypecheck": {
+      "sha256": "3573c4c3f1ba6ea7999b761b9eef62cfeeb39cfe11fd30c96109a766f60ffbd5",
+      "bytes": 451
+    },
+    "finalTestTypecheck": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "finalWebBuild": {
+      "sha256": "62950707d551820fd476d36c6aa8c291e8b094a6c5428d79793e25873951073d",
+      "bytes": 106883
+    }
+  },
+  "archiveAccess": {
+    "libraryFileId": "libfile_78deb60edfcc81919f6fd9e1358f2ebd",
+    "name": "Knorvia-UI-Provenance-Review-20260930.zip",
+    "delegatedVersion": "0",
+    "attempts": 2,
+    "result": "Library helper download failed; no locally readable bytes, not consumed"
+  },
+  "notRun": [
+    "whole repository test:studio",
+    "CLI full build",
+    "desktop package/runtime or real-device checks",
+    "Windows/macOS runtime",
+    "real model or production data migration",
+    "UI E2E/visual checks",
+    "provenance report/check after integration"
+  ],
+  "parentOwnedFollowup": [
+    "independent review track",
+    "exact alias registration and authorship decisions",
+    "shared provenance report/check",
+    "integration full suite and release gates",
+    "B2/B3 coordination; B4 not started"
+  ]
+}
