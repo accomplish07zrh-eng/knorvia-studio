@@ -1989,8 +1989,8 @@
           "subject": "Migration comments and forbidden-character set",
           "engineeringBaselineCorrespondence": [
             {
-              "lines": [19, 27],
-              "sha256": "e16336800bddd81189c55986fb0959c32e15fd0dd8264ed04fca4de8b3bc2281",
+              "lines": [17, 26],
+              "sha256": "7582b26b2f294189c3ca2b66f658502cc8520b441bea00c9ee7fee8ac963305d",
               "candidateWholeSpanByteIdentical": false
             }
           ],
@@ -2012,8 +2012,8 @@
           "subject": "Trim/length/set predicate",
           "engineeringBaselineCorrespondence": [
             {
-              "lines": [5, 17],
-              "sha256": "79c8a32c6c61624cc825b962b8395f512a0552a58440c4842f977085f119ad5a",
+              "lines": [5, 16],
+              "sha256": "c2c0a672c624f2d048e9cf5d68f897aff901ab8ef77b0f1cc43c812e86c7e3ea",
               "candidateWholeSpanByteIdentical": false
             }
           ],
@@ -2030,9 +2030,9 @@
           "subject": "WSL user Zod schema",
           "engineeringBaselineCorrespondence": [
             {
-              "lines": [29, 35],
-              "sha256": "6388fe232d43299e04792a6bfcd4c2170cd27526062c3c856c8d26e38c4d4e72",
-              "candidateWholeSpanByteIdentical": false
+              "lines": [27, 33],
+              "sha256": "68ece7f98887f2bab42be9502e755b0cc70209e99c3120ac4687d52b2dc650d1",
+              "candidateWholeSpanByteIdentical": true
             }
           ],
           "designBasis": "R: trim/max/refine order, empty default user and exact issue message.",
@@ -2792,6 +2792,13 @@
       "workspaceDependenciesInstalled": false,
       "globalConfigEdits": 0,
       "approvalRequests": 0
+    },
+    "baselineSemanticRangeBounds": "all old ranges are inclusive, within old source line counts and hash-matched; WSL schema final reference corrected to the exact full declaration",
+    "correctedFinalCheckFinding": {
+      "priorPacketCommit": "8bea087a99b38ceeb747ef56d3f8828590ffedb8",
+      "finding": "WSL semantic schema reference29-35 exceeded old file33 lines; Python slicing had produced a valid partial hash without validating bounds",
+      "fix": "schema exact old27-33, control helper17-26, predicate5-16; added explicit range-bound check",
+      "productionEdits": 0
     }
   }
 }
