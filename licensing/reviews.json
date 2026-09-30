@@ -41334,6 +41334,162 @@
         "docs/knorvia-dependency-tool-repair-20260930.md"
       ],
       "normalizedSha256": "2a85c7f81e91c6bafd81d8cbd9342aef87b0f5c60cc9d85a5633d1fd5a624f73"
+    },
+    {
+      "path": "specs/knorvia-process-probe-runtime.md",
+      "normalizedSha256": "2fd48df14ebc7bf6bdc113c1eae7100d17fab0d200ae15b9255e1ac03ebe5123",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+      "normalizedSha256": "4bcf6773f6603e80b13f8adf2cea96dae268ace93a254a2dbe90ab017748a9a4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-runtime-contract.test.mjs",
+      "normalizedSha256": "3488bfb19fdb49a4dc2f6f748715c8ca20b5a282c1b84e5edf8319cbe49a6a57",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/api.mjs",
+      "normalizedSha256": "264badea5c097d6a5cc47fbf17b01ad63d7a2ef9185916434fc6853f5df14dda",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/caller-fixture.mjs",
+      "normalizedSha256": "c9d85c7a573b21a4bc5bc48c33cdcca9cc40d33beab4ea161495542eae183427",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/callers.test.mjs",
+      "normalizedSha256": "4aa7443dee8b4da04c68ac36491718d70edb7fd5edb6c4a4fa8fc5185ba63e5e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/factory.test.mjs",
+      "normalizedSha256": "3a5f001b8bb265ab5141adfaff6dcd0e203e445d9e8b0f4cf1e58fc3bdb29565",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/fixture.mjs",
+      "normalizedSha256": "550901a6982314e4082252e22fa50f0e61278393aad608723b940e459e1d3743",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/linux.test.mjs",
+      "normalizedSha256": "5db62e319455ebf68736bf76b9e6064b9a5f5c5c0a89d35b50a32dafdd73bc83",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/parser-matrix.test.mjs",
+      "normalizedSha256": "dc349f947e8f48ea136f5434468900e22b6573fe110991a0eed16247fc033081",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/platform-parsers.test.mjs",
+      "normalizedSha256": "f3d49d301f3773d555493301d87eaeecddfe9b846d0f47380ef444a5bed275a4",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/shared.test.mjs",
+      "normalizedSha256": "aeef33016ea5b471f61c566c5d91cd4776566d410c1b7d7fa412406d6b45e9a7",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/process-probe-contract/subject.mjs",
+      "normalizedSha256": "e098670acdcc817ab2e437d1814ead422ca3497109d01042c008c71f5eded434",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "evidence": [
+        "specs/knorvia-process-probe-runtime.md",
+        "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
+        "licensing/evidence/process-probe-runtime-20260930.json"
+      ]
     }
   ]
 }
