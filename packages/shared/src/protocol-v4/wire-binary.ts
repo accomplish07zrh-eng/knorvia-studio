@@ -1,5 +1,6 @@
-// V4 wire 的跨 Node/browser 二进制纯函数。独立成小模块，避免 codec 主文件
-// 同时承载 schema、分片状态机和编码细节。
+// Modified 2026-09-30 under the retained root Apache-2.0 scope.
+// Contract/exposure: specs/knorvia-protocol-wire-helpers-20260930.md.
+// Pure Node/browser byte operations; wire schema remains unchanged.
 import { z } from "zod";
 
 export const topicWireBase64Schema = z
@@ -7,59 +8,37 @@ export const topicWireBase64Schema = z
   .min(4)
   .regex(/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/u);
 
-export function crc32WireBytes(bytes: Uint8Array): string {
-  let crc = 0xffffffff;
-  for (const byte of bytes) {
-    crc ^= byte;
-    for (let bit = 0; bit < 8; bit += 1) {
-      crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
-    }
+const CRC32_TABLE = Uint32Array.from({ length: 256 }, (_, byte) => {
+  let remainder = byte;
+  for (let shift = 0; shift < 8; shift++) {
+    remainder = (remainder >>> 1) ^ ((remainder & 1) * 0xedb88320);
   }
-  return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, "0");
+  return remainder >>> 0;
+});
+
+export function crc32WireBytes(bytes: Uint8Array): string {
+  let remainder = 0xffffffff;
+  for (const byte of bytes) {
+    remainder = CRC32_TABLE[(remainder ^ byte) & 255]! ^ (remainder >>> 8);
+  }
+  return (~remainder >>> 0).toString(16).padStart(8, "0");
 }
 
-const BASE64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+// 每段以完整三字节组结束：中间段不会出现 padding，也避免展开大数组耗尽栈。
+const BASE64_INPUT_BLOCK_BYTES = 3 * 4096;
 
 export function encodeWireBytesBase64(bytes: Uint8Array): string {
-  let result = "";
-  let block: string[] = [];
-  for (let offset = 0; offset < bytes.byteLength; offset += 3) {
-    const a = bytes[offset] ?? 0;
-    const hasB = offset + 1 < bytes.byteLength;
-    const hasC = offset + 2 < bytes.byteLength;
-    const b = hasB ? (bytes[offset + 1] ?? 0) : 0;
-    const c = hasC ? (bytes[offset + 2] ?? 0) : 0;
-    block.push(
-      BASE64_ALPHABET[a >>> 2]!,
-      BASE64_ALPHABET[((a & 0x03) << 4) | (b >>> 4)]!,
-      hasB ? BASE64_ALPHABET[((b & 0x0f) << 2) | (c >>> 6)]! : "=",
-      hasC ? BASE64_ALPHABET[c & 0x3f]! : "=",
-    );
-    if (block.length >= 16_384) {
-      result += block.join("");
-      block = [];
-    }
+  const encoded: string[] = [];
+  for (let start = 0; start < bytes.byteLength; start += BASE64_INPUT_BLOCK_BYTES) {
+    const block = bytes.subarray(start, start + BASE64_INPUT_BLOCK_BYTES);
+    encoded.push(btoa(String.fromCharCode(...block)));
   }
-  return result + block.join("");
+  return encoded.join("");
 }
 
 export function decodeWireBase64(value: string): Uint8Array | null {
+  // 原 schema 决定接受域；atob 本身会接受空白及无 padding，不能代替协议校验。
   if (!topicWireBase64Schema.safeParse(value).success) return null;
-  const padding = value.endsWith("==") ? 2 : value.endsWith("=") ? 1 : 0;
-  const output = new Uint8Array((value.length / 4) * 3 - padding);
-  let writeOffset = 0;
-  for (let offset = 0; offset < value.length; offset += 4) {
-    const a = BASE64_ALPHABET.indexOf(value[offset]!);
-    const b = BASE64_ALPHABET.indexOf(value[offset + 1]!);
-    const c = value[offset + 2] === "=" ? 0 : BASE64_ALPHABET.indexOf(value[offset + 2]!);
-    const d = value[offset + 3] === "=" ? 0 : BASE64_ALPHABET.indexOf(value[offset + 3]!);
-    if (a < 0 || b < 0 || c < 0 || d < 0) return null;
-    const combined = (a << 18) | (b << 12) | (c << 6) | d;
-    if (writeOffset < output.length) output[writeOffset++] = combined >>> 16;
-    if (writeOffset < output.length) {
-      output[writeOffset++] = (combined >>> 8) & 0xff;
-    }
-    if (writeOffset < output.length) output[writeOffset++] = combined & 0xff;
-  }
-  return output;
+  const binary = atob(value);
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }

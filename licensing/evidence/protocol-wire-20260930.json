@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "baseline": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "branch": "parallel/protocol-shared-20260930-sole",
+  "fixtureCheckpoint": "0639cf675dec4dc6556b5ee9e57da87ddfb8c36e",
+  "ownership": [
+    "packages/shared/src/protocol-v4/wire-binary.ts",
+    "packages/shared/src/protocol-v4/wire-codec.ts",
+    "packages/shared/src/protocol-v4/wire-reassembly.ts"
+  ],
+  "sourceExposure": "Old source was read for behavior extraction and review. No clean-room or production MIT-ready claim. Fixed schema/declarations, projections, fault strings, polynomial and integer bisection remain interoperability constraints.",
+  "implementationBasis": "Frozen public contract; table-driven CRC, bounded native Base64, fixed envelope byte model, staged pure batch reconstruction.",
+  "productionFiles": [
+    {
+      "path": "packages/shared/src/protocol-v4/wire-binary.ts",
+      "baselineSha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+      "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+      "normalizedSha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+      "bytes": 1722,
+      "priorClassification": "upstream-unchanged",
+      "acceptedPriorIndependentReview": false,
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-binary.ts",
+        "blob": "bb4633f9f46a334f29cd9b6c7af44ec08c158cb8",
+        "normalizedSha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/wire-binary.ts"
+        ]
+      },
+      "thirdParty": [],
+      "license": "Apache-2.0 retained; applicable third-party scope and notices retained",
+      "proposedReviewDecision": "pending provenance review; no production MIT or independent-replacement grant"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "baselineSha256": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+      "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "normalizedSha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "bytes": 6940,
+      "priorClassification": "upstream-modified",
+      "acceptedPriorIndependentReview": false,
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+        "blob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+        "normalizedSha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+        "contentMatchedPaths": []
+      },
+      "thirdParty": [
+        {
+          "id": "Visual Studio Code IPC and common utilities",
+          "license": "MIT",
+          "source": "https://raw.githubusercontent.com/microsoft/vscode/44825207bf4389c3bd17c92d3ec28cf784c324cc/LICENSE.txt",
+          "scope": "Upstream-derived IPC, serialization, buffer, lifecycle and event portions only. Local RPC extensions, transports and envelope measurement are ZCode adaptations; inclusion does not attribute all local code to Microsoft.",
+          "recordedContentMatches": false
+        }
+      ],
+      "license": "Apache-2.0 retained; applicable third-party scope and notices retained",
+      "proposedReviewDecision": "pending provenance review; no production MIT or independent-replacement grant"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-reassembly.ts",
+      "baselineSha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+      "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+      "normalizedSha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+      "bytes": 7045,
+      "priorClassification": "upstream-unchanged",
+      "acceptedPriorIndependentReview": false,
+      "upstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-reassembly.ts",
+        "blob": "629c67182dfecdaab03347781b318d230b8d4c71",
+        "normalizedSha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/wire-reassembly.ts"
+        ]
+      },
+      "thirdParty": [],
+      "license": "Apache-2.0 retained; applicable third-party scope and notices retained",
+      "proposedReviewDecision": "pending provenance review; no production MIT or independent-replacement grant"
+    }
+  ],
+  "supportFiles": [
+    {
+      "path": "specs/knorvia-protocol-wire-helpers-20260930.md",
+      "sha256": "f61f50997eaca407c792e342594f3035fb6559727acea6cfe854ebe0befce03d",
+      "normalizedSha256": "f61f50997eaca407c792e342594f3035fb6559727acea6cfe854ebe0befce03d",
+      "bytes": 5437,
+      "license": "retained root Apache-2.0; no new license grant"
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-contract-cases.ts",
+      "sha256": "af6398c2f55034ca51b40498449af294028f02cce4c264cf2eb354cea515b22c",
+      "normalizedSha256": "af6398c2f55034ca51b40498449af294028f02cce4c264cf2eb354cea515b22c",
+      "bytes": 12053,
+      "license": "retained root Apache-2.0; no new license grant"
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-contract.test.ts",
+      "sha256": "8240385a502d12b7053e4deae77376fe9c9717cfa664a5a8badfbad483cf34ba",
+      "normalizedSha256": "8240385a502d12b7053e4deae77376fe9c9717cfa664a5a8badfbad483cf34ba",
+      "bytes": 3101,
+      "license": "retained root Apache-2.0; no new license grant"
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-consumers.test.ts",
+      "sha256": "dd98b822420892a5f4b69940d6d4968d23ff5f588b766da537e828181b0ec9c8",
+      "normalizedSha256": "dd98b822420892a5f4b69940d6d4968d23ff5f588b766da537e828181b0ec9c8",
+      "bytes": 4862,
+      "license": "retained root Apache-2.0; no new license grant"
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-cross-version.mjs",
+      "sha256": "c9574aa0a0be8e626a8a37fd2c54f0c97a8ae5b3a4443a6fa5b05641a2a8c299",
+      "normalizedSha256": "c9574aa0a0be8e626a8a37fd2c54f0c97a8ae5b3a4443a6fa5b05641a2a8c299",
+      "bytes": 4279,
+      "license": "retained root Apache-2.0; no new license grant"
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-contract-observations.json",
+      "sha256": "73e281f846a86c61d86d227201740589f92e101f1c55829f697d6211f005af0b",
+      "normalizedSha256": "73e281f846a86c61d86d227201740589f92e101f1c55829f697d6211f005af0b",
+      "bytes": 62769,
+      "license": "retained root Apache-2.0; no new license grant"
+    },
+    {
+      "path": "docs/knorvia-protocol-wire-acceptance-20260930.md",
+      "sha256": "51eaca4afdb8f7dcf9cc1af4885a4f65df25e59a25997a81919fa2c0a9c10009",
+      "normalizedSha256": "51eaca4afdb8f7dcf9cc1af4885a4f65df25e59a25997a81919fa2c0a9c10009",
+      "bytes": 8160,
+      "license": "retained root Apache-2.0; no new license grant"
+    }
+  ],
+  "declarations": [
+    {
+      "path": "packages/shared/dist/protocol-v4/wire-binary.d.ts",
+      "baselineSha256": "e774802412f58d695b2b9ab9af9a24679ab8712ebaa2caf8a468d7a282fc8a2a",
+      "sha256": "e774802412f58d695b2b9ab9af9a24679ab8712ebaa2caf8a468d7a282fc8a2a",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/shared/dist/protocol-v4/wire-codec.d.ts",
+      "baselineSha256": "ee1a7bff3954ee04de3686bb9b9e66b84f457c5f8e7d592305948cb5ac6f74b6",
+      "sha256": "ee1a7bff3954ee04de3686bb9b9e66b84f457c5f8e7d592305948cb5ac6f74b6",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/shared/dist/protocol-v4/wire-reassembly.d.ts",
+      "baselineSha256": "63755ab271eb4b4f8657a524728eafd6f5fd2c2457e8a8dee91fd90be8a4a67c",
+      "sha256": "63755ab271eb4b4f8657a524728eafd6f5fd2c2457e8a8dee91fd90be8a4a67c",
+      "byteIdentical": true
+    }
+  ],
+  "preserved": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "third-party/copied-components.json",
+      "sha256": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "third-party/inventory.json",
+      "sha256": "ad7ca0953bf788f302b2eb764b48b61d52c64ad27ac4cf2f1791a5350df0ece7",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "130dfc81b61e8d3e57e19fde06be46ebde3a028eb1afb7414315ca6304e37499",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "aad86141add9489906662238ca5179ad5c629e3d29ce543c918beaf94343a543",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51",
+      "byteIdenticalToBaseline": true
+    }
+  ],
+  "contractFreeze": {
+    "observations": 136,
+    "observationSha256": "73e281f846a86c61d86d227201740589f92e101f1c55829f697d6211f005af0b",
+    "byteIdenticalToCheckpoint": true,
+    "oldSource": {
+      "tests": 145,
+      "passCount": 145,
+      "fail": 0,
+      "skip": 0
+    },
+    "oldDistReviewed": {
+      "tests": 146,
+      "passCount": 146,
+      "fail": 0,
+      "skip": 0
+    },
+    "candidateSourceReviewed": {
+      "tests": 146,
+      "passCount": 146,
+      "fail": 0,
+      "skip": 0
+    },
+    "candidateDistReviewed": {
+      "tests": 146,
+      "passCount": 146,
+      "fail": 0,
+      "skip": 0
+    },
+    "extraReviewRegression": "Delivery metadata is projected after caller schema transformation; old emitted dist and final source/dist agree."
+  },
+  "additionalChecks": {
+    "oldNewOldRoundtrips": 9,
+    "nonfiniteMeasurementChecks": 7,
+    "browserVm": {
+      "bundled": true,
+      "nodeGlobalsAbsent": true,
+      "bytes": 65537,
+      "checks": 4
+    },
+    "actualBrowser": false
+  },
+  "quality": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "sharedEmission": "passed",
+    "bootstrapDependencyBuild": {
+      "successful": 9,
+      "total": 9,
+      "seconds": 36.268
+    },
+    "rootTypecheck": "passed",
+    "rootLint": "passed",
+    "scopedTestTypecheck": "passed",
+    "scopedLint": "0 errors, 0 warnings",
+    "formatting": "passed",
+    "changedArchitecture": {
+      "newViolations": 0,
+      "baselineViolations": 0
+    },
+    "prePush": "passed",
+    "thirdPartyProposalInMemorySimulation": {
+      "issues": 0,
+      "materialObligations": 27,
+      "actualRegistriesChanged": false,
+      "actualProvenanceCheckPassed": false
+    }
+  },
+  "failuresRetained": [
+    "Initial pnpm install failed on Electron download ECONNREFUSED; compiler/test dependencies remained available.",
+    "Initial consumer harness could not resolve @knorvia/rpc from shared; fixed to use the RPC public entry.",
+    "External old-dist consumer harness needed original ESM context and shared dependency links; corrected harness passes.",
+    "Initial evidence generation exceeded the default child-process output buffer while reading unchanged notices; retried with an uncapped local reader, no files mutated by the failed attempt.",
+    "provenance:check fails: Third-party input changed: packages/shared/src/protocol-v4/wire-codec.ts."
+  ],
+  "integratorProposals": [
+    {
+      "registry": "third-party/inventory.json",
+      "jsonPointer": "/inputs/packages~1shared~1src~1protocol-v4~1wire-codec.ts",
+      "expectedOldValue": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+      "proposedValue": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "retain": "Keep copied-components scope, historical roots/source fingerprints, notices and all existing material obligations. This digest binding is not a new license decision."
+    },
+    {
+      "registry": "licensing/current-files.json",
+      "action": "Regenerate via existing provenance workflow after third-party reconciliation; incorporate production and support digests above, plus this generated evidence file. No independent-replacement/MIT production reviews are proposed."
+    }
+  ],
+  "remainingLimits": [
+    "Integration provenance gate remains blocked until parent updates shared registries.",
+    "No native GUI, installer, Windows/macOS or live browser validation.",
+    "Compatibility checks do not establish application-wide independence or production MIT clearance.",
+    "Supported platform Base64 globals atob/btoa are required; browser-target VM is simulated.",
+    "Exact equivalence is bounded to frozen cases, reviewed regression, typed protocol inputs and existing constants; arbitrary builtin/constant monkeypatches are not a claimed compatibility domain.",
+    "No duplicate full application suite, PR, merge, force push, deployment, package publication, userdata migration or credential/security change."
+  ]
+}
