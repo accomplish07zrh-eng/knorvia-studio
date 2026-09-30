@@ -304,11 +304,14 @@ for (const [mode, writeToolEntry] of [
     assert.equal([...f.states.values()][0]!.content, f.calls.write![0].content);
   });
 
-  test(mode + " " + "Write retains missing-metadata memory policy fallback", async () => {
-    const f = fixture({ missing: true, emptyState: true, name: "synthetic-memory.md" });
-    f.context.memoryRoot = tmpdir();
-    const content = "---\ntitle: Example\n---\nbody";
-    await f.run({ content });
-    assert.equal(f.calls.write![0].content, content);
-  });
+  test(
+    mode + " " + "Write stamps missing-metadata memory mapping after explicit policy repair",
+    async () => {
+      const f = fixture({ missing: true, emptyState: true, name: "synthetic-memory.md" });
+      f.context.memoryRoot = tmpdir();
+      const content = "---\ntitle: Example\n---\nbody";
+      await f.run({ content });
+      assert.match(f.calls.write![0].content, /originSessionId: session/);
+    },
+  );
 }

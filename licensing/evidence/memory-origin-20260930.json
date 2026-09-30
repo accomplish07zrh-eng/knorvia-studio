@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "scope": "Pure memory-origin frontmatter transformation and explicit absent-metadata bug repair",
+  "baseCommit": "fdeaf23055b20151dd84ee5fce034a259076a087",
+  "oldSource": {
+    "path": "apps/cli/packages/core/src/memory/origin-session.ts",
+    "sha256": "5fd667e140c5b79c697c973cb6f05597c8c37d0ea2b404754f31eb94621e4fc0",
+    "upstreamBlob": "79e8a1fc2d70f0112e6ca2902b4ff89f240f573c",
+    "exposure": "Earlier source inspected and frozen behavior recorded; no clean-room or isolated-author claim"
+  },
+  "implementation": [
+    "Replace the inherited whole-frontmatter regex with explicit delimiter scanning, preserving the legacy grammar and exact body/fences",
+    "Create a YAML mapping node before inserting absent metadata; retain existing parsed mapping styles and authoritative origins",
+    "Keep scope helper, no IO, mutation fallback and propagated serialization errors; no legacy implementation fallback"
+  ],
+  "intentionalChange": {
+    "before": "Document.set on an existing root mapping retains the plain metadata object, so isMap is false and stamping silently returns unchanged text",
+    "after": "Create a proper YAML map node, use block layout for newly created metadata, add node_type and originSessionId",
+    "notChanged": [
+      "Existing nonempty origin string remains authoritative",
+      "Scalar/list/null metadata remain unchanged",
+      "Recognized blank or comment-only YAML documents keep legacy stamping behavior",
+      "Immediate-empty-fence nonmatch, uppercase extension/scope exclusions, malformed YAML behavior and body/newline preservation"
+    ]
+  },
+  "validation": {
+    "oldFrozen": 91,
+    "permanentDual": {
+      "helperCasesPerMode": 91,
+      "compatiblePerMode": 87,
+      "intentionalPerMode": 4,
+      "actualWriteEditConsumersPerMode": 4,
+      "writeTransactionCasesPerMode": 28,
+      "total": 246,
+      "pass": 246,
+      "fail": 0
+    },
+    "differential": {
+      "seed": 74191,
+      "compatibleComparisons": 4000,
+      "mismatches": 0,
+      "intentionalMissingMetadataCases": 500,
+      "idempotentExistingOriginChecks": 500
+    },
+    "aggregate": {
+      "tests": 5792,
+      "pass": 5726,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "prepush": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "cliStartupSmoke": {
+      "exitCode": 0,
+      "output": "0.16.9",
+      "isolation": "Empty temporary cwd/HOME/data/config/cache and cleared environment, version only",
+      "bundleSha256": "f821408f5471fef5e768e0658cc2e0f62ea2c00f978c42b05ed9a655a7c432e6"
+    }
+  },
+  "retainedFailureEvidence": [
+    "First source replay 82/91 exposed four intentional new-map layout expectations and five lost legacy blank/comment-only document cases",
+    "Intentional after expectations were specified as block layout; all five compatible cases were restored in implementation without changing their frozen expectations",
+    "Serialization remains outside the mutation fallback boundary, preserving propagation",
+    "Scratch differential initially lacked YAML package resolution; only its scratch module link was repaired"
+  ],
+  "sourceSha256": {
+    "apps/cli/packages/core/src/memory/origin-session.ts": "2de5e4c20e03f553c97a307a2b69902069d4e2c641f9aecc32dda7f713f6a090"
+  },
+  "emittedSha256": {
+    "apps/cli/packages/core/dist/memory/origin-session.js": "d29f0cd7fbcae6f8b3bc678dd3b1a22ba971bf8c984578feb51eb5c132590b9b"
+  },
+  "testSha256": {
+    "apps/cli/packages/core/test/memory-origin-contract.test.ts": "7ab592fd4763374be5edb2e5ad2585f6a52b2df5df9821102b0e5f5239fb6358",
+    "apps/cli/packages/core/test/memory-origin-consumer.test.ts": "1fb47e6f6aaebed2cd266ee353b67aa2c439691c65509d3c6255ce4b217b4634",
+    "apps/cli/packages/core/test/fixtures/memory-origin-contract.json": "f7b22b499fa10bdce69ab02ee320408fda523e4b951c602225903f1f7a19e203",
+    "apps/cli/packages/core/test/write-transaction.test.ts": "424e49475723433efc1ea3ccebe0e7bf973c1f9824de1687a9aac9ba94abaf39"
+  },
+  "logSha256": {
+    "memory-origin-startup.log": "5dd0ca386ae83caaa4d32488cec1f155c8a4caae321e1689b6ffba3c45bd9b61",
+    "memory-origin-full.tap": "ebee1a44c8cb5e4ae9a3fc15a5637281fb56220d24e0aca2de7ee0131cbe4b0e",
+    "memory-origin-prepush.log": "1910b5d69a194c990369abe78e68a391cd32e85ba0e78c6ba6e196ae439123b5",
+    "memory-origin-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "memory-origin-format.log": "a0cd8b5baa51e36ee5132ff1db53aa99c76eeff95bab3efc48fd46fdce13bacf",
+    "memory-origin-explicit-lint-final.log": "3795af1e1cfb8188faac3bba8a6e1bd3d3e50efedf7a5afaf578f340c80749c4",
+    "memory-origin-cli-lint.log": "38425bd4787ff2dd173e78c4134160591a78c6eaf97e2e0f9cca453610389a61",
+    "memory-origin-root-lint.log": "8341a2a62caf763c8e6f39e6f1efa3b0a123b73b9f4672e78433fe3f9205c1e1",
+    "memory-origin-cli-typecheck.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "memory-origin-root-typecheck.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "memory-origin-differential-final.log": "c350eb1e36930ab2c71961207a03b541e194d62405179e9fdb49b08b730644f4",
+    "memory-origin-differential.log": "b45a3ec6a9815b66b1f208c77242dea97c26b0e180aa8f168810470a5fe2fd8e",
+    "memory-origin-source-emitted.tap": "595a9e1c7ef7ede60892d51b4b89fda02ee4e2f9e36940b00d2028d0b63c19a4",
+    "memory-origin-cli-build.log": "acf42a117e7e3bdede6213afc8228db801a0534ea39c277c474f71484f29948a",
+    "memory-origin-explicit-lint.log": "cd0fb666b547265b65e3d21c54866c7fcd3491798ee9025b7378e11d9b8cfb76",
+    "memory-origin-source-final.tap": "28357b191ec9698b60c108625964e29931b36f21f11f8703a66a20edf692754a",
+    "memory-origin-source.tap": "d92952f7b60fc7770dbb507f3c4925d610bf088e6324d852ebfcd218e12d85f2",
+    "memory-origin-baseline.tap": "3a44f01a1f6bfbc414c2f3306f62e16947d57eff5e517cbb5c5eba83627126a0",
+    "memory-origin-freeze.log": "1a816dc573b490ba03f00c15603965d6bdf26a02cc5514ea5f67569c50f7ec60",
+    "memory-origin-context.log": "d78549c765a6c4b91b229db77a198a536797958572d8a25d479dc9861f97d15f"
+  },
+  "limits": [
+    "Own-cloud 59 baseline socket restrictions and seven skips remain; full run is not green",
+    "Native CI for this batch is pending publication; CI205 proves the parent only",
+    "No real user document, native UI, installer, live provider, data migration or upgrade acceptance claimed",
+    "Transition licence/attribution and all 27 material obligations remain; no new MIT or overall completion assertion"
+  ]
+}

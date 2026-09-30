@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "Eleventh root Write transaction batch native CI receipt; excludes subsequent memory-origin changes",
+  "head": "fdeaf23055b20151dd84ee5fce034a259076a087",
+  "checkedMergeSha": "37511e2b3db3efbcd80f14f304231939d9ffb15d",
+  "checkedTree": "36ec4fb88f3c9245f34efc9d17d5b13e58d2c0c5",
+  "headTreeExactMatch": true,
+  "run": 36777088989,
+  "runNumber": 205,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36777088989",
+  "linux": {
+    "job": 110097609159,
+    "result": "success",
+    "tests": 5602,
+    "pass": 5594,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110097609555,
+    "result": "success",
+    "tests": 5602,
+    "pass": 5601,
+    "fail": 0,
+    "skip": 1
+  },
+  "limits": [
+    "No native UI, installer, live provider or upgrade acceptance claim",
+    "27 material obligations remain; no new MIT decision",
+    "Earlier intermittent creation timeout cause is not established by this green run"
+  ]
+}
