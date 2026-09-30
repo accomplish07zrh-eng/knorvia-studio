@@ -27,7 +27,7 @@ parser 继续独占参数、引号/escape/代码范围语法；现有 raw-path r
 - streaming=false 或空内容原样返回 own visibleText。streaming=true 时先取得现有 code ranges，再依名字顺序查询 unclosed start，取非 null 最小值；只有全部为空才查询尾部名称 prefix（含 code-comment）。单冒号最短 suffix 长度 6；双/三冒号继续沿用 parser 的现有前缀规则。
 - 一旦命中 cut，只 slice 原文，不能 trim 周围空白、移除完整 citation 或跨过代码保护。未闭合内容是否仍为参数前缀由现有 parser 决定：newline 本身不保证可见，普通尾词也可能符合参数名 prefix；不按旧注释新增修复。
 - preview 类型：扩展名大小写不敏感、只 trim path 两端；Office/PDF/media 的原映射保持，不剥 query/hash/line suffix 或 decodeURI。artifactKind undefined 才直接取扩展名；提供时 trim/lower 后必须是 document/workbook/presentation/video/audio，且与扩展名一致；空值、unknown、pdf 类型词或不匹配返回 null。
-- invalid runtime string/params/tree 的 TypeError/getter/path-resolver 异常继续公开抛出，不新增兜底吞噬或 partial-success claim。
+- invalid runtime string/params/tree 的 TypeError/getter/path-resolver 异常继续公开抛出，不新增兜底吞噬或 partial-success claim；remark 在后续 sibling 抛出时，先前 sibling 已经提交的替换仍保持，不改为整棵树原子提交。
 
 ## Remark 与消费者边界
 

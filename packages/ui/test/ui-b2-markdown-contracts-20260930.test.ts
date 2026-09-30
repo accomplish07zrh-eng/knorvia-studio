@@ -204,7 +204,7 @@ test("B2 markdown: malformed tree/getter failures remain public", () => {
     () =>
       transform({
         type: "root",
-        get children() {
+        get children(): Node[] {
           throw failure;
         },
       }),
@@ -213,7 +213,7 @@ test("B2 markdown: malformed tree/getter failures remain public", () => {
   const first = text(syntax("a.pdf"));
   const next = {
     type: "text",
-    get value() {
+    get value(): string {
       throw failure;
     },
   };

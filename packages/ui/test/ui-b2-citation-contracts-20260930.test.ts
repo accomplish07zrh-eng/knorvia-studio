@@ -21,6 +21,27 @@ const {
   resolveKnorviaFileCitationPreviewKind: preview,
 } = await import(url);
 
+test("B2 citation: runtime name extensions remain visible to all adapters", () => {
+  names.push("fixture-file-citation");
+  try {
+    const raw = "::fixture-file-citation{path=a.pdf}";
+    assert.equal(citations(raw)[0]?.path, "a.pdf");
+    assert.deepEqual(project("before ::fixture-file-", { streaming: true }), {
+      visibleText: "before ",
+    });
+    assert.deepEqual(project("before ::fixture-file-citation{path=", { streaming: true }), {
+      visibleText: "before ",
+    });
+    delete names[2];
+    assert.equal(citations("::knorvia-file-citation{path=a.pdf}").length, 1);
+    assert.deepEqual(project("before ::knorvia-file-citation{path=", { streaming: true }), {
+      visibleText: "before ",
+    });
+  } finally {
+    names.pop();
+  }
+});
+
 test("B2 citation: retained names, source order, UTF-16 offsets and raw slices", () => {
   assert.deepEqual(names, ["knorvia-file-citation", "zcode-file-citation"]);
   const first =
