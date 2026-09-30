@@ -1,0 +1,800 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "status": "WIP; stopped on explicit user Fast shutdown instruction; no acceptance or independent review",
+  "branch": "parallel/protocol-source-review-20260930-nine",
+  "checkpointBaseCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+  "productionEdits": 0,
+  "acceptedNewSourceClosuresOrMitGrants": 0,
+  "sourceExposure": true,
+  "cleanRoomClaim": false,
+  "independentReviewer": null,
+  "newRuntimeTestsExecuted": false,
+  "scope": {
+    "reviewOnlyExistingProductionFiles": 9,
+    "candidateLines": 950,
+    "sharedSourceDenominatorAtPreviousHandoff": 227,
+    "existingAcceptedHashMatched": 12,
+    "unclosed": 215,
+    "previousTrackBehaviorVerified": 9,
+    "unclosedNotReplacedByTrack": 206
+  },
+  "files": [
+    {
+      "path": "packages/shared/src/protocol-v4/wire-binary.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+      "bytes": 1722,
+      "lineCount": 44,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-binary.ts",
+        "blob": "bb4633f9f46a334f29cd9b6c7af44ec08c158cb8",
+        "normalizedSha256": "28f287c5764d3d7afa56b6291e3cc67f4234ccb5749f365a66cc7260ddcfbfee",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/wire-binary.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            4,
+            10
+          ],
+          "baselineLines": [
+            3,
+            9
+          ],
+          "sha256": "4f4e1861e43d8605aaa22ab5a76dc4de8b4a9006c5abf24532c7dbd1c12a26a0"
+        },
+        {
+          "candidateLines": [
+            37,
+            39
+          ],
+          "baselineLines": [
+            44,
+            46
+          ],
+          "sha256": "844f2196b5371ca2dfa57eb5b6bae115912bc2683331ea5b26f9e1f81f3507cc"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "bytes": 6940,
+      "lineCount": 191,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+      "ledgerClassification": "upstream-modified",
+      "ledgerUpstream": {
+        "relation": "modified",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+        "blob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+        "normalizedSha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+        "contentMatchedPaths": []
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            4,
+            12
+          ],
+          "baselineLines": [
+            3,
+            11
+          ],
+          "sha256": "196afc3ef2315794dabb22642007d83bb69d8f115c2e9398e8b9831a3ddb4450"
+        },
+        {
+          "candidateLines": [
+            45,
+            55
+          ],
+          "baselineLines": [
+            20,
+            30
+          ],
+          "sha256": "40294c97130e9d6d1e36e8ebf0a5b36d62093e708d181e74720204ac0844af50"
+        },
+        {
+          "candidateLines": [
+            61,
+            72
+          ],
+          "baselineLines": [
+            71,
+            82
+          ],
+          "sha256": "bf339850349ecc47df739cfd63a0998478ef4cddf53060b64ab79080b631626a"
+        },
+        {
+          "candidateLines": [
+            73,
+            77
+          ],
+          "baselineLines": [
+            87,
+            91
+          ],
+          "sha256": "01567cf93fcf6415867f7d84e1f0abc6dd3aa5d65c6e0591b45c87eebe2a9ee8"
+        },
+        {
+          "candidateLines": [
+            78,
+            90
+          ],
+          "baselineLines": [
+            100,
+            112
+          ],
+          "sha256": "882dcf7d12a6a2be7e647626e3f9a633e8baa4ac3b18a6d9cf9f46bbf172cc8f"
+        },
+        {
+          "candidateLines": [
+            108,
+            110
+          ],
+          "baselineLines": [
+            134,
+            136
+          ],
+          "sha256": "92040e095a94e2ada74e421f3718751a91a810bfd66f48f4e939c7b7480eb670"
+        },
+        {
+          "candidateLines": [
+            126,
+            131
+          ],
+          "baselineLines": [
+            167,
+            172
+          ],
+          "sha256": "ed8d42a98f75c4beea8ab1d0529436683e81631e8abe1c35c922f0277acdf166"
+        },
+        {
+          "candidateLines": [
+            133,
+            136
+          ],
+          "baselineLines": [
+            174,
+            177
+          ],
+          "sha256": "6a0563d3f5b848d0ec4ae195f6c493cefb080b9381c15959091200189a172f6d"
+        },
+        {
+          "candidateLines": [
+            138,
+            141
+          ],
+          "baselineLines": [
+            179,
+            182
+          ],
+          "sha256": "b7a78778708055ba045f8f667503ea0207cfc54199569443f56a46e27c717103"
+        },
+        {
+          "candidateLines": [
+            175,
+            177
+          ],
+          "baselineLines": [
+            216,
+            218
+          ],
+          "sha256": "d0334ecf8d049bfe8a20968f0ec66248f29d6bcc532d2a198db97b78615908f4"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-reassembly.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+      "bytes": 7045,
+      "lineCount": 176,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/wire-reassembly.ts",
+        "blob": "629c67182dfecdaab03347781b318d230b8d4c71",
+        "normalizedSha256": "fc090b21e32eea5e3c8f7a1606336d74a6d19c85a1f560701d01987335b10ea6",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/wire-reassembly.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            4,
+            17
+          ],
+          "baselineLines": [
+            3,
+            16
+          ],
+          "sha256": "4a68226e8c0c80af2f92f60b0a47393bfa046e04d9eb053ebdb69a8d7053d582"
+        },
+        {
+          "candidateLines": [
+            142,
+            148
+          ],
+          "baselineLines": [
+            28,
+            34
+          ],
+          "sha256": "6a4ab7256529a4a4b538d9b08a900e19058ccc8b73c931a61a1eada754037410"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+      "bytes": 5675,
+      "lineCount": 117,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-concurrency.ts",
+        "blob": "bbadd8560723bfc4b39ce87445d3f8fdf44e785f",
+        "normalizedSha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/workflow-runs-concurrency.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            2,
+            32
+          ],
+          "baselineLines": [
+            1,
+            31
+          ],
+          "sha256": "24a0b8271d160ac8faa3238096f67b689eb35c336a773c4977cb73883fd4c03c"
+        },
+        {
+          "candidateLines": [
+            52,
+            69
+          ],
+          "baselineLines": [
+            52,
+            69
+          ],
+          "sha256": "554178eba4fd9c4dee439edbcccb69ab87c239a1f1c3d844d143f5004d992044"
+        },
+        {
+          "candidateLines": [
+            72,
+            75
+          ],
+          "baselineLines": [
+            72,
+            75
+          ],
+          "sha256": "935e3e8b085da5244b1905d7b1406000d7426298d0e1b7a4f5ad7175d8f730e5"
+        },
+        {
+          "candidateLines": [
+            89,
+            97
+          ],
+          "baselineLines": [
+            92,
+            100
+          ],
+          "sha256": "39ff3fbc5b3adf936452ca44025f82a33ba50e8bc5a8ad965cbaefc649b578cb"
+        },
+        {
+          "candidateLines": [
+            107,
+            117
+          ],
+          "baselineLines": [
+            111,
+            121
+          ],
+          "sha256": "9bcba3dd8edde07cc778ba8a1d13c31e14d5446e45d4b13df728a3c6cae86702"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+      "bytes": 4940,
+      "lineCount": 105,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-phases.ts",
+        "blob": "f1c223bd06befe04cbb2d2248058755dae5f18e5",
+        "normalizedSha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/workflow-runs-phases.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            3,
+            50
+          ],
+          "baselineLines": [
+            6,
+            53
+          ],
+          "sha256": "2b046ccd61073718512e8d6a14217a9426cb79af9cb81374bdc92de322731f49"
+        },
+        {
+          "candidateLines": [
+            76,
+            89
+          ],
+          "baselineLines": [
+            72,
+            85
+          ],
+          "sha256": "880f342f6a49cdabce1105927f8b14c16b00a17409e162067e0cd54b15e75e53"
+        },
+        {
+          "candidateLines": [
+            98,
+            102
+          ],
+          "baselineLines": [
+            100,
+            104
+          ],
+          "sha256": "3714f2da7c18e0aa1fade66faaba65691d03c3d0e3b206131b83dcfcdad7daed"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+      "bytes": 6890,
+      "lineCount": 131,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/zcode-protocol-v4/workflow-runs-node-progress.ts",
+        "blob": "072f72283743594f12304cb40dcb01e59db5ef19",
+        "normalizedSha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+        "contentMatchedPaths": [
+          "packages/shared/src/zcode-protocol-v4/workflow-runs-node-progress.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            2,
+            50
+          ],
+          "baselineLines": [
+            1,
+            49
+          ],
+          "sha256": "fccbb410920bee0ecfc86757b430b77144ad8fdf110289a7ea4001e0c011f08e"
+        },
+        {
+          "candidateLines": [
+            53,
+            56
+          ],
+          "baselineLines": [
+            53,
+            56
+          ],
+          "sha256": "32d8c339b224ac68e3b185c2ab0619524c070dce3cbaed335ff1d3bf4d7f5281"
+        },
+        {
+          "candidateLines": [
+            67,
+            83
+          ],
+          "baselineLines": [
+            64,
+            80
+          ],
+          "sha256": "4192aabf7e7df78cc5b53e2470a2b063d4856b591fe725a3eba152a3372714d5"
+        },
+        {
+          "candidateLines": [
+            100,
+            102
+          ],
+          "baselineLines": [
+            96,
+            98
+          ],
+          "sha256": "d2147f1aa0f11793f22fc90472734a6a373dddfcbfde55016584cd0ae376a7a2"
+        },
+        {
+          "candidateLines": [
+            107,
+            131
+          ],
+          "baselineLines": [
+            107,
+            131
+          ],
+          "sha256": "10fdf16c07373a5b81b6c4e0e5ac986baf135acddeb2d4bd2d59d303fa295629"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/remote-workspace-identity.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+      "bytes": 2830,
+      "lineCount": 67,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "1392ae30f222a4aedaf0427318527839a623e7b43dd455f061f5babc1264ce0f",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remote-workspace-identity.ts",
+        "blob": "f246cb325b36e9c933fe2689199bc616d0c6fe79",
+        "normalizedSha256": "1392ae30f222a4aedaf0427318527839a623e7b43dd455f061f5babc1264ce0f",
+        "contentMatchedPaths": [
+          "packages/shared/src/remote-workspace-identity.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            4,
+            13
+          ],
+          "baselineLines": [
+            13,
+            22
+          ],
+          "sha256": "8573de944e88ed67af00d3dbfe7e4566bdd667a1134aa4d2cd555d23ba8c62e6"
+        },
+        {
+          "candidateLines": [
+            21,
+            26
+          ],
+          "baselineLines": [
+            41,
+            46
+          ],
+          "sha256": "cade0c5454fd2674d6dd49f70c300b24064d3bd4c4dc2d7b881971c60bc3bfa1"
+        },
+        {
+          "candidateLines": [
+            29,
+            51
+          ],
+          "baselineLines": [
+            48,
+            70
+          ],
+          "sha256": "52f5b86b53b9619bb0348608e9deb77889bbd5b9835688be49d27029eb11d8c3"
+        },
+        {
+          "candidateLines": [
+            62,
+            67
+          ],
+          "baselineLines": [
+            108,
+            113
+          ],
+          "sha256": "47dc5433b9becb91f4a5c462470225964afa1abd9ef2dd9bea35e7d8053354bd"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/remoteSshHostKey.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "bytes": 3184,
+      "lineCount": 94,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "1359d0dc69d76771cf84d2a432d2d0a1e119be381d3d0a49537279b67e10641d",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/remoteSshHostKey.ts",
+        "blob": "3057acd946c7e6ea0eafacb9aee7dac5cf4149fa",
+        "normalizedSha256": "1359d0dc69d76771cf84d2a432d2d0a1e119be381d3d0a49537279b67e10641d",
+        "contentMatchedPaths": [
+          "packages/shared/src/remoteSshHostKey.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            1,
+            5
+          ],
+          "baselineLines": [
+            1,
+            5
+          ],
+          "sha256": "22f3fcc3eb9fe83a027546347f4f5e6dea5a53d02289bd44f189b6abe2dbec60"
+        },
+        {
+          "candidateLines": [
+            28,
+            31
+          ],
+          "baselineLines": [
+            19,
+            22
+          ],
+          "sha256": "e5e8550b1ad0d204bbc05e9c824ed975b826f45b510c6cf67afe80ed98e3f927"
+        },
+        {
+          "candidateLines": [
+            45,
+            52
+          ],
+          "baselineLines": [
+            69,
+            76
+          ],
+          "sha256": "c467422a16964368aa4751e533304dbf1bd2a3c2ef8050b5b2e0a525e48cbf3a"
+        },
+        {
+          "candidateLines": [
+            66,
+            94
+          ],
+          "baselineLines": [
+            106,
+            134
+          ],
+          "sha256": "ec2cd9efa2e7f36e4b88d89e87ef916b7435709db2f9c257871e627bba33e4a5"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    },
+    {
+      "path": "packages/shared/src/wslUserValidation.ts",
+      "candidateCommit": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+      "bytes": 834,
+      "lineCount": 25,
+      "baselineCommit": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+      "baselineSha256": "96c18113f6273cc80bae560e04353cf3e991f4607ab6eb29d088954a8eec167c",
+      "ledgerClassification": "upstream-unchanged",
+      "ledgerUpstream": {
+        "relation": "unchanged",
+        "path": "packages/shared/src/wslUserValidation.ts",
+        "blob": "879e1366c3caa2ef4521fce160620fc36aa687b5",
+        "normalizedSha256": "96c18113f6273cc80bae560e04353cf3e991f4607ab6eb29d088954a8eec167c",
+        "contentMatchedPaths": [
+          "packages/shared/src/wslUserValidation.ts"
+        ]
+      },
+      "exactBaselineMatchesAtLeastThreeLines": [
+        {
+          "candidateLines": [
+            1,
+            3
+          ],
+          "baselineLines": [
+            1,
+            3
+          ],
+          "sha256": "600e1baee343e3a6a92749eaf17b57d8754910a3bed201141f7cc8e5a2ca6230"
+        },
+        {
+          "candidateLines": [
+            9,
+            14
+          ],
+          "baselineLines": [
+            4,
+            9
+          ],
+          "sha256": "8bea55c0cb3038035f2c462fb2fdce7521aaf4754d155a81d13b483e8af7ee6c"
+        },
+        {
+          "candidateLines": [
+            17,
+            25
+          ],
+          "baselineLines": [
+            25,
+            33
+          ],
+          "sha256": "4dde56daea65f2efc60f311470ef86afc77cb1f37de329acec50bc6fffe31e27"
+        }
+      ],
+      "mechanicalMatchesAreNotSourceOrLicenseDecisions": true,
+      "reviewStatus": "not performed; author-prepared WIP only"
+    }
+  ],
+  "primarySourceFetch": {
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/LICENSE",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "gitBlob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "lineCount": 202
+    },
+    "packages/shared/src/zcode-protocol-v4/wire-codec.ts": {
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+      "bytes": 8428,
+      "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+      "gitBlob": "0332e837eac7b8805a12cb8dd3210599632e373e",
+      "lineCount": 240
+    }
+  },
+  "licenseMaterialChecks": [
+    {
+      "package": "echarts@6.1.0",
+      "member": "LICENSE",
+      "expectedSha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "actualSha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "path": "node_modules/echarts/LICENSE"
+    },
+    {
+      "package": "echarts@6.1.0",
+      "member": "licenses/LICENSE-d3",
+      "expectedSha256": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304",
+      "actualSha256": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304",
+      "path": "node_modules/echarts/licenses/LICENSE-d3"
+    },
+    {
+      "package": "echarts@6.1.0",
+      "member": "NOTICE",
+      "expectedSha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+      "actualSha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016",
+      "path": "node_modules/echarts/NOTICE"
+    },
+    {
+      "package": "echarts@6.1.0",
+      "member": "README.md (license section)",
+      "expectedSha256": "8a4c3eb1acbbc8ae95185e93061600adc6a51988e5c5ac264738a5cc5aa3667d",
+      "actualSha256": null,
+      "path": null
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "cmaps/LICENSE",
+      "expectedSha256": "aa92ab5a472974865a96fd4a4e9c13bb41bf6fe1b309cb6b8da48bc9e19839a2",
+      "actualSha256": "aa92ab5a472974865a96fd4a4e9c13bb41bf6fe1b309cb6b8da48bc9e19839a2",
+      "path": "node_modules/pdfjs-dist/cmaps/LICENSE"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "iccs/LICENSE",
+      "expectedSha256": "286e4fd7b447330b2c88e23890e3cd0a9d38cb398d4a59cb247f578ccbda3213",
+      "actualSha256": "286e4fd7b447330b2c88e23890e3cd0a9d38cb398d4a59cb247f578ccbda3213",
+      "path": "node_modules/pdfjs-dist/iccs/LICENSE"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "LICENSE",
+      "expectedSha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "actualSha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "path": "node_modules/pdfjs-dist/LICENSE"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "standard_fonts/LICENSE_FOXIT",
+      "expectedSha256": "b578cdd2345840ada550bd12519533812320d5f1d21cf4c1c7e1b1b0a31c98b7",
+      "actualSha256": "b578cdd2345840ada550bd12519533812320d5f1d21cf4c1c7e1b1b0a31c98b7",
+      "path": "node_modules/pdfjs-dist/standard_fonts/LICENSE_FOXIT"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "standard_fonts/LICENSE_LIBERATION",
+      "expectedSha256": "93fed46019c38bbe566b479d22148e2e8a1e85ada614accb0211c37b2c61c19b",
+      "actualSha256": "93fed46019c38bbe566b479d22148e2e8a1e85ada614accb0211c37b2c61c19b",
+      "path": "node_modules/pdfjs-dist/standard_fonts/LICENSE_LIBERATION"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_OPENJPEG",
+      "expectedSha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "actualSha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_OPENJPEG"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_PDFJS_OPENJPEG",
+      "expectedSha256": "717fc62da03292dbb4dd0c8280bd4ce7bb8550dcf31d772bc93455fb50313425",
+      "actualSha256": "717fc62da03292dbb4dd0c8280bd4ce7bb8550dcf31d772bc93455fb50313425",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_OPENJPEG"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_PDFJS_QCMS",
+      "expectedSha256": "eb5104ca33552be007857a28351bc408f379ddd4bfacab1226b09c6d1e9fd7c4",
+      "actualSha256": "eb5104ca33552be007857a28351bc408f379ddd4bfacab1226b09c6d1e9fd7c4",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_PDFJS_QCMS"
+    },
+    {
+      "package": "pdfjs-dist@5.4.296",
+      "member": "wasm/LICENSE_QCMS",
+      "expectedSha256": "36d847ae882f6574ebc72f56a4f354e4f104fde4a584373496482e97d52d31bc",
+      "actualSha256": "36d847ae882f6574ebc72f56a4f354e4f104fde4a584373496482e97d52d31bc",
+      "path": "node_modules/pdfjs-dist/wasm/LICENSE_QCMS"
+    },
+    {
+      "package": "playwright-core@1.59.1",
+      "member": "LICENSE",
+      "expectedSha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "actualSha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "path": "node_modules/playwright-core/LICENSE"
+    },
+    {
+      "package": "playwright-core@1.59.1",
+      "member": "NOTICE",
+      "expectedSha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "actualSha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "path": "node_modules/playwright-core/NOTICE"
+    },
+    {
+      "package": "typescript@6.0.2",
+      "member": "LICENSE.txt",
+      "expectedSha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47",
+      "actualSha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47",
+      "path": "node_modules/typescript/LICENSE.txt"
+    }
+  ],
+  "noticeCheckResult": {
+    "wholeNoticeFilesMatched": 15,
+    "wholeNoticeMismatches": 0,
+    "notReproduced": [
+      "ECharts README.md (license section) extraction"
+    ],
+    "distributionClosureVerified": false
+  },
+  "pending": [
+    "Complete reviewed span-by-span classification and semantic baseline correspondence for all nine files; exact matching blocks are only navigation",
+    "Gather contributor authority and generation/design evidence; Git authorship or AI label is not a rights grant",
+    "Have a separate reviewer decide retained interface/function constraints versus retained protected expression and unknown portions",
+    "Prepare admissible independent-standard design candidates and contracts without cosmetic rewrites",
+    "Review VS Code partial MIT scope and original import provenance; pinned reference is not original import revision",
+    "Parent refreshes wire-codec input binding and shared source registry only after accepting evidence",
+    "Run appropriate artifact validation/formatting and required quality gates after Standard successor takes ownership; no new test suite run in this checkpoint"
+  ],
+  "existingEngineeringEvidence": [
+    "licensing/evidence/protocol-wire-20260930.json",
+    "licensing/evidence/remote-identity-20260930.json",
+    "licensing/evidence/workflow-projections-20260930.json"
+  ],
+  "configurationHandoff": "No supported task-level Fast/Standard switching API was available; stop this task and let parent create Standard successor."
+}
