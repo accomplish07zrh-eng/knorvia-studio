@@ -1,0 +1,645 @@
+{
+  "baseCommit": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+  "records": [
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "abc",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "a\r\nb\n",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "﻿a",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "utf16le"
+    },
+    {
+      "value": {
+        "content": "﻿a\n",
+        "encoding": "utf16le"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "abcdefg\u0001\u0002\u0003",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "\t",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "\u000b",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "\r",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": "gb2312"
+    },
+    {
+      "value": {
+        "content": "你好",
+        "encoding": "gb2312"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "你好",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "gb2312"
+    },
+    {
+      "value": {
+        "content": "a�",
+        "encoding": "gb2312"
+      }
+    },
+    {
+      "value": "gb2312"
+    },
+    {
+      "value": {
+        "content": "a��",
+        "encoding": "gb2312"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": "gb18030"
+    },
+    {
+      "value": {
+        "content": "",
+        "encoding": "gb18030"
+      }
+    },
+    {
+      "value": "gb2312"
+    },
+    {
+      "value": {
+        "content": "中文",
+        "encoding": "gb2312"
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "😀",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": "gb2312"
+    },
+    {
+      "value": {
+        "content": "馃�",
+        "encoding": "gb2312"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Unsupported or binary text encoding: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": "utf8"
+    },
+    {
+      "value": {
+        "content": "﻿\u0000",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": {
+        "content": "���\r\n",
+        "encoding": "utf8"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "e4bda0e5a5bd0d0af09f9880"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "", "你", "", "", "好", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "���\r\n",
+        "encoding": "utf-8"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "e4bda0e5a5bd0d0af09f9880"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "", "你", "", "", "好", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "쎺਍",
+        "encoding": "utf16le"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "604f7d590d000a003dd800de"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "뷤", "", "", "", "붥", "", "਍"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "쎺਍",
+        "encoding": "ucs2"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "604f7d590d000a003dd800de"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "뷤", "", "", "", "붥", "", "਍"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "Dc:C\r\n",
+        "encoding": "ascii"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "607d0d0a3d00"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["d", "=", " ", "e", "%", "=", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "ÄãºÃ\r\n",
+        "encoding": "latin1"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "607d0d0a3d00"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["ä", "½", " ", "å", "¥", "½", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "ÄãºÃ\r\n",
+        "encoding": "binary"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "607d0d0a3d00"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["ä", "½", " ", "å", "¥", "½", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "c4e3bac30d0a",
+        "encoding": "hex"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": ""
+      }
+    },
+    {
+      "value": false
+    },
+    {
+      "value": {
+        "writes": ["e4", "bd", "a0", "e5", "a5", "bd", "0d", "0a"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "xOO6ww0K",
+        "encoding": "base64"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": ""
+      }
+    },
+    {
+      "value": false
+    },
+    {
+      "value": {
+        "writes": ["", "", "5L2g", "", "", "5aW9", "", ""],
+        "ending": "DQo="
+      }
+    },
+    {
+      "value": {
+        "content": "xOO6ww0K",
+        "encoding": "base64url"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": ""
+      }
+    },
+    {
+      "value": false
+    },
+    {
+      "value": {
+        "writes": ["", "", "5L2g", "", "", "5aW9", "", ""],
+        "ending": "DQo"
+      }
+    },
+    {
+      "value": {
+        "content": "你好\r\n",
+        "encoding": "gb2312"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Content cannot be encoded as gb2312: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "浣", "", "犲", "", "ソ", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "你好\r\n",
+        "encoding": "gbk"
+      }
+    },
+    {
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Content cannot be encoded as gbk: controlled.txt",
+        "code": "unsupported",
+        "path": "controlled.txt",
+        "cause": {
+          "$undefined": true
+        }
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "浣", "", "犲", "", "ソ", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "content": "你好\r\n",
+        "encoding": "gb18030"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "c4e3bac30d0a9439fc36"
+      }
+    },
+    {
+      "value": true
+    },
+    {
+      "value": {
+        "writes": ["", "浣", "", "犲", "", "ソ", "\r", "\n"],
+        "ending": ""
+      }
+    },
+    {
+      "value": {
+        "detected": "LF",
+        "normalized": ""
+      }
+    },
+    {
+      "value": {
+        "detected": "LF",
+        "normalized": "a"
+      }
+    },
+    {
+      "value": {
+        "detected": "LF",
+        "normalized": "a\r"
+      }
+    },
+    {
+      "value": {
+        "detected": "LF",
+        "normalized": "a\n"
+      }
+    },
+    {
+      "value": {
+        "detected": "CRLF",
+        "normalized": "a\n"
+      }
+    },
+    {
+      "value": {
+        "detected": "LF",
+        "normalized": "a\nb\n"
+      }
+    },
+    {
+      "value": {
+        "detected": "CRLF",
+        "normalized": "a\nb\nc\n"
+      }
+    },
+    {
+      "value": "a\r\nb\rc\n"
+    },
+    {
+      "value": "a\nb\rc\n"
+    },
+    {
+      "value": "a\r\nb\rc\r\n"
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "c4e3bac3"
+      }
+    },
+    {
+      "value": {
+        "type": "Buffer",
+        "bytes": "c4e3bac3"
+      }
+    }
+  ]
+}

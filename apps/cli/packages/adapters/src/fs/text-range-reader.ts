@@ -1,6 +1,5 @@
-import { createReadStream } from "node:fs";
+import { createReadStream, type Stats } from "node:fs";
 import { open, readFile } from "node:fs/promises";
-import type { Stats } from "node:fs";
 import {
   createFileSystemError,
   type FileSystemTextEncoding,
@@ -15,221 +14,144 @@ import {
   normalizeLineEndings,
   shouldNormalizeLineEndings,
 } from "./text-metadata.js";
+import { TextLineWindow } from "./text-line-window.js";
 
-const FAST_PATH_MAX_BYTES = 10 * 1024 * 1024;
-const ENCODING_SAMPLE_BYTES = 4096;
+const WHOLE_FILE_THRESHOLD = 10 * 1024 * 1024;
+const HEAD_CAPACITY = 4096;
+const KIB = 1024;
+const MIB = KIB * KIB;
+type RangeContent = Pick<
+  FileSystemReadTextRangeResult,
+  "content" | "encoding" | "lineEndings" | "bytesRead" | "lineCount" | "totalLines"
+>;
 
 export async function readTextFileRangeFromNode(
   request: FileSystemReadTextRangeRequest,
   info: Stats,
   signal?: AbortSignal,
 ): Promise<FileSystemReadTextRangeResult> {
-  throwIfAborted(signal);
-  assertWithinMaxBytes(request.path, info.size, request.maxBytes);
-
-  if (info.size <= FAST_PATH_MAX_BYTES) {
-    return readRangeFast(request, info, signal);
+  checkCancellation(signal);
+  if (request.maxBytes !== undefined && !(info.size <= request.maxBytes)) {
+    throw createFileSystemError({
+      code: "too_large",
+      path: request.path,
+      message: `File content (${displaySize(info.size)}) exceeds maximum allowed size (${displaySize(request.maxBytes)}). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.`,
+    });
   }
-
-  return readRangeStreaming(request, info, signal);
+  const offset = Math.max(0, Math.trunc(request.offsetLine ?? 0));
+  const limit =
+    request.limitLines === undefined ? undefined : Math.max(0, Math.trunc(request.limitLines));
+  const result =
+    info.size <= WHOLE_FILE_THRESHOLD
+      ? await wholeFile(request, offset, limit, signal)
+      : await scanFile(request, offset, limit, signal);
+  return {
+    path: request.path,
+    ...result,
+    sizeBytes: info.size,
+    truncated: false,
+    startLine: offset + 1,
+    revision: {
+      id: `mtime:${Math.trunc(info.mtimeMs)}:size:${info.size}`,
+      mtimeMs: info.mtimeMs,
+      sizeBytes: info.size,
+    },
+  };
 }
 
-function assertWithinMaxBytes(path: string, sizeBytes: number, maxBytes: number | undefined): void {
-  if (maxBytes === undefined || sizeBytes <= maxBytes) return;
-  throw createFileSystemError({
-    code: "too_large",
-    path,
-    message: `File content (${formatFileSize(sizeBytes)}) exceeds maximum allowed size (${formatFileSize(maxBytes)}). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.`,
-  });
-}
-
-async function readRangeFast(
+async function wholeFile(
   request: FileSystemReadTextRangeRequest,
-  info: Stats,
+  offset: number,
+  limit: number | undefined,
   signal?: AbortSignal,
-): Promise<FileSystemReadTextRangeResult> {
-  throwIfAborted(signal);
-  const buffer = await readFile(request.path);
-  throwIfAborted(signal);
-  const decoded = decodeTextBuffer({
-    buffer,
+): Promise<RangeContent> {
+  checkCancellation(signal);
+  const bytes = await readFile(request.path);
+  checkCancellation(signal);
+  const { content: raw, encoding } = decodeTextBuffer({
+    buffer: bytes,
     encoding: request.encoding,
     path: request.path,
   });
-  const encoding = decoded.encoding;
-  const rawContent = decoded.content;
-  const isText = shouldNormalizeLineEndings(encoding);
-  const normalized = isText ? normalizeLineEndings(rawContent) : rawContent;
-  const lines = normalized.length === 0 ? [] : normalized.split("\n");
-  const offsetLine = normalizeOffsetLine(request.offsetLine);
-  const selectedLines = selectLines(lines, offsetLine, request.limitLines);
-
+  const text = shouldNormalizeLineEndings(encoding);
+  const normalized = text ? normalizeLineEndings(raw) : raw;
+  const lines = normalized === "" ? [] : normalized.split("\n");
+  const selected = limit === undefined ? lines.slice(offset) : lines.slice(offset, offset + limit);
   return {
-    path: request.path,
-    content: selectedLines.join("\n"),
+    content: selected.join("\n"),
     encoding,
-    lineEndings: isText ? detectLineEndings(rawContent) : undefined,
-    bytesRead: buffer.byteLength,
-    sizeBytes: info.size,
-    truncated: false,
-    startLine: offsetLine + 1,
-    lineCount: selectedLines.length,
+    lineEndings: text ? detectLineEndings(raw) : undefined,
+    bytesRead: bytes.length,
+    lineCount: selected.length,
     totalLines: lines.length,
-    revision: {
-      id: revisionId(info.mtimeMs, info.size),
-      mtimeMs: info.mtimeMs,
-      sizeBytes: info.size,
-    },
   };
 }
 
-async function readRangeStreaming(
+async function scanFile(
   request: FileSystemReadTextRangeRequest,
-  info: Stats,
+  offset: number,
+  limit: number | undefined,
   signal?: AbortSignal,
-): Promise<FileSystemReadTextRangeResult> {
-  const encoding = request.encoding ?? (await detectEncodingFromHead(request.path, signal));
+): Promise<RangeContent> {
+  const encoding = request.encoding ?? (await sampleEncoding(request.path, signal));
   const decoder = createStreamingTextDecoder(encoding);
-  const selectedLines: string[] = [];
-  const offsetLine = normalizeOffsetLine(request.offsetLine);
-  const limitLines = normalizeLimitLines(request.limitLines);
-  let carry = "";
-  let lineIndex = 0;
-  let bytesRead = 0;
-  let crlfCount = 0;
-  let lfCount = 0;
-  let sawAnyBytes = false;
-
+  const window = new TextLineWindow(offset, limit);
   const stream = createReadStream(request.path);
   const abort = (): void => {
-    stream.destroy(createAbortError(request.path));
+    stream.destroy(cancelled(request.path));
   };
+  let bytesRead = 0;
+  let sawBytes = false;
   signal?.addEventListener("abort", abort, { once: true });
-
   try {
     for await (const chunk of stream) {
-      throwIfAborted(signal);
-      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-      sawAnyBytes = sawAnyBytes || buffer.byteLength > 0;
-      bytesRead += buffer.byteLength;
-      const text = decoder.write(buffer);
-      const parts = `${carry}${text}`.split("\n");
-      carry = parts.pop() ?? "";
-      for (const part of parts) {
-        const normalized = normalizeCompletedLine(part);
-        if (part.endsWith("\r")) crlfCount += 1;
-        else lfCount += 1;
-        if (shouldSelectLine(lineIndex, offsetLine, limitLines, selectedLines.length)) {
-          selectedLines.push(normalized);
-        }
-        lineIndex += 1;
-      }
+      checkCancellation(signal);
+      const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+      bytesRead += bytes.length;
+      sawBytes ||= bytes.length > 0;
+      // 修复：旧 carry+chunk 每次重拼未选中的长行，64MiB 反例额外 heap 超过 600MiB。
+      // 窗口仅收集选中行；每个 chunk 的新字符被扫描一次，仍完整统计文件。
+      window.write(decoder.write(bytes));
     }
-
-    const finalText = decoder.end();
-    if (finalText.length > 0) {
-      carry += finalText;
-    }
-    if (sawAnyBytes) {
-      const normalized = normalizeCompletedLine(carry);
-      if (shouldSelectLine(lineIndex, offsetLine, limitLines, selectedLines.length)) {
-        selectedLines.push(normalized);
-      }
-      lineIndex += 1;
-    }
+    window.finish(decoder.end(), sawBytes);
   } finally {
     signal?.removeEventListener("abort", abort);
   }
-
   return {
-    path: request.path,
-    content: selectedLines.join("\n"),
+    content: window.lines.join("\n"),
     encoding,
-    lineEndings: crlfCount > lfCount ? "CRLF" : "LF",
+    lineEndings: window.lineEndings,
     bytesRead,
-    sizeBytes: info.size,
-    truncated: false,
-    startLine: offsetLine + 1,
-    lineCount: selectedLines.length,
-    totalLines: lineIndex,
-    revision: {
-      id: revisionId(info.mtimeMs, info.size),
-      mtimeMs: info.mtimeMs,
-      sizeBytes: info.size,
-    },
+    lineCount: window.lines.length,
+    totalLines: window.totalLines,
   };
 }
 
-async function detectEncodingFromHead(
-  path: string,
-  signal?: AbortSignal,
-): Promise<FileSystemTextEncoding> {
-  throwIfAborted(signal);
+async function sampleEncoding(path: string, signal?: AbortSignal): Promise<FileSystemTextEncoding> {
+  checkCancellation(signal);
   const handle = await open(path, "r");
   try {
-    const sample = Buffer.alloc(ENCODING_SAMPLE_BYTES);
-    const { bytesRead } = await handle.read(sample, 0, sample.byteLength, 0);
-    return detectTextEncoding(sample.subarray(0, bytesRead));
+    const head = Buffer.alloc(HEAD_CAPACITY);
+    const { bytesRead } = await handle.read(head, 0, head.length, 0);
+    return detectTextEncoding(head.subarray(0, bytesRead));
   } finally {
     await handle.close();
   }
 }
 
-function normalizeOffsetLine(offsetLine: number | undefined): number {
-  return Math.max(0, Math.trunc(offsetLine ?? 0));
+function displaySize(bytes: number): string {
+  if (bytes < KIB) return `${bytes}B`;
+  const scale = bytes < MIB ? KIB : MIB;
+  const value = bytes / scale;
+  const numeral = Number.isInteger(value) ? String(value) : value.toFixed(1).replace(/\.0$/, "");
+  return numeral + (scale === KIB ? "KB" : "MB");
 }
 
-function normalizeLimitLines(limitLines: number | undefined): number | undefined {
-  if (limitLines === undefined) return undefined;
-  return Math.max(0, Math.trunc(limitLines));
+function cancelled(path: string): Error {
+  return Object.assign(new Error(`File system operation was cancelled: ${path}`), {
+    name: "AbortError",
+  });
 }
-
-function selectLines(
-  lines: string[],
-  offsetLine: number,
-  limitLines: number | undefined,
-): string[] {
-  const limit = normalizeLimitLines(limitLines);
-  return limit === undefined
-    ? lines.slice(offsetLine)
-    : lines.slice(offsetLine, offsetLine + limit);
-}
-
-function shouldSelectLine(
-  lineIndex: number,
-  offsetLine: number,
-  limitLines: number | undefined,
-  selectedCount: number,
-): boolean {
-  if (lineIndex < offsetLine) return false;
-  return limitLines === undefined || selectedCount < limitLines;
-}
-
-function normalizeCompletedLine(line: string): string {
-  return line.endsWith("\r") ? line.slice(0, -1) : line;
-}
-
-function revisionId(mtimeMs: number, sizeBytes: number): string {
-  return `mtime:${Math.trunc(mtimeMs)}:size:${sizeBytes}`;
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes}B`;
-  if (bytes < 1024 * 1024) return `${formatUnit(bytes / 1024)}KB`;
-  return `${formatUnit(bytes / (1024 * 1024))}MB`;
-}
-
-function formatUnit(value: number): string {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1).replace(/\.0$/, "");
-}
-
-function throwIfAborted(signal?: AbortSignal): void {
-  if (!signal?.aborted) return;
-  throw createAbortError("file range read");
-}
-
-function createAbortError(path: string): Error {
-  const error = new Error(`File system operation was cancelled: ${path}`);
-  error.name = "AbortError";
-  return error;
+function checkCancellation(signal?: AbortSignal): void {
+  if (signal?.aborted) throw cancelled("file range read");
 }

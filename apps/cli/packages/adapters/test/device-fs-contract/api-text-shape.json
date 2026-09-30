@@ -1,0 +1,78 @@
+{
+  "text-metadata": {
+    "applyRequestedLineEndings": [
+      {
+        "signature": "(content: string, lineEndings: FileSystemLineEndings | undefined): string",
+        "returns": {}
+      }
+    ],
+    "createStreamingTextDecoder": [
+      {
+        "signature": "(encoding: FileSystemTextEncoding): StreamingTextDecoder",
+        "returns": {
+          "end": {
+            "optional": false,
+            "type": "() => string"
+          },
+          "write": {
+            "optional": false,
+            "type": "(buffer: Buffer) => string"
+          }
+        }
+      }
+    ],
+    "decodeTextBuffer": [
+      {
+        "signature": "(request: { buffer: Buffer; encoding?: FileSystemTextEncoding; path?: string; }): DecodedTextBuffer",
+        "returns": {
+          "content": {
+            "optional": false,
+            "type": "string"
+          },
+          "encoding": {
+            "optional": false,
+            "type": "FileSystemTextEncoding"
+          }
+        }
+      }
+    ],
+    "detectLineEndings": [
+      {
+        "signature": "(content: string): FileSystemLineEndings",
+        "returns": {}
+      }
+    ],
+    "detectTextEncoding": [
+      {
+        "signature": "(buffer: Buffer, path?: string): FileSystemTextEncoding",
+        "returns": {}
+      }
+    ],
+    "encodeTextContent": [
+      {
+        "signature": "(request: { content: string; encoding?: FileSystemTextEncoding; path?: string; }): Buffer",
+        "returns": {}
+      }
+    ],
+    "normalizeLineEndings": [
+      {
+        "signature": "(content: string): string",
+        "returns": {}
+      }
+    ],
+    "shouldNormalizeLineEndings": [
+      {
+        "signature": "(encoding: FileSystemTextEncoding): boolean",
+        "returns": {}
+      }
+    ]
+  },
+  "text-range-reader": {
+    "readTextFileRangeFromNode": [
+      {
+        "signature": "(request: FileSystemReadTextRangeRequest, info: Stats, signal?: AbortSignal): Promise<FileSystemReadTextRangeResult>",
+        "returns": {}
+      }
+    ]
+  }
+}

@@ -7,44 +7,88 @@ import {
 } from "@knorvia/contracts";
 import iconv from "iconv-lite";
 
-const UTF8_BOM = [0xef, 0xbb, 0xbf] as const;
-const UTF16LE_BOM = [0xff, 0xfe] as const;
-const LEGACY_CHINESE_ENCODINGS = ["gb2312", "gbk", "gb18030"] as const;
-const BINARY_CONTROL_BYTE_THRESHOLD = 0.3;
-const MAX_DETECTION_TRAILING_DROP_BYTES = 3;
-const NON_TEXT_ENCODINGS = new Set(["base64", "base64url", "hex"]);
-
-type LegacyChineseEncoding = (typeof LEGACY_CHINESE_ENCODINGS)[number];
+const CHINESE_ENCODINGS = ["gb2312", "gbk", "gb18030"] as const;
+const MAX_INCOMPLETE_SUFFIX = 3;
+const CONTROL_FRACTION = 0.3;
+const LF = "\n";
+const CRLF = "\r\n";
+const TRANSPORT_ENCODINGS = new Set(["base64", "base64url", "hex"]);
+type ChineseEncoding = (typeof CHINESE_ENCODINGS)[number];
 
 interface DecodedTextBuffer {
   content: string;
   encoding: FileSystemTextEncoding;
 }
-
 interface StreamingTextDecoder {
   write(buffer: Buffer): string;
   end(): string;
 }
+interface TextCodec {
+  decode(buffer: Buffer): string;
+  encode(content: string): Buffer;
+  stream(): StreamingTextDecoder;
+}
+
+function isChinese(encoding: FileSystemTextEncoding): encoding is ChineseEncoding {
+  return CHINESE_ENCODINGS.includes(encoding as ChineseEncoding);
+}
+
+// 同一编码的完整读取、写入与流式解码由同一个 codec 选择边界负责。
+function codec(encoding: FileSystemTextEncoding): TextCodec {
+  if (isChinese(encoding)) {
+    return {
+      decode: (buffer) => iconv.decode(buffer, encoding),
+      encode: (content) => iconv.encode(content, encoding),
+      stream() {
+        const state = iconv.getDecoder(encoding);
+        return { write: (buffer) => state.write(buffer), end: () => state.end() ?? "" };
+      },
+    };
+  }
+  return {
+    decode: (buffer) => buffer.toString(encoding),
+    encode: (content) => Buffer.from(content, encoding),
+    stream() {
+      const state = new StringDecoder(encoding);
+      return { write: (buffer) => state.write(buffer), end: () => state.end() };
+    },
+  };
+}
+
+function unsupported(path?: string): Error {
+  return createFileSystemError({
+    code: "unsupported",
+    path,
+    message: `Unsupported or binary text encoding${path ? `: ${path}` : ""}`,
+  });
+}
 
 export function detectTextEncoding(buffer: Buffer, path?: string): FileSystemTextEncoding {
-  if (buffer.length >= 3 && bytesStartWith(buffer, UTF8_BOM)) {
+  // BOM 的权重高于内容中的 NUL；UTF-16 文件不能先经二进制筛选。
+  if (buffer[0] === 0xef && buffer[1] === 0xbb && buffer[2] === 0xbf) return "utf8";
+  if (buffer[0] === 0xff && buffer[1] === 0xfe) return "utf16le";
+  let controls = 0;
+  for (let index = 0; index < buffer.length; index++) {
+    const byte = buffer[index]!;
+    if (byte === 0) throw unsupported(path);
+    if (byte < 9 || (byte > 13 && byte < 32)) controls++;
+  }
+  if (controls / buffer.length > CONTROL_FRACTION) throw unsupported(path);
+  try {
+    new TextDecoder("utf-8", { fatal: true }).decode(buffer);
     return "utf8";
+  } catch {
+    // 采样可能恰好切断中文字符，只有可逐字节往返的非空前缀可通过。
   }
-  if (buffer.length >= 2 && bytesStartWith(buffer, UTF16LE_BOM)) {
-    return "utf16le";
-  }
-  if (looksLikeBinary(buffer)) {
-    throw createUnsupportedTextEncodingError(path);
-  }
-  if (isValidUtf8(buffer)) {
-    return "utf8";
-  }
-  for (const encoding of LEGACY_CHINESE_ENCODINGS) {
-    if (roundTripsWithOptionalTrailingDrop(buffer, encoding)) {
-      return encoding;
+  for (const encoding of CHINESE_ENCODINGS) {
+    const conversion = codec(encoding);
+    const shortest = Math.max(1, buffer.length - MAX_INCOMPLETE_SUFFIX);
+    for (let end = buffer.length; end >= shortest; end--) {
+      const prefix = buffer.subarray(0, end);
+      if (conversion.encode(conversion.decode(prefix)).equals(prefix)) return encoding;
     }
   }
-  throw createUnsupportedTextEncodingError(path);
+  throw unsupported(path);
 }
 
 export function decodeTextBuffer(request: {
@@ -53,10 +97,7 @@ export function decodeTextBuffer(request: {
   path?: string;
 }): DecodedTextBuffer {
   const encoding = request.encoding ?? detectTextEncoding(request.buffer, request.path);
-  return {
-    content: decodeBufferWithEncoding(request.buffer, encoding),
-    encoding,
-  };
+  return { content: codec(encoding).decode(request.buffer), encoding };
 }
 
 export function encodeTextContent(request: {
@@ -65,156 +106,46 @@ export function encodeTextContent(request: {
   path?: string;
 }): Buffer {
   const encoding = request.encoding ?? "utf8";
-  if (isLegacyChineseEncoding(encoding)) {
-    const encoded = iconv.encode(request.content, encoding);
-    assertLegacyEncodingRoundTrip({
-      decoded: request.content,
-      encoded,
-      encoding,
+  const conversion = codec(encoding);
+  const bytes = conversion.encode(request.content);
+  if (isChinese(encoding) && conversion.decode(bytes) !== request.content) {
+    throw createFileSystemError({
+      code: "unsupported",
       path: request.path,
+      message: `Content cannot be encoded as ${encoding}${request.path ? `: ${request.path}` : ""}`,
     });
-    return encoded;
   }
-  return Buffer.from(request.content, encoding);
+  return bytes;
 }
 
 export function createStreamingTextDecoder(encoding: FileSystemTextEncoding): StreamingTextDecoder {
-  if (isLegacyChineseEncoding(encoding)) {
-    const decoder = iconv.getDecoder(encoding);
-    return {
-      write(buffer) {
-        return decoder.write(buffer);
-      },
-      end() {
-        return decoder.end() ?? "";
-      },
-    };
-  }
-  const decoder = new StringDecoder(encoding);
-  return {
-    write(buffer) {
-      return decoder.write(buffer);
-    },
-    end() {
-      return decoder.end();
-    },
-  };
+  return codec(encoding).stream();
 }
 
 export function shouldNormalizeLineEndings(encoding: FileSystemTextEncoding): boolean {
-  return !NON_TEXT_ENCODINGS.has(normalizeEncodingName(encoding));
-}
-
-function decodeBufferWithEncoding(buffer: Buffer, encoding: FileSystemTextEncoding): string {
-  if (isLegacyChineseEncoding(encoding)) {
-    return iconv.decode(buffer, encoding);
-  }
-  return buffer.toString(encoding);
-}
-
-function assertLegacyEncodingRoundTrip(request: {
-  decoded: string;
-  encoded: Buffer;
-  encoding: LegacyChineseEncoding;
-  path?: string;
-}): void {
-  if (iconv.decode(request.encoded, request.encoding) === request.decoded) return;
-  throw createFileSystemError({
-    code: "unsupported",
-    path: request.path,
-    message: `Content cannot be encoded as ${request.encoding}${
-      request.path ? `: ${request.path}` : ""
-    }`,
-  });
-}
-
-function roundTripsWithOptionalTrailingDrop(
-  buffer: Buffer,
-  encoding: LegacyChineseEncoding,
-): boolean {
-  if (buffer.length === 0) return true;
-  for (
-    let drop = 0;
-    drop <= Math.min(MAX_DETECTION_TRAILING_DROP_BYTES, buffer.length);
-    drop += 1
-  ) {
-    const candidate = drop === 0 ? buffer : buffer.subarray(0, buffer.length - drop);
-    if (candidate.length === 0) continue;
-    const decoded = iconv.decode(candidate, encoding);
-    const encoded = iconv.encode(decoded, encoding);
-    if (encoded.equals(candidate)) return true;
-  }
-  return false;
-}
-
-function isValidUtf8(buffer: Buffer): boolean {
-  try {
-    new TextDecoder("utf-8", { fatal: true }).decode(buffer);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function looksLikeBinary(buffer: Buffer): boolean {
-  if (buffer.length === 0) return false;
-  let controlBytes = 0;
-  for (const byte of buffer) {
-    if (byte === 0) return true;
-    if (byte < 0x09 || (byte > 0x0d && byte < 0x20)) {
-      controlBytes += 1;
-    }
-  }
-  return controlBytes / buffer.length > BINARY_CONTROL_BYTE_THRESHOLD;
-}
-
-function bytesStartWith(buffer: Buffer, prefix: readonly number[]): boolean {
-  return prefix.every((byte, index) => buffer[index] === byte);
-}
-
-function isLegacyChineseEncoding(
-  encoding: FileSystemTextEncoding,
-): encoding is LegacyChineseEncoding {
-  return LEGACY_CHINESE_ENCODINGS.includes(encoding as LegacyChineseEncoding);
-}
-
-function normalizeEncodingName(encoding: FileSystemTextEncoding): string {
-  return encoding.toLowerCase();
-}
-
-function createUnsupportedTextEncodingError(path?: string): Error {
-  return createFileSystemError({
-    code: "unsupported",
-    path,
-    message: `Unsupported or binary text encoding${path ? `: ${path}` : ""}`,
-  });
+  return !TRANSPORT_ENCODINGS.has(encoding.toLowerCase());
 }
 
 export function detectLineEndings(content: string): FileSystemLineEndings {
-  let crlfCount = 0;
-  let lfCount = 0;
-  for (let index = 0; index < content.length; index += 1) {
-    if (content[index] !== "\n") continue;
-    if (index > 0 && content[index - 1] === "\r") {
-      crlfCount += 1;
-    } else {
-      lfCount += 1;
-    }
-  }
-  return crlfCount > lfCount ? "CRLF" : "LF";
+  let balance = 0;
+  for (
+    let newline = content.indexOf(LF);
+    newline !== -1;
+    newline = content.indexOf(LF, newline + 1)
+  )
+    balance += content[newline - 1] === "\r" ? 1 : -1;
+  return balance > 0 ? "CRLF" : "LF";
 }
 
 export function normalizeLineEndings(content: string): string {
-  return content.replaceAll("\r\n", "\n");
+  return content.replaceAll(CRLF, LF);
 }
 
 export function applyRequestedLineEndings(
   content: string,
   lineEndings: FileSystemLineEndings | undefined,
 ): string {
-  if (lineEndings === undefined) {
-    return content;
-  }
+  if (lineEndings === undefined) return content;
   const normalized = normalizeLineEndings(content);
-  return lineEndings === "CRLF" ? normalized.split("\n").join("\r\n") : normalized;
+  return lineEndings === "CRLF" ? normalized.replaceAll(LF, CRLF) : normalized;
 }
