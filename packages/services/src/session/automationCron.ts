@@ -173,7 +173,12 @@ function calendarPeriod(
           const periodMonth = first.getMonth();
           if (rule.monthlyMode === "weekday") {
             const weekday = rule.weekdays?.[0] ?? 1;
-            return [new Date(periodYear, periodMonth, 1 + ((weekday - first.getDay() + 7) % 7))];
+            // 月份偏移可从负年份跨入 0..99；旧 helper 会再次构造 Date，将该年份归一到 1900..1999。
+            // 必须按归一后的月首算 weekday，不能复用月偏移投影得到的低年份星期。
+            const normalizedFirst = new Date(periodYear, periodMonth, 1);
+            return [
+              new Date(periodYear, periodMonth, 1 + ((weekday - normalizedFirst.getDay() + 7) % 7)),
+            ];
           }
           return [...(rule.monthDays?.length ? rule.monthDays : [1])]
             .sort((a, b) => a - b)
