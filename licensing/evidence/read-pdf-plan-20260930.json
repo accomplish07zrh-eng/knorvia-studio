@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "scope": "PDF Read pure admission plan, size policy and frozen compatibility tests; existing IO and projection implementations remain",
+  "baseCommit": "5714759692feccbe84c02bd775b0b170baaf3135",
+  "priorSourceSha256": "54f3a069d2c52bcbaa8de5d3691bb85017c7c4f73e17b36d567ce5efb655b05d",
+  "decisions": [
+    "Use a discriminated native/pages/rejected request plan after the existing capability, filesystem and stat gates",
+    "Share size-limit policy and explicit unit selection in the pure planner",
+    "Keep current PDF count, binary IO, render, concurrent preparation, error and formatting boundaries",
+    "Do not claim the unchanged parts of read-pdf.ts were independently replaced"
+  ],
+  "validation": {
+    "frozenOld": {
+      "tests": 50,
+      "pass": 50
+    },
+    "sourceWithRealReadConsumers": {
+      "tests": 52,
+      "pass": 52
+    },
+    "actualEmittedPdf": {
+      "tests": 52,
+      "pass": 52,
+      "includesActualEmittedReadConsumers": 2
+    },
+    "differential": {
+      "cases": 2442,
+      "mismatches": 0
+    },
+    "aggregate": {
+      "tests": 5245,
+      "pass": 5179,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureNamesExactMatch": true,
+    "rootTypes": "pass",
+    "cliTypes": "pass serial concurrency=1 heap=2048MiB",
+    "rootAndCliLint": "pass",
+    "explicitChangedCliLint": "pass 4 files",
+    "architecture": "pass",
+    "fullFormat": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cache": 10
+    },
+    "parallelTestBound": "32 microtask flushes then an assertion, so a sequential-preparation regression cannot hang indefinitely; old/new/emitted gates rerun"
+  },
+  "fixtureSetupCorrection": "Old-source scratch fixture initially lacked its ESM package marker and failed package export resolution; adding type=module fixed the loader. No test assertion or product code relaxed.",
+  "fileDigests": {
+    "apps/cli/packages/core/src/tool/handlers/read-pdf.ts": "678578b625a905bda22dd3034b1b9e47422ee87dd6cd1af1aa02d7ceadc00b1c",
+    "apps/cli/packages/core/src/tool/handlers/read-pdf-plan.ts": "db56f17de83db3de6806ab1e62667e63457fcd5edf6b8500306939e556bce46b",
+    "apps/cli/packages/core/test/read-pdf-projection.test.ts": "dcc82ddcbc7aa74f83cf5443e53c5c480fdbb2c7b6af7034cd778869d7380bf7",
+    "apps/cli/packages/core/test/read-pdf-consumer.test.ts": "5504b34103f83a6ce903e5db3d91c64925db94f5de6ce193a33ea19ddb759398"
+  },
+  "logDigests": {
+    "read-pdf-frozen.tap": "39009fa239d3c5c1dc46909517677720510975499200b727da335056e6673963",
+    "read-pdf-frozen-loader-failure.tap": "a5a87b8c61deeea304c629712bdd8ccd6c49d05a31d7e6a74a32e2c09282a359",
+    "read-pdf-combined.tap": "3d79792612ce917574aa24196805b65fe94ae2adf6040ef6a973483b7ca80c84",
+    "read-pdf-emitted.tap": "33693255298545d814edbffd5f88f600a96f64f79d10205748e6199f8b9585e1",
+    "read-pdf-differential.log": "ce9cb7d78553fe38c5d663e350ccc43918292ac378d66c4a704a2bb45371d064",
+    "read-pdf-full.tap": "51f72f7baaf1f3dfd9f74747bab1da8c9c9fcb306550857a2fe730c98a36e7d5",
+    "read-pdf-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "read-pdf-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "read-pdf-build.log": "7738e5958ec1d216589295ed0028f03b7309d9189ce80833626459aa408fb504",
+    "read-pdf-lint.log": "291531c301ec5bab8f011ba5f3b4ae86ff32f8cf0af9b80f008c967df18337a3",
+    "read-pdf-cli-lint.log": "122de4d692b07f568cfe25a64f8b52b256753057faee4da04363d2c83233d3b7",
+    "read-pdf-strict-lint.log": "d4a484cf3e797ed130d69e9e2c29a7fa87a8526dd1eee91d00a9293d7c04909e",
+    "read-pdf-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "read-pdf-format.log": "07d6c28f2a1fd7984fa6ac517615882106c464afbbfc158119ae8676493c6c62"
+  },
+  "limits": [
+    "Own-cloud full suite retains 59 baseline socket EPERM failures and seven platform skips",
+    "Actual emitted PDF module is tested; retained dependency package exports may still resolve to source",
+    "No native Poppler/decoder/installer/visual/production-data acceptance",
+    "New Windows CI for this batch pending",
+    "Source exposure remains; no new MIT decisions or clean-room claims; 27 materials still unresolved"
+  ]
+}
