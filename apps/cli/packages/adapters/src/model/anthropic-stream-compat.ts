@@ -1,334 +1,175 @@
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 type ProviderFetch = typeof globalThis.fetch;
 
-const SSE_FRAME_SEPARATOR_PATTERN = /\r\n\r\n|\n\n|\r\r/;
-
-export function createAnthropicCompatFetch(baseFetch: ProviderFetch): ProviderFetch {
-  return async (input, init) => {
-    const response = await baseFetch(input, applyAnthropicRequestBodyCompatibility(init));
-    return rewriteAnthropicJsonThinkingResponse(filterAnthropicStream(response));
-  };
+function record(value: unknown): Record<string, unknown> | undefined {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : undefined;
 }
-
-function applyAnthropicRequestBodyCompatibility(
-  init: RequestInit | undefined,
-): RequestInit | undefined {
-  if (typeof init?.body !== "string") return init;
-
-  const body = safeParseRecord(init.body);
-  if (!body) return init;
-  const restoredSystemBody = restoreMidConversationSystemStringContent(body);
-  if (restoredSystemBody === body) return init;
-
+function patchThinking(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(patchThinking);
+  const source = record(value);
+  if (!source) return value;
+  const next = Object.fromEntries(
+    Object.entries(source).map(([key, entry]) => [key, patchThinking(entry)]),
+  );
+  if (next.type === "thinking" && typeof next.signature !== "string") next.signature = "";
+  return next;
+}
+function normalizeRequestBody(body: unknown): unknown {
+  const source = record(body);
+  if (!source) return body;
+  const next = patchThinking(source) as Record<string, unknown>;
+  if (typeof next.system === "string") next.system = [{ type: "text", text: next.system }];
+  if (Array.isArray(next.messages))
+    next.messages = next.messages.map((message) => {
+      const item = record(message);
+      if (!item || item.role !== "system" || !Array.isArray(item.content)) return message;
+      if (item.content.length !== 1) return message;
+      const part = record(item.content[0]);
+      return part?.type === "text" && typeof part.text === "string"
+        ? { ...item, content: part.text }
+        : message;
+    });
+  return next;
+}
+function patchToolResult(block: Record<string, unknown>): Record<string, unknown> {
+  if (block.type !== "tool_result") return block;
+  if (typeof block.name === "string")
+    return {
+      ...block,
+      type: "tool_use",
+      id: String(block.id ?? block.tool_use_id ?? `tool_${crypto.randomUUID()}`),
+      input: block.input ?? {},
+    };
+  const content = block.content;
   return {
-    ...init,
-    body: JSON.stringify(restoredSystemBody),
+    type: "text",
+    text: typeof content === "string" ? content : JSON.stringify(content ?? ""),
   };
 }
-
-function restoreMidConversationSystemStringContent(
-  body: Record<string, unknown>,
-): Record<string, unknown> {
-  if (!Array.isArray(body.messages)) return body;
-
-  let changed = false;
-  const messages = body.messages.map((value) => {
-    const message = safeRecord(value);
-    if (message?.role !== "system") return value;
-    const text = singlePlainTextBlock(message.content);
-    if (text === undefined) return value;
-
-    changed = true;
-    return { ...message, content: text };
-  });
-
-  // 在最终 messages[] 中保留 string content；
-  // AI SDK 会将同一纯文本扩成单元素 block array。这里只恢复该 wire shape，顶层
-  // system[]、带 cache_control 的 block 和其他 message role 均保持原样。
-  return changed ? { ...body, messages } : body;
+interface SignatureState {
+  signature: string;
+  observedDelta: boolean;
 }
-
-function singlePlainTextBlock(value: unknown): string | undefined {
-  if (!Array.isArray(value) || value.length !== 1) return undefined;
-  const block = safeRecord(value[0]);
-  if (block?.type !== "text" || typeof block.text !== "string") return undefined;
-  if (Object.keys(block).some((key) => key !== "type" && key !== "text")) return undefined;
-  return block.text;
-}
-
-function shouldFilterAnthropicStream(response: Response): boolean {
-  return response.headers.get("content-type")?.toLowerCase().includes("event-stream") === true;
-}
-
-function filterAnthropicStream(response: Response): Response {
-  if (!shouldFilterAnthropicStream(response)) {
-    return response;
+function transformSseEvent(
+  source: string,
+  states: Map<number, SignatureState>,
+  newline: string,
+): string {
+  const lines = source.split(/\r?\n/);
+  const data = lines
+    .filter((line) => line.startsWith("data:"))
+    .map((line) => line.slice(5).trimStart())
+    .join("\n");
+  if (!data || data === "[DONE]") return source;
+  let payload: Record<string, unknown>;
+  try {
+    const parsed = JSON.parse(data);
+    const value = record(parsed);
+    if (!value) return source;
+    payload = value;
+  } catch {
+    return source;
   }
-
-  const body = response.body;
-  if (!body) {
-    return response;
+  const index = typeof payload.index === "number" ? payload.index : -1;
+  if (payload.type === "content_block_start") {
+    const block = record(payload.content_block);
+    if (block) {
+      payload.content_block = patchToolResult(block);
+      if (block.type === "thinking" && typeof block.signature === "string" && block.signature)
+        states.set(index, { signature: block.signature, observedDelta: false });
+    }
+  } else if (payload.type === "content_block_delta") {
+    const delta = record(payload.delta);
+    if (delta?.type === "signature_delta") {
+      const state = states.get(index);
+      if (state) state.observedDelta = true;
+    }
   }
-
-  const headers = new Headers(response.headers);
-  headers.delete("content-length");
-  headers.delete("content-encoding");
-
-  return new Response(body.pipeThrough(createAnthropicStreamCompatTransform()), {
-    headers,
-    status: response.status,
-    statusText: response.statusText,
-  });
-}
-
-async function rewriteAnthropicJsonThinkingResponse(response: Response): Promise<Response> {
-  if (!shouldRewriteAnthropicJson(response)) {
-    return response;
+  let injected = "";
+  if (payload.type === "content_block_stop") {
+    const state = states.get(index);
+    states.delete(index);
+    if (state && !state.observedDelta) {
+      const synthetic = {
+        type: "content_block_delta",
+        index,
+        delta: { type: "signature_delta", signature: state.signature },
+      };
+      injected = `event: content_block_delta${newline}data: ${JSON.stringify(synthetic)}${newline}${newline}`;
+    }
   }
-
-  const text = await response.clone().text();
-  const parsed = safeParseRecord(text);
-  if (!parsed) {
-    return response;
-  }
-
-  const sanitized = sanitizeJsonThinkingBlocks(parsed);
-  if (!sanitized.changed) {
-    return response;
-  }
-
-  return cloneTextResponse(response, JSON.stringify(sanitized.value));
+  const retained = lines.filter((line) => !line.startsWith("data:"));
+  return `${injected}${[...retained, `data: ${JSON.stringify(payload)}`].join(newline)}`;
 }
-
-function shouldRewriteAnthropicJson(response: Response): boolean {
-  const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
-  return contentType.includes("application/json") || contentType.includes("+json");
-}
-
-function cloneTextResponse(response: Response, body: string): Response {
-  const headers = new Headers(response.headers);
-  headers.delete("content-length");
-  headers.delete("content-encoding");
-
-  return new Response(body, {
-    headers,
-    status: response.status,
-    statusText: response.statusText,
-  });
-}
-
-function sanitizeJsonThinkingBlocks(value: Record<string, unknown>): {
-  changed: boolean;
-  value: Record<string, unknown>;
-} {
-  if (!Array.isArray(value.content)) {
-    return { changed: false, value };
-  }
-
-  const content = value.content.filter((block) => !isUnsignedThinkingBlock(block));
-  if (content.length === value.content.length) {
-    return { changed: false, value };
-  }
-
-  return {
-    changed: true,
-    value: {
-      ...value,
-      content,
-    },
-  };
-}
-
-function isUnsignedThinkingBlock(value: unknown): boolean {
-  const block = safeRecord(value);
-  if (block?.type !== "thinking") {
-    return false;
-  }
-
-  // 部分 Anthropic-compatible 服务在非流式 JSON 中返回无签名
-  // thinking block。AI SDK 会按 Anthropic 原生 schema 校验 signature 并拒绝
-  // 整个响应；这里删除不可校验的思考块，保留 text/usage/stop_reason 继续解析。
-  return typeof block.signature !== "string" && typeof block.redactedData !== "string";
-}
-
-interface AnthropicStreamCompatState {
-  pendingThinkingSignatures: Map<number, string>;
-  suppressedIndexes: Set<number>;
-}
-
-function createAnthropicStreamCompatTransform(): TransformStream<Uint8Array, Uint8Array> {
+function patchSse(body: ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
-  const state: AnthropicStreamCompatState = {
-    pendingThinkingSignatures: new Map(),
-    suppressedIndexes: new Set(),
-  };
+  const states = new Map<number, SignatureState>();
   let pending = "";
-
-  return new TransformStream<Uint8Array, Uint8Array>({
-    transform(chunk, controller) {
-      pending += decoder.decode(chunk, { stream: true });
-      pending = emitCompleteFrames(pending, controller, encoder, state);
-    },
-    flush(controller) {
-      pending += decoder.decode();
-      pending = emitCompleteFrames(pending, controller, encoder, state);
-      if (pending.length > 0) {
-        emitFrame(pending, "", controller, encoder, state);
+  const drain = (controller: TransformStreamDefaultController<Uint8Array>, final = false) => {
+    for (;;) {
+      const match = /\r?\n\r?\n/.exec(pending);
+      if (!match) break;
+      const block = pending.slice(0, match.index);
+      const separator = match[0];
+      pending = pending.slice(match.index + separator.length);
+      const newline = separator.startsWith("\r\n") ? "\r\n" : "\n";
+      controller.enqueue(encoder.encode(transformSseEvent(block, states, newline) + separator));
+    }
+    if (final && pending) {
+      controller.enqueue(encoder.encode(transformSseEvent(pending, states, "\n")));
+      pending = "";
+    }
+  };
+  return body.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      transform(chunk, controller) {
+        pending += decoder.decode(chunk, { stream: true });
+        drain(controller);
+      },
+      flush(controller) {
+        pending += decoder.decode();
+        drain(controller, true);
+      },
+    }),
+  );
+}
+export function createAnthropicCompatFetch(baseFetch: ProviderFetch): ProviderFetch {
+  return async (input, init) => {
+    let next = init;
+    if (typeof init?.body === "string") {
+      try {
+        next = { ...init, body: JSON.stringify(normalizeRequestBody(JSON.parse(init.body))) };
+      } catch {
+        /* provider owns malformed JSON */
       }
-    },
-  });
-}
-
-function emitCompleteFrames(
-  input: string,
-  controller: TransformStreamDefaultController<Uint8Array>,
-  encoder: TextEncoder,
-  state: AnthropicStreamCompatState,
-): string {
-  let pending = input;
-  for (;;) {
-    const match = SSE_FRAME_SEPARATOR_PATTERN.exec(pending);
-    if (!match) {
-      return pending;
     }
-
-    const separator = match[0] ?? "";
-    const frame = pending.slice(0, match.index);
-    pending = pending.slice(match.index + separator.length);
-    emitFrame(frame, separator, controller, encoder, state);
-  }
-}
-
-function emitFrame(
-  frame: string,
-  separator: string,
-  controller: TransformStreamDefaultController<Uint8Array>,
-  encoder: TextEncoder,
-  state: AnthropicStreamCompatState,
-): void {
-  const decision = decideFrame(frame, state);
-  if (decision === false) {
-    return;
-  }
-
-  if (decision !== true) {
-    controller.enqueue(encoder.encode(createSignatureDeltaFrame(decision, separator)));
-  }
-  controller.enqueue(encoder.encode(`${frame}${separator}`));
-}
-
-function decideFrame(
-  frame: string,
-  state: AnthropicStreamCompatState,
-): boolean | { index: number; signature: string } {
-  const data = readSseData(frame);
-  if (data === undefined || data === "[DONE]") {
-    return true;
-  }
-
-  const parsed = safeParseRecord(data);
-  if (!parsed) {
-    return true;
-  }
-
-  const type = typeof parsed.type === "string" ? parsed.type : undefined;
-  if (type === "message_start") {
-    state.pendingThinkingSignatures.clear();
-    state.suppressedIndexes.clear();
-    return true;
-  }
-
-  const index = typeof parsed.index === "number" ? parsed.index : undefined;
-  if (index === undefined) {
-    return true;
-  }
-
-  if (type === "content_block_start") {
-    const block = safeRecord(parsed.content_block);
-    if (
-      block?.type === "thinking" &&
-      typeof block.signature === "string" &&
-      block.signature.length > 0
-    ) {
-      state.pendingThinkingSignatures.set(index, block.signature);
+    const response = await baseFetch(input, next);
+    if (!response.ok) return response;
+    const type = response.headers.get("content-type")?.toLowerCase() ?? "";
+    const headers = new Headers(response.headers);
+    if (type.includes("text/event-stream") && response.body) {
+      headers.delete("content-length");
+      return new Response(patchSse(response.body), {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
     }
-
-    // Some Anthropic-compatible APIs expose provider-internal image tool results as
-    // assistant-side bare tool_result blocks. AI SDK rejects that non-standard shape.
-    if (block?.type === "tool_result") {
-      state.suppressedIndexes.add(index);
-      return false;
+    if (!type.includes("json")) return response;
+    try {
+      const body = patchThinking(await response.clone().json());
+      headers.delete("content-length");
+      return new Response(JSON.stringify(body), {
+        status: response.status,
+        statusText: response.statusText,
+        headers,
+      });
+    } catch {
+      return response;
     }
-  }
-
-  if (type === "content_block_delta" && safeRecord(parsed.delta)?.type === "signature_delta") {
-    state.pendingThinkingSignatures.delete(index);
-  }
-
-  let missingSignatureDelta: { index: number; signature: string } | undefined;
-  if (type === "content_block_stop") {
-    const signature = state.pendingThinkingSignatures.get(index);
-    state.pendingThinkingSignatures.delete(index);
-    if (signature) {
-      // 部分 Anthropic-compatible 服务把最终签名直接放在 thinking start，
-      // 但 AI SDK 只从 signature_delta 读取签名；仅在缺少原生 delta 时补成标准事件。
-      missingSignatureDelta = { index, signature };
-    }
-  }
-
-  if (state.suppressedIndexes.has(index)) {
-    if (type === "content_block_stop") {
-      state.suppressedIndexes.delete(index);
-    }
-    return false;
-  }
-
-  return missingSignatureDelta ?? true;
-}
-
-function createSignatureDeltaFrame(
-  value: { index: number; signature: string },
-  separator: string,
-): string {
-  const frameSeparator = separator || "\n\n";
-  const lineEnding =
-    frameSeparator === "\r\n\r\n" ? "\r\n" : frameSeparator === "\r\r" ? "\r" : "\n";
-  const data = JSON.stringify({
-    type: "content_block_delta",
-    index: value.index,
-    delta: { type: "signature_delta", signature: value.signature },
-  });
-  return `event: content_block_delta${lineEnding}data: ${data}${frameSeparator}`;
-}
-
-function readSseData(frame: string): string | undefined {
-  const dataLines: string[] = [];
-  for (const rawLine of frame.split(/\r\n|\n|\r/)) {
-    if (!rawLine.startsWith("data:")) {
-      continue;
-    }
-
-    let value = rawLine.slice("data:".length);
-    if (value.startsWith(" ")) {
-      value = value.slice(1);
-    }
-    dataLines.push(value);
-  }
-
-  return dataLines.length === 0 ? undefined : dataLines.join("\n");
-}
-
-function safeParseRecord(value: string): Record<string, unknown> | undefined {
-  try {
-    return safeRecord(JSON.parse(value));
-  } catch {
-    return undefined;
-  }
-}
-
-function safeRecord(value: unknown): Record<string, unknown> | undefined {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return undefined;
-  }
-  return value as Record<string, unknown>;
+  };
 }

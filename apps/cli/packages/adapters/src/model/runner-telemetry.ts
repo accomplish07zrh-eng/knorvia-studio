@@ -1,126 +1,58 @@
-import {
-  ModelFailureReason,
-  type ModelApiErrorPhase,
-  type ModelFailureExceptionKind,
-} from "@knorvia/contracts";
-import { APICallError } from "ai";
-import {
-  findProviderBusinessError,
-  inspectProviderFailure,
-  type ClassifiedModelFailure,
-} from "./failure-classifier.js";
-
-const MODEL_API_ERROR_PHASES = new Set<ModelApiErrorPhase>([
-  "prepare",
-  "configuration",
-  "connect",
-  "response",
-  "stream",
-  "parse",
-  "validation",
-  "unhandled",
-]);
-
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
+import type { ModelApiErrorPhase, ModelFailureExceptionKind } from "@knorvia/contracts";
+import type { ClassifiedModelFailure } from "./failure-classifier.js";
+import { getErrorCode } from "./failure-inspection.js";
+import { inspectProviderFailure } from "./failure-classifier.js";
+import { findProviderBusinessError } from "./failure-classifier.js";
+import { readMappedAiSdkProviderBusinessError } from "./failure-ai-sdk-provider-error.js";
 export function readModelFailureErrorPhase(error: unknown): ModelApiErrorPhase | undefined {
-  if (!error || typeof error !== "object") return undefined;
-  const context = (error as { context?: unknown }).context;
-  if (!context || typeof context !== "object") return undefined;
-  const errorPhase = (context as { errorPhase?: unknown }).errorPhase;
-  return typeof errorPhase === "string" &&
-    MODEL_API_ERROR_PHASES.has(errorPhase as ModelApiErrorPhase)
-    ? (errorPhase as ModelApiErrorPhase)
-    : undefined;
+  if (typeof error !== "object" || error === null) return undefined;
+  const value =
+    (error as { context?: { errorPhase?: unknown }; errorPhase?: unknown }).context?.errorPhase ??
+    (error as { errorPhase?: unknown }).errorPhase;
+  return typeof value === "string" ? (value as ModelApiErrorPhase) : undefined;
 }
-
 export function modelFailureAttributionFields(
   error: unknown,
   failure: ClassifiedModelFailure,
   errorPhase: unknown,
-): {
-  errorPhase?: ModelApiErrorPhase;
-  exceptionKind: ModelFailureExceptionKind;
-} {
-  // model status 虽然记录了原始异常类型和阶段，但终态 ErrorPayload 曾丢失这些事实；
-  // 这里只保留可聚合的低基数类别，避免把 provider 自定义异常名带入错误载荷。
-  return {
-    ...(typeof errorPhase === "string" &&
-    MODEL_API_ERROR_PHASES.has(errorPhase as ModelApiErrorPhase)
-      ? { errorPhase: errorPhase as ModelApiErrorPhase }
-      : {}),
-    exceptionKind: classifyModelFailureExceptionKind(error, failure),
-  };
+): { errorPhase?: ModelApiErrorPhase; exceptionKind: ModelFailureExceptionKind } {
+  const phase =
+    typeof errorPhase === "string"
+      ? (errorPhase as ModelApiErrorPhase)
+      : readModelFailureErrorPhase(error);
+  const business = findProviderBusinessError(error) ?? readMappedAiSdkProviderBusinessError(error);
+  const kind: ModelFailureExceptionKind = business
+    ? "provider_business"
+    : failure.reason === "invalid_request"
+      ? "protocol"
+      : failure.reason === "network_error" ||
+          failure.reason === "proxy_error" ||
+          failure.reason === "tls_error" ||
+          failure.reason === "timeout" ||
+          failure.reason === "stream_idle_timeout" ||
+          failure.reason === "cancelled"
+        ? "transport"
+        : "api_call";
+  return { errorPhase: phase, exceptionKind: kind };
 }
-
-function classifyModelFailureExceptionKind(
-  error: unknown,
-  failure: ClassifiedModelFailure,
-): ModelFailureExceptionKind {
-  const transportFailure =
-    failure.reason === ModelFailureReason.NetworkError ||
-    failure.reason === ModelFailureReason.ProxyError ||
-    failure.reason === ModelFailureReason.StaleConnection ||
-    failure.reason === ModelFailureReason.StreamIdleTimeout ||
-    failure.reason === ModelFailureReason.Timeout ||
-    failure.reason === ModelFailureReason.TlsError;
-  if (transportFailure) return "transport";
-  if (findProviderBusinessError(error)) return "provider_business";
-  if (APICallError.isInstance(error)) return "api_call";
-
-  const name = errorName(error);
-  if (name === "AiSdkModelAdapterError" || name === "ModelProtocolError") return "protocol";
-  if (name === "TypeError") return "type_error";
-  if (name && /validation|zod|parseerror|jsonparse/iu.test(name)) return "validation";
-  return "generic";
-}
-
-function errorName(error: unknown): string | undefined {
-  if (error instanceof Error) return error.name || error.constructor.name;
-  if (!error || typeof error !== "object") return undefined;
-  const name = (error as { name?: unknown }).name;
-  return typeof name === "string" && name.trim() ? name.trim() : undefined;
-}
-
 export function modelFailureStatusFields(
   error: unknown,
   failure: ClassifiedModelFailure,
   errorPhase: ModelApiErrorPhase,
-): {
-  errorCode: ClassifiedModelFailure["code"];
-  errorPhase: ModelApiErrorPhase;
-  exceptionType?: string;
-  providerErrorCode?: string;
-  providerErrorMessage?: string;
-  providerRequestId?: string;
-  retryAfterMs?: number;
-} {
+) {
+  const details = inspectProviderFailure(error);
   return {
     errorCode: failure.code,
     errorPhase,
-    exceptionType: exceptionType(error),
+    exceptionType: error instanceof Error ? error.name : getErrorCode(error),
+    ...details,
     retryAfterMs: failure.retryAfterMs,
-    ...inspectProviderFailure(error),
   };
 }
-
 export function providerRequestIdFromHeaders(headers: Record<string, string>): string | undefined {
-  for (const candidate of [
-    "x-request-id",
-    "request-id",
-    "x-amzn-requestid",
-    "x-amz-request-id",
-    "cf-ray",
-  ]) {
-    const value = Object.entries(headers).find(([name]) => name.toLowerCase() === candidate)?.[1];
-    if (value?.trim()) return value.trim().slice(0, 256);
-  }
-  return undefined;
-}
-
-function exceptionType(error: unknown): string | undefined {
-  if (error instanceof Error) return error.name || error.constructor.name;
-  if (error && typeof error === "object") {
-    const name = (error as { name?: unknown }).name;
-    if (typeof name === "string" && name.trim()) return name.trim().slice(0, 128);
-  }
+  for (const [name, value] of Object.entries(headers))
+    if (/^(x-request-id|request-id|x-amzn-requestid|cf-ray)$/i.test(name)) return value;
   return undefined;
 }

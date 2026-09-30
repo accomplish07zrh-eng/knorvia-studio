@@ -1,88 +1,27 @@
-import { ensureCliDeviceMid } from "../device/cli-device-mid.js";
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 import type { EnvRecord } from "./model-execution.js";
-import { normalizeModelSessionIdForAttribution, type ModelStatusContext } from "./runner-status.js";
-
-const REDACTED_METADATA_USER_ID = "[REDACTED]";
-
-function createAnthropicRequestMetadataUserId(input: {
-  deviceMid: string;
-  sessionId?: ModelStatusContext["sessionId"];
-}): string {
-  return JSON.stringify({
-    device_id: input.deviceMid,
-    account_uuid: "",
-    session_id: normalizeModelSessionIdForAttribution(input.sessionId) ?? "",
-  });
-}
+import type { ModelStatusContext } from "./runner-status.js";
+import { ensureCliDeviceMid } from "../device/cli-device-mid.js";
 
 export async function resolveAnthropicRequestMetadataUserId(input: {
   env: EnvRecord;
   providerKind: string | undefined;
   sessionId?: ModelStatusContext["sessionId"];
 }): Promise<string | undefined> {
-  if (input.providerKind !== "anthropic") {
-    return undefined;
-  }
-
-  const deviceMid = await ensureCliDeviceMid({ env: input.env });
-  return createAnthropicRequestMetadataUserId({
-    deviceMid,
-    sessionId: input.sessionId,
-  });
+  if (input.providerKind !== "anthropic") return undefined;
+  const deviceId = await ensureCliDeviceMid({ env: input.env });
+  if (!deviceId) return undefined;
+  const sessionId = String(input.sessionId ?? "");
+  return JSON.stringify({ device_id: deviceId, account_uuid: "", session_id: sessionId });
 }
 
 export function redactAnthropicRequestMetadata(value: unknown): unknown {
-  if (typeof value === "string") {
-    try {
-      const parsed = JSON.parse(value) as unknown;
-      const redacted = redactAnthropicRequestMetadata(parsed);
-      return redacted === parsed ? value : JSON.stringify(redacted);
-    } catch {
-      return value;
-    }
+  if (Array.isArray(value)) return value.map(redactAnthropicRequestMetadata);
+  if (typeof value !== "object" || value === null) return value;
+  const output: Record<string, unknown> = {};
+  for (const [key, entry] of Object.entries(value)) {
+    output[key] = /^(user_?id)$/i.test(key) ? "[REDACTED]" : redactAnthropicRequestMetadata(entry);
   }
-  if (!isRecord(value)) {
-    return value;
-  }
-
-  let result = value;
-  const wireMetadata = isRecord(value.metadata) ? value.metadata : undefined;
-  if (wireMetadata && wireMetadata.user_id !== undefined) {
-    result = {
-      ...result,
-      metadata: {
-        ...wireMetadata,
-        user_id: REDACTED_METADATA_USER_ID,
-      },
-    };
-  }
-
-  const providerOptions = isRecord(value.providerOptions) ? value.providerOptions : undefined;
-  const anthropicOptions = isRecord(providerOptions?.anthropic)
-    ? providerOptions.anthropic
-    : undefined;
-  const providerMetadata = isRecord(anthropicOptions?.metadata)
-    ? anthropicOptions.metadata
-    : undefined;
-  if (providerOptions && anthropicOptions && providerMetadata?.userId !== undefined) {
-    result = {
-      ...result,
-      providerOptions: {
-        ...providerOptions,
-        anthropic: {
-          ...anthropicOptions,
-          metadata: {
-            ...providerMetadata,
-            userId: REDACTED_METADATA_USER_ID,
-          },
-        },
-      },
-    };
-  }
-
-  return result;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  return output;
 }

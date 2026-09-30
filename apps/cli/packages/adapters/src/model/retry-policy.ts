@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 export interface AiSdkModelRetryOptions {
   maxAttempts?: number;
   baseDelayMs?: number;
@@ -5,97 +7,47 @@ export interface AiSdkModelRetryOptions {
   maxDelayMs?: number;
   jitter?: boolean;
 }
-
 export type ResolvedAiSdkModelRetryOptions = Required<AiSdkModelRetryOptions>;
-
 type EnvRecord = Record<string, string | undefined>;
-
-const DEFAULT_MAX_RETRIES = 10;
-const DEFAULT_RETRY_BASE_DELAY_MS = 2_000;
-const DEFAULT_RETRY_BACKOFF_FACTOR = 2;
-const DEFAULT_RETRY_MAX_DELAY_MS = 60_000;
-
-const ENV_MODEL_RETRY_MAX_RETRIES = "KNORVIA_MODEL_RETRY_MAX_RETRIES";
-const ENV_MODEL_RETRY_BASE_DELAY_MS = "KNORVIA_MODEL_RETRY_BASE_DELAY_MS";
-const ENV_MODEL_RETRY_BACKOFF_FACTOR = "KNORVIA_MODEL_RETRY_BACKOFF_FACTOR";
-const ENV_MODEL_RETRY_MAX_DELAY_MS = "KNORVIA_MODEL_RETRY_MAX_DELAY_MS";
-
-const DEFAULT_RETRY_OPTIONS: ResolvedAiSdkModelRetryOptions = {
-  backoffFactor: DEFAULT_RETRY_BACKOFF_FACTOR,
-  baseDelayMs: DEFAULT_RETRY_BASE_DELAY_MS,
+const defaults: ResolvedAiSdkModelRetryOptions = {
+  maxAttempts: 11,
+  baseDelayMs: 2_000,
+  backoffFactor: 2,
+  maxDelayMs: 60_000,
   jitter: true,
-  // maxAttempts includes the first request; env/config names expose retry count.
-  maxAttempts: DEFAULT_MAX_RETRIES + 1,
-  maxDelayMs: DEFAULT_RETRY_MAX_DELAY_MS,
 };
-
+function positiveNumber(value: unknown, fallback: number, integer = false): number {
+  const parsed = typeof value === "string" ? Number(value) : value;
+  if (typeof parsed !== "number" || !Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return integer ? Math.floor(parsed) : parsed;
+}
+function booleanValue(value: unknown, fallback: boolean): boolean {
+  if (value === true || value === "true" || value === "1") return true;
+  if (value === false || value === "false" || value === "0") return false;
+  return fallback;
+}
 export function resolveAiSdkModelRetryOptions(
   options: AiSdkModelRetryOptions | undefined,
   env: EnvRecord,
 ): ResolvedAiSdkModelRetryOptions {
-  const envOptions = readRetryOptionsFromEnv(env);
   return {
-    backoffFactor: normalizePositiveNumber(
-      options?.backoffFactor,
-      normalizePositiveNumber(envOptions.backoffFactor, DEFAULT_RETRY_OPTIONS.backoffFactor),
+    maxAttempts: positiveNumber(
+      options?.maxAttempts ?? env.KNORVIA_MODEL_MAX_ATTEMPTS,
+      defaults.maxAttempts,
+      true,
     ),
-    baseDelayMs: normalizeNonNegativeInteger(
-      options?.baseDelayMs,
-      normalizeNonNegativeInteger(envOptions.baseDelayMs, DEFAULT_RETRY_OPTIONS.baseDelayMs),
+    baseDelayMs: positiveNumber(
+      options?.baseDelayMs ?? env.KNORVIA_MODEL_RETRY_BASE_DELAY_MS,
+      defaults.baseDelayMs,
     ),
-    jitter: options?.jitter ?? DEFAULT_RETRY_OPTIONS.jitter,
-    maxAttempts: normalizePositiveInteger(
-      options?.maxAttempts,
-      normalizePositiveInteger(envOptions.maxAttempts, DEFAULT_RETRY_OPTIONS.maxAttempts),
+    backoffFactor: positiveNumber(
+      options?.backoffFactor ?? env.KNORVIA_MODEL_RETRY_BACKOFF_FACTOR,
+      defaults.backoffFactor,
     ),
-    maxDelayMs: normalizeNonNegativeInteger(
-      options?.maxDelayMs,
-      normalizeNonNegativeInteger(envOptions.maxDelayMs, DEFAULT_RETRY_OPTIONS.maxDelayMs),
+    maxDelayMs: positiveNumber(
+      options?.maxDelayMs ?? env.KNORVIA_MODEL_RETRY_MAX_DELAY_MS,
+      defaults.maxDelayMs,
     ),
+    jitter: booleanValue(options?.jitter ?? env.KNORVIA_MODEL_RETRY_JITTER, defaults.jitter),
   };
-}
-
-function readRetryOptionsFromEnv(env: EnvRecord): AiSdkModelRetryOptions {
-  const maxRetries = parseNonNegativeInteger(env[ENV_MODEL_RETRY_MAX_RETRIES]);
-  return {
-    backoffFactor: parsePositiveNumber(env[ENV_MODEL_RETRY_BACKOFF_FACTOR]),
-    baseDelayMs: parseNonNegativeInteger(env[ENV_MODEL_RETRY_BASE_DELAY_MS]),
-    maxAttempts: maxRetries === undefined ? undefined : maxRetries + 1,
-    maxDelayMs: parseNonNegativeInteger(env[ENV_MODEL_RETRY_MAX_DELAY_MS]),
-  };
-}
-
-function parseNonNegativeInteger(value: string | undefined): number | undefined {
-  if (value === undefined || value.trim().length === 0) return undefined;
-  const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed < 0) return undefined;
-  return Math.floor(parsed);
-}
-
-function parsePositiveNumber(value: string | undefined): number | undefined {
-  if (value === undefined || value.trim().length === 0) return undefined;
-  const parsed = Number(value);
-  if (!Number.isFinite(parsed) || parsed <= 0) return undefined;
-  return parsed;
-}
-
-function normalizePositiveInteger(value: number | undefined, fallback: number): number {
-  if (value === undefined || !Number.isFinite(value)) {
-    return fallback;
-  }
-  return Math.max(1, Math.floor(value));
-}
-
-function normalizePositiveNumber(value: number | undefined, fallback: number): number {
-  if (value === undefined || !Number.isFinite(value) || value <= 0) {
-    return fallback;
-  }
-  return value;
-}
-
-function normalizeNonNegativeInteger(value: number | undefined, fallback: number): number {
-  if (value === undefined || !Number.isFinite(value)) {
-    return fallback;
-  }
-  return Math.max(0, Math.floor(value));
 }

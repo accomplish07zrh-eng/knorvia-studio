@@ -1,25 +1,21 @@
-import { ModelErrorCode } from "@knorvia/contracts";
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 import { AiSdkModelAdapterError } from "./errors.js";
-
 export function normalizeModelToolName(value: unknown, context: Record<string, unknown>): string {
-  if (typeof value === "string") {
-    const toolName = value.trim();
-    if (toolName) {
-      return toolName;
-    }
-
-    const toolCallId = context.toolCallId;
-    const hasClosableToolCallId = typeof toolCallId === "string" && toolCallId.trim().length > 0;
-    if (context.providerExecuted !== true && hasClosableToolCallId) {
-      // client-executed 的空名调用仍可用原 id 闭合。在 Adapter
-      // 直接抛错的话，模型收不到同 id 的 tool error，整个 turn 因而停止。
-      return value;
-    }
-  }
-
+  if (typeof value === "string" && value.trim()) return value;
+  const toolCallId = context.toolCallId ?? context.id;
+  if (
+    value === "" &&
+    typeof toolCallId === "string" &&
+    toolCallId.length > 0 &&
+    context.providerExecuted !== true
+  )
+    return "";
   throw new AiSdkModelAdapterError(
-    ModelErrorCode.InvalidModelResponse,
-    "Model returned an invalid tool call: tool name is empty.",
-    { context },
+    "invalid_model_response",
+    "Model returned an invalid tool name",
+    {
+      context: { ...context, retryable: false, source: "provider", reason: "invalid_request" },
+    },
   );
 }

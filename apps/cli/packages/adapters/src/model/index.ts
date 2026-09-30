@@ -1,4 +1,5 @@
-// Model adapters backed by the Vercel AI SDK
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 export * from "./errors.js";
 export * from "./model-execution.js";
 export * from "./runner.js";

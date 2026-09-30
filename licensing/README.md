@@ -10,7 +10,9 @@
 
 命令执行的 24 份源码及插件发现、组件、Hook 与 MCP 投影的 16 份源码也已按逐文件证据独立替换；对应 42 份新测试与支撑文件采用本目录 MIT 许可。旧版、候选、主仓源码及实际 CLI 编译产物分别通过 62 项和 43 项契约验收，主仓完整离线 3798 项通过。详见[该批验收](../docs/knorvia-exec-plugin-runtime-acceptance.md)、[执行来源](evidence/exec-runtime.md)与[插件发现来源](evidence/plugin-discovery-runtime.md)。
 
-随后八个插件来源与存储门面及其私有实现由 33 份独立源码接替。独立旧门为 225 通过加 24 项预登记缺陷，最终候选、主仓源码及实际 dist 各 249/249；69 份测试与支撑载荷通过两个顶层组纳入整仓 3800 项回归，全部通过。复制的 10 份生成公共声明仍保留 Apache-2.0 来源，功能 lint 配置只记性质，不与独立测试表达混为原创。详见[存储验收](../docs/knorvia-plugin-storage-runtime-acceptance.md)与[来源依据](evidence/plugin-storage-runtime.md)。模型与文件系统子系统继续仓外工作；以上结论不扩大为整个应用已独立。
+随后八个插件来源与存储门面及其私有实现由 33 份独立源码接替。独立旧门为 225 通过加 24 项预登记缺陷，最终候选、主仓源码及实际 dist 各 249/249；69 份测试与支撑载荷通过两个顶层组纳入整仓 3800 项回归，全部通过。复制的 10 份生成公共声明仍保留 Apache-2.0 来源，功能 lint 配置只记性质，不与独立测试表达混为原创。详见[存储验收](../docs/knorvia-plugin-storage-runtime-acceptance.md)与[来源依据](evidence/plugin-storage-runtime.md)。
+
+模型适配器的 51 份源码已按独立作者合同替换，26 份测试与支撑文件接入永久回归。旧门为 66 通过和九项预登记差异，最终候选及主仓 source/dist 各 75/75。源码切换后的完整离线回归 3800 项通过；后来新增的两个模型组另行通过，没有冒充一次含新增组的全量运行。25 份新测试表达采用 MIT，功能性类型配置只记性质；其余 SDK、公开类型依赖和共享协议维持原许可。首次失败、网络边界事件、修订输入和最终摘要见[模型验收](../docs/knorvia-model-adapter-runtime-acceptance.md)与[来源依据](evidence/model-adapter-runtime.md)。文件系统及其他模块仍在替换中，以上不表示整个应用已独立。
 
 功能配置和标准许可正文可使用 `reviewed-retained` 记录“已核验性质、保留声明”。它必须填写 `NOASSERTION`，仅表示这次复核不新增许可判断，不能撤销文件中已有的有效声明，也不代表独立实现。上游路径、摘要和分类照常保留；`summary.reviewedNatures` 是与来源分类重叠的独立统计，不能相加当成总文件数。首批宿主配置依据见[性质复核记录](evidence/node-repl-host-retained.md)。
 

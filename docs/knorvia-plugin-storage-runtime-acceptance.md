@@ -49,4 +49,8 @@
 
 没有真实模型、市场网络、Git 远端下载、生产服务器或用户数据操作。owned seams 不证明所有真实 Windows/POSIX 文件系统竞态、junction 隔离或跨进程任意读改写串行化；这些界限在规格中保留。本轮不打包或覆盖桌面程序。
 
-原始候选、测试、失败轮和收据在 `D:/tools.cache/knorvia-plugin-storage-rebuild`、`knorvia-plugin-storage-tests`、`knorvia-plugin-storage-acceptance`、`knorvia-plugin-storage-test-integration`；主仓复制与检查证据在 `D:/tools.cache/knorvia-plugin-storage-integration-20260930`。本批的远端 CI 仍需提交后核对。根 Apache、适用第三方声明和 preview 身份保持，全量独立替换及最终稳定发布仍在进行。
+原始候选、测试、失败轮和收据在 `D:/tools.cache/knorvia-plugin-storage-rebuild`、`knorvia-plugin-storage-tests`、`knorvia-plugin-storage-acceptance`、`knorvia-plugin-storage-test-integration`；主仓复制与检查证据在 `D:/tools.cache/knorvia-plugin-storage-integration-20260930`。根 Apache、适用第三方声明和 preview 身份保持，全量独立替换及最终稳定发布仍在进行。
+
+## GitHub 检查
+
+提交 `780d847c9a8d6eb7d4b01d22646e1cb1ecf28679` 的 [Studio offline checks，run 36613188184，attempt 1](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36613188184) 已核验：Windows 3800/3800、0 跳过，521254.9472ms；Linux 3793 通过、7 项平台跳过，275375.099934ms。两端均为 0 失败、取消和 todo，类型、lint、格式、架构及构建步骤通过。Linux 不记作 3800 全过。任务元数据、原始日志及 SHA-256 保存在上述整合目录的 `remote-results.json` 和两份 `remote-job-*.log`。

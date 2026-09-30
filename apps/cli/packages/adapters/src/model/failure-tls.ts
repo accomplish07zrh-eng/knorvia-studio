@@ -1,43 +1,30 @@
-const MODEL_TLS_VALIDATION_ERROR_CODE = "MODEL_TLS_VALIDATION_FAILED";
-
-class ModelTlsValidationError extends Error {
-  readonly code = MODEL_TLS_VALIDATION_ERROR_CODE;
-
-  constructor(cause: unknown) {
-    super("TLS validation failed for the provider request.", { cause });
-    this.name = "ModelTlsValidationError";
-  }
-}
-
-export function normalizeModelTlsFailure(error: unknown): unknown {
-  if (error instanceof ModelTlsValidationError || !hasTlsFailureCode(error)) {
-    return error;
-  }
-
-  // AI SDK adapter 可能只转发外层错误，丢失 Node TLS cause.code；
-  // 在 provider fetch 边界先提升为稳定错误码，后续分类不再依赖运行时英文文案。
-  return new ModelTlsValidationError(error);
-}
-
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
+import { getErrorCode } from "./failure-inspection.js";
+const TLS_CODES = new Set([
+  "CERT_HAS_EXPIRED",
+  "DEPTH_ZERO_SELF_SIGNED_CERT",
+  "ERR_TLS_CERT_ALTNAME_INVALID",
+  "SELF_SIGNED_CERT_IN_CHAIN",
+  "UNABLE_TO_GET_ISSUER_CERT",
+  "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+  "ERR_SSL_WRONG_VERSION_NUMBER",
+  "EPROTO",
+]);
 export function isTlsFailure(code?: string): boolean {
-  const normalized = code?.toUpperCase();
-  return Boolean(
-    normalized?.includes("CERT") ||
-    normalized?.includes("TLS") ||
-    normalized === "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
-  );
+  return code !== undefined && TLS_CODES.has(code.toUpperCase());
 }
-
-function hasTlsFailureCode(error: unknown, seen = new WeakSet<object>()): boolean {
-  if (error === null || typeof error !== "object" || seen.has(error)) {
-    return false;
-  }
-  seen.add(error);
-
-  const record = error as Record<string, unknown>;
-  if (isTlsFailure(typeof record.code === "string" ? record.code : undefined)) {
-    return true;
-  }
-
-  return hasTlsFailureCode(record.cause, seen);
+export function normalizeModelTlsFailure(error: unknown): unknown {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    (error as { name?: unknown }).name === "AiSdkModelAdapterError"
+  )
+    return error;
+  const code = getErrorCode(error);
+  if (!isTlsFailure(code)) return error;
+  const normalized = new Error("TLS connection validation failed", { cause: error });
+  normalized.name = "ModelTlsValidationError";
+  Object.assign(normalized, { code: "MODEL_TLS_VALIDATION_FAILED", tlsCode: code });
+  return normalized;
 }

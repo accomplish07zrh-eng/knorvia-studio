@@ -1,117 +1,79 @@
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 import type { Logger, ModelStreamEvent, ModelToolCall } from "@knorvia/contracts";
 import { normalizeModelToolInput } from "./tool-input-normalization.js";
 import { normalizeModelToolName } from "./tool-call-validation.js";
-
 interface StreamingToolCallAssemblerOptions {
   logger?: Logger;
 }
-
+interface Pending {
+  id: string;
+  name: string;
+  input: string;
+  providerExecuted?: boolean;
+  ended: boolean;
+}
 export class StreamingToolCallAssembler {
-  private readonly completedStreamingInputIds = new Set<string>();
   private readonly logger?: Logger;
-  private readonly normalizedToolCalls = new Map<string, ModelToolCall>();
-  private readonly providerExecutedById = new Map<string, boolean>();
-  private readonly streamingInputIds = new Set<string>();
-
+  private readonly pending = new Map<string, Pending>();
+  private readonly calls = new Map<string, ModelToolCall>();
   constructor(options: StreamingToolCallAssemblerOptions = {}) {
     this.logger = options.logger;
   }
-
   snapshotNormalizedToolCalls(): ModelToolCall[] {
-    return Array.from(this.normalizedToolCalls.values(), (toolCall) => ({ ...toolCall }));
+    return [...this.calls.values()];
   }
-
   handle(event: ModelStreamEvent): ModelStreamEvent[] {
-    switch (event.type) {
-      case "tool_input_start":
-        return this.handleToolInputStart(event);
-      case "tool_input_delta":
-        return this.normalizedToolCalls.has(event.id) ? [] : [event];
-      case "tool_input_end":
-        return this.handleToolInputEnd(event);
-      case "tool_call":
-        return this.handleToolCall(event.toolCall);
-      case "finish":
-        return [...this.flush(), event];
-      default:
-        return [event];
+    if (event.type === "tool_input_start") {
+      this.pending.set(event.id, {
+        id: event.id,
+        name: event.toolName,
+        input: "",
+        providerExecuted: event.providerExecuted,
+        ended: false,
+      });
+      return [event];
     }
-  }
-
-  flush(): ModelStreamEvent[] {
-    this.completedStreamingInputIds.clear();
-    this.providerExecutedById.clear();
-    this.streamingInputIds.clear();
-    return [];
-  }
-
-  private handleToolInputStart(
-    event: Extract<ModelStreamEvent, { type: "tool_input_start" }>,
-  ): ModelStreamEvent[] {
-    if (this.normalizedToolCalls.has(event.id)) {
-      return [];
+    if (event.type === "tool_input_delta") {
+      const state = this.pending.get(event.id);
+      if (state) state.input += event.delta;
+      return [event];
     }
-
-    const toolName = normalizeModelToolName(event.toolName, {
-      providerExecuted: event.providerExecuted,
-      source: "streamText",
-      streamEventType: event.type,
-      toolCallId: event.id,
-    });
-    if (event.providerExecuted !== undefined) {
-      this.providerExecutedById.set(event.id, event.providerExecuted);
+    if (event.type === "tool_input_end") {
+      const state = this.pending.get(event.id);
+      if (state) state.ended = true;
+      return [event, ...this.commit(event.id)];
     }
-    this.streamingInputIds.add(event.id);
-    return [{ ...event, toolName }];
-  }
-
-  private handleToolInputEnd(
-    event: Extract<ModelStreamEvent, { type: "tool_input_end" }>,
-  ): ModelStreamEvent[] {
-    if (this.normalizedToolCalls.has(event.id)) {
-      return [];
+    if (event.type === "tool_call") {
+      const id = event.toolCall.id;
+      if (this.calls.has(id)) return [];
+      const pending = this.pending.get(id);
+      if (pending && !pending.ended) return [];
+      this.calls.set(id, event.toolCall);
     }
-    this.completedStreamingInputIds.add(event.id);
     return [event];
   }
-
-  private handleToolCall(toolCall: ModelToolCall): ModelStreamEvent[] {
-    if (this.normalizedToolCalls.has(toolCall.id)) {
-      return [];
-    }
-    if (
-      this.streamingInputIds.has(toolCall.id) &&
-      !this.completedStreamingInputIds.has(toolCall.id)
-    ) {
-      // 已经进入流式 input 生命周期时，final call 不能替代缺失的
-      // tool-input-end；只移除“首次 JSON 可解析”合成，不改变既有 end gate。
-      return [];
-    }
-
-    const providerExecuted =
-      toolCall.providerExecuted ?? this.providerExecutedById.get(toolCall.id);
-    const toolName = normalizeModelToolName(toolCall.name, {
-      providerExecuted,
-      source: "streamText",
-      streamEventType: "tool_call",
-      toolCallId: toolCall.id,
-    });
-    const normalizedToolCall = {
-      ...toolCall,
-      input: normalizeModelToolInput(toolCall.input, {
+  flush(): ModelStreamEvent[] {
+    return [...this.pending.keys()].flatMap((id) => this.commit(id));
+  }
+  private commit(id: string): ModelStreamEvent[] {
+    const state = this.pending.get(id);
+    if (!state || this.calls.has(id)) return [];
+    const call = {
+      id,
+      name: normalizeModelToolName(state.name, {
+        toolCallId: id,
+        providerExecuted: state.providerExecuted,
+      }),
+      input: normalizeModelToolInput(state.input, {
         logger: this.logger,
         source: "streamText",
-        toolName,
+        toolName: state.name,
       }),
-      name: toolName,
-      // 流式 start 可能携带 final call 省略的 provider 执行标记。
-      // 这里只补回原有元数据，不改变工具提交、重试或执行语义。
-      providerExecuted,
-    };
-    this.completedStreamingInputIds.delete(toolCall.id);
-    this.providerExecutedById.delete(toolCall.id);
-    this.streamingInputIds.delete(toolCall.id);
-    this.normalizedToolCalls.set(normalizedToolCall.id, normalizedToolCall);
-    return [{ type: "tool_call", toolCall: normalizedToolCall }];
+      providerExecuted: state.providerExecuted,
+    } as ModelToolCall;
+    this.calls.set(id, call);
+    this.pending.delete(id);
+    return [{ type: "tool_call", toolCall: call }];
   }
 }

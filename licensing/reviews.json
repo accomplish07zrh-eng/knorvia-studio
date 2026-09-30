@@ -21878,7 +21878,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21886,7 +21889,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21894,7 +21900,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21902,7 +21911,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21910,7 +21922,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21918,7 +21933,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21926,7 +21944,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21934,7 +21955,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21942,7 +21966,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21950,7 +21977,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21958,7 +21988,10 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21966,7 +21999,10 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
+      "evidence": [
+        "specs/knorvia-browser-sdk.md",
+        "docs/knorvia-independence-progress-20260927.md"
+      ]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -33196,10 +33232,10 @@
     },
     {
       "path": "docs/knorvia-plugin-storage-runtime-acceptance.md",
-      "normalizedSha256": "5749bcd604be3d16f3768ce493380e3fd2a210eecd71fea5153ca84714b61ebc",
+      "normalizedSha256": "36c848e1f3f052edcb48be0fc2c16d7aff87f3327ba0ba189145209ce9c8ede8",
       "decision": "original",
       "license": "MIT",
-      "basis": "New independently written behavioral specification, measured acceptance record or source/provenance evidence for the plugin storage replacement. Explicitly records copied declarations, preserved initial failures, validated boundaries and remaining application migration work; no blanket clean-room or root-license claim.",
+      "basis": "New independently written behavioral specification, measured acceptance record or source/provenance evidence for the plugin storage replacement. Explicitly records copied declarations, preserved initial failures, validated boundaries and remaining application migration work; no blanket clean-room or root-license claim. Exact780d847 run36613188184 attempt1 subsequently verified: Windows3800/3800, Linux3793pass+7platformskips, no failures/cancellations; all prior failures remain.",
       "evidence": [
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
@@ -33216,6 +33252,967 @@
         "specs/knorvia-plugin-storage-runtime.md",
         "docs/knorvia-plugin-storage-runtime-acceptance.md",
         "licensing/evidence/plugin-storage-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-reasoning-metadata.ts",
+      "normalizedSha256": "8c65e1ba181fea9617babfffd261f9be56c49b56737df32b7d7b9c1542a4d31a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-request-metadata.ts",
+      "normalizedSha256": "4f2e753f956d9062ad035bf6b07e0018a7bdbf92e985a66cecc29c7e3890c0e6",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/anthropic-stream-compat.ts",
+      "normalizedSha256": "df5f82db17410de5a20130c040c42c537816aaaef5950b1a23e706a874834780",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/empty-completion-retry.ts",
+      "normalizedSha256": "ddd31d37e631ce62628cda42d3dd36be00382239d73679a931e4f3762cd1c55d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/errors.ts",
+      "normalizedSha256": "70319903e1404584e231a9ba37e61e2a0101d410516ef4fd49ffda0d4cf8b9f5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-ai-sdk-provider-error.ts",
+      "normalizedSha256": "0b54d0680516ca5b5c51d5ca83f8a49f0090aa6f86ccfdec716d311843270b7f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-classifier.ts",
+      "normalizedSha256": "7650b3f62cf4ccfcf36e3912610cd77b7b81444178af75245fa93f883d5c598f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-inspection.ts",
+      "normalizedSha256": "5277bedc6a72a79c616fb03d9c841d4da8ae99a57b056a28b18132257d43ddfb",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-provider-business-codes.ts",
+      "normalizedSha256": "ab2ce50ff26f30a25f16a2af28448d7477d83bb8029b1da2329e9488d811cca8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/failure-tls.ts",
+      "normalizedSha256": "73ddef8c6928421afd4da6aa2b943c963ddfac0fcc816df06627e769e22a9bef",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/index.ts",
+      "normalizedSha256": "33b3bd27ab726340fddc6d44022abde656ec58d0d9805d60cd1c03758c284c3f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/media-transform-policy.ts",
+      "normalizedSha256": "c248cfeddb669c4e6dca5c52cd11bd25b57fa45c11e824d905e3927657881c9b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-execution.ts",
+      "normalizedSha256": "814ab363a2bf17efa04d5ae18ee84ecea47911d2d7af23660964ff5859cf0e6a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-option-map-fetch.ts",
+      "normalizedSha256": "3832898e812e3b73276401aa7462ca0378f56eabe44c4c3c4d958472919003f3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model-request-headers.ts",
+      "normalizedSha256": "92a7e2ce42a77e25b8389c4214b8847350b40b935b2d2a61804f207ab33de34f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/model.ts",
+      "normalizedSha256": "ea28d772ba1a7953faefabe0a83df653d2fec6ae4d4289162c39e96e1d19977a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/offpeak-retry.ts",
+      "normalizedSha256": "cdf0ed022759fcf8dc4d30ef2a8ba35439f33707d6bbe7869c6a8defe2e7e11f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/openai-responses-json-compat.ts",
+      "normalizedSha256": "5a5fbc0260f6f72ca0ef27f1b4dbcabe2da8443d6a96e30b9efc626ab0c50139",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/opencode-session.ts",
+      "normalizedSha256": "cd2f13f4f580a2a91732347c35ca6447c31d530b2adcaabb299d9629d39bb79c",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/provider-finish-business-error.ts",
+      "normalizedSha256": "8df5676daee6cf2eed7894b12af2b729921dc320ad374135f0b27d1fb08ad040",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/reasoning-history-normalization.ts",
+      "normalizedSha256": "49dc9a3f45be03b7063ea9e7b19cf4227a338045cdd4ffd34d2e18f3ff633281",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/request-admission.ts",
+      "normalizedSha256": "55fdfdda72d520933578d7b0db7eb5413dbb854ab830332b3fd91d2bfe4ca929",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/retry-budget.ts",
+      "normalizedSha256": "1aa31332f34f9412253605e34687c586ce7bcf73360e729d7cf7ad979a8c534f",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/retry-policy.ts",
+      "normalizedSha256": "f277b3c636d8798fe036afd863c49026a707074dcc1113da68e9aed644b67e96",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-attribution.ts",
+      "normalizedSha256": "c8c77fa2db112b7e44a97ad2feabdcac468b03899c5b6f3fa159a0aea4adf265",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-debug-redaction.ts",
+      "normalizedSha256": "e20a3c45910c7d46e916c0b534d614c1d33df98586dc8ef5c7e5f2042917c22a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-debug.ts",
+      "normalizedSha256": "cc7fa6285192fb013d4f4cccc1bfe224e654c96e621be213814ac7e65ad922ed",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-diagnostics.ts",
+      "normalizedSha256": "67350b4bdd9513dae9cbd92c03ae8fe2387a14b7f172b0631e7b3c81d47ee16b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-generate.ts",
+      "normalizedSha256": "5ad9867397c5b71fea68e144d5acd124905457585f13d61a02b191f5363d32df",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-network-headers.ts",
+      "normalizedSha256": "3e29f6c23a4261bfc4c3cb87510add1a22a578e9b3fa71f2a23265c40cc4adf5",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-normalization.ts",
+      "normalizedSha256": "a78ef8577e38105398f71337d31fd3f4e848b14b437a7bd062128a60f8fc7d8d",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-options.ts",
+      "normalizedSha256": "3896a7b23ed3d4262564148426de04ddfb5460c215e4c2ff07b581ce65554585",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-record.ts",
+      "normalizedSha256": "dc808f55a13d7b5fc6ae8a479bdce47f58623a65a753d6cd65ea8ef84b9c6540",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-retry.ts",
+      "normalizedSha256": "5f1c92a620d4934f248bc1b49e87014b8f4f2f09644b81ccf5e02ed092c73d67",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-runtime-headers.ts",
+      "normalizedSha256": "f32d5fce0d04792984ae354fcb68eb4a23047694029c21e9fd5e20627bc9fdf8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-runtime.ts",
+      "normalizedSha256": "a51470c574e96b21906f3a542eabde4cba7f9609ce9b9b196db9aeb20901fc54",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-status.ts",
+      "normalizedSha256": "88db845c9e25864c9d5e7ec8b91c185aa0340b2f354333b41d8d027fb2bd92ff",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-stream.ts",
+      "normalizedSha256": "ca205fc5a2a8d426aab1b3642497d522abea8e695b4d7ab6ebb96275e1ba2891",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner-telemetry.ts",
+      "normalizedSha256": "d0d874aca5165a6c814186cf618d77ad64dfb98f8afa226f42c7fcc52bf9f7c3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/runner.ts",
+      "normalizedSha256": "76424b82f5c69608ee1d9ccf7eea20685092bf693dc61aa609a1baea351ab799",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/stream-idle-timeout.ts",
+      "normalizedSha256": "b944a6746597e0baecc2e8427ad7b435304d1832f06667b030178f6e37b70852",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/stream-retry-boundary.ts",
+      "normalizedSha256": "cdb4ca880999e0bf8ddb01e9e3a5ddf49554a1d57e40246c3b8653ce55e7695e",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/streaming-tool-call-assembler.ts",
+      "normalizedSha256": "fc05ac70962ecb0860deef950a7f59ceb2b41eee87ac2ef8f40d59dd741ff036",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/strict-tool-schema.ts",
+      "normalizedSha256": "b10f18311a56f9be7888724f8f79b5c04c0ea1f2655c617c1b00b84022dcb3cf",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/system-message-compat.ts",
+      "normalizedSha256": "9907972c389baf0e1ef5b0e958f50da37f3b9efbeaa286465a6f7c66bb2392d1",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-call-validation.ts",
+      "normalizedSha256": "db2d54d48aca1fcf9473e3722cbda3467f426c07becd1066dc3030f130321817",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-input-normalization.ts",
+      "normalizedSha256": "fdfdf9b40c69c351252f5921814fd6927d4bcb77165407678864914d2548f24b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-result-media-projection.ts",
+      "normalizedSha256": "6e24ca827690eb855c673ced72a18fb3e9ce66c57bdc1d70a292eaf7febc16b8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/tool-transform.ts",
+      "normalizedSha256": "3c498c4a131af92422c54317ac6bc6115323c5244adc54ddacdd766aa003a3b8",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/transform.ts",
+      "normalizedSha256": "d7333c458e6d9a31bc054613a5b875480fea863316582c3452b2c1655f58dbef",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/model/workflow-model-failure-policy.ts",
+      "normalizedSha256": "adc763cc443444381c5ec7260c33a0d532e3ee0e20f54253f203a0982ac81f9b",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independent authors designed and wrote the complete 51-module model adapter from the approved behavioral packet, exact public module declarations and a finite dependency declaration closure. Legacy function bodies, bundles and private tests were excluded from author inputs; later repairs used separately recorded finite observable facts and prior independent candidates. Exact final v10 bytes were frozen before 75/75 independent acceptance and integrated without source changes. The old-first gate remains66/75 with9 preregistered differences; permanent main source/dist each75/75. Actual CLI map binds49 reachable modules and2 other public helpers are emitted separately. Root exposure during earlier contract preparation, all first failures, fixture observation corrections and the run015 native-fetch boundary event are disclosed. Headers retain their original pending-review note for byte binding; this current-hash record is the completed file review. Tests, header text and reduced line count alone do not establish originality. No license change is made to retained dependencies or the application root.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract.test.ts",
+      "normalizedSha256": "0d010f82f848ae366a652cff2d4c703f4bdd6f854f09a33ae7ffddb228e00e1f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/admission-status.test.ts",
+      "normalizedSha256": "d905eb4421e19f68d7e082f89525f0e3713e9d9238d6284e98e43b858ca635fe",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/debug-recording.test.ts",
+      "normalizedSha256": "70cb9b03b72081123cd4cb044be8b81411d388acec7cc3bca16a8fe09e8b0172",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/failure-policy.test.ts",
+      "normalizedSha256": "903047e1a4a12642e18e2258ce06f04b5c39171341b141cc0d0d20b69d3f3e5c",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/helper-behavior.test.ts",
+      "normalizedSha256": "072916e05a38aea812a0be67dc575d8b5ae496c4c7439fcfd95460a3d8db5c44",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/model-bind.test.ts",
+      "normalizedSha256": "d822616dc4cb6a6d9b00920c43ab483a7b8ebbcd3a35162e362c36111f8aab29",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/provider-compat.test.ts",
+      "normalizedSha256": "058658f3bba96a22026d893d957aa5cfdc3b6bc95fc281df0292f5efa9e88262",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/public-modules.test.ts",
+      "normalizedSha256": "1672656c6becc19645d848677f9ca6f49c648fa7cd9ca63d619199116db686cb",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/request-projection.test.ts",
+      "normalizedSha256": "be7ca4c4688aee58c52b8e4b20c1c0eb4599205af09621c43d00eb8c9ef59f25",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/runner-generate.test.ts",
+      "normalizedSha256": "d2e2cc27d0891d785fbb46b84e98a356e5ef87a9c974e7674bce2669f7a809f9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/cases/runner-stream.test.ts",
+      "normalizedSha256": "d9b93a1ad726087c0110ef3102823823227d339e49d48d93d275c5da0c9649f6",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/group-runner.mjs",
+      "normalizedSha256": "37009b483f68acbfedd0b4c67c80f4a782d4db8017e3565eecd0325dc5f434b3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/allowed-dependencies.ts",
+      "normalizedSha256": "e717d076a1c6277a6633673bd0a031619f86e109587e7cb37de748b3c6542b10",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/async.ts",
+      "normalizedSha256": "86fc24e9ce68a2140bd40e23bd25078956aa3c2bbc1f340da897f49efa7fd5a8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/constants.ts",
+      "normalizedSha256": "cf1809c2d3a0507b930a457cfe502fca3ad26b0abef17beb9e942344ea9cd00f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/fixtures.ts",
+      "normalizedSha256": "2b8cd876b0bff6a3aaad5423f0c45127c17e10d35ff23ba79d80033402c08719",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/lifecycle.ts",
+      "normalizedSha256": "de83604903152e35684c8397866d0b9cefbbd597437be0a939ce38b2d362c0f3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/loader.ts",
+      "normalizedSha256": "dc4f1a985fe697f99382758ec897ebf5438e7218b41beb25c18825041cceca43",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/owned-clock.ts",
+      "normalizedSha256": "232532746b8b9ea567a4a0e31cf316db68345ae1d1e5807d531e418029cd367f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/runtime-network-guard.mjs",
+      "normalizedSha256": "1619b494f2ae6804b50e00b8fbcee8e4998badb9cb4e3f1da61859bc57bf452d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/seams.ts",
+      "normalizedSha256": "dcaeee8bbd282512c69974c08d4f2c96b0ad02dc91f8addd6ff4d694ee697d73",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/target-modules.ts",
+      "normalizedSha256": "eeb6e2f7bfbe94c3b9ec006e549c2e0effb583a1e3f8ce6cb65c6aa37ccbe1d2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/virtual-fs.ts",
+      "normalizedSha256": "ad7e573d71745e49a4f5e1747d20956b8dee5643b318bcdfc6cb8e34c5a33a44",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/harness/virtual-modules.ts",
+      "normalizedSha256": "15ad58e4f6303cad8ecddd709f5dcdae7e0e47832d9d9683f278c5f828bc0c6b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/suite-entry.ts",
+      "normalizedSha256": "e71618b89cc77f9beddee5f4b66425cb1388a590b638f936a3788128b191f808",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "Independent project contract-test expression, owned seam, runtime-network guard or new portability integration. Earliest suite reading ledger and pre-check freeze establish public-contract-only author inputs; the32 accepted fixture sources map to15 unchanged independent materials,16 recorded acceptance patches and1 original guard. The26-file portable payload copies no third-party source or generated declaration. Ten cases and8 unchanged harness files match accepted originals exactly after removal of added MIT headers; documented other adaptations change repository resolution and owned evidence paths. All75 cases, budgets, graph closure and83 guard surfaces are preserved. MIT authorization covers this project new expression only, not SDKs or retained workspace dependencies.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/model-subsystem-contract/tsconfig.json",
+      "normalizedSha256": "38b3d08733978a5a01b30d6273c684b770637375e55fbd59db898d624eed2b9c",
+      "decision": "reviewed-retained",
+      "nature": "functional-configuration",
+      "license": "NOASSERTION",
+      "basis": "Functional compiler configuration for the portable model contract suite, specifying strict checks, Node module resolution and an explicit public target type path. Nature-only review; this record grants no new license and does not count configuration as a product implementation rewrite.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-model-adapter-runtime.md",
+      "normalizedSha256": "42acc0f733bd0e1f98747dbfd3fdc4c57adeff75517cd6b937f3b635140aa19e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently written model adapter behavior specification, measured acceptance record or provenance account. Records initial failures, asynchronous observation corrections, runtime-network limits, retained dependencies and the still-incomplete whole-application migration without making a blanket clean-room or root-license claim.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-model-adapter-runtime-acceptance.md",
+      "normalizedSha256": "d82c0057d8f21f4109afbe4b7a749a39e103b54d04026c9bea97287cf8294c49",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently written model adapter behavior specification, measured acceptance record or provenance account. Records initial failures, asynchronous observation corrections, runtime-network limits, retained dependencies and the still-incomplete whole-application migration without making a blanket clean-room or root-license claim.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/model-adapter-runtime.md",
+      "normalizedSha256": "e66e21e6519d3ae81f060ae2209f5726457894182f5ae3ccc10ce3421a94075d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently written model adapter behavior specification, measured acceptance record or provenance account. Records initial failures, asynchronous observation corrections, runtime-network limits, retained dependencies and the still-incomplete whole-application migration without making a blanket clean-room or root-license claim.",
+      "evidence": [
+        "specs/knorvia-model-adapter-runtime.md",
+        "docs/knorvia-model-adapter-runtime-acceptance.md",
+        "licensing/evidence/model-adapter-runtime.md"
       ]
     }
   ]

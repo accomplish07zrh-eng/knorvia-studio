@@ -1,7 +1,8 @@
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 import type {
   Logger,
   ModelNetworkStatusEvent,
-  ModelReasoningCallHint,
   ModelStatusSink,
   ModelTransportKind,
   ModelRequestSessionType as ModelRequestSessionTypeValue,
@@ -9,18 +10,12 @@ import type {
   ResolvedModelApiCallObservation,
   TraceId,
 } from "@knorvia/contracts";
-import {
-  ModelFailureReason as ModelFailureReasonValue,
-  createTraceId,
-  resolveModelApiCallObservation,
-} from "@knorvia/contracts";
-import { UNBOUNDED_RETRY_MAX_ATTEMPTS } from "./retry-budget.js";
-// 请求归因 header 一族住在 runner-attribution.ts（max-lines 拆分）；公开面仍从本文件导出，
-// 既有 importer 不必改路径。
-import { resolveModelRequestSessionType } from "./runner-attribution.js";
 import type { AiSdkModelTextRequest, ResolvedAiSdkModel } from "./runner-runtime.js";
-import { stringMetadata } from "./runner-record.js";
-
+import { sanitizeModelNetworkHeaders } from "./runner-network-headers.js";
+import {
+  createModelRequestAttributionHeaders,
+  resolveModelRequestSessionType,
+} from "./runner-attribution.js";
 export {
   createModelRequestAttributionHeaders,
   normalizeModelSessionIdForAttribution,
@@ -48,340 +43,164 @@ export interface ModelStatusContext {
   streamRecovery?: ModelNetworkStatusEvent["streamRecovery"];
   modelCall: ResolvedModelApiCallObservation;
 }
-
+function metadataString(metadata: unknown, key: string): string | undefined {
+  if (typeof metadata !== "object" || metadata === null) return undefined;
+  const value = (metadata as Record<string, unknown>)[key];
+  return typeof value === "string" && value ? value : undefined;
+}
 export function createStatusContext(input: {
   maxAttempts: number;
   request: AiSdkModelTextRequest;
   resolved: ResolvedAiSdkModel;
   transport: ModelTransportKind;
 }): ModelStatusContext {
-  const metadata = input.request.metadata ?? {};
-  const querySource = stringMetadata(metadata.querySource);
-  const resolvedModelCall = resolveModelApiCallObservation(querySource, input.request.modelCall);
+  const metadata = input.request.metadata;
+  const modelCall = (input.request.modelCall ?? {
+    actorKind: "main",
+    operation: "model",
+  }) as ResolvedModelApiCallObservation;
   return {
-    baseURL: input.resolved.baseURL,
-    maxAttempts: input.maxAttempts,
+    traceId: (input.request.traceContext?.traceId ??
+      metadataString(metadata, "traceId") ??
+      crypto.randomUUID()) as TraceId,
+    queryId: (input.request.traceContext?.queryId ?? metadataString(metadata, "queryId")) as
+      | QueryId
+      | undefined,
+    sessionId: (input.request.traceContext?.sessionId ??
+      metadataString(metadata, "sessionId")) as ModelNetworkStatusEvent["sessionId"],
+    turnId: (input.request.traceContext?.turnId ??
+      metadataString(metadata, "turnId")) as ModelNetworkStatusEvent["turnId"],
+    parentSessionId: metadataString(
+      metadata,
+      "parentSessionId",
+    ) as ModelNetworkStatusEvent["parentSessionId"],
+    toolCallId: metadataString(metadata, "toolCallId"),
+    spanId: input.request.traceContext?.spanId,
+    parentSpanId: input.request.traceContext?.parentSpanId,
+    querySource: metadataString(metadata, "querySource"),
+    requestId: metadataString(metadata, "requestId") ?? crypto.randomUUID(),
     providerId: input.resolved.providerId,
     modelId: input.resolved.modelId,
     modelRequestSessionType: resolveModelRequestSessionType(
       input.request.modelRequestSessionType,
-      resolvedModelCall,
+      modelCall,
     ),
-    requestId: stringMetadata(metadata.requestId) ?? crypto.randomUUID(),
-    sessionId: (input.request.traceContext?.sessionId ??
-      stringMetadata(metadata.sessionId)) as ModelStatusContext["sessionId"],
-    spanId: input.request.traceContext?.spanId ?? stringMetadata(metadata.spanId),
-    parentSpanId:
-      input.request.traceContext?.parentSpanId ??
-      stringMetadata(metadata.parentSpanId) ??
-      stringMetadata(metadata.parentId),
-    querySource,
-    queryId: (input.request.traceContext?.queryId ?? stringMetadata(metadata.queryId)) as
-      | QueryId
-      | undefined,
-    traceId: (input.request.traceContext?.traceId ??
-      stringMetadata(metadata.traceId) ??
-      createTraceId()) as TraceId,
+    baseURL: input.resolved.baseURL,
     providerKind: input.resolved.providerKind,
-    streamRecovery: input.request.streamRecovery,
     transport: input.transport,
-    turnId: (input.request.traceContext?.turnId ??
-      stringMetadata(metadata.turnId)) as ModelStatusContext["turnId"],
-    parentSessionId: stringMetadata(metadata.parentSessionId) as
-      | ModelStatusContext["parentSessionId"]
-      | undefined,
-    toolCallId: stringMetadata(metadata.toolCallId),
-    modelCall: {
-      ...resolvedModelCall,
-      agentName: resolvedModelCall.agentName ?? stringMetadata(metadata.agentName),
-      operationId:
-        resolvedModelCall.operationId ??
-        input.request.traceContext?.spanId ??
-        stringMetadata(metadata.spanId),
-      stepIndex:
-        resolvedModelCall.stepIndex ??
-        (typeof metadata.stepIndex === "number"
-          ? metadata.stepIndex
-          : typeof metadata.iteration === "number"
-            ? metadata.iteration
-            : undefined),
-      reasoning: initialReasoningObservation(resolvedModelCall.reasoning, undefined),
-    },
+    maxAttempts: input.maxAttempts,
+    streamRecovery: (
+      input.request as { streamRecovery?: ModelNetworkStatusEvent["streamRecovery"] }
+    ).streamRecovery,
+    modelCall,
   };
 }
-
 export function createAttemptStatusContext(
-  statusContext: ModelStatusContext,
+  context: ModelStatusContext,
   attempt: number,
 ): ModelStatusContext {
-  if (attempt <= 1) {
-    return statusContext;
-  }
-
-  return {
-    ...statusContext,
-    // adapter retry 会发起新的物理 provider 请求；
-    // 复用首轮 requestId 会让上游日志和 retry-after 诊断串错请求。
-    requestId: crypto.randomUUID(),
-  };
+  return attempt <= 1 ? context : { ...context, requestId: crypto.randomUUID() };
 }
-
-function initialReasoningObservation(
-  hint: ModelReasoningCallHint | undefined,
-  modelVariant: string | undefined,
-): ResolvedModelApiCallObservation["reasoning"] {
-  const explicit = hint?.explicit;
-  return {
-    capability: "unknown",
-    requestedControl: explicit?.controlType ?? "provider_default",
-    requestedState: explicit?.state ?? "provider_default",
-    requestedLevel: hint?.requestedLevel ?? modelVariant,
-    effectiveControl: explicit?.controlType ?? "unknown",
-    effectiveState: explicit?.state ?? "unknown",
-    effectiveLevel:
-      explicit?.effectiveLevel ?? (explicit?.state === "disabled" ? "disabled" : "unknown"),
-    ...(explicit?.effectiveBudgetTokens !== undefined
-      ? { effectiveBudgetTokens: explicit.effectiveBudgetTokens }
-      : {}),
-  };
-}
-
-/**
- * 准入等待两端的状态事件：`admitAttempt` 的 `tryAcquire` 未命中即 `queued`，拿到票即
- * `admitted`（带排队时长）。此时还没有票据，所以不经 ticket 投递——治理器不需要这两条。
- */
-export function admissionWaitPublishers(
-  statusContext: ModelStatusContext,
-  attempt: number,
-  publishOptions: Parameters<typeof publishModelStatus>[1],
-): {
-  onQueued: () => Promise<void>;
-  onAdmitted: (queuedMs: number) => Promise<void>;
-} {
-  return {
-    onQueued: () =>
-      publishModelStatus(
-        {
-          ...statusContext,
-          attempt,
-          timestamp: new Date().toISOString(),
-          type: "model_request_queued",
-        },
-        publishOptions,
-      ),
-    onAdmitted: (queuedMs) =>
-      publishModelStatus(
-        {
-          ...statusContext,
-          attempt,
-          queuedMs,
-          timestamp: new Date().toISOString(),
-          type: "model_request_admitted",
-        },
-        publishOptions,
-      ),
-  };
-}
-
-export async function publishModelStatus(
+type PublishOptions = {
+  admissionTicket?: ModelStatusSink;
+  failureError?: unknown;
+  logger?: Logger;
+  requestStatusSink?: ModelStatusSink;
+  statusSink?: ModelStatusSink;
+};
+async function safePublish(
+  sink: ModelStatusSink | undefined,
   event: ModelNetworkStatusEvent,
-  options: {
-    /**
-     * 本次尝试的准入票据：它是该尝试专属的
-     * 状态事件汇，治理器从这里读结果。与 request/telemetry sink 同一条投递纪律（失败只告警）。
-     */
-    admissionTicket?: ModelStatusSink;
-    failureError?: unknown;
-    logger?: Logger;
-    requestStatusSink?: ModelStatusSink;
-    statusSink?: ModelStatusSink;
-  },
+  logger?: Logger,
+  failureError?: unknown,
+  allowFailure = false,
 ): Promise<void> {
-  logStatusEvent(event, options.logger);
-
-  const deliveries: Array<() => void | Promise<void>> = [];
-  if (options.admissionTicket) {
-    const ticket = options.admissionTicket;
-    deliveries.push(() => ticket.publish(event));
-  }
-  if (options.statusSink) {
-    const statusSink = options.statusSink;
-    if (options.requestStatusSink && options.requestStatusSink !== options.statusSink) {
-      deliveries.push(() => options.requestStatusSink!.publish(event));
-    }
-    deliveries.push(() =>
-      event.type === "model_request_failed" &&
-      options.failureError !== undefined &&
-      statusSink.publishFailure
-        ? statusSink.publishFailure(event, options.failureError)
-        : statusSink.publish(event),
-    );
-  } else if (options.requestStatusSink) {
-    deliveries.push(() => options.requestStatusSink!.publish(event));
-  }
-  if (deliveries.length === 0) return;
-
-  const results = await Promise.allSettled(
-    deliveries.map((deliver) => Promise.resolve().then(deliver)),
-  );
-  for (const result of results) {
-    if (result.status === "rejected") {
-      options.logger?.warn("Model status sink failed", {
-        ...modelStatusLogContext(event),
-        errorMessage:
-          result.reason instanceof Error ? result.reason.message : String(result.reason),
-        event: "model.status_sink.failed",
-        status: "failed",
-      });
-    }
-  }
-}
-
-/**
- * Provider 流式里程碑只发给进程级 Telemetry Sink，不写 SessionEvent。
- * requestStatusSink 属于对话产品状态，不能被纯观测事件污染。
- */
-export async function publishModelTelemetryMilestone(
-  event: Extract<
-    ModelNetworkStatusEvent,
-    {
-      type: "model_first_provider_event" | "model_first_content" | "model_first_text";
-    }
-  >,
-  options: {
-    logger?: Logger;
-    statusSink?: ModelStatusSink;
-  },
-): Promise<void> {
-  logStatusEvent(event, options.logger);
-  if (!options.statusSink) return;
+  if (!sink) return;
   try {
-    await options.statusSink.publish(event);
+    if (
+      allowFailure &&
+      event.type === "model_request_failed" &&
+      failureError !== undefined &&
+      "publishFailure" in sink &&
+      typeof sink.publishFailure === "function"
+    )
+      await sink.publishFailure(event, failureError);
+    else await sink.publish(event);
   } catch (error) {
-    options.logger?.warn("Model telemetry milestone sink failed", {
-      ...modelStatusLogContext(event),
-      errorMessage: error instanceof Error ? error.message : String(error),
-      event: "model.telemetry_milestone.failed",
-      status: "failed",
+    logger?.warn("Model status sink rejected an event", {
+      type: event.type,
+      error: error instanceof Error ? error.message : String(error),
     });
   }
 }
-
+export async function publishModelStatus(
+  event: ModelNetworkStatusEvent,
+  options: PublishOptions,
+): Promise<void> {
+  const sanitized = {
+    ...event,
+    requestHeaders: sanitizeModelNetworkHeaders(event.requestHeaders),
+    responseHeaders: sanitizeModelNetworkHeaders(event.responseHeaders),
+  } as ModelNetworkStatusEvent;
+  const sinks: ModelStatusSink[] = [];
+  if (options.admissionTicket) sinks.push(options.admissionTicket);
+  if (options.requestStatusSink) sinks.push(options.requestStatusSink);
+  if (options.statusSink && !sinks.includes(options.statusSink)) sinks.push(options.statusSink);
+  await Promise.all(
+    sinks.map((sink) =>
+      safePublish(
+        sink,
+        sanitized,
+        options.logger,
+        options.failureError,
+        sink === options.statusSink,
+      ),
+    ),
+  );
+}
+export function admissionWaitPublishers(
+  context: ModelStatusContext,
+  attempt: number,
+  options: PublishOptions,
+): { onQueued: () => Promise<void>; onAdmitted: (queuedMs: number) => Promise<void> } {
+  const base = { ...context, attempt, timestamp: new Date().toISOString() };
+  return {
+    onQueued: () =>
+      publishModelStatus({ ...base, type: "model_request_queued" } as ModelNetworkStatusEvent, {
+        ...options,
+        admissionTicket: undefined,
+      }),
+    onAdmitted: (queuedMs) =>
+      publishModelStatus(
+        { ...base, type: "model_request_admitted", queuedMs } as ModelNetworkStatusEvent,
+        { ...options, admissionTicket: undefined },
+      ),
+  };
+}
+export async function publishModelTelemetryMilestone(
+  event: Extract<
+    ModelNetworkStatusEvent,
+    { type: "model_first_provider_event" | "model_first_content" | "model_first_text" }
+  >,
+  options: { logger?: Logger; statusSink?: ModelStatusSink },
+): Promise<void> {
+  await safePublish(options.statusSink, event, options.logger);
+}
 export function modelStatusContextToLogContext(
-  statusContext: ModelStatusContext | ModelNetworkStatusEvent,
+  context: ModelStatusContext | ModelNetworkStatusEvent,
   attempt: number,
 ): Record<string, unknown> {
   return {
+    traceId: context.traceId,
+    queryId: context.queryId,
+    sessionId: context.sessionId,
+    turnId: context.turnId,
+    requestId: context.requestId,
+    providerId: context.providerId,
+    modelId: context.modelId,
+    providerKind: context.providerKind,
+    transport: context.transport,
     attempt,
-    baseURL: statusContext.baseURL,
-    maxAttempts: statusContext.maxAttempts,
-    // maxAttempts 为 0 表示无上限：maxRetries 同样以 0 表达，而不是 max(0, -1) 巧合得到的 0。
-    maxRetries:
-      statusContext.maxAttempts === UNBOUNDED_RETRY_MAX_ATTEMPTS
-        ? UNBOUNDED_RETRY_MAX_ATTEMPTS
-        : Math.max(0, statusContext.maxAttempts - 1),
-    modelId: statusContext.modelId,
-    parentSpanId: statusContext.parentSpanId,
-    providerId: statusContext.providerId,
-    providerKind: statusContext.providerKind,
-    queryId: statusContext.queryId,
-    querySource: statusContext.querySource,
-    requestId: statusContext.requestId,
-    sessionId: statusContext.sessionId,
-    spanId: statusContext.spanId,
-    traceId: statusContext.traceId,
-    transport: statusContext.transport,
-    turnId: statusContext.turnId,
+    maxAttempts: context.maxAttempts,
   };
-}
-
-function modelStatusLogContext(event: ModelNetworkStatusEvent): Record<string, unknown> {
-  return modelStatusContextToLogContext(event, event.attempt);
-}
-
-function logStatusEvent(event: ModelNetworkStatusEvent, logger?: Logger): void {
-  switch (event.type) {
-    case "model_request_queued":
-      logger?.debug("Model request queued for admission", {
-        ...modelStatusLogContext(event),
-        event: "model.request.queued",
-        status: "waiting",
-      });
-      return;
-
-    case "model_request_admitted":
-      logger?.debug("Model request admitted", {
-        ...modelStatusLogContext(event),
-        event: "model.request.admitted",
-        queuedMs: event.queuedMs,
-        status: "started",
-      });
-      return;
-
-    case "model_request_started":
-      logger?.debug("Model request attempt started", {
-        ...modelStatusLogContext(event),
-        event: "model.request.started",
-        status: "started",
-      });
-      return;
-
-    case "model_request_completed":
-      logger?.info("Model request completed", {
-        ...modelStatusLogContext(event),
-        durationMs: event.durationMs,
-        event: "model.request.completed",
-        finishReason: event.finishReason,
-        status: "completed",
-      });
-      return;
-
-    case "model_retry_scheduled":
-      logger?.warn("Model request retry scheduled", {
-        ...modelStatusLogContext(event),
-        delayMs: event.delayMs,
-        event: "model.retry.scheduled",
-        nextAttempt: event.nextAttempt,
-        reason: event.reason,
-        status: "waiting",
-        statusCode: event.statusCode,
-        statusMessage: event.message,
-      });
-      return;
-
-    case "model_request_failed":
-      logger?.warn("Model request attempt failed", {
-        ...modelStatusLogContext(event),
-        durationMs: event.durationMs,
-        event: "model.request.failed",
-        reason: event.reason,
-        retryable: event.retryable,
-        status: event.reason === ModelFailureReasonValue.Cancelled ? "cancelled" : "failed",
-        statusCode: event.statusCode,
-        statusMessage: event.message,
-      });
-      return;
-
-    case "model_stream_stalled":
-      logger?.warn("Model stream stalled", {
-        ...modelStatusLogContext(event),
-        event: "model.stream.stalled",
-        idleMs: event.idleMs,
-        status: "waiting",
-        statusMessage: event.message,
-        timeoutMs: event.timeoutMs,
-      });
-      return;
-
-    case "model_first_provider_event":
-    case "model_first_content":
-    case "model_first_text":
-      logger?.debug("Model telemetry milestone observed", {
-        ...modelStatusLogContext(event),
-        elapsedMs: event.elapsedMs,
-        event: event.type,
-        status: "completed",
-      });
-      return;
-  }
 }

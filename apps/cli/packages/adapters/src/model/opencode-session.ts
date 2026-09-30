@@ -1,17 +1,10 @@
-const OPENCODE_ROOT_DOMAIN = "opencode.ai";
-const OPENCODE_GO_PATH = "/zen/go/v1";
-
+// SPDX-License-Identifier: MIT
+// Knorvia independent replacement; per-file review pending.
 export function isOpenCodeGoBaseUrl(baseURL: string | undefined): boolean {
-  const trimmed = baseURL?.trim();
-  if (!trimmed) return false;
+  if (!baseURL) return false;
   try {
-    const url = new URL(trimmed);
-    const hostname = url.hostname.toLowerCase();
-    const path = url.pathname.replace(/\/+$/u, "").toLowerCase();
-    return (
-      (hostname === OPENCODE_ROOT_DOMAIN || hostname.endsWith(`.${OPENCODE_ROOT_DOMAIN}`)) &&
-      path === OPENCODE_GO_PATH
-    );
+    const url = new URL(baseURL);
+    return url.origin === "https://opencode.ai" && /^\/zen\/go\/v1\/?$/.test(url.pathname);
   } catch {
     return false;
   }
