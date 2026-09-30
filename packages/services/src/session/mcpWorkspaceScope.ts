@@ -1,57 +1,36 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed reimplementation; see specs/knorvia-session-leaf-contract-8389.md.
 import { existsSync } from "node:fs";
 import { normalize } from "node:path";
 import type { KnorviaAgentMcpServer } from "@knorvia/shared";
 
-function normalizePathForCompare(value: string): string {
-  const normalized = normalize(value.trim()).replace(/[\\/]+$/, "");
-  return process.platform === "win32" ? normalized.toLowerCase() : normalized;
-}
-
-function isFilesystemServer(
-  server: KnorviaAgentMcpServer,
-): server is Extract<KnorviaAgentMcpServer, { command: string }> {
-  return (
-    "command" in server &&
-    server.name === "filesystem" &&
-    server.args.some((arg) => arg.includes("@modelcontextprotocol/server-filesystem"))
-  );
+function scopeKey(path: string): string {
+  const key = normalize(path.trim()).replace(/[\\/]+$/, "");
+  return process.platform === "win32" ? key.toLowerCase() : key;
 }
 
 export function appendWorkspaceToFilesystemMcpServers(
   mcpServers: KnorviaAgentMcpServer[] | undefined,
   workspacePath: string,
 ): KnorviaAgentMcpServer[] | undefined {
-  if (!mcpServers || mcpServers.length === 0) {
-    return mcpServers;
+  if (!mcpServers?.length) return mcpServers;
+  const workspace = workspacePath.trim();
+  if (!workspace || !existsSync(workspace)) return mcpServers;
+
+  const workspaceKey = scopeKey(workspace);
+  let expanded: KnorviaAgentMcpServer[] | undefined;
+  for (let index = 0; index < mcpServers.length; index++) {
+    if (!(index in mcpServers)) continue;
+    const server = mcpServers[index]!;
+    if (!("command" in server) || server.name !== "filesystem") continue;
+    if (!server.args.some((arg) => arg.includes("@modelcontextprotocol/server-filesystem")))
+      continue;
+    if (server.args.some((arg) => scopeKey(arg) === workspaceKey)) continue;
+
+    // 仅为存在的本机 workspace 扩充临时授权，避免固定目录 MCP 拒绝当前项目；
+    // 保持配置与原数组不变，不把远程路径持久化为本机授权。
+    expanded ??= mcpServers.slice();
+    expanded[index] = { ...server, args: [...server.args, workspace] };
   }
-
-  const trimmedWorkspacePath = workspacePath.trim();
-  if (!trimmedWorkspacePath || !existsSync(trimmedWorkspacePath)) {
-    return mcpServers;
-  }
-
-  let changed = false;
-  const workspaceKey = normalizePathForCompare(trimmedWorkspacePath);
-  const nextServers = mcpServers.map((server) => {
-    if (!isFilesystemServer(server)) {
-      return server;
-    }
-
-    const hasWorkspace = server.args.some((arg) => normalizePathForCompare(arg) === workspaceKey);
-    if (hasWorkspace) {
-      return server;
-    }
-
-    changed = true;
-    // 用户目录里的 filesystem MCP 可能只包含固定目录，
-    // 不会自动允许当前 workspace，导致 agent 写当前项目文件时报
-    // "Access denied - path outside allowed directories"。这里仅在本机路径存在时
-    // 非持久化追加当前 workspace，避免远程 workspace 被误注入本机 MCP。
-    return {
-      ...server,
-      args: [...server.args, trimmedWorkspacePath],
-    };
-  });
-
-  return changed ? nextServers : mcpServers;
+  return expanded ?? mcpServers;
 }
