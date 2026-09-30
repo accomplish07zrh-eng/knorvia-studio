@@ -1,3 +1,5 @@
+// Snapshot codec contract: specs/knorvia-read-state-snapshots.md.
+// Existing repository licence remains applicable pending source review.
 import { ReadOutputSchema } from "@knorvia/contracts";
 import { createReadFileStateKey } from "./read-file-state.js";
 import type { ReadFileStateEntry, ReadFileStateMap } from "./types.js";
@@ -19,6 +21,77 @@ export interface PersistedReadFileStateMetadata {
   sizeBytes: number;
 }
 
+const finite = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value);
+const text = (value: unknown): value is string => typeof value === "string";
+const identity = (value: unknown): boolean => text(value) && value.length > 0;
+type FieldRule = readonly [
+  keyof PersistedReadFileStateMetadata,
+  (value: unknown) => boolean,
+  optional?: true,
+];
+
+// 持久化入口按字段投影，未知字段不进入恢复状态；可选窗口沿用忽略非法值的旧格式语义。
+const FIELDS: readonly FieldRule[] = [
+  ["schemaVersion", (value) => value === READ_FILE_STATE_METADATA_SCHEMA_VERSION],
+  ["tool", (value) => value === "Read" || value === "Write" || value === "Edit"],
+  ["path", identity],
+  ["content", text],
+  ["offset", finite, true],
+  ["limit", finite, true],
+  ["isPartialView", (value) => typeof value === "boolean"],
+  ["readAtMs", finite],
+  ["revisionId", identity],
+  ["mtimeMs", finite],
+  ["sizeBytes", finite],
+];
+
+function record(value: unknown): Record<string, unknown> | undefined {
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : undefined;
+}
+
+export function parseReadFileStateMetadata(
+  metadata: unknown,
+): PersistedReadFileStateMetadata | undefined {
+  const source = record(record(metadata)?.readFileState);
+  if (!source) return undefined;
+  const snapshot: Record<string, unknown> = {};
+  for (const [name, accepts, optional] of FIELDS) {
+    const value = source[name];
+    if (accepts(value)) snapshot[name] = value;
+    else if (!optional) return undefined;
+  }
+  return snapshot as unknown as PersistedReadFileStateMetadata;
+}
+
+export function createReadFileStateMetadataFromEntry(input: {
+  completedAt: Date;
+  entry?: ReadFileStateEntry;
+  toolName: PersistedReadFileStateTool;
+}): PersistedReadFileStateMetadata | undefined {
+  const value = input.entry;
+  if (!value || !value.revisionId || value.mtimeMs === undefined || value.sizeBytes === undefined) {
+    // 不用当前磁盘或展示文本补齐 freshness，避免恢复后把外部修改错误认作已读。
+    return undefined;
+  }
+  const snapshot: PersistedReadFileStateMetadata = {
+    schemaVersion: READ_FILE_STATE_METADATA_SCHEMA_VERSION,
+    tool: input.toolName,
+    path: value.path,
+    content: value.content,
+    isPartialView: value.isPartialView,
+    readAtMs: input.completedAt.getTime(),
+    revisionId: value.revisionId,
+    mtimeMs: value.mtimeMs,
+    sizeBytes: value.sizeBytes,
+  };
+  if (value.offset !== undefined) snapshot.offset = value.offset;
+  if (value.limit !== undefined) snapshot.limit = value.limit;
+  return snapshot;
+}
+
 export function createReadFileStateMetadata(input: {
   completedAt: Date;
   output: unknown;
@@ -27,121 +100,18 @@ export function createReadFileStateMetadata(input: {
   toolName: string;
 }): PersistedReadFileStateMetadata | undefined {
   if (input.toolName !== "Read") return undefined;
-
-  const parsedOutput = ReadOutputSchema.safeParse(input.output);
-  if (!parsedOutput.success) return undefined;
-  const output = parsedOutput.data;
-  if (output.type !== "text" && output.type !== "file_unchanged") return undefined;
-
-  const toolInput = asRecord(input.toolInput);
-  const offset = toolInput ? numberField(toolInput, "offset") : undefined;
-  const limit = toolInput ? numberField(toolInput, "limit") : undefined;
-  const entry = input.readFileState?.get(
-    createReadFileStateKey(output.filePath, offset === undefined ? 1 : offset, limit),
+  const output = ReadOutputSchema.safeParse(input.output);
+  if (!output.success) return undefined;
+  if (output.data.type !== "text" && output.data.type !== "file_unchanged") return undefined;
+  const window = record(input.toolInput);
+  const key = createReadFileStateKey(
+    output.data.filePath,
+    finite(window?.offset) ? window.offset : undefined,
+    finite(window?.limit) ? window.limit : undefined,
   );
   return createReadFileStateMetadataFromEntry({
     completedAt: input.completedAt,
-    entry,
+    entry: input.readFileState?.get(key),
     toolName: "Read",
   });
-}
-
-export function createReadFileStateMetadataFromEntry(input: {
-  completedAt: Date;
-  entry?: ReadFileStateEntry;
-  toolName: PersistedReadFileStateTool;
-}): PersistedReadFileStateMetadata | undefined {
-  const entry = input.entry;
-  if (!entry) return undefined;
-  if (entry.mtimeMs === undefined || entry.sizeBytes === undefined || !entry.revisionId) {
-    // resume stale guard 必须恢复文件时间戳和 adapter revision；
-    // 缺 freshness metadata 的历史文件状态不能冒充已读，否则会放过 stale 写入。
-    return undefined;
-  }
-
-  return {
-    schemaVersion: READ_FILE_STATE_METADATA_SCHEMA_VERSION,
-    tool: input.toolName,
-    path: entry.path,
-    content: entry.content,
-    ...(entry.offset === undefined ? {} : { offset: entry.offset }),
-    ...(entry.limit === undefined ? {} : { limit: entry.limit }),
-    isPartialView: entry.isPartialView,
-    readAtMs: input.completedAt.getTime(),
-    revisionId: entry.revisionId,
-    mtimeMs: entry.mtimeMs,
-    sizeBytes: entry.sizeBytes,
-  };
-}
-
-export function parseReadFileStateMetadata(
-  metadata: unknown,
-): PersistedReadFileStateMetadata | undefined {
-  const record = asRecord(metadata);
-  if (!record) return undefined;
-  const readState = asRecord(record.readFileState);
-  if (!readState) return undefined;
-
-  if (readState.schemaVersion !== READ_FILE_STATE_METADATA_SCHEMA_VERSION) return undefined;
-  const tool = stringField(readState, "tool");
-  if (!isPersistedReadFileStateTool(tool)) return undefined;
-
-  const path = stringField(readState, "path");
-  const content = stringField(readState, "content");
-  const readAtMs = numberField(readState, "readAtMs");
-  const isPartialView = booleanField(readState, "isPartialView");
-  const revisionId = stringField(readState, "revisionId");
-  const mtimeMs = numberField(readState, "mtimeMs");
-  const sizeBytes = numberField(readState, "sizeBytes");
-  if (
-    !path ||
-    content === undefined ||
-    readAtMs === undefined ||
-    isPartialView === undefined ||
-    !revisionId ||
-    mtimeMs === undefined ||
-    sizeBytes === undefined
-  ) {
-    return undefined;
-  }
-  const offset = numberField(readState, "offset");
-  const limit = numberField(readState, "limit");
-
-  return {
-    schemaVersion: READ_FILE_STATE_METADATA_SCHEMA_VERSION,
-    tool,
-    path,
-    content,
-    ...(offset === undefined ? {} : { offset }),
-    ...(limit === undefined ? {} : { limit }),
-    isPartialView,
-    readAtMs,
-    revisionId,
-    mtimeMs,
-    sizeBytes,
-  };
-}
-
-function isPersistedReadFileStateTool(value: unknown): value is PersistedReadFileStateTool {
-  return value === "Read" || value === "Write" || value === "Edit";
-}
-
-function asRecord(value: unknown): Record<string, unknown> | undefined {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
-  return value as Record<string, unknown>;
-}
-
-function stringField(record: Record<string, unknown>, key: string): string | undefined {
-  const value = record[key];
-  return typeof value === "string" ? value : undefined;
-}
-
-function numberField(record: Record<string, unknown>, key: string): number | undefined {
-  const value = record[key];
-  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
-}
-
-function booleanField(record: Record<string, unknown>, key: string): boolean | undefined {
-  const value = record[key];
-  return typeof value === "boolean" ? value : undefined;
 }

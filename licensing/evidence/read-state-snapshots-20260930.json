@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "scope": "Read-state lookup and v1 persisted snapshot codec technical replacement",
+  "baseCommit": "ab4d8e44c29199cf838afc806f00697ad46f9451",
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "licenceDecision": "No new MIT grant or independent-replacement review. Prior source exposure and transition Apache/NOTICE obligations retained.",
+  "validation": {
+    "frozenContractBefore": {
+      "tests": 19,
+      "passed": 19
+    },
+    "frozenContractAfter": {
+      "tests": 19,
+      "passed": 19
+    },
+    "executorIntegrationCombined": {
+      "tests": 32,
+      "passed": 32
+    },
+    "actualEmittedContract": {
+      "tests": 19,
+      "passed": 19
+    },
+    "syntheticDifferential": {
+      "comparisons": 29920,
+      "mismatches": 0,
+      "baseline": "ab4d8e44c29199cf838afc806f00697ad46f9451",
+      "scope": "synthetic metadata field-pair matrix, cross-platform keys and timestamp ordering"
+    },
+    "rootTypecheck": "pass including desktop host/main and 5422 locale keys",
+    "cliTypecheck": "pass",
+    "rootLint": "pass: 2835 files, 0 diagnostics",
+    "cliLint": "pass: 97 files, 0 diagnostics",
+    "explicitChangedLint": "pass: 3 files, 94 rules, 0 diagnostics; inherited ignorePatterns removed only in temporary lint config",
+    "format": "pass",
+    "architecture": "pass zero violations",
+    "prePush": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "webBuild": "pass;754 maps and 10 existing source bindings exact",
+    "desktopNoRuntimeAssets": "full wrapper pass with NODE_OPTIONS=--max-old-space-size=2048; defaults and serial renderer previously SIGKILL",
+    "aggregate": {
+      "tests": 5097,
+      "pass": 5031,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7,
+      "baselineFailureSetUnchanged": true,
+      "allFailures": "59 Unix socket listen EPERM, unchanged baseline set"
+    }
+  },
+  "baselineCI": {
+    "runId": 36738094207,
+    "head": "ab4d8e44c29199cf838afc806f00697ad46f9451",
+    "linux": "success",
+    "windows": "success",
+    "scope": "base commit only; does not certify this change"
+  },
+  "sourceAndEmitted": [
+    {
+      "source": "apps/cli/packages/core/src/tool/read-file-state.ts",
+      "sourceSha256": "8b7ab5aa77f9e12cde904d0cac886c2160b15faa5a7cf956942823e6d908f371",
+      "emitted": "apps/cli/packages/core/dist/tool/read-file-state.js",
+      "emittedSha256": "af16c01689a60570dc28492d0bfb875d78884f595668038466748054af73c065"
+    },
+    {
+      "source": "apps/cli/packages/core/src/tool/read-file-state-metadata.ts",
+      "sourceSha256": "0d69f25fbbc39e12ae984d1c834bee0a5c7216a516a46ab7c82938501fc6afb4",
+      "emitted": "apps/cli/packages/core/dist/tool/read-file-state-metadata.js",
+      "emittedSha256": "16090f39d3160e52485cde002c88d88e52c82bf07b8dfd91b5a3c5cdac4199e3"
+    }
+  ],
+  "logDigests": {
+    "read-state-before.tap": "252429d824b3eb19b703170d39d2d88997c47fdaa9dd445be668e6249d47389d",
+    "read-state-after.tap": "94bd43245a40070c534125f00764f0f18299107f60557a793c2a255088ca2f5e",
+    "read-state-integration.tap": "bf306444b9eee364c2ff591bd60ba09298acafb01fc2229b7fc735b012d73c02",
+    "read-state-emitted.tap": "ed2c18c95b201b55cd0256fda304ce12e0d7908763bd56f61344b26b7ac7182a",
+    "read-state-differential.json": "ee6f1a5916be47c547c181f2f47fcd23e86c3190bdca712b44dcc7bcff32874d",
+    "read-state-cli-types.log": "8a58f5adeffb2095439b9de0bca6e0d59d6cf9fb78a5c59baec28f0af6ba45d3",
+    "read-state-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "read-state-cli-build.log": "ddfff4af425d638c08704ec24580a9477d264e9f0697c0cb5bf45807f3a72fed",
+    "read-state-root-lint.log": "23aa7a7c5962fa0604e7ff59f5c85fc87815789fe0874146ddf79dddaea47187",
+    "read-state-cli-lint.log": "79dfbbb06b0dcb9b1fbedc2683c1a444d43b85142b5638014e5160af649d6b98",
+    "read-state-format.log": "69de818f8737d251e7a9d81747439a44072d90f32a7610a378be90e170a439f4",
+    "read-state-pre-push.log": "136b9a1be1752cab2099366275cb581ebbb981ea3316143194e4525c4c80ed2c",
+    "web-build.log": "e3d1a61980b45ca65d680d95d74916c43f2227893dfbc6eec63bb6b473a2b4e4",
+    "web-bindings.json": "64ed509dc74e6c9de745e1ac320b1199f8f99d81dae9e56854b549b4a8585b7e",
+    "desktop-build.log": "88f3b307c3b709ce2cf49d71f5b0547ee73b41f3823cf0e2789af687afda9fa0",
+    "desktop-serial-renderer.log": "50e9227b4c85c3c179721bf443d190e03ba8ba8b476ff8dc9f66e9b5d269b7ab",
+    "desktop-full-bounded-heap.log": "fd7c36673713521f95116287bb2c97a4e3abf9979e4c5e4a4b511456b00b0e6b",
+    "read-state-full.tap": "82fe6984587db6ae0bb96a5d4246d8af19db8ccde3e2a1f3fe350968abdc21bd"
+  },
+  "retainedLimits": [
+    "59 Unix socket EPERM failures on baseline local aggregate; persists after permitted escalation. No test disabled.",
+    "Seven Linux platform skips retained",
+    "27 material obligations unresolved",
+    "No native Electron GUI, installation/portable upgrade, real model execution or final release validation",
+    "Hidden source maps retain sourcesContent",
+    "New exact-commit CI pending remote publication"
+  ]
+}
