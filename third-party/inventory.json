@@ -1433,13 +1433,13 @@
     "packages/ui/src/components/ai-elements/canvas.tsx": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
     "packages/ui/src/components/ai-elements/chat-loading.tsx": "59dd964880479845b598c486ed203cc075fe4a30bc3cceb165918fb2d9035ae3",
     "packages/ui/src/components/ai-elements/checkpoint.tsx": "72459f6fb8668e9245ec32542f92c7de809cc9b5a366bb44ab08f91ea4e1255b",
-    "packages/ui/src/components/ai-elements/code-block.tsx": "ce44be141a382c8121e2c8b82dc99e6a2b8a068b96edb9ded57bbbc75aabe740",
+    "packages/ui/src/components/ai-elements/code-block.tsx": "05b1ef981c092d8f8ea4f0975fcfd5d6effa964f5e644a9de60a50a92823d258",
     "packages/ui/src/components/ai-elements/commit.tsx": "e9f5dcffac4ec7702b6d77b41cfc28fab54f0595375dd2c992dc972c0a9e74d2",
     "packages/ui/src/components/ai-elements/confirmation.tsx": "bb39ae89d5550f4ffcbb36e73dc8b75d1c9930f0fdba28cc8ff135d753b65a9b",
     "packages/ui/src/components/ai-elements/connection.tsx": "6e6cf65efcef612a3d14f5fda69e27009bc06046d1f7aa842a1a93b9142a7f81",
-    "packages/ui/src/components/ai-elements/context.tsx": "7aa6f9d7908f0c4300b476427da76cd3f082a41fbf020ad8f0c566640a73b2e1",
+    "packages/ui/src/components/ai-elements/context.tsx": "c46c58dc85e9a88a9fc862c5fda91d09e50039990dafc958a5ef9c46df522dbb",
     "packages/ui/src/components/ai-elements/controls.tsx": "3123e9cb668171780944fb91632c68977617ae4ef46312540c1f7ddecc3fc568",
-    "packages/ui/src/components/ai-elements/conversation.tsx": "409944a7d83085d5c28e9c9ad222fcdd84f47c9cc2cf24e203c47001362da14d",
+    "packages/ui/src/components/ai-elements/conversation.tsx": "ea6b2110aa60d98314cc47cdc1823cb5369ada0f4e3969ff4d9d59a0cd1f1599",
     "packages/ui/src/components/ai-elements/diagram-preview-dialog.tsx": "52b7ac895d28a847e0d83b226cbb534c42f7bc9a798cc49fc292015c24553a68",
     "packages/ui/src/components/ai-elements/edge.tsx": "661a25632f0879b8363f22e6b99198a6d37ad622781c798c090fcad9b591b181",
     "packages/ui/src/components/ai-elements/image-preview-dialog.tsx": "b3945b3527d3610fa6a77dcb176878329a74c7136036336f31db563e5d90d223",
@@ -1450,7 +1450,7 @@
     "packages/ui/src/components/ai-elements/markdown-list.tsx": "ecf50ad4f48cd460ddcf90db7b463671f915d8c22c7cb8e7760ff3b02282c7f1",
     "packages/ui/src/components/ai-elements/markdown-table.tsx": "c16c115b1f328b4cd722dabd147dedc7b7f9b3cd4c84d0564e9f397e0f5878f0",
     "packages/ui/src/components/ai-elements/mermaid-block.tsx": "ce718f55d3be00f9abad613e5c6bea83c59af1222b2f84d5380c9a7cef012890",
-    "packages/ui/src/components/ai-elements/message.tsx": "8b95f4606e9531f5004b3257a9217d9d6fce1c7bf8fa79e87cebb4a29af9e822",
+    "packages/ui/src/components/ai-elements/message.tsx": "7725956e51ecb59a6722ee5d8737df050971fff03e2661141ec465b8a2564a40",
     "packages/ui/src/components/ai-elements/node.tsx": "d7b68c41717a509bd9063f0a9fc0c4525ceb2b23bae4028bcd49ec949fc6268f",
     "packages/ui/src/components/ai-elements/panel.tsx": "9c345ecb217fbb6a3a2b49b93ca81b746f249d18b9223470fbf511c0a9a37bb7",
     "packages/ui/src/components/ai-elements/persona.tsx": "c796e1aa0f85395138eda5e4c7ffc7dac5321690b3f6949f73c7b3ebe8d52808",
@@ -1461,7 +1461,7 @@
     "packages/ui/src/components/ai-elements/prompt-input-textarea.tsx": "4798574a8f2fc8584a1c5585d9dd878dd19d76bd05603e77948ec12180649def",
     "packages/ui/src/components/ai-elements/prompt-input.tsx": "68a92e07c27774e9c1d63bccd12ec3ff38b4f89dd245b20bfffbbd052e6101c4",
     "packages/ui/src/components/ai-elements/queue.tsx": "9d84f6e15708519ec65e258d9843dc5f4d76f106fc85155f7dcf51f89474b695",
-    "packages/ui/src/components/ai-elements/reasoning.tsx": "ec09573901f3c1d20033446028af709d4d730f87936904f5f1cb921867b31ed9",
+    "packages/ui/src/components/ai-elements/reasoning.tsx": "9c8fe833871ac8a84abbb0f8e7a7bc637a073989d244387c274c021b270e31a1",
     "packages/ui/src/components/ai-elements/sandbox.tsx": "f521400dbaebe4c2a2fbcdcb8c18f98980c566169233beb137b22a093b44bbf0",
     "packages/ui/src/components/ai-elements/shimmer.tsx": "5d06ffdff80a13453a0b61b67f588c48d838a20d9be2cd319ca2a97d441b3127",
     "packages/ui/src/components/ai-elements/snippet.tsx": "6f369f0bb3308166ccd55f39dd542f7315873c5bd6de2491ffccc26b0700edfe",
@@ -19696,7 +19696,7 @@
         },
         {
           "file": "packages/ui/src/components/ai-elements/code-block.tsx",
-          "sha256": "ae4f975537ebb9c8ef905b7b9de39bc37180f81511bffc027dc4da1929037f18"
+          "sha256": "05b1ef981c092d8f8ea4f0975fcfd5d6effa964f5e644a9de60a50a92823d258"
         },
         {
           "file": "packages/ui/src/components/ai-elements/commit.tsx",
@@ -19712,7 +19712,7 @@
         },
         {
           "file": "packages/ui/src/components/ai-elements/context.tsx",
-          "sha256": "9f9a766dcab0010b1483b5276f9d5f4b4c3b31bd85434731fc7ce4d8bf9913f7"
+          "sha256": "c46c58dc85e9a88a9fc862c5fda91d09e50039990dafc958a5ef9c46df522dbb"
         },
         {
           "file": "packages/ui/src/components/ai-elements/controls.tsx",
@@ -19720,7 +19720,7 @@
         },
         {
           "file": "packages/ui/src/components/ai-elements/conversation.tsx",
-          "sha256": "1fda6a3c198ae104e8736b70992e9ce8549f667a942246d9a9762be8f4431e3a"
+          "sha256": "ea6b2110aa60d98314cc47cdc1823cb5369ada0f4e3969ff4d9d59a0cd1f1599"
         },
         {
           "file": "packages/ui/src/components/ai-elements/diagram-preview-dialog.tsx",
@@ -19764,7 +19764,7 @@
         },
         {
           "file": "packages/ui/src/components/ai-elements/message.tsx",
-          "sha256": "6c35829ed11321e850cd59e20c1c88fdd452e8e2d9b5da45f808371021aabf99"
+          "sha256": "7725956e51ecb59a6722ee5d8737df050971fff03e2661141ec465b8a2564a40"
         },
         {
           "file": "packages/ui/src/components/ai-elements/node.tsx",
@@ -19808,7 +19808,7 @@
         },
         {
           "file": "packages/ui/src/components/ai-elements/reasoning.tsx",
-          "sha256": "a10a38c7b3ca633e9b5480ad94f9c7a1fdd52bc5526ae0801e3e6ed141f2b604"
+          "sha256": "9c8fe833871ac8a84abbb0f8e7a7bc637a073989d244387c274c021b270e31a1"
         },
         {
           "file": "packages/ui/src/components/ai-elements/sandbox.tsx",

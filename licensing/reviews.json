@@ -34949,14 +34949,15 @@
     },
     {
       "path": "specs/knorvia-third-party-reconciliation.md",
-      "normalizedSha256": "64343719f098e0ce6a5c81f4c1f3769405000d84b3138640364db56cb77e4d13",
+      "normalizedSha256": "660959b05ce14afd0ad80aa3663045eaa43d8d846d4d39a0b7a3c6af07afe134",
       "decision": "original",
       "license": "MIT",
-      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices. The additional locked-patch audit was specified and observed failing before implementation; current exact patch versions and historical modification/source records are retained. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained.",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices. The additional locked-patch audit was specified and observed failing before implementation; current exact patch versions and historical modification/source records are retained. Historical Material Icon Theme references are byte-reproduced and individually bound to declared commit/scope/blob/license; unverified assets and all original provenance remain retained. Platform selection now binds lock constraints to effective configuration; historical/development notice union preserves exact publisher bytes and origins with failure-first coverage.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
         "docs/knorvia-third-party-reconciliation-acceptance.md",
-        "docs/knorvia-material-icon-historical-evidence-20260930.md"
+        "docs/knorvia-material-icon-historical-evidence-20260930.md",
+        "docs/knorvia-dependency-tool-repair-20260930.md"
       ]
     },
     {
@@ -41278,6 +41279,61 @@
         "third-party/upstream/cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670.txt",
         "docs/knorvia-material-icon-historical-evidence-20260930.md"
       ]
+    },
+    {
+      "path": "scripts/third-party-platform.mjs",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-dependency-tool-repair-20260930.md"
+      ],
+      "normalizedSha256": "4a3b3c7f41ab0cb81c88d22e1d4cc1ab2560fb06445852bc5c665e4f35edb4f5"
+    },
+    {
+      "path": "scripts/provenance/third-party-platform.test.mjs",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-dependency-tool-repair-20260930.md"
+      ],
+      "normalizedSha256": "d833141bff0a6d1db4d28f8ac5994b0c31694c60f7d9f3e53b3464520949aed4"
+    },
+    {
+      "path": "scripts/provenance/retained-npm-notices.mjs",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-dependency-tool-repair-20260930.md"
+      ],
+      "normalizedSha256": "a473bce0423215e1be41b6aaf491f524a7d335c95677cdac16ee7174ec74c2f3"
+    },
+    {
+      "path": "scripts/provenance/retained-npm-notices.test.mjs",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-dependency-tool-repair-20260930.md"
+      ],
+      "normalizedSha256": "97d15a0a1065d570d4752e1fd90fa4c4b677af0ab450deb9562eb45119e256a8"
+    },
+    {
+      "path": "docs/knorvia-dependency-tool-repair-20260930.md",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-dependency-tool-repair-20260930.md"
+      ],
+      "normalizedSha256": "2a85c7f81e91c6bafd81d8cbd9342aef87b0f5c60cc9d85a5633d1fd5a624f73"
     }
   ]
 }

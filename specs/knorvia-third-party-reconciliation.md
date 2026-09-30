@@ -41,6 +41,20 @@
 
 ## 验收
 
+### 实装平台与历史声明合集
+
+依赖只读审核全文 `Knorvia-dependency-license-evidence-2026-09-30.txt`（Library version 1）确认 15 项 npm 仍开放：10 项当前生产路径、2 项开发路径、3 项历史 ARMS。现有 `unsupportedCanvas` 名称集合遗漏 libc，导致 glibc 配置错误要求两个 musl 包；不能按名字补豁免。
+
+精确锁文件包的 os/cpu/libc 是目标约束所有者，pnpm 的有效 supportedArchitectures/optional/ignoredOptionalDependencies 配置与本次主机描述是选择所有者。生产图遍历保留 optional 路径属性：只有所有可达路径均 optional 的包才可因明确配置或不匹配平台省略；任何非 optional 路径仍必需。可省略项保留精确版本、约束、有效选择与原因，不能写作实装/发布物覆盖。当前目标缺失、实装过期版本、未知或未支持平台元数据均拒绝。只读取需要的 pnpm 配置键，不读取/复制认证配置；不改变 install、允许列表或支持平台。
+
+锁元数据读取只支持已固定 pnpm 9.0 lock 的包段和平铺 os/cpu/libc 数组，不是通用 YAML；重复/未支持结构必须明确失败。主机 libc 只从 Node 运行时报告中有证据的 glibc/musl 判断，Linux 无法判断时拒绝推测。扫描 node_modules 的可选安装开关与当前配置要一致；源码规则或下载缓存不能证明实际发行 payload。
+
+再生成先验证已有通知文本与来源清单。按当前生产图收集新的声明，再保留 prior verified package union 中的历史/开发记录及其原 notice 字节、出处、例外和 inactive patches。当前同版本记录也合并历史 notice，而不是仅保留当前扫描结果。每份原文本按原摘要校验；当前依赖独立核验，历史声明不能为缺失当前包提供豁免。当前图外的 override 要有已有被核验记录及补充文本支持，没有历史依据仍失败；不直接删除或放过所谓 stale override。生成时保留 originals 并记录覆盖类别，严格义务仍由原来源登记推导，不清除 15 项。
+
+回归先覆盖 glibc 排除/musl 显式包含、配置改变、非 optional 缺失、过期版本、未知平台形态和磁盘缺包；历史 notice 保留与原字节改变拒绝另有专门夹具。Skia/QuickJS-NG/Rust 等链接未决继续开放，17 原通知及 jcarith 前缀抽取不刷新摘要。
+
+真实声明预览发现原生成器把 148 份登记修改文件全部要求写为 Knorvia 修改者。143 份实际与固定 ZCode 基线逐字一致，保留原 `Modified by ZCode:` 是正确历史，不替换署名；生成器只在固定基线摘要一致时认可该说明。其余五份 AI Elements UI 组件确有本地改动，保留 Vercel 和 ZCode 原头部，额外补充 Knorvia 文件内修改说明。这不许可化整个文件，不改变 UI 表达、行为或样式。未建立基线一致或实际修改说明的项仍拒绝。
+
 ### 多固定版本的资产证据
 
 独立只读研究提供两个补充出版者提交，本写入环境重新从 Git 对象逐字节验证：v5.24.0 `1ce779521ad70ee653c46d95b3ec50d48884e536` 的 238 个 `folder-*-open[_light].svg` 名称各两份共 476，原添加提交 `146ded17af5d4a77aa416fd86699aac50fba900f` 的 `agent.svg` 两份。两份 LICENSE 与已有保留文本逐字节相同。不修改 SVG、原始导入声明或原固定参考 `cb1dfb6d9cb73b15681a93939983d75dbba7bf5b`。

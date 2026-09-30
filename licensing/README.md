@@ -28,5 +28,5 @@
 - 审查文件改动及相应 `reviews.json` 决定后，运行 `pnpm provenance:report` 更新逐文件清单。
 - Material Icon Theme 的精确来源证据在 `evidence/material-icon-theme.json`。重现命令：`node scripts/provenance/material-icons.mjs --source-repo <仓库外的发布者 Git 对象库> <输出 JSON>`；源提交固定，命令不会下载或替换图标。只有字节一致的项被确认为第三方 MIT，仍保留 Material Extensions 原许可；未知生成变体继续待审。
 - `pnpm provenance:check` 检查已提交清单是否与当前文件一致，并拒绝过期或冲突的复核。UTF-8 文本允许 Git 检出的 CRLF/LF 差异，其他内容及二进制变化必须重新核验；报告的原始字节摘要和大小保留为采集时的证据。它通过仅代表清单新鲜，不代表全部文件已完成独立替换。
-- 来源检查还核对第三方声明的输入、登记投影和完整资产覆盖，重新推导材料阻塞。当前准确保留 505 项未解决材料；基础检查通过不代表严格材料完整。64 项输入迁移、15 项 npm 例外和 486 项资产逐项见 [对账证据](evidence/third-party-reconciliation-20260930.json)与[验收](../docs/knorvia-third-party-reconciliation-acceptance.md)，原始许可正文与历史声明保留。
+- 来源检查还核对第三方声明的输入、登记投影和完整资产覆盖，重新推导材料阻塞。当前保留 27 项未解决材料；基础检查通过不代表严格材料完整。首次对账的 505 项、64 项输入迁移、15 项 npm 例外和原 486 项资产仍见 [历史对账证据](evidence/third-party-reconciliation-20260930.json)。后来 478 份资产在两个固定出版者提交重现精确匹配，八份原记录仍未决，见[资产证据验收](../docs/knorvia-material-icon-historical-evidence-20260930.md)。依赖平台选择与历史声明再生成修复见[依赖工具验收](../docs/knorvia-dependency-tool-repair-20260930.md)；原始许可正文、历史声明与未决原因保留。
 - `pnpm test:studio` 包含审计工具的离线回归。自动报告自身列为生成文件并明确不作自引用摘要，其余文件记录原字节和换行归一后的摘要。
