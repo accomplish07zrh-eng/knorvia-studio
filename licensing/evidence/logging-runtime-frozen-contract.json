@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "cases": 47,
+  "oldSource": {
+    "passed": 47,
+    "failed": 0
+  },
+  "oldDist": {
+    "passed": 47,
+    "failed": 0
+  },
+  "firstFailure": "Fixture used KNORVIA_ENV instead of public KNORVIA_RUNTIME_ENV: source/dist each 44 passed, 1 failed; count expectation also corrected from 46 to actual 45 before adding two environment isolation cases. No production edit or assertion waiver.",
+  "files": [
+    {
+      "path": "specs/knorvia-logging-runtime.md",
+      "sha256": "94473dd9e7abd0b8a24d2d3b98677646528ccd17ebcb6f29ad2f9416ef473e3d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract.test.mjs",
+      "sha256": "8369bed4d32fdccfa6c93be006946ce3cc3033ea869daddaf0af3f1e707bc2d4"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/subject.mjs",
+      "sha256": "c6811be563f34bab5d4e17badf8a8c838f1497307d1f631c4197e774bcb6f1de"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/serialization.test.mjs",
+      "sha256": "94210fe38ed28bd5415f815854b8baf1c0de75aec504f88c4134b7f36bd43987"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/retention.test.mjs",
+      "sha256": "94c70ecb8dee1fac8ff0e34b006582323f1cff7a9c571cb50633d476459e027d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/logger.test.mjs",
+      "sha256": "91e15e6494897b2c16f298d5a84c67d8e5733b07b56cf9aba7c41f550a295261"
+    }
+  ],
+  "oldFiles": [
+    {
+      "path": "apps/cli/packages/adapters/src/logging/index.ts",
+      "sha256": "f34947bab41f829220a6dfc061e4d33e8fb226f0100cb333299a5ec38deb463b"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/serialize.ts",
+      "sha256": "c802e497181cdd0cacfbd3ae05d0c432c49d9a47b0c73422216a6cfc94dae296"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/logging/retention.ts",
+      "sha256": "6f8f8e3d20c5f952dec0cfdf4b3aaaae8e49dc70c423b546c1c1f313ca19081c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/logging/index.js",
+      "sha256": "c3767c9a815f4e8b1b25604fa16a7aadfbee337777e41e33a87284534641a56c"
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/logging/serialize.js",
+      "sha256": "b91cfebc744837b74258723fa83a1835ece9111128ced8764006b3cb0a2de989"
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/logging/retention.js",
+      "sha256": "817c38c508eeceebce2217ff73a839e0757af931e2a5d1d3d92ffb8a2b11bf9c"
+    }
+  ]
+}

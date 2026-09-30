@@ -34743,6 +34743,174 @@
         "specs/knorvia-product-site.md",
         "docs/knorvia-product-site-closeout-20260930.md"
       ]
+    },
+    {
+      "path": "specs/knorvia-logging-runtime.md",
+      "normalizedSha256": "94473dd9e7abd0b8a24d2d3b98677646528ccd17ebcb6f29ad2f9416ef473e3d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-logging-runtime-acceptance.md",
+      "normalizedSha256": "25c58d679633e4f3c0e2c499bc925994c36d360a1a0801ec67b6ed7b25339984",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/logging-runtime.md",
+      "normalizedSha256": "f461da347f3c9d241cdc595027a5fda1c9b40eeab9b6e3904dc66bbb648a7f3b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract.test.mjs",
+      "normalizedSha256": "217377bd6da5430038a71086a58e56bd095ef43ca614d1f199e01e3688e9b895",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/api-probe.ts",
+      "normalizedSha256": "2901a7301b1484904750ed39a8f4698fa53947d9f48c21a5d9ed7133861aa171",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/check-api.mjs",
+      "normalizedSha256": "228410154a499fbcbaba69f8a2f20fc3ed8a67c0ca0563f488d8ac327053cc54",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/edges.test.mjs",
+      "normalizedSha256": "7267485df0d6364799c0d8e1473ec5946bcc39bd9c53c4d1ed523f6588f0b739",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/retention.test.mjs",
+      "normalizedSha256": "94c70ecb8dee1fac8ff0e34b006582323f1cff7a9c571cb50633d476459e027d",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/serialization.test.mjs",
+      "normalizedSha256": "94210fe38ed28bd5415f815854b8baf1c0de75aec504f88c4134b7f36bd43987",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/subject.mjs",
+      "normalizedSha256": "c6811be563f34bab5d4e17badf8a8c838f1497307d1f631c4197e774bcb6f1de",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/upgrade-fixture.mjs",
+      "normalizedSha256": "3b2c6428e8f3b3bc8c466ba093bc83f9adc58825d26745136117c4579f249cc0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/README.md",
+      "normalizedSha256": "deb09d329c1f339bff0ec5b65bb6f5884c2e7d8ed839741975aed1c720c8b66a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/logger-output.test.mjs",
+      "normalizedSha256": "1b3ab5712725e30ff3311456d95d890c08153279aaf0f44577cefd3d5f88d537",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files. The originally frozen owned logger case bodies were partitioned into output/factory files to satisfy the 400-line limit without changing assertions.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/logger-factory.test.mjs",
+      "normalizedSha256": "92c4323003f5409e89f727770bb0a02745d209e7dd07a365421c826c83400d28",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files. The originally frozen owned logger case bodies were partitioned into output/factory files to satisfy the 400-line limit without changing assertions.",
+      "evidence": [
+        "specs/knorvia-logging-runtime.md",
+        "licensing/evidence/logging-runtime.md",
+        "docs/knorvia-logging-runtime-acceptance.md"
+      ]
     }
   ]
 }

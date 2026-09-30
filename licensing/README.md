@@ -8,6 +8,8 @@
 
 旧版发行记录、许可证及附件不追溯改写。
 
+日志三个旧模块本批按行为合同重实现为五个生产模块，永久 source/dist 门各 51/51，并完成真实旧→新→旧 JSONL 夹具。作者接触过旧源码且没有隔离角色，生产模块仍保留 Apache-2.0、未授予 MIT，不计入已收口的独立文件数；新编写的合同和测试单列 MIT。详见[日志来源状态](evidence/logging-runtime.md)与[验收](../docs/knorvia-logging-runtime-acceptance.md)。
+
 命令执行的 24 份源码及插件发现、组件、Hook 与 MCP 投影的 16 份源码也已按逐文件证据独立替换；对应 42 份新测试与支撑文件采用本目录 MIT 许可。旧版、候选、主仓源码及实际 CLI 编译产物分别通过 62 项和 43 项契约验收，主仓完整离线 3798 项通过。详见[该批验收](../docs/knorvia-exec-plugin-runtime-acceptance.md)、[执行来源](evidence/exec-runtime.md)与[插件发现来源](evidence/plugin-discovery-runtime.md)。
 
 随后八个插件来源与存储门面及其私有实现由 33 份独立源码接替。独立旧门为 225 通过加 24 项预登记缺陷，最终候选、主仓源码及实际 dist 各 249/249；69 份测试与支撑载荷通过两个顶层组纳入整仓 3800 项回归，全部通过。复制的 10 份生成公共声明仍保留 Apache-2.0 来源，功能 lint 配置只记性质，不与独立测试表达混为原创。详见[存储验收](../docs/knorvia-plugin-storage-runtime-acceptance.md)与[来源依据](evidence/plugin-storage-runtime.md)。
