@@ -1,9 +1,6 @@
-/**
- * Knorvia Session Store 导航切片 —— 任务前进/后退历史管理
- *
- * 从 sessionStore.ts 拆分出来，封装所有任务导航相关的初始状态和 action。
- * 通过 createNavigationSlice(set, get) 返回可直接展开到 store 的对象。
- */
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed adapter refactor; the upstream history policy remains unchanged.
+/** Navigation ports for the existing session store and history owner. */
 import {
   createTaskNavigationHistory,
   goBack as navGoBack,
@@ -13,6 +10,7 @@ import {
   removeTaskFromHistory,
   type AutomationsNavigationTab,
   type WorkspaceNavEntry,
+  type TaskNavigationHistory,
 } from "@/lib/taskNavigationHistory.js";
 import type { KnorviaSessionStoreState } from "./sessionStoreTypes.js";
 
@@ -26,67 +24,44 @@ type SetFn = (
 ) => void;
 type GetFn = () => KnorviaSessionStoreState;
 
-/**
- * 创建导航切片，供 store creator 展开使用：
- * `...createNavigationSlice(set, get)`
- */
 export function createNavigationSlice(set: SetFn, get: GetFn) {
+  const updateHistory = (transform: (history: TaskNavigationHistory) => TaskNavigationHistory) => {
+    set((state) => ({ taskNavHistory: transform(state.taskNavHistory) }));
+  };
+  const moveCursor = (move: typeof navGoBack): WorkspaceNavEntry | null => {
+    const result = move(get().taskNavHistory);
+    if (!result) return null;
+    set({ taskNavHistory: result.history });
+    return result.entry;
+  };
+
   return {
     taskNavHistory: createTaskNavigationHistory(),
-
     taskNavPushAutomations: (
       workspacePath: string,
       workspaceIdentity?: string,
       automationId?: string,
       automationTab?: AutomationsNavigationTab,
     ) => {
-      set((state) => ({
-        taskNavHistory: pushAutomationsNavEntry(
-          state.taskNavHistory,
+      updateHistory((history) =>
+        pushAutomationsNavEntry(
+          history,
           workspacePath,
           workspaceIdentity,
           automationId,
           automationTab,
         ),
-      }));
+      );
     },
-
     taskNavPushPluginStore: (workspacePath: string, workspaceIdentity?: string) => {
-      set((state) => ({
-        taskNavHistory: pushPluginStoreNavEntry(
-          state.taskNavHistory,
-          workspacePath,
-          workspaceIdentity,
-        ),
-      }));
+      updateHistory((history) =>
+        pushPluginStoreNavEntry(history, workspacePath, workspaceIdentity),
+      );
     },
-
-    taskNavGoBack: (): WorkspaceNavEntry | null => {
-      const state = get();
-      const result = navGoBack(state.taskNavHistory);
-      if (!result) {
-        return null;
-      }
-
-      set({ taskNavHistory: result.history });
-      return result.entry;
-    },
-
-    taskNavGoForward: (): WorkspaceNavEntry | null => {
-      const state = get();
-      const result = navGoForward(state.taskNavHistory);
-      if (!result) {
-        return null;
-      }
-
-      set({ taskNavHistory: result.history });
-      return result.entry;
-    },
-
+    taskNavGoBack: (): WorkspaceNavEntry | null => moveCursor(navGoBack),
+    taskNavGoForward: (): WorkspaceNavEntry | null => moveCursor(navGoForward),
     removeTaskFromNavHistory: (taskId: string) => {
-      set((state) => ({
-        taskNavHistory: removeTaskFromHistory(state.taskNavHistory, taskId),
-      }));
+      updateHistory((history) => removeTaskFromHistory(history, taskId));
     },
   };
 }
