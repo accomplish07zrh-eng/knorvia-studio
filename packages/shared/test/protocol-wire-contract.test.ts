@@ -71,3 +71,15 @@ test("batch reconstruction is repeatable without mutating frozen inputs", () => 
     api.reassembleTopicWireFrames(input, payloadSchema),
   );
 });
+test("batch result reads delivery metadata after the caller's schema transformation", () => {
+  const wire = { ...complete, deliveryKind: "initial" as "initial" | "recovery" };
+  const schema = payloadSchema.transform((frame) => {
+    wire.deliveryKind = "recovery";
+    return frame;
+  });
+  assert.deepEqual(api.reassembleTopicWireFrames([wire], schema), {
+    kind: "complete",
+    frame: payload,
+    deliveryKind: "recovery",
+  });
+});
