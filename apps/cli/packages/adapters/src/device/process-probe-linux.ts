@@ -16,7 +16,8 @@ export interface LinuxProcReaders {
 }
 const PROC_ROOT = "/proc";
 const READ_BATCH_SIZE = 64;
-const MILLISECONDS_PER_TICK = 10;
+const CLOCK_TICKS_PER_SECOND = 100;
+const MILLISECONDS_PER_SECOND = 1000;
 const PARENT_FIELD = 1;
 const GROUP_FIELD = 2;
 const USER_TICKS_FIELD = 11;
@@ -49,7 +50,10 @@ function relation(pid: number, source: string): ProcessRelation | undefined {
     pid,
     parentPid,
     processGroupId,
-    cpuTimeMs: (userTicks + systemTicks) * MILLISECONDS_PER_TICK,
+    // 修复：有限小数 tick 仍按原秒→毫秒运算取整，不能改变历史浮点边界。
+    cpuTimeMs: Math.round(
+      ((userTicks + systemTicks) / CLOCK_TICKS_PER_SECOND) * MILLISECONDS_PER_SECOND,
+    ),
   };
 }
 
@@ -101,7 +105,8 @@ async function samples(
   const latest = new Map(rows.map((row) => [row.pid, row]));
   return scan(readers, [...latest.keys()], async (pid) => {
     const text = await readers.readProcFile(`${PROC_ROOT}/${pid}/status`);
-    const match = /^VmRSS:\s+(\d+)\s+kB\s*$/m.exec(text);
+    // 修复：单位前允许零个空白，保留旧 VmRSS 单行格式接受范围。
+    const match = /^VmRSS:\s+(\d+)\s*kB$/mu.exec(text);
     if (!match) return undefined;
     const rssKb = Number(match[1]);
     if (!Number.isFinite(rssKb)) return undefined;
