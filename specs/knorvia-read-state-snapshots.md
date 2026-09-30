@@ -12,7 +12,7 @@ Runtime 持有的 `ReadFileStateMap` 是当前会话唯一已读状态。Read/Wr
                   └──────── 活跃分支内的合法快照 ───────┘
 ```
 
-保留现有公开函数、类型及调用路径。路径等价继续委托既有 path-normalization，不扩大大小写折叠，不自行解析远程身份。历史分支、compact、rewind 和 range 恢复策略仍归原有恢复器所有；本轮不替换该恢复器。
+保留现有公开函数、类型及调用路径。路径等价继续委托既有 path-normalization，不扩大大小写折叠，不自行解析远程身份。第一步只替换查询和 codec；历史分支、compact、rewind 仍归既有历史选择器所有。
 
 ## 兼容契约
 
@@ -32,3 +32,17 @@ Runtime 持有的 `ReadFileStateMap` 是当前会话唯一已读状态。Read/Wr
 ## 验收
 
 覆盖 POSIX/Windows/Unicode key、窗口隔离、时间平局、不同路径、partial 新水位、缺失 freshness、所有必填字段错误类型、未知字段剔除、可选非有限数、工具输出严格 schema、精确窗口及输入不变。先在旧实现运行同一测试，再替换，分别检查源码和实际 emitted JS。既有工具执行 metadata 集成测试、根与 CLI 类型/lint、完整离线回归、构建、来源新鲜度和精确提交 CI 均保留；环境禁止本地 socket 的失败与真正通过分开记录。
+
+## 第二步：历史快照投影
+
+第一步的已提交快照 codec 为唯一解码入口。恢复器只把既有历史选择器返回的活跃记录投影到调用方的 Map，不读取磁盘，不修改历史消息，也不缓存投影结果。保留 async API 和所有既有输入字段。
+
+- 开始时清空原 Map，包括空历史；调用 activeSessionMessages 时明确不恢复 compact 的保留片段，原样传递 branch-cut 与 rewind 选项
+- 只处理 assistant 的已完成 tool part，且必须存在 output 属性（即使值为 undefined）；同一消息按 part ID 去重，后出现的值覆盖，但保留 ID 首次出现的遍历位置
+- Read 先检查 input 为非数组对象；窗口满足 `(offset ?? 1) <= 1` 且 limit 未定义才可恢复。input 窗口不满足时增加 skippedRangeReadCount，与 metadata 是否有效无关
+- Read/Write/Edit 均要求 v1 metadata 的 tool 与实际工具一致，metadata 同样为完整窗口；其余工具忽略。Write/Edit 不要求 input 为对象，也不从输出展示文本推断状态
+- 每个被接纳的历史快照增加 restoredCount，重复路径仍计数；Map 用统一 full-window key，后处理的快照覆盖前一个，不按 readAt 重排历史
+- 恢复后的 offset/limit 显式为 undefined，mtime 向下取整，Date 来自持久化 readAtMs；保留 content、partial 标记、sourceTool、revisionId、sizeBytes，不重新计算文件大小或补全内容
+- skippedUnreadableEditCount 作为既有返回字段保留，当前结构化恢复路径固定为 0；禁止为增加计数引入磁盘读取
+
+实现采用“去重历史项 → 接纳结果（忽略、范围跳过、合法快照）→ 唯一 Map 投影”的结构，工具差异集中在接纳阶段，不保留三条独立的恢复写入路径。先在旧恢复器运行合成契约，覆盖统计、顺序、分支、重复 ID、损坏元数据与完整数据保存，再替换并检查源码/产物和现有全量回归。来源与许可限制同第一步，不新增 MIT 结论。

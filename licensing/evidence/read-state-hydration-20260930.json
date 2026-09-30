@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "scope": "Historical read-state snapshot admission and projection",
+  "baseCommit": "56db8820ba5a9934f9e0c2a09875f93c43b8c8d0",
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "licenceDecision": "Technical replacement only; no new MIT grant or independent-replacement review. Existing source exposure and transition notices retained.",
+  "design": "Active history selector remains the owner of branch/rewind/compaction selection. One admission classifier and one caller-owned Map projection replace per-tool write paths; no filesystem access or second cache.",
+  "validation": {
+    "frozenOldContract": {
+      "tests": 14,
+      "passed": 14
+    },
+    "sourceAndExecutorIntegration": {
+      "tests": 46,
+      "passed": 46
+    },
+    "actualEmittedContract": {
+      "tests": 14,
+      "passed": 14
+    },
+    "differential": {
+      "comparisons": 3072,
+      "mismatches": 0,
+      "scope": "roles, tool kinds, completion states, input windows and malformed metadata using unchanged active-history selector"
+    },
+    "differentialHarnessNote": "Initial assert compared two Invalid Date instances as unequal. Numeric Date timestamps (including NaN) were compared in the rerun; no product change or input removal.",
+    "aggregate": {
+      "tests": 5111,
+      "pass": 5045,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "aggregateBaselineFailureSetUnchanged": true,
+    "aggregateFailureScope": "59 local Unix socket listen EPERM; seven platform skips. Baseline and previously permitted escalation have identical failures.",
+    "rootAndCliTypes": "pass",
+    "rootAndCliLint": "pass",
+    "explicitChangedLint": "2 files, 94 rules, zero diagnostics with inherited ignorePatterns removed only in temporary config",
+    "format": "pass",
+    "architecture": "pass, zero violations",
+    "prePush": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    }
+  },
+  "sourceBinding": {
+    "source": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+    "sourceSha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+    "emitted": "apps/cli/packages/core/dist/agent/read-file-state-hydrator.js",
+    "emittedSha256": "0f63d6ee221c63ffdd91284fddedddc2ca0b5104427a437868232a8e13b5a7a6"
+  },
+  "logDigests": {
+    "hydration-before.tap": "30478ed56bf700ca9629cad0597d7d26c361186bd3a8c63494b733dbc3aedf1c",
+    "hydration-source.tap": "6bce98fa43b7f6bf32633183026f62d70167644f4e282c9ff939492cacee8cd6",
+    "hydration-emitted.tap": "822130008a277f3dd830f5fb86bec7074a28d7af2c0b63b16f00c1b87f969e22",
+    "hydration-differential.json": "f7924bc4bc542a19c478365c4022d25bd2f7909d08e0f0cb9de25e60bf306877",
+    "hydration-differential-initial-invalid-date.log": "81338e3e1e0878feb2a67f8ee7048ddfcfec9ea92d02c8defb68c3503f98709a",
+    "hydration-full.tap": "f0eba19356509c00c22b5ad8e0ac5667d3a68b5451c1bfaa37c6e4c16b62412d",
+    "hydration-core-types.log": "6d20ccffda58d37532f8ec011b436269f46a7604ffdbcf3c49e542d374bb0167",
+    "hydration-cli-types.log": "fad51722d431e90154177e01163edf02ee80d3622f51b723d2a87940309e6218",
+    "hydration-root-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "hydration-cli-build.log": "a42bb5203c0dc03f03fdd67d64188926e9e428e2453c1fcc4f5dba0d8afc7f52",
+    "hydration-root-lint.log": "b83272f425ddf4d2c21d03187e3223362076e072c624767dda186455d7826716",
+    "hydration-cli-lint.log": "ee640db2697baf62d3b08efef387b7f49eddd3552d8cd0a8476104b0a9204e9c",
+    "hydration-format.log": "3ddfe3f9b595338c1689c95ac906290f52ee74ae2c7fdb34a4dcbd40b366a6ec",
+    "hydration-pre-push.log": "23e5cfab0f17c23035c0c9b93848fdcefd3492b30c2a3819d8d6bc8f5d789ddf"
+  },
+  "limits": [
+    "Exact-commit remote CI pending publication",
+    "No native GUI, installers, production data or live model execution",
+    "Existing active-history selector, path normalization, types and dependencies not independently replaced by this work",
+    "27 material obligations remain unresolved"
+  ]
+}
