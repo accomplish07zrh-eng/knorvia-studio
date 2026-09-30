@@ -2,9 +2,12 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import { basename } from "node:path";
+import { createHash } from "node:crypto";
 import { readRepositoryFile } from "./git.mjs";
 import { assertRelativePath } from "./model.mjs";
 import { auditLockedPatches } from "./patch-inventory.mjs";
+import { materialIconReferences, matchesIconReference } from "./material-icon-references.mjs";
 
 export const SOURCE_REGISTERS = {
   copied: "third-party/copied-components.json",
@@ -101,6 +104,17 @@ async function checkAssets(root, registers, issues) {
   }
   if (component.referenceRevision !== material.commit)
     issues.push("Material asset reference differs from copied source declaration");
+  let references;
+  if (component.referenceSources || material.schemaVersion === 2) {
+    try {
+      references = materialIconReferences(component);
+      if (material.schemaVersion !== 2 || !same(references, material.referenceSources))
+        issues.push("Material icon asset references differ from source declarations");
+    } catch (error) {
+      issues.push(error.message);
+    }
+  }
+  const matched = new Set(material.matched.map((item) => item.path));
   const byPath = new Map();
   for (const item of [...material.matched, ...material.unresolved]) {
     assertRelativePath(item.path);
@@ -122,6 +136,25 @@ async function checkAssets(root, registers, issues) {
           const file = await readRepositoryFile(root, child);
           if (file.kind !== "file" || file.sha256 !== evidence.sha256)
             issues.push(`Asset evidence changed: ${child}`);
+          if (references && matched.has(child) && file.kind === "file") {
+            const source = references.find((item) => item.commit === evidence.sourceCommit);
+            if (
+              !source ||
+              !matchesIconReference(child, source) ||
+              evidence.sourcePath !== `icons/${basename(child)}` ||
+              evidence.license !== source.license ||
+              evidence.licenseSha256 !== source.licenseSha256 ||
+              evidence.normalizedSha256 !== file.normalizedSha256
+            )
+              issues.push(`Material icon asset source binding invalid: ${child}`);
+            const bytes = await readFile(resolve(root, child));
+            const blob = createHash("sha1")
+              .update(`blob ${bytes.length}\0`)
+              .update(bytes)
+              .digest("hex");
+            if (evidence.sourceBlob !== blob)
+              issues.push(`Material icon asset source blob differs: ${child}`);
+          }
         }
       }
     }

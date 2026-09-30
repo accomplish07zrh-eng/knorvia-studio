@@ -188,7 +188,23 @@
     "file": "third-party/upstream/cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670.txt",
     "sha256": "cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670",
     "referenceRevision": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
-    "importRevision": null
+    "importRevision": null,
+    "referenceSources": [
+      {
+        "commit": "1ce779521ad70ee653c46d95b3ec50d48884e536",
+        "match": "open-folders",
+        "license": "MIT",
+        "retainedLicense": "third-party/upstream/cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670.txt",
+        "licenseSha256": "cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670"
+      },
+      {
+        "commit": "146ded17af5d4a77aa416fd86699aac50fba900f",
+        "match": "agent",
+        "license": "MIT",
+        "retainedLicense": "third-party/upstream/cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670.txt",
+        "licenseSha256": "cdab3014d4f69b49dde2b85e81792208c72de613aa6aed7f7a9b5c6609b89670"
+      }
+    ]
   },
   {
     "id": "agent-browser skills (including dogfood and electron)",
