@@ -1,0 +1,587 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-30",
+  "slice": "protocol/shared workflow projections third bounded batch",
+  "baselineCommit": "bc36df98da36e56cda66051137b99d31f2184666",
+  "commonDraftPr7Head": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "contractCheckpoint": "b65d9f01ed74c0c844273a49eee6fd8e942a4b7e",
+  "branch": "parallel/protocol-workflow-projections-20260930-batch3",
+  "ownership": [
+    "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+    "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+    "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts"
+  ],
+  "engineeringResult": [
+    "Run-started plans config/bucket changes before one final run copy",
+    "Phase adjacency uses stable Set membership while preserving original values including negative zero; only matched phase update is copied",
+    "Explicit node birth/carry/overwrite field projection retains lifecycle and immutable boundaries"
+  ],
+  "sourceQualification": {
+    "oldImplementationRead": true,
+    "cleanRoomClaim": false,
+    "newMitConclusion": false,
+    "acceptedIndependentReplacementClaim": false,
+    "retainedLicense": "Apache-2.0/NOTICE and applicable third-party material",
+    "retainedExpressions": [
+      "Public comments/declarations and existing phase-name collection entry",
+      "Fixed policy vocabulary, guards, field projections and boundedText/lastTool validation expression",
+      "Standard numeric predicates do not certify authorship"
+    ],
+    "strategy": "docs/knorvia-protocol-source-review-strategy-20260930.md",
+    "rightsOrReviewNeeded": "Independent span-level provenance review and contributor authority; rights-holder confirmation only where actual authorization/ownership is unclear or removal of existing obligations is sought"
+  },
+  "scopeCount": {
+    "denominator": "tracked packages/shared/src at baseline; not entire application or dependency closure",
+    "sourceFiles": 227,
+    "acceptedIndependentHashMatched": 12,
+    "unclosedSourceFiles": 215,
+    "priorBehaviorVerified": 6,
+    "thisBatchBehaviorVerified": 3,
+    "cumulativeBehaviorVerifiedWithinUnclosed": 9,
+    "unclosedNotReplacedByThisTrack": 206,
+    "newAcceptedSourceClosuresOrMitGrants": 0,
+    "baselineClassifications": {
+      "upstream-unchanged": 94,
+      "unreviewed": 38,
+      "upstream-modified": 83,
+      "independent-replacement": 12
+    }
+  },
+  "production": [
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+      "sha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+      "normalizedSha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604",
+      "bytes": 5675,
+      "baselineSha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+      "baselineClassification": "upstream-unchanged",
+      "baselineReview": null,
+      "license": "Retained Apache-2.0 and notices; no new independent/MIT conclusion"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+      "sha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+      "normalizedSha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5",
+      "bytes": 4940,
+      "baselineSha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+      "baselineClassification": "upstream-unchanged",
+      "baselineReview": null,
+      "license": "Retained Apache-2.0 and notices; no new independent/MIT conclusion"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+      "sha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+      "normalizedSha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48",
+      "bytes": 6890,
+      "baselineSha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+      "baselineClassification": "upstream-unchanged",
+      "baselineReview": null,
+      "license": "Retained Apache-2.0 and notices; no new independent/MIT conclusion"
+    }
+  ],
+  "productionLineDelta": {
+    "added": 102,
+    "removed": 108,
+    "net": -6
+  },
+  "support": [
+    {
+      "path": "specs/knorvia-workflow-projections-20260930.md",
+      "sha256": "55c0e94174aa9601da66e16e62e9da72707ee479e45379816a355e609bd30baa",
+      "normalizedSha256": "55c0e94174aa9601da66e16e62e9da72707ee479e45379816a355e609bd30baa",
+      "bytes": 5249,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "docs/knorvia-protocol-source-review-strategy-20260930.md",
+      "sha256": "413111a2db97a0678e30543c35ea6a7006413a37fca7ddc53fb00a80d624b26f",
+      "normalizedSha256": "413111a2db97a0678e30543c35ea6a7006413a37fca7ddc53fb00a80d624b26f",
+      "bytes": 8953,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "packages/shared/test/workflow-projection-cases.ts",
+      "sha256": "20e75d6ce0883ea009ae376392e0d94b5a4b023497f62c0c15f7c86a16ed143b",
+      "normalizedSha256": "20e75d6ce0883ea009ae376392e0d94b5a4b023497f62c0c15f7c86a16ed143b",
+      "bytes": 10712,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "packages/shared/test/workflow-projection-contract.test.ts",
+      "sha256": "3d7af44bc523c65fc0319f34315bd30160e97fb60ea38d4721e542f9c64f799c",
+      "normalizedSha256": "3d7af44bc523c65fc0319f34315bd30160e97fb60ea38d4721e542f9c64f799c",
+      "bytes": 3050,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "packages/shared/test/workflow-projection-consumers.test.ts",
+      "sha256": "1b7839068f829a310dc3663f7aec5db04ee25b0ab2b0b30cf46d0fd5efb397a9",
+      "normalizedSha256": "1b7839068f829a310dc3663f7aec5db04ee25b0ab2b0b30cf46d0fd5efb397a9",
+      "bytes": 6917,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "packages/shared/test/workflow-projection-observations.json",
+      "sha256": "bff3c2486cbc6fae47d9e9783189b0b1146f94fbcbaf99aa240e5783eed5ffbf",
+      "normalizedSha256": "bff3c2486cbc6fae47d9e9783189b0b1146f94fbcbaf99aa240e5783eed5ffbf",
+      "bytes": 369885,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "packages/shared/test/workflow-projection-cross-version.mjs",
+      "sha256": "61eda194dba3bb178b334ca900b6a17f22d49ad351125f883bdc8ec232418fd9",
+      "normalizedSha256": "61eda194dba3bb178b334ca900b6a17f22d49ad351125f883bdc8ec232418fd9",
+      "bytes": 6944,
+      "license": "Retained Apache-2.0; no new grant"
+    },
+    {
+      "path": "docs/knorvia-workflow-projections-acceptance-20260930.md",
+      "sha256": "55c2216528e1e8e797969a8700426763a90c78ec9dfe60c9041a396c8653c664",
+      "normalizedSha256": "55c2216528e1e8e797969a8700426763a90c78ec9dfe60c9041a396c8653c664",
+      "bytes": 7595,
+      "license": "Retained Apache-2.0; no new grant"
+    }
+  ],
+  "declarations": [
+    {
+      "path": "packages/shared/dist/protocol-v4/workflow-runs-concurrency.d.ts",
+      "baselineSha256": "5d48dc35f0a53cad123ae850045fc938b1371de1b13ad750019264dcd7620000",
+      "sha256": "5d48dc35f0a53cad123ae850045fc938b1371de1b13ad750019264dcd7620000",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/shared/dist/protocol-v4/workflow-runs-phases.d.ts",
+      "baselineSha256": "12f2279cfa4033f0bfd8f09d344d7f109144af3fa95700e775da209ff59e2dfe",
+      "sha256": "12f2279cfa4033f0bfd8f09d344d7f109144af3fa95700e775da209ff59e2dfe",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/shared/dist/protocol-v4/workflow-runs-node-progress.d.ts",
+      "baselineSha256": "c1f8893b9e7b847450af562e2093d999ca7ad924e0dc0e4cbe50ad9a993d2c3b",
+      "sha256": "c1f8893b9e7b847450af562e2093d999ca7ad924e0dc0e4cbe50ad9a993d2c3b",
+      "byteIdentical": true
+    }
+  ],
+  "preserved": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "third-party/copied-components.json",
+      "sha256": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "third-party/inventory.json",
+      "sha256": "ad7ca0953bf788f302b2eb764b48b61d52c64ad27ac4cf2f1791a5350df0ece7",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "130dfc81b61e8d3e57e19fde06be46ebde3a028eb1afb7414315ca6304e37499",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "sha256": "aad86141add9489906662238ca5179ad5c629e3d29ce543c918beaf94343a543",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "architecture-policy.yaml",
+      "sha256": "ee206ee0f27d112ed7ba875fb952d786fb1701034242441eb6f9c0d5828f9d51",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "f432bc89700c552ed1f4d9f582620f402afcfc67ec275e50c8b432021ad971b1",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": ".oxlintrc.json",
+      "sha256": "74c501f0696546f424a698c7ef61b5406ee7e67f2040a990b1e32fdf07fdc7b7",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": ".oxfmtrc.json",
+      "sha256": "967ca8b4739badcce78bd0652f708dfc4b12137ba259381fec961283058773be",
+      "byteIdenticalToBaseline": true
+    },
+    {
+      "path": "scripts/test-studio.mjs",
+      "sha256": "aead9df3539a25f2c49232953dbe664e66af2b3207a8f9cd2c2ead9a48fac9b9",
+      "byteIdenticalToBaseline": true
+    }
+  ],
+  "previousHandoffFilesPreserved": [
+    {
+      "path": "docs/knorvia-protocol-wire-acceptance-20260930.md",
+      "sha256": "51eaca4afdb8f7dcf9cc1af4885a4f65df25e59a25997a81919fa2c0a9c10009",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "docs/knorvia-remote-identity-acceptance-20260930.md",
+      "sha256": "22f8707779b5c12fe7819255c8667252874ee0eac92294ecc5f4c03c69ce8adb",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "licensing/evidence/protocol-wire-20260930.json",
+      "sha256": "9385c88c5712abccb23c83d878f05f86c00624b65b13d61bc25336c6b3a5e08c",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "licensing/evidence/remote-identity-20260930.json",
+      "sha256": "ee701f97f7f285e6fc5c1eae0a27b244ddf92356359de614c5f342b689e2642e",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-binary.ts",
+      "sha256": "ef91614fb10b1f2add409b1c3ceda49acc2006a6500982f13456fd26582f3f7d",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-codec.ts",
+      "sha256": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/wire-reassembly.ts",
+      "sha256": "ff43c234355ed8611f24ff068d2e9c3e3576940fd2c2adcac1bddffc3dd2da28",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/src/remote-workspace-identity.ts",
+      "sha256": "eb845d89d177614b1f901c61068688500e4d3864a75d7a427080bb4bc7023089",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/src/remoteSshHostKey.ts",
+      "sha256": "14ee2f113e4e7f3c11b8bf0d4af86fd2dcd3ab9153805611a73f4c29c8f626c7",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/src/wslUserValidation.ts",
+      "sha256": "de27a789b433e641237c124619caadfdf267407a4ca0bd48fecdf3a9b259fadd",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-consumers.test.ts",
+      "sha256": "dd98b822420892a5f4b69940d6d4968d23ff5f588b766da537e828181b0ec9c8",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-contract-cases.ts",
+      "sha256": "af6398c2f55034ca51b40498449af294028f02cce4c264cf2eb354cea515b22c",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-contract-observations.json",
+      "sha256": "73e281f846a86c61d86d227201740589f92e101f1c55829f697d6211f005af0b",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-contract.test.ts",
+      "sha256": "8240385a502d12b7053e4deae77376fe9c9717cfa664a5a8badfbad483cf34ba",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/protocol-wire-cross-version.mjs",
+      "sha256": "c9574aa0a0be8e626a8a37fd2c54f0c97a8ae5b3a4443a6fa5b05641a2a8c299",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/remote-identity-consumers.test.ts",
+      "sha256": "051c9440967d6bda76090cec016d8e3b6b1c3c488a6470acc13f214719b2554d",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/remote-identity-contract-cases.ts",
+      "sha256": "2eb3584e79d06ea01fd5ef8d2a9dfa774bcbb2df4fa8996daea8174aacb016bf",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/remote-identity-contract.test.ts",
+      "sha256": "33efa24ec39169aa5b1ee21dab808a073334220a3b3f13d48fd95a390d67d537",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/remote-identity-cross-version.mjs",
+      "sha256": "b5f3f32df0f7dbb0a9c9f5a7d5ca602294c3516634b74641410ebe72f82acce4",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "packages/shared/test/remote-identity-observations.json",
+      "sha256": "314b9413149a725a2b57859764a7dbd18e3f9a2dbb76e07be192e90d6033b47c",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "specs/knorvia-protocol-wire-helpers-20260930.md",
+      "sha256": "f61f50997eaca407c792e342594f3035fb6559727acea6cfe854ebe0befce03d",
+      "byteIdenticalToPriorHandoffs": true
+    },
+    {
+      "path": "specs/knorvia-remote-identity-helpers-20260930.md",
+      "sha256": "0aabd49595f9207420dd2cbdc030af103a371d7497fe0511556a4c3303358140",
+      "byteIdenticalToPriorHandoffs": true
+    }
+  ],
+  "contractFreeze": {
+    "observations": 301,
+    "observationSha256": "bff3c2486cbc6fae47d9e9783189b0b1146f94fbcbaf99aa240e5783eed5ffbf",
+    "byteIdenticalToCheckpoint": true,
+    "negativeFixturesRelaxed": false,
+    "oldSource": {
+      "tests": 310,
+      "passed": 310,
+      "failed": 0,
+      "skipped": 0
+    },
+    "oldDist": {
+      "tests": 310,
+      "passed": 310,
+      "failed": 0,
+      "skipped": 0
+    },
+    "oldDistReviewed": {
+      "tests": 311,
+      "passed": 311,
+      "failed": 0,
+      "skipped": 0
+    },
+    "candidateSourceReviewed": {
+      "tests": 311,
+      "passed": 311,
+      "failed": 0,
+      "skipped": 0
+    },
+    "candidateDistReviewed": {
+      "tests": 311,
+      "passed": 311,
+      "failed": 0,
+      "skipped": 0
+    },
+    "reviewRegression": "NaN prior rounds must follow the original >= branch direction; old dist/candidate agree."
+  },
+  "consumers": {
+    "actualUnchanged": [
+      "Shared public workflow reducer/schema",
+      "CLI TUI workflow mirror",
+      "UI workflowRunCardJoin pure helper",
+      "Shared state.updated apply helper"
+    ],
+    "bundleBindsSelectedSourceOrDist": true,
+    "syntheticAcceptedEnvelopes": true,
+    "realJournalLaunchEntryPassed": false,
+    "stubUsedToClaimJournalSuccess": false
+  },
+  "additionalChecks": {
+    "helperOldNewComparisons": 4800,
+    "publicReducerTraceEvents": 400,
+    "browserTargetVmCases": 6,
+    "nodeGlobalsAbsent": true,
+    "actualBrowser": false
+  },
+  "quality": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "sharedEmission": "passed",
+    "rootTypecheck": "passed including i18n",
+    "rootLint": "0 warnings, 0 errors",
+    "scopedTestTypecheck": "passed; dynamic UI bundle exercised surface minimally typed, real UI checked by root typecheck",
+    "scopedLintDenyWarnings": "0 warnings, 0 errors",
+    "formatting": "passed",
+    "prePush": "passed",
+    "architecture": {
+      "newViolations": 0,
+      "baselineViolations": 0
+    },
+    "bootstrapDependencyBuild": {
+      "successful": 9,
+      "total": 9,
+      "cached": 9,
+      "seconds": 0.101
+    },
+    "actualProvenanceCheck": "failed on inherited wire-codec input binding"
+  },
+  "failuresRetained": [
+    "Initial actual CLI journal/launch bundle dragged core/REPL dependencies into ESM and failed Dynamic require of fs; no real journal/launch success asserted, no stub substituted.",
+    "Initial standalone consumer typechecks pulled unrelated UI source without ImportMeta.env ambient context; actual UI root typecheck passes, dynamic test surface narrowed to exercised assertions.",
+    "External old-dist public consumer first lacked model-option-map resolution; corrected temporary snapshot dependency links passes.",
+    "First local edit script did not match the single-line withoutCooldown signature and stopped before production writes; corrected edit then applied.",
+    "Review found NaN phase-round comparison inversion risk; new regression verifies original branch direction without changing frozen observations.",
+    "Prior Electron install download ECONNREFUSED still limits native GUI checks.",
+    "Actual provenance gate remains blocked by prior wire-codec inventory binding."
+  ],
+  "integratorProposals": [
+    {
+      "registry": "licensing/current-files.json",
+      "action": "Refresh with these three current fingerprints, support files and this evidence after inherited inventory reconciliation. No independent-replacement/MIT review proposed.",
+      "sourceBindings": [
+        {
+          "path": "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+          "expectedOldSha256": "71e40267d7c4ae5d72c5a6033c6c256f5293b743cd9c48d8015f6108002496ef",
+          "proposedCurrentSha256": "589bae3bd4abcc5fff5a4fe2a23157da52cb53411ad5b98bcd57d015a19ae604"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+          "expectedOldSha256": "cdf68ca8274f35adc36e52318804fec3dac59a9c5a542da57d4f218de203d0df",
+          "proposedCurrentSha256": "24fbc915e62372f0a9ea8764137b46902b42cba35cbef42c4780e230739272b5"
+        },
+        {
+          "path": "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+          "expectedOldSha256": "2d56d1582fabc564ad9b087eafeef72a2c5fbd6cad16414b4d1051008f811ca1",
+          "proposedCurrentSha256": "4226480b6b8407c87614697b47c699a367af925bca58abe185839673d7841b48"
+        }
+      ]
+    },
+    {
+      "registry": "third-party/inventory.json",
+      "inheritedFromPriorHandoff": true,
+      "jsonPointer": "/inputs/packages~1shared~1src~1protocol-v4~1wire-codec.ts",
+      "expectedOldValue": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+      "proposedValue": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
+      "retain": "All historical copied-component scope/fingerprints, notices and material obligations"
+    }
+  ],
+  "sourceReviewReferences": [
+    {
+      "url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "purpose": "Section 4 redistribution/different terms while obligations remain"
+    },
+    {
+      "url": "https://www.apache.org/foundation/license-faq.html",
+      "purpose": "Modification does not establish disappearance of Apache derivation"
+    },
+    {
+      "url": "https://opensource.org/license/mit",
+      "purpose": "MIT copyright and permission retention"
+    },
+    {
+      "url": "https://www.copyright.gov/circs/circ61.pdf",
+      "purpose": "US program function/expression distinction; not an all-jurisdiction finding"
+    }
+  ],
+  "apacheCoexistenceExamplesFromInventory": [
+    {
+      "name": "echarts",
+      "version": "6.1.0",
+      "license": "Apache-2.0",
+      "recordedNotices": [
+        {
+          "member": "LICENSE",
+          "sha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a"
+        },
+        {
+          "member": "licenses/LICENSE-d3",
+          "sha256": "e1211892da0b0e0585b7aebe8f98c1274fba15bafe47fa1f4ee8a7a502c06304"
+        },
+        {
+          "member": "NOTICE",
+          "sha256": "d491d358344f842685c1b1585970999db65fe30ecf7ef3867af8814f4016c016"
+        },
+        {
+          "member": "README.md (license section)",
+          "sha256": "8a4c3eb1acbbc8ae95185e93061600adc6a51988e5c5ac264738a5cc5aa3667d"
+        }
+      ]
+    },
+    {
+      "name": "pdfjs-dist",
+      "version": "5.4.296",
+      "license": "Apache-2.0",
+      "recordedNotices": [
+        {
+          "member": "cmaps/LICENSE",
+          "sha256": "aa92ab5a472974865a96fd4a4e9c13bb41bf6fe1b309cb6b8da48bc9e19839a2"
+        },
+        {
+          "member": "iccs/LICENSE",
+          "sha256": "286e4fd7b447330b2c88e23890e3cd0a9d38cb398d4a59cb247f578ccbda3213"
+        },
+        {
+          "member": "LICENSE",
+          "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "member": "standard_fonts/LICENSE_FOXIT",
+          "sha256": "b578cdd2345840ada550bd12519533812320d5f1d21cf4c1c7e1b1b0a31c98b7"
+        },
+        {
+          "member": "standard_fonts/LICENSE_LIBERATION",
+          "sha256": "93fed46019c38bbe566b479d22148e2e8a1e85ada614accb0211c37b2c61c19b"
+        },
+        {
+          "member": "wasm/LICENSE_OPENJPEG",
+          "sha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6"
+        },
+        {
+          "member": "wasm/LICENSE_PDFJS_OPENJPEG",
+          "sha256": "717fc62da03292dbb4dd0c8280bd4ce7bb8550dcf31d772bc93455fb50313425"
+        },
+        {
+          "member": "wasm/LICENSE_PDFJS_QCMS",
+          "sha256": "eb5104ca33552be007857a28351bc408f379ddd4bfacab1226b09c6d1e9fd7c4"
+        },
+        {
+          "member": "wasm/LICENSE_QCMS",
+          "sha256": "36d847ae882f6574ebc72f56a4f354e4f104fde4a584373496482e97d52d31bc"
+        }
+      ]
+    },
+    {
+      "name": "playwright-core",
+      "version": "1.59.1",
+      "license": "Apache-2.0",
+      "recordedNotices": [
+        {
+          "member": "LICENSE",
+          "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+        },
+        {
+          "member": "NOTICE",
+          "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+        }
+      ]
+    },
+    {
+      "name": "typescript",
+      "version": "6.0.2",
+      "license": "Apache-2.0",
+      "recordedNotices": [
+        {
+          "member": "LICENSE.txt",
+          "sha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47"
+        }
+      ]
+    }
+  ],
+  "remainingLimits": [
+    "Parent owns integration CI, shared registries and source-qualification reviews.",
+    "215 shared source files remain unclosed, of which nine are behavior-verified candidates; 206 not replaced in these batches.",
+    "No real journal/launch entry, model workflow, native GUI, Windows/macOS or live browser verification.",
+    "Ordinary protocol-record/frozen/seeded equivalence is bounded; arbitrary getters/builtin monkeypatches not a claim.",
+    "Apache legal coexistence does not by itself satisfy elimination of remaining ZCode product implementation.",
+    "No further ownership selection, PR, main merge, force push, deployment, publication, userdata or credential/security change."
+  ]
+}

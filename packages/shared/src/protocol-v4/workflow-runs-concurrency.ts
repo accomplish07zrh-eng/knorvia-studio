@@ -1,3 +1,4 @@
+// 本组按冻结事件合同重新设计投影；源码已暴露，Apache-2.0/NOTICE 保留，来源资格待审。
 // ============================================================
 // workflowRuns 归约里的自适应并发部分
 // ============================================================
@@ -29,26 +30,25 @@ export function reduceConcurrencyChanged(
   run: WorkflowRunState,
   payload: Record<string, unknown>,
 ): WorkflowRunState {
-  const next = positiveInteger(payload.next);
-  if (next === undefined) return run;
-  const previous = positiveInteger(payload.previous) ?? next;
-  const ceiling = Math.max(run.concurrency?.ceiling ?? 0, previous, next);
+  const cap = integerAtLeast(payload.next, 1);
+  if (cap === undefined) return run;
+  const previous = integerAtLeast(payload.previous, 1) ?? cap;
+  const ceiling = Math.max(run.concurrency?.ceiling ?? 0, previous, cap);
   const key = nonEmptyString(payload.key);
   const limit = run.concurrency?.limit;
-  const cooldownMs =
+  const cooldown =
     payload.reason === CONCURRENCY_IDLE_RESET_REASON
       ? undefined
-      : nonNegativeInteger(payload.cooldownMs);
-  const concurrency: WorkflowRunConcurrency = {
-    ...(key === undefined || key.length > WORKFLOW_RUNS_LIMITS.maxConcurrencyKeyLength
-      ? {}
-      : { key }),
-    cap: next,
-    ceiling,
-    ...(limit === undefined ? {} : { limit }),
-    ...(cooldownMs === undefined ? {} : { cooldownMs }),
-  };
-  return { ...run, concurrency };
+      : integerAtLeast(payload.cooldownMs, 0);
+  // 按线上字段顺序投影新桶读数；旧 key/cooldown 缺席即不携带。
+  const projection = {} as WorkflowRunConcurrency;
+  if (key !== undefined && key.length <= WORKFLOW_RUNS_LIMITS.maxConcurrencyKeyLength)
+    projection.key = key;
+  projection.cap = cap;
+  projection.ceiling = ceiling;
+  if (limit !== undefined) projection.limit = limit;
+  if (cooldown !== undefined) projection.cooldownMs = cooldown;
+  return { ...run, concurrency: projection };
 }
 
 /**
@@ -67,28 +67,25 @@ export function reduceRunStartedConcurrency(
   run: WorkflowRunState,
   payload: Record<string, unknown>,
 ): WorkflowRunState {
-  const limit = positiveInteger(plainRecord(payload.caps)?.maxConcurrency);
-  const readCeiling = positiveInteger(payload.concurrencyCeiling);
+  const requested = integerAtLeast(plainRecord(payload.caps)?.maxConcurrency, 1);
+  const readCeiling = integerAtLeast(payload.concurrencyCeiling, 1);
   const ceiling =
     readCeiling !== undefined && readCeiling <= WORKFLOW_RUNS_LIMITS.maxConcurrencyCeiling
       ? readCeiling
       : undefined;
-  // 天花板本身单独记一份（`run.concurrencyCeiling`）：「配置」弹层的步进器要知道停在哪，而
-  // 跑在天花板上的 run 没有 `concurrency` 可挂。读不出就沿用已知值——与 subagentModel 同一条退化规则。
-  const withCeiling =
-    ceiling === undefined || run.concurrencyCeiling === ceiling
-      ? run
-      : { ...run, concurrencyCeiling: ceiling };
-  if (limit === undefined || ceiling === undefined || limit >= ceiling) return withCeiling;
-  const existing = withCeiling.concurrency;
-  const concurrency: WorkflowRunConcurrency = {
-    // 没有共享桶读数时，cap 从天花板起步——桶本来就是从那里开始的（同 reduceConcurrencyChanged
-    // 推导 ceiling 的那条依据）。
-    ...(existing ?? { cap: ceiling }),
-    ceiling: Math.max(existing?.ceiling ?? 0, ceiling),
-    limit,
-  };
-  return { ...withCeiling, concurrency };
+  // 先规划配置与桶观察的两个独立变更，最后只复制一次 run。
+  const changes: Partial<WorkflowRunState> = {};
+  if (ceiling !== undefined && run.concurrencyCeiling !== ceiling)
+    changes.concurrencyCeiling = ceiling;
+  if (requested !== undefined && ceiling !== undefined && requested < ceiling) {
+    const observation = run.concurrency;
+    changes.concurrency = {
+      ...(observation ?? { cap: ceiling }),
+      ceiling: Math.max(observation?.ceiling ?? 0, ceiling),
+      limit: requested,
+    };
+  }
+  return Object.keys(changes).length ? { ...run, ...changes } : run;
 }
 
 /**
@@ -98,16 +95,15 @@ export function reduceRunStartedConcurrency(
  */
 export function withoutCooldown(run: WorkflowRunState): WorkflowRunState {
   if (run.concurrency?.cooldownMs === undefined) return run;
-  const { cooldownMs: _expired, ...rest } = run.concurrency;
-  return { ...run, concurrency: rest };
+  const concurrency = { ...run.concurrency };
+  delete concurrency.cooldownMs;
+  return { ...run, concurrency };
 }
 
-function positiveInteger(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isInteger(value) && value > 0 ? value : undefined;
-}
-
-function nonNegativeInteger(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : undefined;
+function integerAtLeast(value: unknown, minimum: number): number | undefined {
+  return typeof value === "number" && Number.isInteger(value) && value >= minimum
+    ? value
+    : undefined;
 }
 
 function nonEmptyString(value: unknown): string | undefined {

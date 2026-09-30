@@ -1,3 +1,4 @@
+// 本组按冻结事件合同规划出生/携带/覆盖字段；源码暴露，Apache-2.0/NOTICE 保留，来源资格待审。
 // ============================================================
 // 一次 ask 的**任务与进度读数**：node-queued 的 instructionsHead + node-progress 的三个计数
 // ============================================================
@@ -47,20 +48,22 @@ export function carryNodeProgress(
   payload: Record<string, unknown>,
   previousNode: WorkflowRunNode | undefined,
 ): Partial<NodeProgressFields> {
-  const requeued = eventType === "node-queued";
-  const born = requeued || (eventType === "node-settled" && payload.cached === true);
-  const carried = born ? undefined : previousNode;
+  const queued = eventType === "node-queued";
+  const reset = queued || (eventType === "node-settled" && payload.cached === true);
   const head = boundedText(
     payload.instructionsHead,
     WORKFLOW_RUNS_LIMITS.maxInstructionsHeadLength,
   );
-  const instructionsHead = requeued ? head : (head ?? previousNode?.instructionsHead);
-  return {
-    ...(instructionsHead === undefined ? {} : { instructionsHead }),
-    ...(carried?.turn === undefined ? {} : { turn: carried.turn }),
-    ...(carried?.toolCalls === undefined ? {} : { toolCalls: carried.toolCalls }),
-    ...(carried?.lastTool === undefined ? {} : { lastTool: carried.lastTool }),
-  };
+  const instructionsHead = queued ? head : (head ?? previousNode?.instructionsHead);
+  const projection: Partial<NodeProgressFields> = {};
+  if (instructionsHead !== undefined) projection.instructionsHead = instructionsHead;
+  if (!reset && previousNode) {
+    for (const key of ["turn", "toolCalls", "lastTool"] as const) {
+      const value = previousNode[key];
+      if (value !== undefined) Object.assign(projection, { [key]: value });
+    }
+  }
+  return projection;
 }
 
 /**
@@ -78,32 +81,29 @@ export function reduceNodeProgress(
   ref: { siteId: string; ordinal: number },
   payload: Record<string, unknown>,
 ): WorkflowRunState {
-  const index = run.nodes.findIndex(
+  const slot = run.nodes.findIndex(
     (node) => node.siteId === ref.siteId && node.ordinal === ref.ordinal,
   );
-  if (index < 0) return run;
-  const node = run.nodes[index]!;
-  const turn = readPositiveInt(payload.turn) ?? node.turn;
-  const toolCalls = readNonNegativeInt(payload.toolCalls) ?? node.toolCalls;
-  const lastTool = readLastTool(payload.lastTool) ?? node.lastTool;
-  const nodes = [...run.nodes];
-  nodes[index] = {
-    ...node,
-    ...(turn === undefined ? {} : { turn }),
-    ...(toolCalls === undefined ? {} : { toolCalls }),
-    ...(lastTool === undefined ? {} : { lastTool }),
+  if (slot < 0) return run;
+  const previous = run.nodes[slot]!;
+  const readings = {
+    turn: integerAtLeast(payload.turn, 1) ?? previous.turn,
+    toolCalls: integerAtLeast(payload.toolCalls, 0) ?? previous.toolCalls,
+    lastTool: readLastTool(payload.lastTool) ?? previous.lastTool,
   };
+  const replacement = { ...previous };
+  for (const [key, value] of Object.entries(readings)) {
+    if (value !== undefined) Object.assign(replacement, { [key]: value });
+  }
+  const nodes = [...run.nodes];
+  nodes[slot] = replacement;
   return { ...run, nodes };
 }
 
-/** 轮次是 1 起的正整数：没有「第 0 轮」这回事，0 / 小数 / NaN 一律按读不出处理。 */
-function readPositiveInt(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isInteger(value) && value > 0 ? value : undefined;
-}
-
-/** 工具调用数可以是 0——「一个工具都没调过」是事实，不是缺席。 */
-function readNonNegativeInt(value: unknown): number | undefined {
-  return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : undefined;
+function integerAtLeast(value: unknown, minimum: number): number | undefined {
+  return typeof value === "number" && Number.isInteger(value) && value >= minimum
+    ? value
+    : undefined;
 }
 
 /** 工具名是这条记录存在的理由，读不出即整条不落（只有 target 的 lastTool 说不出任何事）。 */
