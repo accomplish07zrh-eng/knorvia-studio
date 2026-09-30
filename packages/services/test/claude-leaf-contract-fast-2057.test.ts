@@ -145,6 +145,14 @@ for (const [name, bytes, fullExpected, headExpected] of [
     assert.deepEqual(await history.readJsonLinesFileHead(path, Infinity), headExpected);
   });
 }
+test("head UTF8 decoding across stream chunks and truncated tail", async (t) => {
+  const { path } = await fixture(t, " ".repeat(65523) + '{"text":"雪🙂"}\n{"cut":');
+  assert.deepEqual(await history.readJsonLinesFileHead(path, 1), [{ text: "雪🙂" }]);
+  await assert.rejects(
+    history.readJsonLinesFile(path),
+    error("Error", `[claude-native] 解析 JSONL 失败 ${path}:2 ${nativeJsonError('{"cut":')}`),
+  );
+});
 test("bare CR is full-read content and head framing delimiter", async (t) => {
   const line = '{"a":1}\r{"a":2}';
   const { path } = await fixture(t, line);
@@ -359,6 +367,58 @@ test("head tag sanitization, array role differences and content fallback", () =>
     "<command-x>unclosed",
   );
 });
+test("head arrays retain native method/species errors and proxy access order", () => {
+  const overridden = ["ignored"];
+  overridden.flatMap = (() => ["", "override"]) as never;
+  assert.equal(
+    head.extractClaudeNativeSessionHeadInfo([user(overridden)]).previewTitle,
+    "override",
+  );
+  const failing = ["x"];
+  Object.defineProperty(failing, "constructor", {
+    get() {
+      throw new Error("species failure");
+    },
+  });
+  assert.throws(
+    () => head.extractClaudeNativeSessionHeadInfo([user(failing)]),
+    error("Error", "species failure"),
+  );
+  const calls: string[] = [];
+  const proxy = new Proxy(["x", "y"], {
+    get(target, key, receiver) {
+      calls.push(String(key));
+      return Reflect.get(target, key, receiver);
+    },
+    has(target, key) {
+      calls.push(`has:${String(key)}`);
+      return Reflect.has(target, key);
+    },
+  });
+  assert.equal(head.extractClaudeNativeSessionHeadInfo([user(proxy)]).previewTitle, "x\n\ny");
+  assert.deepEqual(calls, ["flatMap", "length", "constructor", "has:0", "0", "has:1", "1"]);
+});
+test("head indexed projection captures length and skips deleted slots", () => {
+  const content = ["x", "deleted"];
+  Object.defineProperty(content, "0", {
+    get() {
+      delete content[1];
+      content.push("appended");
+      return "first";
+    },
+  });
+  assert.equal(head.extractClaudeNativeSessionHeadInfo([user(content)]).previewTitle, "first");
+});
+test("filter retains recursive overflow on a cloneable cyclic selector", () => {
+  const value = { self: null as unknown };
+  value.self = value;
+  assert.throws(
+    () => filter.filterImportedClaudeTaskFilePaths(value, [Array(10000).fill("self").join(".")]),
+    RangeError,
+  );
+  assert.equal(value.self, value);
+});
+
 test("head meta/api-error/synthetic markers are strict and sparse text arrays skip holes", () => {
   const content: unknown[] = [];
   content.length = 3;
@@ -417,7 +477,7 @@ test("sidechain any marker uses strict true, short circuits and skips holes", ()
     true,
   );
   assert.equal(head.hasClaudeNativeSidechainMarker([{ request: { isSidechain: true } }]), true);
-  const sparse: object[] = [];
+  const sparse: Record<string, unknown>[] = [];
   sparse.length = 2;
   assert.equal(head.hasClaudeNativeSidechainMarker(sparse), false);
   assert.throws(() => head.extractClaudeNativeSessionHeadInfo(sparse), TypeError);
@@ -499,7 +559,7 @@ test("builder exact metadata/message serialization, defaults and trace count", (
     `{"meta":{"taskId":"${build.buildImportedClaudeTaskId(value.workspacePath, value.sessionId)}","traceId":"00000000-0000-4000-8000-000000000001","title":"Hello","workspacePath":"/synthetic/project","createdAt":1700000000123,"updatedAt":1700000000999,"migrationSource":"claudeCode","status":"completed"},"messages":[{"role":"user","content":"Hello","timestamp":1700000000123,"turnIndex":0,"unknown":{"keep":1}}]}`,
   );
   assert.equal(count(), 1);
-  assert.equal((value.messages[0] as { model: string }).model, "old");
+  assert.equal((value.messages[0] as unknown as { model: string }).model, "old");
   assert.ok(codec.safeParseLegacyTaskSessionFile(result).success);
 });
 test("builder title, nullish override and custom filter retain exact fields", (t) => {
@@ -614,6 +674,17 @@ test("real import repository scan preserves sort/filter/ignored directories and 
     await writeFile(path, text);
     await utimes(path, mtime, mtime);
   }
+  const tailPath = join(projects, "dirty-tail.jsonl");
+  await writeFile(
+    tailPath,
+    [
+      entry("Tail", "/tail"),
+      ...Array(15).fill('{"type":"progress"}'),
+      '{"isSidechain":true}',
+      '{"cut":',
+    ].join("\n"),
+  );
+  await utimes(tailPath, 1700000002, 1700000002);
   await mkdir(join(projects, "subagents"));
   await writeFile(join(projects, "subagents", "hidden.jsonl"), entry("hidden"));
   const owner = importRepo as unknown as { getNativeProjectsRoots: () => string[] };
@@ -645,6 +716,14 @@ test("real import repository scan preserves sort/filter/ignored directories and 
     ).map((item) => item.sessionId),
     ["newer"],
   );
+  assert.deepEqual(
+    (await importRepo.scanImportableSessions({ workspacePath: "/tail" })).map((item) => [
+      item.sessionId,
+      item.previewTitle,
+    ]),
+    [["dirty-tail", "Tail"]],
+  );
+  await assert.rejects(history.readJsonLinesFile(tailPath));
   assert.equal(
     await importRepo.findImportableSession({
       workspacePath: "/synthetic/project",
