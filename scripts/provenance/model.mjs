@@ -24,7 +24,7 @@ const VERIFIED_PATH_ALIASES = new Map([
     "packages/ui/src/components/ui/ZCodeAboutLogo.tsx",
     "packages/ui/src/components/ui/AboutLogo.tsx",
   ],
-  // 固定 blob/摘要复核见 pending-slice-integration-20260930.json；只登记已核验的改名。
+  // 固定 blob/摘要复核见 standard-integration-validation-20260930.json；只登记已核验的改名。
   ["packages/ui/src/lib/zcodeUiError.ts", "packages/ui/src/lib/uiError.ts"],
   ["packages/ui/src/lib/zcodeTaskMetaMerge.ts", "packages/ui/src/lib/taskMetaMerge.ts"],
   [
@@ -37,6 +37,7 @@ const VERIFIED_PATH_ALIASES = new Map([
     "packages/ui/src/lib/zcodeFileCitationRemarkPlugin.ts",
     "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
   ],
+  ["packages/ui/src/lib/zcodeSessionProjection.ts", "packages/ui/src/lib/sessionProjection.ts"],
   [
     "apps/cli/packages/node-repl-host/.zcode-plugin/plugin.json",
     "apps/cli/packages/node-repl-host/.knorvia-plugin/plugin.json",

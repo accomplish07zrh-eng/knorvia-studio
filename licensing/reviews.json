@@ -3,16 +3,20 @@
   "files": [
     {
       "path": "scripts/provenance/model.mjs",
-      "normalizedSha256": "5fe4ab6da8d8c337882f64041a0e2b3d6b35a7fbfcc6fcbef81d70cfe3a9e05e",
+      "normalizedSha256": "8f28f7d4821557a99323ff131078647e5fbf5ce763bc1bea85f9fae099d888f3",
       "decision": "original",
       "license": "MIT",
-      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes.",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes. Standard continuation reviewed the integrated changes and retained the existing tooling-only decision: exact pinned UI rename lineage, conservative mixed platform selection, committed-history notice ownership, and corresponding synthetic fixtures. Audit and lineage regressions passed 45/45. This does not clear application implementation, copied sources, dependencies or unresolved materials. B3 Standard integration adds only the seventh specifically verified upstream rename, covered by a failure-first regression; final audit/lineage run passes 46/46. Production source exposure and Apache/NOTICE obligations remain.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
         "licensing/evidence/node-repl-host-retained.md",
         "docs/knorvia-independence-progress-20260927.md",
         "specs/knorvia-third-party-reconciliation.md",
-        "docs/knorvia-third-party-reconciliation-acceptance.md"
+        "docs/knorvia-third-party-reconciliation-acceptance.md",
+        "specs/knorvia-pending-slice-integration-20260930.md",
+        "licensing/evidence/standard-integration-validation-20260930.json",
+        "specs/knorvia-ui-b3-session-projection-20260930.md",
+        "docs/knorvia-ui-b3-wip-standard-handoff-20260930.md"
       ]
     },
     {
@@ -41284,12 +41288,14 @@
       "path": "scripts/third-party-platform.mjs",
       "decision": "original",
       "license": "MIT",
-      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application. Standard continuation reviewed the integrated changes and retained the existing tooling-only decision: exact pinned UI rename lineage, conservative mixed platform selection, committed-history notice ownership, and corresponding synthetic fixtures. Audit and lineage regressions passed 45/45. This does not clear application implementation, copied sources, dependencies or unresolved materials.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
-        "docs/knorvia-dependency-tool-repair-20260930.md"
+        "docs/knorvia-dependency-tool-repair-20260930.md",
+        "specs/knorvia-pending-slice-integration-20260930.md",
+        "licensing/evidence/standard-integration-validation-20260930.json"
       ],
-      "normalizedSha256": "4a3b3c7f41ab0cb81c88d22e1d4cc1ab2560fb06445852bc5c665e4f35edb4f5"
+      "normalizedSha256": "8c848b677110186535b5ed4f0d3243350259bbc8e7be5780da915c112a60510b"
     },
     {
       "path": "scripts/provenance/third-party-platform.test.mjs",
@@ -41306,23 +41312,27 @@
       "path": "scripts/provenance/retained-npm-notices.mjs",
       "decision": "original",
       "license": "MIT",
-      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application. Standard continuation reviewed the integrated changes and retained the existing tooling-only decision: exact pinned UI rename lineage, conservative mixed platform selection, committed-history notice ownership, and corresponding synthetic fixtures. Audit and lineage regressions passed 45/45. This does not clear application implementation, copied sources, dependencies or unresolved materials.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
-        "docs/knorvia-dependency-tool-repair-20260930.md"
+        "docs/knorvia-dependency-tool-repair-20260930.md",
+        "specs/knorvia-pending-slice-integration-20260930.md",
+        "licensing/evidence/standard-integration-validation-20260930.json"
       ],
-      "normalizedSha256": "a473bce0423215e1be41b6aaf491f524a7d335c95677cdac16ee7174ec74c2f3"
+      "normalizedSha256": "babace8fb2c61c2d296de536657d3f7801f04d3e07333f45520ab34e9d9d5ef5"
     },
     {
       "path": "scripts/provenance/retained-npm-notices.test.mjs",
       "decision": "original",
       "license": "MIT",
-      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application.",
+      "basis": "New platform-selection and retained-notice tooling/test or acceptance expression authored from fixed pnpm lock/config semantics and failure-first audit requirements. Uses Node built-ins; no publisher product implementation or notice expression is copied into these new tools. Historical and original third-party declarations remain preserved. This decision does not license dependencies, native binaries, UI components, source metadata or the application. Standard continuation reviewed the integrated changes and retained the existing tooling-only decision: exact pinned UI rename lineage, conservative mixed platform selection, committed-history notice ownership, and corresponding synthetic fixtures. Audit and lineage regressions passed 45/45. This does not clear application implementation, copied sources, dependencies or unresolved materials.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
-        "docs/knorvia-dependency-tool-repair-20260930.md"
+        "docs/knorvia-dependency-tool-repair-20260930.md",
+        "specs/knorvia-pending-slice-integration-20260930.md",
+        "licensing/evidence/standard-integration-validation-20260930.json"
       ],
-      "normalizedSha256": "97d15a0a1065d570d4752e1fd90fa4c4b677af0ab450deb9562eb45119e256a8"
+      "normalizedSha256": "6cb1b267a5ae4ab2774f40d547e21bdd13eed32831bc165b1bc7bc3e8f3095a4"
     },
     {
       "path": "docs/knorvia-dependency-tool-repair-20260930.md",

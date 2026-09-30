@@ -9,6 +9,7 @@ const helpers = [
   ["zcodeCustomModelValue", "customModelValue"],
   ["zcodeFileCitation", "fileCitation"],
   ["zcodeFileCitationRemarkPlugin", "fileCitationRemarkPlugin"],
+  ["zcodeSessionProjection", "sessionProjection"],
 ];
 
 for (const [oldName, newName] of helpers) {
