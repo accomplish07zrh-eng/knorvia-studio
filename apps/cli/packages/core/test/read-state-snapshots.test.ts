@@ -1,6 +1,7 @@
 // New synthetic compatibility tests; retain the repository's transition licence.
 // No file-level MIT grant is made before completion of source review.
 import assert from "node:assert/strict";
+import { normalize } from "node:path";
 import test from "node:test";
 import {
   createReadFileStateKey,
@@ -43,16 +44,20 @@ function metadata() {
 }
 
 test("keys preserve platform equivalence, Unicode and independent windows", () => {
+  // 既有非 win32 分支使用宿主 normalize，并不模拟 POSIX；Windows CI 必须验证宿主分隔符。
   assert.equal(
     createReadFileStateKey("/fixture/../read.txt", undefined, undefined, "linux"),
-    "/read.txt\u00001\u0000",
+    `${normalize("/fixture/../read.txt")}\u00001\u0000`,
   );
   assert.equal(
     createReadFileStateKey("/c/read.txt", 1, undefined, "win32"),
     "C:\\read.txt\u00001\u0000",
   );
   assert.equal(createReadFileStateKey("c:/read.txt", 1, 2, "win32"), "C:\\read.txt\u00001\u00002");
-  assert.equal(createReadFileStateKey("/caf\u0065\u0301", 0, 0, "linux"), "/café\u00000\u00000");
+  assert.equal(
+    createReadFileStateKey("/caf\u0065\u0301", 0, 0, "linux"),
+    `${normalize("/café")}\u00000\u00000`,
+  );
   assert.notEqual(
     createReadFileStateKey("/a", 0, undefined),
     createReadFileStateKey("/a", undefined, undefined),
