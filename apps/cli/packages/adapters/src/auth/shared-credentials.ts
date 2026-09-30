@@ -1,15 +1,17 @@
-import { existsSync, readFileSync } from "node:fs";
+// SPDX-License-Identifier: MIT
+// Independent reimplementation; review pending.
+
+import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
+
 import { atomicWritePrivateTextFile, backupCorruptFile, withFileLock } from "@knorvia/shared/node";
+
 import {
   createKnorviaCredentialCipher,
   type KnorviaCredentialCipher,
 } from "./credential-cipher.js";
-
-const KNORVIA_DATA_BASE_DIR_ENV_KEY = "KNORVIA_DATA_BASE_DIR";
-const credentialChangeListeners = new Map<string, Set<() => void | Promise<void>>>();
 
 export interface SharedKnorviaCredentialStoreOptions {
   baseDir?: string;
@@ -38,158 +40,239 @@ export interface SharedKnorviaCredentialStore {
   saveReplacing(key: string, value: string, replacedKeys: readonly string[]): Promise<void>;
 }
 
+type CredentialRecord = Record<string, string>;
+type ChangeListener = () => void | Promise<void>;
+
+const CREDENTIAL_DIRECTORY = ".knorvia-studio";
+const CREDENTIAL_VERSION_DIRECTORY = "v2";
+const CREDENTIAL_FILE_NAME = "credentials.json";
+const listenersByFile = new Map<string, Set<ChangeListener>>();
+
+function expandUserPath(value: string): string {
+  if (value === "~") return homedir();
+  if (value.startsWith("~/")) return resolve(homedir(), value.slice(2));
+  return resolve(value);
+}
+
+export function resolveSharedKnorviaCredentialsPath(
+  options: SharedKnorviaCredentialStoreOptions = {},
+): string {
+  if (options.filePath) return expandUserPath(options.filePath);
+  const env = options.env ?? process.env;
+  const baseDir = options.baseDir ?? env.KNORVIA_DATA_BASE_DIR ?? homedir();
+  return join(
+    expandUserPath(baseDir),
+    CREDENTIAL_DIRECTORY,
+    CREDENTIAL_VERSION_DIRECTORY,
+    CREDENTIAL_FILE_NAME,
+  );
+}
+
+function normalizeKey(key: string): string {
+  const normalized = key.trim();
+  if (normalized.length === 0) throw new Error("Credential key must not be empty");
+  return normalized;
+}
+
+function requireValue(value: string): string {
+  if (value.length === 0) throw new Error("Credential value must not be empty");
+  return value;
+}
+
+function setRecordValue<Value>(record: Record<string, Value>, key: string, value: Value): void {
+  Object.defineProperty(record, key, {
+    configurable: true,
+    enumerable: true,
+    value,
+    writable: true,
+  });
+}
+
+function parseCredentialRecord(text: string): CredentialRecord {
+  const parsed: unknown = JSON.parse(text);
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new Error("Credential record must be an object");
+  }
+  for (const [key, value] of Object.entries(parsed)) {
+    if (typeof value !== "string") {
+      throw new Error(`Credential record value must be a string: ${key}`);
+    }
+  }
+  return parsed as CredentialRecord;
+}
+
+function hasErrorCode(error: unknown, code: string): boolean {
+  return typeof error === "object" && error !== null && "code" in error && error.code === code;
+}
+
+async function readCredentialRecord(filePath: string): Promise<CredentialRecord> {
+  let text: string;
+  try {
+    text = await readFile(filePath, "utf8");
+  } catch (error) {
+    if (hasErrorCode(error, "ENOENT")) return {};
+    throw new Error(`Unable to read shared Knorvia Studio credentials: ${filePath}`, {
+      cause: error,
+    });
+  }
+
+  try {
+    return parseCredentialRecord(text);
+  } catch (error) {
+    let backupPath: string | undefined;
+    try {
+      backupPath = await backupCorruptFile(filePath);
+    } catch {
+      // The original corrupt file remains the evidence when backup itself fails.
+    }
+    const backupSuffix = backupPath === undefined ? "" : ` Backup: ${backupPath}`;
+    throw new Error(`Shared Knorvia Studio credentials are corrupt: ${filePath}.${backupSuffix}`, {
+      cause: error,
+    });
+  }
+}
+
+async function writeCredentialRecord(filePath: string, record: CredentialRecord): Promise<void> {
+  await atomicWritePrivateTextFile(filePath, `${JSON.stringify(record, null, 2)}\n`);
+}
+
+async function notifyListeners(filePath: string): Promise<void> {
+  const snapshot = [...(listenersByFile.get(filePath) ?? [])];
+  await Promise.allSettled(snapshot.map((listener) => Promise.resolve().then(listener)));
+}
+
+async function mutateRecord<T>(
+  filePath: string,
+  mutate: (record: CredentialRecord) => T | Promise<T>,
+): Promise<T> {
+  const result = await withFileLock(filePath, async () => {
+    const record = await readCredentialRecord(filePath);
+    const mutationResult = await mutate(record);
+    await writeCredentialRecord(filePath, record);
+    return mutationResult;
+  });
+  await notifyListeners(filePath);
+  return result;
+}
+
+function subscribe(filePath: string, listener: ChangeListener): () => void {
+  let listeners = listenersByFile.get(filePath);
+  if (listeners === undefined) {
+    listeners = new Set();
+    listenersByFile.set(filePath, listeners);
+  }
+  listeners.add(listener);
+  return () => {
+    const current = listenersByFile.get(filePath);
+    if (current === undefined) return;
+    current.delete(listener);
+    if (current.size === 0) listenersByFile.delete(filePath);
+  };
+}
+
 export function createSharedKnorviaCredentialStore(
   options: SharedKnorviaCredentialStoreOptions = {},
 ): SharedKnorviaCredentialStore {
-  const env = options.env ?? process.env;
   const filePath = resolveSharedKnorviaCredentialsPath(options);
-  const cipher = options.cipher ?? createKnorviaCredentialCipher({ env });
+  const cipher = options.cipher ?? createKnorviaCredentialCipher({ env: options.env });
 
   return {
     filePath,
-
-    async delete(key: string): Promise<void> {
-      const validatedKey = validateCredentialKey(key);
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        delete rawCredentials[validatedKey];
+    async load(key) {
+      const normalizedKey = normalizeKey(key);
+      const record = await readCredentialRecord(filePath);
+      const storedValue = record[normalizedKey];
+      return storedValue === undefined ? null : cipher.decrypt(storedValue);
+    },
+    async loadMany(keys) {
+      const normalizedKeys = keys.map(normalizeKey);
+      const record = await readCredentialRecord(filePath);
+      const result: Record<string, string | null> = {};
+      for (const key of normalizedKeys) {
+        const storedValue = record[key];
+        setRecordValue(result, key, storedValue === undefined ? null : cipher.decrypt(storedValue));
+      }
+      return result;
+    },
+    async save(key, value) {
+      const normalizedKey = normalizeKey(key);
+      const encryptedValue = cipher.encrypt(requireValue(value));
+      await mutateRecord(filePath, (record) => {
+        setRecordValue(record, normalizedKey, encryptedValue);
       });
     },
-
-    async deleteIfValue(key: string, expectedValue: string): Promise<boolean> {
-      const validatedKey = validateCredentialKey(key);
-      const validatedExpectedValue = validateCredentialValue(expectedValue);
-      let deleted = false;
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        const encryptedValue = rawCredentials[validatedKey];
-        if (
-          encryptedValue === undefined ||
-          cipher.decrypt(encryptedValue) !== validatedExpectedValue
-        ) {
-          return;
+    async saveMany(entries) {
+      const encryptedEntries: CredentialRecord = {};
+      for (const [key, value] of Object.entries(entries)) {
+        setRecordValue(encryptedEntries, normalizeKey(key), cipher.encrypt(requireValue(value)));
+      }
+      await mutateRecord(filePath, (record) => {
+        for (const [entryKey, encryptedValue] of Object.entries(encryptedEntries)) {
+          setRecordValue(record, entryKey, encryptedValue);
         }
-        delete rawCredentials[validatedKey];
-        deleted = true;
       });
-      return deleted;
     },
-
-    async deleteIfValues(
-      expectedValues: Readonly<Record<string, string>>,
-    ): Promise<Record<string, boolean>> {
-      const validatedEntries = Object.entries(expectedValues).map(
-        ([key, value]) => [validateCredentialKey(key), validateCredentialValue(value)] as const,
-      );
-      if (validatedEntries.length === 0) return {};
-      const deleted: Record<string, boolean> = {};
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        for (const [key, expectedValue] of validatedEntries) {
-          const encryptedValue = rawCredentials[key];
+    async saveReplacing(key, value, replacedKeys) {
+      const normalizedKey = normalizeKey(key);
+      const normalizedReplacedKeys = replacedKeys.map(normalizeKey);
+      const encryptedValue = cipher.encrypt(requireValue(value));
+      await mutateRecord(filePath, (record) => {
+        setRecordValue(record, normalizedKey, encryptedValue);
+        for (const replacedKey of normalizedReplacedKeys) {
+          if (replacedKey !== normalizedKey) delete record[replacedKey];
+        }
+      });
+    },
+    async delete(key) {
+      const normalizedKey = normalizeKey(key);
+      await mutateRecord(filePath, (record) => {
+        delete record[normalizedKey];
+      });
+    },
+    async deleteIfValue(key, expectedValue) {
+      const normalizedKey = normalizeKey(key);
+      requireValue(expectedValue);
+      return await mutateRecord(filePath, (record) => {
+        const storedValue = record[normalizedKey];
+        const matches = storedValue !== undefined && cipher.decrypt(storedValue) === expectedValue;
+        if (matches) delete record[normalizedKey];
+        return matches;
+      });
+    },
+    async deleteIfValues(expectedValues) {
+      const normalizedExpectedValues: Record<string, string> = {};
+      for (const [key, value] of Object.entries(expectedValues)) {
+        setRecordValue(normalizedExpectedValues, normalizeKey(key), requireValue(value));
+      }
+      if (Object.keys(normalizedExpectedValues).length === 0) return {};
+      return await mutateRecord(filePath, (record) => {
+        const result: Record<string, boolean> = {};
+        for (const [key, expectedValue] of Object.entries(normalizedExpectedValues)) {
+          const storedValue = record[key];
           const matches =
-            encryptedValue !== undefined && cipher.decrypt(encryptedValue) === expectedValue;
-          deleted[key] = matches;
-          if (matches) delete rawCredentials[key];
+            storedValue !== undefined && cipher.decrypt(storedValue) === expectedValue;
+          if (matches) delete record[key];
+          setRecordValue(result, key, matches);
         }
+        return result;
       });
-      return deleted;
     },
-
-    /**
-     * 条件事务：`guardKey` 当前值与期望值相等才删除 `keysToDelete` 全部 key，否则一个都不删。
-     *
-     * `deleteIfValues` 是逐 key 比较、逐 key 删除，无法表达「canonical generation 匹配
-     * 才整体失效」——canonical 比较失败时 legacy 镜像仍可能被删掉，反之亦然。OAuth 凭据失效必须
-     * 是整对的：stale 事务不能删掉 winner 的 canonical，也不能只删掉它的一半镜像。
-     */
-    async deleteManyIfValue(
-      guardKey: string,
-      expectedGuardValue: string,
-      keysToDelete: readonly string[],
-    ): Promise<boolean> {
-      const validatedGuardKey = validateCredentialKey(guardKey);
-      const validatedExpectedValue = validateCredentialValue(expectedGuardValue);
-      const validatedKeys = keysToDelete.map(validateCredentialKey);
-      let deleted = false;
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        const encryptedGuard = rawCredentials[validatedGuardKey];
-        if (
-          encryptedGuard === undefined ||
-          cipher.decrypt(encryptedGuard) !== validatedExpectedValue
-        ) {
-          return;
+    async deleteManyIfValue(guardKey, expectedGuardValue, keysToDelete) {
+      const normalizedGuardKey = normalizeKey(guardKey);
+      requireValue(expectedGuardValue);
+      const normalizedKeysToDelete = keysToDelete.map(normalizeKey);
+      return await mutateRecord(filePath, (record) => {
+        const storedGuard = record[normalizedGuardKey];
+        const matches =
+          storedGuard !== undefined && cipher.decrypt(storedGuard) === expectedGuardValue;
+        if (matches) {
+          for (const key of normalizedKeysToDelete) delete record[key];
         }
-        for (const key of validatedKeys) delete rawCredentials[key];
-        deleted = true;
-      });
-      return deleted;
-    },
-
-    async load(key: string): Promise<string | null> {
-      const rawCredentials = await readRawCredentialRecord(filePath);
-      const rawValue = rawCredentials[validateCredentialKey(key)];
-      if (rawValue === undefined) {
-        return null;
-      }
-      return cipher.decrypt(rawValue);
-    },
-
-    async loadMany(keys: readonly string[]): Promise<Record<string, string | null>> {
-      const validatedKeys = keys.map(validateCredentialKey);
-      const rawCredentials = await readRawCredentialRecord(filePath);
-      return Object.fromEntries(
-        validatedKeys.map((key) => {
-          const rawValue = rawCredentials[key];
-          return [key, rawValue === undefined ? null : cipher.decrypt(rawValue)];
-        }),
-      );
-    },
-
-    onDidChange(listener: () => void | Promise<void>): () => void {
-      let listeners = credentialChangeListeners.get(filePath);
-      if (!listeners) {
-        listeners = new Set();
-        credentialChangeListeners.set(filePath, listeners);
-      }
-      listeners.add(listener);
-      return () => {
-        listeners?.delete(listener);
-        if (listeners?.size === 0) credentialChangeListeners.delete(filePath);
-      };
-    },
-
-    async save(key: string, value: string): Promise<void> {
-      const validatedKey = validateCredentialKey(key);
-      const encryptedValue = cipher.encrypt(validateCredentialValue(value));
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        rawCredentials[validatedKey] = encryptedValue;
+        return matches;
       });
     },
-
-    async saveMany(entries: Readonly<Record<string, string>>): Promise<void> {
-      const encryptedEntries = Object.entries(entries).map(
-        ([key, value]) =>
-          [validateCredentialKey(key), cipher.encrypt(validateCredentialValue(value))] as const,
-      );
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        for (const [key, encryptedValue] of encryptedEntries) {
-          rawCredentials[key] = encryptedValue;
-        }
-      });
-    },
-
-    async saveReplacing(
-      key: string,
-      value: string,
-      replacedKeys: readonly string[],
-    ): Promise<void> {
-      const validatedKey = validateCredentialKey(key);
-      const encryptedValue = cipher.encrypt(validateCredentialValue(value));
-      const validatedReplacedKeys = replacedKeys.map(validateCredentialKey);
-      await mutateRawCredentialRecord(filePath, (rawCredentials) => {
-        rawCredentials[validatedKey] = encryptedValue;
-        for (const replacedKey of validatedReplacedKeys) {
-          if (replacedKey !== validatedKey) delete rawCredentials[replacedKey];
-        }
-      });
+    onDidChange(listener) {
+      return subscribe(filePath, listener);
     },
   };
 }
@@ -198,130 +281,16 @@ export function loadSharedKnorviaCredentialSync(
   key: string,
   options: SharedKnorviaCredentialStoreOptions = {},
 ): string | undefined {
-  const filePath = resolveSharedKnorviaCredentialsPath(options);
-  if (!existsSync(filePath)) {
-    return undefined;
-  }
-
   try {
-    const raw = readFileSync(filePath, "utf-8");
-    const parsed = JSON.parse(raw);
-    const record = parseCredentialRecord(parsed);
-    const rawValue = record[validateCredentialKey(key)];
-    if (rawValue === undefined) {
-      return undefined;
-    }
+    const normalizedKey = normalizeKey(key);
+    const filePath = resolveSharedKnorviaCredentialsPath(options);
+    const record = parseCredentialRecord(readFileSync(filePath, "utf8"));
+    const storedValue = record[normalizedKey];
+    if (storedValue === undefined) return undefined;
     const cipher = options.cipher ?? createKnorviaCredentialCipher({ env: options.env });
-    const decrypted = cipher.decrypt(rawValue);
-    return decrypted.trim().length > 0 ? decrypted : undefined;
+    const decrypted = cipher.decrypt(storedValue);
+    return decrypted.trim().length === 0 ? undefined : decrypted;
   } catch {
     return undefined;
   }
-}
-
-export function resolveSharedKnorviaCredentialsPath(
-  options: SharedKnorviaCredentialStoreOptions = {},
-): string {
-  if (options.filePath) {
-    return resolveUserPath(options.filePath);
-  }
-
-  const env = options.env ?? process.env;
-  const baseDir = options.baseDir ?? env[KNORVIA_DATA_BASE_DIR_ENV_KEY] ?? homedir();
-  return join(resolveUserPath(baseDir), ".knorvia-studio", "v2", "credentials.json");
-}
-
-async function readRawCredentialRecord(filePath: string): Promise<Record<string, string>> {
-  let raw: string;
-  try {
-    raw = await readFile(filePath, "utf-8");
-  } catch (error) {
-    if (getErrorCode(error) === "ENOENT") {
-      return {};
-    }
-    throw new Error(`Unable to read shared Knorvia Studio credentials: ${filePath}`, {
-      cause: error,
-    });
-  }
-
-  try {
-    return parseCredentialRecord(JSON.parse(raw));
-  } catch (error) {
-    // 损坏的凭据文件若被当成空对象继续保存，会一次性抹掉其他进程的全部凭据。
-    // 先保留现场再失败，调用方必须显式处理恢复，不能静默覆盖。
-    const backupPath = await backupCorruptFile(filePath).catch(() => undefined);
-    const evidence = backupPath ? ` Backup: ${backupPath}` : "";
-    throw new Error(`Shared Knorvia Studio credentials are corrupt: ${filePath}.${evidence}`, {
-      cause: error,
-    });
-  }
-}
-
-async function mutateRawCredentialRecord(
-  filePath: string,
-  mutation: (value: Record<string, string>) => void | Promise<void>,
-): Promise<void> {
-  // CLI、设置页和 session 可能位于不同 Node 进程；锁必须覆盖完整的
-  // read-modify-write，单独原子 rename 只能防半写，不能防旧快照覆盖新 key。
-  await withFileLock(filePath, async () => {
-    const value = await readRawCredentialRecord(filePath);
-    await mutation(value);
-    await atomicWritePrivateTextFile(filePath, `${JSON.stringify(value, null, 2)}\n`);
-  });
-  const listeners = [...(credentialChangeListeners.get(filePath) ?? [])];
-  // 同进程的 Registry Source 需要在登录返回前观察到新凭据；单个监听者失败不应
-  // 把已经原子落盘的 Credential 伪装成写入失败。
-  await Promise.allSettled(listeners.map((listener) => listener()));
-}
-
-function parseCredentialRecord(value: unknown): Record<string, string> {
-  if (!isRecord(value)) {
-    throw new Error("Credential record must be an object");
-  }
-
-  const result: Record<string, string> = {};
-  for (const [key, entry] of Object.entries(value)) {
-    if (typeof entry !== "string") {
-      throw new Error(`Credential record value must be a string: ${key}`);
-    }
-    result[key] = entry;
-  }
-  return result;
-}
-
-function getErrorCode(error: unknown): string | undefined {
-  if (typeof error !== "object" || error === null || !("code" in error)) {
-    return undefined;
-  }
-  const code = (error as { code?: unknown }).code;
-  return typeof code === "string" ? code : undefined;
-}
-
-function validateCredentialKey(key: string): string {
-  const trimmed = key.trim();
-  if (trimmed.length === 0) {
-    throw new Error("Credential key must not be empty");
-  }
-  return trimmed;
-}
-
-function validateCredentialValue(value: string): string {
-  if (value.length === 0) {
-    throw new Error("Credential value must not be empty");
-  }
-  return value;
-}
-
-function resolveUserPath(value: string): string {
-  if (value === "~") {
-    return homedir();
-  }
-  if (value.startsWith("~/")) {
-    return join(homedir(), value.slice(2));
-  }
-  return resolve(value);
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }

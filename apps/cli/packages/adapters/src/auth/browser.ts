@@ -1,6 +1,7 @@
-import { spawn, type ChildProcess } from "node:child_process";
+// SPDX-License-Identifier: MIT
+// Independent reimplementation; review pending.
 
-const BROWSER_OPEN_SETTLE_TIMEOUT_MS = 1_000;
+import { spawn } from "node:child_process";
 
 export interface BrowserOpenResult {
   command: string;
@@ -14,77 +15,66 @@ export interface BrowserOpenOptions {
   timeoutMs?: number;
 }
 
+const DEFAULT_SETTLE_TIMEOUT_MS = 1_000;
+
+function selectBrowserCommand(platform: NodeJS.Platform, url: string): [string, string[]] {
+  if (platform === "darwin") {
+    return ["open", [url]];
+  }
+  if (platform === "win32") {
+    return ["cmd.exe", ["/c", "start", "", url]];
+  }
+  return ["xdg-open", [url]];
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 export async function openUrlInBrowser(
   url: string,
   options: BrowserOpenOptions = {},
 ): Promise<BrowserOpenResult> {
   const platform = options.platform ?? process.platform;
-  const command = browserOpenCommand(platform, url);
+  const [command, args] = selectBrowserCommand(platform, url);
   const spawnProcess = options.spawnProcess ?? spawn;
+  let child: ReturnType<typeof spawn>;
 
   try {
-    const child = spawnProcess(command.executable, command.args, {
+    child = spawnProcess(command, args, {
       detached: true,
       stdio: "ignore",
       windowsHide: true,
     });
-    return await waitForBrowserSpawn(child, command.executable, options.timeoutMs);
   } catch (error) {
-    return {
-      command: command.executable,
-      opened: false,
-      reason: error instanceof Error ? error.message : String(error),
-    };
-  }
-}
-
-function browserOpenCommand(
-  platform: NodeJS.Platform,
-  url: string,
-): { args: string[]; executable: string } {
-  if (platform === "darwin") {
-    return { executable: "open", args: [url] };
+    return { command, opened: false, reason: errorMessage(error) };
   }
 
-  if (platform === "win32") {
-    return { executable: "cmd.exe", args: ["/c", "start", "", url] };
-  }
-
-  return { executable: "xdg-open", args: [url] };
-}
-
-function waitForBrowserSpawn(
-  child: ChildProcess,
-  command: string,
-  timeoutMs = BROWSER_OPEN_SETTLE_TIMEOUT_MS,
-): Promise<BrowserOpenResult> {
-  return new Promise((resolve) => {
+  return await new Promise<BrowserOpenResult>((resolve) => {
     let settled = false;
-    let timeout: ReturnType<typeof setTimeout>;
-    const settle = (result: BrowserOpenResult): void => {
+    let deadline: NodeJS.Timeout;
+
+    const cleanup = (): void => {
+      clearTimeout(deadline);
+      child.removeAllListeners("spawn");
+      child.removeAllListeners("error");
+    };
+    const settleOpened = (): void => {
       if (settled) return;
       settled = true;
-      clearTimeout(timeout);
-      child.removeAllListeners("error");
-      child.removeAllListeners("spawn");
-      if (result.opened) {
-        child.unref();
-      }
-      resolve(result);
+      cleanup();
+      child.unref();
+      resolve({ command, opened: true });
     };
-    timeout = setTimeout(() => {
-      settle({ command, opened: true });
-    }, timeoutMs);
+    const settleError = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve({ command, opened: false, reason: error.message });
+    };
 
-    child.once("spawn", () => {
-      settle({ command, opened: true });
-    });
-    child.once("error", (error) => {
-      settle({
-        command,
-        opened: false,
-        reason: error.message,
-      });
-    });
+    child.once("spawn", settleOpened);
+    child.once("error", settleError);
+    deadline = setTimeout(settleOpened, options.timeoutMs ?? DEFAULT_SETTLE_TIMEOUT_MS);
   });
 }

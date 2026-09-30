@@ -14,6 +14,8 @@
 
 模型适配器的 51 份源码已按独立作者合同替换，26 份测试与支撑文件接入永久回归。旧门为 66 通过和九项预登记差异，最终候选及主仓 source/dist 各 75/75。源码切换后的完整离线回归 3800 项通过；后来新增的两个模型组另行通过，没有冒充一次含新增组的全量运行。25 份新测试表达采用 MIT，功能性类型配置只记性质；其余 SDK、公开类型依赖和共享协议维持原许可。首次失败、网络边界事件、修订输入和最终摘要见[模型验收](../docs/knorvia-model-adapter-runtime-acceptance.md)与[来源依据](evidence/model-adapter-runtime.md)。文件系统及其他模块仍在替换中，以上不表示整个应用已独立。
 
+认证适配器的五份源码已按先行合同独立替换。旧版 source/dist、最终候选及主仓 source/dist 各 30/30；38 份永久测试及支撑文件通过两个顶层组接入回归。六份保留公开声明继续采用 Apache-2.0，标准许可文本和功能配置单列性质；候选首败与接入漏拷贝夹具的失败均保留。详见[认证验收](../docs/knorvia-auth-adapter-runtime-acceptance.md)与[来源依据](evidence/auth-adapter-runtime.md)。这次仅收口已验收部分，文件系统、日志和设备仍在仓外，不算已完成替换。
+
 功能配置和标准许可正文可使用 `reviewed-retained` 记录“已核验性质、保留声明”。它必须填写 `NOASSERTION`，仅表示这次复核不新增许可判断，不能撤销文件中已有的有效声明，也不代表独立实现。上游路径、摘要和分类照常保留；`summary.reviewedNatures` 是与来源分类重叠的独立统计，不能相加当成总文件数。首批宿主配置依据见[性质复核记录](evidence/node-repl-host-retained.md)。
 
 当前已验证范围见[迁移进展](../docs/knorvia-independence-progress-20260927.md)。

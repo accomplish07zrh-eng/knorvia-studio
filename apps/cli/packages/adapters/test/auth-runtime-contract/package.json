@@ -1,0 +1,6 @@
+{
+  "name": "knorvia-auth-adapter-independent-tests",
+  "private": true,
+  "license": "(MIT AND Apache-2.0)",
+  "type": "module"
+}

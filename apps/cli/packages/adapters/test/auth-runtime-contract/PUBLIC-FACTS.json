@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "approvedInputs": {
+    "authorPackageManifestSha256": "d314c3df399aad0d335b08d61cf8d278fbe937e50d262ce465a3fdd09cf2aa4a",
+    "addendumManifestSha256": "d1d3182394d887cf74be36425ab65f0bb1d853b8710c3d6a412d683937ff4082"
+  },
+  "browser": {
+    "commands": { "darwin": "open", "win32": "cmd.exe", "other": "xdg-open" }
+  },
+  "cipher": {
+    "prefix": "enc:v1:",
+    "fallbackPrefix": "knorvia-studio-credential-fallback",
+    "errors": {
+      "format": "Credential decrypt failed: invalid ciphertext format",
+      "ivLength": "Credential decrypt failed: invalid IV length",
+      "tagLength": "Credential decrypt failed: invalid auth tag length",
+      "authentication": "Credential decrypt failed: key mismatch or corrupted ciphertext"
+    }
+  },
+  "callback": {
+    "contentType": "text/plain; charset=utf-8",
+    "successBody": "Authorization successful! You may close this window and return to the CLI.",
+    "failureBody": "Authorization failed. You may close this window and return to the CLI.",
+    "missingCode": "OAuth callback is missing an authorization code.",
+    "deniedCode": "MCP_OAUTH_CALLBACK_DENIED",
+    "deniedMessagePrefix": "OAuth authorization was rejected by the authorization server: "
+  },
+  "store": {
+    "emptyKey": "Credential key must not be empty",
+    "emptyValue": "Credential value must not be empty",
+    "suffix": [".knorvia-studio", "v2", "credentials.json"]
+  }
+}

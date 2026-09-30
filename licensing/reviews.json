@@ -34178,6 +34178,560 @@
         "docs/knorvia-model-adapter-runtime-acceptance.md",
         "licensing/evidence/model-adapter-runtime.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/browser.ts",
+      "normalizedSha256": "a5c29334d5f7d343544db0f420e335ad8ae0b222a10296dcc46c10683c464b16",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently authored from frozen public interface, declaration and behavioral contracts. The exact candidate v2 source passed the separately authored 30-case source and dist suites after both frozen old targets passed. Root repaired only the OS platform port selection based on a bounded behavioral finding. Public-fixture exposure and limited role separation are disclosed; this is not a whole-thread clean-room or whole-application license claim.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/credential-cipher.ts",
+      "normalizedSha256": "0e9a24a7496a6aada8e0ec778e7b575650ab19097f5e7d4d32d150cc793759b3",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently authored from frozen public interface, declaration and behavioral contracts. The exact candidate v2 source passed the separately authored 30-case source and dist suites after both frozen old targets passed. Root repaired only the OS platform port selection based on a bounded behavioral finding. Public-fixture exposure and limited role separation are disclosed; this is not a whole-thread clean-room or whole-application license claim.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/index.ts",
+      "normalizedSha256": "1ab86ace683d64ffe79a5eca23e357a2c1be0d793e5085ddd784af70ce2fb811",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently authored from frozen public interface, declaration and behavioral contracts. The exact candidate v2 source passed the separately authored 30-case source and dist suites after both frozen old targets passed. Root repaired only the OS platform port selection based on a bounded behavioral finding. Public-fixture exposure and limited role separation are disclosed; this is not a whole-thread clean-room or whole-application license claim.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/localhost-callback.ts",
+      "normalizedSha256": "47a6f819b0ce93ab4b63b3c93b13e9a3ca0862bf8eb21021b15da24eacb7cb75",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently authored from frozen public interface, declaration and behavioral contracts. The exact candidate v2 source passed the separately authored 30-case source and dist suites after both frozen old targets passed. Root repaired only the OS platform port selection based on a bounded behavioral finding. Public-fixture exposure and limited role separation are disclosed; this is not a whole-thread clean-room or whole-application license claim.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/auth/shared-credentials.ts",
+      "normalizedSha256": "c4259e2efb9405446ac4493bce07cff5cb0bb3fd925e87c06a05a0490e14f13a",
+      "decision": "independent-replacement",
+      "license": "MIT",
+      "basis": "Independently authored from frozen public interface, declaration and behavioral contracts. The exact candidate v2 source passed the separately authored 30-case source and dist suites after both frozen old targets passed. Root repaired only the OS platform port selection based on a bounded behavioral finding. Public-fixture exposure and limited role separation are disclosed; this is not a whole-thread clean-room or whole-application license claim.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract.test.ts",
+      "normalizedSha256": "e43e21428a98c3b38813407dbc722eb02fab9a14a087f3df3a276a04c7e359b0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/CASE-MAP.json",
+      "normalizedSha256": "7bd6d53c86ce06422f86edd93a77ab7a7cd22ac96fe490ae0af04e61a2d7cbad",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/LICENSE",
+      "normalizedSha256": "b29a14401d04a2b56127dd940ed3e37428c449b2ff7caaf55be288ac2b52fc6c",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "standard-license-text",
+      "basis": "Reviewed only for retained nature: standard MIT license text, retaining its actual grant and attribution. NOASSERTION adds no new license conclusion and does not revoke existing declarations; this is not independent implementation.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/PUBLIC-FACTS.json",
+      "normalizedSha256": "415d4b153b467e5468804c2d97ded5b1411686d1e458aaef5ec6641bcf81b869",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/README.md",
+      "normalizedSha256": "548249d471d3dceee68ba8ee4c06e8c48e5067a13586115a5124c12fe818df3f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/build-target.mjs",
+      "normalizedSha256": "ecea2ce7b7c72e0ef98292f15fac2db74eb46307e6179fe6cf38d9c39310a42f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/check-api.mjs",
+      "normalizedSha256": "621176c1f13cd48a4172ecdda31da81adc5ed5bc614b575757c9912c7cc67602",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/checked-child.mjs",
+      "normalizedSha256": "de3e8be95c1b28718c804cbddf06b02f4f4c363a4af641072db828ceb22426b9",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/fake-http.mjs",
+      "normalizedSha256": "42c9df531d9dbac52b9c955e06b17fe5aba1f9a8c537f1a4d50a5773c7282fc8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/fake-os.mjs",
+      "normalizedSha256": "8cce64340c252b32a9b454b09cba058d5e242cd17973819e495e7b9ca226be70",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/owned-env.mjs",
+      "normalizedSha256": "7eaff5e52436b4e7204c61497070e682adb0e2f9d23f7e4c337042b7476c2c8f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/seam-controls.mjs",
+      "normalizedSha256": "f56862c8e4c3494e3f0c0cc22fcb9ce47a77ad4b137fcc34af8d7d22deb33a0a",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/seam-state.mjs",
+      "normalizedSha256": "19fd09b98f2307372744a3a065a846eb973a63c185cf1d86b5d703c110280e00",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/shared-persistence-port.mjs",
+      "normalizedSha256": "967298ae9ce66131c2800f09b468fba681af34096a890ecd178b51e2f154f92b",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/store-worker.mjs",
+      "normalizedSha256": "7291b8a25e02827036501b1b5ba255216a883bba173566b6c6d03839548c4e3e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/tap-summary.mjs",
+      "normalizedSha256": "cd51217278416af1143ee65fde59167a39c5563db49618b3436923d1520b9dda",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/harness/test-context.mjs",
+      "normalizedSha256": "8860b3e336b4e12b8aa3b89d10bba3b23637452773b40ac52ebd4292e1658ba3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/package.json",
+      "normalizedSha256": "78bb72724f1d9de95bf6ddd48deac7fd3514967a16fef12ca7117a2d78f2061f",
+      "decision": "reviewed-retained",
+      "license": "NOASSERTION",
+      "nature": "functional-configuration",
+      "basis": "Reviewed only for retained nature: test package manifest defining module mode, privacy and the respective existing file licenses. NOASSERTION adds no new license conclusion and does not revoke existing declarations; this is not independent implementation.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/retained-contract/auth/browser.d.ts",
+      "normalizedSha256": "1e7e62e7ea51a9a69b7b4ec6fb4cc4d760399771995010606d4cff81310c6aea",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Retained public compatibility declaration from the pre-existing Apache-2.0 contract inputs, used only as a strict signature reference. Original frozen declaration hashes and sources are preserved in the auth v3 manifest; the integration adds an accurate retained-license header without changing signatures. This is not independently authored implementation or a new license grant.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/retained-contract/auth/credential-cipher.d.ts",
+      "normalizedSha256": "eb3b8b3dea83ef0055b8ecbce8f55615943289f236f8717d90b41f24819a4b6b",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Retained public compatibility declaration from the pre-existing Apache-2.0 contract inputs, used only as a strict signature reference. Original frozen declaration hashes and sources are preserved in the auth v3 manifest; the integration adds an accurate retained-license header without changing signatures. This is not independently authored implementation or a new license grant.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/retained-contract/auth/index.d.ts",
+      "normalizedSha256": "e85c338b939adf4e4ef0761aa93a934f13a368d510702fa1e25b9f8043de7b86",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Retained public compatibility declaration from the pre-existing Apache-2.0 contract inputs, used only as a strict signature reference. Original frozen declaration hashes and sources are preserved in the auth v3 manifest; the integration adds an accurate retained-license header without changing signatures. This is not independently authored implementation or a new license grant.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/retained-contract/auth/localhost-callback.d.ts",
+      "normalizedSha256": "7b271d81875fb3c43fbef1705004d62fbd2d55aedd02f0a4dfa02a9338aeae83",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Retained public compatibility declaration from the pre-existing Apache-2.0 contract inputs, used only as a strict signature reference. Original frozen declaration hashes and sources are preserved in the auth v3 manifest; the integration adds an accurate retained-license header without changing signatures. This is not independently authored implementation or a new license grant.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/retained-contract/auth/shared-credentials.d.ts",
+      "normalizedSha256": "9e7f811124742d2022431e5489a40eaac2f34e28bc8f55b7bacd81b139f6f56d",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Retained public compatibility declaration from the pre-existing Apache-2.0 contract inputs, used only as a strict signature reference. Original frozen declaration hashes and sources are preserved in the auth v3 manifest; the integration adds an accurate retained-license header without changing signatures. This is not independently authored implementation or a new license grant.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/retained-contract/dependencies.d.ts",
+      "normalizedSha256": "f2bfad362df30455caa55bf2905bf26c0fbe486a236b29e4f7901cfb9e9a5dad",
+      "decision": "third-party",
+      "license": "Apache-2.0",
+      "basis": "Retained public compatibility declaration from the pre-existing Apache-2.0 contract inputs, used only as a strict signature reference. Original frozen declaration hashes and sources are preserved in the auth v3 manifest; the integration adds an accurate retained-license header without changing signatures. This is not independently authored implementation or a new license grant.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/run-group.mjs",
+      "normalizedSha256": "179bc170f5ad9f5ef65732ef58b70b20113ae7f8d5049d9f48a9d5cc4bc65abc",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/api-probe.ts",
+      "normalizedSha256": "e8fdb214645993855683ecd67bd8866220aa5cd226c69037324acf44af766999",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/browser.test.mjs",
+      "normalizedSha256": "1b2f2d405e9296d4a68157030430dfc527cfc673c60f44defa3bd6ca3bf892f2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/callback.test.mjs",
+      "normalizedSha256": "0d3dbb19d3d4a4100736a2954982ae95818a8564c803d45cd017779403f72046",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/cipher.test.mjs",
+      "normalizedSha256": "171068be551b5a269ae84a4ec5ec1516cbbd0db98112d14fbdb1897924d593e8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/exports.test.mjs",
+      "normalizedSha256": "810a39936fafeb3013a2eaeb0d8a11559b06cad7c9b1915195132613ab5ed8d8",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-basic.test.mjs",
+      "normalizedSha256": "3f1eab7a373bd755602c78dc367cf6722c6fcc39aa0229972c98a4503a8c863e",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-compat.test.mjs",
+      "normalizedSha256": "9c18a8fb9a906d442c39f2e147acc37482df775193689ee5a0af142982b8bdf2",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-concurrency.test.mjs",
+      "normalizedSha256": "3b457a71340f7c4df056848cb9b7e958f57f7807a942e4c2ab77e0252697390f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-conditional.test.mjs",
+      "normalizedSha256": "7b4c345cd41957c7e232cde8646f31bc7892bcc8caf67a7f64286e94723717da",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-errors.test.mjs",
+      "normalizedSha256": "d3ad729962238cb69ab88f015635ef0c28eef0e49eefd5ec85b9c95406eb22ca",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-listeners.test.mjs",
+      "normalizedSha256": "28208a93b766bee06c7b3ef026ac6226e0a28571dd4416f367046e1737f081fa",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-path.test.mjs",
+      "normalizedSha256": "5a87c3c25a59a03d550a31dae3ce27acd31fc2f343dc75e679686a8a1f5e67de",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/auth-runtime-contract/tests/store-sync.test.mjs",
+      "normalizedSha256": "8764d00fcd48ecc68918aba039697af911cebf86eaf1835f7475a1d12fc02dba",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-auth-adapter-runtime-acceptance.md",
+      "normalizedSha256": "6ea0737e80522f18e952fa49e80706fab290a9241d8a6380060e7deff6827a55",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "licensing/evidence/auth-adapter-runtime.md",
+      "normalizedSha256": "78dd4ceb222ef9b60ae96d71a3e5b70a465bc60f5698b489bd60f8c8f911d398",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-auth-adapter-runtime.md",
+      "normalizedSha256": "8713c2d90b81dd67a16bfe1ffedb9401774445bd7c4db0535e6acf83aa2c9a79",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "evidence": [
+        "specs/knorvia-auth-adapter-runtime.md",
+        "docs/knorvia-auth-adapter-runtime-acceptance.md",
+        "licensing/evidence/auth-adapter-runtime.md"
+      ]
     }
   ]
 }

@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-// Independent reimplementation; review pending.
+// SPDX-License-Identifier: Apache-2.0
+// Retained public compatibility declaration.
 
 export * from "./browser.js";
 export * from "./credential-cipher.js";
