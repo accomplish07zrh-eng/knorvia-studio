@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "state": "Local source integration and corrected compatibility checks complete; exact final-commit CLI/Web builds and new pushed-head CI are reported externally after commit",
+  "state": "Stopped recoverable WIP at user request for parent cloud takeover; final checkpoint format/pre-push, exact final-SHA builds and CI are not accepted",
   "inputSha": "43f0abada1946266108df2bf6b93a1c525a0c6ef",
   "branch": "recovery/independent-logging-20260930-0456",
   "draftPr": 7,
-  "sourceHeadBeforeEvidence": "3f5a65153355c8b539911e5cac3e3bdb7ed76f53",
+  "sourceHeadBeforeEvidence": "4478776749ce52dc7f16ef0a5f522155fc5a83dd",
   "historicalEvidence": "licensing/evidence/pending-slice-integration-20260930.json",
   "execution": {
     "mode": "Standard continuation requested by parent; no new workers or task-tier toggle attempted",
@@ -12,7 +12,8 @@
     "nodeArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
     "pnpm": "10.33.2",
     "python": "3.12.14 local; CI independently selects 3.13",
-    "installation": "Frozen dependencies with --ignore-scripts, matching the Linux offline workflow. No security or sandbox modification."
+    "installation": "Frozen dependencies with --ignore-scripts, matching the Linux offline workflow. No security or sandbox modification.",
+    "currentOwnership": "All peer tracks stopped. User now requests parent Xiao Tian cloud takeover; this sole Codex integrator stops after saving/pushing the checkpoint. No new worker or implementation batch."
   },
   "integration": {
     "priorFourteenCommits": "Already present at input SHA; none replayed",
@@ -114,13 +115,59 @@
         ],
         "scope": "Actual old emitted public declaration AST and rebuilt current declaration; comments/maps excluded from semantic comparison"
       }
-    }
+    },
+    "b4": [
+      {
+        "original": "f61d27165033b6d10dc6167fc8e8578264a3cfc4",
+        "integrated": "dcb2e9ad968284caba9f578cbade631fd560b4d9"
+      },
+      {
+        "original": "7714040a07a137e58570de2be19eada1ffa5e5e4",
+        "integrated": "4cb569faa4f3aa516fe029ffccf3ff453bab739a"
+      },
+      {
+        "original": "e1be0d5767d27475fc64491767f778cb8518ef19",
+        "integrated": "4ca3f3a092b50ce4ad65ff89008848ce74658276"
+      }
+    ],
+    "sourceDocuments": [
+      {
+        "original": "281dc094299bc3fdc80cb862d2cc3be3554b8c20",
+        "integrated": "0279504e43529d6a0b4ecf77aae752eab3013a4f",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "8bea087a99b38ceeb747ef56d3f8828590ffedb8",
+        "integrated": "5d3bbb6f7c8909b84e5760b11860a86f89bed8af",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+        "integrated": "44c8598f6ed67bb2bf51ccea812c0b6433e1e3d9",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "0708803725867528624927899fc75d1f4ab529ba",
+        "integrated": "b5c45e3c17b86fc57ba658636992c0e03dc397b2",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "1fa73c1a36f96b94f76404de184bdf7a1a048f99",
+        "integrated": "45b93605d1f1ad302643b895ece1e3b712675344",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      },
+      {
+        "original": "a5f6e83e31270fba598e0417c347f45c99ac5d5e",
+        "integrated": "4478776749ce52dc7f16ef0a5f522155fc5a83dd",
+        "scope": "Documentation only; original source packet and receipt bytes preserved; no rights decision"
+      }
+    ]
   },
   "reviewBindings": [
     {
       "path": "scripts/provenance/model.mjs",
       "previous": "5fe4ab6da8d8c337882f64041a0e2b3d6b35a7fbfcc6fcbef81d70cfe3a9e05e",
-      "current": "8f28f7d4821557a99323ff131078647e5fbf5ce763bc1bea85f9fae099d888f3",
+      "current": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933",
       "decisionUnchanged": "original",
       "licenseUnchanged": "MIT"
     },
@@ -211,29 +258,56 @@
       "sha256": "422ccdef060ac72bb445bb8bb7a349a79aea513fd4c79417f29987885e5fc5f7",
       "bytes": 9879,
       "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/store/zcodeSessionStoreSelectors.ts",
+      "currentPath": "packages/ui/src/store/sessionStoreSelectors.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/store/zcodeSessionStoreSelectors.ts",
+      "blob": "15174d626448933a48457738812f002bf1fc5e61",
+      "sha256": "5ef6ad3155cd13a9bdc92f398cdba91369f9199325c6abc2fa4ea4ca5d0b892c",
+      "bytes": 10648,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/store/zcodeSessionStoreNavigation.ts",
+      "currentPath": "packages/ui/src/store/sessionStoreNavigation.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/store/zcodeSessionStoreNavigation.ts",
+      "blob": "55ef37081c653bd6dd4b5390507546076ec2dbb7",
+      "sha256": "7640c7012383834653f08a64a075732c586c29c8970fb4211d4973926606b33a",
+      "bytes": 2514,
+      "baselineAndReceiptMatch": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/store/zcodeSessionStoreTypes.ts",
+      "currentPath": "packages/ui/src/store/sessionStoreTypes.ts",
+      "url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/packages/ui/src/store/zcodeSessionStoreTypes.ts",
+      "blob": "e17bab9f4bacc7d91573119068a962b9591ca900",
+      "sha256": "e1621614895c4e91fd337c3928e5a2bed96c6c39dab9ab6ce9afcf495c1269f1",
+      "bytes": 19373,
+      "baselineAndReceiptMatch": true
     }
   ],
   "validation": {
     "auditLineage": {
-      "passed": 46,
+      "passed": 49,
       "failed": 0,
       "command": "node --experimental-test-module-mocks --test scripts/provenance/ui-alias-lineage.test.mjs scripts/provenance/dependency-history-qa-regressions.test.mjs scripts/provenance/dependency-platform-qa-regressions.test.mjs scripts/provenance/retained-npm-notices.test.mjs scripts/third-party-platform.test.mjs",
-      "tests": 46,
+      "tests": 49,
       "skipped": 0,
       "cancelled": 0,
-      "durationMs": 331.144559
+      "durationMs": 797.040582
     },
     "combinedSource": {
-      "tests": 1089,
-      "passed": 1089,
+      "tests": 1143,
+      "passed": 1143,
       "failed": 0,
       "skipped": 0,
       "cancelled": 0,
-      "durationMs": 9400.762766
+      "durationMs": 10077.080144
     },
     "combinedEmitted": {
-      "tests": 1089,
-      "passed": 1089,
+      "tests": 1143,
+      "passed": 1143,
       "failed": 0,
       "skipped": 0,
       "groups": {
@@ -251,7 +325,15 @@
           "failed": 0,
           "skipped": 0,
           "cancelled": 0,
-          "durationMs": 1554.650648
+          "durationMs": 1935.082182
+        },
+        "b4": {
+          "tests": 54,
+          "passed": 54,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "durationMs": 1006.925842
         }
       }
     },
@@ -277,7 +359,10 @@
       "packages/ui/test/ui-b3-session-projection-contracts-20260930.test.ts",
       "packages/ui/test/ui-b3-projection-consumers-20260930.test.ts",
       "packages/ui/test/ui-b3-projection-hook-20260930.test.ts",
-      "packages/services/test/automation-monthly-year-normalization-20260930.test.ts"
+      "packages/services/test/automation-monthly-year-normalization-20260930.test.ts",
+      "packages/ui/test/ui-b4-store-selectors-20260930.test.ts",
+      "packages/ui/test/ui-b4-store-navigation-20260930.test.ts",
+      "packages/ui/test/ui-b4-store-consumers-20260930.test.ts"
     ],
     "sourceHarness": {
       "TSX_TSCONFIG_PATH": "packages/ui/tsconfig.json",
@@ -288,24 +373,25 @@
       "ui": "B1/B2/citation-scale target directories select packages/ui/dist/lib with extension js. A temporary tsconfig maps only @/lib/fileCitation.js to its actual emitted JS; remaining aliases retain unchanged existing source adapters and draft mocks.",
       "services": "KNORVIA_AUTOMATION_CONTRACT_ROOT and KNORVIA_CLAUDE_LEAF_ROOT select an exact byte copy of the rebuilt services/dist in a disposable ESM package with #src/* mapped to ./dist/*. This prevents emitted callers silently loading source helpers. The disposable dist was replaced after the corrected root build; the new year-regression target also selects this exact emitted package.",
       "comparison": "575 observations per source/emitted target, including five canonical declaration ASTs; retained dependencies are shared and do not establish whole-product equivalence.",
-      "b3": "Four test/fixture copies redirect their UI imports and hook-service mock to actual UI dist. Alias points to UI dist; a resolver rejects any packages/ui/src load. Shared public dependencies retain their existing source exports."
+      "b3": "Four test/fixture copies redirect their UI imports and hook-service mock to actual UI dist. Alias points to UI dist; a resolver rejects any packages/ui/src load. Shared public dependencies retain their existing source exports.",
+      "b4": "Four test/fixture copies target actual UI dist/store and dist/lib, including the real Zustand store; alias points to dist and a resolver rejects any UI/src import. Shared dependencies retain existing public exports. Initial temporary package lacked its workspace @knorvia/shared link; linked to UI package node_modules without a product change, then 54/54 passed."
     },
     "aggregate": {
       "command": "pnpm test:studio",
-      "tests": 5021,
-      "passed": 5014,
+      "tests": 5078,
+      "passed": 5071,
       "failed": 0,
       "skipped": 7,
       "cancelled": 0,
-      "durationMs": 274688.358155,
+      "durationMs": 250867.668366,
       "scope": "Exact final production sources and runner registration, synthetic offline data. Optional Claude comparison enabled using the recorded baseline package.",
       "skipScope": "Seven platform-specific cases on Linux; no optional comparison skip in this local aggregate"
     },
-    "rootTypecheck": "pass after B3 and calendar-correction integration; 5422 matching i18n keys",
+    "rootTypecheck": "pass after B4 source integration; 5422 matching i18n keys, including actual store and desktop host/main types",
     "cliTypecheck": "pass after calendar-correction integration",
-    "rootLint": "pass after B3 and calendar-correction integration; zero warnings/errors",
+    "rootLint": "pass after B4 and provenance alias extension; zero warnings/errors",
     "cliLint": "pass after calendar-correction integration; zero warnings/errors",
-    "architecture": "full pass after B3 and calendar-correction integration; zero violations",
+    "architecture": "full pass after B4 and provenance alias extension; zero violations",
     "cliBuild": {
       "successful": 17,
       "total": 17,
@@ -315,16 +401,16 @@
         "Existing dynamic import and no-output task warnings"
       ]
     },
-    "webBuild": "pass after B3 source integration; intermediate build environment did not bind the actual full HEAD. Post-commit Web rebuild uses git rev-parse HEAD and is reported externally with exact input/output hashes.",
-    "formatAndPrePush": "Final checks run after evidence formatting and inventory regeneration; reported externally with final SHA",
-    "provenance": "Freshness regenerated with zero stale/conflicting/missing review problems; final --check follows record formatting",
+    "webBuild": "pass after B4 at exact source HEAD 4478776749ce52dc7f16ef0a5f522155fc5a83dd; final clean closure-commit rebuild reported externally. Ten UI source contents are exact byte matches; whole-map hashes have transformed-asset placeholder variability, separately recorded.",
+    "formatAndPrePush": "Passed at earlier 8cd25ae milestone; not rerun after B4/documents/alias extension. Pending for the final stop-checkpoint SHA.",
+    "provenance": "Refreshed for safe WIP handoff; final freshness check reported externally. Zero production/license decisions added.",
     "licenseIdentifiers": "pass for 1692 installed packages; seven build dependency identifier reviews",
     "strictMaterialGate": {
       "result": "expected rejection",
       "exitCode": 1,
       "unresolved": 27
     },
-    "exactShaCi": "Pending at record commit; verify final PR head/merge tree and Linux/Windows checks after push. Prior #193 is not final-head evidence.",
+    "exactShaCi": "Not checked/accepted for final stop checkpoint. Automatic workflow may start after push. Old #193 and #194 are historical only.",
     "previousInputShaCi": {
       "run": 194,
       "id": 36723882237,
@@ -341,16 +427,16 @@
     "pendingFileDecisions": 3567,
     "classificationCounts": {
       "independent-replacement": 438,
-      "upstream-modified": 2065,
+      "upstream-modified": 2068,
       "upstream-unchanged": 968,
-      "unreviewed": 534,
+      "unreviewed": 531,
       "original": 1
     },
     "acceptedPercent": 10.9586,
     "metric": "File decision coverage only; not weighted implementation progress"
   },
   "sourceAndArtifactBindings": {
-    "sourceHead": "3f5a65153355c8b539911e5cac3e3bdb7ed76f53",
+    "sourceHead": "4478776749ce52dc7f16ef0a5f522155fc5a83dd",
     "sources": [
       {
         "path": "packages/services/src/session/automationAdmissionConstraints.ts",
@@ -891,6 +977,60 @@
             "bytes": 617
           }
         ]
+      },
+      {
+        "path": "packages/ui/src/store/sessionStoreNavigation.ts",
+        "sha256": "8d5d3e6f31c4c3a43308f911c118541004fe9dec02c2f0cb41c9cfbb9140a141",
+        "bytes": 2284,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.js",
+            "sha256": "1fe4c93e2ebe64251772cd385e1522ac77200d0b2549558c0bfea6c584ecd36e",
+            "bytes": 1608
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.js.map",
+            "sha256": "b86897e1ec9184f3a2c0337f76a0ea40c07caf138151d668336f4ca6b98b37d7",
+            "bytes": 1429
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.d.ts",
+            "sha256": "92e156577bb071688ecc803336b5869a6d65ef3038d196441ab6858ce45f117a",
+            "bytes": 1105
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreNavigation.d.ts.map",
+            "sha256": "09fdda1c5ecefa014a0f4589777ea9f12b9a519c6a14633177110e37f1de2a3d",
+            "bytes": 693
+          }
+        ]
+      },
+      {
+        "path": "packages/ui/src/store/sessionStoreSelectors.ts",
+        "sha256": "83f2119627af620b497ddf8e1c3f2880ba74df2d9c7edd2efdc5c84d24574e70",
+        "bytes": 11015,
+        "outputs": [
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.js",
+            "sha256": "ada6f4c9c825744b096d7ba624dcaa49319d92a3ae87a36e79002d0f206b771c",
+            "bytes": 8838
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.js.map",
+            "sha256": "dafe971d0e3c1329975d030cffa54a933577af835933d2a5bffa84eea138c8c6",
+            "bytes": 7034
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.d.ts",
+            "sha256": "72ee1735625f423fd3e17452fa0f654dd77c36371d7b3744e979e588acf00c9b",
+            "bytes": 2357
+          },
+          {
+            "path": "packages/ui/dist/store/sessionStoreSelectors.d.ts.map",
+            "sha256": "1936f567fc9b1db286b22477c33794e4c8c03aa9ef538f503ae2605f5cff00d6",
+            "bytes": 1671
+          }
+        ]
       }
     ],
     "cliMap": {
@@ -1014,8 +1154,8 @@
         "sha256": "7c312b878462928f4a16f82bab254c6eba0ce4a4e6a199eb35eb743c57600c15",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/index-CRlRVk8g.js.map",
-            "mapSha256": "09f8d3d8200c4c721d59791067145857bab9278659f017b39c63541cf26ce158",
+            "path": "packages/web/dist/assets/index-Eeh6NpF0.js.map",
+            "mapSha256": "cd61b81b7133a3aaf600fa6ff543f9a4248598ced6a80c5c513d4e508c4a94b2",
             "sourceIndex": 60,
             "exactSourceMapMatch": true
           }
@@ -1026,8 +1166,8 @@
         "sha256": "86a188baf769403f5e2497fb5a1a6865292bc75966105e92fe8784f119dd96b9",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/useWorkspaceServices-c1OPQF_q.js.map",
-            "mapSha256": "c4d7c9dbaf8e5c7282f0af2102175ce130d7c7a2f1464dbdd6bdab6b893ee177",
+            "path": "packages/web/dist/assets/useWorkspaceServices-DO5JqBxh.js.map",
+            "mapSha256": "92bb6dbd55bff2a17cff66f5659e2b77ee098bbd1c5d9fa172229d02b7bfb1be",
             "sourceIndex": 96,
             "exactSourceMapMatch": true
           }
@@ -1038,8 +1178,8 @@
         "sha256": "b5e41d9ec101c7b8438645347b5df1432f1c5b5d7f3046961583fe9f48585f0f",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/index-CRlRVk8g.js.map",
-            "mapSha256": "09f8d3d8200c4c721d59791067145857bab9278659f017b39c63541cf26ce158",
+            "path": "packages/web/dist/assets/index-Eeh6NpF0.js.map",
+            "mapSha256": "cd61b81b7133a3aaf600fa6ff543f9a4248598ced6a80c5c513d4e508c4a94b2",
             "sourceIndex": 431,
             "exactSourceMapMatch": true
           }
@@ -1050,8 +1190,8 @@
         "sha256": "a3d4c69e11010def52fe9fd712c9353f103d2a2fbbdc148973c612e607a25dd8",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/kernelProbeView-Dp04y9zb.js.map",
-            "mapSha256": "128828ae099e21d9dede1f8557fc2c5886108953112dc0ee640a80ef88dc700b",
+            "path": "packages/web/dist/assets/kernelProbeView-D30eSeOc.js.map",
+            "mapSha256": "e0fa366624010174177d53ba6b7c5d63b6c9d7b2c6461b5bee5000099a80583d",
             "sourceIndex": 61,
             "exactSourceMapMatch": true
           }
@@ -1062,8 +1202,8 @@
         "sha256": "449e6cd6c25b528a83606b855dce545b96a0a120a7d10e9099c06458d54a1812",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/useStudioRuntime-wDHV9DXP.js.map",
-            "mapSha256": "2b0a479177d9a58cf3fea54effb999aa44e4cda590e859481e9364092ccafe88",
+            "path": "packages/web/dist/assets/useStudioRuntime-DEZVPP_U.js.map",
+            "mapSha256": "29a793e6ba1bd9ddb245bde6056577d9773447b608fbae5f1301462ac68cd6d1",
             "sourceIndex": 450,
             "exactSourceMapMatch": true
           }
@@ -1074,8 +1214,8 @@
         "sha256": "be37cd5c69977aa0e72d5b4fc9b7b4a2cc4db9e867aff478c119237967ca3b97",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/useStudioRuntime-wDHV9DXP.js.map",
-            "mapSha256": "2b0a479177d9a58cf3fea54effb999aa44e4cda590e859481e9364092ccafe88",
+            "path": "packages/web/dist/assets/useStudioRuntime-DEZVPP_U.js.map",
+            "mapSha256": "29a793e6ba1bd9ddb245bde6056577d9773447b608fbae5f1301462ac68cd6d1",
             "sourceIndex": 528,
             "exactSourceMapMatch": true
           }
@@ -1086,9 +1226,45 @@
         "sha256": "e771fba9b54e9ba84214cb179c325deaad973cfd4dcee1dc648cf11fa4106367",
         "bindings": [
           {
-            "path": "packages/web/dist/assets/index-CRlRVk8g.js.map",
-            "mapSha256": "09f8d3d8200c4c721d59791067145857bab9278659f017b39c63541cf26ce158",
+            "path": "packages/web/dist/assets/index-Eeh6NpF0.js.map",
+            "mapSha256": "cd61b81b7133a3aaf600fa6ff543f9a4248598ced6a80c5c513d4e508c4a94b2",
             "sourceIndex": 39,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/store/sessionStoreSelectors.ts",
+        "sha256": "83f2119627af620b497ddf8e1c3f2880ba74df2d9c7edd2efdc5c84d24574e70",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useWorkspaceServices-DO5JqBxh.js.map",
+            "mapSha256": "92bb6dbd55bff2a17cff66f5659e2b77ee098bbd1c5d9fa172229d02b7bfb1be",
+            "sourceIndex": 98,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/store/sessionStoreNavigation.ts",
+        "sha256": "8d5d3e6f31c4c3a43308f911c118541004fe9dec02c2f0cb41c9cfbb9140a141",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/kernelProbeView-D30eSeOc.js.map",
+            "mapSha256": "e0fa366624010174177d53ba6b7c5d63b6c9d7b2c6461b5bee5000099a80583d",
+            "sourceIndex": 57,
+            "exactSourceMapMatch": true
+          }
+        ]
+      },
+      {
+        "source": "packages/ui/src/store/sessionStoreTypes.ts",
+        "sha256": "fa22203b4ab41a5f97342a8eaf5136990b36f0236845c71a7cd2b0d88ec2454a",
+        "bindings": [
+          {
+            "path": "packages/web/dist/assets/useWorkspaceServices-DO5JqBxh.js.map",
+            "mapSha256": "92bb6dbd55bff2a17cff66f5659e2b77ee098bbd1c5d9fa172229d02b7bfb1be",
+            "sourceIndex": 97,
             "exactSourceMapMatch": true
           }
         ]
@@ -1183,11 +1359,13 @@
   "peerPackets": {
     "protocol": {
       "sha": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
-      "state": "Read completed provisional 9-file/71-fragment packet; candidate source/fragment hashes match current code. Independent semantic/contributor rights cross-review remains pending; docs not merged."
+      "state": "Source packet and independent 71-fragment technical receipt integrated without byte changes. Twenty-four limited design aspects are supported; whole-file source/MIT closure remains pending contribution and retained-expression decisions.",
+      "receipt": "a5f6e83e31270fba598e0417c347f45c99ac5d5e"
     },
     "services": {
       "sha": "0708803725867528624927899fc75d1f4ab529ba",
-      "state": "Read completed provisional 12 ancestral paths plus admission-helper/56-fragment packet. Twelve file digests still match; automationCron.ts is historical after the separately bound calendar correction. Prior fragment validation is preserved without substituting new hashes. Independent cross-review remains pending; docs not merged."
+      "state": "Source packet and independent 56-fragment technical receipt integrated without byte changes. Twelve current file digests match; calendar candidate/fragment bindings remain historical after the separate correction. Categories are technical proposals, with zero whole-file source or new MIT acceptance.",
+      "receipt": "1fa73c1a36f96b94f76404de184bdf7a1a048f99"
     },
     "uiB3": {
       "finalSha": "fe45075fad15c43de1df69b6fc41f72eeadf54a7",
@@ -1219,8 +1397,8 @@
       "localPath": "/tmp/knorvia-standard-logs/install.log"
     },
     "audit-lineage": {
-      "sha256": "06bf4a9e170496e0b8ced01f52d8a6429398d2e709921ceb9d0f5933e70fb06d",
-      "bytes": 4743,
+      "sha256": "02a4362177ccc4e80e2ad5dbdf855a1c32a985178e63d6d98d7a0cb053fa7720",
+      "bytes": 4942,
       "localPath": "/tmp/knorvia-standard-logs/audit-lineage.log"
     },
     "cli-build": {
@@ -1239,7 +1417,7 @@
       "localPath": "/tmp/knorvia-standard-logs/cli-typecheck.log"
     },
     "root-lint-final": {
-      "sha256": "50687305dc3340cef3717c8a532b0c22cf72809402fb6adffa84e311e171a8ea",
+      "sha256": "b5fbc7777fda6dec4ad1b8a27546316fdec385e7122c4b092645f9313daae886",
       "bytes": 155,
       "localPath": "/tmp/knorvia-standard-logs/root-lint-final.log"
     },
@@ -1254,8 +1432,8 @@
       "localPath": "/tmp/knorvia-standard-logs/architecture-full-final.log"
     },
     "combined-source-final": {
-      "sha256": "95ae66a4d0d99dac671c5f77bd1968a9586c1e2a6878e859044aa8ebe89e5675",
-      "bytes": 71596,
+      "sha256": "f8b6cfbb19c23c51842ae9841143afabeef129fe96f5b1488afe68445abf16d2",
+      "bytes": 76473,
       "localPath": "/tmp/knorvia-standard-logs/combined-source-final.log"
     },
     "combined-emitted-final": {
@@ -1264,13 +1442,23 @@
       "localPath": "/tmp/knorvia-standard-logs/combined-emitted-final.log"
     },
     "b3-emitted-final": {
-      "sha256": "fbd9916949ee505f7cf15599751638a2477672f82b41fa8a1bc4d16fdd22af4b",
-      "bytes": 4688,
+      "sha256": "cf795587f58869e9d191e0a3253e1dbeb7bc995d252746a42e10dc4b96d0d80c",
+      "bytes": 4682,
       "localPath": "/tmp/knorvia-standard-logs/b3-emitted-final.log"
     },
+    "b4-emitted-final": {
+      "sha256": "8b720950db1d40763891f456e5e770e5e865611ed932a52e02f2a423ba31ce8e",
+      "bytes": 4981,
+      "localPath": "/tmp/knorvia-standard-logs/b4-emitted-final.log"
+    },
+    "b4-lineage-before": {
+      "sha256": "e98cd637a653ec8cc6197a4766f0d74b80217666107c081b165ea43523e3a449",
+      "bytes": 4070,
+      "localPath": "/tmp/knorvia-standard-logs/b4-lineage-before.log"
+    },
     "aggregate-final": {
-      "sha256": "1c17671e871ef4ae76d92429a5776e09a0872521572d178078d2617eebf88fa9",
-      "bytes": 460324,
+      "sha256": "e46a7bf65639913cfdec24814dc3feca4b03f28b5a99176ea7b881be41ad75c6",
+      "bytes": 465329,
       "localPath": "/tmp/knorvia-standard-logs/aggregate-final.log"
     },
     "old-services-leaf-build": {
@@ -1279,8 +1467,8 @@
       "localPath": "/tmp/knorvia-standard-logs/old-services-leaf-build.log"
     },
     "web-build-final": {
-      "sha256": "28f19640fd734328237b4c21db0966c382b23ec15f527586f035254544f54d20",
-      "bytes": 107049,
+      "sha256": "0cfcad5ed6548ebae8243c6c9b05695a84c09200f154c3febd703c413c7bc50d",
+      "bytes": 106883,
       "localPath": "/tmp/knorvia-standard-logs/web-build-final.log"
     },
     "licenses-base": {
@@ -1307,6 +1495,11 @@
       "sha256": "9a1742fbb0e650b1b6c6fd57ce2042cf668535d5082d599f03bb340935fbc5ef",
       "bytes": 1925,
       "localPath": "/tmp/knorvia-standard-logs/calendar-red-old.log"
+    },
+    "web-map-reproducibility": {
+      "sha256": "ba02931c0d11f76b87a8b08c2dbc1d6f5d301083b9ce0cc2d615bb946c0d7b7f",
+      "bytes": 106883,
+      "localPath": "/tmp/knorvia-standard-logs/web-map-reproducibility.log"
     }
   },
   "peerPacketTechnicalBindings": [
@@ -1485,5 +1678,143 @@
     "sourceIso": "1900-01-03T00:00:00.000Z",
     "emittedIso": "1900-01-03T00:00:00.000Z",
     "status": "Historical pre-correction source/emitted difference preserved. Corrected source and emitted output now independently match the inherited value."
+  },
+  "b4RetainedTypes": {
+    "path": "packages/ui/src/store/sessionStoreTypes.ts",
+    "sha256": "fa22203b4ab41a5f97342a8eaf5136990b36f0236845c71a7cd2b0d88ec2454a",
+    "byteIdenticalToInput": true,
+    "nature": "Contains runtime constants, factories and mutable singleton; not merely declarations. Existing Apache lineage retained, no new original/independent review."
+  },
+  "webMapReproducibility": {
+    "sourceHead": "8cd25ae713003a8e89e59e68a9d158b7d9a535ac",
+    "differingMapFields": [
+      "sourcesContent"
+    ],
+    "transformedAssetChanges": [
+      {
+        "index": 832,
+        "source": "../../../ui/src/assets/provider-icons/model-provider-zai-app.png",
+        "before": "export default \"__VITE_ASSET__hO4dd8ILk$iZF7aFIOUkdg__\"",
+        "after": "export default \"__VITE_ASSET__cn7IAAGY294pWGc7MpElVg__\""
+      },
+      {
+        "index": 835,
+        "source": "../../../ui/src/assets/provider-icons/model-provider-moonshot-kimi.png",
+        "before": "export default \"__VITE_ASSET__6MQCagmCrZzS5dHPKhXWKQ__\"",
+        "after": "export default \"__VITE_ASSET__P4DPfwIRieI8P6q8r4JZRw__\""
+      }
+    ],
+    "beforeMapSha256": "141d5462796e2443896209f15d8408ce07d8939eb0e88337c044f0ed6ae4bdc1",
+    "afterMapSha256": "f5f27134c71cf36d5e8962b6a35c08a5d293c7ef0bba20639ff736532fabf42c",
+    "scope": "Repeated same-HEAD Web build; application JS content hash filename and target source-content bindings unchanged. Intermediate asset source-map placeholders differ."
+  },
+  "integratedPeerDocuments": {
+    "bindings": [
+      {
+        "original": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+        "path": "docs/knorvia-protocol-nine-file-source-review-wip-20260930.md",
+        "sha256": "25cf8a2d95ffc5bbfff46d17285308fbaa22c4d97055c9d4883ae12c2ce1290d",
+        "bytes": 16971,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "b915d34b3af09cd3ace64c27dec8a88b51c8f0ab",
+        "path": "licensing/evidence/protocol-nine-file-source-review-wip-20260930.json",
+        "sha256": "7ec34d56fbbcb29478d04c73ea99b3ff91259b73d8ff1b671e57cb29753fa507",
+        "bytes": 141520,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "0708803725867528624927899fc75d1f4ab529ba",
+        "path": "packages/services/docs/services-source-closure-review-standard-5526.md",
+        "sha256": "db1cabea22feda287fb251e2fd6639bab0733469c8a53cd6e698a99f6cb797d1",
+        "bytes": 34556,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "0708803725867528624927899fc75d1f4ab529ba",
+        "path": "packages/services/docs/services-source-closure-evidence-standard-5526.json",
+        "sha256": "55516be315f1226d08c95faf60e085b30792fc94945affd3860c33985def655d",
+        "bytes": 202046,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "1fa73c1a36f96b94f76404de184bdf7a1a048f99",
+        "path": "packages/services/docs/services-source-cross-review-receipt-protocol-20260930.md",
+        "sha256": "3131c4fd74130765c49efcf1907887cfaa0657384084c3ebfcdda696135d2ef6",
+        "bytes": 32813,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "1fa73c1a36f96b94f76404de184bdf7a1a048f99",
+        "path": "packages/services/docs/services-source-cross-review-receipt-protocol-20260930.json",
+        "sha256": "b16d715667dade4c64572c91852b377a473bce001c51d83a0f45050c68831128",
+        "bytes": 337558,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "a5f6e83e31270fba598e0417c347f45c99ac5d5e",
+        "path": "docs/knorvia-protocol-nine-file-independent-technical-receipt-20260930-services-6834.md",
+        "sha256": "604ca262d50f7d89555a93077497c9cf38c5df3353c48015060aca9b60134798",
+        "bytes": 46957,
+        "currentMatchesOriginal": true
+      },
+      {
+        "original": "a5f6e83e31270fba598e0417c347f45c99ac5d5e",
+        "path": "licensing/evidence/protocol-nine-file-independent-technical-receipt-20260930-services-6834.json",
+        "sha256": "e839c288155185eb3c0eb60aeb0bcd9fa4d6ed3b506f76177c7f4bbebc029a0b",
+        "bytes": 436648,
+        "currentMatchesOriginal": true
+      }
+    ],
+    "protocolScope": {
+      "productionFiles": 9,
+      "candidateLines": 950,
+      "fragments": 71,
+      "sevenWholeRetainedExpressionsVerified": 7,
+      "productionEdits": 0,
+      "sharedLedgerEdits": 0,
+      "newRuntimeTests": 0,
+      "newBuilds": 0,
+      "acceptedWholeFileIndependentSourceClosures": 0,
+      "newMitGrants": 0,
+      "supportedDesignAspects": 24,
+      "existingUnresolvedMaterialObligations": 27,
+      "obligationsClosed": 0
+    },
+    "servicesCounts": {
+      "ancestralPaths": 12,
+      "newHelperPaths": 1,
+      "reviewedFragments": 56,
+      "deliveredLines": 1236,
+      "bindingOccurrencesRevalidated": 200,
+      "uniqueCommitPathsRevalidated": 73,
+      "matchingBlockChecks": 90,
+      "exactUpstreamWholeFiles": 2,
+      "categories": {
+        "retain-third-party-under-existing-license": 14,
+        "inherited-product-implementation-further-replacement": 24,
+        "new-implementation-contribution-authority-pending": 17,
+        "insufficient-independent-expression-evidence": 1
+      },
+      "limitedNewMechanismProposals": 19,
+      "verifiedUserOriginalFragments": 0,
+      "acceptedIndependentProductionFiles": 0,
+      "newMITGrantsApplied": 0
+    },
+    "acceptance": "Accepts immutable documentation and anchored technical findings only; no ledger decisions, production independence or MIT grants. Services calendar input remains explicitly historical after the independently bound correction."
+  },
+  "stopCheckpoint": {
+    "reason": "User requests parent own cloud environment takeover",
+    "document": "docs/knorvia-cloud-takeover-checkpoint-20260930.md",
+    "implementationExpansionStopped": true,
+    "newWorkersCreated": 0,
+    "remainingGates": [
+      "Final stop-checkpoint full format and pre-push",
+      "Actual final-SHA CLI/Web builds and map/artifact rebindings",
+      "Exact-head Linux/Windows CI",
+      "Parent source/rights review and 27 material duties",
+      "Native UI/platform/installers/final payload"
+    ]
   }
 }

@@ -12,9 +12,18 @@ const helpers = [
   ["zcodeSessionProjection", "sessionProjection"],
 ];
 
-for (const [oldName, newName] of helpers) {
-  const oldPath = `packages/ui/src/lib/${oldName}.ts`;
-  const newPath = `packages/ui/src/lib/${newName}.ts`;
+const aliases = [
+  ...helpers.map(([oldName, newName]) => ["lib", oldName, newName]),
+  ...["Selectors", "Navigation", "Types"].map((suffix) => [
+    "store",
+    `zcodeSessionStore${suffix}`,
+    `sessionStore${suffix}`,
+  ]),
+];
+
+for (const [directory, oldName, newName] of aliases) {
+  const oldPath = `packages/ui/src/${directory}/${oldName}.ts`;
+  const newPath = `packages/ui/src/${directory}/${newName}.ts`;
   test(`verified UI lineage: ${oldName}`, () => {
     assert.equal(currentPath(oldPath), newPath);
     assert.throws(
@@ -41,6 +50,7 @@ test("unverified UI names and directories are not guessed", () => {
     "packages/ui/src/lib/zcodeUnknown.ts",
     "packages/ui/src/other/zcodeUiError.ts",
     "other/ui/src/lib/zcodeFileCitation.ts",
+    "packages/ui/src/lib/zcodeSessionStoreTypes.ts",
   ])
     assert.equal(currentPath(path), path);
 });

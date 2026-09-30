@@ -39,6 +39,15 @@ const VERIFIED_PATH_ALIASES = new Map([
   ],
   ["packages/ui/src/lib/zcodeSessionProjection.ts", "packages/ui/src/lib/sessionProjection.ts"],
   [
+    "packages/ui/src/store/zcodeSessionStoreSelectors.ts",
+    "packages/ui/src/store/sessionStoreSelectors.ts",
+  ],
+  [
+    "packages/ui/src/store/zcodeSessionStoreNavigation.ts",
+    "packages/ui/src/store/sessionStoreNavigation.ts",
+  ],
+  ["packages/ui/src/store/zcodeSessionStoreTypes.ts", "packages/ui/src/store/sessionStoreTypes.ts"],
+  [
     "apps/cli/packages/node-repl-host/.zcode-plugin/plugin.json",
     "apps/cli/packages/node-repl-host/.knorvia-plugin/plugin.json",
   ],

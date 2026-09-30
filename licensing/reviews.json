@@ -3,10 +3,10 @@
   "files": [
     {
       "path": "scripts/provenance/model.mjs",
-      "normalizedSha256": "8f28f7d4821557a99323ff131078647e5fbf5ce763bc1bea85f9fae099d888f3",
+      "normalizedSha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933",
       "decision": "original",
       "license": "MIT",
-      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes. Standard continuation reviewed the integrated changes and retained the existing tooling-only decision: exact pinned UI rename lineage, conservative mixed platform selection, committed-history notice ownership, and corresponding synthetic fixtures. Audit and lineage regressions passed 45/45. This does not clear application implementation, copied sources, dependencies or unresolved materials. B3 Standard integration adds only the seventh specifically verified upstream rename, covered by a failure-first regression; final audit/lineage run passes 46/46. Production source exposure and Apache/NOTICE obligations remain.",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes. Standard continuation reviewed the integrated changes and retained the existing tooling-only decision: exact pinned UI rename lineage, conservative mixed platform selection, committed-history notice ownership, and corresponding synthetic fixtures. Audit and lineage regressions passed 45/45. This does not clear application implementation, copied sources, dependencies or unresolved materials. B3 Standard integration adds only the seventh specifically verified upstream rename, covered by a failure-first regression; final audit/lineage run passes 46/46. Production source exposure and Apache/NOTICE obligations remain. B4 continuation adds three exact store-boundary aliases verified against fixed upstream blob/digests, without production decisions; three failure-first cases fail before mapping and the final audit/lineage selection passes 49/49. The types/factory source remains inherited and unchanged.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
         "licensing/evidence/node-repl-host-retained.md",
@@ -16,7 +16,9 @@
         "specs/knorvia-pending-slice-integration-20260930.md",
         "licensing/evidence/standard-integration-validation-20260930.json",
         "specs/knorvia-ui-b3-session-projection-20260930.md",
-        "docs/knorvia-ui-b3-wip-standard-handoff-20260930.md"
+        "docs/knorvia-ui-b3-wip-standard-handoff-20260930.md",
+        "specs/knorvia-ui-b4-session-store-20260930.md",
+        "docs/knorvia-ui-b4-session-store-handoff-20260930.md"
       ]
     },
     {
