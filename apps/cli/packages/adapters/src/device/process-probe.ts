@@ -58,6 +58,7 @@ export function createProcessProbe(options: CreateProcessProbeOptions = {}): Pro
     operation: (isExpired: () => boolean) => Promise<T>,
   ): Promise<T | undefined> {
     if (failures >= FAILURE_LIMIT) return undefined;
+    const deadlineAt = Date.now() + PROCESS_PROBE_SAMPLE_TIMEOUT_MS;
     let expired = false;
     let handle: ReturnType<typeof setTimeout> | undefined;
     const deadline = new Promise<never>((_resolve, reject) => {
@@ -68,7 +69,11 @@ export function createProcessProbe(options: CreateProcessProbeOptions = {}): Pro
       handle.unref?.();
     });
     try {
-      const value = await Promise.race([operation(() => expired), deadline]);
+      // 修复：事件循环阻塞时 timer 尚未执行；批次仍按本次绝对截止停止后续 /proc I/O。
+      const value = await Promise.race([
+        operation(() => expired || Date.now() >= deadlineAt),
+        deadline,
+      ]);
       failures = 0;
       return value;
     } catch (error) {
@@ -90,7 +95,8 @@ export function createProcessProbe(options: CreateProcessProbeOptions = {}): Pro
       failures = 0;
     },
     async sampleProcessTrees(rootPids) {
-      const requested = rootPids.filter(isSamplablePid);
+      // 修复：重复根曾被逐次 DFS，恢复入口去重以保留顺序并只遍历每棵树一次。
+      const requested = [...new Set(rootPids.filter(isSamplablePid))];
       if (!requested.length) return new Map();
       return sample(async (isExpired) => {
         if (platform === "linux") return sampleLinuxProcessTrees(procReaders(isExpired), requested);
