@@ -1,0 +1,1472 @@
+{
+  "baseline": "5277f8074c5071d3fc90b72370347ddf6d53ee51",
+  "origin": "Frozen old source before implementation; compared to old emitted dist.",
+  "observations": {
+    "workspace/build-0-0": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-1": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-2": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-3": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-4": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-5": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-6": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-7": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture/./../project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture/./../project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-8": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture:name:part",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture:name:part"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-9": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/ /fixture/project ",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/ /fixture/project "
+      },
+      "predicate": true
+    },
+    "workspace/build-0-10": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture\nproject",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture\nproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-11": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/fixture project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-12": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/%2fproject",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/%2fproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-13": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/c:/fixture/project",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/c:/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-14": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/项目/🌍",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/项目/🌍"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-15": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/\ud800",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/\ud800"
+      },
+      "predicate": true
+    },
+    "workspace/build-0-16": {
+      "identity": "remote:ssh:example.invalid:22:fixture-user:/ / ",
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/ / "
+      },
+      "predicate": true
+    },
+    "workspace/build-1-0": {
+      "identity": "remote:wsl:default:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-1": {
+      "identity": "remote:wsl:default:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-2": {
+      "identity": "remote:wsl:default:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-3": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-4": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-5": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-6": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-7": {
+      "identity": "remote:wsl:default:/fixture/./../project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/./../project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-8": {
+      "identity": "remote:wsl:default:/fixture:name:part",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture:name:part"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-9": {
+      "identity": "remote:wsl:default:/ /fixture/project ",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/ /fixture/project "
+      },
+      "predicate": true
+    },
+    "workspace/build-1-10": {
+      "identity": "remote:wsl:default:/fixture\nproject",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture\nproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-11": {
+      "identity": "remote:wsl:default:/fixture project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-12": {
+      "identity": "remote:wsl:default:/%2fproject",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/%2fproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-13": {
+      "identity": "remote:wsl:default:/c:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/c:/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-14": {
+      "identity": "remote:wsl:default:/项目/🌍",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/项目/🌍"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-15": {
+      "identity": "remote:wsl:default:/\ud800",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/\ud800"
+      },
+      "predicate": true
+    },
+    "workspace/build-1-16": {
+      "identity": "remote:wsl:default:/ / ",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/ / "
+      },
+      "predicate": true
+    },
+    "workspace/build-2-0": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-1": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-2": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-3": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-4": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-5": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-6": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-7": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture/./../project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/./../project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-8": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture:name:part",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture:name:part"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-9": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/ /fixture/project ",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/ /fixture/project "
+      },
+      "predicate": true
+    },
+    "workspace/build-2-10": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture\nproject",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture\nproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-11": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/fixture project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-12": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/%2fproject",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/%2fproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-13": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/c:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/c:/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-14": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/项目/🌍",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/项目/🌍"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-15": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/\ud800",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/\ud800"
+      },
+      "predicate": true
+    },
+    "workspace/build-2-16": {
+      "identity": "remote:wsl:Fixture Distro:fixture-user:/ / ",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/ / "
+      },
+      "predicate": true
+    },
+    "workspace/build-3-0": {
+      "identity": "remote:wsl:default:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-1": {
+      "identity": "remote:wsl:default:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-2": {
+      "identity": "remote:wsl:default:/",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-3": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-4": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-5": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-6": {
+      "identity": "remote:wsl:default:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-7": {
+      "identity": "remote:wsl:default:/fixture/./../project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture/./../project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-8": {
+      "identity": "remote:wsl:default:/fixture:name:part",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture:name:part"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-9": {
+      "identity": "remote:wsl:default:/ /fixture/project ",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/ /fixture/project "
+      },
+      "predicate": true
+    },
+    "workspace/build-3-10": {
+      "identity": "remote:wsl:default:/fixture\nproject",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture\nproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-11": {
+      "identity": "remote:wsl:default:/fixture project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-12": {
+      "identity": "remote:wsl:default:/%2fproject",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/%2fproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-13": {
+      "identity": "remote:wsl:default:/c:/fixture/project",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/c:/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-14": {
+      "identity": "remote:wsl:default:/项目/🌍",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/项目/🌍"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-15": {
+      "identity": "remote:wsl:default:/\ud800",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/\ud800"
+      },
+      "predicate": true
+    },
+    "workspace/build-3-16": {
+      "identity": "remote:wsl:default:/ / ",
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/ / "
+      },
+      "predicate": true
+    },
+    "workspace/build-4-0": {
+      "identity": "remote:docker: fixture-container :/",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-1": {
+      "identity": "remote:docker: fixture-container :/",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-2": {
+      "identity": "remote:docker: fixture-container :/",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-3": {
+      "identity": "remote:docker: fixture-container :/fixture/project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-4": {
+      "identity": "remote:docker: fixture-container :/fixture/project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-5": {
+      "identity": "remote:docker: fixture-container :/fixture/project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-6": {
+      "identity": "remote:docker: fixture-container :/fixture/project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-7": {
+      "identity": "remote:docker: fixture-container :/fixture/./../project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture/./../project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-8": {
+      "identity": "remote:docker: fixture-container :/fixture:name:part",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture:name:part"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-9": {
+      "identity": "remote:docker: fixture-container :/ /fixture/project ",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/ /fixture/project "
+      },
+      "predicate": true
+    },
+    "workspace/build-4-10": {
+      "identity": "remote:docker: fixture-container :/fixture\nproject",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture\nproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-11": {
+      "identity": "remote:docker: fixture-container :/fixture project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-12": {
+      "identity": "remote:docker: fixture-container :/%2fproject",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/%2fproject"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-13": {
+      "identity": "remote:docker: fixture-container :/c:/fixture/project",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/c:/fixture/project"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-14": {
+      "identity": "remote:docker: fixture-container :/项目/🌍",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/项目/🌍"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-15": {
+      "identity": "remote:docker: fixture-container :/\ud800",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/\ud800"
+      },
+      "predicate": true
+    },
+    "workspace/build-4-16": {
+      "identity": "remote:docker: fixture-container :/ / ",
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/ / "
+      },
+      "predicate": true
+    },
+    "workspace/parse-0": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-1": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-2": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-3": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-4": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-5": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-6": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-7": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/parse-8": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture:other"
+      },
+      "predicate": true
+    },
+    "workspace/parse-9": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture\nother"
+      },
+      "predicate": true
+    },
+    "workspace/parse-10": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture other"
+      },
+      "predicate": true
+    },
+    "workspace/parse-11": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-12": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-13": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-14": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-15": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-16": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-17": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture//./.."
+      },
+      "predicate": true
+    },
+    "workspace/parse-18": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-19": {
+      "parsed": {
+        "kind": "ssh",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-20": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-21": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-22": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-23": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-24": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture:user:/next"
+      },
+      "predicate": true
+    },
+    "workspace/parse-25": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/parse-26": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-27": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-28": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-29": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture:other"
+      },
+      "predicate": true
+    },
+    "workspace/parse-30": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/:/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-31": {
+      "parsed": {
+        "kind": "wsl",
+        "workspacePath": "/fixture\n"
+      },
+      "predicate": true
+    },
+    "workspace/parse-32": {
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture"
+      },
+      "predicate": true
+    },
+    "workspace/parse-33": {
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/"
+      },
+      "predicate": true
+    },
+    "workspace/parse-34": {
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture:other"
+      },
+      "predicate": true
+    },
+    "workspace/parse-35": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-36": {
+      "parsed": null,
+      "predicate": false
+    },
+    "workspace/parse-37": {
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture "
+      },
+      "predicate": true
+    },
+    "workspace/parse-38": {
+      "parsed": {
+        "kind": "docker",
+        "workspacePath": "/fixture\u0000other"
+      },
+      "predicate": true
+    },
+    "workspace/port-undefined": "remote:ssh:example.invalid:22:fixture-user:/fixture",
+    "ssh/port-undefined": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port-null": "remote:ssh:example.invalid:22:fixture-user:/fixture",
+    "ssh/port-null": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port-0": "remote:ssh:example.invalid:0:fixture-user:/fixture",
+    "ssh/port-0": "[\"ssh:v1\",\"example.invalid\",0,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port--1": "remote:ssh:example.invalid:-1:fixture-user:/fixture",
+    "ssh/port--1": "[\"ssh:v1\",\"example.invalid\",-1,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port-22": "remote:ssh:example.invalid:22:fixture-user:/fixture",
+    "ssh/port-22": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port-22.5": "remote:ssh:example.invalid:22.5:fixture-user:/fixture",
+    "ssh/port-22.5": "[\"ssh:v1\",\"example.invalid\",22.5,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port-NaN": "remote:ssh:example.invalid:NaN:fixture-user:/fixture",
+    "ssh/port-NaN": "[\"ssh:v1\",\"example.invalid\",null,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/port-Infinity": "remote:ssh:example.invalid:Infinity:fixture-user:/fixture",
+    "ssh/port-Infinity": "[\"ssh:v1\",\"example.invalid\",null,\"fixture-user\",\"agent\",\"\"]",
+    "workspace/ipv6-build": {
+      "identity": "remote:ssh:[2001:db8::1]:22:fixture-user:/fixture",
+      "parsed": null
+    },
+    "ssh/path-0": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/path-1": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/path-2": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/path-3": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/\"]",
+    "ssh/path-4": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/a/id\"]",
+    "ssh/path-5": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/id\"]",
+    "ssh/path-6": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/\"]",
+    "ssh/path-7": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server/share/id\"]",
+    "ssh/path-8": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server/share/id\"]",
+    "ssh/path-9": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server\"]",
+    "ssh/path-10": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server/../\"]",
+    "ssh/path-11": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server/share/a\"]",
+    "ssh/path-12": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//./../\"]",
+    "ssh/path-13": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//\"]",
+    "ssh/path-14": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"~/../id\"]",
+    "ssh/path-15": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"~/../id\"]",
+    "ssh/path-16": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"id\"]",
+    "ssh/path-17": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"../id\"]",
+    "ssh/path-18": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"../../id\"]",
+    "ssh/path-19": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"\"]",
+    "ssh/path-20": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"\"]",
+    "ssh/path-21": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:/fixture/id\"]",
+    "ssh/path-22": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:/id\"]",
+    "ssh/path-23": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:/\"]",
+    "ssh/path-24": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:\"]",
+    "ssh/path-25": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:../../id\"]",
+    "ssh/path-26": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:next\"]",
+    "ssh/path-27": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"D:/a/id\"]",
+    "ssh/path-28": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"Z:/id\"]",
+    "ssh/path-29": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"é:/id\"]",
+    "ssh/path-30": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"id\"]",
+    "ssh/path-31": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"a\\nb\"]",
+    "ssh/path-32": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"C:../a\\rb\"]",
+    "ssh/path-33": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"a b\"]",
+    "ssh/path-34": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"a b\"]",
+    "ssh/path-35": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"id\"]",
+    "ssh/path-36": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/fixture/keys/id\"]",
+    "ssh/path-37": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/fixture/id\"]",
+    "ssh/path-38": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server/share/id\"]",
+    "ssh/path-39": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"//server\"]",
+    "ssh/path-40": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"a/b/id\"]",
+    "ssh/auth-0": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/auth-1": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"password\",\"\"]",
+    "ssh/auth-2": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"password\",\"\"]",
+    "ssh/auth-3": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/auth-4": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/auth-5": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"/fixture/id\"]",
+    "ssh/auth-6": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/auth-7": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"password\",\"\"]",
+    "ssh/auth-8": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"agent\",\"\"]",
+    "ssh/auth-9": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"password\",\"\"]",
+    "ssh/auth-10": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"password\",\"\"]",
+    "ssh/getter-order": {
+      "key": "[\"ssh:v1\",\"fixture.invalid\",22,\"fixture-user\",\"password\",\"\"]",
+      "reads": [
+        "host",
+        "port",
+        "username",
+        "privateKeyPath",
+        "password",
+        "passwordCredentialKey",
+        "privateKeyPath"
+      ]
+    },
+    "ssh/getter-changing-path": {
+      "key": "[\"ssh:v1\",\"example.invalid\",22,\"fixture-user\",\"private-key\",\"\"]",
+      "reads": 2
+    },
+    "wsl/user-0": {
+      "valid": false,
+      "schema": {
+        "success": true,
+        "data": ""
+      }
+    },
+    "wsl/user-1": {
+      "valid": false,
+      "schema": {
+        "success": true,
+        "data": ""
+      }
+    },
+    "wsl/user-2": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "fixture-user"
+      }
+    },
+    "wsl/user-3": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "fixture-user"
+      }
+    },
+    "wsl/user-4": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "a b"
+      }
+    },
+    "wsl/user-5": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-6": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-7": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-8": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-9": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-10": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-11": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-12": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-13": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-14": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "ab"
+      }
+    },
+    "wsl/user-15": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "ab"
+      }
+    },
+    "wsl/user-16": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "ab"
+      }
+    },
+    "wsl/user-17": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "a b"
+      }
+    },
+    "wsl/user-18": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "a b"
+      }
+    },
+    "wsl/user-19": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "fixture"
+      }
+    },
+    "wsl/user-20": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "中文用户"
+      }
+    },
+    "wsl/user-21": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+      }
+    },
+    "wsl/user-22": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-23": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "wsl/user-24": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 64,
+            "inclusive": true,
+            "path": [],
+            "message": "Too big: expected string to have <=64 characters"
+          },
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-25": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "\ud800"
+      }
+    },
+    "wsl/user-26": {
+      "valid": true,
+      "schema": {
+        "success": true,
+        "data": "\udfff"
+      }
+    },
+    "wsl/user-27": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-28": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/user-29": {
+      "valid": false,
+      "schema": {
+        "success": false,
+        "issues": [
+          {
+            "code": "custom",
+            "path": [],
+            "message": "Invalid WSL user"
+          }
+        ]
+      }
+    },
+    "wsl/type-0": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected string, received undefined"
+        }
+      ]
+    },
+    "wsl/native-type-0": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'trim')"
+      }
+    },
+    "workspace/native-path-type-0": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'replace')"
+      }
+    },
+    "workspace/native-parse-type-0": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Cannot read properties of undefined (reading 'startsWith')"
+      }
+    },
+    "wsl/type-1": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected string, received null"
+        }
+      ]
+    },
+    "wsl/native-type-1": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'trim')"
+      }
+    },
+    "workspace/native-path-type-1": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'replace')"
+      }
+    },
+    "workspace/native-parse-type-1": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "Cannot read properties of null (reading 'startsWith')"
+      }
+    },
+    "wsl/type-2": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected string, received number"
+        }
+      ]
+    },
+    "wsl/native-type-2": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "value.trim is not a function"
+      }
+    },
+    "workspace/native-path-type-2": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "workspacePath.replace is not a function"
+      }
+    },
+    "workspace/native-parse-type-2": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "identity.startsWith is not a function"
+      }
+    },
+    "wsl/type-3": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected string, received boolean"
+        }
+      ]
+    },
+    "wsl/native-type-3": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "value.trim is not a function"
+      }
+    },
+    "workspace/native-path-type-3": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "workspacePath.replace is not a function"
+      }
+    },
+    "workspace/native-parse-type-3": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "identity.startsWith is not a function"
+      }
+    },
+    "wsl/type-4": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected string, received object"
+        }
+      ]
+    },
+    "wsl/native-type-4": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "value.trim is not a function"
+      }
+    },
+    "workspace/native-path-type-4": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "workspacePath.replace is not a function"
+      }
+    },
+    "workspace/native-parse-type-4": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "identity.startsWith is not a function"
+      }
+    },
+    "wsl/type-5": {
+      "success": false,
+      "issues": [
+        {
+          "expected": "string",
+          "code": "invalid_type",
+          "path": [],
+          "message": "Invalid input: expected string, received array"
+        }
+      ]
+    },
+    "wsl/native-type-5": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "value.trim is not a function"
+      }
+    },
+    "workspace/native-path-type-5": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "workspacePath.replace is not a function"
+      }
+    },
+    "workspace/native-parse-type-5": {
+      "thrown": {
+        "name": "TypeError",
+        "message": "identity.startsWith is not a function"
+      }
+    }
+  }
+}
