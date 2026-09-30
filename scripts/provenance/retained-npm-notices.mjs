@@ -33,9 +33,22 @@ export function retainNpmNoticeUnion(current, historical, blocks) {
   for (const item of historical) {
     const key = packageKey(item);
     if (records.has(key)) throw new Error(`Duplicate historical package: ${key}`);
+    // 派生清单可被改写，键存在不能证明历史来源；原 notice 必须绑定精确版本及出处。
+    if (
+      !/^(?:@[^/@\s]+\/)?[^/@\s]+@\d+\.\d+\.\d+(?:-[\w.-]+)?(?:\+[\w.-]+)?$/.test(key) ||
+      !Array.isArray(item.notices) ||
+      !item.notices.length
+    )
+      throw new Error(`Unverified historical package notice: ${key}`);
     const notices = item.notices.map((notice) => {
       const retained = blocks.get(notice.sha256);
       if (!retained) throw new Error(`Missing retained publisher notice: ${key} ${notice.sha256}`);
+      if (
+        typeof notice.member !== "string" ||
+        !notice.member.trim() ||
+        !retained.references.includes(`- ${key}: ${notice.member}`)
+      )
+        throw new Error(`Historical notice owner/source mismatch: ${key}`);
       return { member: notice.member, bytes: retained.bytes };
     });
     records.set(key, { ...item, notices, coverage: "retained-prior-declaration" });
