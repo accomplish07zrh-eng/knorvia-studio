@@ -294,10 +294,13 @@ test("reference controls follow each model's explicit placeholders", () => {
 test("JSON video frames survive a known failure and exactly one parameter-preserving retry", async () => {
   const root = await mkdtemp(join(tmpdir(), "knorvia-frames-retry-"));
   let submissions = 0;
+  const trace = jsonFixtureTrace();
   const service = createCreationService({
     rootDir: root,
     credentials: credentials(),
     fetchImpl: async (_url, init) => {
+      // Windows 超时原先缺少提交边界证据；只记阶段，不记请求体、帧字节或私有路径。
+      trace.record("submit:start");
       const body = JSON.parse(String(init?.body)) as {
         first: string;
         last: string;
@@ -307,11 +310,14 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       assert.equal(body.last, last.toString("base64"));
       assert.equal(body.prompt, "Clip");
       submissions++;
-      return submissions === 1
-        ? new Response("failed", { status: 400 })
-        : new Response(JSON.stringify({ asset: mp4.toString("base64") }), {
-            headers: { "content-type": "application/json" },
-          });
+      const response =
+        submissions === 1
+          ? new Response("failed", { status: 400 })
+          : new Response(JSON.stringify({ asset: mp4.toString("base64") }), {
+              headers: { "content-type": "application/json" },
+            });
+      trace.record("submit:return");
+      return response;
     },
   });
   try {
@@ -337,8 +343,11 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
       firstFrame: frame("first.png", first),
       lastFrame: frame("last.png", last),
     };
-    const failed = await terminal(service, (await service.createJob(input)).id);
+    const failed = await terminal(service, (await service.createJob(input)).id, {
+      timeoutContext: () => trace.describe("Clip"),
+    });
     assert.equal(failed.status, "failed");
+    assert.equal(submissions, 1);
     assert.equal(failed.firstFrameName, "first.png");
     assert.equal(failed.lastFrameName, "last.png");
     assert.equal("firstFramePath" in failed, false);
@@ -348,7 +357,11 @@ test("JSON video frames survive a known failure and exactly one parameter-preser
     ]);
     assert.equal(retried.id, duplicate.id);
     assert.equal(retried.requestId, `retry-${failed.id}`);
-    assert.equal((await terminal(service, retried.id)).status, "succeeded");
+    assert.equal(
+      (await terminal(service, retried.id, { timeoutContext: () => trace.describe("Clip") }))
+        .status,
+      "succeeded",
+    );
     assert.equal(submissions, 2);
     const reopened = createCreationService({ rootDir: root, credentials: credentials() });
     assert.equal((await reopened.retryJob(failed.id)).id, retried.id);

@@ -33,6 +33,8 @@
 
 2026-09-30 Windows run `36678100951` 的 ComfyUI 双帧用例在 1000ms 后仍为 running（queued@1ms → running@12ms，67 次状态读取，最长14.8ms），其余3837项通过。该用例此前没有供应商阶段证据，当前不能推断产品、磁盘或 Web API 初始化首因。仅在其自有模拟 fetch 边界记录 upload/submit/history/download 的进入和响应构造后返回计数，以及最多16个单调时间事件。所有事件只含固定阶段名、计数和相对耗时；不记录请求体、帧字节、URL、凭据或真实文件路径，不额外读取内部 job 文件。history 进入只能见证前置 providerTaskId await 已返回。终态失败追加同步内存诊断，仍保留1000ms/10ms预算、两帧/占位断言、真实持久化及原清理；没有新的重试、时钟冻结或产品改动。诊断通过不代表故障已修复，原CI失败保留。
 
+2026-09-30 CI #198（run `36750884203`）在 JSON 双帧已知失败/一次重试用例的第一个终态等待处超时：1000ms 后仍为 running，queued@1ms → running@12ms，67次读取，最大读取1.8ms。受检合并提交 `fd70bc14af7fcd50539750a5ad5fc20d18a1c7d1` 与 PR head `6e2ca4eee7f66332654ba68dcd5794e6a1ffce06` 文件树一致；本批代码没有更改 creation 生产实现。仍不能据此认定磁盘、调度或供应商模拟初始化的首因。该用例复用已有 jsonFixtureTrace，只在模拟 submit 进入和 Response 构造后记录阶段；两次 terminal 都附带固定标签的内存诊断，明确首轮拒绝后提交次数为1、重试后为2。无 poll 的同步协议不把 checkpoint 的 unobserved 当成落盘失败。保留1000ms/10ms、真实 IO、原两帧与幂等断言、原清理及无生产更改；同版本重跑仅收集证据，不宣称修复。
+
 ```text
 接纳并落盘 → 标为 running → 提交供应商 → 写成果 → 保存成功
                    └── 任一 await 期间截止 → 原失败分类/串行写入 → 终态
