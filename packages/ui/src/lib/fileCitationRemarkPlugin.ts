@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: Apache-2.0
+// Modified for Knorvia Studio: B2 citation text edit plans, 2026-09-30.
+// Prior source was reviewed; authorship/license review remains pending.
 import type { Plugin } from "unified";
 import {
   resolveAssistantRawFilePath,
@@ -13,57 +16,73 @@ interface CitationMarkdownNode {
   value?: string;
 }
 
-const SKIPPED_PARENT_TYPES = new Set(["code", "html", "image", "inlineCode", "link"]);
-
-function projectCitationTextNode(
-  node: CitationMarkdownNode,
-  workspacePath: string,
-  options: AssistantFilePathResolveOptions,
-): CitationMarkdownNode[] | null {
-  const value = node.value ?? "";
-  const citations = extractKnorviaFileCitations(value);
-  if (citations.length === 0) return null;
-
-  const nextNodes: CitationMarkdownNode[] = [];
-  let cursor = 0;
-  for (const citation of citations) {
-    const path = resolveAssistantRawFilePath(workspacePath, citation.path, options);
-    if (!path) continue;
-    if (citation.start > cursor) {
-      nextNodes.push({ type: "text", value: value.slice(cursor, citation.start) });
-    }
-    nextNodes.push({
-      type: "link",
-      url: citation.path,
-      children: [{ type: "text", value: getPathLeaf(path) || citation.path }],
-    });
-    cursor = citation.end;
-  }
-  if (cursor === 0) return null;
-  if (cursor < value.length) {
-    nextNodes.push({ type: "text", value: value.slice(cursor) });
-  }
-  return nextNodes;
+interface CitationTextEdit {
+  start: number;
+  end: number;
+  href: string;
+  label: string;
 }
 
-function transformCitationChildren(
-  node: CitationMarkdownNode,
+const protectedSubtrees = new Set(["code", "html", "image", "inlineCode", "link"]);
+
+function textEdits(
+  value: string,
+  workspacePath: string,
+  options: AssistantFilePathResolveOptions,
+): CitationTextEdit[] {
+  const edits: CitationTextEdit[] = [];
+  for (const citation of extractKnorviaFileCitations(value)) {
+    const resolvedPath = resolveAssistantRawFilePath(workspacePath, citation.path, options);
+    if (resolvedPath) {
+      edits.push({
+        start: citation.start,
+        end: citation.end,
+        href: citation.path,
+        label: getPathLeaf(resolvedPath) || citation.path,
+      });
+    }
+  }
+  return edits;
+}
+
+function applyTextEdits(value: string, edits: CitationTextEdit[]): CitationMarkdownNode[] | null {
+  if (!edits.length) return null;
+  const pieces: CitationMarkdownNode[] = [];
+  let consumed = 0;
+  for (const edit of edits) {
+    if (edit.start > consumed)
+      pieces.push({ type: "text", value: value.slice(consumed, edit.start) });
+    // href 保留原 path，label 只生成 text；安全过滤仍由现有 rehype 管线负责。
+    pieces.push({ type: "link", url: edit.href, children: [{ type: "text", value: edit.label }] });
+    consumed = edit.end;
+  }
+  if (consumed < value.length) pieces.push({ type: "text", value: value.slice(consumed) });
+  return pieces;
+}
+
+function projectTree(
+  parent: CitationMarkdownNode,
   workspacePath: string,
   options: AssistantFilePathResolveOptions,
 ): void {
-  if (!node.children || SKIPPED_PARENT_TYPES.has(node.type)) return;
-
-  for (let index = 0; index < node.children.length; index += 1) {
-    const child = node.children[index]!;
-    if (child.type === "text") {
-      const replacement = projectCitationTextNode(child, workspacePath, options);
-      if (replacement) {
-        node.children.splice(index, 1, ...replacement);
-        index += replacement.length - 1;
-      }
+  if (!parent.children || protectedSubtrees.has(parent.type)) return;
+  let index = 0;
+  while (index < parent.children.length) {
+    const child = parent.children[index]!;
+    if (child.type !== "text") {
+      projectTree(child, workspacePath, options);
+      index++;
       continue;
     }
-    transformCitationChildren(child, workspacePath, options);
+    const value = child.value ?? "";
+    const pieces = applyTextEdits(value, textEdits(value, workspacePath, options));
+    if (!pieces) {
+      index++;
+      continue;
+    }
+    // 仅提交当前 text node；后续 sibling 抛错不撤回已完成替换，也不重访新 link。
+    parent.children.splice(index, 1, ...pieces);
+    index += pieces.length;
   }
 }
 
@@ -73,7 +92,7 @@ export function createKnorviaFileCitationRemarkPlugin(
 ): Plugin {
   return function fileCitationRemarkPlugin() {
     return (tree: unknown) => {
-      transformCitationChildren(tree as CitationMarkdownNode, workspacePath, { homePath });
+      projectTree(tree as CitationMarkdownNode, workspacePath, { homePath });
     };
   };
 }
