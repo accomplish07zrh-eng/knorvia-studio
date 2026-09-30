@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "scope": "Edit admission, pure planning and one conditional write with post-commit snapshot projection",
+  "baseCommit": "1782b3ecbdb20ab9c0a9616fe6fbfe337ce970d2",
+  "oldSource": {
+    "path": "apps/cli/packages/core/src/tool/handlers/edit.ts",
+    "sha256": "be7edda3ccfe18e37b09e76114f9209d9c2c30f321223bcf789ba7190d72ff0e",
+    "exposure": "Author inspected prior source and froze synthetic-port behavior. No isolated-author or clean-room claim."
+  },
+  "implementation": [
+    "Replace the monolithic orchestration with pure content/read-state planning, explicit port orchestration and a single conditional commit boundary",
+    "Reuse the existing bounded filename suggestion and matcher contracts; no old handler fallback",
+    "Commit snapshots and metadata only after successful atomic expectedRevision write; preserve post-commit callback failure behavior",
+    "Remove the legacy max-lines suppression; all four production files are under 400 lines"
+  ],
+  "mechanicallyRetained": {
+    "publicDeclaration": "Byte-identical except handler binding; no independent-rewrite claim",
+    "modelFormatter": "Byte-identical retained wording and implementation"
+  },
+  "intentionalBugfix": {
+    "case": {
+      "content": "\nnext",
+      "oldString": "\t"
+    },
+    "legacy": "Matcher returns empty actual fragment; nonoverlapping occurrence loop advances by zero and never returns",
+    "reproduction": {
+      "isolatedSyntheticProcess": true,
+      "timeoutSeconds": 4,
+      "exitCode": 124
+    },
+    "replacement": "Existing ambiguity failure with content.length+1 insertion boundaries for nonempty content; no writes or snapshot mutation",
+    "preserved": "Empty-file insertion and explicit empty-old create path",
+    "regression": "Source and emitted handler child probes each verify three cases with a 30-second process timeout to prevent regression from hanging the parent test runner"
+  },
+  "validation": {
+    "unmodifiedOldTransactionContracts": 30,
+    "permanentDualTransactionContracts": {
+      "source": 32,
+      "emitted": 32,
+      "pass": 64,
+      "fail": 0
+    },
+    "existingDualMatcherConsumers": 16,
+    "differential": {
+      "cases": 3000,
+      "mismatches": 0,
+      "seed": 49817,
+      "scope": "Outputs/errors, effect order, port arguments, snapshots, metadata and perf shape; timestamps normalized; intentional empty-match repair tested separately"
+    },
+    "aggregate": {
+      "tests": 5546,
+      "pass": 5480,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass, concurrency=1 and 2048MiB heap",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "prepush": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "cliStartupSmoke": {
+      "exitCode": 0,
+      "output": "0.16.9",
+      "isolation": "Empty temporary HOME/cwd/data/config/cache with cleared environment; version only, no provider credentials",
+      "bundleSha256": "b3454743cc1ce93e12de6ae070ba10c7cd53b147494f004c73891a997fd92c3d"
+    }
+  },
+  "sourceSha256": {
+    "apps/cli/packages/core/src/tool/handlers/edit.ts": "a26fe127c78659052ad2c3bb3e7cba055233438bd448669d213d4ff64ad16fbe",
+    "apps/cli/packages/core/src/tool/handlers/edit-plan.ts": "7eb071db374e0b0979f6a5c078ef11c20427723baf2f611a6f6dbb4cf0658173",
+    "apps/cli/packages/core/src/tool/handlers/edit-commit.ts": "f8cf1b1e331d7002dfc5f9d66327a543698f51ac5828d457e77325b288fd433d",
+    "apps/cli/packages/core/src/tool/handlers/edit-transaction.ts": "2da388e9a3dd66d64a5545a6f36d49032c7a16a204dc38198c5afb090262e1b9"
+  },
+  "testSha256": {
+    "apps/cli/packages/core/test/edit-transaction.test.ts": "a66efaae73bc5d0d9e662a8d2df869667503d8bd0677e5fd4b3ed43481bf1627",
+    "apps/cli/packages/core/test/fixtures/edit-empty-match-probe.mjs": "af9e44ce6435a38555cae3182404433a50aec30d1c37eee7b20ebfad1eae3c26"
+  },
+  "emittedSha256": {
+    "apps/cli/packages/core/dist/tool/handlers/edit.js": "0c3562473ffdf3264bf0018b3b755fe55ce3c26dfa2c4cdb25da79c38d9bd4b1",
+    "apps/cli/packages/core/dist/tool/handlers/edit-plan.js": "9d4701d567902eeef71a88f1cf87e8252eb0a6fe08ba8ba5d900b21ce6d9ff9c",
+    "apps/cli/packages/core/dist/tool/handlers/edit-commit.js": "cbbb93ed37f66a3a37a4d7e3b5233bd35e10e8e985ca22a555ff7ce88b107cfb",
+    "apps/cli/packages/core/dist/tool/handlers/edit-transaction.js": "7c7ec8d5e7af278fb0ef0e0c20e71e9ec30e2aaaf968628b57924fb6846a117d"
+  },
+  "logSha256": {
+    "edit-transaction-startup.log": "5dd0ca386ae83caaa4d32488cec1f155c8a4caae321e1689b6ffba3c45bd9b61",
+    "edit-transaction-full.tap": "b4f46805bbd9cc689bf8e804a97406947bd0e4b0a5860cf35883a4bb0d3f05fd",
+    "edit-transaction-prepush-final.log": "76a59cd9a64584d503fcccf5dc4b0804f35f5ff215837904a19e2ebbb10960f0",
+    "edit-transaction-architecture-final.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "edit-transaction-format-final.log": "5cbc7ca30a9f124cc6323187eb1155b7e60ecd1265dcae9c24ce85d7cd0e6976",
+    "edit-transaction-explicit-lint-final.log": "e3ea4fa51f33f5dca178600d06582f185c21ba73b389f289899abe2955662387",
+    "edit-transaction-cli-lint-final.log": "fddf48c8ca839254b7ad4f8f10bd93ba2429225513a47feb4867d49566441568",
+    "edit-transaction-root-lint-final.log": "40e03c6423a6bc06470c1dabfb6db7780b91226efbf609a3f85224eed56f7e3b",
+    "edit-transaction-cli-typecheck-final.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "edit-transaction-root-typecheck-final.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "edit-transaction-differential-final.log": "ffa8126cd1256ddc782a1bf14282a314d59789c10bc0547254004ef2177e588d",
+    "edit-transaction-source-emitted-guarded.tap": "f988e4978a2f6674395de0223960c131692328749c0c3b2f8cba6e30d0eb23af",
+    "edit-transaction-source-emitted-final.tap": "5b2eea1145011ad871c07a377e88c9e748c0c891fbdbc9c154012e6de508d0eb",
+    "edit-transaction-cli-build-final.log": "1c83947f800d0b81eacba007b17b7308efc1bf464e9143f2ee8aaf418da42e76",
+    "edit-transaction-legacy-empty-match.log": "ba9e113b87db5c87011df1735f62a34a69b4a89d838c37ebd697fd9af6a632e8",
+    "edit-transaction-source-emitted.tap": "2a3ea0f1bcfe1e4e989a631cdb59c9632f239013476e1c36a1acafa8224956d1",
+    "edit-transaction-cli-lint.log": "b1bb5e18a649a55bbc89c881f14548b01c56b4c20e4b24fbe60e9cfe66411f0e",
+    "edit-transaction-root-lint.log": "f4f511388552457fe7f50cb767a933c60f4cd60caca4b213b48d9bc23b4e8433",
+    "edit-transaction-root-typecheck.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "edit-transaction-cli-build.log": "6a9b646603b14b217c26efddfeb379148e1ee5ef812a46b0b831e6c24d589f87",
+    "edit-transaction-differential.log": "ffa8126cd1256ddc782a1bf14282a314d59789c10bc0547254004ef2177e588d",
+    "edit-transaction-cli-typecheck.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "edit-transaction-lint.log": "3996af3d99edc493d8315c204af6b003ac8bb5f4722ba0930d5c43d72e9cc25b",
+    "edit-transaction-first.tap": "0687294ff6c8fef7343e8d2427c6c14e2e00039be30dd426f40941e09453e60d",
+    "edit-transaction-baseline.tap": "a881b87b2223cfb43c06966741a8f108e5a1bc751baba046b8627679e8b4ccf8"
+  },
+  "limits": [
+    "Own-cloud full run retains exactly 59 existing listen EPERM failure events and seven skips; it is not a full green run",
+    "Native exact-head Linux/Windows CI is pending publication of this batch; CI203 validates the parent only",
+    "No real user-file edit, native UI, installer, data upgrade or live provider acceptance is claimed",
+    "Transition LICENSE/NOTICE and all 27 material obligations remain; no new MIT decision",
+    "Earlier intermittent creation timeout cause remains unknown"
+  ]
+}
