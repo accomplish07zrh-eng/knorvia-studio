@@ -6,6 +6,9 @@ import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+const exec = promisify(execFile);
 import { BASELINE_COMMIT, fingerprint } from "./model.mjs";
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const collectors = new Map();
@@ -29,7 +32,7 @@ async function fixture(t) {
   };
   const original = Buffer.from("Controlled publisher copyright\r\nPermission fixture\n");
   const oldHash = sha(original);
-  const block = `### Notice ${oldHash}\n\n- old-dev@1.0.0: original publisher URL\n- current@1.0.0: LICENSE\n\n\`\`\`\`text\n${original.toString()}\n\`\`\`\`\n`;
+  const block = `### Notice ${oldHash}\n\n- old-dev@1.0.0: https://example.invalid/version/1.0.0\n- current@1.0.0: LICENSE\n\n\`\`\`\`text\n${original.toString()}\n\`\`\`\`\n`;
   const notices = Buffer.from(`# Controlled fixture notices\n\n${block}`);
   const override = {
     package: "old-dev@1.0.0",
@@ -80,7 +83,7 @@ async function fixture(t) {
       name,
       version: "1.0.0",
       license: "MIT",
-      notices: [notice],
+      notices: [{ ...notice, member: name === "old-dev" ? override.source : notice.member }],
     })),
     notInstalled: [],
     reviewRequired: [
@@ -104,6 +107,23 @@ async function fixture(t) {
     notInstalled: [],
     workspaceManifests: [],
   }));
+  // The original fixture is the reviewed commit; later edits are untrusted working-tree claims.
+  await exec("git", ["init", "-q"], { cwd: root });
+  await exec("git", ["-c", "core.autocrlf=false", "add", "."], { cwd: root });
+  await exec(
+    "git",
+    [
+      "-c",
+      "user.name=Knorvia QA fixture",
+      "-c",
+      "user.email=fixture@example.invalid",
+      "commit",
+      "-q",
+      "-m",
+      "Reviewed fixture history",
+    ],
+    { cwd: root },
+  );
   return { root, put, inventory, original, oldHash };
 }
 
@@ -125,7 +145,7 @@ test("regeneration retains development/historical records, original origins and 
   assert.deepEqual(inventory.reviewRequired, f.inventory.reviewRequired);
   const text = await readFile(join(f.root, "THIRD-PARTY-NOTICES.md"));
   assert.ok(text.includes(f.original));
-  assert.ok(text.includes(Buffer.from("- old-dev@1.0.0: original publisher URL")));
+  assert.ok(text.includes(Buffer.from("- old-dev@1.0.0: https://example.invalid/version/1.0.0")));
 });
 
 test("a changed previously verified document is rejected before collection or any write", async (t) => {

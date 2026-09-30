@@ -150,6 +150,9 @@ function allowed(values, selected) {
   const excluded = new Set(
     values.filter((value) => value.startsWith("!")).map((value) => value.slice(1)),
   );
+  // pnpm 10.33.2 对混合正负列表的多目标计数不等于普通集合匹配；
+  // 无法据此证明未选中时保持必需，只有其他明确排除的维度才可授权省略。
+  if (positives.length && excluded.size) return true;
   return selected.some(
     (value) =>
       !excluded.has(value) &&

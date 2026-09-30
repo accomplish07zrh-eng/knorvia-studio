@@ -7,6 +7,7 @@ import {
   deriveMaterialReviews,
 } from "./provenance/third-party-audit.mjs";
 import { BASELINE_COMMIT, currentPath, fingerprint } from "./provenance/model.mjs";
+import { git } from "./provenance/git.mjs";
 import { readLockedPatches, retainPatchUnion } from "./provenance/patch-inventory.mjs";
 import { retainedNoticeBlocks, retainNpmNoticeUnion } from "./provenance/retained-npm-notices.mjs";
 import {
@@ -26,6 +27,27 @@ export async function generateThirdPartyNotices(
     await readFile(join(root, "third-party/inventory.json"), "utf8"),
   );
   const blocks = retainedNoticeBlocks(previousBytes);
+  // 工作区可以同时伪造清单与外层摘要；历史来源只取一次解析出的受信 Git 快照。
+  const historyRevision = (await git(root, ["rev-parse", "HEAD^{commit}"])).toString().trim();
+  const [historyManifestBytes, historyNoticeBytes] = await Promise.all([
+    git(root, ["show", `${historyRevision}:third-party/inventory.json`]),
+    git(root, ["show", `${historyRevision}:${noticesFileName}`]),
+  ]);
+  const historyManifest = JSON.parse(historyManifestBytes.toString("utf8"));
+  if (
+    historyManifest.schemaVersion !== 1 ||
+    hashBytes(historyNoticeBytes) !== historyManifest.noticesSha256
+  )
+    throw new Error("Unverified committed historical notices");
+  const historyBlocks = retainedNoticeBlocks(historyNoticeBytes);
+  for (const [digest, record] of historyBlocks) {
+    const previous = blocks.get(digest);
+    if (
+      !previous ||
+      record.references.some((reference) => !previous.references.includes(reference))
+    )
+      throw new Error(`Changed trusted historical notice/reference: ${digest}`);
+  }
   const inputs = { ...previousInventory.inputs };
   const readInput = async (file) => {
     const bytes = await readFile(join(root, file));
@@ -48,20 +70,50 @@ export async function generateThirdPartyNotices(
   await readInput("third-party/native-search/sources.json");
   const collected = await collectNpmNotices(root, overrides);
   const { notInstalled, workspaceManifests } = collected;
+  const currentPackages = new Set(
+    [...collected.packages, ...notInstalled].map((item) => `${item.name}@${item.version}`),
+  );
+  const historyPackages = new Map(
+    (historyManifest.packages ?? []).map((item) => [`${item.name}@${item.version}`, item]),
+  );
+  const historicalSource = (item) =>
+    JSON.stringify({
+      name: item.name,
+      version: item.version,
+      license: item.license,
+      repository: item.repository,
+      acceptedMissingNotice: item.acceptedMissingNotice,
+      notices: item.notices?.map((notice) => [notice.member, notice.sha256]).sort(),
+    });
+  for (const item of previousInventory.packages ?? []) {
+    const key = `${item.name}@${item.version}`;
+    if (currentPackages.has(key)) continue;
+    const trusted = historyPackages.get(key);
+    if (!trusted || historicalSource(item) !== historicalSource(trusted))
+      throw new Error(`Untrusted historical package source: ${key}`);
+  }
   const packages = retainNpmNoticeUnion(
     collected.packages,
-    previousInventory.packages ?? [],
-    blocks,
+    historyManifest.packages ?? [],
+    historyBlocks,
   );
   // 修复：递归扫描会把 bundled-agents/mock-cdn 的可删除缓存当作源码输入，重建立即失效。
   // workspace 边界由 pnpm 解析，同一份项目集合用于依赖图和 manifest 新鲜度检查。
   for (const file of workspaceManifests) await readInput(file);
-  const currentPackages = new Set(
-    [...packages, ...notInstalled].map((item) => `${item.name}@${item.version}`),
-  );
+  const retainedPackages = new Map(packages.map((item) => [`${item.name}@${item.version}`, item]));
   for (const item of overrides) {
-    if (!currentPackages.has(item.package))
+    if (currentPackages.has(item.package)) continue;
+    const retained = retainedPackages.get(item.package);
+    if (!retained)
       throw new Error(`Npm override has no current or retained source record: ${item.package}`);
+    // 历史补充文件须复用原 notice 的来源与摘要，不能借真实包名换入新来源声明。
+    if (
+      (item.file || item.source || item.sha256) &&
+      !retained.notices.some(
+        (notice) => notice.member === item.source && hashBytes(notice.bytes) === item.sha256,
+      )
+    )
+      throw new Error(`Historical npm override source/notice mismatch: ${item.package}`);
   }
   const textRecords = new Map(blocks);
   function addText(bytes, owner, origin) {

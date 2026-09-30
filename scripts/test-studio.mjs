@@ -30,6 +30,8 @@ const tests = [
   "scripts/provenance/material-icon-references.test.mjs",
   "scripts/provenance/third-party-platform.test.mjs",
   "scripts/provenance/retained-npm-notices.test.mjs",
+  "scripts/provenance/dependency-platform-qa-regressions.test.mjs",
+  "scripts/provenance/dependency-history-qa-regressions.test.mjs",
   "packages/cua/test/stage-windows-driver.test.mjs",
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
   "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",
