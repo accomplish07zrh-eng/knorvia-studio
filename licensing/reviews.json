@@ -34922,10 +34922,10 @@
     },
     {
       "path": "scripts/provenance/third-party-audit.mjs",
-      "normalizedSha256": "c5b96ef22b3754c64453d981e245d57e309b76a6a80151ac1d978cd9b2c086a3",
+      "normalizedSha256": "f1c13d1f76e21c69fad2d3bf868825ec6698b99f183e2f35f256ede9155dd5bd",
       "decision": "original",
       "license": "MIT",
-      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices. The additional locked-patch audit was specified and observed failing before implementation; current exact patch versions and historical modification/source records are retained.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
         "docs/knorvia-third-party-reconciliation-acceptance.md"
@@ -34933,10 +34933,10 @@
     },
     {
       "path": "scripts/provenance/third-party-audit.test.mjs",
-      "normalizedSha256": "7f84cb7c657b09756177636b98c1836c0b9ea6effeb257e70045c430248e0c99",
+      "normalizedSha256": "ef46bd150010f8fa37a9ea9b0dee687f1d21d5f37d286544bece0bf4c085991e",
       "decision": "original",
       "license": "MIT",
-      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices. The additional locked-patch audit was specified and observed failing before implementation; current exact patch versions and historical modification/source records are retained.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
         "docs/knorvia-third-party-reconciliation-acceptance.md"
@@ -34944,10 +34944,10 @@
     },
     {
       "path": "specs/knorvia-third-party-reconciliation.md",
-      "normalizedSha256": "8452ab253b942134e81197a1ee95255842c81c64bc08f85a5899b524f4fa5e37",
+      "normalizedSha256": "7c3680090d7406dfe5fdb517101686ce267e1564ca1df2a268618f092ce2598e",
       "decision": "original",
       "license": "MIT",
-      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices. The additional locked-patch audit was specified and observed failing before implementation; current exact patch versions and historical modification/source records are retained.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
         "docs/knorvia-third-party-reconciliation-acceptance.md"
@@ -34955,10 +34955,32 @@
     },
     {
       "path": "docs/knorvia-third-party-reconciliation-acceptance.md",
-      "normalizedSha256": "ef7b84e5e5f4ad10cda33edc37953d95de9a23ccbb15504bbd9a6b667d753eb0",
+      "normalizedSha256": "e17714d16ceb99e8904be6293cf04538eb63d4f429650ef1040fdc6be896f8e2",
       "decision": "original",
       "license": "MIT",
-      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices. The additional locked-patch audit was specified and observed failing before implementation; current exact patch versions and historical modification/source records are retained.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/patch-inventory.mjs",
+      "normalizedSha256": "0e4837015919ab80b3a8d04a47c4ae1433dc1fdef755a4771dca7e976c1bc22f",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline locked-patch parser and audit/test expression authored from pinned pnpm lock metadata and failure-first compatibility requirements. Uses Node built-ins, without copied parser implementation. This file-level decision grants no rights to patched dependencies, audited assets or product code.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/patch-inventory.test.mjs",
+      "normalizedSha256": "4823b550382282acb8fb3a6ad6eba3ae0cc1df54211bd41fdc2eed60bbc09da3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline locked-patch parser and audit/test expression authored from pinned pnpm lock metadata and failure-first compatibility requirements. Uses Node built-ins, without copied parser implementation. This file-level decision grants no rights to patched dependencies, audited assets or product code.",
       "evidence": [
         "specs/knorvia-third-party-reconciliation.md",
         "docs/knorvia-third-party-reconciliation-acceptance.md"

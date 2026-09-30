@@ -4,6 +4,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { readRepositoryFile } from "./git.mjs";
 import { assertRelativePath } from "./model.mjs";
+import { auditLockedPatches } from "./patch-inventory.mjs";
 
 export const SOURCE_REGISTERS = {
   copied: "third-party/copied-components.json",
@@ -163,6 +164,7 @@ export async function auditThirdPartyInventory(root, manifest, registers) {
   await checkInputs(manifest.inputs, "Third-party");
   // 修复：原生登记另有版本配置输入，刷新外层 JSON 摘要不能替代它的版本核对。
   await checkInputs(registers.native.inputs, "Native");
+  await auditLockedPatches(root, manifest, issues);
   checkProjection("Copied source", registers.copied, manifest.copied, issues);
   checkProjection(
     "Exception",

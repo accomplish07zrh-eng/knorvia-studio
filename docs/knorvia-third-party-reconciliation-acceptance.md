@@ -54,3 +54,13 @@
 正常 Electron 镜像下载返回 `EAI_AGAIN npmmirror.com`，环境没有可用二进制缓存或 Xvfb。本机原生 Electron UI、Windows/macOS、签名、安装包/便携包及真实用户数据验证未执行；静态构建和 CI 的 Windows 离线测试不能替代这些验证。没有访问生产服务器、改动凭据、部署、发布或合并 main。
 
 回滚本审计修复可恢复其父提交的工具及清单；用户目录无需转换。整合的日志提交独立保留，旧→新→旧日志夹具沿用其永久回归。最终远端和 CI 必须绑定本批提交，不能以历史 main CI 代替。
+
+## 活动补丁来源补充
+
+发现生成器仍从根 `package.json.pnpm.patchedDependencies` 读补丁，而当前两项配置已移到 pnpm workspace/lockfile。先在真实声明消费者中观察到清单删去活动补丁、路径矛盾以及当前输入摘要掩盖错误锁摘要的三个失败断言，再实现 `scripts/provenance/patch-inventory.mjs`。它以锁定版本、路径及 SHA-256 核对当前补丁，同时核验第三个历史补丁，生成器保留历史合集与来源字段。
+
+锁段解析只接受固定 pnpm 的平铺结构，不支持的 YAML、重复、越界路径和非精确版本明确拒绝；空映射后的嵌套内容也先以失败测试捕获再修复。来源专项现为 **52/52**，前 43 项继续通过。原始 notice、505 项材料阻塞及现有补丁文件均未改变；此补充不扩大产品 MIT 范围。
+
+补充实现的完整 Linux 离线回归 **3838 项 = 3831 通过 + 7 平台跳过 + 0 失败/取消/todo**，229349.337617ms；根类型（5422 个 i18n 键）、lint、全量架构均通过。构建沿用本批已验证且未变化的 CLI dist，未为审计变化重复构建产品。最终格式、来源及提交前门随提交再核对。前一审计提交 `1bbf43aeee5b926f4911c7186dcb063320455e73` 的 [CI #184](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36676121878) Linux/Windows 全部质量步骤成功；该结果不替代此补充提交的新 CI。
+
+正常 npm 下载取得 `@napi-rs/canvas-linux-arm64-musl@0.1.100` 与 `@napi-rs/canvas-linux-x64-musl@0.1.100` 的归档（SHA-1 分别 `48cf6342543e4f87cf1f8e9b1aaa19ad85bcc178`、`1beaca22c1fe97709a9c287115cb3c90194ddec6`）。两归档只有 README、package.json 和 native 二进制，没有独立 LICENSE；其 `license: MIT` 标识不解决 Skia 实际链接组成。下载在仓外审计缓存完成，没有改变 workspace 架构配置、安装集合或现有完整许可门的失败结论。

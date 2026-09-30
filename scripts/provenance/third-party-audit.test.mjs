@@ -32,10 +32,13 @@ async function fixture(t) {
     },
   };
   const bytes = "Original retained publisher license\n";
+  const lock = "lockfileVersion: '9.0'\n";
+  await put("pnpm-lock.yaml", lock);
   const manifest = {
     schemaVersion: 1,
     noticesSha256: digest(bytes),
-    inputs: {},
+    inputs: { "pnpm-lock.yaml": digest(lock) },
+    patches: [],
     copied: [],
     exceptions: [],
     embedded: [],
@@ -175,6 +178,46 @@ test("refreshing the outer registry hash cannot hide a stale native configuratio
   await f.put("native-config.mjs", "new");
   await f.save();
   await assert.rejects(readVerifiedNotices(f.root), /native input changed.*native-config/i);
+});
+
+async function patchFixture(t) {
+  const f = await fixture(t);
+  const content = "Independent test patch\n";
+  const patch = {
+    package: "@fixture/pkg@1.2.3",
+    file: "patches/pkg.patch",
+    sha256: digest(content),
+  };
+  const lock = `lockfileVersion: '9.0'\npatchedDependencies:\n  '@fixture/pkg@1.2.3':\n    hash: ${patch.sha256}\n    path: ${patch.file}\n`;
+  await f.put("pnpm-lock.yaml", lock);
+  await f.put(patch.file, content);
+  f.manifest.inputs["pnpm-lock.yaml"] = digest(lock);
+  f.manifest.inputs[patch.file] = patch.sha256;
+  f.manifest.patches.push(patch);
+  await f.save();
+  return { ...f, patch };
+}
+
+test("the notice consumer rejects an active locked patch omitted from its inventory", async (t) => {
+  const f = await patchFixture(t);
+  f.manifest.patches = [];
+  await f.save();
+  await assert.rejects(readVerifiedNotices(f.root), /locked patch.*@fixture\/pkg@1\.2\.3/i);
+});
+
+test("an inventoried patch path cannot contradict the current lock", async (t) => {
+  const f = await patchFixture(t);
+  f.manifest.patches[0].file = "patches/other.patch";
+  await f.save();
+  await assert.rejects(readVerifiedNotices(f.root), /locked patch.*@fixture\/pkg@1\.2\.3/i);
+});
+
+test("a current input digest cannot hide an incorrect locked patch content digest", async (t) => {
+  const f = await patchFixture(t);
+  await f.put(f.patch.file, "Changed patch\n");
+  f.manifest.inputs[f.patch.file] = digest("Changed patch\n");
+  await f.save();
+  await assert.rejects(readVerifiedNotices(f.root), /patch.*content.*patches\/pkg.patch/i);
 });
 
 async function assetFixture(t) {

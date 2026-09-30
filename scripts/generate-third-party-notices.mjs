@@ -7,6 +7,7 @@ import {
   deriveMaterialReviews,
 } from "./provenance/third-party-audit.mjs";
 import { fingerprint } from "./provenance/model.mjs";
+import { readLockedPatches, retainPatchUnion } from "./provenance/patch-inventory.mjs";
 import {
   noticesFileName,
   readNativeSearchNotices,
@@ -30,7 +31,7 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
     if (hashBytes(await readInput(runtime.file)) !== runtime.sha256)
       throw new Error(`Changed Node ${runtime.version} license`);
   }
-  const pkg = await readJson("package.json");
+  await readJson("package.json");
   await readInput("pnpm-lock.yaml");
   await readInput("pnpm-workspace.yaml");
   await readInput("third-party/native-search/sources.json");
@@ -116,8 +117,18 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
     "Apache License, Version 2.0",
   );
   const patches = [];
-  for (const [name, file] of Object.entries(pkg.pnpm?.patchedDependencies ?? {})) {
-    patches.push({ package: name, file, sha256: hashBytes(await readInput(file)) });
+  const previousInventory = JSON.parse(
+    await readFile(join(root, "third-party/inventory.json"), "utf8"),
+  );
+  const patchUnion = retainPatchUnion(
+    await readLockedPatches(root),
+    previousInventory.patches ?? [],
+  );
+  // 修复：锁定的当前补丁与保留的历史补丁共存，不能重建时静默删掉原修改声明。
+  for (const item of patchUnion) {
+    if (hashBytes(await readInput(item.file)) !== item.sha256)
+      throw new Error(`Changed patched-source content: ${item.package}`);
+    patches.push(item);
   }
   const native = await readNativeSearchNotices(root, { verify: true });
   for (const file of Object.keys(native.inventory.inputs)) await readInput(file);
