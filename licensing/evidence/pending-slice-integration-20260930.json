@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "state": "WIP: user stopped Fast; no final combined acceptance",
+  "baseline": "34fb23e5f5c610bd7379096d3f281f4bff79b71f",
+  "integratedHeadBeforeCheckpoint": "30fd91a8f161e7673b1b20fadf536aeab8ede136",
+  "branch": "recovery/independent-logging-20260930-0456",
+  "draftPr": 7,
+  "taskTier": "Fast cancellation received; no supported task-level tier switch exposed or performed",
+  "sourceCommits": [
+    {
+      "original": "9eeb7892d87d9d95d34ab9252c6c482b81ff8174",
+      "integrated": "107ab87"
+    },
+    {
+      "original": "bc36df98da36e56cda66051137b99d31f2184666",
+      "integrated": "e8c149d"
+    },
+    {
+      "original": "b65d9f01ed74c0c844273a49eee6fd8e942a4b7e",
+      "integrated": "45ddd54"
+    },
+    {
+      "original": "10a23cdf81cab37271025b59d83e78084ceb2dd6",
+      "integrated": "b64d0ff"
+    },
+    {
+      "original": "3e41a6bec6562bc85bad55397cd1785c92285c4f",
+      "integrated": "7a06714"
+    },
+    {
+      "original": "426e82a9e975b86d43de68e1f4bfb78db8b773ad",
+      "integrated": "35379e1"
+    },
+    {
+      "original": "aecfcbca3efdd3b33a2f1a7d749fe3869ad6edc2",
+      "integrated": "fde92de"
+    },
+    {
+      "original": "f2b1b711a09ee2cdd35e060697da0e72bd8ee20f",
+      "integrated": "9ce1703"
+    },
+    {
+      "original": "d216b4667a4859261108e70742f48b617372ea33",
+      "integrated": "622689f"
+    },
+    {
+      "original": "98ad2bc5c17f2a6013a3dcb5be089788c72fb7b9",
+      "integrated": "0fe73bd"
+    },
+    {
+      "original": "9e155be779db006c10d258bc2c94723c4768ed65",
+      "integrated": "b877ec0"
+    },
+    {
+      "original": "a5815f7656de963f753752a349dcfbaed35b9680",
+      "integrated": "464223f"
+    },
+    {
+      "original": "b77fa3f2e60ae67e0456717cf04e845774744dc1",
+      "integrated": "5218e71"
+    },
+    {
+      "original": "a7f46ac7bbe59b2b5f4fa7c58ab371b2a53accde",
+      "integrated": "30fd91a"
+    }
+  ],
+  "uiAliasLineage": [
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeUiError.ts",
+      "currentPath": "packages/ui/src/lib/uiError.ts",
+      "blob": "64b0df306a58e9b8b5aeade2ad372de2216437f2",
+      "sha256": "ae0a42c0f7cd7da45268c4e7ac83e56f90e44629929571b779f7342ab7c67097",
+      "bytes": 8217,
+      "verifiedFixedUpstreamBytes": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeTaskMetaMerge.ts",
+      "currentPath": "packages/ui/src/lib/taskMetaMerge.ts",
+      "blob": "6ac09f8a56a8baa38e1ab15a067c2849e1f855df",
+      "sha256": "5e542cbbf810564fc1e3a7217e38c62d6cefba308488aa0c635ff914601cefee",
+      "bytes": 3036,
+      "verifiedFixedUpstreamBytes": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeDraftSkillInvalidation.ts",
+      "currentPath": "packages/ui/src/lib/draftSkillInvalidation.ts",
+      "blob": "2579d15e586848b45a0f0496b5b42835634afd96",
+      "sha256": "676a2003ccb61b032da3e29354d47388a1de2ef0a1c36362bcdc5f9d05cb96eb",
+      "bytes": 2171,
+      "verifiedFixedUpstreamBytes": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeCustomModelValue.ts",
+      "currentPath": "packages/ui/src/lib/customModelValue.ts",
+      "blob": "f8187bd5ade3e8bf23a4ad1fcf02cffba7e35127",
+      "sha256": "4be24644a68de3c0884eee71eb6e8c08fd25c92030bd881bc4b3e83cae0f9d26",
+      "bytes": 523,
+      "verifiedFixedUpstreamBytes": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeFileCitation.ts",
+      "currentPath": "packages/ui/src/lib/fileCitation.ts",
+      "blob": "acde2228a1470392da08f967c7f4e740e79797dc",
+      "sha256": "ce89a253a42c3377cfeca927b443ad0b943118cb0186558b1aaeebef0432f771",
+      "bytes": 4651,
+      "verifiedFixedUpstreamBytes": true
+    },
+    {
+      "upstreamPath": "packages/ui/src/lib/zcodeFileCitationRemarkPlugin.ts",
+      "currentPath": "packages/ui/src/lib/fileCitationRemarkPlugin.ts",
+      "blob": "8f725697541205376620dd20c0e9050f6293d83e",
+      "sha256": "127a63cbbdb70a4f50787ee98d57d82fbef3efd1e4ef61d09eeb3b925f9c5f70",
+      "bytes": 2431,
+      "verifiedFixedUpstreamBytes": true
+    }
+  ],
+  "uiAliasTests": {
+    "before": {
+      "passed": 1,
+      "failed": 6
+    },
+    "afterWithRelatedRegression": {
+      "passed": 43,
+      "failed": 0
+    },
+    "testStudioRegistration": "pending"
+  },
+  "validation": {
+    "rootTypecheck": {
+      "result": "pass",
+      "scope": "Started before Claude leaf integration, not final-head acceptance"
+    },
+    "cliBuild": {
+      "passed": 17,
+      "cached": 0,
+      "scope": "Shared/CLI first pending wave; CLI sources not altered by subsequent Claude service leaf integration",
+      "warnings": [
+        "turbo local detection/telemetry lock workspace warning",
+        "existing dynamic import and no-output task warnings"
+      ]
+    },
+    "auditRegression": {
+      "passed": 38,
+      "failed": 0,
+      "command": "node --experimental-test-module-mocks --test scripts/provenance/dependency-history-qa-regressions.test.mjs scripts/provenance/dependency-platform-qa-regressions.test.mjs scripts/provenance/retained-npm-notices.test.mjs scripts/third-party-platform.test.mjs"
+    },
+    "combinedSourceContracts": {
+      "tests": 849,
+      "passed": 848,
+      "failed": 1,
+      "skipped": 0,
+      "failure": "B1 draft test process needs --experimental-test-module-mocks; invocation omitted it, mock.module unavailable. No corrected rerun before Fast cancellation."
+    },
+    "finalRootLint": "not run",
+    "finalFormat": "not run",
+    "finalArchitecture": "not run",
+    "finalProvenance": "not run; inventories/review bindings knowingly stale",
+    "aggregate": "not run",
+    "emittedCombinedContracts": "not run",
+    "finalShaCi": "not verified"
+  },
+  "metadataCurrentArtifact": {
+    "path": "apps/cli/packages/adapters/dist/fs/text-metadata.js",
+    "sha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+    "matchesPreviousCorrection": true,
+    "sourceMapReverificationThisTurn": false
+  },
+  "environment": {
+    "node": "24.14.0",
+    "nodeArchiveSha256": "41cd79bb7877c81605a9e68ec4c91547774f46a40c67a17e34d7179ef11729df",
+    "pnpm": "10.33.2",
+    "git": "2.52.0",
+    "install": "Frozen ignore-scripts after lifecycle cache/Electron download and desktop rebuild failures; no sandbox bypass or security modification"
+  },
+  "productionMitReviewsAdded": 0,
+  "materialObligationsRemain": 27,
+  "claims": [
+    "Source-exposed implementation and inherited expressions retained under existing Apache/NOTICE",
+    "Freshness is unfinished and not rights clearance",
+    "No native UI/installer/final payload acceptance"
+  ],
+  "retainedDigests": {
+    "LICENSE": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+    "NOTICE.md": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+    "THIRD-PARTY-NOTICES.md": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+    "third-party/inventory.json": "2310c38abf36d27cf20ac070beb747ec7345d7887a30068b822a7e27f56df2ff",
+    "licensing/reviews.json": "727ba7147739768c8525e3aff166b77db21d3fca7e07ec9bc2775a2cdcb9574e"
+  },
+  "next": [
+    "Register exact lineage regression in test-studio",
+    "Refresh reviewed audit-tool hashes, without automatic independent/MIT production labels",
+    "Regenerate current-files after source review; retain all notices and 27 material duties",
+    "Review incoming B3/sessionProjection and QA bounded remark insertion fix without overlapping worker paths",
+    "Verify combined contracts/source/dist/build/maps/required checks and exact head CI under Standard continuation"
+  ],
+  "localLogsSupplementary": [
+    {
+      "path": "/tmp/knorvia-integration-logs/alias-lineage-after.log",
+      "sha256": "cd48e72faad0dfbf57ed3d1d2b985da75916e535d920454042960bbb4fc0fc2e"
+    },
+    {
+      "path": "/tmp/knorvia-integration-logs/audit-regressions.log",
+      "sha256": "f868dcd5dcba3b212898529d9ad9657a5d598bb80acf854ce7d4aeb138be22e7"
+    },
+    {
+      "path": "/tmp/knorvia-integration-logs/cli-build.log",
+      "sha256": "1c0e1bc56f06e2ec154fd6e568f51262ce11efdf633a78a8b83b95b4d12b737c"
+    },
+    {
+      "path": "/tmp/knorvia-integration-logs/combined-contracts.log",
+      "sha256": "7b9802f528feb296a4d928f518a3601f9dcec42100af888eb7e77a5f316598fe"
+    },
+    {
+      "path": "/tmp/knorvia-integration-logs/dependencies.log",
+      "sha256": "8e3eb26bc4f563624c4ba157eb426948a81b9d5f8ab2422127c59c2477121e4c"
+    },
+    {
+      "path": "/tmp/knorvia-integration-logs/typecheck.log",
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    },
+    {
+      "path": "/tmp/knorvia-integration-logs/ui-alias-before.log",
+      "sha256": "8e5f0f55b2fc3165b2ea84862ba55ad246029a45f581b01d4b048481dbe1b4ea"
+    }
+  ]
+}
