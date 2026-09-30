@@ -55,6 +55,12 @@ test("phase adjacency preserves negative zero, input order and protected first o
   assert.deepEqual(result.phaseAlongside![0], [1]);
   assert.ok(Object.is(result.phaseAlongside![1]![0], -0));
 });
+test("phase ordinal replaces a nonfinite previous round using the frozen comparison direction", () => {
+  const original = freezeWorkflow(fixtureRun({ phases: [{ name: "first", rounds: NaN }] }));
+  assert.deepEqual(api.reducePhaseEntered(original, { name: "first", ordinal: 2 }).phases, [
+    { name: "first", rounds: 2 },
+  ]);
+});
 test("new asks reset counts while ordinary progress preserves lifecycle and input", () => {
   const previous = freezeWorkflow(fixtureNode());
   assert.deepEqual(api.carryNodeProgress("node-queued", {}, previous), {});

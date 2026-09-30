@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { build } from "esbuild";
+import type { WorkflowRunState } from "../src/protocol-v4/workflow-runs.js";
 import { workflowModuleRoot } from "./workflow-projection-cases.js";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
@@ -38,7 +39,10 @@ type Consumers = {
   applyConversationDelta: typeof import("../src/protocol-v4/apply.js").applyConversationDelta;
   EMPTY_TUI_WORKFLOW_MIRROR: typeof import("../../../apps/cli/packages/tui/src/app-workflow-mirror.js").EMPTY_TUI_WORKFLOW_MIRROR;
   applyWorkflowProgressToMirror: typeof import("../../../apps/cli/packages/tui/src/app-workflow-mirror.js").applyWorkflowProgressToMirror;
-  buildWorkflowRunByToolCallId: typeof import("../../ui/src/v4/workflowRunCardJoin.js").buildWorkflowRunByToolCallId;
+  // Only the dynamic bundle's exercised fields are typed here; root tsc checks the real UI implementation.
+  buildWorkflowRunByToolCallId: (
+    runs: readonly WorkflowRunState[],
+  ) => ReadonlyMap<string, Record<string, unknown>>;
 };
 const api = (await import(
   `data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0]!.text).toString("base64")}`
