@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "scope": "Write-specific freshness admission and one conditional write with post-commit state projection",
+  "baseCommit": "5faddbb61f380ac79f5c1e62f456cdb25e265d72",
+  "oldSource": {
+    "path": "apps/cli/packages/core/src/tool/handlers/write.ts",
+    "sha256": "5d704de2a9a81f8d8ddf61dd122f538c34d83220e53ea2cd2ceeb5d40d29ec9a",
+    "exposure": "Prior source inspected to freeze observed contracts; no isolated-author or clean-room claim"
+  },
+  "implementation": [
+    "Represent existing reads as an optional admitted read object and preserve Write-specific revision-first freshness semantics",
+    "Capture the existing filesystem port once; use one attempted read and one atomic conditional write, without stat, retry or fallback",
+    "Project returned revision into the existing read-state map only after write, then invoke metadata callback and build unchanged public output",
+    "Preserve existing empty-file create classification and raw replacement line endings"
+  ],
+  "mechanicallyRetained": {
+    "publicDeclaration": "Byte-identical except handler binding; not independently rewritten",
+    "modelFormatter": "Byte-identical retained implementation and wording"
+  },
+  "validation": {
+    "oldBaselineContracts": 28,
+    "permanentDualContracts": {
+      "source": 28,
+      "emitted": 28,
+      "pass": 56,
+      "fail": 0
+    },
+    "differential": {
+      "cases": 3000,
+      "mismatches": 0,
+      "seed": 85391,
+      "outcomes": {
+        "Error": 749,
+        "write_file_not_read": 483,
+        "create": 162,
+        "update": 963,
+        "write_file_stale": 643
+      }
+    },
+    "aggregate": {
+      "tests": 5602,
+      "pass": 5536,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "prepush": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "cliStartupSmoke": {
+      "exitCode": 0,
+      "output": "0.16.9",
+      "isolation": "Empty temporary cwd/HOME/data/config/cache with cleared environment, version only",
+      "bundleSha256": "9e3ffba86fb04e3ab710688d658e99cdee49a9fa5650fda315600772d6f81848"
+    }
+  },
+  "baselineFixtureCorrections": [
+    "Initial fixture accidentally retained Edit input fields; corrected to Write content before implementation",
+    "Initial missing-metadata memory expectation did not match the unchanged helper. Added separate frozen contracts for parsed metadata mapping (stamped) and absent mapping (unchanged), retaining initial failure logs"
+  ],
+  "sourceSha256": {
+    "apps/cli/packages/core/src/tool/handlers/write.ts": "990637ee4a9c2d16155bf0a2c98840c85b0b967e3f670ed4dc12ac55fbf5b3e1",
+    "apps/cli/packages/core/src/tool/handlers/write-transaction.ts": "a81b86a747a155ef746365d287f8a1403dc58b7cdaeab4d0a0cd64e084822655"
+  },
+  "testSha256": {
+    "apps/cli/packages/core/test/write-transaction.test.ts": "91ffef865ced9a1479d16b911e20034bb23b6c8565f154e02374dbb27ea74b20"
+  },
+  "emittedSha256": {
+    "apps/cli/packages/core/dist/tool/handlers/write.js": "ebfa64988d138d1c0f6737091cb11f49ba8caf3906b9cd72de6bd307f74fe367",
+    "apps/cli/packages/core/dist/tool/handlers/write-transaction.js": "48d7d2a0ef0e41d3593f8d69a8e8fdc8dbc94863bc13f473876de2f497745623"
+  },
+  "logSha256": {
+    "write-transaction-startup.log": "5dd0ca386ae83caaa4d32488cec1f155c8a4caae321e1689b6ffba3c45bd9b61",
+    "write-transaction-full.tap": "2a9ed71367fb91b80d86359d2e48b27dd570094b90fd129e8ad8bfd4e2a77d57",
+    "write-transaction-prepush.log": "cdd674d4a94e067b567535044b17c142328522cedfb4208fa794657ebfbdfe15",
+    "write-transaction-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "write-transaction-format.log": "b8e7d66fd1db8b08bd08ce9cccb7362ded3e061324ec5d9a473ab92545fb4125",
+    "write-transaction-explicit-lint-final.log": "f9d1116b0088141d15df5c3a9954d4cf1efe8087bce113425120e5ce12733798",
+    "write-transaction-cli-lint.log": "f7a2d4248ce2a4337d3378c22ec808e050a511d375d4a17f7974b53e37e8087b",
+    "write-transaction-root-lint.log": "291531c301ec5bab8f011ba5f3b4ae86ff32f8cf0af9b80f008c967df18337a3",
+    "write-transaction-cli-typecheck-final.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "write-transaction-root-typecheck.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "write-transaction-source-emitted.tap": "65b8a0b6d8dd0c236dcd89ffa0d787217ead5cf240a449b0f8236e6fecfa49de",
+    "write-transaction-cli-build-final.log": "4aff4fa9c3c1fbb66380db92b61ec684fe9cecc9757a25f8ab6a1d16f3cffc03",
+    "write-transaction-differential-final.log": "147674d48482ee3c81e0a13470a521389943622100d6279ba4c24113dec959ab",
+    "write-transaction-cli-build.log": "093d508907cffdf070654c1eedb65269d716a3f53d25549ecea7cc2def4e028b",
+    "write-transaction-explicit-lint.log": "949318ae5652c48ac774cf8fcf4b72f7375ed8faeb856badb55f944e58c42d1e",
+    "write-transaction-cli-typecheck.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "write-transaction-differential.log": "147674d48482ee3c81e0a13470a521389943622100d6279ba4c24113dec959ab",
+    "write-transaction-source.tap": "337d389403db7c7a812eac818fede6a86f357d9683b47ddaab385f4711fba349",
+    "write-transaction-baseline-final.tap": "0424c13ff2f09adcad9790c8aec1e6aed07f148959248fda23f600a846867093",
+    "write-transaction-baseline-corrected-input.tap": "a4c6f71546e20a678e66d1e83a4fc18c7340606c012f286c0e855dcc73ad52e0",
+    "write-transaction-baseline.tap": "eb3b7c2dede5a789e135c99dda35c7a1f5ea36548bd833ba711dcd30a96dbc38"
+  },
+  "limits": [
+    "Own-cloud full regression retains exactly 59 baseline listen EPERM failure events and seven skips; not full green",
+    "Native exact-head CI for this batch is pending publication",
+    "No user files, native UI, installer, data upgrade or live model acceptance claimed",
+    "Memory-origin helper absence-of-metadata behavior is retained, not fixed or reinterpreted",
+    "All 27 material obligations and transition LICENSE/NOTICE remain; no MIT or global completion declaration",
+    "Earlier intermittent creation timeout cause remains unresolved"
+  ]
+}

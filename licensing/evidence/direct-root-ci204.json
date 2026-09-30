@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "scope": "Tenth root batch Edit transaction exact-head native CI receipt; excludes later Write transaction work",
+  "head": "5faddbb61f380ac79f5c1e62f456cdb25e265d72",
+  "checkedMergeSha": "94e405b9097e2fd57be4e531f4b25c5e76bd035c",
+  "checkedTree": "9ce5e469afc373b8bffa3aff55548a205bbe0de3",
+  "headTreeExactMatch": true,
+  "run": 36774685534,
+  "runNumber": 204,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36774685534",
+  "linux": {
+    "job": 110089520037,
+    "result": "success",
+    "tests": 5546,
+    "pass": 5538,
+    "fail": 0,
+    "skip": 8
+  },
+  "limits": [
+    "Own-cloud 59 baseline socket restrictions are not native CI failures",
+    "Native UI, installer, live provider and data upgrade acceptance remain separate",
+    "Earlier intermittent creation timeout root cause remains unresolved",
+    "27 material obligations remain and no new MIT decision is made"
+  ],
+  "windows": {
+    "job": 110089520345,
+    "result": "success",
+    "tests": 5546,
+    "pass": 5545,
+    "fail": 0,
+    "skip": 1,
+    "emptyMatchSourceProbeMs": 2256.8648,
+    "emptyMatchEmittedProbeMs": 1492.4781
+  }
+}
