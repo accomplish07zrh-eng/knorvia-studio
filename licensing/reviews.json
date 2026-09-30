@@ -34754,14 +34754,15 @@
     },
     {
       "path": "specs/knorvia-logging-runtime.md",
-      "normalizedSha256": "94473dd9e7abd0b8a24d2d3b98677646528ccd17ebcb6f29ad2f9416ef473e3d",
+      "normalizedSha256": "00311c8ae795eddd7624821ed745a12087d4a0577a99d8e91091520860e643fe",
       "decision": "original",
       "license": "MIT",
-      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
       "evidence": [
         "specs/knorvia-logging-runtime.md",
         "licensing/evidence/logging-runtime.md",
-        "docs/knorvia-logging-runtime-acceptance.md"
+        "docs/knorvia-logging-runtime-acceptance.md",
+        "docs/knorvia-logging-sparse-array-20260930.md"
       ]
     },
     {
@@ -34790,14 +34791,15 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/logging-runtime-contract.test.mjs",
-      "normalizedSha256": "217377bd6da5430038a71086a58e56bd095ef43ca614d1f199e01e3688e9b895",
+      "normalizedSha256": "1bbc1314d0bb0fae8c9361075bf7dc57d113ebbd579bf667f70190d57f5b0005",
       "decision": "original",
       "license": "MIT",
-      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
       "evidence": [
         "specs/knorvia-logging-runtime.md",
         "licensing/evidence/logging-runtime.md",
-        "docs/knorvia-logging-runtime-acceptance.md"
+        "docs/knorvia-logging-runtime-acceptance.md",
+        "docs/knorvia-logging-sparse-array-20260930.md"
       ]
     },
     {
@@ -34850,14 +34852,15 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/logging-runtime-contract/serialization.test.mjs",
-      "normalizedSha256": "94210fe38ed28bd5415f815854b8baf1c0de75aec504f88c4134b7f36bd43987",
+      "normalizedSha256": "1c49232ee7cdfe78e481daee1de450f4d1fa22accc5d2c1bb77b885e6ea8e6f2",
       "decision": "original",
       "license": "MIT",
-      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files.",
+      "basis": "New behavior-contract, test, fixture or explanatory expression authored in the 2026-09-30 logging continuation. No historical 44-case suite, retained declaration body or old implementation was copied into this file. Public signatures and behavioral facts remain compatibility inputs. The author saw prior production source; this review licenses the new expression only and makes no clean-room claim or MIT grant for the reimplemented production files. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
       "evidence": [
         "specs/knorvia-logging-runtime.md",
         "licensing/evidence/logging-runtime.md",
-        "docs/knorvia-logging-runtime-acceptance.md"
+        "docs/knorvia-logging-runtime-acceptance.md",
+        "docs/knorvia-logging-sparse-array-20260930.md"
       ]
     },
     {
@@ -35018,6 +35021,22 @@
         "specs/knorvia-creation-polish.md",
         "docs/knorvia-comfy-ci-diagnostic-20260930.md"
       ]
+    },
+    {
+      "path": "apps/cli/packages/adapters/test/logging-runtime-contract/sparse-array-probe.mjs",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
+      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "normalizedSha256": "a8ffd47e8d38d2270354dcfcf33e826ea7c1b47c83de89903e1c13b24ea4bbf7"
+    },
+    {
+      "path": "docs/knorvia-logging-sparse-array-20260930.md",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New owned sparse-array test fixture or acceptance expression; does not license production logging source. The 2026-09-30 correction adds a failure-first isolated heap gate and array mutation-order regression, preserving the historical 51 cases and production Apache-2.0 review status.",
+      "evidence": ["docs/knorvia-logging-sparse-array-20260930.md"],
+      "normalizedSha256": "1c83d8e1d41b4c494c792bfbd1ca672b0cf4b853e230a0f9e524744d1fd31e8f"
     }
   ]
 }

@@ -67,12 +67,18 @@ function assignOwn(target: object, key: PropertyKey, value: unknown): void {
 }
 
 type Visit = { read: () => unknown; depth: number; write: (value: unknown) => void };
+type ArrayFrame = {
+  array: unknown[];
+  result: unknown[];
+  index: number;
+  depth: number;
+};
 
 export class DefaultLogRedactor implements LogRedactor {
   redact(input: unknown): unknown {
     let output: unknown;
     const identities = new WeakSet<object>();
-    const pending: Visit[] = [
+    const pending: (Visit | ArrayFrame)[] = [
       {
         read: () => input,
         depth: 0,
@@ -83,6 +89,18 @@ export class DefaultLogRedactor implements LogRedactor {
     ];
     while (pending.length) {
       const visit = pending.pop()!;
+      if ("array" in visit) {
+        const index = visit.index++;
+        if (visit.index < visit.result.length) pending.push(visit);
+        if (index in visit.array) {
+          pending.push({
+            depth: visit.depth,
+            read: () => visit.array[index],
+            write: (item) => assignOwn(visit.result, index, item),
+          });
+        }
+        continue;
+      }
       const value = visit.read();
       if (visit.depth > MAX_DEPTH) {
         visit.write("[Redacted:DepthLimit]");
@@ -104,17 +122,13 @@ export class DefaultLogRedactor implements LogRedactor {
       if (Array.isArray(value)) {
         const result = new Array<unknown>(value.length);
         visit.write(result);
-        for (let index = value.length - 1; index >= 0; index--) {
-          let present = false;
+        // 修复：逐索引继续，避免为稀疏空槽预建闭包；250000 槽曾额外占用约 192 MiB。
+        if (result.length) {
           pending.push({
+            array: value,
+            result,
+            index: 0,
             depth: visit.depth + 1,
-            read: () => {
-              present = index in value;
-              return present ? value[index] : undefined;
-            },
-            write: (item) => {
-              if (present) assignOwn(result, index, item);
-            },
           });
         }
       } else {

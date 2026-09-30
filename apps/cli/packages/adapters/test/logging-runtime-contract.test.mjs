@@ -13,7 +13,7 @@ import { checkLoggingApi } from "./logging-runtime-contract/check-api.mjs";
 const testRoot = fileURLToPath(new URL("./logging-runtime-contract/", import.meta.url));
 const adapterRoot = fileURLToPath(new URL("../", import.meta.url));
 const modeOverride = process.env.KNORVIA_LOGGING_CONTRACT_TEST_MODE;
-const EXPECTED_CASES = 51;
+const EXPECTED_CASES = 53;
 
 for (const mode of modeOverride ? [modeOverride] : ["source", "dist"]) {
   assert.ok(mode === "source" || mode === "dist", "Invalid logging target mode");
@@ -43,7 +43,8 @@ for (const mode of modeOverride ? [modeOverride] : ["source", "dist"]) {
           "tsx",
           "--test",
           "--test-concurrency=1",
-          "--test-timeout=60_000",
+          // Node CLI 数值不能用 JS 数字分隔符；原字符串被解析成 60ms 而不是声明的 60 秒。
+          "--test-timeout=60000",
           "--test-reporter=tap",
           ...["serialization", "retention", "logger-output", "logger-factory", "edges"].map(
             (name) => join(testRoot, `${name}.test.mjs`),
@@ -72,6 +73,8 @@ for (const mode of modeOverride ? [modeOverride] : ["source", "dist"]) {
     assert.equal(count, EXPECTED_CASES, result.output);
     assert.match(result.output, new RegExp(`\\n# pass ${EXPECTED_CASES}\\s`));
     assert.match(result.output, /\n# fail 0\s/);
-    context.diagnostic(`${mode}: ${EXPECTED_CASES}/${EXPECTED_CASES} frozen logging cases`);
+    context.diagnostic(
+      `${mode}: ${EXPECTED_CASES}/${EXPECTED_CASES} logging cases (51 frozen + 2 sparse-array regressions)`,
+    );
   });
 }

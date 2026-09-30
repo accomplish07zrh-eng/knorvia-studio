@@ -2,10 +2,74 @@
 // Copyright (c) 2026 Knorvia Studio contributors
 
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 import { subject } from "./subject.mjs";
 
 const api = await subject("serialize");
+
+test("large sparse arrays use bounded traversal memory and retain holes and identities", async () => {
+  const { stdout } = await promisify(execFile)(
+    process.execPath,
+    [
+      "--expose-gc",
+      "--import",
+      "tsx",
+      fileURLToPath(new URL("./sparse-array-probe.mjs", import.meta.url)),
+    ],
+    { windowsHide: true, maxBuffer: 128 * 1024 },
+  );
+  const result = JSON.parse(stdout);
+  assert.ok(result.extraHeap < 32 * 1024 * 1024, `Extra heap: ${result.extraHeap} bytes`);
+  assert.deepEqual(
+    { ...result, extraHeap: undefined },
+    {
+      extraHeap: undefined,
+      length: 250_000,
+      first: { value: "fixture" },
+      last: "[Redacted:Circular]",
+      keys: ["0", "249999"],
+      middlePresent: false,
+    },
+  );
+});
+
+test("array traversal observes inherited slots and getter mutations in depth-first order", () => {
+  const events = [];
+  const input = new Array(5);
+  const prototype = Object.create(Array.prototype);
+  Object.defineProperty(prototype, 1, {
+    get() {
+      events.push("inherited");
+      return 7;
+    },
+  });
+  Object.setPrototypeOf(input, prototype);
+  Object.defineProperty(input, 0, {
+    get() {
+      events.push("first");
+      input[3] = "added";
+      delete input[4];
+      input[5] = "outside initial length";
+      return {
+        get nested() {
+          events.push("nested");
+          return 2;
+        },
+      };
+    },
+  });
+  input[4] = "removed";
+  const output = new api.DefaultLogRedactor().redact(input);
+  assert.deepEqual(events, ["first", "nested", "inherited"]);
+  assert.equal(output.length, 5);
+  assert.deepEqual(Object.keys(output), ["0", "1", "3"]);
+  assert.deepEqual(output[0], { nested: 2 });
+  assert.equal(output[1], 7);
+  assert.equal(output[3], "added");
+});
 
 test("redactor keeps primitives and scrubs diagnostic text", () => {
   const r = new api.DefaultLogRedactor();
