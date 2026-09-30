@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "scope": "Shared read-only Glob/Grep orchestration and stateless search output projection",
+  "parentLocalCommit": "2d14cd2908db02b70689f576f39eac9f0f2898bc",
+  "parentTree": "4f6e7dc1a494322e188cb3c18518a2368f121106",
+  "lastVerifiedPublishedCommit": "fdeaf23055b20151dd84ee5fce034a259076a087",
+  "publicationState": "Parent memory-origin batch and this batch are local while the mechanical transport service is unavailable; neither is claimed remotely published",
+  "oldSources": {
+    "glob": {
+      "path": "apps/cli/packages/core/src/tool/handlers/glob.ts",
+      "sha256": "f763d54c26ee89eba3780e946fd43fc7f3082a5983ff22736c610ef5f6c31b68"
+    },
+    "grep": {
+      "path": "apps/cli/packages/core/src/tool/handlers/grep.ts",
+      "sha256": "f9c14988f89cd81319346f9169f8128671845ad30d04bb79fecd065a25b7e4e8"
+    }
+  },
+  "exposure": "Earlier source inspected and synthetic-port contracts frozen; no isolated-author or clean-room claim",
+  "implementation": [
+    "One shared read-only port/path/trace preparation path with tool-specific schema admission and error boundaries",
+    "One stateless text-search projector preserving returned modes, exact path-display policy, entry ordering, field presence, zero values and limits",
+    "No search retries, extra filesystem calls, result sorting, deduplication, cache or permission changes"
+  ],
+  "mechanicallyRetained": {
+    "Glob": "Public declaration and model formatter byte-identical except handler binding",
+    "Grep": "Public declaration and model formatting helpers byte-identical except handler binding"
+  },
+  "validation": {
+    "oldBaselineContracts": 24,
+    "permanentDualContracts": {
+      "source": 24,
+      "emitted": 24,
+      "pass": 48,
+      "fail": 0
+    },
+    "differential": {
+      "cases": 4000,
+      "mismatches": 0,
+      "seed": 62071,
+      "outcomes": {
+        "Grep:ZodError": 47,
+        "Glob:FileSystemPortError": 151,
+        "Grep:Error": 151,
+        "Glob:configuration_error": 151,
+        "Grep:count": 377,
+        "Glob:files": 1501,
+        "Grep:content": 383,
+        "Grep:future_mode": 361,
+        "Grep:files_with_matches": 381,
+        "Grep:tool_cancelled": 150,
+        "Glob:Error": 150,
+        "Grep:configuration_error": 150,
+        "Glob:ZodError": 47
+      }
+    },
+    "aggregate": {
+      "tests": 5840,
+      "pass": 5774,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "prepush": "pass",
+    "cliBuild": {
+      "success": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "cliStartupSmoke": {
+      "exitCode": 0,
+      "output": "0.16.9",
+      "isolation": "Empty temporary HOME/cwd/data/config/cache and cleared environment; version only",
+      "bundleSha256": "ffc4aa24f64f6edc622b6b967cbd09278857ad4e0efddcb68c7c23e6cce8374b"
+    }
+  },
+  "sourceSha256": {
+    "apps/cli/packages/core/src/tool/handlers/glob.ts": "be8bf9c654ff155ac3354a0a8d30a9480f7f8965b1b032643a7468a2688de645",
+    "apps/cli/packages/core/src/tool/handlers/grep.ts": "6bd82160dfc4f95ec4a71329a537c58f768a702ffd0edde826fde7c6faa237db",
+    "apps/cli/packages/core/src/tool/handlers/file-search-runtime.ts": "be254f08f0442c5b56dde0146a4d305bc40550a7bd6d765b4f8741902376c439",
+    "apps/cli/packages/core/src/tool/handlers/file-search-output.ts": "8a605ae9c2706ac009e9e45dea2fb602c3b48771369eeed1d21e3e5d4934c626"
+  },
+  "emittedSha256": {
+    "apps/cli/packages/core/dist/tool/handlers/glob.js": "a30adfbf0974dfbdf3737153157f1b18cd7be86d914dba414f70d87130d9fb9c",
+    "apps/cli/packages/core/dist/tool/handlers/grep.js": "ab9fa4058a0005f878843c6554ef230ef8fff981d2ae099006c6f041e5eb47ce",
+    "apps/cli/packages/core/dist/tool/handlers/file-search-runtime.js": "19a37de90e1ed82bcc993452af5f8e9dd0d036b7d9af52ecba946d2cea5db624",
+    "apps/cli/packages/core/dist/tool/handlers/file-search-output.js": "35efb9aa0183766ef7ca8612de0afd10eb107e67828e6b4d85949565793116e3"
+  },
+  "testSha256": {
+    "apps/cli/packages/core/test/file-search-tools.test.ts": "34de90165424e1fb6a09ca0f55fca1a4caf20dda0456f73e0f890a00fc8b6123"
+  },
+  "logSha256": {
+    "file-search-startup.log": "5dd0ca386ae83caaa4d32488cec1f155c8a4caae321e1689b6ffba3c45bd9b61",
+    "file-search-full.tap": "b168a007e22276110671612f3e910dc6baa20d997ae3886708269c6fb00a2685",
+    "file-search-prepush.log": "184883891b37a531df065eee39d40f4b64ab68745a2a37adce06d4ceb6ee4fd3",
+    "file-search-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "file-search-format.log": "25465eb1faaf13920063b5a9f24a5967790118e229ab23801d7f5f605d591c53",
+    "file-search-explicit-lint-final.log": "2a70c1056d67171b5af763cf5f009773050b693c7c69ab98f93c650ed0dc7e50",
+    "file-search-cli-lint.log": "610817f10685b73365a3179cc18caf1d6dd7d4be187ec79b1ed8ae5dbd4a725b",
+    "file-search-root-lint.log": "da4133ab008874805c0e3789cba4b531294be9d2d57179a6477870373a38f923",
+    "file-search-cli-typecheck.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "file-search-root-typecheck.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+    "file-search-differential.log": "2533b9388f448ed9167242eecd18b323a5b60648d944593248f69f2bc28c4b40",
+    "file-search-source-emitted-final.tap": "d3f43dc6116b51cf3d265af5bb7e8c188027c95e1e55a3829769945031f3cffa",
+    "file-search-source-emitted.tap": "7ebc7875c0ef6e93194052931bebeeb511e9bf78b4fa1868d87603c4f67d7317",
+    "file-search-baseline-expanded.tap": "211a127ffa63c8a06f0e0ec1ac7896999e3a54f1e6117f1b4e56bf513c52c54a",
+    "file-search-cli-build.log": "a647e2a24fa42cfe8809ba12e2ebc0f8c6d8b1bf18fc398e5d960a692c18fc9c",
+    "file-search-explicit-lint.log": "b5f33ccafb4919296a26f3f95c2544fce54d4cee0afb023d0a4af8117101facb",
+    "file-search-source.tap": "44f589197400b60ad889c868b04fec7243701dce0da0822bbe99e28ad640de55",
+    "file-search-baseline.tap": "26c62766edbfc21941de5c3d73b974c859ec9df73aa360f19eeb1315c57ab34a",
+    "file-search-context.log": "d78549c765a6c4b91b229db77a198a536797958572d8a25d479dc9861f97d15f"
+  },
+  "limits": [
+    "Own-cloud full run retains exactly 59 baseline socket restrictions and seven skips; not full green",
+    "This local stack still requires verified publication and cumulative native Linux/Windows CI",
+    "No actual user-file searches, native UI, installer or live-provider acceptance claimed",
+    "All 27 material obligations and transition licences remain; no new MIT or overall completion assertion",
+    "Existing earlier creation-timeout root cause remains unproven"
+  ]
+}
