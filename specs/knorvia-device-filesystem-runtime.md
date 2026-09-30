@@ -41,6 +41,18 @@ provider 请求 → 每 stateFile 一个进程内 Promise → 已有 deviceMid �
 
 保留 createDirectory、stat、readTextFile、readBinaryFile、readTextFileRange、writeTextFile、removeFile、listDirectory、searchFiles、searchText 和两个 ripgrep 测试工厂控制。绝对路径归一、revision/hash、文本截断与二进制总量拒绝、原子写入/期望版本、防增长有界读取、fault-injection 边界、目录排序、VCS 排除、glob 及 JavaScript/ripgrep 全部输出模式、runtime fallback 与取消均进入冻结合同。搜索和错误的进一步受控观察在实现前补入本文件，不能以缩减能力完成替换。
 
+### 身份与门面的下一切片
+
+以保存的旧 source/dist 33 项身份、50 项 I/O 完整观察为永久门的输入；原始观察摘要保留在验收证据，不覆盖缓存原件。I/O 数值 open flags 按当前平台 Node constants 核对，再以 flag 名字比较跨平台观察。POSIX 的 `~\\child` 是含反斜杠文件名，Windows 是路径分隔，分别保留原行为，不以统一路径手写转换生产逻辑。先旧版通过，再替换。真实 Anthropic 请求 metadata 与 Core Read/Grep/Glob 消费使用当前公开 contracts，不能用宽松副本替代。
+
+- 写入保持 stat revision ID 的原比较顺序；文本截断仅一次读取，二进制 max+1 的防增长读取则需消费短读。原子写入保持原权限、temp 独占、同步/关闭/rename，失败后清理 temp 并执行原 direct fallback；symlink 拒绝与关闭错误不得暗改。取消与普通 Node 错误由门面单一转换，不重复缓存 accepted 状态。
+- 搜索模式仍是 files_with_matches/content/count；pattern trim，glob 支持原有星号/双星号/问号/字面 brace alternatives，文件类型取既有映射。遍历只跟随 Dirent 标明的目录/常规文件，排除六个 VCS 目录，不跟随 symlink；保留逐目录/逐文件 I/O 顺序和错误。文件输出按 mtime 降序再按路径，内容/计数 entries 保留搜索顺序；headLimit=0 为不限，offset/headLimit 的原 slice 数值语义不收紧。
+- JavaScript 搜索读取 UTF-8、NUL 跳过；逐行匹配计命中行，multiline 计 match，onlyMatching 保留空 match、孤立 CR 和跨行空片段的原区别。context 合并、行号、末尾换行、零长度 regex、无匹配与 invalid regex 都需旧版反例。multiline 不带 onlyMatching 时原忽略 context 的行为保留。
+- multiline 行号以单次建立的行首索引定位，避免每一个 match 重扫从文件开头的所有字符。先以 10000 个 `hit\n` 观察旧版真实结果和查找次数；候选保留 10000 个 match/entry/行号，显式字符/换行查找预算不超过输入字符数加两倍 match 数。受控 string-compatible 端口只计数实际查找，不用固定毫秒门槛。索引不得因尾随 LF、空 match 或孤立 CR 改变原结果。
+- 默认 ripgrep 继续自有 Worker，不占主线程。原参数/preopens、JSON/count 输出解析、路径/type/glob 二次过滤、stderr 错误分类、超时和 abort/terminate 单次 settle、恢复测试 factory 的语义保持。只有 runtime failure 回退 JavaScript；超时、取消、正常 code=2/异常 exit 与解析失败不当作 runtime fallback。外部 timer、worker、fs 未配置时测试立即失败，不能触发真实搜索或杀进程。
+
+新门面只负责编排公开端口；有界读写、路径/错误、遍历/glob、JS 匹配与结果投影、ripgrep plan/worker/解析分别由高内聚模块负责。不是将旧文件按行拆分后重新标记来源：先从固定输出反例推导新算法，再核对 I/O 和错误边界。原源码暴露与许可继续保留；每文件小于 400 行。
+
 ## 验收与来源边界
 
 旧 source/dist 与候选 source/dist 同门；先有数值/字节/错误反例，再编写新实现。实际 provider metadata 消费和文件读取工具消费保持，同组以合成旧→新→旧状态/编码字节验证，不将其称为真实用户数据迁移。既有 MCP/Bash 50 项门只在需要的最终整合检查运行，不重建历史六项 harness。

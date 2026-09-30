@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "baseCommit": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+    "files": [
+      {
+        "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+        "sourceSha256": "6d335b29abf6e9362f41c3419c1e2326ad02056b22f09efd9618ac181ff688e2",
+        "builtJsSha256": "967dbce5c2eb608068897918ce3d19422e33e08d49520bdbfb4e44d564f8dbe8",
+        "declarationSha256": "2e2097ed11bb4601461415f9690c2959ff4a00c3d274e3e92aba2cb890761bef"
+      },
+      {
+        "path": "apps/cli/packages/adapters/src/fs/index.ts",
+        "sourceSha256": "4bbb761d5fe663aa3cb547387051d908b1319ef9af19fda3fb286cca96a5825e",
+        "builtJsSha256": "4babe3f5fdc50218ccebcb690f985996306284450bfb8a3331b65a799f2cb796",
+        "declarationSha256": "1c901db6de53900d3db352b1eaea871df3a25181fa87e407a29e13f88a80505d"
+      },
+      {
+        "path": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+        "sourceSha256": "a538e47a026d7599064a0e426c67c3bdfaba115c80749fd8d7cb28e1a5228cec",
+        "builtJsSha256": "fa5e660661be3f528e0d9b07ffdfb0c93fcdbe407c71be8468b519530200f743",
+        "declarationSha256": "92b978c42672e294e70a3e743dcc500c475bf25f6a8748f1653ab50a015312a1"
+      },
+      {
+        "path": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+        "sourceSha256": "ffbfd512571ed1e03e6026b4ba53f2a3c38eb9a0ca3565cdb283f846b2f5bb0a",
+        "builtJsSha256": "5b854c6bcb5eee6c473b7cb13b57c4353e6391dfc0f867894415e2cf90cb8b84",
+        "declarationSha256": "61cc59b8d42be5fd60929f82dbac9e064b85591b796edee6fa27e9411140c8c7"
+      }
+    ],
+    "productionChanged": false,
+    "oldImplementationBodiesAccessedForContract": true,
+    "cleanRoomClaim": false,
+    "dependencies": "Existing Node, iconv-lite, contracts and shared libraries retain applicable provenance; baseline cache must not be copied back to production"
+  },
+  "candidateLogicalModules": [
+    "device/cli-device-mid.ts",
+    "fs/index.ts"
+  ],
+  "implementation": {
+    "owner": "Per state-path IdentityRequest; FileSystemPort remains sole facade",
+    "algorithms": [
+      "Explicit DFS directory frames",
+      "Single newline-start index with upper-bound lookup",
+      "codec/line-window retained from the previous accepted slice"
+    ],
+    "sourceBodiesExposed": true,
+    "cleanRoomClaim": false,
+    "productionMitReviewsAdded": 0,
+    "defaultLicenseRetained": "Apache-2.0"
+  },
+  "candidateFiles": [
+    {
+      "path": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sha256": "f9f454a08293e596396afd7be627697ad8b9a6b7e4bf084f14f81dddd898ed8d"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/index.ts",
+      "sha256": "ab1658bcbbf793c87848d948fc9b4eb468fa6c1d324cad2447efbafa0ceb0ce1"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/file-search-paths.ts",
+      "sha256": "4015e277b2691f9dce271068280a6573a428d2c509b7423f280f4fc904349a79"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-file-io.ts",
+      "sha256": "29670cb2854bfa92a1830474c31817111b574401fb21d6188e181c3d9a56c1bd"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-file-policy.ts",
+      "sha256": "dbc561f40490585bb28260580bc2a043282188614b7612b682f5a19a399f3b53"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/node-search.ts",
+      "sha256": "1d2ab46efc39c1f586aebb9203416326e9da29f74b435f35bc5e73b000c29d92"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/ripgrep-plan.ts",
+      "sha256": "f636078fe41b4d2ca4a7d7f4d039ae4f36f3670a8c076f3a71f9994f3190cc79"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/ripgrep-worker.ts",
+      "sha256": "ebf78cae1f2ad385c98422f30a9ae49720afb1c44ed287c12f3e8ef0eb4199be"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-search-lines.ts",
+      "sha256": "f58f07fe5acd70b938377bc4852bc8015187326037afa2a501fc237ba9abe6eb"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/fs/text-search-results.ts",
+      "sha256": "a36023e637e282c200a6cb26e60fe7140bc483ff5db30f190134ef79b0c81b6e"
+    }
+  ],
+  "frozen": {
+    "identity": {
+      "cases": 33,
+      "originalCacheSha256": "d91173fed612bf7fc12643746b66b423fd4b8c451ae4888da68711db7a1161ad"
+    },
+    "facadeIo": {
+      "cases": 50,
+      "originalCacheSha256": "1641902693151c2eacd4504d18d87ddbbe5f19fcbc810735d9da802ee153bc96",
+      "numericFlagsAssertNativeConstants": true
+    },
+    "search": {
+      "cases": 106,
+      "sourceDistAgree": true,
+      "invalidRootPreparationCorrectedBeforeFacadeReplacement": true
+    },
+    "records": [
+      {
+        "path": "apps/cli/packages/adapters/test/device-fs-contract/identity-observations.json",
+        "sha256": "5e02d1e1a56652bf8683522b32aa17d683312e36b98309aa5e983a521fa6364a"
+      },
+      {
+        "path": "apps/cli/packages/adapters/test/device-fs-contract/facade-io-observations.json",
+        "sha256": "8aeadf890145aa3765605f6bef145752b3966a236f74252ad55ca22235297dc7"
+      },
+      {
+        "path": "apps/cli/packages/adapters/test/device-fs-contract/search-observations.json",
+        "sha256": "7380a6d9cac8f0ab942391ac3de520a9229c9750ef313fb90a999c76cbd96a4a"
+      }
+    ]
+  },
+  "checks": {
+    "source": {
+      "passed": 390,
+      "failed": 0
+    },
+    "dist": {
+      "passed": 390,
+      "failed": 0
+    },
+    "breakdown": {
+      "frozenBoundaries": 375,
+      "realConsumers": 7,
+      "ownedNativeFixtures": 5,
+      "lifecycle": 1,
+      "algorithmMemoryRegressions": 2
+    },
+    "oldDistRemainingGate": {
+      "passed": 198,
+      "failed": 0
+    },
+    "publicApi": "Compared to original declarations; unchanged",
+    "nativeWorker": "Actual result from bundled ripgrep; no runtime fallback",
+    "aggregate": {
+      "tests": 3874,
+      "passed": 3867,
+      "skipped": 7,
+      "failed": 0,
+      "durationMs": 266063.865734
+    },
+    "build": {
+      "command": "pnpm build:cli-packages",
+      "tasks": 17,
+      "passed": 17,
+      "cached": 12
+    },
+    "rootAndCliTypecheck": true,
+    "rootAndCliLint": true,
+    "architecture": {
+      "violations": 0,
+      "new": 0
+    }
+  },
+  "searchComplexity": {
+    "inputCharacters": 40000,
+    "matches": 10000,
+    "oldSourceProbes": 199980000,
+    "oldDistProbes": 199980000,
+    "candidateProbes": 40000,
+    "lookupBudget": 60000,
+    "entriesAndLinesUnchanged": true
+  },
+  "compatibility": {
+    "source": {
+      "sequence": [
+        "old",
+        "new",
+        "fresh-old"
+      ],
+      "cases": [
+        {
+          "encoding": "utf8",
+          "sha256": "98206f43dfaacf0f95160e056cf00d7a2a50ca3ba1831277d000b2f40403dbd3",
+          "bytesUnchanged": true
+        },
+        {
+          "encoding": "gb2312",
+          "sha256": "145058f8cf52021d8b5c8d0cc7ea3b732ff9bb5bcd340abd61492ea8f48788e6",
+          "bytesUnchanged": true
+        },
+        {
+          "encoding": "utf16le",
+          "sha256": "bfcfa00486aa656db348c1f900259f917eba0d80ec035ffe5b10d2c2e810a251",
+          "bytesUnchanged": true
+        },
+        {
+          "encoding": "hex",
+          "sha256": "1300a159a1d403d33dace7fc88e47a4a35ae004d9598430472a128ac5e59576d",
+          "bytesUnchanged": true
+        }
+      ],
+      "identity": {
+        "unknownFieldsPreserved": true,
+        "stateBytesUnchangedAfterUpgrade": true,
+        "sha256": "d59015f1cdb0b12867786214cb20ce8cb6c20e41a1046a72e5e6384d97a485dc"
+      },
+      "scope": "Synthetic fixture only; no user data conversion"
+    },
+    "sourceDistExact": true,
+    "sourceDistFixtureSha256": "17e88d08c214863eaf93e5b30deb24340d83a04acc5e2fb829d55684697d179f"
+  },
+  "buildProof": [
+    {
+      "path": "apps/cli/packages/adapters/dist/device/cli-device-mid.js",
+      "sha256": "a362c9eafc31c664edb65394d07f93da11c518ab5c5da7bd91ebd489c8f92599",
+      "source": "apps/cli/packages/adapters/src/device/cli-device-mid.ts",
+      "sourceSha256": "f9f454a08293e596396afd7be627697ad8b9a6b7e4bf084f14f81dddd898ed8d",
+      "mapSource": "../../adapters/dist/device/cli-device-mid.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/index.js",
+      "sha256": "84a5d717fa86c1b6cd2b38487b16d2b1b6974490ecbdda954dae6a97a5c5fb6a",
+      "source": "apps/cli/packages/adapters/src/fs/index.ts",
+      "sourceSha256": "ab1658bcbbf793c87848d948fc9b4eb468fa6c1d324cad2447efbafa0ceb0ce1",
+      "mapSource": "../../adapters/dist/fs/index.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/file-search-paths.js",
+      "sha256": "58e9342034bb42f20377766355a946a51d44c3189ba60efc9776de7ee0619ec8",
+      "source": "apps/cli/packages/adapters/src/fs/file-search-paths.ts",
+      "sourceSha256": "4015e277b2691f9dce271068280a6573a428d2c509b7423f280f4fc904349a79",
+      "mapSource": "../../adapters/dist/fs/file-search-paths.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/node-file-io.js",
+      "sha256": "b7d762ba889384cf32826a9d0aea14d383b1be229035401dfbaa6165bbbb09e8",
+      "source": "apps/cli/packages/adapters/src/fs/node-file-io.ts",
+      "sourceSha256": "29670cb2854bfa92a1830474c31817111b574401fb21d6188e181c3d9a56c1bd",
+      "mapSource": "../../adapters/dist/fs/node-file-io.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/node-file-policy.js",
+      "sha256": "7fb6edd2a7a4a04c2f59305424a3b5cc165548add42b38c8e3d85c7242ed8381",
+      "source": "apps/cli/packages/adapters/src/fs/node-file-policy.ts",
+      "sourceSha256": "dbc561f40490585bb28260580bc2a043282188614b7612b682f5a19a399f3b53",
+      "mapSource": "../../adapters/dist/fs/node-file-policy.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/node-search.js",
+      "sha256": "49ea65d18ebe5b36feee7fc94dde259316ba6f4fe75bb5bd342c870ddf4c569b",
+      "source": "apps/cli/packages/adapters/src/fs/node-search.ts",
+      "sourceSha256": "1d2ab46efc39c1f586aebb9203416326e9da29f74b435f35bc5e73b000c29d92",
+      "mapSource": "../../adapters/dist/fs/node-search.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/ripgrep-plan.js",
+      "sha256": "5adeebbac03002ee8c63d7077739370c778f0bede89ecbdb58d84c08f4457709",
+      "source": "apps/cli/packages/adapters/src/fs/ripgrep-plan.ts",
+      "sourceSha256": "f636078fe41b4d2ca4a7d7f4d039ae4f36f3670a8c076f3a71f9994f3190cc79",
+      "mapSource": "../../adapters/dist/fs/ripgrep-plan.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/ripgrep-worker.js",
+      "sha256": "dd8bd893697a8465e82a39869cb8c6990710f31e3e3aaf2a8432bda36a22d409",
+      "source": "apps/cli/packages/adapters/src/fs/ripgrep-worker.ts",
+      "sourceSha256": "ebf78cae1f2ad385c98422f30a9ae49720afb1c44ed287c12f3e8ef0eb4199be",
+      "mapSource": "../../adapters/dist/fs/ripgrep-worker.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-search-lines.js",
+      "sha256": "049f67c5405dbd4828c5638e80b1c510a8789f0f6e3ff8aec80bd7a3f0f4350c",
+      "source": "apps/cli/packages/adapters/src/fs/text-search-lines.ts",
+      "sourceSha256": "f58f07fe5acd70b938377bc4852bc8015187326037afa2a501fc237ba9abe6eb",
+      "mapSource": "../../adapters/dist/fs/text-search-lines.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-search-results.js",
+      "sha256": "60f9e1d4cc0b542593f298a62b1b39c2675c8c6e2baf93c8bf4a439ca71189f5",
+      "source": "apps/cli/packages/adapters/src/fs/text-search-results.ts",
+      "sourceSha256": "a36023e637e282c200a6cb26e60fe7140bc483ff5db30f190134ef79b0c81b6e",
+      "mapSource": "../../adapters/dist/fs/text-search-results.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-metadata.js",
+      "sha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+      "source": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+      "sourceSha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542",
+      "mapSource": "../../adapters/dist/fs/text-metadata.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-range-reader.js",
+      "sha256": "565463f7952a215bd2f4286f7ebc98ca4110fdbfd13b8cf46b4504ed7328e567",
+      "source": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+      "sourceSha256": "df90936480261ab01d925e9ebda672113b7fdf9eb0d2b9a1b062abc42085cf9d",
+      "mapSource": "../../adapters/dist/fs/text-range-reader.js",
+      "exactSourceMapMatch": true
+    },
+    {
+      "path": "apps/cli/packages/adapters/dist/fs/text-line-window.js",
+      "sha256": "89ad80acb5101af7393eec69f4f3bbc32728f2626768439fa7096ddac7072f3a",
+      "source": "apps/cli/packages/adapters/src/fs/text-line-window.ts",
+      "sourceSha256": "936390c8fee4112d243610bbba4220b20161c7468e45be40b93a55c8208e25e9",
+      "mapSource": "../../adapters/dist/fs/text-line-window.js",
+      "exactSourceMapMatch": true
+    }
+  ],
+  "materialObligationsUnresolved": 27,
+  "notRun": [
+    "Native macOS precision and separate-process identity contention",
+    "Electron GUI/installer/final release payload"
+  ],
+  "rollback": "Revert this slice and regenerate inventory; no user data conversion or cleanup"
+}

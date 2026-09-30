@@ -24,3 +24,7 @@
 材料严格门保持 27 项：15 npm 例外、八份彩色 Material 图标、React skill 完整授权、canvas/Skia 静态链接闭包、QuickJS/WASI/extensions 闭包、native-search Rust stdlib 来源。用户“下排”原创声明只覆盖四份黑白插件图标，未据此解除彩色素材问题。原生 Windows/macOS 精度与 Electron sandbox 所有权仍待受支持 runner；旧 ComfyUI 1000ms 超时根因仍未被后续绿灯证明解决。
 
 本切片无新增依赖、公开 API、UI、数据库格式或数据目录变化。可单独 revert 恢复原两个模块并移除内部 helper；无用户数据清理或转换。下一切片继续身份锁缓存与完整文件系统门面/搜索合同，不能用模块拆分或通过测试来代替全库来源审查。
+
+## 后续构建证据复验
+
+QA 复建 metadata 得到 `eb73667e…`，与本页首次记录的 `7c6c06a0…` 不同。已从原 Turbo 缓存取回 `7c6c06a0…` 并验证旧 CLI sourcemap；两输出仅一个 if 条件的换行不同，TypeScript scanner token 全相同。首次记录的 source 是最终格式化版本，旧产物则是历史构建，原记录不能作为该最终 source 的精确重建证明。原摘要保留，新增 current source/锁定编译器/命令/产物和 source map 绑定，见原 JSON 的 `buildProofReverification` 与[后续验收](knorvia-device-filesystem-acceptance-20260930.md)。本页其他结果是 `8e8f631` 的历史检查点，不自动扩大为后续版本通过。

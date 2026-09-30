@@ -1,0 +1,1534 @@
+{
+  "baseCommit": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+  "platform": "linux",
+  "scope": "Old controlled I/O only; search/lock unobserved here; not native platform proof",
+  "records": [
+    {
+      "input": {
+        "op": "stat",
+        "kind": "file"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "kind": "file",
+        "sizeBytes": 5,
+        "mtimeMs": 1000.75,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "kind": "directory"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "kind": "directory",
+        "sizeBytes": 5,
+        "mtimeMs": 1000.75,
+        "revision": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "kind": "symlink"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "kind": "symlink",
+        "sizeBytes": 5,
+        "mtimeMs": 1000.75,
+        "revision": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "kind": "other"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "kind": "other",
+        "sizeBytes": 5,
+        "mtimeMs": 1000.75,
+        "revision": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "encoding": "utf8"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "a\nb\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "truncated": false,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "encoding": "utf16le"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "\u0d61\u620a",
+        "encoding": "utf16le",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "truncated": false,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "encoding": "gb2312"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "a\nb\n",
+        "encoding": "gb2312",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "truncated": false,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "encoding": "hex"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "610d0a620a",
+        "encoding": "hex",
+        "lineEndings": {
+          "$undefined": true
+        },
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "truncated": false,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "encoding": "base64"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "YQ0KYgo=",
+        "encoding": "base64",
+        "lineEndings": {
+          "$undefined": true
+        },
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "truncated": false,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "maxBytes": -1
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 0,
+        "sizeBytes": 5,
+        "truncated": true,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        ["open", "$ROOT/target.txt", "r"],
+        ["read", "$ROOT/target.txt", 0, 0],
+        ["close", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "maxBytes": 0
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 0,
+        "sizeBytes": 5,
+        "truncated": true,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        ["open", "$ROOT/target.txt", "r"],
+        ["read", "$ROOT/target.txt", 0, 0],
+        ["close", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "maxBytes": 1
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "a",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 1,
+        "sizeBytes": 5,
+        "truncated": true,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        ["open", "$ROOT/target.txt", "r"],
+        ["read", "$ROOT/target.txt", 1, 0],
+        ["close", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "maxBytes": 3
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "a\n",
+        "encoding": "utf8",
+        "lineEndings": "CRLF",
+        "bytesRead": 3,
+        "sizeBytes": 5,
+        "truncated": true,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:8e4621379786ef42a4fec155cd525c291dd7db3c1fde3478522f4f61c03fd1bd"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        ["open", "$ROOT/target.txt", "r"],
+        ["read", "$ROOT/target.txt", 3, 0],
+        ["close", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "maxBytes": 10
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": "a\nb\n",
+        "encoding": "utf8",
+        "lineEndings": "LF",
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "truncated": false,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "maxBytes": {
+          "$undefined": true
+        }
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": {
+          "type": "Buffer",
+          "bytes": "610d0a620a"
+        },
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "maxBytes": 0
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content (5B) exceeds maximum allowed size (0B). Use a smaller file.",
+        "code": "too_large",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "maxBytes": 2
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content (5B) exceeds maximum allowed size (2B). Use a smaller file.",
+        "code": "too_large",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "maxBytes": 3
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content (5B) exceeds maximum allowed size (3B). Use a smaller file.",
+        "code": "too_large",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "maxBytes": 10
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "content": {
+          "type": "Buffer",
+          "bytes": "610d0a620a"
+        },
+        "bytesRead": 5,
+        "sizeBytes": 5,
+        "revision": {
+          "id": "mtime:1000:size:5",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 5,
+          "hash": "sha256:953bba9ac9726eaea07e844abcf144a0afe998039257c7a88b6665819597f39d"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        ["open", "$ROOT/target.txt", "r"],
+        ["read", "$ROOT/target.txt", 6, 0],
+        ["read", "$ROOT/target.txt", 6, 5],
+        ["close", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "maxBytes": 3,
+        "growth": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File content exceeds maximum allowed size (3B). Use a smaller file.",
+        "code": "too_large",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        ["open", "$ROOT/target.txt", "r"],
+        ["read", "$ROOT/target.txt", 3, 0],
+        ["read", "$ROOT/target.txt", 1, 3],
+        ["close", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "kind": "directory"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Cannot read directory as text file: $ROOT/target.txt",
+        "code": "is_directory",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFile",
+        "kind": "symlink"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Cannot read non-file path as text: $ROOT/target.txt",
+        "code": "not_file",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "kind": "directory"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Cannot read directory as binary file: $ROOT/target.txt",
+        "code": "is_directory",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readBinaryFile",
+        "kind": "other"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Cannot read non-file path as binary: $ROOT/target.txt",
+        "code": "not_file",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFileRange",
+        "kind": "directory"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Cannot read directory as text file: $ROOT/target.txt",
+        "code": "is_directory",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFileRange",
+        "kind": "other"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Cannot read non-file path as text: $ROOT/target.txt",
+        "code": "not_file",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "readTextFileRange",
+        "aborted": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File system operation was cancelled: $ROOT/target.txt",
+        "code": "cancelled",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "AbortError",
+          "message": "File system operation was cancelled: file range read"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": true
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "bytesWritten": 8,
+        "revision": {
+          "id": "mtime:1000:size:8",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 8,
+          "hash": "sha256:5669ece0b4f705e2e4387cb54a99a8617a4a37ea478432a934e0f0bbc951570d"
+        }
+      },
+      "events": [
+        ["lstat", "$ROOT/target.txt"],
+        [
+          "open",
+          "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f",
+          {
+            "nodeOpenFlags": ["WRONLY", "CREAT", "EXCL"]
+          }
+        ],
+        ["handle.writeFile", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        ["chmod", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f", 420],
+        ["sync", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        ["close", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        ["rename", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f", "$ROOT/target.txt"],
+        ["stat", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "6e65770a74657874"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": false
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "bytesWritten": 8,
+        "revision": {
+          "id": "mtime:1000:size:8",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 8,
+          "hash": "sha256:5669ece0b4f705e2e4387cb54a99a8617a4a37ea478432a934e0f0bbc951570d"
+        }
+      },
+      "events": [
+        ["fault", "writeFile", "$ROOT/target.txt"],
+        [
+          "writeFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ],
+        ["stat", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "6e65770a74657874"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": true,
+        "renameFails": true
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "bytesWritten": 8,
+        "revision": {
+          "id": "mtime:1000:size:8",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 8,
+          "hash": "sha256:5669ece0b4f705e2e4387cb54a99a8617a4a37ea478432a934e0f0bbc951570d"
+        }
+      },
+      "events": [
+        ["lstat", "$ROOT/target.txt"],
+        [
+          "open",
+          "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f",
+          {
+            "nodeOpenFlags": ["WRONLY", "CREAT", "EXCL"]
+          }
+        ],
+        ["handle.writeFile", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        ["chmod", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f", 420],
+        ["sync", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        ["close", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        ["rename", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f", "$ROOT/target.txt"],
+        ["unlink", "$ROOT/target.txt.tmp.47.7f7f7f7f7f7f"],
+        [
+          "open",
+          "$ROOT/target.txt",
+          {
+            "nodeOpenFlags": ["WRONLY", "CREAT", "TRUNC"]
+          }
+        ],
+        ["handle.writeFile", "$ROOT/target.txt"],
+        ["sync", "$ROOT/target.txt"],
+        ["close", "$ROOT/target.txt"],
+        ["stat", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "6e65770a74657874"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": true,
+        "kind": "symlink"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Refusing to write through symlink: $ROOT/target.txt. Resolve the symlink and pass the real target path explicitly.",
+        "code": "io_error",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "SymlinkWriteRefusedError",
+          "message": "Refusing to write through symlink: $ROOT/target.txt. Resolve the symlink and pass the real target path explicitly."
+        }
+      },
+      "events": [["lstat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": false,
+        "encoding": "gbk",
+        "content": "\ud83d\ude00"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Content cannot be encoded as gbk: $ROOT/target.txt",
+        "code": "unsupported",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": false,
+        "revisionConflict": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File changed since it was read: $ROOT/target.txt",
+        "code": "stale_write",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "writeTextFile",
+        "atomic": false,
+        "createParents": true
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "bytesWritten": 8,
+        "revision": {
+          "id": "mtime:1000:size:8",
+          "mtimeMs": 1000.75,
+          "sizeBytes": 8,
+          "hash": "sha256:5669ece0b4f705e2e4387cb54a99a8617a4a37ea478432a934e0f0bbc951570d"
+        }
+      },
+      "events": [
+        ["fault", "mkdir", "$ROOT"],
+        [
+          "mkdir",
+          "$ROOT",
+          {
+            "recursive": true
+          }
+        ],
+        ["fault", "writeFile", "$ROOT/target.txt"],
+        [
+          "writeFile",
+          "$ROOT/target.txt",
+          {
+            "$undefined": true
+          }
+        ],
+        ["stat", "$ROOT/target.txt"]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "6e65770a74657874"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "createDirectory"
+      },
+      "value": {
+        "path": "$ROOT/target.txt"
+      },
+      "events": [
+        ["fault", "mkdir", "$ROOT/target.txt"],
+        [
+          "mkdir",
+          "$ROOT/target.txt",
+          {
+            "recursive": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "createDirectory",
+        "fault": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Permission denied for path: $ROOT/target.txt",
+        "code": "permission_denied",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled EACCES",
+          "code": "EACCES"
+        }
+      },
+      "events": [["fault", "mkdir", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "removeFile"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "removed": true
+      },
+      "events": [
+        ["fault", "rm", "$ROOT/target.txt"],
+        ["unlink", "$ROOT/target.txt"]
+      ],
+      "files": []
+    },
+    {
+      "input": {
+        "op": "removeFile",
+        "missing": true,
+        "missingOk": true
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "removed": false
+      },
+      "events": [
+        ["fault", "rm", "$ROOT/target.txt"],
+        ["unlink", "$ROOT/target.txt"]
+      ],
+      "files": []
+    },
+    {
+      "input": {
+        "op": "removeFile",
+        "missing": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File not found: $ROOT/target.txt",
+        "code": "not_found",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled ENOENT",
+          "code": "ENOENT"
+        }
+      },
+      "events": [
+        ["fault", "rm", "$ROOT/target.txt"],
+        ["unlink", "$ROOT/target.txt"]
+      ],
+      "files": []
+    },
+    {
+      "input": {
+        "op": "removeFile",
+        "aborted": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File system operation was cancelled: $ROOT/target.txt",
+        "code": "cancelled",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "AbortError",
+          "message": "File system operation was cancelled"
+        }
+      },
+      "events": [],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "listDirectory",
+        "kind": "directory"
+      },
+      "value": {
+        "path": "$ROOT/target.txt",
+        "durationMs": 0,
+        "entries": [
+          {
+            "kind": "symlink",
+            "name": "a",
+            "path": "$ROOT/target.txt/a"
+          },
+          {
+            "kind": "directory",
+            "name": "middle",
+            "path": "$ROOT/target.txt/middle"
+          },
+          {
+            "kind": "file",
+            "name": "z",
+            "path": "$ROOT/target.txt/z"
+          }
+        ],
+        "numEntries": 3
+      },
+      "events": [
+        ["stat", "$ROOT/target.txt"],
+        [
+          "readdir",
+          "$ROOT/target.txt",
+          {
+            "withFileTypes": true
+          }
+        ]
+      ],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "listDirectory",
+        "kind": "file"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Directory listing path must be a directory: $ROOT/target.txt",
+        "code": "not_file",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "listDirectory",
+        "kind": "directory",
+        "aborted": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File system operation was cancelled: $ROOT/target.txt",
+        "code": "cancelled",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "AbortError",
+          "message": "File system operation was cancelled"
+        }
+      },
+      "events": [],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "statError": "ENOENT"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File not found: $ROOT/target.txt",
+        "code": "not_found",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled ENOENT",
+          "code": "ENOENT"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "statError": "EACCES"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Permission denied for path: $ROOT/target.txt",
+        "code": "permission_denied",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled EACCES",
+          "code": "EACCES"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "statError": "EPERM"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Permission denied for path: $ROOT/target.txt",
+        "code": "permission_denied",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled EPERM",
+          "code": "EPERM"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "statError": "EISDIR"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Path is a directory: $ROOT/target.txt",
+        "code": "is_directory",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled EISDIR",
+          "code": "EISDIR"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "statError": "ENAMETOOLONG"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Invalid path: $ROOT/target.txt",
+        "code": "invalid_path",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled ENAMETOOLONG",
+          "code": "ENAMETOOLONG"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "statError": "UNKNOWN"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Controlled UNKNOWN",
+        "code": "io_error",
+        "path": "$ROOT/target.txt",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled UNKNOWN",
+          "code": "UNKNOWN"
+        }
+      },
+      "events": [["stat", "$ROOT/target.txt"]],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    },
+    {
+      "input": {
+        "op": "stat",
+        "relative": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "FileSystemPort requires an absolute path: relative.txt",
+        "code": "invalid_path",
+        "path": "relative.txt",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [],
+      "files": [
+        [
+          "$ROOT/target.txt",
+          {
+            "type": "Buffer",
+            "bytes": "610d0a620a"
+          }
+        ]
+      ]
+    }
+  ],
+  "sourceOriginalObservationSha256": "1641902693151c2eacd4504d18d87ddbbe5f19fcbc810735d9da802ee153bc96",
+  "permanentProjection": "Host paths portable; numeric open flags named and checked against native Node constants; Windows backslash-tilde path projection explicit"
+}

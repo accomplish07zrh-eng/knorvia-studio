@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import nodePath from "node:path";
 import { Readable } from "node:stream";
 import { EventEmitter } from "node:events";
+import { constants } from "node:fs";
 
 export const root = nodePath.sep === "\\" ? "C:\\controlled" : "/controlled";
 export const path = (...parts) => nodePath.join(root, ...parts);
@@ -207,5 +208,40 @@ export function portable(value) {
   if (Array.isArray(value)) return value.map(portable);
   if (value && typeof value === "object")
     return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, portable(v)]));
+  return value;
+}
+
+export function portableIoEvents(events) {
+  return portable(
+    events.map((event) => {
+      if (event[0] !== "open" || typeof event[2] !== "number") return event;
+      const flags = event[2];
+      const exclusive = !!(flags & constants.O_EXCL);
+      assert.equal(
+        flags,
+        constants.O_WRONLY |
+          constants.O_CREAT |
+          (exclusive ? constants.O_EXCL : constants.O_TRUNC) |
+          constants.O_NOFOLLOW,
+        "Atomic writer must request the same platform-native flags",
+      );
+      return [
+        event[0],
+        event[1],
+        { nodeOpenFlags: ["WRONLY", "CREAT", exclusive ? "EXCL" : "TRUNC"] },
+      ];
+    }),
+  );
+}
+
+export function nativeIdentityObservation(value) {
+  if (nodePath.sep !== "\\") return value;
+  // POSIX 原记录保留字面反斜杠；Windows 的同一输入由 Node path 解释为分隔符。
+  if (typeof value === "string") return value.replaceAll("~\\identity-child-", "~/identity-child-");
+  if (Array.isArray(value)) return value.map(nativeIdentityObservation);
+  if (value && typeof value === "object")
+    return Object.fromEntries(
+      Object.entries(value).map(([k, v]) => [k, nativeIdentityObservation(v)]),
+    );
   return value;
 }

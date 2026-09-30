@@ -256,5 +256,44 @@
     "Electron native GUI with supported sandbox helper ownership",
     "Installer and final release payload validation"
   ],
-  "rollback": "Revert the two-module slice and internal helper; no persisted data format changes"
+  "rollback": "Revert the two-module slice and internal helper; no persisted data format changes",
+  "buildProofReverification": {
+    "recordedArtifactSha256": "7c6c06a049becbe368a3bf87b3063beeb69db5968501d40bb8550d0d6116024f",
+    "currentArtifactSha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+    "historicalArtifactRecovered": true,
+    "historicalArtifactCacheKey": "a1c3d4664865302a",
+    "historicalCliCacheKey": "9385273e016cdfa7",
+    "historicalSourceMapBytesMatch": true,
+    "currentSourceSha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542",
+    "lockedTypeScript": "6.0.2",
+    "command": "pnpm build:cli-packages (adapters tsc, CLI bundle)",
+    "onlyDifference": "The historical output splits one if condition over two lines; current output keeps it on one line. TypeScript scanner tokens identical.",
+    "sourceBindingCorrection": "The original source hash describes the final formatted source; its old cached dist hash is historical and is not asserted to be an exact rebuild of that final source. Original digest retained.",
+    "currentBuildProof": [
+      {
+        "path": "apps/cli/packages/adapters/dist/fs/text-metadata.js",
+        "sha256": "eb73667eb637eace4270bc0e0e5ad1482874ea7faa58ab37592ccaa342be5ef7",
+        "source": "apps/cli/packages/adapters/src/fs/text-metadata.ts",
+        "sourceSha256": "f3abd04699eb2570b958c35694d6b247f506619dc6363a8dc83e0183b32c1542",
+        "mapSource": "../../adapters/dist/fs/text-metadata.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/fs/text-range-reader.js",
+        "sha256": "565463f7952a215bd2f4286f7ebc98ca4110fdbfd13b8cf46b4504ed7328e567",
+        "source": "apps/cli/packages/adapters/src/fs/text-range-reader.ts",
+        "sourceSha256": "df90936480261ab01d925e9ebda672113b7fdf9eb0d2b9a1b062abc42085cf9d",
+        "mapSource": "../../adapters/dist/fs/text-range-reader.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/fs/text-line-window.js",
+        "sha256": "89ad80acb5101af7393eec69f4f3bbc32728f2626768439fa7096ddac7072f3a",
+        "source": "apps/cli/packages/adapters/src/fs/text-line-window.ts",
+        "sourceSha256": "936390c8fee4112d243610bbba4220b20161c7468e45be40b93a55c8208e25e9",
+        "mapSource": "../../adapters/dist/fs/text-line-window.js",
+        "exactSourceMapMatch": true
+      }
+    ]
+  }
 }

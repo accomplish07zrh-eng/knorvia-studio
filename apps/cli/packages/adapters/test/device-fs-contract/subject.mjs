@@ -42,7 +42,14 @@ export async function loadSubject(root, mode) {
           `export * as ${name} from ${JSON.stringify(join(resolve(root), file + ext))};`,
       )
       .join("\n") +
-    `\nexport * as reader from ${JSON.stringify(fileURLToPath(new URL(`../../../core/${mode === "source" ? "src" : "dist"}/tool/handlers/read-text${ext}`, import.meta.url)))};`;
+    `\nexport * as reader from ${JSON.stringify(fileURLToPath(new URL(`../../../core/${mode === "source" ? "src" : "dist"}/tool/handlers/read-text${ext}`, import.meta.url)))};` +
+    ["grep", "glob"]
+      .map(
+        (name) =>
+          `\nexport * as ${name} from ${JSON.stringify(fileURLToPath(new URL(`../../../core/${mode === "source" ? "src" : "dist"}/tool/handlers/${name}${ext}`, import.meta.url)))};`,
+      )
+      .join("") +
+    `\nexport * as provider from ${JSON.stringify(fileURLToPath(new URL(`../../${mode === "source" ? "src" : "dist"}/model/anthropic-request-metadata${ext}`, import.meta.url)))};`;
   const banner = `const __knorviaDeviceFsBridge=globalThis[Symbol.for(${JSON.stringify(key)})];\nconst process=__knorviaDeviceFsBridge.process;\nconst Date=class extends globalThis.Date { static now(){return __knorviaDeviceFsBridge.get().now;} };\nconst Math=Object.create(globalThis.Math); Math.random=()=>__knorviaDeviceFsBridge.get().random;\nconst setTimeout=(...a)=>__knorviaDeviceFsBridge.call.setTimeout(...a); const clearTimeout=(...a)=>__knorviaDeviceFsBridge.call.clearTimeout(...a);`;
   try {
     const output = await build({
@@ -56,6 +63,11 @@ export async function loadSubject(root, mode) {
         {
           name: "sealed-device-fs-io",
           setup(plugin) {
+            plugin.onResolve({ filter: /cli-device-mid\.js$/ }, (args) =>
+              /anthropic-request-metadata\.(?:ts|js)$/.test(args.importer)
+                ? { path: join(resolve(root), "device/cli-device-mid" + ext) }
+                : undefined,
+            );
             plugin.onResolve({ filter: /^(?:@knorvia\/contracts|iconv-lite)$/ }, (args) => ({
               path: import.meta.resolve(args.path),
               external: true,

@@ -1,0 +1,6731 @@
+{
+  "baseCommit": "ab713db03e43bdf1890479158d2d8e18c2dd4224",
+  "records": [
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/binary.txt",
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "numFiles": 6,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*.txt"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*.txt",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/binary.txt", "$ROOT/tree/a.txt", "$ROOT/tree/deep/q.txt"],
+        "numFiles": 3,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "**/*.ts"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "**/*.ts",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "numFiles": 1,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "deep/?*"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "deep/?*",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts", "$ROOT/tree/deep/q.txt"],
+        "numFiles": 2,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "{a,b}.txt"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "{a,b}.txt",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt"],
+        "numFiles": 1,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "./deep\\*.ts"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "./deep\\*.ts",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "numFiles": 1,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "[a].txt"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "[a].txt",
+        "durationMs": 0,
+        "files": [],
+        "numFiles": 0,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": " "
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Glob pattern must not be empty",
+        "code": "invalid_pattern",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "**/*"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "**/*",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/binary.txt",
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "numFiles": 6,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "offset": 0,
+        "maxResults": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/binary.txt", "$ROOT/tree/deep/z.ts"],
+        "numFiles": 2,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "offset": 1,
+        "maxResults": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts", "$ROOT/tree/a.txt"],
+        "numFiles": 2,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "offset": 2,
+        "maxResults": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt", "$ROOT/tree/b.js"],
+        "numFiles": 2,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "offset": -1,
+        "maxResults": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [],
+        "numFiles": 0,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "offset": {
+          "$number": "NaN"
+        },
+        "maxResults": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [],
+        "numFiles": 0,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "offset": {
+          "$number": "Infinity"
+        },
+        "maxResults": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [],
+        "numFiles": 0,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "maxResults": 0
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [],
+        "numFiles": 0,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "maxResults": -1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/binary.txt",
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "numFiles": 5,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "maxResults": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/binary.txt"],
+        "numFiles": 1,
+        "truncated": true
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "maxResults": {
+          "$number": "NaN"
+        }
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [],
+        "numFiles": 0,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "maxResults": {
+          "$number": "Infinity"
+        }
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/binary.txt",
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "numFiles": 6,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "ignoreCase": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "onlyMatching": true,
+        "ignoreCase": true,
+        "context": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 1,
+            "text": "start",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 3,
+            "text": "",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 1,
+            "text": "before",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 3,
+            "text": "end",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 1,
+            "text": "one",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 3,
+            "text": "three",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "multiline": true,
+        "pattern": "target[\\s\\S]*?three"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target[\\s\\S]*?three",
+        "mode": "content",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "multiline": true,
+        "onlyMatching": true,
+        "pattern": "target[\\s\\S]*?three",
+        "context": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target[\\s\\S]*?three",
+        "mode": "content",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 1,
+            "text": "one",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 3,
+            "text": "three",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": false
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "pattern": "(?=target)",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "(?=target)",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "pattern": "^",
+        "multiline": true,
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "^",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 1,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 1,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/q.txt",
+            "lineNumber": 1,
+            "text": "",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 1,
+            "text": "",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "glob": "**/*.ts"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 2,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "type": "JS"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/b.js"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": 1,
+        "offset": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 1,
+        "appliedOffset": 1
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": 0,
+        "offset": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": 1
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "beforeContext": 2,
+        "afterContext": 1,
+        "context": 0
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 1,
+            "text": "start",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 3,
+            "text": "",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 1,
+            "text": "before",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 3,
+            "text": "end",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 1,
+            "text": "one",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 3,
+            "text": "three",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "glob": "*.txt *.js"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "glob": "{*.txt,*.js}"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "ignoreCase": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "onlyMatching": true,
+        "ignoreCase": true,
+        "context": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "multiline": true,
+        "pattern": "target[\\s\\S]*?three"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target[\\s\\S]*?three",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "multiline": true,
+        "onlyMatching": true,
+        "pattern": "target[\\s\\S]*?three",
+        "context": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target[\\s\\S]*?three",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "pattern": "(?=target)",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "(?=target)",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "pattern": "^",
+        "multiline": true,
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "^",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "glob": "**/*.ts"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [],
+        "numMatches": 2,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "type": "JS"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/b.js"],
+        "entries": [],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "headLimit": 1,
+        "offset": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt"],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 1,
+        "appliedOffset": 1
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "headLimit": 0,
+        "offset": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt", "$ROOT/tree/b.js", "$ROOT/tree/.hidden.md"],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": 1
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "beforeContext": 2,
+        "afterContext": 1,
+        "context": 0
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "glob": "*.txt *.js"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "files_with_matches",
+        "glob": "{*.txt,*.js}"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "ignoreCase": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "onlyMatching": true,
+        "ignoreCase": true,
+        "context": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "multiline": true,
+        "pattern": "target[\\s\\S]*?three"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target[\\s\\S]*?three",
+        "mode": "count",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 1
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "multiline": true,
+        "onlyMatching": true,
+        "pattern": "target[\\s\\S]*?three",
+        "context": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target[\\s\\S]*?three",
+        "mode": "count",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 1
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "pattern": "(?=target)",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "(?=target)",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "pattern": "^",
+        "multiline": true,
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "^",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/q.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 1
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "glob": "**/*.ts"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 2,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "type": "JS"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/b.js"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "headLimit": 1,
+        "offset": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          }
+        ],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 1,
+        "appliedOffset": 1
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "headLimit": 0,
+        "offset": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": 1
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "beforeContext": 2,
+        "afterContext": 1,
+        "context": 0
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "count": 1
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 2
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "glob": "*.txt *.js"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "count",
+        "glob": "{*.txt,*.js}"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "offset": {
+          "$number": "NaN"
+        },
+        "headLimit": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "offset": {
+          "$number": "Infinity"
+        },
+        "headLimit": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$number": "Infinity"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "offset": -1,
+        "headLimit": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 2,
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "offset": 0,
+        "headLimit": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 2,
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "offset": 1.7,
+        "headLimit": 2
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 2,
+        "appliedOffset": 1.7
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": {
+          "$number": "NaN"
+        }
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": {
+          "$number": "Infinity"
+        }
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": -1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": -1,
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": 0
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "outputMode": "content",
+        "headLimit": 1.7
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": true,
+        "appliedLimit": 1.7,
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "pattern": "["
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Invalid grep regular expression: [",
+        "code": "invalid_pattern",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "SyntaxError",
+          "message": "Invalid regular expression: /[/: Unterminated character class"
+        }
+      },
+      "events": [],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "pattern": " "
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Grep pattern must not be empty",
+        "code": "invalid_pattern",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "pattern": "absent"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "absent",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "file": "a.txt",
+        "onlyMatching": true,
+        "context": 1,
+        "ignoreCase": true
+      },
+      "value": {
+        "path": "$ROOT/tree/a.txt",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 1,
+            "text": "start",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 3,
+            "text": "",
+            "matched": false
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree/a.txt"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "file": "binary.txt"
+      },
+      "value": {
+        "path": "$ROOT/tree/binary.txt",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "kind": "other"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Grep search path must be a file or directory: $ROOT/tree",
+        "code": "not_file",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [["stat", "$ROOT/tree"]],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "aborted": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File system operation was cancelled: $ROOT/tree",
+        "code": "cancelled",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "AbortError",
+          "message": "File system operation was cancelled"
+        }
+      },
+      "events": [],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "readFails": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Permission denied for path: $ROOT/tree",
+        "code": "permission_denied",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled EACCES",
+          "code": "EACCES"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "statFails": true
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File not found: $ROOT/tree",
+        "code": "not_found",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "Error",
+          "message": "Controlled ENOENT",
+          "code": "ENOENT"
+        }
+      },
+      "events": [["stat", "$ROOT/tree"]],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "context": 1.5
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 1,
+            "text": "start",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 3,
+            "text": "",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 1,
+            "text": "before",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 3,
+            "text": "end",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 1,
+            "text": "one",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2.5,
+            "text": "",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 3,
+            "text": "three",
+            "matched": false
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 3.5,
+            "text": "",
+            "matched": false
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "context": -1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "context": {
+          "$number": "NaN"
+        }
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "multiline": true,
+        "onlyMatching": true,
+        "pattern": "\\n",
+        "context": 1
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "\\n",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 5,
+            "text": "last",
+            "matched": false
+          }
+        ],
+        "numMatches": 15,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "op": "searchFiles",
+        "pattern": "*",
+        "nanMtime": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "*",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/binary.txt",
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/deep/q.txt"
+        ],
+        "numFiles": 6,
+        "truncated": false
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "nanMtime": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/.hidden.md",
+          "$ROOT/tree/b.js"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "result",
+        "outputMode": "content",
+        "onlyMatching": true
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "",
+            "matched": false
+          }
+        ],
+        "numMatches": 1,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "--only-matching",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree/a.txt"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "count",
+        "outputMode": "count",
+        "onlyMatching": false
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "count",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/deep/z.ts", "$ROOT/tree/a.txt"],
+        "entries": [
+          {
+            "path": "$ROOT/tree/a.txt",
+            "count": 2
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "count": 1
+          }
+        ],
+        "numMatches": 3,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "-c",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree/a.txt"],
+        ["stat", "$ROOT/tree/deep/z.ts"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "invalid-json",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Failed to parse ripgrep JSON output",
+        "code": "io_error",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "SyntaxError",
+          "message": "Unexpected token 'b', \"broken-json\" is not valid JSON"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "code2-regex",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Invalid grep regular expression: target",
+        "code": "invalid_pattern",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "code2-permission",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Permission denied (os error 13)",
+        "code": "permission_denied",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "code2-notfound",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "No such file (os error 2)",
+        "code": "not_found",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "code3",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "ripgrep exited with code 3: Controlled exit",
+        "code": "io_error",
+        "path": "$ROOT/tree",
+        "cause": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "runtime-error",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "worker-error",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "unknown",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "exit",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [
+          "$ROOT/tree/deep/z.ts",
+          "$ROOT/tree/a.txt",
+          "$ROOT/tree/b.js",
+          "$ROOT/tree/.hidden.md"
+        ],
+        "entries": [
+          {
+            "path": "$ROOT/tree/.hidden.md",
+            "lineNumber": 1,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/a.txt",
+            "lineNumber": 2,
+            "text": "Target target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/b.js",
+            "lineNumber": 2,
+            "text": "TARGET target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 2,
+            "text": "target",
+            "matched": true
+          },
+          {
+            "path": "$ROOT/tree/deep/z.ts",
+            "lineNumber": 4,
+            "text": "target",
+            "matched": true
+          }
+        ],
+        "numMatches": 5,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree"],
+        [
+          "readdir",
+          "$ROOT/tree",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/b.js"],
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "readdir",
+          "$ROOT/tree/deep",
+          {
+            "withFileTypes": true
+          }
+        ],
+        ["stat", "$ROOT/tree/deep/z.ts"],
+        ["stat", "$ROOT/tree/deep/q.txt"],
+        ["stat", "$ROOT/tree/binary.txt"],
+        ["stat", "$ROOT/tree/.hidden.md"],
+        ["readFile", "$ROOT/tree/.hidden.md", "utf8"],
+        ["readFile", "$ROOT/tree/a.txt", "utf8"],
+        ["readFile", "$ROOT/tree/b.js", "utf8"],
+        ["readFile", "$ROOT/tree/binary.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/q.txt", "utf8"],
+        ["readFile", "$ROOT/tree/deep/z.ts", "utf8"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "timeout",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "ripgrep search timed out after 30000ms. The search was terminated before it completed.",
+        "code": "io_error",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "RipgrepTimeoutFailure",
+          "message": "ripgrep search timed out after 30000ms. The search was terminated before it completed."
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": ["terminate"],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "abort",
+        "outputMode": "content",
+        "onlyMatching": false
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "File system operation was cancelled: $ROOT/tree",
+        "code": "cancelled",
+        "path": "$ROOT/tree",
+        "cause": {
+          "name": "AbortError",
+          "message": "ripgrep search was cancelled"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": ["terminate"],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "result",
+        "glob": "*.ts",
+        "type": "txt"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "content",
+        "durationMs": 0,
+        "files": [],
+        "entries": [],
+        "numMatches": 0,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "--json",
+              "--glob",
+              "*.ts",
+              "--glob",
+              "*.txt",
+              "--glob",
+              "**/*.txt",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "count",
+        "glob": "*.txt",
+        "type": "txt",
+        "outputMode": "files_with_matches"
+      },
+      "value": {
+        "path": "$ROOT/tree",
+        "pattern": "target",
+        "mode": "files_with_matches",
+        "durationMs": 0,
+        "files": ["$ROOT/tree/a.txt"],
+        "entries": [],
+        "numMatches": 2,
+        "truncated": false,
+        "appliedLimit": {
+          "$undefined": true
+        },
+        "appliedOffset": {
+          "$undefined": true
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "-c",
+              "--glob",
+              "*.txt",
+              "--glob",
+              "*.txt",
+              "--glob",
+              "**/*.txt",
+              "-e",
+              "target",
+              "--",
+              "."
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ],
+        ["stat", "$ROOT/tree/a.txt"]
+      ],
+      "workerEvents": [],
+      "timers": []
+    },
+    {
+      "input": {
+        "engine": "ripgrep",
+        "worker": "count",
+        "multiline": true,
+        "ignoreCase": true,
+        "context": 0,
+        "beforeContext": 2,
+        "afterContext": 3,
+        "type": "js",
+        "glob": "*.txt,*.js {*.ts,*.md}",
+        "file": "a.txt"
+      },
+      "error": {
+        "name": "FileSystemPortError",
+        "message": "Failed to parse ripgrep JSON output",
+        "code": "io_error",
+        "path": "$ROOT/tree/a.txt",
+        "cause": {
+          "name": "SyntaxError",
+          "message": "Unexpected token 'a', \"a.txt:2\" is not valid JSON"
+        }
+      },
+      "events": [
+        ["stat", "$ROOT/tree/a.txt"],
+        [
+          "worker",
+          {
+            "args": [
+              "--no-config",
+              "--hidden",
+              "--color",
+              "never",
+              "--no-heading",
+              "--with-filename",
+              "--max-columns",
+              "500",
+              "--glob",
+              "!.git",
+              "--glob",
+              "!**/.git/**",
+              "--glob",
+              "!.svn",
+              "--glob",
+              "!**/.svn/**",
+              "--glob",
+              "!.hg",
+              "--glob",
+              "!**/.hg/**",
+              "--glob",
+              "!.bzr",
+              "--glob",
+              "!**/.bzr/**",
+              "--glob",
+              "!.jj",
+              "--glob",
+              "!**/.jj/**",
+              "--glob",
+              "!.sl",
+              "--glob",
+              "!**/.sl/**",
+              "-U",
+              "--multiline-dotall",
+              "-i",
+              "--json",
+              "-C",
+              "0",
+              "--glob",
+              "*.txt",
+              "--glob",
+              "*.js",
+              "--glob",
+              "{*.ts,*.md}",
+              "--glob",
+              "*.js",
+              "--glob",
+              "**/*.js",
+              "--glob",
+              "*.jsx",
+              "--glob",
+              "**/*.jsx",
+              "--glob",
+              "*.mjs",
+              "--glob",
+              "**/*.mjs",
+              "--glob",
+              "*.cjs",
+              "--glob",
+              "**/*.cjs",
+              "-e",
+              "target",
+              "--",
+              "a.txt"
+            ],
+            "preopens": {
+              ".": "$ROOT/tree"
+            }
+          }
+        ]
+      ],
+      "workerEvents": [],
+      "timers": []
+    }
+  ]
+}
