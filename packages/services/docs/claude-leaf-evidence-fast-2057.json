@@ -1,0 +1,151 @@
+{
+  "baseSha": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+  "branch": "cloud/services-claude-leaf-20260930-fast-2057",
+  "contractCommit": "a5815f7656de963f753752a349dcfbaed35b9680",
+  "upstream": {
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+  },
+  "laterIntegratorHeadObserved": "34fb23e5f5c610bd7379096d3f281f4bff79b71f",
+  "laterIntegratorSelectedPathsChanged": false,
+  "license": "Existing Apache-2.0 and notices retained. Source-exposed work; no clean-room, whole-file authorship or MIT-ready assertion.",
+  "production": [
+    {
+      "path": "packages/services/src/session/claude-native/jsonLineRecord.ts",
+      "baseNormalizedSha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+      "candidateNormalizedSha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+      "reportedBaseClassification": "upstream-unchanged",
+      "actualUpstreamBlob": "f9915035c7d945e99ffb715375ed6a10b5299bd5",
+      "upstreamNormalizedSha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+      "sourceExposure": true,
+      "newExpressionScope": "Source-review only; tiny standard guards remain byte-identical.",
+      "retainedExpressionScope": "Entire guard expression remains inherited; no cosmetic rewrite.",
+      "licenseProposal": "Preserve Apache-2.0/default notices and inherited relation; no independent-replacement/MIT review decision proposed."
+    },
+    {
+      "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+      "baseNormalizedSha256": "3eb56a3fec7d893272520d4ecc7e45d5a29c303f3b3717d934467cdee863142f",
+      "candidateNormalizedSha256": "de6a732fe4ada99d0e86358d863d839db4e8f474035787b12ccc7268e4cbdca5",
+      "reportedBaseClassification": "upstream-unchanged",
+      "actualUpstreamBlob": "75605428be26d22efaadc0b7311b16a85c2a848c",
+      "upstreamNormalizedSha256": "3eb56a3fec7d893272520d4ecc7e45d5a29c303f3b3717d934467cdee863142f",
+      "sourceExposure": true,
+      "newExpressionScope": "LF cursor with current-line slice; no whole-line split/filter arrays.",
+      "retainedExpressionScope": "Native read/decode/JSON error wrapper and streaming readline head lifecycle remain retained.",
+      "licenseProposal": "Preserve Apache-2.0/default notices and inherited relation; no independent-replacement/MIT review decision proposed."
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+      "baseNormalizedSha256": "dadea4b81c750e670e64a7708ccf5fd66eb096ace78dd3a839c2af331ecc88c2",
+      "candidateNormalizedSha256": "a4ec7572317dff8cf6d724eb10b56db15ee0580ff98defe11950718037c4f4bc",
+      "reportedBaseClassification": "upstream-unchanged",
+      "actualUpstreamBlob": "fd7b2c7ad31162494a008785948bebc89b9ae8c9",
+      "upstreamNormalizedSha256": "dadea4b81c750e670e64a7708ccf5fd66eb096ace78dd3a839c2af331ecc88c2",
+      "sourceExposure": true,
+      "newExpressionScope": "One split per selector and indexed recursive traversal; no rest-array copy at each level.",
+      "retainedExpressionScope": "Selector grammar/default paths, structuredClone/delete/array delegation and standard guard remain retained.",
+      "licenseProposal": "Preserve Apache-2.0/default notices and inherited relation; no independent-replacement/MIT review decision proposed."
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+      "baseNormalizedSha256": "fb8443645eacfd5b1dca46324942d5879f5a1ce5dcf7646c8870c2217e49f059",
+      "candidateNormalizedSha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+      "reportedBaseClassification": "upstream-unchanged",
+      "actualUpstreamBlob": "785d38ff8baf06d8aa40518354f82ec6ae87538b",
+      "upstreamNormalizedSha256": "fb8443645eacfd5b1dca46324942d5879f5a1ce5dcf7646c8870c2217e49f059",
+      "sourceExposure": true,
+      "newExpressionScope": "Shared fragment projector and length-captured indexed collector for ordinary JSON arrays.",
+      "retainedExpressionScope": "Tag regexes, metadata/time/gating, extraction frame and compatibility flatMap/filter adapter remain inherited expression.",
+      "licenseProposal": "Preserve Apache-2.0/default notices and inherited relation; no independent-replacement/MIT review decision proposed."
+    },
+    {
+      "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+      "baseNormalizedSha256": "6beba9eec79a9970f6c06c512bf509d6ba0ebfd42e5c0b5227edec0ce0db846d",
+      "candidateNormalizedSha256": "9b530e1833e40ab286bc1064e9b7733407c4ba6aeb7e9c7f0474f43f9191dd9a",
+      "reportedBaseClassification": "upstream-modified",
+      "actualUpstreamBlob": "4952cafef8daaf86ef1149b50f46fb8fc6cabcf9",
+      "upstreamNormalizedSha256": "a4ffb5a0111c3d88f57b5ecaa7f3507dfb02450fa1d030a5e6200e45b969a713",
+      "sourceExposure": true,
+      "newExpressionScope": "Separate UTF8 hash updates preserve exact identity without constructing the combined input string.",
+      "retainedExpressionScope": "SHA256 framing/prefix, title/trace factories, ordered metadata projection and clone/filter stage remain inherited expression.",
+      "licenseProposal": "Preserve Apache-2.0/default notices and inherited relation; no independent-replacement/MIT review decision proposed."
+    }
+  ],
+  "supportingFiles": [
+    {
+      "path": "packages/services/specs/claude-leaf-contract-fast-2057.md",
+      "normalizedSha256": "f731ff11eba67334454bbd934006ca0efa2ea8d044109ab68f908c57dccb5b1a",
+      "licenseProposal": "Repository default retained pending separate source/expression review."
+    },
+    {
+      "path": "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+      "normalizedSha256": "3cfb7b42f2200619fce09b5c886dcbe87f62f71b40ffb747e0089f81bd458e1a",
+      "licenseProposal": "Repository default retained pending separate source/expression review."
+    },
+    {
+      "path": "packages/services/test/claude-leaf-cost-fast-2057.test.ts",
+      "normalizedSha256": "7327622fee0a2e2c4dc110dc1b1d6d176654a0362aace20ff872f4c4fd063809",
+      "licenseProposal": "Repository default retained pending separate source/expression review."
+    },
+    {
+      "path": "packages/services/test/claude-leaf-differential-fast-2057.test.ts",
+      "normalizedSha256": "ea9f2a14307a6bd391d43d3d73e05e1bad639240e0119215877d6ff5dd33ce6c",
+      "licenseProposal": "Repository default retained pending separate source/expression review."
+    }
+  ],
+  "compatibility": {
+    "initialOldSourceAndDistTestsEach": 69,
+    "finalOldSourceAndDistTestsEach": 73,
+    "newSourceAndDistTestsEach": 76,
+    "newTestsComposition": {
+      "compatibility": 73,
+      "cost": 2,
+      "differentialHarness": 1
+    },
+    "differentialObservationsPerTarget": 575,
+    "publicDeclarationASTsEqual": 5,
+    "realConsumers": [
+      "claudeNativeSessionImportRepo: injected synthetic roots only, first 16 records, mtime/workspace/sidechain filters and descending sort",
+      "parseClaudeNativeSessionFile: synthetic transcripts, assistant grouping, file order, API-error difference",
+      "safeParseLegacyTaskSessionFile: actual built snapshot codec"
+    ],
+    "noRealUserDataAccess": true
+  },
+  "cost": {
+    "fullReader": {
+      "blankLines": 16384,
+      "visibleRecords": 1,
+      "oldWholeLineArraySlots": 16386,
+      "newWholeLineArraySlots": 0
+    },
+    "selector": {
+      "depth": 300,
+      "oldCopiedRemainderTokens": 45451,
+      "newCopiedRemainderTokens": 0
+    },
+    "oldRegressionTestsExpectedFailures": 2,
+    "newRegressionTestsPasses": 2,
+    "limitation": "Counts measure specific auxiliary allocations/copies. Whole file IO, strings, result objects and native clone memory remain. No wall-clock or bounded-total-memory promise."
+  },
+  "gates": {
+    "scopedBuild": "pass: tsc -b packages/rpc packages/shared packages/services",
+    "rootTypecheck": "pass, 5422 i18n keys",
+    "rootLintAndChangedArchitecture": "pass, 0 warnings/errors/violations",
+    "fixtureTypecheck": "pass after type-only fixture corrections",
+    "ownedFormatting": "pass",
+    "provenanceReadOnlyCheck": "expected stale derived inventory; integrator must reconcile, not modified here"
+  },
+  "proposalOnlySharedLedgerActions": [
+    "Retain upstream object relationships; update normalized digests after combined source review. Do not classify the five files as original or wholesale independent-replacement from this batch.",
+    "Bind any limited algorithm-expression review to the exact digests and exposed source; retained guard/time/regex/metadata/array adapter expressions need separate decisions.",
+    "Review newly authored fixtures separately under the repository default; fixture review does not relicense production.",
+    "Regenerate shared derived inventory only in the integrator after combining reviewed branches."
+  ],
+  "unresolved": [
+    "Whole-file independent authorship and licensing review on all selected ancestral paths",
+    "Shared provenance inventory freshness",
+    "Native Windows/macOS and Electron/GUI, full studio/CLI suite and combined CI owned by integrator",
+    "Node available 24.19.0 differs from mise pin 24.14.0",
+    "Deep recursion preserves native RangeError class, not a portable exact stack-depth threshold"
+  ]
+}
