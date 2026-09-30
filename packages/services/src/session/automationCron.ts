@@ -1,4 +1,7 @@
+// SPDX-License-Identifier: Apache-2.0
+// Modified 2026-09-30: calendar-period cursor and elapsed-time projection; prior source exposure retained.
 import { Cron } from "croner";
+import { types } from "node:util";
 import type { KnorviaAutomation, KnorviaAutomationScheduleRule } from "@knorvia/shared";
 import { isValidCronExpr } from "#src/session/automationCronValidation.js";
 
@@ -120,13 +123,163 @@ export function computeInitialAutomationNextRunAt(
   return nextRunAt;
 }
 
-function atTime(date: Date, hour: number, minute: number): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute, 0, 0);
+/** A period cursor owns only this invocation's candidate projection. */
+interface CalendarPeriod {
+  stride: number;
+  lastOffset: number;
+  datesAt: (offset: number) => Iterable<Date>;
 }
 
-function firstWeekdayOfMonth(year: number, month: number, weekday: number): Date {
-  const first = new Date(year, month, 1);
-  return new Date(year, month, 1 + ((weekday - first.getDay() + 7) % 7));
+function calendarPeriod(
+  rule: KnorviaAutomationScheduleRule,
+  anchor: Date,
+  interval: number,
+  unit: "daily" | "weekly" | "monthly" | "yearly",
+): CalendarPeriod {
+  const year = anchor.getFullYear();
+  const month = anchor.getMonth();
+  const day = anchor.getDate();
+  const dateAt = (dayOffset: number) => new Date(year, month, day + dayOffset);
+
+  switch (unit) {
+    case "daily":
+      return { stride: 1, lastOffset: 36_599, datesAt: (index) => [dateAt(index * interval)] };
+    case "weekly": {
+      const monday = dateAt(0);
+      monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+      const weekdays = [...(rule.weekdays?.length ? rule.weekdays : [1])].sort();
+      return {
+        stride: interval,
+        lastOffset: 5_219,
+        // Sunday (0) is intentionally visited first, even though the period begins on Monday.
+        *datesAt(week) {
+          for (const weekday of weekdays) {
+            yield new Date(
+              monday.getFullYear(),
+              monday.getMonth(),
+              monday.getDate() + week * 7 + ((weekday + 6) % 7),
+            );
+          }
+        },
+      };
+    }
+    case "monthly":
+      return {
+        stride: interval,
+        lastOffset: 1_200,
+        datesAt: (offset) => {
+          const first = new Date(year, month + offset, 1);
+          const periodYear = first.getFullYear();
+          const periodMonth = first.getMonth();
+          if (rule.monthlyMode === "weekday") {
+            const weekday = rule.weekdays?.[0] ?? 1;
+            return [new Date(periodYear, periodMonth, 1 + ((weekday - first.getDay() + 7) % 7))];
+          }
+          return [...(rule.monthDays?.length ? rule.monthDays : [1])]
+            .sort((a, b) => a - b)
+            .map((monthDay) => new Date(periodYear, periodMonth, monthDay))
+            .filter((candidate) => candidate.getMonth() === periodMonth);
+        },
+      };
+    default: {
+      // Unknown runtime units retain the historical yearly projection; admission validates units.
+      const targetMonth =
+        rule.months?.[0] != null ? (((rule.months[0] - 1) % 12) + 12) % 12 : month;
+      const targetDay = rule.monthDays?.[0] ?? day;
+      return {
+        stride: interval,
+        lastOffset: 399,
+        datesAt: (offset) => {
+          const candidate = new Date(year + offset, targetMonth, targetDay);
+          return candidate.getMonth() === targetMonth ? [candidate] : [];
+        },
+      };
+    }
+  }
+}
+
+function calendarTimestamp(date: Date, rule: KnorviaAutomationScheduleRule): number {
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    rule.hour,
+    rule.minute,
+    0,
+    0,
+  ).getTime();
+}
+
+/** Only own scalar data can be skipped: accessors and proxies retain sequential observations. */
+function canSeekDailyCalendar(
+  rule: KnorviaAutomationScheduleRule,
+  anchor: Date,
+  interval: number,
+  from: number,
+): boolean {
+  if (
+    types.isProxy(rule) ||
+    !Number.isFinite(from) ||
+    !Number.isFinite(interval) ||
+    !Number.isFinite(anchor.getTime()) ||
+    anchor.getFullYear() < 100
+  )
+    return false;
+  const values = ["unit", "interval", "anchorAt", "hour", "minute"].map((key) =>
+    Object.getOwnPropertyDescriptor(rule, key),
+  );
+  if (values.some((value) => !value || !("value" in value))) return false;
+  const [unit, count, start, hour, minute] = values;
+  return (
+    unit!.value === "daily" &&
+    typeof count!.value === "number" &&
+    typeof start!.value === "number" &&
+    Number.isInteger(hour!.value) &&
+    hour!.value >= 0 &&
+    hour!.value <= 23 &&
+    Number.isInteger(minute!.value) &&
+    minute!.value >= 0 &&
+    minute!.value <= 59
+  );
+}
+
+/** A lower bound over the existing daily horizon, with invalid tail dates treated as exhaustion. */
+function seekDailyCalendar(
+  period: CalendarPeriod,
+  rule: KnorviaAutomationScheduleRule,
+  from: number,
+): number | null {
+  const timestampAt = (offset: number) => {
+    for (const date of period.datesAt(offset)) return calendarTimestamp(date, rule);
+    return NaN;
+  };
+  let low = 0;
+  let high = period.lastOffset + 1;
+  while (low < high) {
+    const middle = low + Math.floor((high - low) / 2);
+    const timestamp = timestampAt(middle);
+    // Date 上限以后的 NaN 是有效日历前缀的终点，不能把它当成“过去”并跳过仍有效的未来候选。
+    if (Number.isNaN(timestamp) || timestamp > from) high = middle;
+    else low = middle + 1;
+  }
+  if (low > period.lastOffset) return null;
+  const timestamp = timestampAt(low);
+  return timestamp > from ? timestamp : null;
+}
+
+/** Existing local-calendar projection, including Date's DST gap/fold normalization. */
+function firstCalendarOccurrence(
+  period: CalendarPeriod,
+  rule: KnorviaAutomationScheduleRule,
+  from: number,
+): number | null {
+  for (let offset = 0; offset <= period.lastOffset; offset += period.stride) {
+    for (const date of period.datesAt(offset)) {
+      const timestamp = calendarTimestamp(date, rule);
+      if (timestamp > from) return timestamp;
+    }
+  }
+  return null;
 }
 
 /** 自定义重复规则的下一次运行；所有计算都使用本地日历时间。 */
@@ -136,87 +289,30 @@ export function computeScheduleRuleNextRunAt(
 ): number | null {
   const interval = Math.max(1, Math.floor(rule.interval));
   const anchor = new Date(rule.anchorAt);
-
+  // 这里保留旧算式及字段访问顺序；合并 elapsed 分支会改变 accessor 与非有限浮点行为。
   if (rule.unit === "minute") {
     const step = interval * 60 * 1_000;
-    // 分钟间隔从创建/修改时刻开始，不能像 `*/N` cron 一样提前命中下一个墙钟刻度。
-    // 始终从固定 anchor 推导还能避免 scheduler 晚派发后逐轮累积漂移。
     const steps = Math.max(1, Math.floor((from - rule.anchorAt) / step) + 1);
     return rule.anchorAt + steps * step;
   }
-
   if (rule.unit === "hourly") {
-    const base = new Date(anchor);
-    base.setMinutes(rule.minute, 0, 0);
+    anchor.setMinutes(rule.minute, 0, 0);
     const step = interval * 60 * 60 * 1_000;
-    const steps = Math.max(0, Math.floor((from - base.getTime()) / step) + 1);
-    return base.getTime() + steps * step;
+    const steps = Math.max(0, Math.floor((from - anchor.getTime()) / step) + 1);
+    return anchor.getTime() + steps * step;
   }
-
-  if (rule.unit === "daily") {
-    for (let index = 0; index < 36_600; index += 1) {
-      const date = new Date(
-        anchor.getFullYear(),
-        anchor.getMonth(),
-        anchor.getDate() + index * interval,
-      );
-      const candidate = atTime(date, rule.hour, rule.minute).getTime();
-      if (candidate > from) return candidate;
-    }
-    return null;
-  }
-
-  if (rule.unit === "weekly") {
-    const anchorWeek = new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate());
-    anchorWeek.setDate(anchorWeek.getDate() - ((anchorWeek.getDay() + 6) % 7));
-    const weekdays = [...(rule.weekdays?.length ? rule.weekdays : [1])].sort();
-    for (let week = 0; week < 5_220; week += interval) {
-      for (const weekday of weekdays) {
-        const dayOffset = (weekday + 6) % 7;
-        const date = new Date(
-          anchorWeek.getFullYear(),
-          anchorWeek.getMonth(),
-          anchorWeek.getDate() + week * 7 + dayOffset,
-        );
-        const candidate = atTime(date, rule.hour, rule.minute).getTime();
-        if (candidate > from) return candidate;
-      }
-    }
-    return null;
-  }
-
-  if (rule.unit === "monthly") {
-    // 1200 同时是合法月度间隔与搜索边界；旧的严格小于只检查 offset=0，
-    // 当前月候选已过后会错误返回 null。包含边界才能计算 100 年后的下一轮。
-    for (let offset = 0; offset <= 1_200; offset += interval) {
-      const month = new Date(anchor.getFullYear(), anchor.getMonth() + offset, 1);
-      const candidates =
-        rule.monthlyMode === "weekday"
-          ? [firstWeekdayOfMonth(month.getFullYear(), month.getMonth(), rule.weekdays?.[0] ?? 1)]
-          : [...(rule.monthDays?.length ? rule.monthDays : [1])]
-              .sort((left, right) => left - right)
-              .map((day) => new Date(month.getFullYear(), month.getMonth(), day))
-              .filter((date) => date.getMonth() === month.getMonth());
-      for (const date of candidates) {
-        const candidate = atTime(date, rule.hour, rule.minute).getTime();
-        if (candidate > from) return candidate;
-      }
-    }
-    return null;
-  }
-
-  // yearly：月份优先取 rule.months（1-12 → 0-indexed），缺省回退锚点月份（兼容旧记录）；
-  // 日期取 monthDays[0] 或锚点日。溢出守卫：如 2/30、非闰年 2/29 会滚到下个月，跳过该年避免误触发。
-  const targetMonth =
-    rule.months?.[0] != null ? (((rule.months[0] - 1) % 12) + 12) % 12 : anchor.getMonth();
-  const targetDay = rule.monthDays?.[0] ?? anchor.getDate();
-  for (let offset = 0; offset < 400; offset += interval) {
-    const date = new Date(anchor.getFullYear() + offset, targetMonth, targetDay);
-    if (date.getMonth() !== targetMonth) continue;
-    const candidate = atTime(date, rule.hour, rule.minute).getTime();
-    if (candidate > from) return candidate;
-  }
-  return null;
+  const unit =
+    rule.unit === "daily"
+      ? "daily"
+      : rule.unit === "weekly"
+        ? "weekly"
+        : rule.unit === "monthly"
+          ? "monthly"
+          : "yearly";
+  const period = calendarPeriod(rule, anchor, interval, unit);
+  return unit === "daily" && canSeekDailyCalendar(rule, anchor, interval, from)
+    ? seekDailyCalendar(period, rule, from)
+    : firstCalendarOccurrence(period, rule, from);
 }
 
 /** 将“每 N 分钟”的 cron 展示表达式识别为带创建时刻锚点的产品调度规则。 */
