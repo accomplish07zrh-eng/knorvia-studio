@@ -55,6 +55,8 @@ v8 为 73/75；v9 为 74/75。v9 清理成功生产记录中的重复 SDK 请求
 
 ## 交付边界
 
+首次提交 `c60390b02ee8b377d830d8361b8c9394c4d4c345` 的 [GitHub run 36651786597](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36651786597) attempt 1 在双平台格式检查失败：唯一报告文件是 `licensing/reviews.json`。两平台类型、lint 和来源检查成功，架构、构建及全量测试均未执行，不计通过。本地格式检查是在最终更新复核清单前运行，不能证明最终提交格式正确。后续只纠正清单格式和本段记录，保留原始失败及完整云端日志；JSON 语义和模型执行文件不变，不据此重复本地完整行为回归。
+
 没有真实模型推理、付费调用、生产服务器或用户数据操作；上文已单列 run015 的网络边界事件。使用的 SDK、模型选项映射、共享协议、设备和网络依赖仍保持各自来源，不因适配器替换而成为本批原创。这里不证明真实供应商、操作系统竞态或原生 CUA 的全组合行为。
 
 原始合同、作者冻结、测试、失败轮及日志保存在仓库外本地证据目录：`knorvia-parallel-model-contract`、`knorvia-model-subsystem-rebuild`、`knorvia-model-subsystem-repair-v6`、`knorvia-model-subsystem-repair-v8`、`knorvia-model-subsystem-tests`、`knorvia-model-subsystem-acceptance`、`knorvia-model-subsystem-test-integration`；主仓复制及检查收据存于 `knorvia-model-subsystem-integration-20260930`。本批不打包或覆盖桌面程序。根 Apache、适用第三方声明及 preview 身份保持，全量替换和稳定发布仍在进行。

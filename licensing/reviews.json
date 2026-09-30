@@ -21878,10 +21878,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/result.ts",
@@ -21889,10 +21886,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/manifest.ts",
@@ -21900,10 +21894,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-contract.ts",
@@ -21911,10 +21902,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
@@ -21922,10 +21910,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/api-policy.ts",
@@ -21933,10 +21918,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-selection.test.ts",
@@ -21944,10 +21926,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-result.test.ts",
@@ -21955,10 +21934,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-api-policy.test.ts",
@@ -21966,10 +21942,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent implementation from public interfaces and black-box behavior tests. Selection uses immutable lexicographic priorities; API visibility is separated from validated manifest loading and a freshly constructed public member catalog. Existing API names and constraints are retained for interoperability. Prior source exposure is disclosed; this is not a no-access clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
@@ -21977,10 +21950,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/documentation-render.ts",
@@ -21988,10 +21958,7 @@
       "decision": "independent-replacement",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/test/browser-documentation.test.ts",
@@ -21999,10 +21966,7 @@
       "decision": "original",
       "license": "MIT",
       "basis": "Independent documentation loading, rendering, guidance and tests from public interfaces and observed lookup/aggregation behavior. File access checks both logical and physical directory containment; document conditions use declared supported APIs. New guidance is organized around verified browser operations. Prior source exposure is disclosed; no clean-room claim.",
-      "evidence": [
-        "specs/knorvia-browser-sdk.md",
-        "docs/knorvia-independence-progress-20260927.md"
-      ]
+      "evidence": ["specs/knorvia-browser-sdk.md", "docs/knorvia-independence-progress-20260927.md"]
     },
     {
       "path": "apps/cli/packages/core/src/browser-client/playwright.ts",
@@ -34193,7 +34157,7 @@
     },
     {
       "path": "docs/knorvia-model-adapter-runtime-acceptance.md",
-      "normalizedSha256": "d82c0057d8f21f4109afbe4b7a749a39e103b54d04026c9bea97287cf8294c49",
+      "normalizedSha256": "f773c3aea7368905102ad95f5e1186fb886c1e16638532530bdc1566882cdca9",
       "decision": "original",
       "license": "MIT",
       "basis": "New independently written model adapter behavior specification, measured acceptance record or provenance account. Records initial failures, asynchronous observation corrections, runtime-network limits, retained dependencies and the still-incomplete whole-application migration without making a blanket clean-room or root-license claim.",
