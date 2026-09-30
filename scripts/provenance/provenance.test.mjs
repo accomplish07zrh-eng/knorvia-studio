@@ -204,10 +204,19 @@ test("icon provenance requires both a retained publisher license and byte-identi
       result.matched.map((entry) => entry.path),
       ["assets/same.svg"],
     );
-    assert.deepEqual(result.unresolved, [
-      { path: "assets/changed.svg", reason: "content-different" },
-      { path: "assets/missing.svg", reason: "source-path-not-found" },
-    ]);
+    assert.deepEqual(
+      result.unresolved.map(({ path, reason }) => ({ path, reason })),
+      [
+        { path: "assets/changed.svg", reason: "content-different" },
+        { path: "assets/missing.svg", reason: "source-path-not-found" },
+      ],
+    );
+    assert.equal(
+      result.unresolved[0].sha256,
+      fingerprint(Buffer.from("<svg>custom</svg>\n")).sha256,
+    );
+    assert.match(result.unresolved[0].sourceBlob, /^[a-f0-9]{40}$/);
+    assert.equal(result.unresolved[1].sourcePath, undefined);
     await assert.rejects(
       compareMaterialIcons(root, source, { ...component, sha256: "0".repeat(64) }),
       /digest mismatch/,

@@ -72,6 +72,11 @@ export async function compareMaterialIcons(root, sourceDirectory, component) {
       unresolved.push({
         path: current.path,
         reason: source ? "content-different" : "source-path-not-found",
+        sha256: current.sha256,
+        normalizedSha256: current.normalizedSha256,
+        ...(source
+          ? { sourcePath: source.path, sourceBlob: source.blob, sourceSha256: source.sha256 }
+          : {}),
       });
     }
   }

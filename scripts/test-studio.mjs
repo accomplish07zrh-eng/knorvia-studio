@@ -25,6 +25,7 @@ const tests = [
   "scripts/release-gate.test.ts",
   "scripts/provenance/provenance.test.mjs",
   "scripts/provenance/retained-review.test.mjs",
+  "scripts/provenance/third-party-audit.test.mjs",
   "packages/cua/test/stage-windows-driver.test.mjs",
   "apps/cli/packages/bootstrap/test/windows-computer-use-config.test.ts",
   "apps/cli/packages/bootstrap/test/browser-protocol-broker.test.ts",

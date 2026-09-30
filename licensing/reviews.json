@@ -3,14 +3,16 @@
   "files": [
     {
       "path": "scripts/provenance/model.mjs",
-      "normalizedSha256": "973e3f7ec53b6bfa4f7e5791c132af46f6585c9c973ce1cd8512629883384feb",
+      "normalizedSha256": "5fe4ab6da8d8c337882f64041a0e2b3d6b35a7fbfcc6fcbef81d70cfe3a9e05e",
       "decision": "original",
       "license": "MIT",
-      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation.",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-28 extension adds digest-bound, non-authorizing retained-nature reviews, accepted-only overlapping statistics and one evidenced host-manifest alias; it preserves upstream and third-party facts and existing conflict/expiry rules. New requirements were tested before implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
         "licensing/evidence/node-repl-host-retained.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
       ]
     },
     {
@@ -26,24 +28,28 @@
     },
     {
       "path": "scripts/provenance/cli.mjs",
-      "normalizedSha256": "a55654e1ce41e38247076eafe7325559e346a747a6b3aa27f82e5c42e3ef915d",
+      "normalizedSha256": "f517c9369bccb8a89e73eda276a3f0ceca616375408846486290a9aa09106c83",
       "decision": "original",
       "license": "MIT",
-      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
       ]
     },
     {
       "path": "scripts/provenance/provenance.test.mjs",
-      "normalizedSha256": "58cb6809b82d74382bf81d15f7a492cd4d08e614fb07b1a110fd30e04715aa67",
+      "normalizedSha256": "7b37edf99564aeb0fd62e80e889285c273ff79afa3ff2dc5e2783ab1192356ae",
       "decision": "original",
       "license": "MIT",
-      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation.",
+      "basis": "New file provenance tooling authored for the 2026-09-27 migration goal; uses Node built-ins and Git metadata, no copied upstream implementation. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
-        "docs/knorvia-independence-progress-20260927.md"
+        "docs/knorvia-independence-progress-20260927.md",
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
       ]
     },
     {
@@ -70,13 +76,15 @@
     },
     {
       "path": "scripts/provenance/material-icons.mjs",
-      "normalizedSha256": "c70822a7ac5d3885d569bbf86ebfad2c20976e54ab6a68271ab9a220d15a0634",
+      "normalizedSha256": "8e2c7df46a2fac6ea14be6bdcf0954fdb43edb840e556cf6c5b03a0eff596e74",
       "decision": "original",
       "license": "MIT",
-      "basis": "Independently authored offline publisher-source audit; checks a pinned Git commit and retained license before comparing SVG byte digests. No source assets are copied or transformed.",
+      "basis": "Independently authored offline publisher-source audit; checks a pinned Git commit and retained license before comparing SVG byte digests. No source assets are copied or transformed. The 2026-09-30 reconciliation adds specifically evidenced path aliases, digest-bound unresolved asset evidence and shared third-party audit entry checks; existing source origins, retained-nature reviews, file-local notices and licence boundaries are preserved. Regression requirements preceded these changes.",
       "evidence": [
         "specs/knorvia-independent-implementation.md",
-        "licensing/evidence/material-icon-theme.json"
+        "licensing/evidence/material-icon-theme.json",
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
       ]
     },
     {
@@ -34910,6 +34918,50 @@
         "specs/knorvia-logging-runtime.md",
         "licensing/evidence/logging-runtime.md",
         "docs/knorvia-logging-runtime-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/third-party-audit.mjs",
+      "normalizedSha256": "c5b96ef22b3754c64453d981e245d57e309b76a6a80151ac1d978cd9b2c086a3",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
+      ]
+    },
+    {
+      "path": "scripts/provenance/third-party-audit.test.mjs",
+      "normalizedSha256": "7f84cb7c657b09756177636b98c1836c0b9ea6effeb257e70045c430248e0c99",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
+      ]
+    },
+    {
+      "path": "specs/knorvia-third-party-reconciliation.md",
+      "normalizedSha256": "8452ab253b942134e81197a1ee95255842c81c64bc08f85a5899b524f4fa5e37",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
+      ]
+    },
+    {
+      "path": "docs/knorvia-third-party-reconciliation-acceptance.md",
+      "normalizedSha256": "ef7b84e5e5f4ad10cda33edc37953d95de9a23ccbb15504bbd9a6b667d753eb0",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New offline audit/test/specification expression authored for the 2026-09-30 reconciliation. Uses repository source declarations as factual input and Node built-ins, no copied publisher implementation. This file-level decision does not grant rights to audited product code, registry metadata, assets or dependency notices.",
+      "evidence": [
+        "specs/knorvia-third-party-reconciliation.md",
+        "docs/knorvia-third-party-reconciliation-acceptance.md"
       ]
     }
   ]

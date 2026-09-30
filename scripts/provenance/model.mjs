@@ -14,6 +14,16 @@ const REVIEW_DECISIONS = new Set([
   RETAINED_DECISION,
 ]);
 const VERIFIED_PATH_ALIASES = new Map([
+  ["packages/zcode-cua/package.json", "packages/cua/package.json"],
+  ["packages/zcode-server-cli/package.json", "packages/server-cli/package.json"],
+  [
+    "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
+    "packages/shared/src/protocol-v4/wire-codec.ts",
+  ],
+  [
+    "packages/ui/src/components/ui/ZCodeAboutLogo.tsx",
+    "packages/ui/src/components/ui/AboutLogo.tsx",
+  ],
   [
     "apps/cli/packages/node-repl-host/.zcode-plugin/plugin.json",
     "apps/cli/packages/node-repl-host/.knorvia-plugin/plugin.json",

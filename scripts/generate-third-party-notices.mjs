@@ -2,6 +2,12 @@ import { readFile, readdir, stat, writeFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { collectNpmNotices, hashBytes } from "./third-party-npm.mjs";
 import {
+  assertAuditConsistent,
+  auditThirdPartyInventory,
+  deriveMaterialReviews,
+} from "./provenance/third-party-audit.mjs";
+import { fingerprint } from "./provenance/model.mjs";
+import {
   noticesFileName,
   readNativeSearchNotices,
   repositoryRoot,
@@ -11,7 +17,7 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
   const inputs = {};
   const readInput = async (file) => {
     const bytes = await readFile(join(root, file));
-    inputs[file] = hashBytes(bytes.toString("utf8").replaceAll("\r\n", "\n"));
+    inputs[file] = fingerprint(bytes).normalizedSha256;
     return bytes;
   };
   const readJson = async (file) => JSON.parse(await readInput(file));
@@ -19,6 +25,7 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
   const copied = await readJson("third-party/copied-components.json");
   const embedded = await readJson("third-party/embedded-components.json");
   const runtimes = await readJson("third-party/runtime/sources.json");
+  const material = await readJson("licensing/evidence/material-icon-theme.json");
   for (const runtime of runtimes.node) {
     if (hashBytes(await readInput(runtime.file)) !== runtime.sha256)
       throw new Error(`Changed Node ${runtime.version} license`);
@@ -176,29 +183,24 @@ export async function generateThirdPartyNotices(root = repositoryRoot) {
     exceptions: overrides.filter((item) => item.acceptedMissingNotice || item.evidenceKind),
     embedded,
     runtimes,
-    reviewRequired: [
-      // 修复：复制源码的缺口此前只写在 README，重生成清单后严格门禁也无法阻断。
-      ...copied
-        .filter((item) => item.reviewRequired)
-        .map((item) => ({ id: item.id, reason: item.reviewRequired })),
-      ...overrides
-        .filter((item) => item.acceptedMissingNotice || item.evidenceKind)
-        .map((item) => ({
-          id: item.package,
-          reason:
-            "Original version-specific publisher copyright/license material remains incomplete.",
-        })),
-      ...embedded
-        .filter((item) => item.reviewRequired)
-        .map((item) => ({ id: item.id, reason: item.reviewRequired })),
-      ...native.inventory.components
-        .filter((item) => !item.notices.length)
-        .map((item) => ({
-          id: `${item.id}@${item.version}`,
-          reason: "No original notice snapshot for this recorded native component.",
-        })),
-    ],
+    reviewRequired: deriveMaterialReviews({
+      copied,
+      overrides,
+      embedded,
+      native: native.inventory,
+      material,
+    }),
   };
+  // 修复：写入前对账资产覆盖和来源投影，防止生成器再次产出会漏报的派生清单。
+  assertAuditConsistent(
+    await auditThirdPartyInventory(root, inventory, {
+      copied,
+      overrides,
+      embedded,
+      native: native.inventory,
+      material,
+    }),
+  );
   await writeFile(join(root, noticesFileName), bytes);
   await writeFile(
     join(root, "third-party/inventory.json"),

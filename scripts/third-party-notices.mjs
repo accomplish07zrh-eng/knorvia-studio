@@ -1,6 +1,10 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import {
+  assertAuditConsistent,
+  auditThirdPartyInventory,
+} from "./provenance/third-party-audit.mjs";
 
 export const repositoryRoot = resolve(import.meta.dirname, "..");
 export const noticesFileName = "THIRD-PARTY-NOTICES.md";
@@ -17,17 +21,11 @@ export async function readVerifiedNotices(root = repositoryRoot, { requireComple
   const bytes = await readThirdPartyNotices(root);
   if (hash(bytes) !== manifest.noticesSha256)
     throw new Error("Third-party notices changed; regenerate the inventory");
-  for (const [file, expected] of Object.entries(manifest.inputs)) {
-    // 工作区文本允许 Windows checkout 的 CRLF；原始许可和发行声明另用字节哈希校验。
-    if (hash((await readFile(resolve(root, file), "utf8")).replaceAll("\r\n", "\n")) !== expected) {
-      throw new Error(`Third-party input changed: ${file}. Run node scripts/licenses.mjs notices`);
-    }
-  }
-  if (requireComplete && !Array.isArray(manifest.reviewRequired))
-    throw new Error("Missing material review inventory; regenerate third-party notices");
-  if (requireComplete && manifest.reviewRequired.length) {
+  const audit = await auditThirdPartyInventory(root, manifest);
+  assertAuditConsistent(audit);
+  if (requireComplete && audit.reviewRequired.length) {
     throw new Error(
-      `Unresolved third-party material obligations:\n${manifest.reviewRequired.map((item) => `${item.id}: ${item.reason}`).join("\n")}`,
+      `Unresolved third-party material obligations (${audit.reviewRequired.length}):\n${audit.reviewRequired.map((item) => `${item.id}: ${item.reason}`).join("\n")}`,
     );
   }
   return bytes;

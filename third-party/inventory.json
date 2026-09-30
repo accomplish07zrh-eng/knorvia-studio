@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "inputHashEncoding": "UTF-8 with CRLF normalized to LF; notice and source snapshot hashes remain byte-exact",
-  "scope": "Production dependency union across current workspace projects, copied source/assets and native tools; not a per-installer SBOM or a certification of all licensing obligations.",
+  "scope": "Conservative retained production/copy/native notice union from the historical snapshot, reconciled to current source paths and material reviews. Exact current production coverage and retained historical-only keys are recorded in licensing/evidence/third-party-reconciliation-20260930.json. Not a per-installer SBOM or an MIT certification.",
   "noticesSha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
   "inputs": {
     ".agents/skills/agent-browser/references/authentication.md": "e2c3b0f4a1dc1368dee821f03c000d818a48421d09f3872525dddffe73f2112b",
@@ -224,29 +224,32 @@
     ".agents/skills/react-best-practices/rules/server-parallel-nested-fetching.md": "4d9c44e579e1286013acf5cb5f65b04297d2b68909f44f8163804656514a78ff",
     ".agents/skills/react-best-practices/rules/server-serialization.md": "4d025c42043c56e6355196a2e885d168cdb15248d0797146c9db838a57b34946",
     ".agents/skills/react-best-practices/SKILL.md": "b7d246acb440bee224ab33614979a5b8debe5fdb13d0304967aa19358eb69d9f",
-    "apps/zcode-cli/package.json": "6c48017b05d8a7215c5bf7dea12f50edd1487bf5b8b22e11c21703d32e8f7742",
-    "apps/zcode-cli/packages/adapters/package.json": "da99aebdd4d463b7705a2a0febc12adb9ad7e792f74f4ba7c4e258b8bb6a13dc",
-    "apps/zcode-cli/packages/bootstrap/package.json": "03466459735416bd4f6aced619f1d1963a485894de8ee3f9524740f822aa121f",
-    "apps/zcode-cli/packages/browser-use-plugin/package.json": "b7ecf0a222844419da9a27c66f6bcc0e17bdbb2db187183133c4fb0932b3d59a",
-    "apps/zcode-cli/packages/cli/package.json": "81a0c3dbdff4fb6598ac5b7336578de102c54eef914e06f0f3a65bc1b6e734b9",
-    "apps/zcode-cli/packages/contracts/package.json": "7443f402f58df867ad5f776b2e94823d2b3bb235b16d0155f7a939ba181aa3ac",
-    "apps/zcode-cli/packages/core/package.json": "abf5a6c8715fe87ea4b5ef3a48b225f94980dc386fe2ccfe98844347aa16bcd8",
-    "apps/zcode-cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts": "60fa5acd9f5c357f4e51b1d1e944ee39da92680e4bc5e98dd708f1457fcf612b",
-    "apps/zcode-cli/packages/debug/package.json": "16e6a402d995d3a56ed6e97665cd81f0dd22f03280350d5e0a70c14a2cc4b2ca",
-    "apps/zcode-cli/packages/dynamic-workflow-runtime/package.json": "f8dab813c3b9f236b593d4d04f1b78e511e15d586cb7dcdd74147e7d1c22ec5c",
-    "apps/zcode-cli/packages/dynamic-workflow/package.json": "aac5891463ddeb419ff6f73fc95b7c407964b06f8aeff66b6a9ba4d999164f99",
-    "apps/zcode-cli/packages/i18n/package.json": "025e4620d80f39cac3df06249866fcaed531615b6b8a4c4a727c4557066f7b1b",
-    "apps/zcode-cli/packages/node-repl-host/package.json": "1f593b58799ead7927275a71bcda496ad4861c491ae639b721830594171fa96b",
-    "apps/zcode-cli/packages/shared-types/package.json": "6616fb50cf5b4b854273d09411f38857c17df5d4b4abebdfe5d9601e7341e451",
-    "apps/zcode-cli/packages/superpowers-plugin/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
-    "apps/zcode-cli/packages/swift-bridge/package.json": "958674fcd44c789564ee672b0e6c687f1f900f4286174280700ddfb442d23906",
-    "apps/zcode-cli/packages/telemetry/package.json": "98a3f23459cde469988c15262f1cf92521ddb213370ac1a8d82d641982a6a012",
-    "apps/zcode-cli/packages/tui/package.json": "097d5896b0b37a455eafaf015f21113dfbea7b05bb3f92666f423f7753720eb1",
-    "apps/zcode-cli/tools/prompt-trajectory/package.json": "7f161fc87f36691f01eb8c2034bd89cf28107da36db02bc20e76f059edd36af6",
-    "apps/zcode-cli/tools/typescript/package.json": "23d7e50d2089d205ce3022c5bafbb6b3e31d000e41ac678a5934e0b72627cf3a",
-    "package.json": "86da5833464993705d44bb6ee8ee0fbeecfe9d93a1ebba3f5bf7e776999f4b3f",
-    "packages/client/package.json": "e76f441549130dc3e5e68072a36b6cb9044e19a6625f1e813f19a4def2b1b689",
-    "packages/desktop/package.json": "1a7da93549be6591eb298a7b315bb659c7701093fe3bea2ecf22694685918be1",
+    "apps/cli/package.json": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2",
+    "apps/cli/packages/adapters/package.json": "4503a9c39646b5dd9a7db7ed7758e647f01d629d45d2840244bc7099822842b8",
+    "apps/cli/packages/bootstrap/package.json": "6d4e1a8f575b1560759be458e91f69403b293b3dd5bfa610fc4ec9edd56e894f",
+    "apps/cli/packages/browser-use-plugin/package.json": "bf6c3e0458209355aa3800297752e34eed045e942eb03d6e29b68fbb2d1a22ab",
+    "apps/cli/packages/cli/package.json": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6",
+    "apps/cli/packages/contracts/package.json": "23b1d441b649af674cd8752ef54241abf9e68a0041c3d12f423faaddef9b25a6",
+    "apps/cli/packages/core/package.json": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+    "apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts": "60fa5acd9f5c357f4e51b1d1e944ee39da92680e4bc5e98dd708f1457fcf612b",
+    "apps/cli/packages/debug/package.json": "3b5b96be74cb6c7b7ee1cf1755eca81d5a11f047678b858a7c747549f1053fe6",
+    "apps/cli/packages/dynamic-workflow-runtime/package.json": "af2852f725f7b2071409b036338471017850d150c3da20ebbe268c3dce133e6a",
+    "apps/cli/packages/dynamic-workflow/package.json": "1e7fd9a0c5c6bf5d7e355dae6120a65d962886cee529cce889c93688862aff88",
+    "apps/cli/packages/i18n/package.json": "c3f2d695910bc61a5e3118cad905dd698965d78e7862bb913843bc9d7dcae544",
+    "apps/cli/packages/node-repl-host/package.json": "a0badbddd5e47a78c7c495c1be63272589ae7b7238a051742d82cacbd22c136a",
+    "apps/cli/packages/shared-types/package.json": "83400d8619bec20ae00604446c4711e7e594157423bf564da95044d2c2444f2f",
+    "apps/cli/packages/superpowers-plugin/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+    "apps/cli/packages/swift-bridge/package.json": "1fbbd04b512e20a5ce8a2d94597a7cc6089461c55bec8d0a1dbfed29d13a3f46",
+    "apps/cli/packages/telemetry/package.json": "c2f9ed20ba847da30368b845bc03c7e1bd72739b68cda5488cda13b6b23f307c",
+    "apps/cli/packages/tui/package.json": "21b0fad40d639049e32ef085147a9088e984685defb8103bcdd108ffddf12d33",
+    "apps/cli/tools/prompt-trajectory/package.json": "b94c825a9e0206dd850ea554e5aeb9600b45e9fadb92213f1da28f3a89a26622",
+    "apps/cli/tools/typescript/package.json": "f8f1bfc985c6c6aae279f1b20bc1281924ef92f216644334743a8562aed11147",
+    "licensing/evidence/material-icon-theme.json": "7f4bf9fc68296492f3adb85995f77ef4a3bdbc82f539f8f3dae9570715d60497",
+    "licensing/evidence/third-party-reconciliation-20260930.json": "23899d1c9b6d4a951ef93eceb217c82e07f8c7eaae94684b68fd939721abebf7",
+    "package.json": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+    "packages/client/package.json": "7c9033202e18a27694962072497397cee2d4aaac77e12d47ed2c2456a58325b2",
+    "packages/cua/package.json": "e343310171a485d0c21535893cf118fba052890b499c0f8046f76ae6a3642ab9",
+    "packages/desktop/package.json": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5",
     "packages/desktop/src/renderer/public/material-icons/3d.svg": "9527b849f0fba57ca7640e2717b3a19cb5f5e046712cbbd8b75d73af338c68fb",
     "packages/desktop/src/renderer/public/material-icons/abap.svg": "1335bd7eb9a0ed49deb622330d680c2e97731726a7a5eee8e4f46dc1e5db4de4",
     "packages/desktop/src/renderer/public/material-icons/abc.svg": "d1a68020e8f020ef29dca5f94dc8613b7ae8fb5b212d8b1cc23b0f975ac7acda",
@@ -1393,60 +1396,61 @@
     "packages/desktop/src/renderer/public/material-icons/zeabur.svg": "8bb7c84934202e9b24842ddb1ca69d316b9d69f1a4f5ebc9bbcce78eb2cea1a7",
     "packages/desktop/src/renderer/public/material-icons/zig.svg": "37be0ce02cf471b18d86150b3c38e80caa7c16c49a15078e7db6f1f41788d101",
     "packages/desktop/src/renderer/public/material-icons/zip.svg": "dad79a45f756542d37abd422502ecfbea15720b92ea1c9d80ef0439ab6b9448a",
-    "packages/formal-proof/package.json": "ccfbc2908b846d96a053ba348b0cabeccf76a6dffc126a0326e228f3af92aaaf",
-    "packages/model-option-map/package.json": "3c4f3581fda415d2567e9c33be2fbecb6fe2160fddd2a5a2265012bed977b77b",
-    "packages/provider-node/package.json": "e736a208a0049c30b61f75c0361a9ef15f70cf75938468ef43271395c7ad9e47",
-    "packages/provider/package.json": "dee1d0a66f94d922685a647af9972def6482e2d2d96cfa4e1facb402b40af7d0",
+    "packages/formal-proof/package.json": "00710ad9b4142467f4718f0efbb1b5b3b4be6e4c45b2a17e87023dec5a301731",
+    "packages/model-option-map/package.json": "47d8876d4e60f5029002815dc43c3fcbea68f8a58d90b336e6123394b924f87a",
+    "packages/provider-node/package.json": "33b60a6227b931f8cb6b85ac70a35b15743f24481c4ee381a29fcdb7b2159eab",
+    "packages/provider/package.json": "37166cc52e8863ec7987bc465422201aac7fcc6b7547c61371533e02111f97e6",
     "packages/rpc/examples/01-basic-ipc.ts": "bb4423c1642918846010f9307262c379536ca9541d79df6ebba120b5cf792f3e",
     "packages/rpc/examples/02-proxy-channel.ts": "66dda9aec12cd46da8a56560cb765a3de590917bbc40f329185e6fd05a388fff",
     "packages/rpc/examples/03-ipc-server-client.ts": "9b873f565b4a3426ee3a5338a975cb6ab76e29af094cf6bbee4f7030f872f758",
-    "packages/rpc/examples/04-remote-connection.ts": "fe43a2d631ba54a1cf63a86e344b6e2e58d83c2e8c95f2f8b7371f63e6442541",
-    "packages/rpc/package.json": "5f8bb83df4cecc0e93490b1990517d67c4bd65fcc4fdb8c18f2c9baf45477eed",
+    "packages/rpc/examples/04-remote-connection.ts": "db268ab9e21a6e20eff2a16ce7c88de571d6688a6f46aa9eb0508ca734bcdc1c",
+    "packages/rpc/package.json": "d45f6e1cbdb8218a91f18ecf276aa0d7fa3dcc6cb5a98ac1e60438f33297c95b",
     "packages/rpc/src/buffer.ts": "6bc6a44e6abd088f72d57616d9556d78ce078b6f3813bf75402dde386781492c",
     "packages/rpc/src/channelClient.ts": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
     "packages/rpc/src/channels.shared.ts": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
     "packages/rpc/src/channels.ts": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
     "packages/rpc/src/channelServer.ts": "b9c61bd3881fff11b38a93853c60fa5c2bc871bcbea5dad0e9be0a4674f6c9da",
     "packages/rpc/src/delayedChannel.ts": "e7607b7fe9f35c742db206df90852e2ccafb75abc088606cf1ddbae801574ecf",
-    "packages/rpc/src/foundation.ts": "b4874401965e7bad7e84245a2fc5960657a349b146f355ac7343562fa724da9f",
+    "packages/rpc/src/foundation.ts": "84ccf6231582d652bb30facc7c525279f927d3ba26fb315ac8c377e43acd87d8",
     "packages/rpc/src/index.ts": "6a5adcfb0e6c7a7d385e10fede09c3e9c808e3555c27b938091868cdf0c3fbef",
-    "packages/rpc/src/ipc.ts": "2ec3dfe0654a68300dbed7afd5ac436b563abf983d6e0f59a2b028469fdf71ef",
+    "packages/rpc/src/ipc.ts": "53bcc9f09406515ee75b1bec8768d88f19351a05c33e66ed3a87f8c58f481d94",
     "packages/rpc/src/logging-middleware.ts": "20edfd8e5d054097186f2498ec4e9c08c61740ed003fc69eecea8176a15fe025",
     "packages/rpc/src/network-telemetry-middleware.ts": "18a7cde46e6c65e0138af0623d07bf883ce278acf44654bc5144ecaadd36a536",
     "packages/rpc/src/persistent-protocol.ts": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978",
-    "packages/rpc/src/protocol.ts": "aafc0c098c75fcba4519fad2ecbee7e025d5d8a27c15c87e5ccb4ca6ce554670",
-    "packages/rpc/src/proxy-channel.ts": "ec5b43e6a3a622a88a8aaa6af9cb37dbfe517932ee7f4a337019ec138bb2d513",
+    "packages/rpc/src/protocol.ts": "1c26b9adb7edf661aa7ec9347aa009bd9fcb29b98e07ccf606714fe9ae018d56",
+    "packages/rpc/src/proxy-channel.ts": "1f81da70701f1ae95856c3a94abca456fd8352e7860013609d19f567bfdc94fb",
     "packages/rpc/src/remote.ts": "a11e072d5df7e1c1ce64814a68f72afc081246b364f0da409b5c9d22bc815957",
-    "packages/rpc/src/serialization.ts": "e949418e1cd17cc863c147fc8d1ff15237e1b5f0cb8e3344fd2a9ccfae9d54e7",
-    "packages/server/package.json": "0a6119239c88af79bc766e3c023eb4437105a0d35b03ecca1137d1e688e60a90",
-    "packages/services/package.json": "8d7757a8d8328ef827925cb730c28ce21fed20e27ddd83f2aae7b447229bd17a",
-    "packages/shared/package.json": "6394da63b39d6bf4cabadf803a4f26cf9758de944ac6e0cc5c4f0dc303f66b77",
-    "packages/shared/src/zcode-protocol-v4/wire-codec.ts": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
-    "packages/ui/package.json": "220e916077604008bb6ffea19d6bdf7148c4b09472bea251248a230ba3c69bf5",
+    "packages/rpc/src/serialization.ts": "a73fc4911723036a9c47a4d5a4dfe8860d5eaee649fd1541c3b051d9a9c866e7",
+    "packages/server-cli/package.json": "725cc830cc3adf9610e3484ff91f4a25f078a15f020cee1dda1b375b3a007f5a",
+    "packages/server/package.json": "e56d2f2bc155038cc5e33bc2c2481c1a10ad2d186e3046c26364785162d84a40",
+    "packages/services/package.json": "377ce3f4bd08c61de4b81ea726185be37847d7a98612627bc014962dc3ba39b8",
+    "packages/shared/package.json": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408",
+    "packages/shared/src/protocol-v4/wire-codec.ts": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+    "packages/ui/package.json": "d9569afc3ec1c6d3bb58a134593d722c8aae46637175416c4cfe13947bb97d01",
     "packages/ui/src/components/ai-elements/agent.tsx": "830e7ea9e927de1524851337f1d35bda0e5690e3e4fa307fff854b60006b16c7",
     "packages/ui/src/components/ai-elements/artifact.tsx": "7d73f08864d6280ac86c77d32e56d0e702f8aa6208e5910820139d0fb08ce64c",
     "packages/ui/src/components/ai-elements/attachments.tsx": "7a847ce6c8ac9dc630481a82dd20a5e9e00949bf710a41fea1d32a18123011d8",
     "packages/ui/src/components/ai-elements/canvas.tsx": "7bc92905e97c182c9a2f52b421a4d70414c8700a66039af9a4466587f74d2687",
-    "packages/ui/src/components/ai-elements/chat-loading.tsx": "b75d4398d778179f78209debde63547410d76e01cdaf3887f60b13ef9a35331f",
+    "packages/ui/src/components/ai-elements/chat-loading.tsx": "59dd964880479845b598c486ed203cc075fe4a30bc3cceb165918fb2d9035ae3",
     "packages/ui/src/components/ai-elements/checkpoint.tsx": "72459f6fb8668e9245ec32542f92c7de809cc9b5a366bb44ab08f91ea4e1255b",
-    "packages/ui/src/components/ai-elements/code-block.tsx": "ae4f975537ebb9c8ef905b7b9de39bc37180f81511bffc027dc4da1929037f18",
+    "packages/ui/src/components/ai-elements/code-block.tsx": "ce44be141a382c8121e2c8b82dc99e6a2b8a068b96edb9ded57bbbc75aabe740",
     "packages/ui/src/components/ai-elements/commit.tsx": "e9f5dcffac4ec7702b6d77b41cfc28fab54f0595375dd2c992dc972c0a9e74d2",
     "packages/ui/src/components/ai-elements/confirmation.tsx": "bb39ae89d5550f4ffcbb36e73dc8b75d1c9930f0fdba28cc8ff135d753b65a9b",
     "packages/ui/src/components/ai-elements/connection.tsx": "6e6cf65efcef612a3d14f5fda69e27009bc06046d1f7aa842a1a93b9142a7f81",
-    "packages/ui/src/components/ai-elements/context.tsx": "9f9a766dcab0010b1483b5276f9d5f4b4c3b31bd85434731fc7ce4d8bf9913f7",
+    "packages/ui/src/components/ai-elements/context.tsx": "7aa6f9d7908f0c4300b476427da76cd3f082a41fbf020ad8f0c566640a73b2e1",
     "packages/ui/src/components/ai-elements/controls.tsx": "3123e9cb668171780944fb91632c68977617ae4ef46312540c1f7ddecc3fc568",
-    "packages/ui/src/components/ai-elements/conversation.tsx": "1fda6a3c198ae104e8736b70992e9ce8549f667a942246d9a9762be8f4431e3a",
-    "packages/ui/src/components/ai-elements/diagram-preview-dialog.tsx": "cc142f8808370897dfc40cd7aea3f1aa42fd07ce471a7fbb284d9ae728b1299a",
+    "packages/ui/src/components/ai-elements/conversation.tsx": "409944a7d83085d5c28e9c9ad222fcdd84f47c9cc2cf24e203c47001362da14d",
+    "packages/ui/src/components/ai-elements/diagram-preview-dialog.tsx": "52b7ac895d28a847e0d83b226cbb534c42f7bc9a798cc49fc292015c24553a68",
     "packages/ui/src/components/ai-elements/edge.tsx": "661a25632f0879b8363f22e6b99198a6d37ad622781c798c090fcad9b591b181",
-    "packages/ui/src/components/ai-elements/image-preview-dialog.tsx": "47d4ecdefc84d39f2deda93119ce400b36224276bb6c7dab6a914868914ac8de",
+    "packages/ui/src/components/ai-elements/image-preview-dialog.tsx": "b3945b3527d3610fa6a77dcb176878329a74c7136036336f31db563e5d90d223",
     "packages/ui/src/components/ai-elements/image-thumbnail-gallery.tsx": "185766c039c6c4852ae12360360f7cf29e844a1463358b8cc2c6de972dcdaf43",
     "packages/ui/src/components/ai-elements/image.tsx": "1c6f9595ef814c4ef9648607562fa77a3007f7d857571f8e107a24022fe83e24",
     "packages/ui/src/components/ai-elements/markdown-blockquote.tsx": "0c76599780a464136703d40d07172dcc62730dee1ce01a155100cf4712440a7f",
-    "packages/ui/src/components/ai-elements/markdown-image.tsx": "aedf797b19d4f5d37fc7e8833b2824a9d1a1a4fca440b69519b43a43eb122e90",
+    "packages/ui/src/components/ai-elements/markdown-image.tsx": "168b2aa5042a5cb3106c2862d0c88f121577e42a5301868f95997f3623873ec7",
     "packages/ui/src/components/ai-elements/markdown-list.tsx": "ecf50ad4f48cd460ddcf90db7b463671f915d8c22c7cb8e7760ff3b02282c7f1",
-    "packages/ui/src/components/ai-elements/markdown-table.tsx": "612d78092eaeb950931070fff2a194a244e84c5c2d63c6df645e6b91391953da",
-    "packages/ui/src/components/ai-elements/mermaid-block.tsx": "4cc6783097a6ecbb1896ee1f3dd1d89115ca81f3efb15d9fbabcf448063818ae",
-    "packages/ui/src/components/ai-elements/message.tsx": "6c35829ed11321e850cd59e20c1c88fdd452e8e2d9b5da45f808371021aabf99",
+    "packages/ui/src/components/ai-elements/markdown-table.tsx": "c16c115b1f328b4cd722dabd147dedc7b7f9b3cd4c84d0564e9f397e0f5878f0",
+    "packages/ui/src/components/ai-elements/mermaid-block.tsx": "ce718f55d3be00f9abad613e5c6bea83c59af1222b2f84d5380c9a7cef012890",
+    "packages/ui/src/components/ai-elements/message.tsx": "8b95f4606e9531f5004b3257a9217d9d6fce1c7bf8fa79e87cebb4a29af9e822",
     "packages/ui/src/components/ai-elements/node.tsx": "d7b68c41717a509bd9063f0a9fc0c4525ceb2b23bae4028bcd49ec949fc6268f",
     "packages/ui/src/components/ai-elements/panel.tsx": "9c345ecb217fbb6a3a2b49b93ca81b746f249d18b9223470fbf511c0a9a37bb7",
     "packages/ui/src/components/ai-elements/persona.tsx": "c796e1aa0f85395138eda5e4c7ffc7dac5321690b3f6949f73c7b3ebe8d52808",
@@ -1457,7 +1461,7 @@
     "packages/ui/src/components/ai-elements/prompt-input-textarea.tsx": "4798574a8f2fc8584a1c5585d9dd878dd19d76bd05603e77948ec12180649def",
     "packages/ui/src/components/ai-elements/prompt-input.tsx": "68a92e07c27774e9c1d63bccd12ec3ff38b4f89dd245b20bfffbbd052e6101c4",
     "packages/ui/src/components/ai-elements/queue.tsx": "9d84f6e15708519ec65e258d9843dc5f4d76f106fc85155f7dcf51f89474b695",
-    "packages/ui/src/components/ai-elements/reasoning.tsx": "a10a38c7b3ca633e9b5480ad94f9c7a1fdd52bc5526ae0801e3e6ed141f2b604",
+    "packages/ui/src/components/ai-elements/reasoning.tsx": "ec09573901f3c1d20033446028af709d4d730f87936904f5f1cb921867b31ed9",
     "packages/ui/src/components/ai-elements/sandbox.tsx": "f521400dbaebe4c2a2fbcdcb8c18f98980c566169233beb137b22a093b44bbf0",
     "packages/ui/src/components/ai-elements/shimmer.tsx": "5d06ffdff80a13453a0b61b67f588c48d838a20d9be2cd319ca2a97d441b3127",
     "packages/ui/src/components/ai-elements/snippet.tsx": "6f369f0bb3308166ccd55f39dd542f7315873c5bd6de2491ffccc26b0700edfe",
@@ -1469,6 +1473,7 @@
     "packages/ui/src/components/ai-elements/test-results.tsx": "8e12e551516048a877ca94c92c4979ecd6e4f2eb0042e465a3a23fc805ae7449",
     "packages/ui/src/components/ai-elements/tool.tsx": "c4ca6fee5ecb3cfa597e8e99a2786c1bca28a6af36c4e8d05626b979e0f5963c",
     "packages/ui/src/components/ai-elements/toolbar.tsx": "4bf1d6677248001166eb640a264ea7dc8750d609a01119e6aaf161ef74c0a245",
+    "packages/ui/src/components/ui/AboutLogo.tsx": "df40852555e056ec9b19150e366c8b52b173e3d75648d9caab39bde4e847d735",
     "packages/ui/src/components/ui/accordion.tsx": "4a72f846da91bdeac1dbba849572132b98c8b96f0b03e611f46d0f3e41791947",
     "packages/ui/src/components/ui/alert-dialog.tsx": "3dd074ddbfcefdad6a6c231b6cf055bbcd5fce40bf8feecc6950b60d9ab53b81",
     "packages/ui/src/components/ui/alert.tsx": "5f29338fc9b767994b39849edeac71ee91dc1fd4a875252b40c5cf9001b1c0a7",
@@ -1487,17 +1492,17 @@
     "packages/ui/src/components/ui/diff-viewer.tsx": "f02208b316e6dc4043ed1794455422bc74cdd521285fcac5a2c0d589c2eb9af2",
     "packages/ui/src/components/ui/dropdown-menu.tsx": "34c5b79489756aa3467ec26d2b44587f3d47eafcb2cb16402686aac15e4debdb",
     "packages/ui/src/components/ui/flip-metric-value.tsx": "ce2d6cf063003e1023191b0fa4e3eb9b365e04a14eb0d498b897326600bf4071",
-    "packages/ui/src/components/ui/GlmMonochromeIcon.tsx": "f1691224d23be4359e1a79bcd81b9dd5ee19c0177b3a4bf750332c620b98ae5c",
+    "packages/ui/src/components/ui/GlmMonochromeIcon.tsx": "970b42abec67de7fb006e69794058eb47ca299a29ee5003b25bf52e16bc1a8f8",
     "packages/ui/src/components/ui/highlighted-lightweight-diff-preview.tsx": "c04bb6009683ab74cb72ff8f1e1157ffbdd06be4a46dc3c725c63e0bc43fea72",
     "packages/ui/src/components/ui/hover-card.tsx": "28e49fb55a3fd4f5bfc5d61f336854304bc92c5a7098305b208274913b226f3d",
     "packages/ui/src/components/ui/input-group.tsx": "72e8c0775e55525efe49dfa42ecba7b9244836a78c31be0dd576d52640d4c3c9",
     "packages/ui/src/components/ui/input.tsx": "946d37bdf07c81e70ad13242b904c27618d5d09f7c17a74f6b6c8cb613fa93dc",
     "packages/ui/src/components/ui/kbd.tsx": "a7fabb33892c759337ae5c936d3b62f27fb2356a5a6340dbff8bfbac6f0a359f",
     "packages/ui/src/components/ui/label.tsx": "717bd1167a7c8c136abfe0b3e23e8cfcb38abbe51b04c74d6d01ba1ea0b53fa5",
-    "packages/ui/src/components/ui/lightweight-diff-preview.tsx": "7d1ff2a02815d988f5ffd2d6549848920c98488a4dba43f67ba9d81a3da49d01",
+    "packages/ui/src/components/ui/lightweight-diff-preview.tsx": "67206bc6b8928060d3a17e33279728e52f0f633ab98b12b0416c4201224232d3",
     "packages/ui/src/components/ui/pdf-viewer.tsx": "19ba82ab97a84599bb99178de85a4d5c6a89da6924ba55a0dc14f33286187fdc",
     "packages/ui/src/components/ui/popover.tsx": "e23c9238865ba7e85965ebed89e7328cfbdbbdcc2264156c775d51e9e264b484",
-    "packages/ui/src/components/ui/pptx-preview-viewer.tsx": "64d7ed9e83cad0e98ba56ff2c49be2db335aedca4230b207cba5a383a15cb93d",
+    "packages/ui/src/components/ui/pptx-preview-viewer.tsx": "8b46d705ab3a4350cb6ca0131c00049cb8423d5270cd48d1862579db8971e69c",
     "packages/ui/src/components/ui/pptx-selection-action-bar.tsx": "6e7187b7f527e4a97df117cc0df85d2dd8f4408d7415aec2e4907db39a331efd",
     "packages/ui/src/components/ui/progress.tsx": "ba88ffa75ad78eaa23519c7af84e11679ca2b8e4508c57759d769462811c0ec5",
     "packages/ui/src/components/ui/README.md": "75b3a7d95cb683c0e97d4212af3a984359031f9b1f0c5d373b2c9ed38e4bda40",
@@ -1506,17 +1511,16 @@
     "packages/ui/src/components/ui/scroll-fade-viewport.tsx": "50e5984232b6a7d59e872aab4ebb36ae837e2865e3a770adbc234b61c2531da1",
     "packages/ui/src/components/ui/select.tsx": "e6d73ae0bf6916256fd86005d8a94e3dfb004c8107f51882cfd2d52e7751ca09",
     "packages/ui/src/components/ui/separator.tsx": "31ade0b9a0eca6689226c94d479352416ef076859980a976422a8af17879dee2",
-    "packages/ui/src/components/ui/spinner.tsx": "96bef1c5ef7e582de503aac8402b55f3539cea37bd2c186a12a4f2cb7605468e",
+    "packages/ui/src/components/ui/spinner.tsx": "cf30d5f3d2230e194adc6d79feda04b65d2baa39fb413a612b1ab08027c1b736",
     "packages/ui/src/components/ui/switch.tsx": "1a6490eb3c47b3a86b76c8469e5702608ea57da7853df5de00fffa9a4a472adf",
     "packages/ui/src/components/ui/tabs.tsx": "adc59a0469c80118e9d60c08bf0222d55664ef95e6c522496b5c201011b347f0",
     "packages/ui/src/components/ui/textarea.tsx": "a839574ce1301fbaa9ba917fdb980900eb9118bffa7c6c4e469f3293b122ed30",
-    "packages/ui/src/components/ui/toast.tsx": "0f8894c6fc30e4cec44caa4cffe70e111f9c41ff9bf3699ec8e91696ea631671",
+    "packages/ui/src/components/ui/toast.tsx": "e60744e13e9e4844679ae9a06a0b5ccf032a58944db3434091d71ed43809fc4b",
     "packages/ui/src/components/ui/tooltip.tsx": "301dbf3a6f8b1bc496f9bdc6fbc5fe6202ed373182897f39cd1ecd19b00fdfbe",
     "packages/ui/src/components/ui/usePdfZoomOverlay.ts": "c8c91b003ce2fded32c7a2369dc6eac43aa4b9dc9c830a0f5ceccb21d366b610",
-    "packages/ui/src/components/ui/ZCodeAboutLogo.tsx": "1e5b7c2e8a9dc98a3c597cbe34122521319eaeb89825e4c41641e77715d1407a",
-    "packages/ui/src/lib/builtinSkillI18n.ts": "5ad4f2ba2c56b7364f38e80628b958a2e5f38d7c01066425df738c28610bc259",
-    "packages/ui/src/styles.css": "22d5b58e44cdebdbe7154c418ee05fef6dde689e384f0dd590d4057739487be7",
-    "packages/web/package.json": "0810e762bf1d6641d5f73ab642b81953e183e53fd963a1d405ffc65b206e5ce6",
+    "packages/ui/src/lib/builtinSkillI18n.ts": "fec3b38e5b472ea7647052a482e1c3d298f5b7061f1ae000aef54316bdd77bfa",
+    "packages/ui/src/styles.css": "0a94de48b584ed7444e4e76d15bc4fa0dc80b3342a3016fbf0a32ccc54bf0d77",
+    "packages/web/package.json": "5b5d4b077434d897d29484bd99bd98b8ae1b22e94e7f0934a6c938cdf59497b1",
     "packages/web/public/material-icons/3d.svg": "9527b849f0fba57ca7640e2717b3a19cb5f5e046712cbbd8b75d73af338c68fb",
     "packages/web/public/material-icons/abap.svg": "1335bd7eb9a0ed49deb622330d680c2e97731726a7a5eee8e4f46dc1e5db4de4",
     "packages/web/public/material-icons/abc.svg": "d1a68020e8f020ef29dca5f94dc8613b7ae8fb5b212d8b1cc23b0f975ac7acda",
@@ -2663,17 +2667,15 @@
     "packages/web/public/material-icons/zeabur.svg": "8bb7c84934202e9b24842ddb1ca69d316b9d69f1a4f5ebc9bbcce78eb2cea1a7",
     "packages/web/public/material-icons/zig.svg": "37be0ce02cf471b18d86150b3c38e80caa7c16c49a15078e7db6f1f41788d101",
     "packages/web/public/material-icons/zip.svg": "dad79a45f756542d37abd422502ecfbea15720b92ea1c9d80ef0439ab6b9448a",
-    "packages/zcode-cua/package.json": "87f0fe859ffd7539d719bfd6ac4ae2884960ffa80ee29a7a562b52bc805f67c8",
-    "packages/zcode-server-cli/package.json": "6e294c4409cb90863d85b2e3d60f92766b156ccee577ebfeaffcb85e94194004",
     "patches/@ai-sdk__anthropic@3.0.81.patch": "d3a7c381eba7f5157f765a0528003af17cf84544911dfb7412c7800168e01c18",
     "patches/@ai-sdk__openai-compatible@2.0.60.patch": "9632fe9d821b3dc20939ae509cc35b968d90d018bbd1d812390718898182a38b",
     "patches/@arms__rum-electron@0.0.3.patch": "36855354851ea495bc47a03340b0484ff62836b739cad56904b8a69f18e2ae97",
-    "pnpm-lock.yaml": "a63f2497b6f61711d765be85aa3b6a4b543d792fdcc95a8c0effeaeb3d2292d5",
-    "pnpm-workspace.yaml": "f18a18233e82cda1dc40be61bf2ad1bc99de25de63ad0be64bc652761a638372",
+    "pnpm-lock.yaml": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+    "pnpm-workspace.yaml": "e537f84078905ca7fb2c25b235b2a6951f47bbb9202f474b6850086f46b2c7be",
     "scripts/license-texts/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-    "scripts/native-search-tools-config.mjs": "281d368464f61363fa2d8ab74f416962fe730dd0a0572db5564475f876bb65aa",
+    "scripts/native-search-tools-config.mjs": "ece0770f3c961b72658e47b0b76924094abb7ab82a2eb2d3837e7f56dcc6a661",
     "scripts/remote-native-search-tools-config.mjs": "472322a66f84c7452f96aa9e16e9c4e0600f7c2588a03dc6bc869229161b1cb2",
-    "third-party/copied-components.json": "a411ef6ee22a25e910d2ccfb5dde572a116174645abbda9e99f86946deeb2072",
+    "third-party/copied-components.json": "aa52a21ffcfabf29e7e57575bb44fe39bc92be85fe8ed34124a378bb32cc0b5f",
     "third-party/embedded-components.json": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a",
     "third-party/native-search/licenses/00373c9bf56a894b2ed67586596bc1e8b0630cabbaf1ab46c75fc754b6bcd1ce.txt": "00373c9bf56a894b2ed67586596bc1e8b0630cabbaf1ab46c75fc754b6bcd1ce",
     "third-party/native-search/licenses/01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f.txt": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
@@ -2789,7 +2791,7 @@
     "third-party/native-search/licenses/f8a6a9a718ca8be13701d706d208dd0d7b4d2b41cb1df3342fc5a6d602bd1dac.txt": "f8a6a9a718ca8be13701d706d208dd0d7b4d2b41cb1df3342fc5a6d602bd1dac",
     "third-party/native-search/licenses/f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af.txt": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af",
     "third-party/native-search/licenses/f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505.txt": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505",
-    "third-party/native-search/sources.json": "5a7b2d7abf5bd5f310712710cbbd0ca70dc9491e723cbf070b5c696fe155a962",
+    "third-party/native-search/sources.json": "f8fa8858a4c88d92df6243398886f6167ba2d68823d260de76dab048f40bde88",
     "third-party/npm-overrides.json": "08e2b41ea681c0058e7430f8d285e0693433af2ead0b0bc96d80aecbe7ecad19",
     "third-party/runtime/node-22.16.0-LICENSE.txt": "1ae62e2015784ba438db7b04ebd33f3c4ff3efdb824c111c4ececd99945fd52d",
     "third-party/runtime/node-24.14.0-LICENSE.txt": "4573185d56580da2b890ba34a85a409257640f1c5632eade4300137266194d18",
@@ -19334,8 +19336,9 @@
           "sha256": "75b3a7d95cb683c0e97d4212af3a984359031f9b1f0c5d373b2c9ed38e4bda40"
         },
         {
-          "file": "packages/ui/src/components/ui/ZCodeAboutLogo.tsx",
-          "sha256": "1e5b7c2e8a9dc98a3c597cbe34122521319eaeb89825e4c41641e77715d1407a"
+          "file": "packages/ui/src/components/ui/AboutLogo.tsx",
+          "sha256": "1e5b7c2e8a9dc98a3c597cbe34122521319eaeb89825e4c41641e77715d1407a",
+          "historicalFile": "packages/ui/src/components/ui/ZCodeAboutLogo.tsx"
         },
         {
           "file": "packages/ui/src/components/ui/accordion.tsx",
@@ -20372,7 +20375,7 @@
     {
       "id": "Fig autocomplete registry",
       "roots": [
-        "apps/zcode-cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts"
+        "apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts"
       ],
       "license": "MIT",
       "source": "https://raw.githubusercontent.com/withfig/autocomplete/aef52acff84c45edde61ae610cc2c964802b9a38/LICENSE",
@@ -20380,10 +20383,14 @@
       "sha256": "5129f8779dca579cfcb235570688a2f15822b270575e04f27ef906aabbcc0355",
       "referenceRevision": "aef52acff84c45edde61ae610cc2c964802b9a38",
       "importRevision": null,
+      "historicalRoots": [
+        "apps/zcode-cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts"
+      ],
       "files": [
         {
-          "file": "apps/zcode-cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts",
-          "sha256": "60fa5acd9f5c357f4e51b1d1e944ee39da92680e4bc5e98dd708f1457fcf612b"
+          "file": "apps/cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts",
+          "sha256": "60fa5acd9f5c357f4e51b1d1e944ee39da92680e4bc5e98dd708f1457fcf612b",
+          "historicalFile": "apps/zcode-cli/packages/core/src/tool/handlers/generated/bash-command-registry.ts"
         }
       ]
     },
@@ -29670,10 +29677,15 @@
       "roots": [
         "packages/rpc/src",
         "packages/rpc/examples",
-        "packages/shared/src/zcode-protocol-v4/wire-codec.ts"
+        "packages/shared/src/protocol-v4/wire-codec.ts"
       ],
       "scope": "Upstream-derived IPC, serialization, buffer, lifecycle and event portions only. Local RPC extensions, transports and envelope measurement are ZCode adaptations; inclusion does not attribute all local code to Microsoft.",
       "license": "MIT",
+      "historicalRoots": [
+        "packages/rpc/src",
+        "packages/rpc/examples",
+        "packages/shared/src/zcode-protocol-v4/wire-codec.ts"
+      ],
       "files": [
         {
           "file": "packages/rpc/src/buffer.ts",
@@ -29756,8 +29768,9 @@
           "sha256": "fe43a2d631ba54a1cf63a86e344b6e2e58d83c2e8c95f2f8b7371f63e6442541"
         },
         {
-          "file": "packages/shared/src/zcode-protocol-v4/wire-codec.ts",
-          "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75"
+          "file": "packages/shared/src/protocol-v4/wire-codec.ts",
+          "sha256": "ac2494a3acc795c809c94ee9393f50271a9c2a0fd33813459e5ab93842ceef75",
+          "historicalFile": "packages/shared/src/zcode-protocol-v4/wire-codec.ts"
         }
       ]
     },
@@ -29771,18 +29784,23 @@
       "provenance": "Original import revision is not recorded. This pinned upstream license/source reference is not asserted to be the original import version.",
       "roots": [
         "packages/ui/src/lib/builtinSkillI18n.ts",
-        "apps/zcode-cli/packages/superpowers-plugin/LICENSE"
+        "apps/cli/packages/superpowers-plugin/LICENSE"
       ],
       "scope": "Superpowers-derived skill descriptions and their translations only; unrelated descriptions from other projects in this file are not covered. The former bundled plugin implementation has been removed; only its retained license remains.",
       "license": "MIT",
+      "historicalRoots": [
+        "packages/ui/src/lib/builtinSkillI18n.ts",
+        "apps/zcode-cli/packages/superpowers-plugin/LICENSE"
+      ],
       "files": [
         {
           "file": "packages/ui/src/lib/builtinSkillI18n.ts",
           "sha256": "5ad4f2ba2c56b7364f38e80628b958a2e5f38d7c01066425df738c28610bc259"
         },
         {
-          "file": "apps/zcode-cli/packages/superpowers-plugin/LICENSE",
-          "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400"
+          "file": "apps/cli/packages/superpowers-plugin/LICENSE",
+          "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+          "historicalFile": "apps/zcode-cli/packages/superpowers-plugin/LICENSE"
         }
       ]
     },
@@ -30643,5 +30661,2031 @@
     ]
   },
   "reviewRequired": [
-  ]
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "keyv@4.5.4",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/agent.svg",
+      "reason": "Material Icon Theme source unresolved: content-different"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-admin-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-android-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-angular-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-animation-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-ansible-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-api-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-apollo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-app-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-archive-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-astro-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-attachment-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-audio-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-aurelia-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-aws-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-azure-pipelines-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-backup-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-base-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-batch-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-benchmark-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-bibliography-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-bicep-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-blender-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-bloc-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-bower-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-buildkite-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cart-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-changesets-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-ci-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-circleci-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-class-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-client-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cline-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cloud-functions-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cloudflare-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cluster-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cobol-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-command-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-components-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-config-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-connection-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-console-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-constant-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-container-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-content-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-context-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-contract-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-controller-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-core-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-coverage-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-css-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-custom-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-cypress-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-dart-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-database-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-debug-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-decorators-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-delta-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-desktop-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-directive-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-dist-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-docker-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-docs-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-download-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-drizzle-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-dump-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-element-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-enum-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-environment-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-error-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-event-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-examples-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-expo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-export-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-fastlane-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-favicon-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-firebase-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-firestore-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-flow-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-flutter-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-font-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-forgejo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-functions-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-gamemaker-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-generator-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-gh-workflows-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-git-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-gitea-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-github-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-gitlab-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-global-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-godot-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-gradle-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-graphql-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-guard-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-gulp-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-helm-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-helper-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-home-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-hook-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-husky-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-i18n-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-images-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-import-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-include-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-intellij-open_light.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-intellij-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-interface-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-ios-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-java-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-javascript-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-jinja-open_light.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-jinja-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-job-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-json-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-jupyter-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-keys-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-kubernetes-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-kusto-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-layout-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-lefthook-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-less-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-lib-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-link-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-linux-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-liquibase-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-log-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-lottie-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-lua-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-luau-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-macos-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mail-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mappings-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-markdown-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mercurial-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-messages-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-meta-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-middleware-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mjml-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mobile-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mock-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-mojo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-moon-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-netlify-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-next-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-ngrx-store-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-node-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-nuxt-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-obsidian-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-other-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-packages-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-pdf-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-pdm-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-php-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-phpmailer-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-pipe-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-plastic-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-plugin-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-policy-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-powershell-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-prisma-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-private-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-project-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-proto-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-public-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-python-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-pytorch-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-quasar-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-queue-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-react-components-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-redux-reducer-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-repository-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-resolver-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-resource-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-review-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-robot-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-routes-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-rules-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-rust-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-sandbox-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-sass-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-scala-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-scons-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-scripts-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-secure-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-seeders-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-server-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-serverless-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-shader-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-shared-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-snapcraft-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-snippet-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-src-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-src-tauri-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-stack-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-stencil-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-store-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-storybook-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-stylus-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-sublime-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-supabase-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-svelte-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-svg-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-syntax-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-target-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-taskfile-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-tasks-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-television-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-temp-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-template-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-terraform-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-test-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-theme-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-tools-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-trash-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-trigger-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-turborepo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-typescript-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-ui-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-unity-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-update-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-upload-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-utils-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vercel-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-verdaccio-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-video-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-views-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vm-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vscode-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vue-directives-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vue-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vuepress-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-vuex-store-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-wakatime-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-webpack-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-windows-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-wordpress-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-yarn-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder-zeabur-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/agent.svg",
+      "reason": "Material Icon Theme source unresolved: content-different"
+    },
+    {
+      "id": "packages/web/public/material-icons/docx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-admin-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-android-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-angular-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-animation-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-ansible-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-api-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-apollo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-app-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-archive-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-astro-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-attachment-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-audio-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-aurelia-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-aws-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-azure-pipelines-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-backup-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-base-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-batch-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-benchmark-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-bibliography-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-bicep-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-blender-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-bloc-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-bower-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-buildkite-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cart-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-changesets-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-ci-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-circleci-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-class-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-client-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cline-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cloud-functions-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cloudflare-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cluster-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cobol-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-command-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-components-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-config-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-connection-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-console-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-constant-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-container-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-content-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-context-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-contract-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-controller-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-core-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-coverage-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-css-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-custom-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-cypress-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-dart-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-database-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-debug-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-decorators-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-delta-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-desktop-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-directive-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-dist-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-docker-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-docs-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-download-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-drizzle-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-dump-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-element-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-enum-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-environment-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-error-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-event-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-examples-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-expo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-export-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-fastlane-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-favicon-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-firebase-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-firestore-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-flow-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-flutter-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-font-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-forgejo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-functions-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-gamemaker-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-generator-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-gh-workflows-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-git-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-gitea-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-github-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-gitlab-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-global-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-godot-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-gradle-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-graphql-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-guard-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-gulp-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-helm-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-helper-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-home-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-hook-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-husky-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-i18n-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-images-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-import-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-include-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-intellij-open_light.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-intellij-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-interface-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-ios-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-java-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-javascript-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-jinja-open_light.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-jinja-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-job-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-json-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-jupyter-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-keys-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-kubernetes-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-kusto-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-layout-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-lefthook-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-less-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-lib-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-link-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-linux-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-liquibase-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-log-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-lottie-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-lua-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-luau-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-macos-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mail-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mappings-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-markdown-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mercurial-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-messages-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-meta-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-middleware-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mjml-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mobile-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mock-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-mojo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-moon-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-netlify-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-next-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-ngrx-store-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-node-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-nuxt-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-obsidian-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-other-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-packages-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-pdf-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-pdm-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-php-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-phpmailer-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-pipe-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-plastic-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-plugin-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-policy-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-powershell-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-prisma-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-private-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-project-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-proto-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-public-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-python-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-pytorch-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-quasar-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-queue-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-react-components-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-redux-reducer-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-repository-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-resolver-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-resource-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-review-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-robot-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-routes-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-rules-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-rust-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-sandbox-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-sass-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-scala-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-scons-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-scripts-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-secure-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-seeders-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-server-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-serverless-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-shader-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-shared-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-snapcraft-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-snippet-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-src-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-src-tauri-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-stack-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-stencil-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-store-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-storybook-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-stylus-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-sublime-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-supabase-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-svelte-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-svg-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-syntax-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-target-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-taskfile-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-tasks-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-television-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-temp-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-template-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-terraform-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-test-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-theme-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-tools-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-trash-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-trigger-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-turborepo-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-typescript-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-ui-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-unity-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-update-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-upload-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-utils-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vercel-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-verdaccio-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-video-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-views-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vm-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vscode-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vue-directives-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vue-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vuepress-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-vuex-store-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-wakatime-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-webpack-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-windows-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-wordpress-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-yarn-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder-zeabur-open.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/pptx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/xlsx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "QuickJS-NG",
+      "reason": "Engine notice retained. WASI libc and extension link provenance is not fully established by the npm package."
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "React Best Practices skill",
+      "reason": "Pinned upstream README and skill declare MIT, but a complete original copyright/license notice has not been obtained."
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "reason": "No original notice snapshot for this recorded native component."
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "Skia",
+      "reason": "Skia core notice retained. Per-platform linked third-party libraries and their exact build provenance still require a complete audit."
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    }
+  ],
+  "reconciliation": {
+    "evidence": "licensing/evidence/third-party-reconciliation-20260930.json",
+    "previousCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+    "previousGitBlob": "9a1693a4edd16b0c2a0e30cc9e84ce47067d71d6",
+    "copiedContentSnapshot": "Historical copied-source digests preserved; paths reconciled only. A matching directory declaration or snapshot is not a publisher authorship proof."
+  }
 }

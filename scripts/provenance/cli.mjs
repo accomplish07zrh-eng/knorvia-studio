@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { readBaselineRepository, readCurrentFiles } from "./git.mjs";
 import { createReport, equivalentReports, REPORT_PATH, serializeReport } from "./model.mjs";
+import { assertAuditConsistent, auditThirdPartyInventory } from "./third-party-audit.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const { values } = parseArgs({
@@ -34,6 +35,9 @@ if (values.help) {
     load("third-party/inventory.json"),
   ]);
   const report = createReport(files, baseline, reviews, thirdParty);
+  // 修复：文件清单新鲜并不代表三方材料完整；先对账，避免安装/平台依赖失败掩盖漏报。
+  const audit = await auditThirdPartyInventory(root, thirdParty);
+  assertAuditConsistent(audit);
   const serialized = serializeReport(report);
   if (values.check) {
     const existing = await readFile(resolve(root, REPORT_PATH), "utf8");
@@ -44,5 +48,6 @@ if (values.help) {
     await writeFile(resolve(root, REPORT_PATH), serialized);
   }
   console.log(JSON.stringify(report.summary, null, 2));
+  console.log(`Unresolved third-party material obligations: ${audit.reviewRequired.length}`);
   if (report.summary.reviewProblems) process.exitCode = 1;
 }
