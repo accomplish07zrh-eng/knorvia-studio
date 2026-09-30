@@ -321,5 +321,39 @@
     "repair": "Convert the fixture dynamic schema import to a file URL; retain real schema and all 50 case assertions/time budgets. No product source change.",
     "localRevalidation": "Old source/dist and candidate source/dist gates, plus exact unsupported bare-drive URL failure and actual schema loading. Native Windows CI needed for final platform validation.",
     "buildScope": "Existing successful full regression/static/CLI builds cover identical product source; no unrelated repeat builds."
+  },
+  "qaCounterexampleRepair": {
+    "sourceCommit": "ffe064c275de5659fa5314ab81db63f812c01377",
+    "integratedCommit": "fe908b9",
+    "baseline": "8e8f6310d5ca70a57a454054e44f7b61db30b83f",
+    "initialSourceDistFailures": 8,
+    "postFixSourceDistPasses": 8,
+    "providedBy": "Independent QA track; both original pass records and newly reproduced failures retained",
+    "boundaries": [
+      "Absolute wall-clock deadline despite delayed timer callback",
+      "Root PID deduplication before DFS",
+      "Historical finite tick rounding",
+      "VmRSS no whitespace before kB"
+    ],
+    "productionMitReviewAdded": false,
+    "checksSource": "Integrated aggregate also executes source/dist regressions; final result recorded in parallel integration evidence",
+    "currentBuildProof": [
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe.js",
+        "sha256": "4f1320323826fac30d9894ccd60480e8d4ab8a7e260458fe18cc7b6e7b79aa5f",
+        "source": "apps/cli/packages/adapters/src/device/process-probe.ts",
+        "sourceSha256": "f1130eaf748b97813b9c79b78114f429f2f7a757e5578e6f901256831270b446",
+        "mapSource": "../../adapters/dist/device/process-probe.js",
+        "exactSourceMapMatch": true
+      },
+      {
+        "path": "apps/cli/packages/adapters/dist/device/process-probe-linux.js",
+        "sha256": "782ae2df72bad20feee67e69f7eeefd679f85bb9e946830724213bf7df61a730",
+        "source": "apps/cli/packages/adapters/src/device/process-probe-linux.ts",
+        "sourceSha256": "8e2a8250f7cf72c78d6ed08aed4f59f7d92751619c14b56e2cc08a1b974e6150",
+        "mapSource": "../../adapters/dist/device/process-probe-linux.js",
+        "exactSourceMapMatch": true
+      }
+    ]
   }
 }

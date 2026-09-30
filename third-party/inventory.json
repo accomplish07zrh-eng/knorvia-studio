@@ -1425,7 +1425,7 @@
     "packages/server/package.json": "e56d2f2bc155038cc5e33bc2c2481c1a10ad2d186e3046c26364785162d84a40",
     "packages/services/package.json": "377ce3f4bd08c61de4b81ea726185be37847d7a98612627bc014962dc3ba39b8",
     "packages/shared/package.json": "eb91f4e0cdbf3e7b37d7bfadcff2120d5e16b7102909a8f50beec131ec628408",
-    "packages/shared/src/protocol-v4/wire-codec.ts": "a8a419e27202f9644dba7589e3e0a95f25b2f0baf3438c157f85e9aee843044f",
+    "packages/shared/src/protocol-v4/wire-codec.ts": "ac1e36d497dafe684a24979e77c1dcb6e0892d731bd4c33fa220eb8a1f221429",
     "packages/ui/package.json": "d9569afc3ec1c6d3bb58a134593d722c8aae46637175416c4cfe13947bb97d01",
     "packages/ui/src/components/ai-elements/agent.tsx": "830e7ea9e927de1524851337f1d35bda0e5690e3e4fa307fff854b60006b16c7",
     "packages/ui/src/components/ai-elements/artifact.tsx": "7d73f08864d6280ac86c77d32e56d0e702f8aa6208e5910820139d0fb08ce64c",

@@ -41349,14 +41349,16 @@
     },
     {
       "path": "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
-      "normalizedSha256": "c1aba4907f7397ae260b2e3db772948becc87d674c5d5fe3eb98f9c82e5a4e18",
+      "normalizedSha256": "7e61c73681844a9df158e105ace3a04d684fe54e92f8ba2af6ea43cea6c026e0",
       "decision": "original",
       "license": "MIT",
-      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim.",
+      "basis": "New process-probe specification, isolated behavior contract loader/tests or acceptance account authored from public type contracts and controlled synthetic observations. This review covers this new expression only; frozen factual outputs are not a copyright grant for the five Apache-2.0 production modules. Prior author exposure and failed contract assumptions are disclosed; no clean-room claim. The 2026-09-30 integration adds a newly authored factual QA appendix identifying four missed regressions, retaining the initial eight failures and the repair/build evidence. This document-only extension does not review or relicense any production implementation; the five Apache source modules and their source exposure remain separate.",
       "evidence": [
         "specs/knorvia-process-probe-runtime.md",
         "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
-        "licensing/evidence/process-probe-runtime-20260930.json"
+        "licensing/evidence/process-probe-runtime-20260930.json",
+        "licensing/evidence/parallel-integration-20260930.json",
+        "docs/knorvia-parallel-integration-20260930.md"
       ]
     },
     {

@@ -27,3 +27,9 @@
 逐文件前后摘要、产物、合同、检查及原失败记录见[来源证据](../licensing/evidence/process-probe-runtime-20260930.json)。可独立 revert 本批恢复旧五模块；不删除用户目录或转换数据。后续继续审查 `cli-device-mid.ts`、文件系统门面/元数据/范围读取，以及更广的 runtime/tool/协议/Studio/UI/Desktop 来源，不重复声称未转移的历史 harness 已完成。
 
 CI #190：Linux 全量成功；Windows 3872 项中 3870 通过、2 失败。两个新 wrapper 均由 fixture 裸 Windows 盘符动态 import 导致 `ERR_UNSUPPORTED_ESM_URL_SCHEME`，两项消费用例尚未加载；不是五模块采样失败。fixture 改用标准 file URL，保留实际共享 schema、50 项及全部超时/断言，重新运行旧/新 source/dist 门，最终 Windows CI 需独立确认。原生 Windows 探针精度仍不由合成门证明。
+
+## 独立 QA 后补反例与修复
+
+`8e8f631` 的 50 项门均通过，仍遗漏四项可复现差异：事件循环同步阻塞 1100ms 时 timer 尚未触发，候选继续进入下一轮 /proc I/O；1000 个相同根在 100 节点树重复 DFS；0.01+0.01 tick 未保留取整；`VmRSS:\t12kB` 无单位前空格被拒绝。独立 QA 新增 source/dist 八例在原候选全部失败，`ffe064c275de5659fa5314ab81db63f812c01377` 修后全部通过。整合为 `fe908b9`，保留每调用绝对截止、根入口去重及原 parser 运算/语法，无 timeout 放宽或断言删除。此前 50 项通过只证明当时覆盖，不能覆盖新增反例。
+
+新增证据在原 JSON 的 `qaCounterexampleRepair`，保留初始失败及历史源/产物摘要，另附当前两份修改 dist 与真实 CLI sourcemap 精确匹配。它不授予 MIT，不改变 UI、数据格式、采样超时预算或原声明。整合最新 SHA CI 另验，不复用旧 #191/#192 绿灯。

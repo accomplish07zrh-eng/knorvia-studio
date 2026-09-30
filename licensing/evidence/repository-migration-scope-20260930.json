@@ -29419,5 +29419,32 @@
       "nextDecision": "inherited-source-needs-behavior-and-expression-review",
       "localDeclaredThirdParty": []
     }
-  ]
+  ],
+  "integrationCheckpoint": {
+    "head": "fe908b9",
+    "status": "Local integration; final SHA CI separately verified",
+    "originalLogicalModulesReimplementedInRecovery": 20,
+    "newSinceSnapshot": 8,
+    "groups": {
+      "deviceFilesystem": {
+        "originalLogicalModules": 2,
+        "commit": "fd2fed2"
+      },
+      "services": {
+        "originalLogicalModules": 3,
+        "commit": "98b886b"
+      },
+      "protocol": {
+        "originalLogicalModules": 3,
+        "commit": "1162786"
+      }
+    },
+    "qaFix": {
+      "commit": "fe908b9",
+      "sourceCommit": "ffe064c275de5659fa5314ab81db63f812c01377",
+      "newIndependentModules": 0,
+      "counterexampleRepairs": 4
+    },
+    "newProductionMitReviews": 0
+  }
 }
