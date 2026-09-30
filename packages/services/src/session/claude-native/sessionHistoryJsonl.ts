@@ -1,3 +1,5 @@
+// Modified by Knorvia Studio: see packages/services/specs/claude-leaf-contract-fast-2057.md.
+// Prior upstream source exposure; existing Apache-2.0/NOTICE obligations remain.
 import { createReadStream } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createInterface } from "node:readline";
@@ -14,8 +16,21 @@ function parseJsonLine(filePath: string, line: string, lineNumber: number): Json
 
 export async function readJsonLinesFile(filePath: string): Promise<JsonLineRecord[]> {
   const raw = await readFile(filePath, "utf-8");
-  const lines = raw.split(/\r?\n/).filter((line) => line.trim().length > 0);
-  return lines.map((line, index) => parseJsonLine(filePath, line, index + 1));
+  const records: JsonLineRecord[] = [];
+  let start = 0;
+  while (start <= raw.length) {
+    const newline = raw.indexOf("\n", start);
+    const end = newline < 0 ? raw.length : newline;
+    const lineEnd = newline >= 0 && raw[end - 1] === "\r" ? end - 1 : end;
+    const line = raw.slice(start, lineEnd);
+    if (line.trim().length > 0) {
+      // Full imports number nonblank records; the streaming head numbers physical lines.
+      records.push(parseJsonLine(filePath, line, records.length + 1));
+    }
+    if (newline < 0) break;
+    start = end + 1;
+  }
+  return records;
 }
 
 export async function readJsonLinesFileHead(

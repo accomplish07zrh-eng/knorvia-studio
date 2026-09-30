@@ -10,7 +10,7 @@ At the fixed upstream `zai-org/ZCode@872ad960de7ec172591f7e1952f7849229f94521`, 
 
 Implementation review must distinguish new algorithm expression (cursor scanning, compiled indexed path traversal, unified text projection, incremental hash feeding) from retained standard guards, Node IO/JSON/clone delegation, regex/protocol/schema literals, title and trace factories. A source-exposed rewrite is reviewable evidence but does not by itself establish whole-file independent authorship, MIT eligibility or replacement completion. Keep Apache-2.0 and existing notices. The shared ledger is not edited by this worker.
 
-ImportRepo remains the filesystem scan/filter/sort owner; importParser owns full transcript projection; importService owns copy/persist/event sequencing. The leaves hold only invocation-local derived state. No accepted queue, global cache, persistence path, schema or runtime fallback is added. Existing shared public factories and sessionTitle are consumed without edits.
+ImportRepo remains the filesystem scan/filter/sort owner; importParser owns full transcript projection; importService owns copy/persist/event sequencing. The leaves hold only invocation-local derived state. No accepted queue, global cache, persistence path, schema or runtime configuration is added. Existing shared public factories and sessionTitle are consumed without edits.
 
 ## Frozen API and data behavior
 
@@ -38,6 +38,7 @@ ImportRepo remains the filesystem scan/filter/sort owner; importParser owns full
 - Sanitization replaces whole case-insensitive ide_opened_file and command/local-command tag blocks with one space each, then CRLF->LF and trim. Preserve malformed/unclosed tags and the old cross-name closing-tag regex behavior. Object fragment text wins when its trimmed value is nonempty, else content fallback.
 - Timestamp precedence is timestamp, createdAt, updatedAt, created_at, updated_at, time, message timestamp/createdAt/updatedAt, request.timestamp. Candidates are read before conversion as in the existing API. Finite values strictly >1e12 are truncated milliseconds; >1e9 are truncated seconds\*1000; <=1e9 are invalid. Trimmed numeric strings follow the same rules before Date.parse; nonfinite/invalid candidates are skipped. CreatedAt is only the first visible user's timestamp.
 - Sidechain uses array-some semantics (including hole skipping/short circuit) and strict true at entry/message/request; unknown fields and truthy nonbooleans do not qualify. Native malformed/null record errors remain. Input is unchanged.
+- Extended JS arrays preserve custom flatMap/filter, native species failures, subclass and proxy access behavior through a retained compatibility adapter. Ordinary JSON arrays use the new indexed collector. This adapter remains inherited expression, not an independent authorship claim.
 - Performance change: one shared visible-text projector emits fragments without per-fragment flatMap arrays and a second filter pass. Keep sparse-array visitation and user/assistant differences; do not change the full import parser.
 
 ### Imported task builder
