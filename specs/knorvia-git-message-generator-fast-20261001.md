@@ -152,3 +152,22 @@ The owned prompt golden records bind to pre-edit `28d5e79` and its generator has
 They are historical observations, not a claim that old passing bytes are current.
 The declaration SHA-256 before editing is
 `f8a49d883a5c0564028f5a5ad7c165de2f7117cf744cc28a3a0ad41c6d0ae272`.
+
+## Host-path expectation clarification after production acceptance
+
+The immutable prompt golden retains the actual Linux capture, including its
+workspacePath in start fields. That absolute fixture path depends on checkout and
+host; the current prompt test asserts exact workspacePath forwarding against its
+owned input while retaining every other frozen start field and prompt byte digest.
+No normalization is applied to production output or other fields. This is a test
+expectation portability correction; all historical golden bytes remain intact.
+
+Parent reports CI222 `0dc764e` Linux 6914/6906 pass/8 skip and Windows
+6914/6912 pass/1 fail/1 skip. The failure is the earlier Git tree assertion's
+backslash expected key versus unchanged UI model's slash normalization. Root owns
+its subsequent correction and extra host-independent model case (127 source/strict
+emitted Git cases); this lane does not edit that earlier test or receipt. Earlier
+Linux-only evidence cannot establish Windows acceptance. Parent-reported Keyv
+publisher/notice evidence at `d109b32` plus `08614d4` closes its root obligation
+count 27→26, preserving all 928 old notice blocks. Local licensing inputs/count27
+remain unchanged; no licence/native acceptance grant is inferred.

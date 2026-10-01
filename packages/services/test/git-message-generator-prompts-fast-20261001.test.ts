@@ -35,7 +35,8 @@ for (const c of promptCases)
     assert.deepEqual(g.state.logs[0]!.args, [
       undefined,
       "开始生成 Git 提交消息",
-      expected.startFields,
+      // Keep historical capture bytes; assert this owned host's exact forwarded input.
+      { ...expected.startFields, workspacePath: params.workspacePath },
     ]);
     assert.deepEqual(result, expected.result);
     assert.deepEqual(g.state.trace, ["lookup", "info", "text"]);
