@@ -165,10 +165,11 @@ test("summary scope is status owner; resolution scope is branch owner, root spel
 test("entry order, duplicates and sparse holes are preserved without input mutation", async () => {
   const entries = [
     entry({ path: "work/z.txt" }),
-    ,
+    entry({ path: "work/placeholder.txt" }),
     entry({ path: "work/a.txt" }),
     entry({ path: "work/z.txt" }),
   ] as ReturnType<typeof entry>[];
+  delete entries[1];
   const before = entries.slice(),
     status = snapshot(entries),
     branch = comparison();
