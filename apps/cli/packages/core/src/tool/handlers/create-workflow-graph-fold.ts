@@ -111,11 +111,12 @@ function componentsOf(folded: readonly RawEdge[]): Map<string, string> {
     incoming[to]!.push(from);
   }
 
-  const visited: boolean[] = [];
+  // 原型数字属性会让稀疏标记跳过节点并误删分支边；冻结反例要求标记和代表只读调用内记录。
+  const visited = new Set<number>();
   const finished: number[] = [];
   for (let start = 0; start < ids.length; start++) {
-    if (visited[start]) continue;
-    visited[start] = true;
+    if (visited.has(start)) continue;
+    visited.add(start);
     const frames = [{ node: start, cursor: 0 }];
     while (frames.length > 0) {
       const frame = frames[frames.length - 1]!;
@@ -126,36 +127,36 @@ function componentsOf(folded: readonly RawEdge[]): Map<string, string> {
         continue;
       }
       const target = targets[frame.cursor++]!;
-      if (visited[target]) continue;
-      visited[target] = true;
+      if (visited.has(target)) continue;
+      visited.add(target);
       frames.push({ node: target, cursor: 0 });
     }
   }
 
-  const assigned: boolean[] = [];
-  const representatives: number[] = [];
+  const assigned = new Set<number>();
+  const representatives = new Map<number, number>();
   for (let position = finished.length - 1; position >= 0; position--) {
     const start = finished[position]!;
-    if (assigned[start]) continue;
+    if (assigned.has(start)) continue;
     const pending = [start];
     const members: number[] = [];
     let representative = start;
-    assigned[start] = true;
+    assigned.add(start);
     while (pending.length > 0) {
       const node = pending.pop()!;
       members.push(node);
       if (node < representative) representative = node;
       for (const predecessor of incoming[node]!) {
-        if (assigned[predecessor]) continue;
-        assigned[predecessor] = true;
+        if (assigned.has(predecessor)) continue;
+        assigned.add(predecessor);
         pending.push(predecessor);
       }
     }
-    for (const member of members) representatives[member] = representative;
+    for (const member of members) representatives.set(member, representative);
   }
   const result = new Map<string, string>();
   for (let node = 0; node < ids.length; node++) {
-    result.set(ids[node]!, ids[representatives[node]!]!);
+    result.set(ids[node]!, ids[representatives.get(node)!]!);
   }
   return result;
 }
