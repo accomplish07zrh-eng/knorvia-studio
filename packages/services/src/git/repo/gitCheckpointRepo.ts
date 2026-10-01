@@ -140,9 +140,6 @@ export function createGitCheckpointRepo(options?: {
       return [];
     }
 
-    // 冲突检测不是判断“整个工作区是否 dirty”，而是判断 restore 将触达的这些路径，
-    // 当前磁盘状态是否仍然等于调用方声明的 fromCheckpoint。
-    // 只有这样，底层能力才能在存在无关改动时依然安全工作，不会把整个仓库一刀切地判成不可恢复。
     const treeResult = await commandProvider.run({
       cwd: params.repoRoot,
       args: ["ls-tree", "-r", "-z", params.from.commitOid, "--", ...params.affectedRepoPaths],
@@ -151,89 +148,61 @@ export function createGitCheckpointRepo(options?: {
     const treeEntries = parseLsTree(treeResult.stdout);
 
     const conflicts: GitCheckpointConflict[] = [];
+    const slots = new Map<string, number>();
     for (const repoRelativePath of params.affectedRepoPaths) {
       const absolutePath = toAbsolutePath(params.repoRoot, repoRelativePath);
       const expectedEntry = treeEntries.get(repoRelativePath);
+      let reason: GitCheckpointConflict["reason"] | undefined;
 
       if (!expectedEntry) {
-        // fromCheckpoint 里不存在该路径，说明按基线语义它本来就不该在磁盘上出现。
-        // 如果现在却存在，就意味着用户或其它流程在 checkpoint 之后新增了该文件，属于覆盖风险。
-        if (!(await pathExists(absolutePath))) {
-          continue;
+        if (await pathExists(absolutePath)) {
+          reason = "unexpected-file-in-worktree";
         }
-        conflicts.push({
-          path: absolutePath,
-          repoRelativePath,
-          workspaceRelativePath: toWorkspaceRelativeGitPath(
-            repoRelativePath,
-            params.workspaceInRepoPath,
-          ),
-          reason: "unexpected-file-in-worktree",
-        });
-        continue;
+      } else {
+        let stats: Awaited<ReturnType<typeof lstat>> | undefined;
+        try {
+          stats = await lstat(absolutePath);
+        } catch {
+          reason = "missing-in-worktree";
+        }
+
+        if (reason === undefined) {
+          const expectsSymlink = expectedEntry.mode === "120000";
+          if (stats!.isDirectory() || (expectsSymlink && !stats!.isSymbolicLink())) {
+            reason = "type-mismatch";
+          } else {
+            const hashResult = await commandProvider.run({
+              cwd: params.repoRoot,
+              args: ["hash-object", "--no-filters", absolutePath],
+            });
+            ensureGitCommandSucceeded("git hash-object checkpoint verify", hashResult);
+            if (hashResult.stdout.trim() !== expectedEntry.objectId) {
+              reason = "content-mismatch";
+            }
+          }
+        }
       }
 
-      let stats: Awaited<ReturnType<typeof lstat>>;
-      try {
-        stats = await lstat(absolutePath);
-      } catch {
-        // fromCheckpoint 里要求该文件存在，但磁盘上已经没有了，恢复时如果直接写回，
-        // 就会覆盖掉“文件为何消失”的真实用户操作，所以要先显式报告冲突。
-        conflicts.push({
-          path: absolutePath,
-          repoRelativePath,
-          workspaceRelativePath: toWorkspaceRelativeGitPath(
-            repoRelativePath,
-            params.workspaceInRepoPath,
-          ),
-          reason: "missing-in-worktree",
-        });
-        continue;
-      }
-
-      const expectsSymlink = expectedEntry.mode === "120000";
-      if (stats.isDirectory() || (expectsSymlink && !stats.isSymbolicLink())) {
-        // 当前实现只处理 Git 能稳定表达的文件状态；如果 checkpoint 期待的是文件/符号链接，
-        // 现在磁盘却变成了目录或其它类型，直接 restore 很容易出现语义错位，因此按类型冲突处理。
-        conflicts.push({
-          path: absolutePath,
-          repoRelativePath,
-          workspaceRelativePath: toWorkspaceRelativeGitPath(
-            repoRelativePath,
-            params.workspaceInRepoPath,
-          ),
-          reason: "type-mismatch",
-        });
-        continue;
-      }
-
-      const hashResult = await commandProvider.run({
-        cwd: params.repoRoot,
-        args: ["hash-object", "--no-filters", absolutePath],
-      });
-      ensureGitCommandSucceeded("git hash-object checkpoint verify", hashResult);
-      if (hashResult.stdout.trim() === expectedEntry.objectId) {
-        continue;
-      }
-
-      // 这里不比较时间戳、大小等弱信号，而是直接比较 blob hash。
-      // 只有内容完全一致，才视为“当前磁盘仍然停留在 fromCheckpoint 基线”。
-      conflicts.push({
+      if (reason === undefined) continue;
+      const conflict: GitCheckpointConflict = {
         path: absolutePath,
         repoRelativePath,
         workspaceRelativePath: toWorkspaceRelativeGitPath(
           repoRelativePath,
           params.workspaceInRepoPath,
         ),
-        reason: "content-mismatch",
-      });
+        reason,
+      };
+      // 保留首次冲突的位置；重复冲突只替换值，每次路径出现仍按顺序读探测。
+      const slot = slots.get(repoRelativePath);
+      if (slot === undefined) {
+        slots.set(repoRelativePath, conflicts.length);
+        conflicts.push(conflict);
+      } else {
+        conflicts[slot] = conflict;
+      }
     }
-
-    const deduped = new Map<string, GitCheckpointConflict>();
-    for (const conflict of conflicts) {
-      deduped.set(conflict.repoRelativePath, conflict);
-    }
-    return [...deduped.values()];
+    return conflicts;
   }
 
   return {
