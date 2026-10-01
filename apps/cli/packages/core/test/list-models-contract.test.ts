@@ -210,3 +210,21 @@ test("sparse catalog behavior retains lookup failure and late output holes", asy
   assert.equal(1 in output.models, false);
   assert.equal(await entry.formatModelContent!(output), "ListModels returned an invalid result.");
 });
+
+test("level copying requires an iterable and preserves iterator failures", async () => {
+  const row = structuredClone(frozen.catalogs.basic[0]);
+  for (const malformed of [{ 0: "high", length: 1 }, 1, null, undefined]) {
+    row.reasoningLevels = malformed as never;
+    await assert.rejects(entry.handler({}, catalogFixture([row]).context), { name: "TypeError" });
+  }
+  const failure = { sentinel: "example levels iterator failure" };
+  row.reasoningLevels = {
+    [Symbol.iterator]() {
+      throw failure;
+    },
+  } as never;
+  await assert.rejects(
+    entry.handler({}, catalogFixture([row]).context),
+    (error) => error === failure,
+  );
+});

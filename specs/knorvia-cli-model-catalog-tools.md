@@ -69,6 +69,9 @@ existing unmanaged CLI module and import existing public contracts.
   values are omitted only for undefined; empty strings, zero and raw catalog
   spelling remain intact. Copy reasoningLevels, preserve its order, and omit
   source-only fields such as current. Do not mutate the catalog or its entries.
+  Copy by the iterable contract: malformed non-iterable levels throw, and a
+  custom iterator's thrown value propagates unchanged. Do not accept array-like
+  objects as a fallback for the required catalog array.
   Preserve observable optional-field reads: check once for undefined, then read
   again when defined. The current lookup still fails on a leading catalog hole;
   holes after an already-found current row remain holes in the projected array.

@@ -22,11 +22,17 @@ const ROW_FIELDS: readonly CatalogField[] = [
   { key: "providerId", read: (entry) => entry.providerId },
   { key: "modelId", read: (entry) => entry.modelId },
   { key: "providerLabel", read: (entry) => entry.providerLabel, optional: true },
-  { key: "reasoningLevels", read: (entry) => Array.from(entry.reasoningLevels) },
+  { key: "reasoningLevels", read: copyLevels },
   { key: "defaultReasoningLevel", read: (entry) => entry.defaultReasoningLevel, optional: true },
   { key: "contextWindow", read: (entry) => entry.contextWindow, optional: true },
   { key: "disabledReason", read: (entry) => entry.disabledReason, optional: true },
 ];
+
+function copyLevels(entry: ModelCatalogEntry): string[] {
+  const levels: string[] = [];
+  for (const level of entry.reasoningLevels) levels.push(level);
+  return levels;
+}
 
 function projectRow(entry: ModelCatalogEntry): ListModelsEntry {
   const fields: [string, unknown][] = [];
