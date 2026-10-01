@@ -158,3 +158,53 @@ test("current lookup completes before any row projection", async () => {
   });
   await entry.handler({}, catalogFixture(rows).context);
 });
+
+test("optional field access preserves the defined-value second read", async () => {
+  const row = structuredClone(frozen.catalogs.basic[0]);
+  const reads: string[] = [];
+  const values = {
+    providerLabel: "first label",
+    defaultReasoningLevel: "first level",
+    contextWindow: 0,
+    disabledReason: undefined,
+  };
+  for (const [key, value] of Object.entries(values)) {
+    let count = 0;
+    Object.defineProperty(row, key, {
+      get: () => {
+        reads.push(key);
+        count++;
+        return count === 1 ? value : key === "contextWindow" ? 7 : `second ${key}`;
+      },
+    });
+  }
+  const output = (await entry.handler({}, catalogFixture([row]).context)) as ListModelsOutput;
+  assert.deepEqual(reads, [
+    "providerLabel",
+    "providerLabel",
+    "defaultReasoningLevel",
+    "defaultReasoningLevel",
+    "contextWindow",
+    "contextWindow",
+    "disabledReason",
+  ]);
+  assert.equal(output.models[0].providerLabel, "second providerLabel");
+  assert.equal(output.models[0].defaultReasoningLevel, "second defaultReasoningLevel");
+  assert.equal(output.models[0].contextWindow, 7);
+  assert.equal(Object.hasOwn(output.models[0], "disabledReason"), false);
+});
+
+test("sparse catalog behavior retains lookup failure and late output holes", async () => {
+  const row = { ...structuredClone(frozen.catalogs.basic[0]), current: true };
+  const leadingHole = new Array(2);
+  leadingHole[1] = row;
+  await assert.rejects(entry.handler({}, catalogFixture(leadingHole).context), {
+    name: "TypeError",
+  });
+  const lateHole = new Array(2);
+  lateHole[0] = row;
+  const output = (await entry.handler({}, catalogFixture(lateHole).context)) as ListModelsOutput;
+  assert.equal(output.models.length, 2);
+  assert.equal(1 in output.models, false);
+  assert.equal(await entry.formatModelContent!(output), "ListModels returned an invalid result.");
+});

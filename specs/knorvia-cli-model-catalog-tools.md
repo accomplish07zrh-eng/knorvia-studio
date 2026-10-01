@@ -69,6 +69,9 @@ existing unmanaged CLI module and import existing public contracts.
   values are omitted only for undefined; empty strings, zero and raw catalog
   spelling remain intact. Copy reasoningLevels, preserve its order, and omit
   source-only fields such as current. Do not mutate the catalog or its entries.
+  Preserve observable optional-field reads: check once for undefined, then read
+  again when defined. The current lookup still fails on a leading catalog hole;
+  holes after an already-found current row remain holes in the projected array.
 - Formatter validates the entire strict output schema. Invalid output yields
   `ListModels returned an invalid result.`; accessor failures still throw. Keep
   the exact empty-catalog sentence and `<models count="N">` wrapper. Nonempty
