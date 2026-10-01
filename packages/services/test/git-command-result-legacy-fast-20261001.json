@@ -1,0 +1,22 @@
+{
+  "commit": "61ee435296989cc4cbf4a2913ec22264af1ece6c",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "2b59b241a717d6d154c0f618b3608cc35b9147e9b3f95849495a5382c9ea1136",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "name": "toResultMessage",
+      "start": 624,
+      "end": 793,
+      "text": "function toResultMessage(result: GitCommandExecutionResult): string {\n  return result.stderr.trim() || result.stdout.trim() || `exitCode=${result.exitCode ?? \"null\"}`;\n}",
+      "sha256": "5e2f93fa19e274ca500fdc1dd68035884833541b283e89f68dd4c4c80dbbc747"
+    },
+    {
+      "name": "ensureGitCommandSucceeded",
+      "start": 3785,
+      "end": 4905,
+      "text": "export function ensureGitCommandSucceeded(\n  label: string,\n  result: GitCommandExecutionResult,\n  allowedExitCodes: number[] = [0],\n): GitCommandExecutionResult {\n  if (result.timedOut) {\n    // timeout 阈值和进程清理总耗时不是一回事；日志里同时保留两者，\n    // 避免把“15s 触发超时、随后等待清理”的场景误读成真正配置了更长超时。\n    const timeoutMs = result.timeoutMs ?? result.durationMs;\n    const details = [`elapsed=${result.durationMs}ms`];\n    if (result.timeoutElapsedMs !== undefined) {\n      details.push(`killAt=${result.timeoutElapsedMs}ms`);\n    }\n    if (result.timeoutCloseDelayMs !== undefined) {\n      details.push(`cleanup=${result.timeoutCloseDelayMs}ms`);\n    }\n    if (result.forceKillAttempted) {\n      details.push(\"forceKill=true\");\n    }\n    if (result.orphaned) {\n      details.push(\"orphaned=true\");\n    }\n    throw new Error(`${label} timed out after ${timeoutMs}ms (${details.join(\", \")})`);\n  }\n\n  if (result.outputTruncated) {\n    throw new Error(`${label} output exceeded limit`);\n  }\n\n  if (allowedExitCodes.includes(result.exitCode ?? Number.NaN)) {\n    return result;\n  }\n\n  throw new Error(`${label} failed: ${toResultMessage(result)}`);\n}",
+      "sha256": "5ce6d76fef52d5f813da7523d10dfdd3eb903bc04caf8c909f94f2204e7e92cf"
+    }
+  ]
+}
