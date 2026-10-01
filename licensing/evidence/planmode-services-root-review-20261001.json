@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "implementationLaneHead": "13f1401",
+  "rootImportedHeadBeforeReceipt": "a0824e1",
+  "sourceCases": 21,
+  "strictEmittedCases": 21,
+  "frozenObservations": {
+    "directScenarios": 67,
+    "executorScenarios": 8,
+    "getterProbes": 9
+  },
+  "ownedFilesVerified": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "fd607706e24741ea2fe687bb40dade1fad27a6c2",
+      "bytes": 2941,
+      "sha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8",
+      "lfNormalizedSha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "ad40889cc2149c32b625143897f72aacaaef8c22",
+      "bytes": 1654,
+      "sha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3",
+      "lfNormalizedSha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244",
+      "bytes": 2564,
+      "sha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454",
+      "lfNormalizedSha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "272221bfe000c27eaf6c7613698ef7ff4f31061e",
+      "bytes": 4845,
+      "sha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3",
+      "lfNormalizedSha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-capture.mts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "85eccd540db9a4dd7cb1d490ae8033def7ad9640",
+      "bytes": 1945,
+      "sha256": "d3ad594d9c88734f5e4a18bedf02d36d62455b1bc3e61957b768808b4f90e62b",
+      "lfNormalizedSha256": "d3ad594d9c88734f5e4a18bedf02d36d62455b1bc3e61957b768808b4f90e62b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-cases.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "3d5e2b7defbbe71389747ed9bf4b193261b6d690",
+      "bytes": 4249,
+      "sha256": "10b1f44344f5d357b1103e1a7fd981ae26416e586f0e65443a6891937849fa7e",
+      "lfNormalizedSha256": "10b1f44344f5d357b1103e1a7fd981ae26416e586f0e65443a6891937849fa7e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-consumers.test.ts",
+      "commit": "768c79b9327064b9d77c7f993d765117f1cecd23",
+      "gitBlob": "e6c39fe275f803d4b562b234d8f5e8a2dc5c8c92",
+      "bytes": 8462,
+      "sha256": "4981b2d9cba77e840eabbd7aabd9a78cae765806d5066cee47de89df0fa50eeb",
+      "lfNormalizedSha256": "4981b2d9cba77e840eabbd7aabd9a78cae765806d5066cee47de89df0fa50eeb"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-contract.json",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "73c1a098dfad65ceac8250fd2ca35b35c7d3963b",
+      "bytes": 401241,
+      "sha256": "1203c6ee9f741d898d6c06dd7a6a17cf6fc641f6331497ee2ab3c0611dfabd98",
+      "lfNormalizedSha256": "1203c6ee9f741d898d6c06dd7a6a17cf6fc641f6331497ee2ab3c0611dfabd98"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-contract.test.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "e29ee67e0923e1d71156665a5bd1e4ee46350549",
+      "bytes": 5855,
+      "sha256": "ad314d364b931f2355df447876c1cb61467a6a8165a0df6019f4c0e3e4f0f29c",
+      "lfNormalizedSha256": "ad314d364b931f2355df447876c1cb61467a6a8165a0df6019f4c0e3e4f0f29c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-effects.test.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "5a371fa7533e45ac05c9841eb5f6174e4dbeaea0",
+      "bytes": 7685,
+      "sha256": "db5c459ac2bae2ee528bc7be0248fca3389b0a68216b986ceafc17a54428870c",
+      "lfNormalizedSha256": "db5c459ac2bae2ee528bc7be0248fca3389b0a68216b986ceafc17a54428870c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-fixture.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "264bde5e9242e352c1035b0f2f3c3250d40dd649",
+      "bytes": 11452,
+      "sha256": "8e64875ce3938269357576fa2557d4e6788d682993941a5b6703117297ef6002",
+      "lfNormalizedSha256": "8e64875ce3938269357576fa2557d4e6788d682993941a5b6703117297ef6002"
+    },
+    {
+      "path": "specs/knorvia-plan-mode-execution.md",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "b4b574c35d9952a47f866c37082ff7181ac769ae",
+      "bytes": 6408,
+      "sha256": "d9d9a806036d906187e4f96da71e09641bacfd4dc4489973fffb72dd848ec4da",
+      "lfNormalizedSha256": "d9d9a806036d906187e4f96da71e09641bacfd4dc4489973fffb72dd848ec4da"
+    }
+  ],
+  "protectedInputsVerified": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-prompts.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "c36613630a2b39f49e05f6935a84867fab2a1e90",
+      "bytes": 6525,
+      "sha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03",
+      "lfNormalizedSha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/plan-mode.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "d88e855759b3e8afad98bcf22f20629739c5081f",
+      "bytes": 4404,
+      "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6",
+      "lfNormalizedSha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "c7ab4f056df48d994e2d259d3dad08b68c75de5f",
+      "bytes": 3094,
+      "sha256": "ba31f513a17fdb9cd7fcb7f908c9fcc3c4eec0f66aaa32e5f5fe7aa6476af295",
+      "lfNormalizedSha256": "ba31f513a17fdb9cd7fcb7f908c9fcc3c4eec0f66aaa32e5f5fe7aa6476af295"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "0172b60ca5ab77910558039ce45155387ca7acf9",
+      "bytes": 1497,
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+      "lfNormalizedSha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "c9b0750f95db6bcd77f4a863c5e4276b8c35d604",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "lfNormalizedSha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/policy-program.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "8e55b175c82db399db6f93bcd919998a08afb2e8",
+      "bytes": 7916,
+      "sha256": "998d284d29ebc0f431ce778a503cb5d2f63f77299fc4263e8cdef0d8e76d09c8",
+      "lfNormalizedSha256": "998d284d29ebc0f431ce778a503cb5d2f63f77299fc4263e8cdef0d8e76d09c8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "1330e35edee86e01aacd49edd2aa1cb1ac3cb21e",
+      "bytes": 6687,
+      "sha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139",
+      "lfNormalizedSha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-client-fixture.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "75ea8300b4574f99ba467a4c62dca4c01be9f5d7",
+      "bytes": 793,
+      "sha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2",
+      "lfNormalizedSha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2"
+    }
+  ],
+  "terminalRetryAppendix": {
+    "laneCommit": "fdbce31",
+    "sourceCases": 2,
+    "strictEmittedCases": 2,
+    "productionChanged": false
+  },
+  "qualityGates": {
+    "cliBuildPackages": 17,
+    "rootTypes": "pass",
+    "cliTypes": "pass",
+    "configuredRootLint": "pass",
+    "configuredCliLint": "pass",
+    "ownedLint": "pass",
+    "format": "pass",
+    "architecture": "pass"
+  },
+  "publisherBlobsVerified": 2,
+  "limits": [
+    "Source-exposed and retained material, no whole-file MIT grant",
+    "No actual PlanMode user-data or approval effects",
+    "27 material obligations remain",
+    "B6 onward UI not integrated",
+    "Native Linux evidence separate and bounded; native Windows/macOS/GUI/liveHost remain open"
+  ],
+  "fullRegression": {
+    "tests": 6766,
+    "pass": 6700,
+    "fail": 59,
+    "skipped": 7,
+    "cancelled": 0,
+    "exactFailureMultisetMatchesBase": true,
+    "base": "dc2909d",
+    "environmentFailure": "listen EPERM",
+    "logSha256": "499721512557274368f723c8fe1b3c6698ef79fb71335f901be14cfd74d25db9"
+  }
+}
