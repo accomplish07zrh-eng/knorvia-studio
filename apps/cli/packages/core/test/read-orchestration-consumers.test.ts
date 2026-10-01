@@ -39,7 +39,9 @@ test("real executor freezes outputs/prose/media/failures/display/events/metadata
 });
 test("PDF executor expected byte counts preserve the golden across POSIX, Windows and Unicode roots", () => {
   const before = structuredClone(frozen),
-    pdf = frozen.executor.filter((c: any) => c.label === "PDF native" || c.label === "PDF rendered"),
+    pdf = frozen.executor.filter(
+      (c: any) => c.label === "PDF native" || c.label === "PDF rendered",
+    ),
     roots = [
       { root: "/tmp/knorvia-owned-read-orchestration", bytes: [130, 178] },
       {
@@ -47,7 +49,9 @@ test("PDF executor expected byte counts preserve the golden across POSIX, Window
         bytes: [162, 210],
       },
       {
-        root: win32.normalize("C:/Users/RUNNER~1/AppData/Local/Temp/knorvia-owned-read-orchestration"),
+        root: win32.normalize(
+          "C:/Users/RUNNER~1/AppData/Local/Temp/knorvia-owned-read-orchestration",
+        ),
         bytes: [162, 210],
       },
       { root: "/tmp/路径-é-🧪/knorvia-owned-read-orchestration", bytes: [145, 193] },
