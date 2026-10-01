@@ -1,0 +1,288 @@
+{
+  "baseline": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+  "entryKeys": [
+    "capability",
+    "metadata",
+    "handler",
+    "inputSchema",
+    "outputSchema",
+    "runtimeInputSchema",
+    "runtimeOutputSchema",
+    "permission",
+    "resultBudget",
+    "timeout",
+    "cancellation",
+    "trace"
+  ],
+  "declaration": {
+    "capability": "Load local skill instructions into the current session context",
+    "metadata": {
+      "name": "Skill",
+      "description": "Execute a skill within the main conversation\n\nWhen users ask you to perform tasks, check if any of the available skills match. Skills provide specialized capabilities and domain knowledge.\n\nWhen users reference a \"slash command\" or \"/<something>\", they are referring to a skill. Use this tool to invoke it.\n\nHow to invoke:\n- Set `skill` to the exact name of an available skill (no leading slash). For plugin-namespaced skills use the fully qualified `plugin:skill` form.\n- Set `args` to pass optional arguments.\n\nImportant:\n- Available skills are listed in system-reminder messages in the conversation\n- Only invoke a skill that appears in that list, or one the user explicitly typed as `/<name>` in their message. Never guess or invent a skill name from training data; otherwise do not call this tool\n- When a skill matches the user's request, this is a BLOCKING REQUIREMENT: invoke the relevant Skill tool BEFORE generating any other response about the task\n- NEVER mention a skill without actually calling this tool\n- Do not invoke a skill that is already running\n- Do not use this tool for built-in CLI commands (like /help, /clear, etc.)\n- If you see a <command-name> tag in the current conversation turn, the skill has ALREADY been loaded - follow the instructions directly instead of calling this tool again\n",
+      "readOnly": true,
+      "destructive": false,
+      "concurrentSafe": true,
+      "timeoutMs": 30000,
+      "maxOutputBytes": 100000,
+      "sideEffectScope": "session",
+      "riskLevel": "low",
+      "needsApproval": false
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "skill": {
+          "type": "string",
+          "description": "The name of a skill from the available-skills list. Do not guess names."
+        },
+        "args": {
+          "type": "string",
+          "description": "Optional arguments for the skill"
+        }
+      },
+      "required": ["skill"],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "baseDirectory": {
+              "type": "string"
+            },
+            "truncated": {
+              "type": "boolean"
+            }
+          },
+          "required": ["name", "content", "baseDirectory", "truncated"],
+          "additionalProperties": false
+        }
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "permission": {
+      "permission": "skill",
+      "reason": "Skill loads local instructions into session context",
+      "riskLevel": "low",
+      "sideEffectScope": "session",
+      "needsApproval": false,
+      "patternSources": ["toolName"],
+      "alwaysAllowPatternSources": ["toolName"],
+      "denyPriority": "beforeAsk"
+    },
+    "resultBudget": {
+      "maxInlineBytes": 100000,
+      "maxModelBytes": 100000,
+      "strategy": "truncate",
+      "preview": {
+        "maxBytes": 100000,
+        "direction": "head"
+      }
+    },
+    "timeout": {
+      "defaultMs": 30000,
+      "maxMs": 30000,
+      "allowCallOverride": false
+    },
+    "cancellation": {
+      "supported": true,
+      "cleanup": "none",
+      "userVisibleMessage": "Skill loading was cancelled before content was returned"
+    },
+    "trace": {
+      "required": true,
+      "propagateToAdapters": true,
+      "recordInput": "summary",
+      "recordOutput": "summary"
+    }
+  },
+  "outputCases": [
+    {
+      "label": "plain",
+      "name": "notes",
+      "content": "# Read me\n\nUse relative/path.",
+      "baseDirectory": "/example/skills/notes",
+      "truncated": false,
+      "expected": "<skill_content name=\"notes\">\n# Skill: notes\n# Read me\n\nUse relative/path.\nBase directory for this skill: /example/skills/notes\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "empty",
+      "name": "empty",
+      "content": "",
+      "baseDirectory": "",
+      "truncated": false,
+      "expected": "<skill_content name=\"empty\">\n# Skill: empty\nBase directory for this skill: \nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "whitespace",
+      "name": "x\"<>",
+      "content": " \n\t\r\n ",
+      "baseDirectory": "C:\\Example Skills\\資料",
+      "truncated": true,
+      "expected": "<skill_content name=\"x\"<>\">\n# Skill: x\"<>\n \n\t\r\n \nBase directory for this skill: C:\\Example Skills\\資料\nRelative paths in this skill are relative to this base directory.\n[Skill content truncated]\n</skill_content>"
+    },
+    {
+      "label": "variables",
+      "name": "plugin:notes",
+      "content": "${CLAUDE_SKILL_DIR}|${KNORVIA_SKILL_DIR}|${CLAUDE_SKILL_DIR}|${OTHER}|${knorvia_skill_dir}",
+      "baseDirectory": "C:\\Example Skills\\notes",
+      "truncated": false,
+      "expected": "<skill_content name=\"plugin:notes\">\n# Skill: plugin:notes\nC:\\Example Skills\\notes|C:\\Example Skills\\notes|C:\\Example Skills\\notes|${OTHER}|${knorvia_skill_dir}\nBase directory for this skill: C:\\Example Skills\\notes\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "nested-and-unclosed",
+      "name": "n",
+      "content": "${${KNORVIA_SKILL_DIR}} ${KNORVIA_SKILL_DIR ${CLAUDE_SKILL_DIR}\n${KNORVIA_SKILL_DIR}",
+      "baseDirectory": "/example/技能",
+      "truncated": true,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\n${/example/技能} ${KNORVIA_SKILL_DIR /example/技能\n/example/技能\nBase directory for this skill: /example/技能\nRelative paths in this skill are relative to this base directory.\n[Skill content truncated]\n</skill_content>"
+    },
+    {
+      "label": "one-pass",
+      "name": "n",
+      "content": "${CLAUDE_SKILL_DIR}/${KNORVIA_SKILL_DIR}",
+      "baseDirectory": "${CLAUDE_SKILL_DIR}",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\n${CLAUDE_SKILL_DIR}/${CLAUDE_SKILL_DIR}\nBase directory for this skill: ${CLAUDE_SKILL_DIR}\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$$",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$$",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$B$C\nBase directory for this skill: $$\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$&",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$&",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C\nBase directory for this skill: $&\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$`",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$`",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nAABA${CLAUDE_SKILL_DIR}BC\nBase directory for this skill: $`\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$'",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$'",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nAB${KNORVIA_SKILL_DIR}CBCC\nBase directory for this skill: $'\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$1",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$1",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nACLAUDE_SKILL_DIRBKNORVIA_SKILL_DIRC\nBase directory for this skill: $1\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$01",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$01",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nACLAUDE_SKILL_DIRBKNORVIA_SKILL_DIRC\nBase directory for this skill: $01\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$10",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$10",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nACLAUDE_SKILL_DIR0BKNORVIA_SKILL_DIR0C\nBase directory for this skill: $10\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$11",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$11",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nACLAUDE_SKILL_DIR1BKNORVIA_SKILL_DIR1C\nBase directory for this skill: $11\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$12",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$12",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nACLAUDE_SKILL_DIR2BKNORVIA_SKILL_DIR2C\nBase directory for this skill: $12\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$00",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$00",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$00B$00C\nBase directory for this skill: $00\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$0",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$0",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$0B$0C\nBase directory for this skill: $0\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$2",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$2",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$2B$2C\nBase directory for this skill: $2\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$99",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$99",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$99B$99C\nBase directory for this skill: $99\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$<name>",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$<name>",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$<name>B$<name>C\nBase directory for this skill: $<name>\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:$$$1$&",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "$$$1$&",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nA$CLAUDE_SKILL_DIR${CLAUDE_SKILL_DIR}B$KNORVIA_SKILL_DIR${KNORVIA_SKILL_DIR}C\nBase directory for this skill: $$$1$&\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    },
+    {
+      "label": "replacement:x$$$&$`$'$01$10z",
+      "name": "n",
+      "content": "A${CLAUDE_SKILL_DIR}B${KNORVIA_SKILL_DIR}C",
+      "baseDirectory": "x$$$&$`$'$01$10z",
+      "truncated": false,
+      "expected": "<skill_content name=\"n\">\n# Skill: n\nAx$${CLAUDE_SKILL_DIR}AB${KNORVIA_SKILL_DIR}CCLAUDE_SKILL_DIRCLAUDE_SKILL_DIR0zBx$${KNORVIA_SKILL_DIR}A${CLAUDE_SKILL_DIR}BCKNORVIA_SKILL_DIRKNORVIA_SKILL_DIR0zC\nBase directory for this skill: x$$$&$`$'$01$10z\nRelative paths in this skill are relative to this base directory.\n</skill_content>"
+    }
+  ]
+}
