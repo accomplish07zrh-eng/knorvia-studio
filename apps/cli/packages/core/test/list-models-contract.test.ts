@@ -196,12 +196,14 @@ test("optional field access preserves the defined-value second read", async () =
 
 test("sparse catalog behavior retains lookup failure and late output holes", async () => {
   const row = { ...structuredClone(frozen.catalogs.basic[0]), current: true };
-  const leadingHole = new Array(2);
+  const leadingHole: (typeof row)[] = [];
+  leadingHole.length = 2;
   leadingHole[1] = row;
   await assert.rejects(entry.handler({}, catalogFixture(leadingHole).context), {
     name: "TypeError",
   });
-  const lateHole = new Array(2);
+  const lateHole: (typeof row)[] = [];
+  lateHole.length = 2;
   lateHole[0] = row;
   const output = (await entry.handler({}, catalogFixture(lateHole).context)) as ListModelsOutput;
   assert.equal(output.models.length, 2);
