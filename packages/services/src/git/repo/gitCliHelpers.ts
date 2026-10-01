@@ -567,69 +567,43 @@ export function toDiffResult(
     binarySummary?: string;
   },
 ): GitDiffResult {
-  if (result.timedOut) {
-    return {
-      path,
-      availability: "unavailable",
-      patch: null,
-      beforeContent: null,
-      afterContent: null,
-      summary: "Git diff command timed out.",
-    };
+  type Verdict = readonly [GitDiffResult["availability"], string | null, string | null];
+  // 按旧优先级延迟读取输入；不能提前快照 getter 或改变 stdout 的重复读取顺序。
+  const stages: (() => Verdict | null)[] = [
+    () => (result.timedOut ? ["unavailable", null, "Git diff command timed out."] : null),
+    () =>
+      result.outputTruncated
+        ? ["truncated", null, "Git diff output exceeded the preview limit."]
+        : null,
+    () => {
+      const allowedExitCodes = options?.allowedExitCodes ?? [0];
+      return allowedExitCodes.includes(result.exitCode ?? Number.NaN)
+        ? null
+        : ["unavailable", null, toResultMessage(result)];
+    },
+    () =>
+      result.stdout.trim()
+        ? null
+        : ["unavailable", null, options?.emptySummary ?? "No diff output available."],
+    () =>
+      isBinaryDiff(result.stdout)
+        ? ["binary", null, options?.binarySummary ?? "Binary diff is not previewable."]
+        : null,
+  ];
+  let selected: Verdict | null = null;
+  for (const choose of stages) {
+    selected = choose();
+    if (selected !== null) break;
   }
-
-  if (result.outputTruncated) {
-    return {
-      path,
-      availability: "truncated",
-      patch: null,
-      beforeContent: null,
-      afterContent: null,
-      summary: "Git diff output exceeded the preview limit.",
-    };
-  }
-
-  const allowedExitCodes = options?.allowedExitCodes ?? [0];
-  if (!allowedExitCodes.includes(result.exitCode ?? Number.NaN)) {
-    return {
-      path,
-      availability: "unavailable",
-      patch: null,
-      beforeContent: null,
-      afterContent: null,
-      summary: toResultMessage(result),
-    };
-  }
-
-  if (!result.stdout.trim()) {
-    return {
-      path,
-      availability: "unavailable",
-      patch: null,
-      beforeContent: null,
-      afterContent: null,
-      summary: options?.emptySummary ?? "No diff output available.",
-    };
-  }
-
-  if (isBinaryDiff(result.stdout)) {
-    return {
-      path,
-      availability: "binary",
-      patch: null,
-      beforeContent: null,
-      afterContent: null,
-      summary: options?.binarySummary ?? "Binary diff is not previewable.",
-    };
-  }
-
+  const verdict: Verdict = selected ?? ["patch", result.stdout, null];
+  const [availability, patch, summary] = verdict;
   return {
     path,
-    availability: "patch",
-    patch: result.stdout,
+    availability,
+    patch,
     beforeContent: null,
     afterContent: null,
-    summary: null,
+    summary,
   };
 }
 
