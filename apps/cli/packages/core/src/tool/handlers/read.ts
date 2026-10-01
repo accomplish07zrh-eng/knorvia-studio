@@ -35,7 +35,7 @@ import { createReadFileStateMetadata } from "../read-file-state-metadata.js";
 import { inferImageMimeFromPath, readImageFile } from "./read-image.js";
 import { inferVideoMimeFromPath } from "../../runtime/helpers/attachment-video.js";
 import { readVideoFile } from "./read-video.js";
-import { orchestrateReadText } from "./read-text-orchestration.js";
+import { planReadTextOrchestration } from "./read-text-orchestration.js";
 import {
   isPdfPath,
   READ_PDF_TOOL_TIMEOUT_MS,
@@ -104,7 +104,7 @@ const readHandler: ToolHandler = async (input, context) => {
     }
 
     const trace = createReadTrace(context);
-    return await orchestrateReadText(
+    const operation = planReadTextOrchestration(
       { context, fileSystemPort, filePath, offset, limit, trace, toolInput: input },
       {
         snapshot: getReadFileState,
@@ -114,6 +114,13 @@ const readHandler: ToolHandler = async (input, context) => {
         complete: recordReadFileStateMetadata,
       },
     );
+    let step = operation.next();
+    for (;;) {
+      if (step.done === true) return step.value;
+      // 修复：完成后再 await 编排 Promise 会扩大取消窗口；入口只等待原 stat/range 两处 IO。
+      const result = await step.value();
+      step = operation.next(result);
+    }
   } catch (error) {
     if (isFileSystemPortError(error) && error.code === "not_found") {
       const message = await createMissingReadFileMessage(filePath, context);
