@@ -21,7 +21,6 @@ import {
   DEFAULT_GIT_OUTPUT_BYTES,
   DEFAULT_GIT_PUSH_OUTPUT_BYTES,
   DEFAULT_GIT_PUSH_TIMEOUT_MS,
-  getGitNullDevicePath,
   normalizeGitPath,
 } from "../config.js";
 import {
@@ -30,7 +29,6 @@ import {
 } from "../providers/gitCommandProvider.js";
 import {
   buildUntrackedStats,
-  buildUntrackedTextDiffResult,
   ensureGitCommandSucceeded,
   ensureRepositoryAvailable,
   fileExists,
@@ -39,9 +37,9 @@ import {
   parseGitConfigValue,
   parseNumstat,
   parseStatusPorcelain,
-  toDiffResult,
   toInvalidBranchNameIssue,
 } from "./gitCliHelpers.js";
+import { planGitDiffRead } from "./gitDiffReadPlan.js";
 import { planGitBranchComparison } from "./gitBranchComparisonReadPlan.js";
 import { planGitCommitGraphQuery, projectGitCommitGraphQuery } from "./gitCommitGraphPlan.js";
 import { planGitIgnoredPaths } from "./gitIgnoredPathReadPlan.js";
@@ -910,122 +908,18 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
     },
 
     async getDiff(params: GitDiffQuery): Promise<GitDiffResult> {
-      const resolution = await this.resolveRepository(params.workspacePath);
-      const absolutePath = isAbsolute(params.path)
-        ? params.path
-        : resolve(params.workspacePath, params.path.split("/").join(sep));
-      if (!resolution.isGitAvailable) {
-        return toUnavailableDiff(
-          absolutePath,
-          "Git binary is not available in the current environment.",
-        );
-      }
-
-      if (!resolution.isRepository) {
-        return toUnavailableDiff(absolutePath, "Workspace is not inside a Git repository.");
-      }
-
-      const repoRelativePath = await normalizeInputPath(resolution, params.path);
-      if (params.sourceId === "branch") {
-        const status = await this.getStatus(params.workspacePath);
-        const trackingBranchName = status.summary.trackingBranchName;
-        if (!trackingBranchName) {
-          return toUnavailableDiff(
-            absolutePath,
-            "Current branch does not have an upstream branch.",
-          );
-        }
-
-        const branchDiffResult = await commandProvider.run({
-          cwd: resolution.repoRoot,
-          args: [
-            "diff",
-            "--no-ext-diff",
-            "--no-color",
-            "--binary",
-            "--find-renames",
-            `${trackingBranchName}...HEAD`,
-            "--",
-            repoRelativePath,
-          ],
-          timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,
-          maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,
-        });
-        const parsedBranchDiff = toDiffResult(absolutePath, branchDiffResult, {
-          emptySummary: "No branch comparison diff is available for this file.",
-        });
-        return withDiffContents(
-          parsedBranchDiff,
-          await readBranchDiffContents({
-            commandProvider,
-            repoRoot: resolution.repoRoot,
-            repoRelativePath,
-            trackingBranchName,
-          }),
-        );
-      }
-
-      const staged = params.staged ?? params.sourceId === "staged";
-      const diffResult = await commandProvider.run({
-        cwd: resolution.repoRoot,
-        args: staged
-          ? ["diff", "--cached", "--no-ext-diff", "--no-color", "--binary", "--", repoRelativePath]
-          : ["diff", "--no-ext-diff", "--no-color", "--binary", "--", repoRelativePath],
-        timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,
-        maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,
+      const program = planGitDiffRead(params, {
+        repo: this,
+        commandProvider,
+        branch: readBranchDiffContents,
+        staged: readStagedDiffContents,
+        worktree: readUnstagedDiffContents,
+        unavailable: toUnavailableDiff,
+        attach: withDiffContents,
       });
-      const parsedDiff = toDiffResult(absolutePath, diffResult, {
-        emptySummary: "No Git diff is available for this file.",
-      });
-      if (parsedDiff.availability !== "unavailable" || staged) {
-        const contents = staged
-          ? await readStagedDiffContents({
-              commandProvider,
-              repoRoot: resolution.repoRoot,
-              repoRelativePath,
-            })
-          : await readUnstagedDiffContents({
-              absolutePath,
-              commandProvider,
-              repoRoot: resolution.repoRoot,
-              repoRelativePath,
-            });
-        return withDiffContents(parsedDiff, contents);
-      }
-
-      // 未跟踪文件不会出现在 `git diff` 里，所以这里先生成一份稳定的单文件 patch。
-      // 如果文件无法按文本预览，再退回 `--no-index`，继续兼容二进制等特殊场景。
-      if (!(await fileExists(absolutePath))) {
-        return parsedDiff;
-      }
-
-      const normalizedUntrackedDiff = await buildUntrackedTextDiffResult(
-        absolutePath,
-        repoRelativePath,
-        DEFAULT_GIT_DIFF_BYTES,
-      );
-      if (normalizedUntrackedDiff) {
-        return normalizedUntrackedDiff;
-      }
-
-      const noIndexDiffResult = await commandProvider.run({
-        cwd: resolution.repoRoot,
-        args: [
-          "diff",
-          "--no-index",
-          "--no-ext-diff",
-          "--no-color",
-          "--binary",
-          getGitNullDevicePath(),
-          absolutePath,
-        ],
-        timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,
-        maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,
-      });
-      return toDiffResult(absolutePath, noIndexDiffResult, {
-        allowedExitCodes: [0, 1],
-        emptySummary: "No previewable diff is available for this file.",
-      });
+      let step = program.next();
+      while (!step.done) step = program.next(await step.value());
+      return step.value;
     },
 
     async getBranchComparison(workspacePath: string): Promise<GitBranchComparisonSnapshot> {

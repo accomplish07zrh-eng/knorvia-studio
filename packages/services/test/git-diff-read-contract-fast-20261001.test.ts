@@ -206,7 +206,7 @@ const cases: Scenario[] = [
   { name: "outside root error", query: { path: "../../--outside.txt" } },
   {
     name: "realpath escape error",
-    options: () => ({ fs: { realpath: (p) => resolve(root, "..", "outside.txt") } }),
+    options: () => ({ fs: { realpath: () => resolve(root, "..", "outside.txt") } }),
   },
   {
     name: "resolution synchronous provider throw",

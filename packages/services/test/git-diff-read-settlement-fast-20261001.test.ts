@@ -68,7 +68,8 @@ async function observe(
   const arm = () => {
     if (!armed) {
       armed = true;
-      kind === "reentrant" ? start() : queue(depth, start);
+      if (kind === "reentrant") start();
+      else queue(depth, start);
     }
   };
   const e = new Error("owned settlement failure");
@@ -168,7 +169,8 @@ async function late(legacy: boolean, phase: "resolve" | "status" | "diff", rejec
   const value = result({
     stdout: phase === "resolve" ? revOutput : phase === "status" ? statusOutput : "owned patch\n",
   });
-  rejected ? old.reject(new Error("owned late outcome")) : old.resolve(value);
+  if (rejected) old.reject(new Error("owned late outcome"));
+  else old.resolve(value);
   await a;
   const c = settle("shared-or-new", s.api.getDiff(query));
   next.resolve(value);
