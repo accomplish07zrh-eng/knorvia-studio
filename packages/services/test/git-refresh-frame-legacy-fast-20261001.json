@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "commit": "8571700ae9a7b8c8a19b5b742a19a6220d0b14ea",
+  "path": "packages/services/src/git/gitService.ts",
+  "sourceSha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "name": "refresh",
+      "start": 6097,
+      "end": 7447,
+      "text": "async refresh(params) {\n      const statusPromise = repo.getStatus(params.workspacePath);\n      const identityPromise = params.includeIdentity\n        ? repo.getIdentity(params.workspacePath)\n        : Promise.resolve(null);\n      const branchComparisonPromise = params.includeBranchComparison\n        ? repo.getBranchComparison(params.workspacePath)\n        : Promise.resolve(null);\n      const [status, identity, branchComparisonSnapshot] = await Promise.all([\n        statusPromise,\n        identityPromise,\n        branchComparisonPromise,\n      ]);\n      const branchComparison: GitBranchComparison | null = branchComparisonSnapshot\n        ? {\n            baseRef: branchComparisonSnapshot.baseRef,\n            headRef: branchComparisonSnapshot.headRef,\n            comparisonLabel: branchComparisonSnapshot.comparisonLabel,\n            changes: getBranchComparisonChanges(branchComparisonSnapshot),\n          }\n        : null;\n\n      // UI 的自动刷新原本会并发调用 summary、unstaged、staged 三个 RPC，\n      // 每个 RPC 都重新执行一次 git status。agent 批量写文件时这会把 renderer 卡在\n      // 重复的 Git I/O 和 RPC 日志上。refresh 在一次 status 快照里切出三份数据。\n      return {\n        summary: status.summary,\n        identity,\n        unstagedChanges: getChangesForSource(status, \"unstaged\"),\n        stagedChanges: getChangesForSource(status, \"staged\"),\n        branchComparison,\n      };\n    }",
+      "sha256": "710e7cae6cd59c05a31604ee74839ca435591ee4c62873130aad10083daa36f5"
+    }
+  ]
+}
