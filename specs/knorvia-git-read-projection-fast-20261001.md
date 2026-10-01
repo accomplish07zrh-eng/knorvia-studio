@@ -128,3 +128,7 @@ KNORVIA_GIT_READ_PROJECTION_TARGET=dist node --experimental-test-module-mocks --
 
 All native/command/repository ports remained synthetic; no GUI or real repository
 was used. This passing freeze is a behavior baseline, not evidence of originality.
+
+## Root CI222 portability correction
+
+CI222 Linux passed; Windows exposed a new consumer-test expectation error: the file-tree model deliberately normalizes backslashes to forward slashes, while the assertion used host-native `path.resolve` unchanged. Preserve the existing model, service, RPC and projection behavior. Correct only the expected canonical key and add host-independent literal Windows/POSIX separator coverage with exact expected values and unchanged untracked priority. This is not a product path-policy change or a relaxed assertion. Retain CI222 failure evidence and re-run source/strict emitted plus both-platform CI.

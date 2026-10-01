@@ -11,6 +11,7 @@ import {
   workspace,
 } from "./git-read-projection-fixture-fast-20261001.js";
 const f = await projectionFixture();
+const { buildWorkspaceFileGitStatusByPath } = await import(f.uiUrl("workspace-file-tree/model"));
 const { loadWorkspaceFileTreeGitStatus } = await import(f.uiUrl("workspace-file-tree/gitStatus"));
 const { buildGitBranchSwitchAssistState } = await import(
   f.uiUrl("git-branch-switcher/switchAssist")
@@ -240,8 +241,24 @@ test("actual tree consumer through RPC preserves untracked priority and scope", 
     workspacePath: workspace,
   });
   assert.equal(result.available, true);
-  assert.deepEqual([...result.statusByPath], [[resolve(root, "work/owned.txt"), "untracked"]]);
+  // 修复：CI222 Windows 证明文件树键沿用斜杠规范；期望值不能保留宿主反斜杠。
+  assert.deepEqual(
+    [...result.statusByPath],
+    [[resolve(root, "work/owned.txt").replace(/\\/g, "/"), "untracked"]],
+  );
   assert.deepEqual(s.trace, ["status"]);
+});
+test("actual tree model canonicalizes literal Windows and POSIX paths with untracked priority", () => {
+  for (const [first, second, expected] of [
+    ["D:\\owned\\work\\file.txt", "D:/owned/work/file.txt", "D:/owned/work/file.txt"],
+    ["/owned/work/file.txt", "/owned/work/file.txt/", "/owned/work/file.txt"],
+  ]) {
+    const statuses = buildWorkspaceFileGitStatusByPath([
+      { path: first, isUntracked: false, kind: "added", section: "staged" },
+      { path: second, isUntracked: true, kind: "added", section: "untracked" },
+    ]);
+    assert.deepEqual([...statuses], [[expected, "untracked"]]);
+  }
 });
 test("actual tree consumer unavailable repo returns empty without extended reads", async () => {
   const status = snapshot();
