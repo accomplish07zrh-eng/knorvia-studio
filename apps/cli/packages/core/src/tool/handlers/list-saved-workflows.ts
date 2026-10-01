@@ -20,6 +20,7 @@ import {
 } from "@knorvia/contracts";
 import type { ToolEntry, ToolHandler } from "../types.js";
 import { listSavedWorkflows } from "./saved-workflows/index.js";
+import { renderSavedWorkflowListing } from "./list-saved-workflows-model-renderer.js";
 
 const LIST_SAVED_WORKFLOWS_TIMEOUT_MS = 10_000;
 /** 照 ListWorkflowRuns：清单刻意轻（一次目录扫描可答），24k 足够几十条还留着余量。 */
@@ -70,35 +71,7 @@ function formatListSavedWorkflowsModelContent(output: unknown): ModelMessageCont
     ].join("\n");
   }
 
-  const blocks = workflows.map((workflow) => {
-    const lines = [
-      `<workflow name="${escapeAttribute(workflow.name)}" scope="${workflow.scope}">`,
-      `  ${workflow.description}`,
-    ];
-    if (workflow.whenToUse !== undefined) lines.push(`  When to use: ${workflow.whenToUse}`);
-    for (const [key, spec] of Object.entries(workflow.args ?? {})) {
-      const notes = [
-        spec.type,
-        spec.required === true ? "required" : undefined,
-        spec.default === undefined ? undefined : `default ${JSON.stringify(spec.default)}`,
-      ].filter((note) => note !== undefined);
-      const description = spec.description === undefined ? "" : ` — ${spec.description}`;
-      lines.push(`  arg ${key} (${notes.join(", ")})${description}`);
-    }
-    lines.push("</workflow>");
-    return lines.join("\n");
-  });
-
-  const invalidLines = (invalid ?? []).map(
-    (entry) => `<invalid path="${escapeAttribute(entry.path)}">${entry.reason}</invalid>`,
-  );
-
-  return [
-    `<saved_workflows count="${workflows.length}">`,
-    ...blocks,
-    ...invalidLines,
-    "</saved_workflows>",
-  ].join("\n");
+  return renderSavedWorkflowListing(parsed.data, escapeAttribute);
 }
 
 /** 名字与路径进属性位：两者都可能带引号（路径尤其），不转义会造出畸形标签。 */
