@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 1,
+  "scope": "PlanMode behavior-preserving operation rewrite and synthetic contracts",
+  "branch": "parallel/cli-tools-fast-20261001",
+  "baselineCommit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+  "frozenCommit": "081103fac2672f7a752b7ba4398b0442747364ef",
+  "implementationCommit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+  "sourceExposure": {
+    "inspectedInheritedSource": true,
+    "cleanRoom": false,
+    "wholeFileOriginalityDetermination": null,
+    "licenseDetermination": null,
+    "attributionRetained": true,
+    "sharedLicensingEdited": false
+  },
+  "upstreamEvidence": {
+    "kind": "existing-manifest-facts-only",
+    "pinnedCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "publisherBytesLocallyVerified": false,
+    "handler": {
+      "blob": "5d6ae22fb53611ae6effb184fc2538000ee551e1",
+      "normalizedSha256": "2c960ad5151af3943d44752f72ddca3bff8203a3660fb93f0fee48252e931583"
+    },
+    "prompts": {
+      "blob": "dee0d037e093d594a1c02d851e2ae3ee8c16126f",
+      "normalizedSha256": "33177d01366b3b157034a4f835a8e32d21cb22489f3e0026bc0b33437e264434"
+    }
+  },
+  "frozenObservations": {
+    "direct": 67,
+    "executor": 8,
+    "getters": 9,
+    "descriptions": 2,
+    "registryVariants": 2,
+    "publicDeclarationText": "exact emitted plan-mode.d.ts",
+    "sourceNamedTests": 21,
+    "emittedNamedTests": 21,
+    "sha256": "1203c6ee9f741d898d6c06dd7a6a17cf6fc641f6331497ee2ab3c0611dfabd98",
+    "file": "apps/cli/packages/core/test/plan-mode-contract.json",
+    "emittedLoader": "read .js dist before import; missing emitted file fails without source fallback",
+    "normalization": "Host path separators normalized in JSON with exact native path assertion separately. Generated executor request/span IDs normalized after presence and span propagation checks. Own undefined output keys and receiver/signal identities separately asserted."
+  },
+  "retainedMaterial": {
+    "plan-mode.ts": [
+      "Public entries/factory/metadata/permission/budget/timeout/cancellation/trace declarations and reason prose"
+    ],
+    "plan-mode-operation.ts": [
+      "Schema and optional active-plan admission expressions, error/context prose and direct port invocation expressions retaining native errors; one typed intent/operation/effect-selection structure newly written"
+    ],
+    "plan-mode-persistence.ts": [
+      "Existing skip/await/cancellation-versus-ordinary-error semantics, native writer flags/trace/input fields and cancellation message/cause/context expressions; no replacement or policy change to actual writer"
+    ],
+    "plan-mode-projection.ts": [
+      "Output field shapes/order and trace fields; original model-facing formatter prose and trim/failure expressions retained"
+    ],
+    "tests": [
+      "Frozen declaration/prompt/model/error prose and old observations are retained bytes; synthetic harness and fictional inputs are distinct new test expression"
+    ]
+  },
+  "finalValidation": {
+    "source": {
+      "tests": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    "emitted": {
+      "tests": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    "build": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10,
+      "windowsCuaDriverSkipped": true,
+      "existingWarnings": ["debug chunk size", "CLI/TUI dynamic import options"]
+    },
+    "types": {
+      "root": "passed including 5422 i18n keys",
+      "cliConfigured": "passed",
+      "core": "passed"
+    },
+    "lint": {
+      "root": {
+        "files": 2841,
+        "errors": 0,
+        "warnings": 0
+      },
+      "cliConfigured": {
+        "files": 97,
+        "errors": 0,
+        "warnings": 0
+      },
+      "owned": {
+        "files": 10,
+        "rules": 94,
+        "errors": 0,
+        "warnings": 0,
+        "config": "Temporary root JSONC policy with ignorePatterns cleared; no repository/rule change"
+      },
+      "coreConfigured": {
+        "status": "failed-existing-unowned",
+        "errors": 24,
+        "warnings": 11,
+        "unchangedFiles": 27,
+        "files": [
+          {
+            "path": "apps/cli/packages/core/src/agent/message-history.ts",
+            "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+          },
+          {
+            "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+            "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+          },
+          {
+            "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+            "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+            "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+            "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/internal-turn-methods.ts",
+            "sha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+            "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+            "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/compact-persistence.ts",
+            "sha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+            "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+            "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+            "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+            "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+            "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-queue.ts",
+            "sha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/session-fork.ts",
+            "sha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+            "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+            "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+            "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+            "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+            "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0"
+          },
+          {
+            "path": "apps/cli/packages/core/src/telemetry/runtime-telemetry.ts",
+            "sha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e"
+          },
+          {
+            "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+            "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+          },
+          {
+            "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+            "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab"
+          },
+          {
+            "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+            "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+          },
+          {
+            "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+            "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+          },
+          {
+            "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+            "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+          }
+        ]
+      }
+    },
+    "format": {
+      "root": "passed",
+      "files": 5905,
+      "finalReceiptAndHandoff": "passed separately"
+    },
+    "architecture": {
+      "changed": "passed",
+      "full": "passed",
+      "new": 0,
+      "baseline": 0
+    },
+    "fullRegression": {
+      "status": "passed",
+      "files": 516,
+      "tests": 6148,
+      "passed": 6140,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 8,
+      "durationMs": 347892.400147,
+      "timeoutMs": 120000,
+      "concurrency": 2,
+      "timeoutOrSkipPolicyChanged": false,
+      "logSha256": "fa6453acded1726582bb41155818d04c7e117737e183a91e197ffd08ce5c315d",
+      "skippedCases": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced # SKIP"
+      ]
+    },
+    "precedingFullRegression": {
+      "status": "passed",
+      "files": 516,
+      "tests": 6148,
+      "passed": 6140,
+      "failed": 0,
+      "skipped": 8,
+      "cancelled": 0,
+      "durationMs": 349054.55996,
+      "logSha256": "1f9278adffb19797a02823b5c8f14971fc008778c4e8a275e35f018f6187eaef",
+      "reasonForRepeat": "Three remaining executor test timestamps moved to the fixed synthetic clock; production source and timeout/skip policies unchanged"
+    }
+  },
+  "remainingGaps": [
+    "No native Windows/macOS or GUI acceptance; Linux Windows Cua staging skipped",
+    "No real user plans/session changes/filesystem adapter/process/approval/model/network/credential/billing execution",
+    "No fresh PlanMode publisher-byte verification or final authorship/licence determination; root independently reviews all 27 obligations"
+  ],
+  "fileDigests": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "fd607706e24741ea2fe687bb40dade1fad27a6c2",
+      "bytes": 2941,
+      "sha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8",
+      "lfNormalizedSha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "ad40889cc2149c32b625143897f72aacaaef8c22",
+      "bytes": 1654,
+      "sha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3",
+      "lfNormalizedSha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244",
+      "bytes": 2564,
+      "sha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454",
+      "lfNormalizedSha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode.ts",
+      "commit": "4d075cfa497bdce8467d7b5ff4d022ec6c7ac943",
+      "gitBlob": "272221bfe000c27eaf6c7613698ef7ff4f31061e",
+      "bytes": 4845,
+      "sha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3",
+      "lfNormalizedSha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-capture.mts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "85eccd540db9a4dd7cb1d490ae8033def7ad9640",
+      "bytes": 1945,
+      "sha256": "d3ad594d9c88734f5e4a18bedf02d36d62455b1bc3e61957b768808b4f90e62b",
+      "lfNormalizedSha256": "d3ad594d9c88734f5e4a18bedf02d36d62455b1bc3e61957b768808b4f90e62b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-cases.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "3d5e2b7defbbe71389747ed9bf4b193261b6d690",
+      "bytes": 4249,
+      "sha256": "10b1f44344f5d357b1103e1a7fd981ae26416e586f0e65443a6891937849fa7e",
+      "lfNormalizedSha256": "10b1f44344f5d357b1103e1a7fd981ae26416e586f0e65443a6891937849fa7e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-consumers.test.ts",
+      "commit": "768c79b9327064b9d77c7f993d765117f1cecd23",
+      "gitBlob": "e6c39fe275f803d4b562b234d8f5e8a2dc5c8c92",
+      "bytes": 8462,
+      "sha256": "4981b2d9cba77e840eabbd7aabd9a78cae765806d5066cee47de89df0fa50eeb",
+      "lfNormalizedSha256": "4981b2d9cba77e840eabbd7aabd9a78cae765806d5066cee47de89df0fa50eeb"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-contract.json",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "73c1a098dfad65ceac8250fd2ca35b35c7d3963b",
+      "bytes": 401241,
+      "sha256": "1203c6ee9f741d898d6c06dd7a6a17cf6fc641f6331497ee2ab3c0611dfabd98",
+      "lfNormalizedSha256": "1203c6ee9f741d898d6c06dd7a6a17cf6fc641f6331497ee2ab3c0611dfabd98"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-contract.test.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "e29ee67e0923e1d71156665a5bd1e4ee46350549",
+      "bytes": 5855,
+      "sha256": "ad314d364b931f2355df447876c1cb61467a6a8165a0df6019f4c0e3e4f0f29c",
+      "lfNormalizedSha256": "ad314d364b931f2355df447876c1cb61467a6a8165a0df6019f4c0e3e4f0f29c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-effects.test.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "5a371fa7533e45ac05c9841eb5f6174e4dbeaea0",
+      "bytes": 7685,
+      "sha256": "db5c459ac2bae2ee528bc7be0248fca3389b0a68216b986ceafc17a54428870c",
+      "lfNormalizedSha256": "db5c459ac2bae2ee528bc7be0248fca3389b0a68216b986ceafc17a54428870c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/plan-mode-fixture.ts",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "264bde5e9242e352c1035b0f2f3c3250d40dd649",
+      "bytes": 11452,
+      "sha256": "8e64875ce3938269357576fa2557d4e6788d682993941a5b6703117297ef6002",
+      "lfNormalizedSha256": "8e64875ce3938269357576fa2557d4e6788d682993941a5b6703117297ef6002"
+    },
+    {
+      "path": "specs/knorvia-plan-mode-execution.md",
+      "commit": "081103fac2672f7a752b7ba4398b0442747364ef",
+      "gitBlob": "b4b574c35d9952a47f866c37082ff7181ac769ae",
+      "bytes": 6408,
+      "sha256": "d9d9a806036d906187e4f96da71e09641bacfd4dc4489973fffb72dd848ec4da",
+      "lfNormalizedSha256": "d9d9a806036d906187e4f96da71e09641bacfd4dc4489973fffb72dd848ec4da"
+    }
+  ],
+  "protectedInputs": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-prompts.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "c36613630a2b39f49e05f6935a84867fab2a1e90",
+      "bytes": 6525,
+      "sha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03",
+      "lfNormalizedSha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/plan-mode.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "d88e855759b3e8afad98bcf22f20629739c5081f",
+      "bytes": 4404,
+      "sha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6",
+      "lfNormalizedSha256": "926475007858857a7e445e13ddd5cfa67a24379241e8c4b61a0cd8599712f1b6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "c7ab4f056df48d994e2d259d3dad08b68c75de5f",
+      "bytes": 3094,
+      "sha256": "ba31f513a17fdb9cd7fcb7f908c9fcc3c4eec0f66aaa32e5f5fe7aa6476af295",
+      "lfNormalizedSha256": "ba31f513a17fdb9cd7fcb7f908c9fcc3c4eec0f66aaa32e5f5fe7aa6476af295"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/session-mode-port.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "0172b60ca5ab77910558039ce45155387ca7acf9",
+      "bytes": 1497,
+      "sha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d",
+      "lfNormalizedSha256": "f93101292896381dc8fe16f612a698ed8b957e0ea403fb3d863cd759dfa4082d"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "c9b0750f95db6bcd77f4a863c5e4276b8c35d604",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "lfNormalizedSha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/policy-program.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "8e55b175c82db399db6f93bcd919998a08afb2e8",
+      "bytes": 7916,
+      "sha256": "998d284d29ebc0f431ce778a503cb5d2f63f77299fc4263e8cdef0d8e76d09c8",
+      "lfNormalizedSha256": "998d284d29ebc0f431ce778a503cb5d2f63f77299fc4263e8cdef0d8e76d09c8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "1330e35edee86e01aacd49edd2aa1cb1ac3cb21e",
+      "bytes": 6687,
+      "sha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139",
+      "lfNormalizedSha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139"
+    },
+    {
+      "path": "apps/cli/packages/core/test/permission-client-fixture.ts",
+      "commit": "20dfa27920af26f9e56a142073ec6d1b18193ffe",
+      "gitBlob": "75ea8300b4574f99ba467a4c62dca4c01be9f5d7",
+      "bytes": 793,
+      "sha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2",
+      "lfNormalizedSha256": "4ec566b360feffcf5880b9ac9b653ea3247199a95c6e7a5da8d41c87f7f7d3d2"
+    }
+  ],
+  "fixedClockTestCommit": "768c79b9327064b9d77c7f993d765117f1cecd23"
+}
