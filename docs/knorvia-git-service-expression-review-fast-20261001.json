@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "kind": "lane-expression-review-facts",
+  "candidate": "46973a29b0186be28a946a2a2e488636e3ed4b94",
+  "path": "packages/services/src/git/gitService.ts",
+  "current": {
+    "blob": "34c05531dde8bd285f587e1f408968f52f926ac3",
+    "lastContentCommit": "91ef2d617125576219c5767a030ecf6f4699b416",
+    "sha256": "21e2a60b8787b39f6ba38ca84a3e6064e0b54e4b92efe9916489ed1f16e8863e",
+    "normalizedSha256": "21e2a60b8787b39f6ba38ca84a3e6064e0b54e4b92efe9916489ed1f16e8863e",
+    "encoding": "utf8-lf",
+    "bytes": 7420
+  },
+  "publisher": {
+    "source": "https://github.com/zai-org/ZCode",
+    "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143"
+  },
+  "lineage": {
+    "publisher": {
+      "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "blob": "df3426c8a398f797730c90dcfbd85cce3c7a0259",
+      "sha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+      "normalizedSha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+      "encoding": "utf8-lf",
+      "bytes": 11865
+    },
+    "localImport": {
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "blob": "373f6569025ff41b7224dcb47b71252dad7c9c84",
+      "sha256": "13d01d313a65d8ee3676c6cbbc9cb8e4ccbee9f27e3d2d558321e3c9849a5927",
+      "normalizedSha256": "13d01d313a65d8ee3676c6cbbc9cb8e4ccbee9f27e3d2d558321e3c9849a5927",
+      "encoding": "utf8-lf",
+      "bytes": 11867
+    },
+    "integrated": {
+      "commit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+      "blob": "373f6569025ff41b7224dcb47b71252dad7c9c84",
+      "sha256": "13d01d313a65d8ee3676c6cbbc9cb8e4ccbee9f27e3d2d558321e3c9849a5927",
+      "normalizedSha256": "13d01d313a65d8ee3676c6cbbc9cb8e4ccbee9f27e3d2d558321e3c9849a5927",
+      "encoding": "utf8-lf",
+      "bytes": 11867
+    }
+  },
+  "policy": {
+    "classification": "mixed-source",
+    "sourceExposure": true,
+    "decision": null,
+    "license": "NOASSERTION"
+  },
+  "expressions": [
+    {
+      "name": "COMMIT_MESSAGE_DIFF_FILE_LIMIT",
+      "startLine": 10,
+      "endLine": 10,
+      "sha256": "fd415bcdef24db608e54af648edeada5c07b83067400c007cb9946967956b0c5",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getCommitMessageDiffQueries",
+      "startLine": 12,
+      "endLine": 30,
+      "sha256": "312fa1d21d00112f1ece38a5d850af131c9f5a27d422f5482f7c135eb2612b3a",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "repo",
+      "startLine": 36,
+      "endLine": 36,
+      "sha256": "fcc0be90b7511e0fa59281fa8e54e3e183ac9948e0914eb5a02b8cc12e2cc6b7",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getRepositorySummary",
+      "startLine": 39,
+      "endLine": 42,
+      "sha256": "ec0da30c7510daf351b587d1200af2d4daad3c060f5eefbe7a4785a5e57f4ea7",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getWorkspaceRepositoryInfo",
+      "startLine": 44,
+      "endLine": 46,
+      "sha256": "8b325464f0e4857ccc1794116923ac3cdf4c1b95641cbd700477e12b3971c4c6",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getLocalBranches",
+      "startLine": 48,
+      "endLine": 50,
+      "sha256": "0f69c28d12af866718707df2dccebfc970b1fd04579809afbd8526194921b832",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getCommitGraph",
+      "startLine": 52,
+      "endLine": 62,
+      "sha256": "36a9e73537031ac965ef3645f9da035ad2d5143011bd2edc7e4a253ed49fef58",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "switchBranch",
+      "startLine": 64,
+      "endLine": 66,
+      "sha256": "b701cd2620ae72d70b5fd0eaa7df72386f23d28c6058139dd9d12d783ea3aaea",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "createBranchAndSwitch",
+      "startLine": 68,
+      "endLine": 74,
+      "sha256": "8bf8ffda1890a66326dc4923f209b7b91fd30535489c288e685435ad5daf6576",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getChanges",
+      "startLine": 76,
+      "endLine": 82,
+      "sha256": "f5843e482ad1f6c8e77c8d47bbf5a8e4e85b1e649c46ca3a8e3f8aa031dfb7df",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getIgnoredPaths",
+      "startLine": 84,
+      "endLine": 86,
+      "sha256": "39fc5303a6cd80fbb8a504722b3addb9d4068ea1e8aae30e1f8a815463bc04cd",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getDiff",
+      "startLine": 88,
+      "endLine": 90,
+      "sha256": "09ffb1f875c8574b80c81ec00eb4092b40dd179a7622c206e0fdf76f1795676f",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getBranchComparison",
+      "startLine": 92,
+      "endLine": 100,
+      "sha256": "b1d9b9c1476aee473e7b42916d5d1787ec5f8168259c38534d1931c01ae24a21",
+      "exact": {
+        "publisher": false,
+        "localImport": false,
+        "integrated": false
+      }
+    },
+    {
+      "name": "stagePaths",
+      "startLine": 102,
+      "endLine": 104,
+      "sha256": "d8a3857bf70d11168f431ad7749191975fa5f14439c30ee19300f3e8ec0bcdb0",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "unstagePaths",
+      "startLine": 106,
+      "endLine": 108,
+      "sha256": "161e936751f70f53f5503b0433d989ec28ef652bfc8cede673a0d7ae25ec8333",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "discardPaths",
+      "startLine": 110,
+      "endLine": 112,
+      "sha256": "67c9ad449ad76a403458e4338e3b1998f7ece261bfa6331d19ad21738c6f4bc7",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "generateCommitMessage",
+      "startLine": 114,
+      "endLine": 159,
+      "sha256": "874344612f7f5e0fc39185019050bd4c22a0ac627abfa4446bdc325a339e8a3a",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "commit",
+      "startLine": 161,
+      "endLine": 170,
+      "sha256": "86b651e96aef6da624d5d1e413bc70b4cc647e58a06dc8c36df26632b64bfe6a",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "push",
+      "startLine": 172,
+      "endLine": 175,
+      "sha256": "a0abd7cc4df5c1b98fab5d4b5a7d8588812107a48375813689c559472eb1024b",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "getIdentity",
+      "startLine": 177,
+      "endLine": 179,
+      "sha256": "5f8fd5e5be5c459d3f733554925bc68c70a182e9e16ba01f1b38edfe58fe4a74",
+      "exact": {
+        "publisher": true,
+        "localImport": true,
+        "integrated": true
+      }
+    },
+    {
+      "name": "refresh",
+      "startLine": 181,
+      "endLine": 210,
+      "sha256": "b0ec097801c00c119c21f39b0e321dc5fa5a5672883129b20b91cffb1beb6864",
+      "exact": {
+        "publisher": false,
+        "localImport": false,
+        "integrated": false
+      }
+    }
+  ],
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/git.ts",
+      "sha256": "6f7e3bb85573005ac764da81960a20143ea45ae9551887e87253adadf67f9350"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "sha256": "ff759b2a18d6ac589348f2a2fec18838796a653de3c5c5b066ec3b5f34b7a04d"
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "58cba021663712ec5048553f680dfa9cba12c2fabf5de7cc51cc107c52c6cbdc"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "3d3bacc41502e98c13ec02abcdb0d05429a78cafe51e427a9bbdf6e39503df53"
+    }
+  ],
+  "nextCandidate": {
+    "path": "packages/services/src/git/commitMessageFileScope.ts",
+    "publisherSha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+    "exactPublisherFunctions": [
+      {
+        "name": "normalizeCommitMessageScopePath",
+        "sha256": "b96c14bf176099c893f7f6358ce51b57b9773800c996212d07fdc66715f5fffd"
+      },
+      {
+        "name": "isRelativePathInsideScope",
+        "sha256": "9b2b6c12672ce0d1001b7abd529e42b45df83a57d2ca214e1512aa6058e33751"
+      },
+      {
+        "name": "addCommitMessageScopeCandidate",
+        "sha256": "bb6e42d837a29272123303d0c17a354e878fbc987220d71930db75de251794a5"
+      },
+      {
+        "name": "buildCommitMessageFileScope",
+        "sha256": "549fdb908d00d78d8d4bf18a1b1cef3c1b9030a6b205c4714f1656a6120c1554"
+      },
+      {
+        "name": "isCommitMessageFileInScope",
+        "sha256": "5f67463905b4c77597d031e1c5e8aa839e247bf3de2eae59e70dc5ce72fa0331"
+      },
+      {
+        "name": "filterCommitMessageFilesByCurrentSession",
+        "sha256": "f5ca253e9c1c1899e8b86d2e9b2454e5a485b1af62e25ed671e52072a9bcaf80"
+      }
+    ],
+    "changedHere": false
+  },
+  "emitted": [
+    {
+      "path": "packages/services/dist/git/gitService.js",
+      "sha256": "213e4d253403b9b830e0b0ea2a587775a9f07ba8ff285688292953d78e115b44"
+    },
+    {
+      "path": "packages/services/dist/git/gitService.d.ts",
+      "sha256": "62cd8802eba9208a95a960e15b2b6cdb1d6f1e2d5c8a4a8ab286593a3642cdfa"
+    }
+  ]
+}
