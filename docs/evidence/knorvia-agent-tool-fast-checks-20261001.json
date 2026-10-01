@@ -1,0 +1,951 @@
+{
+  "formatVersion": 1,
+  "kind": "Agent/Task source-exposed implementation receipt",
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baselineCommit": "13f1401f79b65aee7de12f3ba982e89ce3673d07",
+  "freezeCommit": "26555c5a526ef1f2f5814d310b1f69fed86d79c9",
+  "productionCommit": "5adf964b292aa3d5c6379d71932c6b57903300c2",
+  "verificationCommit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+  "sourceExposure": {
+    "inheritedSourceRead": true,
+    "cleanRoom": false,
+    "wholeFileOriginalityDetermination": null,
+    "attributionRetained": true,
+    "sharedProvenanceEdited": false
+  },
+  "licenseDecision": null,
+  "unresolvedMaterialObligations": 27,
+  "lineage": {
+    "localHistory": ["7619e41"],
+    "integratedCommit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+    "handlerPath": "apps/cli/packages/core/src/tool/handlers/agent.ts",
+    "integratedAndBaselineBytes": 12392,
+    "integratedAndBaselineSha256": "d4f4f62adc998fdd38d449e38f09b4d4ff7cb68592c91cdf3d353fe261e81f3f",
+    "upstreamEvidenceKind": "existing-manifest-facts-only",
+    "publisherBytesLocallyVerified": false,
+    "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/agent.ts",
+    "upstreamBlob": "1261884c65ce46529504704c8a54cc4d7ff77bed",
+    "upstreamBytes": 12372,
+    "upstreamSha256": "e29decfaf6c16083368850f8e7f2285c821dd3c6b53b0cf1f5816fbf6fdf3aac",
+    "parentEarlierSevenPathVerificationIncludedAgent": false
+  },
+  "frozen": {
+    "path": "apps/cli/packages/core/test/agent-tool-contract.json",
+    "bytes": 237540,
+    "sha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e",
+    "direct": 40,
+    "getters": 20,
+    "formatting": 24,
+    "executor": 11,
+    "descriptions": 12,
+    "registryVariants": 5,
+    "permissions": 40,
+    "projectionMatrix": {
+      "comparisons": 512,
+      "sha256": "87abfc70a8624d93d793a44ab5318f4cd1ea48f4adbba34594f5e529b8fb81a8"
+    },
+    "baselineNamedTestsPerMode": 21,
+    "finalNamedTestsPerMode": 22,
+    "publicDeclaration": "Exact emitted agent.d.ts bytes captured before rewrite",
+    "emittedLoader": "read dist JS before import; missing dist fails without tsx source fallback",
+    "normalization": "Generated executor span IDs normalized after presence/propagation identity check; own undefined fields and reference/getter/receiver identities separately asserted; synthetic fixed clocks."
+  },
+  "retainedRegions": [
+    {
+      "name": "schema_and_description",
+      "start": "const MAX_AGENT_MODEL_BYTES",
+      "baselineEnd": "function formatAgentOutputForModel",
+      "currentEnd": "export const agentToolEntry",
+      "sha256": "eacc6d3e206e05afc056996ed0f140a71146ab4c06b1b0d6130a30d1dd5a8f10"
+    },
+    {
+      "name": "declaration",
+      "start": "export const agentToolEntry",
+      "baselineEnd": "function canReadBackgroundOutputFile",
+      "currentEnd": "export const taskToolEntry",
+      "sha256": "c9da280779171d0597d7bc40487b55932eb7616b99696612e5d1ffe81cede712",
+      "normalization": "trim region boundary whitespace; substitute only handler/formatter references in baseline"
+    },
+    {
+      "name": "alias_factories",
+      "start": "export const taskToolEntry",
+      "baselineEnd": null,
+      "currentEnd": null,
+      "sha256": "02ab2cf30015e1caf1b287cfc45a202a69b85e4f06b9a49ad0931d91bcdb24be"
+    }
+  ],
+  "checks": {
+    "source": {
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "logPath": "/tmp/knorvia-agent-source-tests.log",
+      "bytes": 2256,
+      "sha256": "faa6526e7efe8d48bbf7923b16cc57ac9c1723a14bdb54a07fc19b1da3771f0e"
+    },
+    "emitted": {
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "logPath": "/tmp/knorvia-agent-emitted-tests.log",
+      "bytes": 2255,
+      "sha256": "d0c99c4a9089fcc316e38d123f61e7dd23774748430e5a1b28671fefa6ef12e1"
+    },
+    "fullRegression": {
+      "testFiles": 518,
+      "tests": 6170,
+      "suites": 6,
+      "pass": 6162,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 8,
+      "durationMs": 351773.353275,
+      "logPath": "/tmp/knorvia-agent-full-regression-final.log",
+      "bytes": 545349,
+      "sha256": "821504bb88c37eac3218c59007bf020ff071f29999bbd08f1e91a3766efaa194",
+      "skipLines": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging (0.119604ms) # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） (4.170595ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 (3.109344ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 (2.917505ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 (4.870569ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 (3.288117ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations (0.854955ms) # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced (0.164568ms) # SKIP"
+      ]
+    },
+    "precedingRegression": {
+      "testFiles": 518,
+      "tests": 6170,
+      "suites": 6,
+      "pass": 6162,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 8,
+      "durationMs": 354675.524183,
+      "logPath": "/tmp/knorvia-agent-full-regression.log",
+      "bytes": 545268,
+      "sha256": "b63eca8fef37e7e8ad2ec653d646ff423c0034581b6581abb85661246d47b11e",
+      "skipLines": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging (0.118622ms) # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） (3.978997ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 (3.052899ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 (2.803303ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 (2.769079ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 (3.038051ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations (0.848133ms) # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced (0.188272ms) # SKIP"
+      ]
+    },
+    "testCorrection": "b651aa9 replaced nonexistent tool_completed assertion with actual ToolCallResult/ToolCallError event enums and one finishCancelled terminal assertion; final full suite rerun afterward.",
+    "rootTypes": {
+      "pass": true,
+      "i18nKeys": 5422
+    },
+    "cliTypes": {
+      "pass": true,
+      "scope": 16,
+      "workspaceProjects": 19
+    },
+    "cliBuild": {
+      "pass": true,
+      "tasks": 17,
+      "cached": 10,
+      "warnings": [
+        "Global Turbo 2.9.14 fallback and missing browser-use-plugin lockfile workspace warning",
+        "Existing debug >500KB chunk warning",
+        "Existing unsupported dynamic import options in Node REPL/TUI/CLI build",
+        "Windows CUA staging skipped on Linux"
+      ]
+    },
+    "rootLint": {
+      "pass": true,
+      "files": 2842,
+      "warnings": 0,
+      "errors": 0
+    },
+    "cliLint": {
+      "pass": true,
+      "files": 97,
+      "warnings": 0,
+      "errors": 0
+    },
+    "ownedLint": {
+      "pass": true,
+      "files": 10,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "configuration": "Existing root rules/test override; temp config only clears ignorePatterns, no repository configuration change"
+    },
+    "coreLint": {
+      "pass": false,
+      "errors": 24,
+      "warnings": 11,
+      "unchangedFiles": [
+        {
+          "path": "apps/cli/packages/core/src/agent/message-history.ts",
+          "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+          "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+          "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+          "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+          "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/internal-turn-methods.ts",
+          "sha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+          "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+          "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-persistence.ts",
+          "sha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+          "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+          "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+          "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+          "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+          "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-queue.ts",
+          "sha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/session-fork.ts",
+          "sha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+          "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+          "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+          "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+          "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+          "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/telemetry/runtime-telemetry.ts",
+          "sha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+          "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+          "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+          "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+          "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+          "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+        }
+      ]
+    },
+    "format": {
+      "pass": true
+    },
+    "architecture": {
+      "changedPass": true,
+      "fullPass": true,
+      "baselineViolations": 0,
+      "newViolations": 0,
+      "cliManaged": false,
+      "manualReview": "Declaration → invocation → request encoder; declaration → projection; helpers use contracts/tool types, no runtime imports, cycles, duplicated task state, extra port call or retry."
+    },
+    "logs": {
+      "rootTypes": {
+        "logPath": "/tmp/knorvia-agent-root-types.log",
+        "bytes": 523,
+        "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+      },
+      "cliTypes": {
+        "logPath": "/tmp/knorvia-agent-cli-types.log",
+        "bytes": 1597,
+        "sha256": "5ebb4954a90e09901af0ec0e9372c84844bb76445bf8886ff6b5319983f3d7c7"
+      },
+      "rootLint": {
+        "logPath": "/tmp/knorvia-agent-root-lint-final.log",
+        "bytes": 155,
+        "sha256": "2af285d32787888195c64ddc3276ad31cff0e5de83b36810f4a6eeb4cb545d8d"
+      },
+      "cliLint": {
+        "logPath": "/tmp/knorvia-agent-cli-lint.log",
+        "bytes": 192,
+        "sha256": "7b0bacd4b7af17bc0e8f06c251a618054355067d6075d7dfa5dd2e8f2cd22718"
+      },
+      "ownedLint": {
+        "logPath": "/tmp/knorvia-agent-owned-lint.log",
+        "bytes": 91,
+        "sha256": "80719942039336d6ca6e3d907caee8b82f09fdee58740c3eda7d7387df952c7b"
+      },
+      "cliBuild": {
+        "logPath": "/tmp/knorvia-agent-cli-build.log",
+        "bytes": 8805,
+        "sha256": "595cb41cb376e0f53b9784f07ea7d4c638df58b164870db70ac831312c9497ee"
+      },
+      "format": {
+        "logPath": "/tmp/knorvia-agent-format-final.log",
+        "bytes": 203,
+        "sha256": "d2efd4afd1e43b8c316cad255d8ae6fac41246f7037f99fc08d45ac0cad70a11"
+      }
+    }
+  },
+  "nativeGaps": [
+    "Windows/macOS native and packaged UI/desktop acceptance not run",
+    "Actual child runtime/output files/background notifications intentionally outside synthetic scope",
+    "Existing eight full-suite skips: Windows/PowerShell cases and one comparison without old-root input; no added skip or budget changes"
+  ],
+  "releaseBlockers": [
+    "Retained declarations, prose/templates and constrained implementation expressions need independent contribution/right-to-license review",
+    "Exact Agent publisher bytes/notice verification is still manifest-only in this lane",
+    "Authorship and right-to-license evidence remain unresolved; availability/hash changes/passing tests do not establish them",
+    "Root owns final licence/integration/publication decision; all 27 obligations remain"
+  ],
+  "files": [
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "5adf964b292aa3d5c6379d71932c6b57903300c2",
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-invocation.ts",
+      "blob": "9325d1db20ace8f9b86185bfdc2554c72e27eb12",
+      "bytes": 1417,
+      "sha256": "d931fff738ffe5b4fdda8c2b26ef1209c019ef4dcb5978193a5826b86be95c03",
+      "normalizedSha256": "d931fff738ffe5b4fdda8c2b26ef1209c019ef4dcb5978193a5826b86be95c03",
+      "role": "production",
+      "retainedMaterial": [
+        "Original ConfigurationError text/code/context/recoverability, schema/default/port-guard expressions, native receiver call and conditional model/override expressions constrained by frozen behavior."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "5adf964b292aa3d5c6379d71932c6b57903300c2",
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-projection.ts",
+      "blob": "6ac1ffe6c2b5faa13c0c1c2ebaeb15e91c65d5f7",
+      "bytes": 2629,
+      "sha256": "717c6fd19c890632d3171691f7face579aa66bf1a35340dfbbc908f12e46ebd5",
+      "normalizedSha256": "717c6fd19c890632d3171691f7face579aa66bf1a35340dfbbc908f12e46ebd5",
+      "role": "production",
+      "retainedMaterial": [
+        "All model-facing inherited strings/templates, newline/usage labels, trim-empty and malformed JSON/String fallback; content/metric/instruction row rendering newly written after source exposure."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "5adf964b292aa3d5c6379d71932c6b57903300c2",
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-request.ts",
+      "blob": "38ac40aa1ea14a89696d63e0fa2ff24a8a515f4e",
+      "bytes": 1950,
+      "sha256": "1f5737056b524379b05c4600c33bf36940f3fc7a424240b9b025fe9ec9424455",
+      "normalizedSha256": "1f5737056b524379b05c4600c33bf36940f3fc7a424240b9b025fe9ec9424455",
+      "role": "production",
+      "retainedMaterial": [
+        "Public request/trace field spellings and meanings and exact Read/Bash Set predicate; context key table codec and staged encoding newly written after source exposure."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "5adf964b292aa3d5c6379d71932c6b57903300c2",
+      "path": "apps/cli/packages/core/src/tool/handlers/agent.ts",
+      "blob": "636e014f7039bacc15371691006150edbf934c46",
+      "bytes": 8728,
+      "sha256": "633a319a03d2a960ffbe8559cf8e32bc7461798e656577d7d7b744c55f74bc30",
+      "normalizedSha256": "633a319a03d2a960ffbe8559cf8e32bc7461798e656577d7d7b744c55f74bc30",
+      "role": "production",
+      "retainedMaterial": [
+        "All output JSON schema, description/profile prose and factories, public tool metadata, permission/budget/cancellation/trace declarations, alias metadata; implementation references deliberately changed."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "26555c5a526ef1f2f5814d310b1f69fed86d79c9",
+      "path": "apps/cli/packages/core/test/agent-tool-capture.mts",
+      "blob": "3a63fdc3a18c12568b615c681df5a4c923da9250",
+      "bytes": 1971,
+      "sha256": "56a7d90a5e4bc9f42f4f5b52f678187daee0b0fdc476e9c75c6a5ba1cbf60007",
+      "normalizedSha256": "56a7d90a5e4bc9f42f4f5b52f678187daee0b0fdc476e9c75c6a5ba1cbf60007",
+      "role": "capture",
+      "retainedMaterial": [
+        "Assertions/harness are source-exposed new test expression using immutable existing fixture patterns; references and comparisons contain inherited schema/prose/error/output behavior, including frozen JSON."
+      ],
+      "candidateReviewStatus": "candidate_test_expression_with_retained_contract_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "26555c5a526ef1f2f5814d310b1f69fed86d79c9",
+      "path": "apps/cli/packages/core/test/agent-tool-cases.ts",
+      "blob": "9bf723356ca4464409debbcb5a6da114a20c155c",
+      "bytes": 6939,
+      "sha256": "6458557d8748863bda75eced1ee7c0d10c9ea25f31d3086aee6d83f79625ff52",
+      "normalizedSha256": "6458557d8748863bda75eced1ee7c0d10c9ea25f31d3086aee6d83f79625ff52",
+      "role": "test",
+      "retainedMaterial": [
+        "Assertions/harness are source-exposed new test expression using immutable existing fixture patterns; references and comparisons contain inherited schema/prose/error/output behavior, including frozen JSON."
+      ],
+      "candidateReviewStatus": "candidate_test_expression_with_retained_contract_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "path": "apps/cli/packages/core/test/agent-tool-consumers.test.ts",
+      "blob": "ff8e7144f3550fb0f0a1aeb3a143513c4e9901d8",
+      "bytes": 9735,
+      "sha256": "4b49baf06b756bec5cdb8b1760d215731e26f1bf2e63788cd1c914ae83790752",
+      "normalizedSha256": "4b49baf06b756bec5cdb8b1760d215731e26f1bf2e63788cd1c914ae83790752",
+      "role": "test",
+      "retainedMaterial": [
+        "Assertions/harness are source-exposed new test expression using immutable existing fixture patterns; references and comparisons contain inherited schema/prose/error/output behavior, including frozen JSON."
+      ],
+      "candidateReviewStatus": "candidate_test_expression_with_retained_contract_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "26555c5a526ef1f2f5814d310b1f69fed86d79c9",
+      "path": "apps/cli/packages/core/test/agent-tool-contract.json",
+      "blob": "d2f2f4fd9f3a3f7a646074370ce77d2d23e41de7",
+      "bytes": 237540,
+      "sha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e",
+      "normalizedSha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e",
+      "role": "frozen-fixture",
+      "retainedMaterial": [
+        "Frozen old declarations, prose, descriptions, errors and output observations plus synthetic inputs."
+      ],
+      "candidateReviewStatus": "retained_behavior_fixture",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "26555c5a526ef1f2f5814d310b1f69fed86d79c9",
+      "path": "apps/cli/packages/core/test/agent-tool-contract.test.ts",
+      "blob": "d2bf94624e356911a64ac89699b43503c32ac5ba",
+      "bytes": 7592,
+      "sha256": "92538d26e04289d81b35364489809a4cecdee5102482737b856ea0a37e002810",
+      "normalizedSha256": "92538d26e04289d81b35364489809a4cecdee5102482737b856ea0a37e002810",
+      "role": "test",
+      "retainedMaterial": [
+        "Assertions/harness are source-exposed new test expression using immutable existing fixture patterns; references and comparisons contain inherited schema/prose/error/output behavior, including frozen JSON."
+      ],
+      "candidateReviewStatus": "candidate_test_expression_with_retained_contract_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "26555c5a526ef1f2f5814d310b1f69fed86d79c9",
+      "path": "apps/cli/packages/core/test/agent-tool-fixture.ts",
+      "blob": "728b4f57fa31e9918f48e818e2c4e46e201816ba",
+      "bytes": 11057,
+      "sha256": "51b40f800049d2f0a926d24f1948a33bbb91e6bb6271ea1c43ec69146c56c974",
+      "normalizedSha256": "51b40f800049d2f0a926d24f1948a33bbb91e6bb6271ea1c43ec69146c56c974",
+      "role": "test",
+      "retainedMaterial": [
+        "Assertions/harness are source-exposed new test expression using immutable existing fixture patterns; references and comparisons contain inherited schema/prose/error/output behavior, including frozen JSON."
+      ],
+      "candidateReviewStatus": "candidate_test_expression_with_retained_contract_material",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    },
+    {
+      "commit": "b651aa991c4d63c663c2b1797489ee00626f7918",
+      "lastChangeCommit": "5adf964b292aa3d5c6379d71932c6b57903300c2",
+      "path": "specs/knorvia-agent-tool-invocation.md",
+      "blob": "b17d486bf87a3e0e0bd601712523cea514fa70e7",
+      "bytes": 7408,
+      "sha256": "4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969",
+      "normalizedSha256": "4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969",
+      "role": "spec",
+      "retainedMaterial": [
+        "Exact baseline/upstream public path/hash and behavior facts; no retained whole upstream document."
+      ],
+      "candidateReviewStatus": "candidate_authored_spec_with_source_facts",
+      "attributionMustRemain": true,
+      "licenseDecision": null
+    }
+  ],
+  "filesTupleSha256": "fcc11cae338c90dd3795e3d778d967a2baa15b774851d2d966c105013ee5db46",
+  "emittedFiles": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/agent.js",
+      "bytes": 8862,
+      "sha256": "d5ebec7156c28c281cdc7cfabff142d71c284f68ab8856d717abdf3745f45bd6"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/agent-invocation.js",
+      "bytes": 1330,
+      "sha256": "40141ac603a8198356d581bc3d54025505ddef4848a66763419b09322e183fd9"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/agent-request.js",
+      "bytes": 1238,
+      "sha256": "19f3671a666e03915281cd0a907976af41f1459a5cfb6c3bb6cd85547c24062b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/agent-projection.js",
+      "bytes": 2563,
+      "sha256": "cd7a5f98ef1c7bfc2559668c35d62709bc022cd0455ef4e85cecbdea32e21e2f"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/agent.d.ts",
+      "bytes": 844,
+      "sha256": "e607e69e098dac570b692bcad2f87af79e2ed61ac30ad130ab483a77e6ac71ba"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/index.js",
+      "bytes": 11123,
+      "sha256": "1a551eb284c160370ceb142c65d8bf2406e24f74d1a03efe39f66a9602697a67"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/registry.js",
+      "bytes": 2618,
+      "sha256": "812fb78ab95dcf0943c6161dcccdea2bee63b900ce8e159ecc3b62d344a022f4"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/call-runner.js",
+      "bytes": 2238,
+      "sha256": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/compat.js",
+      "bytes": 758,
+      "sha256": "7b71c86e82fb134d0a841d903b2820e1f7e2c15e1729fea08a0cc8aed3a17b0e"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/permission/service.js",
+      "bytes": 1346,
+      "sha256": "26e7ad4542431c4142decba41df0b208925e7bd0506132f85348ff30972f5b46"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/permission-capability.js",
+      "bytes": 1376,
+      "sha256": "d140e7e80daf8491017bc92fe727cfc5bedc2a77fd9c01a9e361235683dad00c"
+    }
+  ],
+  "protectedInputs": [
+    {
+      "path": "LICENSE",
+      "blob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "blob": "23f3047cb5753322ce0742545e5e06791392f5ea",
+      "bytes": 6125,
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "blob": "55f2732f631d845b0d2d7bca7e5cd07cc8e4c878",
+      "bytes": 1975825,
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/subagent.port.ts",
+      "blob": "9057e0d1a70ce198a2f5d94ff9ca30c64f6e2519",
+      "bytes": 3784,
+      "sha256": "3e563f8dea2e210e5a2e2cf25bef7408ed66bf4a512590c3c0d6de02e8fd44e3"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/agent.ts",
+      "blob": "a2bf8d094d7302540723b322c018501b4e3218c7",
+      "bytes": 3860,
+      "sha256": "11f570e70ad5413af90e7582f68a441ce06a1f4e838123e20c7c163752d80046"
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/service.ts",
+      "blob": "22f206d5f4b4901de921b80e132d90b9c2958a5a",
+      "bytes": 2068,
+      "sha256": "9f059dfaf25bd93e1afd3b74fbbd38686b99fab8750fc588ce826f01f8dfd9dc"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+      "blob": "5d88232beab2a0f364a26e02baf5d8acedb1837f",
+      "bytes": 3860,
+      "sha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "blob": "0d56840afac71619e26211b36dad656739a1569f",
+      "bytes": 37526,
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile.ts",
+      "blob": "93594ff21ba8aa936879175b689a0ac4ef542db2",
+      "bytes": 12527,
+      "sha256": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runner.ts",
+      "blob": "ec45a7ab1855f692ce1712bb33759d6231ca4269",
+      "bytes": 68642,
+      "sha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-policy.ts",
+      "blob": "b38c5823d5ac4bb6bb82ff4c2543749e6a6e9361",
+      "bytes": 924,
+      "sha256": "bb6d381e9baef66bafa06328d819166f8a68c73913b3c68cb9f82dee1c988c53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/compat.ts",
+      "blob": "ebfcbf027338b6b7113f49c0d3f6de16ba77d335",
+      "bytes": 828,
+      "sha256": "5fc8668450c0db0d16e0c1644454cc1e5c5ec0b90a419b5286bee4f41a76782d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+      "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba",
+      "bytes": 48163,
+      "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "blob": "e09af4b49ad7bd84c331055ca588971c86e41f9c",
+      "bytes": 2606,
+      "sha256": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "blob": "0175f05219462fd7d8af4c3e733915101e350c0a",
+      "bytes": 3769,
+      "sha256": "24210fc1f42a4da047049a8fbbbca8a92e7a17d7da5c770dedc44a9b9ec8c97a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-narration.ts",
+      "blob": "2afcdce979043cfc124adceccd90ceee73c9ebe5",
+      "bytes": 2210,
+      "sha256": "9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "blob": "eaf2b938ee676a1aa187e5a3dc289e9134e7f6bf",
+      "bytes": 1942,
+      "sha256": "ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "blob": "170152ac159d2631facee1d986fc1d1e4477e930",
+      "bytes": 4421,
+      "sha256": "b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron-execution.ts",
+      "blob": "28bd3fe88ddb806d43ecd4d5a8a2024bbe8a6b19",
+      "bytes": 4717,
+      "sha256": "4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron.ts",
+      "blob": "7f1030e66f0a7e748a705fbabba8ff862abf81f6",
+      "bytes": 14457,
+      "sha256": "0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/index.ts",
+      "blob": "5cc35fde3c44694b3f12773df57284d984f332aa",
+      "bytes": 12770,
+      "sha256": "049286bcb374fe14a2922bf0311b50d0045ce73d447285bb67b3112a74e5ea53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models-projection.ts",
+      "blob": "65cc7dc8f84d212901fae9f1332e1c0d2bead408",
+      "bytes": 3990,
+      "sha256": "92f2d8bdfd3a42dabfb33251e0eb451097fe3ee38f6ef6fd1c9e40cd92815bb9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "blob": "cbad76072795c1ded08d245b88fbbc05f8f52813",
+      "bytes": 3451,
+      "sha256": "57b78a7fa81faaa7bdc137d262f979df20f0bd7fe28cbb73b4648940a825a787"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-diagnostics.ts",
+      "blob": "9759f965dc9d8598999f8f84729fe473f278fe9e",
+      "bytes": 2871,
+      "sha256": "4a26491042186f6de7d4d4547d0f1b6adcaa4edf0ac612a7a45510a38aacb1a4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-policy.ts",
+      "blob": "4d7972b0b1211c58b8b30399e7879da01f8c09b9",
+      "bytes": 4084,
+      "sha256": "066bc48046693179fdcafcae4e5980164e7abd4204fcd35b854d0c1bff5785f4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference.ts",
+      "blob": "4586912d855b6ac3997eb837408c261f37868f13",
+      "bytes": 2038,
+      "sha256": "20109a528b6170169f3451ce4c4a78b118202995680fa53ee1bef79b55c636ba"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-execution.ts",
+      "blob": "dfd0e7a4934da3bd195738bd4fbd6e502bcd7332",
+      "bytes": 3106,
+      "sha256": "0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-result.ts",
+      "blob": "1ab34f1afab8830d24cdd8d006fc61be50c6531d",
+      "bytes": 2889,
+      "sha256": "b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak.ts",
+      "blob": "835c39c6dbb0a07eb80edf6187a401f1f4e823a8",
+      "bytes": 7833,
+      "sha256": "d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts",
+      "blob": "fd607706e24741ea2fe687bb40dade1fad27a6c2",
+      "bytes": 2941,
+      "sha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts",
+      "blob": "ad40889cc2149c32b625143897f72aacaaef8c22",
+      "bytes": 1654,
+      "sha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts",
+      "blob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244",
+      "bytes": 2564,
+      "sha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-prompts.ts",
+      "blob": "c36613630a2b39f49e05f6935a84867fab2a1e90",
+      "bytes": 6525,
+      "sha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode.ts",
+      "blob": "272221bfe000c27eaf6c7613698ef7ff4f31061e",
+      "bytes": 4845,
+      "sha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "blob": "882745561b666c9f3d368374d00004d562bbb861",
+      "bytes": 13916,
+      "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-execution.ts",
+      "blob": "79e443cb4f1bb524845b1a073ae3ab391754f701",
+      "bytes": 2821,
+      "sha256": "001f4fc0189ac5357759d23f6454c72734e709fce7f3c410bda20dca852faaf3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-instructions.ts",
+      "blob": "7f10cacaca0fc12879face676254a6241ccc45f5",
+      "bytes": 3187,
+      "sha256": "4c5883ab5f269462db1eae086f2374523a1d35854bc105234223b49d8c711999"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill.ts",
+      "blob": "e0b17edbdf449fb872fa40295ba3bb5170d5f6ad",
+      "bytes": 3190,
+      "sha256": "b79515bbb85f914821ed0391a225f48d82bbd92f132f63ffa23200cc061193c1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "blob": "8f81db3a3ef6704195ab7a16307bbe62d60c3568",
+      "bytes": 5126,
+      "sha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "blob": "a55523e5c9f8b603419685187cfe2e569a20caf1",
+      "bytes": 5591,
+      "sha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+      "blob": "ba022d94e0023fb412ce684f81d9c1d2a6d90555",
+      "bytes": 4205,
+      "sha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+      "blob": "f00240b072a2ac3fd2e47a8dad3bafb6c49c6d77",
+      "bytes": 4832,
+      "sha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop-request.ts",
+      "blob": "6b678c4d01cd0726c11b4fd7a94930cd37b82a47",
+      "bytes": 2940,
+      "sha256": "667b9002012f8f60022de22e5789a65433843b0ca121bc7938f2150ccfa9fdf1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop.ts",
+      "blob": "83f559169e509ca92bf595c42095e5e034b42c3f",
+      "bytes": 2536,
+      "sha256": "60495de05021bcc7c1199d94a8c926bafb3d271ae346a26745333ab175aca31e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+      "blob": "efb3539ae67e7a55a90e75697296412a105c9ecd",
+      "bytes": 5663,
+      "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-execution.ts",
+      "blob": "c2cdeaad98c4818c572f1bf29ce71cdf295c9aec",
+      "bytes": 6281,
+      "sha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-response-tree.ts",
+      "blob": "1d34e755344125b63b8696e77d79082af53b1666",
+      "bytes": 1946,
+      "sha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-results.ts",
+      "blob": "2154b19d09822dcdc928998043fdfee433530fe5",
+      "bytes": 4048,
+      "sha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-support.ts",
+      "blob": "4c222198dda2b1f4ec614e5feaaf2b37c21fb883",
+      "bytes": 575,
+      "sha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch.ts",
+      "blob": "79fe757bfe46aa6c49256cbdee57fa35f4cfae1e",
+      "bytes": 2204,
+      "sha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry.ts",
+      "blob": "9e1dabb5a791a9c9d983d2b6c5c45620241a2d24",
+      "bytes": 3194,
+      "sha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "blob": "2af5fb3f0996a02e301fa15da844ce292335ac87",
+      "bytes": 1890,
+      "sha256": "786c52c48ef22eecef37022a44093a91d63d8ec7676656f4563dcf2a13b2adb3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "blob": "a631258bf3c1d258830ce49d332698536572472b",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "blob": "ffa39f9a5c289958af94b69233a6d804d65b4f3e",
+      "bytes": 9350160,
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "blob": "6aea464791eab7e35f4ac3949bf9fca939855614",
+      "bytes": 3445390,
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "blob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    }
+  ],
+  "allowedPaths": [
+    "apps/cli/packages/core/src/tool/handlers/agent-invocation.ts",
+    "apps/cli/packages/core/src/tool/handlers/agent-projection.ts",
+    "apps/cli/packages/core/src/tool/handlers/agent-request.ts",
+    "apps/cli/packages/core/src/tool/handlers/agent.ts",
+    "apps/cli/packages/core/test/agent-tool-capture.mts",
+    "apps/cli/packages/core/test/agent-tool-cases.ts",
+    "apps/cli/packages/core/test/agent-tool-consumers.test.ts",
+    "apps/cli/packages/core/test/agent-tool-contract.json",
+    "apps/cli/packages/core/test/agent-tool-contract.test.ts",
+    "apps/cli/packages/core/test/agent-tool-fixture.ts",
+    "docs/evidence/knorvia-agent-tool-fast-checks-20261001.json",
+    "docs/evidence/knorvia-agent-tool-fast-receipt-check-20261001.mjs",
+    "docs/knorvia-agent-tool-fast-handoff-20261001.md",
+    "specs/knorvia-agent-tool-invocation.md"
+  ]
+}
