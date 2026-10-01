@@ -1,0 +1,121 @@
+{
+  "formatVersion": 1,
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baseline": "9e2c3469858951be556b6fefa9abe6280dbe277b",
+  "production": "f7625117ba4585cc47c6a7a8fb17cb912bb871d4",
+  "previousReceipt": {
+    "path": "docs/evidence/knorvia-workflow-run-activity-fast-receipt-20261001.json",
+    "sha256": "119e14e4252e234d04c296617c7c10a1f30552b388136055effbf470f74a7978"
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "bytes": 2898,
+      "sha256": "4c939a6b4f59e769c81cfcf9e6a896b52df0cfba8de54e1a480dcb709f197608",
+      "blob": "9b918f9bb6a591131030a1d4522dbd34c347d6fc"
+    },
+    {
+      "path": "specs/knorvia-workflow-run-activity-simplification.md",
+      "bytes": 2360,
+      "sha256": "315ac4afe145ec39c7f0efbf469057e9cc29f9045b99c62ff3f2f286a5abe093",
+      "blob": "311e62adf92502c800150ea34f6665a32b66477b"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js",
+      "bytes": 2827,
+      "sha256": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.d.ts",
+      "bytes": 278,
+      "sha256": "53eda68d039bff288c575767434ed889c30b06f8786fcc58f9541ef215fd226f"
+    }
+  ],
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+    "specs/knorvia-workflow-run-activity-simplification.md",
+    "docs/evidence/knorvia-workflow-run-activity-simple-receipt-20261001.json",
+    "docs/evidence/knorvia-workflow-run-activity-simple-check-20261001.mjs"
+  ],
+  "checks": {
+    "source": {
+      "bytes": 649,
+      "sha256": "8003d5060e609ae58ac082a1e719e4c023617518d5a483c61e24b35d65feb42f",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "emitted": {
+      "bytes": 646,
+      "sha256": "f460c28ad6852367e2d6b44246a382cb6a5f9746157d60ad5d2bc5f83068185f",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "consumers": {
+      "bytes": 517,
+      "sha256": "ebce5e446b43934624a027724915f804aa17aaf42e7173acb951fc016e321564",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "emission": {
+      "bytes": 745,
+      "sha256": "bc6360569018a33eb6fd0b5c0bf8ceb260deb70563894d58559102067b084a58",
+      "pass": true
+    },
+    "types": {
+      "bytes": 381,
+      "sha256": "d48f14528b7f929bc3ade1954dae0fff55a75f7388b1ad026d1fbad68b3a58bd",
+      "pass": true
+    },
+    "owned-lint": {
+      "bytes": 90,
+      "sha256": "6e66d64079215013e1c3b59d9cae44767cb59d7a2880f60eef8595c3c61775d4",
+      "pass": true
+    },
+    "format": {
+      "bytes": 112,
+      "sha256": "b338f1b72fa9667e446cd3b865fed981ed2e7b577b9094f64d243a75d77b9e2f",
+      "pass": true
+    },
+    "architecture": {
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43",
+      "pass": true
+    },
+    "evidence-lint": {
+      "bytes": 89,
+      "sha256": "ed0f6a7ad1418710c88feea2fedd9a1075f6d561188b88ff9f6f4817b4791d9b",
+      "pass": true
+    },
+    "final-format": {
+      "bytes": 112,
+      "sha256": "dadb7fc57472be0e1e17162096149a4b23ec34fc0c9f67613a0a7cd8c4c4e348",
+      "pass": true
+    }
+  },
+  "logPrefix": "/tmp/knorvia-activity-simple-",
+  "correction": "Root found the259-line recursive interpreter unnecessarily complex for this formatter, with two copied explanatory comments. Replace it with direct synchronous route/detail formatting and one shared askLabel helper. Remove all interpreter/frame/instruction infrastructure and both publisher explanatory comments; keep a newly written source-exposure/attribution note. No arbitrary line-count goal or independent-expression claim.",
+  "unchanged": "Frozen39 observations, all existing assertions/fixtures/contracts, the roster caller and both declarations unchanged. Five source/five strict-emitted tests retain actual registry/full call-runner/model/display/events/telemetry, six completion-edge comparisons plus early control and two delayed concurrent/stale comparisons. Four source display tests pass. Every other tracked baseline file, including all prior specs/receipts and failure proofs, is untouched; checker enforces changed-path scope.",
+  "retainedExpression": "Direct formatting intentionally retains required runtime words/punctuation/plurals, schemas/signature, property rereads/guards/coercion/one-based arithmetic, native string glue and lower escape/time/duration calls already source-exposed. Many compatibility expressions resemble publisher expressions; removing comments or changing structure does not establish whole-file originality. Previous attribution, archived inherited module/declarations/prose fixtures and source exposure remain. Root owns independent expression/licence review.",
+  "validation": "Scoped TypeScript6.0.2 owned production actual emit and production/test noEmit:zero diagnostics; no aggregate build. Owned lint3 files94rules:no errors/warnings; formatting2 files and architecture0violations. New receipt/checker formatting and owned checker lint are checked separately. No runtime test mismatch, assertion changes or new behavior cases required.",
+  "reproduce": {
+    "digest": "node docs/evidence/knorvia-workflow-run-activity-simple-check-20261001.mjs --emitted --logs",
+    "tests": "Reuse previous receipt source/emitted/display commands; KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 requires current actual dist. Scoped compiler recipe is unchanged from previous receipt, with the same two owned production roots and two test roots."
+  },
+  "licenseDecision": null,
+  "limits": [
+    "No root-wide gates/full suite/aggregate CLI or desktop builds/native-limit probes. Aggregate/native Windows/macOS/GUI/packaged acceptance remains root-owned.",
+    "Owned fake ports/synthetic inputs only; no real providers/network/user files/accounts/security changes. Historical licensing registers, runtime, Host, accepted helpers and other lanes untouched.",
+    "Successful local read after disconnect callback confirmed correction HEAD and completed logs; no current executor blocker. Branch push is a checkpoint, with no licence grant or publication claim."
+  ]
+}
