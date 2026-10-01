@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "TaskStop batch native CI receipt; excludes subsequent TaskOutput work",
+  "head": "4ebb4ff211292bce031038fdd78d103518580787",
+  "checkedMergeSha": "2ae641156739c578f929e5b59c2ac7e327e8182c",
+  "checkedTree": "0dad4a1f645a426960aa7c48be75813929be0d6f",
+  "headTreeExactMatch": true,
+  "run": 36798438838,
+  "runNumber": 207,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36798438838",
+  "linux": {
+    "job": 110167132446,
+    "result": "success",
+    "tests": 5906,
+    "pass": 5898,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110167132139,
+    "result": "success",
+    "tests": 5906,
+    "pass": 5905,
+    "fail": 0,
+    "skip": 1
+  },
+  "limits": [
+    "No native UI, installer, live provider or upgrade acceptance claim",
+    "27 material obligations remain; no new MIT decision",
+    "Earlier intermittent creation timeout cause is not established by this green run"
+  ]
+}

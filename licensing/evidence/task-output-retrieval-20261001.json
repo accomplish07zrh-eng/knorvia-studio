@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "scope": "TaskOutput schema/owner admission, waiting, snapshot delivery and notification claim; excludes file IO and task projections",
+  "baselineCommit": "4ebb4ff211292bce031038fdd78d103518580787",
+  "oldSource": {
+    "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+    "sha256": "d8160ec0f32121de600da13f32d3f567f676a6ba2cde7cad79e524a91ef9a24f"
+  },
+  "exposure": "Earlier source inspected and contracts frozen before replacement; no isolated-author or clean-room claim",
+  "implementation": [
+    "One admission path preserving validation and execution snapshot reads",
+    "Deadline observation followed by one shared active/terminal delivery path",
+    "Only successful terminal projection followed by cancellation check can claim notified in the current owner",
+    "No duplicate registry, state, retry policy, task lifecycle or filesystem changes"
+  ],
+  "mechanicallyRetained": "Public declaration and all model/persisted formatters byte-identical except handler and validateInput bindings; task-output-projection.ts and task-output-bash.ts unchanged and retain their existing provenance",
+  "validation": {
+    "oldBaselineContracts": {
+      "source": 40,
+      "emitted": 40,
+      "pass": 80,
+      "fail": 0
+    },
+    "permanentDualContracts": {
+      "source": 40,
+      "emitted": 40,
+      "pass": 80,
+      "fail": 0
+    },
+    "differential": {
+      "cases": 5000,
+      "mismatches": 0,
+      "seed": 125021,
+      "outcomes": {
+        "ZodError": 136,
+        "configuration_error": 471,
+        "Error": 326,
+        "success": 1704,
+        "AbortError": 173,
+        "timeout": 621,
+        "not_ready": 484,
+        "handler_failure": 1085
+      }
+    },
+    "aggregate": {
+      "tests": 5986,
+      "pass": 5920,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "startup": "0.16.9",
+    "testDesignCorrection": "Initial generated differential used correlated low RNG bits and exercised almost only handler rejection. Replaced selection with upper bits and reran all5000 with published diverse outcome counts; implementation was unchanged."
+  },
+  "limits": [
+    "59 local listen EPERM test failures remain unchanged from baseline; not a full local pass",
+    "Native CI for this TaskOutput source remains pending",
+    "No native UI, installer, live provider, user data upgrade, licence or deployment claim",
+    "No changes to root LICENSE, NOTICE or27 material obligations"
+  ]
+}
