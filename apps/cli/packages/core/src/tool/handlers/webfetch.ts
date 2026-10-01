@@ -11,26 +11,15 @@ import {
   type WebFetchInput,
   type WebFetchOutput,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolExecutionContext, ToolHandler } from "../types.js";
-import {
-  clearWebFetchCacheForTests as clearWebFetchContentCacheForTests,
-  getWebFetchCache,
-  putWebFetchCache,
-} from "./webfetch-cache.js";
+import type { ToolEntry } from "../types.js";
+import { clearWebFetchCacheForTests as clearWebFetchContentCacheForTests } from "./webfetch-cache.js";
 import {
   DEFAULT_WEBFETCH_TIMEOUT_MS,
   MAX_WEBFETCH_MODEL_BYTES,
   WEBFETCH_TOOL_NAME,
 } from "./webfetch-constants.js";
-import { fetchAndExtractContent } from "./webfetch-network.js";
-import { processFetchedContent } from "./webfetch-processing.js";
-import type {
-  FetchAndExtractContentResult,
-  HttpErrorFetchContent,
-  RedirectFetchContent,
-} from "./webfetch-types.js";
-import { isWebFetchPreapprovedUrl } from "../webfetch-preapproved.js";
-import { normalizeWebFetchUrl } from "./webfetch-url.js";
+import { createWebFetchOperation } from "./webfetch-orchestration.js";
+import type { HttpErrorFetchContent, RedirectFetchContent } from "./webfetch-types.js";
 
 export function clearWebFetchCacheForTests(): void {
   clearWebFetchContentCacheForTests();
@@ -44,75 +33,10 @@ const WEBFETCH_DESCRIPTION = [
   "- Responses are cached for 15 minutes per URL.",
 ].join("\n");
 
-interface FreshWebFetchContent {
-  fetched: FetchAndExtractContentResult;
-  preapprovedUrl: boolean;
-}
-
-const webFetchHandler: ToolHandler = async (input, context) => {
-  const parsed = WebFetchInputSchema.parse(input) as WebFetchInput;
-  const startedAt = Date.now();
-  const normalizedUrl = normalizeWebFetchUrl(parsed.url);
-  const cacheKey = parsed.url;
-  const cached = getWebFetchCache(cacheKey);
-  const content =
-    cached === undefined
-      ? await fetchFreshContent({
-          context,
-          originalUrl: cacheKey,
-          url: normalizedUrl,
-        })
-      : {
-          fetched: cached,
-          preapprovedUrl: isWebFetchPreapprovedUrl(parsed.url),
-        };
-  const fetched = content.fetched;
-
-  if (isTerminalFetchContent(fetched)) {
-    return formatTerminalOutput(parsed, fetched, Math.max(0, Date.now() - startedAt));
-  }
-
-  if (cached === undefined) {
-    putWebFetchCache(cacheKey, fetched);
-  }
-
-  const processing = await processFetchedContent(parsed, fetched, context, {
-    preapprovedUrl: content.preapprovedUrl,
-  });
-  const durationMs = Math.max(0, Date.now() - startedAt);
-
-  return {
-    url: parsed.url,
-    finalUrl: fetched.finalUrl,
-    status: fetched.status,
-    statusText: httpStatusText(fetched.status, fetched.statusText),
-    contentType: fetched.contentType,
-    bytes: fetched.bytes,
-    durationMs,
-    result: processing.result,
-    cacheHit: cached !== undefined,
-    redirects: fetched.redirects,
-    artifactUri: fetched.artifactUri,
-    artifactPath: fetched.artifactPath,
-    truncated: processing.truncated,
-  } satisfies WebFetchOutput;
-};
-
-async function fetchFreshContent(options: {
-  context: ToolExecutionContext;
-  originalUrl: string;
-  url: URL;
-}): Promise<FreshWebFetchContent> {
-  const fetched = await fetchAndExtractContent({
-    context: options.context,
-    originalUrl: options.originalUrl,
-    url: options.url,
-  });
-  return {
-    fetched,
-    preapprovedUrl: isWebFetchPreapprovedUrl(options.originalUrl),
-  };
-}
+const webFetchHandler = createWebFetchOperation({
+  terminal: formatTerminalOutput,
+  statusText: httpStatusText,
+});
 
 function formatTerminalOutput(
   input: WebFetchInput,
@@ -184,12 +108,6 @@ function formatHttpErrorOutput(error: HttpErrorFetchContent, durationMs: number)
 
 function httpStatusText(status: number, statusText: string): string {
   return statusText.trim() || STATUS_CODES[status] || "Unknown Status";
-}
-
-function isTerminalFetchContent(
-  value: FetchAndExtractContentResult,
-): value is HttpErrorFetchContent | RedirectFetchContent {
-  return "type" in value;
 }
 
 export const webFetchToolEntry: ToolEntry = {
