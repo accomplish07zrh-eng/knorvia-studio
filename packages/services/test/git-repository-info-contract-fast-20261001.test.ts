@@ -88,6 +88,7 @@ for (const port of ["stat", "read"] as const)
         if (mode === "throw") throw fail;
         if (mode === "reject") return Promise.reject(fail);
         return {
+          // eslint-disable-next-line unicorn/no-thenable -- Owned fixture tests await rejection.
           then(_yes: unknown, no: (e: unknown) => void) {
             no(fail);
           },
