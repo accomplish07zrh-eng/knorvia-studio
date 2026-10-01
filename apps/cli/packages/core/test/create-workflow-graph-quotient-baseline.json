@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "baseline": "d168c048cbac2b89770fae77181119252266d9dc",
+  "sourceSha256": "de5675ea46430208ea3c6773985a9f9e837f1ecc4c83052cde4edb65de7989f2",
+  "emittedSha256": "3f01bdfee4cae424772d50d900fa2847f9fe77e0c923ce9423cc611358a00071",
+  "declarationSha256": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108",
+  "sourceHeaderSha256": "7001711a20ab1ee654798d2aae3d560ff5ee4e240bc0d914967aa5febf77e35d",
+  "sourceBodySha256": "8d832cc2356111b1786eda05ea1303296f575c24b022063b411448ad43b6ff21",
+  "sourceTailSha256": "9ee3cab0ea705fad610ca33ebb0318bb8d5f675644b009f270836b59bc7b09fb",
+  "compiledHeaderSha256": "28d0b96312172a6a597039573cee4167099344ec04bbb46175d0df7cb18808ce",
+  "compiledTailSha256": "e9785d471e1ad7e1f30776fcfef921d62efe4b90c972cdf011b492d283a15f28",
+  "compiledBody": "export function foldPhaseEdges(raw) {\n    const folded = foldPairs(raw);\n    const componentOf = componentsOf(folded);\n    const component = (id) => componentOf.get(id) ?? id;\n    const keyOf = (from, to, back) => `${from} ${to} ${back}`;\n    // 跨分量的边按 (分量对, kind) 去重，首见序；同分量的边根本不进归约——它在缩点里是自环，\n    // 对 DAG 上的可达关系什么都没说。\n    const order = [];\n    const byKey = new Map();\n    for (const edge of folded) {\n        const from = component(edge.from);\n        const to = component(edge.to);\n        if (from === to)\n            continue;\n        const key = keyOf(from, to, edge.back);\n        if (byKey.has(key))\n            continue;\n        order.push(key);\n        byKey.set(key, edge.back ? { carryOf: \"seq\", from, kind: \"carry\", to } : { from, kind: \"seq\", to });\n    }\n    const condensed = order.map((key) => byKey.get(key));\n    const kept = new Set(reduceOrdering(condensed).map((edge) => keyOf(edge.from, edge.to, edge.kind === \"carry\")));\n    return folded.filter((edge) => {\n        const from = component(edge.from);\n        const to = component(edge.to);\n        return from === to || kept.has(keyOf(from, to, edge.back));\n    });\n}\n",
+  "compiledBodySha256": "31bfbe5de08ce29146ac50b4da236db29c9391f2dabe4d42e9228b71c3b4556f",
+  "retention": "Actual pre-change emitted public body contains inherited implementation and explanatory prose. Unchanged helpers are loaded from the digest-checked current emitted module; no duplicate full-module archive. Existing SCC/old golden receipts stay immutable.",
+  "direct": [
+    "3f2f64652e3c202163c0a87a9dfe8c206c901520267c8c7af8ba857a56d2bb76",
+    "c3ae377a5a731ed5864a4bbc3a158a9f7ea73eb6c0b80bc4b8e602667e094264",
+    "ade4e51d480898e005fdc93cb150ee1004b4fec1cd4a15e3b4803656b35cf2e1",
+    "30a15f317e809bfede0ec9375c1e4b5350db05cd375c6e61353265bb0e24c8e7",
+    "f81e39150fad16a1d58e8561bb74fdce6a34831d4b69376533dc9e781d1960b2"
+  ],
+  "coercion": [
+    "60d25bc1d46871d0cc52d98faaaf4d2f317bed07223297969d23cba919b6afce",
+    "628c03d17b20b4e52529070f9e9d7cdb5e73533bb0006c4e8deaf08b49705f4a"
+  ]
+}
