@@ -144,3 +144,13 @@ verified. Uncommitted files were preserved; no reset, alternate environment,
 credential/proxy/network/security configuration change or timeout change was used.
 The existing approved execution capabilities permit standard isolated child
 tests; the repository runner/security settings remain unchanged.
+
+## Replacement checkpoint
+
+Baseline spec/contracts are committed as `b0f193b`; production call planning,
+result decisions and the finite comparison driver are committed as `f837f41`.
+Final source/emitted tests pass 23/23 each and exact-checkpoint comparisons match
+8192 calls per mode. Consumer evidence, digests, final validation and remaining
+acceptance are recorded in the
+[Lane A handoff](../docs/knorvia-cli-tools-fast-handoff-20261001.md#offpeak-continuation).
+Retained material and upstream obligations are not reclassified by those tests.
