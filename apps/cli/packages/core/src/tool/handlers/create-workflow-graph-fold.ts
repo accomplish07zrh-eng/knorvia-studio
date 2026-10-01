@@ -39,34 +39,33 @@ export interface RawEdge {
 export function foldPhaseEdges(raw: readonly RawEdge[]): RawEdge[] {
   const folded = foldPairs(raw);
   const componentOf = componentsOf(folded);
-  const component = (id: string): string => componentOf.get(id) ?? id;
   const keyOf = (from: string, to: string, back: boolean): string => `${from} ${to} ${back}`;
+  const bindings: { edge: RawEdge; from: string; to: string }[] = [];
+  const candidates: ReducibleEdge[] = [];
+  const candidateKeys = new Set<string>();
 
   // 跨分量的边按 (分量对, kind) 去重，首见序；同分量的边根本不进归约——它在缩点里是自环，
   // 对 DAG 上的可达关系什么都没说。
-  const order: string[] = [];
-  const byKey = new Map<string, ReducibleEdge>();
   for (const edge of folded) {
-    const from = component(edge.from);
-    const to = component(edge.to);
+    const from = componentOf.get(edge.from) ?? edge.from;
+    const to = componentOf.get(edge.to) ?? edge.to;
+    bindings.push({ edge, from, to });
     if (from === to) continue;
     const key = keyOf(from, to, edge.back);
-    if (byKey.has(key)) continue;
-    order.push(key);
-    byKey.set(
-      key,
+    if (candidateKeys.has(key)) continue;
+    candidateKeys.add(key);
+    candidates.push(
       edge.back ? { carryOf: "seq", from, kind: "carry", to } : { from, kind: "seq", to },
     );
   }
-  const condensed = order.map((key) => byKey.get(key) as ReducibleEdge);
   const kept = new Set(
-    reduceOrdering(condensed).map((edge) => keyOf(edge.from, edge.to, edge.kind === "carry")),
+    reduceOrdering(candidates).map((edge) => keyOf(edge.from, edge.to, edge.kind === "carry")),
   );
-  return folded.filter((edge) => {
-    const from = component(edge.from);
-    const to = component(edge.to);
-    return from === to || kept.has(keyOf(from, to, edge.back));
-  });
+  const result: RawEdge[] = [];
+  for (const { edge, from, to } of bindings) {
+    if (from === to || kept.has(keyOf(from, to, edge.back))) result.push(edge);
+  }
+  return result;
 }
 
 /** 同一有序对折叠成一条，首见序；`back` 是折叠成员的合取；自环丢弃。 */
