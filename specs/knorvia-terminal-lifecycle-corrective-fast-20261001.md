@@ -53,7 +53,8 @@ sequenceDiagram
 ## Deliberate corrections and preserved contracts
 
 - Creation consumes decimal IDs before planning as before. Its lease exists before awaits;
-  failed planning/profile/loading releases that lease. Settings fallback, shell/cwd/env,
+  failed planning/profile/loading releases that lease. Normal bulk cleanup keeps publication
+  completion order through the same Map; no second order cache. Settings fallback, shell/cwd/env,
   profile/theme identity, dimensions, normal return shape and error wording stay unchanged.
 - Metadata is completed before publication. Synchronous native exit rejects create with
   Terminal exited during startup: <id>, retires resources, never publishes, and never kills
@@ -70,14 +71,17 @@ sequenceDiagram
 - Native exit marks termination before event dispatch, suppresses duplicate/reentrant exit
   notifications, and completes resource cleanup even if a listener throws. Ordinary emitter
   listener order, snapshot mutation semantics and exception propagation remain unchanged.
-  During ordinary exit notification, existing published lookup still admits the terminal;
+  During ordinary exit notification, diagnostics already reflect observed termination, while
+  existing published lookup still admits the terminal;
   cleanup removes admission afterwards. Data after termination/retirement is ignored.
 - Caller dispose marks kill in progress before native kill; reentrant/repeated calls cannot
   kill twice. A successful kill or observed exit ends PTY ownership; late callbacks are inert.
   A known pending ID can be disposed to cancel that lease alone, without closing the service.
   Native kill success is treated as accepted termination, as with the existing port contract;
   this does not prove OS process termination/native acceptance. A thrown kill without an
-  observed exit leaves the PTY tracked and retryable. Emitters/subscriptions still retire;
+  observed exit leaves the PTY tracked and retryable. If reentrant cleanup already attempted
+  and failed that kill during create, create failure preserves it without an automatic second
+  kill; only a later explicit dispose/disposeAll retries. Emitters/subscriptions still retire;
   retiring IDs reject write/resize/new subscriptions but accept dispose retries. If exit was
   observed even though kill throws, preserve the error and retire without another kill.
 - Spawn/emitter/listener setup failures release every acquired resource. Returned subscriptions
