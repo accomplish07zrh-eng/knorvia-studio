@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "scope": "Root review of second model-catalog and diagnostic-archive checkpoints, plus Todo contract tests",
+  "baseline": "08255eca46ea14de63dcead1a2ca76194187b772",
+  "reviewedHead": "cdde44fcfe04ad7741d8f0338f4fa7b0d0f7efc6",
+  "upstreamLaneCheckpoints": {
+    "modelCatalog": "8030620",
+    "feedbackArchive": "79e5eab"
+  },
+  "rootValidation": {
+    "modelCatalogSource": 24,
+    "modelCatalogEmitted": 24,
+    "modelCatalogDifferentialPerMode": {
+      "resolutions": 33171,
+      "snapshots": 512,
+      "sha256": "ae2ba79dedd7b4c953bbc636933d369d996e36d3bc25a3d6331e0d2c990d7537"
+    },
+    "feedbackArchiveSource": 28,
+    "feedbackArchiveEmitted": 28,
+    "todoSourceAndEmitted": 36,
+    "full": {
+      "tests": 6257,
+      "pass": 6191,
+      "fail": 59,
+      "skipped": 7,
+      "cancelled": 0,
+      "sameFailureEventMultiset": true
+    },
+    "gates": [
+      "root typecheck",
+      "CLI final build",
+      "serial CLI types",
+      "root lint",
+      "explicit 10 changed CLI files lint",
+      "format",
+      "changed architecture"
+    ]
+  },
+  "logSha256": {
+    "second-cli-explicit-lint.log": "0d181cc2825d1e6ef51f3b63668925c1d1dcdd2d5f73ea41b0b3a8ffe5f7ba8a",
+    "second-cli-types.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "second-model-diff-emitted.log": "07135de7f24675b07f19aca5349f43414d803c48b291ad4eaa62ee0a72aa5d68",
+    "second-model-diff-source.log": "07135de7f24675b07f19aca5349f43414d803c48b291ad4eaa62ee0a72aa5d68",
+    "second-integrated-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "second-integrated-format.log": "62828125904f5f1a0d2c1a9eebf00947afc12371c8ec31b6cf10786f1ccc9914",
+    "second-integrated-lint.log": "9d8558eb440109c43348425e1dabd53b08f54797fed1f9c014004ef0ecbb09b7",
+    "second-integrated-full.tap": "a58afbc9cfa813cbdf3cc437bcc90c584d44a6f6fa6b7875faddb641f62d3f89",
+    "second-model-emitted.tap": "fe5ae0266c7507be5f2bdf285a72266cb93eb312e2a37970ab4e985a9b575b17",
+    "second-archive-emitted.tap": "5ef2a455831c63d007189201949c1ff8ceae08e94cae2cee09fcac6588646484",
+    "second-archive-source.tap": "7388d49a6d231e626e07883dfe49452c2a61021fe05eff5a47d469beb1f8cc2f",
+    "second-model-source.tap": "198bfa05b605a4658ca70f79cb30ffbe500b67e65c2ea4e10a5c9543f61e2dbf",
+    "second-integrated-final-cli-build.log": "8d393521c131637c3aef80101ea5e88350f74496f818e7001dffe047e52440a3",
+    "second-integrated-cli-build.log": "6545213badb590a7dfabea529ac9cea7f6dd08178fd59206aa8f3ee35577e05f",
+    "second-integrated-types.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+  },
+  "licensing": "Source-exposed, retained declarations/prose and existing licences remain; 27 material obligations unclosed. No final MIT or clean-room claim. Todo is tests only, not a replacement.",
+  "publication": "Local review only; exact native CI and remote publication pending.",
+  "limitations": [
+    "Native Windows/macOS, live-provider, full GUI/installer/data upgrade acceptance not established",
+    "Worker standalone archive bundle12 tests not independently rerun by root",
+    "Broader core standalone lint24errors11warnings in unchanged files remains"
+  ]
+}
