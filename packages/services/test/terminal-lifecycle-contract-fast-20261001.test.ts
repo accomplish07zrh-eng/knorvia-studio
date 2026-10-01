@@ -344,7 +344,7 @@ test("data listener reentrant exit completes remaining data snapshot after clean
   assert.deepEqual(seen, ["data-a", "exit:7", "data-b"]);
   assert.equal(open(), 0);
 });
-test("native exit fires while registered then disposes data/exit and removes without kill", async (t) => {
+test("native exit notifies existing listeners with admission closed then removes without kill", async (t) => {
   const s = service(t),
     { id } = await create(s),
     seen: number[] = [];
@@ -352,14 +352,15 @@ test("native exit fires while registered then disposes data/exit and removes wit
   s.onDynamicExit(id)((code) => {
     seen.push(code);
     assert.equal(open(), 0);
-    assert.doesNotThrow(() => s.onDynamicData(id));
-    write = s.write({ id, data: "during-exit" });
+    assert.throws(() => s.onDynamicData(id), missing(id));
+    write = assert.rejects(s.write({ id, data: "during-exit" }), missing(id));
   });
   state.trace = [];
   state.ptys[0]!.exit({ exitCode: -17 });
   await write;
   assert.deepEqual(seen, [-17]);
-  assert.deepEqual(state.trace, ["fire:1:-17", "write:during-exit", "dispose:0", "dispose:1"]);
+  assert.deepEqual(state.trace, ["fire:1:-17", "dispose:0", "dispose:1"]);
+  assert.deepEqual(state.ptys[0]!.writes, []);
   assert.equal(state.ptys[0]!.kills, 0);
   assert.equal(open(), 0);
   assert.throws(() => s.onDynamicExit(id), missing(id));
