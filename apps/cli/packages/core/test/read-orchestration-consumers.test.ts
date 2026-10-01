@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { win32 } from "node:path";
 import test from "node:test";
 import { CoreErrorType, SessionEventType } from "@knorvia/contracts";
 import { gate } from "./tool-invocation-fixture.js";
@@ -7,6 +8,7 @@ import { executorCases } from "./read-orchestration-cases.js";
 import { CWD, ROOT, clock, entry, fixture } from "./read-orchestration-fixture.js";
 import {
   createToolRegistry,
+  executorContractForRoot,
   executorFixture,
   handlers,
   observeExecutor,
@@ -29,8 +31,71 @@ test("actual Read built-in registry, declaration filtering and permission decisi
 });
 test("real executor freezes outputs/prose/media/failures/display/events/metadata and read-only facts", async () => {
   for (const [i, c] of executorCases.entries())
-    assert.deepEqual(await observeExecutor(c), frozen.executor[i].observed, c.label);
+    assert.deepEqual(
+      await observeExecutor(c),
+      executorContractForRoot(frozen.executor[i].observed),
+      c.label,
+    );
 });
+test("PDF executor expected byte counts preserve the golden across POSIX, Windows and Unicode roots", () => {
+  const before = structuredClone(frozen),
+    pdf = frozen.executor.filter((c: any) => c.label === "PDF native" || c.label === "PDF rendered"),
+    roots = [
+      { root: "/tmp/knorvia-owned-read-orchestration", bytes: [130, 178] },
+      {
+        root: "/tmp/synthetic-longer-owned-location/knorvia-owned-read-orchestration",
+        bytes: [162, 210],
+      },
+      {
+        root: win32.normalize("C:/Users/RUNNER~1/AppData/Local/Temp/knorvia-owned-read-orchestration"),
+        bytes: [162, 210],
+      },
+      { root: "/tmp/路径-é-🧪/knorvia-owned-read-orchestration", bytes: [145, 193] },
+    ];
+  assert.deepEqual(
+    pdf.map((c: any) => c.label),
+    ["PDF native", "PDF rendered"],
+  );
+  for (const { root, bytes } of roots)
+    for (const [i, captured] of pdf.entries()) {
+      const expected = executorContractForRoot(captured.observed, root),
+        serialization = expected.results[0].serialization;
+      assert.equal(serialization.originalBytes, bytes[i]);
+      assert.equal(serialization.returnedBytes, bytes[i]);
+      serialization.originalBytes = captured.observed.results[0].serialization.originalBytes;
+      serialization.returnedBytes = captured.observed.results[0].serialization.returnedBytes;
+      assert.deepEqual(expected, captured.observed);
+      for (const field of ["originalBytes", "returnedBytes"]) {
+        const corrupted = structuredClone(captured.observed);
+        corrupted.results[0].serialization[field]++;
+        assert.throws(() => executorContractForRoot(corrupted, root), assert.AssertionError);
+      }
+      const truncated = structuredClone(captured.observed);
+      truncated.results[0].serialization.truncated = true;
+      assert.throws(() => executorContractForRoot(truncated, root), assert.AssertionError);
+    }
+  assert.deepEqual(frozen, before);
+});
+test("real PDF executor reports exact captured prose and UTF-8 byte counts for both routes", async () =>
+  clock(async () => {
+    for (const label of ["PDF native", "PDF rendered"]) {
+      const c = executorCases.find((c) => c.label === label);
+      assert.ok(c);
+      const captured = frozen.executor.find((c: any) => c.label === label).observed.results[0],
+        f = executorFixture(c),
+        expectedContent = captured.serialization.content.replaceAll(
+          captured.output.filePath,
+          f.direct.filePath,
+        ),
+        expectedBytes = Buffer.byteLength(expectedContent, "utf8"),
+        actual = await f.execute();
+      assert.equal(actual.success, true);
+      assert.equal(actual.serialization.content, expectedContent);
+      assert.equal(actual.serialization.truncated, false);
+      assert.equal(actual.serialization.originalBytes, expectedBytes);
+      assert.equal(actual.serialization.returnedBytes, expectedBytes);
+    }
+  }));
 test("declaration/PDF validation occurs before hooks/permission/ports and retains distinct preflight errors", async () => {
   for (const input of [
     null,

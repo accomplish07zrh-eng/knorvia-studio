@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { invocation } from "./tool-invocation-fixture.js";
@@ -50,6 +51,31 @@ export function executorFixture(c: ReadScenario, decision = "allow") {
   f.deps.registry = registry;
   f.behavior.handler = (input, context) => handler(input, context);
   return { ...f, direct, execute: (options?: any) => f.run(options, executeToolCall) };
+}
+const CAPTURE_ROOT = "/tmp/knorvia-owned-read-orchestration";
+export function executorContractForRoot(frozen: any, root = ROOT) {
+  const expected = structuredClone(frozen);
+  for (const result of expected.results) {
+    const serialization = result.serialization;
+    if (
+      (result.output?.type !== "pdf" && result.output?.type !== "parts") ||
+      !serialization?.content.includes("$FIXTURE")
+    )
+      continue;
+    // 修复：golden 的路径已归一化，但 PDF prose 字节数仍绑定捕获根；只调整预期值。
+    assert.equal(serialization.truncated, false);
+    const capturedBytes = Buffer.byteLength(
+      serialization.content.replaceAll("$FIXTURE", CAPTURE_ROOT),
+      "utf8",
+    );
+    assert.equal(serialization.originalBytes, capturedBytes);
+    assert.equal(serialization.returnedBytes, capturedBytes);
+    const delta =
+      Buffer.byteLength(serialization.content.replaceAll("$FIXTURE", root), "utf8") - capturedBytes;
+    serialization.originalBytes += delta;
+    serialization.returnedBytes += delta;
+  }
+  return expected;
 }
 export async function observeExecutor(c: ReadScenario, decision = "allow") {
   return clock(async () => {

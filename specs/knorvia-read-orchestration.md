@@ -157,3 +157,41 @@ media prefix and error conversion remain unchanged. Add owned microtask boundary
 probes through the actual deadline owner and full call-runner, retaining early
 cancellation behavior and the original success/metadata/telemetry outcome after
 completion. Preserve the original producer commits and failing proof.
+
+## Root review correction: portable PDF executor fixture byte expectations
+
+CI226's Windows `PDF native` observation reported 162 serialized bytes against
+the frozen 130; the rendered route similarly reports 210 against 178. Root
+reproduced both differences with the unchanged original Read and current Read
+under owned Windows and longer POSIX roots. The golden normalizes fixture paths
+to `$FIXTURE` but retains byte counts captured under
+`/tmp/knorvia-owned-read-orchestration`. This is a fixture root-length leak, not a
+product difference. Unicode roots establish that the contract is UTF-8 byte
+length, not JavaScript string length.
+
+Keep the original golden unchanged, SHA256
+`7604f019984b2a08c3684857428a50ca9f18a3f21431a6ddc33e8e95b9f25527`.
+The test-only `executorContractForRoot(frozen, root = ROOT)` deep-clones a frozen
+observation. Only PDF or parts results with `$FIXTURE` in serialized content may
+adjust expected `originalBytes` and `returnedBytes`. Require `truncated === false`
+and verify both captured counts against `Buffer.byteLength` of that content with
+the capture root substituted. Add only the UTF-8 byte-length delta for the current
+root to those two expected fields. All other expected properties stay identical;
+actual reported counts are never normalized, and new truncated paths fail closed.
+
+The frozen executor loop uses this expected contract. A pure regression checks
+native/rendered counts 130/178 at the canonical POSIX root, 162/210 at the longer
+POSIX and Windows roots, and 145/193 at the Unicode root. It verifies immutable
+golden observations and rejection when either captured count increases by one.
+A real-executor regression covers both PDF routes: expected raw prose comes only
+from the original captured serialization content with its captured output path
+replaced by the independently known fixture file path. Actual prose must match
+exactly, truncation must be false, and both actual counts must equal the expected
+prose's UTF-8 byte length.
+
+Acceptance is limited to this test-fixture portability correction, focused source
+and strict emitted Read tests, and existing validation gates. No production file,
+public declaration, golden, serializer, PDF policy, budget, timeout, artifact URL
+or hash, CI policy, licence decision or material obligation is changed. Preserve
+both failed CI226 attempts and the unknown original CI218 auth cause; 26 material
+obligations remain. Synthetic Windows roots are not native Windows acceptance.
