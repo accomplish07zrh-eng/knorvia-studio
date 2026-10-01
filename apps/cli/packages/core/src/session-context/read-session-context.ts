@@ -8,6 +8,12 @@ import {
 import { activeSessionMessages } from "../agent/session-history-hydrator.js";
 import { dedupeParts, formatPartForContext } from "./parts.js";
 import { truncateText } from "./utils.js";
+import {
+  rankSessionMaterial,
+  selectSessionMaterial,
+  materialChunkRanges,
+  selectSessionChunks,
+} from "./material-selection.js";
 export {
   buildReferencedSessionContextReminderBody,
   extractSessionReferences,
@@ -64,7 +70,7 @@ export function buildSessionContextMaterial(input: {
   const snippets = activeMessages
     .map((message, index) => formatMessageSnippet(message, index))
     .filter((snippet): snippet is MessageSnippet => snippet !== null);
-  const scoredSnippets = scoreSnippets(snippets, input.query);
+  const scoredSnippets = rankSessionMaterial(snippets, input.query);
   const allContent = formatSessionTranscript(input.session, scoredSnippets, {
     budgetChars: Number.POSITIVE_INFINITY,
     heading: "Cleaned transcript",
@@ -72,8 +78,8 @@ export function buildSessionContextMaterial(input: {
     strategy: input.strategy,
   });
   const chunks = buildTranscriptChunks(scoredSnippets);
-  const selectedChunks = selectChunks(chunks, input.strategy);
-  const selectedSnippets = selectSnippets(scoredSnippets, input.strategy, outputCharBudget);
+  const selectedChunks = selectSessionChunks(chunks, input.strategy, MAX_LITE_CHUNKS);
+  const selectedSnippets = selectSessionMaterial(scoredSnippets, input.strategy, outputCharBudget);
   const localContent = formatSessionTranscript(input.session, selectedSnippets, {
     budgetChars: outputCharBudget,
     heading: localHeading(input.strategy),
@@ -188,109 +194,10 @@ function formatMessageSnippet(message: MessageWithParts, index: number): Message
   };
 }
 
-function scoreSnippets(snippets: MessageSnippet[], query: string): MessageSnippet[] {
-  const terms = tokenizeQuery(query);
-  const normalizedQuery = query.trim().toLowerCase();
-  return snippets.map((snippet) => ({
-    ...snippet,
-    score: scoreSearchText(snippet.searchText, normalizedQuery, terms) + snippet.index / 10000,
-  }));
-}
-
-function tokenizeQuery(query: string): string[] {
-  const normalized = query.toLowerCase();
-  const matches = normalized.match(/[a-z0-9_./-]+|[\p{Script=Han}]+/gu) ?? [];
-  const terms = new Set<string>();
-  for (const match of matches) {
-    if (match.length < 2) continue;
-    terms.add(match);
-    if (/^[\p{Script=Han}]+$/u.test(match) && match.length > 2) {
-      for (let index = 0; index < match.length - 1; index++) {
-        terms.add(match.slice(index, index + 2));
-      }
-    }
-  }
-  return [...terms];
-}
-
-function scoreSearchText(searchText: string, normalizedQuery: string, terms: string[]): number {
-  let score = 0;
-  if (normalizedQuery.length > 0 && searchText.includes(normalizedQuery)) {
-    score += 20;
-  }
-  for (const term of terms) {
-    if (!searchText.includes(term)) continue;
-    score += 3 + Math.min(countOccurrences(searchText, term), 5);
-  }
-  return score;
-}
-
-function countOccurrences(text: string, term: string): number {
-  let count = 0;
-  let offset = 0;
-  while (true) {
-    const found = text.indexOf(term, offset);
-    if (found < 0) return count;
-    count++;
-    offset = found + term.length;
-  }
-}
-
-function selectSnippets(
-  snippets: MessageSnippet[],
-  strategy: ReadSessionContextInput["strategy"],
-  budgetChars: number,
-): MessageSnippet[] {
-  if (snippets.length === 0) return [];
-  if (strategy === "handoff") {
-    return selectTailWithinBudget(snippets, budgetChars);
-  }
-
-  const positives = snippets.filter((snippet) => snippet.score >= 3);
-  const ranked = positives.length > 0 ? positives : snippets.slice(-12);
-  const selected: MessageSnippet[] = [];
-  let usedChars = 0;
-  for (const snippet of [...ranked].sort((a, b) => b.score - a.score || b.index - a.index)) {
-    if (usedChars > budgetChars) break;
-    selected.push(snippet);
-    usedChars += snippet.content.length;
-  }
-
-  return selected.sort((a, b) => a.index - b.index);
-}
-
-function selectTailWithinBudget(snippets: MessageSnippet[], budgetChars: number): MessageSnippet[] {
-  const selected: MessageSnippet[] = [];
-  let usedChars = 0;
-  for (let index = snippets.length - 1; index >= 0; index--) {
-    const snippet = snippets[index]!;
-    if (selected.length > 0 && usedChars + snippet.content.length > budgetChars) break;
-    selected.push(snippet);
-    usedChars += snippet.content.length;
-  }
-  return selected.reverse();
-}
-
 function buildTranscriptChunks(snippets: MessageSnippet[]): TranscriptChunk[] {
-  const chunks: TranscriptChunk[] = [];
-  let current: MessageSnippet[] = [];
-  let currentChars = 0;
-
-  for (const snippet of snippets) {
-    if (current.length > 0 && currentChars + snippet.content.length > MAX_CHUNK_CHARS) {
-      chunks.push(createChunk(chunks.length, current));
-      current = [];
-      currentChars = 0;
-    }
-    current.push(snippet);
-    currentChars += snippet.content.length;
-  }
-
-  if (current.length > 0) {
-    chunks.push(createChunk(chunks.length, current));
-  }
-
-  return chunks;
+  return materialChunkRanges(snippets, MAX_CHUNK_CHARS).map(([start, end], index) =>
+    createChunk(index, snippets.slice(start, end)),
+  );
 }
 
 function createChunk(index: number, snippets: MessageSnippet[]): TranscriptChunk {
@@ -305,22 +212,6 @@ function createChunk(index: number, snippets: MessageSnippet[]): TranscriptChunk
     score: snippets.reduce((sum, snippet) => sum + snippet.score, 0),
     references: snippets.flatMap((snippet) => snippet.references),
   };
-}
-
-function selectChunks(
-  chunks: TranscriptChunk[],
-  strategy: ReadSessionContextInput["strategy"],
-): TranscriptChunk[] {
-  if (chunks.length <= MAX_LITE_CHUNKS) return chunks;
-  if (strategy === "handoff") return chunks.slice(-MAX_LITE_CHUNKS);
-
-  const byScore = [...chunks].sort((a, b) => b.score - a.score || b.index - a.index);
-  const selected = new Map<number, TranscriptChunk>();
-  for (const chunk of byScore.slice(0, MAX_LITE_CHUNKS - 1)) {
-    selected.set(chunk.index, chunk);
-  }
-  selected.set(chunks[chunks.length - 1]!.index, chunks[chunks.length - 1]!);
-  return [...selected.values()].sort((a, b) => a.index - b.index);
 }
 
 function formatSessionTranscript(
