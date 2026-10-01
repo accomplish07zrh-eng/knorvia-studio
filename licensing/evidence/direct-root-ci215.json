@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "run": 36822349248,
+  "runNumber": 215,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36822349248",
+  "head": "d20bfa4a312deda80f2a48b8a9bcae0013f71e47",
+  "checkedMerge": "cb91d68df8e084d43dcd5eb62b83371c45f16857",
+  "headAndCheckedTree": "df3b0edded657efe6e4339f4a55439c5223c4fe3",
+  "status": "success",
+  "jobs": {
+    "linux": {
+      "id": 110240447328,
+      "tests": 6539,
+      "pass": 6531,
+      "fail": 0,
+      "skip": 8
+    },
+    "windows": {
+      "id": 110240447126,
+      "tests": 6539,
+      "pass": 6538,
+      "fail": 0,
+      "skip": 1
+    }
+  },
+  "verification": "Root independently checked both terminal job logs and checked-merge Git object. Head tree matches; no new skip or timeout relaxation."
+}
