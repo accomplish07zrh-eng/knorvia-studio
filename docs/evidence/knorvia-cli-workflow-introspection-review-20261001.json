@@ -1,0 +1,395 @@
+{
+  "formatVersion": 1,
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baseline": "229c9322d4d93143965b07cfbea3a3a4b569d0e5",
+  "initialCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+  "source": {
+    "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+    "bytes": 7348,
+    "sha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+    "blob": "ffcff744bdcb9e25a4a86e20b25a529d69d9b29a"
+  },
+  "upstream": {
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "path": "apps/zcode-cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+    "blob": "ffcff744bdcb9e25a4a86e20b25a529d69d9b29a",
+    "normalizedSha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67"
+  },
+  "publisherVerification": "committed manifest and local blob comparison only",
+  "sourceExposure": true,
+  "candidateStatus": "unresolved-retained-implementation",
+  "recommendedReviewDecision": null,
+  "attributionMustRemain": true,
+  "basis": "Inspected complete retained implementation and comments; identical initial/current blob and recorded upstream digest corroborate retention. No production expression was authored by this checkpoint. Existing review is absent; licence/rights decision remains with root.",
+  "newProductionExpression": [],
+  "retainedRegions": [
+    {
+      "from": 1,
+      "through": 18,
+      "material": "Opening explanatory comments and imports; retained commentary plus fixed API glue",
+      "sha256": "40f1f5b1b13138b205a6f77b9b74ced1da24cfb22bc0f7755e07e7b9a009d97a"
+    },
+    {
+      "from": 19,
+      "through": 48,
+      "material": "Failure-code declarations, factory construction, model-facing messages and explanatory comments",
+      "sha256": "bdd8bb514e549621a356ecacde396cbae3254be9347fb1c24cc0588395d19d13"
+    },
+    {
+      "from": 49,
+      "through": 58,
+      "material": "Shared description steering prose, array/join expression and documentation",
+      "sha256": "23cdb3e3fab0827d5aeed7dca14cf5aea2c3e3eb92c9558c1a56f111627cb2e8"
+    },
+    {
+      "from": 59,
+      "through": 85,
+      "material": "Timestamp fallback and Date conversion, duration constants, padTwo helper and comments",
+      "sha256": "675a724044fd999097dd46055331dcd59acdcc563a1b5b6430f9570acdc1169a"
+    },
+    {
+      "from": 86,
+      "through": 110,
+      "material": "Duration threshold ladder, arithmetic/call order, output templates and documentation",
+      "sha256": "e0aad318125460dccdbceabdf5ddaeded0bc4d113d1c7b09a76728e22c2e556d"
+    },
+    {
+      "from": 111,
+      "through": 127,
+      "material": "Relative-age admission and instant composition, public suffix/format and comments",
+      "sha256": "d3f7124bf5e03f04bcd521f9c184de0d0b7b7239cf6d9a35a4ea192e8556eb22"
+    },
+    {
+      "from": 128,
+      "through": 137,
+      "material": "Finite/sign/truncation decisions, lookahead-regex grouping and explanatory comments",
+      "sha256": "c25dd3f1084347dff58ecc8dd6b803553d834d0e40c95c30b18b5831d5837b41"
+    },
+    {
+      "from": 138,
+      "through": 152,
+      "material": "Attribute whitespace normalization and escaping, fixed attribute syntax, re-export and comments",
+      "sha256": "01e055b135943bbc1c1ce81f5e6e90275378ad05b2852d971ceb40dedbc3ca2c"
+    }
+  ],
+  "publicExports": [
+    "workflowIntrospectionUnavailableFailure",
+    "workflowRunNotFoundFailure",
+    "WORKFLOW_RUN_INTROSPECTION_STEERING",
+    "formatWorkflowRunTimestamp",
+    "formatWorkflowRunDuration",
+    "formatRelativeAge",
+    "formatWorkflowRunInstant",
+    "formatWorkflowRunCount",
+    "workflowRunAttribute",
+    "escapeWorkflowRunText"
+  ],
+  "callers": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-workflow-runs.ts",
+      "bytes": 7784,
+      "sha256": "ffd0a057161fc05ca133cb76ae3f2256a8d1a329690539db3e4f343d9374e81d",
+      "symbols": [
+        "WORKFLOW_RUN_INTROSPECTION_STEERING",
+        "formatWorkflowRunTimestamp",
+        "workflowIntrospectionUnavailableFailure",
+        "workflowRunAttribute"
+      ],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/list-workflow-runs.js",
+        "bytes": 7939,
+        "sha256": "8049d0e9fdca85c08fbcf14b333a468d1ccefe5fd4bdb967c74854a8ed2db6d8"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run.ts",
+      "bytes": 10187,
+      "sha256": "54df35fb63e294a1b3eb7578071aade84fe78ea765bdc74a49b7bfc650acb83a",
+      "symbols": [
+        "WORKFLOW_RUN_INTROSPECTION_STEERING",
+        "workflowIntrospectionUnavailableFailure",
+        "workflowRunNotFoundFailure"
+      ],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run.js",
+        "bytes": 10291,
+        "sha256": "5bee35c500429b1618596e3342d03b184268fac6111d5156893fe035325485fa"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "bytes": 14662,
+      "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+      "symbols": [
+        "escapeWorkflowRunText",
+        "formatRelativeAge",
+        "formatWorkflowRunInstant",
+        "formatWorkflowRunTimestamp",
+        "workflowRunAttribute"
+      ],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format.js",
+        "bytes": 14650,
+        "sha256": "99cb3da1ebd474d6916b372c64bde9561f54eea9cc3e4882f995ea20bb0ac858"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 10266,
+      "sha256": "d460e2237a5025671f3c6d2394a42024a12e5b8ee07a73effc8475576bc31493",
+      "symbols": [
+        "escapeWorkflowRunText",
+        "formatRelativeAge",
+        "formatWorkflowRunCount",
+        "formatWorkflowRunDuration"
+      ],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+        "bytes": 10140,
+        "sha256": "afe6dd5c2399a961923601c42e60089d5b4d9ebf8e3736cfe93cbd8223e72c3c"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-summary-clauses.ts",
+      "bytes": 7776,
+      "sha256": "e603af70fe57a7bc3b18e31d519f878b367a7103d253037e0bb127081532ac42",
+      "symbols": ["formatRelativeAge", "formatWorkflowRunCount", "formatWorkflowRunDuration"],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-summary-clauses.js",
+        "bytes": 7121,
+        "sha256": "eb6e7efa469a3d8692eb649c494232ec402d99130f866ea1ecd500679757c56c"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "bytes": 2898,
+      "sha256": "4c939a6b4f59e769c81cfcf9e6a896b52df0cfba8de54e1a480dcb709f197608",
+      "symbols": ["escapeWorkflowRunText", "formatRelativeAge", "formatWorkflowRunDuration"],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js",
+        "bytes": 2827,
+        "sha256": "99cd9bc7803bbc9ce52c0278a594539bb9ad302869fa01cfc91c7d0a1f49a14e"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/resume-workflow-run.ts",
+      "bytes": 12994,
+      "sha256": "10e1c24a71228e5714c6c08ce8b902bc57dc4993c98d4c6bf44a88212dc49c64",
+      "symbols": ["workflowRunNotFoundFailure"],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/resume-workflow-run.js",
+        "bytes": 13192,
+        "sha256": "0eda66ffb35e2cf1131bf9f33b23f121bf401ae9c4869c03892f17f7f8e33390"
+      }
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/amend-workflow-resolve.ts",
+      "bytes": 11600,
+      "sha256": "48bbe4ec2e821907c2b2baf0a7a4f9a03b691e6bd2c91242fcf6e90dff6b6c95",
+      "symbols": ["workflowRunNotFoundFailure"],
+      "emitted": {
+        "path": "apps/cli/packages/core/dist/tool/handlers/amend-workflow-resolve.js",
+        "bytes": 10983,
+        "sha256": "1cb5a5d9d2dcebab85b26bcade50765bad8896843ab5a1e13f716ff506ada9f4"
+      }
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.js",
+      "bytes": 7194,
+      "sha256": "b32bc9bb13917dcb539db19566472cda9a74ca4b406cf27abbeb2319fd4ebc3a"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/workflow-run-introspection.d.ts",
+      "bytes": 3098,
+      "sha256": "32aee968540b50b292a4f068e05c4a7f5b12cdf79b43ead315a61135d646ef16"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 9350160,
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 3445390,
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280"
+    },
+    {
+      "path": "licensing/README.md",
+      "bytes": 9307,
+      "sha256": "48613a040acc9f1867b294632aa93a34555821ebdf5de062d042da17c4df3bc7"
+    },
+    {
+      "path": "scripts/provenance/model.mjs",
+      "bytes": 10384,
+      "sha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933"
+    },
+    {
+      "path": "specs/knorvia-independent-implementation.md",
+      "bytes": 11929,
+      "sha256": "fba9c94f55b87e74973be4d0df873fc6569ae627899d19135d4f5b6e620523b2"
+    },
+    {
+      "path": "docs/knorvia-mit-review-acceptance-criteria-20260930.md",
+      "bytes": 2640,
+      "sha256": "32a393bcc39de23c0ad0ed4896830d6d0a16eb2621ce32e52f58160d40a177f9"
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-run-phase-receipt-20261001.json",
+      "bytes": 12373,
+      "sha256": "14f3883827340ca7e24530dc50a7cd5c5c79e2153cb72b501e6fd72a57f4beb4"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 6125,
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    }
+  ],
+  "document": {
+    "path": "docs/knorvia-cli-workflow-introspection-review-20261001.md",
+    "bytes": 6989,
+    "sha256": "ee900cabbbcfef4c044a5c13a9aa58e4abdcb2cf41c8d7f858509bc7ad10f3b4"
+  },
+  "scope": [
+    "docs/knorvia-cli-workflow-introspection-review-20261001.md",
+    "docs/evidence/knorvia-cli-workflow-introspection-review-20261001.json",
+    "docs/evidence/knorvia-cli-workflow-introspection-review-check-20261001.mjs"
+  ],
+  "schema": {
+    "existingDecisions": [
+      "original",
+      "independent-replacement",
+      "third-party",
+      "reviewed-retained"
+    ],
+    "retainedNatures": ["functional-configuration", "standard-license-text"],
+    "reasonNoEntry": "Retained implementation is outside retained-nature scope; exact upstream match conflicts with original/independent-replacement. No third-party rights acquisition. Lane candidateStatus is not a reviews.json decision.",
+    "controls": [
+      "absent review",
+      "original conflict",
+      "independent-replacement conflict",
+      "invalid retained implementation nature",
+      "empty basis rejection",
+      "stale digest"
+    ]
+  },
+  "limits": [
+    "No separate public publisher fetch or authorship/rights verification",
+    "No production edit or new source/emitted product test run; historical receipts remain historical",
+    "Actual local emitted JS and declaration are inspected/pinned and checked against scoped typed memory emission; no product tests, aggregate build or native acceptance.",
+    "No native/aggregate/delivery closure acceptance or MIT/publication claim; root owns those gates",
+    "Whole-file implementation/comments/prose remain inherited; standard syntax/constants/public APIs do not by themselves confer authorship",
+    "Historical lane licensing inputs unchanged; root material-obligation updates are outside this checkpoint"
+  ],
+  "evidenceCorrections": [
+    {
+      "stage": "Initial read-only checker",
+      "error": "spawnSync git ENOBUFS while reading pinned upstream manifest above default 1 MiB output buffer",
+      "exitCode": 1,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-initial-check.log",
+        "bytes": 2430,
+        "sha256": "6f6288e7cba8ec5ca8a507d0498d116e2865bcb18ac4bbb305ef19a34723ed38"
+      },
+      "correction": "Size read-only Git output buffer from digest-bound input lengths; assertions and timeouts unchanged. No production change."
+    },
+    {
+      "stage": "Synthetic schema control input",
+      "error": "Unexpected upstream baseline: synthetic minimal object omitted required schemaVersion and pinned commit",
+      "exitCode": 1,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-schema-initial-check.log",
+        "bytes": 858,
+        "sha256": "7028f9315ab0f97b58cb98422045992c53db76eb425e8d23e87c555881d3d709"
+      },
+      "correction": "Preserve real pinned baseline metadata and review schemaVersion in the one-record synthetic control; model and assertions unchanged."
+    },
+    {
+      "stage": "Read-only transformation comparison",
+      "error": "TS6059: relative source filename was outside absolute rootDir and failed package lookup",
+      "exitCode": 1,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-emitted-initial-check.log",
+        "bytes": 2573,
+        "sha256": "f9c8c193579d48178d7d11ed673c83a19fe8a0bddb67bb17653afeca4f1ef4f7"
+      },
+      "correction": "Pass exact absolute source filename with unchanged core compiler options and zero-diagnostic assertion."
+    },
+    {
+      "stage": "Isolated transformation module mode",
+      "error": "Isolated NodeNext transpilation produced CommonJS rather than the actual ESM artifact",
+      "exitCode": 1,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-module-initial-check.log",
+        "bytes": 24736,
+        "sha256": "5009841b949631ccac0061a903c9b71c4e999cc31cefc772c24ec58f9d34cb3f"
+      },
+      "correction": "Use real scoped typed createProgram/emit into memory with unchanged core options and compare JS plus declaration; no forced module option or dist write."
+    }
+  ],
+  "checker": {
+    "path": "docs/evidence/knorvia-cli-workflow-introspection-review-check-20261001.mjs",
+    "bytes": 9049,
+    "sha256": "2ceb339c9c866bb0f3ada09ebedfdc968830a4c097ffe2811a38324ab0a6aac8"
+  },
+  "checks": [
+    {
+      "stage": "scoped typed memory artifact/digest/schema verification",
+      "exitCode": 0,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-final-check.log",
+        "bytes": 186,
+        "sha256": "6b5dd53ddff5618d7a2e16d8248a7534adbb9eb6a277461e60643044f4728e74"
+      }
+    },
+    {
+      "stage": "final owned checker lint: 94 rules, zero warnings/errors",
+      "exitCode": 0,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-lint-final.log",
+        "bytes": 89,
+        "sha256": "8959993e89577b26322def7e7756ba92e2ac152c2bb5305467c8e2d277696677"
+      }
+    },
+    {
+      "stage": "changed architecture: zero violations",
+      "exitCode": 0,
+      "log": {
+        "path": "/tmp/knorvia-introspection-review-architecture.log",
+        "bytes": 197,
+        "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+      }
+    }
+  ],
+  "toolNotes": [
+    "Initial attempted prettier command was unavailable; configured oxfmt was used. No dependencies or settings changed.",
+    "JSON metadata additions required configured formatting before the final check; the initial formatting-check failure log is preserved locally."
+  ],
+  "validation": {
+    "schemaControls": 6,
+    "coveredSourceRegions": 8,
+    "publicExports": 10,
+    "sourceAndActualEmittedImporters": 8,
+    "typedMemoryEmissionRoots": 1,
+    "typedDiagnostics": 0,
+    "comparedActualArtifacts": ["JS", "declaration"],
+    "ownedLintFiles": 1,
+    "ownedLintRules": 94,
+    "formatFiles": 3,
+    "architectureViolations": 0,
+    "productTests": "not run: evidence-only; prior product test counts remain historical"
+  }
+}
