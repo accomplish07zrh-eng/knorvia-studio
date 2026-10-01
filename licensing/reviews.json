@@ -34548,14 +34548,17 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/auth-runtime-contract/run-group.mjs",
-      "normalizedSha256": "179bc170f5ad9f5ef65732ef58b70b20113ae7f8d5049d9f48a9d5cc4bc65abc",
+      "normalizedSha256": "f03fd45ca7547db5deb2ebcfaeb8da83b177d2bdc6b6aeb864b4e11bcd0d547c",
       "decision": "original",
       "license": "MIT",
-      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original.",
+      "basis": "New independently authored auth regression expression, owned test infrastructure, behavior specification or measured acceptance/provenance record. The fixed 30 cases and deadlines were preserved; portability changes, strict API projection, exact target graph checks and initial failures are disclosed in the evidence. Public facts are test inputs, not a claim that existing declarations or dependencies are original. The 2026-10-01 root review covers eight diagnostic-only additions at the existing first-failure reporting boundary, after all cases and summary persistence. New whitelisted reporting does not alter original assertions, timeouts, seams, credentials or production authentication. Source exposure is disclosed; this preserves the existing test-infrastructure-only decision and does not re-audit or grant originality to authentication implementation.",
       "evidence": [
         "specs/knorvia-auth-adapter-runtime.md",
         "docs/knorvia-auth-adapter-runtime-acceptance.md",
-        "licensing/evidence/auth-adapter-runtime.md"
+        "licensing/evidence/auth-adapter-runtime.md",
+        "specs/knorvia-auth-ci-failure-diagnostic.md",
+        "docs/knorvia-auth-ci-diagnostic-root-review-20261001.md",
+        "licensing/evidence/auth-ci-diagnostic-root-review-20261001.json"
       ]
     },
     {
