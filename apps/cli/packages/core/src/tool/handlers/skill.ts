@@ -1,79 +1,14 @@
-// ============================================================
-// Skill Tool Handler
-// ============================================================
+// Retained Skill declaration and model-facing prompt. Execution is replaced
+// from the frozen behavioral contract; source exposure is disclosed in the spec.
 
 import {
-  CoreErrorType,
   SkillInputJsonSchema,
   SkillInputSchema,
   SkillOutputJsonSchema,
   SkillOutputSchema,
-  createCoreError,
-  type SkillRuntimeInput,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolHandler } from "../types.js";
-
-const MAX_SKILL_BYTES = 100_000;
-
-const skillHandler: ToolHandler = async (input, context) => {
-  const { skill } = SkillInputSchema.parse(input) as SkillRuntimeInput;
-  const skillPort = context.skillPort;
-
-  if (!skillPort) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "SkillPort is not configured for Skill tool",
-      {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: "Skill",
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  const loaded = await skillPort.loadSkill(
-    {
-      name: skill,
-      workingDirectory: context.workingDirectory,
-      maxBytes: MAX_SKILL_BYTES,
-      trace: {
-        traceId: context.traceId,
-        spanId: context.spanId,
-        parentSpanId: context.parentSpanId,
-        sessionId: context.sessionId,
-        turnId: context.turnId,
-      },
-    },
-    { signal: context.abortSignal },
-  );
-
-  context.recordSkillTelemetryMetadata?.({
-    ...(loaded.metadata.qualifiedName ? { qualifiedName: loaded.metadata.qualifiedName } : {}),
-    ...(loaded.metadata.pluginId ? { pluginId: loaded.metadata.pluginId } : {}),
-    source: loaded.metadata.source,
-  });
-
-  return [
-    `<skill_content name="${loaded.metadata.name}">`,
-    `# Skill: ${loaded.metadata.name}`,
-    "",
-    expandSkillContextVariables(loaded.content, loaded.baseDirectory),
-    "",
-    `Base directory for this skill: ${loaded.baseDirectory}`,
-    "Relative paths in this skill are relative to this base directory.",
-    loaded.truncated ? "[Skill content truncated]" : "",
-    "</skill_content>",
-  ]
-    .filter((line) => line.length > 0)
-    .join("\n");
-};
-
-function expandSkillContextVariables(content: string, baseDirectory: string): string {
-  // 只有 Skill 工具加载后才有明确的当前 skill 目录，因此变量替换限定在这里完成。
-  return content.replace(/\$\{(CLAUDE_SKILL_DIR|KNORVIA_SKILL_DIR)\}/gu, baseDirectory);
-}
+import type { ToolEntry } from "../types.js";
+import { executeSkill, SKILL_CONTENT_LIMIT } from "./skill-execution.js";
 
 export const skillToolEntry: ToolEntry = {
   capability: "Load local skill instructions into the current session context",
@@ -102,12 +37,12 @@ Important:
     destructive: false,
     concurrentSafe: true,
     timeoutMs: 30000,
-    maxOutputBytes: MAX_SKILL_BYTES,
+    maxOutputBytes: SKILL_CONTENT_LIMIT,
     sideEffectScope: "session",
     riskLevel: "low",
     needsApproval: false,
   },
-  handler: skillHandler,
+  handler: executeSkill,
   inputSchema: SkillInputJsonSchema,
   outputSchema: SkillOutputJsonSchema,
   runtimeInputSchema: SkillInputSchema,
@@ -123,11 +58,11 @@ Important:
     denyPriority: "beforeAsk",
   },
   resultBudget: {
-    maxInlineBytes: MAX_SKILL_BYTES,
-    maxModelBytes: MAX_SKILL_BYTES,
+    maxInlineBytes: SKILL_CONTENT_LIMIT,
+    maxModelBytes: SKILL_CONTENT_LIMIT,
     strategy: "truncate",
     preview: {
-      maxBytes: MAX_SKILL_BYTES,
+      maxBytes: SKILL_CONTENT_LIMIT,
       direction: "head",
     },
   },
