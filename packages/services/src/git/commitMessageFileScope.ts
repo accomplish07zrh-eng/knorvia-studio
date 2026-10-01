@@ -1,83 +1,56 @@
+// Source-exposed path rules and public API retained; key compilation/indexing replaced.
 import { isAbsolute, relative } from "node:path";
 import type { GitFileChange } from "@knorvia/shared";
 import { normalizeGitPath, normalizeWorkspaceInRepoPath } from "./config.js";
 
-function normalizeCommitMessageScopePath(path: string): string {
-  return normalizeGitPath(path.trim())
-    .replace(/^\.?\//, "")
-    .replace(/\/+$/, "");
+function scopeKey(path: string): string {
+  const text = normalizeGitPath(path.trim());
+  const start = text.startsWith("./") ? 2 : text.startsWith("/") ? 1 : 0;
+  let end = text.length;
+  while (end > start && text[end - 1] === "/") end--;
+  return text.slice(start, end);
 }
 
-function isRelativePathInsideScope(path: string): boolean {
-  const normalizedPath = normalizeGitPath(path);
-  return (
-    normalizedPath.length > 0 &&
-    normalizedPath !== ".." &&
-    !normalizedPath.startsWith("../") &&
-    !isAbsolute(normalizedPath)
-  );
-}
-
-function addCommitMessageScopeCandidate(scope: Set<string>, path: string): void {
-  const normalizedPath = normalizeCommitMessageScopePath(path);
-  if (!normalizedPath) {
-    return;
-  }
-  scope.add(normalizedPath);
-}
-
-function buildCommitMessageFileScope(params: {
+function compileScopeKeys(params: {
   workspacePath: string;
   repoRoot: string;
   workspaceInRepoPath: string;
   currentSessionFilePaths?: readonly string[];
-}): Set<string> | null {
+}): string[] {
   const sourcePaths = params.currentSessionFilePaths
     ?.map((path) => path.trim())
     .filter((path) => path.length > 0);
-  if (!sourcePaths || sourcePaths.length === 0) {
-    return null;
-  }
+  if (!sourcePaths?.length) return [];
 
-  const scope = new Set<string>();
-  const normalizedWorkspaceInRepoPath = normalizeWorkspaceInRepoPath(params.workspaceInRepoPath);
-
-  for (const path of sourcePaths) {
-    addCommitMessageScopeCandidate(scope, path);
-
-    if (isAbsolute(path)) {
-      const repoRelativePath = relative(params.repoRoot, path);
-      if (isRelativePathInsideScope(repoRelativePath)) {
-        addCommitMessageScopeCandidate(scope, repoRelativePath);
+  const prefix = normalizeWorkspaceInRepoPath(params.workspaceInRepoPath);
+  const aliases: string[] = [];
+  for (const source of sourcePaths) {
+    const key = scopeKey(source);
+    aliases.push(key);
+    if (isAbsolute(source)) {
+      for (const base of [params.repoRoot, params.workspacePath]) {
+        const spelling = normalizeGitPath(relative(base, source));
+        if (spelling && spelling.split("/", 1)[0] !== ".." && !isAbsolute(spelling)) {
+          aliases.push(scopeKey(spelling));
+        }
       }
-
-      const workspaceRelativePath = relative(params.workspacePath, path);
-      if (isRelativePathInsideScope(workspaceRelativePath)) {
-        addCommitMessageScopeCandidate(scope, workspaceRelativePath);
-      }
-      continue;
-    }
-
-    const normalizedPath = normalizeCommitMessageScopePath(path);
-    if (
-      normalizedWorkspaceInRepoPath !== "." &&
-      !normalizedPath.startsWith(`${normalizedWorkspaceInRepoPath}/`)
-    ) {
-      addCommitMessageScopeCandidate(scope, `${normalizedWorkspaceInRepoPath}/${normalizedPath}`);
+    } else if (prefix !== "." && !key.startsWith(`${prefix}/`)) {
+      aliases.push(scopeKey(`${prefix}/${key}`));
     }
   }
-
-  return scope.size > 0 ? scope : null;
+  aliases.sort();
+  return aliases.filter((key, index) => key.length > 0 && key !== aliases[index - 1]);
 }
 
-function isCommitMessageFileInScope(file: GitFileChange, scope: Set<string> | null): boolean {
-  if (!scope) {
-    return true;
+function hasScopeKey(keys: readonly string[], key: string): boolean {
+  let start = 0;
+  let end = keys.length;
+  while (start < end) {
+    const middle = start + Math.floor((end - start) / 2);
+    if (keys[middle]! < key) start = middle + 1;
+    else end = middle;
   }
-
-  return [file.path, file.repoRelativePath, file.workspaceRelativePath].some((path) =>
-    scope.has(normalizeCommitMessageScopePath(path)),
-  );
+  return keys[start] === key;
 }
 
 export function filterCommitMessageFilesByCurrentSession(params: {
@@ -87,11 +60,18 @@ export function filterCommitMessageFilesByCurrentSession(params: {
   workspaceInRepoPath: string;
   currentSessionFilePaths?: readonly string[];
 }): GitFileChange[] {
-  const scope = buildCommitMessageFileScope({
+  const keys = compileScopeKeys({
     workspacePath: params.workspacePath,
     repoRoot: params.repoRoot,
     workspaceInRepoPath: params.workspaceInRepoPath,
     currentSessionFilePaths: params.currentSessionFilePaths,
   });
-  return params.files.filter((file) => isCommitMessageFileInScope(file, scope));
+  return params.files.filter((file) => {
+    if (keys.length === 0) return true;
+    const paths = [file.path, file.repoRelativePath, file.workspaceRelativePath];
+    for (const path of paths) {
+      if (hasScopeKey(keys, scopeKey(path))) return true;
+    }
+    return false;
+  });
 }
