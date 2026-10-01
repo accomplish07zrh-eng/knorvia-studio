@@ -3,6 +3,7 @@ import { Emitter, type Event, type IDisposable } from "@knorvia/rpc";
 import type { IPty } from "node-pty";
 
 type Phase = "creating" | "open" | "retiring" | "retry" | "closed";
+type SubscriptionKind = "data" | "exit";
 interface Reservation {
   readonly id: string;
   readonly generation: number;
@@ -14,7 +15,7 @@ interface Reservation {
   data?: Emitter<string>;
   exit?: Emitter<number>;
   pty?: IPty;
-  readonly subscriptions: Set<IDisposable>;
+  readonly subscriptions: Map<IDisposable, SubscriptionKind>;
 }
 
 function throwCollected(errors: unknown[], message?: string): void {
@@ -55,7 +56,7 @@ export class TerminalServiceInstanceOwner {
       exited: false,
       killing: false,
       cleaning: false,
-      subscriptions: new Set(),
+      subscriptions: new Map(),
     };
     this.owned.set(entry.id, entry);
     this.retireDiagnosticsWhenIdle = false;
@@ -87,6 +88,7 @@ export class TerminalServiceInstanceOwner {
     this.assertCreating(entry);
     this.retain(
       entry,
+      "data",
       pty.onData((data) => {
         if (!entry.exited && entry.phase !== "closed") entry.data?.fire(data);
       }),
@@ -94,6 +96,7 @@ export class TerminalServiceInstanceOwner {
     this.assertCreating(entry);
     this.retain(
       entry,
+      "exit",
       pty.onExit(({ exitCode }) => this.nativeExit(entry, exitCode)),
     );
     this.assertCreating(entry);
@@ -193,10 +196,14 @@ export class TerminalServiceInstanceOwner {
     return errors;
   }
 
-  private retain(entry: Reservation, subscription: IDisposable | undefined): void {
+  private retain(
+    entry: Reservation,
+    kind: SubscriptionKind,
+    subscription: IDisposable | undefined,
+  ): void {
     // 部分旧 fake ports 不返回 handle；真实 node-pty 返回的每个 handle 都归同一所有者。
     if (!subscription) return;
-    entry.subscriptions.add(subscription);
+    entry.subscriptions.set(subscription, kind);
     if (entry.exited || entry.phase === "closed" || entry.phase === "retiring") {
       const errors = this.clean(entry);
       this.settle(entry);
@@ -223,14 +230,17 @@ export class TerminalServiceInstanceOwner {
         },
         errors,
       );
-      // 固定快照：失败 handle 放回 Set 等待下次重试，直接迭代 Set 会再次访问它而形成死循环。
+      // 固定快照：失败 handle 放回等待显式重试，直接迭代会再次访问它而形成死循环。
       const subscriptions = [...entry.subscriptions];
-      for (const subscription of subscriptions) {
+      for (const [subscription, kind] of subscriptions) {
+        // root 用实际 WinPTY JS 证明 kill 可在原生 teardown 后抛错；未确认 exit 时必须保留内部监视。
+        // 每次重查 exited：前一个 disposer 可重入 exit；公共 emitter/data 仍按旧顺序退役。
+        if (kind === "exit" && entry.pty && !entry.exited) continue;
         entry.subscriptions.delete(subscription);
         try {
           subscription.dispose();
         } catch (error) {
-          entry.subscriptions.add(subscription);
+          entry.subscriptions.set(subscription, kind);
           errors.push(error);
         }
       }

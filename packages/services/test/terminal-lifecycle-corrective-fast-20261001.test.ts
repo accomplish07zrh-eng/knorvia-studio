@@ -155,7 +155,8 @@ test("kill failure keeps tracked retryable PTY while retiring event resources", 
   await assert.rejects(s.dispose({ id }), (e) => e === error);
   assert.equal(open(), 1);
   retired();
-  assert.equal(state.ptys[0]!.nativeDisposals, 2);
+  // root 证明失败 kill 后仍可能异步 exit；只退役 data，内部 exit monitor 留给唯一所有者。
+  assert.equal(state.ptys[0]!.nativeDisposals, 1);
   assert.throws(() => s.onDynamicData(id), missing(id));
   await assert.rejects(s.write({ id, data: "retiring" }), missing(id));
   state.ptys[0]!.killAction = () => {};
