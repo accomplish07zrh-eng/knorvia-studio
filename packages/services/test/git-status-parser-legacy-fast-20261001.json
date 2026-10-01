@@ -1,0 +1,32 @@
+{
+  "kind": "copied-test-only-inherited-status-parser",
+  "commit": "47d2ae16e44050525a792f30f1feba77047aac71",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592",
+  "spans": [
+    {
+      "name": "inferKindFromStatusCode",
+      "start": 6106,
+      "end": 6405,
+      "text": "function inferKindFromStatusCode(statusCode: string): GitChangeKind {\n  if (statusCode === \"A\" || statusCode === \"?\") {\n    return \"added\";\n  }\n\n  if (statusCode === \"D\") {\n    return \"deleted\";\n  }\n\n  if (statusCode === \"R\" || statusCode === \"C\") {\n    return \"renamed\";\n  }\n\n  return \"modified\";\n}",
+      "sha256": "6231913a236eed9a45c7e758eb448b6fdd7b903b3378c208ffe1a39d4842a19f",
+      "bodySha256": "e0db93466471db45f4d5d3f319e0963147dc1c4c70afdd9b3ed668b77facb9f1"
+    },
+    {
+      "name": "parseBranchAheadBehind",
+      "start": 6407,
+      "end": 6731,
+      "text": "function parseBranchAheadBehind(value: string): { ahead: number; behind: number } {\n  const aheadMatch = value.match(/\\+(\\d+)/);\n  const behindMatch = value.match(/-(\\d+)/);\n  return {\n    ahead: aheadMatch ? Number.parseInt(aheadMatch[1]!, 10) : 0,\n    behind: behindMatch ? Number.parseInt(behindMatch[1]!, 10) : 0,\n  };\n}",
+      "sha256": "330e63539ea6a5c7e0faec894587ff1879995a48c5fb47238aaa419b26964b02",
+      "bodySha256": "937576264e315347eb0d9f9c1698102939fa8bf8d8fc39c790c07f47e0edfd23"
+    },
+    {
+      "name": "parseStatusPorcelain",
+      "start": 6733,
+      "end": 10009,
+      "text": "export function parseStatusPorcelain(stdout: string): {\n  branchName: string | null;\n  trackingBranchName: string | null;\n  headRefType: GitHeadRefType;\n  ahead: number;\n  behind: number;\n  entries: GitStatusEntry[];\n} {\n  const records = stdout.split(\"\\0\").filter((record) => record.length > 0);\n  const entries: GitStatusEntry[] = [];\n  let branchName: string | null = null;\n  let trackingBranchName: string | null = null;\n  let headRefType: GitHeadRefType = \"branch\";\n  let ahead = 0;\n  let behind = 0;\n\n  // `git status --porcelain=v2 -z` 的价值在于格式稳定，不受本地语言影响。\n  // 这里集中做一次解析，把 branch/header/rename/unmerged 等低层细节都挡在 repo 层里。\n  for (let index = 0; index < records.length; index += 1) {\n    const record = records[index]!;\n    if (record.startsWith(\"# \")) {\n      if (record.startsWith(\"# branch.head \")) {\n        const head = record.slice(\"# branch.head \".length);\n        if (head === \"(detached)\") {\n          branchName = null;\n          headRefType = \"detached\";\n        } else {\n          branchName = head;\n          headRefType = \"branch\";\n        }\n      } else if (record.startsWith(\"# branch.upstream \")) {\n        trackingBranchName = record.slice(\"# branch.upstream \".length);\n      } else if (record.startsWith(\"# branch.ab \")) {\n        const parsed = parseBranchAheadBehind(record.slice(\"# branch.ab \".length));\n        ahead = parsed.ahead;\n        behind = parsed.behind;\n      }\n      continue;\n    }\n\n    if (record.startsWith(\"? \")) {\n      entries.push({\n        path: normalizeGitPath(record.slice(2)),\n        originalPath: null,\n        kind: \"added\",\n        x: null,\n        y: \"?\",\n        isUntracked: true,\n        isConflicted: false,\n      });\n      continue;\n    }\n\n    if (record.startsWith(\"1 \")) {\n      const match = record.match(/^1 ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/);\n      if (!match) {\n        continue;\n      }\n\n      const xy = match[1]!;\n      entries.push({\n        path: normalizeGitPath(match[2]!),\n        originalPath: null,\n        kind: inferKindFromStatusCode(xy[0] !== \".\" ? xy[0]! : xy[1]!),\n        x: xy[0]!,\n        y: xy[1]!,\n        isUntracked: false,\n        isConflicted: false,\n      });\n      continue;\n    }\n\n    if (record.startsWith(\"2 \")) {\n      const match = record.match(/^2 ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/);\n      if (!match) {\n        continue;\n      }\n\n      const originalPath = records[index + 1] ?? null;\n      index += 1;\n      entries.push({\n        path: normalizeGitPath(match[2]!),\n        originalPath: originalPath ? normalizeGitPath(originalPath) : null,\n        kind: \"renamed\",\n        x: match[1]![0]!,\n        y: match[1]![1]!,\n        isUntracked: false,\n        isConflicted: false,\n      });\n      continue;\n    }\n\n    if (!record.startsWith(\"u \")) {\n      continue;\n    }\n\n    const match = record.match(\n      /^u ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/,\n    );\n    if (!match) {\n      continue;\n    }\n\n    entries.push({\n      path: normalizeGitPath(match[2]!),\n      originalPath: null,\n      kind: \"modified\",\n      x: match[1]![0]!,\n      y: match[1]![1]!,\n      isUntracked: false,\n      isConflicted: true,\n    });\n  }\n\n  return { branchName, trackingBranchName, headRefType, ahead, behind, entries };\n}",
+      "sha256": "b85b3ae54466aa70804d87434f6279212c13910c0d8a06800c751be2682c00cc",
+      "bodySha256": "0e8597fc7dff3bb58a450e08bd07057fc6aee23073d19c5a27464f5a66f4ba69"
+    }
+  ]
+}
