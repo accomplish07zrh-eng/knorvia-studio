@@ -26,32 +26,52 @@ const TERMINAL_STATUSES: ReadonlySet<string> = new Set(["completed", "errored", 
 /** 超出字符预算时整句整句地丢，实在丢不动才硬切——省略号留一个字符。 */
 const SUMMARY_ELLIPSIS = "…";
 
+const SUMMARY_SEPARATOR = " ";
+type SummaryContribution = {
+  required: boolean;
+  read: (run: WorkflowRunSummaryFacts, now: number, terminal: boolean) => string | undefined;
+};
+
+// 贡献按读取顺序执行，是否保留只在全部读取完成后决定；被预算丢弃的句子仍可能抛错。
+const SUMMARY_CONTRIBUTIONS: readonly SummaryContribution[] = [
+  {
+    required: true,
+    read: (run, now, terminal) => `${statusClause(run, now, terminal)}${phaseClause(run)}.`,
+  },
+  { required: true, read: (run, _now, terminal) => `${stepsClause(run, terminal)}.` },
+  { required: false, read: failureClause },
+  { required: false, read: questionsClause },
+  { required: false, read: progressClause },
+  { required: false, read: deliverableClause },
+  { required: false, read: ownershipClause },
+];
+
 export function buildWorkflowRunSummary(run: WorkflowRunSummaryFacts): string {
   const now = run.generatedAt;
   const terminal = TERMINAL_STATUSES.has(run.status);
+  const sentences: string[] = [];
+  let requiredCount = 0;
+  for (const contribution of SUMMARY_CONTRIBUTIONS) {
+    const sentence = contribution.read(run, now, terminal);
+    if (sentence === undefined) continue;
+    sentences.push(sentence);
+    if (contribution.required) requiredCount += 1;
+  }
+  return fitSummaryPrefix(sentences, requiredCount);
+}
+
+function fitSummaryPrefix(sentences: readonly string[], requiredCount: number): string {
+  let kept = sentences.length;
+  let length = (kept - 1) * SUMMARY_SEPARATOR.length;
+  for (const sentence of sentences) length += sentence.length;
 
   // 头两句是骨架（这个 run 在哪 + 走到第几步），任何预算下都不丢。
-  const required = [
-    `${statusClause(run, now, terminal)}${phaseClause(run)}.`,
-    `${stepsClause(run, terminal)}.`,
-  ];
-  const optional = [
-    failureClause(run),
-    questionsClause(run),
-    progressClause(run, now, terminal),
-    deliverableClause(run),
-    ownershipClause(run),
-  ].filter((clause): clause is string => clause !== undefined);
-
-  const sentences = [...required, ...optional];
-  while (
-    sentences.length > required.length &&
-    sentences.join(" ").length > GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS
-  ) {
-    sentences.pop();
+  while (kept > requiredCount && length > GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) {
+    kept -= 1;
+    length -= sentences[kept]!.length + SUMMARY_SEPARATOR.length;
   }
-  const text = sentences.join(" ");
-  if (text.length <= GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) return text;
+  const text = sentences.slice(0, kept).join(SUMMARY_SEPARATOR);
+  if (length <= GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) return text;
   return `${text.slice(0, GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS - SUMMARY_ELLIPSIS.length)}${SUMMARY_ELLIPSIS}`;
 }
 
