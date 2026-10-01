@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { entry, snapshot } from "./git-read-projection-fixture-fast-20261001.js";
-import { input, messageFixture, workspace } from "./git-message-generator-fixture-fast-20261001.js";
+import { messageFixture, workspace } from "./git-message-generator-fixture-fast-20261001.js";
 import { uiCallbackHarness } from "./git-message-generator-ui-callback-fast-20261001.js";
 const f = await messageFixture(),
   ui = await uiCallbackHarness(f.uiUrl("GitActionMenu"));

@@ -276,20 +276,28 @@ test("delayed lookup precedes prompt and logger; delayed text precedes validatio
 });
 test("thenable port receivers and await order remain exact", async () => {
   const g = f.generator();
-  const model = {
-    then(resolve: (v: any) => void) {
-      assert.equal(this, model);
-      g.state.trace.push("model then");
-      resolve(g.state.selection);
-    },
-  };
-  const text = {
-    then(resolve: (v: any) => void) {
-      assert.equal(this, text);
-      g.state.trace.push("text then");
-      resolve(g.state.response);
-    },
-  };
+  // Owned Promise adapters expose the receiver probe while keeping native then
+  // behavior delegated to its own Promise, with no lint rule or assertion waiver.
+  function port(value: unknown, marker: string) {
+    const promise = Promise.resolve(value);
+    const adapter = new Proxy(promise, {
+      get(target, key, receiver) {
+        if (key !== "then") return Reflect.get(target, key, receiver);
+        return function (
+          this: unknown,
+          resolve: (value: unknown) => void,
+          reject: (error: unknown) => void,
+        ) {
+          assert.equal(this, adapter);
+          g.state.trace.push(marker);
+          return target.then(resolve, reject);
+        };
+      },
+    });
+    return adapter;
+  }
+  const model = port(g.state.selection, "model then"),
+    text = port(g.state.response, "text then");
   g.state.read = () => model;
   g.state.text = () => text;
   await g.api.generate(input());
