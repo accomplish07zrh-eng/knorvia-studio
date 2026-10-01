@@ -4,6 +4,7 @@ import { mkdtemp, readdir, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { compactStudioTestArguments } from "./studio-test-arguments.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const testDirectories = [
@@ -20,7 +21,8 @@ const testDirectories = [
 ];
 // `scripts/` 不在上面的目录扫描范围内，必须逐个显式列入，否则不会被统一入口跑到。
 // 发布判定（release-gate）必须在这里，不能只靠质量工作流“碰巧”覆盖。
-const tests = [
+const explicitTests = [
+  "scripts/studio-test-arguments.test.mjs",
   "scripts/knorvia-agent-base.test.ts",
   "scripts/release-gate.test.ts",
   "scripts/provenance/provenance.test.mjs",
@@ -42,6 +44,7 @@ const tests = [
   "apps/cli/packages/bootstrap/test/permission-hook-recheck.test.ts",
   "apps/cli/packages/bootstrap/test/prepared-interaction-race.test.ts",
 ];
+const tests = [...explicitTests];
 
 for (const directory of testDirectories) {
   const absoluteDirectory = resolve(repoRoot, directory);
@@ -55,6 +58,13 @@ for (const directory of testDirectories) {
     ...names.map((name) => relative(repoRoot, join(absoluteDirectory, name)).split(sep).join("/")),
   );
 }
+
+const testArguments = await compactStudioTestArguments({
+  repoRoot,
+  explicitTests,
+  testDirectories,
+  discoveredTests: tests,
+});
 
 const testHome = await mkdtemp(join(tmpdir(), "knorvia-studio-test-"));
 const env = {
@@ -100,7 +110,7 @@ try {
       "--test",
       "--test-concurrency=2",
       `--test-timeout=${testTimeoutMs}`,
-      ...tests,
+      ...testArguments,
     ],
     { cwd: repoRoot, env, stdio: "inherit" },
   );
