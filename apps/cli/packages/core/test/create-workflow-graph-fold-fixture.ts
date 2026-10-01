@@ -14,6 +14,11 @@ import {
   createToolRegistry,
 } from "./workflow-run-summary-fixture.js";
 export { emitted, sha, handlers, createToolRegistry, clock };
+import {
+  historicalAnalysisBytes,
+  historicalBoundsBytes,
+  loadCurrentGraph,
+} from "./create-workflow-graph-loader-fixture.js";
 export const archive = JSON.parse(
   await readFile(new URL("./create-workflow-graph-fold-baseline.json", import.meta.url), "utf8"),
 );
@@ -37,28 +42,22 @@ function moduleUrl(compiled: string, name: string, overrides: Record<string, str
 }
 const oldUrl = moduleUrl(archive.compiled, "create-workflow-graph-fold");
 export const old = await import(oldUrl);
-export const current = await load("tool/handlers/create-workflow-graph-fold");
-const boundsJs = await readFile(
-  new URL("../dist/tool/handlers/create-workflow-graph-bounds.js", import.meta.url),
-  "utf8",
-);
+export const current = await loadCurrentGraph("fold");
+const boundsJs = historicalBoundsBytes();
 assert.equal(sha(boundsJs), archive.boundsSha256);
 const oldBoundsUrl = moduleUrl(boundsJs, "create-workflow-graph-bounds", {
   "./create-workflow-graph-fold.js": oldUrl,
 });
 export const oldBounds = await import(oldBoundsUrl);
-export const bounds = await load("tool/handlers/create-workflow-graph-bounds");
-const analysisJs = await readFile(
-  new URL("../dist/tool/handlers/workflow-analysis-display.js", import.meta.url),
-  "utf8",
-);
+export const bounds = await loadCurrentGraph("bounds");
+const analysisJs = historicalAnalysisBytes();
 assert.equal(sha(analysisJs), archive.analysisSha256);
 export const oldAnalysis = await import(
   moduleUrl(analysisJs, "workflow-analysis-display", {
     "./create-workflow-graph-bounds.js": oldBoundsUrl,
   })
 );
-export const analysis = await load("tool/handlers/workflow-analysis-display");
+export const analysis = await loadCurrentGraph("analysis");
 export const { createWorkflowToolEntry: entry } = await load("tool/handlers/create-workflow");
 export const declaration = await readFile(
   new URL("../dist/tool/handlers/create-workflow-graph-fold.d.ts", import.meta.url),

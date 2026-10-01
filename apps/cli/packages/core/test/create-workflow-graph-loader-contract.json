@@ -1,0 +1,32 @@
+{
+  "baseline": "fde4e8913a90c5e27d7be2bf3ac2e96289ffc374",
+  "current": {
+    "fold": {
+      "module": "create-workflow-graph-fold",
+      "sourceSha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6",
+      "emittedSha256": "f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145",
+      "declarationSha256": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108"
+    },
+    "bounds": {
+      "module": "create-workflow-graph-bounds",
+      "sourceSha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09",
+      "emittedSha256": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+      "declarationSha256": "97e1a676b5152025a72c6a1cd7f9cdd97dab373a06d9c67455b1ee5d7d3c11ff"
+    },
+    "analysis": {
+      "module": "workflow-analysis-display",
+      "sourceSha256": "91c1b71be0108aacded780ce8bf98755b24833ac35fe392626ec2e7630f9a362",
+      "emittedSha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2",
+      "declarationSha256": "ae2e9dfd412a5ce0b411727599f130f9d65b403dc6a9def3796c16c1e15fc262"
+    }
+  },
+  "historical": {
+    "boundsHeader": "// ============================================================\n// CreateWorkflow display graph bounding - 工具输出边界的有界投影\n// ============================================================\n// 从 create-workflow.ts 拆出：阶段词汇表让\n// handler 文件越过 max-lines 上限，而裁剪本身是一段自洽的纯逻辑——分析器全图进，契约\n// 形状出，无 I/O、无 memo、无端口。与 protocol-v4/create-workflow-display.ts 从\n// rows.ts 拆出同一先例。\n//\n// 这里装的是一张**显示图**而不再是因果图的镜像。第二层是子代理导向：step 层只剩站点表\n// （运行状态与检视器的键，不再画、不再带边），参与者层（每阶段的子代理卡 + 交接边）由\n// 分析器的交接图投影供给、这里只做上限与转发，阶段层仍是控制流图的阶段商、仍由本层归约\n// （折叠与缩点归约在 create-workflow-graph-fold.ts）。边只有 `{from, to, back?}` 一种形状；\n// region / certainty / 边种类留在分析器里，GUI 从不读它们。函数名与载荷字段名沿用历史。\nimport { CREATE_WORKFLOW_GRAPH_MAX_HANDOFF_TYPES, CREATE_WORKFLOW_GRAPH_MAX_HANDOFFS, CREATE_WORKFLOW_GRAPH_MAX_ID_CHARS, CREATE_WORKFLOW_GRAPH_MAX_LANES, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS, CREATE_WORKFLOW_GRAPH_MAX_PARTICIPANTS, CREATE_WORKFLOW_GRAPH_MAX_PHASE_EDGES, CREATE_WORKFLOW_GRAPH_MAX_PHASES, CREATE_WORKFLOW_GRAPH_MAX_STEPS, } from \"@knorvia/contracts\";\nimport { FLOW_ABORT, FLOW_ENTRY, FLOW_SINK, UNPHASED,\n// 浏览器端回放视图直接复用本函数：走 /projections\n// 子路径而非根桶，根桶会把 typescript 编译器一起拖进浏览器包。语义与根桶导出完全相同。\n } from \"@knorvia/dynamic-workflow/projections\";\n// 阶段边的折叠与归约（含有环输入上的缩点规则）单独成模块，见该文件的文件头。\nimport { foldPhaseEdges } from \"./create-workflow-graph-fold.js\";\n// display 不经过 tool result budget：图必须在进入工具输出（进而进入实时事件和持久化\n// metadata）前独立限长。集合互相引用，所以裁剪顺序是固定的——先 step（源序，截尾保留\n// 脚本开头），再收敛到它们引用的 lane，最后按存活的 step 过滤边与 sink。引用完整性优先\n// 于保留数量：宁可少画，也不能让 UI 拿到指向不存在节点的 id。\n",
+    "boundsHeaderSha256": "17e69372b065565b1fe98662544b14d313dfcdf6ee187855846dd6a40b09ed6d",
+    "boundsTail": "// Bug 预防：actor 名 / ask label 来自脚本字符串字面量（外部输入），直接 slice 可能截断\n// UTF-16 surrogate pair；与 result-display 的 MCP 文本限长同一处理——边界落在高位\n// surrogate 后则丢弃半字符，保证载荷可安全序列化。id 是分析生成的 ASCII，slice 恒等通过。\nfunction boundGraphText(value, maxChars) {\n    const bounded = value.slice(0, maxChars);\n    const lastCodeUnit = bounded.charCodeAt(bounded.length - 1);\n    return lastCodeUnit >= 0xd800 && lastCodeUnit <= 0xdbff ? bounded.slice(0, -1) : bounded;\n}\n/**\n * name pattern 的限长：两个 affix 同样来自脚本字面量，走同一条 surrogate-safe 截断。\n *\n * 截断后可能一个 affix 都不剩（理论上分析器已保证非空，但契约的 min(1) 不该依赖上游的\n * 保证）——那时整个字段缺席，而不是发一个 `{}` 让 `.strict()` 通过却渲染出一个孤零零的\n * 省略号。\n */\nfunction boundNamePattern(pattern) {\n    if (pattern === undefined)\n        return undefined;\n    const head = pattern.head\n        ? boundGraphText(pattern.head, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS)\n        : \"\";\n    const tail = pattern.tail\n        ? boundGraphText(pattern.tail, CREATE_WORKFLOW_GRAPH_MAX_NAME_CHARS)\n        : \"\";\n    if (head === \"\" && tail === \"\")\n        return undefined;\n    return {\n        ...(head === \"\" ? {} : { head }),\n        ...(tail === \"\" ? {} : { tail }),\n    };\n}\n",
+    "boundsTailSha256": "dd2a6cf620cf463c53b80264948699f58e6187f41cf52f4b2e36b5897b5e5e7b",
+    "boundsSha256": "85a2b63f5c84d92c5f4ed6220440c4530b40c3f85c67893e1bde60b0bc59df2b",
+    "analysis": "// ============================================================\n// Workflow analysis → display - 静态分析结果到显示图 / 结果卡的唯一投影\n// ============================================================\n//\n// 显示图由**三份**分析投影拼成：因果图给站点与车道，控制流图给阶段词汇表与阶段边，交接图给\n// 每阶段的子代理卡与交接边。少传任何一份，图就静默地缺一层——中枢直接启动\n// 的 run 详情侧板没有时间线、没有子代理，根因正是启动路径只传了因果图。所以「分析结果 →\n// 有界显示图」只在这里拼一次；CreateWorkflow 的 handler、确认窗 gate 与直接启动三处调用它，\n// 谁都不再在调用点手拼 `boundCausalityGraph(...)` 的实参。\nimport { CREATE_WORKFLOW_TOOL_NAME, } from \"@knorvia/contracts\";\nimport { createCreateWorkflowDisplay } from \"../executor/result-display.js\";\nimport { boundCausalityGraph } from \"./create-workflow-graph-bounds.js\";\n/** 分析结果的有界显示图；脚本连一个站点都分析不出（编译失败早于因果图）时缺席。 */\nexport function boundGraphOfAnalysis(analysis) {\n    return analysis.causality === undefined\n        ? undefined\n        : boundCausalityGraph(analysis.causality, analysis.flow, analysis.handoff);\n}\n/**\n * 分析结果的 `create_workflow` display（确认窗、启动轮元数据）。面向模型的 `response` 在这些\n * 读者面前没有内容——display 投影本身也不读它。AmendWorkflow 传自己的工具名：两个启动工具\n * 共用同一个 display kind。\n */\nexport function displayOfAnalysis(analysis, toolName = CREATE_WORKFLOW_TOOL_NAME) {\n    const causalityGraph = boundGraphOfAnalysis(analysis);\n    return createCreateWorkflowDisplay(toolName, {\n        diagnostics: analysis.diagnostics,\n        ok: analysis.ok,\n        response: \"\",\n        ...(causalityGraph === undefined ? {} : { causalityGraph }),\n    });\n}\n",
+    "analysisSha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2"
+  }
+}
