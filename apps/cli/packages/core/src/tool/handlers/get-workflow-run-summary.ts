@@ -11,11 +11,7 @@
 
 import type { GetWorkflowRunOutput } from "@knorvia/contracts";
 import { GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS } from "@knorvia/contracts";
-import {
-  formatRelativeAge,
-  formatWorkflowRunCount,
-  formatWorkflowRunDuration,
-} from "./workflow-run-introspection.js";
+import { readWorkflowSummaryClause } from "./get-workflow-run-summary-clauses.js";
 
 /** 摘要要读的事实 = 整份输出减去摘要自己（handler 先铸出输出，再拿它拼这一句）。 */
 type WorkflowRunSummaryFacts = Omit<GetWorkflowRunOutput, "summary">;
@@ -78,19 +74,7 @@ function fitSummaryPrefix(sentences: readonly string[], requiredCount: number): 
 
 /** 状态 + 它已经跑了多久 / 结束了多久。 */
 function statusClause(run: WorkflowRunSummaryFacts, now: number, terminal: boolean): string {
-  const elapsed = formatWorkflowRunDuration(run.updatedAt - run.createdAt);
-  if (!terminal) {
-    return run.status === "pending"
-      ? "Pending, not dispatched yet"
-      : `Running for ${formatWorkflowRunDuration(now - run.createdAt)}`;
-  }
-  if (run.status === "completed") return `Completed in ${elapsed}`;
-  if (run.status === "errored") return `Errored after ${elapsed}`;
-  // stopped：先说停在多久以前（读者要判断的是「这事还新鲜吗」），再说它一共跑了多久。
-  const reason = run.stopReason === undefined ? "stopped" : run.stopReason;
-  const endedAge = formatRelativeAge(now, run.updatedAt);
-  const ended = endedAge === undefined ? "" : ` ${endedAge}`;
-  return `Stopped (${reason})${ended} after ${elapsed}`;
+  return readWorkflowSummaryClause("status", run, now, terminal)!;
 }
 
 /**
@@ -98,34 +82,12 @@ function statusClause(run: WorkflowRunSummaryFacts, now: number, terminal: boole
  * 对一个已经跑完的 run，「在第 4 个阶段」是句没有信息的话。脚本没有阶段时整句不出现。
  */
 function phaseClause(run: WorkflowRunSummaryFacts): string {
-  const phases = run.phases;
-  if (phases === undefined || phases.length === 0) return "";
-  const index = phases.findIndex(
-    (phase) => phase.state === "current" || phase.state === "unfinished",
-  );
-  if (index < 0) return `, across ${phases.length} phase${phases.length === 1 ? "" : "s"}`;
-  return `, in phase ${index + 1} of ${phases.length} (${phases[index]!.name})`;
+  return readWorkflowSummaryClause("phase", run)!;
 }
 
 /** 步数。`nodesObserved` 是已落库节点行数，绝不冒充「总步数」——动态工作流没有静态总数。 */
 function stepsClause(run: WorkflowRunSummaryFacts, terminal: boolean): string {
-  const settled = run.usage.nodesCompleted + run.usage.nodesFailed;
-  const leftover = run.health.leftoverRunning;
-  if (terminal && leftover !== undefined && leftover > 0) {
-    // 进程死在这些步下面：它们不是「在跑」，而是一具尸体上的标记——读者据此知道恢复会重派它们。
-    return `${settled} of ${run.usage.nodesObserved} dispatched steps settled; ${leftover} ${
-      leftover === 1 ? "was" : "were"
-    } still running when the owning process exited and will be re-dispatched on resume`;
-  }
-  if (terminal) {
-    const failed = run.usage.nodesFailed > 0 ? `, ${run.usage.nodesFailed} failed` : "";
-    return `${settled} step${settled === 1 ? "" : "s"} settled${failed}, ${formatWorkflowRunCount(
-      run.usage.spentTokens,
-    )} tokens`;
-  }
-  const running =
-    run.usage.nodesRunning > 0 ? `, ${run.usage.nodesRunning} running${runningBreakdown(run)}` : "";
-  return `${settled} of ${run.usage.nodesObserved} dispatched steps settled${running}`;
+  return readWorkflowSummaryClause("steps", run, 0, terminal)!;
 }
 
 /**
@@ -136,28 +98,12 @@ function stepsClause(run: WorkflowRunSummaryFacts, terminal: boolean): string {
  * 两者的行都还没结算。所以这三个数是 `usage.nodesRunning` 的一个**划分**，加起来必须等于它。
  * 括号里的数与括号外的数对不上，只可能是造数据的人手搓了一份现实中不存在的 journal。
  */
-function runningBreakdown(run: WorkflowRunSummaryFacts): string {
-  const counts = { executing: 0, waiting: 0, parked: 0 };
-  for (const subagent of run.subagents) {
-    if (subagent.state === "executing") counts.executing += 1;
-    else if (subagent.state === "waiting") counts.waiting += 1;
-    else if (subagent.state === "parked") counts.parked += 1;
-  }
-  const parts = (Object.keys(counts) as (keyof typeof counts)[])
-    .filter((key) => counts[key] > 0)
-    .map((key) => `${counts[key]} ${key}`);
-  return parts.length === 0 ? "" : ` (${parts.join(", ")})`;
-}
-
 /**
  * 待答问题。**「不知道」是一句必须说出口的话**：读另一个进程名下的 run 时，「没有人在等」
  * 与「查不到」长得一模一样，而这两者对模型是完全不同的下一步。
  */
 function questionsClause(run: WorkflowRunSummaryFacts): string | undefined {
-  if (!run.health.pendingQuestionsKnown) return "Pending questions are unknown from this session.";
-  const count = run.pendingQuestions?.length ?? 0;
-  if (count === 0) return undefined;
-  return `${count} question${count === 1 ? "" : "s"} awaiting your answer.`;
+  return readWorkflowSummaryClause("questions", run);
 }
 
 /** 最后一次被观察到在动是什么时候；停滞了就把这个词说出来。 */
@@ -166,19 +112,12 @@ function progressClause(
   now: number,
   terminal: boolean,
 ): string | undefined {
-  if (terminal) return undefined;
-  const age = formatRelativeAge(now, run.health.lastProgressAt);
-  if (age === undefined) return undefined;
-  return run.health.stalledSince === undefined
-    ? `Last progress ${age}.`
-    : `Stalled, last progress ${age}.`;
+  return readWorkflowSummaryClause("progress", run, now, terminal);
 }
 
 /** 失败码进摘要：模型据它分辨「进程死了」与「脚本真失败」，而这决定它下一步走哪条路由。 */
 function failureClause(run: WorkflowRunSummaryFacts): string | undefined {
-  if (run.error === undefined) return undefined;
-  if (run.status !== "errored" && run.stopReason !== "provider") return undefined;
-  return `Failure: ${run.error.code}.`;
+  return readWorkflowSummaryClause("failure", run);
 }
 
 /**
@@ -188,13 +127,10 @@ function failureClause(run: WorkflowRunSummaryFacts): string | undefined {
  * `&quot;`——一对为了可读性加的引号会在模型眼前变成两团实体。括号里的 kind 已经把标题括住了。
  */
 function deliverableClause(run: WorkflowRunSummaryFacts): string | undefined {
-  if (run.status !== "completed") return undefined;
-  const primary = run.artifacts?.find((artifact) => artifact.primary === true);
-  if (primary === undefined) return undefined;
-  return `Deliverable: ${primary.title ?? primary.id} (${primary.kind}, primary).`;
+  return readWorkflowSummaryClause("deliverable", run);
 }
 
 /** 非本会话拥有的 run：通知不会来，TaskOutput 也看不到它——summary 首句必须写明归属。 */
 function ownershipClause(run: WorkflowRunSummaryFacts): string | undefined {
-  return run.ownedByThisSession ? undefined : "Owned by another session.";
+  return readWorkflowSummaryClause("ownership", run);
 }
