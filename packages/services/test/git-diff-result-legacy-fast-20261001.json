@@ -1,0 +1,32 @@
+{
+  "kind": "copied-test-only-inherited-diff-result",
+  "commit": "78df1ba980fbb6e903a34407498daba40f164b8c",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "511f73792330f87bacf1a8708781047d69f1147ee5693aac3b75d49037c5ac67",
+  "spans": [
+    {
+      "name": "toResultMessage",
+      "start": 624,
+      "end": 793,
+      "text": "function toResultMessage(result: GitCommandExecutionResult): string {\n  return result.stderr.trim() || result.stdout.trim() || `exitCode=${result.exitCode ?? \"null\"}`;\n}",
+      "sha256": "5e2f93fa19e274ca500fdc1dd68035884833541b283e89f68dd4c4c80dbbc747",
+      "bodySha256": "3fb236237206864e71a2cd477158f477a7534cc665922e435b2b752811d42b08"
+    },
+    {
+      "name": "isBinaryDiff",
+      "start": 16263,
+      "end": 16395,
+      "text": "function isBinaryDiff(stdout: string): boolean {\n  return stdout.includes(\"GIT binary patch\") || stdout.includes(\"Binary files \");\n}",
+      "sha256": "964858786caaaa4423548e2b575d03520c7f346a83058538fc7c5d3632456c95",
+      "bodySha256": "19deccad2af352f1d4de89557e4566f22b393758c74bb49a9bd2e5d7741251ef"
+    },
+    {
+      "name": "toDiffResult",
+      "start": 16397,
+      "end": 18013,
+      "text": "export function toDiffResult(\n  path: string,\n  result: GitCommandExecutionResult,\n  options?: {\n    allowedExitCodes?: number[];\n    emptySummary?: string;\n    binarySummary?: string;\n  },\n): GitDiffResult {\n  if (result.timedOut) {\n    return {\n      path,\n      availability: \"unavailable\",\n      patch: null,\n      beforeContent: null,\n      afterContent: null,\n      summary: \"Git diff command timed out.\",\n    };\n  }\n\n  if (result.outputTruncated) {\n    return {\n      path,\n      availability: \"truncated\",\n      patch: null,\n      beforeContent: null,\n      afterContent: null,\n      summary: \"Git diff output exceeded the preview limit.\",\n    };\n  }\n\n  const allowedExitCodes = options?.allowedExitCodes ?? [0];\n  if (!allowedExitCodes.includes(result.exitCode ?? Number.NaN)) {\n    return {\n      path,\n      availability: \"unavailable\",\n      patch: null,\n      beforeContent: null,\n      afterContent: null,\n      summary: toResultMessage(result),\n    };\n  }\n\n  if (!result.stdout.trim()) {\n    return {\n      path,\n      availability: \"unavailable\",\n      patch: null,\n      beforeContent: null,\n      afterContent: null,\n      summary: options?.emptySummary ?? \"No diff output available.\",\n    };\n  }\n\n  if (isBinaryDiff(result.stdout)) {\n    return {\n      path,\n      availability: \"binary\",\n      patch: null,\n      beforeContent: null,\n      afterContent: null,\n      summary: options?.binarySummary ?? \"Binary diff is not previewable.\",\n    };\n  }\n\n  return {\n    path,\n    availability: \"patch\",\n    patch: result.stdout,\n    beforeContent: null,\n    afterContent: null,\n    summary: null,\n  };\n}",
+      "sha256": "69db65e6386b19b2093df651b06d73c581708096a5b94867d1967df5de2f055a",
+      "bodySha256": "87ea7e9ccad5819ad5fad738e044221a4f37c7a654442a8c2777477e56c13b62"
+    }
+  ]
+}
