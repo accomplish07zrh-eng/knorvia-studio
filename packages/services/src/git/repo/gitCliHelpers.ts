@@ -21,35 +21,30 @@ function toResultMessage(result: GitCommandExecutionResult): string {
 }
 
 function toNormalizedLines(text: string): string[] {
-  return text
-    .replace(/\r\n/g, "\n")
-    .split("\n")
-    .map((line) => line.replace(/\s+$/g, ""));
+  const lines: string[] = [];
+  let start = 0;
+  while (true) {
+    const separator = text.indexOf("\n", start);
+    const end = separator < 0 ? text.length : separator;
+    lines.push(text.slice(start, end).trimEnd());
+    if (separator < 0) return lines;
+    start = end + 1;
+  }
 }
 
 function extractIndentedPaths(lines: string[], headerPattern: RegExp): string[] {
-  const headerIndex = lines.findIndex((line) => headerPattern.test(line.toLowerCase()));
-  if (headerIndex < 0) {
-    return [];
-  }
-
   const paths: string[] = [];
-  for (let index = headerIndex + 1; index < lines.length; index += 1) {
-    const line = lines[index];
-    if (!line) {
+  let inBody = false;
+  for (const line of lines) {
+    if (!inBody) {
+      inBody = headerPattern.test(line.toLowerCase());
       continue;
     }
-
-    if (!/^\s+/.test(line)) {
-      break;
-    }
-
+    if (!line) continue;
+    if (!/^\s+/.test(line)) break;
     const value = line.trim();
-    if (value.length > 0) {
-      paths.push(normalizeGitPath(value));
-    }
+    if (value.length > 0) paths.push(normalizeGitPath(value));
   }
-
   return paths;
 }
 
@@ -68,99 +63,48 @@ export function parseGitBranchMutationIssues(
   const lines = toNormalizedLines(detail ?? "");
   const normalizedDetail = detail?.toLowerCase() ?? "";
 
-  // 分支切换是否被阻塞，最终以 Git 原生命令的真实报错为准。
-  // 这里集中把常见 stderr 归一成稳定 issue code，避免 UI 直接依赖易变的原始文案。
-
-  const trackedOverwritePaths = extractIndentedPaths(
-    lines,
-    /your local changes to the following files would be overwritten by (checkout|switch)/,
-  );
-  if (trackedOverwritePaths.length > 0) {
-    return [
-      {
-        code: "tracked-changes-would-be-overwritten",
-        message: "Tracked changes would be overwritten by switching branches.",
-        paths: trackedOverwritePaths,
-        detail,
-      },
-    ];
+  // Rules retain Git's diagnostic prose and the established issue priority.
+  const pathRules = [
+    [
+      /your local changes to the following files would be overwritten by (checkout|switch)/,
+      "tracked-changes-would-be-overwritten",
+      "Tracked changes would be overwritten by switching branches.",
+    ],
+    [
+      /the following untracked working tree files would be overwritten by (checkout|switch)/,
+      "untracked-changes-would-be-overwritten",
+      "Untracked files would be overwritten by switching branches.",
+    ],
+  ] as const;
+  for (const [pattern, code, message] of pathRules) {
+    const paths = extractIndentedPaths(lines, pattern);
+    if (paths.length > 0) return [{ code, message, paths, detail }];
   }
 
-  const untrackedOverwritePaths = extractIndentedPaths(
-    lines,
-    /the following untracked working tree files would be overwritten by (checkout|switch)/,
-  );
-  if (untrackedOverwritePaths.length > 0) {
-    return [
-      {
-        code: "untracked-changes-would-be-overwritten",
-        message: "Untracked files would be overwritten by switching branches.",
-        paths: untrackedOverwritePaths,
-        detail,
-      },
-    ];
-  }
-
-  if (normalizedDetail.includes("already exists")) {
-    return [
-      {
-        code: "branch-already-exists",
-        message: "Branch already exists.",
-        detail,
-      },
-    ];
-  }
-
-  if (normalizedDetail.includes("invalid reference:")) {
-    return [
-      {
-        code: "target-branch-not-found",
-        message: "Target branch was not found.",
-        detail,
-      },
-    ];
-  }
-
-  if (normalizedDetail.includes("is already used by worktree at")) {
-    return [
-      {
-        code: "branch-in-other-worktree",
-        message: "Branch is already checked out in another worktree.",
-        detail,
-      },
-    ];
-  }
-
-  if (normalizedDetail.includes("resolve your current index first")) {
-    return [
-      {
-        code: "conflicts-present",
-        message: "Repository still has unresolved conflicts.",
-        detail,
-      },
-    ];
-  }
-
-  if (
-    /cannot switch branch while (merging|rebasing|cherry-picking|reverting|bisecting)/.test(
-      normalizedDetail,
-    ) ||
-    normalizedDetail.includes("you have not concluded your merge") ||
-    normalizedDetail.includes("rebase in progress")
-  ) {
-    return [
-      {
-        code: "operation-in-progress",
-        message: "Another Git operation is still in progress.",
-        detail,
-      },
-    ];
-  }
-
+  const messageRules = [
+    [/already exists/, "branch-already-exists", "Branch already exists."],
+    [/invalid reference:/, "target-branch-not-found", "Target branch was not found."],
+    [
+      /is already used by worktree at/,
+      "branch-in-other-worktree",
+      "Branch is already checked out in another worktree.",
+    ],
+    [
+      /resolve your current index first/,
+      "conflicts-present",
+      "Repository still has unresolved conflicts.",
+    ],
+    [
+      /cannot switch branch while (merging|rebasing|cherry-picking|reverting|bisecting)|you have not concluded your merge|rebase in progress/,
+      "operation-in-progress",
+      "Another Git operation is still in progress.",
+    ],
+  ] as const;
+  const match = messageRules.find(([pattern]) => pattern.test(normalizedDetail));
   return [
     {
-      code: "unknown",
-      message: "Git could not complete the branch operation.",
+      code: match?.[1] ?? "unknown",
+      message: match?.[2] ?? "Git could not complete the branch operation.",
       detail,
     },
   ];
