@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "source": "https://github.com/zai-org/ZCode",
+  "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+  "verifiedAt": "2026-10-01T06:52:18.663562+00:00",
+  "method": "Independent read-only fetch of exact public upstream commit into separate temporary bare repository; resolve each path through its tree and hash retrieved blob bytes. LF normalization only replaces CRLF. No upstream code imported into production.",
+  "files": [
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "blob": "e51ac0d494b741693daee2d1f2757a0c0f460018",
+      "bytes": 6535,
+      "rawSha256": "6d06d241075db4d80985c6c9813b369eab98abaea6b6633331188797f3e45249",
+      "normalizedSha256": "6d06d241075db4d80985c6c9813b369eab98abaea6b6633331188797f3e45249",
+      "matchesRecordedBaseline": true
+    },
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/cron.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/cron.ts",
+      "blob": "2ccaa68c7f50ad0dfebd694b07d6131b1378dbe4",
+      "bytes": 17043,
+      "rawSha256": "e956d93c6ae176e204e6cc4865fd391c49cfe6ebf108d42177767736f640cf11",
+      "normalizedSha256": "e956d93c6ae176e204e6cc4865fd391c49cfe6ebf108d42177767736f640cf11",
+      "matchesRecordedBaseline": true
+    },
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/list-models.ts",
+      "blob": "89c47e1dd00749cf78df1375dc3ff3376a463bb7",
+      "bytes": 8667,
+      "rawSha256": "7a82d339a3336ca8fb33d02d5579b215d0370e3b9e06d9cdd0f85a61b77e2f2c",
+      "normalizedSha256": "7a82d339a3336ca8fb33d02d5579b215d0370e3b9e06d9cdd0f85a61b77e2f2c",
+      "matchesRecordedBaseline": true
+    },
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/model-reference.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/model-reference.ts",
+      "blob": "e36fb4d796e030887c3895bff2ccc837c9df69a8",
+      "bytes": 11756,
+      "rawSha256": "a6099acc53e661761b814e79f2d6df433d8f215a579b07d6dab7b733780537a2",
+      "normalizedSha256": "a6099acc53e661761b814e79f2d6df433d8f215a579b07d6dab7b733780537a2",
+      "matchesRecordedBaseline": true
+    },
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/off-peak.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/off-peak.ts",
+      "blob": "14c52162582cd9a67855b290e5213fbdacceac98",
+      "bytes": 11404,
+      "rawSha256": "03fdd628ad584ba805e4bff8941239c7b26f1f6a0f2818afb76a2a743b5fa4c9",
+      "normalizedSha256": "03fdd628ad584ba805e4bff8941239c7b26f1f6a0f2818afb76a2a743b5fa4c9",
+      "matchesRecordedBaseline": true
+    },
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "blob": "98c0dbbd7814e048fe84bfca07476b66c3b289a8",
+      "bytes": 13878,
+      "rawSha256": "d69b3ea27526c0c58e7edb4270547dedb77e7d088684dcdddeec2f3dbc2f00d5",
+      "normalizedSha256": "d69b3ea27526c0c58e7edb4270547dedb77e7d088684dcdddeec2f3dbc2f00d5",
+      "matchesRecordedBaseline": true
+    },
+    {
+      "currentPath": "apps/cli/packages/core/src/tool/handlers/skill.ts",
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/skill.ts",
+      "blob": "41ff843cd8d071ee3af073de499c816d4e0ef26b",
+      "bytes": 5100,
+      "rawSha256": "f5b8f493a6878659e0411f075f0fb60cc3efeeb9a8e9acbf134becb72d1dc2e2",
+      "normalizedSha256": "f5b8f493a6878659e0411f075f0fb60cc3efeeb9a8e9acbf134becb72d1dc2e2",
+      "matchesRecordedBaseline": true
+    }
+  ],
+  "limits": "Confirms recorded upstream publisher bytes only, not originality, clean-room authorship or final whole-file MIT eligibility. Existing attribution remains."
+}
