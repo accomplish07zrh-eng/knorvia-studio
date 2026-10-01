@@ -28071,14 +28071,15 @@
     },
     {
       "path": "apps/cli/packages/adapters/test/workspace-hook-trust-lock-compatibility.test.ts",
-      "normalizedSha256": "77366b994b5793b24498b45b38006f0444680096a82ea48c5e17e1b93eebe7d4",
+      "normalizedSha256": "f02146be6e340541440253ba0a2a12a15f01a503f2aedde7068647f2b1b5ede7",
       "decision": "original",
       "license": "MIT",
       "basis": "New eight-case old-first lock compatibility coverage of own PID, malformed/recent owner, finite time boundary, null/dead probes, metadata failure and replacement token release. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
       "evidence": [
         "specs/knorvia-workspace-hook-trust-storage.md",
         "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
+        "licensing/evidence/workspace-hook-trust-storage.md",
+        "licensing/evidence/direct-transport-lock-test-clock-20261001.json"
       ]
     },
     {
@@ -28131,14 +28132,15 @@
     },
     {
       "path": "specs/knorvia-workspace-hook-trust-storage.md",
-      "normalizedSha256": "6463933f116e9ca5626fc56870527fbeadae7d2c6944935bb057a00556a60efd",
+      "normalizedSha256": "257478902e7669af505f865bef99cc0328896d494f3b682f80db4430ea3812d4",
       "decision": "original",
       "license": "MIT",
       "basis": "Prior behavioral contract and subsequently disclosed native ownership/error boundary clarifications with exact retained semantics and explicit approved fixes. Root and validation roles read inherited implementation and extracted behavior; the external author received approved contracts, public signatures and dependency declarations, not the old body, history, bundle, tests or probes. Prior conversation context remains, so no whole-process clean-room or legal guarantee is asserted. Fixed interface fields, platform commands, error messages and short standard IO expressions are necessary compatibility material. File splitting, line count, naming and SPDX headers are not provenance proof. Real initial compatibility failures and behavior-only corrections are retained. Public contracts/schema, shared data-root helpers, other modules and third-party dependencies retain their prior rights. Root Apache-2.0 and preview version remain.",
       "evidence": [
         "specs/knorvia-workspace-hook-trust-storage.md",
         "docs/knorvia-workspace-hook-trust-storage-acceptance.md",
-        "licensing/evidence/workspace-hook-trust-storage.md"
+        "licensing/evidence/workspace-hook-trust-storage.md",
+        "licensing/evidence/direct-transport-lock-test-clock-20261001.json"
       ]
     },
     {

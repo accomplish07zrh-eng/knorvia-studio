@@ -51,6 +51,10 @@ test("recent malformed locks still respect the stale threshold", async (t) => {
 test("a marked live instance uses the inclusive 2000ms tolerance before reclaiming", async (t) => {
   const f = await fixture(t);
   const owner = await ownedProcess(f, "idle");
+  // 只推进锁测试时钟，避免主机调度耗尽 50ms 而遮蔽 2000/2001ms 身份边界。
+  const probeElapsedMs = 10;
+  let lockNow = Date.now();
+  t.mock.method(Date, "now", () => lockNow);
   let probes = 0;
   const store = createFileWorkspaceHookTrustStore({
     filePath: f.filePath,
@@ -58,6 +62,7 @@ test("a marked live instance uses the inclusive 2000ms tolerance before reclaimi
     probeProcessStartTime: async (pid) => {
       assert.equal(pid, owner.pid);
       probes++;
+      lockNow += probeElapsedMs;
       return owner.startTime;
     },
   });

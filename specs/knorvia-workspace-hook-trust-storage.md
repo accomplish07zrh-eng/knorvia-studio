@@ -56,6 +56,14 @@ stale 判断 age <= 阈值保留。metadata 读取/解析失败等价无 owner�
 
 默认平台 probe 保留 Linux proc ticks 加 boot（ticks 率100）、macOS ps lstart、Windows PowerShell Get-Process StartTime；失败或不支持返回 null。参数独立传入，Windows helper 隐藏。实际 Windows 探测已对本任务子进程单独执行并核验；不因此声称 Linux/macOS 默认探测已实测。
 
+### CI227 身份边界测试的确定性锁时钟
+
+`a marked live instance uses the inclusive 2000ms tolerance before reclaiming` 注入 owner 的精确 `startTime`，不经过 OS 起点解析。成功预期的 2001ms 分支可能已经删除过期锁，却在重新打开前耗尽独立的 50ms 获取预算。Root 用任务自有 probe 的 75ms 延迟复现了该路径；CI227 各步骤的实际延迟位置仍未观测，不能把受控复现当作 CI 精确时序证据。CI227 Linux 的 7313 pass / 1 fail / 8 skip 与 Windows 的 7321 pass / 0 fail / 1 skip 原回执保留。
+
+仅此测试在自有子进程 ready 后获取真实 `Date.now()` 作为逻辑时间起点，通过 `t.mock.method` 覆盖测试进程的 `Date.now`，每次注入 probe 将逻辑时间推进 10ms。测试结束由测试框架恢复该方法。保持 50ms 获取截止、2000ms 保留与 2001ms 回收的身份边界，以及全部 owner、错误、锁内容、记录与目录断言；真实文件系统、进程存活检查及争用等待继续执行，不伪造其结果。该调整隔离身份边界断言与主机调度耗时，只改变测试时钟，不改变生产锁、超时、容差、权限或安全规则。
+
+本次运输仅运行该兼容文件的 8 个用例及相关静态/来源检查；Root 已验证的相邻 17 项、实际 emitted 边界、75ms red proof 和两个错误比较器反例属于 Root 证据，不在运输任务重复执行。聚合验证交给下一次同 head 的 Linux/Windows CI；26 项材料义务及现有许可范围不变，不授予生产代码新的 MIT 权利。
+
 ## 验收与保留边界
 
 作者只接收行为合同、公开签名及依赖声明；不读取旧正文、历史、bundle、测试或 probe/比较器。此前会话上下文及固定接口表达的限制如实披露，不宣称绝对 clean-room，也不以改名、拆文件、许可头或测试通过证明来源。
