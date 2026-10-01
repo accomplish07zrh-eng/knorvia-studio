@@ -1,0 +1,16 @@
+{
+  "commit": "55dd11383bb14e892a2be38993bd26c57249fc51",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "sourceSha256": "3d3bacc41502e98c13ec02abcdb0d05429a78cafe51e427a9bbdf6e39503df53",
+  "copiedExposedTestOnly": true,
+  "pieces": {
+    "parser": {
+      "sha256": "33249147ca3b4644967f4735641e246b463eb75bfa589d4f19140a766e8cf544",
+      "text": "function parseGitIndexEntries(stdout: string): GitIndexEntry[] {\n  return stdout\n    .split(\"\\0\")\n    .filter((record) => record.length > 0)\n    .map((record) => {\n      const tabIndex = record.indexOf(\"\\t\");\n      if (tabIndex < 0) {\n        throw new Error(\"Failed to parse staged Git index entry.\");\n      }\n\n      const [mode, objectHash, stage] = record.slice(0, tabIndex).trim().split(/\\s+/);\n      const path = normalizeGitPath(record.slice(tabIndex + 1));\n      if (!mode || !objectHash || !stage || !path) {\n        throw new Error(\"Failed to parse staged Git index entry.\");\n      }\n\n      return { mode, objectHash, stage, path };\n    });\n}"
+    },
+    "cleanup": {
+      "sha256": "acd14d9f223226fb4ae8dc37001aa1742b9f2d0df7bb46f721b7fa7f247118d7",
+      "text": "Array.from(\n          new Set([\n            ...repoPaths,\n            ...parseStatusPorcelain(scopedStatusResult.stdout)\n              .entries.filter((entry) => repoPaths.includes(entry.path))\n              .map((entry) => entry.originalPath)\n              .filter((path): path is string => Boolean(path)),\n          ]),\n        )"
+    }
+  }
+}
