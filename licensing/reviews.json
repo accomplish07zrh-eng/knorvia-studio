@@ -29450,14 +29450,16 @@
     },
     {
       "path": "packages/services/test/creation-run-deadline-clock.test.ts",
-      "normalizedSha256": "9193ef7e9dfc834f0db0730e9979ec00781300a959cb3e00c3ee62b459bd6e91",
+      "normalizedSha256": "ba7fffad0f1923b379229881bd0536a2ebfaff75dd2f79ee3b8b6635a609877b",
       "decision": "original",
       "license": "MIT",
-      "basis": "New focused acceptance covers exact injected deadline, cancellation return and one owned HTTP400 terminal rename fault with real IO backoff and the original1000ms observation budget. Native mock forwards all non-owned operations; cleanup validates its own unique temporary root. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees.",
+      "basis": "New focused acceptance covers exact injected deadline, cancellation return and one owned HTTP400 terminal rename fault with real IO backoff and the original1000ms observation budget. Native mock forwards all non-owned operations; cleanup validates its own unique temporary root. Root reviewed the isolated report, design addendum, full patch/new test contents and main integration. The author read the existing service/tests and prior fault investigation; this is ordinary targeted maintenance, not an isolated independent rewrite of inherited production code. Original service, extracted native scheduling helper, existing tests/specs remain unreviewed/NOASSERTION; no MIT inference is made from their modification or movement. Only the specified new test/fact content is reviewed here. Root Apache, retained rights and preview identity remain. A passing synthetic fault does not establish original cloud causes or arbitrary IO completion guarantees. The2026-10-01 correction records every native rename outcome and proves one bounded owned transaction instead of assuming no extra OS failures;11 invalid-trace cases and retained1000ms native-IO test verify it. Historical CI208 system error cause remains unproved.",
       "evidence": [
         "docs/knorvia-creation-run-clock-acceptance.md",
         "specs/knorvia-creation-polish.md",
-        "specs/knorvia-test-stability.md"
+        "specs/knorvia-test-stability.md",
+        "licensing/evidence/creation-rename-attempts-20261001.json",
+        "licensing/evidence/direct-root-ci208.json"
       ]
     },
     {
@@ -41504,6 +41506,30 @@
         "docs/knorvia-process-probe-runtime-acceptance-20260930.md",
         "licensing/evidence/process-probe-runtime-20260930.json"
       ]
+    },
+    {
+      "path": "packages/services/test/creation-rename-attempts-fixture.ts",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic test-only trace accounting authored for the documented CI208 fixture contract; no product implementation or publisher source is licensed by this decision. The2026-10-01 correction records every native rename outcome and proves one bounded owned transaction instead of assuming no extra OS failures;11 invalid-trace cases and retained1000ms native-IO test verify it. Historical CI208 system error cause remains unproved.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "licensing/evidence/creation-rename-attempts-20261001.json",
+        "licensing/evidence/direct-root-ci208.json"
+      ],
+      "normalizedSha256": "8443d190643217ac2d7abce69928c1e421fdb5b52c04f871bd10641e441a4c9e"
+    },
+    {
+      "path": "packages/services/test/creation-rename-attempts.test.ts",
+      "decision": "original",
+      "license": "MIT",
+      "basis": "New synthetic test-only trace accounting authored for the documented CI208 fixture contract; no product implementation or publisher source is licensed by this decision. The2026-10-01 correction records every native rename outcome and proves one bounded owned transaction instead of assuming no extra OS failures;11 invalid-trace cases and retained1000ms native-IO test verify it. Historical CI208 system error cause remains unproved.",
+      "evidence": [
+        "specs/knorvia-creation-polish.md",
+        "licensing/evidence/creation-rename-attempts-20261001.json",
+        "licensing/evidence/direct-root-ci208.json"
+      ],
+      "normalizedSha256": "e65816d2b02187f5d1068373308553a896b096626b26854bbc798aa01a0de15a"
     }
   ]
 }

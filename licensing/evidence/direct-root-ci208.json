@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "scope": "TaskOutput batch native CI208 historical failure receipt before rename-attempt fixture correction",
+  "head": "0e4f05c73ae5deb74515eb44efa82167f999d012",
+  "checkedMergeSha": "3b1d752497ea3198b0ee3e6903095a3f6c1b18c0",
+  "checkedTree": "ab1eb36432bcf3f150e00fde68c6172969467a48",
+  "headTreeExactMatch": true,
+  "run": 36801223359,
+  "runNumber": 208,
+  "attempt": 1,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36801223359",
+  "linux": {
+    "job": 110175776262,
+    "result": "success",
+    "tests": 5986,
+    "pass": 5978,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110175775880,
+    "result": "failure",
+    "tests": 5986,
+    "pass": 5984,
+    "fail": 1,
+    "skip": 1
+  },
+  "failure": {
+    "test": "owned failed-terminal EPERM retries on real IO time within the original 1000ms",
+    "path": "packages/services/test/creation-run-deadline-clock.test.ts:242",
+    "actualMatchingRenames": 3,
+    "expectedMatchingRenames": 2,
+    "elapsedMs": 104,
+    "submissions": 1,
+    "injections": 1,
+    "watchdog": {
+      "now": 0,
+      "cancelled": 1,
+      "fired": 0,
+      "pending": 0,
+      "delays": [
+        500
+      ]
+    }
+  },
+  "limits": [
+    "No raw native rename result trace in this historical run; extra native transient failure versus additional transaction is not established",
+    "Do not rewrite this failed run as successful after later fixes or reruns",
+    "No native UI, installer, live provider, data upgrade or final MIT acceptance"
+  ]
+}

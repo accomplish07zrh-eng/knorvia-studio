@@ -3,10 +3,15 @@
 import assert from "node:assert/strict";
 import * as fs from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { mock, test } from "node:test";
 import type { CreationJob } from "../src/creation/contract.js";
 import { createRunDeadlineClock } from "./creation-run-deadline-clock-fixture.js";
+
+import {
+  assertOwnedRenameAttempts,
+  type OwnedRenameAttempt,
+} from "./creation-rename-attempts-fixture.js";
 
 const realSetTimeout = setTimeout;
 const realClearTimeout = clearTimeout;
@@ -17,6 +22,7 @@ let activeFault:
       requestId: string;
       injections: number;
       matchingRenames: number;
+      attempts: OwnedRenameAttempt[];
     }
   | undefined;
 mock.module("node:fs/promises", {
@@ -42,7 +48,20 @@ mock.module("node:fs/promises", {
           fault.matchingRenames++;
           if (fault.injections === 0) {
             fault.injections++;
+            fault.attempts.push({ source: basename(source), outcome: "injected", code: "EPERM" });
             throw Object.assign(new Error("owned failed-terminal fixture"), { code: "EPERM" });
+          }
+          try {
+            await fs.rename(...args);
+            fault.attempts.push({ source: basename(source), outcome: "committed" });
+            return;
+          } catch (error) {
+            fault.attempts.push({
+              source: basename(source),
+              outcome: "native-failed",
+              code: (error as NodeJS.ErrnoException).code,
+            });
+            throw error;
           }
         }
       }
@@ -220,6 +239,7 @@ test("owned failed-terminal EPERM retries on real IO time within the original 10
       requestId: "eperm-failure",
       injections: 0,
       matchingRenames: 0,
+      attempts: [],
     };
     // 只冻结显式 run deadline；一次 EPERM 的生产退避必须仍由真实计时器推进。
     jobId = (
@@ -239,9 +259,10 @@ test("owned failed-terminal EPERM retries on real IO time within the original 10
       assert.match(finished.error ?? "", /生成服务返回 400/u);
       assert.equal(submissions, 1);
       assert.equal(activeFault.injections, 1);
-      assert.equal(activeFault.matchingRenames, 2);
       assert.equal(clock.snapshot().now, 0);
       await withinBudget(clock.settled());
+      // CI208 的3次调用未记录系统结果；完整轨迹区分合法原生重试与重复事务，保留原预算。
+      assertOwnedRenameAttempts(activeFault.attempts, activeFault.matchingRenames);
       evidence.push({
         case: "owned-failed-terminal",
         result: "failed/400",

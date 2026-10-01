@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "scope": "Owned test-only rename attempt evidence and bounded exact accounting",
+  "baselineCommit": "0e4f05c73ae5deb74515eb44efa82167f999d012",
+  "historicalFailure": "licensing/evidence/direct-root-ci208.json",
+  "change": [
+    "Observe raw rename outcome only for the existing owned failed-terminal temporary jobs file",
+    "Exactly one injected EPERM first and one real commit last, single temporary source",
+    "Every additional attempt requires recorded EPERM/EACCES/EBUSY native failure; exact count reconciliation within existing9-attempt bound",
+    "Keep original real1000ms observation and submission/deadline assertions; await run settlement before checking the complete trace"
+  ],
+  "validation": {
+    "failureFirst": "New trace contract test initially failed because its helper did not yet exist; original CI208 failure retained separately",
+    "focused": {
+      "tests": 19,
+      "pass": 19,
+      "fail": 0
+    },
+    "counterexamples": 11,
+    "nativeOwnedFixture": {
+      "elapsedMs": 32,
+      "submissions": 1,
+      "injections": 1,
+      "matchingRenames": 2,
+      "outcomes": [
+        "injected EPERM",
+        "committed"
+      ],
+      "scope": "Local Linux observation only; not a reproduction of the Windows extra attempt"
+    },
+    "aggregate": {
+      "tests": 6002,
+      "pass": 5936,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "rootLint": "pass",
+    "format": "pass",
+    "architecture": "pass"
+  },
+  "unchanged": [
+    "All production source",
+    "Retry codes, attempts and exponential delay",
+    "Provider calls, data formats and task state",
+    "1000ms real terminal and submission watchdog budgets",
+    "Root LICENSE/NOTICE and27 unresolved material obligations"
+  ],
+  "limits": [
+    "Historical CI208 native error code cannot be inferred from aggregate count",
+    "No arbitrary IO completion guarantee",
+    "New native Windows result still pending"
+  ]
+}
