@@ -1,0 +1,247 @@
+{
+  "formatVersion": 1,
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baseline": "8fa5375f0c590a836e84b6d0e67097628bab49eb",
+  "freeze": "acc0467c11dfbc9be67dcaf6129edb170567da9b",
+  "production": "abccb8ce95a8aae3ab147764432fdf541ebe6d27",
+  "previousReceipts": [
+    {
+      "path": "docs/evidence/knorvia-workflow-run-summary-fast-checks-20261001.json",
+      "sha256": "b328e48a882533dcec1a7b3db0630b03040a4780feefbcbc6c551e46dec8edf9"
+    },
+    {
+      "path": "docs/evidence/knorvia-workflow-run-summary-clauses-fast-receipt-20261001.json",
+      "sha256": "d7331afeba30e33a79bdcde8b5146ee3a01404164d7ef75cd88e33e5d84e2946"
+    },
+    {
+      "path": "docs/evidence/knorvia-get-workflow-run-orchestration-fast-receipt-20261001.json",
+      "sha256": "a7cafffab396eca329df1ad6aeed0110ec7a253af74c736a62ce7d89e8d12068"
+    }
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "bytes": 10451,
+      "sha256": "46866d036318b09043924ff752b40b2325d64c23b4e6f0fce1c57249b4335a01",
+      "blob": "e8ff534a990c0755611622fde1f68c4bcc0c12bf",
+      "lastChange": "abccb8ce95a8aae3ab147764432fdf541ebe6d27"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+      "bytes": 6873,
+      "sha256": "62386ad0a46b63d5e22316e87510316299d74720f53d2441b7d81b3a494a54c1",
+      "blob": "76f6f0060cce49a962d3c9c59dff6e01d2cc6efa",
+      "lastChange": "abccb8ce95a8aae3ab147764432fdf541ebe6d27"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-baseline.json",
+      "bytes": 15667,
+      "sha256": "87eff43d90dfe7911f994d2f82f10640eaca8e1b35b521355b7c539af7a613bf",
+      "blob": "2aa01e1233108e2a0dbcf81310928176faab6863",
+      "lastChange": "acc0467c11dfbc9be67dcaf6129edb170567da9b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-contract.json",
+      "bytes": 3789,
+      "sha256": "e245960a7b4e85389d5f11da718ab30851d6cbbb37531b421ed178921722312d",
+      "blob": "b5f6acecad1b4e96f2cd138f3b5ff2090c1627fe",
+      "lastChange": "acc0467c11dfbc9be67dcaf6129edb170567da9b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity-fixture.ts",
+      "bytes": 11377,
+      "sha256": "b70e5d8adb123ba65773220e3a351aa8af49a1ae50040fc5e5d288426aeb5d61",
+      "blob": "3622a653e60d90b75fe52129e5ca91d6c32810f5",
+      "lastChange": "acc0467c11dfbc9be67dcaf6129edb170567da9b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+      "bytes": 2877,
+      "sha256": "706a86d548a4f30a83475aa1cf0d65a61533d293f8eb8e740df177c3ac2b085f",
+      "blob": "1f5052e654bdd450734771058e680498b976ab2d",
+      "lastChange": "acc0467c11dfbc9be67dcaf6129edb170567da9b"
+    },
+    {
+      "path": "specs/knorvia-workflow-run-activity-program.md",
+      "bytes": 3575,
+      "sha256": "b148f6193c2e82744e8c48d8b8225de94ae834facfdaed659cff919acd1dafb6",
+      "blob": "3a8af225616676f1c9441d382dfb45ba542db79d",
+      "lastChange": "acc0467c11dfbc9be67dcaf6129edb170567da9b"
+    }
+  ],
+  "filesTupleSha256": "7f6d2c0585ba3fb1758c0f41597228aaeca068b448d881b02f382aa2d769b6dd",
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.js",
+      "bytes": 10200,
+      "sha256": "8c6ea5a552a66c9d1daa0859cf0255b5c3629d3f0327c4c826f1254b15d16cd6"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-format-roster.d.ts",
+      "bytes": 1650,
+      "sha256": "bd1ec9a70c34cf92baa3a7ead52676f2b763d5843caf64433dd2a705ac37f44b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.js",
+      "bytes": 5990,
+      "sha256": "8b3446800933fb1d9300bdf29df2e4a1c0888db674101a81420237bc1b9f426c"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/get-workflow-run-activity-program.d.ts",
+      "bytes": 278,
+      "sha256": "53eda68d039bff288c575767434ed889c30b06f8786fcc58f9541ef215fd226f"
+    }
+  ],
+  "protectedCount": 363,
+  "checks": {
+    "freeze-source": {
+      "bytes": 647,
+      "sha256": "75af7fbe78e0a6d055c54ad53bef437379dbff13e5d33f51ca67e6d4cee148cf",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "freeze-emitted": {
+      "bytes": 648,
+      "sha256": "d8d8489c99b038fb6c90c0576cee823c283a7d67a72572f97b9ed4871aa36726",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "source": {
+      "bytes": 648,
+      "sha256": "517b5abc7786dc94928db1e2a2df5ec12c64dd6cee434b22270544df774e6900",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "emitted": {
+      "bytes": 647,
+      "sha256": "278f282651999da594e0cd1f26ee2326f7fed5e98ee36cff055046139aaa5ea3",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "consumers": {
+      "bytes": 519,
+      "sha256": "41d1c851079a52b9853b283ba8dd2014fb27a7757dfc2699238aff3bc305f71c",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "emission": {
+      "bytes": 745,
+      "sha256": "bc6360569018a33eb6fd0b5c0bf8ceb260deb70563894d58559102067b084a58",
+      "pass": true
+    },
+    "types": {
+      "bytes": 381,
+      "sha256": "d48f14528b7f929bc3ade1954dae0fff55a75f7388b1ad026d1fbad68b3a58bd",
+      "pass": true
+    },
+    "root-lint": {
+      "bytes": 155,
+      "sha256": "c27616e2750f2fb953dbcd0be9dff963953923ba6dddff20273a00fb80133c79",
+      "pass": true
+    },
+    "cli-lint": {
+      "bytes": 192,
+      "sha256": "8c6892f0567280d66dc87b0de54d3433a76e7030fddeed66f72cc05ea441f371",
+      "pass": true
+    },
+    "owned-lint": {
+      "bytes": 90,
+      "sha256": "6924e753a8db5599c9e81635f1c4c60afc342ca17dc2b5b76fd836037963def6",
+      "pass": true
+    },
+    "format": {
+      "bytes": 112,
+      "sha256": "f42d651b1c750017dec1f3724f5051902cdabb8eb1bb8449b0d4cf5918ea5b46",
+      "pass": true
+    },
+    "architecture": {
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "pass": true
+    },
+    "refs": {
+      "bytes": 800,
+      "sha256": "4bba690b095935c1970f0c15fde4ade4569902d857270d718d40eb828e018a59",
+      "pass": true
+    },
+    "evidence-lint": {
+      "bytes": 89,
+      "sha256": "10a1c097bbbcca08f1fbd210c235f13fcde7ed05a6d81a6640849c2ed473e785",
+      "pass": true
+    },
+    "final-format": {
+      "bytes": 112,
+      "sha256": "cd6cb440c4627e2c2d1315e0e989b107de649c9ae9c9d1f070fb7a9d4a703959",
+      "pass": true
+    }
+  },
+  "logPrefix": "/tmp/knorvia-activity-",
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+    "apps/cli/packages/core/src/tool/handlers/get-workflow-run-activity-program.ts",
+    "apps/cli/packages/core/test/workflow-run-activity-baseline.json",
+    "apps/cli/packages/core/test/workflow-run-activity-contract.json",
+    "apps/cli/packages/core/test/workflow-run-activity-fixture.ts",
+    "apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "specs/knorvia-workflow-run-activity-program.md",
+    "docs/evidence/knorvia-workflow-run-activity-fast-receipt-20261001.json",
+    "docs/evidence/knorvia-workflow-run-activity-fast-check-20261001.mjs"
+  ],
+  "archive": "apps/cli/packages/core/test/workflow-run-activity-baseline.json",
+  "lineage": {
+    "historicalLedger": "upstream-modified; review null at pinned baseline. Only7619e41 changed the inherited target before this checkpoint.",
+    "publisherCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "publisherManifestRecord": {
+      "path": "apps/zcode-cli/packages/core/src/tool/handlers/get-workflow-run-format-roster.ts",
+      "mode": "100644",
+      "blob": "a2ce00709d89ef68b88538487750ae11a6a6fbb1",
+      "kind": "file",
+      "sha256": "c08d9a1adda5448bd6e5b9aac0a6c24cf9b79d714ee1f79ec21750f88f6d5994",
+      "normalizedSha256": "c08d9a1adda5448bd6e5b9aac0a6c24cf9b79d714ee1f79ec21750f88f6d5994",
+      "encoding": "utf8-lf",
+      "bytes": 13436
+    },
+    "publisherVerification": "Manifest metadata only in this checkpoint; no new local publisher byte/authorship verification claimed."
+  },
+  "newExpression": "New per-row owned frame, tagged bind/conditional/text grammar interpreter and ordered route program replace all five inherited activity helper bodies. Existing state, table lookup and async settlement owners remain unchanged; private helper has one production importer.",
+  "retainedExpression": [
+    "The target retains health/phases/table/layout/log implementations, preamble/comments, public declarations and prose. Only activity call and deleted helper group differ beyond imports; checker proves the remaining bodies unchanged.",
+    "Activity programs retain fixed public words, punctuation, plurals, compatibility guard/property-read expressions, one-based arithmetic, template coercion, native glue and lower escape/time/duration calls; two explanatory source comments are carried verbatim. This is mixed retained/new expression, requiring root review.",
+    "Test row/control/instrumentation expression is newly written with source-exposed fixture reuse. The exact archived old emitted module, its declarations and expected output/prose/digest fixtures contain inherited material. Attribution remains; no whole-file originality inferred from hashes or test results."
+  ],
+  "coverage": {
+    "perMode": "5 tests:39 direct route/getter/coercion/malformed observations repeated;6 actual registry/full call-runner cases;6 model-completion abort edges plus early control;2 delayed/concurrent/stale comparisons. Public declarations and schema/metadata/deadline/cancellation identity checked.",
+    "immediateConsumers": "4 existing source workflow-run-display cases; actual parent model projection, display/events/terminal telemetry also exercised in both focused modes.",
+    "scopeChecks": "TypeScript6.0.2, two owned roots/transitive diagnostics0; actual typed emission6 artifacts. Four production/test roots scoped noEmit diagnostics0. Configured root2852/CLI97 files and owned4 files94rules lint0errors/warnings; format7 and architecture0violations. Configured lint ignores most CLI, so owned lint is separate. Final evidence checker lint1 file94rules and formatting9 files also pass.",
+    "failureEvidence": "No implementation mismatch found. Existing summary native-limit proof/correction and GetWorkflowRun inherited-setter red proof/correction protected through previous receipts; not rerun or modified."
+  },
+  "reproduce": {
+    "digest": "node docs/evidence/knorvia-workflow-run-activity-fast-check-20261001.mjs --emitted --logs",
+    "source": "node --import tsx --test apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "emitted": "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/workflow-run-activity.test.ts",
+    "consumer": "node --import tsx --test apps/cli/packages/core/test/workflow-run-display.test.ts",
+    "typedEmission": "Existing core tsconfig parsed into createProgram with only the two owned production roots; getPreEmitDiagnostics0; program.emit(each owned SourceFile) writes only each .js/.d.ts/.d.ts.map. Scoped test types add the two test roots, noEmit/rootDir undefined. No aggregate build.",
+    "localToolchain": "Node24.14.0/pnpm10.33.2/TypeScript6.0.2; retained local /tmp logs optional for digest check. Without --logs, checker is reproducible from Git plus installed TypeScript and --emitted requires current actual dist."
+  },
+  "licenseDecision": null,
+  "limitsAndGaps": [
+    "One bounded activity formatter checkpoint; health/phases/log/table/accepted helpers and runtime/public policy remain outside replacement. Whole-file determination unresolved; root reviews publisher expressions and decides rights. No MIT grant, clean-room or publication claim.",
+    "Reduced cadence honored: no full suite, aggregate CLI/desktop build or unchanged native-limit rerun. Root owns aggregate/native Windows/macOS/GUI/packaged acceptance. No current executor blocker; successful status/content read confirmed production/checker/log preservation after disconnect callback.",
+    "No shared licensing/dependency/CI/security/other-lane changes; root26 and this historical register27 remain separate and untouched. All ports/data synthetic, fetch/DNS fail closed."
+  ]
+}
