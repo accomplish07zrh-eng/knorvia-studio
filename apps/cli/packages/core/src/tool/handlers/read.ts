@@ -30,12 +30,12 @@ import {
   type TraceContext,
 } from "@knorvia/contracts";
 import { resolveWorkspacePath } from "../path-policy.js";
-import { createReadFileStateKey, normalizeReadFileStateMtimeMs } from "../read-file-state.js";
+import { normalizeReadFileStateMtimeMs } from "../read-file-state.js";
 import { createReadFileStateMetadata } from "../read-file-state-metadata.js";
 import { inferImageMimeFromPath, readImageFile } from "./read-image.js";
 import { inferVideoMimeFromPath } from "../../runtime/helpers/attachment-video.js";
 import { readVideoFile } from "./read-video.js";
-import { readTextFileForModel } from "./read-text.js";
+import { orchestrateReadText } from "./read-text-orchestration.js";
 import {
   isPdfPath,
   READ_PDF_TOOL_TIMEOUT_MS,
@@ -104,50 +104,16 @@ const readHandler: ToolHandler = async (input, context) => {
     }
 
     const trace = createReadTrace(context);
-    const stat = await fileSystemPort.stat(
-      { path: filePath, trace },
-      { signal: context.abortSignal },
-    );
-    const readFileState = getReadFileState(context);
-    const cacheOffset = normalizeCacheOffset(offset);
-    const cacheKey = createReadFileStateKey(filePath, cacheOffset, limit);
-    const cached = readFileState.get(cacheKey);
-    if (cached && isCachedReadFresh(cached, stat)) {
-      const output = { type: "file_unchanged", filePath } satisfies ReadOutput;
-      recordReadFileStateMetadata(context, {
-        output,
-        readFileState,
-        toolInput: input,
-      });
-      return output;
-    }
-
-    let rangeReadRevision: FileSystemStatResult["revision"] | undefined;
-    const output = await readTextFileForModel({
-      abortSignal: context.abortSignal,
-      filePath,
-      fileSystemPort,
-      limit,
-      onRead: (read) => {
-        rangeReadRevision = read.revision;
+    return await orchestrateReadText(
+      { context, fileSystemPort, filePath, offset, limit, trace, toolInput: input },
+      {
+        snapshot: getReadFileState,
+        normalizeOffset: normalizeCacheOffset,
+        fresh: isCachedReadFresh,
+        update: updateReadFileState,
+        complete: recordReadFileStateMetadata,
       },
-      offset,
-      trace,
-    });
-    updateReadFileState(readFileState, cacheKey, {
-      output,
-      path: filePath,
-      stat,
-      rangeReadRevision,
-      offset,
-      limit,
-    });
-    recordReadFileStateMetadata(context, {
-      output,
-      readFileState,
-      toolInput: input,
-    });
-    return output;
+    );
   } catch (error) {
     if (isFileSystemPortError(error) && error.code === "not_found") {
       const message = await createMissingReadFileMessage(filePath, context);

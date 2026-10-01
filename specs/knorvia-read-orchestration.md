@@ -40,6 +40,10 @@ single orchestration path: stat, choose existing snapshot or read, commit only a
 completed fresh read, then complete metadata exactly once. A lower private helper
 accepts explicit existing state callbacks; it never imports its entrypoint or
 adds persistent state. All external effects use existing injected ports.
+The lower range-reader argument object is encoded from an ordered field contract,
+preserving own undefined fields and signal-before-window evaluation. This replaces
+the inherited argument literal; accepted lower range translation/budget code is
+not rewritten. No extra await separates snapshot update and metadata completion.
 
 ```mermaid
 sequenceDiagram
