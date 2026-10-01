@@ -1,0 +1,79 @@
+{
+  "commit": "a115bbe2b247551136591568f658fa4dbb70e193",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "sourceSha256": "f46b5ecc5e99d1e8956dc6a129f454529d783abcce7fb2d7274cccfbc0da09f8",
+  "sourceExposure": true,
+  "inheritedTestOnly": true,
+  "spans": [
+    {
+      "name": "toUnavailableDiff",
+      "start": 2068,
+      "end": 2282,
+      "text": "function toUnavailableDiff(path: string, summary: string): GitDiffResult {\n  return {\n    path,\n    availability: \"unavailable\",\n    patch: null,\n    beforeContent: null,\n    afterContent: null,\n    summary,\n  };\n}",
+      "sha256": "5bb25254f644ca63cb7ad55bc06e6fc5e770b0715288b1910dda0cee9eee586b"
+    },
+    {
+      "name": "toCompleteDiffContents",
+      "start": 2364,
+      "end": 2701,
+      "text": "function toCompleteDiffContents(\n  beforeContent: string | null,\n  afterContent: string | null,\n): GitDiffContents | null {\n  // 完整 diff 的任一侧读取失败后若被补成空字符串，UI 会把“不可读”误判成\n  // “文件为空”，进而把整个文件渲染成新增或删除。完整内容对必须一起成功或一起降级。\n  if (beforeContent === null || afterContent === null) {\n    return null;\n  }\n\n  return { beforeContent, afterContent };\n}",
+      "sha256": "02c276f0f1ec82723e2c2160b59d990c77f2b044df5a39007697c79bc95d2a0e"
+    },
+    {
+      "name": "isPreviewableText",
+      "start": 2918,
+      "end": 3008,
+      "text": "function isPreviewableText(content: string): boolean {\n  return !content.includes(\"\\0\");\n}",
+      "sha256": "5a47a812cce3b7e2eecf0ff5871378e7a0297d728f9771d3b21f9a1e46cdaabf"
+    },
+    {
+      "name": "readWorkingTreePreviewContent",
+      "start": 3010,
+      "end": 3457,
+      "text": "async function readWorkingTreePreviewContent(absolutePath: string): Promise<string | null> {\n  try {\n    const fileStat = await stat(absolutePath);\n    if (!fileStat.isFile() || fileStat.size > DEFAULT_GIT_DIFF_BYTES) {\n      return null;\n    }\n\n    const content = await readFile(absolutePath, \"utf-8\");\n    return isPreviewableText(content) ? content : null;\n  } catch {\n    // 文件删除和原子保存窗口都会让 stat/readFile 失败；这里不能猜成合法空文件。\n    return null;\n  }\n}",
+      "sha256": "82c05a58a2491a6f721db3d93e1d239f856a9eae580a470c23a6de0468655d3e"
+    },
+    {
+      "name": "readGitBlobPreviewContent",
+      "start": 3459,
+      "end": 4085,
+      "text": "async function readGitBlobPreviewContent({\n  commandProvider,\n  repoRoot,\n  ref,\n  repoRelativePath,\n}: {\n  commandProvider: GitCommandProvider;\n  repoRoot: string;\n  ref: string;\n  repoRelativePath: string;\n}): Promise<string | null> {\n  const result = await commandProvider.run({\n    cwd: repoRoot,\n    args: [\"show\", `${ref}:${repoRelativePath}`],\n    timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,\n    maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,\n  });\n\n  if (\n    result.timedOut ||\n    result.outputTruncated ||\n    result.exitCode !== 0 ||\n    !isPreviewableText(result.stdout)\n  ) {\n    return null;\n  }\n\n  return result.stdout;\n}",
+      "sha256": "7bd856e68d1cebe32dfe9f9e9e1ae02c468c7e4a2cf50c382cbe0ff96556756d"
+    },
+    {
+      "name": "readBranchDiffContents",
+      "start": 4087,
+      "end": 5039,
+      "text": "async function readBranchDiffContents({\n  commandProvider,\n  repoRoot,\n  repoRelativePath,\n  trackingBranchName,\n}: {\n  commandProvider: GitCommandProvider;\n  repoRoot: string;\n  repoRelativePath: string;\n  trackingBranchName: string;\n}): Promise<GitDiffContents | null> {\n  const mergeBaseResult = await commandProvider.run({\n    cwd: repoRoot,\n    args: [\"merge-base\", trackingBranchName, \"HEAD\"],\n    timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n    maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,\n  });\n  const mergeBase = mergeBaseResult.exitCode === 0 ? mergeBaseResult.stdout.trim() : \"\";\n  const beforeContent = await readGitBlobPreviewContent({\n    commandProvider,\n    repoRoot,\n    ref: mergeBase || trackingBranchName,\n    repoRelativePath,\n  });\n  const afterContent = await readGitBlobPreviewContent({\n    commandProvider,\n    repoRoot,\n    ref: \"HEAD\",\n    repoRelativePath,\n  });\n\n  return toCompleteDiffContents(beforeContent, afterContent);\n}",
+      "sha256": "1a56d8d43642f54eddf91c8f4415894d9d2328b98ad8f9ba43a1daf0c9043208"
+    },
+    {
+      "name": "readStagedDiffContents",
+      "start": 5041,
+      "end": 5597,
+      "text": "async function readStagedDiffContents({\n  commandProvider,\n  repoRoot,\n  repoRelativePath,\n}: {\n  commandProvider: GitCommandProvider;\n  repoRoot: string;\n  repoRelativePath: string;\n}): Promise<GitDiffContents | null> {\n  const beforeContent = await readGitBlobPreviewContent({\n    commandProvider,\n    repoRoot,\n    ref: \"HEAD\",\n    repoRelativePath,\n  });\n  const afterContent = await readGitBlobPreviewContent({\n    commandProvider,\n    repoRoot,\n    ref: \"\",\n    repoRelativePath,\n  });\n\n  return toCompleteDiffContents(beforeContent, afterContent);\n}",
+      "sha256": "54dc2dd9704dc3a7f5fc242ab17f5ff7f8f061eb168724ec10040de7333f661b"
+    },
+    {
+      "name": "readUnstagedDiffContents",
+      "start": 5599,
+      "end": 6134,
+      "text": "async function readUnstagedDiffContents({\n  absolutePath,\n  commandProvider,\n  repoRoot,\n  repoRelativePath,\n}: {\n  absolutePath: string;\n  commandProvider: GitCommandProvider;\n  repoRoot: string;\n  repoRelativePath: string;\n}): Promise<GitDiffContents | null> {\n  const beforeContent = await readGitBlobPreviewContent({\n    commandProvider,\n    repoRoot,\n    ref: \"\",\n    repoRelativePath,\n  });\n  const afterContent = await readWorkingTreePreviewContent(absolutePath);\n\n  return toCompleteDiffContents(beforeContent, afterContent);\n}",
+      "sha256": "7e3bbd7a149243726b5f36d91621aa5eb4ab6b328f66ad19244a40633d3ae228"
+    },
+    {
+      "name": "withDiffContents",
+      "start": 6136,
+      "end": 6518,
+      "text": "function withDiffContents(diff: GitDiffResult, contents: GitDiffContents | null): GitDiffResult {\n  if (diff.availability !== \"patch\") {\n    return diff;\n  }\n\n  if (!contents) {\n    // Git patch 已经成功生成时，全文预览失败只应关闭 MultiFileDiff，不能把正确 patch 一并丢弃。\n    return diff;\n  }\n\n  return {\n    ...diff,\n    beforeContent: contents.beforeContent,\n    afterContent: contents.afterContent,\n  };\n}",
+      "sha256": "5bca8dd6c8e9a4c39e015791900c6cc68019950f06926ea7789888da54befa7d"
+    },
+    {
+      "name": "getDiff",
+      "start": 28378,
+      "end": 32501,
+      "text": "async getDiff(params: GitDiffQuery): Promise<GitDiffResult> {\n      const resolution = await this.resolveRepository(params.workspacePath);\n      const absolutePath = isAbsolute(params.path)\n        ? params.path\n        : resolve(params.workspacePath, params.path.split(\"/\").join(sep));\n      if (!resolution.isGitAvailable) {\n        return toUnavailableDiff(\n          absolutePath,\n          \"Git binary is not available in the current environment.\",\n        );\n      }\n\n      if (!resolution.isRepository) {\n        return toUnavailableDiff(absolutePath, \"Workspace is not inside a Git repository.\");\n      }\n\n      const repoRelativePath = await normalizeInputPath(resolution, params.path);\n      if (params.sourceId === \"branch\") {\n        const status = await this.getStatus(params.workspacePath);\n        const trackingBranchName = status.summary.trackingBranchName;\n        if (!trackingBranchName) {\n          return toUnavailableDiff(\n            absolutePath,\n            \"Current branch does not have an upstream branch.\",\n          );\n        }\n\n        const branchDiffResult = await commandProvider.run({\n          cwd: resolution.repoRoot,\n          args: [\n            \"diff\",\n            \"--no-ext-diff\",\n            \"--no-color\",\n            \"--binary\",\n            \"--find-renames\",\n            `${trackingBranchName}...HEAD`,\n            \"--\",\n            repoRelativePath,\n          ],\n          timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,\n          maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,\n        });\n        const parsedBranchDiff = toDiffResult(absolutePath, branchDiffResult, {\n          emptySummary: \"No branch comparison diff is available for this file.\",\n        });\n        return withDiffContents(\n          parsedBranchDiff,\n          await readBranchDiffContents({\n            commandProvider,\n            repoRoot: resolution.repoRoot,\n            repoRelativePath,\n            trackingBranchName,\n          }),\n        );\n      }\n\n      const staged = params.staged ?? params.sourceId === \"staged\";\n      const diffResult = await commandProvider.run({\n        cwd: resolution.repoRoot,\n        args: staged\n          ? [\"diff\", \"--cached\", \"--no-ext-diff\", \"--no-color\", \"--binary\", \"--\", repoRelativePath]\n          : [\"diff\", \"--no-ext-diff\", \"--no-color\", \"--binary\", \"--\", repoRelativePath],\n        timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,\n        maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,\n      });\n      const parsedDiff = toDiffResult(absolutePath, diffResult, {\n        emptySummary: \"No Git diff is available for this file.\",\n      });\n      if (parsedDiff.availability !== \"unavailable\" || staged) {\n        const contents = staged\n          ? await readStagedDiffContents({\n              commandProvider,\n              repoRoot: resolution.repoRoot,\n              repoRelativePath,\n            })\n          : await readUnstagedDiffContents({\n              absolutePath,\n              commandProvider,\n              repoRoot: resolution.repoRoot,\n              repoRelativePath,\n            });\n        return withDiffContents(parsedDiff, contents);\n      }\n\n      // 未跟踪文件不会出现在 `git diff` 里，所以这里先生成一份稳定的单文件 patch。\n      // 如果文件无法按文本预览，再退回 `--no-index`，继续兼容二进制等特殊场景。\n      if (!(await fileExists(absolutePath))) {\n        return parsedDiff;\n      }\n\n      const normalizedUntrackedDiff = await buildUntrackedTextDiffResult(\n        absolutePath,\n        repoRelativePath,\n        DEFAULT_GIT_DIFF_BYTES,\n      );\n      if (normalizedUntrackedDiff) {\n        return normalizedUntrackedDiff;\n      }\n\n      const noIndexDiffResult = await commandProvider.run({\n        cwd: resolution.repoRoot,\n        args: [\n          \"diff\",\n          \"--no-index\",\n          \"--no-ext-diff\",\n          \"--no-color\",\n          \"--binary\",\n          getGitNullDevicePath(),\n          absolutePath,\n        ],\n        timeoutMs: DEFAULT_GIT_DIFF_TIMEOUT_MS,\n        maxOutputBytes: DEFAULT_GIT_DIFF_BYTES,\n      });\n      return toDiffResult(absolutePath, noIndexDiffResult, {\n        allowedExitCodes: [0, 1],\n        emptySummary: \"No previewable diff is available for this file.\",\n      });\n    }",
+      "sha256": "6adf340fcb6ed34d30e543e9b84ea9a906939da5b57c3c9ea9a294eee55530f3"
+    }
+  ]
+}
