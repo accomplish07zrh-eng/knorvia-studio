@@ -36,7 +36,7 @@ import {
   toGetWorkflowRunSubagents,
 } from "./get-workflow-run-roster-output.js";
 import { buildWorkflowRunSummary } from "./get-workflow-run-summary.js";
-import { describeWorkflowScriptPath } from "./workflow-script-path.js";
+import { projectGetWorkflowRunSnapshotFields } from "./get-workflow-run-snapshot-fields.js";
 import {
   WORKFLOW_RUN_INTROSPECTION_STEERING,
   workflowIntrospectionUnavailableFailure,
@@ -81,47 +81,7 @@ const getWorkflowRunHandler: ToolHandler = async (input, context) => {
   const phases = toGetWorkflowRunPhases(detail.phases);
 
   const base = {
-    runId: detail.runId,
-    label: detail.label,
-    labelSource: detail.labelSource,
-    status: detail.status,
-    ...(detail.stopReason === undefined ? {} : { stopReason: detail.stopReason }),
-    ...(detail.resumedFrom === undefined ? {} : { resumedFrom: detail.resumedFrom }),
-    // 端口只在低于天花板时给这个字段（跑在天花板上的 run 没有可说的），所以这里原样转发就
-    // 已经是「无则缺席」。
-    ...(detail.maxConcurrency === undefined ? {} : { maxConcurrency: detail.maxConcurrency }),
-    // 同规「无则缺席」：跑在会话模型上的 run 没有可说的。一次省略 `subagent_model` 的
-    // AmendWorkflow 沿用的就是这个字符串，所以它必须在模型面上可读。
-    ...(detail.subagentModel === undefined ? {} : { subagentModel: detail.subagentModel }),
-    // 同规「无则缺席」：没有脚本文件的 run 没有可说的。端口给的是绝对路径（run 身份的一部分），
-    // 模型面给工作区相对写法——它接下来要 Edit 这个文件，而那是它在别处用的那一种路径。
-    ...(detail.scriptPath === undefined
-      ? {}
-      : { scriptPath: describeWorkflowScriptPath(detail.scriptPath, context.workingDirectory) }),
-    ...(detail.supersededBy === undefined ? {} : { supersededBy: detail.supersededBy }),
-    ownedByThisSession: detail.ownedByThisSession,
-    ...(detail.possiblyInterrupted ? { possiblyInterrupted: true } : {}),
-    createdAt: detail.createdAt,
-    updatedAt: detail.updatedAt,
-    generatedAt,
-    usage: {
-      spentTokens: detail.usage.spentTokens,
-      nodesObserved: detail.usage.nodesObserved,
-      nodesRunning: detail.usage.nodesRunning,
-      nodesCompleted: detail.usage.nodesCompleted,
-      nodesFailed: detail.usage.nodesFailed,
-    },
-    actors: detail.actors.map((actor) => ({
-      siteId: actor.siteId,
-      ordinal: actor.ordinal,
-      ...(actor.name === undefined ? {} : { name: actor.name }),
-    })),
-    logTail: detail.logTail.map((entry) => ({
-      sequence: entry.sequence,
-      message: entry.message,
-      // 事件的落库时刻；没有这一列的老 journal 上缺席，那样的行就不带年龄前缀。
-      ...(entry.at === undefined ? {} : { at: entry.at }),
-    })),
+    ...projectGetWorkflowRunSnapshotFields(detail, generatedAt, () => context.workingDirectory),
     // 情势截面（阶段 / 花名册 / 健康）：把上面那些计数变成一份「这个 run 在哪、谁在干什么、
     // 它还在动吗」的报告。逐字段搬见 get-workflow-run-roster-output.ts。
     ...(phases === undefined ? {} : { phases }),
