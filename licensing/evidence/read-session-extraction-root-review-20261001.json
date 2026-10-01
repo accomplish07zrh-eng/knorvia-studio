@@ -1,0 +1,50 @@
+{
+  "baseline": "31305f58f6859f4d18d1e3f5e96148d6bf508081",
+  "oldHandlerSha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56",
+  "handlerSha256": "3814710540957163f57b7af987b65b48c8533558d440d24d136056fa4a77d919",
+  "helperSha256": "cadcb0316cdcc8bfbeb8e9c70928e1e5c1f428687c9b14d1c972d920d65a5a8d",
+  "retainedNodes": {
+    "readSessionContextToolEntry": "299fe99dc382b6bda31233aa4558fb91d635db6f148935ce7096f8c4b321725d",
+    "generateLiteExtraction": "6bd19d5702bb1d0a587ca6b9f56ab23f43c8947953288a31d284505cff554f33",
+    "extractionInstructions": "0b7bfb3571764ac2596bfa66fc76b9a1eab0013969b968083db854352d1f94b4",
+    "synthesisInstructions": "910da8753d086828000ba3733c41712df27cff3ece99c0b5f936db715650af66",
+    "buildOutput": "8538d77c0885c8a7c301a9c1c581494e741704737ea0014ba1b7cd20f11d5b78",
+    "truncateForLite": "a134e54b3de4792d33630951950ad42403bfb4da1ba05879a97c7984729d859e",
+    "isNoRelevantContext": "1bd306d8a266321277eaed83f74b4160664182a4e6442ae687818daba7274c83",
+    "traceFromContext": "b9fe749ca8d6f73f5d42857d83668f7a8b73fe281f2cfc86d4a31607e91aa5b2",
+    "errorToMessage": "26b731189c2fec1d9d6137815e2665c26cfc13845ed5333edb50f6dbbd9bd96e"
+  },
+  "unchangedBuilderSha256": "77d802aba4d476812736b84b25991e2c1abb4005d37fbc377c5a2bc188f6c1f6",
+  "sourceExposure": true,
+  "wholeFileLicenseDecision": "unresolved",
+  "verification": {
+    "source": 19,
+    "emitted": 19,
+    "baselineSource": 19,
+    "baselineEmitted": 19,
+    "differentialCasesPerMode": 4096,
+    "differentialSeed": 1381188440,
+    "differentialDigest": "2c03e7d7d2ac4465dd1db6601d1b8c054f25db565e35cc4d77ba682887bfd357",
+    "rootTypecheck": "passed",
+    "cliTypecheck": "passed",
+    "cliBuildTasks": 17,
+    "configuredLint": "passed",
+    "ownedLint": "passed",
+    "format": "passed",
+    "architecture": "passed",
+    "broaderCoreLint": {
+      "errors": 23,
+      "warnings": 11,
+      "remaining": "pre-existing max-lines; ReadSessionContext error removed"
+    },
+    "full": {
+      "tests": 6577,
+      "pass": 6511,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "failureEventMultisetMatchesBaseline": true,
+    "fullFailureCause": "59 pre-existing listen EPERM failures"
+  }
+}
