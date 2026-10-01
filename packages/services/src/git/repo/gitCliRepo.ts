@@ -4,8 +4,6 @@ import type {
   GitBranchMutationAction,
   GitBranchMutationIssue,
   GitBranchMutationResult,
-  GitCommitGraphCommit,
-  GitCommitGraphRef,
   GitDiffQuery,
   GitDiffResult,
   GitIdentity,
@@ -49,6 +47,7 @@ import {
   toDiffResult,
   toInvalidBranchNameIssue,
 } from "./gitCliHelpers.js";
+import { planGitCommitGraphQuery, projectGitCommitGraphQuery } from "./gitCommitGraphPlan.js";
 import {
   createEmptySummary,
   type GitBranchComparisonChange,
@@ -108,10 +107,6 @@ const GIT_OPERATION_MARKERS = [
   "BISECT_LOG",
 ] as const;
 
-const DEFAULT_GIT_GRAPH_MAX_COUNT = 100;
-const MAX_GIT_GRAPH_MAX_COUNT = 200;
-const GIT_GRAPH_RECORD_SEPARATOR = "\x1e";
-const GIT_GRAPH_FIELD_SEPARATOR = "\x00";
 const log = createServiceLogger("git-repo");
 
 function normalizeWatchPath(path: string): string {
@@ -381,119 +376,6 @@ function parseBranchRefRecords(stdout: string, currentBranchName: string | null)
 
       return left.name.localeCompare(right.name);
     });
-}
-
-function normalizeGitGraphMaxCount(maxCount: number | undefined): number {
-  if (typeof maxCount !== "number" || !Number.isFinite(maxCount)) {
-    return DEFAULT_GIT_GRAPH_MAX_COUNT;
-  }
-
-  return Math.min(MAX_GIT_GRAPH_MAX_COUNT, Math.max(1, Math.floor(maxCount)));
-}
-
-function normalizeGitGraphSkip(skip: number | undefined): number {
-  if (typeof skip !== "number" || !Number.isFinite(skip)) {
-    return 0;
-  }
-
-  return Math.max(0, Math.floor(skip));
-}
-
-function addGitGraphRef(refs: GitCommitGraphRef[], ref: GitCommitGraphRef): void {
-  if (refs.some((candidate) => candidate.kind === ref.kind && candidate.name === ref.name)) {
-    return;
-  }
-
-  refs.push(ref);
-}
-
-function parseGitGraphDecorationRef(rawRef: string): GitCommitGraphRef | null {
-  const ref = rawRef.trim();
-  if (!ref) {
-    return null;
-  }
-
-  if (ref === "HEAD") {
-    return { name: "HEAD", kind: "head" };
-  }
-
-  const tagPrefix = "tag: ";
-  if (ref.startsWith(tagPrefix)) {
-    const tagRef = ref.slice(tagPrefix.length).trim();
-    const name = tagRef.startsWith("refs/tags/") ? tagRef.slice("refs/tags/".length) : tagRef;
-    return name ? { name, kind: "tag" } : null;
-  }
-
-  if (ref.startsWith("refs/heads/")) {
-    const name = ref.slice("refs/heads/".length);
-    return name ? { name, kind: "branch" } : null;
-  }
-
-  if (ref.startsWith("refs/remotes/")) {
-    const name = ref.slice("refs/remotes/".length);
-    return name ? { name, kind: "remote" } : null;
-  }
-
-  if (ref.startsWith("refs/tags/")) {
-    const name = ref.slice("refs/tags/".length);
-    return name ? { name, kind: "tag" } : null;
-  }
-
-  return { name: ref, kind: ref.includes("/") ? "remote" : "branch" };
-}
-
-function parseGitGraphRefs(rawDecorations: string): GitCommitGraphRef[] {
-  const refs: GitCommitGraphRef[] = [];
-  for (const rawDecoration of rawDecorations.split(",")) {
-    const decoration = rawDecoration.trim();
-    if (!decoration) {
-      continue;
-    }
-
-    const headPointer = "HEAD -> ";
-    if (decoration.startsWith(headPointer)) {
-      addGitGraphRef(refs, { name: "HEAD", kind: "head" });
-      const pointedRef = parseGitGraphDecorationRef(decoration.slice(headPointer.length));
-      if (pointedRef) {
-        addGitGraphRef(refs, pointedRef);
-      }
-      continue;
-    }
-
-    const parsedRef = parseGitGraphDecorationRef(decoration);
-    if (parsedRef) {
-      addGitGraphRef(refs, parsedRef);
-    }
-  }
-
-  return refs;
-}
-
-function parseGitGraphRecords(stdout: string): GitCommitGraphCommit[] {
-  return stdout
-    .split(GIT_GRAPH_RECORD_SEPARATOR)
-    .map((record) => record.trim())
-    .filter((record) => record.length > 0)
-    .map((record): GitCommitGraphCommit | null => {
-      const [hash, parents, authorName, authoredAtSeconds, subject, decorations] =
-        record.split(GIT_GRAPH_FIELD_SEPARATOR);
-      if (!hash) {
-        return null;
-      }
-
-      const timestampSeconds = authoredAtSeconds
-        ? Number.parseInt(authoredAtSeconds, 10)
-        : Number.NaN;
-      return {
-        hash,
-        parents: parents ? parents.split(" ").filter(Boolean) : [],
-        refs: parseGitGraphRefs(decorations ?? ""),
-        subject: subject ?? "",
-        authorName: authorName || null,
-        authoredAtMs: Number.isNaN(timestampSeconds) ? null : timestampSeconds * 1000,
-      };
-    })
-    .filter((commit): commit is GitCommitGraphCommit => Boolean(commit));
 }
 
 function parseTrackingRemoteName(trackingBranchName: string | null): string | null {
@@ -1020,52 +902,14 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
         };
       }
 
-      const normalizedMaxCount = normalizeGitGraphMaxCount(maxCount);
-      const normalizedSkip = normalizeGitGraphSkip(skip);
+      const plan = planGitCommitGraphQuery(maxCount, skip);
       const result = await commandProvider.run({
         cwd: resolution.repoRoot,
-        args: [
-          "log",
-          // --all 会把 refs/knorvia/checkpoints 等内部 hidden refs 拉进 Git Graph。
-          // Graph 只展示用户可见历史，因此限定到 HEAD、分支、标签和远端分支。
-          "HEAD",
-          "--branches",
-          "--tags",
-          "--remotes",
-          "--date-order",
-          "--topo-order",
-          `--skip=${normalizedSkip}`,
-          `--max-count=${normalizedMaxCount + 1}`,
-          "--format=%H%x00%P%x00%an%x00%at%x00%s%x00%D%x1e",
-        ],
+        args: plan.args,
         timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
         maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
       });
-
-      if (result.exitCode !== 0) {
-        const stderr = result.stderr.toLowerCase();
-        if (
-          stderr.includes("does not have any commits yet") ||
-          stderr.includes("your current branch") ||
-          stderr.includes("bad default revision") ||
-          stderr.includes("ambiguous argument 'head'")
-        ) {
-          return {
-            resolution,
-            commits: [],
-            hasMore: false,
-          };
-        }
-
-        ensureGitCommandSucceeded("git log visible refs", result);
-      }
-
-      const parsedCommits = parseGitGraphRecords(result.stdout);
-      return {
-        resolution,
-        commits: parsedCommits.slice(0, normalizedMaxCount),
-        hasMore: parsedCommits.length > normalizedMaxCount,
-      };
+      return projectGitCommitGraphQuery(resolution, plan, result, ensureGitCommandSucceeded);
     },
 
     async switchBranch(
