@@ -62,15 +62,16 @@ export function buildWorkflowRunSummary(run: WorkflowRunSummaryFacts): string {
 
 function fitSummaryPrefix(sentences: readonly string[], requiredCount: number): string {
   let kept = sentences.length;
-  let length = (kept - 1) * SUMMARY_SEPARATOR.length;
-  for (const sentence of sentences) length += sentence.length;
+  // 独立极限探针证明：先裁句会吞掉原始整段 join 的字符串长度错误，必须先保留该失败点。
+  const combined = sentences.join(SUMMARY_SEPARATOR);
+  let length = combined.length;
 
   // 头两句是骨架（这个 run 在哪 + 走到第几步），任何预算下都不丢。
   while (kept > requiredCount && length > GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) {
     kept -= 1;
     length -= sentences[kept]!.length + SUMMARY_SEPARATOR.length;
   }
-  const text = sentences.slice(0, kept).join(SUMMARY_SEPARATOR);
+  const text = combined.slice(0, length);
   if (length <= GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS) return text;
   return `${text.slice(0, GET_WORKFLOW_RUN_SUMMARY_MAX_CHARS - SUMMARY_ELLIPSIS.length)}${SUMMARY_ELLIPSIS}`;
 }
