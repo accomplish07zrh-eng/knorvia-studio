@@ -544,3 +544,46 @@ test("actual binary RPC bulk cancellation rejects an in-flight create without sp
   assert.equal(state.ptys.length, 0);
   assert.equal(open(), undefined);
 });
+for (const phase of ["onData", "onExit"] as const)
+  test(`bulk cancellation during ${phase} setup cannot publish and releases a late returned handle`, async (t) => {
+    const s = service(t);
+    state.configure = (p) => {
+      p[phase === "onData" ? "onDataAction" : "onExitAction"] = () => s.disposeAll();
+    };
+    await assert.rejects(create(s), { message: "Terminal creation cancelled: 0" });
+    assert.equal(state.ptys[0]!.kills, 1);
+    retired();
+    assert.equal(state.ptys[0]!.nativeDisposals, phase === "onData" ? 1 : 2);
+    assert.equal(open(), undefined);
+    assert.throws(() => s.onDynamicData("0"), missing("0"));
+  });
+test("disposing an owned pending reservation cancels that create without affecting reuse", async (t) => {
+  const resolvers: Array<(settings: unknown) => void> = [];
+  const s = service(t, () => new Promise((resolve) => resolvers.push(resolve)));
+  const first = create(s),
+    rejected = assert.rejects(first, { message: "Terminal creation cancelled: 0" });
+  await s.dispose({ id: "0" });
+  resolvers[0]!({});
+  await rejected;
+  assert.equal(state.ptys.length, 0);
+  assert.equal(open(), 0);
+  const second = create(s);
+  resolvers[1]!({});
+  assert.equal((await second).id, "1");
+});
+test("data after an observed exit is ignored while the current data snapshot still finishes", async (t) => {
+  const s = service(t),
+    { id } = await create(s),
+    seen: string[] = [];
+  s.onDynamicData(id)((value) => {
+    seen.push(`a:${value}`);
+    state.ptys[0]!.exit({ exitCode: 6 });
+  });
+  s.onDynamicData(id)((value) => seen.push(`b:${value}`));
+  s.onDynamicExit(id)(() => {
+    state.ptys[0]!.data("after exit");
+  });
+  state.ptys[0]!.data("before exit");
+  assert.deepEqual(seen, ["a:before exit", "b:before exit"]);
+  retired();
+});

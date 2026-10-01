@@ -74,6 +74,7 @@ sequenceDiagram
   cleanup removes admission afterwards. Data after termination/retirement is ignored.
 - Caller dispose marks kill in progress before native kill; reentrant/repeated calls cannot
   kill twice. A successful kill or observed exit ends PTY ownership; late callbacks are inert.
+  A known pending ID can be disposed to cancel that lease alone, without closing the service.
   Native kill success is treated as accepted termination, as with the existing port contract;
   this does not prove OS process termination/native acceptance. A thrown kill without an
   observed exit leaves the PTY tracked and retryable. Emitters/subscriptions still retire;
@@ -95,7 +96,9 @@ sequenceDiagram
 
 ## Error precedence
 
-An operation/setup/listener error precedes cleanup errors. If only one error occurs, throw
+An operation/setup/listener error precedes cleanup errors. On admission guards, an advanced
+create generation takes cancellation precedence over an exit observed during bulk cleanup;
+a synchronous natural exit in the same generation retains the startup-exit error. If only one error occurs, throw
 that exact value/object. Multiple errors produce AggregateError with errors ordered primary
 first, then data emitter, exit emitter, returned subscriptions. The aggregate message keeps
 primary wording and cause identifies the primary error. Bulk aggregates use Failed to dispose
