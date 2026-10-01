@@ -1,0 +1,50 @@
+{
+  "baseline": "20d6ca5987f5bcb8cb1caacbcac759b25b9eb452",
+  "oldSha256": "77d802aba4d476812736b84b25991e2c1abb4005d37fbc377c5a2bc188f6c1f6",
+  "materialBuilderSha256": "6ce31c14e515d04d6a618d9d38a181c06bddf51a472d1478c3062321201e8bfb",
+  "selectionHelperSha256": "5040daa3aa68bda60df291f8f7c5bad9ec9d412c469c21e06b873436017ae492",
+  "retainedNodes": {
+    "formatReadSessionContextModelContent": "7213a305efef6ec4f02f73af47e5d45e930438441e6cd3e11d722f01af648323",
+    "formatLocalSessionNotFound": "52a7282fc000e70fb6221bde6d57c4059074cd825f671501113decbf7a8c6ce5",
+    "outputCharBudgetFromMaxTokens": "a810780cf67d82421adf6d986877e4d1065d702a2a55f26b8997a900f41cb379",
+    "liteInputCharBudget": "64a35354f36a2243fbdf24fb73e9d1cc6345b3ad6b624a05de5cc3782df6d632",
+    "maxLiteChunks": "2b542af2f5c7954ca78383bfdfb86beeb65d36472cbed6ce8faf638b92f8d481",
+    "formatMessageSnippet": "020c4fc4eee20f7dc6f2342dff7aa61fd0af5ca090cef5852b376ac07b423794",
+    "createChunk": "2e926fd767ecb625e53cadc208dc40dd81926b052f0aa0c4c4343df4c215deb2",
+    "formatSessionTranscript": "cd6cbee3b5ac4dcc9d701826d35bd28412a1ff05234f85a59b43dfc54374c94e",
+    "localHeading": "35f86ecf0a2878720c286cb6e89b806b09c7a606bc32da541ad71b0cbd3eec40",
+    "clampOutputCharBudget": "a5527bd34258ab8cd3a767f53c7243b30df81233ec8d600ba952534a653e2324"
+  },
+  "unchangedDependencies": {
+    "apps/cli/packages/core/src/agent/session-history-hydrator.ts": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+    "apps/cli/packages/core/src/session-context/parts.ts": "963f0a85f5fdef0bb0fd3d981cf5e6d493f8f1728cf8f43b21cff7aac7c94d14",
+    "apps/cli/packages/core/src/session-context/utils.ts": "a472c6b1ebb04e38d9f7abbaf65b651f8e7c400b1020bd8a0ad2b12c9a71ef71"
+  },
+  "sourceExposure": true,
+  "wholeFileLicenseDecision": "unresolved",
+  "verification": {
+    "baselineSourceTests": 4,
+    "baselineEmittedTests": 4,
+    "finalSourceTests": 4,
+    "finalEmittedTests": 4,
+    "frozenObservationsPerMode": 420,
+    "generatedCasesPerMode": 1024,
+    "generatedSeed": 1296127052,
+    "generatedDigest": "2ce3dfe947e81d12877b0f41f6657a4458ff15bc1e36138658aa9b80a715f430",
+    "extractionConsumersPerMode": 19,
+    "buildTasks": 17,
+    "rootAndCliTypes": "passed",
+    "configuredAndOwnedLint": "passed",
+    "format": "passed",
+    "architecture": "passed",
+    "full": {
+      "tests": 6581,
+      "pass": 6515,
+      "fail": 59,
+      "cancelled": 0,
+      "skipped": 7
+    },
+    "exactBaselineFailureEventMultiset": true,
+    "fullFailureCause": "59 unchanged listen EPERM events"
+  }
+}
