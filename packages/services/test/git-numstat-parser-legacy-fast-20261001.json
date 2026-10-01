@@ -1,0 +1,24 @@
+{
+  "kind": "copied-test-only-inherited-numstat-parser",
+  "commit": "14f7f5a5c1b7a70d22a2e51703bed1964097134d",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "ea4005f7d3afb5d824cc462e766b9e5530ed25368ce09704a5a62ace5f5d1357",
+  "spans": [
+    {
+      "name": "parseNumstatValue",
+      "start": 9949,
+      "end": 10133,
+      "text": "function parseNumstatValue(value: string): number {\n  if (value === \"-\") {\n    return 0;\n  }\n\n  const parsed = Number.parseInt(value, 10);\n  return Number.isNaN(parsed) ? 0 : parsed;\n}",
+      "sha256": "f412abce21b9a28a3bd629993d9c5800d88a8193c83db551d9d58036793615b3",
+      "bodySha256": "1d6393625fa1bfdf6ba4d2fe4b8f469cb4aa2459be9fba47c1763a2f98039071"
+    },
+    {
+      "name": "parseNumstat",
+      "start": 10422,
+      "end": 11437,
+      "text": "export function parseNumstat(stdout: string): Map<string, GitLineStat> {\n  const records = stdout.split(\"\\0\");\n  const stats = new Map<string, GitLineStat>();\n\n  for (let index = 0; index < records.length; index += 1) {\n    const record = records[index];\n    if (!record) {\n      continue;\n    }\n\n    const fields = record.split(\"\\t\");\n    if (fields.length < 3) {\n      continue;\n    }\n\n    const added = parseNumstatValue(fields[0]!);\n    const removed = parseNumstatValue(fields[1]!);\n    const pathField = fields.slice(2).join(\"\\t\");\n    if (pathField.length > 0) {\n      stats.set(normalizeGitPath(pathField), { added, removed });\n      continue;\n    }\n\n    const originalPath = records[index + 1] ?? \"\";\n    const renamedPath = records[index + 2] ?? \"\";\n    index += 2;\n    if (renamedPath.length === 0) {\n      continue;\n    }\n\n    stats.set(normalizeGitPath(renamedPath), {\n      added,\n      removed,\n      kind: \"renamed\",\n      originalPath: normalizeGitPath(originalPath),\n    });\n  }\n\n  return stats;\n}",
+      "sha256": "acf215fb59b23bec6b21242c4112965001ad568f1b9883100e86f19f0feab260",
+      "bodySha256": "7e6e4b5565607db7d843e6ac86320ea9ca9ebece9fbca6ab087f3af923fdd9be"
+    }
+  ]
+}
