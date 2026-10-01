@@ -67,7 +67,9 @@ sequenceDiagram
   listener/release errors retain existing boundaries. Emitters allocate only after load/helper,
   before spawn; data emitter before exit emitter. Attach data before exit; publish after both.
 - write and resize forward raw values, ignore native return values and resolve undefined.
-  Unknown IDs reject exactly Terminal not found: <id>. Native exceptions propagate unchanged.
+  Unknown IDs reject exactly Terminal not found: <id>. ID lookup precedes data/cols/rows
+  property evaluation; a getter that disposes the instance still uses the previously captured
+  native target. Native exceptions propagate unchanged.
   Dynamic subscription lookup throws synchronously for unknown IDs. Emitter Event access
   retains real RPC emitter semantics; subscriptions/unsubscriptions and snapshot dispatch
   propagate listener exceptions and reentrant events in the same order.
