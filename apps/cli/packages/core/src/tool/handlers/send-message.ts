@@ -1,16 +1,12 @@
 import {
-  CoreErrorType,
   SEND_MESSAGE_TOOL_NAME,
   SendMessageInputJsonSchema,
   SendMessageInputSchema,
   SendMessageOutputSchema,
-  createCoreError,
-  type SendMessageInput,
-  type SendMessageOutput,
-  type TraceContext,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolHandler } from "../types.js";
-import { assertNotOffPeakTurn } from "./off-peak.js";
+import type { ToolEntry } from "../types.js";
+import { createSendMessageHandler } from "./collaboration-invocation.js";
+import { sendMessageModelContent } from "./collaboration-result.js";
 
 const MAX_SEND_MESSAGE_MODEL_BYTES = 4096;
 /**
@@ -45,42 +41,7 @@ const SEND_MESSAGE_TOOL_OUTPUT_SCHEMA = {
   additionalProperties: false,
 };
 
-const sendMessageHandler: ToolHandler = async (input, context) => {
-  const parsed = SendMessageInputSchema.parse(input) as SendMessageInput;
-  assertNotOffPeakTurn(context, SEND_MESSAGE_TOOL_NAME, {
-    hint: OFF_PEAK_SEND_MESSAGE_HINT,
-    recoverable: true,
-  });
-
-  if (!context.subagentPort?.sendMessage) {
-    throw createCoreError(
-      CoreErrorType.ConfigurationError,
-      "Subagent port is not configured for SendMessage",
-      {
-        context: {
-          toolCallId: context.toolCallId,
-          toolName: SEND_MESSAGE_TOOL_NAME,
-        },
-        recoverable: false,
-      },
-    );
-  }
-
-  return context.subagentPort.sendMessage(
-    {
-      sessionId: context.sessionId,
-      turnId: context.turnId,
-      parentToolCallId: context.toolCallId,
-      to: parsed.to,
-      summary: parsed.summary,
-      message: parsed.message,
-      workingDirectory: context.workingDirectory,
-      workspaceRoot: context.workspaceRoot,
-      trace: resolveToolTraceContext(context),
-    },
-    { signal: context.abortSignal },
-  ) satisfies Promise<SendMessageOutput>;
-};
+const sendMessageHandler = createSendMessageHandler(OFF_PEAK_SEND_MESSAGE_HINT);
 
 export const sendMessageToolEntry: ToolEntry = {
   capability: "Send a short message to a local agent",
@@ -97,7 +58,7 @@ export const sendMessageToolEntry: ToolEntry = {
     needsApproval: false,
   },
   handler: sendMessageHandler,
-  formatModelContent: formatSendMessageModelContent,
+  formatModelContent: sendMessageModelContent,
   inputSchema: SendMessageInputJsonSchema,
   outputSchema: SEND_MESSAGE_TOOL_OUTPUT_SCHEMA,
   runtimeInputSchema: SendMessageInputSchema,
@@ -138,27 +99,3 @@ export const sendMessageToolEntry: ToolEntry = {
     recordOutput: "summary",
   },
 };
-
-function formatSendMessageModelContent(output: unknown): string {
-  const result = SendMessageOutputSchema.parse(output);
-  if (result.message) return result.message;
-  if (result.status === "success") {
-    if (result.delivery) {
-      return `Message ${result.messageId} was ${result.delivery} for local agent ${result.agentId ?? result.taskId ?? "unknown"}.`;
-    }
-    return `Message ${result.messageId} was queued for local agent ${result.agentId ?? result.taskId ?? "unknown"}.`;
-  }
-  return `Message ${result.messageId} failed to send to local agent ${result.agentId ?? result.taskId ?? "unknown"}: ${result.error ?? "unknown error"}.`;
-}
-
-function resolveToolTraceContext(context: Parameters<ToolHandler>[1]): TraceContext {
-  return (
-    context.traceContext ?? {
-      traceId: context.traceId,
-      spanId: context.spanId,
-      parentSpanId: context.parentSpanId,
-      sessionId: context.sessionId,
-      turnId: context.turnId,
-    }
-  );
-}
