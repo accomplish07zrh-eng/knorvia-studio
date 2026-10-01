@@ -1,0 +1,14 @@
+{
+  "kind": "copied-test-only-inherited-method",
+  "commit": "e9cd7fca050a59e484ebe8f7aa9a42cd7e2ed4bf",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "sourceSha256": "c28a066566656c3402edbe89f4b40d4090dc0ae9635795a9de5109097c11e189",
+  "method": {
+    "start": 20910,
+    "end": 22787,
+    "startLine": 687,
+    "endLine": 743,
+    "text": "async getIgnoredPaths(workspacePath: string, paths: string[]): Promise<string[]> {\n      if (paths.length === 0) {\n        return [];\n      }\n\n      const resolution = await this.resolveRepository(workspacePath);\n      if (!resolution.isGitAvailable || !resolution.isRepository) {\n        return [];\n      }\n\n      const inputPairs = await Promise.all(\n        paths.map(async (path) => {\n          try {\n            return {\n              absolutePath: isAbsolute(path)\n                ? path\n                : resolve(resolution.workspacePath, path.split(\"/\").join(sep)),\n              repoRelativePath: await normalizeInputPath(resolution, path),\n            };\n          } catch {\n            return null;\n          }\n        }),\n      );\n      const validInputPairs = inputPairs.filter(\n        (pair): pair is { absolutePath: string; repoRelativePath: string } => Boolean(pair),\n      );\n      if (validInputPairs.length === 0) {\n        return [];\n      }\n\n      const ignoredResult = await commandProvider.run({\n        cwd: resolution.repoRoot,\n        args: [\"check-ignore\", \"--\", ...validInputPairs.map((pair) => pair.repoRelativePath)],\n        timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n        maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,\n      });\n\n      if (ignoredResult.exitCode === 1) {\n        return [];\n      }\n\n      ensureGitCommandSucceeded(\"git check-ignore\", ignoredResult);\n\n      const ignoredRepoRelativePaths = new Set(\n        ignoredResult.stdout\n          // 修复：`git check-ignore -z` 只能和 `--stdin` 一起使用；这里通过 argv 传路径，\n          // 所以必须解析普通换行输出，否则命令会直接失败，文件树永远拿不到 ignored 状态。\n          .split(/\\r?\\n/)\n          .filter(Boolean)\n          .map((path) => path.replace(/\\\\/g, \"/\")),\n      );\n\n      return validInputPairs\n        .filter((pair) => ignoredRepoRelativePaths.has(pair.repoRelativePath))\n        .map((pair) => pair.absolutePath);\n    }",
+    "sha256": "c71d4bacea50a9aa98b712b17009ee8fd301012276659f5040842f5a4d95897f"
+  }
+}
