@@ -292,3 +292,23 @@ export async function consumer(selected = analysis, edgeKind = "normal", kind = 
   assert.equal(calls, edgeKind === "early" ? 0 : 1);
   return { ...output, producerCalls: calls };
 }
+
+export function inheritedFlag(selected = current) {
+  const original = Object.getOwnPropertyDescriptor(Array.prototype, "1");
+  try {
+    Object.defineProperty(Array.prototype, "1", {
+      value: true,
+      configurable: true,
+      writable: true,
+    });
+    return selected.foldPhaseEdges([
+      { from: "a", to: "b", back: false },
+      { from: "b", to: "a", back: false },
+      { from: "root", to: "a", back: false },
+      { from: "root", to: "b", back: false },
+    ]);
+  } finally {
+    if (original) Object.defineProperty(Array.prototype, "1", original);
+    else Reflect.deleteProperty(Array.prototype, "1");
+  }
+}

@@ -17,11 +17,17 @@ import {
   handlers,
   createToolRegistry,
   clock,
+  inheritedFlag,
 } from "./create-workflow-graph-fold-fixture.js";
 const gold = JSON.parse(
   await readFile(new URL("./create-workflow-graph-fold-contract.json", import.meta.url), "utf8"),
 );
 const digest = (value: any) => sha(JSON.stringify(value));
+test("phase component discovery does not read inherited numeric visit flags", () => {
+  const baseline = inheritedFlag(old);
+  assert.equal(baseline.length, 4);
+  assert.deepEqual(inheritedFlag(current), baseline);
+});
 test("phase graph public declaration and registry remain fixed", () => {
   assert.equal(declaration, archive.declaration);
   const registry = createToolRegistry();
