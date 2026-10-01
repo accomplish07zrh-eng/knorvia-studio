@@ -32,7 +32,15 @@ export function applyWorkflowRunOutputFields<T extends object>(
         accepted = read() === true;
         break;
     }
-    if (accepted) seed[key] = project() as T[typeof key];
+    if (accepted) {
+      // 冻结反例证明普通赋值会触发继承 setter；原对象字面量创建的是自有数据属性。
+      Object.defineProperty(seed, key, {
+        value: project(),
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      });
+    }
   }
   return seed as T;
 }
