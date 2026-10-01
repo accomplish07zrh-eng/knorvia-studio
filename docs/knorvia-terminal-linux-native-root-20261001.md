@@ -21,7 +21,11 @@ explicit opt-in cases against source and three against strict emitted code:
 These are real Linux native PTYs, not fake native ports. The settings provider is
 owned in-memory data. Every shell uses an empty owned HOME and an `env -i`
 allowlist, without ENV, BASH_ENV, login profiles, credentials or user files.
-The test process exits normally after cleanup. Source and emitted runs each pass
+The runner rejects environment names outside the documented allowlist (plus
+Node's own NODE_TEST_CONTEXT). ProxyChannel runs directly in process; it does not
+exercise binary transport or a live Host. The bulk case verifies accepted
+disposal, admission, reuse and normal runner completion, not a separate per-PID
+OS termination assertion. The test process exits normally after cleanup. Source and emitted runs each pass
 3/3 with zero failed/skipped/cancelled cases. Existing synthetic failure tests
 remain necessary for rare failure and reentrant paths.
 
@@ -51,7 +55,9 @@ The runner redirects only node-pty to the byte-verified compiled copy; service,
 owner, planning, RPC and shared product code are actual source/emitted consumers.
 
 The probe is not discovered by the offline Studio suite and does not turn native
-availability into a new silent CI skip. Missing prerequisites fail explicitly.
+availability into a new silent CI skip. Missing prerequisites fail explicitly. A negative invocation with one synthetic
+unexpected variable and a deliberately absent backend is rejected by the
+environment guard before any backend lookup or shell creation.
 Full offline acceptance for unchanged production remains the prior 6,743-case
 receipt; this new optional native probe adds six explicitly executed observations,
 not six new ordinary CI cases. Attribution and all 27 material obligations remain.

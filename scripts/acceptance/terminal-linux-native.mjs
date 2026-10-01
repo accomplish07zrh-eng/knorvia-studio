@@ -8,6 +8,23 @@ import { resolve, join } from "node:path";
 import { readFileSync } from "node:fs";
 const root = fileURLToPath(new URL("../../", import.meta.url));
 assert.equal(process.platform, "linux", "This acceptance probe is Linux-only");
+const allowedEnvironment = new Set([
+  "PATH",
+  "HOME",
+  "SHELL",
+  "LANG",
+  "NODE_TEST_CONTEXT",
+  "TSX_TSCONFIG_PATH",
+  "KNORVIA_NATIVE_TEST_TARGET",
+  "KNORVIA_NATIVE_PTY_ROOT",
+  "KNORVIA_NATIVE_TEST_HOME",
+]);
+assert.deepEqual(
+  Object.keys(process.env).filter((name) => !allowedEnvironment.has(name)),
+  [],
+  "Use the documented env -i allowlist; arbitrary environment must not reach the native shell",
+);
+
 const nativeRoot = process.env.KNORVIA_NATIVE_PTY_ROOT;
 const home = process.env.KNORVIA_NATIVE_TEST_HOME;
 assert.ok(nativeRoot && home, "Provide an owned compiled node-pty root and isolated HOME");

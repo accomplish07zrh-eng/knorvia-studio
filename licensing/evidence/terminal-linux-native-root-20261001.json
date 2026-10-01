@@ -1195,7 +1195,16 @@
       "native-pty-build-probe.log": "7142146833653c4c680526413f172d35bb2ff30f2147a0cf263d90a672168845",
       "native-pty-capability.log": "04bbf88320084188ae459ae995647c5bacfff9c8ace1dbfb3f2b9da39aa55b0f",
       "native-service-final-source.log": "9c109dd7d17fc3c663f4f0e10577523a10a598d1e076a03cbb983cc378857d1d",
-      "native-service-final-dist.log": "c48c8df35406a533e62cb299e9893c0817c4c723be40e9a5feed945165b22ad1"
+      "native-service-final-dist.log": "c48c8df35406a533e62cb299e9893c0817c4c723be40e9a5feed945165b22ad1",
+      "native-service-hardened-source.log": "e2572994025ded80f7034273323b9b3d1a01d6867ef67da7ddf3c904aef8b816",
+      "native-service-hardened-dist.log": "dd569cd45fe55bdfdc70f3ad328a83ea611d7cd3b8958862da409ec4de146cc5",
+      "native-service-env-rejection.log": "495e97e0b038c775c2317a38ce9ad9cc56b7227a11e656c8038c7d58e7ade33d"
+    },
+    "environmentAllowlistEnforced": true,
+    "unexpectedEnvironmentNegativeProbe": {
+      "exitCode": 1,
+      "rejectedBeforeAbsentBackendRead": true,
+      "syntheticVariableOnly": true
     }
   },
   "limits": [
@@ -1204,6 +1213,9 @@
     "No native Windows/macOS or live Host/network/SSH",
     "No real user files, accounts, settings or data migration",
     "No security setting/helper permission/CI or dependency changes",
-    "Existing fake-port failure tests remain necessary; this probe does not synthesize native kill failure"
-  ]
+    "Existing fake-port failure tests remain necessary; this probe does not synthesize native kill failure",
+    "RPC ProxyChannel is direct in-process, not binary transport",
+    "Bulk case observes accepted disposal/admission/reuse and runner completion, not separate per-PID OS termination"
+  ],
+  "independentReview": "Read-only reviewer rehashed all286 source entries, native binary and original logs; confirmed narrow claims. Environment allowlist gap was then hardened and both modes rerun3/3, plus rejection-before-backend negative probe."
 }
