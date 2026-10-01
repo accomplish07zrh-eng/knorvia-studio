@@ -1,0 +1,16 @@
+{
+  "kind": "copied-test-only-inherited-branch-comparison",
+  "commit": "af419c933205d68f31c3a56c2d259ebed65dc632",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "sourceSha256": "43f9ae7c24ea4c60c2f87db3e3efc3f4393d7e4f2257ec95360f324d1765547f",
+  "spans": [
+    {
+      "name": "getBranchComparison",
+      "start": 32490,
+      "end": 34212,
+      "text": "async getBranchComparison(workspacePath: string): Promise<GitBranchComparisonSnapshot> {\n      const status = await this.getStatus(workspacePath);\n      if (\n        !status.resolution.isGitAvailable ||\n        !status.resolution.isRepository ||\n        !status.summary.trackingBranchName\n      ) {\n        return {\n          resolution: status.resolution,\n          baseRef: status.summary.trackingBranchName,\n          headRef: status.summary.branchName ?? \"HEAD\",\n          comparisonLabel: null,\n          changes: [],\n        };\n      }\n\n      const result = await commandProvider.run({\n        cwd: status.resolution.repoRoot,\n        args: [\n          \"diff\",\n          \"--numstat\",\n          \"-z\",\n          \"--find-renames\",\n          `${status.summary.trackingBranchName}...HEAD`,\n          \"--\",\n        ],\n        timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n        maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,\n      });\n      ensureGitCommandSucceeded(\"git diff --numstat upstream...HEAD\", result);\n\n      const changes = Array.from(parseNumstat(result.stdout).entries()).map(\n        ([path, stat]): GitBranchComparisonChange => ({\n          path,\n          originalPath: stat.originalPath ?? null,\n          kind: inferKindFromNumstat(stat),\n          added: stat.added,\n          removed: stat.removed,\n        }),\n      );\n\n      return {\n        resolution: status.resolution,\n        baseRef: status.summary.trackingBranchName,\n        headRef: status.summary.branchName ?? \"HEAD\",\n        comparisonLabel: status.summary.branchName\n          ? `${status.summary.branchName} -> ${status.summary.trackingBranchName}`\n          : `HEAD -> ${status.summary.trackingBranchName}`,\n        changes,\n      };\n    }",
+      "sha256": "f7a9157f79174fbed96fbd3c22f5c0b0ede1635e0eebbdee7595da06026fd178",
+      "bytes": 1722
+    }
+  ]
+}
