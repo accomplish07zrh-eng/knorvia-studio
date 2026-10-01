@@ -141,3 +141,12 @@ counts. No repository runner, sandbox/security setting or timeout was altered.
 Existing policy asks for AskUserQuestion in build, plan, auto and yolo, and keeps
 hard disallowed-tool denial. It does not inherit Skill's reserved-auto behavior.
 No interaction/policy implementation is changed by these fixtures.
+
+## Replacement evidence
+
+The frozen-spec/contracts checkpoint is `cde9b0c`; production replacement and
+the finite comparison driver are `7d3066f`. Final validation, source hashes,
+consumer coverage, baseline failures and remaining acceptance are recorded in
+[the Lane A handoff](../docs/knorvia-cli-tools-fast-handoff-20261001.md#askuserquestion-continuation).
+Public declarations, retained prose/licences and upstream obligations are not
+reclassified by passing compatibility tests.
