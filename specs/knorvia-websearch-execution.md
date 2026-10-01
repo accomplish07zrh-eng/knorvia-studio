@@ -54,6 +54,13 @@ without finish is returned; partial text followed by error is rejected. The stre
 does not promote tool results/sources into output: only summary Markdown carries
 links in this path. Do not silently repair this inherited behavior.
 
+Raw non-iterable model returns retain native TypeError messages, including the
+`input.events is not async iterable` expression. Synchronous iterables are accepted
+by the inherited for-await protocol; returned promises are not implicitly awaited.
+Unknown event tags are read once, never coerced, and cannot dispatch inherited
+Object properties. Additional protocol fixtures freeze both unchanged source and
+emitted baseline observations before correcting the replacement's native message.
+
 ## Frozen projection and presentation
 
 The public buildWebSearchOutput accepts ModelTextResult directly. Results traverse
