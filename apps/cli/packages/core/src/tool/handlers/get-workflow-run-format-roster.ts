@@ -139,11 +139,14 @@ export function formatWorkflowRunPhasesBlock(
 }
 
 function phaseColumnWidth(values: readonly string[]): number {
-  const width = values.reduce((current, value) => {
-    const candidate = Math.max(current, value.length);
-    return candidate > MAX_COLUMN_WIDTH ? MAX_COLUMN_WIDTH : candidate;
-  }, 0);
-  return Math.min(MAX_COLUMN_WIDTH, width);
+  // Math.min getter 必须先于 reduce 读取：冻结反例证明其抛错前不应调用 Math.max。
+  return Math.min(
+    MAX_COLUMN_WIDTH,
+    values.reduce((current, value) => {
+      const candidate = Math.max(current, value.length);
+      return candidate > MAX_COLUMN_WIDTH ? MAX_COLUMN_WIDTH : candidate;
+    }, 0),
+  );
 }
 
 // ————————————————————————————————————————————————
