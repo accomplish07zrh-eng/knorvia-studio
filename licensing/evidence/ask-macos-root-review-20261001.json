@@ -64,5 +64,6 @@
     "No real user interaction, account, provider, settings, or user filesystem acceptance",
     "Broader core standalone lint retains 24 errors and 11 warnings outside changed scope",
     "Exact remote CI pending for this batch; CI212 receipt applies to its earlier head only"
-  ]
+  ],
+  "emittedReceiptCorrection": "Initial root macOS invocation omitted its separate selector and mixed104sourcewith60emittedcases. Exact168d1ba was subsequently rechecked with both selectors:164strict emitted runtime cases passed. See emitted-mode-recheck-20261001.json for preserved logs and detached-worktree typecheck failure; original main typecheck/CI are separate evidence."
 }

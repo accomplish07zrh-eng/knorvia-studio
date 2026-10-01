@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "scope": "Correction to root emitted-mode invocation labels, not a production change",
+  "initialIssue": "Root initially set only KNORVIA_TERMINAL_PROFILE_TARGET=dist. The macOS and launch-planning test files use separate TARGET selectors, so the earlier 164 and first 240 receipts mixed source and emitted cases. Those invocations must not be described as wholly emitted.",
+  "exactPriorCheckpointRecheck": {
+    "commit": "168d1baa2c45166bd7e98d73ac9a496685e9fe08",
+    "selectors": {
+      "KNORVIA_TERMINAL_MACOS_TARGET": "dist",
+      "KNORVIA_TERMINAL_PROFILE_TARGET": "dist"
+    },
+    "strictEmitted": {
+      "tests": 164,
+      "pass": 164,
+      "fail": 0,
+      "skip": 0
+    },
+    "compilationCaveat": "The detached worktree reused dependency symlinks and its root typecheck returned exit2 with cross-worktree module/alias/type diagnostics. Emission occurred and exact-checkpoint emitted runtime tests passed. This is not a passing detached-worktree typecheck; the original main-checkout typecheck and CI are separate evidence."
+  },
+  "currentPlanningRecheck": {
+    "selectors": {
+      "KNORVIA_TERMINAL_PLAN_TARGET": "dist",
+      "KNORVIA_TERMINAL_MACOS_TARGET": "dist",
+      "KNORVIA_TERMINAL_PROFILE_TARGET": "dist"
+    },
+    "strictEmitted": {
+      "tests": 240,
+      "pass": 240,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "evidenceSha256": {
+    "macos-root-emitted.tap": "6c36e316a1697a70ae096c696f6e7c29e7b18d095d4ffc143f55253debebc05e",
+    "macos-root-exact-emitted-correct-flags.tap": "6723ca97cd9d503fe902b5ecd9472f4b010785fdb3ddd2bbcab13434e15a148c",
+    "ask-macos-exact-recheck-types.log": "8e6f9058061d74865a78dd0543f06b85b14a7b52c54b03dae52de2bbbc993726",
+    "terminal-plan-root-emitted-incomplete-flags.tap": "117b905d6998bde2882a985fd79afafa98d9533a423c08b2f2d696e4aa69f2f1",
+    "terminal-plan-root-emitted.tap": "9436b15ebea05c5f8114b3fb17534c2b4f8be25684dfbeb4919c47f89eceabb4"
+  },
+  "impact": "No production regression found by the corrected runtime checks. Earlier log and review records remain preserved; this correction supersedes their all-emitted label. Original worker correctly used its documented selectors."
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "run": 36820011946,
+  "runNumber": 214,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36820011946",
+  "head": "168d1baa2c45166bd7e98d73ac9a496685e9fe08",
+  "checkedMerge": "2bf94c5b7730583803c498d10b12157b33ce19b3",
+  "headAndCheckedTree": "3b45f79f9bfe0f6da0c7f38c95bbf6e622cd0f9d",
+  "status": "success",
+  "jobs": {
+    "linux": {
+      "id": 110233363413,
+      "tests": 6440,
+      "pass": 6432,
+      "fail": 0,
+      "skip": 8
+    },
+    "windows": {
+      "id": 110233363740,
+      "tests": 6440,
+      "pass": 6439,
+      "fail": 0,
+      "skip": 1
+    }
+  },
+  "verification": "Root independently fetched both job logs and checked merge Git object. Previously verified remote head/tree match. Source regression CI does not establish native macOS/GUI acceptance."
+}
