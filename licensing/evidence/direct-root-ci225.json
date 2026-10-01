@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "run": 36858965516,
+  "runNumber": 225,
+  "head": "a899afad2bb10ede36f9789a0bed717370680402",
+  "tree": "0d3a0a0b8366ff0e58235f563d36812f28e12dce",
+  "checkedMerge": "2d3c95c847cea5ab5c3db087a793ec855bfbf426",
+  "checkedTreeMatchesHead": true,
+  "conclusion": "success",
+  "linux": {
+    "job": 110358178436,
+    "tests": 7109,
+    "pass": 7101,
+    "fail": 0,
+    "skip": 8,
+    "cancel": 0
+  },
+  "windows": {
+    "job": 110358178706,
+    "tests": 7109,
+    "pass": 7108,
+    "fail": 0,
+    "skip": 1,
+    "cancel": 0
+  },
+  "authDiagnosticEmitted": false,
+  "materialObligations": 26,
+  "limits": [
+    "CI224 Windows startup failure is preserved; this new run verifies the bounded native-glob launcher.",
+    "Existing skipped cases remain skips, not passing native acceptance.",
+    "This does not include the later Read settlement correction or graph integration.",
+    "CI218 original auth cause remains unknown."
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "aa27c4a673752d231ac6d514d05a8c15e649c0b6",
+  "publicationBase": "a899afad2bb10ede36f9789a0bed717370680402",
+  "read": {
+    "producer": "613c250",
+    "imported": [
+      "adf41c7",
+      "9cb78dd",
+      "373934f"
+    ],
+    "redProof": "3cdb9b7",
+    "correction": "aa27c4a673752d231ac6d514d05a8c15e649c0b6",
+    "sourceTests": 35,
+    "strictEmittedTests": 35,
+    "independentBaselineComparisonsPerMode": 156,
+    "originalCheckerScope": "Detached original 613c250, without --emitted or --logs; not claimed valid on corrected integrated root",
+    "digestComparison": {
+      "matchedOwned": [
+        "apps/cli/packages/core/test/read-orchestration-capture.mts",
+        "apps/cli/packages/core/test/read-orchestration-cases.ts",
+        "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+        "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+        "apps/cli/packages/core/test/read-orchestration-contract.json",
+        "apps/cli/packages/core/test/read-orchestration-contract.test.ts",
+        "apps/cli/packages/core/test/read-orchestration-fixture.ts"
+      ],
+      "correctionOwnedDifferences": [
+        "apps/cli/packages/core/src/tool/handlers/read.ts",
+        "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+        "specs/knorvia-read-orchestration.md"
+      ],
+      "protectedPreexistingRootDifferences": [
+        "THIRD-PARTY-NOTICES.md",
+        "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+        "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+        "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+        "licensing/current-files.json",
+        "licensing/reviews.json"
+      ],
+      "matchedEmitted": [
+        "apps/cli/packages/core/dist/permission/service.js",
+        "apps/cli/packages/core/dist/tool/executor/call-runner.js",
+        "apps/cli/packages/core/dist/tool/executor/permission-capability.js",
+        "apps/cli/packages/core/dist/tool/handlers/index.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-binary-input.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-file-suggestion.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-image.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-model-content.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-pdf-plan.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-pdf.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-text-budget.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-text.js",
+        "apps/cli/packages/core/dist/tool/handlers/read-video.js",
+        "apps/cli/packages/core/dist/tool/handlers/read.d.ts",
+        "apps/cli/packages/core/dist/tool/path-policy.js",
+        "apps/cli/packages/core/dist/tool/read-file-state-metadata.js",
+        "apps/cli/packages/core/dist/tool/read-file-state.js",
+        "apps/cli/packages/core/dist/tool/registry.js"
+      ],
+      "correctedEmittedDifferences": [
+        "apps/cli/packages/core/dist/tool/handlers/read-text-orchestration.d.ts",
+        "apps/cli/packages/core/dist/tool/handlers/read-text-orchestration.js",
+        "apps/cli/packages/core/dist/tool/handlers/read.js"
+      ]
+    },
+    "correctedArtifacts": [
+      {
+        "path": "apps/cli/packages/core/src/tool/handlers/read.ts",
+        "sha256": "cebca924ef91c06422888c17dd4472db7bd7a74c4cfd86e416a341b6ba1e378f",
+        "bytes": 12454
+      },
+      {
+        "path": "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+        "sha256": "fba545e81ba251a3dcc321c8449a03d705b7c2a5a1f6f61b710660447b77042d",
+        "bytes": 3460
+      },
+      {
+        "path": "apps/cli/packages/core/test/read-orchestration-settlement.test.ts",
+        "sha256": "c87121485a9a641b5b593df83764db70516255fa44ae407fb711ccba3d0558b5",
+        "bytes": 4346
+      },
+      {
+        "path": "apps/cli/packages/core/dist/tool/handlers/read.js",
+        "sha256": "1d734693bd49730417f3c2773364a0860b1985faf18059f4968bc274039e6920",
+        "bytes": 12039
+      },
+      {
+        "path": "apps/cli/packages/core/dist/tool/handlers/read-text-orchestration.js",
+        "sha256": "1cac6eeec58014c1067b328f7c4630513f2d9e675f5eb02651512ad6219aa043",
+        "bytes": 1852
+      },
+      {
+        "path": "apps/cli/packages/core/dist/tool/handlers/read-text-orchestration.d.ts",
+        "sha256": "efc387cb283f908c0af03d41dfa23c0f1b11ce575641794718540651ed8136e6",
+        "bytes": 1407
+      },
+      {
+        "path": "apps/cli/packages/core/dist/tool/handlers/read.d.ts",
+        "sha256": "bb9ad163b19a8259f2f0a4e3dee53055c142d8b20e32385e364f63abad74bfc0",
+        "bytes": 180
+      }
+    ]
+  },
+  "graph": {
+    "producer": "13186d4",
+    "imported": [
+      "e11a8b4",
+      "cca50be",
+      "ad02e94"
+    ],
+    "sourceTests": 435,
+    "strictEmittedTests": 435,
+    "independentDifferentialProbes": 45441,
+    "pairedThrowRejectScenarios": 4,
+    "pairedOutcomeScenarios": 64,
+    "digestComparison": {
+      "payloadSha256": "9998acc51e57897c8ee932b942ff413916712e37da9d3b68786747c54ce5b237",
+      "ownedFiles": 8,
+      "protectedProduction": 24,
+      "unrelatedBodies": 42,
+      "retainedBodies": 3,
+      "preexistingRootDivergences": [
+        "THIRD-PARTY-NOTICES.md",
+        "licensing/current-files.json",
+        "licensing/reviews.json",
+        "third-party/inventory.json",
+        "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts"
+      ]
+    },
+    "emitted": [
+      {
+        "path": "packages/services/dist/git/repo/gitCliRepo.js",
+        "sha256": "b1ba4c9ed4289a22e41bc6591dba5a7eb2611233916df48ce3737c5976fa166f",
+        "producerMatch": true
+      },
+      {
+        "path": "packages/services/dist/git/repo/gitCommitGraphPlan.js",
+        "sha256": "47a4c38d66b3b7cc31e90b4b01444754fa4afb343b42b98c2229a4959b44fde9",
+        "producerMatch": true
+      },
+      {
+        "path": "packages/services/dist/git/repo/gitCliRepo.d.ts",
+        "sha256": "a6a19273740e97f89c1b0cdc88b160570d45749e6d70edbb2c39850f3f95870b",
+        "producerMatch": true
+      },
+      {
+        "path": "packages/ui/dist/git-graph/GitGraphDialog.js",
+        "sha256": "c737b9d9f379a4ee099cedbd50ff1addbb57ba7ea2e32f82e993bb442584ca7c",
+        "producerMatch": true
+      },
+      {
+        "path": "packages/ui/dist/git-graph/layout.js",
+        "sha256": "ff647524dbe2bf7cd3c03595c50e05798eaf917ce90ea71d1d725891aacd2ff2",
+        "producerMatch": true
+      },
+      {
+        "path": "packages/ui/dist/git-graph/GitGraphDisplay.js",
+        "sha256": "734eae154596be7d7e4adf0d0ee78f9817e67e1c920d82393d3d391866a5b3bc",
+        "producerMatch": true
+      },
+      {
+        "path": "packages/desktop/out/host/index.js",
+        "sha256": "6563fd91aa39ac2cf6e1b04d3260eadc04d50556eb09c19345eeecfb3852e1b4",
+        "producerMatch": true
+      }
+    ]
+  },
+  "aggregate": {
+    "tests": 7291,
+    "pass": 7225,
+    "fail": 59,
+    "skip": 7,
+    "cancel": 0,
+    "sameFailureMultisetAsLauncher": true,
+    "failures": {
+      "Broker rejected request": 2,
+      "Broker response id mismatch": 1,
+      "CUA broker authenticates before disclosing or echoing request identity": 1,
+      "CUA broker bounds incoming bytes and does not expose malformed JSON": 1,
+      "CUA broker can close before listening without disposing caller-owned runtime": 1,
+      "CUA broker carries result, arbitrary method arguments and complete identity": 1,
+      "CUA broker close is one barrier, aborts active work and releases partial clients": 1,
+      "CUA broker contains unprintable runtime errors without ending its host process": 1,
+      "CUA broker creates distinct local endpoints and credentials": 1,
+      "CUA broker decodes split UTF-8 / CRLF and dispatches only the first frame": 1,
+      "CUA broker disconnect aborts execution and ignores its late reply": 1,
+      "CUA broker independent connections preserve out-of-order response correlations": 1,
+      "CUA broker rejects absent identity, subagent scope and absent workspace": 1,
+      "CUA broker rejects malformed envelopes before runtime dispatch": 1,
+      "CUA broker reports runtime and serialization failures then remains usable": 1,
+      "CUA broker workspace selection preserves explicit, remote identity and path fallbacks": 1,
+      "Computer Use records broker metadata before a normalized primary app identity": 1,
+      "Computer Use sends its complete nested context and preserves structured output": 1,
+      "Invalid broker response": 2,
+      "Playwright locator mutations include tab facts while locator reads do not": 1,
+      "UTF-8 command values survive a split inside a multibyte character": 1,
+      "a complete frame at the byte limit is accepted without truncation": 1,
+      "a disposed execution cannot receive a late Computer Use observation": 1,
+      "a local transaction overrides envelope identity and correlates a split Unicode response": 1,
+      "a response above 32 MiB is rejected without retaining or echoing the body": 1,
+      "a serializer that produces no JSON cannot dispatch an empty request": 1,
+      "aborted calls never open a connection": 1,
+      "all browser methods preserve tab, session and screenshot-hint observation rules": 1,
+      "authenticated local CUA broker rejects bad tokens and propagates context": 1,
+      "authentication, subagent and schema failures never reach the port": 1,
+      "availability rejects a missing Computer Use connection before transport": 1,
+      "broker close terminates idle peers without waiting for them to disconnect": 1,
+      "browser availability and request configuration stay separate and are read per call": 1,
+      "browser discovery projects only trusted wire fields and retains schema defaults": 1,
+      "cancellation after dispatch closes the connection and preserves the reason": 1,
+      "cancellation during request serialization is observed before opening the socket": 1,
+      "closing with an active request aborts the port and disposes its peer": 1,
+      "concurrent transactions isolate ids, payloads and cancellation": 1,
+      "disconnecting during a request aborts its port signal": 1,
+      "empty or malformed primary identities never receive trusted app attribution": 1,
+      "error diagnostics do not return the broker credential": 1,
+      "invalid Computer Use results cannot attach metadata or application identity": 1,
+      "invalid JSON gets a response id; port errors preserve the valid caller id": 1,
+      "invalid, mismatched and rejected responses are distinct terminal failures": 1,
+      "local list and execute preserve request identity, trace and results": 1,
+      "missing sessions, subagents and cancelled bindings never send browser commands": 1,
+      "one connection admits only its first complete frame": 1,
+      "only successful screenshot commands record image provenance, including without meta": 1,
+      "oversized inbound frames fail before port admission": 1,
+      "peer disconnection and a refused local endpoint reject instead of hanging": 1,
+      "permission denied by fixture": 1,
+      "real host bridge can discover over the authenticated broker with workspace metadata": 1,
+      "responses from a reset generation never update the session": 1,
+      "serialization failures reject before connect and do not crash the host process": 1,
+      "strict broker replies and absent command results fail before observations": 1,
+      "subagents, missing workspace identity and cancellation cannot send Computer Use commands": 1,
+      "the request is a serialization-time snapshot rather than a live payload reference": 1
+    },
+    "failureEventInterpretation": "59 failure-name events: 58 detailed listen EPERM failures plus their failing parent; compared as a multiset."
+  },
+  "logs": [
+    {
+      "name": "read-settlement-red-source.log",
+      "bytes": 4806,
+      "sha256": "50fb007e1b58c40220bb520eaee00da1f3b1d951411c510f2b935bd47b9598b4",
+      "summary": [
+        "\u2139 tests 4",
+        "\u2139 pass 0",
+        "\u2139 fail 4",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 duration_ms 2262.649544"
+      ]
+    },
+    {
+      "name": "read-settlement-red-dist.log",
+      "bytes": 4837,
+      "sha256": "411e70119e4d8add616badf16603c187c0d80995f82c0673899409e414a69bff",
+      "summary": [
+        "\u2139 tests 4",
+        "\u2139 pass 0",
+        "\u2139 fail 4",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 duration_ms 2869.16542"
+      ]
+    },
+    {
+      "name": "read-settlement-fixed-source.log",
+      "bytes": 3750,
+      "sha256": "90014aa84a3e465f9aa362def70b5fd4e77e30876ed68e93602f87695ce9955e",
+      "summary": [
+        "\u2139 tests 35",
+        "\u2139 pass 35",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 duration_ms 3333.378696"
+      ]
+    },
+    {
+      "name": "read-settlement-fixed-dist.log",
+      "bytes": 3746,
+      "sha256": "0d6bafe7afc48bf8ee191c51c21c59d088a6a7730bda3db45aa623d67fb42aad",
+      "summary": [
+        "\u2139 tests 35",
+        "\u2139 pass 35",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 duration_ms 2907.549068"
+      ]
+    },
+    {
+      "name": "read-settlement-final-types.log",
+      "bytes": 565,
+      "sha256": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988",
+      "summary": []
+    },
+    {
+      "name": "read-settlement-final-cli-build.log",
+      "bytes": 9189,
+      "sha256": "eed38feda8d368aaf4bfcfa89e54e113910c0ea27880b0a096675935f0b428bc",
+      "summary": []
+    },
+    {
+      "name": "read-settlement-final-cli-lint.log",
+      "bytes": 213,
+      "sha256": "8889b0ec1d0faa21130c9968756decada59c91fad26050daf63075233037686d",
+      "summary": []
+    },
+    {
+      "name": "read-settlement-final-lint.log",
+      "bytes": 176,
+      "sha256": "b24f57a7528f892ca025b2e94580a18e94a7664d031405e9bd26ff1a1fecd748",
+      "summary": []
+    },
+    {
+      "name": "read-settlement-final-fmt.log",
+      "bytes": 224,
+      "sha256": "48e6f00f7451e41dbd455286c8d0bd29e8d7bc9ed0dec7a5df201e0c6d78d402",
+      "summary": []
+    },
+    {
+      "name": "read-settlement-final-architecture.log",
+      "bytes": 208,
+      "sha256": "6f9444fef8d2f60f1d62f5da03a5153218cefebd94512498aef331bdbbb5d5ae",
+      "summary": []
+    },
+    {
+      "name": "read-graph-root-graph-source.log",
+      "bytes": 31365,
+      "sha256": "2c685677d2d067ab2f5ec414dc360d26beda1d46ee5da89b6795dd480cfdb284",
+      "summary": [
+        "\u2139 tests 435",
+        "\u2139 pass 435",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 duration_ms 4214.289716"
+      ]
+    },
+    {
+      "name": "read-graph-root-graph-dist.log",
+      "bytes": 31391,
+      "sha256": "c084faa173c7f487dd7bb4d1bca04676eef048f3b29cfedec428f9dd9b68391b",
+      "summary": [
+        "\u2139 tests 435",
+        "\u2139 pass 435",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 duration_ms 3634.796966"
+      ]
+    },
+    {
+      "name": "read-graph-root-desktop.log",
+      "bytes": 6122,
+      "sha256": "9e82fdc1c295de9408469988475c78795260e7f697097ede70d8346eee5853ed",
+      "summary": []
+    },
+    {
+      "name": "read-graph-root-desktop-final.log",
+      "bytes": 120691,
+      "sha256": "990df737424fac18c8a06fdd11d0bf1e61a5cd1eeefb1f63a7d22a1e54b2216e",
+      "summary": []
+    },
+    {
+      "name": "read-graph-corrected-root-full.log",
+      "bytes": 713615,
+      "sha256": "dc5637f5aa0cf6e0ebb930d7ecaaa6a937db351c59213e78f77b36beb19a4cef",
+      "summary": [
+        "\u2139 tests 7291",
+        "\u2139 pass 7225",
+        "\u2139 fail 59",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 7",
+        "\u2139 duration_ms 329892.150204"
+      ]
+    },
+    {
+      "name": "studio-launcher-full.log",
+      "bytes": 699427,
+      "sha256": "fe9d1e109bdfb869e0223032dbc21b4392f26042b76b0545e8f2405264ddc0e0",
+      "summary": [
+        "\u2139 tests 7109",
+        "\u2139 pass 7043",
+        "\u2139 fail 59",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 7",
+        "\u2139 duration_ms 312835.098812"
+      ]
+    }
+  ],
+  "materialObligations": 26,
+  "limits": [
+    "Local full run is not green: 59 unchanged socket listen EPERM failures.",
+    "Prior desktop renderer ended with SIGKILL; cause not established. Corrected-source final serial desktop build passed.",
+    "Read original receipt remains historical; three owned and three emitted artifacts intentionally differ after root fix.",
+    "Native Windows/macOS GUI, full real-data migration, live provider and whole-project MIT acceptance are not established.",
+    "No publication of this new batch is claimed by this receipt.",
+    "Desktop build:no-runtime-assets excludes runtime-asset preparation; no installer or packaged-runtime acceptance.",
+    "Protected current-files equality is bound to sourceHead aa27c4a, before this final inventory regeneration."
+  ]
+}
