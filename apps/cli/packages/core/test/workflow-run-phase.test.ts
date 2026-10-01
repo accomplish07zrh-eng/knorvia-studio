@@ -15,12 +15,16 @@ import {
   archive,
   sha,
   widthCases,
+  nativeGetterOrder,
 } from "./workflow-run-phase-fixture.js";
 import { createToolRegistry, handlers } from "./workflow-run-activity-fixture.js";
 const gold = JSON.parse(
   await readFile(new URL("./workflow-run-phase-contract.json", import.meta.url), "utf8"),
 );
 const digest = (value: any) => sha(JSON.stringify(value));
+test("Workflow phase native getter error order matches frozen baseline", () => {
+  assert.deepEqual(nativeGetterOrder(current), nativeGetterOrder(old));
+});
 test("Workflow phase public declarations and supported registry remain unchanged", () => {
   assert.equal(declaration, archive.declaration);
   const registry = createToolRegistry();

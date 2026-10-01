@@ -178,6 +178,34 @@ export function observe(c: any, selected = current) {
     return { error: errorShape(error), sameFailure: error === f.failure, tape: f.tape };
   }
 }
+export function nativeGetterOrder(selected = current) {
+  const f = phaseRows({ kind: "current" });
+  const min = Object.getOwnPropertyDescriptor(Math, "min")!;
+  const max = Object.getOwnPropertyDescriptor(Math, "max")!;
+  Object.defineProperty(Math, "min", {
+    configurable: true,
+    get() {
+      f.tape.push("Math.min.get");
+      throw f.failure;
+    },
+  });
+  Object.defineProperty(Math, "max", {
+    configurable: true,
+    get() {
+      f.tape.push("Math.max.get");
+      return max.value;
+    },
+  });
+  try {
+    selected.formatWorkflowRunPhasesBlock(f.run, false);
+    assert.fail("Synthetic Math.min getter must throw");
+  } catch (error) {
+    return { error: errorShape(error), sameFailure: error === f.failure, tape: f.tape };
+  } finally {
+    Object.defineProperty(Math, "min", min);
+    Object.defineProperty(Math, "max", max);
+  }
+}
 export const consumerCases = ["current", "terminal", "empty"];
 export async function consumer(
   kind: string,
