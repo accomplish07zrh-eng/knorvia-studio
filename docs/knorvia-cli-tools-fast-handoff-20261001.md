@@ -46,10 +46,15 @@ branch at start. Architecture check reported zero violations before edits; the
 CLI context is currently unmanaged with no declared requirements and identifies
 the existing tool contract as its contract surface.
 
-The lane reported `bd0bb014c0974334557fa51814709d0b78f35f1d` during its initial
-fetch. Root verified that this commit is an ancestor of the exact assigned base,
-not a newer head. Integration uses the verified `0d80f9c` ancestry; no rebase or
-integration-branch write was performed by the lane.
+The initial recovery-branch fetch returned `bd0bb014c0974334557fa51814709d0b78f35f1d`.
+The original handoff incorrectly described that object as a newer recovery head.
+Actual ancestry establishes the opposite: `git merge-base bd0bb014 0d80f9c`
+returns `bd0bb014`; `git merge-base --is-ancestor bd0bb014 0d80f9c` exits 0,
+and the reverse exits 1. `git rev-list --left-right --count bd0bb014...0d80f9c`
+returns `0 65`. It is an ancestor 65 commits behind the assigned integrated base.
+The exact assigned base was fetched by hash and verified; no rebase or
+integration-branch write was performed. This correction is a subsequent commit;
+the three original Skill checkpoint commits remain immutable.
 
 The current audit was inspected without regeneration or edits:
 
