@@ -1,0 +1,494 @@
+{
+  "schemaVersion": 1,
+  "kind": "git-diff-result-lazy-verdict",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "before": "78df1ba980fbb6e903a34407498daba40f164b8c",
+  "freeze": "9b2e53f5b87b785f995099bf359d7a178a01776a",
+  "production": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+  "scopedFunctions": ["toDiffResult"],
+  "newPrivateFunctions": [],
+  "sourceExposure": true,
+  "cleanRoom": false,
+  "wholeFileLicenseGrant": false,
+  "acceptedReview": false,
+  "nativeAcceptance": false,
+  "licenseExpression": "NOASSERTION",
+  "localObligations": 27,
+  "parentReportedObligations": 26,
+  "publisher": {
+    "url": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+    "blob": "470d91185ac5fc84904ad06185ff1858e753115e",
+    "sha256": "92a319350711c297c162cbc5d516823ba6db6b935d7136a12e1622c8e380b6ad",
+    "bytes": 20013
+  },
+  "lineage": [
+    {
+      "kind": "publisher",
+      "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "sha256": "92a319350711c297c162cbc5d516823ba6db6b935d7136a12e1622c8e380b6ad"
+    },
+    {
+      "kind": "import",
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592"
+    },
+    {
+      "kind": "integrated",
+      "commit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592"
+    },
+    {
+      "kind": "local",
+      "commit": "78df1ba980fbb6e903a34407498daba40f164b8c",
+      "sha256": "511f73792330f87bacf1a8708781047d69f1147ee5693aac3b75d49037c5ac67"
+    }
+  ],
+  "ownedScope": [
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "commit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "blob": "fe948208f829ee3c182c59eecbf4fc8be7dc3c74",
+      "sha256": "6abe62274e7de14231f113941292c52f6e6275e9cc51b4f81768338180834814",
+      "bytes": 20342
+    },
+    {
+      "path": "packages/services/test/git-diff-result-consumers-fast-20261001.test.ts",
+      "commit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "blob": "aa6c09047e3a69c89b44d16423dde6799927bd0a",
+      "sha256": "032082c13bc2044ea9b9e16ba13e262fbca45a9dbc6d7a985280c26cfa5c6b0b",
+      "bytes": 6428
+    },
+    {
+      "path": "packages/services/test/git-diff-result-contract-fast-20261001.test.ts",
+      "commit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "blob": "f3fa7f3a7097c5e95d6cafa56b95286a5cf4857f",
+      "sha256": "41ef9a1a342b3cbbf3b635d4a4209253cfe9e7829db4cd1d4778df4cfe61e2b3",
+      "bytes": 5443
+    },
+    {
+      "path": "packages/services/test/git-diff-result-fixture-fast-20261001.ts",
+      "commit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "blob": "910ca758f417c8d4d2cc6a87cf9f61a97bafd62d",
+      "sha256": "fb3b58baf19b616e4d240f6f40cd1ef41c39b57211cc85fc40cbd7ca9e56744d",
+      "bytes": 1677
+    },
+    {
+      "path": "packages/services/test/git-diff-result-legacy-fast-20261001.json",
+      "commit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "blob": "2b89bc74e98ff485849eca70259ddd998679e79d",
+      "sha256": "37162d8e061bef14325cba66a748124aaaf559d2025fa21c0a81bef19ae4cf3a",
+      "bytes": 3116
+    },
+    {
+      "path": "specs/knorvia-git-diff-result-fast-20261001.md",
+      "commit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "blob": "dbe049f292c367853bb44e2fc8f711569391aa45",
+      "sha256": "1a342bb4ea47ed7352c631442de5a7dd6eaa02aa7f61053e8246313120c0dc99",
+      "bytes": 3989
+    }
+  ],
+  "protectedHelpers": 25,
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "f46b5ecc5e99d1e8956dc6a129f454529d783abcce7fb2d7274cccfbc0da09f8"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92"
+    },
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930"
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f"
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9"
+    }
+  ],
+  "remainderSha256": "1799daf7b2dbf245023285c3c6f7e77034c537d279a9cb2b1e3e2e5a920a8e9f",
+  "retainedSyntax": [
+    {
+      "syntax": "GitDiffResult",
+      "baseline": {
+        "start": 16590,
+        "end": 16603
+      },
+      "publisher": {
+        "start": 16271,
+        "end": 16284
+      },
+      "current": {
+        "start": 16590,
+        "end": 16603
+      }
+    },
+    {
+      "syntax": "result.timedOut",
+      "baseline": {
+        "start": 16612,
+        "end": 16627
+      },
+      "publisher": {
+        "start": 16293,
+        "end": 16308
+      },
+      "current": {
+        "start": 16802,
+        "end": 16817
+      }
+    },
+    {
+      "syntax": "\"Git diff command timed out.\"",
+      "baseline": {
+        "start": 16778,
+        "end": 16807
+      },
+      "publisher": {
+        "start": 16459,
+        "end": 16488
+      },
+      "current": {
+        "start": 16842,
+        "end": 16871
+      }
+    },
+    {
+      "syntax": "result.outputTruncated",
+      "baseline": {
+        "start": 16827,
+        "end": 16849
+      },
+      "publisher": {
+        "start": 16508,
+        "end": 16530
+      },
+      "current": {
+        "start": 16898,
+        "end": 16920
+      }
+    },
+    {
+      "syntax": "\"Git diff output exceeded the preview limit.\"",
+      "baseline": {
+        "start": 16998,
+        "end": 17043
+      },
+      "publisher": {
+        "start": 16679,
+        "end": 16724
+      },
+      "current": {
+        "start": 16951,
+        "end": 16996
+      }
+    },
+    {
+      "syntax": "options?.allowedExitCodes ?? [0]",
+      "baseline": {
+        "start": 17084,
+        "end": 17116
+      },
+      "publisher": {
+        "start": 16765,
+        "end": 16797
+      },
+      "current": {
+        "start": 17057,
+        "end": 17089
+      }
+    },
+    {
+      "syntax": "allowedExitCodes.includes(result.exitCode ?? Number.NaN)",
+      "baseline": {
+        "start": 17125,
+        "end": 17181
+      },
+      "publisher": {
+        "start": 16806,
+        "end": 16862
+      },
+      "current": {
+        "start": 17104,
+        "end": 17160
+      }
+    },
+    {
+      "syntax": "toResultMessage(result)",
+      "baseline": {
+        "start": 17332,
+        "end": 17355
+      },
+      "publisher": {
+        "start": 17013,
+        "end": 17036
+      },
+      "current": {
+        "start": 17208,
+        "end": 17231
+      }
+    },
+    {
+      "syntax": "result.stdout.trim()",
+      "baseline": {
+        "start": 17376,
+        "end": 17396
+      },
+      "publisher": {
+        "start": 17057,
+        "end": 17077
+      },
+      "current": {
+        "start": 17257,
+        "end": 17277
+      }
+    },
+    {
+      "syntax": "options?.emptySummary ?? \"No diff output available.\"",
+      "baseline": {
+        "start": 17547,
+        "end": 17599
+      },
+      "publisher": {
+        "start": 17228,
+        "end": 17280
+      },
+      "current": {
+        "start": 17325,
+        "end": 17377
+      }
+    },
+    {
+      "syntax": "isBinaryDiff(result.stdout)",
+      "baseline": {
+        "start": 17619,
+        "end": 17646
+      },
+      "publisher": {
+        "start": 17300,
+        "end": 17327
+      },
+      "current": {
+        "start": 17396,
+        "end": 17423
+      }
+    },
+    {
+      "syntax": "options?.binarySummary ?? \"Binary diff is not previewable.\"",
+      "baseline": {
+        "start": 17792,
+        "end": 17851
+      },
+      "publisher": {
+        "start": 17473,
+        "end": 17532
+      },
+      "current": {
+        "start": 17451,
+        "end": 17510
+      }
+    },
+    {
+      "syntax": "result.stdout",
+      "baseline": {
+        "start": 17376,
+        "end": 17389
+      },
+      "publisher": {
+        "start": 17057,
+        "end": 17070
+      },
+      "current": {
+        "start": 17257,
+        "end": 17270
+      }
+    },
+    {
+      "syntax": "beforeContent: null",
+      "baseline": {
+        "start": 16716,
+        "end": 16735
+      },
+      "publisher": {
+        "start": 16397,
+        "end": 16416
+      },
+      "current": {
+        "start": 17843,
+        "end": 17862
+      }
+    },
+    {
+      "syntax": "afterContent: null",
+      "baseline": {
+        "start": 16743,
+        "end": 16761
+      },
+      "publisher": {
+        "start": 16424,
+        "end": 16442
+      },
+      "current": {
+        "start": 17868,
+        "end": 17886
+      }
+    }
+  ],
+  "retentionNote": "Public signature, compatibility guards/defaults/prose/getter expressions/output leaves retained. Private binary and error-message helpers remain byte-identical. The copied three-declaration oracle is exposed inherited test material; fixtures and RPC/AST-VM consumer conventions reuse exposed lane patterns. Selected syntax is non-exhaustive, not an originality or licence metric.",
+  "newStructure": "An ordered per-call lazy verdict program preserves short-circuit and getter/error read order, then one public result materialization supplies invariant content leaves. No new effect, await, promise, cache or state owner.",
+  "oracle": {
+    "path": "packages/services/test/git-diff-result-legacy-fast-20261001.json",
+    "commit": "78df1ba980fbb6e903a34407498daba40f164b8c",
+    "inheritedTestOnly": true,
+    "sha256": "37162d8e061bef14325cba66a748124aaaf559d2025fa21c0a81bef19ae4cf3a"
+  },
+  "validation": {
+    "freezeSource": {
+      "files": [
+        "packages/services/test/git-diff-result-contract-fast-20261001.test.ts",
+        "packages/services/test/git-diff-result-consumers-fast-20261001.test.ts"
+      ],
+      "cases": 76,
+      "pass": 76,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "48fca0c86e3e472f4782a436bf60c474ec781e33b38ec0f9009ac638171d26ee"
+    },
+    "freezeStrictEmitted": {
+      "files": [
+        "packages/services/test/git-diff-result-contract-fast-20261001.test.ts",
+        "packages/services/test/git-diff-result-consumers-fast-20261001.test.ts"
+      ],
+      "cases": 76,
+      "pass": 76,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "da2ba401175061f7e4bb60b8baa30b98b5049a11540801611fb7ea9a05cf1c39"
+    },
+    "source": {
+      "files": [
+        "packages/services/test/git-diff-result-contract-fast-20261001.test.ts",
+        "packages/services/test/git-diff-result-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-message-generator-callers-fast-20261001.test.ts"
+      ],
+      "cases": 81,
+      "pass": 81,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "4c758d5c23b76a82ac587bfae9fc478007ea45af683d59aa4a68d1b0790def39"
+    },
+    "strictEmitted": {
+      "files": [
+        "packages/services/test/git-diff-result-contract-fast-20261001.test.ts",
+        "packages/services/test/git-diff-result-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-message-generator-callers-fast-20261001.test.ts"
+      ],
+      "cases": 81,
+      "pass": 81,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "2c8def9c81934eca04af083c4dbef78e8f84f69d14ae64f61b2db76f5149179a"
+    },
+    "newCases": 76,
+    "relatedCases": 5,
+    "nestedComparisons": 0,
+    "sourceCommit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "concurrency": 2,
+    "commands": {
+      "source": "TSX_TSCONFIG_PATH=packages/ui/tsconfig.json node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 packages/services/test/git-diff-result-*.test.ts packages/services/test/git-message-generator-callers-fast-20261001.test.ts",
+      "strictEmitted": "KNORVIA_GIT_RESOLUTION_TARGET=dist KNORVIA_GIT_READ_PROJECTION_TARGET=dist TSX_TSCONFIG_PATH=packages/ui/tsconfig.json node --experimental-test-module-mocks --import tsx --import ./packages/services/test/git-read-projection-emitted-register-fast-20261001.mjs --test --test-concurrency=2 packages/services/test/git-diff-result-*.test.ts packages/services/test/git-message-generator-callers-fast-20261001.test.ts",
+      "gates": [
+        "pnpm typecheck",
+        "pnpm lint",
+        "pnpm exec oxlint packages/services/src/git/repo/gitCliHelpers.ts packages/services/test/git-diff-result-*.ts",
+        "pnpm exec oxfmt --check packages/services/src/git/repo/gitCliHelpers.ts packages/services/test/git-diff-result-* specs/knorvia-git-diff-result-fast-20261001.md",
+        "pnpm architecture:check -- --changed",
+        "pnpm architecture:check"
+      ]
+    },
+    "gates": [
+      {
+        "gate": "typecheck",
+        "logSha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+      },
+      {
+        "gate": "lint",
+        "logSha256": "0c59f6b60697592b782da10f83b7b13441db5ab3c9473d82bac2c9dfbcac529b"
+      },
+      {
+        "gate": "owned-lint",
+        "logSha256": "d9ad7bb21912072a06463b99fc6b2da94c24ad27c0ca4faab0cf15552cb826cd"
+      },
+      {
+        "gate": "format",
+        "logSha256": "ce5c329ca8fef9dd836b7205ce8fd2a9dfe3ee03ec300bdd601c2403e431eaeb"
+      },
+      {
+        "gate": "architecture-changed",
+        "logSha256": "12391dfc1524ed9718011a106e439ae17463fc750552adb52859fada1e2ab911"
+      },
+      {
+        "gate": "architecture-full",
+        "logSha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+      }
+    ],
+    "fullRegression": {
+      "run": false,
+      "reason": "User grouped cadence; root aggregate integration batch"
+    },
+    "cliDesktopBuilds": {
+      "run": false,
+      "reason": "User grouped cadence; root aggregate integration batch"
+    },
+    "budgetsChanged": false
+  },
+  "artifacts": [
+    {
+      "path": "packages/services/dist/git/repo/gitCliHelpers.js",
+      "sourceCommit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "sha256": "7e86e71fb61c5ce144544150761dadb1328d3dbac7b5079c8a294f4130b8c1aa"
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitCliHelpers.d.ts",
+      "sourceCommit": "b84ba1aa4cb23d879f7f0faff759a35c3b390b1e",
+      "sha256": "1854488ccb0b1dd53a446abf3ebbcc35c1eda67193f827fa5e2210b0783df2b2"
+    }
+  ],
+  "initialFailures": [
+    {
+      "file": "initial-source.log",
+      "logSha256": "9f13296f9168458ab9995f52906e00268e51d60d24fc2c123379d4b505c80958"
+    },
+    {
+      "file": "initial-emitted.log",
+      "logSha256": "00fa9057ea6bc24f2367ee86fdf001bf45986a2f2bdb8106fe3aa3d329b37502"
+    }
+  ],
+  "limits": [
+    "Initial pre-freeze74-case source run70pass/4fail due to fixture .tsx path for helpers.ts; corresponding emitted74passed. Fixture corrected before76casefreeze, not product behavior or weakened assertions.",
+    "Only synthetic Linux source/emitted acceptance; no actual Git/user files/network/provider, mounted React, Windows/macOS/native or separate remote Host acceptance.",
+    "Full regression and CLI/desktop builds deferred to root aggregate cadence.",
+    "Shared licensing/inventory/notices/dependencies/CI/CLI/Creation untouched. Older lane27 registers and parent-reported26 obligations separate."
+  ],
+  "payloadSha256": "b3f6a71da4666a6d97ee77c243c63900c239ef49a0761de4ce54cad43806f8bd"
+}
