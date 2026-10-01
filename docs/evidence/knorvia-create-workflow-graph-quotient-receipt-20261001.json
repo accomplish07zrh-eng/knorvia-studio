@@ -1,0 +1,222 @@
+{
+  "formatVersion": 1,
+  "sourceExposure": true,
+  "wholeFileRightsDecision": null,
+  "baseline": "d168c048cbac2b89770fae77181119252266d9dc",
+  "freeze": "637fbadb23b9e2c687ce18144e6e803b55712794",
+  "production": "0ec654d46303ce00403a94725a16155a0eb2cd5e",
+  "scope": [
+    "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient-baseline.json",
+    "specs/knorvia-create-workflow-graph-quotient.md",
+    "docs/evidence/knorvia-create-workflow-graph-quotient-check-20261001.mjs",
+    "docs/evidence/knorvia-create-workflow-graph-quotient-receipt-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "bytes": 6735,
+      "sha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6",
+      "blob": "6e78864e97a5bef2f2aec8dcd7ee5efd03fb93c6"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-quotient-fixture.ts",
+      "bytes": 3578,
+      "sha256": "b1416fd54a6485c8ffe6c03e544f990a64000b4e94c2bce204b78b8380a0a200"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts",
+      "bytes": 1588,
+      "sha256": "45e8e3a95dde0b0d8e1ae10035f6f9b16629814f09bcbdff7e9af070938f16cf"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-quotient-baseline.json",
+      "bytes": 3016,
+      "sha256": "03d212ad8a5bd3c549f09cd7a6ac849e70dfcbe45ae9a62c1244f336eb861a02"
+    },
+    {
+      "path": "specs/knorvia-create-workflow-graph-quotient.md",
+      "bytes": 3415,
+      "sha256": "a9d1537bdcccf0541afa68a346e4374eeafd3a8b04ca24c9412c2cef36012be4"
+    }
+  ],
+  "ownerSha256": "3997013ed4dea455b1dd405ce9b6713e63836f882f559ca4dd9eecd89c62a45d",
+  "archive": "apps/cli/packages/core/test/create-workflow-graph-quotient-baseline.json",
+  "emitted": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.js",
+      "bytes": 6689,
+      "sha256": "f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts",
+      "bytes": 1590,
+      "sha256": "b1a39977f57a82f6580769538f2fba6d70e8a58b546bf30d0fb3f62f892da108"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-fold.d.ts.map",
+      "bytes": 374,
+      "sha256": "56313e9c230ade5fae079a2871467f8739c76483bf93ebe576ceae17f6af716a"
+    }
+  ],
+  "unchanged": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "bytes": 15473,
+      "sha256": "7c5da335dd06647654013e8950c1b1644ccfc1039d8221cbdb6107c4b411a8df"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-analysis-display.ts",
+      "bytes": 2281,
+      "sha256": "91c1b71be0108aacded780ce8bf98755b24833ac35fe392626ec2e7630f9a362"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/create-workflow-graph-bounds.js",
+      "bytes": 15499,
+      "sha256": "85a2b63f5c84d92c5f4ed6220440c4530b40c3f85c67893e1bde60b0bc59df2b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/workflow-analysis-display.js",
+      "bytes": 1984,
+      "sha256": "5cb65e2207cc435e55f1a2edf10b8ed3d1166c47c35cbd5825caa938cbca14e2"
+    }
+  ],
+  "previousReceipt": {
+    "path": "docs/evidence/knorvia-create-workflow-graph-components-receipt-20261001.json",
+    "bytes": 14411,
+    "sha256": "5ebfbac966663493ccbf2d88fab937f859e5b04d231e234438f0cb4da5c4b76c"
+  },
+  "checker": {
+    "path": "docs/evidence/knorvia-create-workflow-graph-quotient-check-20261001.mjs",
+    "bytes": 4067,
+    "sha256": "d7893c22f915979ef5256508b6564d667267f41f100d016606f7f120552d776b"
+  },
+  "checks": [
+    {
+      "stage": "pre-change",
+      "tests": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-freeze-source.log",
+        "bytes": 411,
+        "sha256": "3e17331e48e5be56245f8090c61f113412f7514f125f7f1ab079c03b51258a5f"
+      }
+    },
+    {
+      "stage": "pre-change",
+      "tests": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-freeze-emitted.log",
+        "bytes": 410,
+        "sha256": "546205b02c68ba3ed5a2847a5b24d7faf46fd404967056c9717dd487f1a3d87a"
+      }
+    },
+    {
+      "stage": "final",
+      "tests": 15,
+      "quotient": 3,
+      "existingGraph": 7,
+      "directDisplay": 5,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-source.log",
+        "bytes": 1627,
+        "sha256": "ab79f5447e80751b9910b55b9c648d8960c548df8a92b69b14e823d27f64a67d"
+      }
+    },
+    {
+      "stage": "final",
+      "tests": 10,
+      "quotient": 3,
+      "existingGraph": 7,
+      "actualEmitted": true,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-emitted.log",
+        "bytes": 1130,
+        "sha256": "d2a47616369ba13e0e18800bf21ffd4ae0e5cce26d9ae626bde78d47c38988e8"
+      }
+    },
+    {
+      "stage": "final",
+      "diagnostics": 0,
+      "productionRoots": 1,
+      "artifacts": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-emission.log",
+        "bytes": 398,
+        "sha256": "02daa746369c3717b4114ae014fe739ae98126cff2f93f8c48950a7f436a42fb"
+      }
+    },
+    {
+      "stage": "final",
+      "diagnostics": 0,
+      "roots": 3,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-types.log",
+        "bytes": 315,
+        "sha256": "fff90add4a5204fda20b303167ea9ab8d975c6c82607cde89415d431126030b1"
+      }
+    },
+    {
+      "stage": "final",
+      "files": 3,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-lint.log",
+        "bytes": 90,
+        "sha256": "35b482731935f0dfbdc15c97d759cc4bb8c7d8e7c454308fd2c700740c0b5dd0"
+      }
+    },
+    {
+      "stage": "final",
+      "files": 5,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-format.log",
+        "bytes": 112,
+        "sha256": "1bcaded1ceedd62c778a874dba76e37b8a45be878e8d55d2350d2c9d8856abfc"
+      }
+    },
+    {
+      "stage": "final",
+      "violations": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-architecture.log",
+        "bytes": 197,
+        "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+      }
+    },
+    {
+      "stage": "evidence",
+      "files": 1,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "log": {
+        "path": "/tmp/knorvia-graph-quotient-evidence-lint.log",
+        "bytes": 89,
+        "sha256": "80cc9a9f76e7447c4c572fc3eab8c7eda29c06a4a611bcc20b00ea6a075b4a62"
+      }
+    }
+  ],
+  "upstream": "Historical inventory records ZCode 872ad960de7ec172591f7e1952f7849229f94521, apps/zcode-cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts, blob b365beb32e497fee8f61741fd6fabff08e992715, LF SHA256 6c646e75884f6bc364c48220c936d5121d00b91276252d11d2547f966d97b84c. No own publisher fetch or authorship verification in this checkpoint.",
+  "expression": {
+    "new": "Materialized component-endpoint bindings hold each original folded edge; candidate keys admit directly into ordered reducer input; a direct scan selects original edges through those bindings. Removes repeated component projection and the separate order-to-Map candidate materialization. No helper extraction, generic framework or new asynchronous owner.",
+    "retained": "Public/interface prose and declarations, pair folding, accepted SCC, lower reduceOrdering policy, string keys, representative fallback, truthiness-to-kind literals, intra-component predicate and survivor membership expressions remain. The existing explanatory comment inside the changed body stays. This is mixed expression pending independent root review, not a whole-file independent or MIT claim.",
+    "protected": "The 2279-byte source header and 3124-byte pair-fold/SCC tail match the accepted baseline. Tail includes the previous newly structured SCC and retained pair folding, not a single rights classification. Graph-bounds and analysis/display source/emitted digests, previous SCC frozen files/checker/receipt and original red logs remain unchanged.",
+    "tests": "Five bounded quotient graph observations and two coercion observations are new slice-specific fixtures. Existing synthetic loader/network/clock/call-runner patterns and unchanged 24 graph observations, seven projections, four full-runner cancellation observations and concurrent calls are reused. The 1246-byte archived emitted body is inherited material/prose, not new test expression."
+  },
+  "limits": [
+    "No graph-policy, validation-budget, permission, UI/prose, runtime/Host, cache/state, await, clock, deadline or cancellation change. No providers/network/user files/credentials/settings/shared licensing effects.",
+    "No graph enumeration or expanded getter matrix. Successful key coercion remains seven calls; the late fifth-call exception preserves the original error and read stage. Private native collection invocation counts differ; arbitrary global collection replacement is outside the compatibility claim.",
+    "New freeze passed three source/three emitted before code. Final affected cases ran once after final source formatting/emission: fifteen source/direct and ten strict emitted, no failures/cancellations/skips. No production regression or assertion relaxation was required in this slice; old SCC failure/correction history remains immutable.",
+    "No full suite, broad root checks, aggregate build or native/platform acceptance under reduced cadence. Root owns those gates and independent expression/licence decisions; no MIT grant or publication claim."
+  ],
+  "reproduce": [
+    "Use existing lane Node24.14.0, pnpm10.33.2 and TS6.0.2; scoped emission uses actual core tsconfig, one production root and three artifacts. Local /tmp/knorvia-graph-quotient-types.mjs --tests checks the recorded three roots.",
+    "node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts apps/cli/packages/core/test/create-workflow-graph-fold.test.ts apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+    "node docs/evidence/knorvia-create-workflow-graph-quotient-check-20261001.mjs --emitted --logs --scope; omit --logs outside the original executor because logs are retained local files. Source, committed freeze, protected regions and declaration checks remain reproducible."
+  ]
+}
