@@ -1,0 +1,977 @@
+{
+  "baseline": "28d5e79a217f8476e051a8380b8a668221e4c5f0",
+  "sourceSha256": "f14b38f83fa037d5f5c09dcf08e8cbe21c9d694230ba2f1893db78624e59c487",
+  "cases": {
+    "ordinary": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      },
+      "prompt": "Write exactly one Git commit message for the workspace changes below.\nReturn only the commit message text.\nHard requirements:\n- The first line must be a valid Conventional Commit subject.\n- Use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.\n- Keep the Conventional Commit type and optional scope in English.\n- Write the subject and any body in the current language.\n- Keep the subject under 72 characters.\n- Use the current session conversation context only to infer user intent.\n- Do not mention the conversation, chat, prompt, or user request explicitly.\n- Do not explain your reasoning.\n- Do not repeat these instructions.\nCurrent branch: owned-branch\nCurrent language: English\nCurrent session conversation context:\n(not provided)\nChanged files:\n- modified work/owned-0.txt (+1/-0)\nDiff excerpts:\n--- owned/path-0.txt\nowned patch 0"
+    },
+    "empty": {
+      "sha256": "69dce27cc02842d4dee4299027502fc7ff4a248a8647fbbf9b11aecebc8678c0",
+      "utf16Length": 896,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 0,
+        "diffCount": 0,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      },
+      "prompt": "Write exactly one Git commit message for the workspace changes below.\nReturn only the commit message text.\nHard requirements:\n- The first line must be a valid Conventional Commit subject.\n- Use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.\n- Keep the Conventional Commit type and optional scope in English.\n- Write the subject and any body in the current language.\n- Keep the subject under 72 characters.\n- Use the current session conversation context only to infer user intent.\n- Do not mention the conversation, chat, prompt, or user request explicitly.\n- Do not explain your reasoning.\n- Do not repeat these instructions.\nCurrent branch: (detached or unknown)\nCurrent language: English\nCurrent session conversation context:\n(not provided)\nChanged files:\n- (no file summary available)\nDiff excerpts:\n(diff unavailable; infer only from the changed file summary)"
+    },
+    "blank branch": {
+      "sha256": "637e48052a8df79a1bc6968a214859e2250604481f1988f6e76bf90d6bee568a",
+      "utf16Length": 876,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "explicit locale en-US": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "explicit locale zh-CN": {
+      "sha256": "9b9118d5f94123f4c6bba1e7ee83171f3b2250680e8024c64e4dc3037942174e",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "explicit locale ZH-tw": {
+      "sha256": "9b9118d5f94123f4c6bba1e7ee83171f3b2250680e8024c64e4dc3037942174e",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "explicit locale fr-FR": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "explicit locale ": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "runtime locale zh-Hans": {
+      "sha256": "9b9118d5f94123f4c6bba1e7ee83171f3b2250680e8024c64e4dc3037942174e",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "runtime locale en-GB": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "runtime locale fr-FR": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "runtime failure": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "file count 0": {
+      "sha256": "c70f4b22de05e74367d18886d800b183655cce71cd53a3e8a113e72b33a2023a",
+      "utf16Length": 861,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 0,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "file count 1": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "file count 19": {
+      "sha256": "ecc6f90bf967da03d46aa103450d9b0e4c06229a8e6036542fd8bb63bfec786e",
+      "utf16Length": 1534,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 19,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "file count 20": {
+      "sha256": "80eaf3786cd9ce5bd1d766d489f77d78ec74432e47bf9289b456b55d4e4c11cc",
+      "utf16Length": 1572,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 20,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "file count 21": {
+      "sha256": "8fbb1a1d2adbdabee3cff92d7e94ba1720527f6434b529417e83eed876b0f717",
+      "utf16Length": 1591,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 21,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "file count 23": {
+      "sha256": "9f9a593b67b829e5d0b49f633e41a3fc172e46ac9edfc92bb08c22484273c499",
+      "utf16Length": 1591,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 23,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "sparse files": {
+      "sha256": "3a58c4365db3343e99761620e4416eed1de9582b241564859836e92692ac5cfa",
+      "utf16Length": 904,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 3,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "unicode and raw file stats": {
+      "sha256": "8aa045eb2d70de17d6547daefae8f9608e11f048711adad9f91dc21601b64ae0",
+      "utf16Length": 870,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff count 0": {
+      "sha256": "74bb406258e8ecf7b57ed419dc37dd2566c956b4962bb4df1bf885df7c22ace3",
+      "utf16Length": 893,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 0,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff count 1": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff count 7": {
+      "sha256": "8ce903dcacdd0c1730001b34b3f81d998f07d766541143aeed5c8fc3ec18c12e",
+      "utf16Length": 1083,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 7,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff count 8": {
+      "sha256": "b83c6095f699336c14d371a990edd7556a0ee8e3a1aaf966d5efea53a3bb2cac",
+      "utf16Length": 1119,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 8,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff count 9": {
+      "sha256": "b83c6095f699336c14d371a990edd7556a0ee8e3a1aaf966d5efea53a3bb2cac",
+      "utf16Length": 1119,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 9,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff fallback": {
+      "sha256": "c0b9005c023f41ebfb54dffe1cbf17133080c170ad26fcd9bf74103ab2902f7b",
+      "utf16Length": 941,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 3,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff body 1999": {
+      "sha256": "eaec29b5401ae67ccea8dcc7413f0668e4523591c5e83531b8ec9b886a17816e",
+      "utf16Length": 2853,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff body 2000": {
+      "sha256": "79858ea1f305d39ffb4ca5658dd4fee13f84666c6d168518f76e62b2a1896ab6",
+      "utf16Length": 2854,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff body 2001": {
+      "sha256": "8cdc50c05917a438e2f5bcdcc61f64fa352ac928cc2acd584ba3908761b8efb5",
+      "utf16Length": 2854,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff body 12000": {
+      "sha256": "8cdc50c05917a438e2f5bcdcc61f64fa352ac928cc2acd584ba3908761b8efb5",
+      "utf16Length": 2854,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "diff total budget": {
+      "sha256": "6506879fbc6b28153fcf9d07e26f87e311a9ab5859531015a55af6b6cf6d05ea",
+      "utf16Length": 12864,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 8,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "huge diff header": {
+      "sha256": "dc02699aac7b567c176736ee85e80418cb44e4fad717fb228d2753a37927f7d5",
+      "utf16Length": 13851,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 2,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "tiny remaining diff budget": {
+      "sha256": "f02e9f95f0fd1f439ffb451cb60ea37c21d6c4be87bd73dc747654f58c8b002b",
+      "utf16Length": 12875,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 2,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "unicode diff clipping": {
+      "sha256": "76ae75fa23cb41456225f52a98bbe4a2c31a041e39426c8d641c3171ce6e2a1c",
+      "utf16Length": 2854,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation count 0": {
+      "sha256": "b7370a4974e5e1332e814df3d652ec5d43e4888b821adb1804d63b1c433bf720",
+      "utf16Length": 867,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 0,
+        "conversationOmittedMessageCount": 2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation count 1": {
+      "sha256": "36ec0f05c0db4fffc45767168436852ebfe8d4749e6e30d1e312f4fcfb999393",
+      "utf16Length": 903,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 1,
+        "conversationOmittedMessageCount": 2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation count 11": {
+      "sha256": "9dd1d2256298c0ef94e7e67109c9bbd2f08ccf2a1b9af29b507efeabbb0dbae7",
+      "utf16Length": 1149,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 11,
+        "conversationOmittedMessageCount": 2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation count 12": {
+      "sha256": "41d7da2568a7178f896fd7a73ea10205b9cc66f64200708d2a56c2ff0fd05d39",
+      "utf16Length": 1177,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 12,
+        "conversationOmittedMessageCount": 2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation count 13": {
+      "sha256": "7e4c9134e8805942dbcb40c2da9e8621262a8761e2d7361a105522f1c8197e02",
+      "utf16Length": 1178,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 13,
+        "conversationOmittedMessageCount": 2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation count 16": {
+      "sha256": "e7844a3c6031ca649bbd12eec4fa58da9bee217d6c5b1fbb96a273dac718c939",
+      "utf16Length": 1181,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 16,
+        "conversationOmittedMessageCount": 2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation omitted -20": {
+      "sha256": "f925cafe2c838d773dceb662053d18ea1ece1c37c5a7b4cfd97f2d0977e1c336",
+      "utf16Length": 1120,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 14,
+        "conversationOmittedMessageCount": -20
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation omitted -2": {
+      "sha256": "f925cafe2c838d773dceb662053d18ea1ece1c37c5a7b4cfd97f2d0977e1c336",
+      "utf16Length": 1120,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 14,
+        "conversationOmittedMessageCount": -2
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation omitted 0": {
+      "sha256": "005b128df340be70c5e6581b1cfb8559ba3fd60114faf4cf9791fdbe365ee9ef",
+      "utf16Length": 1149,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 14,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation omitted 5": {
+      "sha256": "3e855100425ceba5fb159647f7bd669418e27aaae41de66f7c09a0a88ce6b08b",
+      "utf16Length": 1149,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 14,
+        "conversationOmittedMessageCount": 5
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation whitespace and roles": {
+      "sha256": "e89da7ff7f617cdf2d45d7e1fccbd08d40491edafb4d977e989c9d4478b92365",
+      "utf16Length": 904,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 3,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation body 599": {
+      "sha256": "fd3c3e1034de531706e2b4e3476a7fb52499db7252d961aaabc201d7d2331320",
+      "utf16Length": 1463,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 1,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation body 600": {
+      "sha256": "1809decadb4d07c0f3b1af325934ebffdb2bd6dfb4df0f63118725c13a5f95e0",
+      "utf16Length": 1464,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 1,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation body 601": {
+      "sha256": "559a4ac8e368babe217ea6af93273bd29bf1650d24142fd393580799bf60ff1e",
+      "utf16Length": 1464,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 1,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation body 4000": {
+      "sha256": "559a4ac8e368babe217ea6af93273bd29bf1650d24142fd393580799bf60ff1e",
+      "utf16Length": 1464,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 1,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "conversation total budget": {
+      "sha256": "2099fc32305e089899f50e8204876f3a969caae05ef5681cd054a1e7461d64cb",
+      "utf16Length": 4882,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 15,
+        "conversationOmittedMessageCount": 4
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    },
+    "unicode conversation clipping": {
+      "sha256": "c6daae6f46d35637ef82c7e25ae68b7a1e021ac506a70606db10c8d41101eb65",
+      "utf16Length": 1459,
+      "startFields": {
+        "workspacePath": "/workspace/knorvia-studio/synthetic-owned-git-read-projection/work",
+        "workspaceIdentity": "owned-identity",
+        "providerId": "owned-provider",
+        "model": "owned-model",
+        "fileCount": 1,
+        "diffCount": 1,
+        "conversationMessageCount": 1,
+        "conversationOmittedMessageCount": 0
+      },
+      "result": {
+        "message": "fix: owned synthetic change",
+        "providerId": "owned-provider",
+        "model": "owned-model"
+      }
+    }
+  }
+}
