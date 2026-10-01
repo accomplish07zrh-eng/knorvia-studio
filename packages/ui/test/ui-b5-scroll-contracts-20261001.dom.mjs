@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { test, after } from "node:test";
 
 // Supplemental DOM gate: keep jsdom outside the product dependency graph.
@@ -15,7 +15,7 @@ for (const key of ["window", "document", "HTMLElement", "Node", "Event", "Mutati
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { createElement: h, act, createRef } = require("react");
 const { createRoot } = require("react-dom/client");
-const ui = process.env.KNORVIA_UI_B5_DIR ?? new URL("../src/", import.meta.url).pathname;
+const ui = process.env.KNORVIA_UI_B5_DIR ?? fileURLToPath(new URL("../src/", import.meta.url));
 const ext = process.env.KNORVIA_UI_B5_EXT ?? "tsx";
 const { ScrollFadeViewport } = await import(
   pathToFileURL(`${ui}/components/ui/scroll-fade-viewport.${ext}`).href

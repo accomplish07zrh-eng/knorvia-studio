@@ -1,10 +1,11 @@
 import { readFile, readdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { resolve, dirname, relative } from "node:path";
+import { resolve, dirname, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "../../.."),
   assets = resolve(repo, "packages/web/dist/assets");
+const repoPath = (path) => relative(repo, path).split(sep).join("/");
 const hash = (text) => createHash("sha256").update(text).digest("hex");
 const names = [
   "flip-metric-value.tsx",
@@ -28,7 +29,7 @@ for (const filename of (await readdir(assets)).filter((n) => n.endsWith(".map"))
   const full = resolve(assets, filename),
     map = JSON.parse(await readFile(full, "utf8"));
   for (let i = 0; i < map.sources.length; i++) {
-    const path = relative(repo, resolve(dirname(full), map.sources[i]));
+    const path = repoPath(resolve(dirname(full), map.sources[i]));
     if (!wanted.has(path)) continue;
     const actual = await readFile(resolve(repo, path), "utf8");
     const committed = execFileSync("git", ["show", `HEAD:${path}`], {
@@ -40,9 +41,9 @@ for (const filename of (await readdir(assets)).filter((n) => n.endsWith(".map"))
     if (!found.has(path))
       found.set(path, {
         sourceSha256: hash(actual),
-        map: relative(repo, full),
+        map: repoPath(full),
         mapSha256: hash(await readFile(full)),
-        bundle: relative(repo, full.slice(0, -4)),
+        bundle: repoPath(full.slice(0, -4)),
         bundleSha256: hash(await readFile(full.slice(0, -4))),
       });
   }
