@@ -362,35 +362,34 @@ export function inferKindFromNumstat(stat: GitLineStat): GitChangeKind {
 }
 
 export function parseNumstat(stdout: string): Map<string, GitLineStat> {
-  const records = stdout.split("\0");
   const stats = new Map<string, GitLineStat>();
-
-  for (let index = 0; index < records.length; index += 1) {
-    const record = records[index];
-    if (!record) {
+  let offset = 0;
+  // numstat 的 rename 尾部保留空记录；不能复用 porcelain 的去空消费规则。
+  const takeRecord = (): string | undefined => {
+    if (offset > stdout.length) return undefined;
+    const separator = stdout.indexOf("\0", offset);
+    const end = separator < 0 ? stdout.length : separator;
+    const record = stdout.slice(offset, end);
+    offset = end + 1;
+    return record;
+  };
+  let record: string | undefined;
+  while ((record = takeRecord()) !== undefined) {
+    if (record.length === 0) continue;
+    const firstTab = record.indexOf("\t");
+    if (firstTab < 0) continue;
+    const secondTab = record.indexOf("\t", firstTab + 1);
+    if (secondTab < 0) continue;
+    const added = parseNumstatValue(record.slice(0, firstTab));
+    const removed = parseNumstatValue(record.slice(firstTab + 1, secondTab));
+    const path = record.slice(secondTab + 1);
+    if (path.length > 0) {
+      stats.set(normalizeGitPath(path), { added, removed });
       continue;
     }
-
-    const fields = record.split("\t");
-    if (fields.length < 3) {
-      continue;
-    }
-
-    const added = parseNumstatValue(fields[0]!);
-    const removed = parseNumstatValue(fields[1]!);
-    const pathField = fields.slice(2).join("\t");
-    if (pathField.length > 0) {
-      stats.set(normalizeGitPath(pathField), { added, removed });
-      continue;
-    }
-
-    const originalPath = records[index + 1] ?? "";
-    const renamedPath = records[index + 2] ?? "";
-    index += 2;
-    if (renamedPath.length === 0) {
-      continue;
-    }
-
+    const originalPath = takeRecord() ?? "";
+    const renamedPath = takeRecord() ?? "";
+    if (renamedPath.length === 0) continue;
     stats.set(normalizeGitPath(renamedPath), {
       added,
       removed,
@@ -398,7 +397,6 @@ export function parseNumstat(stdout: string): Map<string, GitLineStat> {
       originalPath: normalizeGitPath(originalPath),
     });
   }
-
   return stats;
 }
 
