@@ -1,0 +1,1530 @@
+{
+  "formatVersion": 1,
+  "kind": "Collaboration tools source-exposed implementation receipt",
+  "lane": "parallel/cli-tools-fast-20261001",
+  "baselineCommit": "8c669eb72b6a16afee0892dec76f5baccce0053f",
+  "freezeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+  "productionCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+  "integratedCommit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+  "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+  "sourceExposure": {
+    "inheritedSourceRead": true,
+    "cleanRoom": false,
+    "wholeFileOriginalityDetermination": null,
+    "attributionRetained": true,
+    "sharedProvenanceEdited": false
+  },
+  "licenseDecision": null,
+  "unresolvedMaterialObligations": 27,
+  "obligationCountScope": "Preserved older lane baseline only. Parent reports closure below; not imported or locally verified.",
+  "parentReportedUpdates": {
+    "locallyVerified": false,
+    "agent": {
+      "reviewedShortCommit": "0dc764e",
+      "source": 22,
+      "emitted": 22,
+      "projectionComparisonsPerMode": 512,
+      "publisherBytesReportedVerified": true
+    },
+    "publication": {
+      "reviewedShortCommit": "0dc764e",
+      "linuxCI": "CI222",
+      "tests": 6914,
+      "pass": 6906,
+      "skipped": 8,
+      "fail": 0,
+      "windowsStatusAtParentReport": "running"
+    },
+    "keyv": {
+      "reportedShortCommit": "d109b32",
+      "version": "4.5.4",
+      "remainingObligations": 26,
+      "reportedEvidence": "Complete original publisher LICENSE with exact four-file npm binding; all 928 old notice blocks preserved. No whole-project MIT eligibility."
+    }
+  },
+  "lineage": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "localHistory": ["7619e41b950bd52073ebf36754146cf25659d9fa"],
+      "baselineBlob": "64eec0acd77b05e1a4cd916eb3d7da1832c4260a",
+      "baselineBytes": 5475,
+      "baselineSha256": "f407ee821862337208e0a61acb224f6a5d9dcf3a5188870804b0083446256bd0",
+      "upstreamEvidenceKind": "existing-manifest-facts-only",
+      "publisherBytesLocallyVerified": false,
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/send-message.ts",
+      "upstreamBlob": "02f56dffe79f4cacf3bf59f425dc00b76f53a447",
+      "upstreamBytes": 5473,
+      "upstreamSha256": "cccd96d85ae883055a94b85773144718442fd0cd6a79e58a6b3cc00788fe10b8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "localHistory": ["7619e41b950bd52073ebf36754146cf25659d9fa"],
+      "baselineBlob": "498c388ef7ed36faccf96b048d597d8e4249655f",
+      "baselineBytes": 4941,
+      "baselineSha256": "44c31bf7cfa9a1f571174d63d94ecd764bb260a974c8333131cd9a8160628557",
+      "upstreamEvidenceKind": "existing-manifest-facts-only",
+      "publisherBytesLocallyVerified": false,
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "upstreamBlob": "bb60fa9fc02e57196e4aefb97be02d6a37c90357",
+      "upstreamBytes": 4939,
+      "upstreamSha256": "3ea984153fb7bfa36e829896ab02ba7ce99164fc21c46a3a26de4fc636080a87"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "localHistory": ["7619e41b950bd52073ebf36754146cf25659d9fa"],
+      "baselineBlob": "de26e32959c27ac309a34f5fb47e88eda5ad0af7",
+      "baselineBytes": 7991,
+      "baselineSha256": "4568a59234eb5c3b24cafcfcb4df5ebc78212d6e2e5719ff8316d22b7c0efbd8",
+      "upstreamEvidenceKind": "existing-manifest-facts-only",
+      "publisherBytesLocallyVerified": false,
+      "upstreamPath": "apps/zcode-cli/packages/core/src/tool/handlers/submit-result.ts",
+      "upstreamBlob": "e8979e4d0c244d1ef51b6b1ce4afd5101ac19614",
+      "upstreamBytes": 7989,
+      "upstreamSha256": "d2a9ec6ed775f4a0681d43b371926a26a7efe89bfb732a01a79c5508ab31d8cf"
+    }
+  ],
+  "frozen": {
+    "path": "apps/cli/packages/core/test/collaboration-tool-contract.json",
+    "bytes": 364842,
+    "sha256": "e44e70bdb0368fdf49de8cf0bc6858161d09767766ecc230315f9e49d3068d12",
+    "direct": 103,
+    "getters": 81,
+    "verdicts": 15,
+    "executor": 28,
+    "registry": 6,
+    "factories": 6,
+    "permissions": 60,
+    "formatting": {
+      "send": 15,
+      "respond": 8,
+      "submit": 6
+    },
+    "projectionMatrix": {
+      "comparisons": 144,
+      "sha256": "48554c005038cc657628b141d829008e5e12276849d0db249789cae480feed4a"
+    },
+    "namedTestsPerMode": 25,
+    "emittedLoader": "Read actual dist JS before import; missing emitted files fail, no tsx source fallback",
+    "normalization": "Generated executor span IDs normalized only after presence/propagation checks. Incidental error stack fields omitted. JSON omits undefined; own undefined/reference/getter/receiver behavior separately asserted. All clocks/ports/results are synthetic."
+  },
+  "retainedRegions": [
+    {
+      "name": "send constants/description/provider output",
+      "path": "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "start": "const MAX_SEND_MESSAGE_MODEL_BYTES",
+      "baselineEnd": "const sendMessageHandler",
+      "currentEnd": "const sendMessageHandler",
+      "referenceSubstitutions": [],
+      "sha256": "43235fd64d85ff1a94d1685de5a8b14452fed7e8b4a1db7fc8f636f3cbcd22e5",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    },
+    {
+      "name": "send public declaration",
+      "path": "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "start": "export const sendMessageToolEntry",
+      "baselineEnd": "function formatSendMessageModelContent",
+      "currentEnd": null,
+      "referenceSubstitutions": [
+        [
+          "formatModelContent: formatSendMessageModelContent",
+          "formatModelContent: sendMessageModelContent"
+        ]
+      ],
+      "sha256": "e68795db6c4ae717f91dfa4fdfbb67d9f435ea223b78d474006e49c761e1e442",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    },
+    {
+      "name": "response constants/provider output",
+      "path": "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "start": "const MAX_RESPOND_TO_COORDINATOR_MODEL_BYTES",
+      "baselineEnd": "const respondToCoordinatorHandler",
+      "currentEnd": "export const respondToCoordinatorToolEntry",
+      "referenceSubstitutions": [],
+      "sha256": "a37f5d692a0f2def01584ca611c90d03cd887b1af9ad9b85fe3caf1699d6d879",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    },
+    {
+      "name": "response public declaration",
+      "path": "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "start": "export const respondToCoordinatorToolEntry",
+      "baselineEnd": "function formatRespondToCoordinatorModelContent",
+      "currentEnd": null,
+      "referenceSubstitutions": [
+        ["handler: respondToCoordinatorHandler", "handler: respondToCoordinator"],
+        [
+          "formatModelContent: formatRespondToCoordinatorModelContent",
+          "formatModelContent: coordinatorResponseModelContent"
+        ]
+      ],
+      "sha256": "caa04ab430066e09bd42b41ecb6d73ed1e574746c347c60f215647d418358ab5",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    },
+    {
+      "name": "submission header",
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "start": "// ============================================================",
+      "baselineEnd": "import {",
+      "currentEnd": "import {",
+      "referenceSubstitutions": [],
+      "sha256": "e07b0b92565d1f7ee1175f9725b3876b7a8829cc2f51a46abade01637291f4b4",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    },
+    {
+      "name": "submission constants/rejection-code comment",
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "start": "const MAX_SUBMIT_RESULT_MODEL_BYTES",
+      "baselineEnd": "const submitResultHandler",
+      "currentEnd": "const submitResultHandler",
+      "referenceSubstitutions": [],
+      "sha256": "8fb6f61bbd4ced4bd3ab4e514b406a38f020be6c922cca9bbdb6f22dee5513b1",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    },
+    {
+      "name": "submission public factory/declaration",
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "start": "/**\n * submit_result",
+      "baselineEnd": "function submitResultRejection",
+      "currentEnd": null,
+      "referenceSubstitutions": [
+        [
+          "formatModelContent: formatSubmitResultModelContent",
+          "formatModelContent: submitResultModelContent"
+        ]
+      ],
+      "sha256": "9b0433976219e0e2d4bbd1530d545cb431eb2a7be588690cf528c98092f55620",
+      "normalization": "Trim region boundary whitespace; only listed implementation reference substitutions in baseline."
+    }
+  ],
+  "checks": {
+    "source": {
+      "tests": 25,
+      "suites": 0,
+      "pass": 25,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 2899.776045,
+      "logPath": "/tmp/knorvia-collaboration-source-tests-final.log",
+      "bytes": 2796,
+      "sha256": "ede72f7f1921fbd01c35b346becfd0985f7029d0471764d09c7ffd9cbd18d1b9"
+    },
+    "emitted": {
+      "tests": 25,
+      "suites": 0,
+      "pass": 25,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "durationMs": 3408.907522,
+      "logPath": "/tmp/knorvia-collaboration-emitted-tests-final.log",
+      "bytes": 2800,
+      "sha256": "0add57a9d13c0d71803a5d037f0d4e58332d368ed79f33b97b46524c8b19d749"
+    },
+    "fullRegression": {
+      "tests": 6195,
+      "suites": 6,
+      "pass": 6187,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 8,
+      "durationMs": 353935.956061,
+      "logPath": "/tmp/knorvia-collaboration-full-regression-final.log",
+      "bytes": 548006,
+      "sha256": "512b3d2a5200c88f0ba4911bfd8e70535e752f5ae45b87ad2eb377592f3ca41d",
+      "testFiles": 520,
+      "skipLines": [
+        "﹣ Windows bootstrap passes the explicit offline CUA archive environment to driver staging (0.121016ms) # SKIP",
+        "﹣ 真实交付脚本在模拟目录上端到端验证 data 不变（PowerShell 可用时） (3.367907ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 真实交付脚本在 8.3 短名 Source 上也能正确交付 (2.216278ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ Source 末尾带分隔符时仍能正确交付 (2.076185ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 路径含空格与中文时仍能正确交付 (2.09996ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ 程序文件确实被篡改时交付必须失败并给出可定位诊断 (2.321013ms) # 需要 Windows 与 PowerShell 才能运行真实交付脚本",
+        "﹣ deterministic old/new Claude leaf observations and public declarations (0.86825ms) # SKIP",
+        "﹣ Windows case and slash aliases reuse the snapshot while distinct directories and modes remain fenced (0.204993ms) # SKIP"
+      ]
+    },
+    "rootTypes": {
+      "pass": true,
+      "i18nKeys": 5422,
+      "logPath": "/tmp/knorvia-collaboration-root-types.log",
+      "bytes": 523,
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+    },
+    "cliTypes": {
+      "pass": true,
+      "scope": 16,
+      "workspaceProjects": 19,
+      "logPath": "/tmp/knorvia-collaboration-cli-types-final.log",
+      "bytes": 1834,
+      "sha256": "f2814ddb9bf7157c20d38dee44bffec573a5aa178a653d61681ed57cb0346c26"
+    },
+    "cliBuild": {
+      "pass": true,
+      "tasks": 17,
+      "cached": 16,
+      "precedingVerifiedBuild": {
+        "tasks": 17,
+        "cached": 10,
+        "logPath": "/tmp/knorvia-collaboration-cli-build.log",
+        "bytes": 8805,
+        "sha256": "24a69dbbc052c0a977dda147094e20cff1be747a297bdd02c2bd47b872e91d9f"
+      },
+      "warnings": [
+        "Existing global Turbo 2.9.14 fallback / missing browser-use-plugin lockfile workspace warning",
+        "Existing debug >500KB chunk warning",
+        "Existing unsupported dynamic import options in Node REPL/TUI/CLI build",
+        "Windows CUA staging skipped on Linux"
+      ],
+      "logPath": "/tmp/knorvia-collaboration-cli-build-final.log",
+      "bytes": 8825,
+      "sha256": "94ecefb19369c901cb69bfb8cb8336dd02282475b207f27ce2c178a4a13dccc8"
+    },
+    "rootLint": {
+      "pass": true,
+      "files": 2842,
+      "warnings": 0,
+      "errors": 0,
+      "logPath": "/tmp/knorvia-collaboration-root-lint.log",
+      "bytes": 155,
+      "sha256": "5550f2d7d046a99bb7c7e5e60adf918f7f91cd5b4685e0271487945c7a163fce"
+    },
+    "cliLint": {
+      "pass": true,
+      "files": 97,
+      "warnings": 0,
+      "errors": 0,
+      "logPath": "/tmp/knorvia-collaboration-cli-lint.log",
+      "bytes": 192,
+      "sha256": "056e57d989020a83c01348c6484f581c8210a73345f88e474c8f57143db80d24"
+    },
+    "ownedLint": {
+      "pass": true,
+      "files": 12,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "configuration": "Existing root rules/test override; only temporary ignorePatterns cleared. No repository rule/configuration change.",
+      "logPath": "/tmp/knorvia-collaboration-owned-lint.log",
+      "bytes": 91,
+      "sha256": "604d6898506acfd2726f2687f1e64ddb324418906e731890cc9baa3b02aceef2"
+    },
+    "coreLint": {
+      "pass": false,
+      "errors": 24,
+      "warnings": 11,
+      "unchangedFiles": [
+        {
+          "path": "apps/cli/packages/core/src/agent/message-history.ts",
+          "blob": "46a428961f5f7a1c42c0a184f4dbd7ae379b5ce5",
+          "bytes": 16116,
+          "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+          "blob": "e37abf41b46caf50bd50486e3cb46e9db5ddcf95",
+          "bytes": 20974,
+          "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+          "blob": "f3456b35f4eeac499838ef16c7bb5b9dbbd3ca9e",
+          "bytes": 4233,
+          "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+          "blob": "f5c2d9cdff9042b94a07e679d70fbc5eeb708062",
+          "bytes": 28340,
+          "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+          "blob": "cd0f580a9d0d3fec86f4b6ab765c3311be5b97f9",
+          "bytes": 17171,
+          "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/internal-turn-methods.ts",
+          "blob": "ba9e550b3044b357a671a8c1296ca42c2f17e382",
+          "bytes": 13911,
+          "sha256": "cdc5b01f2fd1782109390ea2156b1a1ba9f95f388adcedc071df21aa0df37527"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+          "blob": "d74b7349ed764f964024d361128fbd9a3f814a45",
+          "bytes": 14920,
+          "sha256": "a24883acabff75267e259c84d917b1a38163cb8542de9259fdf068f360e230c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-active.ts",
+          "blob": "7b3c707d580919ef233c67a99c3fa6dbe75cea0a",
+          "bytes": 27775,
+          "sha256": "d58444a1570e4125f96897536307457096b7cc97b3b73509dd50ab242a7ffdd0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact-persistence.ts",
+          "blob": "56c3061ae1bc44dc3c891e14cdc47055c8f8d250",
+          "bytes": 15762,
+          "sha256": "422a587999db16ceea860e2be3d4134228ce9f225b4eb4b893780665d85da648"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/compact.ts",
+          "blob": "4f7d2f09c44c47db31a482f0c9fe8c0fb481f88a",
+          "bytes": 16397,
+          "sha256": "480dce24e0c62af96cf1737fe70e7ac80770fcf87e86e3d187d8d151f108f3c8"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/events.ts",
+          "blob": "107c3dafa56e32a74d4b200ec0f47097a6a5946d",
+          "bytes": 24444,
+          "sha256": "b2150eccef7feb71725fa4e4a02165e452f9c4f0e25069f35b8cec570ec0a2d2"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/file-rewind.ts",
+          "blob": "5c9c20ff7b0a3266e4e905715157700d7e57b62f",
+          "bytes": 21420,
+          "sha256": "92c81a17e2a59407da14824ee50008ff99bd4163fa8f6a682a745e1fe6c2e20a"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+          "blob": "43f5913696e833dfab4cc4a9d7daa9310a3b1eb9",
+          "bytes": 19728,
+          "sha256": "7bde9cdcda3db76c715f8a16a7bfbefec2961c47ded4f933300a29879cb6ef80"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+          "blob": "1e4ba11d34c75e5af579ad78587740bf8f34f775",
+          "bytes": 16828,
+          "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/runtime-command-queue.ts",
+          "blob": "620e96e60fcd5889c21da32b7782f6ff4aaacaa4",
+          "bytes": 17963,
+          "sha256": "a2096f3de850c1c37f2000fb9401733110fc72cb61cf300bc6e8b8ae7d6f07ac"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/session-fork.ts",
+          "blob": "5319d10d6d4407c0626b2679764d1b0bc989dbc3",
+          "bytes": 52452,
+          "sha256": "e1a496dec0581987f6f8ee28d7e68f5b7bbba097b4b2e8bf0983d19db9ae187d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/steering.ts",
+          "blob": "0b1234f40eaa3cb3b605dba0eb562d81d9657961",
+          "bytes": 48360,
+          "sha256": "b4e83e0f6be515940769b574b5cb7d84101c6495d0181d420fc47d29171345ab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+          "blob": "caf038f22877548f074ac9f24e935919832c1193",
+          "bytes": 29776,
+          "sha256": "9507973fa0a4c221afa4c2e9e79db04d683d3b30c5e226c108992729367770fa"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+          "blob": "a73ed30aae051e525811d4749149f6473bd0888c",
+          "bytes": 20231,
+          "sha256": "5b97bf99f44c9778a5a82c226c62a1d01d6e7f18fbd3d2b489355d90dee2fb9d"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/turn.ts",
+          "blob": "571fef1508493dcfab852f7b3046d311aaf4f416",
+          "bytes": 36616,
+          "sha256": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c"
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+          "blob": "4569631b25c9c1a20783bd9223c74ce65f7d1603",
+          "bytes": 14322,
+          "sha256": "88d36e50e9426d68a4fd4089d9d303cb318a7b74c4415227b209f64f11f746b0"
+        },
+        {
+          "path": "apps/cli/packages/core/src/telemetry/runtime-telemetry.ts",
+          "blob": "b9e48964f928bbdd830e8d4e6899d94439bc9220",
+          "bytes": 6795,
+          "sha256": "af1e19734428033b26ee5dcc728bdc4cad30cda7c128ed646c032a59f1445b8e"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+          "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba",
+          "bytes": 48163,
+          "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/bash.ts",
+          "blob": "fee4a76098247a7c15ab23be2baecd0614740e51",
+          "bytes": 18686,
+          "sha256": "85bd4771b7b8225e190e0607068d9eb67fa1f3822d8f3c3c9d4e0002cf9b8eab"
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+          "blob": "882745561b666c9f3d368374d00004d562bbb861",
+          "bytes": 13916,
+          "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+          "blob": "a90f62133f7feabb7cb5870e1fce5041c46fe4a5",
+          "bytes": 10424,
+          "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+          "blob": "17d82c262e531879a9bc36f3c3baa6df8f3998c2",
+          "bytes": 17946,
+          "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+        }
+      ],
+      "logPath": "/tmp/knorvia-collaboration-core-lint.log",
+      "bytes": 5543,
+      "sha256": "abcecf14d11a1cb5c020f6427263b4c24c3f49d0251e8312ad123bf9b8bb699a"
+    },
+    "format": {
+      "pass": true,
+      "files": 5930,
+      "logPath": "/tmp/knorvia-collaboration-format.log",
+      "bytes": 203,
+      "sha256": "5abcaaa3e54357397720ab1b6a0479d5c529bb70213cf4dbaa43f5dffa51e287"
+    },
+    "architectureChanged": {
+      "pass": true,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "logPath": "/tmp/knorvia-collaboration-architecture-changed.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    "architecture": {
+      "pass": true,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "module": "CLI unmanaged/unassigned; helper direction manually reviewed",
+      "logPath": "/tmp/knorvia-collaboration-architecture.log",
+      "bytes": 187,
+      "sha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+    },
+    "evidenceRootLint": {
+      "pass": true,
+      "files": 2843,
+      "warnings": 0,
+      "errors": 0,
+      "logPath": "/tmp/knorvia-collaboration-root-lint-evidence.log",
+      "bytes": 155,
+      "sha256": "1ee285d295f3b82d1e78e7d651713c31a031f6fd3f455bfe6e55a89e3135d5a7"
+    },
+    "evidenceFormat": {
+      "pass": true,
+      "files": 5933,
+      "logPath": "/tmp/knorvia-collaboration-format-evidence.log",
+      "bytes": 203,
+      "sha256": "cf73dac75c136790e5fbefb9834c67e723e5ea3265d9df791cf3c4d1c325d2b5"
+    },
+    "evidenceArchitectureChanged": {
+      "pass": true,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "logPath": "/tmp/knorvia-collaboration-architecture-evidence.log",
+      "bytes": 197,
+      "sha256": "789dff954b0a5957ec92ba1cb5f67bdf3ccda8454014a78284f2c61a4c714d43"
+    },
+    "receipt": {
+      "pass": true,
+      "ownedFiles": 14,
+      "emittedFiles": 21,
+      "protectedInputs": 91,
+      "unchangedLintInputs": 27,
+      "schema": "Read-only checker validates format/version/commits/typed counts/unique allowed paths and exact raw/LF/blob/tuple/declaration/frozen/lineage/emitted digests; final evidence files bound by evidence commit, no self hash.",
+      "logPath": "/tmp/knorvia-collaboration-receipt-check.log",
+      "bytes": 221,
+      "sha256": "11f34453f370d5b3122f60be60179b25e1672a93a3cd3787bf1f6c4b277750a3"
+    }
+  },
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "blob": "e550f7ef31e4b0173179e3b6699ad1baa7fdd858",
+      "bytes": 3477,
+      "sha256": "e3bdfce38045be97cecf5e666aa52f1d2447e53525fa706a875bd50a6d775eaf",
+      "normalizedSha256": "e3bdfce38045be97cecf5e666aa52f1d2447e53525fa706a875bd50a6d775eaf",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Declaration, capability, provider description/example, OffPeak hint/comment, permission/reason, timeout, budget, cancellation and trace metadata retained exactly.",
+        "Handler construction now delegates to distinct invocation owner; model projection reference changed."
+      ],
+      "newlyStructuredExpression": [
+        "Entry composes a private invocation factory using its retained idle-turn hint."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "blob": "13b5c38ab890d3bad038846c1837b62552fcfabe",
+      "bytes": 3163,
+      "sha256": "9cc51f474c196964a88a06fdbb2aa745b3a79bd726e773c5e127e16c4c706849",
+      "normalizedSha256": "9cc51f474c196964a88a06fdbb2aa745b3a79bd726e773c5e127e16c4c706849",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Entire declaration, model instructions, plan-mode allowance, permission/reason, provider output schema, timeout, cancellation and trace metadata retained except handler/formatter references."
+      ],
+      "newlyStructuredExpression": [
+        "Entry composes dedicated coordinator invocation and lower ordered model projection."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "blob": "954f04f2818322adf109c0f350c6abb75516006e",
+      "bytes": 5422,
+      "sha256": "f9bbd6e2f186e5ab4e54281b35930ee8632c3e5af85266b9d0bc0df8f7f4db0d",
+      "normalizedSha256": "f9bbd6e2f186e5ab4e54281b35930ee8632c3e5af85266b9d0bc0df8f7f4db0d",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Header/factory prose, generic/typed public declaration builder, frozen actor schema/reference behavior, metadata, permission/reason and all cancellation/timeout text retained except formatter reference."
+      ],
+      "newlyStructuredExpression": [
+        "Entry composes submission invocation using retained rejection code. No newly authored whole-file determination."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-invocation.ts",
+      "blob": "a10d5964504f1a5c37ae856d89b6285325d07d5d",
+      "bytes": 3174,
+      "sha256": "fd7a27954cc561106ce919a7b831a7a342e8a44af3ec42dafbc39d727fbbecde",
+      "normalizedSha256": "fd7a27954cc561106ce919a7b831a7a342e8a44af3ec42dafbc39d727fbbecde",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Retained input parsing/admission predicates, configuration error prose, context fields/recoverability and native bound method expressions.",
+        "SendMessage OffPeak guard remains distinct from response scope and workflow port-only gates; inherited workflow gate comment retained."
+      ],
+      "newlyStructuredExpression": [
+        "Three explicit invocation paths consume ordered request codecs and a lower submission outcome projector. One effect per path; no added runtime state."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-request.ts",
+      "blob": "78d3eb319cd13d3ccef52cbd0b200d0787dfb1b3",
+      "bytes": 2665,
+      "sha256": "66e780e744c84cf97e89507dce867a9f084f710b1a28523945fef78e85602332",
+      "normalizedSha256": "66e780e744c84cf97e89507dce867a9f084f710b1a28523945fef78e85602332",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Public request field names/meanings, getter insertion order, exact result/trace references and nullish trace preference retained.",
+        "Field codec follows earlier source-exposed lane patterns; no originality claim from private helper creation."
+      ],
+      "newlyStructuredExpression": [
+        "Ordered table-driven field encoding stages parent/location/trace reads with method-before-argument composition."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/collaboration-result.ts",
+      "blob": "acc1fe070aa75fb9ad239434f992a0d75dd9ade0",
+      "bytes": 3232,
+      "sha256": "f46de4e3fb0647598d423a4abda5fd8a54ff2b48135b723d892b6534a7d9225e",
+      "normalizedSha256": "f46de4e3fb0647598d423a4abda5fd8a54ff2b48135b723d892b6534a7d9225e",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "role": "production",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "All inherited model-facing prose/error/continuation/violation text retained; Chinese continuation/rejection/violation comments retained.",
+        "Strict/safe schema calls, message override/nullish recipient/error expressions, truthy accept, native violations.map callback and lines spread/join remain constrained retained expressions."
+      ],
+      "newlyStructuredExpression": [
+        "Ordered segment assembly replaces nested message/response formatting. Lazy accepted/rejected outcome selection replaces intertwined invocation verdict construction."
+      ],
+      "candidateReviewStatus": "unresolved_retained_material"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-capture.mts",
+      "blob": "4ae16bb9995631850750a71149a9bd409d6a1a8c",
+      "bytes": 2325,
+      "sha256": "a4a937be4ecbb373cd541f0db9b6fc77af6d6afe9d73ad969563383b51b36fc1",
+      "normalizedSha256": "a4a937be4ecbb373cd541f0db9b6fc77af6d6afe9d73ad969563383b51b36fc1",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Frozen old prose/output/errors/declarations and public interface facts referenced or asserted; prior lane fixture/assertion patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Owned synthetic ports, getter/verdict probes, strict consumer loading, permission/registry/executor cases, interruption/deadline checks and repair/turn-stop assertions."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_test_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-cases.ts",
+      "blob": "974db23e3218ecc088aab730f7327a21fc3de417",
+      "bytes": 9316,
+      "sha256": "400017c6d3bc240b4f0e4d0e19c591f9a6f93baea3852c2b5452a5ddb9dfa209",
+      "normalizedSha256": "400017c6d3bc240b4f0e4d0e19c591f9a6f93baea3852c2b5452a5ddb9dfa209",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Frozen old prose/output/errors/declarations and public interface facts referenced or asserted; prior lane fixture/assertion patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Owned synthetic ports, getter/verdict probes, strict consumer loading, permission/registry/executor cases, interruption/deadline checks and repair/turn-stop assertions."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_test_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-consumers.test.ts",
+      "blob": "209b7b0ed858bad15f68e2a20259ac9515a9d564",
+      "bytes": 13212,
+      "sha256": "93bb3799a780ba7c928602c8827ad2778fe117217e15d0bf99ed3e6deab8c884",
+      "normalizedSha256": "93bb3799a780ba7c928602c8827ad2778fe117217e15d0bf99ed3e6deab8c884",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Frozen old prose/output/errors/declarations and public interface facts referenced or asserted; prior lane fixture/assertion patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Owned synthetic ports, getter/verdict probes, strict consumer loading, permission/registry/executor cases, interruption/deadline checks and repair/turn-stop assertions."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_test_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-contract.json",
+      "blob": "8077136d71feca7859d3eec2bdfe3404477b0444",
+      "bytes": 364842,
+      "sha256": "e44e70bdb0368fdf49de8cf0bc6858161d09767766ecc230315f9e49d3068d12",
+      "normalizedSha256": "e44e70bdb0368fdf49de8cf0bc6858161d09767766ecc230315f9e49d3068d12",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "frozen-data",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Baseline declarations, descriptions, model prose, native errors, output and getter/receiver observations copied into synthetic golden data. This is not only new test expression."
+      ],
+      "newlyStructuredExpression": [
+        "Synthetic capture serialization shape; no authorship determination for included old material."
+      ],
+      "candidateReviewStatus": "unresolved_retained_fixture_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-contract.test.ts",
+      "blob": "fce898310e05f339d537660ec243bcc1615f8055",
+      "bytes": 10910,
+      "sha256": "6a0e9f1f80bc87b31bd5e02f07aa84f5235d4f44f87de69a81b09b59baa5011c",
+      "normalizedSha256": "6a0e9f1f80bc87b31bd5e02f07aa84f5235d4f44f87de69a81b09b59baa5011c",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Frozen old prose/output/errors/declarations and public interface facts referenced or asserted; prior lane fixture/assertion patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Owned synthetic ports, getter/verdict probes, strict consumer loading, permission/registry/executor cases, interruption/deadline checks and repair/turn-stop assertions."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_test_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-fixture.ts",
+      "blob": "514e9a6bfb15794774b70bdbad716c93f1f366ce",
+      "bytes": 13943,
+      "sha256": "af790aaf137d3144c29ef710124e2afa6c0f173312a009016416075dd6f4d87e",
+      "normalizedSha256": "af790aaf137d3144c29ef710124e2afa6c0f173312a009016416075dd6f4d87e",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Frozen old prose/output/errors/declarations and public interface facts referenced or asserted; prior lane fixture/assertion patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Owned synthetic ports, getter/verdict probes, strict consumer loading, permission/registry/executor cases, interruption/deadline checks and repair/turn-stop assertions."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_test_expression"
+    },
+    {
+      "path": "apps/cli/packages/core/test/collaboration-tool-verdict-probes.ts",
+      "blob": "767a976a7e83c504496940812252c3b0c26e6f0d",
+      "bytes": 2243,
+      "sha256": "11d82adec66bd89f2c4cf78697f347482d8ba0ad1dd3d4355748002fa9ede4b0",
+      "normalizedSha256": "11d82adec66bd89f2c4cf78697f347482d8ba0ad1dd3d4355748002fa9ede4b0",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "test",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Frozen old prose/output/errors/declarations and public interface facts referenced or asserted; prior lane fixture/assertion patterns reused."
+      ],
+      "newlyStructuredExpression": [
+        "Owned synthetic ports, getter/verdict probes, strict consumer loading, permission/registry/executor cases, interruption/deadline checks and repair/turn-stop assertions."
+      ],
+      "candidateReviewStatus": "unresolved_mixed_test_expression"
+    },
+    {
+      "path": "specs/knorvia-collaboration-tool-invocation.md",
+      "blob": "780f607413f5fb351c66772feddd83a52a904ef5",
+      "bytes": 8718,
+      "sha256": "aefb87b86acd4617344d3a186e048568e2f04bf5b604c7e819ea58297ee95e50",
+      "normalizedSha256": "aefb87b86acd4617344d3a186e048568e2f04bf5b604c7e819ea58297ee95e50",
+      "commit": "73cfdd560e249373c07ec15ef50804bb1b60d921",
+      "lastChangeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+      "role": "spec",
+      "sourceExposed": true,
+      "attributionMustRemain": true,
+      "licenseDecision": null,
+      "retainedMaterial": [
+        "Public/interface facts, source hashes and compatibility rules extracted after reading inherited source. Some model text/field names quoted."
+      ],
+      "newlyStructuredExpression": [
+        "Bounded owner/effect design, synthetic acceptance requirements and sequence diagram."
+      ],
+      "candidateReviewStatus": "unresolved_source_exposed_document"
+    }
+  ],
+  "filesTupleSha256": "e72a96cc4d2b907e321e760d7249ee3190c041445a7cea43e5bda4da2aaecb09",
+  "emittedFiles": [
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/send-message.js",
+      "bytes": 3625,
+      "sha256": "cb44731fd9a6399e78d23e9fd33b5ba03d5d9db8ce8748677d4019495b0323c5"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/send-message.d.ts",
+      "bytes": 142,
+      "sha256": "c2c8088e7491f0dec394dd752334fd9eb513299a41c08b1176ae281450280efb"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/respond-to-coordinator.js",
+      "bytes": 3345,
+      "sha256": "df568e541e644315d79e8f0c88fa9f3d3ff16239318ee73a9b24534e7d3ffde1"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/respond-to-coordinator.d.ts",
+      "bytes": 161,
+      "sha256": "4dcc8b8f07f858bf5d3e8424d9a0d1154613de90bf2f27b9460bbbe26dbb3a99"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/submit-result.js",
+      "bytes": 5652,
+      "sha256": "0c3ad7310041a357a7b6f71c04e7857e40a4e26fa1cad2a840d5624731bbff5e"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/submit-result.d.ts",
+      "bytes": 987,
+      "sha256": "ba21c9933887f87c4485b0752488af37e7ac642fc455eb0734ef16d33f80285f"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/collaboration-invocation.js",
+      "bytes": 2938,
+      "sha256": "4e777d6bea7d988f903922e19de21c984bd4ce4446a626d07d7189fda162847b"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/collaboration-invocation.d.ts",
+      "bytes": 316,
+      "sha256": "e19059faa6422a473f3d7516007f95379a2f4e5b3bafc39f14b0b6bdcb704e46"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/collaboration-request.js",
+      "bytes": 1621,
+      "sha256": "d1ab04a0a7131a428d8e28d9c49aedae60e22a643f6ae5b5647037c8b1068375"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/collaboration-request.d.ts",
+      "bytes": 696,
+      "sha256": "786b5ed867102acb15b2a79aea24335995fe6245af780521fb1ecbe9692f3109"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/collaboration-result.js",
+      "bytes": 3003,
+      "sha256": "75c178eda5ee4cfecea38d0ab8cf8ba2868b54feb63e28b2e041bb0b0b88f4b4"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/collaboration-result.d.ts",
+      "bytes": 545,
+      "sha256": "a00343b84e7a31af8b329f3aa99333870d53f36305a237143f840eb23735d3f8"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/index.js",
+      "bytes": 11123,
+      "sha256": "1a551eb284c160370ceb142c65d8bf2406e24f74d1a03efe39f66a9602697a67"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/registry.js",
+      "bytes": 2618,
+      "sha256": "812fb78ab95dcf0943c6161dcccdea2bee63b900ce8e159ecc3b62d344a022f4"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/call-runner.js",
+      "bytes": 2238,
+      "sha256": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/batch-runner.js",
+      "bytes": 3672,
+      "sha256": "4c69b9043fb0d0d7a9b69a19fd5884647f0621b391d68d75e636bd60211b62ae"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/scheduler.js",
+      "bytes": 1066,
+      "sha256": "a5ffcc9b89dc8ed10e3d6b0b5d1e9abf29b08f7850800db95f92bcb75d3f08ea"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/result-display.js",
+      "bytes": 1690,
+      "sha256": "fade37e2f685d99af0c4032b75a68e62ca3486893614a96e9c006f3bcc6d79bc"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/turn-control.js",
+      "bytes": 5795,
+      "sha256": "574b2795f688ebe56e4668d554bc229c086e590344b72a10ea67078044c22e9e"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/permission/service.js",
+      "bytes": 1346,
+      "sha256": "26e7ad4542431c4142decba41df0b208925e7bd0506132f85348ff30972f5b46"
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/permission-capability.js",
+      "bytes": 1376,
+      "sha256": "d140e7e80daf8491017bc92fe727cfc5bedc2a77fd9c01a9e361235683dad00c"
+    }
+  ],
+  "protectedInputs": [
+    {
+      "path": "AGENTS.md",
+      "blob": "b8c1d3abefb14e05f1323e61f4cd67bb4ef58610",
+      "bytes": 10384,
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5"
+    },
+    {
+      "path": "LICENSE",
+      "blob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "blob": "23f3047cb5753322ce0742545e5e06791392f5ea",
+      "bytes": 6125,
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "blob": "55f2732f631d845b0d2d7bca7e5cd07cc8e4c878",
+      "bytes": 1975825,
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f"
+    },
+    {
+      "path": "apps/cli/AGENTS.md",
+      "blob": "fc3db69ae9a710edaa31e3c98734fff758c606b0",
+      "bytes": 12478,
+      "sha256": "7b5a78161262c14765dd24d438d5f0c929f8fa42badcfebdd98383741e96848d"
+    },
+    {
+      "path": "apps/cli/package.json",
+      "blob": "b84ecd7e674965cfce1b277488b5fb43dd43f6dc",
+      "bytes": 2045,
+      "sha256": "5fc11f689b02e1d50fe3e05139b61bcacd203e92e77557521254459137036fb2"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/coordinator-response.port.ts",
+      "blob": "1b58394e0f1e4cb228228f3a2f34ed255269db07",
+      "bytes": 703,
+      "sha256": "b3028378b8ba97a867e7d48629b95487f6aaa46dbbc096fb51c7575adead2705"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/subagent.port.ts",
+      "blob": "9057e0d1a70ce198a2f5d94ff9ca30c64f6e2519",
+      "bytes": 3784,
+      "sha256": "3e563f8dea2e210e5a2e2cf25bef7408ed66bf4a512590c3c0d6de02e8fd44e3"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/workflow-submit.port.ts",
+      "blob": "9634944c31f14bf9cf2d2dda5616c78f9a88ee23",
+      "bytes": 2205,
+      "sha256": "96f22ba962d590158629c2984ac8fba9fcf6544d055d8c88ec126da185b759ad"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/agent.ts",
+      "blob": "a2bf8d094d7302540723b322c018501b4e3218c7",
+      "bytes": 3860,
+      "sha256": "11f570e70ad5413af90e7582f68a441ce06a1f4e838123e20c7c163752d80046"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/respond-to-coordinator.ts",
+      "blob": "b762b3daac08e106334733bb784a8b20a75745cc",
+      "bytes": 1047,
+      "sha256": "bd44622875c8cbe2efef99c478bb13266ee7865c5b57c73025a4485410931046"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/send-message.ts",
+      "blob": "5a58c468ed542fb011a17da84ed9c95651a169f6",
+      "bytes": 1384,
+      "sha256": "b67bdd566a0a53a5644c2a2b27553645041d09cd6508edba8cc1f208b8570bc2"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/submit-result.ts",
+      "blob": "c14c4ce2a2facfa3b0ab57e5c53fa42643cdbf97",
+      "bytes": 2362,
+      "sha256": "eedc214522cc53ff6774db01d1f7dd80376310963c2bbebe106bf83d854488dc"
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "blob": "96679d43d334d9be234be3520acf8afa84bbb024",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+    },
+    {
+      "path": "apps/cli/packages/core/src/permission/service.ts",
+      "blob": "22f206d5f4b4901de921b80e132d90b9c2958a5a",
+      "bytes": 2068,
+      "sha256": "9f059dfaf25bd93e1afd3b74fbbd38686b99fab8750fc588ce826f01f8dfd9dc"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+      "blob": "5d88232beab2a0f364a26e02baf5d8acedb1837f",
+      "bytes": 3860,
+      "sha256": "9d38d2b9bd0d8744261f4aebc3ba9393a19dca06340750b6c488b3f702be36e3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "blob": "0d56840afac71619e26211b36dad656739a1569f",
+      "bytes": 37526,
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile.ts",
+      "blob": "93594ff21ba8aa936879175b689a0ac4ef542db2",
+      "bytes": 12527,
+      "sha256": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runner.ts",
+      "blob": "ec45a7ab1855f692ce1712bb33759d6231ca4269",
+      "bytes": 68642,
+      "sha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-policy.ts",
+      "blob": "b38c5823d5ac4bb6bb82ff4c2543749e6a6e9361",
+      "bytes": 924,
+      "sha256": "bb6d381e9baef66bafa06328d819166f8a68c73913b3c68cb9f82dee1c988c53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/compat.ts",
+      "blob": "ebfcbf027338b6b7113f49c0d3f6de16ba77d335",
+      "bytes": 828,
+      "sha256": "5fc8668450c0db0d16e0c1644454cc1e5c5ec0b90a419b5286bee4f41a76782d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+      "blob": "9e9f007bf643861fee78d6ba2baa9b7cc3921bba",
+      "bytes": 48163,
+      "sha256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/batch-runner.ts",
+      "blob": "eeb7ddae1c29387f60b049c136e856e0d9f91816",
+      "bytes": 4253,
+      "sha256": "f2b04ef5a9ec0fe218463f37452676af8340afb451cc2ab913e785dc547491ca"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/call-runner.ts",
+      "blob": "e09af4b49ad7bd84c331055ca588971c86e41f9c",
+      "bytes": 2606,
+      "sha256": "2b6559af4d89cc2a2f13dcc45cf9cf31fa1965530f1a9244a0381d6caa847363"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/invocation/context.ts",
+      "blob": "0175f05219462fd7d8af4c3e733915101e350c0a",
+      "bytes": 3769,
+      "sha256": "24210fc1f42a4da047049a8fbbbca8a92e7a17d7da5c770dedc44a9b9ec8c97a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/permission-capability.ts",
+      "blob": "3c38954fad39f685e0b7856c3aa749dc4beaadaf",
+      "bytes": 2090,
+      "sha256": "0b8e2a65e97d308fe35b759cc3befad55e16314025988a02dd3fa856865e81bf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/result-display.ts",
+      "blob": "c5a6b42cfc1df55b50e17acbb3aa14bb704f757e",
+      "bytes": 2090,
+      "sha256": "b1f5395dc863ac321eda1597cec75ec12ca6a8fda0aaf6bb6d9f170bf4ad04af"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/executor/turn-control.ts",
+      "blob": "f1860c6d879128d3b6d069cd1b3549a8bc7230ba",
+      "bytes": 6055,
+      "sha256": "86932540de300b1e4004455a10d9a8db7e784534ca2da6ac96afc8e60465ba43"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-invocation.ts",
+      "blob": "9325d1db20ace8f9b86185bfdc2554c72e27eb12",
+      "bytes": 1417,
+      "sha256": "d931fff738ffe5b4fdda8c2b26ef1209c019ef4dcb5978193a5826b86be95c03"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-projection.ts",
+      "blob": "6ac1ffe6c2b5faa13c0c1c2ebaeb15e91c65d5f7",
+      "bytes": 2629,
+      "sha256": "717c6fd19c890632d3171691f7face579aa66bf1a35340dfbbc908f12e46ebd5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent-request.ts",
+      "blob": "38ac40aa1ea14a89696d63e0fa2ff24a8a515f4e",
+      "bytes": 1950,
+      "sha256": "1f5737056b524379b05c4600c33bf36940f3fc7a424240b9b025fe9ec9424455"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/agent.ts",
+      "blob": "636e014f7039bacc15371691006150edbf934c46",
+      "bytes": 8728,
+      "sha256": "633a319a03d2a960ffbe8559cf8e32bc7461798e656577d7d7b744c55f74bc30"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-narration.ts",
+      "blob": "2afcdce979043cfc124adceccd90ceee73c9ebe5",
+      "bytes": 2210,
+      "sha256": "9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "blob": "eaf2b938ee676a1aa187e5a3dc289e9134e7f6bf",
+      "bytes": 1942,
+      "sha256": "ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "blob": "170152ac159d2631facee1d986fc1d1e4477e930",
+      "bytes": 4421,
+      "sha256": "b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron-execution.ts",
+      "blob": "28bd3fe88ddb806d43ecd4d5a8a2024bbe8a6b19",
+      "bytes": 4717,
+      "sha256": "4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron.ts",
+      "blob": "7f1030e66f0a7e748a705fbabba8ff862abf81f6",
+      "bytes": 14457,
+      "sha256": "0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/index.ts",
+      "blob": "5cc35fde3c44694b3f12773df57284d984f332aa",
+      "bytes": 12770,
+      "sha256": "049286bcb374fe14a2922bf0311b50d0045ce73d447285bb67b3112a74e5ea53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models-projection.ts",
+      "blob": "65cc7dc8f84d212901fae9f1332e1c0d2bead408",
+      "bytes": 3990,
+      "sha256": "92f2d8bdfd3a42dabfb33251e0eb451097fe3ee38f6ef6fd1c9e40cd92815bb9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "blob": "cbad76072795c1ded08d245b88fbbc05f8f52813",
+      "bytes": 3451,
+      "sha256": "57b78a7fa81faaa7bdc137d262f979df20f0bd7fe28cbb73b4648940a825a787"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-diagnostics.ts",
+      "blob": "9759f965dc9d8598999f8f84729fe473f278fe9e",
+      "bytes": 2871,
+      "sha256": "4a26491042186f6de7d4d4547d0f1b6adcaa4edf0ac612a7a45510a38aacb1a4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-policy.ts",
+      "blob": "4d7972b0b1211c58b8b30399e7879da01f8c09b9",
+      "bytes": 4084,
+      "sha256": "066bc48046693179fdcafcae4e5980164e7abd4204fcd35b854d0c1bff5785f4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference.ts",
+      "blob": "4586912d855b6ac3997eb837408c261f37868f13",
+      "bytes": 2038,
+      "sha256": "20109a528b6170169f3451ce4c4a78b118202995680fa53ee1bef79b55c636ba"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-execution.ts",
+      "blob": "dfd0e7a4934da3bd195738bd4fbd6e502bcd7332",
+      "bytes": 3106,
+      "sha256": "0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-result.ts",
+      "blob": "1ab34f1afab8830d24cdd8d006fc61be50c6531d",
+      "bytes": 2889,
+      "sha256": "b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak.ts",
+      "blob": "835c39c6dbb0a07eb80edf6187a401f1f4e823a8",
+      "bytes": 7833,
+      "sha256": "d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-operation.ts",
+      "blob": "fd607706e24741ea2fe687bb40dade1fad27a6c2",
+      "bytes": 2941,
+      "sha256": "33b617da9c9eb1ce236af2d124da4643495cdd1ed55aa24ac4a75fc9ede0a5d8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-persistence.ts",
+      "blob": "ad40889cc2149c32b625143897f72aacaaef8c22",
+      "bytes": 1654,
+      "sha256": "629d81b498d5e0b1f93bc55379310e8536256dbc6ada3f9f543147781b4c59c3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-projection.ts",
+      "blob": "76d927f6e83c7a85f5bffcf3ef416a9dbb256244",
+      "bytes": 2564,
+      "sha256": "c1a7228dd9812842af69938b9933285ee0e2f286102e44897f7ecf6e15259454"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode-prompts.ts",
+      "blob": "c36613630a2b39f49e05f6935a84867fab2a1e90",
+      "bytes": 6525,
+      "sha256": "475cf53cecae8e53871528d48970e03159043f8991e61c2a980963c4bc150e03"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/plan-mode.ts",
+      "blob": "272221bfe000c27eaf6c7613698ef7ff4f31061e",
+      "bytes": 4845,
+      "sha256": "36ac01a0f871cbeb13544f8d4218d0ec6b9d9d6426fa323c5ac39a42ad5b54a3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "blob": "882745561b666c9f3d368374d00004d562bbb861",
+      "bytes": 13916,
+      "sha256": "476c6ddce5a1bacc152f5caa80bbdd9bceeb5b2b69b202c757c51ed8f729fe56"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-execution.ts",
+      "blob": "79e443cb4f1bb524845b1a073ae3ab391754f701",
+      "bytes": 2821,
+      "sha256": "001f4fc0189ac5357759d23f6454c72734e709fce7f3c410bda20dca852faaf3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-instructions.ts",
+      "blob": "7f10cacaca0fc12879face676254a6241ccc45f5",
+      "bytes": 3187,
+      "sha256": "4c5883ab5f269462db1eae086f2374523a1d35854bc105234223b49d8c711999"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill.ts",
+      "blob": "e0b17edbdf449fb872fa40295ba3bb5170d5f6ad",
+      "bytes": 3190,
+      "sha256": "b79515bbb85f914821ed0391a225f48d82bbd92f132f63ffa23200cc061193c1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "blob": "8f81db3a3ef6704195ab7a16307bbe62d60c3568",
+      "bytes": 5126,
+      "sha256": "a017473de03b000448bcbfadf21133751285071b6eb43ef3fcd49dc83ebf97ed"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "blob": "a55523e5c9f8b603419685187cfe2e569a20caf1",
+      "bytes": 5591,
+      "sha256": "8c90796550bd564693d1fa80769d909908c3a0bb7d6bc8eb390e90591989f989"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output-request.ts",
+      "blob": "ba022d94e0023fb412ce684f81d9c1d2a6d90555",
+      "bytes": 4205,
+      "sha256": "165448ff983d8c8818a2dcc6bb37d2fa4975c8e81eff27153aa64cfb09e92d7d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-output.ts",
+      "blob": "f00240b072a2ac3fd2e47a8dad3bafb6c49c6d77",
+      "bytes": 4832,
+      "sha256": "65fece33149c88ee3d06759768078861f170132a92f4bc71679a252abf159a5e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop-request.ts",
+      "blob": "6b678c4d01cd0726c11b4fd7a94930cd37b82a47",
+      "bytes": 2940,
+      "sha256": "667b9002012f8f60022de22e5789a65433843b0ca121bc7938f2150ccfa9fdf1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/task-stop.ts",
+      "blob": "83f559169e509ca92bf595c42095e5e034b42c3f",
+      "bytes": 2536,
+      "sha256": "60495de05021bcc7c1199d94a8c926bafb3d271ae346a26745333ab175aca31e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/todo.ts",
+      "blob": "efb3539ae67e7a55a90e75697296412a105c9ecd",
+      "bytes": 5663,
+      "sha256": "c1a4d7693ae9b83d7c872c6f15a05ee7f9e0f19042a8bfb9b7cffc803e423ebf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-execution.ts",
+      "blob": "c2cdeaad98c4818c572f1bf29ce71cdf295c9aec",
+      "bytes": 6281,
+      "sha256": "6c8dba798d9763cd810d290c68a76185d0145cd776fc157123d27d60ab9ef833"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-response-tree.ts",
+      "blob": "1d34e755344125b63b8696e77d79082af53b1666",
+      "bytes": 1946,
+      "sha256": "05f9bb27f5898b998d727b96bc40e770abbffc5922efbf97b98d362851b5441f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-results.ts",
+      "blob": "2154b19d09822dcdc928998043fdfee433530fe5",
+      "bytes": 4048,
+      "sha256": "d62b0dec9f83bce86b53b10d0718c23bfecda2363cd5de1369123314de5095fd"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch-support.ts",
+      "blob": "4c222198dda2b1f4ec614e5feaaf2b37c21fb883",
+      "bytes": 575,
+      "sha256": "9c802aed73c36fdf672990a2e66eb187a32770f5e9ccce4563c8c837180d224e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/websearch.ts",
+      "blob": "79fe757bfe46aa6c49256cbdee57fa35f4cfae1e",
+      "bytes": 2204,
+      "sha256": "5494581667f6db3ae6a2ed048938e1a296174801378b8e59e11bfd343d992e7b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry.ts",
+      "blob": "9e1dabb5a791a9c9d983d2b6c5c45620241a2d24",
+      "bytes": 3194,
+      "sha256": "3efe696228e4b498d9ec3a38447d3c1128eb037d9715e59f801dc28bfe88a9c6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/registry/model-contracts.ts",
+      "blob": "2af5fb3f0996a02e301fa15da844ce292335ac87",
+      "bytes": 1890,
+      "sha256": "786c52c48ef22eecef37022a44093a91d63d8ec7676656f4563dcf2a13b2adb3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "blob": "618fc1a27a4154f373b5598c52543ef070b1b272",
+      "bytes": 2000,
+      "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "blob": "a631258bf3c1d258830ce49d332698536572472b",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-capture.mts",
+      "blob": "3a63fdc3a18c12568b615c681df5a4c923da9250",
+      "bytes": 1971,
+      "sha256": "56a7d90a5e4bc9f42f4f5b52f678187daee0b0fdc476e9c75c6a5ba1cbf60007"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-cases.ts",
+      "blob": "9bf723356ca4464409debbcb5a6da114a20c155c",
+      "bytes": 6939,
+      "sha256": "6458557d8748863bda75eced1ee7c0d10c9ea25f31d3086aee6d83f79625ff52"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-consumers.test.ts",
+      "blob": "ff8e7144f3550fb0f0a1aeb3a143513c4e9901d8",
+      "bytes": 9735,
+      "sha256": "4b49baf06b756bec5cdb8b1760d215731e26f1bf2e63788cd1c914ae83790752"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-contract.json",
+      "blob": "d2f2f4fd9f3a3f7a646074370ce77d2d23e41de7",
+      "bytes": 237540,
+      "sha256": "a7cc872e6442912c19c3c20d239a73eb8065aeacb97ee9fd6a0d93a9bfd0165e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-contract.test.ts",
+      "blob": "d2bf94624e356911a64ac89699b43503c32ac5ba",
+      "bytes": 7592,
+      "sha256": "92538d26e04289d81b35364489809a4cecdee5102482737b856ea0a37e002810"
+    },
+    {
+      "path": "apps/cli/packages/core/test/agent-tool-fixture.ts",
+      "blob": "728b4f57fa31e9918f48e818e2c4e46e201816ba",
+      "bytes": 11057,
+      "sha256": "51b40f800049d2f0a926d24f1948a33bbb91e6bb6271ea1c43ec69146c56c974"
+    },
+    {
+      "path": "apps/cli/packages/core/test/tool-invocation-fixture.ts",
+      "blob": "1330e35edee86e01aacd49edd2aa1cb1ac3cb21e",
+      "bytes": 6687,
+      "sha256": "d7046bd1e18f870150859a27b947a741206336fe7ee2567d4113a3cb8bac2139"
+    },
+    {
+      "path": "apps/cli/pnpm-lock.yaml",
+      "blob": "daa2545f2c0e6b65e7e134f9e909abfc003347fd",
+      "bytes": 221240,
+      "sha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585"
+    },
+    {
+      "path": "docs/evidence/knorvia-agent-tool-fast-checks-20261001.json",
+      "blob": "7daa7f6e5912d60091ab7f964154e1d425251477",
+      "bytes": 42512,
+      "sha256": "1d314d2f4436c465fce850449f309b3cfe5443043d3ca01e61b86c097c87d968"
+    },
+    {
+      "path": "docs/evidence/knorvia-agent-tool-fast-receipt-check-20261001.mjs",
+      "blob": "7cc3a4d4457d644f0dc0c697c1dcc65f76afc829",
+      "bytes": 6379,
+      "sha256": "77af178b21078a1f89429de7b045a0ef5e47b288460c691882074b17afc9b05e"
+    },
+    {
+      "path": "docs/knorvia-agent-tool-fast-handoff-20261001.md",
+      "blob": "c4419a86a8021f10a8a515d87cc1dd891530a6c5",
+      "bytes": 8602,
+      "sha256": "73bcbba4257512de24f64a2ec23f86149a6cd169fb7b89577ad4f0045264a057"
+    },
+    {
+      "path": "licensing/README.md",
+      "blob": "4cba8c2a69c9990aea8495d0387c8851a0f81518",
+      "bytes": 9307,
+      "sha256": "48613a040acc9f1867b294632aa93a34555821ebdf5de062d042da17c4df3bc7"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "blob": "ffa39f9a5c289958af94b69233a6d804d65b4f3e",
+      "bytes": 9350160,
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "blob": "6aea464791eab7e35f4ac3949bf9fca939855614",
+      "bytes": 3445390,
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "blob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "package.json",
+      "blob": "319bfb13788e7fd6c264e6f371212dad2bcb812b",
+      "bytes": 4337,
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+    },
+    {
+      "path": "scripts/provenance/model.mjs",
+      "blob": "02fe3f5b260f46f957120330bc662d3eef5fc5f7",
+      "bytes": 10384,
+      "sha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933"
+    },
+    {
+      "path": "specs/knorvia-agent-tool-invocation.md",
+      "blob": "b17d486bf87a3e0e0bd601712523cea514fa70e7",
+      "bytes": 7408,
+      "sha256": "4ad075308a7c3247c346c88725a237d9a623bfefb68ebe6924531636c9f23969"
+    },
+    {
+      "path": "specs/knorvia-independent-implementation.md",
+      "blob": "0cea0f5a71212448d92ecd96eafbb6f25a3d9463",
+      "bytes": 11929,
+      "sha256": "fba9c94f55b87e74973be4d0df873fc6569ae627899d19135d4f5b6e620523b2"
+    }
+  ],
+  "allowedPaths": [
+    "apps/cli/packages/core/src/tool/handlers/collaboration-invocation.ts",
+    "apps/cli/packages/core/src/tool/handlers/collaboration-request.ts",
+    "apps/cli/packages/core/src/tool/handlers/collaboration-result.ts",
+    "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+    "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+    "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+    "apps/cli/packages/core/test/collaboration-tool-capture.mts",
+    "apps/cli/packages/core/test/collaboration-tool-cases.ts",
+    "apps/cli/packages/core/test/collaboration-tool-consumers.test.ts",
+    "apps/cli/packages/core/test/collaboration-tool-contract.json",
+    "apps/cli/packages/core/test/collaboration-tool-contract.test.ts",
+    "apps/cli/packages/core/test/collaboration-tool-fixture.ts",
+    "apps/cli/packages/core/test/collaboration-tool-verdict-probes.ts",
+    "docs/evidence/knorvia-collaboration-tools-fast-checks-20261001.json",
+    "docs/evidence/knorvia-collaboration-tools-fast-receipt-check-20261001.mjs",
+    "docs/knorvia-collaboration-tools-fast-handoff-20261001.md",
+    "specs/knorvia-collaboration-tool-invocation.md"
+  ],
+  "reviewLimits": [
+    "All statuses are conservative advisory candidates, not reviews.json decisions. Passing tests, changed hashes, line counts and function moves do not establish authorship or licence eligibility.",
+    "Existing declarations/prose and constrained retained expressions prevent whole-file determinations; preserve attribution. Frozen JSON includes old expression.",
+    "Future bounded separation may isolate declaration/prose assets and retained expression for independent review; moving material is not proof of originality. No production separation performed for licensing now.",
+    "Subset release blockers: exact collaboration publisher-byte/notice verification, retained-expression/author-rights review and root independent licensing decision.",
+    "No production runtime messaging, model calls, real accounts/files, actual child queue/notification, native Windows/macOS or packaged UI/desktop acceptance was run. Synthetic ports only; root owns native acceptance/integration."
+  ],
+  "executorInterruption": {
+    "preservedFreezeCommit": "d45bcc1f93c0f4864401873684949c12cd9f1018",
+    "preservedProductionPaths": [
+      "apps/cli/packages/core/src/tool/handlers/send-message.ts",
+      "apps/cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+      "apps/cli/packages/core/src/tool/handlers/submit-result.ts",
+      "apps/cli/packages/core/src/tool/handlers/collaboration-invocation.ts",
+      "apps/cli/packages/core/src/tool/handlers/collaboration-request.ts",
+      "apps/cli/packages/core/src/tool/handlers/collaboration-result.ts"
+    ],
+    "reportedFailure": "exec-server transport disconnected; recovery timed out after 25s",
+    "recoveredRead": "Same checkout: pwd, git status and last commit confirmed freeze plus exactly six retained production files",
+    "recoveryPolicyChanges": false,
+    "environmentRecreated": false,
+    "unverifiedInterruptedChain": "Post-recovery inspected completed CLI build/type/source/emitted logs and then reran them before full regression."
+  }
+}
