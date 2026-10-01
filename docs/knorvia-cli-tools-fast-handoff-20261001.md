@@ -725,3 +725,189 @@ with root. No deployment, release, merge or integration/main push occurs.
 
 The named lane alone is pushed. End at a clean checkpoint and await root's next
 assignment in this same conversation.
+
+## Cron continuation from immutable bf0cc48
+
+### Scope, lineage and retained material
+
+Root assigned Cron only after receiving OffPeak `bf0cc48`. This continuation stays
+on `parallel/cli-tools-fast-20261001`; no new task conversation or agent exists.
+Freshness began synchronized with its remote, ahead 82/behind 0 `origin/main`.
+Changed architecture and CLI context passed before edits. The prior Skill,
+ListModels/model-reference, AskUserQuestion and OffPeak checkpoints remain
+immutable. No integration/main branch, shared provenance, other lane, package,
+lockfile, CI, security or user-data file is changed.
+
+`cron.ts` follows only snapshot commit `7619e41` in the available lineage. The
+current audit still classifies it upstream-modified and unreviewed. Its inherited
+SHA-256 is `e75564081cb218b7b0df1a2d5451aaa505be76c37cff4332664da64c04bdbfa2`,
+upstream blob `2ccaa68c7f50ad0dfebd694b07d6131b1378dbe4`, normalized upstream
+SHA-256 `e956d93c6ae176e204e6cc4865fd391c49cfe6ebf108d42177767736f640cf11`.
+The contracts automation declaration is also upstream-modified/unreviewed; its
+port declaration is upstream-unchanged/unreviewed. The actual bootstrap protocol
+adapter is unreviewed with no recorded upstream correspondence. None was
+silently classified as reviewed or independently licensed here.
+
+Source exposure is explicit. This replaces the bounded private admission/effect
+and model projection implementation; the inherited guard bodies, public schema
+identities, declarations, permissions, prose/comments and licences remain.
+No clean-room, whole-file independence or MIT relicensing claim is made.
+LICENSE/NOTICE, preview identity and all 27 material obligations remain unchanged.
+Root alone updates shared provenance and reviews retained source material.
+
+### Checkpoints and owned paths
+
+- `7d5a80e`: spec first; frozen inherited source/emitted contracts and actual
+  executor/protocol/policy consumer tests, before any production edit.
+- `1d519f8`: new operation admission compiler, typed deferred effect, single
+  await/completion path, ordered whitelist projection and manual differential
+  driver. This is the final corrected production checkpoint for full regression.
+- Evidence/fixture formatting checkpoint: the following documentation commit.
+
+Owned paths:
+
+- `apps/cli/packages/core/src/tool/handlers/cron.ts`
+- `apps/cli/packages/core/src/tool/handlers/cron-execution.ts`
+- `apps/cli/packages/core/test/cron-contract.test.ts`
+- `apps/cli/packages/core/test/cron-consumers.test.ts`
+- `apps/cli/packages/core/test/cron-protocol.test.ts`
+- `apps/cli/packages/core/test/cron-fixture.ts`
+- `apps/cli/packages/core/test/cron-protocol-fixture.ts`
+- `apps/cli/packages/core/test/cron-contract.json`
+- `apps/cli/packages/core/test/cron-differential.mts`
+- `specs/knorvia-cron-execution.md`
+- This handoff document.
+
+The handler has 312 lines and helper 136; every owned TS/MTS file stays below the
+400-line limit. Helpers import contracts/types and never import `cron.ts`.
+The existing host/port remains the single task-state owner; the executor owns
+permission/trace/cancellation. There is no redundant task state, retry, queue,
+cache, circular dependency, new scheduling path or alternate fallback.
+
+### Preserved boundaries and consumer evidence
+
+Mutation handlers reject automation turns before direct schema/port access.
+CronList parses first and remains allowed in both automation and off-peak turns.
+All four ignore offPeakTurn. The actual executor independently validates schema
+before entering the handler, preserving its different guard ordering. Cron and
+OffPeak guards remain distinct. Frozen cases cover all flag/missing-port/malformed
+combinations, strict trim/optional/null/refinement behavior, session/model inputs,
+full direct error metadata, output/projection order and opt-in registry identity.
+
+One port method executes with its original receiver and argument count. Create
+retains the own sessionId property even when undefined and only runtime model
+identity; update/delete read no model/session, list has no arguments. Getter
+ordering and model's three reads are frozen. Output preserves ordered optional
+own keys, scheduleRule, list duplicates and the exact confirmations/not-found
+text; runtime model/mode/host-only fields remain excluded. Direct throws keep
+identity. Actual executor tests cover hook/policy/approval refusal and synthetic
+approval, malformed output rejection, events/model content/trace, every operation's
+pre/pending cancellation and unchanged 30000ms timeout with override disabled.
+A mocked clock exercises the real executor; no timeout budget is changed.
+
+Actual source/emitted bootstrap protocol tests use only synthetic requestClient,
+sessions/runtime selections and title setters. Their 24 scenarios cover active
+scheduled-run refusal, binding lookup, fail-closed unknown ownership, exclusive
+-32601 legacy-list fallback, legacy binding and transport/schema errors, runtime
+model/mode precedence, session binding/title freeze, calendar/null delay/relative/
+finite/carrier parameters, update carrier clearing and delete/list behavior.
+Create-limit errors retain their domain mapping and only CronCreate stops current
+turn/replaces recovery text. Real core/service policy readers preserve distinct
+Cron and OffPeak denylist sets. No actual host, tasks, accounts, notifications,
+permission prompt or external service is used by the new tests.
+
+TypeScript statement-text comparisons against the exact bf0cc48 source prove
+both guard bodies, cronPermission, cronResultBudget, cronTimeout and all four
+exported entries byte-identical. Other prior handlers/tests/specs and all out-of-
+scope tracked paths are checked unchanged at the final checkpoint.
+
+### Validation and reproducibility
+
+Pinned Node 24.14.0 / pnpm 10.33.2 from
+`/tmp/knorvia-lane-toolchain/node_modules/.bin` were used in the same executor.
+No credential, network/proxy/security configuration, runner or timeout change
+occurred. Standard approved execution capabilities allowed named isolated tests.
+
+| Check                                        | Result                                                       |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| Before replacement: named source contracts   | 19/19 pass                                                   |
+| Before replacement: actual emitted contracts | 19/19 pass; generated observations byte-identical            |
+| Final named source contracts                 | 19/19 pass                                                   |
+| Final actual emitted contracts               | 19/19 pass                                                   |
+| Seeded inherited comparison                  | 16384 calls per mode, all equal                              |
+| Final CLI build                              | 17/17 tasks pass                                             |
+| Core, CLI and root types                     | pass; 5422 matching translation keys                         |
+| Root configured lint                         | 0 errors/warnings, 2839 files                                |
+| CLI configured lint                          | 0 errors/warnings, 97 files                                  |
+| Strict owned lint                            | all eight TS/MTS files, 0 errors/warnings                    |
+| Root/owned formatting                        | pass after observation-preserving JSON whitespace formatting |
+| Changed and full architecture                | pass, 0 violations                                           |
+| Broader core lint                            | unchanged 24 errors/11 warnings in 27 out-of-scope files     |
+| Full final offline regression                | 6096 pass / 8 skipped / 0 fail; 6104 tests, 509 files, 346s  |
+
+Run the three `cron-*.test.ts` files with
+`node --experimental-test-module-mocks --import tsx --test` from the repo root;
+repeat with `KNORVIA_CRON_TEST_EMITTED=1` after `pnpm build:cli-packages`.
+The selector affects test imports only. Baseline captures include 520 direct,
+16 executor and 24 protocol observations. Frozen observations were generated
+before production replacement and never rebaselined afterward.
+
+Create the temporary inherited module outside Git with
+`git show bf0cc48:apps/cli/packages/core/src/tool/handlers/cron.ts`, then
+TypeScript transpileModule using ESNext target/module, resolving its temporary
+node_modules to core dependencies. Run
+`node --import tsx apps/cli/packages/core/test/cron-differential.mts <reference.mjs>`
+in both modes. Seed `0x43524f4e` (1129467726) compares 4096 calls per operation
+with malformed inputs/responses, optional/missing contexts, flags, port failures,
+projection fields/list order and delete truthiness. Both sequences SHA-256:
+`f6d1c12b5cdf97ebdc24a7bd058a8cc917bdee3ffe4126243fae46dca672f291`.
+The temporary reference's hash matches actual inherited dist exactly:
+`114b6df4ee71016874b35be4db82507e2700ee86b9fb45f665cb41a5bb809c48`.
+No old fallback ships.
+
+| Artifact                        | SHA-256                                                            |
+| ------------------------------- | ------------------------------------------------------------------ |
+| cron.ts                         | `0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6` |
+| cron-execution.ts               | `4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d` |
+| final emitted cron.js           | `b08b6994f249093a89b9aaca881396e35976ef9ffc321440c5434128f283d7ac` |
+| final emitted cron-execution.js | `e89dec8dbd10ce635c9201f6507186215c5c25f77da1aa1478b3560af91a0e71` |
+| unchanged protocol adapter dist | `a0749b0d1a33bead5ff82f01385a1118b0990bbf379ce696543b6ce4489416ca` |
+| formatted frozen contract       | `0680fd33e641f28fa597c78303483335e0ee254db7d66835fe4872318ea62a56` |
+
+### First failures and remaining scope
+
+The first inherited test run was 17/18: a new test incorrectly assumed one Cron
+mutation denylist item marks an automation turn. The actual reader requires all
+three; the fixture now covers the partial set as false and full set as true.
+The protocol fixture exceeded 400 lines after formatting and was split before
+baseline commit. Strict lint caught duplicated imports introduced during that
+split, then passed after correcting only new test wiring. The first replacement
+core typecheck rejected the Object.fromEntries projection assertion; corrected
+its internal typing, preserving identical runtime behavior. Configured format
+caught only frozen JSON whitespace. Parsed JSON deep equality against the
+committed baseline passed after formatting. No inherited test was weakened.
+
+Broader core lint's 27 files are byte-identical to original assigned 0d80f9c.
+Existing build warnings include debug chunk size and REPL dynamic imports; Linux
+skips Windows CUA driver staging. Native Windows/macOS, packaged/TUI/desktop/Web
+visual acceptance, live host persistence/clock/timezone/account and actual
+scheduling/notifications remain unverified. Synthetic protocol parameters prove
+preservation at that boundary and do not establish live native acceptance.
+All retained material and 27 licensing obligations still require root review.
+No deployment, release, merge or integration/main push occurs.
+
+The final full regression completed successfully on corrected production commit
+`1d519f8`: 6104 tests in 509 offline files, 6096 pass, 8 skipped, 0 failed,
+345688.8ms. The runner retained per-test timeout 120000ms and concurrency 2.
+Seven skips are Windows/PowerShell-only: CUA archive staging, five real delivery
+script fixtures and Windows snapshot path aliases. The eighth is the optional
+old/new Claude leaf comparison. No new Cron test was skipped. Source/emitted
+contracts were rerun after JSON formatting and still passed 19/19 each. Full
+production paths were checked byte-identical to 1d519f8 after regression;
+subsequent changes contain only evidence prose and fixture whitespace. The
+ownership check found exactly the eleven owned paths and no out-of-scope edits.
+`verify:pre-push` also passed. Baseline, production and original checkpoints stay
+in ancestry without amendments or resets.
+
+Only the named lane branch is pushed. Finish at a clean branch checkpoint and
+await root's next assignment here.
