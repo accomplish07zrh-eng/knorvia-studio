@@ -415,23 +415,22 @@ function splitUntrackedText(content: string): {
   lines: string[];
   hasTrailingNewline: boolean;
 } {
-  const normalizedContent = content.replace(/\r\n/g, "\n");
-  if (normalizedContent.length === 0) {
-    return {
-      lines: [],
-      hasTrailingNewline: false,
-    };
+  const lines: string[] = [];
+  let cursor = 0;
+  while (cursor < content.length) {
+    const separator = content.indexOf("\n", cursor);
+    if (separator < 0) {
+      lines.push(content.slice(cursor));
+      break;
+    }
+    const end =
+      separator > cursor && content.charCodeAt(separator - 1) === 13 ? separator - 1 : separator;
+    lines.push(content.slice(cursor, end));
+    cursor = separator + 1;
   }
-
-  const hasTrailingNewline = normalizedContent.endsWith("\n");
-  const lines = normalizedContent.split("\n");
-  if (hasTrailingNewline) {
-    lines.pop();
-  }
-
   return {
     lines,
-    hasTrailingNewline,
+    hasTrailingNewline: content.length > 0 && content.charCodeAt(content.length - 1) === 10,
   };
 }
 
@@ -442,30 +441,23 @@ export async function buildUntrackedTextDiffResult(
 ): Promise<GitDiffResult | null> {
   try {
     const content = await readFile(absolutePath);
-
-    // 未跟踪文件的 patch 不能依赖 `git diff --no-index` 生成。
-    // 这类 patch 在 Windows 上会带入平台相关头部，而 `@pierre/diffs` 对某些 `diff --git`
-    // 头部格式本身也有兼容问题，最终会在 UI 展开时直接抛异常。
-    // 这里统一退回最稳定的 unified diff 形态，只保留单文件预览真正需要的 `---/+++ / @@` 信息。
+    let availability: "binary" | "truncated" | null = null;
     if (content.includes(0)) {
-      return {
-        path: absolutePath,
-        availability: "binary",
-        patch: null,
-        beforeContent: null,
-        afterContent: null,
-        summary: "Binary diff is not previewable.",
-      };
+      availability = "binary";
+    } else if (content.byteLength > maxPreviewBytes) {
+      availability = "truncated";
     }
-
-    if (content.byteLength > maxPreviewBytes) {
+    if (availability !== null) {
       return {
         path: absolutePath,
-        availability: "truncated",
+        availability,
         patch: null,
         beforeContent: null,
         afterContent: null,
-        summary: "Git diff output exceeded the preview limit.",
+        summary:
+          availability === "binary"
+            ? "Binary diff is not previewable."
+            : "Git diff output exceeded the preview limit.",
       };
     }
 
@@ -475,7 +467,9 @@ export async function buildUntrackedTextDiffResult(
 
     if (lines.length > 0) {
       patchLines.push(`@@ -0,0 +1,${lines.length} @@`);
-      patchLines.push(...lines.map((line) => `+${line}`));
+      const additions: string[] = [];
+      for (const line of lines) additions.push(`+${line}`);
+      patchLines.push(...additions);
       if (!hasTrailingNewline) {
         patchLines.push("\\ No newline at end of file");
       }
