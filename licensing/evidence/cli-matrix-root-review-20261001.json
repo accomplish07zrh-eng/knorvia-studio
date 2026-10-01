@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "laneCheckpoint": "8813066819ba9b8862d589da9b7b86f0ca4497f0",
+  "rootImport": "2cd1876284608e649dc5db9d330f10d039e1b44c",
+  "laneSnapshotCheck": {
+    "ok": true,
+    "files": 44,
+    "inputs": 20,
+    "retainedRecords": 118,
+    "statuses": {
+      "unresolved-retained-material": 15,
+      "candidate-new-expression-needs-root-review": 19,
+      "unresolved-mixed-test-material": 5,
+      "unresolved-frozen-material": 5
+    },
+    "workingTreeVerified": true,
+    "localPublisherObjectAvailableNow": false,
+    "publisherBytesRecheckedByLane": false,
+    "parentEvidenceReference": "c60100f:licensing/evidence/cli-upstream-byte-verification-20261001.json",
+    "parentEvidenceVerifiedLocally": false,
+    "candidateSetSha256": "136b55f5d2384533aca918ba47419ed44ec79ce50a48ddb983aec21fac3fc33e",
+    "matrixSha256": "8d861d26c215383366104dcc87ec3db6ae34c8f618323308db1cfec117544f93",
+    "selfTests": {
+      "candidateTamperRejections": 8,
+      "acceptedReviewSchemaProbes": 4,
+      "invalidReviewSchemaRejections": 5
+    },
+    "licenseDecisionMade": false
+  },
+  "rootCurrentFiles": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-narration.ts",
+      "sha256": "9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question-result.ts",
+      "sha256": "ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/ask-user-question.ts",
+      "sha256": "b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron-execution.ts",
+      "sha256": "4cfdea8c41acc3dab3843f75a4fabbb4ec9d53660371704eb518b2b13ea9f49d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/cron.ts",
+      "sha256": "0ee5b80b04cf89f820bf48c50c35e569407836891137f43dae3e8239b82c2bb6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models-projection.ts",
+      "sha256": "92f2d8bdfd3a42dabfb33251e0eb451097fe3ee38f6ef6fd1c9e40cd92815bb9"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/list-models.ts",
+      "sha256": "57b78a7fa81faaa7bdc137d262f979df20f0bd7fe28cbb73b4648940a825a787"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-diagnostics.ts",
+      "sha256": "4a26491042186f6de7d4d4547d0f1b6adcaa4edf0ac612a7a45510a38aacb1a4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference-policy.ts",
+      "sha256": "066bc48046693179fdcafcae4e5980164e7abd4204fcd35b854d0c1bff5785f4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/model-reference.ts",
+      "sha256": "20109a528b6170169f3451ce4c4a78b118202995680fa53ee1bef79b55c636ba"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-execution.ts",
+      "sha256": "0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak-result.ts",
+      "sha256": "b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/off-peak.ts",
+      "sha256": "d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-execution.ts",
+      "sha256": "001f4fc0189ac5357759d23f6454c72734e709fce7f3c410bda20dca852faaf3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill-instructions.ts",
+      "sha256": "4c5883ab5f269462db1eae086f2374523a1d35854bc105234223b49d8c711999"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/skill.ts",
+      "sha256": "b79515bbb85f914821ed0391a225f48d82bbd92f132f63ffa23200cc061193c1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/ask-user-question-consumers.test.ts",
+      "sha256": "c676b531b18de65b880e936479c2e1ce949918a2c3fea983ed9f1d9a0a679979"
+    },
+    {
+      "path": "apps/cli/packages/core/test/ask-user-question-contract.json",
+      "sha256": "60df0e3b528fc7f247d96e0dc44a6ee6bc3b8bc790df482707f5bb767c5af862"
+    },
+    {
+      "path": "apps/cli/packages/core/test/ask-user-question-contract.test.ts",
+      "sha256": "3b3a031bd9e5374f0c9deebe0ba8cbddf66b7c9f33467b18dc30866c839936a6"
+    },
+    {
+      "path": "apps/cli/packages/core/test/ask-user-question-differential.mts",
+      "sha256": "c878e31de18f41c1d98ebdabab52e0b6ad37adc0b91c3390c1afbf10e6e93cca"
+    },
+    {
+      "path": "apps/cli/packages/core/test/ask-user-question-fixture.ts",
+      "sha256": "ddff8f0858b99c61e475d5df359ec528e874069a23649fa2e38923130e1c3573"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-consumers.test.ts",
+      "sha256": "107516d45ecb366944d575c02bf2496333a0a0859b5b71eba5d58a3573a04e43"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-contract.json",
+      "sha256": "0680fd33e641f28fa597c78303483335e0ee254db7d66835fe4872318ea62a56"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-contract.test.ts",
+      "sha256": "309dba5a2a5b6e0a65455014b6f51ade86af746eb62584f63c4976840be5a648"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-differential.mts",
+      "sha256": "bb6ca3d4320ae9041eb57a2409599932bc0b2e1b60ed51db92dd3886b8e668da"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-fixture.ts",
+      "sha256": "e430cfc6d1af6bfd9e4379912724bb6cad923c1074e674b15275e3e3b2aeb670"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-protocol-fixture.ts",
+      "sha256": "a3fd6b086d4ed9e0de7dd9d4965e29dee99cbfbdbf9172edf9975f19b9bb38d4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/cron-protocol.test.ts",
+      "sha256": "c106a5da7d25d6d66117504b4ac70a972693f8b604572c9bed79e89db2bc4a93"
+    },
+    {
+      "path": "apps/cli/packages/core/test/list-models-contract.test.ts",
+      "sha256": "775d21f47fbb88cb9af28d60dc0e226b6b3973de2ea3afb99aa17a2c2b2b0345"
+    },
+    {
+      "path": "apps/cli/packages/core/test/model-catalog-consumers.test.ts",
+      "sha256": "dbb9b1530ebfc8d05035c9a2aca9404093f34f037ccd4d7b408eff6e25894e9c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/model-catalog-contract.json",
+      "sha256": "e0be626cabdc7b74f257f6d022d1cb89e84e8f4487cae5df03e18c403c2fcb01"
+    },
+    {
+      "path": "apps/cli/packages/core/test/model-catalog-differential.mts",
+      "sha256": "e4e60d571a4c24dc037ef4674fc04a133de5abe4815dce066fccf7263ab194d4"
+    },
+    {
+      "path": "apps/cli/packages/core/test/model-catalog-fixture.ts",
+      "sha256": "28ba59c598305d85ed8eea4af44531debc474a0a1d5185d2a1571cd3c75b206c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/model-reference-contract.test.ts",
+      "sha256": "e3b11240f19e0df3a2fd3598eba4d43f6d909c4e10ce63894e91dd88268cef22"
+    },
+    {
+      "path": "apps/cli/packages/core/test/off-peak-consumers.test.ts",
+      "sha256": "8e916b6b04cc80d58ee187c2d1590ef6799da48701aad53c726c9baa47decec0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/off-peak-contract.json",
+      "sha256": "bde91975ab7867794f902d9b9ddce32645778de5075c47e37ea4e0f1b8c1280d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/off-peak-contract.test.ts",
+      "sha256": "046c5296959801754487378b4c40a28a185d6170726b60701a1307a00fdc5202"
+    },
+    {
+      "path": "apps/cli/packages/core/test/off-peak-differential.mts",
+      "sha256": "b0f1f8360b00887b0021e9383f269f30ee628d8248a7a0e05dd88d1dc49c9962"
+    },
+    {
+      "path": "apps/cli/packages/core/test/off-peak-fixture.ts",
+      "sha256": "39110c6082546797dcbeecee2516befa7cdcb014b06bff087d4ac2e959b1c2a3"
+    },
+    {
+      "path": "apps/cli/packages/core/test/off-peak-protocol.test.ts",
+      "sha256": "5a4f77f569d54cfa34cad9da2c72bc390ebbb38d6955be8b49afaf7767cf4f03"
+    },
+    {
+      "path": "apps/cli/packages/core/test/skill-tool-contract.json",
+      "sha256": "f84940a79d037decca6ceb3a63b761c35592fe734acb4e32691ae85564a37620"
+    },
+    {
+      "path": "apps/cli/packages/core/test/skill-tool-contract.test.ts",
+      "sha256": "7b033743e8e41fa93248657a229e9067974eb4482ed0c1ce5302ca5a55de41df"
+    },
+    {
+      "path": "apps/cli/packages/core/test/skill-tool-executor.test.ts",
+      "sha256": "08840a2afa0bb5abf00332c769f08202144f464f4cdc3446aac92f8a035d380e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/skill-tool-fixture.ts",
+      "sha256": "ebf3467da594e4696761979dcabd90a2ae391a06aa688f90bea53e98de4bf42d"
+    }
+  ],
+  "method": "Run unmodified checker and self-tests in detached lane checkpoint worktree; separately hash all 44 actual root working-tree paths. Root integration uses cherry-picked lineage, so it does not claim original assessed commit is an ancestor of root HEAD. No checker assertion was bypassed.",
+  "invocationCorrection": "Initial command remained in root cwd after adding worktree and failed to locate checker. Corrected invocation used the detached worktree directory; no source or checker edits.",
+  "licenseDecisionMade": false,
+  "limitations": "Evidence consistency and source retention were reviewed; source exposure and mixed expressions remain. The 19 narrower candidates are not accepted whole-file MIT grants."
+}
