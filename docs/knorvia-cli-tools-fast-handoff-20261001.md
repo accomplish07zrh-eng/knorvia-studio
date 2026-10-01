@@ -46,9 +46,10 @@ branch at start. Architecture check reported zero violations before edits; the
 CLI context is currently unmanaged with no declared requirements and identifies
 the existing tool contract as its contract surface.
 
-Fetching the recovery branch returned a newer head, `bd0bb014c0974334557fa51814709d0b78f35f1d`.
-The exact assigned base was then fetched by hash and verified; no rebase or
-integration-branch write was performed.
+The lane reported `bd0bb014c0974334557fa51814709d0b78f35f1d` during its initial
+fetch. Root verified that this commit is an ancestor of the exact assigned base,
+not a newer head. Integration uses the verified `0d80f9c` ancestry; no rebase or
+integration-branch write was performed by the lane.
 
 The current audit was inspected without regeneration or edits:
 

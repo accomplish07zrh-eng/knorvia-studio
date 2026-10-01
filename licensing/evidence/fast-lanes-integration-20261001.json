@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "scope": "Root integration of first three fixed Fast lane checkpoints and TaskOutput file window",
+  "baselineCommit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+  "reviewedCodeHead": "3f01fc9d92c300983019e6d29625e6885c100d7a",
+  "commits": [
+    "0c0cbd38a6b110da8c2dc218fd5de684ff9c3241 Unify bounded TaskOutput file windows and cleanup",
+    "7c8724fd8f065dd75839dd686cf208ee899fab80 test(file-watcher): freeze lifecycle and IO boundary contracts",
+    "ee0abae5e1f99641c473da899aebee670782436f refactor(file-watcher): isolate IO and coalesce batch verdicts",
+    "cf3fc314ed001f396d8f8d6b51e08d60be84103d docs(file-watcher): record verified Lane C boundary and limitations",
+    "4606f2b42dc0a13131d56e87f402412a1499ef40 test(cli): freeze Skill admission and execution contracts",
+    "427312da907481577d927a162c0a030be7fead48 refactor(cli): replace Skill execution with local effect transaction",
+    "4eb2cdc02120b278234747a850703ad790bf7529 docs: record Lane A Skill checkpoint and validation",
+    "b1b5efc369873bb9dc917604a660335899453478 test(ui): freeze B5 scroll DOM and consumer contracts",
+    "8bdacbf09a41027505a43f589c561360d25857bb refactor(ui): replace scroll fade lifecycle with measurement owner",
+    "be2410996f8bcfd96f08238b1ad198b3bf87a97d test(ui): freeze metric preference and toast presentation contracts",
+    "017003935e726069594f8bffcdf8ee926941664a refactor(ui): render metric slots from presentation descriptors",
+    "9a455e131b6f53258e2f416a777a5ec000d73c3d test(ui): freeze toast admission timers actions and anchor lifecycle",
+    "b00c999f0006e30bad598de0d3d08f16197a585b test(ui): strengthen B5 legacy edge and actual consumer coverage",
+    "e024d5bfe675b0367e28e4948160ceb344614acb refactor(ui): route toast commands through explicit admission and projection",
+    "67b005ea8bab284ccee5b9a44d0a853367f8d0ed test(ui): make B5 emitted-consumer evidence reproducible",
+    "3f01fc9d92c300983019e6d29625e6885c100d7a docs(ui): record B5 source-exposed checkpoint and acceptance gaps"
+  ],
+  "exposure": "Source-exposed behavioral replacement; no clean-room or completed licence determination claim",
+  "validation": {
+    "rootFocused": {
+      "skillSource": 17,
+      "skillEmitted": 17,
+      "watcherSource": 21,
+      "watcherEmitted": 21,
+      "uiSource": 64,
+      "uiStrictEmitted": 64,
+      "taskWindowAndRetrieval": 168
+    },
+    "aggregate": {
+      "tests": 6169,
+      "pass": 6103,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0,
+      "failureMultisetEqualToPreIntegrationBaseline": true,
+      "environmentLimitation": "Existing listen EPERM failures; native CI required"
+    },
+    "gates": [
+      "root typecheck",
+      "CLI build 17 packages",
+      "root lint",
+      "configured CLI lint",
+      "serial CLI types",
+      "explicit changed CLI lint",
+      "format",
+      "changed architecture",
+      "Web build",
+      "UI emitted source-map 8 owned files and 3 consumers"
+    ],
+    "ui": "React runtime under jsdom with simulated geometry/timers; not native screenshot or installer acceptance"
+  },
+  "logSha256": {
+    "fast-integrated-explicit-cli-lint.log": "2fbc0279056af4c80d75cfbe337c7196e1753f979ddaed345358e309233f5393",
+    "fast-integrated-full.tap": "c2d066231b4d71bddde6f32c8cc2cc79ffbd0895b3d77ed144cea731257b0193",
+    "fast-integrated-ui-consumer-receipt.log": "fd198ebc1d21e54d5581e641df27c9e7b66cd06d0d3641353352c533425a1bdb",
+    "fast-integrated-web-build.log": "619801d73a5c9aa0d66c31ab4b44c67cb91bb9aa454d4230180b9e48ae9cd3d5",
+    "fast-integrated-cli-typecheck.log": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351",
+    "fast-integrated-architecture.log": "3f23fe36014d3096b2296afc4a72b02f16e0184417c7e1806400cf0802b0dc3a",
+    "fast-integrated-format.log": "5ced2e021623dd5eb21c09b6cf3ac8507cf774c5cfa2b6fa8930ac0cd0df255a",
+    "fast-integrated-cli-lint.log": "610817f10685b73365a3179cc18caf1d6dd7d4be187ec79b1ed8ae5dbd4a725b",
+    "fast-integrated-lint.log": "e53373c1293d1beed86fbf3e2b25d5d166cddf9dc18be94dda90eec0706dac89",
+    "fast-integrated-cli-build.log": "373393c33946842de2d651f7fb2164694dc5dc91dadeb991fba1f589804f89f4",
+    "fast-integrated-typecheck.log": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+  },
+  "limitations": [
+    "27 unresolved material/licence obligations retained",
+    "Existing core standalone lint 24 errors and 11 warnings outside changed scope not resolved",
+    "Windows/macOS actual GUI, installers, live providers and user-data upgrade acceptance incomplete",
+    "Remote publication and exact-head CI pending at evidence creation"
+  ],
+  "licensing": "Existing applicable upstream licences and attribution remain; no final MIT release",
+  "thirdPartyInputRefresh": [
+    {
+      "path": "packages/ui/src/components/ui/flip-metric-value.tsx",
+      "before": "ce2d6cf063003e1023191b0fa4e3eb9b365e04a14eb0d498b897326600bf4071",
+      "after": "7259c152adcf1329f3cace6c745aad376ad8eee42ea988a7e1184d639cf050a5",
+      "decision": "Refresh source-exposed replacement fingerprint only; copied-source attribution, notices and review obligations retained unchanged"
+    },
+    {
+      "path": "packages/ui/src/components/ui/scroll-fade-viewport.tsx",
+      "before": "50e5984232b6a7d59e872aab4ebb36ae837e2865e3a770adbc234b61c2531da1",
+      "after": "9f27251ed4f1541701931849007e24edb35c1fccc689a6c4f437d0fe7a247f38",
+      "decision": "Refresh source-exposed replacement fingerprint only; copied-source attribution, notices and review obligations retained unchanged"
+    },
+    {
+      "path": "packages/ui/src/components/ui/toast.tsx",
+      "before": "e60744e13e9e4844679ae9a06a0b5ccf032a58944db3434091d71ed43809fc4b",
+      "after": "44657f79603c0fa2ebd83256e4d851737971fa78fced4e83506caa42263c889a",
+      "decision": "Refresh source-exposed replacement fingerprint only; copied-source attribution, notices and review obligations retained unchanged"
+    }
+  ]
+}
