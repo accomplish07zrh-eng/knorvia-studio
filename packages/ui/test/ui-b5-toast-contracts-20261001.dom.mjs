@@ -3,9 +3,10 @@ import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { test, after } from "node:test";
 const require = createRequire(import.meta.url);
-const { JSDOM } = createRequire(
-  `${process.env.KNORVIA_UI_B5_DOM_DEPS ?? "/workspace/toolchain/b5-dom"}/package.json`,
-)("jsdom");
+const domRequire = process.env.KNORVIA_UI_B5_DOM_DEPS
+  ? createRequire(`${process.env.KNORVIA_UI_B5_DOM_DEPS}/package.json`)
+  : require;
+const { JSDOM } = domRequire("jsdom");
 const dom = new JSDOM("<!doctype html><body></body>", { url: "http://localhost/" });
 for (const key of [
   "window",
@@ -20,6 +21,12 @@ for (const key of [
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { act, createElement: h } = require("react");
 const { createRoot } = require("react-dom/client");
+// jsdom delivers mutation records in a microtask; put their React updates in act.
+globalThis.MutationObserver = class extends dom.window.MutationObserver {
+  constructor(callback) {
+    super((records, observer) => act(() => callback(records, observer)));
+  }
+};
 const dir = process.env.KNORVIA_UI_B5_DIR ?? new URL("../src/", import.meta.url).pathname;
 const ext = process.env.KNORVIA_UI_B5_EXT ?? "tsx";
 const toast = await import(pathToFileURL(`${dir}/components/ui/toast.${ext}`).href);
@@ -230,6 +237,51 @@ test("B5 toast command/runtime and DOM contracts on one real React owner", async
     assert.equal(find("close only"), undefined);
     await dismiss(close);
   });
+  await t.test("thrown action retains notice and does not schedule dismissal", async () => {
+    const failure = new Error("fixture action failure");
+    let observed;
+    const failed = (event) => {
+      observed = event.error;
+      event.preventDefault();
+    };
+    window.addEventListener("error", failed);
+    const id = await add("throwing action", {
+      durationMs: 0,
+      variant: "info",
+      actionLabel: "Run",
+      onAction() {
+        throw failure;
+      },
+    });
+    try {
+      const before = timers.size;
+      await act(() => find("throwing action").querySelector("button").click());
+      assert.equal(observed, failure);
+      assert.equal(timers.size, before);
+      assert.ok(find("throwing action").className.includes("opacity-100"));
+    } finally {
+      window.removeEventListener("error", failed);
+      await dismiss(id);
+    }
+  });
+  await t.test("baseline pending entry and exit work remains uncancelled", async () => {
+    const id = await add("old exit", { durationMs: 100 });
+    await tick(100);
+    await patch(id, { message: "new lifetime", durationMs: 1000 });
+    await frame();
+    assert.ok(find("new lifetime").className.includes("opacity-100"));
+    await tick(200);
+    assert.equal(find("new lifetime"), undefined);
+    let next;
+    await act(() => {
+      next = toast.toast("pending entry", { durationMs: 0 });
+    });
+    assert.ok(frames.size > 0);
+    await dismiss(next);
+    assert.ok(frames.size > 0);
+    await frame();
+    assert.equal(find("pending entry"), undefined);
+  });
   await t.test(
     "anchor groups follow insertion order and non-center anchors are ignored",
     async () => {
@@ -255,9 +307,9 @@ test("B5 anchored view follows resize, mutation/replacement, scroll and cleans o
   anchor.id = "pane";
   let rect = { left: 10, width: 30 };
   anchor.getBoundingClientRect = () => rect;
-  document.body.append(anchor);
+  await act(() => document.body.append(anchor));
   const host = document.createElement("div");
-  document.body.append(host);
+  await act(() => document.body.append(host));
   const root = createRoot(host);
   const render = async () =>
     act(() =>
@@ -290,5 +342,5 @@ test("B5 anchored view follows resize, mutation/replacement, scroll and cleans o
   assert.equal(host.firstChild.style.left, "");
   await act(() => root.unmount());
   assert.equal(observer.disconnected, true);
-  host.remove();
+  await act(() => host.remove());
 });

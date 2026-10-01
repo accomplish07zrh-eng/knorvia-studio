@@ -7,8 +7,11 @@ export const metricCases = [
   { value: "12:34", animateInitial: true, className: "font-mono text-ui-caption" },
   { value: "9", className: "overflow-visible leading-5" },
 ];
-export function toastCases() {
-  const cases = [];
+type ToastViewProps = Parameters<
+  typeof import("../src/components/ui/toast.js").ToastMessageView
+>[0];
+export function toastCases(): ToastViewProps[] {
+  const cases: ToastViewProps[] = [];
   for (const position of ["top-center", "top-right", "bottom-left", "bottom-center"] as const) {
     for (const variant of ["default", "update", "info", "warning"] as const) {
       for (const visible of [false, true]) {
@@ -54,17 +57,19 @@ export const anchorCase = {
   ],
   onDone: () => {},
 };
-export function views(ui: {
-  FlipMetricValue: any;
-  ToastMessageView: any;
-  AnchoredToastStack: any;
-}) {
+export function views(
+  ui: Pick<
+    typeof import("../src/components/ui/toast.js"),
+    "ToastMessageView" | "AnchoredToastStack"
+  > &
+    Pick<typeof import("../src/components/ui/flip-metric-value.js"), "FlipMetricValue">,
+) {
   return [
     ...metricCases.map((props) => createElement(ui.FlipMetricValue, props)),
     ...toastCases().map((props) => createElement(ui.ToastMessageView, props)),
     createElement(ui.AnchoredToastStack, anchorCase),
     createElement(ui.ToastMessageView, {
-      ...toastCases()[6],
+      ...toastCases()[6]!,
       title: "",
       body: "",
       onAction: () => {},

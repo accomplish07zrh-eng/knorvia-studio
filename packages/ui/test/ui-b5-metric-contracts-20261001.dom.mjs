@@ -3,11 +3,20 @@ import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { test, after } from "node:test";
 const require = createRequire(import.meta.url);
-const { JSDOM } = createRequire(
-  `${process.env.KNORVIA_UI_B5_DOM_DEPS ?? "/workspace/toolchain/b5-dom"}/package.json`,
-)("jsdom");
+const domRequire = process.env.KNORVIA_UI_B5_DOM_DEPS
+  ? createRequire(`${process.env.KNORVIA_UI_B5_DOM_DEPS}/package.json`)
+  : require;
+const { JSDOM } = domRequire("jsdom");
 const dom = new JSDOM("<!doctype html><body></body>", { url: "http://localhost/" });
-for (const key of ["window", "document", "HTMLElement", "SVGElement", "Node", "Event"])
+for (const key of [
+  "window",
+  "document",
+  "HTMLElement",
+  "SVGElement",
+  "Node",
+  "Event",
+  "customElements",
+])
   globalThis[key] = key === "window" ? dom.window : dom.window[key];
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.requestAnimationFrame = () => 1;
@@ -18,6 +27,9 @@ const dir = process.env.KNORVIA_UI_B5_DIR ?? new URL("../src/", import.meta.url)
 const ext = process.env.KNORVIA_UI_B5_EXT ?? "tsx";
 const { FlipMetricValue } = await import(
   pathToFileURL(`${dir}/components/ui/flip-metric-value.${ext}`).href
+);
+const { renderDiffCount } = await import(
+  pathToFileURL(`${dir}/ToolCallBlocks/renderers.${ext}`).href
 );
 let modern, legacy, removed;
 function query(matches, isModern = true) {
@@ -148,4 +160,29 @@ test("B5 metric: legacy media listener lifecycle and missing matchMedia", async 
   const noMedia = await fixture({ value: "3" });
   assert.equal(noMedia.node.firstChild.children.length, 1);
   await noMedia.close();
+});
+
+test("B5 actual diff-count consumer retains sign, suppression, ARIA and initial flag", async () => {
+  query(true);
+  const host = document.createElement("div");
+  document.body.append(host);
+  const root = createRoot(host);
+  try {
+    await act(() =>
+      root.render(renderDiffCount({ added: 12, removed: 3 }, { animateInitial: true })),
+    );
+    assert.equal(host.textContent, "+12-3");
+    assert.equal(host.querySelector('[aria-label="+12"]').title, "+12");
+    assert.equal(host.querySelector('[aria-label="-3"]').title, "-3");
+    assert.equal(host.querySelectorAll('[data-animate-initial="true"]').length, 2);
+    await act(() => root.render(renderDiffCount({ added: 0, removed: 3 })));
+    assert.equal(host.textContent, "-3");
+    assert.equal(host.querySelector("[data-animate-initial]"), null);
+    await act(() => root.render(renderDiffCount({ added: -1, removed: 0 })));
+    assert.equal(host.innerHTML, "");
+    assert.equal(renderDiffCount(), null);
+  } finally {
+    await act(() => root.unmount());
+    host.remove();
+  }
 });
