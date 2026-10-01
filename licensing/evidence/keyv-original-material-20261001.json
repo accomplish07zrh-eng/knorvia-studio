@@ -106,7 +106,17 @@
       "strictCompleteMaterialGateStillRejects": true,
       "focusedAuditAndHistoryTests": 34,
       "initialTestCommandMissingModuleMocksFlag": true,
-      "generatorPreview": "Pending reviewed acquisition Git anchor"
+      "generatorPreview": {
+        "acquisitionCommit": "d109b321905186f79c82bf8a8f2c62a9027a2a70",
+        "auditPassed": true,
+        "all929NoticeBlocksAndReferencesPreserved": true,
+        "packages": 1201,
+        "keyvNotices": 3,
+        "keyvCoverage": "retained-prior-declaration",
+        "keyvCurrentProduction": false,
+        "remainingObligations": 26,
+        "previewNotInstalledIntoRoot": true
+      }
     },
     "independentTransactionReview": {
       "priorNoticeBlocksPreserved": 928,
