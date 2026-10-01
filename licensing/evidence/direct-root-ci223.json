@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "run": 36851580381,
+  "runNumber": 223,
+  "head": "80d053af31553c1057d599bdc4ee70f669a5230f",
+  "tree": "607c3d4b2d3e40cef0e774c83b4c8f5ddf4232cf",
+  "checkedMerge": "61d3192533cecc03a28e78ae0ae660cec3bf242d",
+  "checkedTreeMatchesHead": true,
+  "conclusion": "success",
+  "linux": {
+    "job": 110334235899,
+    "tests": 6915,
+    "pass": 6907,
+    "fail": 0,
+    "skip": 8,
+    "cancel": 0
+  },
+  "windows": {
+    "job": 110334235534,
+    "tests": 6915,
+    "pass": 6914,
+    "fail": 0,
+    "skip": 1,
+    "cancel": 0
+  },
+  "authDiagnosticEmitted": false,
+  "materialObligations": 26,
+  "limits": [
+    "CI222 Windows path assertion failure remains in its historical receipt; corrected tests pass this new run.",
+    "CI218 original auth cause remains unknown.",
+    "Not native GUI, real-provider, Windows/macOS installer or all legacy-data acceptance."
+  ]
+}

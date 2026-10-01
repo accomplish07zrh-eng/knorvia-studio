@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-10-01",
+  "publishedBase": "80d053af31553c1057d599bdc4ee70f669a5230f",
+  "reviewedProduction": "3b015d6f5c0be30a9f54f7a149587974d7b2e2f4",
+  "collaboration": {
+    "originalHead": "db8968d",
+    "sourceTests": 25,
+    "strictEmittedTests": 25,
+    "ownedDigests": 14,
+    "emittedDigests": 21,
+    "originalDetachedCheckerPassedWithoutEmitted": true,
+    "protectedRootDivergencesMatchPreintegration": 6,
+    "independentBaselineFinalSourceTestsEach": 25,
+    "publisher": [
+      {
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/send-message.ts",
+        "blob": "02f56dffe79f4cacf3bf59f425dc00b76f53a447",
+        "bytes": 5473,
+        "normalizedSha256": "cccd96d85ae883055a94b85773144718442fd0cd6a79e58a6b3cc00788fe10b8"
+      },
+      {
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/respond-to-coordinator.ts",
+        "blob": "bb60fa9fc02e57196e4aefb97be02d6a37c90357",
+        "bytes": 4939,
+        "normalizedSha256": "3ea984153fb7bfa36e829896ab02ba7ce99164fc21c46a3a26de4fc636080a87"
+      },
+      {
+        "path": "apps/zcode-cli/packages/core/src/tool/handlers/submit-result.ts",
+        "blob": "e8979e4d0c244d1ef51b6b1ce4afd5101ac19614",
+        "bytes": 7989,
+        "normalizedSha256": "d2a9ec6ed775f4a0681d43b371926a26a7efe89bfb732a01a79c5508ab31d8cf"
+      }
+    ]
+  },
+  "generator": {
+    "originalHead": "57bb3dd",
+    "sourceTests": 288,
+    "finalStrictEmittedTests": 288,
+    "ownedDigests": 13,
+    "protectedProductionDigests": 14,
+    "generatedDigests": 6,
+    "retainedAstRegions": 8,
+    "protectedRootDivergencesMatchPreintegration": 5,
+    "independentDifferentialObservations": 21571,
+    "independentNode": "24.19.0",
+    "rootNode": "24.14.0",
+    "earlyArtifactMismatchNotAccepted": true,
+    "finalArtifactsMatchedAfterTypecheck": true,
+    "publisher": {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "blob": "3cb83eb47f3b0ae7d9589195bfdc70af662d79f3",
+      "bytes": 12293,
+      "normalizedSha256": "41c715e5b7d9a9e52fa88124abfaca1aaf52ba28a819a579aaf8f593f11402c7"
+    }
+  },
+  "fullRegression": {
+    "tests": 7101,
+    "pass": 7035,
+    "fail": 59,
+    "cancelled": 0,
+    "skipped": 7,
+    "failureMultisetExactlyMatchesPrior": true,
+    "localFullPass": false,
+    "limitation": "59 preexisting listen EPERM failures"
+  },
+  "qualityGates": {
+    "rootTypes": true,
+    "cliTypes": true,
+    "configuredRootCliLint": true,
+    "ownedLintFiles": 22,
+    "ownedLintErrors": 0,
+    "format": true,
+    "architecture": true,
+    "cliBuildTasks": 17,
+    "serialDesktopBuild": true
+  },
+  "materialObligations": 26,
+  "cleanRoom": false,
+  "wholeFileMitGrant": false,
+  "nativeOrRealProviderAcceptance": false
+}
