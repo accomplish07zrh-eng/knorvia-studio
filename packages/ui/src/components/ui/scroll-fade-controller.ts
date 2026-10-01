@@ -17,8 +17,8 @@ export class ScrollFadeController {
   private measure = () => {
     const range = this.viewport.scrollHeight - this.viewport.clientHeight;
     const hidden = [
-      range > 1 && this.viewport.scrollTop > 1,
-      range > 1 && this.viewport.scrollTop < range - 1,
+      !(range <= 1) && this.viewport.scrollTop > 1,
+      !(range <= 1) && this.viewport.scrollTop < range - 1,
     ];
     const states: ScrollFadeEdges[] = ["none", "top", "bottom", "both"];
     this.publish(states[Number(hidden[0]) + 2 * Number(hidden[1])]!);
