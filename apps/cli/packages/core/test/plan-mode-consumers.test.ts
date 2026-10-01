@@ -137,63 +137,69 @@ test("approved exit waits for synthetic approval; rejection produces no write or
   });
 });
 test("denied approval feedback retains model text and follow-up metadata without effects", async () => {
-  const f = executorFixture({ label: "feedback" });
-  f.deps.permissionBroker = fixturePermissionBroker(async () => ({
-    decision: "deny",
-    reason: "Synthetic plan feedback",
-    reasonSource: "plan_approval_feedback",
-  }));
-  const result = await f.execute();
-  assert.equal(result.success, false);
-  assert.deepEqual(result.followUpUserInput, {
-    input: "Synthetic plan feedback",
-    reasonSource: "plan_approval_feedback",
+  await clock(async () => {
+    const f = executorFixture({ label: "feedback" });
+    f.deps.permissionBroker = fixturePermissionBroker(async () => ({
+      decision: "deny",
+      reason: "Synthetic plan feedback",
+      reasonSource: "plan_approval_feedback",
+    }));
+    const result = await f.execute();
+    assert.equal(result.success, false);
+    assert.deepEqual(result.followUpUserInput, {
+      input: "Synthetic plan feedback",
+      reasonSource: "plan_approval_feedback",
+    });
+    assert.equal(result.modelContent, "The plan was not approved by the user.");
+    assert.deepEqual(f.direct.writes, []);
   });
-  assert.equal(result.modelContent, "The plan was not approved by the user.");
-  assert.deepEqual(f.direct.writes, []);
 });
 test("pre-cancellation and schema/hook rejection remain before effects and approval", async () => {
-  const controller = new AbortController();
-  controller.abort();
-  const f = executorFixture({ label: "preabort" });
-  assert.equal(
-    (await f.execute({ signal: controller.signal })).error.type,
-    CoreErrorType.ToolCancelled,
-  );
-  assert.deepEqual(f.direct.writes, []);
-  assert.deepEqual(f.approvals, []);
-  for (const reason of ["schema", "hook"]) {
-    const f = executorFixture({ label: reason });
-    if (reason === "schema") f.call.input = { plan: "" };
-    else f.behavior.hook = async () => ({ additionalContexts: [], permissionBehavior: "deny" });
-    assert.equal((await f.execute()).success, false);
+  await clock(async () => {
+    const controller = new AbortController();
+    controller.abort();
+    const f = executorFixture({ label: "preabort" });
+    assert.equal(
+      (await f.execute({ signal: controller.signal })).error.type,
+      CoreErrorType.ToolCancelled,
+    );
     assert.deepEqual(f.direct.writes, []);
     assert.deepEqual(f.approvals, []);
-  }
+    for (const reason of ["schema", "hook"]) {
+      const f = executorFixture({ label: reason });
+      if (reason === "schema") f.call.input = { plan: "" };
+      else f.behavior.hook = async () => ({ additionalContexts: [], permissionBehavior: "deny" });
+      assert.equal((await f.execute()).success, false);
+      assert.deepEqual(f.direct.writes, []);
+      assert.deepEqual(f.approvals, []);
+    }
+  });
 });
 test("executor cancellation during synthetic persistence aborts signal and prevents late exit", async () => {
-  const f = executorFixture({ label: "pending write" }),
-    entered = gate(),
-    release = gate();
-  let signal: AbortSignal | undefined;
-  f.direct.fs.writeTextFile = async (_request, options) => {
-    signal = options?.signal;
-    entered.resolve();
-    await release.promise;
-    throw new Error("Synthetic interrupted persistence");
-  };
-  const controller = new AbortController(),
-    pending = f.execute({ signal: controller.signal });
-  await entered.promise;
-  controller.abort();
-  assert.equal((await pending).error.type, CoreErrorType.ToolCancelled);
-  assert.equal(signal?.aborted, true);
-  release.resolve();
-  await new Promise((resolve) => setImmediate(resolve));
-  assert.equal(
-    f.direct.calls.some((c) => c.phase === "exit"),
-    false,
-  );
+  await clock(async () => {
+    const f = executorFixture({ label: "pending write" }),
+      entered = gate(),
+      release = gate();
+    let signal: AbortSignal | undefined;
+    f.direct.fs.writeTextFile = async (_request, options) => {
+      signal = options?.signal;
+      entered.resolve();
+      await release.promise;
+      throw new Error("Synthetic interrupted persistence");
+    };
+    const controller = new AbortController(),
+      pending = f.execute({ signal: controller.signal });
+    await entered.promise;
+    controller.abort();
+    assert.equal((await pending).error.type, CoreErrorType.ToolCancelled);
+    assert.equal(signal?.aborted, true);
+    release.resolve();
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.equal(
+      f.direct.calls.some((c) => c.phase === "exit"),
+      false,
+    );
+  });
 });
 test("executor deadline retains 30-second budget while synthetic transition is pending", async (t) => {
   t.mock.timers.enable({ apis: ["Date", "setTimeout"], now: 1736942400000 });
