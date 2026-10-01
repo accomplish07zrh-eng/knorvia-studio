@@ -18,13 +18,10 @@ import {
   OffPeakListInputSchema,
   OffPeakListOutputJsonSchema,
   OffPeakListOutputSchema,
-  type OffPeakCreateInput,
-  type OffPeakCreateOutcome,
-  type OffPeakCreateOutput,
-  type OffPeakListOutput,
   type ToolPermissionSpec,
 } from "@knorvia/contracts";
-import type { ToolEntry, ToolExecutionContext, ToolHandler } from "../types.js";
+import type { ToolEntry, ToolExecutionContext } from "../types.js";
+import { createOffPeakCreateHandler, executeOffPeakList } from "./off-peak-execution.js";
 
 const OFF_PEAK_TOOL_TIMEOUT_MS = 30_000;
 const OFF_PEAK_MODEL_BYTES = 32_000;
@@ -57,95 +54,8 @@ export function assertNotOffPeakTurn(
   );
 }
 
-function assertOffPeakPort(
-  context: ToolExecutionContext,
-  toolName: "OffPeakCreate" | "OffPeakList",
-): asserts context is ToolExecutionContext & {
-  offPeakPort: NonNullable<ToolExecutionContext["offPeakPort"]>;
-} {
-  if (context.offPeakPort) return;
-  throw createCoreError(
-    CoreErrorType.ConfigurationError,
-    `OffPeakPort is not configured for ${toolName}`,
-    {
-      context: {
-        toolCallId: context.toolCallId,
-        toolName,
-      },
-      recoverable: false,
-    },
-  );
-}
-
-/** 业务失败翻译为模型可转述的稳定错误；分类驱动文案，禁止靠 message 猜。 */
-function throwOffPeakCreateFailure(
-  context: ToolExecutionContext,
-  outcome: Extract<OffPeakCreateOutcome, { ok: false }>,
-): never {
-  const detail = (() => {
-    switch (outcome.errorCategory) {
-      case "quota_3103":
-        return "The idle-time task quota is used up for now. Tell the user the free quota is exhausted and they can retry later or review tasks in Automations.";
-      case "eligibility_3101":
-        return "The current account has no eligible Coding Plan connection for idle-time tasks. Tell the user to select a ZAI/BigModel Coding Plan connection first.";
-      case "client_validation":
-        if (outcome.errorCode === "model_not_allowed") {
-          return "The requested model is not in the idle-time allowed model list. Omit the model field to use the default allowed model.";
-        }
-        if (outcome.errorCode === "session_bound") {
-          return "This session already has a pending idle-time task. Tell the user to wait for it to finish or cancel it in Automations before creating another one here.";
-        }
-        if (outcome.errorCode === "offpeak_disabled") {
-          return "Idle-time tasks are not enabled for this account right now. Tell the user the feature is unavailable; do not retry with different parameters.";
-        }
-        return "The idle-time task input was rejected by validation.";
-      case "network":
-        return "The idle-time ticket service is unreachable. Tell the user to retry later.";
-      default:
-        return "Creating the idle-time task failed. Tell the user to retry from the Automations page.";
-    }
-  })();
-  throw createCoreError(CoreErrorType.ToolExecutionFailed, detail, {
-    context: {
-      toolCallId: context.toolCallId,
-      toolName: "OffPeakCreate",
-      failureStage: outcome.failureStage,
-      errorCategory: outcome.errorCategory,
-      errorCode: outcome.errorCode,
-    },
-    recoverable: false,
-    retryable: false,
-  });
-}
-
-const offPeakCreateHandler: ToolHandler = async (input, context) => {
-  assertNotOffPeakTurn(context, "OffPeakCreate");
-  const parsed = OffPeakCreateInputSchema.parse(input) as OffPeakCreateInput;
-  assertOffPeakPort(context, "OffPeakCreate");
-
-  const outcome = await context.offPeakPort.create(parsed, {
-    // 本会话即闲时任务的绑定会话，派发时 resume 本会话执行（对齐 CronCreate targetTaskId）。
-    sessionId: context.sessionId,
-  });
-  if (!outcome.ok) {
-    throwOffPeakCreateFailure(context, outcome);
-  }
-  return {
-    task: outcome.task,
-    message:
-      typeof outcome.task.queuePosition === "number"
-        ? `Created idle-time task ${outcome.task.offPeakTaskId} (#${outcome.task.queuePosition} in queue).`
-        : `Created idle-time task ${outcome.task.offPeakTaskId}.`,
-  } satisfies OffPeakCreateOutput;
-};
-
-const offPeakListHandler: ToolHandler = async (input, context) => {
-  OffPeakListInputSchema.parse(input);
-  assertOffPeakPort(context, "OffPeakList");
-
-  const tasks = await context.offPeakPort.list();
-  return { tasks } satisfies OffPeakListOutput;
-};
+const offPeakCreateHandler = createOffPeakCreateHandler(assertNotOffPeakTurn);
+const offPeakListHandler = executeOffPeakList;
 
 function offPeakPermission(
   permission: string,
