@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "commit": "4959ec0ef6fd2d4b21b41b7728a1b48f8b6857ec",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "5a22bfdb1ea328759fd5df0e2147bee2a17592ce95c357433338a0b9c62b2104",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "name": "countUntrackedFileLines",
+      "start": 11227,
+      "end": 12258,
+      "text": "async function countUntrackedFileLines(absolutePath: string, buffer: Buffer): Promise<number> {\n  const info = await stat(absolutePath);\n  if (!info.isFile() || info.size > GIT_UNTRACKED_STAT_MAX_BYTES) return 0;\n\n  const file = await open(absolutePath, \"r\");\n  try {\n    let totalBytes = 0;\n    let newlines = 0;\n    let lastByte = 10;\n    while (totalBytes <= GIT_UNTRACKED_STAT_MAX_BYTES) {\n      // 文件可能在 stat 后增长；实际读取也必须受预算约束，额外一字节只用于识别越界。\n      const length = Math.min(buffer.length, GIT_UNTRACKED_STAT_MAX_BYTES + 1 - totalBytes);\n      const { bytesRead } = await file.read(buffer, 0, length, null);\n      if (bytesRead === 0) return newlines + (lastByte === 10 ? 0 : 1);\n      totalBytes += bytesRead;\n      if (totalBytes > GIT_UNTRACKED_STAT_MAX_BYTES) return 0;\n      for (let index = 0; index < bytesRead; index++) {\n        if (buffer[index] === 0) return 0;\n        if (buffer[index] === 10) newlines++;\n      }\n      lastByte = buffer[bytesRead - 1]!;\n    }\n    return 0;\n  } finally {\n    await file.close();\n  }\n}",
+      "sha256": "c6d71fbe54612ea6bc7d79d653c690d0aba10d332382c9bf02cc382595125696"
+    },
+    {
+      "name": "buildUntrackedStats",
+      "start": 12260,
+      "end": 13320,
+      "text": "export async function buildUntrackedStats(\n  repoRoot: string,\n  entries: GitStatusEntry[],\n): Promise<Map<string, GitLineStat>> {\n  const stats = new Map<string, GitLineStat>();\n  const untrackedEntries = entries.filter((entry) => entry.isUntracked);\n  let nextIndex = 0;\n  // 并发 readFile 全部未跟踪文件、读取后才识别二进制会让 Host 瞬间分配数 GiB。\n  // 固定 worker 各复用一个小缓冲，逐文件限量读取；大文件仍保留变更条目，只跳过行数统计。\n  const worker = async () => {\n    const buffer = Buffer.allocUnsafe(GIT_UNTRACKED_STAT_CHUNK_BYTES);\n    while (nextIndex < untrackedEntries.length) {\n      const entry = untrackedEntries[nextIndex++]!;\n      const absolutePath = resolve(repoRoot, ...entry.path.split(\"/\"));\n      try {\n        stats.set(entry.path, {\n          added: await countUntrackedFileLines(absolutePath, buffer),\n          removed: 0,\n        });\n      } catch {\n        stats.set(entry.path, { added: 0, removed: 0 });\n      }\n    }\n  };\n  await Promise.all(\n    Array.from(\n      { length: Math.min(GIT_UNTRACKED_STAT_CONCURRENCY, untrackedEntries.length) },\n      worker,\n    ),\n  );\n\n  return stats;\n}",
+      "sha256": "0883255bdb798c323f7aa7ddc4a8859f4776ec312b89ff1836a845125bd5c80c"
+    }
+  ]
+}
