@@ -1,4 +1,4 @@
-// Frozen against 24aea53 before lifecycle replacement; actual service with fully fake native ports.
+// Normal contracts retained; approved edge corrections supersede immutable e00c9e7 assertions. All native ports are fake.
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { lifecycleFixture } from "./terminal-lifecycle-fixture-fast-20261001.js";
@@ -54,7 +54,7 @@ test("factory diagnostics and independent ID sequences", async (t) => {
   b.disposeAll();
   assert.equal(open(), undefined);
 });
-test("create ordering allocates emitters before spawn and publishes before release", async (t) => {
+test("create ordering allocates emitters before spawn and completes metadata before publication", async (t) => {
   const s = service(t);
   await create(s);
   assert.deepEqual(state.trace, [
@@ -108,20 +108,20 @@ test("settings rejection still enters profile and native lifecycle", async (t) =
   assert.equal(open(), 1);
 });
 for (const index of [1, 2])
-  test(`emitter constructor failure ${index} precedes spawn without cleanup`, async (t) => {
+  test(`emitter constructor failure ${index} precedes spawn and cleans partial allocation`, async (t) => {
     const s = service(t);
     state.emitterFailure = index;
     await assert.rejects(create(s), { message: `emitter failure ${index - 1}` });
     assert.equal(state.trace.includes("spawn"), false);
     assert.equal(open(), 0);
-    assert.ok(state.emitters.every((e) => e.disposals === 0));
+    assert.ok(state.emitters.every((e) => e.disposals === 1));
   });
 for (const error of [
   new Error("owned spawn failure"),
   "owned thrown string",
   { toString: () => "owned object" },
 ])
-  test(`spawn failure wrapping and retained emitter allocation: ${String(error)}`, async (t) => {
+  test(`spawn failure wrapping and retired emitter allocation: ${String(error)}`, async (t) => {
     const s = service(t);
     state.spawnError = error;
     await assert.rejects(create(s), {
@@ -130,14 +130,14 @@ for (const error of [
     assert.equal(open(), 0);
     assert.deepEqual(
       pair().map((e) => e.disposals),
-      [0, 0],
+      [1, 1],
     );
     assert.equal(state.trace.includes("onData"), false);
     state.spawnError = undefined;
     assert.equal((await create(s)).id, "1");
   });
 for (const phase of ["onData", "onExit"] as const)
-  test(`${phase} failure is unwrapped and leaves unpublished native callbacks live`, async (t) => {
+  test(`${phase} failure stays unwrapped and retires acquired resources`, async (t) => {
     const s = service(t),
       error = new Error(`owned ${phase} failure`);
     state.configure = (p) => {
@@ -149,28 +149,28 @@ for (const phase of ["onData", "onExit"] as const)
     assert.equal(open(), 0);
     assert.deepEqual(
       pair().map((e) => e.disposals),
-      [0, 0],
+      [1, 1],
     );
     assert.equal(state.trace.includes("release"), false);
-    assert.equal(state.ptys[0]!.kills, 0);
+    assert.equal(state.ptys[0]!.kills, 1);
+    const before = [...state.trace];
     state.ptys[0]!.data("orphan");
-    assert.equal(state.trace.at(-1), "fire:0:orphan");
-    if (phase === "onExit") {
-      state.ptys[0]!.exit({ exitCode: 4 });
-      assert.deepEqual(
-        pair().map((e) => e.disposals),
-        [1, 1],
-      );
-    }
-    assert.equal(state.ptys[0]!.nativeDisposals, 0);
+    if (phase === "onExit") state.ptys[0]!.exit({ exitCode: 4 });
+    assert.deepEqual(state.trace, before);
+    assert.equal(state.ptys[0]!.nativeDisposals, phase === "onData" ? 0 : 1);
   });
-test("post-publication release failure rejects while preserving reachable terminal", async (t) => {
+test("metadata failure preserves its error and retires unpublished terminal", async (t) => {
   const s = service(t),
     error = new Error("owned release failure");
   state.releaseError = error;
   await assert.rejects(create(s), (e) => e === error);
-  assert.equal(open(), 1);
-  assert.equal(await s.write({ id: "0", data: "reachable" }), undefined);
+  assert.equal(open(), 0);
+  assert.equal(state.ptys[0]!.kills, 1);
+  assert.deepEqual(
+    pair().map((e) => e.disposals),
+    [1, 1],
+  );
+  await assert.rejects(s.write({ id: "0", data: "unpublished" }), missing("0"));
 });
 test("synchronous data before publication has no listener and does not buffer", async (t) => {
   const s = service(t);
@@ -184,24 +184,25 @@ test("synchronous data before publication has no listener and does not buffer", 
   state.ptys[0]!.data("later");
   assert.deepEqual(seen, ["later"]);
 });
-test("synchronous pre-publication exit still publishes disposed emitter pair", async (t) => {
+test("synchronous pre-publication exit rejects and never publishes", async (t) => {
   const s = service(t);
   state.configure = (p) => {
     p.onExitAction = () => p.exit({ exitCode: 9 });
   };
-  const { id } = await create(s),
-    seen: unknown[] = [];
-  assert.equal(open(), 1);
+  await assert.rejects(create(s), { message: "Terminal exited during startup: 0" });
+  assert.equal(open(), 0);
   assert.deepEqual(
     pair().map((e) => e.disposals),
     [1, 1],
   );
-  s.onDynamicData(id)((d) => seen.push(d));
-  s.onDynamicExit(id)((d) => seen.push(d));
+  assert.equal(state.ptys[0]!.nativeDisposals, 2);
+  assert.throws(() => s.onDynamicData("0"), missing("0"));
   state.ptys[0]!.data("late");
   state.ptys[0]!.exit({ exitCode: 10 });
-  assert.deepEqual(seen, []);
-  assert.equal(open(), 0);
+  assert.deepEqual(
+    pair().map((e) => e.disposals),
+    [1, 1],
+  );
 });
 test("concurrent create reserves numeric order but publishes completion order", async (t) => {
   const resolvers: Array<(value: unknown) => void> = [];
@@ -350,7 +351,7 @@ test("native exit fires while registered then disposes data/exit and removes wit
   let write: Promise<void> | undefined;
   s.onDynamicExit(id)((code) => {
     seen.push(code);
-    assert.equal(open(), 1);
+    assert.equal(open(), 0);
     assert.doesNotThrow(() => s.onDynamicData(id));
     write = s.write({ id, data: "during-exit" });
   });
@@ -363,7 +364,7 @@ test("native exit fires while registered then disposes data/exit and removes wit
   assert.equal(open(), 0);
   assert.throws(() => s.onDynamicExit(id), missing(id));
 });
-test("exit listener throw leaves instance and both emitters live", async (t) => {
+test("exit listener throw propagates after complete resource retirement", async (t) => {
   const s = service(t),
     { id } = await create(s),
     error = new Error("owned exit listener");
@@ -376,15 +377,16 @@ test("exit listener throw leaves instance and both emitters live", async (t) => 
     () => state.ptys[0]!.exit({ exitCode: 3 }),
     (e) => e === error,
   );
-  assert.equal(open(), 1);
+  assert.equal(open(), 0);
   assert.deepEqual(
     pair().map((e) => e.disposals),
-    [0, 0],
+    [1, 1],
   );
-  state.ptys[0]!.data("still live");
-  assert.equal(data, 1);
+  state.ptys[0]!.data("retired");
+  assert.equal(data, 0);
+  assert.throws(() => s.onDynamicExit(id), missing(id));
 });
-test("reentrant exit dispatch retains nested ordering and repeated emitter disposal", async (t) => {
+test("reentrant native exit is suppressed without changing current listener snapshot", async (t) => {
   const s = service(t),
     { id } = await create(s),
     seen: number[] = [];
@@ -394,10 +396,10 @@ test("reentrant exit dispatch retains nested ordering and repeated emitter dispo
   });
   s.onDynamicExit(id)((code) => seen.push(code * 10));
   state.ptys[0]!.exit({ exitCode: 1 });
-  assert.deepEqual(seen, [1, 2, 20, 10]);
+  assert.deepEqual(seen, [1, 10]);
   assert.deepEqual(
     pair().map((e) => e.disposals),
-    [2, 2],
+    [1, 1],
   );
   assert.equal(open(), 0);
 });
@@ -420,9 +422,9 @@ test("dispose kill precedes disposal/deletion; repeats and late callbacks are in
   assert.deepEqual(seen, ["during kill"]);
   assert.equal(open(), 0);
   assert.equal(state.ptys[0]!.kills, 1);
-  assert.equal(state.ptys[0]!.nativeDisposals, 0);
+  assert.equal(state.ptys[0]!.nativeDisposals, 2);
 });
-test("kill failure preserves emitter pair and ID until successful retry", async (t) => {
+test("kill failure retains retryable PTY and retires event resources", async (t) => {
   const s = service(t),
     { id } = await create(s),
     error = new Error("owned kill failure");
@@ -433,14 +435,19 @@ test("kill failure preserves emitter pair and ID until successful retry", async 
   assert.equal(open(), 1);
   assert.deepEqual(
     pair().map((e) => e.disposals),
-    [0, 0],
+    [1, 1],
   );
+  assert.throws(() => s.onDynamicData(id), missing(id));
   state.ptys[0]!.killAction = () => {};
   await s.dispose({ id });
   assert.equal(state.ptys[0]!.kills, 2);
   assert.equal(open(), 0);
+  assert.deepEqual(
+    pair().map((e) => e.disposals),
+    [1, 1],
+  );
 });
-test("synchronous kill exit preserves duplicate cleanup sequence", async (t) => {
+test("synchronous kill exit cleans each resource once", async (t) => {
   const s = service(t),
     { id } = await create(s),
     seen: number[] = [];
@@ -448,18 +455,12 @@ test("synchronous kill exit preserves duplicate cleanup sequence", async (t) => 
   state.ptys[0]!.killAction = () => state.ptys[0]!.exit({ exitCode: 8 });
   state.trace = [];
   await s.dispose({ id });
-  assert.deepEqual(state.trace, [
-    "kill",
-    "fire:1:8",
-    "dispose:0",
-    "dispose:1",
-    "dispose:0",
-    "dispose:1",
-  ]);
+  assert.deepEqual(state.trace, ["kill", "fire:1:8", "dispose:0", "dispose:1"]);
   assert.deepEqual(seen, [8]);
   assert.equal(open(), 0);
+  assert.equal(state.ptys[0]!.nativeDisposals, 2);
 });
-test("reentrant dispose from kill observes still-owned ID and kills twice", async (t) => {
+test("reentrant dispose observes active retirement and does not kill twice", async (t) => {
   const s = service(t),
     { id } = await create(s);
   let inner: Promise<void> | undefined;
@@ -468,27 +469,32 @@ test("reentrant dispose from kill observes still-owned ID and kills twice", asyn
   };
   await s.dispose({ id });
   await inner;
-  assert.equal(state.ptys[0]!.kills, 2);
+  assert.equal(state.ptys[0]!.kills, 1);
   assert.deepEqual(
     pair().map((e) => e.disposals),
-    [2, 2],
+    [1, 1],
   );
 });
-test("disposeAll unregisters diagnostics before kill and is repeatable", async (t) => {
+test("disposeAll retains diagnostics until retirement completes and is repeatable", async (t) => {
   const s = service(t);
   await create(s);
   await create(s);
+  const counts: unknown[] = [];
   state.ptys.forEach((p) => {
-    p.killAction = () => assert.equal(open(), undefined);
+    p.killAction = () => {
+      counts.push(open());
+    };
   });
   assert.equal(s.disposeAll(), undefined);
   assert.equal(s.disposeAll(), undefined);
+  assert.deepEqual(counts, [2, 1]);
+  assert.equal(open(), undefined);
   assert.deepEqual(
     state.ptys.map((p) => p.kills),
     [1, 1],
   );
 });
-test("disposeAll kill failure aborts remaining instances after unregister", async (t) => {
+test("disposeAll attempts remaining instances and retains failed kill for retry", async (t) => {
   const s = service(t);
   await create(s);
   await create(s);
@@ -500,26 +506,27 @@ test("disposeAll kill failure aborts remaining instances after unregister", asyn
     () => s.disposeAll(),
     (e) => e === error,
   );
-  assert.equal(open(), undefined);
+  assert.equal(open(), 1);
   assert.deepEqual(
     state.ptys.map((p) => p.kills),
-    [1, 0],
+    [1, 1],
   );
-  assert.doesNotThrow(() => s.onDynamicData("0"));
-  assert.doesNotThrow(() => s.onDynamicData("1"));
+  assert.throws(() => s.onDynamicData("0"), missing("0"));
+  assert.throws(() => s.onDynamicData("1"), missing("1"));
   state.ptys[0]!.killAction = () => {};
   s.disposeAll();
   assert.deepEqual(
     state.ptys.map((p) => p.kills),
     [2, 1],
   );
+  assert.equal(open(), undefined);
 });
-test("create after disposeAll stays allowed, next ID continues without diagnostics", async (t) => {
+test("create after disposeAll stays allowed with next ID and fresh diagnostics", async (t) => {
   const s = service(t);
   await create(s);
   s.disposeAll();
   assert.equal((await create(s)).id, "1");
-  assert.equal(open(), undefined);
+  assert.equal(open(), 1);
   await s.write({ id: "1", data: "still supported" });
 });
 test("disposeAll snapshot excludes reentrant asynchronous creation", async (t) => {
@@ -534,7 +541,7 @@ test("disposeAll snapshot excludes reentrant asynchronous creation", async (t) =
   assert.equal(state.ptys[1]!.kills, 0);
   assert.doesNotThrow(() => s.onDynamicData("1"));
 });
-test("exit listener reentrant dispose retains kill and duplicate cleanup", async (t) => {
+test("exit listener reentrant dispose never kills observed exit and cleans once", async (t) => {
   const s = service(t),
     { id } = await create(s);
   let inner: Promise<void> | undefined;
@@ -543,14 +550,14 @@ test("exit listener reentrant dispose retains kill and duplicate cleanup", async
   });
   state.ptys[0]!.exit({ exitCode: 6 });
   await inner;
-  assert.equal(state.ptys[0]!.kills, 1);
+  assert.equal(state.ptys[0]!.kills, 0);
   assert.deepEqual(
     pair().map((e) => e.disposals),
-    [2, 2],
+    [1, 1],
   );
   assert.equal(open(), 0);
 });
-test("kill reentrant exit listener failure propagates and interrupts caller cleanup", async (t) => {
+test("kill reentrant exit listener failure propagates after complete cleanup", async (t) => {
   const s = service(t),
     { id } = await create(s),
     error = new Error("owned kill-exit-listener failure");
@@ -559,11 +566,12 @@ test("kill reentrant exit listener failure propagates and interrupts caller clea
   });
   state.ptys[0]!.killAction = () => state.ptys[0]!.exit({ exitCode: 7 });
   await assert.rejects(s.dispose({ id }), (e) => e === error);
-  assert.equal(open(), 1);
+  assert.equal(open(), 0);
   assert.deepEqual(
     pair().map((e) => e.disposals),
-    [0, 0],
+    [1, 1],
   );
+  assert.equal(state.ptys[0]!.nativeDisposals, 2);
 });
 for (const operation of ["write", "resize"] as const) {
   test(`${operation} unknown-ID lookup precedes other parameter getters`, async (t) => {

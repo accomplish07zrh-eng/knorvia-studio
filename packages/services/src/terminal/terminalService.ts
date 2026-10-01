@@ -144,10 +144,9 @@ function spawnTerminalProcess(params: {
 export function createTerminalService(dependencies: {
   settingService: ISettingService;
 }): ITerminalService {
-  const instances = new TerminalServiceInstanceOwner();
-  const memoryDiagnostics = registerMemoryDiagnosticsProvider("terminal", () => ({
-    open: instances.count,
-  }));
+  const instances = new TerminalServiceInstanceOwner((read) =>
+    registerMemoryDiagnosticsProvider("terminal", read),
+  );
 
   const service: ITerminalService & { disposeAll(): void } = {
     async create(params: { cols: number; rows: number; cwd?: string }): Promise<{
@@ -159,59 +158,69 @@ export function createTerminalService(dependencies: {
       fontFamilySource: TerminalFontFamilySource;
       windowsPty?: TerminalWindowsPtyInfo;
     }> {
-      const id = instances.reserveId();
-      const shell = selectTerminalLaunchCandidate(
-        terminalShellPlan(process.platform, process.env),
-        (path) => {
-          accessSync(path, constants.X_OK);
-          return true;
-        },
-        terminalShellPlanFailure(process.platform),
-      );
-      const cwd = selectTerminalLaunchCandidate(
-        terminalWorkingDirectoryPlan(params.cwd, process.env.HOME, homedir()),
-        (path) => statSync(path).isDirectory(),
-        "No usable working directory found for terminal startup",
-      );
-      const env = terminalEnvironmentPlan(process.platform, process.env);
-      const terminalProfileSettings = await dependencies.settingService.get().catch(() => ({
-        terminalFontFamily: undefined,
-        terminalInheritSystemProfile: true,
-      }));
-      const fontProfile = resolveTerminalFontProfile({
-        settings: terminalProfileSettings,
-        env: process.env,
-      });
-      const nodePty = await loadNodePtyModule();
-      ensureNodePtySpawnHelperExecutable();
-      const reservation = instances.prepare(id);
-
-      let p: IPty;
+      const reservation = instances.reserve();
+      const { id } = reservation;
       try {
-        p = spawnTerminalProcess({
-          nodePty,
-          shell,
-          cols: params.cols,
-          rows: params.rows,
-          cwd,
-          env,
-        });
-      } catch (error) {
-        throw new Error(
-          `Failed to start terminal with shell '${shell}' in '${cwd}': ${getErrorMessage(error)}`,
+        const shell = selectTerminalLaunchCandidate(
+          terminalShellPlan(process.platform, process.env),
+          (path) => {
+            accessSync(path, constants.X_OK);
+            return true;
+          },
+          terminalShellPlanFailure(process.platform),
         );
-      }
+        const cwd = selectTerminalLaunchCandidate(
+          terminalWorkingDirectoryPlan(params.cwd, process.env.HOME, homedir()),
+          (path) => statSync(path).isDirectory(),
+          "No usable working directory found for terminal startup",
+        );
+        const env = terminalEnvironmentPlan(process.platform, process.env);
+        instances.assertCreating(reservation);
+        const terminalProfileSettings = await dependencies.settingService.get().catch(() => ({
+          terminalFontFamily: undefined,
+          terminalInheritSystemProfile: true,
+        }));
+        instances.assertCreating(reservation);
+        const fontProfile = resolveTerminalFontProfile({
+          settings: terminalProfileSettings,
+          env: process.env,
+        });
+        const nodePty = await loadNodePtyModule();
+        instances.assertCreating(reservation);
+        ensureNodePtySpawnHelperExecutable();
+        instances.prepare(reservation);
 
-      instances.attach(reservation, p);
-      return {
-        id,
-        shell,
-        fontFamily: fontProfile.fontFamily,
-        fontSize: fontProfile.fontSize,
-        theme: fontProfile.theme,
-        fontFamilySource: fontProfile.source,
-        windowsPty: terminalWindowsPtyPlan(process.platform, release()),
-      };
+        let p: IPty;
+        try {
+          p = spawnTerminalProcess({
+            nodePty,
+            shell,
+            cols: params.cols,
+            rows: params.rows,
+            cwd,
+            env,
+          });
+        } catch (error) {
+          throw new Error(
+            `Failed to start terminal with shell '${shell}' in '${cwd}': ${getErrorMessage(error)}`,
+          );
+        }
+
+        instances.attach(reservation, p);
+        const result = {
+          id,
+          shell,
+          fontFamily: fontProfile.fontFamily,
+          fontSize: fontProfile.fontSize,
+          theme: fontProfile.theme,
+          fontFamilySource: fontProfile.source,
+          windowsPty: terminalWindowsPtyPlan(process.platform, release()),
+        };
+        instances.publish(reservation);
+        return result;
+      } catch (error) {
+        return instances.fail(reservation, error);
+      }
     },
 
     async write(params: { id: string; data: string }): Promise<void> {
@@ -235,7 +244,6 @@ export function createTerminalService(dependencies: {
     },
 
     disposeAll(): void {
-      memoryDiagnostics.dispose();
       instances.disposeAll();
     },
   };
