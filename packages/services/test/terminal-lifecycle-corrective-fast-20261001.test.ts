@@ -587,3 +587,94 @@ test("data after an observed exit is ignored while the current data snapshot sti
   assert.deepEqual(seen, ["a:before exit", "b:before exit"]);
   retired();
 });
+test("failed reentrant bulk kill during listener setup is not automatically killed a second time by create failure", async (t) => {
+  const s = service(t),
+    error = new Error("owned reentrant setup kill failure");
+  state.configure = (p) => {
+    p.killAction = () => {
+      throw error;
+    };
+    p.onDataAction = () => s.disposeAll();
+  };
+  await assert.rejects(create(s), (e) => e === error);
+  assert.equal(state.ptys[0]!.kills, 1);
+  assert.equal(open(), 1);
+  retired();
+  state.ptys[0]!.killAction = () => {};
+  s.disposeAll();
+  assert.equal(state.ptys[0]!.kills, 2);
+  assert.equal(open(), undefined);
+});
+test("cancellation at lazy-load await prevents allocation/helper/spawn after the pending load", async (t) => {
+  const s = service(t),
+    push = state.trace.push.bind(state.trace);
+  state.trace.push = (...steps) => {
+    if (steps.includes("profile")) queueMicrotask(() => s.disposeAll());
+    return push(...steps);
+  };
+  await assert.rejects(create(s), { message: "Terminal creation cancelled: 0" });
+  assert.equal(state.emitters.length, 0);
+  assert.equal(state.ptys.length, 0);
+  assert.equal(open(), undefined);
+});
+test("all emitter and subscription disposers are attempted and preserved in primary-first order", async (t) => {
+  const s = service(t),
+    listener = new Error("owned all-resources listener");
+  const errors = [0, 1, 2, 3].map((i) => new Error(`owned cleanup ${i}`)),
+    calls: number[] = [];
+  let failing = true;
+  state.configure = (p) => {
+    const data = p.onData.bind(p),
+      exit = p.onExit.bind(p);
+    p.onData = (callback) => {
+      const handle = data(callback);
+      return {
+        dispose: () => {
+          calls.push(2);
+          if (failing) throw errors[2];
+          handle.dispose();
+        },
+      };
+    };
+    p.onExit = (callback) => {
+      const handle = exit(callback);
+      return {
+        dispose: () => {
+          calls.push(3);
+          if (failing) throw errors[3];
+          handle.dispose();
+        },
+      };
+    };
+  };
+  const { id } = await create(s);
+  pair().forEach((emitter, index) => {
+    const dispose = emitter.dispose.bind(emitter);
+    emitter.dispose = () => {
+      calls.push(index);
+      if (failing) throw errors[index];
+      dispose();
+    };
+  });
+  s.onDynamicExit(id)(() => {
+    throw listener;
+  });
+  try {
+    assert.throws(
+      () => state.ptys[0]!.exit({ exitCode: 3 }),
+      (e) => {
+        assert.ok(e instanceof AggregateError);
+        assert.deepEqual(e.errors, [listener, ...errors]);
+        return true;
+      },
+    );
+    assert.deepEqual(calls, [0, 1, 2, 3]);
+    assert.equal(open(), 0);
+  } finally {
+    failing = false;
+  }
+  await s.dispose({ id });
+  assert.deepEqual(calls, [0, 1, 2, 3, 0, 1, 2, 3]);
+  assert.equal(state.ptys[0]!.kills, 0);
+  retired();
+});
