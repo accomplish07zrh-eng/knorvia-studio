@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { CoreErrorType } from "@knorvia/contracts";
+import { CoreErrorType, SessionEventType } from "@knorvia/contracts";
 import { gate } from "./tool-invocation-fixture.js";
 import {
   executorCases,
@@ -173,7 +173,12 @@ test("cancellation during delayed launch propagates signal and preserves late se
     assert.equal(calls, 1);
     release.resolve();
     await new Promise((resolve) => setImmediate(resolve));
-    assert.equal(f.events.filter((e) => e.type === "tool_completed").length, 0);
+    assert.equal(f.events.filter((e) => e.type === SessionEventType.ToolCallResult).length, 0);
+    assert.equal(f.events.filter((e) => e.type === SessionEventType.ToolCallError).length, 1);
+    assert.deepEqual(
+      f.terminal().map((item) => item.name),
+      ["finishCancelled"],
+    );
     assert.equal(calls, 1);
   });
 });
