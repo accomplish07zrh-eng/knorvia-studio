@@ -112,6 +112,15 @@ Commit spec/tests/captured observations before replacing entrypoints. All fixtur
 models, provider responses, clocks, permissions and status events are in memory;
 no real model/search/network/billing/account/user-data interaction.
 
+The test-only `KNORVIA_WEBSEARCH_TEST_EMITTED` selector uses rebuilt dist only
+when its value is exactly `1`; unset or any other value selects source. It has no
+production configuration priority or effect on provider/permission policy.
+Missing dist fails through the normal module loader instead of falling back.
+The seeded differential script requires an explicit external immutable reference
+directory argument; a missing argument fails before comparisons. Reference
+bodies remain outside tracked production, and only import routing/module format
+is adapted to share the existing contracts/invocation storage.
+
 Test actual handler registry, executor, permission capability/service, model
 invocation wrappers and provider-native contract transformation with synthetic
 requests. Include admission failure ordering, schema versus handler boundaries,
