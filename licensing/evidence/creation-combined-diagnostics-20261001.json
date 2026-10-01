@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "scope": "Existing ComfyUI combined state fixture bounded diagnostic wiring only",
+  "baselineCommit": "b43176c8d29663a1866d6e5a276cd4438769582b",
+  "historicalFailure": "licensing/evidence/direct-root-ci209.json",
+  "change": [
+    "Enable existing provider trace for ComfyUI mock fetch entry and returned responses",
+    "Watch only the owned ComfyUI temporary root with existing noninterposing IO observer",
+    "Attach protocol/mode/submissions/deadline/provider/IO evidence to original timeout diagnostics",
+    "Release diagnostic registration in existing finally cleanup"
+  ],
+  "unchanged": [
+    "Production source and storage paths",
+    "Response payloads and provider calls",
+    "1000ms/10ms terminal polling and500ms business deadline",
+    "All existing assertions and outcome classifications",
+    "Root licensing and27 unresolved material obligations"
+  ],
+  "validation": {
+    "focused": {
+      "tests": 18,
+      "pass": 18,
+      "fail": 0
+    },
+    "aggregate": {
+      "tests": 6002,
+      "pass": 5936,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "rootLint": "pass",
+    "format": "pass",
+    "architecture": "pass"
+  },
+  "limits": [
+    "Diagnostic expansion only, not a confirmed production timeout fix",
+    "Historical CI209 first cause remains unknown",
+    "Native CI for new diagnostic content remains pending"
+  ]
+}

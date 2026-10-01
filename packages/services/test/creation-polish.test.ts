@@ -752,6 +752,10 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
     const root = await mkdtemp(join(tmpdir(), `knorvia-${protocol}-states-`));
     const keys = new Map<string, string>();
     const clock = createRunDeadlineClock();
+    const providerTrace = protocol === "comfyui" ? createProviderFixtureTrace() : undefined;
+    const io = protocol === "comfyui" ? creationIo.watch(root) : undefined;
+    const timeoutContext = () =>
+      `fixture protocol=${protocol}; mode=${mode}; submissions=${submissions}; deadline=${JSON.stringify(clock.snapshot())}; ${providerTrace?.describe() ?? ""}; ${io?.describe() ?? ""}`;
     // 真实看门狗独立于被测截止时间；慢磁盘不能决定“提交后超时/取消”的先后顺序。
     const realSetTimeout = setTimeout;
     const realClearTimeout = clearTimeout;
@@ -766,7 +770,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
               () =>
                 reject(
                   new Error(
-                    `任务 ${jobId} 在 ${TERMINAL_BUDGET_MS}ms 内未进入模拟供应商；已提交 ${submissions} 次`,
+                    `任务 ${jobId} 在 ${TERMINAL_BUDGET_MS}ms 内未进入模拟供应商；已提交 ${submissions} 次; ${timeoutContext()}`,
                   ),
                 ),
               TERMINAL_BUDGET_MS,
@@ -795,13 +799,23 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       },
       fetchImpl: async (url, init) => {
         const path = new URL(String(url)).pathname;
-        if (path === "/history/task")
-          return new Response(
+        if (path === "/history/task") {
+          providerTrace?.record("history:start");
+          const response = new Response(
             JSON.stringify({
               task: { outputs: { node: { images: [{ filename: "image.png" }] } } },
             }),
           );
-        if (path === "/view") return new Response(first);
+          providerTrace?.record("history:return");
+          return response;
+        }
+        if (path === "/view") {
+          providerTrace?.record("download:start");
+          const response = new Response(first);
+          providerTrace?.record("download:return");
+          return response;
+        }
+        providerTrace?.record("submit:start");
         submissions++;
         if (mode === "hang") {
           init?.signal?.throwIfAborted();
@@ -814,16 +828,22 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
             submissionEntered.resolve();
           });
         }
-        if (mode === "known-fail") return new Response("failed", { status: 400 });
+        if (mode === "known-fail") {
+          const response = new Response("failed", { status: 400 });
+          providerTrace?.record("submit:return");
+          return response;
+        }
         const result =
           protocol === "openai-images"
             ? { data: [{ b64_json: first.toString("base64") }] }
             : protocol === "comfyui"
               ? { prompt_id: "task" }
               : { asset: first.toString("base64") };
-        return new Response(JSON.stringify(result), {
+        const response = new Response(JSON.stringify(result), {
           headers: { "content-type": "application/json" },
         });
+        providerTrace?.record("submit:return");
+        return response;
       },
     });
     try {
@@ -856,7 +876,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       });
       // 提交前超时也会是 failed；只控制业务截止并检查 400，避免把它误作供应商拒绝。
       // 持久化退避与终态轮询仍走真实计时器，原来的 1000ms 验收预算不变。
-      const pollOptions = { pollScheduler: realSetTimeout };
+      const pollOptions = { pollScheduler: realSetTimeout, timeoutContext };
       const failed = await terminal(
         service,
         (await service.createJob(request("failed"))).id,
@@ -874,7 +894,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       const timeoutJob = await service.createJob(request("timeout"));
       await waitForSubmission(timeoutJob.id);
       clock.advanceBy(500);
-      const timedOut = await terminal(service, timeoutJob.id);
+      const timedOut = await terminal(service, timeoutJob.id, pollOptions);
       assert.equal(timedOut.status, "interrupted");
       await assert.rejects(service.retryJob(timedOut.id), /仅结果明确失败/);
       // 取消用独立的到达信号，不推进业务时钟，避免用户取消与截止竞速。
@@ -888,6 +908,7 @@ for (const protocol of ["openai-images", "comfyui", "json-api"] as const) {
       await assert.rejects(service.retryJob(cancelled.id), /仅结果明确失败/);
       assert.equal(submissions, 4);
     } finally {
+      io?.release();
       await rm(root, { recursive: true, force: true });
     }
   });
