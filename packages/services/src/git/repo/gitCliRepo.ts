@@ -34,7 +34,6 @@ import {
   ensureGitCommandSucceeded,
   ensureRepositoryAvailable,
   fileExists,
-  inferKindFromNumstat,
   normalizeInputPath,
   parseGitBranchMutationIssues,
   parseGitConfigValue,
@@ -43,6 +42,7 @@ import {
   toDiffResult,
   toInvalidBranchNameIssue,
 } from "./gitCliHelpers.js";
+import { planGitBranchComparison } from "./gitBranchComparisonReadPlan.js";
 import { planGitCommitGraphQuery, projectGitCommitGraphQuery } from "./gitCommitGraphPlan.js";
 import { planGitIgnoredPaths } from "./gitIgnoredPathReadPlan.js";
 import { planGitLocalBranches } from "./gitLocalBranchReadPlan.js";
@@ -53,7 +53,6 @@ import {
 } from "./gitRepositoryReadPlan.js";
 import {
   createEmptySummary,
-  type GitBranchComparisonChange,
   type GitBranchComparisonSnapshot,
   type GitCliRepo,
   type GitCommitGraphSnapshot,
@@ -1030,55 +1029,19 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
     },
 
     async getBranchComparison(workspacePath: string): Promise<GitBranchComparisonSnapshot> {
-      const status = await this.getStatus(workspacePath);
-      if (
-        !status.resolution.isGitAvailable ||
-        !status.resolution.isRepository ||
-        !status.summary.trackingBranchName
-      ) {
-        return {
-          resolution: status.resolution,
-          baseRef: status.summary.trackingBranchName,
-          headRef: status.summary.branchName ?? "HEAD",
-          comparisonLabel: null,
-          changes: [],
-        };
+      const program = planGitBranchComparison();
+      let step = program.next();
+      while (!step.done) {
+        const operation = step.value;
+        if (operation.kind === "status") {
+          const status = await this.getStatus(workspacePath);
+          step = program.next(status);
+        } else {
+          const result = await commandProvider.run(operation.command);
+          step = program.next(result);
+        }
       }
-
-      const result = await commandProvider.run({
-        cwd: status.resolution.repoRoot,
-        args: [
-          "diff",
-          "--numstat",
-          "-z",
-          "--find-renames",
-          `${status.summary.trackingBranchName}...HEAD`,
-          "--",
-        ],
-        timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-        maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
-      });
-      ensureGitCommandSucceeded("git diff --numstat upstream...HEAD", result);
-
-      const changes = Array.from(parseNumstat(result.stdout).entries()).map(
-        ([path, stat]): GitBranchComparisonChange => ({
-          path,
-          originalPath: stat.originalPath ?? null,
-          kind: inferKindFromNumstat(stat),
-          added: stat.added,
-          removed: stat.removed,
-        }),
-      );
-
-      return {
-        resolution: status.resolution,
-        baseRef: status.summary.trackingBranchName,
-        headRef: status.summary.branchName ?? "HEAD",
-        comparisonLabel: status.summary.branchName
-          ? `${status.summary.branchName} -> ${status.summary.trackingBranchName}`
-          : `HEAD -> ${status.summary.trackingBranchName}`,
-        changes,
-      };
+      return step.value;
     },
 
     async stage(workspacePath: string, paths: string[]): Promise<void> {
