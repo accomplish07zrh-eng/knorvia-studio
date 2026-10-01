@@ -38,6 +38,12 @@ import {
 import { buildWorkflowRunSummary } from "./get-workflow-run-summary.js";
 import { projectGetWorkflowRunSnapshotFields } from "./get-workflow-run-snapshot-fields.js";
 import {
+  applyWorkflowRunOutputFields,
+  projectWorkflowRunArtifact,
+  projectWorkflowRunError,
+  projectWorkflowRunQuestion,
+} from "./get-workflow-run-output-fields.js";
+import {
   WORKFLOW_RUN_INTROSPECTION_STEERING,
   workflowIntrospectionUnavailableFailure,
   workflowRunNotFoundFailure,
@@ -80,66 +86,41 @@ const getWorkflowRunHandler: ToolHandler = async (input, context) => {
   const roster = toGetWorkflowRunSubagents(detail.subagents);
   const phases = toGetWorkflowRunPhases(detail.phases);
 
-  const base = {
-    ...projectGetWorkflowRunSnapshotFields(detail, generatedAt, () => context.workingDirectory),
+  const snapshot = projectGetWorkflowRunSnapshotFields(
+    detail,
+    generatedAt,
+    () => context.workingDirectory,
+  );
+  const base = applyWorkflowRunOutputFields<Omit<GetWorkflowRunOutput, "summary">>(snapshot, [
     // 情势截面（阶段 / 花名册 / 健康）：把上面那些计数变成一份「这个 run 在哪、谁在干什么、
     // 它还在动吗」的报告。逐字段搬见 get-workflow-run-roster-output.ts。
-    ...(phases === undefined ? {} : { phases }),
-    subagents: roster.subagents,
-    ...(roster.truncated ? { subagentsTruncated: true as const } : {}),
-    health: toGetWorkflowRunHealth(detail.health),
-    ...(result === undefined ? {} : { result }),
-    ...(detail.error === undefined
-      ? {}
-      : {
-          error: {
-            code: detail.error.code,
-            message: detail.error.message,
-            ...(detail.error.providerStop === undefined
-              ? {}
-              : { providerStop: detail.error.providerStop }),
-          },
-        }),
+    ["phases", () => phases, "defined"],
+    ["subagents", () => roster.subagents],
+    ["subagentsTruncated", () => roster.truncated, "truthy", () => true],
+    ["health", () => toGetWorkflowRunHealth(detail.health)],
+    ["result", () => result, "defined"],
+    ["error", () => detail.error, "defined", () => projectWorkflowRunError(detail)],
     // 零条时整字段缺席（端口本身就不发空数组，这里再确认一次而不是 `?? []`）：一个空的
     // pending 区读起来像「问过、已答完」，而缺席读起来才是「没人在等」。
-    ...(detail.pendingQuestions === undefined || detail.pendingQuestions.length === 0
-      ? {}
-      : {
-          pendingQuestions: detail.pendingQuestions.map((pending) => ({
-            qid: pending.qid,
-            actor: pending.actor,
-            ...(pending.actorName === undefined ? {} : { actorName: pending.actorName }),
-            question: pending.question,
-            ...(pending.context === undefined ? {} : { context: pending.context }),
-            askedAt: pending.askedAt,
-          })),
-        }),
+    [
+      "pendingQuestions",
+      () => detail.pendingQuestions,
+      "nonempty",
+      () => detail.pendingQuestions!.map((pending) => projectWorkflowRunQuestion(pending)),
+    ],
     // 用户面产物。零件时整字段缺席；上界 32 与
     // `ARTIFACT_CAPS.maxArtifactsPerRun` 同值——端口本身也不会给出更多，这里只是把界写死在
     // 模型面上。`bytes` 在端口上只挂在版本项里，取最新版那一条（清单描述的就是最新版）。
-    ...(detail.artifacts === undefined || detail.artifacts.length === 0
-      ? {}
-      : {
-          artifacts: detail.artifacts
-            .slice(0, WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES)
-            .map((artifact) => {
-              const latest = artifact.versions[artifact.versions.length - 1];
-              return {
-                id: artifact.id,
-                kind: artifact.kind,
-                ...(artifact.title === undefined ? {} : { title: artifact.title }),
-                version: artifact.version,
-                ...(artifact.contentType === undefined
-                  ? {}
-                  : { contentType: artifact.contentType }),
-                ...(latest?.bytes === undefined ? {} : { bytes: latest.bytes }),
-                ...(artifact.sourcePath === undefined ? {} : { sourcePath: artifact.sourcePath }),
-                itemCount: artifact.itemCount,
-                ...(artifact.primary === true ? { primary: true as const } : {}),
-              };
-            }),
-        }),
-  } satisfies Omit<GetWorkflowRunOutput, "summary">;
+    [
+      "artifacts",
+      () => detail.artifacts,
+      "nonempty",
+      () =>
+        detail
+          .artifacts!.slice(0, WORKFLOW_ARTIFACTS_INTROSPECTION_MAX_LINES)
+          .map((artifact) => projectWorkflowRunArtifact(artifact)),
+    ],
+  ]);
 
   // 摘要最后拼：它读的就是上面这些字段，所以先有事实，再有那一句话。
   return { ...base, summary: buildWorkflowRunSummary(base) } satisfies GetWorkflowRunOutput;
