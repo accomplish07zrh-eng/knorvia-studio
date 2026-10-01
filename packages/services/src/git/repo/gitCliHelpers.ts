@@ -346,21 +346,27 @@ async function countUntrackedFileLines(absolutePath: string, buffer: Buffer): Pr
 
   const file = await open(absolutePath, "r");
   try {
-    let totalBytes = 0;
+    let remainingBytes = GIT_UNTRACKED_STAT_MAX_BYTES + 1;
     let newlines = 0;
-    let lastByte = 10;
-    while (totalBytes <= GIT_UNTRACKED_STAT_MAX_BYTES) {
-      // 文件可能在 stat 后增长；实际读取也必须受预算约束，额外一字节只用于识别越界。
-      const length = Math.min(buffer.length, GIT_UNTRACKED_STAT_MAX_BYTES + 1 - totalBytes);
-      const { bytesRead } = await file.read(buffer, 0, length, null);
-      if (bytesRead === 0) return newlines + (lastByte === 10 ? 0 : 1);
-      totalBytes += bytesRead;
-      if (totalBytes > GIT_UNTRACKED_STAT_MAX_BYTES) return 0;
-      for (let index = 0; index < bytesRead; index++) {
-        if (buffer[index] === 0) return 0;
-        if (buffer[index] === 10) newlines++;
+    let endsWithNewline = true;
+    while (remainingBytes > 0) {
+      const { bytesRead } = await file.read(
+        buffer,
+        0,
+        Math.min(buffer.length, remainingBytes),
+        null,
+      );
+      if (bytesRead === 0) return newlines + (endsWithNewline ? 0 : 1);
+      remainingBytes -= bytesRead;
+      if (remainingBytes <= 0) return 0;
+      const chunk = buffer.subarray(0, bytesRead);
+      if (chunk.indexOf(0) >= 0) return 0;
+      let newline = chunk.indexOf(10);
+      while (newline >= 0) {
+        newlines++;
+        newline = chunk.indexOf(10, newline + 1);
       }
-      lastByte = buffer[bytesRead - 1]!;
+      endsWithNewline = chunk[bytesRead - 1] === 10;
     }
     return 0;
   } finally {
@@ -374,30 +380,24 @@ export async function buildUntrackedStats(
 ): Promise<Map<string, GitLineStat>> {
   const stats = new Map<string, GitLineStat>();
   const untrackedEntries = entries.filter((entry) => entry.isUntracked);
-  let nextIndex = 0;
-  // 并发 readFile 全部未跟踪文件、读取后才识别二进制会让 Host 瞬间分配数 GiB。
-  // 固定 worker 各复用一个小缓冲，逐文件限量读取；大文件仍保留变更条目，只跳过行数统计。
+  const pending = untrackedEntries.values();
   const worker = async () => {
     const buffer = Buffer.allocUnsafe(GIT_UNTRACKED_STAT_CHUNK_BYTES);
-    while (nextIndex < untrackedEntries.length) {
-      const entry = untrackedEntries[nextIndex++]!;
+    for (const entry of pending) {
       const absolutePath = resolve(repoRoot, ...entry.path.split("/"));
       try {
-        stats.set(entry.path, {
-          added: await countUntrackedFileLines(absolutePath, buffer),
-          removed: 0,
-        });
+        const key = entry.path;
+        const added = await countUntrackedFileLines(absolutePath, buffer);
+        stats.set(key, { added, removed: 0 });
       } catch {
         stats.set(entry.path, { added: 0, removed: 0 });
       }
     }
   };
-  await Promise.all(
-    Array.from(
-      { length: Math.min(GIT_UNTRACKED_STAT_CONCURRENCY, untrackedEntries.length) },
-      worker,
-    ),
-  );
+  const workers: Promise<void>[] = [];
+  const workerCount = Math.min(GIT_UNTRACKED_STAT_CONCURRENCY, untrackedEntries.length);
+  for (let index = 0; index < workerCount; index++) workers.push(worker());
+  await Promise.all(workers);
 
   return stats;
 }
