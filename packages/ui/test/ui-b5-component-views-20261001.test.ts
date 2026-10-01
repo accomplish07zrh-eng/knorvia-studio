@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 import { views } from "./ui-b5-view-cases-20261001.js";
-const directory = process.env.KNORVIA_UI_B5_DIR ?? new URL("../src/", import.meta.url).pathname;
+const directory =
+  process.env.KNORVIA_UI_B5_DIR ?? fileURLToPath(new URL("../src/", import.meta.url));
 const extension = process.env.KNORVIA_UI_B5_EXT ?? "tsx";
 const metric = await import(
   pathToFileURL(`${directory}/components/ui/flip-metric-value.${extension}`).href

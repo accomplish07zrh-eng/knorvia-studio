@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { test, after } from "node:test";
 const require = createRequire(import.meta.url);
 const domRequire = process.env.KNORVIA_UI_B5_DOM_DEPS
@@ -27,7 +27,7 @@ globalThis.MutationObserver = class extends dom.window.MutationObserver {
     super((records, observer) => act(() => callback(records, observer)));
   }
 };
-const dir = process.env.KNORVIA_UI_B5_DIR ?? new URL("../src/", import.meta.url).pathname;
+const dir = process.env.KNORVIA_UI_B5_DIR ?? fileURLToPath(new URL("../src/", import.meta.url));
 const ext = process.env.KNORVIA_UI_B5_EXT ?? "tsx";
 const toast = await import(pathToFileURL(`${dir}/components/ui/toast.${ext}`).href);
 let frameId = 0,
