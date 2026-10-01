@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "commit": "73321fd442d9474685cde06afd1af6d11201872b",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "0ad0965cfb94af63881d054b55b7dc921fb4451a1c25d374264d9be0f4f52681",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "name": "splitUntrackedText",
+      "start": 13475,
+      "end": 13964,
+      "text": "function splitUntrackedText(content: string): {\n  lines: string[];\n  hasTrailingNewline: boolean;\n} {\n  const normalizedContent = content.replace(/\\r\\n/g, \"\\n\");\n  if (normalizedContent.length === 0) {\n    return {\n      lines: [],\n      hasTrailingNewline: false,\n    };\n  }\n\n  const hasTrailingNewline = normalizedContent.endsWith(\"\\n\");\n  const lines = normalizedContent.split(\"\\n\");\n  if (hasTrailingNewline) {\n    lines.pop();\n  }\n\n  return {\n    lines,\n    hasTrailingNewline,\n  };\n}",
+      "sha256": "a6f64d2b2af1314a8229f8241050bb8d9d1d2a1c070c0a64d0bfd883305936cc"
+    },
+    {
+      "name": "buildUntrackedTextDiffResult",
+      "start": 13966,
+      "end": 15670,
+      "text": "export async function buildUntrackedTextDiffResult(\n  absolutePath: string,\n  repoRelativePath: string,\n  maxPreviewBytes: number,\n): Promise<GitDiffResult | null> {\n  try {\n    const content = await readFile(absolutePath);\n\n    // 未跟踪文件的 patch 不能依赖 `git diff --no-index` 生成。\n    // 这类 patch 在 Windows 上会带入平台相关头部，而 `@pierre/diffs` 对某些 `diff --git`\n    // 头部格式本身也有兼容问题，最终会在 UI 展开时直接抛异常。\n    // 这里统一退回最稳定的 unified diff 形态，只保留单文件预览真正需要的 `---/+++ / @@` 信息。\n    if (content.includes(0)) {\n      return {\n        path: absolutePath,\n        availability: \"binary\",\n        patch: null,\n        beforeContent: null,\n        afterContent: null,\n        summary: \"Binary diff is not previewable.\",\n      };\n    }\n\n    if (content.byteLength > maxPreviewBytes) {\n      return {\n        path: absolutePath,\n        availability: \"truncated\",\n        patch: null,\n        beforeContent: null,\n        afterContent: null,\n        summary: \"Git diff output exceeded the preview limit.\",\n      };\n    }\n\n    const normalizedPath = normalizeGitPath(repoRelativePath);\n    const { lines, hasTrailingNewline } = splitUntrackedText(content.toString(\"utf-8\"));\n    const patchLines = [\"--- /dev/null\", `+++ b/${normalizedPath}`];\n\n    if (lines.length > 0) {\n      patchLines.push(`@@ -0,0 +1,${lines.length} @@`);\n      patchLines.push(...lines.map((line) => `+${line}`));\n      if (!hasTrailingNewline) {\n        patchLines.push(\"\\\\ No newline at end of file\");\n      }\n    }\n\n    return {\n      path: absolutePath,\n      availability: \"patch\",\n      patch: `${patchLines.join(\"\\n\")}\\n`,\n      beforeContent: \"\",\n      afterContent: content.toString(\"utf-8\"),\n      summary: null,\n    };\n  } catch {\n    return null;\n  }\n}",
+      "sha256": "f467917705c7573627af766f986c4fdcd246c0fb9a7f31890a7487c2ba659f90"
+    }
+  ]
+}
