@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 1,
+  "kind": "git-diff-read-selection-program",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "helper": "packages/services/src/git/repo/gitDiffReadPlan.ts",
+  "before": "a115bbe2b247551136591568f658fa4dbb70e193",
+  "freeze": "a1ed03995fe440ec2d6cb59e6d9dd6b44f3a19a1",
+  "production": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+  "sourceExposure": true,
+  "wholeFileLicenseGrant": false,
+  "acceptedReview": false,
+  "cleanRoom": false,
+  "nativeAcceptance": false,
+  "licenseExpression": "NOASSERTION",
+  "localRegisters": 27,
+  "parentReportedObligations": 26,
+  "publisher": {
+    "url": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+    "blob": "ffe734dd7fcccc15c1128f7be818ea8b41c4fd90",
+    "sha256": "474a377eaf9b4420e671b67ed0d9d509b66fef22151b2085b9f5d8847bec92ba"
+  },
+  "lineage": [
+    {
+      "kind": "publisher",
+      "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "fileSha256": "474a377eaf9b4420e671b67ed0d9d509b66fef22151b2085b9f5d8847bec92ba"
+    },
+    {
+      "kind": "import",
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "fileSha256": "11b1e8550c8aaca02f5dca0c5f7e0ab55141f308483bfe0db25b0ec6b93ed58c"
+    },
+    {
+      "kind": "integrated",
+      "commit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+      "fileSha256": "11b1e8550c8aaca02f5dca0c5f7e0ab55141f308483bfe0db25b0ec6b93ed58c"
+    },
+    {
+      "kind": "local",
+      "commit": "a115bbe2b247551136591568f658fa4dbb70e193",
+      "fileSha256": "f46b5ecc5e99d1e8956dc6a129f454529d783abcce7fb2d7274cccfbc0da09f8"
+    }
+  ],
+  "baselineBodySha256": "87352f5eb23e043b64cafca2947b999427f414112e5c149ed0e524ccd3411f79",
+  "publicSignature": "async getDiff(params: GitDiffQuery): Promise<GitDiffResult> ",
+  "removedImports": ["getGitNullDevicePath", "buildUntrackedTextDiffResult", "toDiffResult"],
+  "remainderSha256": "650c50a12d2542628f789e5aee054ff5b24a4a8a9257d0293304f1a1a2683d5a",
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "6abe62274e7de14231f113941292c52f6e6275e9cc51b4f81768338180834814"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92"
+    },
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "sha256": "ff759b2a18d6ac589348f2a2fec18838796a653de3c5c5b066ec3b5f34b7a04d"
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e"
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitBranchComparisonReadPlan.ts",
+      "sha256": "016c890a71756363ef5290323c3055c2811b820baa5af112d9d019bd474372fc"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepositoryReadPlan.ts",
+      "sha256": "6e4cbdb3bbab96d5639133fec4bd02e0dbf95808121751f13fd6caf3cdf4d755"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+      "sha256": "ce6ed70519437ec60f381f021cff640bb779bf8025708b16593a882e8a862c3d"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitIgnoredPathReadPlan.ts",
+      "sha256": "f1b8d6d280f26a48f07530425df16f02babfb81c94716a9cf1fa89dcf09c1ee3"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitLocalBranchReadPlan.ts",
+      "sha256": "e04d927afa57be13319040c245aa07edb1cc1c7f28528954879e83ed92777a89"
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9"
+    }
+  ],
+  "ownedScope": [
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "89cde4c8dd2a9a1c378eccdcbb004f16917ede57",
+      "sha256": "bc382c385c1cbacbe58cefed4936af09ec43f69471c4328b3f62dbcd552b5ff9",
+      "bytes": 42295
+    },
+    {
+      "path": "packages/services/src/git/repo/gitDiffReadPlan.ts",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "f76bdcf8d84b9c2e393170afa762fa3fe43e089d",
+      "sha256": "9f1cacbc4cb6078a0de9292d3894c8a00300f12a5772e73e451d0eb0b2504d76",
+      "bytes": 5396
+    },
+    {
+      "path": "packages/services/test/git-diff-read-contract-fast-20261001.test.ts",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "902eefffb318fcc54c3fc516402032f9d85f822e",
+      "sha256": "744a4bbf14687366d204c998ba296d4434f95a686d1300730ca869916e1a57c3",
+      "bytes": 12466
+    },
+    {
+      "path": "packages/services/test/git-diff-read-fixture-fast-20261001.ts",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "830507917eda3aac72ca12a295bd44baba0a4e7d",
+      "sha256": "82bf67ce8b2917df6eeb7e19fa98783fcee57e85adf1179893bee18ee69c5ca5",
+      "bytes": 7754
+    },
+    {
+      "path": "packages/services/test/git-diff-read-legacy-fast-20261001.json",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "50f239ccb804d3eaaf8f348d8af1eea71bfefa91",
+      "sha256": "ee65702e34f6b5d839538415b355e23d3002980f91405673f566f081b522cb1b",
+      "bytes": 11189
+    },
+    {
+      "path": "packages/services/test/git-diff-read-settlement-fast-20261001.test.ts",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "d07b7abf00b656fe19532526803c7cd3e04342b4",
+      "sha256": "b43bc4bf6d18ab453a819b16db063a5c3cac299d657bc8c281e55720ccf89b63",
+      "bytes": 5584
+    },
+    {
+      "path": "packages/services/test/git-staged-rename-consumer-fast-20261001.test.ts",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "d669654b684e88ddd238d2934ab8e7904c5e70ed",
+      "sha256": "70bccd55265cf37f4fe62a73be498d4a782127099a25403a1798f49d966cad6d",
+      "bytes": 3286
+    },
+    {
+      "path": "specs/knorvia-git-diff-read-plan-fast-20261001.md",
+      "commit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "blob": "df73a3b7650225938a2bf0c1d2fd69c7100f14d0",
+      "sha256": "4ebe3b5bc9991b1c598613c9e9e73dd479b90489d7448e0979ac21944da24071",
+      "bytes": 4864
+    }
+  ],
+  "retainedSyntax": [
+    {
+      "syntax": "isAbsolute(params.path)",
+      "baseline": [28544, 28567],
+      "publisher": [39555, 39578],
+      "current": [2166, 2189]
+    },
+    {
+      "syntax": "resolve(params.workspacePath, params.path.split(\"/\").join(sep))",
+      "baseline": [28600, 28663],
+      "publisher": [39611, 39674],
+      "current": [2214, 2277]
+    },
+    {
+      "syntax": "params.sourceId === \"branch\"",
+      "baseline": [29084, 29112],
+      "publisher": [40095, 40123],
+      "current": [2691, 2719]
+    },
+    {
+      "syntax": "params.staged ?? params.sourceId === \"staged\"",
+      "baseline": [30363, 30408],
+      "publisher": [41374, 41419],
+      "current": [3067, 3112]
+    },
+    {
+      "syntax": "\"Git binary is not available in the current environment.\"",
+      "baseline": [28773, 28830],
+      "publisher": [39784, 39841],
+      "current": [2369, 2426]
+    },
+    {
+      "syntax": "\"Workspace is not inside a Git repository.\"",
+      "baseline": [28937, 28980],
+      "publisher": [39948, 39991],
+      "current": [2510, 2553]
+    },
+    {
+      "syntax": "\"Current branch does not have an upstream branch.\"",
+      "baseline": [29362, 29412],
+      "publisher": [40373, 40423],
+      "current": [2933, 2983]
+    },
+    {
+      "syntax": "\"No branch comparison diff is available for this file.\"",
+      "baseline": [30003, 30058],
+      "publisher": [41014, 41069],
+      "current": [3544, 3599]
+    },
+    {
+      "syntax": "\"No Git diff is available for this file.\"",
+      "baseline": [30901, 30942],
+      "publisher": [41912, 41953],
+      "current": [3610, 3651]
+    },
+    {
+      "syntax": "getGitNullDevicePath()",
+      "baseline": [32153, 32175],
+      "publisher": [43164, 43186],
+      "current": [4315, 4337]
+    },
+    {
+      "syntax": "allowedExitCodes: [0, 1]",
+      "baseline": [32387, 32411],
+      "publisher": [43398, 43422],
+      "current": [4565, 4589]
+    },
+    {
+      "syntax": "\"No previewable diff is available for this file.\"",
+      "baseline": [32435, 32484],
+      "publisher": [43446, 43495],
+      "current": [4611, 4660]
+    }
+  ],
+  "newExpression": "Per-call source variant, incremental argv assembly, one common command/classification point and a synchronous lazy operation program selecting content versus fallback. Entry alone awaits each original effect; no new cache/promise/retry owner.",
+  "retained": "Exact public API, path/getter predicates, fixed protocol tokens/limits/options/error prose and no-index command tuple; original private preview/content helpers and existing classifier/state owners are retained, not claimed replaced.",
+  "oracle": {
+    "path": "packages/services/test/git-diff-read-legacy-fast-20261001.json",
+    "copiedExposedTestOnly": true,
+    "publisherVerified": ["getDiff"],
+    "note": "Ten copied baseline declarations. Nine private bodies include earlier local preview corrections; the historical inheritedTestOnly flag must not be read as proof all ten match publisher."
+  },
+  "assertionPreservingLintFiles": [
+    "packages/services/test/git-diff-read-contract-fast-20261001.test.ts",
+    "packages/services/test/git-diff-read-settlement-fast-20261001.test.ts"
+  ],
+  "validation": {
+    "sourceCommit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+    "freezeFiles": 3,
+    "freezeSource": {
+      "cases": 97,
+      "pass": 97,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "fcc68fe104ebef614492d5d614174e4eb6088485d37d18634ef20f8b3c42367a"
+    },
+    "freezeStrictEmitted": {
+      "cases": 97,
+      "pass": 97,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "4ff44df3d1c8c217a39d9feb614442013906ec17adfd234e64c6c82e81d58179"
+    },
+    "files": 6,
+    "newCases": 97,
+    "relatedCases": 81,
+    "source": {
+      "cases": 178,
+      "pass": 178,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "080897d74d868278fd50c0164ed6f75cfe50eb668a156ef734b8359202a2c05d"
+    },
+    "strictEmitted": {
+      "cases": 178,
+      "pass": 178,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "4f6d6fba08c351fd15d87fc36a656b04c83e61d085ddcff1d8f47ec99d760ba7"
+    },
+    "settlementCases": 26,
+    "settlementComparisonsPerMode": 86,
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "commands": {
+      "source": "TSX_TSCONFIG_PATH=packages/ui/tsconfig.json node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 packages/services/test/git-diff-read-*.test.ts packages/services/test/git-staged-rename-consumer-fast-20261001.test.ts packages/services/test/git-diff-result-*.test.ts packages/services/test/git-message-generator-callers-fast-20261001.test.ts",
+      "strictEmitted": "KNORVIA_GIT_RESOLUTION_TARGET=dist KNORVIA_GIT_READ_PROJECTION_TARGET=dist TSX_TSCONFIG_PATH=packages/ui/tsconfig.json node --experimental-test-module-mocks --import tsx --import ./packages/services/test/git-read-projection-emitted-register-fast-20261001.mjs --test --test-concurrency=2 packages/services/test/git-diff-read-*.test.ts packages/services/test/git-staged-rename-consumer-fast-20261001.test.ts packages/services/test/git-diff-result-*.test.ts packages/services/test/git-message-generator-callers-fast-20261001.test.ts"
+    },
+    "gates": [
+      {
+        "gate": "typecheck",
+        "logSha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+      },
+      {
+        "gate": "lint",
+        "logSha256": "31ba72fed88a4d5e70803bec9c7087420804a68db08d4ae0d4b8d60b4bda4654"
+      },
+      {
+        "gate": "owned-lint",
+        "logSha256": "d11a8d0354f7264db4437b0bb97a942b83e0071b2c26d384b15603470f1a0015"
+      },
+      {
+        "gate": "format",
+        "logSha256": "acc4dbdedde994e66da8d1baa4a63ec182f9acc924f2766e8455022be7e9055e"
+      },
+      {
+        "gate": "architecture-changed",
+        "logSha256": "12391dfc1524ed9718011a106e439ae17463fc750552adb52859fada1e2ab911"
+      },
+      {
+        "gate": "architecture-full",
+        "logSha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+      }
+    ],
+    "fullRegressionRun": false,
+    "cliDesktopBuildsRun": false,
+    "gateLimit": "User focused cadence: root owns aggregate full regression/builds",
+    "budgetsChanged": false
+  },
+  "artifacts": [
+    {
+      "path": "packages/services/dist/git/repo/gitCliRepo.js",
+      "sourceCommit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "sha256": "9c7c1c6f0fafac215b4cc99b6cc6acd164f1c72ef78d7e0f838799288e65e191"
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitCliRepo.d.ts",
+      "sourceCommit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "sha256": "a6a19273740e97f89c1b0cdc88b160570d45749e6d70edbb2c39850f3f95870b"
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitDiffReadPlan.js",
+      "sourceCommit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "sha256": "f14a215887b93443d5a2a5fe5cec73be75c52979b4448ee454a5e18e1bd3052e"
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitDiffReadPlan.d.ts",
+      "sourceCommit": "ef868b0eb58eaa017d1ef96f34e51cdd1588d488",
+      "sha256": "28ffc034057d052c4befa786bf30ff0f124cdea77d2190db257ebb47ddef2e5e"
+    }
+  ],
+  "initialProofs": [
+    {
+      "file": "initial-source-deadlock.log",
+      "sha256": "10504e85f874ec64ef466c9c849914cc7b24dab2b0cfeeacfe180a4ede483f2e"
+    },
+    {
+      "file": "initial-source-rename-expectation.log",
+      "sha256": "4ba11a4564a8b09d4c29e7be90b9d21b96cf134260ad002285dbfeb263e3977e"
+    },
+    {
+      "file": "initial-lint.log",
+      "sha256": "7ca9ff2042bbb62a3c450af743bf113c12dbea60d69f078a4e9d9a18ed570bd5"
+    },
+    {
+      "file": "initial-owned-lint.log",
+      "sha256": "cb522982d225bdd38d46abf4fa528fe5feb5418ca0234591181b15915520e88e"
+    }
+  ],
+  "limits": [
+    "First baseline was stopped for a synthetic gate deadlock; the complete second baseline was96pass/1fail for a newly omitted service summary expectation. Both corrected before97-case freeze; no production defect or assertion weakening.",
+    "Three new test-style warnings corrected after freeze with exact assertion-call preservation; both final178-case modes rerun.",
+    "Owned synthetic Linux acceptance only; no native Git, Windows/macOS, mounted GUI, shipped or separate/remote Host acceptance.",
+    "Mutation implementation untouched; requested staged-only rename service test uses exclusively fake Git/temp-index ports.",
+    "CLI/Creation/shared licensing/inventory/notices/dependencies/CI/settings/security/user data untouched. Root expression/contribution review remains required; source exposure alone is not a permanent licence bar."
+  ],
+  "payloadSha256": "012a576d78c6148b975f887ec235225225c89bc8ba36582a616f609f040fdce2"
+}
