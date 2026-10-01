@@ -7,7 +7,6 @@ import type {
   GitDiffQuery,
   GitDiffResult,
   GitIdentity,
-  GitLocalBranch,
   GitLocalBranchListResult,
   GitPushResult,
   GitWorkspaceRepositoryInfo,
@@ -46,6 +45,7 @@ import {
 } from "./gitCliHelpers.js";
 import { planGitCommitGraphQuery, projectGitCommitGraphQuery } from "./gitCommitGraphPlan.js";
 import { planGitIgnoredPaths } from "./gitIgnoredPathReadPlan.js";
+import { planGitLocalBranches } from "./gitLocalBranchReadPlan.js";
 import {
   planGitRepositoryResolution,
   planGitWorkspaceRepositoryInfo,
@@ -293,42 +293,6 @@ function toBranchMutationSuccess(params: {
     summary: params.summary,
     issues: [],
   };
-}
-
-function parseBranchRefRecords(stdout: string, currentBranchName: string | null): GitLocalBranch[] {
-  return stdout
-    .replace(/\r\n/g, "\n")
-    .split("\n")
-    .filter((line) => line.length > 0)
-    .map((line): GitLocalBranch | null => {
-      const [name, upstreamName, commitHash, commitTimestamp] = line.split("\0");
-      if (!name) {
-        return null;
-      }
-
-      const timestampSeconds = commitTimestamp ? Number.parseInt(commitTimestamp, 10) : Number.NaN;
-      return {
-        name,
-        isCurrent: name === currentBranchName,
-        upstreamName: upstreamName || null,
-        commitHash: commitHash || null,
-        commitTimestampMs: Number.isNaN(timestampSeconds) ? null : timestampSeconds * 1000,
-      };
-    })
-    .filter((branch): branch is GitLocalBranch => Boolean(branch))
-    .sort((left, right) => {
-      if (left.isCurrent !== right.isCurrent) {
-        return left.isCurrent ? -1 : 1;
-      }
-
-      const leftTimestamp = left.commitTimestampMs ?? Number.NEGATIVE_INFINITY;
-      const rightTimestamp = right.commitTimestampMs ?? Number.NEGATIVE_INFINITY;
-      if (leftTimestamp !== rightTimestamp) {
-        return rightTimestamp - leftTimestamp;
-      }
-
-      return left.name.localeCompare(right.name);
-    });
 }
 
 function parseTrackingRemoteName(trackingBranchName: string | null): string | null {
@@ -726,35 +690,19 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
     },
 
     async listLocalBranches(workspacePath: string): Promise<GitLocalBranchListResult> {
-      const status = await this.getStatus(workspacePath);
-      if (!status.resolution.isGitAvailable || !status.resolution.isRepository) {
-        return {
-          headRefType: status.summary.headRefType,
-          currentBranchName: status.summary.branchName,
-          branches: [],
-        };
+      const program = planGitLocalBranches();
+      let step = program.next();
+      while (!step.done) {
+        const operation = step.value;
+        if (operation.kind === "status") {
+          const status = await this.getStatus(workspacePath);
+          step = program.next(status);
+        } else {
+          const result = await commandProvider.run(operation.command);
+          step = program.next(result);
+        }
       }
-
-      const result = await commandProvider.run({
-        cwd: status.resolution.repoRoot,
-        args: [
-          "for-each-ref",
-          "refs/heads",
-          "--format=%(refname:short)%00%(upstream:short)%00%(objectname)%00%(committerdate:unix)",
-        ],
-        timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-        maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
-      });
-      ensureGitCommandSucceeded("git for-each-ref refs/heads", result);
-
-      return {
-        headRefType: status.summary.headRefType,
-        currentBranchName: status.summary.branchName,
-        branches: parseBranchRefRecords(
-          result.stdout,
-          status.summary.headRefType === "branch" ? status.summary.branchName : null,
-        ),
-      };
+      return step.value;
     },
 
     async getCommitGraph(
