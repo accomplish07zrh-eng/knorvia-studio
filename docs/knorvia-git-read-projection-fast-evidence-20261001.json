@@ -1,0 +1,372 @@
+{
+  "baseline": "46613b7968f291a3597180459ccfce6da513624a",
+  "protectedMethods": [
+    {
+      "name": "getCommitMessageDiffQueries",
+      "sha256": "3f91d03a8057a990dc06f8eb84f16ed34e631b19e0d8e7d95e75f570ab2e1600",
+      "byteIdentical": true
+    },
+    {
+      "name": "getRepositorySummary",
+      "sha256": "9562f7e02a2faf3c781afe87004dc4733b5edc5c835e21cd7962542176c84c3a",
+      "byteIdentical": true
+    },
+    {
+      "name": "getWorkspaceRepositoryInfo",
+      "sha256": "7619af6e48b58e68f9a9a6ceea48644f04bf6c57ceb8dce4e1d53e8da88ee037",
+      "byteIdentical": true
+    },
+    {
+      "name": "getLocalBranches",
+      "sha256": "5526c2cc94f98601f57a3fc185495d37f5281e2c25fba6944cd2e0d3a9c7229a",
+      "byteIdentical": true
+    },
+    {
+      "name": "getCommitGraph",
+      "sha256": "4d6375a66c017286d8c085db7a9c9eb63873e75d6a50ddfacdef4c79460d0875",
+      "byteIdentical": true
+    },
+    {
+      "name": "switchBranch",
+      "sha256": "b576612ada162bd1f77ceeedd94268e46a8ee682ba4bfe6972dde98128979cdf",
+      "byteIdentical": true
+    },
+    {
+      "name": "createBranchAndSwitch",
+      "sha256": "ed67839ffffbc41a2b4a92d1eabe6ddb51fd589718b8acdc1cc8046ff5e720f8",
+      "byteIdentical": true
+    },
+    {
+      "name": "getChanges",
+      "sha256": "28600a5c5fc542cd30e28fb2d7753370511b7214b35e060b0fdb1e12c4e975f9",
+      "byteIdentical": true
+    },
+    {
+      "name": "getIgnoredPaths",
+      "sha256": "bc15d9b36c915880231040b5fd2c209df6325f927eb005e79a9c8d00ed81984d",
+      "byteIdentical": true
+    },
+    {
+      "name": "getDiff",
+      "sha256": "e22af12d9bb39dc14e760b816964a6dadbee0a437ae75dc855df7357294842f9",
+      "byteIdentical": true
+    },
+    {
+      "name": "stagePaths",
+      "sha256": "7bdc8f7ec8e47189fa283762deaa047cd3926f5cce2f61ad8f7d7202dcaed037",
+      "byteIdentical": true
+    },
+    {
+      "name": "unstagePaths",
+      "sha256": "feb7408651f0002113cdf3299f0ea4e41b2ef2866e1674236326ac264e5d02fc",
+      "byteIdentical": true
+    },
+    {
+      "name": "discardPaths",
+      "sha256": "4ab47bfaace2ee7aa9cfa02210fb66089704e26f0a61f313fd43eb76219b25ae",
+      "byteIdentical": true
+    },
+    {
+      "name": "generateCommitMessage",
+      "sha256": "da46336c5da0089b888f642a5ff60a8240e1433e60c277644c2f832ddea4e434",
+      "byteIdentical": true
+    },
+    {
+      "name": "commit",
+      "sha256": "1269dec495d84159b893b5b3124b476ca2a93bd007a81a7beb3393b965e4bea4",
+      "byteIdentical": true
+    },
+    {
+      "name": "push",
+      "sha256": "df03ffe25228c4b9a20b777eb8dd30172d83a6130e80f11cec9680b6c2085beb",
+      "byteIdentical": true
+    },
+    {
+      "name": "getIdentity",
+      "sha256": "661051a1b3de47f8ceae06531e93f0591954f7509abc25845d3bd8d6385cbba6",
+      "byteIdentical": true
+    }
+  ],
+  "changedMethods": ["getBranchComparison", "refresh"],
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/git.ts",
+      "sha256": "6f7e3bb85573005ac764da81960a20143ea45ae9551887e87253adadf67f9350",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "11b1e8550c8aaca02f5dca0c5f7e0ab55141f308483bfe0db25b0ec6b93ed58c",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "sha256": "f14b38f83fa037d5f5c09dcf08e8cbe21c9d694230ba2f1893db78624e59c487",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "sha256": "3a177765be436c02fa623ca833afb2785c7b4c244e3e675c51c8c1ccc3ef512c",
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592",
+      "byteIdentical": true
+    }
+  ],
+  "fileData": [
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930"
+    },
+    {
+      "path": "packages/services/dist/git/gitService.js",
+      "sha256": "eda520fed813604d90d50067222e846db374ec620da086478b4ba1f53a658e0e"
+    },
+    {
+      "path": "packages/services/dist/git/gitServiceReadProjection.js",
+      "sha256": "318bb163d7aa31fb58d359d3262c0d535a23b253fe8782ef1e034c3d5a206096"
+    }
+  ],
+  "sourceExposure": true,
+  "cleanRoom": false,
+  "wholeFileLicenseGrant": false,
+  "licenseExpression": "NOASSERTION",
+  "accepted": false,
+  "nativeAcceptance": false,
+  "remainingMaterialObligations": 27,
+  "scopeNote": "New Git read projection evidence, separate from immutable 9ef7334 historical/current services candidates; no shared inventory update.",
+  "retainedSyntax": [
+    "public factory options and all service method declarations",
+    "17 exact bodies listed by SHA-256",
+    "status record field names/order, nullish x/y and section flags",
+    "branch record fields/order, literals and raw added/removed",
+    "current-path then originalPath scope disjunction",
+    "host resolve(normalizeGitPath(...).split(\"/\")) path semantics",
+    "staged isUntracked/isConflicted/falsy-dot x rejection expression",
+    "untracked slash-directory or positive added/removed predicate",
+    "nullish stats default object {added:0,removed:0}",
+    "map/filter(Boolean) sparse-array/order semantics",
+    "existing config/generation/filter/commands and errors"
+  ],
+  "newStructures": [
+    "private StatusDecision ties match, section, stat source and optional visibility",
+    "ordered first-match decision lists with conflict as literal-stat decision",
+    "selected rule never falls through after invisible untracked record",
+    "single stat acquisition and one ordered projection owner shared by all existing source consumers",
+    "branch list projection centralized under same owner; most branch record expressions retained"
+  ],
+  "wholeFileStatuses": [
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "status": "upstream-modified/unreviewed; substantial protected inherited service remains",
+      "proposedClassification": null
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "status": "unreviewed addition with source-exposed retained compatibility expressions",
+      "proposedClassification": null
+    }
+  ],
+  "lineage": {
+    "publisherUrl": "https://github.com/zai-org/ZCode",
+    "publisherCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "publisherTree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+    "path": "packages/services/src/git/gitService.ts",
+    "publisherBlob": "df3426c8a398f797730c90dcfbd85cce3c7a0259",
+    "publisherSha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+    "localImportCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+    "integratedBaseline": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+    "localBlob": "373f6569025ff41b7224dcb47b71252dad7c9c84",
+    "localSha256": "13d01d313a65d8ee3676c6cbbc9cb8e4ccbee9f27e3d2d558321e3c9849a5927",
+    "publisherBytesVerified": true,
+    "localBaselineBytesVerified": true,
+    "comparison": "both source-exposed; baseline service imported unchanged locally, publisher and local bytes differ"
+  },
+  "ownedScope": [
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce",
+      "bytes": 7690
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930",
+      "bytes": 4519
+    },
+    {
+      "path": "packages/services/test/git-read-projection-contract-fast-20261001.test.ts",
+      "sha256": "f7f07e45383a331878ff1a4b184e7f9cb97d46f35e5b6d5ef444c7206a715de6",
+      "bytes": 11073
+    },
+    {
+      "path": "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts",
+      "sha256": "e248e9d32a83387354ded635dcdf24bbf0c14ff5cfd01fefc34de5021c19347c",
+      "bytes": 12656
+    },
+    {
+      "path": "packages/services/test/git-read-projection-fixture-fast-20261001.ts",
+      "sha256": "5348a32ae4391fe85fdafefc41e9f6bac5042b0d2a5bab0c3b0f30ee3868b907",
+      "bytes": 5515
+    },
+    {
+      "path": "packages/services/test/git-read-projection-emitted-register-fast-20261001.mjs",
+      "sha256": "40d25ea106c2062f0656c0c172ab0fe06d92a0a52bd0ee1ea3a6abea638b3ed2",
+      "bytes": 1060
+    },
+    {
+      "path": "specs/knorvia-git-read-projection-fast-20261001.md",
+      "sha256": "63c90c60c4680b9571daa773d971c9977b27f6490402aa6b8bb9faa247e3cd30",
+      "bytes": 8105
+    }
+  ],
+  "focusedAcceptance": {
+    "frozenSource": {
+      "files": 2,
+      "individualCases": 126,
+      "pass": 126,
+      "fail": 0
+    },
+    "frozenStrictEmitted": {
+      "files": 2,
+      "individualCases": 126,
+      "pass": 126,
+      "fail": 0
+    },
+    "finalSource": {
+      "files": 16,
+      "individualCases": 494,
+      "pass": 494,
+      "fail": 0,
+      "skip": 0
+    },
+    "finalStrictEmitted": {
+      "files": 16,
+      "individualCases": 494,
+      "pass": 494,
+      "fail": 0,
+      "skip": 0
+    },
+    "gitCaseBreakdown": {
+      "contractFile": 108,
+      "consumerFile": 18
+    },
+    "previousTerminalCases": 368,
+    "allNewGitPorts": "synthetic owned snapshots; actual RPC and read-only UI consumers; no default repo, commands, mutation or user files",
+    "priorServicesCurrentCandidate": "9ef73347bd15d999cb02d2b5358556f2ea4c5478 unchanged; separately checked exact publisher and installed bytes"
+  },
+  "retainedRanges": [
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "startLine": 47,
+      "endLine": 55,
+      "note": "scope OR expression retains current/rename short-circuit; names changed, not an originality claim"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "startLine": 57,
+      "endLine": 62,
+      "note": "ordered map/filter compatibility scaffold, not novel algorithm proof"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "startLine": 64,
+      "endLine": 88,
+      "note": "status record shape/fields/order/nullish values and flags substantially retained; resolve expression combined from legacy helper"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "startLine": 109,
+      "endLine": 128,
+      "note": "branch scope/traversal and record expressions largely retained; centralized list projection does not make them original"
+    }
+  ],
+  "newStructureRanges": [
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "startLine": 12,
+      "endLine": 45,
+      "note": "decision rows express ordered rule ownership, stat source and visibility; precise match predicates remain compatibility expressions"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "startLine": 90,
+      "endLine": 107,
+      "note": "one first-match interpreter selects/acquires/suppresses/renders; no legacy selection owner remains"
+    }
+  ],
+  "fixtureExposure": [
+    "owned snapshot/identity/ref/path/stat/error literals newly authored for synthetic cases",
+    "binary RPC in-memory protocol scaffolding reuses the already source-exposed lane test pattern; not claimed wholly original",
+    "asserted public record shapes, statuses and consumer expected values are frozen compatibility content",
+    "standard repository formatter syntax retained; changed hashes/test counts/line counts are not originality evidence"
+  ],
+  "hostBundle": {
+    "path": "packages/desktop/out/host/index.js",
+    "sha256": "16c767d68a2d7d0d09ae00aaa35dc294cc327f07322411baa81cdcdc9206ddd7",
+    "bytes": 1069503,
+    "staticDecisionStatDescriptors": [
+      "stats:\"stagedStats\"",
+      "stats:\"untrackedStats\"",
+      "stats:\"unstagedStats\""
+    ],
+    "executed": false,
+    "limitation": "build/static predicate corroboration only; actual dist services/RPC/UI consumers tested separately"
+  },
+  "productionCommit": "c1e1cc210baf5b5025b04f1bc56bbe9d71fccb88",
+  "freezeCommit": "46613b7968f291a3597180459ccfce6da513624a",
+  "fullAcceptance": {
+    "command": "pnpm test:studio",
+    "files": 518,
+    "individualCases": 6545,
+    "pass": 6537,
+    "fail": 0,
+    "skip": 8,
+    "cancelled": 0,
+    "suites": 6,
+    "durationMs": 537052.078009,
+    "testConcurrency": 2,
+    "perTestTimeoutMs": 120000,
+    "budgetsUnchanged": true
+  },
+  "qualityGates": {
+    "rootTypes": "pass; 5422 matching locale keys",
+    "rootLint": "pass; 0 warnings, 0 errors",
+    "rootFormat": "pass",
+    "changedArchitecture": "pass; 0 violations",
+    "fullArchitecture": "pass; 0 violations",
+    "cliBuild": "17 successful, 16 cached; Windows CUA driver staging skipped on Linux",
+    "desktopBuild": "main/host/preload/renderer pass; existing chunk-size and plugin-timing warnings",
+    "priorServicesCurrentProvenance": "pass; current55/appendix2/historical50, publisher spans all verified, installed bytes corroborated, 27 obligations, accepted/native false"
+  }
+}
