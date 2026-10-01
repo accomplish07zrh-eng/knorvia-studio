@@ -618,15 +618,14 @@ export function parseGitConfigValue(result: GitCommandExecutionResult): {
 
   ensureGitCommandSucceeded("git config", result);
   const line = result.stdout.replace(/\r?\n$/, "");
-  const parts = line.split("\t");
-  if (parts.length < 3) {
-    return { scope: null, source: null, value: line || null };
-  }
-
+  const firstTab = line.indexOf("\t");
+  const secondTab = firstTab < 0 ? -1 : line.indexOf("\t", firstTab + 1);
+  const scoped = secondTab >= 0;
+  // 只消费前两个字段边界；值的所有后续 tab/空白必须按旧线格式原样保留。
   return {
-    scope: parts[0] ?? null,
-    source: parts[1] ?? null,
-    value: parts.slice(2).join("\t") || null,
+    scope: scoped ? line.slice(0, firstTab) : null,
+    source: scoped ? line.slice(firstTab + 1, secondTab) : null,
+    value: (scoped ? line.slice(secondTab + 1) : line) || null,
   };
 }
 

@@ -34,11 +34,11 @@ import {
   fileExists,
   normalizeInputPath,
   parseGitBranchMutationIssues,
-  parseGitConfigValue,
   parseNumstat,
   parseStatusPorcelain,
   toInvalidBranchNameIssue,
 } from "./gitCliHelpers.js";
+import { emptyGitIdentity, readGitIdentity, projectGitIdentity } from "./gitIdentityRead.js";
 import { planGitDiffRead } from "./gitDiffReadPlan.js";
 import { planGitBranchComparison } from "./gitBranchComparisonReadPlan.js";
 import { planGitCommitGraphQuery, projectGitCommitGraphQuery } from "./gitCommitGraphPlan.js";
@@ -1195,38 +1195,9 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
 
     async getIdentity(workspacePath: string): Promise<GitIdentity> {
       const resolution = await this.resolveRepository(workspacePath);
-      if (!resolution.isGitAvailable || !resolution.isRepository) {
-        return {
-          userName: null,
-          userEmail: null,
-          nameSource: null,
-          emailSource: null,
-          scopeLabel: null,
-        };
-      }
-
-      const [nameResult, emailResult] = await Promise.all([
-        commandProvider.run({
-          cwd: resolution.repoRoot,
-          args: ["config", "--show-scope", "--show-origin", "--get", "user.name"],
-          timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-        }),
-        commandProvider.run({
-          cwd: resolution.repoRoot,
-          args: ["config", "--show-scope", "--show-origin", "--get", "user.email"],
-          timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-        }),
-      ]);
-
-      const name = parseGitConfigValue(nameResult);
-      const email = parseGitConfigValue(emailResult);
-      return {
-        userName: name.value,
-        userEmail: email.value,
-        nameSource: name.source,
-        emailSource: email.source,
-        scopeLabel: name.scope ?? email.scope ?? null,
-      };
+      if (!resolution.isGitAvailable || !resolution.isRepository) return emptyGitIdentity();
+      const results = await Promise.all(readGitIdentity(commandProvider, resolution));
+      return projectGitIdentity(results);
     },
   };
 }
