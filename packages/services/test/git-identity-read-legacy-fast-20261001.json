@@ -1,0 +1,24 @@
+{
+  "commit": "69e4fc140b10d1429f1541b2d1fac8cf6991a124",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "name": "getIdentity",
+      "sourceSha256": "bc382c385c1cbacbe58cefed4936af09ec43f69471c4328b3f62dbcd552b5ff9",
+      "start": 39642,
+      "end": 40840,
+      "text": "async getIdentity(workspacePath: string): Promise<GitIdentity> {\n      const resolution = await this.resolveRepository(workspacePath);\n      if (!resolution.isGitAvailable || !resolution.isRepository) {\n        return {\n          userName: null,\n          userEmail: null,\n          nameSource: null,\n          emailSource: null,\n          scopeLabel: null,\n        };\n      }\n\n      const [nameResult, emailResult] = await Promise.all([\n        commandProvider.run({\n          cwd: resolution.repoRoot,\n          args: [\"config\", \"--show-scope\", \"--show-origin\", \"--get\", \"user.name\"],\n          timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n        }),\n        commandProvider.run({\n          cwd: resolution.repoRoot,\n          args: [\"config\", \"--show-scope\", \"--show-origin\", \"--get\", \"user.email\"],\n          timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n        }),\n      ]);\n\n      const name = parseGitConfigValue(nameResult);\n      const email = parseGitConfigValue(emailResult);\n      return {\n        userName: name.value,\n        userEmail: email.value,\n        nameSource: name.source,\n        emailSource: email.source,\n        scopeLabel: name.scope ?? email.scope ?? null,\n      };\n    }",
+      "sha256": "69469b53563c015a8eacce9b960426ef8c13ed06b4e5af898aedd0e08369ba79"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "name": "parseGitConfigValue",
+      "sourceSha256": "6abe62274e7de14231f113941292c52f6e6275e9cc51b4f81768338180834814",
+      "start": 17909,
+      "end": 18504,
+      "text": "export function parseGitConfigValue(result: GitCommandExecutionResult): {\n  scope: string | null;\n  source: string | null;\n  value: string | null;\n} {\n  if (result.exitCode === 1) {\n    return { scope: null, source: null, value: null };\n  }\n\n  ensureGitCommandSucceeded(\"git config\", result);\n  const line = result.stdout.replace(/\\r?\\n$/, \"\");\n  const parts = line.split(\"\\t\");\n  if (parts.length < 3) {\n    return { scope: null, source: null, value: line || null };\n  }\n\n  return {\n    scope: parts[0] ?? null,\n    source: parts[1] ?? null,\n    value: parts.slice(2).join(\"\\t\") || null,\n  };\n}",
+      "sha256": "bf0c861ff54e404ad1d712172b9ff5751d225b1138b13a5c60fd769c569c5caf"
+    }
+  ]
+}
