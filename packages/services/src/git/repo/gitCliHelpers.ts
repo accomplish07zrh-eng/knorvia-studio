@@ -17,7 +17,11 @@ import type { GitCommandExecutionResult } from "../providers/gitCommandProvider.
 import type { GitLineStat, GitResolvedRepository, GitStatusEntry } from "./gitCliTypes.js";
 
 function toResultMessage(result: GitCommandExecutionResult): string {
-  return result.stderr.trim() || result.stdout.trim() || `exitCode=${result.exitCode ?? "null"}`;
+  for (const stream of ["stderr", "stdout"] as const) {
+    const message = result[stream].trim();
+    if (message) return message;
+  }
+  return `exitCode=${result.exitCode ?? "null"}`;
 }
 
 function toNormalizedLines(text: string): string[] {
@@ -115,35 +119,27 @@ export function ensureGitCommandSucceeded(
   result: GitCommandExecutionResult,
   allowedExitCodes: number[] = [0],
 ): GitCommandExecutionResult {
+  let message: string;
   if (result.timedOut) {
-    // timeout 阈值和进程清理总耗时不是一回事；日志里同时保留两者，
-    // 避免把“15s 触发超时、随后等待清理”的场景误读成真正配置了更长超时。
     const timeoutMs = result.timeoutMs ?? result.durationMs;
-    const details = [`elapsed=${result.durationMs}ms`];
-    if (result.timeoutElapsedMs !== undefined) {
-      details.push(`killAt=${result.timeoutElapsedMs}ms`);
+    let diagnostics = `elapsed=${result.durationMs}ms`;
+    // 冻结契约要求可选时间先检查再读取，不能快照 getter 或把清理耗时当超时阈值。
+    for (const [field, token] of [
+      ["timeoutElapsedMs", "killAt"],
+      ["timeoutCloseDelayMs", "cleanup"],
+    ] as const) {
+      if (result[field] !== undefined) diagnostics += `, ${token}=${result[field]}ms`;
     }
-    if (result.timeoutCloseDelayMs !== undefined) {
-      details.push(`cleanup=${result.timeoutCloseDelayMs}ms`);
-    }
-    if (result.forceKillAttempted) {
-      details.push("forceKill=true");
-    }
-    if (result.orphaned) {
-      details.push("orphaned=true");
-    }
-    throw new Error(`${label} timed out after ${timeoutMs}ms (${details.join(", ")})`);
+    if (result.forceKillAttempted) diagnostics += ", forceKill=true";
+    if (result.orphaned) diagnostics += ", orphaned=true";
+    message = `${label} timed out after ${timeoutMs}ms (${diagnostics})`;
+  } else if (result.outputTruncated) {
+    message = `${label} output exceeded limit`;
+  } else {
+    if (allowedExitCodes.includes(result.exitCode ?? Number.NaN)) return result;
+    message = `${label} failed: ${toResultMessage(result)}`;
   }
-
-  if (result.outputTruncated) {
-    throw new Error(`${label} output exceeded limit`);
-  }
-
-  if (allowedExitCodes.includes(result.exitCode ?? Number.NaN)) {
-    return result;
-  }
-
-  throw new Error(`${label} failed: ${toResultMessage(result)}`);
+  throw new Error(message);
 }
 
 export function isNotRepositoryResult(result: GitCommandExecutionResult): boolean {
