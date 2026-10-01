@@ -312,24 +312,42 @@ interface GitIndexEntry {
   path: string;
 }
 
+function collectSelectedCommitPaths(
+  repoPaths: readonly string[],
+  readEntries: () => readonly { path: string; originalPath: string | null }[],
+): string[] {
+  const snapshot = [...repoPaths];
+  const membership = new Set(snapshot);
+  const picked = readEntries().filter((entry) => membership.has(entry.path));
+  const cleanup = Array.from(membership);
+  for (const entry of picked) {
+    const original = entry.originalPath;
+    if (original && !membership.has(original)) {
+      membership.add(original);
+      cleanup.push(original);
+    }
+  }
+  return cleanup;
+}
+
 function parseGitIndexEntries(stdout: string): GitIndexEntry[] {
-  return stdout
-    .split("\0")
-    .filter((record) => record.length > 0)
-    .map((record) => {
-      const tabIndex = record.indexOf("\t");
-      if (tabIndex < 0) {
-        throw new Error("Failed to parse staged Git index entry.");
-      }
-
-      const [mode, objectHash, stage] = record.slice(0, tabIndex).trim().split(/\s+/);
-      const path = normalizeGitPath(record.slice(tabIndex + 1));
-      if (!mode || !objectHash || !stage || !path) {
-        throw new Error("Failed to parse staged Git index entry.");
-      }
-
-      return { mode, objectHash, stage, path };
-    });
+  const entries: GitIndexEntry[] = [];
+  const records = stdout.split("\0");
+  for (const record of records) {
+    if (record.length === 0) continue;
+    const separator = record.indexOf("\t");
+    if (separator < 0) throw new Error("Failed to parse staged Git index entry.");
+    const header = record.slice(0, separator);
+    const token = /\S+/g;
+    const mode = token.exec(header)?.[0];
+    const objectHash = token.exec(header)?.[0];
+    const stage = token.exec(header)?.[0];
+    const path = normalizeGitPath(record.slice(separator + 1));
+    if (!mode || !objectHash || !stage || !path)
+      throw new Error("Failed to parse staged Git index entry.");
+    entries.push({ mode, objectHash, stage, path });
+  }
+  return entries;
 }
 
 export function createGitCliRepo(options?: { commandProvider?: GitCommandProvider }): GitCliRepo {
@@ -1040,14 +1058,9 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
         });
         ensureGitCommandSucceeded("git status selected paths", scopedStatusResult);
 
-        const cleanupRepoPaths = Array.from(
-          new Set([
-            ...repoPaths,
-            ...parseStatusPorcelain(scopedStatusResult.stdout)
-              .entries.filter((entry) => repoPaths.includes(entry.path))
-              .map((entry) => entry.originalPath)
-              .filter((path): path is string => Boolean(path)),
-          ]),
+        const cleanupRepoPaths = collectSelectedCommitPaths(
+          repoPaths,
+          () => parseStatusPorcelain(scopedStatusResult.stdout).entries,
         );
         const stagedEntriesResult = await commandProvider.run({
           cwd: resolution.repoRoot,
