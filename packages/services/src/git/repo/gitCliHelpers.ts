@@ -241,6 +241,34 @@ function parseBranchAheadBehind(value: string): { ahead: number; behind: number 
   };
 }
 
+function* iteratePorcelainStatusRecords(stdout: string): Generator<string> {
+  let start = 0;
+  while (start < stdout.length) {
+    const separator = stdout.indexOf("\0", start);
+    const end = separator < 0 ? stdout.length : separator;
+    // 旧格式先去掉空记录，rename 的下一个记录也必须沿用这一消费规则。
+    if (end > start) yield stdout.slice(start, end);
+    start = end + 1;
+  }
+}
+
+function decodePorcelainTrackedRecord(
+  record: string,
+  metadataFields: number,
+): { xy: string; path: string } | null {
+  const xy = record.slice(2, 4);
+  if (xy.length !== 2 || xy.includes(" ") || record[4] !== " ") return null;
+  let offset = 5;
+  for (let field = 0; field < metadataFields; field += 1) {
+    const separator = record.indexOf(" ", offset);
+    if (separator <= offset) return null;
+    offset = separator + 1;
+  }
+  // 路径保留旧 JS dot/anchor 的换行边界；元数据仅以 ASCII 空格分隔。
+  const path = record.slice(offset).match(/^(.+)$/)?.[1];
+  return path === undefined ? null : { xy, path };
+}
+
 export function parseStatusPorcelain(stdout: string): {
   branchName: string | null;
   trackingBranchName: string | null;
@@ -249,7 +277,7 @@ export function parseStatusPorcelain(stdout: string): {
   behind: number;
   entries: GitStatusEntry[];
 } {
-  const records = stdout.split("\0").filter((record) => record.length > 0);
+  const records = iteratePorcelainStatusRecords(stdout);
   const entries: GitStatusEntry[] = [];
   let branchName: string | null = null;
   let trackingBranchName: string | null = null;
@@ -257,31 +285,23 @@ export function parseStatusPorcelain(stdout: string): {
   let ahead = 0;
   let behind = 0;
 
-  // `git status --porcelain=v2 -z` 的价值在于格式稳定，不受本地语言影响。
-  // 这里集中做一次解析，把 branch/header/rename/unmerged 等低层细节都挡在 repo 层里。
-  for (let index = 0; index < records.length; index += 1) {
-    const record = records[index]!;
-    if (record.startsWith("# ")) {
+  for (const record of records) {
+    const tag = record.slice(0, 2);
+    if (tag === "# ") {
       if (record.startsWith("# branch.head ")) {
         const head = record.slice("# branch.head ".length);
-        if (head === "(detached)") {
-          branchName = null;
-          headRefType = "detached";
-        } else {
-          branchName = head;
-          headRefType = "branch";
-        }
+        headRefType = head === "(detached)" ? "detached" : "branch";
+        branchName = headRefType === "detached" ? null : head;
       } else if (record.startsWith("# branch.upstream ")) {
         trackingBranchName = record.slice("# branch.upstream ".length);
       } else if (record.startsWith("# branch.ab ")) {
-        const parsed = parseBranchAheadBehind(record.slice("# branch.ab ".length));
-        ahead = parsed.ahead;
-        behind = parsed.behind;
+        const counters = parseBranchAheadBehind(record.slice("# branch.ab ".length));
+        ahead = counters.ahead;
+        behind = counters.behind;
       }
       continue;
     }
-
-    if (record.startsWith("? ")) {
+    if (tag === "? ") {
       entries.push({
         path: normalizeGitPath(record.slice(2)),
         originalPath: null,
@@ -293,68 +313,26 @@ export function parseStatusPorcelain(stdout: string): {
       });
       continue;
     }
-
-    if (record.startsWith("1 ")) {
-      const match = record.match(/^1 ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/);
-      if (!match) {
-        continue;
-      }
-
-      const xy = match[1]!;
-      entries.push({
-        path: normalizeGitPath(match[2]!),
-        originalPath: null,
-        kind: inferKindFromStatusCode(xy[0] !== "." ? xy[0]! : xy[1]!),
-        x: xy[0]!,
-        y: xy[1]!,
-        isUntracked: false,
-        isConflicted: false,
-      });
-      continue;
-    }
-
-    if (record.startsWith("2 ")) {
-      const match = record.match(/^2 ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/);
-      if (!match) {
-        continue;
-      }
-
-      const originalPath = records[index + 1] ?? null;
-      index += 1;
-      entries.push({
-        path: normalizeGitPath(match[2]!),
-        originalPath: originalPath ? normalizeGitPath(originalPath) : null,
-        kind: "renamed",
-        x: match[1]![0]!,
-        y: match[1]![1]!,
-        isUntracked: false,
-        isConflicted: false,
-      });
-      continue;
-    }
-
-    if (!record.startsWith("u ")) {
-      continue;
-    }
-
-    const match = record.match(
-      /^u ([^ ]{2}) [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ [^ ]+ (.+)$/,
-    );
-    if (!match) {
-      continue;
-    }
-
+    if (tag !== "1 " && tag !== "2 " && tag !== "u ") continue;
+    const fields = decodePorcelainTrackedRecord(record, tag === "1 " ? 6 : tag === "2 " ? 7 : 8);
+    if (!fields) continue;
+    const originalPath = tag === "2 " ? (records.next().value ?? null) : null;
+    const { xy } = fields;
     entries.push({
-      path: normalizeGitPath(match[2]!),
-      originalPath: null,
-      kind: "modified",
-      x: match[1]![0]!,
-      y: match[1]![1]!,
+      path: normalizeGitPath(fields.path),
+      originalPath: originalPath ? normalizeGitPath(originalPath) : null,
+      kind:
+        tag === "2 "
+          ? "renamed"
+          : tag === "u "
+            ? "modified"
+            : inferKindFromStatusCode(xy[0] !== "." ? xy[0]! : xy[1]!),
+      x: xy[0]!,
+      y: xy[1]!,
       isUntracked: false,
-      isConflicted: true,
+      isConflicted: tag === "u ",
     });
   }
-
   return { branchName, trackingBranchName, headRefType, ahead, behind, entries };
 }
 
