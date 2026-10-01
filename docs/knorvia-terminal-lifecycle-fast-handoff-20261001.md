@@ -8,13 +8,14 @@ services remains legacy/unmanaged, no managed module contract changed.
 
 ## Frozen evidence before replacement
 
-49 actual-service cases passed against unchanged source and emitted checkpoint: 44 lifecycle
+53 actual-service cases passed against unchanged source and emitted checkpoint: 48 lifecycle
 contracts and five actual RPC consumers. Native PTY, process, filesystem/access/chmod,
 settings/profile and OS ports are fake. Real Emitter semantics, diagnostics registry,
 ProxyChannel and binary ChannelServer/Client in owned in-memory protocols are exercised.
 Strict emitted loader rejects services source fallback. Logs:
 `/tmp/knorvia-terminal-lifecycle-evidence/baseline-source.log` and `baseline-emitted.log`.
-No test policy, dependency, timeout or security change.
+Four supplemental baseline cases freeze ID lookup before payload/dimension getters and
+reentrant getter disposal. No test policy, dependency, timeout or security change.
 
 Proved inherited defects/limitations, retained pending root policy approval:
 

@@ -565,3 +565,48 @@ test("kill reentrant exit listener failure propagates and interrupts caller clea
     [0, 0],
   );
 });
+for (const operation of ["write", "resize"] as const) {
+  test(`${operation} unknown-ID lookup precedes other parameter getters`, async (t) => {
+    const s = service(t);
+    let accessed = false;
+    const params = {
+      id: "missing",
+      get data() {
+        accessed = true;
+        throw new Error("unexpected data getter");
+      },
+      get cols() {
+        accessed = true;
+        throw new Error("unexpected cols getter");
+      },
+      get rows() {
+        accessed = true;
+        throw new Error("unexpected rows getter");
+      },
+    };
+    await assert.rejects(s[operation](params), missing("missing"));
+    assert.equal(accessed, false);
+  });
+  test(`${operation} retains native target captured before a reentrant parameter getter`, async (t) => {
+    const s = service(t),
+      { id } = await create(s);
+    let disposal: Promise<void> | undefined;
+    const params = {
+      id,
+      get data() {
+        disposal = s.dispose({ id });
+        return "after removal";
+      },
+      get cols() {
+        disposal = s.dispose({ id });
+        return 13;
+      },
+      rows: 14,
+    };
+    assert.equal(await s[operation](params), undefined);
+    await disposal;
+    assert.equal(open(), 0);
+    if (operation === "write") assert.deepEqual(state.ptys[0]!.writes, ["after removal"]);
+    else assert.deepEqual(state.ptys[0]!.sizes, [[13, 14]]);
+  });
+}
