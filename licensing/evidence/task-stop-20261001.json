@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "scope": "TaskStop single-owner command admission and stateless result projection",
+  "baselineCommit": "a0c79ae8017ed07daa0226ed4d887aaa2b349caf",
+  "oldSource": {
+    "path": "apps/cli/packages/core/src/tool/handlers/task-stop.ts",
+    "sha256": "b7271d3dae64278db6d5d9a60ee74f5c5bcc10ff61d7fb37ab6151ebb7c82684",
+    "upstreamBlob": "e8e8459cbfc190894b71860eb2254ade052a9731"
+  },
+  "exposure": "Earlier source inspected and contracts frozen before replacement; no isolated-author or clean-room claim",
+  "implementation": [
+    "Schema and ID admission followed by one strict model-initiated owner command",
+    "Structured refusal projection separate from success projection, with exact field-presence semantics",
+    "No new task state, retries, deduplication, cancellation owner or settings"
+  ],
+  "mechanicallyRetained": "Entry declaration and model formatter byte-identical except handler binding; entry remains subject to its existing provenance and licence review",
+  "validation": {
+    "oldBaselineContracts": {
+      "source": 33,
+      "emitted": 33,
+      "pass": 66,
+      "fail": 0
+    },
+    "permanentDualContracts": {
+      "source": 33,
+      "emitted": 33,
+      "pass": 66,
+      "fail": 0
+    },
+    "differential": {
+      "cases": 5000,
+      "mismatches": 0,
+      "seed": 98017,
+      "outcomes": {
+        "ZodError": 1784,
+        "success": 1212,
+        "tool_execution_failed": 1118,
+        "Error": 594,
+        "configuration_error": 292
+      }
+    },
+    "aggregate": {
+      "tests": 5906,
+      "pass": 5840,
+      "fail": 59,
+      "skip": 7,
+      "cancelled": 0
+    },
+    "baselineFailureEventMultisetExactMatch": true,
+    "rootTypes": "pass",
+    "serialCliTypes": "pass concurrency=1 heap=2048MiB",
+    "rootCliExplicitLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "cliBuild": {
+      "successful": 17,
+      "total": 17,
+      "cached": 10
+    },
+    "startup": "0.16.9",
+    "toolingCorrections": [
+      "Scratch differential initially lacked ESM package metadata; corrected scratch fixture only before obtaining zero mismatches",
+      "Initial CLI startup command used a nonexistent output path; actual packages/cli/dist/knorvia.cjs subsequently verified"
+    ]
+  },
+  "limits": [
+    "59 local listen EPERM test failures remain unchanged from baseline; not a full local pass",
+    "No native CI result for this TaskStop source yet",
+    "No native UI, installer, live provider, user data upgrade, licence or deployment claim",
+    "No changes to root LICENSE, NOTICE or 27 material obligations"
+  ]
+}
