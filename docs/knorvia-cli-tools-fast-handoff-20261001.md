@@ -542,3 +542,186 @@ remain with root. No deployment, release, merge or integration/main push occurs.
 
 Only the existing `parallel/cli-tools-fast-20261001` branch is pushed. The lane
 ends at a clean checkpoint and awaits root's next assignment in this same thread.
+
+## OffPeak continuation
+
+This bounded assignment starts at immutable AskUserQuestion checkpoint
+`7b37339`. All prior Skill/ListModels/model-reference/AskUserQuestion production,
+tests and specs remain byte-identical to that checkpoint. Initial freshness
+passed with the named lane synchronized upstream, ahead 79 / behind 0 relative
+to origin/main. Initial changed architecture/context checks passed; CLI remains
+unmanaged/unassigned with no discovered direct dependency requirements.
+
+### Original commits and owned paths
+
+1. `b0f193b` — write the OffPeak spec and freeze inherited source/emitted
+   admission, output/error and supported-consumer contracts before production
+   edits; both modes passed 23/23.
+2. `f837f41` — replace call planning/effect interpretation and creation-result
+   decisions; add the exact-checkpoint finite comparison driver.
+
+Only `off-peak.ts`, `off-peak-execution.ts` and `off-peak-result.ts` are owned
+production files. Supporting ownership covers the five narrowly named OffPeak
+TS/MTS tests/support files, the JSON fixture, `specs/knorvia-off-peak-execution.md`
+and this lane handoff. Cron, Todo, TaskOutput/TaskStop, other lanes, shared
+provenance, public contracts, packages/lock/CI/security and user data are unchanged.
+
+### Lineage, retained material and replacement
+
+The handler audit is upstream-modified/null review, fixed upstream blob
+`14c52162582cd9a67855b290e5213fbdacceac98`; inherited source SHA-256 is
+`dd5f7ca9437ef534f83a4f09bfd4d3996730525306d2ed7a0466539b34389ae3`.
+Its history contains `7619e41` (publish latest preview). Unchanged schema/port
+contracts remain upstream-modified/null and upstream-unchanged/null respectively,
+blobs `d5f96e8f60e383fcac213685cf7c0131256d509b` and
+`c86b5160fa27c219d02a5115fe05ae0d41c2b7e9`. The implementer inspected those bodies
+and actual consumers: this is exposed-source work. Descriptions, model
+instructions, error/output prose, public schemas/declarations, the exported guard
+body and the raw success-projection access sequence remain retained material.
+No clean-room, whole-file originality, MIT or whole-product independence claim
+is made. LICENSE/NOTICE, preview identity and all 27 unresolved material
+obligations remain unchanged. Root owns provenance regeneration and integration.
+The three public declaration statements (`assertNotOffPeakTurn` and both entry
+objects) were also compared through TypeScript source ranges and are byte-identical
+to the exact checkpoint, including the retained guard body and all entry prose.
+
+The two old imperative handlers now admit a discriminated create/list call, then
+plan either one selected effect or an unavailable-port refusal. A single
+interpreter owns the existing port call, terminal result and CoreError effects.
+Creation outcomes become explicit created/refused decisions; category lookup
+and ordered validation-code policy replace the nested refusal switch. The
+unchanged public idle-turn guard is injected without a circular import. The
+host remains the sole task/ticket/eligibility/quota/persistence owner, and the
+protocol port remains the binding/transport owner. There is no duplicate queue,
+state cache, retry, timer, runtime fallback or product gate/permission change.
+
+### Frozen behavior and supported consumers
+
+The fixture contains **31 admission cases, 42 category/code/stage combinations,
+13 malformed/raw outcome cases and 8 executor output/event-order snapshots**.
+The raw outcomes are indexed against the fixture's source values so NaN and
+undefined are tested directly, without JSON turning those inputs into null.
+All 23 named tests passed against inherited source and emitted modules before
+replacement, and against final source/emitted modules afterward.
+
+Create retains idle-turn denial before schema/port/session reads and never
+checks automationTurn; ordinary automation turns remain allowed. List ignores
+both turn flags and preserves its distinct read-only declaration. Both retain
+strict schema ordering before missing-port errors, method receivers, separate
+port-check/invocation reads, one call, exact argument counts and session binding.
+Success retains task/array identity, order/duplicates, field order and exact
+messages. Failures retain classification/code/stage, full CoreError context and
+recoverable/retryable flags, including quota and eligibility distinctions.
+Raw malformed outcomes/accessor errors are preserved without adding validation.
+
+Real registry/executor/permission consumers run with synthetic ports and
+responses. Tests retain opt-in registration, actual flattened permission
+capabilities and build/plan/auto/yolo/hard/project policy behavior, hook/user
+refusal, handler-owned idle denial, request/session/trace facts, events,
+model-facing output, cancellation and no retries. Direct handler denial precedes
+its schema; the existing executor's earlier admission still precedes handler
+execution. Existing executor error presentation projects type/message/code;
+category/stage/code and recovery flags are verified on the actual handler error.
+No existing error projection is expanded or silently treated as preserving
+fields it does not carry.
+
+The actual SendMessage consumer retains its schema-first guard use and
+recoverable foreground-Agent hint, with no send port connected. Core/service
+turn-policy consumers preserve explicit idle-task IDs, resume-prefix and denylist
+signals separately from ordinary automation restrictions. The existing protocol
+port is exercised with a synthetic requestClient: active idle-run denial,
+pending same-session refusal, terminal-status allowance, lookup failure closed,
+own/explicit/fallback session precedence, omitted runtime defaults and preserved
+discriminated responses. Its list projection preserves order and duplicates.
+The workspace policy update mutates only an in-memory synthetic preference.
+The actual UI pure reader consumes object/JSON task snapshots; it is source-only.
+No automation/idle-time task, billing/account connection, prompt or external
+service is created or contacted by these tests.
+
+Fresh core/CLI/TUI artifacts contain `handlerFor`, `createOffPeakCreateHandler`,
+`decideOffPeakCreation` and `VALIDATION_MESSAGES`. Direct emitted tests select
+core/bootstrap dist modules, including registry, executor, permission resolver,
+SendMessage and protocol consumers; service/UI pure projections stay source-only.
+
+### Final validation and finite comparison
+
+Validation uses pinned Node 24.14.0 and pnpm 10.33.2. The full offline regression
+is run on the final committed `f837f41` production source; no production
+correction follows that commit.
+
+| Check                                                     | Result                                                                  |
+| --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Final source/emitted frozen and actual consumer contracts | **23/23 in each mode**, zero skips/failures                             |
+| Exact-checkpoint finite comparison                        | **8192 handler comparisons in each mode**, all matched                  |
+| `pnpm build:cli-packages`                                 | **17/17 tasks passed**, 10 cached; fresh core/bootstrap/CLI/TUI outputs |
+| Root/CLI types                                            | Passed; 5422 matching i18n keys, all 16 selected CLI projects           |
+| Configured root/CLI lint                                  | Passed, zero warnings/errors                                            |
+| Core-cwd explicit owned-file lint                         | Passed on all eight owned TS/MTS production/support files               |
+| Changed/full architecture checks                          | Passed, zero violations/baseline/new                                    |
+| Broader core lint                                         | Failed: 24 errors/11 warnings in 27 unchanged baseline files            |
+
+The final full offline regression passed **6077 tests, with 8 skipped and zero
+failures**: 6085 tests across 506 files. It ran after `f837f41` with the unchanged
+120000ms per-test timeout and concurrency of two. All 23 new named OffPeak tests
+executed and passed. Seven skips require Windows/PowerShell; the eighth is the
+optional old/new Claude leaf-observation comparison. No timeout or skip condition
+changed. Formatting, diff and both architecture checks are rechecked after this
+evidence update; the final production source remains the source tested by that run.
+
+The manual driver compares 4096 Create and 4096 List invocations per mode against
+the exact `7b37339` inherited module outside Git, using fictional records and
+synthetic ports. Seed `0x4f46504b` (1330008139) covers strict/malformed inputs,
+flags, missing ports, session IDs, throws, defaults, all failure categories and
+special codes, prototype-like unknown categories, queue-position types, raw
+outcomes and list ordering. Full output/error/call JSON matches without input
+mutation. Both output sequences have SHA-256
+`aed9b761d28843ed3991ed369440085c96268fcc7ffb957e4456fa6cbdb695f5`.
+
+Reproduce the temporary module with `git show 7b37339:<handler-path>` and TypeScript
+`transpileModule` using ESNext module/target, retaining applicable source
+material. Resolve its temporary `node_modules` to core package dependencies.
+Run `node --import tsx apps/cli/packages/core/test/off-peak-differential.mts
+<reference.mjs>`; repeat with `KNORVIA_OFF_PEAK_TEST_EMITTED=1` after the CLI build.
+The test selector has no production effect. No inherited fallback is shipped.
+
+- Temporary reference: `096c3f253cc2d96b820707fca9f1330a8417230bf89f919d49378c0a02ced8f5`
+- Frozen fixture: `bde91975ab7867794f902d9b9ddce32645778de5075c47e37ea4e0f1b8c1280d`
+
+| Production file       | Lines | SHA-256                                                            |
+| --------------------- | ----- | ------------------------------------------------------------------ |
+| off-peak.ts           | 187   | `d3cb1918be8f37028c2f74f2cf154884689c8f7ace5759e167f11094eae9481c` |
+| off-peak-execution.ts | 82    | `0416949a03109a94be07df648096e3325169fd8ac7bdc1a7a2288c1c939d4018` |
+| off-peak-result.ts    | 64    | `b39819d67c3be60f45b2f2ab8d6c6dd57d639cd158e63b381b053336926782e8` |
+
+### First failures, executor availability and remaining gaps
+
+The spec records the initial inherited run's four new fixture failures (19/23):
+wrong nested permission capability, an assumption that executor presentation
+carried handler context/recovery flags, missing Proxy Promise-assimilation read,
+and missing workspaceKey. Correcting those fixture facts preserved all product
+guards; a misplaced accessor assertion then produced 21/23 in both modes before
+its correction. No inherited test was weakened. A root-cwd explicit lint attempt
+matched no files; the core-cwd owned check passed. An initial unused type-import
+warning was removed before the baseline commit. The manual driver's
+generic-arrow spelling was rejected by .mts formatting, then corrected to a
+function declaration; source/emitted comparison and final formatting passed.
+
+The execution transport disconnected during baseline startup. A fresh read in
+the same executor confirmed all uncommitted files intact and subsequent shell,
+lint and named test execution succeeded. Root's availability inquiry received
+that concrete read/test evidence. No checkout reset, alternate environment,
+credential/proxy/network/security configuration change or timeout change was
+used. The existing approved capabilities permit standard isolated child tests;
+repository sandbox/security/runner configuration remains unchanged.
+
+Configured builds retain existing debug chunk-size/REPL dynamic-import warnings;
+Windows CUA driver staging is skipped on Linux. Broader core lint's 27 files were
+verified byte-identical to assigned base `0d80f9c`. Full runtime/server startup,
+live host ticket/quota/eligibility/account/persistence, actual task scheduling,
+native Windows/macOS/CUA, desktop/Web visuals and packaged acceptance remain
+unverified. Full-suite synthetic coverage does not establish those acceptances.
+All retained-material reviews and 27 unresolved material obligations remain
+with root. No deployment, release, merge or integration/main push occurs.
+
+The named lane alone is pushed. End at a clean checkpoint and await root's next
+assignment in this same conversation.
