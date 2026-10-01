@@ -108,43 +108,42 @@ export function formatWorkflowRunPhasesBlock(
   if (phases === undefined || phases.length === 0) return undefined;
 
   const names = phases.map((phase) => escapeWorkflowRunText(phase.name));
-  const nameWidth = columnWidth(names);
-  const stateWidth = columnWidth(phases.map((phase) => phase.state));
+  const nameWidth = phaseColumnWidth(names);
+  const stateWidth = phaseColumnWidth(phases.map((phase) => phase.state));
 
-  const lines = phases.map((phase, index) =>
-    joinCells([
+  const lines = phases.map((phase: GetWorkflowRunPhase, index) => {
+    const cells = [
       `${index + 1}. ${padColumn(names[index]!, nameWidth)}`,
       padColumn(phase.state, stateWidth),
-      phaseRoundsCell(phase),
-      phaseCountsCell(phase, terminal),
-      phaseDurationCell(phase, run.generatedAt, terminal),
-    ]),
-  );
+    ];
+
+    if (phase.rounds === 0) cells.push("");
+    else cells.push(`${phase.rounds} round${phase.rounds === 1 ? "" : "s"}`);
+
+    if (phase.nodesRunning > 0)
+      cells.push(
+        `${phase.nodesSettled} settled, ${phase.nodesRunning} ${terminal ? "unfinished" : "running"}`,
+      );
+    else if (phase.nodesSettled === 0) cells.push("");
+    else cells.push(`${phase.nodesSettled} step${phase.nodesSettled === 1 ? "" : "s"} settled`);
+
+    const now = run.generatedAt;
+    if (phase.enteredAt === undefined) cells.push("");
+    else if (phase.exitedAt !== undefined)
+      cells.push(formatWorkflowRunDuration(phase.exitedAt - phase.enteredAt));
+    else cells.push(terminal ? "" : `${formatWorkflowRunDuration(now - phase.enteredAt)} so far`);
+
+    return joinCells(cells);
+  });
   return `<phases>\n${lines.join("\n")}\n</phases>`;
 }
 
-function phaseRoundsCell(phase: GetWorkflowRunPhase): string {
-  // rounds 为 0 只可能是 `ahead`：一个还没被进入过的阶段说不出「进过几次」。
-  if (phase.rounds === 0) return "";
-  return `${phase.rounds} round${phase.rounds === 1 ? "" : "s"}`;
-}
-
-function phaseCountsCell(phase: GetWorkflowRunPhase, terminal: boolean): string {
-  if (phase.nodesRunning > 0) {
-    // 终态 run 里的「还在跑」是没结算，不是在动。
-    return `${phase.nodesSettled} settled, ${phase.nodesRunning} ${terminal ? "unfinished" : "running"}`;
-  }
-  if (phase.nodesSettled === 0) return "";
-  return `${phase.nodesSettled} step${phase.nodesSettled === 1 ? "" : "s"} settled`;
-}
-
-function phaseDurationCell(phase: GetWorkflowRunPhase, now: number, terminal: boolean): string {
-  if (phase.enteredAt === undefined) return "";
-  if (phase.exitedAt !== undefined)
-    return formatWorkflowRunDuration(phase.exitedAt - phase.enteredAt);
-  // 没有离开时刻：活着的 run 说「到现在为止」，终态 run 什么也不说——它的离开时刻无人记录，
-  // 拿读时的 now 去减等于把「进程死后的这几个小时」算进那个阶段。
-  return terminal ? "" : `${formatWorkflowRunDuration(now - phase.enteredAt)} so far`;
+function phaseColumnWidth(values: readonly string[]): number {
+  const width = values.reduce((current, value) => {
+    const candidate = Math.max(current, value.length);
+    return candidate > MAX_COLUMN_WIDTH ? MAX_COLUMN_WIDTH : candidate;
+  }, 0);
+  return Math.min(MAX_COLUMN_WIDTH, width);
 }
 
 // ————————————————————————————————————————————————
