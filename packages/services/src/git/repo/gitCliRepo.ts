@@ -45,6 +45,7 @@ import {
   toInvalidBranchNameIssue,
 } from "./gitCliHelpers.js";
 import { planGitCommitGraphQuery, projectGitCommitGraphQuery } from "./gitCommitGraphPlan.js";
+import { planGitIgnoredPaths } from "./gitIgnoredPathReadPlan.js";
 import {
   planGitRepositoryResolution,
   planGitWorkspaceRepositoryInfo,
@@ -685,61 +686,43 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
     },
 
     async getIgnoredPaths(workspacePath: string, paths: string[]): Promise<string[]> {
-      if (paths.length === 0) {
-        return [];
-      }
-
-      const resolution = await this.resolveRepository(workspacePath);
-      if (!resolution.isGitAvailable || !resolution.isRepository) {
-        return [];
-      }
-
-      const inputPairs = await Promise.all(
-        paths.map(async (path) => {
-          try {
-            return {
-              absolutePath: isAbsolute(path)
-                ? path
-                : resolve(resolution.workspacePath, path.split("/").join(sep)),
-              repoRelativePath: await normalizeInputPath(resolution, path),
-            };
-          } catch {
-            return null;
+      const program = planGitIgnoredPaths(paths);
+      let step = program.next();
+      while (!step.done) {
+        const operation = step.value;
+        switch (operation.kind) {
+          case "resolve": {
+            const resolution = await this.resolveRepository(workspacePath);
+            step = program.next(resolution);
+            break;
           }
-        }),
-      );
-      const validInputPairs = inputPairs.filter(
-        (pair): pair is { absolutePath: string; repoRelativePath: string } => Boolean(pair),
-      );
-      if (validInputPairs.length === 0) {
-        return [];
+          case "normalize": {
+            const resolution = operation.resolution;
+            const inputPairs = await Promise.all(
+              operation.paths.map(async (path) => {
+                try {
+                  return {
+                    absolutePath: isAbsolute(path)
+                      ? path
+                      : resolve(resolution.workspacePath, path.split("/").join(sep)),
+                    repoRelativePath: await normalizeInputPath(resolution, path),
+                  };
+                } catch {
+                  return null;
+                }
+              }),
+            );
+            step = program.next(inputPairs);
+            break;
+          }
+          case "check": {
+            const result = await commandProvider.run(operation.command);
+            step = program.next(result);
+            break;
+          }
+        }
       }
-
-      const ignoredResult = await commandProvider.run({
-        cwd: resolution.repoRoot,
-        args: ["check-ignore", "--", ...validInputPairs.map((pair) => pair.repoRelativePath)],
-        timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-        maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
-      });
-
-      if (ignoredResult.exitCode === 1) {
-        return [];
-      }
-
-      ensureGitCommandSucceeded("git check-ignore", ignoredResult);
-
-      const ignoredRepoRelativePaths = new Set(
-        ignoredResult.stdout
-          // 修复：`git check-ignore -z` 只能和 `--stdin` 一起使用；这里通过 argv 传路径，
-          // 所以必须解析普通换行输出，否则命令会直接失败，文件树永远拿不到 ignored 状态。
-          .split(/\r?\n/)
-          .filter(Boolean)
-          .map((path) => path.replace(/\\/g, "/")),
-      );
-
-      return validInputPairs
-        .filter((pair) => ignoredRepoRelativePaths.has(pair.repoRelativePath))
-        .map((pair) => pair.absolutePath);
+      return step.value;
     },
 
     async listLocalBranches(workspacePath: string): Promise<GitLocalBranchListResult> {
