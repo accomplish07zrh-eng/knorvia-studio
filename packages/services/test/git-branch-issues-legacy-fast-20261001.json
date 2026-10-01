@@ -1,0 +1,29 @@
+{
+  "commit": "3168a3826201250fa6f43c909c05f0be5f608799",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "sourceSha256": "d3718bac3c175be346a44f5939f41e51198ee84511783fd638eea472888cf623",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "name": "toNormalizedLines",
+      "start": 795,
+      "end": 955,
+      "text": "function toNormalizedLines(text: string): string[] {\n  return text\n    .replace(/\\r\\n/g, \"\\n\")\n    .split(\"\\n\")\n    .map((line) => line.replace(/\\s+$/g, \"\"));\n}",
+      "sha256": "2c188629087c726574a6960b344b39a428214bfe8aa0c7b66810767cb17e67d6"
+    },
+    {
+      "name": "extractIndentedPaths",
+      "start": 957,
+      "end": 1526,
+      "text": "function extractIndentedPaths(lines: string[], headerPattern: RegExp): string[] {\n  const headerIndex = lines.findIndex((line) => headerPattern.test(line.toLowerCase()));\n  if (headerIndex < 0) {\n    return [];\n  }\n\n  const paths: string[] = [];\n  for (let index = headerIndex + 1; index < lines.length; index += 1) {\n    const line = lines[index];\n    if (!line) {\n      continue;\n    }\n\n    if (!/^\\s+/.test(line)) {\n      break;\n    }\n\n    const value = line.trim();\n    if (value.length > 0) {\n      paths.push(normalizeGitPath(value));\n    }\n  }\n\n  return paths;\n}",
+      "sha256": "3b48417f41f2b8e2cccce275c829adf414560f53bcb88224640e47548a0cf065"
+    },
+    {
+      "name": "parseGitBranchMutationIssues",
+      "start": 1747,
+      "end": 4422,
+      "text": "export function parseGitBranchMutationIssues(\n  result: GitCommandExecutionResult,\n): GitBranchMutationIssue[] {\n  const detail = result.stderr.trim() || result.stdout.trim() || null;\n  const lines = toNormalizedLines(detail ?? \"\");\n  const normalizedDetail = detail?.toLowerCase() ?? \"\";\n\n  // 分支切换是否被阻塞，最终以 Git 原生命令的真实报错为准。\n  // 这里集中把常见 stderr 归一成稳定 issue code，避免 UI 直接依赖易变的原始文案。\n\n  const trackedOverwritePaths = extractIndentedPaths(\n    lines,\n    /your local changes to the following files would be overwritten by (checkout|switch)/,\n  );\n  if (trackedOverwritePaths.length > 0) {\n    return [\n      {\n        code: \"tracked-changes-would-be-overwritten\",\n        message: \"Tracked changes would be overwritten by switching branches.\",\n        paths: trackedOverwritePaths,\n        detail,\n      },\n    ];\n  }\n\n  const untrackedOverwritePaths = extractIndentedPaths(\n    lines,\n    /the following untracked working tree files would be overwritten by (checkout|switch)/,\n  );\n  if (untrackedOverwritePaths.length > 0) {\n    return [\n      {\n        code: \"untracked-changes-would-be-overwritten\",\n        message: \"Untracked files would be overwritten by switching branches.\",\n        paths: untrackedOverwritePaths,\n        detail,\n      },\n    ];\n  }\n\n  if (normalizedDetail.includes(\"already exists\")) {\n    return [\n      {\n        code: \"branch-already-exists\",\n        message: \"Branch already exists.\",\n        detail,\n      },\n    ];\n  }\n\n  if (normalizedDetail.includes(\"invalid reference:\")) {\n    return [\n      {\n        code: \"target-branch-not-found\",\n        message: \"Target branch was not found.\",\n        detail,\n      },\n    ];\n  }\n\n  if (normalizedDetail.includes(\"is already used by worktree at\")) {\n    return [\n      {\n        code: \"branch-in-other-worktree\",\n        message: \"Branch is already checked out in another worktree.\",\n        detail,\n      },\n    ];\n  }\n\n  if (normalizedDetail.includes(\"resolve your current index first\")) {\n    return [\n      {\n        code: \"conflicts-present\",\n        message: \"Repository still has unresolved conflicts.\",\n        detail,\n      },\n    ];\n  }\n\n  if (\n    /cannot switch branch while (merging|rebasing|cherry-picking|reverting|bisecting)/.test(\n      normalizedDetail,\n    ) ||\n    normalizedDetail.includes(\"you have not concluded your merge\") ||\n    normalizedDetail.includes(\"rebase in progress\")\n  ) {\n    return [\n      {\n        code: \"operation-in-progress\",\n        message: \"Another Git operation is still in progress.\",\n        detail,\n      },\n    ];\n  }\n\n  return [\n    {\n      code: \"unknown\",\n      message: \"Git could not complete the branch operation.\",\n      detail,\n    },\n  ];\n}",
+      "sha256": "a0eca3d477178033a75d2ba8f6e195b27b5aabe29523fe4c0688ea2eb3045d47"
+    }
+  ]
+}
