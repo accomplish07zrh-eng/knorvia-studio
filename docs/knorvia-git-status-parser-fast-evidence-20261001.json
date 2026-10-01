@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "kind": "services-lane-porcelain-status-parser-observations",
+  "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+  "before": "47d2ae16e44050525a792f30f1feba77047aac71",
+  "freeze": "3705a032cd16f6a433982097854fc1ce1a44c6cf",
+  "production": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+  "scopedFunctions": ["parseStatusPorcelain"],
+  "newPrivateFunctions": ["iteratePorcelainStatusRecords", "decodePorcelainTrackedRecord"],
+  "sourceExposure": true,
+  "cleanRoom": false,
+  "wholeFileLicenseGrant": false,
+  "acceptedReview": false,
+  "nativeAcceptance": false,
+  "licenseExpression": "NOASSERTION",
+  "localObligations": 27,
+  "parentReportedObligations": 26,
+  "publisher": {
+    "url": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+    "blob": "470d91185ac5fc84904ad06185ff1858e753115e",
+    "sha256": "92a319350711c297c162cbc5d516823ba6db6b935d7136a12e1622c8e380b6ad",
+    "bytes": 20013
+  },
+  "lineage": [
+    {
+      "kind": "publisher",
+      "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "sha256": "92a319350711c297c162cbc5d516823ba6db6b935d7136a12e1622c8e380b6ad"
+    },
+    {
+      "kind": "import",
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592"
+    },
+    {
+      "kind": "integrated",
+      "commit": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592"
+    },
+    {
+      "kind": "local",
+      "commit": "47d2ae16e44050525a792f30f1feba77047aac71",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592"
+    }
+  ],
+  "ownedScope": [
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "db954ce3ac0dd78fd623d2e14b0a1af9d272ad70",
+      "sha256": "ea4005f7d3afb5d824cc462e766b9e5530ed25368ce09704a5a62ace5f5d1357",
+      "bytes": 19969
+    },
+    {
+      "path": "packages/services/test/git-record-parser-audit-fast-20261001.mjs",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "8ffea57c0d136ed0dbca0acdaad810ce76319698",
+      "sha256": "fb90b72d08fa389cebb1896e3c3fb12cf263231302921af4182f05b38f1b932b",
+      "bytes": 5163
+    },
+    {
+      "path": "packages/services/test/git-status-parser-consumers-fast-20261001.test.ts",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "37284f6d29aff8d3b2fb6cb403ac669a842a05f7",
+      "sha256": "734a70213da5b0d0cf1930fb398979c6ae03d18f8cefd745dcd59d20dacebcab",
+      "bytes": 5611
+    },
+    {
+      "path": "packages/services/test/git-status-parser-contract-fast-20261001.test.ts",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "ba5ab95e8a67af1dbdf8eb54f4c77105a3f3dfe1",
+      "sha256": "6617d16d3923051a576c8fa819bab45e5c84cf9c73de40137076b1e408f57e73",
+      "bytes": 4254
+    },
+    {
+      "path": "packages/services/test/git-status-parser-fixture-fast-20261001.ts",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "d3481f94137f73b4de1c5700e1dc7d7606b640a4",
+      "sha256": "7d06172831d7b00a146b204b9474b9433bf7a8b938eefdb8899432492741be68",
+      "bytes": 4941
+    },
+    {
+      "path": "packages/services/test/git-status-parser-legacy-fast-20261001.json",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "d06a8473544dcf22580b97f3ee0276d8277e1f1f",
+      "sha256": "2d72d8d4c697c27e49ec54abc8259f324590ec9f8d1c132fbaf7014c58c91d37",
+      "bytes": 5304
+    },
+    {
+      "path": "specs/knorvia-git-status-parser-fast-20261001.md",
+      "commit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "blob": "e545e1e176e105c5e169cb22126283ff9437594b",
+      "sha256": "714d889dd388fe2c6fb62b3ffdebe415e538a132fe5ec285dda19cd01537e920",
+      "bytes": 4612
+    }
+  ],
+  "protectedHelpers": 23,
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "f46b5ecc5e99d1e8956dc6a129f454529d783abcce7fb2d7274cccfbc0da09f8"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92"
+    },
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930"
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f"
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9"
+    }
+  ],
+  "remainderSha256": "a897622d6e38a97b82ebc11bbc745c890b977b017ea65ec787d1f2138a7f2dbc",
+  "retainedSyntax": [
+    {
+      "syntax": "\"# branch.head \"",
+      "baseline": {
+        "start": 7520,
+        "end": 7536
+      },
+      "publisher": {
+        "start": 7518,
+        "end": 7534
+      },
+      "current": {
+        "start": 8303,
+        "end": 8319
+      }
+    },
+    {
+      "syntax": "\"# branch.upstream \"",
+      "baseline": {
+        "start": 7828,
+        "end": 7848
+      },
+      "publisher": {
+        "start": 7826,
+        "end": 7846
+      },
+      "current": {
+        "start": 8551,
+        "end": 8571
+      }
+    },
+    {
+      "syntax": "\"# branch.ab \"",
+      "baseline": {
+        "start": 7960,
+        "end": 7974
+      },
+      "publisher": {
+        "start": 7958,
+        "end": 7972
+      },
+      "current": {
+        "start": 8683,
+        "end": 8697
+      }
+    },
+    {
+      "syntax": "\"(detached)\"",
+      "baseline": {
+        "start": 7622,
+        "end": 7634
+      },
+      "publisher": {
+        "start": 7620,
+        "end": 7632
+      },
+      "current": {
+        "start": 8415,
+        "end": 8427
+      }
+    },
+    {
+      "syntax": "normalizeGitPath(record.slice(2))",
+      "baseline": {
+        "start": 8226,
+        "end": 8259
+      },
+      "publisher": {
+        "start": 8224,
+        "end": 8257
+      },
+      "current": {
+        "start": 8943,
+        "end": 8976
+      }
+    },
+    {
+      "syntax": "originalPath ? normalizeGitPath(originalPath) : null",
+      "baseline": {
+        "start": 9267,
+        "end": 9319
+      },
+      "publisher": {
+        "start": 9265,
+        "end": 9317
+      },
+      "current": {
+        "start": 9527,
+        "end": 9579
+      }
+    },
+    {
+      "syntax": "inferKindFromStatusCode(xy[0] !== \".\" ? xy[0]! : xy[1]!)",
+      "baseline": {
+        "start": 8742,
+        "end": 8798
+      },
+      "publisher": {
+        "start": 8740,
+        "end": 8796
+      },
+      "current": {
+        "start": 9700,
+        "end": 9756
+      }
+    },
+    {
+      "syntax": "return { branchName, trackingBranchName, headRefType, ahead, behind, entries };",
+      "baseline": {
+        "start": 9928,
+        "end": 10007
+      },
+      "publisher": {
+        "start": 9926,
+        "end": 10005
+      },
+      "current": {
+        "start": 9866,
+        "end": 9945
+      }
+    }
+  ],
+  "retentionNote": "Selected positive verbatim syntax fragments, non-exhaustive and not an originality metric. Header/counter/kind/path/entry leaves, public signature/declarations and unrelated formatting remain inherited compatibility. The private kind and counter functions are retained byte-for-byte; the exact three-declaration oracle is copied test-only material. Fixture/RPC/adaptor conventions reuse prior exposed lane tests.",
+  "newStructure": "Streaming nonempty NUL record cursor; positional fixed-field decoding preserving ASCII-space and JS path-tail grammar; unified ordered tracked-entry admission. No extra promise/await, cache, retry or changed state/effect owner.",
+  "oracle": {
+    "path": "packages/services/test/git-status-parser-legacy-fast-20261001.json",
+    "commit": "47d2ae16e44050525a792f30f1feba77047aac71",
+    "inheritedTestOnly": true,
+    "sha256": "2d72d8d4c697c27e49ec54abc8259f324590ec9f8d1c132fbaf7014c58c91d37"
+  },
+  "validation": {
+    "freezeSource": {
+      "files": [
+        "packages/services/test/git-status-parser-contract-fast-20261001.test.ts",
+        "packages/services/test/git-status-parser-consumers-fast-20261001.test.ts"
+      ],
+      "cases": 88,
+      "pass": 88,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "2f8d31fea7fb417a165ce40b1b32e16c4072bfa9c37a89d5ef838acf96aebc67"
+    },
+    "freezeStrictEmitted": {
+      "files": [
+        "packages/services/test/git-status-parser-contract-fast-20261001.test.ts",
+        "packages/services/test/git-status-parser-consumers-fast-20261001.test.ts"
+      ],
+      "cases": 88,
+      "pass": 88,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "7b6d694a4e7f21181bf6d0cc780164f0e19fd2878c3f0e7cb0b5ced02c398db7"
+    },
+    "source": {
+      "files": [
+        "packages/services/test/git-status-parser-contract-fast-20261001.test.ts",
+        "packages/services/test/git-status-parser-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-branch-comparison-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-branch-comparison-settlement-fast-20261001.test.ts"
+      ],
+      "cases": 214,
+      "pass": 214,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "7294b0559398c8286b65282168963db7a73db4cc70361c76ccf369ed47d26392"
+    },
+    "strictEmitted": {
+      "files": [
+        "packages/services/test/git-status-parser-contract-fast-20261001.test.ts",
+        "packages/services/test/git-status-parser-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-branch-comparison-consumers-fast-20261001.test.ts",
+        "packages/services/test/git-branch-comparison-settlement-fast-20261001.test.ts"
+      ],
+      "cases": 214,
+      "pass": 214,
+      "fail": 0,
+      "cancelled": 0,
+      "skip": 0,
+      "logSha256": "f33bde506c37be2776a1af07495c7c04e9f46aa0385c2019c342c542b21433b2"
+    },
+    "newCases": 88,
+    "relatedCases": 126,
+    "nestedComparisons": {
+      "caseCount": 1,
+      "comparisons": 320,
+      "countedAsIndividualTests": false
+    },
+    "sourceCommit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "concurrency": 2,
+    "commands": {
+      "source": "TSX_TSCONFIG_PATH=packages/ui/tsconfig.json node --experimental-test-module-mocks --import tsx --test --test-concurrency=2 packages/services/test/git-status-parser-*.test.ts packages/services/test/git-read-projection-consumers-fast-20261001.test.ts packages/services/test/git-branch-comparison-consumers-fast-20261001.test.ts packages/services/test/git-branch-comparison-settlement-fast-20261001.test.ts",
+      "strictEmitted": "KNORVIA_GIT_RESOLUTION_TARGET=dist KNORVIA_GIT_READ_PROJECTION_TARGET=dist node --experimental-test-module-mocks --import tsx --import ./packages/services/test/git-read-projection-emitted-register-fast-20261001.mjs --test --test-concurrency=2 packages/services/test/git-status-parser-*.test.ts packages/services/test/git-read-projection-consumers-fast-20261001.test.ts packages/services/test/git-branch-comparison-consumers-fast-20261001.test.ts packages/services/test/git-branch-comparison-settlement-fast-20261001.test.ts",
+      "types": "pnpm typecheck",
+      "lint": "pnpm lint",
+      "ownedLint": "pnpm exec oxlint packages/services/src/git/repo/gitCliHelpers.ts packages/services/test/git-status-parser-*.ts",
+      "format": "pnpm exec oxfmt --check packages/services/src/git/repo/gitCliHelpers.ts packages/services/test/git-status-parser-* specs/knorvia-git-status-parser-fast-20261001.md",
+      "architectureChanged": "pnpm architecture:check -- --changed",
+      "architectureFull": "pnpm architecture:check"
+    },
+    "gates": [
+      {
+        "gate": "typecheck",
+        "logSha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786"
+      },
+      {
+        "gate": "lint",
+        "logSha256": "e2e29686f6070fd4f649181bd978b3acd737ca23f77c6c2e88896fb4f4b9f58d"
+      },
+      {
+        "gate": "owned-lint",
+        "logSha256": "3e9455ba473fd5521a3f742267c81099e156d813cfd7a4cbe9d615580ed94f0c"
+      },
+      {
+        "gate": "format",
+        "logSha256": "5fe77d9ddb531532c4b2638cbe0c915ab2986c403e16b1a0afce79b5a3a7e03b"
+      },
+      {
+        "gate": "architecture-changed",
+        "logSha256": "12391dfc1524ed9718011a106e439ae17463fc750552adb52859fada1e2ab911"
+      },
+      {
+        "gate": "architecture-full",
+        "logSha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+      }
+    ],
+    "fullRegression": {
+      "run": false,
+      "reason": "User grouped cadence; root aggregate integration batch"
+    },
+    "cliDesktopBuilds": {
+      "run": false,
+      "reason": "User grouped cadence; root aggregate integration batch"
+    },
+    "budgetsChanged": false
+  },
+  "artifacts": [
+    {
+      "path": "packages/services/dist/git/repo/gitCliHelpers.js",
+      "sourceCommit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "sha256": "4d4907cccd340e4d60b221b0ef4f9e211faba00c529c8778c1cb15da5de38196"
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitCliHelpers.d.ts",
+      "sourceCommit": "c563cce6c141a58e7a3aa5f07927e21ec9885a67",
+      "sha256": "1854488ccb0b1dd53a446abf3ebbcc35c1eda67193f827fa5e2210b0783df2b2"
+    }
+  ],
+  "initialFailures": [
+    {
+      "file": "initial-source.log",
+      "logSha256": "ee6be3c43a335e84ee1b17d9b15df5ad61b9f089e0bcff1faa44c3e8f9ed4c69"
+    },
+    {
+      "file": "initial-emitted.log",
+      "logSha256": "f60440fc38c5de1b73bef033d4bb74a82c9109c44fa6e62a5aabc3ef8adb0ec9"
+    }
+  ],
+  "limits": [
+    "Initial unchanged source/emitted88-case runs were87pass/1fail because the owned expected argv placed -z before --untracked-files=all. Corrected the expected order to the verified source before88/88 freeze; no production/assertion weakening. Exact failed log hashes retained.",
+    "The first production splice clipped the public return annotation; formatting rejected syntax before tests. Restored the exact frozen signature, then all final tests/gates passed. No product policy defect or red-proof correction claimed.",
+    "Only owned synthetic status/process/stat ports; actual getStatus/service/RPC/refresh accepted. Existing read consumer and97 status-owner timing comparisons retained; no new async boundary. No live/native Git, Windows/macOS, mounted React or separate/remote Host acceptance.",
+    "Full project regression and CLI/desktop builds not run by user cadence; root owns aggregate integration gates. Earlier published slices and failure evidence immutable, including root-owned older Windows read assertion correction80d053a.",
+    "No shared inventory/licensing/notices/dependency/CI/CLI/security/settings or real user data changes; no clean-room/whole-file MIT grant. Older lane27 and parent-reported26 obligations remain separate."
+  ],
+  "payloadSha256": "1e700d03b63c442b2abce299d6374abf5d35980a20b8138391f7f6626223b1a2"
+}
