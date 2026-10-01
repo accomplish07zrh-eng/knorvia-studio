@@ -1,0 +1,260 @@
+{
+  "formatVersion": 1,
+  "baseline": "fde4e8913a90c5e27d7be2bf3ac2e96289ffc374",
+  "migration": "9a9e6dde831730fa6c0ef072961829e44ebc0837",
+  "productionChange": false,
+  "sourceExposure": true,
+  "wholeFileRightsDecision": null,
+  "files": [
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+      "bytes": 10165,
+      "sha256": "77e9c7f49601d66cdfb6b937cd5ca43434111d6a3afd1e65e43627d470111f3b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-loader-fixture.ts",
+      "bytes": 2715,
+      "sha256": "a84d497b0b4a0952615102b37238dfdd835612737c6b315f4d5cc3d422b68b8c"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-loader.test.ts",
+      "bytes": 3049,
+      "sha256": "005a4f5073016ff2d5def03c0493016d958faa80e70aa7d89b6e3188f9c5baa1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/create-workflow-graph-loader-contract.json",
+      "bytes": 7545,
+      "sha256": "6e63aeebd7628e5a31f807e1165c702f662531757e053af41649f3a768c84419"
+    },
+    {
+      "path": "specs/knorvia-create-workflow-graph-loader-migration.md",
+      "bytes": 3248,
+      "sha256": "8b415de568bde17d8ca07ec068d498fe9f1cb57faaf2e0f32dfa753ac1f65ba3"
+    }
+  ],
+  "checker": {
+    "path": "docs/evidence/knorvia-cli-graph-loader-check-20261001.mjs",
+    "bytes": 5658,
+    "sha256": "82d89e49894aab8a81e0d9a7bf9ec0787f032c44140c3b8540c1b48c1509d95d"
+  },
+  "protectedEvidence": [
+    {
+      "path": "docs/evidence/knorvia-create-workflow-graph-components-receipt-20261001.json",
+      "bytes": 14411,
+      "sha256": "5ebfbac966663493ccbf2d88fab937f859e5b04d231e234438f0cb4da5c4b76c"
+    },
+    {
+      "path": "docs/evidence/knorvia-create-workflow-graph-quotient-receipt-20261001.json",
+      "bytes": 10809,
+      "sha256": "226cf98bd51f1582e58bea00d9382d5156372b2fc6338021fef59ef2f42486a2"
+    },
+    {
+      "path": "docs/evidence/knorvia-cli-graph-bounds-review-20261001.json",
+      "bytes": 13902,
+      "sha256": "ba3fe5d767ade31ac1f98de418985f659fc23bdb8a0213ae1b93aa34f9740bb3"
+    },
+    {
+      "path": "docs/evidence/knorvia-cli-graph-bounds-implementation-20261001.json",
+      "bytes": 13925,
+      "sha256": "3ca17c3b841e038040845db4204c480a709dd607e99009a22d0e69581fe0eced"
+    }
+  ],
+  "unchanged": [
+    "apps/cli/packages/core/test/create-workflow-graph-fold-baseline.json",
+    "apps/cli/packages/core/test/create-workflow-graph-fold-contract.json",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient-baseline.json",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-baseline.json",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-review-contract.json",
+    "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-review-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-bounds-implementation-fixture.ts",
+    "apps/cli/packages/core/test/workflow-analysis-display.test.ts"
+  ],
+  "scope": [
+    "apps/cli/packages/core/test/create-workflow-graph-fold-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-loader-fixture.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-loader.test.ts",
+    "apps/cli/packages/core/test/create-workflow-graph-loader-contract.json",
+    "specs/knorvia-create-workflow-graph-loader-migration.md",
+    "docs/evidence/knorvia-cli-graph-loader-check-20261001.mjs",
+    "docs/evidence/knorvia-cli-graph-loader-20261001.json",
+    "docs/knorvia-cli-graph-loader-and-expression-review-20261001.md"
+  ],
+  "design": "Historical bounds shell + existing archived owner reconstruct original complete JS; old fold and analysis imports remain the oracle. Separate current graph loader verifies fixed source/JS/declaration pins for the full three-module closure then imports ordinary src/dist modules. No arbitrary digest options, old-output substitution or source fallback. Current validation runs before imports even for cached namespaces.",
+  "checks": {
+    "source": {
+      "tests": 26,
+      "pass": 26,
+      "fail": 0,
+      "logIndex": 1
+    },
+    "strictEmitted": {
+      "tests": 21,
+      "pass": 21,
+      "fail": 0,
+      "logIndex": 2
+    },
+    "perFileGroups": [
+      {
+        "file": "create-workflow-graph-fold.test.ts",
+        "source": 7,
+        "emitted": 7,
+        "new": 0
+      },
+      {
+        "file": "create-workflow-graph-quotient.test.ts",
+        "source": 3,
+        "emitted": 3,
+        "new": 0
+      },
+      {
+        "file": "create-workflow-graph-bounds-review.test.ts",
+        "source": 4,
+        "emitted": 4,
+        "new": 0
+      },
+      {
+        "file": "create-workflow-graph-bounds-implementation.test.ts",
+        "source": 4,
+        "emitted": 4,
+        "new": 0
+      },
+      {
+        "file": "create-workflow-graph-loader.test.ts",
+        "source": 3,
+        "emitted": 3,
+        "new": 3
+      },
+      {
+        "file": "workflow-analysis-display.test.ts",
+        "source": 5,
+        "emitted": 0,
+        "new": 0
+      }
+    ],
+    "overlap": "Twenty-one identical named groups ran in both modes; five unchanged direct-display groups ran source-only. Three loader groups are new. These are group counts; old inner golden observations and synthetic executor invocations are reused, not additional unique tests.",
+    "types": {
+      "roots": 6,
+      "noEmit": true,
+      "diagnostics": 0,
+      "logIndex": 3
+    },
+    "ownedLint": {
+      "files": 3,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0,
+      "logIndex": 4
+    },
+    "format": {
+      "files": 5,
+      "logIndex": 5
+    },
+    "architecture": {
+      "violations": 0,
+      "logIndex": 6
+    },
+    "negativeArtifacts": "Missing and corrupted emitted files for each of fold/bounds/analysis reject current caller loading; valid old bounds JS also rejects the current pin. Controlled read ports return same missing-error identity. Historical bytes remain independently reconstructible; current module namespace identity matches ordinary actual source/dist imports."
+  },
+  "redProof": {
+    "logIndex": 0,
+    "stage": "Unmodified pre-migration fixture import",
+    "exitCode": 1,
+    "actual": "de1eee567e93e2740804e2e52d04b1d8226b0b5e98aadc8d99e4bc4435dae3ca",
+    "expected": "85a2b63f5c84d92c5f4ed6220440c4530b40c3f85c67893e1bde60b0bc59df2b",
+    "correction": "Original digest assertion remains exact; its input now comes from explicit historical bytes. Current consumers verify and import new artifacts separately."
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-graph-loader-pre-migration-red.log",
+      "bytes": 695,
+      "sha256": "948b16614ea4e788174745ece52e9d401dad89ebb2ee464cc6c8d58944d0a1c3"
+    },
+    {
+      "path": "/tmp/knorvia-graph-loader-source.log",
+      "bytes": 2717,
+      "sha256": "3ff884306c19e81eeff9bebebee7c0bfcc267106ea700a8785f1739213751837"
+    },
+    {
+      "path": "/tmp/knorvia-graph-loader-emitted.log",
+      "bytes": 2214,
+      "sha256": "c6aeec4c650e60bd3e6686cb6c3a4aadfdef349a12bae49a4fe695790fec9017"
+    },
+    {
+      "path": "/tmp/knorvia-graph-loader-types.log",
+      "bytes": 512,
+      "sha256": "27df1d8e483ef64e103a1d851579947f88632ef61e86029baa6d8b12be0dd3a0"
+    },
+    {
+      "path": "/tmp/knorvia-graph-loader-lint.log",
+      "bytes": 90,
+      "sha256": "93b9ffebdce782be83828685c954a0d85daad619c22fb6bc2e4ca7cda5854ce9"
+    },
+    {
+      "path": "/tmp/knorvia-graph-loader-format.log",
+      "bytes": 112,
+      "sha256": "f1c3a2afbecb708b2c29df14fd181cb79edc411c61d7ed65278efcb45a8d17a8"
+    },
+    {
+      "path": "/tmp/knorvia-graph-loader-architecture.log",
+      "bytes": 200,
+      "sha256": "12391dfc1524ed9718011a106e439ae17463fc750552adb52859fada1e2ab911"
+    },
+    {
+      "path": "/tmp/knorvia-graph-expression-review-final.log",
+      "bytes": 7215,
+      "sha256": "a6ee96a6c10a7f222f8359f6bec08206ee6ea1a6deb154b3770edeac123f8800"
+    }
+  ],
+  "expression": {
+    "initial": "7619e41b950bd52073ebf36754146cf25659d9fa",
+    "criteria": "docs/knorvia-mit-review-acceptance-criteria-20260930.md",
+    "method": "Read local initial snapshot; reverse only @knorvia/contracts and @knorvia/dynamic-workflow package-scope strings to @zcode equivalents. Bind resulting bytes with both Git blob SHA1 and recorded LF SHA256. No publisher fetch, commit-tree verification, new copyright assertion or MIT conclusion. AST function/comment comparison respects template syntax; raw hashes are evidence of expression retention, not rights proof.",
+    "fold": {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-fold.ts",
+      "currentSha256": "961359a02ad773a24d72c4eb8eaa5ee18c7c4f70ee349f3dc5d51fc16d8723d6",
+      "referenceSha256": "6c646e75884f6bc364c48220c936d5121d00b91276252d11d2547f966d97b84c",
+      "referenceBlob": "b365beb32e497fee8f61741fd6fabff08e992715",
+      "pinnedContentMatched": true,
+      "publisherCommitTreeIndependentlyVerified": false,
+      "retainedPairTextSha256": "6d41d3a0061acf2fe483b8290ec419901b408814cc34055310b3fcde38296705",
+      "decision": "Mixed retained expression. The complete foldPairs function (72-87) is byte-exact to recorded pinned reference content; quotient/SCC have new structures, but a whole-file independent-expression finding is not supported.",
+      "compatibility": "RawEdge/public projection import, reducer wire kinds/carryOf fields, ordered key format and first-seen/output constraints are fixed APIs or compatibility facts; standard map/set/field idioms alone do not establish provenance.",
+      "retainedProse": "Exact reference comments remain at header 1-6, browser-import explanation 11-12, RawEdge comment 15, public explanatory block 22-38, quotient explanation 47-48 and pair-helper explanation 71.",
+      "retainedBody": "foldPairs retains self-loop admission, first-key ordering, shallow copies, repeated-pair conjunction and ordered map projection. Key construction and reducer field/projection expressions also remain within new quotient control.",
+      "newStructure": "Iterative two-pass SCC adjacency/DFS/rank representation and quotient edge bindings with ordered candidate admission/selection, documented in preserved specs and commits. Different digests or algorithms alone do not confer rights."
+    },
+    "bounds": {
+      "path": "apps/cli/packages/core/src/tool/handlers/create-workflow-graph-bounds.ts",
+      "currentSha256": "880d40744b339128bb067ec2c903b82d110c005c58cf60db919d6b04d9679e09",
+      "referenceSha256": "26928094a669c6f6383c4b49cb9672c9e123c41f1f281b9e2e47a0c2254020e3",
+      "referenceBlob": "d5ec2b7e21e5769091e820cbce2e7487b0efe54f",
+      "pinnedContentMatched": false,
+      "candidateSha256": "69196a9e8b0fb2aa129a42daec3e58d099ff7c014b59789d35b2b90dd50647cc",
+      "candidateBlob": "6f13bef8f25cb3709f093089547480965f85f1a8",
+      "decision": "Mixed retained expression against local initial snapshot; exact publisher comparison remains unavailable. Source exposure is not a permanent bar, but the fresh retention/storage owner does not determine this whole file.",
+      "compatibility": "Wire types/field shapes, caps, closure/order/error requirements and fixed public strings/imports are compatibility facts; conventional map/set/literal idioms are disclosed.",
+      "retainedProse": "Local-initial header/public lead-in 1-13 and 42-51; helper explanations 225-227 and 234-240. No claim that unmatched reconstructed bytes are publisher content.",
+      "retainedBody": "Primary-lane/step closure at 63-78, sink and phase classification/quota/alongside/exits at 123-175, lane/step field projection at 178-213 and clipping/pattern helpers at 228-256 retain substantive procedure/expressions. boundGraphText is text-identical to initial snapshot; boundNamePattern retains its parsed expression with formatting differences.",
+      "newStructure": "One call-local frame, counted card admission, full over-capacity projection with capped retained card/handoff arrays, and final payload composition; original runtime prose and helper attribution retained."
+    },
+    "candidateReview": "Keep both whole files mixed/source-exposed and existing attribution/obligations in place pending root independent expression and contributor-rights review. Neither changed hashes nor passing tests are an MIT grant; root owns actual licence status.",
+    "smallestNextDecision": "Acquire/verify exact bounds publisher content and independently validate fold publisher commit-tree membership, then assess retained helper/body/prose rights versus ordinary glue and contribution chain. Root may retain applicable licensing or choose a specifically justified separation; no new production rewrite is performed merely for a metric."
+  },
+  "limits": [
+    "No production/public-declaration change or emission; actual existing emitted artifacts are pinned. No broad suite/build/root gate or native Windows/macOS/UI acceptance.",
+    "Original archived bytes, hashes, gold assertions, SCC numeric-prototype red proofs and old receipts stay unchanged. Only the historical fixture loader wiring changes; its observation/consumer tail and every assert call remain exact.",
+    "Historical SCC executor gold remains unchanged and includes its synchronous synthetic-producer handler(...).then failure in non-early paths. Successful completion/cancellation evidence comes separately from the preserved bounds implementation async-producer tests; no historical snapshot was silently repaired.",
+    "No provider/network/model/user files or live workflow effects, runtime/Host/shared-licensing/dependency/CI/security/settings changes, cross-lane edit, merge/release/deploy or publication claim."
+  ],
+  "reproduce": [
+    "Use existing Node24.14.0/TS6.0.2 and scoped noEmit script /tmp/knorvia-graph-loader-types.mjs; six recorded fixture/test roots with actual core tsconfig, rootDir undefined. No source generation.",
+    "node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-fold.test.ts apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts apps/cli/packages/core/test/create-workflow-graph-loader.test.ts apps/cli/packages/core/test/workflow-analysis-display.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/create-workflow-graph-fold.test.ts apps/cli/packages/core/test/create-workflow-graph-quotient.test.ts apps/cli/packages/core/test/create-workflow-graph-bounds-review.test.ts apps/cli/packages/core/test/create-workflow-graph-bounds-implementation.test.ts apps/cli/packages/core/test/create-workflow-graph-loader.test.ts",
+    "node docs/evidence/knorvia-cli-graph-loader-check-20261001.mjs --emitted --scope; --logs requires retained executor logs."
+  ]
+}
