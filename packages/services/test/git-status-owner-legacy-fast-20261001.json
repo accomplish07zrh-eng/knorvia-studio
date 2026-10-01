@@ -1,0 +1,22 @@
+{
+  "commit": "45bdf9e5b67f971fad3999b374e8cd2373d0bec0",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "sourceSha256": "7671431b974df89efe73c7cd3dc0eb9b5b2387e1f92727c982fa527a2999eae2",
+  "copiedExposedTestOnly": true,
+  "spans": [
+    {
+      "name": "runGitStatus",
+      "start": 10323,
+      "end": 11072,
+      "text": "async function runGitStatus(resolution: GitResolvedRepository) {\n    const useCollapsedUntracked = collapsedUntrackedRepoRoots.has(resolution.repoRoot);\n    const result = await executeGitStatus(resolution, useCollapsedUntracked ? \"normal\" : \"all\");\n    if (useCollapsedUntracked || !result.outputTruncated) {\n      return result;\n    }\n\n    // 大仓库的逐文件未跟踪状态可能超过输出上限；直接放大上限会让后续行数统计\n    // 并发读取上万个文件。首次超限后按 repoRoot 记住目录折叠模式，既保留可用的 Git\n    // 摘要和变更入口，也避免每次自动刷新都重复执行一次必然失败的详细命令。\n    collapsedUntrackedRepoRoots.add(resolution.repoRoot);\n    log.warn(\n      undefined,\n      `git status detailed output exceeded limit; collapsing untracked directories repoRoot=${resolution.repoRoot}`,\n    );\n    return await executeGitStatus(resolution, \"normal\");\n  }",
+      "sha256": "b31bdc466bcfccbeefcf2d3ceda126659dc4f61af7803ecfaf76467e45727777"
+    },
+    {
+      "name": "getStatus",
+      "start": 17107,
+      "end": 19831,
+      "text": "async getStatus(workspacePath: string): Promise<GitStatusSnapshot> {\n      // staged / unstaged / summary / branch 比较都依赖同一份状态快照，\n      // 并发复用可以把一次渲染里的重复 `status + diff --numstat` 合并成一轮 Git CLI 调用。\n      return await reuseInFlightRequest(statusRequests, workspacePath, async () => {\n        const resolution = await this.resolveRepository(workspacePath);\n        if (!resolution.isGitAvailable || !resolution.isRepository) {\n          return {\n            resolution,\n            summary: createEmptySummary(resolution),\n            entries: [],\n            stagedStats: new Map(),\n            unstagedStats: new Map(),\n            untrackedStats: new Map(),\n          };\n        }\n\n        const [statusResult, stagedStatsResult, unstagedStatsResult] = await Promise.all([\n          // 默认保留逐文件未跟踪状态；只有确认当前 repoRoot 超限后，runGitStatus 才降级为目录折叠。\n          runGitStatus(resolution),\n          commandProvider.run({\n            cwd: resolution.repoRoot,\n            args: [\"diff\", \"--cached\", \"--numstat\", \"-z\", \"--find-renames\", \"--\"],\n            timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n            maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,\n          }),\n          commandProvider.run({\n            cwd: resolution.repoRoot,\n            args: [\"diff\", \"--numstat\", \"-z\", \"--find-renames\", \"--\"],\n            timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n            maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,\n          }),\n        ]);\n\n        ensureGitCommandSucceeded(\"git status\", statusResult);\n        ensureGitCommandSucceeded(\"git diff --cached --numstat\", stagedStatsResult);\n        ensureGitCommandSucceeded(\"git diff --numstat\", unstagedStatsResult);\n\n        const parsedStatus = parseStatusPorcelain(statusResult.stdout);\n        const untrackedStats = await buildUntrackedStats(resolution.repoRoot, parsedStatus.entries);\n\n        return {\n          resolution,\n          summary: {\n            workspacePath: resolution.workspacePath,\n            repoRoot: resolution.repoRoot,\n            workspaceInRepoPath: resolution.workspaceInRepoPath,\n            autoRefreshWatchPaths: resolution.autoRefreshWatchPaths,\n            branchName: parsedStatus.branchName,\n            trackingBranchName: parsedStatus.trackingBranchName,\n            headRefType: parsedStatus.headRefType,\n            ahead: parsedStatus.ahead,\n            behind: parsedStatus.behind,\n            isDirty: parsedStatus.entries.length > 0,\n            isGitAvailable: true,\n            isRepository: true,\n          },\n          entries: parsedStatus.entries,\n          stagedStats: parseNumstat(stagedStatsResult.stdout),\n          unstagedStats: parseNumstat(unstagedStatsResult.stdout),\n          untrackedStats,\n        };\n      });\n    }",
+      "sha256": "26d7d5f642aefb5ca08054e8cbb331a427ebbdb2105cf957fa7b86eaadb8286c"
+    }
+  ]
+}
