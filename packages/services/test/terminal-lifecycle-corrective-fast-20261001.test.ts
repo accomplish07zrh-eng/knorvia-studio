@@ -522,7 +522,7 @@ test("actual binary RPC preserves setup-plus-cleanup aggregate primary wording a
   s.disposeAll();
   assert.equal(open(), undefined);
 });
-test("actual binary RPC bulk cancellation rejects an in-flight create without spawn", async (t) => {
+test("actual direct RPC channel bulk cancellation rejects an in-flight create without spawn", async (t) => {
   let release: (settings: unknown) => void = () => assert.fail("settings not requested");
   const s = service(
     t,
