@@ -390,3 +390,155 @@ licensing indexes/reviews, license notices, credentials/security and user data
 remain unchanged. No release, deployment, merge or integration/main push occurs
 in this lane. Root receives original commits from the named branch; this lane
 stops at a clean checkpoint and awaits the next assignment in this same thread.
+
+## AskUserQuestion continuation
+
+This assignment starts at immutable checkpoint
+`803062001bf433d967d84f716d520cdf34d6b943`. Skill, ListModels/model-reference and
+their prior supporting sources/tests/specs remain byte-identical to that commit.
+The earlier ancestry correction for `bd0bb014` remains applicable. This lane did
+not amend, rebase or replace any prior commit. Before edits, freshness passed
+with ahead 76 / behind 0 relative to origin/main; the CLI architecture context
+remained unmanaged/unassigned and both initial architecture checks passed.
+
+### Original commits and paths
+
+1. `cde9b0c` — write the AskUserQuestion spec and freeze 19 source/emitted contracts
+   against the inherited implementation before changing production code.
+2. `7d3066f` — replace collected-answer admission/projection and narration control
+   flow; add the finite comparison driver.
+
+Production ownership is limited to `ask-user-question.ts`,
+`ask-user-question-result.ts` and `ask-user-question-narration.ts` in the core
+handler directory. Supporting ownership is limited to the four
+`ask-user-question-*` TS/MTS test/support files, the corresponding JSON fixture,
+`specs/knorvia-ask-user-question-result.md` and this lane evidence document.
+No Todo, TaskOutput/TaskStop, another lane, public contract, shared provenance,
+package/lock/CI/security or user-data file is changed.
+
+### Lineage, retained contracts and owners
+
+The current audit marks the inherited handler upstream-modified/null review,
+with fixed upstream blob `e51ac0d494b741693daee2d1f2757a0c0f460018` and original
+SHA-256 `990090a2d9dcb27863a7ab270f8d4f8ed1d41bf63cf754ce0c2c0eeb6cf451f5`.
+Its handler history contains `7619e41` (publish latest preview). The unchanged
+public schema remains upstream-unchanged/null review, fixed blob
+`3949c85e62c5ddec2d0509819ef8f904bd23f371`. The implementer inspected those sources
+and actual consumers; this is exposed-source replacement work. Public
+declarations, schemas, prompt/output prose, CoreError material and the small
+sparse-slot/inherited-key membership primitive remain retained compatibility
+material. There is no clean-room, MIT, whole-file originality or whole-product
+independence claim. LICENSE/NOTICE, preview identity and all 27 unresolved
+material obligations remain unchanged; root regenerates shared provenance.
+
+The existing broker is the sole owner of question publication and answers. The
+executor owns admission, hooks, permission, cancellation, deadlines and events;
+clients own display IDs. The replaced handler consumes already-collected answers
+and never creates an interaction. A local return/refusal decision now projects
+ordered accepted fields or raises the existing error at the async boundary.
+Narration now folds text per call and selects explicit none/partial/complete
+outcomes. The inherited mapped-parts pipeline is removed. No cache, fallback,
+timer, response owner, external action or public package export is introduced.
+
+### Frozen and final consumer evidence
+
+The fixture records 41 input cases (11 accepted, 30 rejected), 13 raw formatter
+cases, all 14 public entry keys and complete declaration/schema/text contracts.
+Both 19-test source and emitted baselines passed before production edits. They
+preserve strict admission, answer/question/option order, generated display IDs,
+unknown answer keys, empty/partial answers, metadata omission, annotations,
+ordered issue paths, exact errors/text, accessor multiplicity/throw identity,
+early empty-answer behavior and sparse/prototype membership.
+
+Actual registry/executor/permission consumers run with synthetic prepared
+responses only: modify/allow/deny, malformed original/modified input, policy/hook
+refusal, trace/request IDs and event order, pre/pending cancellation, permission
+timeout propagation and a 40000ms simulated permission wait outside the unchanged
+30000ms handler deadline. AskUserQuestion still asks in build/plan/auto/yolo and
+hard disallowed-tool denial remains effective. Actual protocol mapping/reply
+normalization and UI pure projection preserve labels, previews, question IDs and
+answer keys. Emitted mode selects core/bootstrap dist modules; UI pure projection
+is source-only. The new tests do not connect a real question port.
+
+Both final CLI and TUI bundles contain `answerDecision`,
+`executeAnsweredQuestion`, `narrationOf` and `renderAnsweredQuestion`. Direct
+emitted registry/executor/protocol tests supplement that bundle inspection.
+
+Validation uses pinned Node 24.14.0 and pnpm 10.33.2. No production correction
+follows `7d3066f`; the complete offline run tests that committed source.
+
+| Check                                                                           | Result                                                                      |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Final source frozen contracts/actual synthetic consumers                        | **19/19 passed**                                                            |
+| Final emitted frozen contracts/actual synthetic consumers after fresh CLI build | **19/19 passed**                                                            |
+| Finite comparison, source and emitted                                           | **4096 admission + 6247 narration cases per mode**, all matched             |
+| `pnpm build:cli-packages`                                                       | **17/17 tasks passed**, 10 cached; fresh core/bootstrap/CLI/TUI consumers   |
+| Root and CLI typechecks                                                         | Passed; 5422 matching i18n keys and all 16 selected CLI workspace projects  |
+| Root/CLI configured lint                                                        | Passed with no warnings/errors                                              |
+| Core-cwd `oxlint --no-ignore` on all seven owned TS/MTS production/test files   | Passed with no output                                                       |
+| Changed and full architecture checks                                            | Passed, zero violations/baseline/new                                        |
+| Broader core lint                                                               | Failed: 24 errors/11 warnings in 27 unchanged, out-of-scope baseline files  |
+| Final `pnpm test:studio`                                                        | **6054 passed / 8 skipped / 0 failed**, 6062 tests across 503 offline files |
+
+CLI builds retain existing debug chunk-size and unchanged REPL dynamic-import
+warnings. Windows CUA driver staging is skipped on Linux.
+
+The full regression ran after the final production commit, with its unchanged
+120000ms per-test timeout and concurrency of two; all 19 new named tests executed
+and passed in that run. Seven skips require Windows/PowerShell; the eighth is the
+optional old/new Claude leaf-observation comparison. No skip condition or test
+timeout was changed. Root formatting and diff checks were rechecked after this
+evidence update. Full/changed architecture checks passed on the final checkpoint.
+
+### Finite comparison and digests
+
+The tracked manual driver takes the exact-checkpoint inherited module outside
+the repository. Generate the temporary reference with `git show 8030620:<handler
+path>` and TypeScript `transpileModule` using ESNext module/target, retaining its
+applicable source material. The temporary directory's `node_modules` resolves
+to the core package's dependencies; no inherited runtime fallback is installed. Run
+`node --import tsx apps/cli/packages/core/test/ask-user-question-differential.mts
+<temporary-reference.mjs>` and repeat with
+`KNORVIA_ASK_QUESTION_TEST_EMITTED=1` after building CLI packages.
+
+Seed `0x41534b51` (1095977809) compares **4096 admission cases and 6247 narration
+cases in each mode**. It covers defaults, multiSelect, reversed/partial/unknown
+answer keys, blanks, quotes/newlines/Unicode, annotations, malformed shapes and
+raw inherited-key membership. Full JSON order/errors/text match without input
+mutation. Both output sequences have SHA-256
+`d70e6c5f9ac014a68dce1e9051416e50675dddfb6547785c25a6b0be7dae71ce`.
+
+- Temporary reference module: `8fdeaa291602e487aa2a03231a050f06f6877af7dff537b96d199e3c6cd082da`
+- Frozen fixture: `60df0e3b528fc7f247d96e0dc44a6ee6bc3b8bc790df482707f5bb767c5af862`
+
+| Production file                | Lines | SHA-256                                                            |
+| ------------------------------ | ----- | ------------------------------------------------------------------ |
+| ask-user-question.ts           | 99    | `b4c9f1988d183fa7161e7253af80ec87871266c7cbf6274e9570e5a537bdf48c` |
+| ask-user-question-result.ts    | 50    | `ee633585e392e9429ee7a5fd87ee0ae648005eca1b55669a7da0385d8aeafa2c` |
+| ask-user-question-narration.ts | 44    | `9537d2eeca7ba4e2266fe0ba3f377dd49fa8587d81142ce7dd203e5edb687d2b` |
+
+### Execution caveats and remaining acceptance
+
+The first new baseline wait assertion used `perf` instead of the executor's
+existing `performance` field (17/18 passed). Correcting that test wiring retained
+the simulated wait and fixed-budget assertions; no existing test was relaxed.
+A temporary-reference generation attempt was blocked by child-process EPERM;
+the dependent driver consequently failed to load its absent reference. A checked
+shell `git show` plus read/transpile construction succeeded before comparison.
+
+The initial restricted isolated Node runner reported passing files without
+executing named tests, confirmed with a minimal probe. Those results are
+discarded. Standard isolated source/emitted/full runs with approved additional
+execution/network capabilities register named tests. No repository sandbox,
+security, runner or timeout configuration is changed.
+
+Linux synthetic evidence leaves actual user interaction, full live protocol
+readiness, native Windows/macOS/CUA, desktop/Web visuals, packaged distribution
+and real-user/provider/data acceptance unverified. The existing full broker
+regression supplies separate offline readiness coverage. Broader core lint still
+has 24 errors/11 warnings in 27 files verified byte-identical to the original
+assigned `0d80f9c` base. Retained-material reviews and all 27 material obligations
+remain with root. No deployment, release, merge or integration/main push occurs.
+
+Only the existing `parallel/cli-tools-fast-20261001` branch is pushed. The lane
+ends at a clean checkpoint and awaits root's next assignment in this same thread.
