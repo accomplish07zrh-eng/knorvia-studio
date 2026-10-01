@@ -105,3 +105,30 @@ is unchanged. The first formatting pass made the combined protocol fixture
 419 lines, so it was split into narrowly named test support before committing.
 Strict owned lint found duplicate imports introduced during that split; those
 new test imports were corrected. No inherited tests were edited or relaxed.
+
+## Replacement and verification findings
+
+The new operation table owns the admission classification. One compiler runs the
+retained automation guard when applicable, then the operation's strict schema
+and the retained port guard. It produces a typed effect with a deferred invocation;
+one handler awaits it once and completes the corresponding model result. A fixed
+ordered whitelist replaces the object projection. No task state is introduced.
+The first core typecheck found that TypeScript could not prove Object.fromEntries
+contained the required whitelist keys; its internal projection assertion was
+corrected without changing runtime values or schemas. Final core types pass.
+
+All nine retained declaration/guard/permission/budget statements were compared by
+TypeScript statement text with bf0cc48 and are byte-identical. Inherited comments
+inside the replaced private flow are retained in the helper. Baseline and final
+source/emitted named tests pass 19/19. The manual differential driver compares
+4096 calls for each operation (16384 total) in each mode, seed 0x43524f4e. Both
+sequences hash to f6d1c12b5cdf97ebdc24a7bd058a8cc917bdee3ffe4126243fae46dca672f291.
+The inherited temporary module is outside Git; no fallback is shipped.
+
+Configured formatting found that the new frozen JSON's original pretty-printing
+did not match oxfmt. Only whitespace was formatted; parsed observations were
+asserted deeply equal to the committed baseline. Broader core lint still reports
+24 errors and 11 warnings in 27 files, all byte-identical to assigned 0d80f9c and
+outside this scope. The strict owned lint passes. Root/CLI configured lint and
+root/CLI types pass. Final full-regression and remaining native evidence are in
+the lane handoff; no acceptance is inferred from unexecuted native/live paths.

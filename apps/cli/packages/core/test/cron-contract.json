@@ -97,14 +97,7 @@
             },
             "intervalUnit": {
               "type": "string",
-              "enum": [
-                "minute",
-                "hourly",
-                "daily",
-                "weekly",
-                "monthly",
-                "yearly"
-              ],
+              "enum": ["minute", "hourly", "daily", "weekly", "monthly", "yearly"],
               "description": "Custom recurring interval unit for every N minutes/hours/days/weeks/months/years. Pair with interval (1-200) for every N-unit request, even if cron can express N; submit a legal compatible cron whose time/day slots are used by the scheduleRule. Omit both for ordinary calendar cron schedules."
             },
             "interval": {
@@ -114,10 +107,7 @@
               "description": "Integer interval from 1 to 200 paired with intervalUnit. The host carries the real interval via scheduleRule; the compatible cron is only a legal display expression. Must be set together with intervalUnit."
             }
           },
-          "required": [
-            "prompt",
-            "title"
-          ],
+          "required": ["prompt", "title"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -147,12 +137,7 @@
                 },
                 "lifecycleStatus": {
                   "type": "string",
-                  "enum": [
-                    "active",
-                    "completed",
-                    "failed",
-                    "paused"
-                  ]
+                  "enum": ["active", "completed", "failed", "paused"]
                 },
                 "nextRunAt": {
                   "type": "integer",
@@ -199,34 +184,19 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "providerId",
-                    "modelId"
-                  ],
+                  "required": ["providerId", "modelId"],
                   "additionalProperties": false
                 },
                 "mode": {
                   "type": "string",
-                  "enum": [
-                    "build",
-                    "edit",
-                    "plan",
-                    "yolo"
-                  ]
+                  "enum": ["build", "edit", "plan", "yolo"]
                 },
                 "scheduleRule": {
                   "type": "object",
                   "properties": {
                     "unit": {
                       "type": "string",
-                      "enum": [
-                        "minute",
-                        "hourly",
-                        "daily",
-                        "weekly",
-                        "monthly",
-                        "yearly"
-                      ]
+                      "enum": ["minute", "hourly", "daily", "weekly", "monthly", "yearly"]
                     },
                     "interval": {
                       "type": "integer",
@@ -271,19 +241,10 @@
                     },
                     "monthlyMode": {
                       "type": "string",
-                      "enum": [
-                        "date",
-                        "weekday"
-                      ]
+                      "enum": ["date", "weekday"]
                     }
                   },
-                  "required": [
-                    "unit",
-                    "interval",
-                    "hour",
-                    "minute",
-                    "anchorAt"
-                  ],
+                  "required": ["unit", "interval", "hour", "minute", "anchorAt"],
                   "additionalProperties": false
                 }
               },
@@ -304,10 +265,7 @@
               "minLength": 1
             }
           },
-          "required": [
-            "automation",
-            "message"
-          ],
+          "required": ["automation", "message"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -453,10 +411,7 @@
           "riskLevel": "medium",
           "sideEffectScope": "workspace",
           "needsApproval": true,
-          "patternSources": [
-            "toolName",
-            "input"
-          ],
+          "patternSources": ["toolName", "input"],
           "denyPriority": "beforeAsk"
         },
         "resultBudget": {
@@ -559,12 +514,7 @@
                   },
                   "lifecycleStatus": {
                     "type": "string",
-                    "enum": [
-                      "active",
-                      "completed",
-                      "failed",
-                      "paused"
-                    ]
+                    "enum": ["active", "completed", "failed", "paused"]
                   },
                   "nextRunAt": {
                     "type": "integer",
@@ -611,34 +561,19 @@
                         "additionalProperties": false
                       }
                     },
-                    "required": [
-                      "providerId",
-                      "modelId"
-                    ],
+                    "required": ["providerId", "modelId"],
                     "additionalProperties": false
                   },
                   "mode": {
                     "type": "string",
-                    "enum": [
-                      "build",
-                      "edit",
-                      "plan",
-                      "yolo"
-                    ]
+                    "enum": ["build", "edit", "plan", "yolo"]
                   },
                   "scheduleRule": {
                     "type": "object",
                     "properties": {
                       "unit": {
                         "type": "string",
-                        "enum": [
-                          "minute",
-                          "hourly",
-                          "daily",
-                          "weekly",
-                          "monthly",
-                          "yearly"
-                        ]
+                        "enum": ["minute", "hourly", "daily", "weekly", "monthly", "yearly"]
                       },
                       "interval": {
                         "type": "integer",
@@ -683,19 +618,10 @@
                       },
                       "monthlyMode": {
                         "type": "string",
-                        "enum": [
-                          "date",
-                          "weekday"
-                        ]
+                        "enum": ["date", "weekday"]
                       }
                     },
-                    "required": [
-                      "unit",
-                      "interval",
-                      "hour",
-                      "minute",
-                      "anchorAt"
-                    ],
+                    "required": ["unit", "interval", "hour", "minute", "anchorAt"],
                     "additionalProperties": false
                   }
                 },
@@ -713,9 +639,7 @@
               }
             }
           },
-          "required": [
-            "automations"
-          ],
+          "required": ["automations"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -765,12 +689,8 @@
           "riskLevel": "low",
           "sideEffectScope": "none",
           "needsApproval": false,
-          "patternSources": [
-            "toolName"
-          ],
-          "alwaysAllowPatternSources": [
-            "toolName"
-          ],
+          "patternSources": ["toolName"],
+          "alwaysAllowPatternSources": ["toolName"],
           "denyPriority": "beforeAsk"
         },
         "resultBudget": {
@@ -891,14 +811,7 @@
             },
             "intervalUnit": {
               "type": "string",
-              "enum": [
-                "minute",
-                "hourly",
-                "daily",
-                "weekly",
-                "monthly",
-                "yearly"
-              ],
+              "enum": ["minute", "hourly", "daily", "weekly", "monthly", "yearly"],
               "description": "Switch this automation to a long recurring interval whose step exceeds a cron field ceiling (hourly N>24, daily N>31, etc.). Pair with interval and submit a legal compatible cron (omit cron to keep the existing schedule's minute)."
             },
             "interval": {
@@ -908,10 +821,7 @@
               "description": "Positive integer interval paired with intervalUnit. Must be set together with intervalUnit."
             }
           },
-          "required": [
-            "id",
-            "title"
-          ],
+          "required": ["id", "title"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -941,12 +851,7 @@
                 },
                 "lifecycleStatus": {
                   "type": "string",
-                  "enum": [
-                    "active",
-                    "completed",
-                    "failed",
-                    "paused"
-                  ]
+                  "enum": ["active", "completed", "failed", "paused"]
                 },
                 "nextRunAt": {
                   "type": "integer",
@@ -993,34 +898,19 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "providerId",
-                    "modelId"
-                  ],
+                  "required": ["providerId", "modelId"],
                   "additionalProperties": false
                 },
                 "mode": {
                   "type": "string",
-                  "enum": [
-                    "build",
-                    "edit",
-                    "plan",
-                    "yolo"
-                  ]
+                  "enum": ["build", "edit", "plan", "yolo"]
                 },
                 "scheduleRule": {
                   "type": "object",
                   "properties": {
                     "unit": {
                       "type": "string",
-                      "enum": [
-                        "minute",
-                        "hourly",
-                        "daily",
-                        "weekly",
-                        "monthly",
-                        "yearly"
-                      ]
+                      "enum": ["minute", "hourly", "daily", "weekly", "monthly", "yearly"]
                     },
                     "interval": {
                       "type": "integer",
@@ -1065,19 +955,10 @@
                     },
                     "monthlyMode": {
                       "type": "string",
-                      "enum": [
-                        "date",
-                        "weekday"
-                      ]
+                      "enum": ["date", "weekday"]
                     }
                   },
-                  "required": [
-                    "unit",
-                    "interval",
-                    "hour",
-                    "minute",
-                    "anchorAt"
-                  ],
+                  "required": ["unit", "interval", "hour", "minute", "anchorAt"],
                   "additionalProperties": false
                 }
               },
@@ -1098,10 +979,7 @@
               "minLength": 1
             }
           },
-          "required": [
-            "automation",
-            "message"
-          ],
+          "required": ["automation", "message"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -1223,10 +1101,7 @@
           "riskLevel": "medium",
           "sideEffectScope": "workspace",
           "needsApproval": true,
-          "patternSources": [
-            "toolName",
-            "input"
-          ],
+          "patternSources": ["toolName", "input"],
           "denyPriority": "beforeAsk"
         },
         "resultBudget": {
@@ -1304,9 +1179,7 @@
               "description": "Automation id returned by CronCreate or CronList"
             }
           },
-          "required": [
-            "id"
-          ],
+          "required": ["id"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -1325,11 +1198,7 @@
               "minLength": 1
             }
           },
-          "required": [
-            "deleted",
-            "id",
-            "message"
-          ],
+          "required": ["deleted", "id", "message"],
           "additionalProperties": false,
           "$schema": "https://json-schema.org/draft/2020-12/schema"
         },
@@ -1379,10 +1248,7 @@
           "riskLevel": "medium",
           "sideEffectScope": "workspace",
           "needsApproval": true,
-          "patternSources": [
-            "toolName",
-            "input"
-          ],
+          "patternSources": ["toolName", "input"],
           "denyPriority": "beforeAsk"
         },
         "resultBudget": {
@@ -2017,18 +1883,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -2047,18 +1909,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -2077,18 +1935,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -2107,18 +1961,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -2209,25 +2059,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -2247,25 +2091,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -2285,25 +2123,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -2323,25 +2155,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "prompt"
-              ],
+              "path": ["prompt"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -4624,9 +4450,7 @@
               "inclusive": false,
               "exact": false,
               "message": "Number must be greater than 0",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4647,9 +4471,7 @@
               "inclusive": false,
               "exact": false,
               "message": "Number must be greater than 0",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4670,9 +4492,7 @@
               "inclusive": false,
               "exact": false,
               "message": "Number must be greater than 0",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4693,9 +4513,7 @@
               "inclusive": false,
               "exact": false,
               "message": "Number must be greater than 0",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4786,9 +4604,7 @@
               "expected": "integer",
               "received": "float",
               "message": "Expected integer, received float",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4807,9 +4623,7 @@
               "expected": "integer",
               "received": "float",
               "message": "Expected integer, received float",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4828,9 +4642,7 @@
               "expected": "integer",
               "received": "float",
               "message": "Expected integer, received float",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4849,9 +4661,7 @@
               "expected": "integer",
               "received": "float",
               "message": "Expected integer, received float",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4944,9 +4754,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 525600",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4967,9 +4775,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 525600",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -4990,9 +4796,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 525600",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -5013,9 +4817,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 525600",
-              "path": [
-                "delayMinutes"
-              ]
+              "path": ["delayMinutes"]
             }
           ]
         },
@@ -5104,9 +4906,7 @@
             {
               "code": "custom",
               "message": "a relative delay must omit cron; the host computes the schedule from its real clock",
-              "path": [
-                "cron"
-              ]
+              "path": ["cron"]
             }
           ]
         },
@@ -5123,9 +4923,7 @@
             {
               "code": "custom",
               "message": "a relative delay must omit cron; the host computes the schedule from its real clock",
-              "path": [
-                "cron"
-              ]
+              "path": ["cron"]
             }
           ]
         },
@@ -5142,9 +4940,7 @@
             {
               "code": "custom",
               "message": "a relative delay must omit cron; the host computes the schedule from its real clock",
-              "path": [
-                "cron"
-              ]
+              "path": ["cron"]
             }
           ]
         },
@@ -5161,9 +4957,7 @@
             {
               "code": "custom",
               "message": "a relative delay must omit cron; the host computes the schedule from its real clock",
-              "path": [
-                "cron"
-              ]
+              "path": ["cron"]
             }
           ]
         },
@@ -5252,9 +5046,7 @@
             {
               "code": "custom",
               "message": "a relative delay creates a one-shot automation and cannot use recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5271,9 +5063,7 @@
             {
               "code": "custom",
               "message": "a relative delay creates a one-shot automation and cannot use recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5290,9 +5080,7 @@
             {
               "code": "custom",
               "message": "a relative delay creates a one-shot automation and cannot use recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5309,9 +5097,7 @@
             {
               "code": "custom",
               "message": "a relative delay creates a one-shot automation and cannot use recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5400,9 +5186,7 @@
             {
               "code": "custom",
               "message": "a relative delay runs once and cannot use maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -5419,9 +5203,7 @@
             {
               "code": "custom",
               "message": "a relative delay runs once and cannot use maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -5438,9 +5220,7 @@
             {
               "code": "custom",
               "message": "a relative delay runs once and cannot use maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -5457,9 +5237,7 @@
             {
               "code": "custom",
               "message": "a relative delay runs once and cannot use maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -5548,9 +5326,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5567,9 +5343,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5586,9 +5360,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5605,9 +5377,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5700,9 +5470,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 200",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5723,9 +5491,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 200",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5746,9 +5512,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 200",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5769,9 +5533,7 @@
               "inclusive": true,
               "exact": false,
               "message": "Number must be less than or equal to 200",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -5860,9 +5622,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and requires recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5879,9 +5639,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and requires recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5898,9 +5656,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and requires recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -5917,9 +5673,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and requires recurring=true",
-              "path": [
-                "recurring"
-              ]
+              "path": ["recurring"]
             }
           ]
         },
@@ -6008,9 +5762,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -6027,9 +5779,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -6046,9 +5796,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -6065,9 +5813,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -6156,9 +5902,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with a relative delayMinutes",
-              "path": [
-                "intervalUnit"
-              ]
+              "path": ["intervalUnit"]
             }
           ]
         },
@@ -6175,9 +5919,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with a relative delayMinutes",
-              "path": [
-                "intervalUnit"
-              ]
+              "path": ["intervalUnit"]
             }
           ]
         },
@@ -6194,9 +5936,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with a relative delayMinutes",
-              "path": [
-                "intervalUnit"
-              ]
+              "path": ["intervalUnit"]
             }
           ]
         },
@@ -6213,9 +5953,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and cannot combine with a relative delayMinutes",
-              "path": [
-                "intervalUnit"
-              ]
+              "path": ["intervalUnit"]
             }
           ]
         },
@@ -6303,9 +6041,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "timezone"
-              ],
+              "keys": ["timezone"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'timezone'"
             }
@@ -6323,9 +6059,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "timezone"
-              ],
+              "keys": ["timezone"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'timezone'"
             }
@@ -6343,9 +6077,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "timezone"
-              ],
+              "keys": ["timezone"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'timezone'"
             }
@@ -6363,9 +6095,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "timezone"
-              ],
+              "keys": ["timezone"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'timezone'"
             }
@@ -7359,9 +7089,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7379,9 +7107,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7399,9 +7125,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7419,9 +7143,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7439,9 +7161,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7459,9 +7179,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7479,9 +7197,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7499,9 +7215,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -7815,9 +7529,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7835,9 +7547,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7855,9 +7565,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7875,9 +7583,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7895,9 +7601,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7915,9 +7619,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7935,9 +7637,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7955,9 +7655,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7975,9 +7673,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -7995,9 +7691,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8015,9 +7709,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8035,9 +7727,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8055,9 +7745,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8075,9 +7763,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8095,9 +7781,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8115,9 +7799,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "id"
-              ],
+              "keys": ["id"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'id'"
             }
@@ -8729,18 +8411,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -8759,18 +8437,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -8789,18 +8463,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -8819,18 +8489,14 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -8921,25 +8587,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -8959,25 +8619,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -8997,25 +8651,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -9035,25 +8683,19 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -10101,9 +9743,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -10122,9 +9762,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -10143,9 +9781,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -10164,9 +9800,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "title"
-              ],
+              "path": ["title"],
               "message": "Required"
             }
           ]
@@ -10260,9 +9894,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             },
             {
               "code": "too_small",
@@ -10271,9 +9903,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "title"
-              ]
+              "path": ["title"]
             }
           ]
         },
@@ -10294,9 +9924,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             },
             {
               "code": "too_small",
@@ -10305,9 +9933,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "title"
-              ]
+              "path": ["title"]
             }
           ]
         },
@@ -10328,9 +9954,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             },
             {
               "code": "too_small",
@@ -10339,9 +9963,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "title"
-              ]
+              "path": ["title"]
             }
           ]
         },
@@ -10362,9 +9984,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             },
             {
               "code": "too_small",
@@ -10373,9 +9993,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "title"
-              ]
+              "path": ["title"]
             }
           ]
         },
@@ -10464,9 +10082,7 @@
             {
               "code": "custom",
               "message": "Clearing maxRuns requires recurring=true in the same update",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10483,9 +10099,7 @@
             {
               "code": "custom",
               "message": "Clearing maxRuns requires recurring=true in the same update",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10502,9 +10116,7 @@
             {
               "code": "custom",
               "message": "Clearing maxRuns requires recurring=true in the same update",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10521,9 +10133,7 @@
             {
               "code": "custom",
               "message": "Clearing maxRuns requires recurring=true in the same update",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10612,9 +10222,7 @@
             {
               "code": "custom",
               "message": "recurring=true cannot be combined with a numeric maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10631,9 +10239,7 @@
             {
               "code": "custom",
               "message": "recurring=true cannot be combined with a numeric maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10650,9 +10256,7 @@
             {
               "code": "custom",
               "message": "recurring=true cannot be combined with a numeric maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10669,9 +10273,7 @@
             {
               "code": "custom",
               "message": "recurring=true cannot be combined with a numeric maxRuns",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10760,9 +10362,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and only allows maxRuns=null with recurring=true",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10779,9 +10379,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and only allows maxRuns=null with recurring=true",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10798,9 +10396,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and only allows maxRuns=null with recurring=true",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10817,9 +10413,7 @@
             {
               "code": "custom",
               "message": "intervalUnit is a recurring carrier and only allows maxRuns=null with recurring=true",
-              "path": [
-                "maxRuns"
-              ]
+              "path": ["maxRuns"]
             }
           ]
         },
@@ -10908,9 +10502,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -10927,9 +10519,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -10946,9 +10536,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -10965,9 +10553,7 @@
             {
               "code": "custom",
               "message": "intervalUnit and interval must be set together",
-              "path": [
-                "interval"
-              ]
+              "path": ["interval"]
             }
           ]
         },
@@ -11055,9 +10641,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "sessionId"
-              ],
+              "keys": ["sessionId"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'sessionId'"
             }
@@ -11075,9 +10659,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "sessionId"
-              ],
+              "keys": ["sessionId"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'sessionId'"
             }
@@ -11095,9 +10677,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "sessionId"
-              ],
+              "keys": ["sessionId"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'sessionId'"
             }
@@ -11115,9 +10695,7 @@
           "issues": [
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "sessionId"
-              ],
+              "keys": ["sessionId"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'sessionId'"
             }
@@ -11801,9 +11379,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             }
           ]
@@ -11822,9 +11398,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             }
           ]
@@ -11843,9 +11417,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             }
           ]
@@ -11864,9 +11436,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             }
           ]
@@ -11957,16 +11527,12 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -11986,16 +11552,12 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -12015,16 +11577,12 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -12044,16 +11602,12 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "undefined",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Required"
             },
             {
               "code": "unrecognized_keys",
-              "keys": [
-                "extra"
-              ],
+              "keys": ["extra"],
               "path": [],
               "message": "Unrecognized key(s) in object: 'extra'"
             }
@@ -12298,9 +11852,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             }
           ]
         },
@@ -12321,9 +11873,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             }
           ]
         },
@@ -12344,9 +11894,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             }
           ]
         },
@@ -12367,9 +11915,7 @@
               "inclusive": true,
               "exact": false,
               "message": "String must contain at least 1 character(s)",
-              "path": [
-                "id"
-              ]
+              "path": ["id"]
             }
           ]
         },
@@ -12459,9 +12005,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "number",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Expected string, received number"
             }
           ]
@@ -12480,9 +12024,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "number",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Expected string, received number"
             }
           ]
@@ -12501,9 +12043,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "number",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Expected string, received number"
             }
           ]
@@ -12522,9 +12062,7 @@
               "code": "invalid_type",
               "expected": "string",
               "received": "number",
-              "path": [
-                "id"
-              ],
+              "path": ["id"],
               "message": "Expected string, received number"
             }
           ]
@@ -12647,10 +12185,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "create",
@@ -12710,10 +12245,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "create",
@@ -12754,10 +12286,7 @@
           "PostToolUseFailure",
           "tool_call_error"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_error"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"],
         "calls": []
       }
     },
@@ -12783,10 +12312,7 @@
           "PostToolUseFailure",
           "tool_call_error"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_error"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"],
         "calls": []
       }
     },
@@ -12852,10 +12378,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "list",
@@ -12927,10 +12450,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "list",
@@ -13002,10 +12522,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "list",
@@ -13077,10 +12594,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "list",
@@ -13131,10 +12645,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "update",
@@ -13190,10 +12701,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "update",
@@ -13230,10 +12738,7 @@
           "PostToolUseFailure",
           "tool_call_error"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_error"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"],
         "calls": []
       }
     },
@@ -13259,10 +12764,7 @@
           "PostToolUseFailure",
           "tool_call_error"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_error"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"],
         "calls": []
       }
     },
@@ -13289,10 +12791,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "delete",
@@ -13329,10 +12828,7 @@
           "tool_call_result",
           "background"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_result"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_result"],
         "calls": [
           {
             "method": "delete",
@@ -13368,10 +12864,7 @@
           "PostToolUseFailure",
           "tool_call_error"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_error"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"],
         "calls": []
       }
     },
@@ -13397,10 +12890,7 @@
           "PostToolUseFailure",
           "tool_call_error"
         ],
-        "eventTypes": [
-          "tool_call_started",
-          "tool_call_error"
-        ],
+        "eventTypes": ["tool_call_started", "tool_call_error"],
         "calls": []
       }
     }
@@ -14404,69 +13894,43 @@
             {
               "expected": "string",
               "code": "invalid_type",
-              "path": [
-                "automation",
-                "title"
-              ],
+              "path": ["automation", "title"],
               "message": "Invalid input: expected string, received undefined"
             },
             {
               "expected": "string",
               "code": "invalid_type",
-              "path": [
-                "automation",
-                "cronExpr"
-              ],
+              "path": ["automation", "cronExpr"],
               "message": "Invalid input: expected string, received undefined"
             },
             {
               "expected": "string",
               "code": "invalid_type",
-              "path": [
-                "automation",
-                "prompt"
-              ],
+              "path": ["automation", "prompt"],
               "message": "Invalid input: expected string, received undefined"
             },
             {
               "expected": "boolean",
               "code": "invalid_type",
-              "path": [
-                "automation",
-                "enabled"
-              ],
+              "path": ["automation", "enabled"],
               "message": "Invalid input: expected boolean, received undefined"
             },
             {
               "code": "invalid_value",
-              "values": [
-                "active",
-                "completed",
-                "failed",
-                "paused"
-              ],
-              "path": [
-                "automation",
-                "lifecycleStatus"
-              ],
+              "values": ["active", "completed", "failed", "paused"],
+              "path": ["automation", "lifecycleStatus"],
               "message": "Invalid option: expected one of \"active\"|\"completed\"|\"failed\"|\"paused\""
             },
             {
               "expected": "number",
               "code": "invalid_type",
-              "path": [
-                "automation",
-                "runCount"
-              ],
+              "path": ["automation", "runCount"],
               "message": "Invalid input: expected number, received undefined"
             },
             {
               "expected": "boolean",
               "code": "invalid_type",
-              "path": [
-                "automation",
-                "recurring"
-              ],
+              "path": ["automation", "recurring"],
               "message": "Invalid input: expected boolean, received undefined"
             }
           ]
