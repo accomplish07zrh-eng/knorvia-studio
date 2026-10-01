@@ -179,37 +179,34 @@ export function createGitService(options?: {
     },
 
     async refresh(params) {
-      const statusPromise = repo.getStatus(params.workspacePath);
-      const identityPromise = params.includeIdentity
-        ? repo.getIdentity(params.workspacePath)
-        : Promise.resolve(null);
-      const branchComparisonPromise = params.includeBranchComparison
-        ? repo.getBranchComparison(params.workspacePath)
-        : Promise.resolve(null);
-      const [status, identity, branchComparisonSnapshot] = await Promise.all([
-        statusPromise,
-        identityPromise,
-        branchComparisonPromise,
-      ]);
-      const branchComparison: GitBranchComparison | null = branchComparisonSnapshot
-        ? {
-            baseRef: branchComparisonSnapshot.baseRef,
-            headRef: branchComparisonSnapshot.headRef,
-            comparisonLabel: branchComparisonSnapshot.comparisonLabel,
-            changes: getBranchComparisonChanges(branchComparisonSnapshot),
-          }
-        : null;
-
-      // UI 的自动刷新原本会并发调用 summary、unstaged、staged 三个 RPC，
-      // 每个 RPC 都重新执行一次 git status。agent 批量写文件时这会把 renderer 卡在
-      // 重复的 Git I/O 和 RPC 日志上。refresh 在一次 status 快照里切出三份数据。
-      return {
+      const requests = [
+        repo.getStatus(params.workspacePath),
+        params.includeIdentity ? repo.getIdentity(params.workspacePath) : Promise.resolve(null),
+        params.includeBranchComparison
+          ? repo.getBranchComparison(params.workspacePath)
+          : Promise.resolve(null),
+      ] as const;
+      const [status, identity, branchComparisonSnapshot] = await Promise.all(requests);
+      let branchComparison: GitBranchComparison | null = null;
+      if (branchComparisonSnapshot) {
+        branchComparison = {
+          baseRef: branchComparisonSnapshot.baseRef,
+          headRef: branchComparisonSnapshot.headRef,
+          comparisonLabel: branchComparisonSnapshot.comparisonLabel,
+          changes: getBranchComparisonChanges(branchComparisonSnapshot),
+        };
+      }
+      const frame = {
         summary: status.summary,
         identity,
-        unstagedChanges: getChangesForSource(status, "unstaged"),
-        stagedChanges: getChangesForSource(status, "staged"),
+        unstagedChanges: [] as GitFileChange[],
+        stagedChanges: [] as GitFileChange[],
         branchComparison,
       };
+      for (const source of ["unstaged", "staged"] as const) {
+        frame[`${source}Changes`] = getChangesForSource(status, source);
+      }
+      return frame;
     },
   };
 }
