@@ -1,0 +1,111 @@
+{
+  "checkedOn": "2026-10-01",
+  "package": "ansi-to-react@6.2.6",
+  "result": "Genuine ancestral original BSD-3-Clause copyright/license bytes recovered with direct source binding. Exact 6.2.6 package and source snapshot still publish no complete copyright/license text; do not mark exact-version complete-material review closed automatically.",
+  "officialMetadataUrl": "https://registry.npmjs.org/ansi-to-react/6.2.6",
+  "archive": {
+    "url": "https://registry.npmjs.org/ansi-to-react/-/ansi-to-react-6.2.6.tgz",
+    "sha1": "ab0573a8a63725918719456b89f0da9bdb402a42",
+    "sha1MatchesOfficial": true,
+    "sha256": "e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655",
+    "integrity": "sha512-Eqi0iaMK5OZ3jsVFxWvU2B74UZBnGuHlkflKMX6wTOeH+luy9KE2O0gUkc2PxhIP1R4IO0xohv62UMFInQOSeg==",
+    "integrityMatchesOfficial": true,
+    "files": [
+      {
+        "path": "README.md",
+        "bytes": 2064,
+        "sha256": "b681c6d6ab80ff5412c6b377a8b88941d2aefa312a7d74e32972ae5eadceb67a",
+        "installedExactlyEqual": true
+      },
+      {
+        "path": "lib/index.d.ts",
+        "bytes": 241,
+        "sha256": "0240592f18cdb0c0ebd67f5064f9ea2164e103a373ee536bfa7ba8955559620f",
+        "installedExactlyEqual": true
+      },
+      {
+        "path": "lib/index.js",
+        "bytes": 8077,
+        "sha256": "dc6c8ec2b4c4582d1ca4367d6685ed793c944f02306baaa7f42f423d698baaa5",
+        "installedExactlyEqual": true
+      },
+      {
+        "path": "package.json",
+        "bytes": 1845,
+        "sha256": "6669789531a5fb393815b54aaa6ee853be53a60e00054c9de436dfc11a90c6ae",
+        "installedExactlyEqual": true
+      }
+    ]
+  },
+  "exactSource": {
+    "repository": "nteract/ansi-to-react",
+    "revision": "145140971e9d83ccac32265f24b1c55dea437896",
+    "tag": "v6.2.6",
+    "tagExactlyResolvesToGitHead": true,
+    "treeUrl": "https://api.github.com/repos/nteract/ansi-to-react/git/trees/145140971e9d83ccac32265f24b1c55dea437896?recursive=1",
+    "treeTruncated": false,
+    "sourcePath": "src/index.ts",
+    "sourceGitBlob": "0ece85d923d824401f8168dd6fa9ff02012df280",
+    "sourceSha256": "269c67efb20b2dc6934d04c412c5a14535d4864d0821c945050bba49c90d82af",
+    "standaloneLicenseFiles": [],
+    "readmeByteEqual": true,
+    "packageJsonDifference": "Only semantic-release version field 6.0.10 to 6.2.6; exact bytes match after that single replacement.",
+    "generatedFiles": "lib/index.js and lib/index.d.ts exactly equal single-file transpilation/declaration emit from src/index.ts by existing TypeScript 6.0.2; upstream lock uses 5.9.3. This is an exact-byte source correspondence check, not a locked-dependency full-build reproduction. Diagnostic-only ignoreDeprecations=6.0 used for clean declaration emit.",
+    "provenance": "Official npm attestation decoded; SHA512 subject matches archive, resolvedDependencies gitCommit matches registry gitHead and v6.2.6. Cryptographic verification of the Sigstore bundle was not performed.",
+    "attestationUrl": "https://registry.npmjs.org/-/npm/v1/attestations/ansi-to-react@6.2.6",
+    "publisherWorkflowUrl": "https://raw.githubusercontent.com/nteract/ansi-to-react/145140971e9d83ccac32265f24b1c55dea437896/.github/workflows/npm-release.yml",
+    "packageJsonBytesEqualAfterVersionReplacement": true
+  },
+  "historyNegativeCheck": {
+    "releaseAncestorCommits": 140,
+    "namedLicenseCopyingCopyrightNoticePaths": [],
+    "sourceReadmeUniqueAncestralBlobsChecked": 54,
+    "copyrightRedistributionPermissionGrantAllRightsReservedHits": 0,
+    "shallow": false
+  },
+  "recoveredOriginalMaterial": {
+    "publisherRepository": "nteract/archived-desktop-app",
+    "historicalVersion": "ansi-to-react@6.0.5-alpha.0",
+    "historicalMetadataUrl": "https://registry.npmjs.org/ansi-to-react/6.0.5-alpha.0",
+    "historicalRevision": "fb8320e26a94889a7b99ede5fd989997d340e9e7",
+    "treeUrl": "https://api.github.com/repos/nteract/archived-desktop-app/git/trees/fb8320e26a94889a7b99ede5fd989997d340e9e7?recursive=1",
+    "treeTruncated": false,
+    "licenseUrl": "https://raw.githubusercontent.com/nteract/archived-desktop-app/fb8320e26a94889a7b99ede5fd989997d340e9e7/LICENSE",
+    "licenseGitBlob": "79d2e86e15b4097311ba62f264a5d099b4bc5a21",
+    "licenseSha256": "866e6fa48cb8810d36d8d85a3085d7aa1c4317d3731f0ef84919428fee87bf71",
+    "licenseBytes": 1486,
+    "originalCopyright": "Copyright (c) 2016, nteract contributors",
+    "sourceUrl": "https://raw.githubusercontent.com/nteract/archived-desktop-app/fb8320e26a94889a7b99ede5fd989997d340e9e7/packages/ansi-to-react/src/index.ts",
+    "sourceGitBlob": "4ec99c447d0f08b3a2a21d322911c616d5bd07f0",
+    "sourceSha256": "91b719975d92ca78a7109cd5085fed007b29f79d7df571c6df13fe6126ea168c",
+    "migrationCommitUrl": "https://github.com/nteract/ansi-to-react/commit/f37e277c4402038456ebb120d8ec9c10335a4959",
+    "migrationSourceByteEqualsHistoricalMonorepo": true,
+    "migrationCommitIsAncestorOfExactRelease": true,
+    "coverageLimit": "Exact release src/index.ts is not byte-identical to historical covered source: 162 insertions and 51 deletions since migration. No publisher-authored statement or exact release complete license text found that explicitly binds this historical root copyright notice to all later changes.",
+    "noSubstitution": "This is the actual copied monorepo source, not a similarly named or unrelated project license.",
+    "historicalArchive": {
+      "url": "https://registry.npmjs.org/ansi-to-react/-/ansi-to-react-6.0.5-alpha.0.tgz",
+      "sha1": "7b05889a6307a07f26b2a9d8c4b8d312faff78e4",
+      "sha1MatchesOfficial": true,
+      "sha256": "850a11ad0c3f0df88e6c31bd719cab6fc278afaf13fb2377c27fbc82354575e4",
+      "integrity": "sha512-T14CXjqoRWtiS5rKMul3wdSDCW+02d3oZSqtqUT0rEFFN6jjAJNcqxWK/YjXyp4qoAGgaXkhlZfn887QU5IplQ==",
+      "integrityMatchesOfficial": true,
+      "licenseMember": "package/LICENSE",
+      "licenseExactlyEqualsMonorepoLicense": true,
+      "sourceMember": "package/src/index.ts",
+      "sourceExactlyEqualsMonorepoAndMigration": true,
+      "licenseArtifactPath": "third-party/upstream/866e6fa48cb8810d36d8d85a3085d7aa1c4317d3731f0ef84919428fee87bf71.txt"
+    }
+  },
+  "rootVerification": {
+    "verifiedArchivesSriSha1": true,
+    "historicalLicenseAndSourceBytesMatch": true,
+    "migrationSourceMatches": true,
+    "currentFourPublishedFileHashesMatch": true,
+    "currentGeneratedFilesMatchResearchEmission": true,
+    "freshRootTranspilationPerformed": false,
+    "storedOriginalNotice": "third-party/upstream/866e6fa48cb8810d36d8d85a3085d7aa1c4317d3731f0ef84919428fee87bf71.txt",
+    "overrideAndStatusChanged": false,
+    "remainingMaterialObligations": 26
+  }
+}
