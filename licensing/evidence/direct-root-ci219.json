@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "run": 36836009731,
+  "runNumber": 219,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36836009731",
+  "head": "2c771c7293c20892be9fa8586f4cfddb0ec66dfa",
+  "checkedMerge": "dace048cdac970ac477e39995f61cf3b08cf0dc6",
+  "headAndCheckedTree": "8b89880b031ccc78d21cd539d49e60cc827bb1b1",
+  "status": "success",
+  "jobs": {
+    "linux": {
+      "id": 110283474917,
+      "tests": 6594,
+      "pass": 6586,
+      "fail": 0,
+      "skip": 8
+    },
+    "windows": {
+      "id": 110283475313,
+      "tests": 6594,
+      "pass": 6593,
+      "fail": 0,
+      "skip": 1
+    }
+  },
+  "verification": "Root independently read terminal workflow, both logs, checked merge tree and remote recovery head. Source auth passed both platforms. CI218 historical cause remains unknown; this is non-reproduction, not an inferred fix. No timing/acceptance changes."
+}
