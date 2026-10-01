@@ -380,21 +380,21 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
   }
 
   async function runGitStatus(resolution: GitResolvedRepository) {
-    const useCollapsedUntracked = collapsedUntrackedRepoRoots.has(resolution.repoRoot);
-    const result = await executeGitStatus(resolution, useCollapsedUntracked ? "normal" : "all");
-    if (useCollapsedUntracked || !result.outputTruncated) {
-      return result;
-    }
+    let mode: "all" | "normal" = collapsedUntrackedRepoRoots.has(resolution.repoRoot)
+      ? "normal"
+      : "all";
+    while (true) {
+      const result = await executeGitStatus(resolution, mode);
+      if (mode === "normal" || !result.outputTruncated) return result;
 
-    // 大仓库的逐文件未跟踪状态可能超过输出上限；直接放大上限会让后续行数统计
-    // 并发读取上万个文件。首次超限后按 repoRoot 记住目录折叠模式，既保留可用的 Git
-    // 摘要和变更入口，也避免每次自动刷新都重复执行一次必然失败的详细命令。
-    collapsedUntrackedRepoRoots.add(resolution.repoRoot);
-    log.warn(
-      undefined,
-      `git status detailed output exceeded limit; collapsing untracked directories repoRoot=${resolution.repoRoot}`,
-    );
-    return await executeGitStatus(resolution, "normal");
+      // 每个调用保留开始时的模式；仅 full 超限转一次 normal，先登记再警告，失败也保留标记。
+      collapsedUntrackedRepoRoots.add(resolution.repoRoot);
+      log.warn(
+        undefined,
+        `git status detailed output exceeded limit; collapsing untracked directories repoRoot=${resolution.repoRoot}`,
+      );
+      mode = "normal";
+    }
   }
 
   function reuseInFlightRequest<T>(
@@ -598,26 +598,33 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
           };
         }
 
+        const readNumstat = (staged: boolean) =>
+          commandProvider.run({
+            cwd: resolution.repoRoot,
+            args: [
+              "diff",
+              ...(staged ? ["--cached"] : []),
+              "--numstat",
+              "-z",
+              "--find-renames",
+              "--",
+            ],
+            timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
+            maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
+          });
         const [statusResult, stagedStatsResult, unstagedStatsResult] = await Promise.all([
-          // 默认保留逐文件未跟踪状态；只有确认当前 repoRoot 超限后，runGitStatus 才降级为目录折叠。
           runGitStatus(resolution),
-          commandProvider.run({
-            cwd: resolution.repoRoot,
-            args: ["diff", "--cached", "--numstat", "-z", "--find-renames", "--"],
-            timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-            maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
-          }),
-          commandProvider.run({
-            cwd: resolution.repoRoot,
-            args: ["diff", "--numstat", "-z", "--find-renames", "--"],
-            timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,
-            maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,
-          }),
+          readNumstat(true),
+          readNumstat(false),
         ]);
 
-        ensureGitCommandSucceeded("git status", statusResult);
-        ensureGitCommandSucceeded("git diff --cached --numstat", stagedStatsResult);
-        ensureGitCommandSucceeded("git diff --numstat", unstagedStatsResult);
+        for (const [label, result] of [
+          ["git status", statusResult],
+          ["git diff --cached --numstat", stagedStatsResult],
+          ["git diff --numstat", unstagedStatsResult],
+        ] as const) {
+          ensureGitCommandSucceeded(label, result);
+        }
 
         const parsedStatus = parseStatusPorcelain(statusResult.stdout);
         const untrackedStats = await buildUntrackedStats(resolution.repoRoot, parsedStatus.entries);
