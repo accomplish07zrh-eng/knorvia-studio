@@ -10,17 +10,14 @@
 //   2. 列宽由本次这些行算出来（有上界），不是写死的魔法数：一份只有两个子代理的花名册
 //      不该为了一个不存在的长名字空出二十列。
 
-import type {
-  GetWorkflowRunOutput,
-  GetWorkflowRunPhase,
-  GetWorkflowRunSubagent,
-} from "@knorvia/contracts";
+import type { GetWorkflowRunOutput, GetWorkflowRunPhase } from "@knorvia/contracts";
 import {
   escapeWorkflowRunText,
   formatRelativeAge,
   formatWorkflowRunCount,
   formatWorkflowRunDuration,
 } from "./workflow-run-introspection.js";
+import { renderWorkflowRunActivity } from "./get-workflow-run-activity-program.js";
 
 /** 列之间的间隔：两个空格。一个空格会让「名字 地址」读成一个词。 */
 const COLUMN_GAP = "  ";
@@ -189,7 +186,7 @@ export function formatWorkflowRunSubagentsBlock(run: GetWorkflowRunOutput): stri
         subagent.phaseName === undefined
           ? ""
           : `phase ${escapeWorkflowRunText(subagent.phaseName)}`,
-        subagentActivityCell(subagent, run.generatedAt, askedAtByQid),
+        renderWorkflowRunActivity(subagent, run.generatedAt, askedAtByQid),
         subagent.tokens > 0 ? `${formatWorkflowRunCount(subagent.tokens)} tokens` : "",
       ]),
     );
@@ -203,70 +200,6 @@ export function formatWorkflowRunSubagentsBlock(run: GetWorkflowRunOutput): stri
       ? `\nOnly the first ${run.subagents.length} subagents are listed; this run has more.`
       : "";
   return `<subagents>\n${lines.join("\n")}${truncated}\n</subagents>`;
-}
-
-function subagentActivityCell(
-  subagent: GetWorkflowRunSubagent,
-  now: number,
-  askedAtByQid: ReadonlyMap<string, number>,
-): string {
-  if (subagent.state === "parked" && subagent.parkedOn !== undefined) {
-    const waited = formatRelativeAge(now, askedAtByQid.get(subagent.parkedOn));
-    const forHow = waited === undefined ? "" : ` for ${waited.replace(/ ago$/u, "")}`;
-    return `on question ${escapeWorkflowRunText(subagent.parkedOn)}${forHow}`;
-  }
-  if (subagent.state === "waiting") return waitCell(subagent, now);
-  if (subagent.state === "unfinished" && subagent.currentAsk !== undefined) {
-    return `${askAddress(subagent.currentAsk)} was in flight at the stop`;
-  }
-  if (subagent.currentAsk !== undefined) return executingCell(subagent, now);
-  return settledCell(subagent);
-}
-
-function askAddress(ask: NonNullable<GetWorkflowRunSubagent["currentAsk"]>): string {
-  // actorSeq 是 journal 的 0 基列；模型面按人读的 1 基说「第几步」。
-  const step = ask.actorSeq === undefined ? "" : ` (step ${ask.actorSeq + 1})`;
-  return `${escapeWorkflowRunText(ask.siteId)}@${ask.ordinal}${step}`;
-}
-
-function executingCell(subagent: GetWorkflowRunSubagent, now: number): string {
-  const ask = subagent.currentAsk!;
-  const parts = [askAddress(ask)];
-  const onStep = formatRelativeAge(now, ask.startedAt);
-  if (onStep !== undefined) parts.push(`${onStep.replace(/ ago$/u, "")} on this step`);
-  if (ask.turn !== undefined) parts.push(`turn ${ask.turn}`);
-  if (ask.toolCalls !== undefined)
-    parts.push(`${ask.toolCalls} tool call${ask.toolCalls === 1 ? "" : "s"}`);
-  if (ask.lastTool !== undefined) {
-    const target =
-      ask.lastTool.target === undefined ? "" : ` ${escapeWorkflowRunText(ask.lastTool.target)}`;
-    const age = formatRelativeAge(now, ask.lastTool.at);
-    parts.push(
-      `last ${escapeWorkflowRunText(ask.lastTool.name)}${target}${age === undefined ? "" : ` ${age}`}`,
-    );
-  }
-  return parts.join(", ");
-}
-
-function waitCell(subagent: GetWorkflowRunSubagent, now: number): string {
-  const wait = subagent.wait;
-  if (wait === undefined) return "";
-  const waited = formatRelativeAge(now, wait.since);
-  const forHow = waited === undefined ? "" : ` for ${waited.replace(/ ago$/u, "")}`;
-  if (wait.cause === "slot") return `waiting for a slot${forHow}`;
-  const after = wait.reason === undefined ? "" : ` after ${escapeWorkflowRunText(wait.reason)}`;
-  const retry =
-    wait.retryAfterMs === undefined
-      ? ""
-      : `, retry in ${formatWorkflowRunDuration(wait.retryAfterMs)}`;
-  // 「等了多久」贴着原因，「还要等多久」收尾：两个时长挨在一起时读者分不清哪个是哪个。
-  return `backoff${after}${forHow}${retry}`;
-}
-
-function settledCell(subagent: GetWorkflowRunSubagent): string {
-  if (subagent.stepsSettled === 0 && subagent.stepsFailed === 0) return "";
-  const failed = subagent.stepsFailed > 0 ? `, ${subagent.stepsFailed} failed` : "";
-  return `${subagent.stepsSettled} step${subagent.stepsSettled === 1 ? "" : "s"}${failed}`;
 }
 
 // ————————————————————————————————————————————————
