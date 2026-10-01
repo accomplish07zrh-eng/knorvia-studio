@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "reviewedSourceBeforeReceipt": "73a1a0e",
+  "gitLaneHead": "28d5e79",
+  "agentLaneHead": "8c669eb",
+  "gitFocused": {
+    "source": 494,
+    "strictEmitted": 494,
+    "composition": "126 Git +368 prior terminal cases"
+  },
+  "gitProtected": {
+    "methods": [
+      {
+        "name": "getCommitMessageDiffQueries",
+        "sha256": "3f91d03a8057a990dc06f8eb84f16ed34e631b19e0d8e7d95e75f570ab2e1600",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getRepositorySummary",
+        "sha256": "9562f7e02a2faf3c781afe87004dc4733b5edc5c835e21cd7962542176c84c3a",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getWorkspaceRepositoryInfo",
+        "sha256": "7619af6e48b58e68f9a9a6ceea48644f04bf6c57ceb8dce4e1d53e8da88ee037",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getLocalBranches",
+        "sha256": "5526c2cc94f98601f57a3fc185495d37f5281e2c25fba6944cd2e0d3a9c7229a",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getCommitGraph",
+        "sha256": "4d6375a66c017286d8c085db7a9c9eb63873e75d6a50ddfacdef4c79460d0875",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "switchBranch",
+        "sha256": "b576612ada162bd1f77ceeedd94268e46a8ee682ba4bfe6972dde98128979cdf",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "createBranchAndSwitch",
+        "sha256": "ed67839ffffbc41a2b4a92d1eabe6ddb51fd589718b8acdc1cc8046ff5e720f8",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getChanges",
+        "sha256": "28600a5c5fc542cd30e28fb2d7753370511b7214b35e060b0fdb1e12c4e975f9",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getIgnoredPaths",
+        "sha256": "bc15d9b36c915880231040b5fd2c209df6325f927eb005e79a9c8d00ed81984d",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getDiff",
+        "sha256": "e22af12d9bb39dc14e760b816964a6dadbee0a437ae75dc855df7357294842f9",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "stagePaths",
+        "sha256": "7bdc8f7ec8e47189fa283762deaa047cd3926f5cce2f61ad8f7d7202dcaed037",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "unstagePaths",
+        "sha256": "feb7408651f0002113cdf3299f0ea4e41b2ef2866e1674236326ac264e5d02fc",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "discardPaths",
+        "sha256": "4ab47bfaace2ee7aa9cfa02210fb66089704e26f0a61f313fd43eb76219b25ae",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "generateCommitMessage",
+        "sha256": "da46336c5da0089b888f642a5ff60a8240e1433e60c277644c2f832ddea4e434",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "commit",
+        "sha256": "1269dec495d84159b893b5b3124b476ca2a93bd007a81a7beb3393b965e4bea4",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "push",
+        "sha256": "df03ffe25228c4b9a20b777eb8dd30172d83a6130e80f11cec9680b6c2085beb",
+        "scope": "body",
+        "unchanged": true
+      },
+      {
+        "name": "getIdentity",
+        "sha256": "661051a1b3de47f8ceae06531e93f0591954f7509abc25845d3bd8d6385cbba6",
+        "scope": "body",
+        "unchanged": true
+      }
+    ],
+    "files": [
+      {
+        "path": "packages/services/src/git/git.ts",
+        "sha256": "6f7e3bb85573005ac764da81960a20143ea45ae9551887e87253adadf67f9350",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/shared/src/git.ts",
+        "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/config.ts",
+        "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "sha256": "11b1e8550c8aaca02f5dca0c5f7e0ab55141f308483bfe0db25b0ec6b93ed58c",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliTypes.ts",
+        "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "sha256": "f14b38f83fa037d5f5c09dcf08e8cbe21c9d694230ba2f1893db78624e59c487",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+        "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+        "sha256": "3a177765be436c02fa623ca833afb2785c7b4c244e3e675c51c8c1ccc3ef512c",
+        "byteIdentical": true
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592",
+        "byteIdentical": true
+      }
+    ],
+    "owned": [
+      {
+        "path": "packages/services/src/git/gitService.ts",
+        "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce"
+      },
+      {
+        "path": "packages/services/src/git/gitServiceReadProjection.ts",
+        "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930"
+      },
+      {
+        "path": "packages/services/dist/git/gitService.js",
+        "sha256": "eda520fed813604d90d50067222e846db374ec620da086478b4ba1f53a658e0e"
+      },
+      {
+        "path": "packages/services/dist/git/gitServiceReadProjection.js",
+        "sha256": "318bb163d7aa31fb58d359d3262c0d535a23b253fe8782ef1e034c3d5a206096"
+      }
+    ]
+  },
+  "agentFocused": {
+    "source": 22,
+    "strictEmitted": 22,
+    "projectionComparisonsPerMode": 512,
+    "projectionSha256": "87abfc70a8624d93d793a44ab5318f4cd1ea48f4adbba34594f5e529b8fb81a8"
+  },
+  "agentReceipt": {
+    "ownedFilesMatched": 11,
+    "emittedFilesMatched": 11,
+    "protectedInputsCompared": 56,
+    "rootDivergences": [
+      "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "licensing/current-files.json",
+      "licensing/reviews.json"
+    ],
+    "tuple": "fcc11cae338c90dd3795e3d778d967a2baa15b774851d2d966c105013ee5db46",
+    "originalDetachedReplay": "Passed without --emitted at8c669eb; root-owned/emitted hashes separately matched. Root extra changes make original whole-worktree scope assertion unsuitable.",
+    "protectedRootDivergencesContext": {
+      "apps/cli/packages/core/src/tool/handlers/read-session-context.ts": "matches published68feb5a",
+      "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts": "matches published68feb5a",
+      "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts": "matches published68feb5a",
+      "licensing/current-files.json": "derived inventory updated by reviewed local acceptance commit7ab47e5",
+      "licensing/reviews.json": "matches published68feb5a"
+    }
+  },
+  "publisherBytes": {
+    "git": {
+      "source": "https://github.com/zai-org/ZCode",
+      "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+      "verifiedAt": "2026-10-01T09:53:42.622549+00:00",
+      "path": "packages/services/src/git/gitService.ts",
+      "blob": "df3426c8a398f797730c90dcfbd85cce3c7a0259",
+      "sha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+      "normalizedSha256": "08f0e94e23cd3ea75ff9983f82ab140fc3a2d6280b11fe4eb0a0aba724b3e617",
+      "bytes": 11865,
+      "method": "Root independently resolved pinned tree and fetched blob in separate bare repository; no source copied into product",
+      "limits": "Publisher byte corroboration only, not authorship or licence grant"
+    },
+    "agent": {
+      "source": "https://github.com/zai-org/ZCode",
+      "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "tree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+      "verifiedAt": "2026-10-01T09:59:46.778136+00:00",
+      "path": "apps/zcode-cli/packages/core/src/tool/handlers/agent.ts",
+      "blob": "1261884c65ce46529504704c8a54cc4d7ff77bed",
+      "sha256": "e29decfaf6c16083368850f8e7f2285c821dd3c6b53b0cf1f5816fbf6fdf3aac",
+      "normalizedSha256": "e29decfaf6c16083368850f8e7f2285c821dd3c6b53b0cf1f5816fbf6fdf3aac",
+      "bytes": 12372,
+      "method": "Root independently resolved pinned tree and blob in separate bare storage; no implementation copied into product",
+      "limits": "Publisher byte corroboration only, not originality/clean-room/licence grant"
+    }
+  },
+  "nativeGit": {
+    "source": {
+      "mode": "source",
+      "gitVersion": "git version 2.47.3",
+      "unstaged": [
+        "inside/change.txt",
+        "inside/untracked.txt"
+      ],
+      "staged": [
+        "inside/renamed.txt",
+        "inside/staged.txt",
+        "outside/cross-new.txt"
+      ],
+      "branch": [
+        "inside/branch.txt"
+      ],
+      "unrelatedOutsideExcluded": true,
+      "originalPathRenameScopeRetained": true,
+      "emptyUntrackedSuppressed": true,
+      "renameRetained": true,
+      "inProcessRpcRefresh": true,
+      "nativeDiff": true,
+      "headStatusAndFixtureBytesUnchanged": true
+    },
+    "strictEmitted": {
+      "mode": "dist",
+      "gitVersion": "git version 2.47.3",
+      "unstaged": [
+        "inside/change.txt",
+        "inside/untracked.txt"
+      ],
+      "staged": [
+        "inside/renamed.txt",
+        "inside/staged.txt",
+        "outside/cross-new.txt"
+      ],
+      "branch": [
+        "inside/branch.txt"
+      ],
+      "unrelatedOutsideExcluded": true,
+      "originalPathRenameScopeRetained": true,
+      "emptyUntrackedSuppressed": true,
+      "renameRetained": true,
+      "inProcessRpcRefresh": true,
+      "nativeDiff": true,
+      "headStatusAndFixtureBytesUnchanged": true
+    },
+    "immutableBaselineSource": {
+      "mode": "source",
+      "gitVersion": "git version 2.47.3",
+      "unstaged": [
+        "inside/change.txt",
+        "inside/untracked.txt"
+      ],
+      "staged": [
+        "inside/renamed.txt",
+        "inside/staged.txt",
+        "outside/cross-new.txt"
+      ],
+      "branch": [
+        "inside/branch.txt"
+      ],
+      "unrelatedOutsideExcluded": true,
+      "originalPathRenameScopeRetained": true,
+      "emptyUntrackedSuppressed": true,
+      "renameRetained": true,
+      "inProcessRpcRefresh": true,
+      "nativeDiff": true,
+      "headStatusAndFixtureBytesUnchanged": true
+    },
+    "fixture": "new owned temporary repositories only; localmain/feature commits/tracking, no remote/network/userrepo",
+    "initialExpectationCorrection": "Cross-workspace rename destinations retain repo-relative fallback, not ../ relative text. Initial new probe assumption failed; corrected from unchanged config and independently passed against immutable46613b7 service. Product unchanged.",
+    "rpcScope": "in-process ProxyChannel; no liveHost/GUI/Windows/macOS",
+    "probeSha256": "e295d49cdb062da65f1df34579e3445c8f9bee3f4b7b59821ef2a84de88b2d47"
+  },
+  "priorGitFull": {
+    "tests": 6892,
+    "pass": 6826,
+    "fail": 59,
+    "skip": 7,
+    "cancelled": 0,
+    "exactBaselineFailureMultiset": true
+  },
+  "initialDesktopAttempt": "Renderer was SIGKILLed while full regression ran concurrently; no cause asserted. Identical command later passed serially, with no source/config/timeout/security change. Logs retained.",
+  "limits": [
+    "Source-exposed retained material; no whole-file MIT or clean-room grant",
+    "27 material obligations remain",
+    "B6 onward not integrated due unchanged access boundary",
+    "Actual child runtime/background output acceptance remains open",
+    "NativeGit proof only owned Linux fixture; product mutating methods not invoked"
+  ],
+  "finalFull": {
+    "tests": 6914,
+    "pass": 6848,
+    "fail": 59,
+    "cancelled": 0,
+    "skipped": 7,
+    "exact59FailureMultisetMatchesBase": true,
+    "environmentFailure": "listen EPERM",
+    "logSha256": "13f657835ba7be1a6c11eac6fe67c38db7ae93d5200d53e3d48f8adbb722373b"
+  },
+  "finalGates": {
+    "rootTypes": "pass",
+    "cliTypes": "pass",
+    "cliBuild": 17,
+    "rootConfiguredLint": "pass",
+    "cliConfiguredLint": "pass",
+    "ownedLint": "pass",
+    "format": "pass",
+    "architecture": "pass",
+    "serialDesktopBuild": "pass",
+    "builtHostSha256": "16c767d68a2d7d0d09ae00aaa35dc294cc327f07322411baa81cdcdc9206ddd7"
+  }
+}
