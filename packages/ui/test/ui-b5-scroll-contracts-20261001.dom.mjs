@@ -5,9 +5,10 @@ import { test, after } from "node:test";
 
 // Supplemental DOM gate: keep jsdom outside the product dependency graph.
 const require = createRequire(import.meta.url);
-const { JSDOM } = createRequire(
-  `${process.env.KNORVIA_UI_B5_DOM_DEPS ?? "/workspace/toolchain/b5-dom"}/package.json`,
-)("jsdom");
+const domRequire = process.env.KNORVIA_UI_B5_DOM_DEPS
+  ? createRequire(`${process.env.KNORVIA_UI_B5_DOM_DEPS}/package.json`)
+  : require;
+const { JSDOM } = domRequire("jsdom");
 const dom = new JSDOM("<!doctype html><body></body>", { url: "http://localhost/" });
 for (const key of ["window", "document", "HTMLElement", "Node", "Event", "MutationObserver"])
   globalThis[key] = key === "window" ? dom.window : dom.window[key];
@@ -142,6 +143,7 @@ test("B5 scroll: frozen 1px thresholds, fractional geometry and unclamped oversc
       [200, -1, "bottom"],
       [200, 105, "top"],
       [101.1, 0.5, "none"],
+      [NaN, 2, "top"],
     ]) {
       await scroll(f.node, { scrollHeight: height, scrollTop: top });
       assert.equal(f.node.dataset.scrollMask, mask, `${height}/${top}`);
