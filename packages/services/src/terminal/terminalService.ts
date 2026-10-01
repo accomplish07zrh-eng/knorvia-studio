@@ -1,9 +1,9 @@
-// Source-exposed partial reconstruction: launch planning only; lifecycle/load/helper implementation retained.
+// Source-exposed partial reconstruction: launch planning and lifecycle; native load/helper routines retained.
 import { accessSync, chmodSync, constants, existsSync, statSync } from "node:fs";
 import { createRequire } from "node:module";
 import { homedir, release } from "node:os";
 import { dirname, resolve } from "node:path";
-import { Emitter, type Event } from "@knorvia/rpc";
+import type { Event } from "@knorvia/rpc";
 import type { IPty } from "node-pty";
 import type { ISettingService } from "../setting/setting.js";
 import type { ITerminalService, TerminalWindowsPtyInfo } from "./terminal.js";
@@ -13,6 +13,7 @@ import {
   type TerminalThemeProfile,
 } from "./terminalProfile.js";
 import { registerMemoryDiagnosticsProvider } from "#src/memoryDiagnostics.js";
+import { TerminalServiceInstanceOwner } from "./terminalServiceInstanceOwner.js";
 import {
   terminalShellPlan,
   terminalShellPlanFailure,
@@ -27,12 +28,6 @@ import {
 const require = createRequire(import.meta.url);
 type NodePtyModule = typeof import("node-pty");
 type PtySpawnOptions = Parameters<NodePtyModule["spawn"]>[2];
-
-interface TerminalInstance {
-  pty: IPty;
-  dataEmitter: Emitter<string>;
-  exitEmitter: Emitter<number>;
-}
 
 let hasEnsuredNodePtyHelper = false;
 let nodePtyModulePromise: Promise<NodePtyModule> | null = null;
@@ -149,31 +144,10 @@ function spawnTerminalProcess(params: {
 export function createTerminalService(dependencies: {
   settingService: ISettingService;
 }): ITerminalService {
-  const terminals = new Map<string, TerminalInstance>();
-  let nextId = 0;
-  // 内存诊断计数器：客户端断连不回收 pty 时
-  // 这里会只增不减。
+  const instances = new TerminalServiceInstanceOwner();
   const memoryDiagnostics = registerMemoryDiagnosticsProvider("terminal", () => ({
-    open: terminals.size,
+    open: instances.count,
   }));
-
-  function getTerminal(id: string): TerminalInstance {
-    const t = terminals.get(id);
-    if (!t) throw new Error(`Terminal not found: ${id}`);
-    return t;
-  }
-
-  function cleanupTerminal(id: string): void {
-    const terminal = terminals.get(id);
-    if (!terminal) {
-      return;
-    }
-
-    terminal.pty.kill();
-    terminal.dataEmitter.dispose();
-    terminal.exitEmitter.dispose();
-    terminals.delete(id);
-  }
 
   const service: ITerminalService & { disposeAll(): void } = {
     async create(params: { cols: number; rows: number; cwd?: string }): Promise<{
@@ -185,7 +159,7 @@ export function createTerminalService(dependencies: {
       fontFamilySource: TerminalFontFamilySource;
       windowsPty?: TerminalWindowsPtyInfo;
     }> {
-      const id = String(nextId++);
+      const id = instances.reserveId();
       const shell = selectTerminalLaunchCandidate(
         terminalShellPlan(process.platform, process.env),
         (path) => {
@@ -210,8 +184,7 @@ export function createTerminalService(dependencies: {
       });
       const nodePty = await loadNodePtyModule();
       ensureNodePtySpawnHelperExecutable();
-      const dataEmitter = new Emitter<string>();
-      const exitEmitter = new Emitter<number>();
+      const reservation = instances.prepare(id);
 
       let p: IPty;
       try {
@@ -229,15 +202,7 @@ export function createTerminalService(dependencies: {
         );
       }
 
-      p.onData((data) => dataEmitter.fire(data));
-      p.onExit(({ exitCode }) => {
-        exitEmitter.fire(exitCode);
-        dataEmitter.dispose();
-        exitEmitter.dispose();
-        terminals.delete(id);
-      });
-
-      terminals.set(id, { pty: p, dataEmitter, exitEmitter });
+      instances.attach(reservation, p);
       return {
         id,
         shell,
@@ -250,32 +215,28 @@ export function createTerminalService(dependencies: {
     },
 
     async write(params: { id: string; data: string }): Promise<void> {
-      getTerminal(params.id).pty.write(params.data);
+      instances.write(params);
     },
 
     async resize(params: { id: string; cols: number; rows: number }): Promise<void> {
-      getTerminal(params.id).pty.resize(params.cols, params.rows);
+      instances.resize(params);
     },
 
     async dispose(params: { id: string }): Promise<void> {
-      cleanupTerminal(params.id);
+      instances.dispose(params.id);
     },
 
     onDynamicData(id: string): Event<string> {
-      return getTerminal(id).dataEmitter.event;
+      return instances.dataEvent(id);
     },
 
     onDynamicExit(id: string): Event<number> {
-      return getTerminal(id).exitEmitter.event;
+      return instances.exitEvent(id);
     },
 
     disposeAll(): void {
       memoryDiagnostics.dispose();
-      // app 关闭时 host process 以前只会结束自身，terminal 里的子 shell 没有逐个显式 kill。
-      // 这里补一个本地清理入口，让 host 在退出链路里能同步回收所有仍存活的终端进程。
-      for (const id of Array.from(terminals.keys())) {
-        cleanupTerminal(id);
-      }
+      instances.disposeAll();
     },
   };
 
