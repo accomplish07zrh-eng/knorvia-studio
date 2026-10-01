@@ -144,3 +144,26 @@ product repair. Run final source/strict emitted, existing WebFetch regressions,
 CLI builds/types, root types/configured/owned lint, full format/architecture and
 full suite. Bind exact source/emitted/protected hashes and factual native gaps in
 lane evidence, with conservative retained-expression/advisory review status only.
+
+## Appended completion-edge acceptance
+
+Root independently found a Read settlement regression and owns its correction in
+`aa27c4a`, preserving this lane's prior checkpoint. WebFetch must additionally
+compare queued cancellation at network/cache/processing/result completion against
+the exact `613c250` handler, through actual deadline settlement and full call-runner.
+The already completed 6250-test checkpoint is separate from these appended tests.
+Archive exact baseline source and deterministic compiler output as retained test
+material, with source/blob digest binding. The compiler recipe is byte-compared
+against actual current project emission; remap only import specifiers to selected
+source/strict emitted protected dependencies. No rewritten reference algorithm.
+
+Use synchronous owned HTTP/model/event/status-text/cache-observer callbacks and
+external AbortControllers, varying immediate/queued abort depth and early-cancel
+controls. Cache observation delegates to original Map.set for only the owned URL
+and existing expiresAt entry; it owns no state or policy. Verify exact outputs,
+serialization/result metadata, terminal events and Completed/Cancelled telemetry.
+Full registry entries receive only a synchronous observation wrapper returning
+the original handler promise; do not introduce an async test forwarding wrapper.
+If a difference is found, preserve its failing proof and correct only settlement
+ownership before repeating affected final gates. Existing deadlines stay 60000ms,
+full-runner concurrency two/per-test timeout120000 and executor code stay unchanged.
