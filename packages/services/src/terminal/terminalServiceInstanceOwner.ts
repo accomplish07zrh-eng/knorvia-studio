@@ -147,7 +147,10 @@ export class TerminalServiceInstanceOwner {
 
   private lookup(id: string): Reservation {
     const entry = this.owned.get(id);
-    if (!entry?.published) throw new Error(`Terminal not found: ${id}`);
+    // root 的合成重入复现证明 published 在 exit/kill 通知期间仍为 true；必须先按 phase/exit 拒绝 IO。
+    if (!entry?.published || entry.phase !== "open" || entry.exited) {
+      throw new Error(`Terminal not found: ${id}`);
+    }
     return entry;
   }
 
