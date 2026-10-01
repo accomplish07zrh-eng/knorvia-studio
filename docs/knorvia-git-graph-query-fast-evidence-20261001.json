@@ -1,0 +1,3958 @@
+{
+  "schemaVersion": 1,
+  "kind": "services-lane-git-graph-query-observations",
+  "before": "57bb3ddd82b3d1ca77c9881e98e19dcb72c68e75",
+  "baseline": "aa748022925d88050d93adcef01c47d21f581c12",
+  "production": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+  "sourceExposure": true,
+  "cleanRoom": false,
+  "wholeFileLicenseGrant": false,
+  "acceptedReview": false,
+  "nativeAcceptance": false,
+  "licenseExpression": "NOASSERTION",
+  "localObligations": 27,
+  "lineage": {
+    "publisherUrl": "https://github.com/zai-org/ZCode",
+    "publisherCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "publisherTree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+    "path": "packages/services/src/git/repo/gitCliRepo.ts",
+    "publisherBlob": "ffe734dd7fcccc15c1128f7be818ea8b41c4fd90",
+    "publisherSha256": "474a377eaf9b4420e671b67ed0d9d509b66fef22151b2085b9f5d8847bec92ba",
+    "publisherBytes": 58787,
+    "localImportCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+    "integratedBaseline": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+    "localBlob": "6ce5993b5f036690742b15925d839e57185717ae",
+    "localSha256": "11b1e8550c8aaca02f5dca0c5f7e0ab55141f308483bfe0db25b0ec6b93ed58c",
+    "localBytes": 59042,
+    "publisherBytesVerified": true,
+    "localBaselineBytesVerified": true,
+    "scopeNote": "six private graph bodies byte-identical local/publisher; getCommitGraph differs only its hidden-ref namespace comment. Other whole-file differences are retained import/brand order and private temp-index location, outside this slice."
+  },
+  "ownedScope": [
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "580fb10add03a0227006b7eaa9b4d60d997941d1",
+      "mode": "100644",
+      "sha256": "60476c3332af0e79f67fc19862926217152ff18f10a9acb1d8f4e4360d91f42c",
+      "bytes": 54318
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "1bc3ee14ffb7c3bc1d15e17e95fb45db0e363c0c",
+      "mode": "100644",
+      "sha256": "ce6ed70519437ec60f381f021cff640bb779bf8025708b16593a882e8a862c3d",
+      "bytes": 6453
+    },
+    {
+      "path": "packages/services/test/git-graph-consumers-fast-20261001.test.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "3507e2ce764970780e7a52766e3d027ad21e2dc0",
+      "mode": "100644",
+      "sha256": "3273fd9bc0eb77dc1a644287c1cce2aedacbc0ac57f32f602f3b40b233fdddab",
+      "bytes": 10697
+    },
+    {
+      "path": "packages/services/test/git-graph-query-contract-fast-20261001.test.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "4af58638d26a5b6ae66cf2de5e38bfd7fec0c327",
+      "mode": "100644",
+      "sha256": "37934463b36edf9aee829b5bcdadb76bf5b77913a59d2e523b2375af813f722c",
+      "bytes": 11759
+    },
+    {
+      "path": "packages/services/test/git-graph-query-fixture-fast-20261001.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "6370662537b96af067deee1ff7d71488a365d64d",
+      "mode": "100644",
+      "sha256": "39c0b519098058ee78902231704e38f14aaf46a1899232a1278a34501f61d95b",
+      "bytes": 5835
+    },
+    {
+      "path": "packages/services/test/git-graph-record-contract-fast-20261001.test.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "84c4040e72fa783c984da41041f1acc917de963e",
+      "mode": "100644",
+      "sha256": "505d336012d7d0d4cd7335775cb204aee046b144b6048d8e4956c0fb7810d6ad",
+      "bytes": 8606
+    },
+    {
+      "path": "packages/services/test/git-graph-ui-callback-fast-20261001.ts",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "9abf4e0739c1f70db5855cf8ef6142845c1e665f",
+      "mode": "100644",
+      "sha256": "75057b2b872ef71014aa73de43c60b532a9628dd6ac087e8c272ba594fe726cf",
+      "bytes": 1738
+    },
+    {
+      "path": "specs/knorvia-git-graph-query-fast-20261001.md",
+      "commit": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "blob": "c609cc4d4450810c6b6b4e9173456b0dc682692c",
+      "mode": "100644",
+      "sha256": "8dc3ae3f166103aa990f38237c214e9e9746f8eb6621c8bf1819d944231c6068",
+      "bytes": 9061
+    }
+  ],
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "f6e25c8a6db4d701e30883993918f9f9423c6fa7",
+      "mode": "100644",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce",
+      "bytes": 7690
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "ff44842bb9aac27d72ea24707bd6407d008da271",
+      "mode": "100644",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930",
+      "bytes": 4519
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "ab31c5d50a361601f4a01ccc438e226008e17e10",
+      "mode": "100644",
+      "sha256": "ff759b2a18d6ac589348f2a2fec18838796a653de3c5c5b066ec3b5f34b7a04d",
+      "bytes": 5732
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "47f8ae07be6da16325911fdbce8b1387c7ce12a9",
+      "mode": "100644",
+      "sha256": "11e51545b244f8bb13d2e04c43db055f7300cf066a864671bea4f1c455587466",
+      "bytes": 2102
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "97044527aba83ebb95a887659f02972406fa2dab",
+      "mode": "100644",
+      "sha256": "9bc248922e98e692a9278c8845b28f1f40f5de39e8425baeb9c97e0268c2fc78",
+      "bytes": 5611
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "3d9d23dc09c4a56d028ba8db79b30a3ffd332150",
+      "mode": "100644",
+      "sha256": "5623dde994cbcd3aee411d556c8249f3feeaa9ab8c2676ed8d082a4d430b6fda",
+      "bytes": 1617
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "ec59eed8eb288dc3ed5ac0a870c08702d2400a3d",
+      "mode": "100644",
+      "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "bytes": 3103
+    },
+    {
+      "path": "packages/services/src/git/git.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "160477795398623e2137d82ac759be4f1ada3aae",
+      "mode": "100644",
+      "sha256": "6f7e3bb85573005ac764da81960a20143ea45ae9551887e87253adadf67f9350",
+      "bytes": 2228
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "72f335e9037b3df574cb0c02bbea6ce38e3c94f9",
+      "mode": "100644",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+      "bytes": 7623
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "89296a0a08f477a323aaa2b718fe3faf9465a21c",
+      "mode": "100644",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592",
+      "bytes": 20015
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "28360bc4829c073cd0827f60a271ac15e18b73cd",
+      "mode": "100644",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92",
+      "bytes": 3575
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "59ffc82896a9083379439b79a769e6be0bbf1d14",
+      "mode": "100644",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8",
+      "bytes": 4323
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "2bf30809dc4f0f87f551094865269db6a47b5aa5",
+      "mode": "100644",
+      "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f",
+      "bytes": 7664
+    },
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "526619f932d13acb0e0173e2e961c7ad04cbe9e1",
+      "mode": "100644",
+      "sha256": "3a177765be436c02fa623ca833afb2785c7b4c244e3e675c51c8c1ccc3ef512c",
+      "bytes": 1786
+    },
+    {
+      "path": "packages/services/src/paths.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "a2963f9f0f8c631c51a406fa0d219d1c85df9cc3",
+      "mode": "100644",
+      "sha256": "ca67067abcbbc11d8ed0ccc530363e8607ae39e0a352ca47702c80fabb99763a",
+      "bytes": 8906
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "6d37d08100c0fce72f99e18e49d5cf64358f83b9",
+      "mode": "100644",
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "bytes": 98523
+    },
+    {
+      "path": "packages/ui/src/git-graph/GitGraphDialog.tsx",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "513cba45e227f5f708c53d0a3b92027082fcf1c2",
+      "mode": "100644",
+      "sha256": "93e71da4c29151b4f33c091271da11aec059ecb93badda356bf5c5cfa242e6fc",
+      "bytes": 6937
+    },
+    {
+      "path": "packages/ui/src/git-graph/GitGraphPane.tsx",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "513fc216e435051a7383c29aa70b1449d86b2de7",
+      "mode": "100644",
+      "sha256": "f751d18fdaa195bd982f1b70c03b284e664900cf0f595eaa6bc0f416db6953a5",
+      "bytes": 14690
+    },
+    {
+      "path": "packages/ui/src/git-graph/layout.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "2540d4498735a02fdc7026bb90e77243ec77f83a",
+      "mode": "100644",
+      "sha256": "8eed7e68fe83b11c29bf607fa20255fe40accd1af054a1e9f5cc9f11a0c7ca4b",
+      "bytes": 7212
+    },
+    {
+      "path": "packages/ui/src/git-graph/layoutAlgorithm.ts",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "d6d4fd73a5fb566a969d05ddf9ccf14c83b68f85",
+      "mode": "100644",
+      "sha256": "050f4c2383e787519ecdd79a9a9a81f75c07412032865cd11ce0302f0c89cefc",
+      "bytes": 7965
+    },
+    {
+      "path": "packages/ui/src/git-graph/GitGraphDisplay.tsx",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "573c22184a66d84bf318ce469ddc41001310ec6a",
+      "mode": "100644",
+      "sha256": "202602eeddc8a266cc9e7e3146b171dd32c95d251493e7930f6f843922867d8d",
+      "bytes": 684
+    },
+    {
+      "path": "packages/ui/src/git-graph/GitGraphCommitDetail.tsx",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "c4fce2c1246bb67b7d2583e76bfc9ae780459b58",
+      "mode": "100644",
+      "sha256": "5a19aa753b0c790fc1c517f138dcea93c29c3ec06f0b81bf303df8ebc27152c1",
+      "bytes": 3176
+    },
+    {
+      "path": "packages/ui/src/GitBranchSwitcher.tsx",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "6a9023f6323b3e36e8ead511e668ad841b2c8248",
+      "mode": "100644",
+      "sha256": "c8ca4fa4e682983c62b8a05b3f39a4b348204533b0edf28a3edfec413315dc4f",
+      "bytes": 13565
+    },
+    {
+      "path": "packages/ui/src/GitActionMenu.tsx",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "36305050a2b5a2cb0b84230b0499fbd6ac238d5b",
+      "mode": "100644",
+      "sha256": "d3bcf2535483400749c410542b30b565be657d4e9e489f5da7afc511a4548097",
+      "bytes": 49990
+    }
+  ],
+  "protectedSharedInputs": [
+    {
+      "path": "LICENSE",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "550d8df4cfc74878663a511caa97852f15fd9592",
+      "mode": "100644",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "bytes": 11344
+    },
+    {
+      "path": "NOTICE.md",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "23f3047cb5753322ce0742545e5e06791392f5ea",
+      "mode": "100644",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "bytes": 6125
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "55f2732f631d845b0d2d7bca7e5cd07cc8e4c878",
+      "mode": "100644",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "bytes": 1975825
+    },
+    {
+      "path": "licensing/current-files.json",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "ffa39f9a5c289958af94b69233a6d804d65b4f3e",
+      "mode": "100644",
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590",
+      "bytes": 9350160
+    },
+    {
+      "path": "licensing/reviews.json",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "6aea464791eab7e35f4ac3949bf9fca939855614",
+      "mode": "100644",
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280",
+      "bytes": 3445390
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "0d3311701cb322fa2b98b0c0a05d9dd8ae4a2493",
+      "mode": "100644",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "bytes": 2437673
+    },
+    {
+      "path": "third-party/inventory.json",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "ee5c41ce370a6cd5164e409bb027094ab096c8b0",
+      "mode": "100644",
+      "sha256": "2310c38abf36d27cf20ac070beb747ec7345d7887a30068b822a7e27f56df2ff",
+      "bytes": 1413308
+    },
+    {
+      "path": "package.json",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "319bfb13788e7fd6c264e6f371212dad2bcb812b",
+      "mode": "100644",
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+      "bytes": 4337
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "commit": "aa748022925d88050d93adcef01c47d21f581c12",
+      "blob": "bc1354e9686ca6d073ae3440ddfb3e777d0a8a78",
+      "mode": "100644",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "bytes": 644882
+    }
+  ],
+  "protectedHistoricalScope": [
+    {
+      "path": "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts",
+      "commit": "46613b7968f291a3597180459ccfce6da513624a",
+      "blob": "8e74533596af272cff9944633bf9701c1db66155",
+      "mode": "100644",
+      "sha256": "e248e9d32a83387354ded635dcdf24bbf0c14ff5cfd01fefc34de5021c19347c",
+      "bytes": 12656
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/model.ts",
+      "commit": "46613b7968f291a3597180459ccfce6da513624a",
+      "blob": "18de5ac60c87d579334aabe64439f1e091861303",
+      "mode": "100644",
+      "sha256": "335547241f6ee691bae210a049b7d668e777c84c96c1e9f7b273c5c2aea08f45",
+      "bytes": 15693
+    }
+  ],
+  "generatedArtifacts": [
+    {
+      "path": "packages/services/dist/git/repo/gitCliRepo.js",
+      "generated": true,
+      "sha256": "b1ba4c9ed4289a22e41bc6591dba5a7eb2611233916df48ce3737c5976fa166f",
+      "bytes": 57878
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitCommitGraphPlan.js",
+      "generated": true,
+      "sha256": "47a4c38d66b3b7cc31e90b4b01444754fa4afb343b42b98c2229a4959b44fde9",
+      "bytes": 5306
+    },
+    {
+      "path": "packages/services/dist/git/repo/gitCliRepo.d.ts",
+      "generated": true,
+      "sha256": "a6a19273740e97f89c1b0cdc88b160570d45749e6d70edbb2c39850f3f95870b",
+      "bytes": 461
+    },
+    {
+      "path": "packages/ui/dist/git-graph/GitGraphDialog.js",
+      "generated": true,
+      "sha256": "c737b9d9f379a4ee099cedbd50ff1addbb57ba7ea2e32f82e993bb442584ca7c",
+      "bytes": 6922
+    },
+    {
+      "path": "packages/ui/dist/git-graph/layout.js",
+      "generated": true,
+      "sha256": "ff647524dbe2bf7cd3c03595c50e05798eaf917ce90ea71d1d725891aacd2ff2",
+      "bytes": 5627
+    },
+    {
+      "path": "packages/ui/dist/git-graph/GitGraphDisplay.js",
+      "generated": true,
+      "sha256": "734eae154596be7d7e4adf0d0ee78f9817e67e1c920d82393d3d391866a5b3bc",
+      "bytes": 715
+    },
+    {
+      "path": "packages/desktop/out/host/index.js",
+      "generated": true,
+      "sha256": "6563fd91aa39ac2cf6e1b04d3260eadc04d50556eb09c19345eeecfb3852e1b4",
+      "bytes": 1070651
+    }
+  ],
+  "protectedBodies": [
+    {
+      "name": "toUnavailableDiff",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 1954,
+        "end": 2095,
+        "startLine": 71,
+        "endLine": 80,
+        "sha256": "27979764293154780e940c845b80cd0dd98be7a53f7a567213f52e80449fd653",
+        "bytes": 141
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 1904,
+        "end": 2045,
+        "startLine": 72,
+        "endLine": 81,
+        "sha256": "27979764293154780e940c845b80cd0dd98be7a53f7a567213f52e80449fd653",
+        "bytes": 141
+      }
+    },
+    {
+      "name": "toCompleteDiffContents",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2299,
+        "end": 2514,
+        "startLine": 90,
+        "endLine": 98,
+        "sha256": "afb9a95aaa46e0a84d4be7ca3b985d0e843db0e04018211e3d0776cfb05c2aee",
+        "bytes": 355
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2249,
+        "end": 2464,
+        "startLine": 91,
+        "endLine": 99,
+        "sha256": "afb9a95aaa46e0a84d4be7ca3b985d0e843db0e04018211e3d0776cfb05c2aee",
+        "bytes": 355
+      }
+    },
+    {
+      "name": "normalizeWatchPath",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2781,
+        "end": 2943,
+        "startLine": 112,
+        "endLine": 119,
+        "sha256": "aff8f0d01d5cc28a41069573cff982bf02eea6ffc3da28d269c56847f4716ee0",
+        "bytes": 162
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2894,
+        "end": 3056,
+        "startLine": 117,
+        "endLine": 124,
+        "sha256": "aff8f0d01d5cc28a41069573cff982bf02eea6ffc3da28d269c56847f4716ee0",
+        "bytes": 162
+      }
+    },
+    {
+      "name": "addAutoRefreshWatchPath",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3082,
+        "end": 3296,
+        "startLine": 125,
+        "endLine": 135,
+        "sha256": "e6c3e525da7951220849b7a6910f7af2155195c44c4ba69c7e406b6fcb548c48",
+        "bytes": 214
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3195,
+        "end": 3409,
+        "startLine": 130,
+        "endLine": 140,
+        "sha256": "e6c3e525da7951220849b7a6910f7af2155195c44c4ba69c7e406b6fcb548c48",
+        "bytes": 214
+      }
+    },
+    {
+      "name": "buildAutoRefreshWatchPaths",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3470,
+        "end": 4321,
+        "startLine": 141,
+        "endLine": 160,
+        "sha256": "274b63a1d9aec7fb7e88be2625ca0c3fb5c756d2ea983b95811b275e09f8a2a9",
+        "bytes": 1079
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3583,
+        "end": 4434,
+        "startLine": 146,
+        "endLine": 165,
+        "sha256": "274b63a1d9aec7fb7e88be2625ca0c3fb5c756d2ea983b95811b275e09f8a2a9",
+        "bytes": 1079
+      }
+    },
+    {
+      "name": "isPreviewableText",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 4376,
+        "end": 4413,
+        "startLine": 162,
+        "endLine": 164,
+        "sha256": "9dad15ab31d98b6a2be1724b20cfc275fd8ed040ee57299e2464273ae0fb95b7",
+        "bytes": 37
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 4489,
+        "end": 4526,
+        "startLine": 167,
+        "endLine": 169,
+        "sha256": "9dad15ab31d98b6a2be1724b20cfc275fd8ed040ee57299e2464273ae0fb95b7",
+        "bytes": 37
+      }
+    },
+    {
+      "name": "readWorkingTreePreviewContent",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 4506,
+        "end": 4862,
+        "startLine": 166,
+        "endLine": 179,
+        "sha256": "8e662a703f1fdbc8577d980badd284b9c37733d87daf43ef990f7d64091d33ac",
+        "bytes": 414
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 4619,
+        "end": 4975,
+        "startLine": 171,
+        "endLine": 184,
+        "sha256": "8e662a703f1fdbc8577d980badd284b9c37733d87daf43ef990f7d64091d33ac",
+        "bytes": 414
+      }
+    },
+    {
+      "name": "readGitBlobPreviewContent",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5099,
+        "end": 5490,
+        "startLine": 191,
+        "endLine": 209,
+        "sha256": "e0b2caa0139aae8c5fa9c2d07fe85d189e5158676a13de671bb89594fa9e7128",
+        "bytes": 391
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5212,
+        "end": 5603,
+        "startLine": 196,
+        "endLine": 214,
+        "sha256": "e0b2caa0139aae8c5fa9c2d07fe85d189e5158676a13de671bb89594fa9e7128",
+        "bytes": 391
+      }
+    },
+    {
+      "name": "readBranchDiffContents",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5763,
+        "end": 6444,
+        "startLine": 221,
+        "endLine": 243,
+        "sha256": "7c91cc80d451806b7ffa75518c6e5da4b77840c445335dc453c9cb2de245bae9",
+        "bytes": 681
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5876,
+        "end": 6557,
+        "startLine": 226,
+        "endLine": 248,
+        "sha256": "7c91cc80d451806b7ffa75518c6e5da4b77840c445335dc453c9cb2de245bae9",
+        "bytes": 681
+      }
+    },
+    {
+      "name": "readStagedDiffContents",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 6665,
+        "end": 7002,
+        "startLine": 253,
+        "endLine": 268,
+        "sha256": "3600ad139b41cff2e2ffc9cf7997d035d97c6bc624c86507859c2452e970912f",
+        "bytes": 337
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 6778,
+        "end": 7115,
+        "startLine": 258,
+        "endLine": 273,
+        "sha256": "3600ad139b41cff2e2ffc9cf7997d035d97c6bc624c86507859c2452e970912f",
+        "bytes": 337
+      }
+    },
+    {
+      "name": "readUnstagedDiffContents",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 7265,
+        "end": 7539,
+        "startLine": 280,
+        "endLine": 290,
+        "sha256": "e138effa8d6ea6f02793949c056c847e037aeb4a8d2cc76d49ad0d038316b6e3",
+        "bytes": 274
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 7378,
+        "end": 7652,
+        "startLine": 285,
+        "endLine": 295,
+        "sha256": "e138effa8d6ea6f02793949c056c847e037aeb4a8d2cc76d49ad0d038316b6e3",
+        "bytes": 274
+      }
+    },
+    {
+      "name": "withDiffContents",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 7637,
+        "end": 7923,
+        "startLine": 292,
+        "endLine": 307,
+        "sha256": "f90d8f74c4213edeb9f47385111a6cbc3ef2c94710cee70746e6900d46dcb234",
+        "bytes": 344
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 7750,
+        "end": 8036,
+        "startLine": 297,
+        "endLine": 312,
+        "sha256": "f90d8f74c4213edeb9f47385111a6cbc3ef2c94710cee70746e6900d46dcb234",
+        "bytes": 344
+      }
+    },
+    {
+      "name": "toBranchMutationFailure",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 8158,
+        "end": 8370,
+        "startLine": 315,
+        "endLine": 325,
+        "sha256": "aee580213cc520a38a18865dceaf649866ec7bec5552123ac90bb908aa53196c",
+        "bytes": 212
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 8271,
+        "end": 8483,
+        "startLine": 320,
+        "endLine": 330,
+        "sha256": "aee580213cc520a38a18865dceaf649866ec7bec5552123ac90bb908aa53196c",
+        "bytes": 212
+      }
+    },
+    {
+      "name": "toBranchMutationSuccess",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 8583,
+        "end": 8785,
+        "startLine": 333,
+        "endLine": 343,
+        "sha256": "76f4a8d70472f7bea79acf0149ce15fbaa2ea12a5349e8a520034a6963165719",
+        "bytes": 202
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 8696,
+        "end": 8898,
+        "startLine": 338,
+        "endLine": 348,
+        "sha256": "76f4a8d70472f7bea79acf0149ce15fbaa2ea12a5349e8a520034a6963165719",
+        "bytes": 202
+      }
+    },
+    {
+      "name": "parseBranchRefRecords",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 8886,
+        "end": 10047,
+        "startLine": 345,
+        "endLine": 379,
+        "sha256": "641734f614cf36d5524c4fe37972bf7965197b144ea82d55c8745c74b566e410",
+        "bytes": 1161
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 8999,
+        "end": 10160,
+        "startLine": 350,
+        "endLine": 384,
+        "sha256": "641734f614cf36d5524c4fe37972bf7965197b144ea82d55c8745c74b566e410",
+        "bytes": 1161
+      }
+    },
+    {
+      "name": "parseTrackingRemoteName",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10132,
+        "end": 10257,
+        "startLine": 381,
+        "endLine": 384,
+        "sha256": "b3d711c976ac91f60b617004670d04fbe3952a08d6b573e7291305958022212e",
+        "bytes": 125
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 13616,
+        "end": 13741,
+        "startLine": 499,
+        "endLine": 502,
+        "sha256": "b3d711c976ac91f60b617004670d04fbe3952a08d6b573e7291305958022212e",
+        "bytes": 125
+      }
+    },
+    {
+      "name": "parseRemoteList",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10310,
+        "end": 10446,
+        "startLine": 386,
+        "endLine": 392,
+        "sha256": "2e374d4876f730c223767c334e04231ef42fe62ea4b0988e7e6c3b2907c756d2",
+        "bytes": 136
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 13794,
+        "end": 13930,
+        "startLine": 504,
+        "endLine": 510,
+        "sha256": "2e374d4876f730c223767c334e04231ef42fe62ea4b0988e7e6c3b2907c756d2",
+        "bytes": 136
+      }
+    },
+    {
+      "name": "parseGitIndexEntries",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10611,
+        "end": 11199,
+        "startLine": 401,
+        "endLine": 419,
+        "sha256": "5c67581fa90b7ab717091e306822f416d78e39223d6c1446de9bec94ef4cfc32",
+        "bytes": 588
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 14095,
+        "end": 14683,
+        "startLine": 519,
+        "endLine": 537,
+        "sha256": "5c67581fa90b7ab717091e306822f416d78e39223d6c1446de9bec94ef4cfc32",
+        "bytes": 588
+      }
+    },
+    {
+      "name": "executeGitStatus",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11796,
+        "end": 12069,
+        "startLine": 428,
+        "endLine": 435,
+        "sha256": "e373e4a7f0af8d8f85982e80e15a12de2e26cd11c917a6c686a0f12855a1d611",
+        "bytes": 273
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 15280,
+        "end": 15553,
+        "startLine": 546,
+        "endLine": 553,
+        "sha256": "e373e4a7f0af8d8f85982e80e15a12de2e26cd11c917a6c686a0f12855a1d611",
+        "bytes": 273
+      }
+    },
+    {
+      "name": "runGitStatus",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 12136,
+        "end": 12822,
+        "startLine": 437,
+        "endLine": 453,
+        "sha256": "977ead9933b4afba0c32356ab87072185a76e408e37df6cb99370e27fe683a31",
+        "bytes": 886
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 15620,
+        "end": 16306,
+        "startLine": 555,
+        "endLine": 571,
+        "sha256": "977ead9933b4afba0c32356ab87072185a76e408e37df6cb99370e27fe683a31",
+        "bytes": 886
+      }
+    },
+    {
+      "name": "reuseInFlightRequest",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 12963,
+        "end": 13298,
+        "startLine": 459,
+        "endLine": 474,
+        "sha256": "2d7ff573cf90a5f4db6e61a9f49955d8cc23210b13085c769a88eeb0d17d81ea",
+        "bytes": 335
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 16447,
+        "end": 16782,
+        "startLine": 577,
+        "endLine": 592,
+        "sha256": "2d7ff573cf90a5f4db6e61a9f49955d8cc23210b13085c769a88eeb0d17d81ea",
+        "bytes": 335
+      }
+    },
+    {
+      "name": "invalidate",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 13351,
+        "end": 13513,
+        "startLine": 476,
+        "endLine": 480,
+        "sha256": "6ac7660d61e83ce1a1231275f09e0a76caeec78aa8d9f1b3038812f0766c75e1",
+        "bytes": 162
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 16835,
+        "end": 16997,
+        "startLine": 594,
+        "endLine": 598,
+        "sha256": "6ac7660d61e83ce1a1231275f09e0a76caeec78aa8d9f1b3038812f0766c75e1",
+        "bytes": 162
+      }
+    },
+    {
+      "name": "validateBranchName",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 13659,
+        "end": 14075,
+        "startLine": 485,
+        "endLine": 496,
+        "sha256": "7b2b85e412beedc648198933881f5e09d82f7b533b6b1aea782992e5b8d7a263",
+        "bytes": 416
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 17143,
+        "end": 17559,
+        "startLine": 603,
+        "endLine": 614,
+        "sha256": "7b2b85e412beedc648198933881f5e09d82f7b533b6b1aea782992e5b8d7a263",
+        "bytes": 416
+      }
+    },
+    {
+      "name": "hasOperationInProgress",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 14170,
+        "end": 14991,
+        "startLine": 498,
+        "endLine": 517,
+        "sha256": "ee8493758bc1f91fd4b4269d522f3dfa4bae2e325f68357144b76ca806b8db75",
+        "bytes": 923
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 17654,
+        "end": 18475,
+        "startLine": 616,
+        "endLine": 635,
+        "sha256": "ee8493758bc1f91fd4b4269d522f3dfa4bae2e325f68357144b76ca806b8db75",
+        "bytes": 923
+      }
+    },
+    {
+      "name": "readOptionalGitConfig",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 15117,
+        "end": 15694,
+        "startLine": 522,
+        "endLine": 543,
+        "sha256": "aa0cff4ec92de2cde795863b7815dbdb81524d1d87087297e9a863b96c0abae8",
+        "bytes": 577
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 18601,
+        "end": 19178,
+        "startLine": 640,
+        "endLine": 661,
+        "sha256": "aa0cff4ec92de2cde795863b7815dbdb81524d1d87087297e9a863b96c0abae8",
+        "bytes": 577
+      }
+    },
+    {
+      "name": "listRemotes",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 15779,
+        "end": 16088,
+        "startLine": 545,
+        "endLine": 554,
+        "sha256": "32b9c41ede5c9fbe17ee96767686fbc2c3e0c71c47f92def6ee185d082da1d28",
+        "bytes": 309
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 19263,
+        "end": 19572,
+        "startLine": 663,
+        "endLine": 672,
+        "sha256": "32b9c41ede5c9fbe17ee96767686fbc2c3e0c71c47f92def6ee185d082da1d28",
+        "bytes": 309
+      }
+    },
+    {
+      "name": "resolvePushRemote",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 16169,
+        "end": 17205,
+        "startLine": 556,
+        "endLine": 589,
+        "sha256": "5cb7a35c115638374e6cc24b4ac3363df349947404ce870f2ec3753e3cef48e9",
+        "bytes": 1036
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 19653,
+        "end": 20689,
+        "startLine": 674,
+        "endLine": 707,
+        "sha256": "5cb7a35c115638374e6cc24b4ac3363df349947404ce870f2ec3753e3cef48e9",
+        "bytes": 1036
+      }
+    },
+    {
+      "name": "resolveRepository",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 17318,
+        "end": 19818,
+        "startLine": 594,
+        "endLine": 669,
+        "sha256": "e533a28dc5605772800661e4429217de8dd22ff0630d595c196502c400ee26e3",
+        "bytes": 2768
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 20802,
+        "end": 23302,
+        "startLine": 712,
+        "endLine": 787,
+        "sha256": "e533a28dc5605772800661e4429217de8dd22ff0630d595c196502c400ee26e3",
+        "bytes": 2768
+      }
+    },
+    {
+      "name": "getWorkspaceRepositoryInfo",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 19918,
+        "end": 22318,
+        "startLine": 671,
+        "endLine": 735,
+        "sha256": "7f9cbd10accc68f439ee050339cdf077914c4ade37e610d0d4102c957e5109a7",
+        "bytes": 2674
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 23402,
+        "end": 25802,
+        "startLine": 789,
+        "endLine": 853,
+        "sha256": "7f9cbd10accc68f439ee050339cdf077914c4ade37e610d0d4102c957e5109a7",
+        "bytes": 2674
+      }
+    },
+    {
+      "name": "getStatus",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 22392,
+        "end": 25049,
+        "startLine": 737,
+        "endLine": 799,
+        "sha256": "71220ba54466d3df7284720723f1639e89e0c79c531d167e2f77afac682cddc6",
+        "bytes": 2793
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 25876,
+        "end": 28533,
+        "startLine": 855,
+        "endLine": 917,
+        "sha256": "71220ba54466d3df7284720723f1639e89e0c79c531d167e2f77afac682cddc6",
+        "bytes": 2793
+      }
+    },
+    {
+      "name": "getIgnoredPaths",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 25137,
+        "end": 26933,
+        "startLine": 801,
+        "endLine": 857,
+        "sha256": "ddc1d42000d368269a17fd3f9897efee8dcc123ef2d554d76b4bc737d40edde5",
+        "bytes": 1902
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 28621,
+        "end": 30417,
+        "startLine": 919,
+        "endLine": 975,
+        "sha256": "ddc1d42000d368269a17fd3f9897efee8dcc123ef2d554d76b4bc737d40edde5",
+        "bytes": 1902
+      }
+    },
+    {
+      "name": "listLocalBranches",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 27022,
+        "end": 28077,
+        "startLine": 859,
+        "endLine": 889,
+        "sha256": "fbeb58f3de9e4dd3c0962d18a06b2077b2d37ba396c0a7bda4dd081981816928",
+        "bytes": 1055
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 30506,
+        "end": 31561,
+        "startLine": 977,
+        "endLine": 1007,
+        "sha256": "fbeb58f3de9e4dd3c0962d18a06b2077b2d37ba396c0a7bda4dd081981816928",
+        "bytes": 1055
+      }
+    },
+    {
+      "name": "switchBranch",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 28974,
+        "end": 31797,
+        "startLine": 918,
+        "endLine": 1007,
+        "sha256": "041ed3b2681788c903476714fd67d624ccb62ae641f9ffdc39cd5d77b90eae59",
+        "bytes": 2891
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 33628,
+        "end": 36451,
+        "startLine": 1074,
+        "endLine": 1163,
+        "sha256": "041ed3b2681788c903476714fd67d624ccb62ae641f9ffdc39cd5d77b90eae59",
+        "bytes": 2891
+      }
+    },
+    {
+      "name": "createBranchAndSwitch",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 31955,
+        "end": 34760,
+        "startLine": 1013,
+        "endLine": 1094,
+        "sha256": "44fc430f4192cc45caf21c25a67070c845e7aab4e1ed1c50f368975bffa5c86f",
+        "bytes": 2941
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 36609,
+        "end": 39414,
+        "startLine": 1169,
+        "endLine": 1250,
+        "sha256": "44fc430f4192cc45caf21c25a67070c845e7aab4e1ed1c50f368975bffa5c86f",
+        "bytes": 2941
+      }
+    },
+    {
+      "name": "getDiff",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 34827,
+        "end": 38890,
+        "startLine": 1096,
+        "endLine": 1213,
+        "sha256": "87352f5eb23e043b64cafca2947b999427f414112e5c149ed0e524ccd3411f79",
+        "bytes": 4177
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 39481,
+        "end": 43544,
+        "startLine": 1252,
+        "endLine": 1369,
+        "sha256": "87352f5eb23e043b64cafca2947b999427f414112e5c149ed0e524ccd3411f79",
+        "bytes": 4177
+      }
+    },
+    {
+      "name": "getBranchComparison",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 38984,
+        "end": 40619,
+        "startLine": 1215,
+        "endLine": 1265,
+        "sha256": "2d9750d612f7ae7c4a13e6fac5c95def6a6a29aa441acf3ef712b68ec1a9512e",
+        "bytes": 1635
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 43638,
+        "end": 45273,
+        "startLine": 1371,
+        "endLine": 1421,
+        "sha256": "2d9750d612f7ae7c4a13e6fac5c95def6a6a29aa441acf3ef712b68ec1a9512e",
+        "bytes": 1635
+      }
+    },
+    {
+      "name": "stage",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 40693,
+        "end": 41310,
+        "startLine": 1267,
+        "endLine": 1286,
+        "sha256": "475ba161f45640cdc488b145aaf218d41adf2098e2eaa9b7be14482e158a573d",
+        "bytes": 617
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 45347,
+        "end": 45964,
+        "startLine": 1423,
+        "endLine": 1442,
+        "sha256": "475ba161f45640cdc488b145aaf218d41adf2098e2eaa9b7be14482e158a573d",
+        "bytes": 617
+      }
+    },
+    {
+      "name": "unstage",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 41386,
+        "end": 42034,
+        "startLine": 1288,
+        "endLine": 1307,
+        "sha256": "0e998fa019e70b3106ef5f1cd2fb0a0924e2267ec4eb98069ac2a1afa14ed27f",
+        "bytes": 648
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 46040,
+        "end": 46688,
+        "startLine": 1444,
+        "endLine": 1463,
+        "sha256": "0e998fa019e70b3106ef5f1cd2fb0a0924e2267ec4eb98069ac2a1afa14ed27f",
+        "bytes": 648
+      }
+    },
+    {
+      "name": "discard",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 42127,
+        "end": 42874,
+        "startLine": 1309,
+        "endLine": 1330,
+        "sha256": "c9524fa4feddac4a612046e023ce1811ff781e9f3e4ab9fdf794a51f3dc6936f",
+        "bytes": 747
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 46781,
+        "end": 47528,
+        "startLine": 1465,
+        "endLine": 1486,
+        "sha256": "c9524fa4feddac4a612046e023ce1811ff781e9f3e4ab9fdf794a51f3dc6936f",
+        "bytes": 747
+      }
+    },
+    {
+      "name": "commit",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 43052,
+        "end": 49198,
+        "startLine": 1337,
+        "endLine": 1483,
+        "sha256": "1be1b31d3335bb7943f9086dd80cee890f10d087d5367870140dd872bf3387f8",
+        "bytes": 6318
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 47706,
+        "end": 53852,
+        "startLine": 1493,
+        "endLine": 1639,
+        "sha256": "1be1b31d3335bb7943f9086dd80cee890f10d087d5367870140dd872bf3387f8",
+        "bytes": 6318
+      }
+    },
+    {
+      "name": "push",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 49263,
+        "end": 50838,
+        "startLine": 1485,
+        "endLine": 1520,
+        "sha256": "46a9cf0fb654b7a2d82d4ec39cc202cdfc501cc7ddf18cf0ae87cdc0834e72c6",
+        "bytes": 1781
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 53917,
+        "end": 55492,
+        "startLine": 1641,
+        "endLine": 1676,
+        "sha256": "46a9cf0fb654b7a2d82d4ec39cc202cdfc501cc7ddf18cf0ae87cdc0834e72c6",
+        "bytes": 1781
+      }
+    },
+    {
+      "name": "getIdentity",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 50908,
+        "end": 52043,
+        "startLine": 1522,
+        "endLine": 1556,
+        "sha256": "a2aaa1c9e391e78595290f642cfcbd7a062bcd6778e85713c86ca0c70c10f48d",
+        "bytes": 1135
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 55562,
+        "end": 56697,
+        "startLine": 1678,
+        "endLine": 1712,
+        "sha256": "a2aaa1c9e391e78595290f642cfcbd7a062bcd6778e85713c86ca0c70c10f48d",
+        "bytes": 1135
+      }
+    }
+  ],
+  "retainedBodies": [
+    {
+      "name": "normalizeGitGraphMaxCount",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2079,
+        "end": 2274,
+        "startLine": 64,
+        "endLine": 70,
+        "sha256": "51061baed70e6e0bd6e5a034e9a2227c92976635c90c8392ca5209e6a6770355",
+        "bytes": 195
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10235,
+        "end": 10430,
+        "startLine": 386,
+        "endLine": 392,
+        "sha256": "51061baed70e6e0bd6e5a034e9a2227c92976635c90c8392ca5209e6a6770355",
+        "bytes": 195
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10205,
+        "end": 10400,
+        "startLine": 386,
+        "endLine": 392,
+        "sha256": "51061baed70e6e0bd6e5a034e9a2227c92976635c90c8392ca5209e6a6770355",
+        "bytes": 195
+      },
+      "publisherByteIdentical": true
+    },
+    {
+      "name": "normalizeGitGraphSkip",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2341,
+        "end": 2463,
+        "startLine": 72,
+        "endLine": 78,
+        "sha256": "7c4cbd07c485ca8d4733deb6b1358ab3d6c987ba435974a88f15f1b782f5338a",
+        "bytes": 122
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10497,
+        "end": 10619,
+        "startLine": 394,
+        "endLine": 400,
+        "sha256": "7c4cbd07c485ca8d4733deb6b1358ab3d6c987ba435974a88f15f1b782f5338a",
+        "bytes": 122
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10467,
+        "end": 10589,
+        "startLine": 394,
+        "endLine": 400,
+        "sha256": "7c4cbd07c485ca8d4733deb6b1358ab3d6c987ba435974a88f15f1b782f5338a",
+        "bytes": 122
+      },
+      "publisherByteIdentical": true
+    },
+    {
+      "name": "addGitGraphRef",
+      "byteIdentical": true,
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 4217,
+        "end": 4349,
+        "startLine": 135,
+        "endLine": 141,
+        "sha256": "327566309b2b2cf0b96e8319f37e81efb6e026a278f02b45f78c5902b6a8ef1e",
+        "bytes": 132
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10702,
+        "end": 10834,
+        "startLine": 402,
+        "endLine": 408,
+        "sha256": "327566309b2b2cf0b96e8319f37e81efb6e026a278f02b45f78c5902b6a8ef1e",
+        "bytes": 132
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10672,
+        "end": 10804,
+        "startLine": 402,
+        "endLine": 408,
+        "sha256": "327566309b2b2cf0b96e8319f37e81efb6e026a278f02b45f78c5902b6a8ef1e",
+        "bytes": 132
+      },
+      "publisherByteIdentical": true
+    }
+  ],
+  "localGraphScope": [
+    {
+      "name": "normalizeGitGraphMaxCount",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10235,
+        "end": 10430,
+        "startLine": 386,
+        "endLine": 392,
+        "sha256": "51061baed70e6e0bd6e5a034e9a2227c92976635c90c8392ca5209e6a6770355",
+        "bytes": 195
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10205,
+        "end": 10400,
+        "startLine": 386,
+        "endLine": 392,
+        "sha256": "51061baed70e6e0bd6e5a034e9a2227c92976635c90c8392ca5209e6a6770355",
+        "bytes": 195
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "normalizeGitGraphSkip",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10497,
+        "end": 10619,
+        "startLine": 394,
+        "endLine": 400,
+        "sha256": "7c4cbd07c485ca8d4733deb6b1358ab3d6c987ba435974a88f15f1b782f5338a",
+        "bytes": 122
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10467,
+        "end": 10589,
+        "startLine": 394,
+        "endLine": 400,
+        "sha256": "7c4cbd07c485ca8d4733deb6b1358ab3d6c987ba435974a88f15f1b782f5338a",
+        "bytes": 122
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "addGitGraphRef",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10702,
+        "end": 10834,
+        "startLine": 402,
+        "endLine": 408,
+        "sha256": "327566309b2b2cf0b96e8319f37e81efb6e026a278f02b45f78c5902b6a8ef1e",
+        "bytes": 132
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10672,
+        "end": 10804,
+        "startLine": 402,
+        "endLine": 408,
+        "sha256": "327566309b2b2cf0b96e8319f37e81efb6e026a278f02b45f78c5902b6a8ef1e",
+        "bytes": 132
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "parseGitGraphDecorationRef",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10914,
+        "end": 11826,
+        "startLine": 410,
+        "endLine": 443,
+        "sha256": "cbcc7df6f4e26ac618339af031cc045d97c2893f31ec9eba65a0e68f46827423",
+        "bytes": 912
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10884,
+        "end": 11796,
+        "startLine": 410,
+        "endLine": 443,
+        "sha256": "cbcc7df6f4e26ac618339af031cc045d97c2893f31ec9eba65a0e68f46827423",
+        "bytes": 912
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "parseGitGraphRefs",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11900,
+        "end": 12571,
+        "startLine": 445,
+        "endLine": 470,
+        "sha256": "d5786a13f466e9f6dc0680ce6e5136d6c3d279f9cfe0fe8e1c4334ce58867aa7",
+        "bytes": 671
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11870,
+        "end": 12541,
+        "startLine": 445,
+        "endLine": 470,
+        "sha256": "d5786a13f466e9f6dc0680ce6e5136d6c3d279f9cfe0fe8e1c4334ce58867aa7",
+        "bytes": 671
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "parseGitGraphRecords",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 12643,
+        "end": 13531,
+        "startLine": 472,
+        "endLine": 497,
+        "sha256": "afe814e46ca578313b8bb1950dc82a44ec4aca6df20d960d9e7c14202153adc9",
+        "bytes": 888
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 12613,
+        "end": 13501,
+        "startLine": 472,
+        "endLine": 497,
+        "sha256": "afe814e46ca578313b8bb1950dc82a44ec4aca6df20d960d9e7c14202153adc9",
+        "bytes": 888
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "getCommitGraph",
+      "localBaseline": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 31704,
+        "end": 33500,
+        "startLine": 1013,
+        "endLine": 1069,
+        "sha256": "22f2f427736cb920be81d28d81e50285da4f012af0c2e58e2602c59e932f8c8d",
+        "bytes": 1866
+      },
+      "pinnedPublisher": {
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 31674,
+        "end": 33468,
+        "startLine": 1013,
+        "endLine": 1069,
+        "sha256": "06087e4941351ec51b8ffa9179c7e6f372bac44f7fd721f6cd252d4c1fbd319b",
+        "bytes": 1864
+      },
+      "byteIdentical": false
+    }
+  ],
+  "unchangedRemainder": {
+    "verified": true,
+    "sha256": "487d2cca5543303a898a5b0319ca85c816b668e4c6708f2e865cc58e54ed25e2",
+    "bytes": 53618,
+    "description": "repo text outside seven graph bodies/declarations, four graph constants, two graph type imports and one new helper import; only empty deletion seams normalized"
+  },
+  "newStructureSpans": [
+    {
+      "name": "planGitCommitGraphQuery",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 564,
+        "end": 1166,
+        "startLine": 15,
+        "endLine": 35,
+        "sha256": "ba20e136137fa36c0106768796eb724be86851b51a0dbd97779b7aad3dcc535b",
+        "bytes": 672
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "projectGitCommitGraphQuery",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1317,
+        "end": 2004,
+        "startLine": 44,
+        "endLine": 62,
+        "sha256": "1d6a4ce1351e7fce03589974665baf6a6cf5794eabb6a2db98bde9d185006e40",
+        "bytes": 687
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "UNBORN_LOG_ERRORS",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1174,
+        "end": 1314,
+        "startLine": 37,
+        "endLine": 42,
+        "sha256": "7a34947f413d3d2ee4eb16e0712ba2731001316617988af639271acaa6c92a15",
+        "bytes": 140
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "REF_RULES",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2575,
+        "end": 3462,
+        "startLine": 84,
+        "endLine": 113,
+        "sha256": "178e57b646327eb213adf3bd9a505be3a5553fd41e222b2cf32303f8313c6a7f",
+        "bytes": 887
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "interpretDecorationRef",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3465,
+        "end": 3691,
+        "startLine": 115,
+        "endLine": 120,
+        "sha256": "f3508fcd365cc1f3ac0de02ac1d29857eb99fdcef67ad799bbb713766c26d184",
+        "bytes": 226
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "expandDecoration",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3693,
+        "end": 4134,
+        "startLine": 122,
+        "endLine": 133,
+        "sha256": "d53c8a8b4ec21271356bb11b5875b0ba11ca5fdc9f701d76243558714c204e0c",
+        "bytes": 441
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "projectGraphRefs",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 4351,
+        "end": 4626,
+        "startLine": 143,
+        "endLine": 148,
+        "sha256": "3a67b6bd60e48d440158f99e18581a89a3dcfaf635ba05670e44a61e53fa7b72",
+        "bytes": 275
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "RECORD_FIELDS",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5008,
+        "end": 5444,
+        "startLine": 164,
+        "endLine": 174,
+        "sha256": "bd03d05991572e812fd27c8af63de93cab6435259cb74f69a8799962d50ed32b",
+        "bytes": 436
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    },
+    {
+      "name": "projectGraphRecords",
+      "current": {
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5447,
+        "end": 6382,
+        "startLine": 176,
+        "endLine": 195,
+        "sha256": "a683e6342a84acb60b1080d49a69b3b40cbdf25d5622439a17cb0916b26f011e",
+        "bytes": 935
+      },
+      "note": "source-exposed structure candidate with retained compatibility syntax; not rights or originality decision"
+    }
+  ],
+  "retainedLiteralEvidence": [
+    {
+      "current": {
+        "syntax": "\"@knorvia/shared\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 228,
+        "end": 245,
+        "startLine": 3,
+        "endLine": 3,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "localBaseline": {
+        "syntax": "\"@knorvia/shared\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 386,
+        "end": 403,
+        "startLine": 16,
+        "endLine": 16,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "pinnedPublisher": null,
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"../providers/gitCommandProvider.js\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 294,
+        "end": 330,
+        "startLine": 4,
+        "endLine": 4,
+        "sha256": "0fd95305e6902afdeb5a8f618ef68d84f84c2dd1c48acf8919a948b73f6b532b",
+        "bytes": 36
+      },
+      "localBaseline": {
+        "syntax": "\"../providers/gitCommandProvider.js\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 953,
+        "end": 989,
+        "startLine": 34,
+        "endLine": 34,
+        "sha256": "0fd95305e6902afdeb5a8f618ef68d84f84c2dd1c48acf8919a948b73f6b532b",
+        "bytes": 36
+      },
+      "pinnedPublisher": {
+        "syntax": "\"../providers/gitCommandProvider.js\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 923,
+        "end": 959,
+        "startLine": 34,
+        "endLine": 34,
+        "sha256": "0fd95305e6902afdeb5a8f618ef68d84f84c2dd1c48acf8919a948b73f6b532b",
+        "bytes": 36
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"./gitCliTypes.js\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 399,
+        "end": 417,
+        "startLine": 5,
+        "endLine": 5,
+        "sha256": "bf25c344f61292d8354719e176b73124cb9e3f3b8dce609dde958f62fb2f97e9",
+        "bytes": 18
+      },
+      "localBaseline": {
+        "syntax": "\"./gitCliTypes.js\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 1615,
+        "end": 1633,
+        "startLine": 60,
+        "endLine": 60,
+        "sha256": "bf25c344f61292d8354719e176b73124cb9e3f3b8dce609dde958f62fb2f97e9",
+        "bytes": 18
+      },
+      "pinnedPublisher": {
+        "syntax": "\"./gitCliTypes.js\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 1585,
+        "end": 1603,
+        "startLine": 60,
+        "endLine": 60,
+        "sha256": "bf25c344f61292d8354719e176b73124cb9e3f3b8dce609dde958f62fb2f97e9",
+        "bytes": 18
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "100",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 456,
+        "end": 459,
+        "startLine": 7,
+        "endLine": 7,
+        "sha256": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "syntax": "100",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2671,
+        "end": 2674,
+        "startLine": 111,
+        "endLine": 111,
+        "sha256": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "syntax": "100",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2641,
+        "end": 2644,
+        "startLine": 111,
+        "endLine": 111,
+        "sha256": "ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306",
+        "bytes": 3
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "200",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 493,
+        "end": 496,
+        "startLine": 8,
+        "endLine": 8,
+        "sha256": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "syntax": "200",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2708,
+        "end": 2711,
+        "startLine": 112,
+        "endLine": 112,
+        "sha256": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "syntax": "200",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2678,
+        "end": 2681,
+        "startLine": 112,
+        "endLine": 112,
+        "sha256": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf",
+        "bytes": 3
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"log\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 795,
+        "end": 800,
+        "startLine": 21,
+        "endLine": 21,
+        "sha256": "2ce5a984f81a15a3e7ebd1a802998b5a04adab2d853df2bb54e667be77865fed",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "syntax": "\"log\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32189,
+        "end": 32194,
+        "startLine": 1028,
+        "endLine": 1028,
+        "sha256": "2ce5a984f81a15a3e7ebd1a802998b5a04adab2d853df2bb54e667be77865fed",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "syntax": "\"log\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32159,
+        "end": 32164,
+        "startLine": 1028,
+        "endLine": 1028,
+        "sha256": "2ce5a984f81a15a3e7ebd1a802998b5a04adab2d853df2bb54e667be77865fed",
+        "bytes": 5
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 929,
+        "end": 935,
+        "startLine": 24,
+        "endLine": 24,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5996,
+        "end": 6002,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5966,
+        "end": 5972,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"--branches\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 943,
+        "end": 955,
+        "startLine": 25,
+        "endLine": 25,
+        "sha256": "9c8c56702975aea4cff6616f580941c043a9ea442bd7a7e1c7904aa021480879",
+        "bytes": 12
+      },
+      "localBaseline": {
+        "syntax": "\"--branches\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32353,
+        "end": 32365,
+        "startLine": 1032,
+        "endLine": 1032,
+        "sha256": "9c8c56702975aea4cff6616f580941c043a9ea442bd7a7e1c7904aa021480879",
+        "bytes": 12
+      },
+      "pinnedPublisher": {
+        "syntax": "\"--branches\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32321,
+        "end": 32333,
+        "startLine": 1032,
+        "endLine": 1032,
+        "sha256": "9c8c56702975aea4cff6616f580941c043a9ea442bd7a7e1c7904aa021480879",
+        "bytes": 12
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"--tags\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 963,
+        "end": 971,
+        "startLine": 26,
+        "endLine": 26,
+        "sha256": "180aba0284442b28ff074997f8bcaf41da99acbdb48c68e2e0699f878f27a649",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"--tags\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32377,
+        "end": 32385,
+        "startLine": 1033,
+        "endLine": 1033,
+        "sha256": "180aba0284442b28ff074997f8bcaf41da99acbdb48c68e2e0699f878f27a649",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"--tags\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32345,
+        "end": 32353,
+        "startLine": 1033,
+        "endLine": 1033,
+        "sha256": "180aba0284442b28ff074997f8bcaf41da99acbdb48c68e2e0699f878f27a649",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"--remotes\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 979,
+        "end": 990,
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "52da99752adf94ff85ceb04af73b78a73dd639460a34ac94defcaae913a70177",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "syntax": "\"--remotes\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32397,
+        "end": 32408,
+        "startLine": 1034,
+        "endLine": 1034,
+        "sha256": "52da99752adf94ff85ceb04af73b78a73dd639460a34ac94defcaae913a70177",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "syntax": "\"--remotes\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32365,
+        "end": 32376,
+        "startLine": 1034,
+        "endLine": 1034,
+        "sha256": "52da99752adf94ff85ceb04af73b78a73dd639460a34ac94defcaae913a70177",
+        "bytes": 11
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"--date-order\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 998,
+        "end": 1012,
+        "startLine": 28,
+        "endLine": 28,
+        "sha256": "5b1a065d31a813bd2371ba0e3a8dbc259b4e14b30017fa1b6d9e220060344d58",
+        "bytes": 14
+      },
+      "localBaseline": {
+        "syntax": "\"--date-order\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32420,
+        "end": 32434,
+        "startLine": 1035,
+        "endLine": 1035,
+        "sha256": "5b1a065d31a813bd2371ba0e3a8dbc259b4e14b30017fa1b6d9e220060344d58",
+        "bytes": 14
+      },
+      "pinnedPublisher": {
+        "syntax": "\"--date-order\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32388,
+        "end": 32402,
+        "startLine": 1035,
+        "endLine": 1035,
+        "sha256": "5b1a065d31a813bd2371ba0e3a8dbc259b4e14b30017fa1b6d9e220060344d58",
+        "bytes": 14
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"--topo-order\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1020,
+        "end": 1034,
+        "startLine": 29,
+        "endLine": 29,
+        "sha256": "e8791bf4579477eccb1e6ae989353b6ea0880650682b6afd32d2abad9061cd56",
+        "bytes": 14
+      },
+      "localBaseline": {
+        "syntax": "\"--topo-order\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32446,
+        "end": 32460,
+        "startLine": 1036,
+        "endLine": 1036,
+        "sha256": "e8791bf4579477eccb1e6ae989353b6ea0880650682b6afd32d2abad9061cd56",
+        "bytes": 14
+      },
+      "pinnedPublisher": {
+        "syntax": "\"--topo-order\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32414,
+        "end": 32428,
+        "startLine": 1036,
+        "endLine": 1036,
+        "sha256": "e8791bf4579477eccb1e6ae989353b6ea0880650682b6afd32d2abad9061cd56",
+        "bytes": 14
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "`--skip=${",
+        "kind": "TemplateHead",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1042,
+        "end": 1052,
+        "startLine": 30,
+        "endLine": 30,
+        "sha256": "3fc2b15ca8b7183c9cfce5b2303d3182354d358689eb567598e8da9f7259d520",
+        "bytes": 10
+      },
+      "localBaseline": {
+        "syntax": "`--skip=${",
+        "kind": "TemplateHead",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32472,
+        "end": 32482,
+        "startLine": 1037,
+        "endLine": 1037,
+        "sha256": "3fc2b15ca8b7183c9cfce5b2303d3182354d358689eb567598e8da9f7259d520",
+        "bytes": 10
+      },
+      "pinnedPublisher": {
+        "syntax": "`--skip=${",
+        "kind": "TemplateHead",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32440,
+        "end": 32450,
+        "startLine": 1037,
+        "endLine": 1037,
+        "sha256": "3fc2b15ca8b7183c9cfce5b2303d3182354d358689eb567598e8da9f7259d520",
+        "bytes": 10
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "}`",
+        "kind": "LastTemplateToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1058,
+        "end": 1060,
+        "startLine": 30,
+        "endLine": 30,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "syntax": "}`",
+        "kind": "LastTemplateToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5323,
+        "end": 5325,
+        "startLine": 199,
+        "endLine": 199,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "syntax": "}`",
+        "kind": "LastTemplateToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5293,
+        "end": 5295,
+        "startLine": 199,
+        "endLine": 199,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "`--max-count=${",
+        "kind": "TemplateHead",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1068,
+        "end": 1083,
+        "startLine": 31,
+        "endLine": 31,
+        "sha256": "81b4b62d5af9095c2ab60f1b4171d1b0c191b4698f2223055f1157c8f500a64c",
+        "bytes": 15
+      },
+      "localBaseline": {
+        "syntax": "`--max-count=${",
+        "kind": "TemplateHead",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32510,
+        "end": 32525,
+        "startLine": 1038,
+        "endLine": 1038,
+        "sha256": "81b4b62d5af9095c2ab60f1b4171d1b0c191b4698f2223055f1157c8f500a64c",
+        "bytes": 15
+      },
+      "pinnedPublisher": {
+        "syntax": "`--max-count=${",
+        "kind": "TemplateHead",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32478,
+        "end": 32493,
+        "startLine": 1038,
+        "endLine": 1038,
+        "sha256": "81b4b62d5af9095c2ab60f1b4171d1b0c191b4698f2223055f1157c8f500a64c",
+        "bytes": 15
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "1",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1091,
+        "end": 1092,
+        "startLine": 31,
+        "endLine": 31,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "1",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9821,
+        "end": 9822,
+        "startLine": 373,
+        "endLine": 373,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "1",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9791,
+        "end": 9792,
+        "startLine": 373,
+        "endLine": 373,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "}`",
+        "kind": "LastTemplateToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1092,
+        "end": 1094,
+        "startLine": 31,
+        "endLine": 31,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "syntax": "}`",
+        "kind": "LastTemplateToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5323,
+        "end": 5325,
+        "startLine": 199,
+        "endLine": 199,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "syntax": "}`",
+        "kind": "LastTemplateToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5293,
+        "end": 5295,
+        "startLine": 199,
+        "endLine": 199,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"--format=%H%x00%P%x00%an%x00%at%x00%s%x00%D%x1e\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1102,
+        "end": 1151,
+        "startLine": 32,
+        "endLine": 32,
+        "sha256": "7e7fc527c06683e465f09696e8f51dc98a095678c9b94f134d1657fcfc14d839",
+        "bytes": 49
+      },
+      "localBaseline": {
+        "syntax": "\"--format=%H%x00%P%x00%an%x00%at%x00%s%x00%D%x1e\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32561,
+        "end": 32610,
+        "startLine": 1039,
+        "endLine": 1039,
+        "sha256": "7e7fc527c06683e465f09696e8f51dc98a095678c9b94f134d1657fcfc14d839",
+        "bytes": 49
+      },
+      "pinnedPublisher": {
+        "syntax": "\"--format=%H%x00%P%x00%an%x00%at%x00%s%x00%D%x1e\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32529,
+        "end": 32578,
+        "startLine": 1039,
+        "endLine": 1039,
+        "sha256": "7e7fc527c06683e465f09696e8f51dc98a095678c9b94f134d1657fcfc14d839",
+        "bytes": 49
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"does not have any commits yet\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1198,
+        "end": 1229,
+        "startLine": 38,
+        "endLine": 38,
+        "sha256": "8719336700b7646384b86b2694ea90cbd6f5e793e2f010233e19e76d1255536e",
+        "bytes": 31
+      },
+      "localBaseline": {
+        "syntax": "\"does not have any commits yet\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32861,
+        "end": 32892,
+        "startLine": 1048,
+        "endLine": 1048,
+        "sha256": "8719336700b7646384b86b2694ea90cbd6f5e793e2f010233e19e76d1255536e",
+        "bytes": 31
+      },
+      "pinnedPublisher": {
+        "syntax": "\"does not have any commits yet\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32829,
+        "end": 32860,
+        "startLine": 1048,
+        "endLine": 1048,
+        "sha256": "8719336700b7646384b86b2694ea90cbd6f5e793e2f010233e19e76d1255536e",
+        "bytes": 31
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"your current branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1233,
+        "end": 1254,
+        "startLine": 39,
+        "endLine": 39,
+        "sha256": "bf5f1f997d00782e873f591f6260eb335ef859f490bfa0dbe11834f7e1f7f23f",
+        "bytes": 21
+      },
+      "localBaseline": {
+        "syntax": "\"your current branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32923,
+        "end": 32944,
+        "startLine": 1049,
+        "endLine": 1049,
+        "sha256": "bf5f1f997d00782e873f591f6260eb335ef859f490bfa0dbe11834f7e1f7f23f",
+        "bytes": 21
+      },
+      "pinnedPublisher": {
+        "syntax": "\"your current branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32891,
+        "end": 32912,
+        "startLine": 1049,
+        "endLine": 1049,
+        "sha256": "bf5f1f997d00782e873f591f6260eb335ef859f490bfa0dbe11834f7e1f7f23f",
+        "bytes": 21
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"bad default revision\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1258,
+        "end": 1280,
+        "startLine": 40,
+        "endLine": 40,
+        "sha256": "e3d316ee654fd4f79e041613dfa5ad251a6453193b27d71d25a68b7c58d5360a",
+        "bytes": 22
+      },
+      "localBaseline": {
+        "syntax": "\"bad default revision\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32975,
+        "end": 32997,
+        "startLine": 1050,
+        "endLine": 1050,
+        "sha256": "e3d316ee654fd4f79e041613dfa5ad251a6453193b27d71d25a68b7c58d5360a",
+        "bytes": 22
+      },
+      "pinnedPublisher": {
+        "syntax": "\"bad default revision\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32943,
+        "end": 32965,
+        "startLine": 1050,
+        "endLine": 1050,
+        "sha256": "e3d316ee654fd4f79e041613dfa5ad251a6453193b27d71d25a68b7c58d5360a",
+        "bytes": 22
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"ambiguous argument 'head'\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1284,
+        "end": 1311,
+        "startLine": 41,
+        "endLine": 41,
+        "sha256": "51c8fac64ea82872b3febb0e433b0961da85a5ff551dd09d40e2bf3df19a0ef6",
+        "bytes": 27
+      },
+      "localBaseline": {
+        "syntax": "\"ambiguous argument 'head'\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 33028,
+        "end": 33055,
+        "startLine": 1051,
+        "endLine": 1051,
+        "sha256": "51c8fac64ea82872b3febb0e433b0961da85a5ff551dd09d40e2bf3df19a0ef6",
+        "bytes": 27
+      },
+      "pinnedPublisher": {
+        "syntax": "\"ambiguous argument 'head'\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 32996,
+        "end": 33023,
+        "startLine": 1051,
+        "endLine": 1051,
+        "sha256": "51c8fac64ea82872b3febb0e433b0961da85a5ff551dd09d40e2bf3df19a0ef6",
+        "bytes": 27
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1595,
+        "end": 1596,
+        "startLine": 50,
+        "endLine": 50,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5507,
+        "end": 5508,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5477,
+        "end": 5478,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"git log visible refs\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1795,
+        "end": 1817,
+        "startLine": 54,
+        "endLine": 54,
+        "sha256": "45ac28310e2fc07640838f73c5480c4145d239ec0866282a06b6fefa09e85e52",
+        "bytes": 22
+      },
+      "localBaseline": {
+        "syntax": "\"git log visible refs\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 33223,
+        "end": 33245,
+        "startLine": 1060,
+        "endLine": 1060,
+        "sha256": "45ac28310e2fc07640838f73c5480c4145d239ec0866282a06b6fefa09e85e52",
+        "bytes": 22
+      },
+      "pinnedPublisher": {
+        "syntax": "\"git log visible refs\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 33191,
+        "end": 33213,
+        "startLine": 1060,
+        "endLine": 1060,
+        "sha256": "45ac28310e2fc07640838f73c5480c4145d239ec0866282a06b6fefa09e85e52",
+        "bytes": 22
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 1940,
+        "end": 1941,
+        "startLine": 59,
+        "endLine": 59,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5507,
+        "end": 5508,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5477,
+        "end": 5478,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"number\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2107,
+        "end": 2115,
+        "startLine": 65,
+        "endLine": 65,
+        "sha256": "fd1a55ee2217c1ac278ab485236d6c199517334ee91e965cf2f6b8575701cd1c",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"number\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10263,
+        "end": 10271,
+        "startLine": 387,
+        "endLine": 387,
+        "sha256": "fd1a55ee2217c1ac278ab485236d6c199517334ee91e965cf2f6b8575701cd1c",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"number\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10233,
+        "end": 10241,
+        "startLine": 387,
+        "endLine": 387,
+        "sha256": "fd1a55ee2217c1ac278ab485236d6c199517334ee91e965cf2f6b8575701cd1c",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "1",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2246,
+        "end": 2247,
+        "startLine": 69,
+        "endLine": 69,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "1",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9821,
+        "end": 9822,
+        "startLine": 373,
+        "endLine": 373,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "1",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9791,
+        "end": 9792,
+        "startLine": 373,
+        "endLine": 373,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"number\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2365,
+        "end": 2373,
+        "startLine": 73,
+        "endLine": 73,
+        "sha256": "fd1a55ee2217c1ac278ab485236d6c199517334ee91e965cf2f6b8575701cd1c",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"number\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10263,
+        "end": 10271,
+        "startLine": 387,
+        "endLine": 387,
+        "sha256": "fd1a55ee2217c1ac278ab485236d6c199517334ee91e965cf2f6b8575701cd1c",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"number\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 10233,
+        "end": 10241,
+        "startLine": 387,
+        "endLine": 387,
+        "sha256": "fd1a55ee2217c1ac278ab485236d6c199517334ee91e965cf2f6b8575701cd1c",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2414,
+        "end": 2415,
+        "startLine": 74,
+        "endLine": 74,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5507,
+        "end": 5508,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5477,
+        "end": 5478,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2440,
+        "end": 2441,
+        "startLine": 77,
+        "endLine": 77,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5507,
+        "end": 5508,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5477,
+        "end": 5478,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2639,
+        "end": 2645,
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5996,
+        "end": 6002,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5966,
+        "end": 5972,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2670,
+        "end": 2676,
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5996,
+        "end": 6002,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5966,
+        "end": 5972,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"head\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2684,
+        "end": 2690,
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "db5ef3a0f2df755f0b6116e53d23bd1ac2b6b33e3f36358d3207b9ce5068dec0",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"head\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11038,
+        "end": 11044,
+        "startLine": 417,
+        "endLine": 417,
+        "sha256": "db5ef3a0f2df755f0b6116e53d23bd1ac2b6b33e3f36358d3207b9ce5068dec0",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"head\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11008,
+        "end": 11014,
+        "startLine": 417,
+        "endLine": 417,
+        "sha256": "db5ef3a0f2df755f0b6116e53d23bd1ac2b6b33e3f36358d3207b9ce5068dec0",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"tag: \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2738,
+        "end": 2745,
+        "startLine": 87,
+        "endLine": 87,
+        "sha256": "4040096402a6089ab95d202830c604b207f28c9766f980097b702e11222076d1",
+        "bytes": 7
+      },
+      "localBaseline": {
+        "syntax": "\"tag: \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11073,
+        "end": 11080,
+        "startLine": 420,
+        "endLine": 420,
+        "sha256": "4040096402a6089ab95d202830c604b207f28c9766f980097b702e11222076d1",
+        "bytes": 7
+      },
+      "pinnedPublisher": {
+        "syntax": "\"tag: \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11043,
+        "end": 11050,
+        "startLine": 420,
+        "endLine": 420,
+        "sha256": "4040096402a6089ab95d202830c604b207f28c9766f980097b702e11222076d1",
+        "bytes": 7
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"tag: \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2802,
+        "end": 2809,
+        "startLine": 89,
+        "endLine": 89,
+        "sha256": "4040096402a6089ab95d202830c604b207f28c9766f980097b702e11222076d1",
+        "bytes": 7
+      },
+      "localBaseline": {
+        "syntax": "\"tag: \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11073,
+        "end": 11080,
+        "startLine": 420,
+        "endLine": 420,
+        "sha256": "4040096402a6089ab95d202830c604b207f28c9766f980097b702e11222076d1",
+        "bytes": 7
+      },
+      "pinnedPublisher": {
+        "syntax": "\"tag: \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11043,
+        "end": 11050,
+        "startLine": 420,
+        "endLine": 420,
+        "sha256": "4040096402a6089ab95d202830c604b207f28c9766f980097b702e11222076d1",
+        "bytes": 7
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2863,
+        "end": 2875,
+        "startLine": 90,
+        "endLine": 90,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "localBaseline": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11207,
+        "end": 11219,
+        "startLine": 423,
+        "endLine": 423,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "pinnedPublisher": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11177,
+        "end": 11189,
+        "startLine": 423,
+        "endLine": 423,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2892,
+        "end": 2904,
+        "startLine": 90,
+        "endLine": 90,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "localBaseline": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11207,
+        "end": 11219,
+        "startLine": 423,
+        "endLine": 423,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "pinnedPublisher": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11177,
+        "end": 11189,
+        "startLine": 423,
+        "endLine": 423,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"tag\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 2957,
+        "end": 2962,
+        "startLine": 91,
+        "endLine": 91,
+        "sha256": "d4d85bff85965272eced0d89cb90819f8ee7ccaf58ada8d4ce0060c186e3f430",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "syntax": "\"tag\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11299,
+        "end": 11304,
+        "startLine": 424,
+        "endLine": 424,
+        "sha256": "d4d85bff85965272eced0d89cb90819f8ee7ccaf58ada8d4ce0060c186e3f430",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "syntax": "\"tag\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11269,
+        "end": 11274,
+        "startLine": 424,
+        "endLine": 424,
+        "sha256": "d4d85bff85965272eced0d89cb90819f8ee7ccaf58ada8d4ce0060c186e3f430",
+        "bytes": 5
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"refs/heads/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3005,
+        "end": 3018,
+        "startLine": 96,
+        "endLine": 96,
+        "sha256": "daec9e2f3fbfd587c933c111174a3aff1a8ae7f2bb2e92156771b446d28a434a",
+        "bytes": 13
+      },
+      "localBaseline": {
+        "syntax": "\"refs/heads/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11341,
+        "end": 11354,
+        "startLine": 427,
+        "endLine": 427,
+        "sha256": "daec9e2f3fbfd587c933c111174a3aff1a8ae7f2bb2e92156771b446d28a434a",
+        "bytes": 13
+      },
+      "pinnedPublisher": {
+        "syntax": "\"refs/heads/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11311,
+        "end": 11324,
+        "startLine": 427,
+        "endLine": 427,
+        "sha256": "daec9e2f3fbfd587c933c111174a3aff1a8ae7f2bb2e92156771b446d28a434a",
+        "bytes": 13
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3020,
+        "end": 3028,
+        "startLine": 96,
+        "endLine": 96,
+        "sha256": "fcce49047e714afffc4f1581b5ce472263ed7631521c9c8d5bcded98d3988d6d",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11441,
+        "end": 11449,
+        "startLine": 429,
+        "endLine": 429,
+        "sha256": "fcce49047e714afffc4f1581b5ce472263ed7631521c9c8d5bcded98d3988d6d",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11411,
+        "end": 11419,
+        "startLine": 429,
+        "endLine": 429,
+        "sha256": "fcce49047e714afffc4f1581b5ce472263ed7631521c9c8d5bcded98d3988d6d",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"refs/remotes/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3038,
+        "end": 3053,
+        "startLine": 97,
+        "endLine": 97,
+        "sha256": "0073f18c6d7ea89edcb3a7cb33b810dd1bb267af1e5086cb4462e52917ab9b9d",
+        "bytes": 15
+      },
+      "localBaseline": {
+        "syntax": "\"refs/remotes/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11486,
+        "end": 11501,
+        "startLine": 432,
+        "endLine": 432,
+        "sha256": "0073f18c6d7ea89edcb3a7cb33b810dd1bb267af1e5086cb4462e52917ab9b9d",
+        "bytes": 15
+      },
+      "pinnedPublisher": {
+        "syntax": "\"refs/remotes/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11456,
+        "end": 11471,
+        "startLine": 432,
+        "endLine": 432,
+        "sha256": "0073f18c6d7ea89edcb3a7cb33b810dd1bb267af1e5086cb4462e52917ab9b9d",
+        "bytes": 15
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"remote\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3055,
+        "end": 3063,
+        "startLine": 97,
+        "endLine": 97,
+        "sha256": "a34db33d836159e700dbdba519c39af8391658249343145b4e6d4666efd04430",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"remote\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11590,
+        "end": 11598,
+        "startLine": 434,
+        "endLine": 434,
+        "sha256": "a34db33d836159e700dbdba519c39af8391658249343145b4e6d4666efd04430",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"remote\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11560,
+        "end": 11568,
+        "startLine": 434,
+        "endLine": 434,
+        "sha256": "a34db33d836159e700dbdba519c39af8391658249343145b4e6d4666efd04430",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3073,
+        "end": 3085,
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "localBaseline": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11207,
+        "end": 11219,
+        "startLine": 423,
+        "endLine": 423,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "pinnedPublisher": {
+        "syntax": "\"refs/tags/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11177,
+        "end": 11189,
+        "startLine": 423,
+        "endLine": 423,
+        "sha256": "d624438e8ede1c8359523abef01e8c50e913f4760ca49010229530f3f5e3db7c",
+        "bytes": 12
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"tag\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3087,
+        "end": 3092,
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "d4d85bff85965272eced0d89cb90819f8ee7ccaf58ada8d4ce0060c186e3f430",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "syntax": "\"tag\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11299,
+        "end": 11304,
+        "startLine": 424,
+        "endLine": 424,
+        "sha256": "d4d85bff85965272eced0d89cb90819f8ee7ccaf58ada8d4ce0060c186e3f430",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "syntax": "\"tag\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11269,
+        "end": 11274,
+        "startLine": 424,
+        "endLine": 424,
+        "sha256": "d4d85bff85965272eced0d89cb90819f8ee7ccaf58ada8d4ce0060c186e3f430",
+        "bytes": 5
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3425,
+        "end": 3428,
+        "startLine": 111,
+        "endLine": 111,
+        "sha256": "df7e940f72aa93cbcb6d70cc35124b0767c7a0e353043c7c24b660ea9be7b952",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "syntax": "\"/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2945,
+        "end": 2948,
+        "startLine": 119,
+        "endLine": 119,
+        "sha256": "df7e940f72aa93cbcb6d70cc35124b0767c7a0e353043c7c24b660ea9be7b952",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "syntax": "\"/\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2915,
+        "end": 2918,
+        "startLine": 119,
+        "endLine": 119,
+        "sha256": "df7e940f72aa93cbcb6d70cc35124b0767c7a0e353043c7c24b660ea9be7b952",
+        "bytes": 3
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"remote\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3432,
+        "end": 3440,
+        "startLine": 111,
+        "endLine": 111,
+        "sha256": "a34db33d836159e700dbdba519c39af8391658249343145b4e6d4666efd04430",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"remote\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11590,
+        "end": 11598,
+        "startLine": 434,
+        "endLine": 434,
+        "sha256": "a34db33d836159e700dbdba519c39af8391658249343145b4e6d4666efd04430",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"remote\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11560,
+        "end": 11568,
+        "startLine": 434,
+        "endLine": 434,
+        "sha256": "a34db33d836159e700dbdba519c39af8391658249343145b4e6d4666efd04430",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3443,
+        "end": 3451,
+        "startLine": 111,
+        "endLine": 111,
+        "sha256": "fcce49047e714afffc4f1581b5ce472263ed7631521c9c8d5bcded98d3988d6d",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "syntax": "\"branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11441,
+        "end": 11449,
+        "startLine": 429,
+        "endLine": 429,
+        "sha256": "fcce49047e714afffc4f1581b5ce472263ed7631521c9c8d5bcded98d3988d6d",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "syntax": "\"branch\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11411,
+        "end": 11419,
+        "startLine": 429,
+        "endLine": 429,
+        "sha256": "fcce49047e714afffc4f1581b5ce472263ed7631521c9c8d5bcded98d3988d6d",
+        "bytes": 8
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"HEAD -> \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3821,
+        "end": 3831,
+        "startLine": 124,
+        "endLine": 124,
+        "sha256": "56ffb2bb80846bcbc34af40818bc30568627579cf94ebe0941a64dd3394e5795",
+        "bytes": 10
+      },
+      "localBaseline": {
+        "syntax": "\"HEAD -> \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 12116,
+        "end": 12126,
+        "startLine": 453,
+        "endLine": 453,
+        "sha256": "56ffb2bb80846bcbc34af40818bc30568627579cf94ebe0941a64dd3394e5795",
+        "bytes": 10
+      },
+      "pinnedPublisher": {
+        "syntax": "\"HEAD -> \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 12086,
+        "end": 12096,
+        "startLine": 453,
+        "endLine": 453,
+        "sha256": "56ffb2bb80846bcbc34af40818bc30568627579cf94ebe0941a64dd3394e5795",
+        "bytes": 10
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3895,
+        "end": 3901,
+        "startLine": 126,
+        "endLine": 126,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5996,
+        "end": 6002,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"HEAD\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5966,
+        "end": 5972,
+        "startLine": 229,
+        "endLine": 229,
+        "sha256": "dee4f10b8c56f2a7f5a3a530654173a59ead9804d622c441157360eaad589356",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"head\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 3909,
+        "end": 3915,
+        "startLine": 126,
+        "endLine": 126,
+        "sha256": "db5ef3a0f2df755f0b6116e53d23bd1ac2b6b33e3f36358d3207b9ce5068dec0",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"head\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11038,
+        "end": 11044,
+        "startLine": 417,
+        "endLine": 417,
+        "sha256": "db5ef3a0f2df755f0b6116e53d23bd1ac2b6b33e3f36358d3207b9ce5068dec0",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"head\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11008,
+        "end": 11014,
+        "startLine": 417,
+        "endLine": 417,
+        "sha256": "db5ef3a0f2df755f0b6116e53d23bd1ac2b6b33e3f36358d3207b9ce5068dec0",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\",\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 4515,
+        "end": 4518,
+        "startLine": 145,
+        "endLine": 145,
+        "sha256": "08b53b7d666cf717c2136d704d53b965a6557080d27d1ba4c884dee6b2fb8a0a",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "syntax": "\",\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11993,
+        "end": 11996,
+        "startLine": 447,
+        "endLine": 447,
+        "sha256": "08b53b7d666cf717c2136d704d53b965a6557080d27d1ba4c884dee6b2fb8a0a",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "syntax": "\",\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 11963,
+        "end": 11966,
+        "startLine": 447,
+        "endLine": 447,
+        "sha256": "08b53b7d666cf717c2136d704d53b965a6557080d27d1ba4c884dee6b2fb8a0a",
+        "bytes": 3
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\" \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5141,
+        "end": 5144,
+        "startLine": 166,
+        "endLine": 166,
+        "sha256": "52109349dabf69106e04ec2f493fb8b6ade94ea100227cccce6559ab8b96553f",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "syntax": "\" \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 13202,
+        "end": 13205,
+        "startLine": 489,
+        "endLine": 489,
+        "sha256": "52109349dabf69106e04ec2f493fb8b6ade94ea100227cccce6559ab8b96553f",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "syntax": "\" \"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 13172,
+        "end": 13175,
+        "startLine": 489,
+        "endLine": 489,
+        "sha256": "52109349dabf69106e04ec2f493fb8b6ade94ea100227cccce6559ab8b96553f",
+        "bytes": 3
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5226,
+        "end": 5228,
+        "startLine": 167,
+        "endLine": 167,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "syntax": "\"\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3050,
+        "end": 3052,
+        "startLine": 123,
+        "endLine": 123,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "syntax": "\"\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3020,
+        "end": 3022,
+        "startLine": 123,
+        "endLine": 123,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5270,
+        "end": 5272,
+        "startLine": 168,
+        "endLine": 168,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "syntax": "\"\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3050,
+        "end": 3052,
+        "startLine": 123,
+        "endLine": 123,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "syntax": "\"\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 3020,
+        "end": 3022,
+        "startLine": 123,
+        "endLine": 123,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "1000",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5431,
+        "end": 5435,
+        "startLine": 172,
+        "endLine": 172,
+        "sha256": "40510175845988f13f6162ed8526f0b09f73384467fa855e1e79b44a56562a58",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "syntax": "1000",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9622,
+        "end": 9626,
+        "startLine": 367,
+        "endLine": 367,
+        "sha256": "40510175845988f13f6162ed8526f0b09f73384467fa855e1e79b44a56562a58",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "syntax": "1000",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9592,
+        "end": 9596,
+        "startLine": 367,
+        "endLine": 367,
+        "sha256": "40510175845988f13f6162ed8526f0b09f73384467fa855e1e79b44a56562a58",
+        "bytes": 4
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"\\x1e\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5636,
+        "end": 5642,
+        "startLine": 179,
+        "endLine": 179,
+        "sha256": "4a5dce714f7dd341dd6442fb34f08a47e383dd757d44744dfd7124dec371c1f1",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"\\x1e\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2748,
+        "end": 2754,
+        "startLine": 113,
+        "endLine": 113,
+        "sha256": "4a5dce714f7dd341dd6442fb34f08a47e383dd757d44744dfd7124dec371c1f1",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"\\x1e\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2718,
+        "end": 2724,
+        "startLine": 113,
+        "endLine": 113,
+        "sha256": "4a5dce714f7dd341dd6442fb34f08a47e383dd757d44744dfd7124dec371c1f1",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5720,
+        "end": 5721,
+        "startLine": 181,
+        "endLine": 181,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5507,
+        "end": 5508,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "syntax": "0",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 5477,
+        "end": 5478,
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "\"\\x00\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 5899,
+        "end": 5905,
+        "startLine": 184,
+        "endLine": 184,
+        "sha256": "8cd2cd058f9614541eea2f21e2b90e7fac35ef0d01fc7f434183735e198c4c26",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "syntax": "\"\\x00\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2790,
+        "end": 2796,
+        "startLine": 114,
+        "endLine": 114,
+        "sha256": "8cd2cd058f9614541eea2f21e2b90e7fac35ef0d01fc7f434183735e198c4c26",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "syntax": "\"\\x00\"",
+        "kind": "StringLiteral",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 2760,
+        "end": 2766,
+        "startLine": 114,
+        "endLine": 114,
+        "sha256": "8cd2cd058f9614541eea2f21e2b90e7fac35ef0d01fc7f434183735e198c4c26",
+        "bytes": 6
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    },
+    {
+      "current": {
+        "syntax": "10",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+        "start": 6026,
+        "end": 6028,
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "syntax": "10",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9358,
+        "end": 9360,
+        "startLine": 361,
+        "endLine": 361,
+        "sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "syntax": "10",
+        "kind": "FirstLiteralToken",
+        "path": "packages/services/src/git/repo/gitCliRepo.ts",
+        "start": 9328,
+        "end": 9330,
+        "startLine": 361,
+        "endLine": 361,
+        "sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+        "bytes": 2
+      },
+      "note": "exact syntax observation, not an exhaustive match/originality metric"
+    }
+  ],
+  "wholeFileStatuses": [
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "status": "upstream-modified/unreviewed; only graph slice structurally replaced, other implementation retained",
+      "decision": null,
+      "license": "NOASSERTION"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+      "status": "unreviewed addition containing retained normalizer/ref bodies, argv/protocol/error/format expressions",
+      "decision": null,
+      "license": "NOASSERTION"
+    }
+  ],
+  "retainedCompatibility": [
+    "max/skip/add-ref bodies byte-identical; moved declarations/formatting not new contribution",
+    "exact query args, HEAD/ref selectors, field/record format and hidden-ref prose, including existing renamed namespace comment",
+    "ordered unborn phrases and existing ensure/error precedence, availability short circuit, result shapes/keys",
+    "record splitting/trimming, first-six-field semantics, raw hash/parent/subject/author, timestamp coercion and Unicode/delimiter quirks",
+    "HEAD/pointer/tag/prefix/fallback grammar, empty-prefix suppression, kind/name dedup and ref record construction"
+  ],
+  "futureSeparation": "Review local query/response interpreter, ordered ref rules/expansion and typed field relationship versus retained normalizer/argv/protocol/coercion/ref record leaves. Moving retained leaves alone does not make them original. The remainder of repo/resolution/status/command/mutation/checkpoint implementation remains retained.",
+  "fixtures": [
+    "Literal synthetic command stdout/stderr/args, paths, refs, dates, Unicode/NUL/U+001E/comma/newline records and fake provider/resolution/Intl/loggers",
+    "Owned isolated environment metadata; all production filesystem exports/default command factory/data-root ports forbidden",
+    "Actual service/RPC in-memory scaffolding follows prior source-exposed lane pattern; strict loader reused unchanged",
+    "Read-only AST harness executes actual private graph UI callbacks with owned closures, not mounted GUI",
+    "Frozen 147 cases at baseline before production; initial filesystem mock omission and one then-read expectation corrected before implementation, no product red proof/policy correction"
+  ],
+  "previousEvidence": {
+    "generator": "57bb3dd immutable historical receipt/digests; its then-protected whole gitCliRepo hash is historical, not a live digest claim after this authorized graph change",
+    "gitRead": "46613b7/c1e1cc2/28d5e79 unchanged; root owns later Windows assertion correction 80d053a",
+    "servicesCandidate": "91d15b8 historical and 9ef7334 current/retry scopes unchanged; no new graph coverage inferred"
+  },
+  "parentReportedEvidence": {
+    "independentlyVerifiedHere": false,
+    "windowsAssertionCorrection": "80d053a root-owned; earlier Linux-only consumer evidence cannot establish Windows acceptance",
+    "publishedKeyvClosure": {
+      "rootObligations": 26,
+      "localObligationsUnchanged": 27,
+      "localInputsUnchanged": true,
+      "rightsGrant": false
+    }
+  },
+  "validation": {
+    "frozenSource": {
+      "snapshot": "aa748022925d88050d93adcef01c47d21f581c12",
+      "files": 3,
+      "cases": 147,
+      "pass": 147,
+      "fail": 0,
+      "skip": 0
+    },
+    "frozenStrictEmitted": {
+      "snapshot": "aa748022925d88050d93adcef01c47d21f581c12",
+      "files": 3,
+      "cases": 147,
+      "pass": 147,
+      "fail": 0,
+      "skip": 0
+    },
+    "finalSource": {
+      "production": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "files": 9,
+      "cases": 434,
+      "pass": 434,
+      "fail": 0,
+      "skip": 0
+    },
+    "finalStrictEmitted": {
+      "production": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "files": 9,
+      "cases": 434,
+      "pass": 434,
+      "fail": 0,
+      "skip": 0
+    },
+    "breakdown": {
+      "graphQuery": 76,
+      "graphRecord": 49,
+      "graphConsumers": 22,
+      "priorGenerator": 161,
+      "priorGitRead": 126
+    },
+    "full": {
+      "command": "pnpm test:studio",
+      "production": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "testSnapshot": "7d03ea5ce0c9501fc51f33e254fd770ec42c8559",
+      "files": 525,
+      "cases": 6853,
+      "pass": 6845,
+      "fail": 0,
+      "skip": 8,
+      "cancelled": 0,
+      "suites": 6,
+      "durationMs": 534830.830867,
+      "concurrency": 2,
+      "timeoutMs": 120000,
+      "budgetsUnchanged": true
+    },
+    "types": "pass, 5422 locale keys; public repo d.ts byte-identical",
+    "lint": "pass, zero warnings/errors",
+    "format": "pass",
+    "changedArchitecture": "pass, zero violations",
+    "fullArchitecture": "pass, zero violations",
+    "cliBuild": "17 successful /16 cached; Windows CUA staging skipped on Linux",
+    "desktopBuild": "main/host/preload/renderer pass, existing chunk-size/plugin-timing warnings",
+    "nativeLimits": "No actual Git/native process, real repository, provider/network, Windows/macOS, mounted GUI or remote Host acceptance. Root separate native PTY evidence not counted."
+  },
+  "payloadSha256": "9998acc51e57897c8ee932b942ff413916712e37da9d3b68786747c54ce5b237"
+}
