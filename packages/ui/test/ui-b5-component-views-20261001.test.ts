@@ -28,7 +28,8 @@ test("B5 toast pure boundary: global truthy-key dedupe, tail order and stable re
   const source = [a, b];
   const result = toast.upsertToastItem(source, c);
   assert.deepEqual(result, [b, c]);
-  const sparse = [a, , b];
+  const sparse = [a, a, b];
+  delete sparse[1];
   assert.deepEqual(toast.upsertToastItem(sparse, c), [b, c]);
   assert.deepEqual(toast.upsertToastItem(sparse, { ...c, dedupeKey: "" }), [
     a,
