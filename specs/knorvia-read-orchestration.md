@@ -139,3 +139,21 @@ CLI build/types, root types/configured lint, strict owned lint, full formatting,
 architecture and full final suite. Bind exact current/emitted/protected hashes and
 counts in named lane evidence; report native gaps and unchanged unowned failures.
 No dependency, CI, licence inventory, other-lane or prior checkpoint edits.
+
+## Root review correction: preserve completion settlement boundary
+
+The producer's 31 source/emitted cases missed a real cancellation race. In the
+unchanged deadline owner, a queued cancellation after metadata commit returns
+success in the pre-rewrite handler but cancellation with the new async helper.
+The actual call-runner also loses result metadata and emits cancellation instead
+of completion for both a cache hit and miss. The extra async helper settlement
+reaction broadens the cancellation window; this is not a new cancellation policy.
+
+Keep exactly the original stat and optional text-read await boundaries in the
+handler. A synchronous local operation plan may select those effects and join
+cache-hit/miss completion, but must not introduce an awaited orchestration promise
+after metadata commits. State owners, metadata timestamps, lower reads, permission,
+media prefix and error conversion remain unchanged. Add owned microtask boundary
+probes through the actual deadline owner and full call-runner, retaining early
+cancellation behavior and the original success/metadata/telemetry outcome after
+completion. Preserve the original producer commits and failing proof.
