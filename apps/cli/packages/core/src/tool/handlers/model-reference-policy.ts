@@ -83,7 +83,10 @@ function chooseLevel(
     return { kind: "selected", entry, reasoningLevel: entry.defaultReasoningLevel };
   }
   const wanted = token(requested);
-  for (const level of entry.reasoningLevels) {
+  const levels = entry.reasoningLevels;
+  const length = levels.length;
+  for (let index = 0; index < length; index++) {
+    const level = levels[index]!;
     if (token(level) === wanted) return { kind: "selected", entry, reasoningLevel: level };
   }
   return { kind: "reasoning_level_unknown", entry, level: requested };

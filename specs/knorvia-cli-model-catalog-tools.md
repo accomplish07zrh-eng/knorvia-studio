@@ -111,7 +111,9 @@ existing unmanaged CLI module and import existing public contracts.
   qualified entries as well. Never silently prefer a different provider.
 - Explicit reasoning level matches the first trimmed/case-insensitive catalog
   level, retaining its original spelling. Unknown levels fail after model choice
-  with that selected entry as the sole candidate. Without a suffix, use the raw
+  with that selected entry as the sole candidate. Array slots determine level
+  order; matching must not invoke a custom levels iterator. Capture the array/
+  length once, and continue visiting sparse slots. Without a suffix, use the raw
   default only when levels is nonempty and default is defined; do not validate it
   against the levels or invent a default. Empty defaults remain in selection
   options, while the shared picker formatter preserves its existing omission.

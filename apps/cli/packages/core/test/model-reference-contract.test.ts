@@ -92,3 +92,13 @@ test("disabled partition precedes current choice, retaining the first current du
   assert.ok(result.ok);
   assert.equal(result.entry, entries[0]);
 });
+
+test("reasoning-level choice reads array slots without invoking a custom iterator", () => {
+  const levels = [" HIGH ", "high"];
+  levels[Symbol.iterator] = () => assert.fail("choice must read array slots");
+  const row = { providerId: "p", modelId: "m", reasoningLevels: levels };
+  const result = reference.resolveModelReference("p/m$HIGH", [row]);
+  assert.ok(result.ok);
+  assert.equal(result.selection.options?.reasoningLevel, " HIGH ");
+  assert.equal(result.entry, row);
+});
