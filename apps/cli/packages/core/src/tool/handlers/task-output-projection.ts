@@ -1,7 +1,8 @@
 // task-output.ts 顶到 oxlint max-lines 上限（400 行），把任务投影
 // （projectTask 及 dwf / agent 分支）、输出文件尾部快照读取和紧凑文件大小格式化拆到本文件；
 // 公开面仍从 task-output.ts 导出。
-import { open } from "node:fs/promises";
+import { readTaskOutputWindow } from "./task-output-file-window.js";
+export { throwIfAborted } from "./task-output-file-window.js";
 import type { TaskOutputTask } from "@knorvia/contracts";
 import type { RuntimeTaskSnapshot } from "../../runtime-task/registry.js";
 import type { ToolExecutionContext } from "../types.js";
@@ -108,56 +109,5 @@ async function readTaskOutputFileSnapshot(
   outputFile: string | undefined,
   context: ToolExecutionContext,
 ): Promise<{ available: boolean; content: string; truncated: boolean }> {
-  if (!outputFile) {
-    return { available: false, content: "", truncated: false };
-  }
-
-  try {
-    throwIfAborted(context.abortSignal);
-    const handle = await open(outputFile, "r");
-    try {
-      const stat = await handle.stat();
-      const bytesToRead = Math.min(stat.size, TASK_OUTPUT_FILE_TAIL_BYTES);
-      if (bytesToRead === 0) {
-        return { available: true, content: "", truncated: false };
-      }
-
-      const buffer = Buffer.allocUnsafe(bytesToRead);
-      const start = stat.size - bytesToRead;
-      let bytesRead = 0;
-      while (bytesRead < bytesToRead) {
-        const read = await handle.read(
-          buffer,
-          bytesRead,
-          bytesToRead - bytesRead,
-          start + bytesRead,
-        );
-        if (read.bytesRead === 0) break;
-        bytesRead += read.bytesRead;
-      }
-      throwIfAborted(context.abortSignal);
-
-      const omittedBytes = stat.size - bytesRead;
-      const content = buffer.subarray(0, bytesRead).toString("utf8");
-      return {
-        available: true,
-        content:
-          omittedBytes > 0
-            ? `[${Math.round(omittedBytes / 1024)}KB of earlier output omitted]\n${content}`
-            : content,
-        truncated: omittedBytes > 0,
-      };
-    } finally {
-      await handle.close();
-    }
-  } catch (error) {
-    if (context.abortSignal.aborted) throwIfAborted(context.abortSignal);
-    if (error instanceof Error && error.name === "AbortError") throw error;
-    return { available: false, content: "", truncated: false };
-  }
-}
-
-export function throwIfAborted(signal: AbortSignal): void {
-  if (!signal.aborted) return;
-  throw new DOMException("Task output wait aborted", "AbortError");
+  return readTaskOutputWindow(outputFile, context.abortSignal, TASK_OUTPUT_FILE_TAIL_BYTES, "tail");
 }

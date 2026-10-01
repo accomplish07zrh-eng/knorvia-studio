@@ -1,4 +1,4 @@
-import { open } from "node:fs/promises";
+import { readTaskOutputWindow } from "./task-output-file-window.js";
 import type { BackgroundExecutionSnapshot, TaskOutputTask } from "@knorvia/contracts";
 import type { RuntimeTaskSnapshot } from "../../runtime-task/registry.js";
 import type { ToolExecutionContext } from "../types.js";
@@ -117,47 +117,5 @@ async function readRunningBashOutputFile(
   context: ToolExecutionContext,
   maxBytes: number,
 ): Promise<TaskOutputFileRead> {
-  // 运行中 Bash 复用通用 8 MiB 尾读后，模型会看到输出末尾；
-  // 这里固定读取文件头部 30000 bytes，再交给 TaskOutput 应用最终字符预算。
-  if (!outputFile) {
-    return { available: false, content: "", truncated: false };
-  }
-
-  try {
-    throwIfAborted(context.abortSignal);
-    const handle = await open(outputFile, "r");
-    try {
-      const stat = await handle.stat();
-      const bytesToRead = Math.min(stat.size, maxBytes);
-      if (bytesToRead === 0) {
-        return { available: true, content: "", truncated: false };
-      }
-
-      const buffer = Buffer.allocUnsafe(bytesToRead);
-      let bytesRead = 0;
-      while (bytesRead < bytesToRead) {
-        const read = await handle.read(buffer, bytesRead, bytesToRead - bytesRead, bytesRead);
-        if (read.bytesRead === 0) break;
-        bytesRead += read.bytesRead;
-      }
-      throwIfAborted(context.abortSignal);
-
-      return {
-        available: true,
-        content: buffer.subarray(0, bytesRead).toString("utf8"),
-        truncated: stat.size > bytesRead,
-      };
-    } finally {
-      await handle.close();
-    }
-  } catch (error) {
-    if (context.abortSignal.aborted) throwIfAborted(context.abortSignal);
-    if (error instanceof Error && error.name === "AbortError") throw error;
-    return { available: false, content: "", truncated: false };
-  }
-}
-
-function throwIfAborted(signal: AbortSignal): void {
-  if (!signal.aborted) return;
-  throw new DOMException("Task output wait aborted", "AbortError");
+  return readTaskOutputWindow(outputFile, context.abortSignal, maxBytes, "head");
 }

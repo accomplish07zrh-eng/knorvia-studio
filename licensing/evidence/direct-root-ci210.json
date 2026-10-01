@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "Combined ComfyUI diagnostic batch native CI210 receipt; excludes subsequent TaskOutput file-window changes",
+  "head": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+  "checkedMergeSha": "b4045e08d04d6f567cd4be8516f3779637720feb",
+  "checkedTree": "b8a6ba4785cbb8ccbebcfa3e88b6f5f6d3d14432",
+  "headTreeExactMatch": true,
+  "run": 36806051726,
+  "runNumber": 210,
+  "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/36806051726",
+  "linux": {
+    "job": 110190512532,
+    "result": "success",
+    "tests": 6002,
+    "pass": 5994,
+    "fail": 0,
+    "skip": 8
+  },
+  "windows": {
+    "job": 110190512340,
+    "result": "success",
+    "tests": 6002,
+    "pass": 6001,
+    "fail": 0,
+    "skip": 1
+  },
+  "limits": [
+    "Diagnostic-only change and green run do not establish historical CI209 timeout cause",
+    "CI208 native extra rename cause also remains unknown",
+    "No native UI, installer, live provider, data upgrade or final MIT acceptance;27 material obligations remain"
+  ]
+}
