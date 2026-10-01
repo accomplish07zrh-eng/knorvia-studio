@@ -377,7 +377,9 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
   const statusRequests = new Map<string, Promise<GitStatusSnapshot>>();
   const collapsedUntrackedRepoRoots = new Set<string>();
 
-  async function executeRepositoryReadPlan<T>(program: GitRepositoryReadProgram<T>): Promise<T> {
+  function* executeRepositoryReadPlan<T>(
+    program: GitRepositoryReadProgram<T>,
+  ): Generator<unknown, T, unknown> {
     let step = program.next();
     while (!step.done) {
       const request = step.value;
@@ -385,16 +387,16 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
       try {
         switch (request.kind) {
           case "discover":
-            value = await commandProvider.resolveGitBinary();
+            value = yield commandProvider.resolveGitBinary();
             break;
           case "command":
-            value = await commandProvider.run(request.options);
+            value = yield commandProvider.run(request.options);
             break;
           case "stat":
-            value = await stat(request.path);
+            value = yield stat(request.path);
             break;
           case "read":
-            value = await readFile(request.path, request.encoding);
+            value = yield readFile(request.path, request.encoding);
             break;
         }
       } catch (error) {
@@ -575,7 +577,20 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
     async resolveRepository(workspacePath: string): Promise<GitResolvedRepository> {
       // 启动并发请求仍由现有 map 合并；私有只读程序不保留跨请求状态。
       return await reuseInFlightRequest(repositoryResolutionRequests, workspacePath, async () => {
-        return await executeRepositoryReadPlan(planGitRepositoryResolution(workspacePath));
+        // 额外 await 编排函数会延后 map 清理并改变同键复用；冻结时序证明要求由原工厂等待效果。
+        const execution = executeRepositoryReadPlan(planGitRepositoryResolution(workspacePath));
+        let step = execution.next();
+        while (!step.done) {
+          let value: unknown;
+          try {
+            value = await step.value;
+          } catch (error) {
+            step = execution.throw(error);
+            continue;
+          }
+          step = execution.next(value);
+        }
+        return step.value;
       });
     },
 
@@ -585,9 +600,22 @@ export function createGitCliRepo(options?: { commandProvider?: GitCommandProvide
         workspacePath,
         async () => {
           const resolution = await this.resolveRepository(workspacePath);
-          return await executeRepositoryReadPlan(
+          const execution = executeRepositoryReadPlan(
             planGitWorkspaceRepositoryInfo(workspacePath, resolution),
           );
+          // 保留原 resolve/stat/read 的 await 边界，不能再等待一个异步编排结果。
+          let step = execution.next();
+          while (!step.done) {
+            let value: unknown;
+            try {
+              value = await step.value;
+            } catch (error) {
+              step = execution.throw(error);
+              continue;
+            }
+            step = execution.next(value);
+          }
+          return step.value;
         },
       );
     },
