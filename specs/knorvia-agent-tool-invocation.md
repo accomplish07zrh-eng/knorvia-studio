@@ -46,6 +46,16 @@ sequenceDiagram
 
 ## Frozen behavioral boundary
 
+Implementation decision: `agent-invocation.ts` is the sole launch owner;
+`agent-request.ts` encodes parent, workspace and trace context through ordered
+field tables rather than repeating context object literals. It produces only one
+request frame and keeps no accepted state. `agent-projection.ts` renders one
+ordered text sequence using content and usage row iteration. It does not mirror
+task state. The declaration entrypoint retains description/profile factories and
+public metadata. Required native method-call and guard expressions may remain
+where the frozen error text and evaluation order constrain their spelling; this
+is a bounded structural rewrite, not a whole-file originality determination.
+
 - `Agent` and `Task` share handler, formatter, input/runtime schemas, permission,
   result budget and cancellation policy by identity. Task's separate metadata
   names it `Task`, hides it from providers and embeds the exact Agent description.

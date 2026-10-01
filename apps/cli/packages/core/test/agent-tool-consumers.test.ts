@@ -3,7 +3,13 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { CoreErrorType } from "@knorvia/contracts";
 import { gate } from "./tool-invocation-fixture.js";
-import { executorCases, completed, validInput, backgrounded } from "./agent-tool-cases.js";
+import {
+  executorCases,
+  completed,
+  validInput,
+  backgrounded,
+  descriptionCases,
+} from "./agent-tool-cases.js";
 import {
   clock,
   compat,
@@ -44,6 +50,27 @@ test("dispatch and hook compatibility are exact for Agent and Task only", () => 
     assert.equal(compat.isSubagentDispatchToolName(name), false);
   assert.deepEqual(compat.hookMatcherToolNamesForTool("Agent"), ["Agent", "Task"]);
   assert.deepEqual(compat.hookMatcherToolNamesForTool("Task"), ["Task", "Agent"]);
+});
+test("registry forwards actual profile/search/workflow options to both Agent/Task factories", () => {
+  for (const [index, options] of descriptionCases.entries()) {
+    const registry = createToolRegistry(),
+      expected = frozen.descriptions[index];
+    const register = () =>
+      handlers.registerBuiltInTools(registry, {
+        allowedTools: ["Agent", "Task"],
+        includeAgent: true,
+        agentProfiles: options.profiles,
+        embeddedSearchEnabled: options.embeddedSearchEnabled,
+        includeDynamicWorkflow: options.dynamicWorkflowEnabled,
+      });
+    if (expected.error)
+      assert.throws(register, { name: expected.error.name, message: expected.error.message });
+    else {
+      register();
+      assert.equal(registry.get("Agent").metadata.description, expected.agent);
+      assert.equal(registry.get("Task").metadata.description, expected.task);
+    }
+  }
 });
 test("actual source/strict emitted executor preserves result, hooks, trace and error ordering", async () => {
   await clock(async () => {
