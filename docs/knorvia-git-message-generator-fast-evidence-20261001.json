@@ -1,0 +1,4933 @@
+{
+  "schemaVersion": 1,
+  "kind": "services-lane-git-message-generator-observations",
+  "baseline": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+  "production": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+  "fixtureSnapshot": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+  "sourceExposure": true,
+  "cleanRoom": false,
+  "wholeFileLicenseGrant": false,
+  "acceptedReview": false,
+  "nativeAcceptance": false,
+  "licenseExpression": "NOASSERTION",
+  "obligations": 27,
+  "lineage": {
+    "publisherUrl": "https://github.com/zai-org/ZCode",
+    "publisherCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "publisherTree": "d185a9a893c00d51fc3fe51fe7371b9eea7de143",
+    "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+    "publisherBlob": "3cb83eb47f3b0ae7d9589195bfdc70af662d79f3",
+    "publisherSha256": "41c715e5b7d9a9e52fa88124abfaca1aaf52ba28a819a579aaf8f593f11402c7",
+    "publisherBytes": 12293,
+    "localImportCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+    "integratedBaseline": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+    "localBlob": "9ff9abf802d4f582a3f05a9ceb5baabbc5fd7490",
+    "localSha256": "f14b38f83fa037d5f5c09dcf08e8cbe21c9d694230ba2f1893db78624e59c487",
+    "localBytes": 12307,
+    "publisherBytesVerified": true,
+    "localBaselineBytesVerified": true
+  },
+  "ownedScope": [
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "commit": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "sha256": "ff759b2a18d6ac589348f2a2fec18838796a653de3c5c5b066ec3b5f34b7a04d",
+      "bytes": 5732
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+      "commit": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "sha256": "9bc248922e98e692a9278c8845b28f1f40f5de39e8425baeb9c97e0268c2fc78",
+      "bytes": 5611
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+      "commit": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "sha256": "11e51545b244f8bb13d2e04c43db055f7300cf066a864671bea4f1c455587466",
+      "bytes": 2102
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+      "commit": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "sha256": "5623dde994cbcd3aee411d556c8249f3feeaa9ab8c2676ed8d082a4d430b6fda",
+      "bytes": 1617
+    },
+    {
+      "path": "specs/knorvia-git-message-generator-fast-20261001.md",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "d8ea57ec002d7f08f1fecb9f13a450db4bfd896a42c87c76afb44d07b273e305",
+      "bytes": 10926
+    },
+    {
+      "path": "packages/services/test/git-message-generator-callers-fast-20261001.test.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "688191387ba21a92fa1551e3257f7c4a73ac580a0da390f8cb6e3c017c23a391",
+      "bytes": 8195
+    },
+    {
+      "path": "packages/services/test/git-message-generator-control-fast-20261001.test.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "3565ecbc773ecdba2aff8656c37acd85abc0e936ef9466bf679212981eaf4cf9",
+      "bytes": 15390
+    },
+    {
+      "path": "packages/services/test/git-message-generator-fixture-fast-20261001.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "654b74e062e3e1b2fbeeb8615fbd02f539727e51cb12bc399238e8aabe2baf05",
+      "bytes": 3987
+    },
+    {
+      "path": "packages/services/test/git-message-generator-prompt-cases-fast-20261001.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "cb30ddaec13b2798a9c83b2578d960b2765248998f2fe7ae10c23d0cf72ddf12",
+      "bytes": 4868
+    },
+    {
+      "path": "packages/services/test/git-message-generator-prompt-golden-fast-20261001.json",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "d26b0a86390b0eb85cb645def35fad2f4b0cf8c3d4a05c774f8fc6b35317059c",
+      "bytes": 36219
+    },
+    {
+      "path": "packages/services/test/git-message-generator-prompts-fast-20261001.test.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "70acf3de80f895c8ae9fd9c181f012cb9847992e07d4fed31bd964da0c914d6b",
+      "bytes": 1916
+    },
+    {
+      "path": "packages/services/test/git-message-generator-ui-callback-fast-20261001.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "bbf4db666c776825275cdf81f3a157a7f244ef98a898402370aa3b11f0e75490",
+      "bytes": 2180
+    },
+    {
+      "path": "packages/services/test/git-message-generator-validation-fast-20261001.test.ts",
+      "commit": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "sha256": "ed89e9d7caab1203abb6a3677ddbc6bec5940b857c2cf4a17d1596fd3044228d",
+      "bytes": 4444
+    }
+  ],
+  "protectedFiles": [
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce",
+      "bytes": 7690,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930",
+      "bytes": 4519,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/git.ts",
+      "sha256": "6f7e3bb85573005ac764da81960a20143ea45ae9551887e87253adadf67f9350",
+      "bytes": 2228,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/shared/src/git.ts",
+      "sha256": "02e1d5ee5e94ad07e57cc743cc17f0c3d064163e1cd35148a5faaff3d6c797a9",
+      "bytes": 7623,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8",
+      "bytes": 4323,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "11b1e8550c8aaca02f5dca0c5f7e0ab55141f308483bfe0db25b0ec6b93ed58c",
+      "bytes": 59042,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92",
+      "bytes": 3575,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "082700e9066a1f72defab28d0f635e081fd5b4609c56c1b31742aa55aa17b592",
+      "bytes": 20015,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "sha256": "d74fbec62fa411cd6b175258ec322b1b14abe7dc86a31e6a2035d0d7c586b41f",
+      "bytes": 7664,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "sha256": "3a177765be436c02fa623ca833afb2785c7b4c244e3e675c51c8c1ccc3ef512c",
+      "bytes": 1786,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "bytes": 3103,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "bytes": 98523,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/ui/src/GitActionMenu.tsx",
+      "sha256": "d3bcf2535483400749c410542b30b565be657d4e9e489f5da7afc511a4548097",
+      "bytes": 49990,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/ui/src/git-action-menu/currentSessionFileScope.ts",
+      "sha256": "a8ab8d9c8d158883e02746c3a7c16cc7418bcb4d79da6a70d2c2d15db9b4b772",
+      "bytes": 3550,
+      "byteIdentical": true
+    }
+  ],
+  "protectedSharedInputs": [
+    {
+      "path": "LICENSE",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+      "bytes": 11344,
+      "byteIdentical": true
+    },
+    {
+      "path": "NOTICE.md",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10",
+      "bytes": 6125,
+      "byteIdentical": true
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "05d366f61fe430c5a0c7ed6b27ac9bb6626591151331f2817cb9120649e4c67f",
+      "bytes": 1975825,
+      "byteIdentical": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "e28be28274894d4b9d970309ad1fb90c86eb09a347228e3870380324b21e6590",
+      "bytes": 9350160,
+      "byteIdentical": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "8d8f58d24e69a29cf2f3a063f7387942870e1c41970dc8614ebd86de3c033280",
+      "bytes": 3445390,
+      "byteIdentical": true
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "bytes": 2437673,
+      "byteIdentical": true
+    },
+    {
+      "path": "third-party/inventory.json",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "2310c38abf36d27cf20ac070beb747ec7345d7887a30068b822a7e27f56df2ff",
+      "bytes": 1413308,
+      "byteIdentical": true
+    },
+    {
+      "path": "package.json",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "7a10bf41f2cdc1317e25171f94d2c5d9cc5f3b1eff320c3fc8ac9aaa9dfcf291",
+      "bytes": 4337,
+      "byteIdentical": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "commit": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "bytes": 644882,
+      "byteIdentical": true
+    }
+  ],
+  "protectedHistoricalScope": [
+    {
+      "path": "packages/services/test/git-read-projection-consumers-fast-20261001.test.ts",
+      "commit": "46613b7968f291a3597180459ccfce6da513624a",
+      "sha256": "e248e9d32a83387354ded635dcdf24bbf0c14ff5cfd01fefc34de5021c19347c",
+      "bytes": 12656,
+      "byteIdentical": true
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/model.ts",
+      "commit": "46613b7968f291a3597180459ccfce6da513624a",
+      "sha256": "335547241f6ee691bae210a049b7d668e777c84c96c1e9f7b273c5c2aea08f45",
+      "bytes": 15693,
+      "byteIdentical": true
+    }
+  ],
+  "retainedBodies": [
+    {
+      "name": "resolveCurrentModel",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 106,
+        "endLine": 128,
+        "sha256": "037246067e263f4b897b5efb68c09fe7fa171a40c9ca2ff39401da2e489e96da",
+        "bytes": 658
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 123,
+        "endLine": 145,
+        "sha256": "037246067e263f4b897b5efb68c09fe7fa171a40c9ca2ff39401da2e489e96da",
+        "bytes": 658
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "complete",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 135,
+        "endLine": 155,
+        "sha256": "07b6a5d584d426f752e6571c176411c42ef0d5163d1c02af204546c6fd237ee0",
+        "bytes": 697
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 152,
+        "endLine": 172,
+        "sha256": "07b6a5d584d426f752e6571c176411c42ef0d5163d1c02af204546c6fd237ee0",
+        "bytes": 697
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "normalizeModelText",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 158,
+        "endLine": 163,
+        "sha256": "d889c3a5e558a1c8595547537009aafd589f2d679ac96317c69cc8319bdeddad",
+        "bytes": 140
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 351,
+        "endLine": 356,
+        "sha256": "d889c3a5e558a1c8595547537009aafd589f2d679ac96317c69cc8319bdeddad",
+        "bytes": 140
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "errorConstructor",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 39,
+        "endLine": 46,
+        "sha256": "1f515e80f7817bf8e4aacd5466877eb453eb6c7eac5bdfc8fe0ac52df5f6affd",
+        "bytes": 224
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 47,
+        "endLine": 54,
+        "sha256": "1f515e80f7817bf8e4aacd5466877eb453eb6c7eac5bdfc8fe0ac52df5f6affd",
+        "bytes": 224
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "resolveCommitMessageLanguage",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 123,
+        "endLine": 126,
+        "sha256": "2cbc7db23cd18c2565bfcdd0ed4275ff0fac6bfa76d6333eb55df84d1442392a",
+        "bytes": 130
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 227,
+        "sha256": "2cbc7db23cd18c2565bfcdd0ed4275ff0fac6bfa76d6333eb55df84d1442392a",
+        "bytes": 130
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "readRuntimeLocale",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 128,
+        "endLine": 136,
+        "sha256": "4579d9cccd9913d0077ebfd1aad1731f228aab3783adb6638da0cd83d76b7f1e",
+        "bytes": 342
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 229,
+        "endLine": 237,
+        "sha256": "4579d9cccd9913d0077ebfd1aad1731f228aab3783adb6638da0cd83d76b7f1e",
+        "bytes": 342
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "normalizeConversationContextText",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 138,
+        "endLine": 144,
+        "sha256": "e8dacef7559d9231a9fbb5b4f51c55611af564f7c3d042e57c5586c9f24997a8",
+        "bytes": 127
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 322,
+        "endLine": 328,
+        "sha256": "e8dacef7559d9231a9fbb5b4f51c55611af564f7c3d042e57c5586c9f24997a8",
+        "bytes": 127
+      },
+      "byteIdentical": true
+    },
+    {
+      "name": "clipText",
+      "current": {
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 146,
+        "endLine": 151,
+        "sha256": "e38b5730170f709cb73850ee05f181b687e2234fb675d23fef09e3ad2ec5fcb9",
+        "bytes": 153
+      },
+      "localBaseline": {
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 330,
+        "endLine": 335,
+        "sha256": "e38b5730170f709cb73850ee05f181b687e2234fb675d23fef09e3ad2ec5fcb9",
+        "bytes": 153
+      },
+      "byteIdentical": true
+    }
+  ],
+  "retainedLiteralEvidence": [
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"@knorvia/shared\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 9,
+        "endLine": 9,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"@knorvia/shared\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 7,
+        "endLine": 7,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "pinnedPublisher": null,
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"#src/logger/serviceLogger.js\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 10,
+        "endLine": 10,
+        "sha256": "d6157f786f8d9e0a90ac28f07f719590dc5207e04819666fd63619e1917a8ba2",
+        "bytes": 30
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"#src/logger/serviceLogger.js\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 8,
+        "endLine": 8,
+        "sha256": "d6157f786f8d9e0a90ac28f07f719590dc5207e04819666fd63619e1917a8ba2",
+        "bytes": 30
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"#src/logger/serviceLogger.js\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 8,
+        "endLine": 8,
+        "sha256": "d6157f786f8d9e0a90ac28f07f719590dc5207e04819666fd63619e1917a8ba2",
+        "bytes": 30
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"git_commit_message\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 13,
+        "endLine": 13,
+        "sha256": "51fe754e7642ec9b264bae87093a8564979fc82dcd009ae41fdfb898cdb88a66",
+        "bytes": 20
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"git_commit_message\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 18,
+        "endLine": 18,
+        "sha256": "51fe754e7642ec9b264bae87093a8564979fc82dcd009ae41fdfb898cdb88a66",
+        "bytes": 20
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"git_commit_message\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 18,
+        "endLine": 18,
+        "sha256": "51fe754e7642ec9b264bae87093a8564979fc82dcd009ae41fdfb898cdb88a66",
+        "bytes": 20
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 19,
+        "endLine": 19,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 26,
+        "endLine": 26,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 29,
+        "endLine": 29,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"model-unavailable\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 41,
+        "endLine": 41,
+        "sha256": "8cd64a676301d0ab1a0dee632601f2050f3d190fe0c184e946b87bf7e8ae8324",
+        "bytes": 19
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"model-unavailable\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "8cd64a676301d0ab1a0dee632601f2050f3d190fe0c184e946b87bf7e8ae8324",
+        "bytes": 19
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"model-unavailable\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "8cd64a676301d0ab1a0dee632601f2050f3d190fe0c184e946b87bf7e8ae8324",
+        "bytes": 19
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"request-failed\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 41,
+        "endLine": 41,
+        "sha256": "c672917e8490cbf629fc06dcffb8a170f18bdb195d1b8d7a2f5d45589fbb9291",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"request-failed\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "c672917e8490cbf629fc06dcffb8a170f18bdb195d1b8d7a2f5d45589fbb9291",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"request-failed\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "c672917e8490cbf629fc06dcffb8a170f18bdb195d1b8d7a2f5d45589fbb9291",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid-output\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 41,
+        "endLine": 41,
+        "sha256": "4bc773bbcea5d676c5d80f5250794134f5e48a252c317642699aa41a927c7cb6",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid-output\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "4bc773bbcea5d676c5d80f5250794134f5e48a252c317642699aa41a927c7cb6",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid-output\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "4bc773bbcea5d676c5d80f5250794134f5e48a252c317642699aa41a927c7cb6",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"GitCommitMessageGenerationError\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 45,
+        "endLine": 45,
+        "sha256": "d29782f000bd2cbaba2c2db6c37ca10ff594d18b7c184420258d5a469399f5c0",
+        "bytes": 33
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"GitCommitMessageGenerationError\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 53,
+        "endLine": 53,
+        "sha256": "d29782f000bd2cbaba2c2db6c37ca10ff594d18b7c184420258d5a469399f5c0",
+        "bytes": 33
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"GitCommitMessageGenerationError\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 53,
+        "endLine": 53,
+        "sha256": "d29782f000bd2cbaba2c2db6c37ca10ff594d18b7c184420258d5a469399f5c0",
+        "bytes": 33
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"开始生成 Git 提交消息\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 63,
+        "endLine": 63,
+        "sha256": "d32a4d36c28c8c2a014f118bed743f1227fd2ab4980080f66f547536e26896dc",
+        "bytes": 31
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"开始生成 Git 提交消息\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 78,
+        "endLine": 78,
+        "sha256": "d32a4d36c28c8c2a014f118bed743f1227fd2ab4980080f66f547536e26896dc",
+        "bytes": 31
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"开始生成 Git 提交消息\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 78,
+        "endLine": 78,
+        "sha256": "d32a4d36c28c8c2a014f118bed743f1227fd2ab4980080f66f547536e26896dc",
+        "bytes": 31
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 70,
+        "endLine": 70,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 71,
+        "endLine": 71,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型生成的 Git 提交消息不合规\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 77,
+        "endLine": 77,
+        "sha256": "bc379104bfcccf5bf44068c6ef8844fc1bec5080a504c7305e32d6255da400bc",
+        "bytes": 43
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型生成的 Git 提交消息不合规\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 99,
+        "endLine": 99,
+        "sha256": "bc379104bfcccf5bf44068c6ef8844fc1bec5080a504c7305e32d6255da400bc",
+        "bytes": 43
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型生成的 Git 提交消息不合规\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 99,
+        "endLine": 99,
+        "sha256": "bc379104bfcccf5bf44068c6ef8844fc1bec5080a504c7305e32d6255da400bc",
+        "bytes": 43
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型没有返回可用的 Conventional Commit 提交消息。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "1e30248d0cc0b91687e06f60dc6c8d41a7b555ef928f6e5346b3f0e9ee75486d",
+        "bytes": 65
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型没有返回可用的 Conventional Commit 提交消息。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 107,
+        "endLine": 107,
+        "sha256": "1e30248d0cc0b91687e06f60dc6c8d41a7b555ef928f6e5346b3f0e9ee75486d",
+        "bytes": 65
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型没有返回可用的 Conventional Commit 提交消息。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 107,
+        "endLine": 107,
+        "sha256": "1e30248d0cc0b91687e06f60dc6c8d41a7b555ef928f6e5346b3f0e9ee75486d",
+        "bytes": 65
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid-output\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 86,
+        "endLine": 86,
+        "sha256": "4bc773bbcea5d676c5d80f5250794134f5e48a252c317642699aa41a927c7cb6",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid-output\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "4bc773bbcea5d676c5d80f5250794134f5e48a252c317642699aa41a927c7cb6",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid-output\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "4bc773bbcea5d676c5d80f5250794134f5e48a252c317642699aa41a927c7cb6",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 106,
+        "endLine": 106,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"未读取到当前模型。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 115,
+        "endLine": 115,
+        "sha256": "ca64e639c0b35de533d91e6b7ec524cf4352263247782c8168869c2e302a79cc",
+        "bytes": 29
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"未读取到当前模型。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 132,
+        "endLine": 132,
+        "sha256": "ca64e639c0b35de533d91e6b7ec524cf4352263247782c8168869c2e302a79cc",
+        "bytes": 29
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"未读取到当前模型。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 132,
+        "endLine": 132,
+        "sha256": "ca64e639c0b35de533d91e6b7ec524cf4352263247782c8168869c2e302a79cc",
+        "bytes": 29
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"model-unavailable\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 115,
+        "endLine": 115,
+        "sha256": "8cd64a676301d0ab1a0dee632601f2050f3d190fe0c184e946b87bf7e8ae8324",
+        "bytes": 19
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"model-unavailable\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "8cd64a676301d0ab1a0dee632601f2050f3d190fe0c184e946b87bf7e8ae8324",
+        "bytes": 19
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"model-unavailable\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "8cd64a676301d0ab1a0dee632601f2050f3d190fe0c184e946b87bf7e8ae8324",
+        "bytes": 19
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 133,
+        "endLine": 133,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型请求失败。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "db43f0ea1c65cb5d4ff7da1549a1ec4cbc05953c804237d661b4b230af7b29be",
+        "bytes": 23
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型请求失败。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 167,
+        "endLine": 167,
+        "sha256": "db43f0ea1c65cb5d4ff7da1549a1ec4cbc05953c804237d661b4b230af7b29be",
+        "bytes": 23
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型请求失败。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 167,
+        "endLine": 167,
+        "sha256": "db43f0ea1c65cb5d4ff7da1549a1ec4cbc05953c804237d661b4b230af7b29be",
+        "bytes": 23
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"request-failed\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 151,
+        "endLine": 151,
+        "sha256": "c672917e8490cbf629fc06dcffb8a170f18bdb195d1b8d7a2f5d45589fbb9291",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"request-failed\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "c672917e8490cbf629fc06dcffb8a170f18bdb195d1b8d7a2f5d45589fbb9291",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"request-failed\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "c672917e8490cbf629fc06dcffb8a170f18bdb195d1b8d7a2f5d45589fbb9291",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"string\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 159,
+        "endLine": 159,
+        "sha256": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+        "bytes": 8
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"string\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 352,
+        "endLine": 352,
+        "sha256": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+        "bytes": 8
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"string\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 352,
+        "endLine": 352,
+        "sha256": "e9e5c1c9e4f6277339d1bcde0733a59bd42f8731f449da6dc13010a916930d48",
+        "bytes": 8
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型响应缺少文本内容。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 160,
+        "endLine": 160,
+        "sha256": "5776cd6f2d6712fffc9956993a8a09509b1cf1d2111d150e9396ed73c5369f55",
+        "bytes": 35
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型响应缺少文本内容。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 353,
+        "endLine": 353,
+        "sha256": "5776cd6f2d6712fffc9956993a8a09509b1cf1d2111d150e9396ed73c5369f55",
+        "bytes": 35
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"模型响应缺少文本内容。\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 353,
+        "endLine": 353,
+        "sha256": "5776cd6f2d6712fffc9956993a8a09509b1cf1d2111d150e9396ed73c5369f55",
+        "bytes": 35
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"@knorvia/shared\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 8,
+        "endLine": 8,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"@knorvia/shared\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 7,
+        "endLine": 7,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "pinnedPublisher": null,
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 31,
+        "endLine": 31,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 36,
+        "endLine": 36,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Write exactly one Git commit message for the workspace changes below.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 45,
+        "endLine": 45,
+        "sha256": "ad2e7d75e612a0a4b3332c5ca9bb5cad0440d72243323b39e16bd42f7df4232a",
+        "bytes": 71
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Write exactly one Git commit message for the workspace changes below.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 193,
+        "endLine": 193,
+        "sha256": "ad2e7d75e612a0a4b3332c5ca9bb5cad0440d72243323b39e16bd42f7df4232a",
+        "bytes": 71
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Write exactly one Git commit message for the workspace changes below.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 193,
+        "endLine": 193,
+        "sha256": "ad2e7d75e612a0a4b3332c5ca9bb5cad0440d72243323b39e16bd42f7df4232a",
+        "bytes": 71
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Return only the commit message text.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 46,
+        "endLine": 46,
+        "sha256": "7577d138a8b08ee0157d06fdd0796265451d3d4512e48fd87f9247aa3ab84a1c",
+        "bytes": 38
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Return only the commit message text.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 194,
+        "endLine": 194,
+        "sha256": "7577d138a8b08ee0157d06fdd0796265451d3d4512e48fd87f9247aa3ab84a1c",
+        "bytes": 38
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Return only the commit message text.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 194,
+        "endLine": 194,
+        "sha256": "7577d138a8b08ee0157d06fdd0796265451d3d4512e48fd87f9247aa3ab84a1c",
+        "bytes": 38
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 47,
+        "endLine": 47,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Hard requirements:\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 48,
+        "endLine": 48,
+        "sha256": "d8aaeb964c9c4b8785eddce7300e9cfcac65f5a2d79bf586182881a29140ffa5",
+        "bytes": 20
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Hard requirements:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 196,
+        "endLine": 196,
+        "sha256": "d8aaeb964c9c4b8785eddce7300e9cfcac65f5a2d79bf586182881a29140ffa5",
+        "bytes": 20
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Hard requirements:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 196,
+        "endLine": 196,
+        "sha256": "d8aaeb964c9c4b8785eddce7300e9cfcac65f5a2d79bf586182881a29140ffa5",
+        "bytes": 20
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- The first line must be a valid Conventional Commit subject.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 49,
+        "endLine": 49,
+        "sha256": "ef8a64afbf10fbf4a31e4fc0c611dd296a4247ff569cc382f992ec1e0341cd77",
+        "bytes": 63
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- The first line must be a valid Conventional Commit subject.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 197,
+        "endLine": 197,
+        "sha256": "ef8a64afbf10fbf4a31e4fc0c611dd296a4247ff569cc382f992ec1e0341cd77",
+        "bytes": 63
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- The first line must be a valid Conventional Commit subject.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 197,
+        "endLine": 197,
+        "sha256": "ef8a64afbf10fbf4a31e4fc0c611dd296a4247ff569cc382f992ec1e0341cd77",
+        "bytes": 63
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 50,
+        "endLine": 50,
+        "sha256": "f0a316673ff07e712e5584df1273f45897d7c2dd76ac0de8bca3860944a52f3b",
+        "bytes": 87
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 198,
+        "endLine": 198,
+        "sha256": "f0a316673ff07e712e5584df1273f45897d7c2dd76ac0de8bca3860944a52f3b",
+        "bytes": 87
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Use one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 198,
+        "endLine": 198,
+        "sha256": "f0a316673ff07e712e5584df1273f45897d7c2dd76ac0de8bca3860944a52f3b",
+        "bytes": 87
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Keep the Conventional Commit type and optional scope in English.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 51,
+        "endLine": 51,
+        "sha256": "1b863ad76b032de2f261d80592e00072ecaf113d9641b3a2473ad32917e38215",
+        "bytes": 68
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Keep the Conventional Commit type and optional scope in English.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 199,
+        "endLine": 199,
+        "sha256": "1b863ad76b032de2f261d80592e00072ecaf113d9641b3a2473ad32917e38215",
+        "bytes": 68
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Keep the Conventional Commit type and optional scope in English.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 199,
+        "endLine": 199,
+        "sha256": "1b863ad76b032de2f261d80592e00072ecaf113d9641b3a2473ad32917e38215",
+        "bytes": 68
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Write the subject and any body in the current language.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 52,
+        "endLine": 52,
+        "sha256": "e03b5a23ad699eb9d937dbd2473c5ddd56cbf6107556fa8f5e9dee5c482cfcef",
+        "bytes": 59
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Write the subject and any body in the current language.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 200,
+        "endLine": 200,
+        "sha256": "e03b5a23ad699eb9d937dbd2473c5ddd56cbf6107556fa8f5e9dee5c482cfcef",
+        "bytes": 59
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Write the subject and any body in the current language.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 200,
+        "endLine": 200,
+        "sha256": "e03b5a23ad699eb9d937dbd2473c5ddd56cbf6107556fa8f5e9dee5c482cfcef",
+        "bytes": 59
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Keep the subject under 72 characters.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 53,
+        "endLine": 53,
+        "sha256": "c282ebc6be69bd68c0948effc717164477504931568b42107dcc997c35e86d2d",
+        "bytes": 41
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Keep the subject under 72 characters.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 201,
+        "endLine": 201,
+        "sha256": "c282ebc6be69bd68c0948effc717164477504931568b42107dcc997c35e86d2d",
+        "bytes": 41
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Keep the subject under 72 characters.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 201,
+        "endLine": 201,
+        "sha256": "c282ebc6be69bd68c0948effc717164477504931568b42107dcc997c35e86d2d",
+        "bytes": 41
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Use the current session conversation context only to infer user intent.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 54,
+        "endLine": 54,
+        "sha256": "215c1c5a41831c0e34eee61e89c5f9125e9dfb186c270720700a9512deaeea47",
+        "bytes": 75
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Use the current session conversation context only to infer user intent.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 202,
+        "endLine": 202,
+        "sha256": "215c1c5a41831c0e34eee61e89c5f9125e9dfb186c270720700a9512deaeea47",
+        "bytes": 75
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Use the current session conversation context only to infer user intent.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 202,
+        "endLine": 202,
+        "sha256": "215c1c5a41831c0e34eee61e89c5f9125e9dfb186c270720700a9512deaeea47",
+        "bytes": 75
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not mention the conversation, chat, prompt, or user request explicitly.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 55,
+        "endLine": 55,
+        "sha256": "27fa0949d3ec7dc2b3f76915a4970e076b26bbc44876ed196ed258c30bb93fbd",
+        "bytes": 78
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not mention the conversation, chat, prompt, or user request explicitly.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 203,
+        "endLine": 203,
+        "sha256": "27fa0949d3ec7dc2b3f76915a4970e076b26bbc44876ed196ed258c30bb93fbd",
+        "bytes": 78
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not mention the conversation, chat, prompt, or user request explicitly.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 203,
+        "endLine": 203,
+        "sha256": "27fa0949d3ec7dc2b3f76915a4970e076b26bbc44876ed196ed258c30bb93fbd",
+        "bytes": 78
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not explain your reasoning.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 56,
+        "endLine": 56,
+        "sha256": "05417c7f94f4a174e5a810317d14489a70a2f954748953c0fdddbb9dd8c5c951",
+        "bytes": 34
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not explain your reasoning.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 204,
+        "endLine": 204,
+        "sha256": "05417c7f94f4a174e5a810317d14489a70a2f954748953c0fdddbb9dd8c5c951",
+        "bytes": 34
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not explain your reasoning.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 204,
+        "endLine": 204,
+        "sha256": "05417c7f94f4a174e5a810317d14489a70a2f954748953c0fdddbb9dd8c5c951",
+        "bytes": 34
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not repeat these instructions.\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 57,
+        "endLine": 57,
+        "sha256": "5bec74e1f86a3b2877d05148047b5789ec743a0863392fad8f9d5a353074538d",
+        "bytes": 37
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not repeat these instructions.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 205,
+        "endLine": 205,
+        "sha256": "5bec74e1f86a3b2877d05148047b5789ec743a0863392fad8f9d5a353074538d",
+        "bytes": 37
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- Do not repeat these instructions.\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 205,
+        "endLine": 205,
+        "sha256": "5bec74e1f86a3b2877d05148047b5789ec743a0863392fad8f9d5a353074538d",
+        "bytes": 37
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"(detached or unknown)\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 61,
+        "endLine": 61,
+        "sha256": "0a87bb8e49f8f2193dc12f4260325b237d351314b560422346bee35536635ff6",
+        "bytes": 23
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"(detached or unknown)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 182,
+        "endLine": 182,
+        "sha256": "0a87bb8e49f8f2193dc12f4260325b237d351314b560422346bee35536635ff6",
+        "bytes": 23
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"(detached or unknown)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 182,
+        "endLine": 182,
+        "sha256": "0a87bb8e49f8f2193dc12f4260325b237d351314b560422346bee35536635ff6",
+        "bytes": 23
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 63,
+        "endLine": 63,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "20",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 63,
+        "endLine": 63,
+        "sha256": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "20",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 10,
+        "endLine": 10,
+        "sha256": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "20",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 10,
+        "endLine": 10,
+        "sha256": "f5ca38f748a1d6eaf726b8a42fb575c3c71f1864a8143301782de13da2d9202b",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 64,
+        "endLine": 64,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`- ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 66,
+        "endLine": 66,
+        "sha256": "b9ce098ec6bac755d69c896a65f0b3c02fdf7da42258612bcebe3dca333aa4ed",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`- ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "b9ce098ec6bac755d69c896a65f0b3c02fdf7da42258612bcebe3dca333aa4ed",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`- ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "b9ce098ec6bac755d69c896a65f0b3c02fdf7da42258612bcebe3dca333aa4ed",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateMiddle",
+        "syntax": "} ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 66,
+        "endLine": 66,
+        "sha256": "f93af689d78060f262f9ed0a41602f8c6b36d63fb08b6f24c39fa71efdf334f6",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "TemplateMiddle",
+        "syntax": "} ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "f93af689d78060f262f9ed0a41602f8c6b36d63fb08b6f24c39fa71efdf334f6",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateMiddle",
+        "syntax": "} ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "f93af689d78060f262f9ed0a41602f8c6b36d63fb08b6f24c39fa71efdf334f6",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateMiddle",
+        "syntax": "} (+${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 66,
+        "endLine": 66,
+        "sha256": "302aad8cae613b6b21ce1df56a4c3ca93b93bd23e5c74874a15c39e7853e1ec9",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "kind": "TemplateMiddle",
+        "syntax": "} (+${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "302aad8cae613b6b21ce1df56a4c3ca93b93bd23e5c74874a15c39e7853e1ec9",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateMiddle",
+        "syntax": "} (+${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "302aad8cae613b6b21ce1df56a4c3ca93b93bd23e5c74874a15c39e7853e1ec9",
+        "bytes": 6
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateMiddle",
+        "syntax": "}/-${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 66,
+        "endLine": 66,
+        "sha256": "bf010381a9516ad0124b03ff252de6818f5c704cff650cca2b70ece2e3ed5b5e",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "TemplateMiddle",
+        "syntax": "}/-${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "bf010381a9516ad0124b03ff252de6818f5c704cff650cca2b70ece2e3ed5b5e",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateMiddle",
+        "syntax": "}/-${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "bf010381a9516ad0124b03ff252de6818f5c704cff650cca2b70ece2e3ed5b5e",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "})`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 66,
+        "endLine": 66,
+        "sha256": "2d6e4c8ba428864b54053f1d3aad7998481fb35cd716c1be92545e85703518d3",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "})`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "2d6e4c8ba428864b54053f1d3aad7998481fb35cd716c1be92545e85703518d3",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "})`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "2d6e4c8ba428864b54053f1d3aad7998481fb35cd716c1be92545e85703518d3",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 67,
+        "endLine": 67,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 72,
+        "endLine": 72,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`Current branch: ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 72,
+        "endLine": 72,
+        "sha256": "4880eb15214c9fa28ea9a6b8c60ac371c222822983251c658edaec9777419043",
+        "bytes": 19
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`Current branch: ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "4880eb15214c9fa28ea9a6b8c60ac371c222822983251c658edaec9777419043",
+        "bytes": 19
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`Current branch: ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "4880eb15214c9fa28ea9a6b8c60ac371c222822983251c658edaec9777419043",
+        "bytes": 19
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 72,
+        "endLine": 72,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`Current language: ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 72,
+        "endLine": 72,
+        "sha256": "b19ed9153b2ea31eecb5097e962fcdfb69a1e9b4064d3e1be0de365933931427",
+        "bytes": 21
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`Current language: ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 208,
+        "endLine": 208,
+        "sha256": "b19ed9153b2ea31eecb5097e962fcdfb69a1e9b4064d3e1be0de365933931427",
+        "bytes": 21
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`Current language: ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 208,
+        "endLine": 208,
+        "sha256": "b19ed9153b2ea31eecb5097e962fcdfb69a1e9b4064d3e1be0de365933931427",
+        "bytes": 21
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 72,
+        "endLine": 72,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 73,
+        "endLine": 73,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Current session conversation context:\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 73,
+        "endLine": 73,
+        "sha256": "11b2aefe57fbc6358794080d66c37a410d464e89d18357f71a8fb3c587aa40e3",
+        "bytes": 39
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Current session conversation context:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 210,
+        "endLine": 210,
+        "sha256": "11b2aefe57fbc6358794080d66c37a410d464e89d18357f71a8fb3c587aa40e3",
+        "bytes": 39
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Current session conversation context:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 210,
+        "endLine": 210,
+        "sha256": "11b2aefe57fbc6358794080d66c37a410d464e89d18357f71a8fb3c587aa40e3",
+        "bytes": 39
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"(not provided)\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 73,
+        "endLine": 73,
+        "sha256": "8eab0ec9c07a8b1f31d590709494401a94344b042da92a1f3fe5b7077f788aba",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"(not provided)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 211,
+        "endLine": 211,
+        "sha256": "8eab0ec9c07a8b1f31d590709494401a94344b042da92a1f3fe5b7077f788aba",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"(not provided)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 211,
+        "endLine": 211,
+        "sha256": "8eab0ec9c07a8b1f31d590709494401a94344b042da92a1f3fe5b7077f788aba",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 75,
+        "endLine": 75,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Changed files:\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 76,
+        "endLine": 76,
+        "sha256": "8f0cacaae395b6cf8783ed1ece21600f1c652b1ac3c497da20debfce26e1956c",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Changed files:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 213,
+        "endLine": 213,
+        "sha256": "8f0cacaae395b6cf8783ed1ece21600f1c652b1ac3c497da20debfce26e1956c",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Changed files:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 213,
+        "endLine": 213,
+        "sha256": "8f0cacaae395b6cf8783ed1ece21600f1c652b1ac3c497da20debfce26e1956c",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"- (no file summary available)\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 77,
+        "endLine": 77,
+        "sha256": "5fdd692cf73e3ecebe48617e084293c16dbfd43f2069781e95d5110a56005be2",
+        "bytes": 31
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"- (no file summary available)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 214,
+        "endLine": 214,
+        "sha256": "5fdd692cf73e3ecebe48617e084293c16dbfd43f2069781e95d5110a56005be2",
+        "bytes": 31
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"- (no file summary available)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 214,
+        "endLine": 214,
+        "sha256": "5fdd692cf73e3ecebe48617e084293c16dbfd43f2069781e95d5110a56005be2",
+        "bytes": 31
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 78,
+        "endLine": 78,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`- ... ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 78,
+        "endLine": 78,
+        "sha256": "2b761cc9d35d4b8787a672018df8fb359859c12380e0615230125e60f246e4a8",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`- ... ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 215,
+        "endLine": 215,
+        "sha256": "2b761cc9d35d4b8787a672018df8fb359859c12380e0615230125e60f246e4a8",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`- ... ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 215,
+        "endLine": 215,
+        "sha256": "2b761cc9d35d4b8787a672018df8fb359859c12380e0615230125e60f246e4a8",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "} more files`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 78,
+        "endLine": 78,
+        "sha256": "9e9b8a8256387be087ad484aa2d44e057ebb7b654b5d7ba56b4ec43b31fd70df",
+        "bytes": 13
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "} more files`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 215,
+        "endLine": 215,
+        "sha256": "9e9b8a8256387be087ad484aa2d44e057ebb7b654b5d7ba56b4ec43b31fd70df",
+        "bytes": 13
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "} more files`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 215,
+        "endLine": 215,
+        "sha256": "9e9b8a8256387be087ad484aa2d44e057ebb7b654b5d7ba56b4ec43b31fd70df",
+        "bytes": 13
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 78,
+        "endLine": 78,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 81,
+        "endLine": 81,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Diff excerpts:\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 82,
+        "endLine": 82,
+        "sha256": "a78046619ddfdcf4a3de8fc2e5850eea43efefec6ce7c0676094ed8cd04c39f8",
+        "bytes": 16
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Diff excerpts:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 217,
+        "endLine": 217,
+        "sha256": "a78046619ddfdcf4a3de8fc2e5850eea43efefec6ce7c0676094ed8cd04c39f8",
+        "bytes": 16
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Diff excerpts:\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 217,
+        "endLine": 217,
+        "sha256": "a78046619ddfdcf4a3de8fc2e5850eea43efefec6ce7c0676094ed8cd04c39f8",
+        "bytes": 16
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"(diff unavailable; infer only from the changed file summary)\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 83,
+        "endLine": 83,
+        "sha256": "e7b5d1323f87e4641952b82fd0e46f6106e99610a486b8a5bfa6446135bf4f8d",
+        "bytes": 62
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"(diff unavailable; infer only from the changed file summary)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 218,
+        "endLine": 218,
+        "sha256": "e7b5d1323f87e4641952b82fd0e46f6106e99610a486b8a5bfa6446135bf4f8d",
+        "bytes": 62
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"(diff unavailable; infer only from the changed file summary)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 218,
+        "endLine": 218,
+        "sha256": "e7b5d1323f87e4641952b82fd0e46f6106e99610a486b8a5bfa6446135bf4f8d",
+        "bytes": 62
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 88,
+        "endLine": 88,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 89,
+        "endLine": 89,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 93,
+        "endLine": 93,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "8",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 93,
+        "endLine": 93,
+        "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "8",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 11,
+        "endLine": 11,
+        "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "8",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 11,
+        "endLine": 11,
+        "sha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12_000",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 93,
+        "endLine": 93,
+        "sha256": "66728ab6149b16ba6e33af529712115db33eb3875ef961b1506919ef7fe7da8e",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 12,
+        "endLine": 12,
+        "sha256": "66728ab6149b16ba6e33af529712115db33eb3875ef961b1506919ef7fe7da8e",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 12,
+        "endLine": 12,
+        "sha256": "66728ab6149b16ba6e33af529712115db33eb3875ef961b1506919ef7fe7da8e",
+        "bytes": 6
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`--- ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 94,
+        "endLine": 94,
+        "sha256": "aebf630a6ae4a60083e97dfe6ffbe46ee73afc6c0f65dad9abc0d0384c73c076",
+        "bytes": 7
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`--- ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 261,
+        "endLine": 261,
+        "sha256": "aebf630a6ae4a60083e97dfe6ffbe46ee73afc6c0f65dad9abc0d0384c73c076",
+        "bytes": 7
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`--- ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 261,
+        "endLine": 261,
+        "sha256": "aebf630a6ae4a60083e97dfe6ffbe46ee73afc6c0f65dad9abc0d0384c73c076",
+        "bytes": 7
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 94,
+        "endLine": 94,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"(diff unavailable)\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 95,
+        "endLine": 95,
+        "sha256": "8973c47c655d77e4dbcdf9f2f525a15834403af8f5aebe4a8f9886257fbb9097",
+        "bytes": 20
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"(diff unavailable)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 262,
+        "endLine": 262,
+        "sha256": "8973c47c655d77e4dbcdf9f2f525a15834403af8f5aebe4a8f9886257fbb9097",
+        "bytes": 20
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"(diff unavailable)\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 262,
+        "endLine": 262,
+        "sha256": "8973c47c655d77e4dbcdf9f2f525a15834403af8f5aebe4a8f9886257fbb9097",
+        "bytes": 20
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateMiddle",
+        "syntax": "}\\n${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "852f4e96a499d1026623b188dbd19f5165ef160907933cd32a92e5d1d3b0379a",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "TemplateMiddle",
+        "syntax": "}\\n${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "852f4e96a499d1026623b188dbd19f5165ef160907933cd32a92e5d1d3b0379a",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateMiddle",
+        "syntax": "}\\n${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "852f4e96a499d1026623b188dbd19f5165ef160907933cd32a92e5d1d3b0379a",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "2_000",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "69ac071d3a5a13c5e91c1e3cfa2df4dbd015fca240029487fa68661b0adba987",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "2_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 13,
+        "endLine": 13,
+        "sha256": "69ac071d3a5a13c5e91c1e3cfa2df4dbd015fca240029487fa68661b0adba987",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "2_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 13,
+        "endLine": 13,
+        "sha256": "69ac071d3a5a13c5e91c1e3cfa2df4dbd015fca240029487fa68661b0adba987",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"...diff truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "ce086d41df2361060e7458a4a2d446f6e05a514d11d354cb915e0e78baef03d1",
+        "bytes": 22
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"...diff truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 270,
+        "endLine": 270,
+        "sha256": "ce086d41df2361060e7458a4a2d446f6e05a514d11d354cb915e0e78baef03d1",
+        "bytes": 22
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"...diff truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 270,
+        "endLine": 270,
+        "sha256": "ce086d41df2361060e7458a4a2d446f6e05a514d11d354cb915e0e78baef03d1",
+        "bytes": 22
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 98,
+        "endLine": 98,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 101,
+        "endLine": 101,
+        "sha256": "98be486a01834c7bb83b3c7353edc3e046ca30fe710141f939aaec11f15c6407",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 276,
+        "endLine": 276,
+        "sha256": "98be486a01834c7bb83b3c7353edc3e046ca30fe710141f939aaec11f15c6407",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 276,
+        "endLine": 276,
+        "sha256": "98be486a01834c7bb83b3c7353edc3e046ca30fe710141f939aaec11f15c6407",
+        "bytes": 6
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 106,
+        "endLine": 106,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 106,
+        "endLine": 106,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 107,
+        "endLine": 107,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 107,
+        "endLine": 107,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 107,
+        "endLine": 107,
+        "sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 108,
+        "endLine": 108,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`- ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 108,
+        "endLine": 108,
+        "sha256": "b9ce098ec6bac755d69c896a65f0b3c02fdf7da42258612bcebe3dca333aa4ed",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`- ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "b9ce098ec6bac755d69c896a65f0b3c02fdf7da42258612bcebe3dca333aa4ed",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`- ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 187,
+        "endLine": 187,
+        "sha256": "b9ce098ec6bac755d69c896a65f0b3c02fdf7da42258612bcebe3dca333aa4ed",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "} earlier messages omitted`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 108,
+        "endLine": 108,
+        "sha256": "ff8d7f36e1f7166ab1d464c293cc7d99c1d3e5fd5bae463ee678346b56727d02",
+        "bytes": 27
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "} earlier messages omitted`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 293,
+        "endLine": 293,
+        "sha256": "ff8d7f36e1f7166ab1d464c293cc7d99c1d3e5fd5bae463ee678346b56727d02",
+        "bytes": 27
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "} earlier messages omitted`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 293,
+        "endLine": 293,
+        "sha256": "ff8d7f36e1f7166ab1d464c293cc7d99c1d3e5fd5bae463ee678346b56727d02",
+        "bytes": 27
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 109,
+        "endLine": 109,
+        "sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "12",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "4_000",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 109,
+        "endLine": 109,
+        "sha256": "76e6210c237cc5918d824db5874675652f3023defe7c6811acbef39f3185e1ff",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "4_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 15,
+        "endLine": 15,
+        "sha256": "76e6210c237cc5918d824db5874675652f3023defe7c6811acbef39f3185e1ff",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "4_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 15,
+        "endLine": 15,
+        "sha256": "76e6210c237cc5918d824db5874675652f3023defe7c6811acbef39f3185e1ff",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"assistant\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 112,
+        "endLine": 112,
+        "sha256": "43f3a43f5a7fef31effcd812e256c8f245da366db65c225fcde611385a4df753",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"assistant\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 302,
+        "endLine": 302,
+        "sha256": "43f3a43f5a7fef31effcd812e256c8f245da366db65c225fcde611385a4df753",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"assistant\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 302,
+        "endLine": 302,
+        "sha256": "43f3a43f5a7fef31effcd812e256c8f245da366db65c225fcde611385a4df753",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Assistant\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 112,
+        "endLine": 112,
+        "sha256": "a6a96be90cb765ebd29a1cf0695655766089f7282d9465ab3c023e60aac68119",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Assistant\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 302,
+        "endLine": 302,
+        "sha256": "a6a96be90cb765ebd29a1cf0695655766089f7282d9465ab3c023e60aac68119",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Assistant\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 302,
+        "endLine": 302,
+        "sha256": "a6a96be90cb765ebd29a1cf0695655766089f7282d9465ab3c023e60aac68119",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"User\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 112,
+        "endLine": 112,
+        "sha256": "f59d0ea2e8ec813b4add7a45f4e4fc4fecaa18239ba84fc70f8f2cead37130a8",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"User\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 302,
+        "endLine": 302,
+        "sha256": "f59d0ea2e8ec813b4add7a45f4e4fc4fecaa18239ba84fc70f8f2cead37130a8",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"User\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 302,
+        "endLine": 302,
+        "sha256": "f59d0ea2e8ec813b4add7a45f4e4fc4fecaa18239ba84fc70f8f2cead37130a8",
+        "bytes": 6
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "600",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 113,
+        "endLine": 113,
+        "sha256": "284b7e6d788f363f910f7beb1910473e23ce9d6c871f1ce0f31f22a982d48ad4",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "600",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 16,
+        "endLine": 16,
+        "sha256": "284b7e6d788f363f910f7beb1910473e23ce9d6c871f1ce0f31f22a982d48ad4",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "600",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 16,
+        "endLine": 16,
+        "sha256": "284b7e6d788f363f910f7beb1910473e23ce9d6c871f1ce0f31f22a982d48ad4",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"...message truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 113,
+        "endLine": 113,
+        "sha256": "60a8c14d01e36c60d3f0d71e52d5376bbd6ca50817abce3fed161b5e92fa7252",
+        "bytes": 25
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"...message truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 306,
+        "endLine": 306,
+        "sha256": "60a8c14d01e36c60d3f0d71e52d5376bbd6ca50817abce3fed161b5e92fa7252",
+        "bytes": 25
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"...message truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 306,
+        "endLine": 306,
+        "sha256": "60a8c14d01e36c60d3f0d71e52d5376bbd6ca50817abce3fed161b5e92fa7252",
+        "bytes": 25
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 114,
+        "endLine": 114,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateMiddle",
+        "syntax": "}: ${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 114,
+        "endLine": 114,
+        "sha256": "0a958115eb8b9f6a9be3cf1ab69e4a991f52b08cfa0920cc59d9531c3c078b04",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "TemplateMiddle",
+        "syntax": "}: ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 308,
+        "endLine": 308,
+        "sha256": "0a958115eb8b9f6a9be3cf1ab69e4a991f52b08cfa0920cc59d9531c3c078b04",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateMiddle",
+        "syntax": "}: ${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 308,
+        "endLine": 308,
+        "sha256": "0a958115eb8b9f6a9be3cf1ab69e4a991f52b08cfa0920cc59d9531c3c078b04",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 114,
+        "endLine": 114,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"...conversation truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 116,
+        "endLine": 116,
+        "sha256": "3276aa74244baef5bf1ec0fc88610007aeeff3449d933e0e695dfd4c20e9db97",
+        "bytes": 30
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"...conversation truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 314,
+        "endLine": 314,
+        "sha256": "3276aa74244baef5bf1ec0fc88610007aeeff3449d933e0e695dfd4c20e9db97",
+        "bytes": 30
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"...conversation truncated...\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 314,
+        "endLine": 314,
+        "sha256": "3276aa74244baef5bf1ec0fc88610007aeeff3449d933e0e695dfd4c20e9db97",
+        "bytes": 30
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 117,
+        "endLine": 117,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 120,
+        "endLine": 120,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Chinese\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 123,
+        "endLine": 123,
+        "sha256": "1bf274ce62a1b34761dac43e5c864e8188a32dd23e0dbff219429730dd128c53",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Chinese\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "1bf274ce62a1b34761dac43e5c864e8188a32dd23e0dbff219429730dd128c53",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Chinese\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "1bf274ce62a1b34761dac43e5c864e8188a32dd23e0dbff219429730dd128c53",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"English\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 123,
+        "endLine": 123,
+        "sha256": "32889a931b08ba01dadfc309df2ec6bd7b8234aa9a8db49ffd49818f3b3aa1c6",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"English\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "32889a931b08ba01dadfc309df2ec6bd7b8234aa9a8db49ffd49818f3b3aa1c6",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"English\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "32889a931b08ba01dadfc309df2ec6bd7b8234aa9a8db49ffd49818f3b3aa1c6",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"zh\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 125,
+        "endLine": 125,
+        "sha256": "26ab4b495289822b020a3c647c67e78b2875f715285637462e849f4f947e7f62",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"zh\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 226,
+        "endLine": 226,
+        "sha256": "26ab4b495289822b020a3c647c67e78b2875f715285637462e849f4f947e7f62",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"zh\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 226,
+        "endLine": 226,
+        "sha256": "26ab4b495289822b020a3c647c67e78b2875f715285637462e849f4f947e7f62",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"Chinese\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 125,
+        "endLine": 125,
+        "sha256": "1bf274ce62a1b34761dac43e5c864e8188a32dd23e0dbff219429730dd128c53",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"Chinese\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "1bf274ce62a1b34761dac43e5c864e8188a32dd23e0dbff219429730dd128c53",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"Chinese\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "1bf274ce62a1b34761dac43e5c864e8188a32dd23e0dbff219429730dd128c53",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"English\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 125,
+        "endLine": 125,
+        "sha256": "32889a931b08ba01dadfc309df2ec6bd7b8234aa9a8db49ffd49818f3b3aa1c6",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"English\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "32889a931b08ba01dadfc309df2ec6bd7b8234aa9a8db49ffd49818f3b3aa1c6",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"English\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 224,
+        "endLine": 224,
+        "sha256": "32889a931b08ba01dadfc309df2ec6bd7b8234aa9a8db49ffd49818f3b3aa1c6",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\r\\n?/gu",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 140,
+        "endLine": 140,
+        "sha256": "874296490137a33ae30ed228b4b5ab8b634a4144c68d390f9f1842e69eda033a",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\r\\n?/gu",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 324,
+        "endLine": 324,
+        "sha256": "874296490137a33ae30ed228b4b5ab8b634a4144c68d390f9f1842e69eda033a",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\r\\n?/gu",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 324,
+        "endLine": 324,
+        "sha256": "874296490137a33ae30ed228b4b5ab8b634a4144c68d390f9f1842e69eda033a",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 140,
+        "endLine": 140,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/[ \\t]+\\n/gu",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 141,
+        "endLine": 141,
+        "sha256": "714fd73b7f7693a33aec956baad5db2754d85bb9ba7424aedcd1d6b15a1eedaf",
+        "bytes": 12
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/[ \\t]+\\n/gu",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 325,
+        "endLine": 325,
+        "sha256": "714fd73b7f7693a33aec956baad5db2754d85bb9ba7424aedcd1d6b15a1eedaf",
+        "bytes": 12
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/[ \\t]+\\n/gu",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 325,
+        "endLine": 325,
+        "sha256": "714fd73b7f7693a33aec956baad5db2754d85bb9ba7424aedcd1d6b15a1eedaf",
+        "bytes": 12
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 141,
+        "endLine": 141,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 188,
+        "endLine": 188,
+        "sha256": "d7a5e915306d21dc1937ad5616f1dc9682e759e75ef51dd05fd9ddc98a078ea1",
+        "bytes": 4
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\n{3,}/gu",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 142,
+        "endLine": 142,
+        "sha256": "52867b922d0dca03bfa233de428ea827efaa3946edabcfbff8da9148ef65abca",
+        "bytes": 10
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\n{3,}/gu",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 326,
+        "endLine": 326,
+        "sha256": "52867b922d0dca03bfa233de428ea827efaa3946edabcfbff8da9148ef65abca",
+        "bytes": 10
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\n{3,}/gu",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 326,
+        "endLine": 326,
+        "sha256": "52867b922d0dca03bfa233de428ea827efaa3946edabcfbff8da9148ef65abca",
+        "bytes": 10
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\\n\"",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 142,
+        "endLine": 142,
+        "sha256": "98be486a01834c7bb83b3c7353edc3e046ca30fe710141f939aaec11f15c6407",
+        "bytes": 6
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 276,
+        "endLine": 276,
+        "sha256": "98be486a01834c7bb83b3c7353edc3e046ca30fe710141f939aaec11f15c6407",
+        "bytes": 6
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\\n\\n\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 276,
+        "endLine": 276,
+        "sha256": "98be486a01834c7bb83b3c7353edc3e046ca30fe710141f939aaec11f15c6407",
+        "bytes": 6
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateHead",
+        "syntax": "`${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "0daeed0617b899f65067142e0dd222f3ca5fe1bf1150b82d2642cb8c90a65179",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "TemplateMiddle",
+        "syntax": "}\\n${",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "852f4e96a499d1026623b188dbd19f5165ef160907933cd32a92e5d1d3b0379a",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "TemplateMiddle",
+        "syntax": "}\\n${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "852f4e96a499d1026623b188dbd19f5165ef160907933cd32a92e5d1d3b0379a",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "TemplateMiddle",
+        "syntax": "}\\n${",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 272,
+        "endLine": 272,
+        "sha256": "852f4e96a499d1026623b188dbd19f5165ef160907933cd32a92e5d1d3b0379a",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+        "startLine": 150,
+        "endLine": 150,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "LastTemplateToken",
+        "syntax": "}`",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 207,
+        "endLine": 207,
+        "sha256": "01095f85622a5f8f8efac09814216f2655ad516c1c3200721544b423ed41bb85",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"@knorvia/shared\"",
+        "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+        "startLine": 8,
+        "endLine": 8,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"@knorvia/shared\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 7,
+        "endLine": 7,
+        "sha256": "2f5e454fd72202b50c5d70eec629b79ecb1380a8efc621ceb1bf92ac32eabe06",
+        "bytes": 17
+      },
+      "pinnedPublisher": null,
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+        "startLine": 11,
+        "endLine": 11,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"selection\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 27,
+        "endLine": 27,
+        "sha256": "5d7642cc69080cf161bddfd3b46d6188f43e9b7d7c2bc8aeb1ef833afac83214",
+        "bytes": 11
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"empty\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 5,
+        "endLine": 5,
+        "sha256": "e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+        "bytes": 7
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"empty\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+        "bytes": 7
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"empty\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+        "bytes": 7
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 5,
+        "endLine": 5,
+        "sha256": "5300ed0fabc7e270acce0ed6f1a575ec29129cc30c617e1e31540b6ebdc0e411",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "5300ed0fabc7e270acce0ed6f1a575ec29129cc30c617e1e31540b6ebdc0e411",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "5300ed0fabc7e270acce0ed6f1a575ec29129cc30c617e1e31540b6ebdc0e411",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\([^)]+\\))?!?: .{1,100}$/",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 8,
+        "endLine": 8,
+        "sha256": "fd9751f6c1c9619c6c3b97bbad838e6c80d4551ab552d91ad62a5c34b82a3e66",
+        "bytes": 90
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\([^)]+\\))?!?: .{1,100}$/",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 21,
+        "endLine": 21,
+        "sha256": "fd9751f6c1c9619c6c3b97bbad838e6c80d4551ab552d91ad62a5c34b82a3e66",
+        "bytes": 90
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\([^)]+\\))?!?: .{1,100}$/",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 21,
+        "endLine": 21,
+        "sha256": "fd9751f6c1c9619c6c3b97bbad838e6c80d4551ab552d91ad62a5c34b82a3e66",
+        "bytes": 90
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^```(?:[a-zA-Z0-9_-]+)?\\s*([\\s\\S]*?)\\s*```$/",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 11,
+        "endLine": 11,
+        "sha256": "b60b678cfa03cc63969977d11124e82eb35a625803d53a920892f3ba5ecfede0",
+        "bytes": 45
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^```(?:[a-zA-Z0-9_-]+)?\\s*([\\s\\S]*?)\\s*```$/",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 339,
+        "endLine": 339,
+        "sha256": "b60b678cfa03cc63969977d11124e82eb35a625803d53a920892f3ba5ecfede0",
+        "bytes": 45
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^```(?:[a-zA-Z0-9_-]+)?\\s*([\\s\\S]*?)\\s*```$/",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 339,
+        "endLine": 339,
+        "sha256": "b60b678cfa03cc63969977d11124e82eb35a625803d53a920892f3ba5ecfede0",
+        "bytes": 45
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 11,
+        "endLine": 11,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^commit message:\\s*/i",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 12,
+        "endLine": 12,
+        "sha256": "442f5b702ede93c6a54510f89d67200cedf0ff51a258012edee0271764be31c3",
+        "bytes": 22
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^commit message:\\s*/i",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 341,
+        "endLine": 341,
+        "sha256": "442f5b702ede93c6a54510f89d67200cedf0ff51a258012edee0271764be31c3",
+        "bytes": 22
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/^commit message:\\s*/i",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 341,
+        "endLine": 341,
+        "sha256": "442f5b702ede93c6a54510f89d67200cedf0ff51a258012edee0271764be31c3",
+        "bytes": 22
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 12,
+        "endLine": 12,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "'\"'",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "3251eb06ac2e28485811ec002d60efc592bb58047e3e4c9c842f51fd0da7fcd0",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "'\"'",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 343,
+        "endLine": 343,
+        "sha256": "3251eb06ac2e28485811ec002d60efc592bb58047e3e4c9c842f51fd0da7fcd0",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "'\"'",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 343,
+        "endLine": 343,
+        "sha256": "3251eb06ac2e28485811ec002d60efc592bb58047e3e4c9c842f51fd0da7fcd0",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "'\"'",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "3251eb06ac2e28485811ec002d60efc592bb58047e3e4c9c842f51fd0da7fcd0",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "'\"'",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 343,
+        "endLine": 343,
+        "sha256": "3251eb06ac2e28485811ec002d60efc592bb58047e3e4c9c842f51fd0da7fcd0",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "'\"'",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 343,
+        "endLine": 343,
+        "sha256": "3251eb06ac2e28485811ec002d60efc592bb58047e3e4c9c842f51fd0da7fcd0",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"'\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "53bdfcd63dd0134cf6b26353fc85b121e1ac94f78880307fdf6eaf3788c39404",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"'\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 344,
+        "endLine": 344,
+        "sha256": "53bdfcd63dd0134cf6b26353fc85b121e1ac94f78880307fdf6eaf3788c39404",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"'\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 344,
+        "endLine": 344,
+        "sha256": "53bdfcd63dd0134cf6b26353fc85b121e1ac94f78880307fdf6eaf3788c39404",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"'\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 14,
+        "endLine": 14,
+        "sha256": "53bdfcd63dd0134cf6b26353fc85b121e1ac94f78880307fdf6eaf3788c39404",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"'\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 344,
+        "endLine": 344,
+        "sha256": "53bdfcd63dd0134cf6b26353fc85b121e1ac94f78880307fdf6eaf3788c39404",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"'\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 344,
+        "endLine": 344,
+        "sha256": "53bdfcd63dd0134cf6b26353fc85b121e1ac94f78880307fdf6eaf3788c39404",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 15,
+        "endLine": 15,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 15,
+        "endLine": 15,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"empty\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 21,
+        "endLine": 21,
+        "sha256": "e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+        "bytes": 7
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"empty\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+        "bytes": 7
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"empty\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "e6845188b1d2aebdf19d13c1613d7a49b5806a7fe336ec775fa182b36719bbc1",
+        "bytes": 7
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\r?\\n/",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 23,
+        "endLine": 23,
+        "sha256": "5e3ef36ff239c7ca92df0ee33915fbee9c9b2a74be2ea55b692c73c100413a94",
+        "bytes": 7
+      },
+      "localBaseline": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\r?\\n/",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "5e3ef36ff239c7ca92df0ee33915fbee9c9b2a74be2ea55b692c73c100413a94",
+        "bytes": 7
+      },
+      "pinnedPublisher": {
+        "kind": "RegularExpressionLiteral",
+        "syntax": "/\\r?\\n/",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "5e3ef36ff239c7ca92df0ee33915fbee9c9b2a74be2ea55b692c73c100413a94",
+        "bytes": 7
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 23,
+        "endLine": 23,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 250,
+        "endLine": 250,
+        "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 23,
+        "endLine": 23,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 23,
+        "endLine": 23,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 195,
+        "endLine": 195,
+        "sha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+        "bytes": 2
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid\"",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 26,
+        "endLine": 26,
+        "sha256": "5300ed0fabc7e270acce0ed6f1a575ec29129cc30c617e1e31540b6ebdc0e411",
+        "bytes": 9
+      },
+      "localBaseline": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "5300ed0fabc7e270acce0ed6f1a575ec29129cc30c617e1e31540b6ebdc0e411",
+        "bytes": 9
+      },
+      "pinnedPublisher": {
+        "kind": "StringLiteral",
+        "syntax": "\"invalid\"",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 241,
+        "endLine": 241,
+        "sha256": "5300ed0fabc7e270acce0ed6f1a575ec29129cc30c617e1e31540b6ebdc0e411",
+        "bytes": 9
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 26,
+        "endLine": 26,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "120",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 26,
+        "endLine": 26,
+        "sha256": "2abaca4911e68fa9bfbf3482ee797fd5b9045b841fdff7253557c5fe15de6477",
+        "bytes": 3
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "120",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 252,
+        "endLine": 252,
+        "sha256": "2abaca4911e68fa9bfbf3482ee797fd5b9045b841fdff7253557c5fe15de6477",
+        "bytes": 3
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "120",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 252,
+        "endLine": 252,
+        "sha256": "2abaca4911e68fa9bfbf3482ee797fd5b9045b841fdff7253557c5fe15de6477",
+        "bytes": 3
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 33,
+        "endLine": 33,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "0",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 85,
+        "endLine": 85,
+        "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "bytes": 1
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    },
+    {
+      "current": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1_000",
+        "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+        "startLine": 33,
+        "endLine": 33,
+        "sha256": "5033ad0f2453310077c2a7969dea21a06947c6c4f06e6cba5cdaa754213affb2",
+        "bytes": 5
+      },
+      "localBaseline": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 17,
+        "endLine": 17,
+        "sha256": "5033ad0f2453310077c2a7969dea21a06947c6c4f06e6cba5cdaa754213affb2",
+        "bytes": 5
+      },
+      "pinnedPublisher": {
+        "kind": "FirstLiteralToken",
+        "syntax": "1_000",
+        "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+        "startLine": 17,
+        "endLine": 17,
+        "sha256": "5033ad0f2453310077c2a7969dea21a06947c6c4f06e6cba5cdaa754213affb2",
+        "bytes": 5
+      },
+      "note": "retained literal/template/regex syntax evidence; not originality or completeness proof"
+    }
+  ],
+  "generatedArtifacts": [
+    {
+      "path": "packages/services/dist/git/gitCommitMessageGenerator.js",
+      "sha256": "a8211e35a2085d0047685000aed8748493d03ba94e0c39654405fd8b4d8b8480",
+      "bytes": 4431,
+      "generated": true
+    },
+    {
+      "path": "packages/services/dist/git/gitCommitMessagePromptPlan.js",
+      "sha256": "be4dea873adcdc1eca5a673f41ff1da332900029a6fcc5d6c7d22c199b74d835",
+      "bytes": 5116,
+      "generated": true
+    },
+    {
+      "path": "packages/services/dist/git/gitCommitMessageInvocationPlan.js",
+      "sha256": "b9db8f5d99d38d309602fe5441f8226fa82f5a3feea2011545a7b16ede174efc",
+      "bytes": 1127,
+      "generated": true
+    },
+    {
+      "path": "packages/services/dist/git/gitCommitMessageResponsePlan.js",
+      "sha256": "6da58bdb004c596469b11121bfaa187b438e0d0073edcc241baa05e0a73fc51f",
+      "bytes": 1308,
+      "generated": true
+    },
+    {
+      "path": "packages/services/dist/git/gitCommitMessageGenerator.d.ts",
+      "sha256": "f8a49d883a5c0564028f5a5ad7c165de2f7117cf744cc28a3a0ad41c6d0ae272",
+      "bytes": 1666,
+      "generated": true
+    },
+    {
+      "path": "packages/desktop/out/host/index.js",
+      "sha256": "2ec3705db6b2b1745b9514e40c6eebed7b5dbefac3baf070bfe813e43c6104bf",
+      "bytes": 1070048,
+      "generated": true
+    }
+  ],
+  "newStructures": [
+    "local two-effect invocation protocol, driven only by existing generator private IO methods",
+    "lazy excerpt window with preflight, visibility, remaining budget, rendering and charging per row",
+    "ordered prompt blocks retaining every legacy prose fragment",
+    "ordered decoration transforms and rejection decisions retaining grammar, clips and previews"
+  ],
+  "wholeFileStatuses": [
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "status": "upstream-modified/unreviewed; retained public/error/lookup/request/log syntax",
+      "proposedClassification": null
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+      "status": "unreviewed addition with source-exposed retained compatibility expressions",
+      "proposedClassification": null
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+      "status": "unreviewed addition with source-exposed retained compatibility expressions",
+      "proposedClassification": null
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+      "status": "unreviewed addition with source-exposed retained compatibility expressions",
+      "proposedClassification": null
+    }
+  ],
+  "previousEvidence": {
+    "servicesCurrent": "9ef7334, unchanged explicit historical/current/appendix scopes; checker passed again",
+    "gitProjection": "c1e1cc2/28d5e79 immutable historical evidence, not a live digest grant for this newly changed generator",
+    "retainedGitScope": "service/projector/filter/repo/public/UI/node source unchanged in this boundary"
+  },
+  "fixtureContent": [
+    "owned prompt golden: 51 historical observations bound to 28d5e79 and old generator digest; golden bytes unchanged",
+    "owned file/diff/conversation/identity/model/error literals and fake locale/loggers; no user data",
+    "RPC scaffolding reuses source-exposed existing lane fixture unchanged",
+    "UI harness reads actual private source or emitted callbacks then executes them with owned closures; no mounted GUI",
+    "thenable receiver fixture now uses owned Promise proxies; same expectations and historical ESM probe verified",
+    "31ed94a test-only host-path clarification: start logger workspacePath expected from owned input, all other historical fields and prompt hashes retained"
+  ],
+  "parentReportedEvidence": {
+    "independentlyVerifiedHere": false,
+    "ci222": {
+      "head": "0dc764e",
+      "linux": {
+        "cases": 6914,
+        "pass": 6906,
+        "skip": 8,
+        "fail": 0
+      },
+      "windows": {
+        "cases": 6914,
+        "pass": 6912,
+        "skip": 1,
+        "fail": 1
+      },
+      "finding": "earlier Git tree assertion-only expected path separator error; unchanged UI model normalizes slash; root owns later correction and literal Windows/POSIX model case",
+      "gitFocusedCasesPerTargetAfterRootCorrection": 127,
+      "earlierCheckpointBinding": "46613b7/c1e1cc2/28d5e79 retained; not edited in this batch"
+    },
+    "keyv": {
+      "commits": ["d109b32", "08614d4"],
+      "oldNoticeBlocksPreserved": 928,
+      "rootObligationsBefore": 27,
+      "rootObligationsAfter": 26,
+      "localInputsAndObligationsUnchanged": 27
+    }
+  },
+  "validation": {
+    "frozenSource": {
+      "snapshot": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "files": 4,
+      "cases": 161,
+      "pass": 161,
+      "fail": 0,
+      "skip": 0
+    },
+    "frozenStrictEmitted": {
+      "snapshot": "4f9b0e6d1521f7301994cb885be3bde5193aafc8",
+      "files": 4,
+      "cases": 161,
+      "pass": 161,
+      "fail": 0,
+      "skip": 0
+    },
+    "finalSource": {
+      "production": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "fixtureSnapshot": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "files": 6,
+      "cases": 287,
+      "pass": 287,
+      "fail": 0,
+      "skip": 0
+    },
+    "finalStrictEmitted": {
+      "production": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "fixtureSnapshot": "31ed94a4120a4c54595ed12ca84119180b5e5a30",
+      "files": 6,
+      "cases": 287,
+      "pass": 287,
+      "fail": 0,
+      "skip": 0
+    },
+    "breakdown": {
+      "prompts": 51,
+      "validation": 55,
+      "control": 50,
+      "callers": 5,
+      "priorGit": 126
+    },
+    "full": {
+      "production": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "testSnapshot": "93a236d6f441bd3ef2afb7c0e92a8854204414a2",
+      "command": "pnpm test:studio",
+      "files": 522,
+      "cases": 6706,
+      "pass": 6698,
+      "fail": 0,
+      "skip": 8,
+      "cancelled": 0,
+      "suites": 6,
+      "durationMs": 492202.606268,
+      "concurrency": 2,
+      "timeoutMs": 120000,
+      "budgetsUnchanged": true,
+      "rerunAfterAssertionOnlyAppend": false,
+      "note": "Final production already tested; later host-path assertion/evidence append reran focused source/emitted, lint/format/architecture. Unchanged expensive product suite/builds not repeated."
+    },
+    "manualHistoricalPromiseProbe": {
+      "cases": 1,
+      "runnerCases": 0,
+      "temporaryEsmTranspilation": true,
+      "passed": true
+    },
+    "rootTypes": "pass at production, 5422 locale keys; public d.ts byte-identical",
+    "rootLint": "pass at production and fixtureSnapshot, zero warnings/errors",
+    "format": "pass at production and fixtureSnapshot",
+    "changedArchitecture": "pass at production and fixtureSnapshot, zero violations",
+    "fullArchitecture": "pass at production, zero violations",
+    "cliBuild": "17 successful, 16 cached at production; Windows CUA staging skipped on Linux",
+    "desktopBuild": "main/host/preload/renderer pass at production; existing chunk-size/plugin-timing warnings"
+  },
+  "payloadSha256": "051e10968b2a33666a356d8a54d53d69b194e037a284cbe50712b384e1693dae"
+}
