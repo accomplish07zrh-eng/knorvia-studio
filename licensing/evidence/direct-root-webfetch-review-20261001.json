@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "81e0f225da70f4679de8922133addf2d8de8eeb8",
+  "publicationBase": "c9c556636aeda1354d7a030ec61025a8f2dc9007",
+  "producerHead": "d6214b9",
+  "imports": [
+    "1b0bce5",
+    "7c5705e",
+    "bfa358f",
+    "81e0f22"
+  ],
+  "sourceTests": 29,
+  "strictEmittedTests": 29,
+  "sourceBindings": {
+    "ownedFiles": 13,
+    "protectedInputs": 219,
+    "preexistingRootDifferences": [
+      "THIRD-PARTY-NOTICES.md",
+      "apps/cli/packages/core/src/tool/handlers/read-session-context.ts",
+      "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+      "apps/cli/packages/core/src/tool/handlers/read.ts",
+      "apps/cli/packages/core/src/tool/handlers/task-output-bash.ts",
+      "apps/cli/packages/core/src/tool/handlers/task-output-projection.ts",
+      "licensing/current-files.json",
+      "licensing/reviews.json",
+      "scripts/test-studio.mjs",
+      "specs/knorvia-read-orchestration.md"
+    ],
+    "preintegrationHead": "c9c556636aeda1354d7a030ec61025a8f2dc9007",
+    "tupleSha256": "4fdf09d7425fbdbdea5085c571ff463c6b5fb427157b03ec9106459194b9db50"
+  },
+  "emittedBindings": [
+    {
+      "path": "apps/cli/packages/core/dist/model/auxiliary-model-options.js",
+      "sha256": "e2cc48ecb32fa33240c05bf6112e4c41093120933a34011439bd446d027ca78b",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/permission/service.js",
+      "sha256": "26e7ad4542431c4142decba41df0b208925e7bd0506132f85348ff30972f5b46",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/call-runner.js",
+      "sha256": "ac2449d40c239f1e7f41c72a1051dd7f8ff326f30d5d9611e44693ed54864708",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/budget-ledger.js",
+      "sha256": "b0cbd95b3fa7b5555f7afe49ab6638fa698756eceabef2434dde531c5d5288cd",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/handler-settlement.js",
+      "sha256": "8cc550d9a6107c77bf2c78f3aa360cda42725927bf3c285e2265bc1112bac9e8",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/deadline/pausable-deadline.js",
+      "sha256": "66a9e7cae78724b88ffacaefb70df7074498289fd4ae9c19441784e679f419d5",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/model-status-sink.js",
+      "sha256": "b590c1e8c51607253174327fc5981132e0dc9f09241b1ac35a0450dda9285793",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/permission-capability.js",
+      "sha256": "d140e7e80daf8491017bc92fe727cfc5bedc2a77fd9c01a9e361235683dad00c",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/executor/timeout.js",
+      "sha256": "741cfeadd22289be386a0f38535b9c757bb05f7a8d4a1afd2b1f48738229cd7e",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/index.js",
+      "sha256": "1a551eb284c160370ceb142c65d8bf2406e24f74d1a03efe39f66a9602697a67",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-cache.js",
+      "sha256": "b7a92f8bd0a0b51bb54210718fc95ecc9cf9a07329c4927c4034b72d9b49653b",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-constants.js",
+      "sha256": "ff84dde47bee64ec78c66be6ca910ec425bcb93a9d445128698edf57b4f5e744",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-content.js",
+      "sha256": "f0a34de8215d87206edb61ae439902cf586b076f503b10688f8588cfe01d530d",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-egress-guard.js",
+      "sha256": "29022404614550a5ebae84ac25cf9955f575bfb1303246c1b99803ca65057014",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-errors.js",
+      "sha256": "25824402ab8d4cdfbe85fd7384ecb17aa3bc7067212e744178b753ef88d5cf09",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-network.js",
+      "sha256": "aaf81612bdf16467a2bbc73361f0e38cb2a67cef490b8be169b22843283b0525",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-orchestration.d.ts",
+      "sha256": "99654327e63464c3364c44b5c8668a233230545ddacafe54c80bd7401cc35729",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-orchestration.js",
+      "sha256": "d630f1c9c349f43804c1afa8053f9cfa3db234842d1c800466c48f35a3bdacc1",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-processing.js",
+      "sha256": "1215af1aab8fe90ebc1a874420324fc81725ed3414dc8ce3480c33ab70622f39",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-trace.js",
+      "sha256": "91c6deb80a7b58c0586938dccc1e108b7fcd683eef3bdedf9da292158941162f",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch-url.js",
+      "sha256": "3218a263b90306bd664d2a01dc5865a668c59ea8e6f649d0ebae5295bd49344a",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch.d.ts",
+      "sha256": "db8a4da91b0c0c232724d5694c7d2d33f3711a17a317bef8a71d0b41f4ee3fb3",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/handlers/webfetch.js",
+      "sha256": "edc173bbe877a5ae4a6a7f66f18febace0b4d6dd1990e1e71781026e1e7ec91e",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/registry.js",
+      "sha256": "812fb78ab95dcf0943c6161dcccdea2bee63b900ce8e159ecc3b62d344a022f4",
+      "producerMatch": true
+    },
+    {
+      "path": "apps/cli/packages/core/dist/tool/webfetch-preapproved.js",
+      "sha256": "e4fd555fcf2fd4ed2465cdce5fbbb667237a5c3863c70cb7064c1feefd0e786d",
+      "producerMatch": true
+    }
+  ],
+  "originalChecker": {
+    "checkout": "d6214b9",
+    "emittedChecked": false,
+    "logsChecked": false,
+    "passed": true
+  },
+  "publisher": {
+    "repository": "zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "path": "apps/zcode-cli/packages/core/src/tool/handlers/webfetch.ts",
+    "blob": "e0a52aa30d836164f34f6f117d581cdf196cdb2e",
+    "bytes": 8309,
+    "sha256": "fe1ec1299440e2b7b65f862ec5707e523b5c7817483c4632d0c2f87bfaa7bdf6",
+    "retrieval": "GitHub connector exact immutable public raw source, independently recomputed locally"
+  },
+  "independent": {
+    "source": {
+      "mode": "src",
+      "controls": 189,
+      "completionEdges": 616,
+      "success": 203,
+      "error": 602,
+      "drivers": {
+        "direct": 63,
+        "deadline": 371,
+        "executor": 371
+      },
+      "differences": [],
+      "sha256": "910954fe022151250a57b2f52ac5dba30eb2d8027b88988546492a22b682635f",
+      "total": 805
+    },
+    "emitted": {
+      "mode": "dist",
+      "controls": 189,
+      "completionEdges": 616,
+      "success": 203,
+      "error": 602,
+      "drivers": {
+        "direct": 63,
+        "deadline": 371,
+        "executor": 371
+      },
+      "differences": [],
+      "sha256": "910954fe022151250a57b2f52ac5dba30eb2d8027b88988546492a22b682635f",
+      "total": 805
+    },
+    "artifacts": [
+      {
+        "name": "REVIEW.txt",
+        "bytes": 5711,
+        "sha256": "9893f7a71c4d7f9148ac4f7ed4eefd5a9c69d022f51ceabd512148c1db35e64f"
+      },
+      {
+        "name": "thenable-probe.mts",
+        "bytes": 11177,
+        "sha256": "806356a6d93acf5a0437a171b0a5e7f61b7671005860690b0065c87274807ced"
+      },
+      {
+        "name": "thenable-source.log",
+        "bytes": 237,
+        "sha256": "1a389347c4fd049b30670f990d44cddbd72c17df07b9afc5961847de77ea507d"
+      },
+      {
+        "name": "thenable-emitted.log",
+        "bytes": 238,
+        "sha256": "da6eceb1a53d7fa6673b9f6bad6965e6f06fef1a688d56a353e3c40fe8092cfe"
+      },
+      {
+        "name": "thenable-src-summary.json",
+        "bytes": 295,
+        "sha256": "d4b52141736c111ce7105e1dd89b3e14591f62c8d0ac9aeb4e67872b4abed601"
+      },
+      {
+        "name": "thenable-dist-summary.json",
+        "bytes": 296,
+        "sha256": "f3dda4ac8c33f2f92767a34633008ca45aff3c2ac536c80ac6310f3d5f2425fe"
+      }
+    ]
+  },
+  "aggregate": {
+    "tests": 7320,
+    "pass": 7254,
+    "fail": 59,
+    "cancelled": 0,
+    "skipped": 7,
+    "sameFailureMultisetAsPriorReadGraph": true,
+    "failureEvents": {
+      "Broker rejected request": 2,
+      "Broker response id mismatch": 1,
+      "CUA broker authenticates before disclosing or echoing request identity": 1,
+      "CUA broker bounds incoming bytes and does not expose malformed JSON": 1,
+      "CUA broker can close before listening without disposing caller-owned runtime": 1,
+      "CUA broker carries result, arbitrary method arguments and complete identity": 1,
+      "CUA broker close is one barrier, aborts active work and releases partial clients": 1,
+      "CUA broker contains unprintable runtime errors without ending its host process": 1,
+      "CUA broker creates distinct local endpoints and credentials": 1,
+      "CUA broker decodes split UTF-8 / CRLF and dispatches only the first frame": 1,
+      "CUA broker disconnect aborts execution and ignores its late reply": 1,
+      "CUA broker independent connections preserve out-of-order response correlations": 1,
+      "CUA broker rejects absent identity, subagent scope and absent workspace": 1,
+      "CUA broker rejects malformed envelopes before runtime dispatch": 1,
+      "CUA broker reports runtime and serialization failures then remains usable": 1,
+      "CUA broker workspace selection preserves explicit, remote identity and path fallbacks": 1,
+      "Computer Use records broker metadata before a normalized primary app identity": 1,
+      "Computer Use sends its complete nested context and preserves structured output": 1,
+      "Invalid broker response": 2,
+      "Playwright locator mutations include tab facts while locator reads do not": 1,
+      "UTF-8 command values survive a split inside a multibyte character": 1,
+      "a complete frame at the byte limit is accepted without truncation": 1,
+      "a disposed execution cannot receive a late Computer Use observation": 1,
+      "a local transaction overrides envelope identity and correlates a split Unicode response": 1,
+      "a response above 32 MiB is rejected without retaining or echoing the body": 1,
+      "a serializer that produces no JSON cannot dispatch an empty request": 1,
+      "aborted calls never open a connection": 1,
+      "all browser methods preserve tab, session and screenshot-hint observation rules": 1,
+      "authenticated local CUA broker rejects bad tokens and propagates context": 1,
+      "authentication, subagent and schema failures never reach the port": 1,
+      "availability rejects a missing Computer Use connection before transport": 1,
+      "broker close terminates idle peers without waiting for them to disconnect": 1,
+      "browser availability and request configuration stay separate and are read per call": 1,
+      "browser discovery projects only trusted wire fields and retains schema defaults": 1,
+      "cancellation after dispatch closes the connection and preserves the reason": 1,
+      "cancellation during request serialization is observed before opening the socket": 1,
+      "closing with an active request aborts the port and disposes its peer": 1,
+      "concurrent transactions isolate ids, payloads and cancellation": 1,
+      "disconnecting during a request aborts its port signal": 1,
+      "empty or malformed primary identities never receive trusted app attribution": 1,
+      "error diagnostics do not return the broker credential": 1,
+      "invalid Computer Use results cannot attach metadata or application identity": 1,
+      "invalid JSON gets a response id; port errors preserve the valid caller id": 1,
+      "invalid, mismatched and rejected responses are distinct terminal failures": 1,
+      "local list and execute preserve request identity, trace and results": 1,
+      "missing sessions, subagents and cancelled bindings never send browser commands": 1,
+      "one connection admits only its first complete frame": 1,
+      "only successful screenshot commands record image provenance, including without meta": 1,
+      "oversized inbound frames fail before port admission": 1,
+      "peer disconnection and a refused local endpoint reject instead of hanging": 1,
+      "permission denied by fixture": 1,
+      "real host bridge can discover over the authenticated broker with workspace metadata": 1,
+      "responses from a reset generation never update the session": 1,
+      "serialization failures reject before connect and do not crash the host process": 1,
+      "strict broker replies and absent command results fail before observations": 1,
+      "subagents, missing workspace identity and cancellation cannot send Computer Use commands": 1,
+      "the request is a serialization-time snapshot rather than a live payload reference": 1
+    }
+  },
+  "logs": [
+    {
+      "name": "webfetch-root-source.log",
+      "bytes": 3183,
+      "sha256": "d8ab3bd95886fef3cb3089d5f27076726eff8164bfdb632074b6895cf5bdf0e3"
+    },
+    {
+      "name": "webfetch-root-dist.log",
+      "bytes": 3188,
+      "sha256": "4f3eb8536cbf8fb3feb51661c38357a45cba54113e248db689484c678012def8"
+    },
+    {
+      "name": "webfetch-root-cli-build.log",
+      "bytes": 9264,
+      "sha256": "0aa6a546992a07a841dd26a44f5b43d86065c94520836c4c518f0f65f72daf13"
+    },
+    {
+      "name": "webfetch-root-types.log",
+      "bytes": 565,
+      "sha256": "c8a517e1c09cf7d64ced3df3fec36a712f47bf54969a55ecb62340e10824a988"
+    },
+    {
+      "name": "webfetch-root-cli-types.log",
+      "bytes": 2441,
+      "sha256": "3e1b03ed027c72abf9a8fc6c796d57597cd4b7d725bb7dc4f3b2a21ddc053351"
+    },
+    {
+      "name": "webfetch-root-lint.log",
+      "bytes": 176,
+      "sha256": "b201753a23cd3e94e02671134e7d652d09b91da3c673e13280cc79384a342727"
+    },
+    {
+      "name": "webfetch-root-cli-lint.log",
+      "bytes": 213,
+      "sha256": "3efc131b8352b99e8172bfba38e092490d9dcf02000bf67e771cd03733430d79"
+    },
+    {
+      "name": "webfetch-root-owned-lint.log",
+      "bytes": 91,
+      "sha256": "7216cf7fee90d70dd6d8cfdff56232f8787ca0c18cad42d566563f0fef8cea9c"
+    },
+    {
+      "name": "webfetch-root-format.log",
+      "bytes": 224,
+      "sha256": "dbd16467f09d8af765486455a0529dbecc7996587cac11f521cd621eb38ab1be"
+    },
+    {
+      "name": "webfetch-root-architecture.log",
+      "bytes": 208,
+      "sha256": "6f9444fef8d2f60f1d62f5da03a5153218cefebd94512498aef331bdbbb5d5ae"
+    },
+    {
+      "name": "webfetch-root-desktop.log",
+      "bytes": 120955,
+      "sha256": "961ed39afbd75d60f100b1a2fbc500a6d17b4b91da98ad309c43a22d7a1f0f6f"
+    },
+    {
+      "name": "webfetch-root-full.log",
+      "bytes": 716822,
+      "sha256": "b8f7a1d800cadbea789461a7848f41990cfc120b627a411329e3473ac161f0be"
+    },
+    {
+      "name": "webfetch-original-receipt.log",
+      "bytes": 243,
+      "sha256": "e777cd043fc96417885eae1cb7cf5ea5fef30c4708aa5caa38b869d6fbd84abd"
+    },
+    {
+      "name": "toolchain-recovery.log",
+      "bytes": 332,
+      "sha256": "4487727ac5b8a518f54bf7af3ad434895fa38199d0582561267dd39c38f5a74b"
+    },
+    {
+      "name": "dependencies-recovery.log",
+      "bytes": 9970,
+      "sha256": "483e9aa5f6e53541e7c2c0551de68b9a73e52c31c51d323f5925cd268fa78128"
+    }
+  ],
+  "baselineRestoration": {
+    "commit": "34fb23e5f5c610bd7379096d3f281f4bff79b71f",
+    "sourceReceipt": "licensing/evidence/standard-integration-validation-20260930.json",
+    "root": "/tmp/knorvia-direct-baseline/packages/services",
+    "node": "v24.14.0",
+    "pnpm": "10.33.2",
+    "typescript": "6.0.2",
+    "build": "node node_modules/typescript/bin/tsc -p /tmp/knorvia-direct-baseline/packages/services/tsconfig.claude-leaf.json --listEmittedFiles",
+    "imports": {
+      "#src/*": "./dist/*"
+    },
+    "source": [
+      {
+        "path": "src/session/claude-native/jsonLineRecord.ts",
+        "sha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "df33fe944f47addbf46cd4f29e6cb1b6a683c882ecdb380321a5bfec371c57c1",
+        "emittedDeclarationSha256": "59b8e6def2d3a22214e2f67d26c78625a2a7fe602cbac08c9c7acf6a1ed4ae52"
+      },
+      {
+        "path": "src/session/claude-native/sessionHistoryJsonl.ts",
+        "sha256": "3eb56a3fec7d893272520d4ecc7e45d5a29c303f3b3717d934467cdee863142f",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "a18fc5fa53f696719bba46db5d2ff06ab7513ad0168a6305fb460f8b992c805b",
+        "emittedDeclarationSha256": "4fee6aa879c4686e43dbb62c66427be446c547bd81bffdcc1f34abbfe8b59e0a"
+      },
+      {
+        "path": "src/session/claude-native/importedClaudeTaskFileFilter.ts",
+        "sha256": "dadea4b81c750e670e64a7708ccf5fd66eb096ace78dd3a839c2af331ecc88c2",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "845b7dc981ee03723f501522a6c74f75879f6487724272606d9f8e27c3366217",
+        "emittedDeclarationSha256": "2dbeff40576a3691c0782e3f5c9468f66d9982aafd1bac9eb171a0bac566eadd"
+      },
+      {
+        "path": "src/session/claude-native/claudeNativeSessionHeadParser.ts",
+        "sha256": "fb8443645eacfd5b1dca46324942d5879f5a1ce5dcf7646c8870c2217e49f059",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "1676c707b7285d33b996a749ab6bc719e84795595233ae76a0ed198fe07bafd1",
+        "emittedDeclarationSha256": "30b3881a2eacf13bfed922864649b2a8acbbcc6b040cb51f5d54e9c947ebedef"
+      },
+      {
+        "path": "src/session/claude-native/buildImportedClaudeTaskFile.ts",
+        "sha256": "6beba9eec79a9970f6c06c512bf509d6ba0ebfd42e5c0b5227edec0ce0db846d",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "4c243ac7e67c26475755b4b3455e4b75f35d03d7d9519ce55941419a576f3035",
+        "emittedDeclarationSha256": "c0bc2175677937ac5b24e6234671883a1b0570a8d73c7356f5bd1ac08b5db646"
+      },
+      {
+        "path": "src/session/sessionTitle.ts",
+        "sha256": "1e9b9641da8675c9430bb6bc912fc2e78a166ae4f531fabb7c9880587493da4b",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "44033fa8ac01c66f13152ebc68bdaa9f69de6baad1b016cc62a999a89fe91892",
+        "emittedDeclarationSha256": "e1078dc1e8eab4cafb653ddeaa7b4de0003d38a654161df41c789dbbdc2e0986"
+      },
+      {
+        "path": "src/session/claude-native/claudeNativeImportedSessionTypes.ts",
+        "sha256": "7ecab783c21dffd9ab4706964109f8ebca92d65b7360c434c59c0a62639f8c58",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "b5475bc35e2f702e9f97685a564545bbaa2ca131bfdc9cff6be6b9e7b61ffd00",
+        "emittedDeclarationSha256": "b36aa51d8ca86a1400dd4241d77fd8ca749ef42e58e80cef1d2c62361cbd14a5"
+      },
+      {
+        "path": "src/session/legacyTaskSessionFile.ts",
+        "sha256": "5f9c332e0919f34d12745d3ca37943cfde00870e62a3066a39a5363d8a1f56d5",
+        "matchesCommitBytes": true,
+        "emittedJsSha256": "149bd6b18b22dd3c24ea9cad0868a005cfba7f74f85c020d476e755563493ff9",
+        "emittedDeclarationSha256": "01aca8d4382ba75b8aa2a76e3d1fd7867df8702e3ecd43bfffdb87a7247f6139"
+      }
+    ],
+    "scope": "Disposable historical five-leaf baseline with actual transitive services imports. Retained workspace dependencies shared with current source, as recorded historically; no whole-product equivalence claim. Source imports map was used while compiling; runtime imports map is dist. No main tracked files changed.",
+    "validation": {
+      "command": "KNORVIA_CLAUDE_OLD_ROOT=/tmp/knorvia-direct-baseline/packages/services TSX_TSCONFIG_PATH=packages/ui/tsconfig.json node --experimental-test-module-mocks --import tsx --test packages/services/test/claude-leaf-differential-fast-2057.test.ts",
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "observations": 575,
+      "publicDeclarationASTs": 5,
+      "log": "/tmp/knorvia-direct-baseline/differential-source-test.log",
+      "scope": "Old historical emitted leaves versus current source leaves; public declaration comparison reads existing current services/dist, with root full validation managed separately."
+    },
+    "emittedFiles": 32,
+    "emittedOnlyUnderDisposableDist": true
+  },
+  "materialObligations": 26,
+  "limits": [
+    "Local full run remains non-green:58 detailed listen EPERM failures plus their failed parent.",
+    "Desktop build:no-runtime-assets excludes runtime-asset preparation and installer/native GUI acceptance.",
+    "Independent source-exposed synthetic ports do not establish live-service or full user-data migration acceptance.",
+    "Original producer logs are not claimed freshly verified; original checker used without --logs or --emitted.",
+    "No whole-file MIT, clean-room or whole-project rights clearance."
+  ]
+}
