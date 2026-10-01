@@ -71,3 +71,20 @@ Retain applicable notices and all 27 open material obligations. Source/hash
 receipts bind this checkpoint but do not establish clean-room authorship or
 final whole-file MIT eligibility. Native, live-provider and data-upgrade
 acceptance remain open.
+
+## Publication gate correction
+
+The transport task correctly stopped the initial `ca7a821` bundle before push:
+the root had omitted regeneration of the derived current-file inventory. Remote
+HEAD remained `31305f5`, and no CI run was claimed for the blocked bundle. Root
+regenerated the inventory without changing review decisions, preserved all 27
+material obligations and verified `provenance:check` before the corrected bundle.
+The seven exact publisher blobs independently checked in the separate upstream
+repository are recorded in `cli-upstream-byte-verification-20261001.json`; this
+new evidence also requires an inventory entry and grants no new licence.
+
+Audit regression: 122/122 passed with `--experimental-test-module-mocks`.
+An initial audit-only invocation omitted that flag and two test files failed to
+load (`mock.module is not a function`); the corrected command changed no tests.
+The complete Studio run already used the required flag. Original failure logs
+remain available; neither failed invocation is represented as a pass.
