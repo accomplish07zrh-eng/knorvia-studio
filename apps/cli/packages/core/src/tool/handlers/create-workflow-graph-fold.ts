@@ -87,50 +87,75 @@ function foldPairs(raw: readonly RawEdge[]): RawEdge[] {
   return order.map((key) => byKey.get(key) as RawEdge);
 }
 
-/**
- * 每个节点 → 它所在强连通分量的代表（分量里首次出现的节点）。只看前向边：回边说的是
- * 「下一轮」，把它算进分量会让整个循环体缩成一个点，循环体内部真正冗余的边就再也删不掉。
- *
- * 用互相可达而不是 Tarjan：阶段图上界 32 个节点（`CREATE_WORKFLOW_GRAPH_MAX_PHASES`），
- * 成本无关紧要，而「a 到 b 且 b 到 a」是分量定义本身，读起来不需要再证一遍。
- */
+/** Forward/reverse DFS finds components; first endpoint rank selects stable representatives. */
 function componentsOf(folded: readonly RawEdge[]): Map<string, string> {
-  const nodes: string[] = [];
-  const seen = new Set<string>();
-  const next = new Map<string, string[]>();
+  const ids: string[] = [];
+  const indexById = new Map<string, number>();
+  const outgoing: number[][] = [];
+  const incoming: number[][] = [];
+  const index = (id: string): number => {
+    const existing = indexById.get(id);
+    if (existing !== undefined) return existing;
+    const added = ids.length;
+    indexById.set(id, added);
+    ids.push(id);
+    outgoing.push([]);
+    incoming.push([]);
+    return added;
+  };
   for (const edge of folded) {
-    for (const id of [edge.from, edge.to]) {
-      if (seen.has(id)) continue;
-      seen.add(id);
-      nodes.push(id);
-    }
+    const from = index(edge.from);
+    const to = index(edge.to);
     if (edge.back) continue;
-    const list = next.get(edge.from);
-    if (list === undefined) next.set(edge.from, [edge.to]);
-    else list.push(edge.to);
+    outgoing[from]!.push(to);
+    incoming[to]!.push(from);
   }
 
-  const reach = new Map<string, Set<string>>();
-  for (const start of nodes) {
-    const reached = new Set<string>();
-    const stack = [...(next.get(start) ?? [])];
-    while (stack.length > 0) {
-      const node = stack.pop() as string;
-      if (reached.has(node)) continue;
-      reached.add(node);
-      stack.push(...(next.get(node) ?? []));
+  const visited: boolean[] = [];
+  const finished: number[] = [];
+  for (let start = 0; start < ids.length; start++) {
+    if (visited[start]) continue;
+    visited[start] = true;
+    const frames = [{ node: start, cursor: 0 }];
+    while (frames.length > 0) {
+      const frame = frames[frames.length - 1]!;
+      const targets = outgoing[frame.node]!;
+      if (frame.cursor === targets.length) {
+        finished.push(frame.node);
+        frames.pop();
+        continue;
+      }
+      const target = targets[frame.cursor++]!;
+      if (visited[target]) continue;
+      visited[target] = true;
+      frames.push({ node: target, cursor: 0 });
     }
-    reach.set(start, reached);
   }
 
-  const componentOf = new Map<string, string>();
-  for (const node of nodes) {
-    if (componentOf.has(node)) continue;
-    componentOf.set(node, node);
-    for (const other of reach.get(node) ?? []) {
-      if (componentOf.has(other)) continue;
-      if (reach.get(other)?.has(node) === true) componentOf.set(other, node);
+  const assigned: boolean[] = [];
+  const representatives: number[] = [];
+  for (let position = finished.length - 1; position >= 0; position--) {
+    const start = finished[position]!;
+    if (assigned[start]) continue;
+    const pending = [start];
+    const members: number[] = [];
+    let representative = start;
+    assigned[start] = true;
+    while (pending.length > 0) {
+      const node = pending.pop()!;
+      members.push(node);
+      if (node < representative) representative = node;
+      for (const predecessor of incoming[node]!) {
+        if (assigned[predecessor]) continue;
+        assigned[predecessor] = true;
+        pending.push(predecessor);
+      }
     }
+    for (const member of members) representatives[member] = representative;
   }
-  return componentOf;
+  const result = new Map<string, string>();
+  for (let node = 0; node < ids.length; node++) {
+    result.set(ids[node]!, ids[representatives[node]!]!);
+  }
+  return result;
 }
