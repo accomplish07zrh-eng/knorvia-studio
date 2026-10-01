@@ -1,0 +1,24 @@
+{
+  "kind": "copied-test-only-inherited-local-branches",
+  "commit": "9248efe60bd1711a1393806cad81664f5dc53e9e",
+  "path": "packages/services/src/git/repo/gitCliRepo.ts",
+  "sourceSha256": "f1db571a98b05aa7458928186b1d93eef4b031cfc6b0c8ca740d3213a389302e",
+  "spans": [
+    {
+      "name": "parseBranchRefRecords",
+      "start": 7314,
+      "end": 8574,
+      "text": "function parseBranchRefRecords(stdout: string, currentBranchName: string | null): GitLocalBranch[] {\n  return stdout\n    .replace(/\\r\\n/g, \"\\n\")\n    .split(\"\\n\")\n    .filter((line) => line.length > 0)\n    .map((line): GitLocalBranch | null => {\n      const [name, upstreamName, commitHash, commitTimestamp] = line.split(\"\\0\");\n      if (!name) {\n        return null;\n      }\n\n      const timestampSeconds = commitTimestamp ? Number.parseInt(commitTimestamp, 10) : Number.NaN;\n      return {\n        name,\n        isCurrent: name === currentBranchName,\n        upstreamName: upstreamName || null,\n        commitHash: commitHash || null,\n        commitTimestampMs: Number.isNaN(timestampSeconds) ? null : timestampSeconds * 1000,\n      };\n    })\n    .filter((branch): branch is GitLocalBranch => Boolean(branch))\n    .sort((left, right) => {\n      if (left.isCurrent !== right.isCurrent) {\n        return left.isCurrent ? -1 : 1;\n      }\n\n      const leftTimestamp = left.commitTimestampMs ?? Number.NEGATIVE_INFINITY;\n      const rightTimestamp = right.commitTimestampMs ?? Number.NEGATIVE_INFINITY;\n      if (leftTimestamp !== rightTimestamp) {\n        return rightTimestamp - leftTimestamp;\n      }\n\n      return left.name.localeCompare(right.name);\n    });\n}",
+      "sha256": "82282e73fcff0fe114d1d92ff8309962a6131d3dbe63903e57ba5add2fec0fd1",
+      "bytes": 1260
+    },
+    {
+      "name": "listLocalBranches",
+      "start": 22335,
+      "end": 23472,
+      "text": "async listLocalBranches(workspacePath: string): Promise<GitLocalBranchListResult> {\n      const status = await this.getStatus(workspacePath);\n      if (!status.resolution.isGitAvailable || !status.resolution.isRepository) {\n        return {\n          headRefType: status.summary.headRefType,\n          currentBranchName: status.summary.branchName,\n          branches: [],\n        };\n      }\n\n      const result = await commandProvider.run({\n        cwd: status.resolution.repoRoot,\n        args: [\n          \"for-each-ref\",\n          \"refs/heads\",\n          \"--format=%(refname:short)%00%(upstream:short)%00%(objectname)%00%(committerdate:unix)\",\n        ],\n        timeoutMs: DEFAULT_GIT_COMMAND_TIMEOUT_MS,\n        maxOutputBytes: DEFAULT_GIT_OUTPUT_BYTES,\n      });\n      ensureGitCommandSucceeded(\"git for-each-ref refs/heads\", result);\n\n      return {\n        headRefType: status.summary.headRefType,\n        currentBranchName: status.summary.branchName,\n        branches: parseBranchRefRecords(\n          result.stdout,\n          status.summary.headRefType === \"branch\" ? status.summary.branchName : null,\n        ),\n      };\n    }",
+      "sha256": "c49d4d011a7b0b169e31e04eab9f5f5e9b0665639dbbee857d9d13e4f4852a10",
+      "bytes": 1137
+    }
+  ]
+}
