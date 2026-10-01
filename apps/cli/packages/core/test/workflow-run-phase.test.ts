@@ -14,6 +14,7 @@ import {
   declaration,
   archive,
   sha,
+  widthCases,
 } from "./workflow-run-phase-fixture.js";
 import { createToolRegistry, handlers } from "./workflow-run-activity-fixture.js";
 const gold = JSON.parse(
@@ -27,6 +28,13 @@ test("Workflow phase public declarations and supported registry remain unchanged
   assert.equal(registry.get("GetWorkflowRun"), entry);
   assert.equal(oldEntry.handler, entry.handler);
   assert.equal(entry.formatModelContent({}), "GetWorkflowRun returned an invalid result.");
+});
+test("Workflow phase appended bounded-width malformed/coercion controls", () => {
+  for (const [i, kind] of widthCases.entries()) {
+    const baseline = observe({ kind }, old);
+    assert.equal(digest(baseline), gold.appendedWidth[i], `width-baseline:${i}`);
+    assert.deepEqual(observe({ kind }, current), baseline, `width-current:${i}`);
+  }
 });
 test("Workflow phase frozen decision/getter/coercion/native callback contracts and repeat calls", () => {
   assert.equal(cases.length, 29);

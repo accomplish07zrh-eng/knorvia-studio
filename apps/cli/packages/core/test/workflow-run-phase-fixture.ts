@@ -53,6 +53,7 @@ export const cases: any[] = [
     ["phase.exitedAt", 2],
   ].map(([target, at]) => ({ kind: "throw", target, at })),
 ];
+export const widthCases = ["width-infinite", "width-nan", "width-coercion"];
 export function phaseRows(c: any = {}) {
   const tape: any[] = [],
     counts = new Map<string, number>(),
@@ -110,6 +111,28 @@ export function phaseRows(c: any = {}) {
   if (c.kind === "rounds-symbol") phase.rounds = Symbol("synthetic-rounds");
   if (c.kind === "running-symbol") phase.nodesRunning = Symbol("synthetic-running");
   if (c.kind === "exit-symbol") phase.exitedAt = Symbol("synthetic-exit");
+  if (widthCases.includes(c.kind))
+    phase.state = {
+      get length() {
+        return read(
+          "state.length",
+          c.kind === "width-infinite"
+            ? Infinity
+            : c.kind === "width-nan"
+              ? NaN
+              : {
+                  [Symbol.toPrimitive](hint: string) {
+                    tape.push(["length.coerce", hint]);
+                    throw failure;
+                  },
+                },
+        );
+      },
+      [Symbol.toPrimitive](hint: string) {
+        tape.push(["state.coerce", hint]);
+        return "synthetic-state";
+      },
+    };
   if (c.kind === "entered-coercion")
     phase.enteredAt = {
       [Symbol.toPrimitive](hint: string) {
