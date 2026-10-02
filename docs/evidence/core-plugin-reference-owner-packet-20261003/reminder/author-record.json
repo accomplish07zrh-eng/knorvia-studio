@@ -1,0 +1,207 @@
+{
+  "record_version": 1,
+  "owner": "pure plugin-reference reminder",
+  "author_task": "/root/plugin_reminder_complete_20261003",
+  "review_time_utc": "2026-10-02 22:14:21 UTC",
+  "deliverables": {
+    "source": {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/reminder/reminder.ts",
+      "bytes": 7757,
+      "lines": 247,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "encoding": "UTF-8",
+      "complete_original_draft": true,
+      "line_limit": "<400",
+      "final_mode": "0444"
+    },
+    "receipt": {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/reminder/author-record.json",
+      "encoding": "UTF-8",
+      "final_mode": "0444",
+      "binding_method": "Receipt bytes, lines and SHA-256 calculated from the exact serialized write buffer and reported externally; no receipt content read occurred."
+    }
+  },
+  "configuration": {
+    "requested_model": "GPT-6.1 Sol",
+    "requested_reasoning": "high",
+    "requested_fork": "none",
+    "effective_model_reasoning_fork": "Requested configuration reported by parent delegation; runtime model, provider and fork were not independently verified.",
+    "fast": "saved, unchanged and unverified; no Fast setting inspection or mutation"
+  },
+  "every_actual_content_read": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/contract.md",
+      "bytes": 6683,
+      "sha256": "0545889004a9d576d098e200214db857bba4e74231c2fc7bd3dcddc8a514ce9f",
+      "read_count": 2,
+      "events": [
+        {
+          "operation": 1,
+          "kind": "full content read by cat; returned in tool output"
+        },
+        {
+          "operation": 2,
+          "kind": "full binary read by Python for byte count and SHA-256"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-api.d.ts",
+      "bytes": 1621,
+      "sha256": "a3e31dc3f56202e26633de627e70ad2a35d87cfb857efe371b9d34dcbc362c03",
+      "read_count": 2,
+      "events": [
+        {
+          "operation": 1,
+          "kind": "full content read by cat; returned in tool output"
+        },
+        {
+          "operation": 2,
+          "kind": "full binary read by Python for byte count and SHA-256"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/dependency-api.d.ts",
+      "bytes": 164,
+      "sha256": "dc564575aa72a25aa46db06c9c6af3de3487978c1d29a3c3e9de6dd66c7412ee",
+      "read_count": 2,
+      "events": [
+        {
+          "operation": 1,
+          "kind": "full content read by cat; returned in tool output"
+        },
+        {
+          "operation": 2,
+          "kind": "full binary read by Python for byte count and SHA-256"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/public-shapes.d.ts",
+      "bytes": 789,
+      "sha256": "9cd7e109f2435a9623f1db1c1dafe4475ba4c7f86c211bc2d008a1d7085d014e",
+      "read_count": 2,
+      "events": [
+        {
+          "operation": 1,
+          "kind": "full content read by cat; returned in tool output"
+        },
+        {
+          "operation": 2,
+          "kind": "full binary read by Python for byte count and SHA-256"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/imports.json",
+      "bytes": 209,
+      "sha256": "432760ef4b35f6588df217dbe36c1a5ec8bd6bc1caf9b9d89729bb61ec395684",
+      "read_count": 2,
+      "events": [
+        {
+          "operation": 1,
+          "kind": "full content read by cat; returned in tool output"
+        },
+        {
+          "operation": 2,
+          "kind": "full binary read by Python for byte count and SHA-256"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/output-data.json",
+      "bytes": 4572,
+      "sha256": "c0400254da81bccb97a4181468c0f69fde22dee4051fd844192d7505a2c3941b",
+      "read_count": 2,
+      "events": [
+        {
+          "operation": 1,
+          "kind": "full content read by cat; returned in tool output"
+        },
+        {
+          "operation": 2,
+          "kind": "full binary read by Python for byte count and SHA-256"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-plugin-reference-owners-20261003/reminder/reminder.ts",
+      "bytes": 7757,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "read_count": 1,
+      "events": [
+        {
+          "operation": 2,
+          "kind": "full binary read after own write for binding and full displayed manual review"
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "sequence": 1,
+      "description": "One exec_command cat fully read exactly the six named frozen inputs; no directory enumeration or other file content read."
+    },
+    {
+      "sequence": 2,
+      "description": "One exec_command Python authoring operation reread exactly the six input files as bytes for hashes, created the own output directory, wrote the complete 247-line source, read that source once, calculated its binding and displayed the entire source for manual review. No extra scratch accounting file was created."
+    },
+    {
+      "sequence": 3,
+      "description": "Manual review of full contract, supplied public declarations/imports/static data and displayed own source; no runtime execution, test or compiler."
+    },
+    {
+      "sequence": 4,
+      "description": "Allowed clock call supplied the recorded UTC review time."
+    },
+    {
+      "sequence": 5,
+      "description": "This final exec_command serializes and writes only author-record.json, computes receipt byte count/line count/hash from its in-memory write buffer, and chmods reminder.ts and author-record.json to 0444. No further content read is performed."
+    }
+  ],
+  "manual_review": {
+    "method": "Human-readable model inspection of full supplied text and own complete draft; not automated semantic or project validation.",
+    "checks": [
+      "All supplied public exports, interfaces, union members, field shapes and exact import module/export/type-only sets were retained. The byte-cap constant has an explicit public number annotation and keeps the ordinary 8 * 1024 initializer.",
+      "Every reference calls the original imported isValidPluginStableId. First exact catalog match, unknown/disabled/ambiguous priority, reference order and duplicate reference groups are preserved.",
+      "Skill source/name/root prefix provenance is exact; subagent list/root provenance is exact; no native path resolution, inventory lookup or declared skill-name membership restriction was introduced.",
+      "MCP qualification retains membership, truthy connection and native <= 0 exclusion without extra finiteness checks. Invalid owned eligible identifiers produce one invalid_identifier skip per plugin while valid siblings remain.",
+      "Identifier length and exact /^[A-Za-z0-9._:@/-]+$/ pattern, per-group Set deduplication and default sort, local 32/16/16 budgets, cuts and no-live skip behavior were checked.",
+      "Fixed rendering paragraphs, blank lines, four rows per group, individually JSON-quoted identifiers, four rules and newline joining match required data. Body exposes no display names, paths, descriptions, marketplace or tool data.",
+      "Buffer.byteLength(candidate, \"utf8\") enforces <=8192; whole last groups are removed repeatedly with reverse-order no-live skips, no budget refill and null body when none remain.",
+      "Final diagnostics use retained groups only; arrays and supplied objects are not mutated; internal state is per invocation; no exceptions are caught and native/dependency/getter failures propagate.",
+      "Source length is 247 lines, below 400. Draft and receipt are complete files, not patches."
+    ],
+    "result": "No manual contract discrepancy identified within the permitted evidence."
+  },
+  "retained_data_and_idioms": [
+    "Exact public API names/types/literal constants/import sets and the original public stable-ID dependency boundary.",
+    "Required XML-like reminder tags, fixed disclaimer/rules, group row labels, skip-reason strings, slash/backslash suffixes, regex, UTF-8 encoding label and number budgets.",
+    "Ordinary TypeScript/JavaScript idioms including Set deduplication, Array.from/default sort, includes, find, startsWith, slice with Math.max, JSON.stringify, join, reduce, push/pop and Buffer.byteLength.",
+    "Private helper organization was chosen for this full draft; no novelty, ownership separation or licence grant is asserted."
+  ],
+  "scope_and_privacy": {
+    "authorized": "Pure supplied string/metadata logic only; no filesystem/loader/plugin/provider/tool/model/store/network/OS/credentials/userdata operations in the produced source and no new owners or persistence.",
+    "author_file_access": "Exactly the six supplied inputs and the own source output listed in the read ledger. Only the two requested output files were written. No repository source/history/AGENTS/tests/dependency implementation/other drafts or user data was read.",
+    "produced_source_authority": "No installation, enablement, connection, authentication, retry, access request, actual inventory call, tool execution, path normalization or policy grant.",
+    "executor_limitation": "Shared executor restrictions are instruction-only; no OS isolation or access audit was performed. These statements describe visible task operations and do not establish isolated infrastructure."
+  },
+  "known_exposures_breaches_and_limits": {
+    "upstream_qualifications_retained": [
+      "The curator is source-exposed.",
+      "Earlier broader, tool and dependency context remains a qualification of the overall workflow.",
+      "The prior repaired scratch-write breach remains disclosed; this author neither inspected that scratch file nor independently audited its repair."
+    ],
+    "author_context": "Fresh delegated task instruction and the six-file public packet are the available authoring evidence. The upstream exposures and repaired breach are parent-reported facts; no independent source-separation attestation is made.",
+    "visible_author_breaches": "No additional restricted-scope content read or extra file write identified in this author turn.",
+    "validation_limits": [
+      "No compiler/build/lint/tests/mocks/installs were run; no source function execution or dependency implementation inspection occurred.",
+      "Original arithmetic byte-cap initializer carries the parent-reported raw TS9010 qualification. Explicit number annotation preserves the requested widened public type; it is not a claim of project compilation.",
+      "Public mechanical declarations are not standalone semantic or project compilation evidence.",
+      "No licence, novelty, clean-room independence or separation attestation is provided.",
+      "Permissions were set using successful chmod operations; no independent OS isolation or access audit was attempted."
+    ],
+    "remaining_blockers": []
+  }
+}
