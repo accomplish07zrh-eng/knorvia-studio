@@ -5,8 +5,10 @@ const packet = 'docs/evidence/core-hydration-owner-packet-20261003';
 const hash = b => crypto.createHash('sha256').update(b).digest('hex');
 const mediaScope = process.argv[2] || 'media', historyScope = process.argv[3] || 'history';
 const mediaOnly = process.argv.includes('--media-only');
+const historyOnly = process.argv.includes('--history-only');
+const resultOnly = process.argv.includes('--result-only');
 const sources = { media: packet + '/' + mediaScope + '/file-part-hydration.ts.txt', history: packet + '/' + historyScope + '/session-history-hydrator.ts.txt' };
-const bindings = Object.fromEntries(Object.entries(sources).filter(([s]) => !mediaOnly || s === 'media').map(([s,p]) => { const b = fs.readFileSync(p); return [s, { path:p, bytes:b.length, sha256:hash(b) }]; }));
+const bindings = Object.fromEntries(Object.entries(sources).filter(([s]) => (!mediaOnly || s === 'media') && (!historyOnly || s === 'history')).map(([s,p]) => { const b = fs.readFileSync(p); return [s, { path:p, bytes:b.length, sha256:hash(b) }]; }));
 function load(file, ports) {
   const out = ts.transpileModule(fs.readFileSync(file, 'utf8'), { fileName:file, compilerOptions:{ module:ts.ModuleKind.CommonJS, target:ts.ScriptTarget.ES2022 } });
   const module = { exports:{} };
@@ -15,8 +17,8 @@ function load(file, ports) {
 }
 const plain = x => JSON.parse(JSON.stringify(x));
 const groups = [];
-async function group(name, fn) { if(mediaOnly && !name.startsWith('media ') && !name.startsWith('persisted media ')) return; try { await fn(); groups.push({ name, passed:true }); } catch(e) { groups.push({ name, passed:false, error:e.stack }); } }
-const media = load(sources.media, { '@knorvia/shared': { isArtifactUri:x => typeof x === 'string' && x.startsWith('artifact://') } });
+async function group(name, fn) { const m=name.startsWith('media ') || name.startsWith('persisted media ');if((mediaOnly&&!m)||(historyOnly&&m)||(resultOnly&&!name.startsWith('assistant ')))return;try { await fn(); groups.push({ name, passed:true }); } catch(e) { groups.push({ name, passed:false, error:e.stack }); } }
+const media = historyOnly ? undefined : load(sources.media, { '@knorvia/shared': { isArtifactUri:x => typeof x === 'string' && x.startsWith('artifact://') } });
 function file(id, extra = {}) { return { id, type:'file', sessionID:'synthetic', messageID:'synthetic', mime:'image/*', url:'artifact://saved', filename:'fixture', ...extra }; }
 function historyPorts() {
   const events = [], mediaCalls = [], options = { selected:undefined, compacted:undefined, tools:undefined, usage:false, presentation:undefined };
@@ -45,7 +47,7 @@ function historyPorts() {
       isActiveCompactionBoundaryPart:p => p.type === 'compact' && p.active !== false,
     },
     './file-part-hydration.js': {
-      filePartToContentBlock:async(p,a) => { mediaCalls.push([p,a]); if (p.fail) throw p.fail; return p.block ?? {type:'text',text:p.metadata?.preview?.text ?? 'fallback'}; },
+      filePartToContentBlock:async(p,a) => { mediaCalls.push([p,a]); options.beforeMedia?.(p,a);if (p.fail) throw p.fail; return p.block ?? {type:'text',text:p.metadata?.preview?.text ?? 'fallback'}; },
       projectPersistedToolMediaContent:(layout,blocks) => { events.push(['layout',layout,blocks]); return layout === 'valid' ? [blocks[1],{type:'text',text:'between'},blocks[0]] : undefined; },
     },
     './tool-part-order.js': { selectToolPartsForHistory:parts => { events.push(['toolOrder',parts]); return options.tools ?? parts; } },
@@ -127,6 +129,10 @@ const tool = (id,status,extra={}) => ({ id,type:'tool',callID:id+'-call',tool:'R
     const anchor=historyPorts();anchor.options.usage=true;await anchor.owner.hydrateMessageHistoryFromSession({history:anchor.append,messages:[message('anchor','assistant',[],{tokens})]});assert.equal(anchor.events.filter(x=>x[0]==='assistant').length,1);assert.equal(anchor.events.filter(x=>x[0]==='usage').length,1);
     const failing=historyPorts(),failure=Error('synthetic media failure'),bad=message('failure','assistant',[tool('bad','completed',{state:{attachments:[file('bad',{fail:failure})]}})]);
     await assert.rejects(failing.owner.hydrateMessageHistoryFromSession({history:failing.append,messages:[bad]}),e=>e===failure);assert.equal(failing.events.filter(x=>x[0]==='assistant').length,1);assert.equal(failing.events.filter(x=>x[0]==='tool').length,0);
+    const snapshot=historyPorts(),changing=tool('changing','completed',{metadata:{providerToolName:'original'},state:{attachments:[file('changing-media')],output:'before'}});
+    snapshot.options.beforeMedia=()=>{changing.metadata.providerToolName='later';changing.state={status:'completed',input:{},output:'after'};};
+    await snapshot.owner.hydrateMessageHistoryFromSession({history:snapshot.append,messages:[message('snapshot','assistant',[changing])]});
+    const snapshotResult=snapshot.events.find(x=>x[0]==='tool');assert.equal(snapshotResult[2],'original');assert.equal(snapshotResult[3],'after');
   });
   const passed=groups.every(x=>x.passed);console.log(JSON.stringify({bindings,groups,passed,qualification:'At most six distinct minimum synthetic candidate-only groups; --media-only restricts the initial media boundary review to two. In-memory VM and explicit fake original ports only; isolated transpilation to execute synthetic cases, no semantic/project compilation or source-emitted matrix, real session/media/provider/network/user data, business writes or dependency body execution. Installed exact-byte static binding reuses these checks without repeating them.'},null,2));if(!passed)process.exitCode=1;
 })();
