@@ -11,5 +11,7 @@
   },
   "model": "gpt-6.1-sol",
   "reasoning": "high",
-  "fork": "none"
+  "fork": "none",
+  "initialPacketReadSha256": "3e33c746368b0568e1e4fd5c3390ac7458aa19929e124afae99c205d0309c353",
+  "finalPacketNote": "Hash in inputs reflects final appended body-free clarification; initialPacketReadSha256 is original bytes actually read by author."
 }
