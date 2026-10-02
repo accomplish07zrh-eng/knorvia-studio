@@ -1,0 +1,193 @@
+{
+  "owner": "complete mcp/index.ts registration bridge",
+  "scope": "Instruction-only authoring from the seven frozen files; supplied dependency ports retained and not implemented.",
+  "requestedConfiguration": {
+    "model": "GPT-6.1 Sol",
+    "reasoning": "high",
+    "fork": "none",
+    "effectiveConfiguration": "Not independently introspected or verified.",
+    "savedFastPreference": "Unchanged and unverified."
+  },
+  "inputAccounting": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/contract.md",
+      "sha256": "3e3c37de42323e8a37ebc782e8269d0e9b0521833d12940566038a0711f0bf29",
+      "bytesPerRead": 11632,
+      "linesPerRead": 27,
+      "readCount": 1,
+      "writeCount": 0,
+      "cumulativeBytesRead": 11632,
+      "cumulativeLinesRead": 27
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/public-api.d.ts",
+      "sha256": "6f539228a54cf6bc8a78973caf60333ec18037fa105724e52f31ca4d6b8b7290",
+      "bytesPerRead": 782,
+      "linesPerRead": 12,
+      "readCount": 1,
+      "writeCount": 0,
+      "cumulativeBytesRead": 782,
+      "cumulativeLinesRead": 12
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+      "sha256": "cb9d79e2d1062c16bc303610d35de3bf729b9a925f64f1518b07e1f3bcc8018e",
+      "bytesPerRead": 21001,
+      "linesPerRead": 540,
+      "readCount": 2,
+      "writeCount": 0,
+      "cumulativeBytesRead": 42002,
+      "cumulativeLinesRead": 1080
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/dependency-api.d.ts",
+      "sha256": "7dcd97b039905dd875a611052ea7922147a51dac88a2a321c2051bf19de64a7b",
+      "bytesPerRead": 3221,
+      "linesPerRead": 57,
+      "readCount": 1,
+      "writeCount": 0,
+      "cumulativeBytesRead": 3221,
+      "cumulativeLinesRead": 57
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/imports.json",
+      "sha256": "b9110768e0f6ee0ba194a39ee32b926baa71f55880e59dff1af1634a34f223c2",
+      "bytesPerRead": 1488,
+      "linesPerRead": 48,
+      "readCount": 1,
+      "writeCount": 0,
+      "cumulativeBytesRead": 1488,
+      "cumulativeLinesRead": 48
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/output-data.json",
+      "sha256": "1e33587d2ead379bd44507b3e5de3bc38fafedb36b1c57ed7524e4fbd4ab55a1",
+      "bytesPerRead": 6524,
+      "linesPerRead": 388,
+      "readCount": 1,
+      "writeCount": 0,
+      "cumulativeBytesRead": 6524,
+      "cumulativeLinesRead": 388
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/bridge/public-data.json",
+      "sha256": "81b9f1d1cd936ab1e9f05e36fd407d704fab7c60e37ce162fc82f3aa15eed09c",
+      "bytesPerRead": 1562,
+      "linesPerRead": 19,
+      "readCount": 1,
+      "writeCount": 0,
+      "cumulativeBytesRead": 1562,
+      "cumulativeLinesRead": 19
+    }
+  ],
+  "inputTotals": {
+    "distinctFiles": 7,
+    "readCount": 8,
+    "writeCount": 0,
+    "uniqueBytes": 46210,
+    "uniqueLines": 1091,
+    "cumulativeBytesRead": 67211,
+    "cumulativeLinesRead": 1631
+  },
+  "readDisclosure": "All seven files were read in full on the first filesystem pass. The combined displayed output was truncated within public-shapes.d.ts, which was read again and its complete text displayed individually. All seven full texts were visible before authoring.",
+  "outputAccounting": [
+    {
+      "path": "/tmp/knorvia-mcp-owners-20261003/bridge/index.ts",
+      "sha256": "62d6f93ab109985e130d95be1204c5bf9f830d0a63f3117d1b939b1bc6360357",
+      "bytes": 10728,
+      "lines": 269,
+      "readCount": 1,
+      "writeCount": 1,
+      "cumulativeBytesRead": 10728,
+      "cumulativeBytesWritten": 10728,
+      "cumulativeLinesRead": 269,
+      "cumulativeLinesWritten": 269,
+      "mode": "0444",
+      "review": "Entire saved draft displayed and manually reviewed before freezing; no revisions."
+    },
+    {
+      "path": "/tmp/knorvia-mcp-owners-20261003/bridge/author-record.json",
+      "sha256": null,
+      "sha256Disposition": "Exact whole-file SHA-256 is reported externally after freeze in the final read result and final response; a self-embedded whole-file digest would change the hashed bytes.",
+      "bytes": 11976,
+      "lines": 193,
+      "readCount": 1,
+      "writeCount": 1,
+      "cumulativeBytesRead": 11976,
+      "cumulativeBytesWritten": 11976,
+      "cumulativeLinesRead": 193,
+      "cumulativeLinesWritten": 193,
+      "mode": "0444",
+      "review": "One complete receipt read/hash/display after writing and freezing is included in this closed accounting."
+    }
+  ],
+  "outputTotals": {
+    "distinctFiles": 2,
+    "readCount": 2,
+    "writeCount": 2,
+    "cumulativeBytesRead": 22704,
+    "cumulativeBytesWritten": 22704,
+    "cumulativeLinesRead": 462,
+    "cumulativeLinesWritten": 462
+  },
+  "filesystemActions": "Created only the needed assigned output directory hierarchy, wrote each of the two named outputs once, and set each to 0444. No extra scratch or accounting file was created. Byte/line/hash calculations used in-memory buffers; they were not source compilation, execution, or probes.",
+  "manualReview": {
+    "method": "Manual entire saved source review against the complete frozen contract, declarations, import list, exact schema initializer, and static output data. No compiler, lint, tests, runtime, probes, dependency loading, or actual business ports were used.",
+    "findings": [
+      "All ten import identities, type-only bindings, shared namespace alias, public reexports, RegisterMcpToolsOptions fields and registerMcpTools signature are retained.",
+      "One truthy-only allowed Set and one original deny-rule factory call precede ordered descriptor processing; authority is snapshotted before descriptor/model name port calls. Empty allow lists skip all descriptors, either name matches rules, and denials precede trust/construction/registration.",
+      "Only registry.register(entry) owns registration, with its receiver and one argument, followed by returned-name append. No duplicate suppression, rollback, unregister, or extra state writes occur.",
+      "Exact trusted Windows tool policies, host node_repl/js classification, strict annotation booleans, risk/approval/concurrency rules, nullish 30000 timeout, and authority-first result budgets are retained.",
+      "Entry, metadata, presentation, permission, timeout, cancellation and trace own-field order/presence match the contract, including own undefined aliases/description and trusted Windows deny-before-ask constraints.",
+      "Official authority is supplied only by the exact true membership snapshot; presentation official flags, names, and aliases do not create authority. Frame protection and official_cua capability are conditional on authority, including noncanonical authoritative servers.",
+      "Observation title classification uses the prescribed native trim/lowercase and global hyphen/underscore replacements plus exact names and substring conjunction. Schema normalization preserves top-level arrays as spread objects, supplied object properties identity, other fields, and title-required Set order without mutation.",
+      "Runtime record identity is retained unless observation title is present via native in, including inherited title. The copy/delete path removes own title without input mutation and excludes arrays/functions/null from forwarded record identity.",
+      "The awaited original callTool retains its receiver and two arguments, ordered request/trace/options fields, current descriptor routes, registration snapshots, conditional fields, nullish defaults, and three separate workspace identity reads/trims when its condition succeeds.",
+      "Trusted Windows results go directly through the supplied frame port. Other results go through only the supplied normalizer with exact object field order and original context/descriptor/result identities. The formatter forwards exact output and captured Windows flag; errors propagate.",
+      "McpToolOutputJsonSchema explicitly has JsonSchema type and retains the exact supplied initializer text/topology and satisfies JsonSchema constraint; entry outputSchema references that exported object.",
+      "The complete source is readable and 269 lines, below 400. Original dependency policy/name/frame/formatter/image ports were imported rather than implemented."
+    ],
+    "issuesFound": "No contract deviation found in manual review; this is not a semantic or runtime verification result.",
+    "limitations": [
+      "No compilation, isolated declaration emit, lint, tests, synthetic callback invocation, target runtime, dependencies, provider, browser, frame data, network, credentials, environment reads, or access grants were performed.",
+      "Raw public-api declaration omitted the JsonSchema import and recorded original TS9010; explicit source annotation retains the frozen declared type but does not prove standalone semantic or project closure.",
+      "Shared executor restrictions are instruction-only. No OS isolation or independent access audit is claimed.",
+      "Requested model/reasoning/fork configuration and saved Fast preference were not inspected or verified.",
+      "Whole-file receipt hash is external to the receipt to avoid a false self-referential hash assertion."
+    ]
+  },
+  "retainedMaterial": {
+    "sourceDerived": "Required exact text, templates, protocol/schema/type/import identities, policy expressions and native idioms are retained source-derived material from the supplied packet.",
+    "expressions": [
+      "256 * 1024",
+      "64 * 1024",
+      "descriptor.timeoutMs ?? 30000",
+      "options.officialCuaServerNames?.has(descriptor.serverName) === true",
+      "native object spread",
+      "native in",
+      "native delete on fresh copy",
+      "native Set",
+      "optional trim condition with separately repeated trim reads",
+      "/-/g",
+      "/_/g"
+    ],
+    "data": [
+      "Exact title description and 1/120 limits",
+      "Canonical and provider-alias prefixes",
+      "Exact capability, permission-reason and cancellation templates",
+      "Exact official_cua policy identity",
+      "Original output schema initializer and satisfies JsonSchema",
+      "1000000/100000/50000 result byte budgets",
+      "Imported shared namespace and official frame-protection constant"
+    ],
+    "qualifications": "No novelty, access grant, license closure, or MIT assertion is made. Trust classification is not a new user/window permission; aliases and title heuristics do not grant authority."
+  },
+  "provenanceDisclosure": {
+    "currentAuthor": "This author context read only the seven frozen packet inputs plus its own two outputs. No predecessor body/private helper decomposition, repository/source/history/AGENTS/dependency/other-author discovery was performed in this turn.",
+    "parentAndCurator": "Parent and curator are source-exposed according to the supplied delegation; this is retained provenance rather than a clean-room claim.",
+    "earlierExposure": "Earlier wider source, tool, dependency and full MCP helper-body exposures are retained as disclosed upstream context, not erased by this fresh packet-only author turn.",
+    "earlierBreach": "The prior extra scratch-write breach was reported as repaired upstream. This author did not inspect, recreate or independently verify that repair.",
+    "boundary": "Fresh reconstruction is qualified by source-derived packet material, upstream exposures, instruction-only shared execution, and absence of independent isolation/access audit."
+  },
+  "accountingClosure": "Counts include the following one receipt-only read/hash/display; no further filesystem content reads or writes are planned. Final hashes and mode observations are returned externally."
+}
