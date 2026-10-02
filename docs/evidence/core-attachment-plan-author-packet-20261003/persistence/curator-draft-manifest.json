@@ -1,0 +1,21 @@
+{
+  "archivedAtUtc": "2026-10-02T20:24:48.211155+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposed control",
+  "files": [
+    {
+      "file": "draft-tool-result-media-persistence.ts.txt",
+      "bytes": 4073,
+      "sha256": "58772c0f67eaf9ab8344d75e28a1d0093d6386e73b4ee6b5d5479056786c0676",
+      "target": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 7581,
+      "sha256": "e5a307cb3b039dc695a779712b2ec7d624ed0193cb5a84e4c1c8bbbbe6815d89"
+    }
+  ]
+}

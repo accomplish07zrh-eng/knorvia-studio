@@ -1,0 +1,21 @@
+{
+  "archivedAtUtc": "2026-10-02T20:24:48.210598+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposed control",
+  "files": [
+    {
+      "file": "draft-attachments.ts.txt",
+      "bytes": 9466,
+      "sha256": "67746d867a4f377eb8626ac6f04a6adeae3197b917521e44614074479d8d6470",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachments.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 7901,
+      "sha256": "7fbde05e98b6f8fe7d08c79b1703cfae41f3e0c3ff70565e5e4c65f823142c57"
+    }
+  ]
+}
