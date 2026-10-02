@@ -1,0 +1,89 @@
+[
+  {
+    "message": "Main turn retrying after Start Plan admission busy",
+    "level": "warn",
+    "orderedFields": [
+      "...trace",
+      "event",
+      "module",
+      "retryDelayMs",
+      "retryNumber",
+      "maxRetries",
+      "status"
+    ]
+  },
+  {
+    "message": "Ignored tool calls after automation create limit was reached",
+    "level": "warn",
+    "orderedFields": [
+      "event",
+      "module",
+      "status",
+      "toolCallCount"
+    ]
+  },
+  {
+    "message": "Model response diagnostics",
+    "level": "info",
+    "orderedFields": [
+      "...trace",
+      "event",
+      "finishReason",
+      "module",
+      "providerMetadataKeys",
+      "rawFinishReason",
+      "responseEmpty",
+      "responseLength",
+      "status",
+      "toolCallCount",
+      "usageCacheReadTokens",
+      "usageCacheWriteTokens",
+      "usageInputTokens",
+      "usageOutputTokens",
+      "usageReasoningTokens",
+      "usageTotalTokens"
+    ]
+  },
+  {
+    "message": "Model returned an empty non-stop result",
+    "level": "warn",
+    "orderedFields": [
+      "...trace",
+      "event",
+      "finishReason",
+      "module",
+      "rawFinishReason",
+      "responseLength",
+      "status",
+      "toolCallCount",
+      "usageTotalTokens"
+    ]
+  },
+  {
+    "message": "Model request completed",
+    "level": "info",
+    "orderedFields": [
+      "...trace",
+      "durationMs",
+      "event",
+      "module",
+      "status",
+      "totalTokens",
+      "toolCallCount"
+    ]
+  },
+  {
+    "message": "Reactive compact rapid-refill breaker tripped",
+    "level": "warn",
+    "orderedFields": [
+      "...trace",
+      "event",
+      "consecutiveRapidRefills",
+      "modelStepIndex",
+      "module",
+      "status",
+      "toolTurnsSinceCompact",
+      "trigger"
+    ]
+  }
+]
