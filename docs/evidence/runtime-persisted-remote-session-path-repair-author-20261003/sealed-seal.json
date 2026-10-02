@@ -1,0 +1,14 @@
+{
+  "algorithm": "SHA256",
+  "draft_sha256": "baafb7577d0d3ba0ee278443dfadbc86f04afac41e6d003a184c703d19cdcf65",
+  "access_sha256": "e6f3daa9b3e12ead39e1bc01288e36883cf390e294c3158562d72d81bfd4a566",
+  "draft_saved_before_comparison": true,
+  "comparison_performed": false,
+  "limits": [
+    "Only the five named body-free inputs plus explicitly authorized clarification.md were read as source inputs.",
+    "No source/history/tests/oracles/lineage/status/team context was accessed.",
+    "No tests, compilation, production changes, git, network, real stores, or user data.",
+    "Authorized clarification confirms dependency signatures and CoreError.type discriminator used by the unchanged draft.",
+    "Existing attribution and licensing remain curator-owned; no clean-room or MIT claim."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "observations": {
+    "mode": "baseline",
+    "groups": [
+      "shell snapshot stored clone/parse/save rejection/stale identity",
+      "remote narrow CAS/refresh identity/rejection/concurrent identity gate",
+      "file rewind guarded writes/rejected write and commit compensation/postcommit publication failure"
+    ],
+    "count": 3,
+    "selection": "exact old/current scoped compiler owner JS;unchanged source dependencies through tsx;synthetic fs access seam and memory store/filesystem only",
+    "limits": "3compact persistence safety groups,not full runtime/cancellation/native coverage;no duplicate source mode or actual user IO"
+  },
+  "logSha256": "b1803bb72b5e01849f616fd4fbb82d97fa6b8859d4d5f43e356a18efd6b4ea2a",
+  "artifactPins": {
+    "bash-shell-snapshot": "fdc764040e17d13cb269ec05b3e5c0ae157c2e620ee116f3f581d9481205f025",
+    "persisted-remote-session-path-repair": "17d6fb24c5441d8cc9ed4bf087a5de43e243e83e7badf07dc3be5a02708bf0d5",
+    "file-rewind": "1bbe3450763d6849ea283c9247c7401619ee36593bbbf6b7fd4a39948d254639"
+  },
+  "scope": "3compact predecessor actual-emitted persistence safety groups,source-derived strict oracle;not a full behavioral suite"
+}

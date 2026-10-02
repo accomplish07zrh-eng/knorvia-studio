@@ -1,0 +1,41 @@
+{
+  "drafts": {
+    "bash-shell-snapshot": {
+      "sealed-draft.txt": "7bf1dec9a17862772712af86ffde5bbb3cc2bacf0198b829e05c01232ad4c4e3",
+      "sealed-access.json": "9cbb92f327c27ca7f029682f1d8a9a95176209ec247dd8c5068979b1a99b9735",
+      "sealed-seal.json": "91d7bc772aa3a237c077ac800ac8e3d27bc6e3f68b48f3fcef1be7d1477df6b9",
+      "api.d.ts": "232d63ce66153afbf11992c8c1ff6b5235fe2c685ab912ef75e390d66b0b6a10",
+      "imports.d.ts": "7bf5918128a16a167b7023bb5cfc8fc44f9996605625ed1eaf2238d24bc53bc5",
+      "supporting.d.ts": "ecbdb4423cbfca866eea687e00b029d4e84751c0b5a261d4af32c73c54ec5968",
+      "contract.md": "71d03ab9d1994686265f3b652227b6f8e3f84fec93d6108cf5cd2f5e23fc6ef5",
+      "literals.json": "05301e4460a5a67efcb42d160bdace38b938cd430a4fe6470daaa795e9321dbd",
+      "clarification.md": "5bb69105ff28ed864d3cd2fa132b125c9587f808cf8545c9584ad5bb2ca1d627"
+    },
+    "persisted-remote-session-path-repair": {
+      "sealed-draft.txt": "baafb7577d0d3ba0ee278443dfadbc86f04afac41e6d003a184c703d19cdcf65",
+      "sealed-access.json": "e6f3daa9b3e12ead39e1bc01288e36883cf390e294c3158562d72d81bfd4a566",
+      "sealed-seal.json": "e2f5044083d6fb1619ef556475c0471ed2fb7daed833dbc50b7aca328ede203f",
+      "api.d.ts": "80fabb250684465e28d01a12971234a692f49e2cedf3d528356a63cc83f5bb2f",
+      "imports.d.ts": "fd54ba9d244fe181aef525801aefb823a5939d9a3ab9db3822109b4ad96a4cb6",
+      "supporting.d.ts": "5afa0a368770a8a50f69bee4f3d143cf0e98eee7fe03a0bfab84e025f30a0e39",
+      "contract.md": "7cabf71a54d88240b272daf735d97f72f6b29ec01beb8a72eb4e886f24d372e4",
+      "literals.json": "d0f21b11a02996ebf6925747528ccddaea7dca7801cfd8ccf8134dc142c752c2",
+      "clarification.md": "52d6f03e6e6823b1e338a53021623d1818c4408d597ee3642e39801d668ce9f6"
+    },
+    "file-rewind": {
+      "sealed-file-rewind.txt": "f357278a5d9e00ebbd7184cb4dccecdcaba3c34fdbd4d07a0f2b14989442b6fb",
+      "sealed-file-rewind-planning.txt": "876ff667f1fbe97fb0af3bc4c23ffcacf71014393a97e86f5591de25011d80b2",
+      "sealed-file-rewind-storage.txt": "6270d78ea6eb56e9ac2e8432a55312ddb69c1726b4aa289dfa783d7ed2ff5163",
+      "sealed-access.json": "d5cacd2a48ce3519379484012fe98c3b411858b6504383b2ba31e96c8d7d473e",
+      "sealed-seal.json": "05dcf4d3ed6c6f8fa3515d7739decfd2763bb00c059812b277680244a91ef224",
+      "api.d.ts": "acdbcc3d875cf40521343919f97ca7fc8a0e39c32ebc454e506d0d46d79b3a98",
+      "imports.d.ts": "886488bc75ad2a80d6101231f2547d70f02e9a66cbbaa72e4b0a7399b305bf74",
+      "supporting.d.ts": "51e803248949d82cd6834b5651563fd0a22dd8f46840cd8d6b81d47d6e772074",
+      "contract.md": "d0caa6b8db70c9687362f281d2e9c20f97d90ce637a14d190bb0049dbbee8b30",
+      "literals.json": "2fb1a6da3ab6381291e917fb5afb39e81f30b3ca4105ff97e79a9eabbe24cbe7",
+      "clarification.md": "b80ba4a5719797cc5bc1e49eb0410e2793b17cd9a440fc7e734830f6a19bc3c0"
+    }
+  },
+  "workflow": "Exact sealed files copied/hash checked before curator interpretation.Three fresh internal authors fork_turns=none,Sol/high,body-free source-derived inputs and supplementary API/fixed facts. No absolute isolation/rights claim.",
+  "limitation": "Shell author initially sealed before clarification,then overwrote initial outputs before preservation message arrived. Initial draft SHAe5a2919add7491293c0d455a76b0c0497706914f4bb53ecfdbb911c19c3f8397/access49006d21591eb180e5f0e14489eddd4e42d2d8c94699f5ceba3683314ec0978d remain reported in tool transcript/journal;initial bytes not preserved. Final supplemented draft preserved exactly;not represented as immutable original."
+}

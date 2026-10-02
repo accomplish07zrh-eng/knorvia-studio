@@ -1,0 +1,101 @@
+{
+  "authorizedSourceReads": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/contract.md",
+      "sha256": "d0caa6b8db70c9687362f281d2e9c20f97d90ce637a14d190bb0049dbbee8b30",
+      "purpose": "Authorized functional and declaration facts",
+      "authorization": "Initial delegation"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/api.d.ts",
+      "sha256": "acdbcc3d875cf40521343919f97ca7fc8a0e39c32ebc454e506d0d46d79b3a98",
+      "purpose": "Authorized functional and declaration facts",
+      "authorization": "Initial delegation"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/imports.d.ts",
+      "sha256": "886488bc75ad2a80d6101231f2547d70f02e9a66cbbaa72e4b0a7399b305bf74",
+      "purpose": "Authorized functional and declaration facts",
+      "authorization": "Initial delegation"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/supporting.d.ts",
+      "sha256": "51e803248949d82cd6834b5651563fd0a22dd8f46840cd8d6b81d47d6e772074",
+      "purpose": "Authorized functional and declaration facts",
+      "authorization": "Initial delegation"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/literals.json",
+      "sha256": "2fb1a6da3ab6381291e917fb5afb39e81f30b3ca4105ff97e79a9eabbe24cbe7",
+      "purpose": "Authorized functional and declaration facts",
+      "authorization": "Initial delegation"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/clarification.md",
+      "sha256": "c1662f5dbf058cf7544c0bee1f125a62b9cf2315fa699f50b5a0440d3a072097",
+      "purpose": "Authorized functional and declaration facts",
+      "authorization": "Parent supplemental authorization before seal"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-file-rewind-author-20261003/clarification.md",
+      "sha256": "b80ba4a5719797cc5bc1e49eb0410e2793b17cd9a440fc7e734830f6a19bc3c0",
+      "purpose": "Confirmed success response count and singular form",
+      "authorization": "Parent supplemental authorization before seal"
+    }
+  ],
+  "draftReads": [
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind-planning.ts",
+      "purpose": "Apply supplementary fixed facts"
+    },
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind.ts",
+      "purpose": "Compute draft digest and physical line count"
+    },
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind-planning.ts",
+      "purpose": "Compute draft digest and physical line count"
+    },
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind-storage.ts",
+      "purpose": "Compute draft digest and physical line count"
+    }
+  ],
+  "excludedReads": [
+    "predecessor source",
+    "history",
+    "tests",
+    "oracles",
+    "lineage",
+    "status",
+    "team files"
+  ],
+  "excludedActions": [
+    "production writes",
+    "git commands",
+    "test execution",
+    "compilation",
+    "real port IO",
+    "provider IO",
+    "user-data IO",
+    "executor initialization or settings changes"
+  ],
+  "drafts": [
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind.ts",
+      "sha256": "f357278a5d9e00ebbd7184cb4dccecdcaba3c34fdbd4d07a0f2b14989442b6fb",
+      "physicalLines": 133
+    },
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind-planning.ts",
+      "sha256": "876ff667f1fbe97fb0af3bc4c23ffcacf71014393a97e86f5591de25011d80b2",
+      "physicalLines": 224
+    },
+    {
+      "path": "/tmp/knorvia-file-rewind-transaction-author/file-rewind-storage.ts",
+      "sha256": "6270d78ea6eb56e9ac2e8432a55312ddb69c1726b4aa289dfa783d7ed2ff5163",
+      "physicalLines": 50
+    }
+  ],
+  "journalReadBeforeSeal": true
+}
