@@ -11,7 +11,7 @@ const archive = JSON.parse(archiveText);
 for (const name of ["source", "compiled", "declaration"])
   assert.equal(sha(archive[name]), archive[`${name}Sha256`]);
 const pinText = await read("test/workflow-runtime-context-current.json");
-assert.equal(sha(pinText), "CURRENT_PIN");
+assert.equal(sha(pinText), "4829e023bd3862f49afac026ca9e26c024f83f36452a882ffc6cf61e05abad88");
 async function select(reader = read) {
   for (const [path, hash] of Object.entries(JSON.parse(pinText).files))
     assert.equal(sha(await reader(path)), hash, path);
