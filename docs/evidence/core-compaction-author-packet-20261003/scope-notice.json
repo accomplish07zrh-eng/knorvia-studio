@@ -1,0 +1,27 @@
+{
+  "baseline": "c925ba4837ef6683958f868b5cb75c3b58132e20",
+  "owners": [
+    {
+      "path": "apps/cli/packages/core/src/compact/policy.ts",
+      "bytes": 6197,
+      "sha256": "ffabcb93f16eca22aa044779a07d77a1d162feb36dbdf8edc81e0d67ca9f752d",
+      "gitBlob": "e777c6ff231be34a12a310adbe5bbda75860cad5"
+    },
+    {
+      "path": "apps/cli/packages/core/src/compact/microcompact.ts",
+      "bytes": 9352,
+      "sha256": "27731cd99707cce37a5f2de803c371107024f7ed2b6e8982fe973ee14f4b97db",
+      "gitBlob": "79d9dfb55a45a53359ea28b3ca061eec6f7eadf4"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-selection.ts",
+      "bytes": 13898,
+      "sha256": "6d470cb1a6a97ce42a6c8c462115a9de93841a67f42a4cdb2c1e52b74a1d49dc",
+      "gitBlob": "c2511a7d2c0d43263b5da399b7478e8f4f8a2141"
+    }
+  ],
+  "selectionEvidence": "Bounded public declaration/source-path and local commit/evidence search; no prior accepted replacement record found. Not a global provenance reclassification.",
+  "excluded": "workflow/expert, runtime/methods, scheduler/A owners, permission/full-access/security modules, previously accepted owners, other-lane source",
+  "implementationPlan": "Complete functional/API-only author inputs; exact outputs/receipt frozen before curator review; pure helper split if necessary; same PR8",
+  "tests": "Ordinary tests/builds skipped; minimal synthetic only for actual data-write safety"
+}
