@@ -1,0 +1,113 @@
+import type { BrowserWindow, MessageBoxReturnValue } from "electron";
+import { existsSync, readFileSync } from "node:fs";
+import { arch, hostname, platform, release, type, version as osVersion } from "node:os";
+import { join } from "node:path";
+import { DEFAULT_LOCALE, type Locale, KNORVIA_BUILD_TIME, KNORVIA_COMMIT, KNORVIA_ENV, KNORVIA_VERSION } from "@knorvia/shared";
+import { createCustomAboutDialogHtml } from "./aboutWindow.js";
+interface DesktopBuildMetadata {
+  appVersion?: string;
+  buildCommitId?: string;
+  buildTime?: string;
+  electronBuilderVersion?: string;
+}
+interface AboutSnapshot {
+  appVersion: string;
+  buildCommitId: string;
+  buildTime: string;
+  environment: string;
+  electronVersion: string;
+  electronBuilderVersion: string;
+  chromiumVersion: string;
+  nodeVersion: string;
+  v8Version: string;
+  osType: string;
+  osPlatform: string;
+  osRelease: string;
+  osVersion: string;
+  osArch: string;
+  hostname: string;
+}
+interface AboutSnapshotOptions {
+  appVersion?: string;
+  buildMetadata?: DesktopBuildMetadata | null;
+  environment?: string;
+  runtimeVersions?: Pick<NodeJS.ProcessVersions, "electron" | "chrome" | "node" | "v8">;
+  osInfo?: { type: string; platform: string; release: string; version: string; arch: string; hostname: string };
+}
+const localized = {
+  "zh-CN": { aboutTitle: "关于 Knorvia Studio", versionLabel: "版本", okButtonLabel: "确定", optimized: "已针对 Apple Silicon 优化。", copyright: (year: number) => `版权所有 © ${year} Knorvia Studio。` },
+  "en-US": { aboutTitle: "About Knorvia Studio", versionLabel: "version", okButtonLabel: "OK", optimized: "Optimized for Apple Silicon.", copyright: (year: number) => `Copyright © ${year} Knorvia Studio.` },
+};
+function readJson<T>(filePath: string): T | null {
+  if (!existsSync(filePath)) return null;
+  try { return JSON.parse(readFileSync(filePath, "utf-8")) as T; } catch { return null; }
+}
+function valueOrUnknown(value: unknown): string {
+  return typeof value === "string" ? value.trim() || "unknown" : "unknown";
+}
+export function readBuildMetadata(filePath = join(import.meta.dirname, "../metadata/build-meta.json")): DesktopBuildMetadata | null {
+  return readJson<DesktopBuildMetadata>(filePath);
+}
+export function createAboutSnapshot(options: AboutSnapshotOptions = {}): AboutSnapshot {
+  const metadata = options.buildMetadata ?? null;
+  const versions = options.runtimeVersions ?? process.versions;
+  const os = options.osInfo ?? { type: type(), platform: platform(), release: release(), version: osVersion(), arch: arch(), hostname: hostname() };
+  function builderVersion(): string {
+    if (metadata?.electronBuilderVersion) return valueOrUnknown(metadata.electronBuilderVersion);
+    const pkg = readJson<{ devDependencies?: Record<string, string> }>(join(import.meta.dirname, "../../package.json"));
+    const text = valueOrUnknown(pkg?.devDependencies?.["electron-builder"]);
+    return text === "unknown" ? text : text.replace(/^[^\d]*/, "") || text;
+  }
+  return {
+    appVersion: valueOrUnknown(options.appVersion ?? metadata?.appVersion ?? KNORVIA_VERSION),
+    buildCommitId: valueOrUnknown(metadata?.buildCommitId ?? KNORVIA_COMMIT),
+    buildTime: valueOrUnknown(metadata?.buildTime ?? KNORVIA_BUILD_TIME),
+    environment: valueOrUnknown(options.environment ?? KNORVIA_ENV),
+    electronVersion: valueOrUnknown(versions.electron),
+    electronBuilderVersion: builderVersion(),
+    chromiumVersion: valueOrUnknown(versions.chrome),
+    nodeVersion: valueOrUnknown(versions.node),
+    v8Version: valueOrUnknown(versions.v8),
+    osType: valueOrUnknown(os.type),
+    osPlatform: valueOrUnknown(os.platform),
+    osRelease: valueOrUnknown(os.release),
+    osVersion: valueOrUnknown(os.version),
+    osArch: valueOrUnknown(os.arch),
+    hostname: valueOrUnknown(os.hostname),
+  };
+}
+export function formatAboutDetail(snapshot: AboutSnapshot): string {
+  return [
+    `Version: ${snapshot.appVersion}`, `Commit: ${snapshot.buildCommitId}`, `Build Time: ${snapshot.buildTime}`, `Environment: ${snapshot.environment}`, "",
+    `Electron: ${snapshot.electronVersion}`, `Electron Builder: ${snapshot.electronBuilderVersion}`, `Chromium: ${snapshot.chromiumVersion}`, `Node.js: ${snapshot.nodeVersion}`, `V8: ${snapshot.v8Version}`, "",
+    `OS Type: ${snapshot.osType}`, `OS Platform: ${snapshot.osPlatform}`, `OS Release: ${snapshot.osRelease}`, `OS Version: ${snapshot.osVersion}`, `OS Arch: ${snapshot.osArch}`, `Hostname: ${snapshot.hostname}`,
+  ].join("\n");
+}
+export async function showAboutDialog(parentWindow?: BrowserWindow, locale: Locale = DEFAULT_LOCALE): Promise<MessageBoxReturnValue> {
+  const { app, BrowserWindow } = await import("electron");
+  const snapshot = createAboutSnapshot({ appVersion: app.getVersion(), buildMetadata: readBuildMetadata() });
+  const messages = localized[locale] ?? localized[DEFAULT_LOCALE];
+  const copyright = messages.copyright(new Date().getFullYear());
+  const optimizationLine = process.platform === "darwin" && process.arch === "arm64" ? messages.optimized : "";
+  const iconPath = app.isPackaged ? join(process.resourcesPath, "icon.png") : join(import.meta.dirname, "../../build/icon.png");
+  const window = new BrowserWindow({
+    width: 256, height: 312,
+    parent: parentWindow && !parentWindow.isDestroyed() ? parentWindow : undefined,
+    modal: Boolean(parentWindow && !parentWindow.isDestroyed()),
+    frame: false, transparent: true, resizable: false, minimizable: false, maximizable: false, fullscreenable: false, show: false,
+    title: messages.aboutTitle, icon: existsSync(iconPath) ? iconPath : undefined,
+    webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true },
+  });
+  window.setMenuBarVisibility(false);
+  window.once("ready-to-show", () => window.show());
+  window.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(createCustomAboutDialogHtml({
+    applicationName: "Knorvia Studio",
+    iconDataUrl: existsSync(iconPath) ? "data:image/png;base64," + readFileSync(iconPath).toString("base64") : "",
+    appVersion: snapshot.appVersion,
+    copyright,
+    optimizationLine,
+    versionLabel: messages.versionLabel,
+    okButtonLabel: messages.okButtonLabel,
+  })));
+  return { response: 0, checkboxChecked: false };
+}

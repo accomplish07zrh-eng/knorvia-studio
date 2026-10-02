@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-02T22:24:52.743650+00:00",
+  "targetBodiesReadBeforeFreeze": false,
+  "qualification": "Complete packet-authored drafts; static original product/HTML/CSS/menu data retained with no originality credit; root broad context and source-exposed curator remain.",
+  "drafts": {
+    "about.ts": {
+      "sha256": "f8cf1894607a2b5806cb47eb1bbfaf69518600f929f4f92e2b9c41005d0fca38",
+      "bytes": 6274
+    },
+    "aboutWindow.ts": {
+      "sha256": "e1b353bf2e22f9cbbd1c0aed34fbe60d15006bc09c5d2c1bc91a49fb4d691671",
+      "bytes": 4710
+    },
+    "desktopApplicationMenu.ts": {
+      "sha256": "c0c448d0659ce33dc77241b9d76bb7f4c26eb753d2845c17801226329e464a45",
+      "bytes": 6552
+    }
+  }
+}

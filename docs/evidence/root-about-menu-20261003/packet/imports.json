@@ -1,0 +1,61 @@
+[
+  {
+    "owner": "packages/desktop/src/main/about.ts",
+    "imports": [
+      {
+        "module": "electron",
+        "clause": "type { BrowserWindow, MessageBoxReturnValue }"
+      },
+      {
+        "module": "node:fs",
+        "clause": "{ existsSync, readFileSync }"
+      },
+      {
+        "module": "node:os",
+        "clause": "{ arch, hostname, platform, release, type, version as osVersion }"
+      },
+      {
+        "module": "node:path",
+        "clause": "{ join }"
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "{\n  DEFAULT_LOCALE,\n  type Locale,\n  KNORVIA_BUILD_TIME,\n  KNORVIA_COMMIT,\n  KNORVIA_ENV,\n  KNORVIA_VERSION,\n}"
+      },
+      {
+        "module": "./aboutWindow.js",
+        "clause": "{ createCustomAboutDialogHtml }"
+      }
+    ],
+    "dynamicModule": "electron"
+  },
+  {
+    "owner": "packages/desktop/src/main/aboutWindow.ts",
+    "imports": []
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+    "imports": [
+      {
+        "module": "electron",
+        "clause": "{ app, BrowserWindow, Menu }"
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "{\n  DesktopCommandIds,\n  desktopMenuMessageIds,\n  getDesktopMenuMessage,\n  isValidShortcutBinding,\n  type DesktopCommandId,\n  type Locale,\n}"
+      },
+      {
+        "module": "@knorvia/services/node",
+        "clause": "{ readKnorviaStdioTapDevState }"
+      },
+      {
+        "module": "./desktopZoom.js",
+        "clause": "{\n  DESKTOP_ZOOM_MAX_LEVEL,\n  DESKTOP_ZOOM_MIN_LEVEL,\n  clampDesktopZoomLevel,\n}"
+      },
+      {
+        "module": "./desktopCommandHandlers.js",
+        "clause": "{\n  HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID,\n  HELP_TOGGLE_DEV_TOOLS_MENU_ID,\n}"
+      }
+    ]
+  }
+]

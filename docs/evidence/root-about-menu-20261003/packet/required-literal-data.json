@@ -1,0 +1,869 @@
+{
+  "strings": [
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "node:fs"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "node:os"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "node:path"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "./aboutWindow.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "chrome"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "node"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "v8"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "Knorvia Studio"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "zh-CN"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "关于 Knorvia Studio"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "版本"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "确定"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "已针对 Apple Silicon 优化。"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "版权所有 © ",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": " Knorvia Studio。"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "en-US"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "About Knorvia Studio"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "version"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "OK"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "Optimized for Apple Silicon."
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Copyright © ",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": " Knorvia Studio."
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "unknown"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "unknown"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "unknown"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "utf-8"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "../metadata/build-meta.json"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "../../package.json"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "electron-builder"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Version: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Commit: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_4",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Build Time: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Environment: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_6",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Electron: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Electron Builder: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Chromium: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_9",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Node.js: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "V8: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_11",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "OS Type: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "OS Platform: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_13",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "OS Release: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_14",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "OS Version: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_15",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "OS Arch: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_16",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "Hostname: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_17",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "osPlatform"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "osArch"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "arm64"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "icon.png"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "../../build/icon.png"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "ready-to-show"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "data:text/html;charset=utf-8,",
+      "spans": [
+        {
+          "placeholder": "VALUE_18",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "template",
+      "head": "data:image/png;base64,",
+      "spans": [
+        {
+          "placeholder": "VALUE_19",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "text",
+      "text": "&amp;"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "text",
+      "text": "&lt;"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "text",
+      "text": "&gt;"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "text",
+      "text": "&quot;"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "text",
+      "text": "&#39;"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "template",
+      "head": "<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta\n      http-equiv=\"Content-Security-Policy\"\n      content=\"default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'\"\n    />\n    <title>",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": "</title>\n    <style>\n      :root {\n        color-scheme: light dark;\n        font-family: -apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"Segoe UI\", sans-serif;\n        --startup-page-bg: #f4f4f5;\n        --about-primary: #0a0a0a;\n        --about-primary-foreground: #fafafa;\n        --about-primary-active: color-mix(in oklab, var(--about-primary) 80%, transparent);\n      }\n\n      * {\n        box-sizing: border-box;\n      }\n\n      html,\n      body {\n        width: 100%;\n        height: 100%;\n        margin: 0;\n        overflow: hidden;\n        background: var(--startup-page-bg);\n      }\n\n      body {\n        display: grid;\n        place-items: center;\n        padding: 0;\n        user-select: none;\n      }\n\n      .about-window {\n        width: 100%;\n        max-width: 256px;\n        height: 280px;\n        display: grid;\n        place-items: stretch;\n        padding: 0;\n        background: transparent;\n      }\n\n      .about-card {\n        width: 100%;\n        height: 100%;\n        padding: 22px 15px 14px;\n        display: flex;\n        flex-direction: column;\n        border: 0;\n        border-radius: 0;\n        background: transparent;\n        color: #1d1d1f;\n        box-shadow: none;\n        -webkit-app-region: drag;\n      }\n\n      .content {\n        width: 100%;\n        max-width: 222px;\n        margin: 0 auto;\n        flex: 1;\n        min-height: 0;\n      }\n\n      .app-icon {\n        width: 52px;\n        height: 52px;\n        display: block;\n        object-fit: contain;\n      }\n\n      .title {\n        margin: 20px 0 0;\n        font-size: 13.5px;\n        line-height: 1.18;\n        font-weight: 700;\n        letter-spacing: 0;\n      }\n\n      .meta {\n        margin-top: 28px;\n        display: flex;\n        flex-direction: column;\n        gap: 17px;\n        font-size: 13px;\n        line-height: 1.2;\n        font-weight: 400;\n        letter-spacing: 0;\n        color: #303033;\n      }\n\n\n      .ok-button {\n        width: 100%;\n        height: 36px;\n        border: 0;\n        border-radius: 18px;\n        background: var(--about-primary);\n        color: var(--about-primary-foreground);\n        font: inherit;\n        font-size: 13px;\n        font-weight: 500;\n        letter-spacing: 0;\n        outline: none;\n        cursor: default;\n        -webkit-app-region: no-drag;\n      }\n\n      .ok-button:active {\n        background: var(--about-primary-active);\n      }\n\n      @media (prefers-color-scheme: dark) {\n        :root {\n          --startup-page-bg: #171717;\n          --about-primary: #fafafa;\n          --about-primary-foreground: #0a0a0a;\n          --about-primary-active: color-mix(in oklab, var(--about-primary) 80%, transparent);\n        }\n\n        .about-card {\n          color: #e8e8e8;\n        }\n\n        .meta {\n          color: #e2e2e2;\n        }\n      }\n    </style>\n  </head>\n  <body>\n    <main class=\"about-window\" aria-label=\""
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": " About Window\">\n      <section class=\"about-card\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"about-title\">\n        <div class=\"content\">\n          <img class=\"app-icon\" src=\""
+        },
+        {
+          "placeholder": "VALUE_3",
+          "text": "\" alt=\"\" />\n          <h1 id=\"about-title\" class=\"title\">\n            "
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": "<br />\n            "
+        },
+        {
+          "placeholder": "VALUE_5",
+          "text": " "
+        },
+        {
+          "placeholder": "VALUE_6",
+          "text": "\n          </h1>\n          <div class=\"meta\">\n            "
+        },
+        {
+          "placeholder": "VALUE_7",
+          "text": "\n            <div>"
+        },
+        {
+          "placeholder": "VALUE_8",
+          "text": "</div>\n          </div>\n        </div>\n        <div class=\"spacer\"></div>\n        <button class=\"ok-button\" type=\"button\" autofocus>"
+        },
+        {
+          "placeholder": "VALUE_9",
+          "text": "</button>\n      </section>\n    </main>\n    \n  </body>\n</html>"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "template",
+      "head": "<div>",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": "</div>"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "@knorvia/services/node"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "./desktopZoom.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "./desktopCommandHandlers.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "Knorvia Studio"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "Knorvia Studio"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "zh"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "zh-CN"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "en-US"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "production"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "test"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "custom"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "{appName}"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "zoomIn"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "CmdOrCtrl+="
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "="
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "Plus"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "services"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "hide"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "hideOthers"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "unhide"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "quit"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "newTask"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "CmdOrCtrl+N"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "openWorkspace"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "CmdOrCtrl+O"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "closeActiveContext"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "CmdOrCtrl+W"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "undo"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "redo"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "cut"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "copy"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "paste"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "selectAll"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "togglefullscreen"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "zoomOut"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "CmdOrCtrl+-"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "resetZoom"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "CmdOrCtrl+0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "minimize"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "zoom"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "front"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "checkbox"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "toggleDevTools"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "separator"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "production"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "test"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "text",
+      "text": "custom"
+    }
+  ],
+  "regex": [
+    {
+      "owner": "packages/desktop/src/main/about.ts",
+      "text": "/^[^\\d]*/"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "text": "/&/g"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "text": "/</g"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "text": "/>/g"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "text": "/\"/g"
+    },
+    {
+      "owner": "packages/desktop/src/main/aboutWindow.ts",
+      "text": "/'/g"
+    }
+  ],
+  "qualification": "Required brand/locale/path/menu/HTML/CSS/CSP/format/regex data retained. Generic placeholders omit private expression identifiers. Embedded about HTML script implementation deliberately removed; close/event behavior specified externally. Literal retention does not grant licence or require predecessor implementation/private decomposition."
+}
