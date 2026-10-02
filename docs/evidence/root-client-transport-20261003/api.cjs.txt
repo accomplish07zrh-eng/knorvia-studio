@@ -1,0 +1,7 @@
+const fs=require('fs'),assert=require('assert/strict'),ts=require(process.cwd()+'/node_modules/typescript');
+function shape(n){const children=[];ts.forEachChild(n,c=>{if(c.kind!==ts.SyntaxKind.DeclareKeyword)children.push(shape(c))});return[n.kind,typeof n.text==='string'?n.text:null,children]}
+for(const name of ['messageport','websocket']){
+ const c=fs.readFileSync('packages/client/src/'+name+'.ts','utf8'),r=ts.transpileDeclaration(c,{fileName:name+'.ts',compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext},reportDiagnostics:true});assert.equal(r.diagnostics.length,0);
+ const parse=t=>ts.createSourceFile(name+'.d.ts',t,99,true).statements.filter(n=>!ts.isImportDeclaration(n)&&!ts.isExportDeclaration(n)).map(n=>[n.name?.text,shape(n)]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+ assert.deepEqual(parse(r.outputText),parse(fs.readFileSync('/tmp/knorvia-root-client-20261003/packet/'+name+'-public-api.d.ts','utf8')));console.log(name+': declared public/private option signatures match packet; imports separately verified by source review');
+}

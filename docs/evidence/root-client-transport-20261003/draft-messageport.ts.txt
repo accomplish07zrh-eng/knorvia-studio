@@ -1,7 +1,7 @@
-import { ChannelClient, MessagePortProtocol } from "@knorvia/rpc";
-import type { IServiceAccessor } from "@knorvia/services";
-import { RemoteServiceAccess } from "./remoteServiceAccess.js";
-import { isRendererProductionBuild } from "./rendererLoggingEnv.js";
+import { ChannelClient, MessagePortProtocol } from '@knorvia/rpc';
+import type { IServiceAccessor } from '@knorvia/services';
+import { RemoteServiceAccess } from './remoteServiceAccess.js';
+import { isRendererProductionBuild } from './rendererLoggingEnv.js';
 
 export interface MessagePortServiceConnection {
   services: IServiceAccessor;
@@ -12,16 +12,12 @@ function connectionDebug(message: string): void {
   if (!isRendererProductionBuild()) console.log(message);
 }
 
-export function createMessagePortServiceConnection(
-  port: MessagePort,
-): MessagePortServiceConnection {
-  connectionDebug("[messageport] creating protocol and client...");
+export function createMessagePortServiceConnection(port: MessagePort): MessagePortServiceConnection {
+  connectionDebug('[messageport] creating protocol and client...');
   const protocol = new MessagePortProtocol(port);
   const client = new ChannelClient(protocol);
-  client.onDidInitialize(() =>
-    connectionDebug("[messageport] ChannelClient received Initialize from server"),
-  );
-  connectionDebug("[messageport] client created, waiting for Initialize...");
+  client.onDidInitialize(() => connectionDebug('[messageport] ChannelClient received Initialize from server'));
+  connectionDebug('[messageport] client created, waiting for Initialize...');
   const services = new RemoteServiceAccess(client);
   let disposed = false;
   return {

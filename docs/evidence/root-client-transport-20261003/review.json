@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-02T19:21:17.334587+00:00",
+  "sourceHashes": {
+    "packages/client/src/messageport.ts": "a832e5fffa27ec5f37e359e519a451ba637849cfb980a842e5f82ff756f19827",
+    "packages/client/src/websocket.ts": "13cb6252093fa351cc97f27dc64ce3a28c9907bdd2b9f47694ed7d3457197014",
+    "packages/client/src/remoteServiceAccess.ts": "5b81ec7b9e083234a3ad48ba88c644feba91af72b5bb664b00f65a2854f97b00"
+  },
+  "review": "Same-root post-freeze static source review: MessagePort disposal latch/order/debug and WebSocket outer/inner event order, callback receivers, repeated events, rejection and socket adapter contracts preserved. Consolidated inner finish handler is now shared between close/error instead of distinct callback objects; browser event type separation preserves supported behavior. Conventional/protocol-constrained expressions remain substantial, no unexplained copied publisher prose. Thin RemoteServiceAccess descriptor facade retained unchanged.",
+  "corrections": "Post-freeze Uint8Array<ArrayBuffer> type-only cast retained buffer identity for DOM send typing; returned socket property order restored drain before dispose (packet did not enumerate object-key order). Original drafts and compiler failures retained.",
+  "checks": "Final scoped semantic types zero diagnostics; 2 target signature extractions match packet; lint94rules0warnings/errors; architecture0violations; whitespaceclean.",
+  "compilerQualification": "Existing client options with actual RPC/services dist declarations, Node types, noEmit/compositefalse. Initial actual send generic mismatch corrected. Two linked service source files triggered rootDir harness diagnostics; final harness rootDir expanded to repo solely for no-emit declaration closure. No project config changed or dependency stub invented.",
+  "unrun": "No runtime tests, native browser, transport network, full suite/build, aggregate acceptance. Separate review unavailable due native agent thread limit. Not freshcontext/isolation or legal determination.",
+  "licence": "No global licence/inventory change, no facade originality increment or cross-lane integration."
+}
