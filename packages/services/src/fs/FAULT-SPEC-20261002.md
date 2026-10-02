@@ -15,3 +15,5 @@ input -> sole owner -> admission/order -> state or traversal -> existing API out
 Acceptance: synthetic original/replacement boundary check only. Ordinary suites/builds deferred. Missing ignore dependency retains exact TS2307 baseline, no parser equivalence claim/network installation. No actual files/databases/scans/deletes/credentials/process/network or other-lane integration.
 
 Clarification before submission: undefined-only field defaults; array.map sparse-operation validation and Set membership retained. Marker presence check precedes property read. Blank env payload does not read gates. Optional includes/ends normalization occurs immediately after each validation.
+
+Final clarification: after hit recording, capture operation then path before Error construction even with a custom message; use captured fields in fallback text and tagged failure path/syscall.
