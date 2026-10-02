@@ -286,6 +286,42 @@ for (const dangling of [false, true]) {
   });
 }
 
+test("exclusion requires contained parents even when the descendant is absent", async (t) => {
+  const { root, directory, selection } = await materialFixture(t);
+  const elsewhere = join(root, "separate-disposable-directory");
+  await mkdir(elsewhere);
+  const linkType = process.platform === "win32" ? "junction" : "dir";
+  await symlink(elsewhere, join(directory, "external-link"), linkType);
+  selection.excluded[0].path = "external-link/missing/tool.node";
+  const escaped = await packagedMaterialEvidence(directory, selection);
+  assert.equal(escaped.ok, false);
+  assert.equal(escaped.excluded[0].status, "invalid-input");
+  assert.match(escaped.excluded[0].error, /outside the copied package/);
+
+  await symlink(join(directory, "resources"), join(directory, "internal-link"), linkType);
+  selection.excluded[0].path = "internal-link/missing/tool.node";
+  const contained = await packagedMaterialEvidence(directory, selection);
+  assert.equal(contained.ok, true);
+  assert.equal(contained.excluded[0].status, "excluded-by-policy");
+});
+
+test("portable selections reject Windows device names in files and excluded parents", async (t) => {
+  const { directory, selection } = await materialFixture(t);
+  for (const [entry, path] of [
+    [selection.files[0], "resources/nUl.txt"],
+    [selection.excluded[0], "resources/CON/missing.node"],
+    [selection.excluded[0], "resources/COM¹.txt"],
+  ]) {
+    const original = entry.path;
+    entry.path = path;
+    await assert.rejects(
+      packagedMaterialEvidence(directory, selection),
+      /non-portable relative path/,
+    );
+    entry.path = original;
+  }
+});
+
 test("selected material escaping through a directory link is not hashed", async (t) => {
   const { root, directory, selection } = await materialFixture(t);
   const elsewhere = join(root, "outside");

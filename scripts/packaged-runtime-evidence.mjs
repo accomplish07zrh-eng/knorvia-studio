@@ -14,6 +14,13 @@ async function exists(path) {
   }
 }
 
+function assertPackageContainment(canonical, packageRoot, path) {
+  const withinPackage = relative(packageRoot, canonical);
+  if (isAbsolute(withinPackage) || withinPackage === ".." || withinPackage.startsWith(`..${sep}`)) {
+    throw new Error(`Packaged runtime points outside the copied package: ${path}`);
+  }
+}
+
 async function packageFile(path, packageRoot) {
   let canonical;
   try {
@@ -22,13 +29,32 @@ async function packageFile(path, packageRoot) {
   } catch (error) {
     throw new Error(`Incomplete packaged runtime: ${path}`, { cause: error });
   }
-  const withinPackage = relative(packageRoot, canonical);
-  if (isAbsolute(withinPackage) || withinPackage === ".." || withinPackage.startsWith(`..${sep}`)) {
-    throw new Error(`Packaged runtime points outside the copied package: ${path}`);
-  }
+  assertPackageContainment(canonical, packageRoot, path);
   const hash = createHash("sha256");
   for await (const chunk of createReadStream(canonical)) hash.update(chunk);
   return { path: canonical, sha256: hash.digest("hex") };
+}
+
+async function excludedEntryExists(path, packageRoot) {
+  const segments = path.split("/");
+  let directory = packageRoot;
+  for (const [index, segment] of segments.entries()) {
+    const candidate = join(directory, segment);
+    try {
+      // 先检查每层目录项；悬空父链接不是包内缺失证据，末端悬空链接仍算存在。
+      await lstat(candidate);
+    } catch (error) {
+      if (error.code === "ENOENT") return false;
+      throw error;
+    }
+    if (index === segments.length - 1) return true;
+    const canonical = await realpath(candidate);
+    assertPackageContainment(canonical, packageRoot, candidate);
+    if (!(await stat(canonical)).isDirectory()) {
+      throw new Error(`Excluded path parent is not a directory: ${candidate}`);
+    }
+    directory = canonical;
+  }
 }
 
 /** 核对真实包路径与字节，不启动 Electron，也不读取或改写任何用户资料。 */
@@ -95,7 +121,14 @@ function validateMaterialSelection(selection) {
         /[\\:*?"<>|\u0000-\u001f]/u.test(entry.path) ||
         entry.path
           .split("/")
-          .some((part) => !part || part === "." || part === ".." || /[. ]$/u.test(part))
+          .some(
+            (part) =>
+              !part ||
+              part === "." ||
+              part === ".." ||
+              /[. ]$/u.test(part) ||
+              /^(?:con|prn|aux|nul|com[1-9¹²³]|lpt[1-9¹²³])(?:\.|$)/iu.test(part),
+          )
       ) {
         invalid(`non-portable relative path for ${entry.id}`);
       }
@@ -178,15 +211,10 @@ export async function packagedMaterialEvidence(directory, selection) {
   const excluded = [];
   for (const entry of selection.excluded) {
     try {
-      // lstat 保留悬空链接这一实际目录项；stat 会误把它判成已排除。
-      await lstat(join(artifactRoot, entry.path));
-      excluded.push({ ...entry, status: "unexpected-present" });
+      const present = await excludedEntryExists(entry.path, artifactRoot);
+      excluded.push({ ...entry, status: present ? "unexpected-present" : "excluded-by-policy" });
     } catch (error) {
-      excluded.push(
-        ["ENOENT", "ENOTDIR"].includes(error.code)
-          ? { ...entry, status: "excluded-by-policy" }
-          : { ...entry, status: "invalid-input", error: error.message },
-      );
+      excluded.push({ ...entry, status: "invalid-input", error: error.message });
     }
   }
   return {
