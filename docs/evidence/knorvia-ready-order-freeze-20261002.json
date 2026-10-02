@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "kind": "ready-order-predecessor-freeze",
+  "head": "90c29121243ca832ecdded1190d18dc9048cce25",
+  "sourceSha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+  "results": {
+    "source": {
+      "groups": 5,
+      "pass": 5,
+      "fail": 0
+    },
+    "emitted": {
+      "groups": 5,
+      "pass": 5,
+      "fail": 0
+    }
+  },
+  "consumer": "Exact frozen scheduler JS with only graph import rebound to exact old graph; other imports same selected source/emitted dependency surface. Actual current scheduler imported directly. Full trace/events/result compared; caps8and2, runner gates held until cap reached.",
+  "draftFailure": "Two preproduction harness attempts failed both modes: releasing all results violated reused latest-appended-event callback assertion; waiting for artifact callback alone still overlapped scheduler frontier callbacks. Final harness keeps that assertion unchanged and waits one setImmediate turn after each publication and initial cap so pending native scheduler callbacks settle. Production/oracle assertions unchanged; not a product regression claim.",
+  "fileSha256": {
+    "specs/knorvia-ready-node-ordering-20261002.md": "3c4928b4c2b9c611d5192bd1cb9436f81d1163ab61357ef9bfe62120674996ad",
+    "apps/cli/packages/core/test/workflow-ready-order.test.ts": "9af6cbac83bd9061c6a14fe0d089b9b5a0bc69b873e207aaaa1c1aa65e8fd3cf",
+    "apps/cli/packages/core/test/workflow-ready-order-fixture.ts": "f590d8036e669f2e19be50031fb016dd4e52903d070cc4ffa057808aa12b4033",
+    "apps/cli/packages/core/test/workflow-ready-order-current.json": "abd5c50a7041a9ff27df5b54d1f93f24659a82831b80a1a7d8863fc20135daf7",
+    "apps/cli/packages/core/test/workflow-ready-order-baseline.json": "2b531cb55669db3a233b5031e160443651a1324e8b014bbe487743f34813e723",
+    "docs/evidence/ready-order-author-20261002/contract.md": "3b54d06c89545c373ad7243d055e3c281ca821edcbb542030181da7a76570704",
+    "docs/evidence/ready-order-author-20261002/ports.d.ts": "94548251f2982735100efc06c89940e3fc84a6a8d71ca55b1544ac9bd7025312"
+  },
+  "localEvidenceSha256": {
+    "/tmp/knorvia-ready-order-20261002/freeze-compile.log": "1bfbd8ca64a5197abd16dfd9406a72c7c1bebb9b362fe5d234d4960025af297d",
+    "/tmp/knorvia-ready-order-20261002/freeze-source.log": "fbbfcf87a6db7ff88b77875c9f35a00109c28622df7f885726848b468c1a6bb0",
+    "/tmp/knorvia-ready-order-20261002/freeze-emitted.log": "8d967ef6ca1e60fb080887ece37c11fa0a7ad90fba6ced55b717ee63481cb1fa",
+    "/tmp/knorvia-ready-order-20261002/freeze-final-source.log": "d29fb32298a810d531ccd65914d833181322ea9f0c2cf4c3d752f5e88ce3917c",
+    "/tmp/knorvia-ready-order-20261002/freeze-final-emitted.log": "b2414e92fa938e8f0ef55ae35ba969c80f7b6558c3856aae28e0c147ff42cefb",
+    "/tmp/knorvia-ready-order-20261002/freeze-initial-test.ts": "3b52bc3b47b4b3dda25e7311ac0269d94ecb959d3362c38bbf3765533d891e7b",
+    "/tmp/knorvia-ready-order-20261002/freeze-publication-gate-test.ts": "4a4051ed74650d38016b9335a01ca99c7530e0205902fde5909bec515b22b3cd",
+    "/tmp/knorvia-ready-order-20261002/freeze-settled-source.log": "c67fe5801ef135bfe8e03a876b35c27e4f98375a08c6bae136b3d34c584c91be",
+    "/tmp/knorvia-ready-order-20261002/freeze-settled-emitted.log": "a4444b48e3d4896ec11c70846f1d595ae52e351c6baafebefe2154f027871665"
+  },
+  "authorPacket": "Only behavior contract and minimal structural type/port declarations; no implementation/history/tests/oracle. Source-derived curator context disclosed. One supported fresh internal author attempt next; no initialization retry.",
+  "licenceGrant": null
+}
