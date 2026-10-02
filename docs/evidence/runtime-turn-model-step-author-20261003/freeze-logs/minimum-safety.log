@@ -1,0 +1,1 @@
+{"mode":"baseline","count":3,"groups":["pre-request persistence failure remains outside request recovery","post-request abort persists owned snapshot/history and cancellation carrier","completion-edge abort retains completed publication without request error carrier"],"selected":"exact compiler-emitted owner; unchanged dependencies through source loader","liveIO":false}
