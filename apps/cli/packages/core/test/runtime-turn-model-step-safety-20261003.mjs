@@ -32,7 +32,7 @@ if (mode === "baseline") {
   const b = await readFile(
     path.join(repo, "docs/evidence/knorvia-runtime-turn-model-step-current-20261003.json"),
   );
-  assert.equal(hash(b), "CURRENT_MANIFEST_PIN");
+  assert.equal(hash(b), "c26360942ea6f1de1867fce6e473ca2c5b310a30ea3776d90b70ffc6b737da3b");
   for (const [n, entries] of Object.entries(JSON.parse(b).files)) {
     for (const [k, e] of Object.entries(entries)) {
       const b = await readFile(path.join(repo, e.path));

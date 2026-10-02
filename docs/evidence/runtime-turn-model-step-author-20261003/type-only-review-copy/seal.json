@@ -1,0 +1,31 @@
+{
+  "sourceFiles": [
+    {
+      "path": "turn-model-step-fields.ts",
+      "sha256": "e8f0f1b73743ca3f33092d64a01a317774f0e52230f066067773ecca52bec354",
+      "bytes": 11762
+    },
+    {
+      "path": "turn-model-step-operation.ts",
+      "sha256": "b252824af7f32ccc7b111e2faada637dc624f8d433e14a77236f87e53e6b7ea2",
+      "bytes": 13968
+    },
+    {
+      "path": "turn-model-step-records.ts",
+      "sha256": "2700f85b71639e4331acdbe80800838f779ee63a303a13e7608434bdf1889d1e",
+      "bytes": 3821
+    },
+    {
+      "path": "turn-model-step-recovery.ts",
+      "sha256": "0c716d6425209df36dbab51c6a223a75e67cd7c545bfbfb56f79cacd08735e75",
+      "bytes": 2407
+    },
+    {
+      "path": "turn-model-step.ts",
+      "sha256": "9445ca321cc158e19e5be93368730688b1f27c50c6f929b87718393f54454216",
+      "bytes": 1898
+    }
+  ],
+  "derivedFromSealed02": "c0194bccf1e1ba18fdfc9dcef85752c420d29c2359910e3ea51828a0ae647c9b",
+  "change": "Type-only return annotations before runtime red proof; no executable change"
+}
