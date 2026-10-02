@@ -2,14 +2,12 @@ import { getRemoteRuntimeToolsForPlatform, type RemoteResourcePackageId } from "
 import type { IRemoteBackend, RemoteEnvironment } from "@knorvia/server/remote/backend.js";
 import {
   REMOTE_BASE,
+  waitForClose,
   type DeployLoggers,
   type RemoteAssetDeployOptions,
-  waitForClose,
 } from "@knorvia/server/remote/deployShared.js";
-import type { RemoteAssetInstaller } from "@knorvia/server/remote/remoteAssetInstaller.js";
 import { buildWriteLiteralFileCommand } from "@knorvia/server/remote/posixShell.js";
-
-const REMOTE_TOOLS_BASE = `${REMOTE_BASE}/tools`;
+import type { RemoteAssetInstaller } from "@knorvia/server/remote/remoteAssetInstaller.js";
 
 export interface DeployRuntimeToolOptions extends RemoteAssetDeployOptions {
   platformArch: string;
@@ -42,25 +40,25 @@ export async function deployRuntimeTools(
       continue;
     }
 
-    const remoteToolDir = `${REMOTE_TOOLS_BASE}/${runtime.bundledResourceDir}`;
-    const remoteVersionFile = `${remoteToolDir}/.version`;
+    const remoteToolDir = `${REMOTE_BASE}/tools/${runtime.bundledResourceDir}`;
+    const versionFile = `${remoteToolDir}/.version`;
     const remoteBinaryPath = `${remoteToolDir}/${binaryName}`;
-
     let remoteVersion = "";
     try {
-      remoteVersion = (await backend.readFile(remoteVersionFile)).trim();
+      remoteVersion = (await backend.readFile(versionFile)).trim();
     } catch {
       remoteVersion = "";
     }
 
     if (remoteVersion === version) {
-      const hasRemoteBinary = await backend.exists(remoteBinaryPath);
-      if (hasRemoteBinary) {
+      if (await backend.exists(remoteBinaryPath)) {
         loggers.log(`[tool-deploy] ${toolId}: 远程版本 ${version} 已是最新，跳过`);
         continue;
       }
+      const action =
+        options.installer.mode === "remote-download" ? "download required" : "upload required";
       loggers.logWarn(
-        `[remote-assets] ${options.installer.mode === "remote-download" ? "download required" : "upload required"}: component=${runtime.bundledResourceDir} reason=remote binary missing path=${remoteBinaryPath}`,
+        `[remote-assets] ${action}: component=${runtime.bundledResourceDir} reason=remote binary missing path=${remoteBinaryPath}`,
       );
     }
 
@@ -71,11 +69,8 @@ export async function deployRuntimeTools(
       remotePath: remoteBinaryPath,
       executable: true,
     });
-
-    const versionStream = await backend.exec(
-      buildWriteLiteralFileCommand(remoteVersionFile, version),
-    );
-    await waitForClose(versionStream);
+    const stream = await backend.exec(buildWriteLiteralFileCommand(versionFile, version));
+    await waitForClose(stream);
     loggers.log(`[tool-deploy] ${toolId}: 部署完成 ${version}`);
   }
 }
