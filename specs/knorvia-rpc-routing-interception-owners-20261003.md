@@ -1,0 +1,7 @@
+# RPC connection routing, remote composition and interception owners
+
+Complete ipc.ts, remote.ts, logging-middleware.ts and network-telemetry-middleware.ts in packages/rpc/src. No accepted-original RPC review entries. Keep all exported APIs and retained declarations pinned for root client adapters.
+
+IPC owns registered channels, active connections, first-context handshake, channel composition and router/filter selection. Remote owns resolver/factory registries, URI mapping and protocol/client/reconnect composition. Logging owns call/listen interception and logger ordering. Telemetry owns its module-local optional sink and call observations. Preserve cancellation/context/receiver/error identity, wire forms and legacy cleanup/reconnect gaps. No second accepted queue, new authorization or hardening policy.
+
+Fresh body-free contracts and separately frozen whole drafts/corrections precede source-exposed comparison. Shared filesystem restrictions are not OS isolation; retained expressions and limited differences must be disclosed. Fake positive/negative routing, authority/factory admission, cancellation/interception checks only. No real network/process/credentials/user data; ordinary suites, semantic types, builds/native validation deferred. Scoped lint, syntax-only/API shape and changed architecture checks required. Same PR #9, useful interim commits, no main/cross-lane integration or global licence decision.

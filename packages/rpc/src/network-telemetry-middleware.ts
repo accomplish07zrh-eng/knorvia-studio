@@ -1,9 +1,5 @@
-/**
- * RPC 调用网络遥测：记录 channel.command 级成功率与耗时，供桌面主进程聚合上报 ARMS。
- */
 import type { IChannelServer, IChannelClient, IChannel, IServerChannel } from "./channels.js";
-import type { CancellationToken } from "./foundation.js";
-import { Event } from "./foundation.js";
+import type { CancellationToken, Event } from "./foundation.js";
 
 export type NetworkTransportKind = "http" | "websocket" | "rpc";
 
@@ -24,14 +20,14 @@ export interface NetworkObservation {
 
 export type NetworkTelemetrySink = (observation: NetworkObservation) => void;
 
-let networkTelemetrySink: NetworkTelemetrySink | null = null;
+let privateSink: NetworkTelemetrySink | null = null;
 
 export function setNetworkTelemetrySink(sink: NetworkTelemetrySink | null): void {
-  networkTelemetrySink = sink;
+  privateSink = sink;
 }
 
 export function emitNetworkTelemetryObservation(observation: NetworkObservation): void {
-  networkTelemetrySink?.(observation);
+  privateSink?.(observation);
 }
 
 function classifyErrorKind(error: unknown): string {
@@ -62,7 +58,7 @@ function emitRpcObservation(
 ): void {
   emitNetworkTelemetryObservation({
     transport: "rpc",
-    interface: `${channelName}.${command}`,
+    interface: channelName + "." + command,
     durationMs: Math.max(0, Math.round(durationMs)),
     ok,
     errorKind: ok ? undefined : classifyErrorKind(error),
@@ -72,8 +68,8 @@ function emitRpcObservation(
 
 class NetworkTelemetryServerChannel<TContext> implements IServerChannel<TContext> {
   constructor(
-    private inner: IServerChannel<TContext>,
-    private channelName: string,
+    private readonly inner: IServerChannel<TContext>,
+    private readonly channelName: string,
   ) {}
 
   async call<T>(
@@ -100,8 +96,8 @@ class NetworkTelemetryServerChannel<TContext> implements IServerChannel<TContext
 
 class NetworkTelemetryChannel implements IChannel {
   constructor(
-    private inner: IChannel,
-    private channelName: string,
+    private readonly inner: IChannel,
+    private readonly channelName: string,
   ) {}
 
   async call<T>(command: string, arg?: unknown, cancellationToken?: CancellationToken): Promise<T> {
@@ -121,9 +117,8 @@ class NetworkTelemetryChannel implements IChannel {
   }
 }
 
-/** 装饰 ChannelServer，为 RPC call 写入网络遥测 */
 export class NetworkTelemetryChannelServer<TContext = string> implements IChannelServer<TContext> {
-  constructor(private inner: IChannelServer<TContext>) {}
+  constructor(private readonly inner: IChannelServer<TContext>) {}
 
   registerChannel(channelName: string, channel: IServerChannel<TContext>): void {
     this.inner.registerChannel(
@@ -137,12 +132,11 @@ export class NetworkTelemetryChannelServer<TContext = string> implements IChanne
   }
 }
 
-/** 装饰 ChannelClient（renderer 侧可选，与 server 侧二选一即可避免双计） */
 export class NetworkTelemetryChannelClient implements IChannelClient {
-  constructor(private inner: IChannelClient) {}
+  constructor(private readonly inner: IChannelClient) {}
 
   getChannel<T extends IChannel>(channelName: string): T {
     const channel = this.inner.getChannel<T>(channelName);
-    return new NetworkTelemetryChannel(channel as unknown as IChannel, channelName) as unknown as T;
+    return new NetworkTelemetryChannel(channel as IChannel, channelName) as unknown as T;
   }
 }

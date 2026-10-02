@@ -1,0 +1,54 @@
+{
+  "baselineSafety": {
+    "exit": 0,
+    "pass": 2,
+    "fail": 0
+  },
+  "candidateSafety": {
+    "exit": 0,
+    "pass": 2,
+    "fail": 0
+  },
+  "lint": {
+    "exit": 0,
+    "warnings": 0,
+    "errors": 0
+  },
+  "syntax": {
+    "exit": 0,
+    "diagnostics": 0,
+    "semanticTypes": false
+  },
+  "publicApiShape": {
+    "exit": 0,
+    "owners": 2,
+    "semanticTypes": false
+  },
+  "architecture": {
+    "exit": 0,
+    "baseline": 0,
+    "new": 0
+  },
+  "whitespace": {
+    "exit": 0
+  },
+  "setupInitial": {
+    "operation": "functions.exec packet/setup script",
+    "exit": "tool parsing failure before any shell action",
+    "error": "SyntaxError: Invalid or unexpected token",
+    "action": "corrected raw patch quoting; missing setup directories subsequently discovered"
+  },
+  "baselineRedirectionInitial": {
+    "exit": 1,
+    "stderr": "/bin/bash: line 1: licensing/evidence/rpc-middleware-owners-20261003/baseline-synthetic-safety.txt: No such file or directory\n",
+    "testStarted": false
+  },
+  "baselineReadInitial": {
+    "exit": 1,
+    "stderr": "cat: licensing/evidence/rpc-middleware-owners-20261003/baseline-synthetic-safety.txt: No such file or directory\n"
+  },
+  "setupCorrected": {
+    "exit": 0,
+    "action": "Created permitted tmp/evidence dirs and copied untouched baselines; reran originally blocked safety command; no environment bypass"
+  }
+}

@@ -1,0 +1,10 @@
+✔ logging preserves forwarded receiver/token/error and denial at registration/client-listen logger boundary (11.102282ms)
+✔ telemetry keeps receiver/token/error identity, observes live sink and forwards event without sink (3.568522ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 67.411094

@@ -1,0 +1,78 @@
+{
+  "files": {
+    "packages/rpc/src/logging-middleware.ts": {
+      "baselineCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "baselineBlob": "838b4caee974d9d89b11e0bcc6c5b993ce70881a",
+      "baseline": {
+        "sha256": "20edfd8e5d054097186f2498ec4e9c08c61740ed003fc69eecea8176a15fe025",
+        "bytes": 5417
+      },
+      "authorFreeze": {
+        "sha256": "afadd1ecca3faf90b73adfb736395671c91fa4f730589bb36fd33b29944d1442",
+        "bytes": 3266
+      },
+      "candidate": {
+        "sha256": "6d3b327b0bb5c56b7a8f1aad7b64b7da23fb4d22616bc1f18fa919dd625f287e",
+        "bytes": 3240
+      },
+      "packet": {
+        "sha256": "5ff8464adb65d83feee91e2aaa445dd32bc74d5a2b8045f7c4aa74dd9c7b5f65",
+        "bytes": 3381
+      }
+    },
+    "packages/rpc/src/network-telemetry-middleware.ts": {
+      "baselineCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "baselineBlob": "dfe26762b01aa08e23e6fd85d851a4437fa60f60",
+      "baseline": {
+        "sha256": "18a7cde46e6c65e0138af0623d07bf883ce278acf44654bc5144ecaadd36a536",
+        "bytes": 4503
+      },
+      "authorFreeze": {
+        "sha256": "2fa52fd5e0a6f72938f34b6290b68b3608d305b0b34caf44353be41d58520809",
+        "bytes": 4199
+      },
+      "candidate": {
+        "sha256": "ee97f63bf5598f1f69b6607e9e6728ea22b6f0156f072b08a8ff08cf8c2e4d48",
+        "bytes": 4205
+      },
+      "packet": {
+        "sha256": "2aaba845e6efa2c7a62a50b95f345615fe76bb2b1a1819b3150dc97a0730c842",
+        "bytes": 3815
+      }
+    }
+  },
+  "inputs": {
+    "AGENTS.md": {
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "bytes": 10384
+    },
+    ".agents/skills/architecture-governance/SKILL.md": {
+      "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+      "bytes": 5026
+    },
+    "packages/rpc/src/channels.shared.ts": {
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+      "bytes": 1723
+    },
+    "packages/rpc/src/channels.ts": {
+      "sha256": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
+      "bytes": 199
+    },
+    "licensing/reviews.json": {
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "bytes": 3446188
+    },
+    "licensing/current-files.json": {
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff",
+      "bytes": 9510569
+    }
+  },
+  "test": {
+    "sha256": "a8f6a0c82d8e5b97e996349e1cf26327b5a749d9774dfc1a1f3501bd0cddb4b5",
+    "bytes": 7347
+  },
+  "spec": {
+    "sha256": "b1514a3f7ded8501e733d227485c49ddec4f4d269a3ec6c5b19febe552e39924",
+    "bytes": 1428
+  }
+}
