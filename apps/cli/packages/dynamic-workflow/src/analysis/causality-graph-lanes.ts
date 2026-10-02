@@ -38,66 +38,51 @@ const COPY_SEPARATOR = "~";
  * rewrite of the finished graph.
  */
 export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
-  const copiesOf = new Map<string, Step[]>();
+  type Endpoint = { certainty?: Certainty; id: string; lane?: string };
+  type Expansion = { copies?: Step[]; original?: Step };
+  const plan = new Map<string, Expansion>();
+
+  // Only admitted replacements populate the plan before the identity decision.
   for (const step of graph.steps) {
-    const lanes = step.lanes ?? [];
-    if (lanes.length < 2 || lanes.length > MAY_SET_LANE_CAP) continue;
-    // `workspace` cannot occur in a may-set and `unknown` is only ever a lone lane, so
-    // this guard is the invariant written down rather than a case the corpus reaches.
-    if (lanes.some((lane) => lane === WORKSPACE_LANE || lane === UNKNOWN_LANE)) continue;
-    copiesOf.set(
-      step.id,
-      lanes.map((lane) => ({
+    const candidates = step.lanes ?? [];
+    if (candidates.length < 2 || candidates.length > MAY_SET_LANE_CAP) continue;
+    if (candidates.some((candidate) => candidate === WORKSPACE_LANE || candidate === UNKNOWN_LANE))
+      continue;
+    plan.set(step.id, {
+      copies: candidates.map((lane) => ({
         ...step,
-        // The ask always runs; each copy may not. Certainty is per-node and the node
-        // changed meaning, so this is the one field overridden rather than inherited.
-        certainty: "maybe" as const,
+        certainty: "maybe",
         id: `${step.id}${COPY_SEPARATOR}${lane}`,
         lane,
         source: step.id,
       })),
-    );
+    });
   }
-  if (copiesOf.size === 0) return graph;
+  if (plan.size === 0) return graph;
 
-  // An endpoint stands for either a step's copies, in `lanes` order, or the step itself.
-  // The lane and the certainty ride along: `fifo` matches pairs on the lane, and every
-  // rewritten edge re-derives its certainty from the endpoints it actually connects.
-  const stepById = new Map(graph.steps.map((step) => [step.id, step]));
-  const endpointsOf = (id: string): { certainty?: Certainty; id: string; lane?: string }[] => {
-    const copies = copiesOf.get(id);
-    if (copies !== undefined) {
-      return copies.map((copy) => ({ certainty: copy.certainty, id: copy.id, lane: copy.lane }));
-    }
-    const step = stepById.get(id);
-    return [{ certainty: step?.certainty, id, lane: step?.lane }];
+  // Original lookup and replacements share one entry; a later original cannot erase copies.
+  for (const [id, original] of graph.steps.map((step) => [step.id, step] as const)) {
+    const entry = plan.get(id);
+    if (entry === undefined) plan.set(id, { original });
+    else entry.original = original;
+  }
+  const resolve = (id: string): readonly Endpoint[] => {
+    const entry = plan.get(id);
+    if (entry?.copies !== undefined) return entry.copies;
+    return [{ certainty: entry?.original?.certainty, id, lane: entry?.original?.lane }];
   };
 
-  const edges: OrderEdge[] = [];
+  const wiring: OrderEdge[] = [];
   for (const edge of graph.edges) {
-    if (!copiesOf.has(edge.from) && !copiesOf.has(edge.to)) {
-      // Untouched pair: the main pass already applied endpoint inheritance to it and
-      // `weakest` is idempotent, so re-deriving here would be a no-op.
-      edges.push(edge);
+    if (plan.get(edge.from)?.copies === undefined && plan.get(edge.to)?.copies === undefined) {
+      wiring.push(edge);
       continue;
     }
-    // A `fifo` edge exists only because two steps MAY share a mailbox, so a copy on lane
-    // M has no mailbox relation to anything on lane L != M and the cross-lane pairs are
-    // garbage ink; if nothing matches, the edge goes. Every other kind fans out fully:
-    // taint cannot tell which candidate produced or consumed a value, and restricting it
-    // would invent precision. A self-`carry` therefore becomes the full k×k product — the
-    // cross pairs AND the per-copy self-loops, since the analysis cannot rule out the same
-    // candidate being selected in consecutive iterations.
-    for (const tail of endpointsOf(edge.from)) {
-      for (const head of endpointsOf(edge.to)) {
+    for (const tail of resolve(edge.from)) {
+      for (const head of resolve(edge.to)) {
         if (edge.kind === "fifo" && tail.lane !== head.lane) continue;
-        edges.push({
+        wiring.push({
           ...edge,
-          // Endpoint inheritance, re-applied to the copies rather than a special case: a
-          // copy is `maybe`, so every edge incident to one weakens. This is what keeps
-          // refactoring invariance honest — the branch form `cond ? a.ask(p) : b.ask(p)`
-          // already yields `maybe` steps and `maybe` edges into them, and the expanded
-          // ternary must agree or the two identical programs draw different certainty.
           certainty: weakest([
             edge.certainty,
             tail.certainty ?? edge.certainty,
@@ -110,16 +95,16 @@ export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
     }
   }
 
-  const steps = graph.steps.flatMap((step) => copiesOf.get(step.id) ?? [step]);
-  const sink = graph.sink;
+  const placed = graph.steps.flatMap((step) => plan.get(step.id)?.copies ?? [step]);
+  const returned = graph.sink;
   return {
-    edges,
+    edges: wiring,
     lanes: graph.lanes,
     regions: graph.regions,
-    steps,
-    ...(sink === undefined
+    steps: placed,
+    ...(returned === undefined
       ? {}
-      : { sink: { fedBy: sink.fedBy.flatMap((id) => endpointsOf(id).map((end) => end.id)) } }),
+      : { sink: { fedBy: returned.fedBy.flatMap((id) => resolve(id).map((node) => node.id)) } }),
   };
 }
 
