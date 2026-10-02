@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-02T13:57:30.942472+00:00",
+  "v1": {
+    "bytes": 11700,
+    "sha256": "23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703"
+  },
+  "v2": {
+    "bytes": 11883,
+    "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+  },
+  "exactDelta": {
+    "aggregateCallReplacedByOrderedPerIdAppend": 1,
+    "attemptPhaseCaptureRemoved": 1,
+    "phaseShorthandReplacedByLivePropertyRead": 10,
+    "otherPhaseReadsRebound": 3,
+    "allOtherBytesUnchanged": true,
+    "comparisonWasAfterV2Freeze": true
+  },
+  "unchangedFreezeChecks": [
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/curator-input-manifest.json",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/public-api.d.ts",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/author-invocation.txt",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/contract.md",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/author-record.json",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/draft-collection-planner.ts.txt",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/curator-draft-manifest.json",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/public-data-shapes.md",
+      "commit": "e35f42b14ab62405d7ac4637cfd85535c974584c"
+    },
+    {
+      "path": "docs/evidence/collection-planner-counterexamples-20261002/check.mjs",
+      "commit": "fc8742f5a2635741c38068d6f174e69b47579702"
+    },
+    {
+      "path": "docs/evidence/collection-planner-counterexamples-20261002/dependency-doubles.mjs",
+      "commit": "fc8742f5a2635741c38068d6f174e69b47579702"
+    },
+    {
+      "path": "docs/evidence/collection-planner-counterexamples-20261002/v1-results.json",
+      "commit": "fc8742f5a2635741c38068d6f174e69b47579702"
+    },
+    {
+      "path": "docs/evidence/collection-planner-counterexamples-20261002/README.md",
+      "commit": "fc8742f5a2635741c38068d6f174e69b47579702"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/v2/behavior-clarification.md",
+      "commit": "fc8742f5a2635741c38068d6f174e69b47579702"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/v2/curator-input-manifest-v2.json",
+      "commit": "fc8742f5a2635741c38068d6f174e69b47579702"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/v2/author-continuation.txt",
+      "commit": "e694dba4"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/v2/author-record-v2.json",
+      "commit": "e694dba4"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/v2/curator-draft-manifest-v2.json",
+      "commit": "e694dba4"
+    },
+    {
+      "path": "docs/evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt",
+      "commit": "e694dba4"
+    }
+  ],
+  "focusedEvidence": {
+    "v1": {
+      "bytes": 8560,
+      "sha256": "d8efc24a9f0b5489000918f8d64a0b40dd5c26e198ed4497f5dd26d4f63dc02d"
+    },
+    "v2": {
+      "bytes": 8616,
+      "sha256": "4b2f8b543190d6b2a97c72884a13b5556e372cab727090b4871753533528202a"
+    },
+    "harnessAndDoublesUnchanged": true,
+    "sameBaselineAndRuntime": true,
+    "sameTwoProbesOnly": true,
+    "bothV2ResultsEqualCorrected": true
+  },
+  "authorBoundary": "Same original author; receipt binds four allowed inputs and own v1/v2 outputs, reports no breach; source-exposed curator did not send source, tests, patches, or review. Instruction boundary, not independent filesystem isolation.",
+  "validationLimits": [
+    "Only two focused owner-boundary probes; runtime dependencies are controlled diagnostic doubles.",
+    "Exact owner/admission bytes are SHA-bound and executed after Node type stripping only.",
+    "No strict compilation, emitted build, real scheduler consumer, broad suite or production integration.",
+    "Argument threshold is engine-specific; this records one 200000-ID counterexample, not the exact threshold."
+  ]
+}
