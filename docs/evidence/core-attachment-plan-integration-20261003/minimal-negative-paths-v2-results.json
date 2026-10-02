@@ -1,0 +1,41 @@
+{
+  "kind": "Minimum isolated synthetic validation/privacy/data-preservation gates only",
+  "typescript": "6.0.2",
+  "selectedScopes": [
+    "paths"
+  ],
+  "sourceBindings": [
+    {
+      "scope": "paths",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "bytes": 4278,
+      "sha256": "91d1ab6d39c2827a41e7006ca59245bf363bfe4a1cac8127997bd5fa9cd060dc"
+    }
+  ],
+  "results": [
+    {
+      "scope": "paths",
+      "name": "Missing durable materialization port rejects with unchanged own undefined cause shape",
+      "passed": true
+    },
+    {
+      "scope": "paths",
+      "name": "Inline media without durable source and unsupported enhancement preserve original identity",
+      "passed": true
+    },
+    {
+      "scope": "paths",
+      "name": "Durable path is rechecked, derived clone does not change canonical source; port error cause retained",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "noCanonicalDataUsed": true,
+  "noActualProviderNetworkStoreFilesystemOsOperation": true,
+  "noPredecessorExecution": true,
+  "noSourceEmittedMatrix": true
+}

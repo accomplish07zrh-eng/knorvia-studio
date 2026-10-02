@@ -12,13 +12,66 @@ import type {
   TurnId,
 } from "../deps.js";
 
-type DataBackedToolMediaBlock =
-  | Extract<ModelMessageContentBlock, { type: "image" | "video" }>
-  | (Extract<ModelMessageContentBlock, { type: "file" }> & { dataUrl: string });
-
 type PersistedToolMediaLayoutEntry =
   | { type: "attachment"; attachmentIndex: number }
   | { type: "text"; text: string };
+
+type MediaBlock = Extract<
+  ModelMessageContentBlock,
+  { type: "image" | "file" | "video" }
+>;
+
+type MediaProjection = {
+  mediaBlocks: MediaBlock[];
+  modelContentLayout: PersistedToolMediaLayoutEntry[];
+};
+
+function projectMediaContent(
+  content: ModelMessageContent,
+): MediaProjection | undefined {
+  if (!Array.isArray(content) || content.length === 0) {
+    return undefined;
+  }
+
+  const mediaBlocks: MediaBlock[] = [];
+  const modelContentLayout: PersistedToolMediaLayoutEntry[] = [];
+
+  for (const block of content) {
+    if (block.type === "text") {
+      modelContentLayout.push({ type: "text", text: block.text });
+      continue;
+    }
+
+    if (
+      (block.type === "image" || block.type === "video") &&
+      block.dataUrl.startsWith("data:")
+    ) {
+      modelContentLayout.push({
+        type: "attachment",
+        attachmentIndex: mediaBlocks.length,
+      });
+      mediaBlocks.push(block);
+      continue;
+    }
+
+    if (block.type === "file" && block.dataUrl?.startsWith("data:")) {
+      modelContentLayout.push({
+        type: "attachment",
+        attachmentIndex: mediaBlocks.length,
+      });
+      mediaBlocks.push(block);
+      continue;
+    }
+
+    return undefined;
+  }
+
+  if (mediaBlocks.length === 0) {
+    return undefined;
+  }
+
+  return { mediaBlocks, modelContentLayout };
+}
 
 export async function persistToolResultMediaAttachments(input: {
   artifactStore?: ToolArtifactStorePort;
@@ -38,22 +91,30 @@ export async function persistToolResultMediaAttachments(input: {
     }
   | undefined
 > {
-  if (!input.sessionStore) return undefined;
-  const projection = persistedToolMediaProjection(input.content);
-  if (!projection) return undefined;
+  if (!input.sessionStore) {
+    return undefined;
+  }
+
+  const projection = projectMediaContent(input.content);
+  if (!projection) {
+    return undefined;
+  }
+
   if (!input.artifactStore) {
     throw new Error("Cannot persist tool result media without an artifact store");
   }
 
   const attachments: FilePart[] = [];
   for (const [index, block] of projection.mediaBlocks.entries()) {
-    const existingArtifactUri = isArtifactUri(block.source?.uri) ? block.source.uri : undefined;
+    const existingArtifactUri = isArtifactUri(block.source?.uri)
+      ? block.source.uri
+      : undefined;
     const artifactUri =
       existingArtifactUri ??
       (
         await input.artifactStore.writeToolResultArtifact(
           {
-            content: block.dataUrl,
+            content: block.dataUrl!,
             contentType: "text/plain",
             retention: "session",
             sessionId: input.sessionId,
@@ -82,39 +143,16 @@ export async function persistToolResultMediaAttachments(input: {
         artifactUri,
         recoverability: "provider_ready",
         storageKind: "artifact",
-        ...(block.source?.sizeBytes !== undefined ? { sizeBytes: block.source.sizeBytes } : {}),
+        ...(block.source?.sizeBytes !== undefined
+          ? { sizeBytes: block.source.sizeBytes }
+          : {}),
         ...(block.source?.sha256 ? { sha256: block.source.sha256 } : {}),
       },
     });
   }
-  return { attachments, modelContentLayout: projection.modelContentLayout };
-}
 
-function persistedToolMediaProjection(content: ModelMessageContent):
-  | {
-      mediaBlocks: DataBackedToolMediaBlock[];
-      modelContentLayout: PersistedToolMediaLayoutEntry[];
-    }
-  | undefined {
-  if (!Array.isArray(content) || content.length === 0) return undefined;
-  const mediaBlocks: DataBackedToolMediaBlock[] = [];
-  const modelContentLayout: PersistedToolMediaLayoutEntry[] = [];
-  for (const block of content) {
-    if (block.type === "text") {
-      modelContentLayout.push({ type: "text", text: block.text });
-      continue;
-    }
-    if ((block.type === "image" || block.type === "video") && block.dataUrl.startsWith("data:")) {
-      modelContentLayout.push({ type: "attachment", attachmentIndex: mediaBlocks.length });
-      mediaBlocks.push(block);
-      continue;
-    }
-    if (block.type === "file" && block.dataUrl?.startsWith("data:")) {
-      modelContentLayout.push({ type: "attachment", attachmentIndex: mediaBlocks.length });
-      mediaBlocks.push(block as DataBackedToolMediaBlock);
-      continue;
-    }
-    return undefined;
-  }
-  return mediaBlocks.length > 0 ? { mediaBlocks, modelContentLayout } : undefined;
+  return {
+    attachments,
+    modelContentLayout: projection.modelContentLayout,
+  };
 }

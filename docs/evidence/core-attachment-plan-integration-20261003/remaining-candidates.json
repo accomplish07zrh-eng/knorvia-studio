@@ -1,0 +1,67 @@
+{
+  "kind": "Bounded metadata-only potential remainder, not an accepted eligibility claim or exhaustive core/rights audit",
+  "recordedAtUtc": "2026-10-02T20:28:29.148329+00:00",
+  "candidates": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "lines": 512,
+      "bytes": 17171,
+      "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5",
+      "bodyReviewedForThisInventory": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "status": "Potential substantive media/context/error owner; eligibility/acceptance/contract curation requires coordinator allocation",
+      "splitQualification": "512-line predecessor would require cohesive decomposition before acceptedsource"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "lines": 178,
+      "bytes": 6541,
+      "sha256": "e5f5cd74c349d447532c715b02d3312554dfdb20ed8f2b08760fa1f437a1f478",
+      "bodyReviewedForThisInventory": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "status": "Potential substantive media/context/error owner; eligibility/acceptance/contract curation requires coordinator allocation",
+      "splitQualification": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "lines": 129,
+      "bytes": 5259,
+      "sha256": "f863fbac8360347c2d42d2d53d62fbbea1e0066cce0081fdb3e217eddda472a3",
+      "bodyReviewedForThisInventory": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "status": "Potential substantive media/context/error owner; eligibility/acceptance/contract curation requires coordinator allocation",
+      "splitQualification": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "lines": 248,
+      "bytes": 10968,
+      "sha256": "5a7c361ec61bcf1a03d54898d777e0f2c1780f0449942b8765847c1b08aca606",
+      "bodyReviewedForThisInventory": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "status": "Potential substantive media/context/error owner; eligibility/acceptance/contract curation requires coordinator allocation",
+      "splitQualification": null
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "lines": 253,
+      "bytes": 8559,
+      "sha256": "2df0ce336c4cfe77e8483603d60ada5a2e13cea45df98166e9a1adbff7bf8891",
+      "bodyReviewedForThisInventory": false,
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "status": "Potential substantive media/context/error owner; eligibility/acceptance/contract curation requires coordinator allocation",
+      "splitQualification": null
+    }
+  ],
+  "notExhaustedByNamesAndCounts": true,
+  "nextQueueAuthorized": false,
+  "excluded": [
+    "A/runtime conversation.ts and streaming-tool-ledger.ts and runtime/methods",
+    "security/permission/fullaccess",
+    "previous accepted complete owners",
+    "pure schemas/config/prompts/facades",
+    "root desktop/shared implementation and otherlane imports"
+  ],
+  "actualSourceExposureQualification": "Resolver was mechanically read for body-free APIs earlier, no new deliberate body inventory read; curator prior broad context remains",
+  "materialObligations": "All21 remain; no repeated failed source/Library403/private-file lookups"
+}

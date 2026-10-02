@@ -47,13 +47,14 @@ export async function persistAttachmentDataUrl(
 
   if (!options.artifactStore || !options.sessionId) {
     return {
-      metadata: { recoverability: "provider_ready", storageKind: "inline" },
+      metadata: {
+        recoverability: "provider_ready",
+        storageKind: "inline",
+      },
       url: dataUrl,
     };
   }
 
-  // 内存媒体仍可供当前请求使用时吞掉写入失败，会落下冷恢复无法重建的成功历史。
-  // image/video 共用这一持久化边界；写入失败必须在 provider 调用前终止当前轮。
   const artifact = await options.artifactStore.writeToolResultArtifact(
     {
       content: dataUrl,
@@ -67,6 +68,7 @@ export async function persistAttachmentDataUrl(
     },
     { signal: options.abortSignal },
   );
+
   return {
     metadata: {
       artifactUri: artifact.uri,
@@ -91,21 +93,27 @@ export async function readInlineAttachmentContent(
   if (!isArtifactUri(attachment.content) || !options.artifactStore) {
     return undefined;
   }
+
   try {
     const artifact = await options.artifactStore.readToolResultArtifact({
       trace: options.traceContext,
       uri: attachment.content,
     });
-    return artifact.content.startsWith("data:")
-      ? { artifactUri: attachment.content, dataUrl: artifact.content }
-      : undefined;
+    if (artifact.content.startsWith("data:")) {
+      return { artifactUri: attachment.content, dataUrl: artifact.content };
+    }
+    return undefined;
   } catch {
     return undefined;
   }
 }
 
-export function safeAttachmentOriginalRef(attachment: TurnAttachment): string | undefined {
+export function safeAttachmentOriginalRef(
+  attachment: TurnAttachment,
+): string | undefined {
   if (attachment.path) return attachment.path;
   if (!attachment.content) return undefined;
-  return attachment.content.startsWith("data:") ? "inline:data-url" : attachment.content;
+  return attachment.content.startsWith("data:")
+    ? "inline:data-url"
+    : attachment.content;
 }
