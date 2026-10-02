@@ -1,5 +1,7 @@
 # PR #12 remote-cache static review
 
+Later status reported by root: PR12 `f1b4d526ccb0d1d2e6956c6b05d450d69120a9ca` contains corrections for refresh-designated sharing, migration symlink admission and pre-fetch staging gates, with minimal synthetic checks reported passing. E did not broadly rereview or retest that descendant; findings below remain bound to the earlier published head.
+
 Reviewed published head `ffed10195f13f11c0726ae9df5976dd790b9b666` only. Two concrete contract gaps and one predecessor ordering gate need follow-up. The separate root-reported local symlink correction `d326f53` was not present in this head and was not fetched or verified. No root implementation was imported/merged into E.
 
 ## Concrete findings
