@@ -342,6 +342,32 @@ function fixture() {
   assert.equal(f.events[2].payload.status, "stopped");
   groups.push("stop queue rejection restores exact task before authority commit");
 }
+if (
+  process.argv.includes("--correction-probe") ||
+  process.argv.includes("--stop-projection-probe")
+) {
+  const f = fixture(),
+    controller = new AbortController();
+  controller.abort(
+    process.argv.includes("--stop-projection-probe") ? new Error("Owned initial abort") : null,
+  );
+  let observed;
+  f.options.runExploreAgent = async function (r, o) {
+    observed = o.signal.reason;
+    await r.onSessionReady();
+    return await new Promise(() => {});
+  };
+  await f.port.start(request, { signal: controller.signal });
+  if (!process.argv.includes("--stop-projection-probe"))
+    assert.equal(observed, null, "start forwards exact null abort reason");
+  f.options.enqueueParentTaskNotification = function (n) {
+    f.notifications.push(n);
+    return undefined;
+  };
+  await f.port.stopTask("owned-agent");
+  assert.ok(!f.notifications[0].text.includes("<error>"), "stopped notification omits error field");
+  groups.push("appended exact null abort and stop notification projection");
+}
 console.log(
   JSON.stringify({
     mode,

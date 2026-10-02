@@ -1,0 +1,28 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: start forwards exact null abort reason
++ actual - expected
+
++ Error: Subagent task aborted: owned-agent
++     at forward (file:///tmp/knorvia-owned-subagent-f8KOa6/runner-cancellation.mjs:5:62)
++     at controllerFor (file:///tmp/knorvia-owned-subagent-f8KOa6/runner-cancellation.mjs:7:9)
++     at Object.start (file:///tmp/knorvia-owned-subagent-f8KOa6/runner-background.mjs:44:41)
++     at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/subagent-owners-safety-20261003.mjs:355:3)
+- null
+
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/subagent-owners-safety-20261003.mjs:356:10) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: Error: Subagent task aborted: owned-agent
+      at forward (file:///tmp/knorvia-owned-subagent-f8KOa6/runner-cancellation.mjs:5:62)
+      at controllerFor (file:///tmp/knorvia-owned-subagent-f8KOa6/runner-cancellation.mjs:7:9)
+      at Object.start (file:///tmp/knorvia-owned-subagent-f8KOa6/runner-background.mjs:44:41)
+      at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/subagent-owners-safety-20261003.mjs:355:3),
+  expected: null,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
