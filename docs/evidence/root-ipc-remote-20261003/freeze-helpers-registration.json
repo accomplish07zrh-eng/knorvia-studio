@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-02T21:19:20.942534+00:00",
+  "drafts": {
+    "draft-desktopMainIpcRemote.ts": {
+      "bytes": 10061,
+      "sha256": "3b274b409dce32c106390541490ed3117d32aa522916a6c81e16665712314401"
+    },
+    "draft-desktopMainIpcHelpers.ts": {
+      "bytes": 3476,
+      "sha256": "4b507005698bb960cd97ce5a0f80ec791ab0c8952c3713ff95d326a69154353b"
+    }
+  },
+  "bodyReadBeforeFreeze": false,
+  "remaining": "Remote manager is allocated but not yet authored; these two complete drafts freeze independently."
+}

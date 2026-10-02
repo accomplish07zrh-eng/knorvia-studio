@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-02T21:25:36.356535+00:00",
+  "sources": {
+    "packages/desktop/src/main/desktopMainIpcHelpers.ts": {
+      "sha256": "1ec1c4a842a27036ef0ea9d32ce66be6e441fe2889b9576cfd7490e9bdc7c4f1",
+      "bytes": 3652
+    },
+    "packages/desktop/src/main/desktopMainIpcRemote.ts": {
+      "sha256": "e180893b2c5fe9585d8b29af9bf1af5a5458b5b902f7fb1cb4579c3e4096a87a",
+      "bytes": 11069
+    }
+  },
+  "scope": "Two complete helper/registration candidates only; desktopRemoteSessions remains untouched and not yet authored/body-read.",
+  "review": "Same-root postfreeze sourcecomparison preserves path fallback/error asymmetry, capture gate, registration order, payload validation, request/workspace/sender identity and captured close-window ID. Source registration/noop/schema/literal/ordinary glue remains substantial; no independentlegalclaim.",
+  "correction": "ShowTaskNotification event listener no longer returns delegate boolean; restored void callback afterfreeze. Handle callback still returns delegate result. Originaldraft preserved.",
+  "checks": "Publicparameters/types matchpacket; screenshot return uses separatelyqualified shape. Lint2files94rules0errors/warnings, architecture0, whitespaceclean.3pairedfakeportgroups path/capture,Darwinfallback,IPCadmission/identity/teardownpass.",
+  "unrun": "Semanticbody/projecttypes/fulltests/build/nativeconsumeracceptance; remote manager unimplemented. No actual shell/capture/IPC/remote/files/userdata/network/credentials. Native independentreviewunavailablethreadlimit, broadcontext/genericexposurequalified. No globallicence/inventory/earlymerge."
+}

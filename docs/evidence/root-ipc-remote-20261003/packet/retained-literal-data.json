@@ -1,0 +1,954 @@
+{
+  "packages/desktop/src/main/desktopMainIpcHelpers.ts": {
+    "literals": [
+      {
+        "kind": "text",
+        "text": "node:child_process"
+      },
+      {
+        "kind": "text",
+        "text": "node:fs/promises"
+      },
+      {
+        "kind": "text",
+        "text": "node:path"
+      },
+      {
+        "kind": "text",
+        "text": "electron"
+      },
+      {
+        "kind": "text",
+        "text": "electron"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "empty path"
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] 本地文件打开失败"
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] 本地文件打开失败"
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] 本地文件打开成功"
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] 本地文件打开失败"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "empty path"
+      },
+      {
+        "kind": "text",
+        "text": "darwin"
+      },
+      {
+        "kind": "text",
+        "text": "[open-in-file-manager] shell.openPath 失败"
+      },
+      {
+        "kind": "text",
+        "text": "base64"
+      },
+      {
+        "kind": "template",
+        "head": "knorvia-error-",
+        "spans": [
+          {
+            "placeholder": "new Date().toISOString().replace(/[:.]/g, \"-\")",
+            "text": ".png"
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "-"
+      },
+      {
+        "kind": "text",
+        "text": "image/png"
+      },
+      {
+        "kind": "text",
+        "text": "open"
+      },
+      {
+        "kind": "text",
+        "text": "-a"
+      },
+      {
+        "kind": "text",
+        "text": "Finder"
+      },
+      {
+        "kind": "text",
+        "text": "[open-in-file-manager] macOS 打开目录均失败"
+      }
+    ],
+    "regex": [
+      "/[:.]/g"
+    ],
+    "numbers": []
+  },
+  "packages/desktop/src/main/desktopMainIpcRemote.ts": {
+    "literals": [
+      {
+        "kind": "text",
+        "text": "electron"
+      },
+      {
+        "kind": "text",
+        "text": "@knorvia/shared"
+      },
+      {
+        "kind": "text",
+        "text": "./desktopNotifications.js"
+      },
+      {
+        "kind": "text",
+        "text": "./desktopWorkspaceDeepLink.js"
+      },
+      {
+        "kind": "text",
+        "text": "./desktopRemoteUsageArmsTelemetry.js"
+      },
+      {
+        "kind": "text",
+        "text": "./desktopMainIpcHelpers.js"
+      },
+      {
+        "kind": "text",
+        "text": "http:"
+      },
+      {
+        "kind": "text",
+        "text": "https:"
+      },
+      {
+        "kind": "text",
+        "text": "file:"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": "object"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": "[remote-usage-telemetry] dispatch failed"
+      },
+      {
+        "kind": "text",
+        "text": "object"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] blocked unsupported request"
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] blocked unsupported url"
+      },
+      {
+        "kind": "text",
+        "text": "[open-external] 外部 URL 打开失败"
+      },
+      {
+        "kind": "text",
+        "text": "browser-window-created"
+      },
+      {
+        "kind": "text",
+        "text": "closed"
+      },
+      {
+        "kind": "text",
+        "text": "object"
+      },
+      {
+        "kind": "text",
+        "text": "target"
+      },
+      {
+        "kind": "template",
+        "head": "Invalid connect-remote payload: ",
+        "spans": [
+          {
+            "placeholder": "formatZodError(result.error)",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "[connect-remote]"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": "reconnect"
+      },
+      {
+        "kind": "text",
+        "text": "restore"
+      },
+      {
+        "kind": "text",
+        "text": "new"
+      },
+      {
+        "kind": "text",
+        "text": "未找到当前窗口，无法创建远程 session"
+      },
+      {
+        "kind": "text",
+        "text": "success"
+      },
+      {
+        "kind": "text",
+        "text": "success"
+      },
+      {
+        "kind": "text",
+        "text": "[connect-remote] caught error:"
+      },
+      {
+        "kind": "text",
+        "text": "failure"
+      },
+      {
+        "kind": "text",
+        "text": "failure"
+      },
+      {
+        "kind": "text",
+        "text": "object"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "template",
+        "head": "cancel-pending-remote-connection:",
+        "spans": [
+          {
+            "placeholder": "event.sender.id",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "object"
+      },
+      {
+        "kind": "text",
+        "text": "远程 workspace context payload 无效"
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "string"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "远程 workspace context 缺少 sessionId 或 workspacePath"
+      },
+      {
+        "kind": "template",
+        "head": "dispose-remote-session:",
+        "spans": [
+          {
+            "placeholder": "sessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "[is-docker-available] detect failed:"
+      },
+      {
+        "kind": "text",
+        "text": "[list-wsl-distros] detect failed:"
+      },
+      {
+        "kind": "text",
+        "text": "[list-docker-containers] detect failed:"
+      },
+      {
+        "kind": "text",
+        "text": "[list-ssh-config-aliases] detect failed:"
+      }
+    ],
+    "regex": [],
+    "numbers": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "150"
+    ]
+  },
+  "packages/desktop/src/main/desktopRemoteSessions.ts": {
+    "literals": [
+      {
+        "kind": "text",
+        "text": "node:crypto"
+      },
+      {
+        "kind": "text",
+        "text": "electron"
+      },
+      {
+        "kind": "text",
+        "text": "electron"
+      },
+      {
+        "kind": "text",
+        "text": "@knorvia/shared"
+      },
+      {
+        "kind": "text",
+        "text": "./desktopRemoteUsageArmsTelemetry.js"
+      },
+      {
+        "kind": "text",
+        "text": "./desktopRuntimeEnv.js"
+      },
+      {
+        "kind": "text",
+        "text": "attachable"
+      },
+      {
+        "kind": "text",
+        "text": "closed"
+      },
+      {
+        "kind": "text",
+        "text": "ssh"
+      },
+      {
+        "kind": "template",
+        "head": "ssh:",
+        "spans": [
+          {
+            "placeholder": "buildSshRemoteHostKey(target)",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "wsl"
+      },
+      {
+        "kind": "template",
+        "head": "wsl:",
+        "spans": [
+          {
+            "placeholder": "target.distro?.trim() || \"default\"",
+            "text": "\u0000"
+          },
+          {
+            "placeholder": "target.user?.trim() ?? \"\"",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "default"
+      },
+      {
+        "kind": "text",
+        "text": ""
+      },
+      {
+        "kind": "text",
+        "text": "docker"
+      },
+      {
+        "kind": "template",
+        "head": "docker:",
+        "spans": [
+          {
+            "placeholder": "target.container",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "wsl"
+      },
+      {
+        "kind": "text",
+        "text": "wsl"
+      },
+      {
+        "kind": "text",
+        "text": "kind"
+      },
+      {
+        "kind": "text",
+        "text": "none"
+      },
+      {
+        "kind": "text",
+        "text": "kind"
+      },
+      {
+        "kind": "template",
+        "head": "",
+        "spans": [
+          {
+            "placeholder": "webContentsId",
+            "text": "\u0000"
+          },
+          {
+            "placeholder": "requestId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": "未找到窗口 Local Host，windowId=",
+        "spans": [
+          {
+            "placeholder": "win.webContents.id",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "info"
+      },
+      {
+        "kind": "text",
+        "text": "warn"
+      },
+      {
+        "kind": "text",
+        "text": "error"
+      },
+      {
+        "kind": "template",
+        "head": "window-host-",
+        "spans": [
+          {
+            "placeholder": "win.webContents.id",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "window-host-controller"
+      },
+      {
+        "kind": "text",
+        "text": "2-digit"
+      },
+      {
+        "kind": "text",
+        "text": "2-digit"
+      },
+      {
+        "kind": "text",
+        "text": "2-digit"
+      },
+      {
+        "kind": "text",
+        "text": "[window-host-remote] detach renderer attachment failed"
+      },
+      {
+        "kind": "text",
+        "text": "窗口已关闭，无法 attachment 远程 workspace"
+      },
+      {
+        "kind": "template",
+        "head": "远程 descriptor 缺少 workspace scope，sessionId=",
+        "spans": [
+          {
+            "placeholder": "descriptor.remoteSessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "superseded"
+      },
+      {
+        "kind": "template",
+        "head": "renderer attachment 已被后续换代替代，sessionId=",
+        "spans": [
+          {
+            "placeholder": "descriptor.remoteSessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "ready-timeout"
+      },
+      {
+        "kind": "template",
+        "head": "renderer attachment ready 超时，sessionId=",
+        "spans": [
+          {
+            "placeholder": "descriptor.remoteSessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "[window-host-remote] renderer attachment ready timeout"
+      },
+      {
+        "kind": "text",
+        "text": "desktop-continuous"
+      },
+      {
+        "kind": "text",
+        "text": "remote"
+      },
+      {
+        "kind": "text",
+        "text": "delivery-failed"
+      },
+      {
+        "kind": "text",
+        "text": "[window-host-remote] ignore stale renderer attachment ready"
+      },
+      {
+        "kind": "template",
+        "head": "窗口 Local Host 已退出，sessionId=",
+        "spans": [
+          {
+            "placeholder": "payload.sessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "candidate-promoted"
+      },
+      {
+        "kind": "template",
+        "head": "[window-host-remote] renderer attachment ready, sessionId=",
+        "spans": [
+          {
+            "placeholder": "payload.sessionId",
+            "text": ", reason="
+          },
+          {
+            "placeholder": "pending.reason",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "connected"
+      },
+      {
+        "kind": "text",
+        "text": "[remote-usage-arms] connected reporter failed"
+      },
+      {
+        "kind": "text",
+        "text": "attachable"
+      },
+      {
+        "kind": "text",
+        "text": "connect"
+      },
+      {
+        "kind": "text",
+        "text": "info"
+      },
+      {
+        "kind": "template",
+        "head": "远程 ",
+        "spans": [
+          {
+            "placeholder": "descriptor.target.kind",
+            "text": " workspace 已连接"
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "attachable"
+      },
+      {
+        "kind": "text",
+        "text": "[remote-usage-arms] disconnect gauge reporter failed"
+      },
+      {
+        "kind": "text",
+        "text": "[remote-usage-arms] disconnect reporter failed"
+      },
+      {
+        "kind": "text",
+        "text": "connection-closed"
+      },
+      {
+        "kind": "text",
+        "text": "disposed"
+      },
+      {
+        "kind": "text",
+        "text": "connect-cancelled"
+      },
+      {
+        "kind": "text",
+        "text": "connection-closed"
+      },
+      {
+        "kind": "text",
+        "text": "disposed"
+      },
+      {
+        "kind": "text",
+        "text": "session-released"
+      },
+      {
+        "kind": "template",
+        "head": "远程 workspace 已释放，sessionId=",
+        "spans": [
+          {
+            "placeholder": "event.remoteSessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "connection-closed"
+      },
+      {
+        "kind": "text",
+        "text": "closed"
+      },
+      {
+        "kind": "text",
+        "text": "session-connection-closed"
+      },
+      {
+        "kind": "template",
+        "head": "远程 workspace 已关闭，sessionId=",
+        "spans": [
+          {
+            "placeholder": "event.remoteSessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "host-exit"
+      },
+      {
+        "kind": "text",
+        "text": "warn"
+      },
+      {
+        "kind": "text",
+        "text": "远程 workspace 连接已断开"
+      },
+      {
+        "kind": "text",
+        "text": "message"
+      },
+      {
+        "kind": "text",
+        "text": "error"
+      },
+      {
+        "kind": "text",
+        "text": "exit"
+      },
+      {
+        "kind": "text",
+        "text": "窗口 Local Host 已退出"
+      },
+      {
+        "kind": "text",
+        "text": "host-exit"
+      },
+      {
+        "kind": "text",
+        "text": "应用正在退出，无法创建远程工作区连接"
+      },
+      {
+        "kind": "text",
+        "text": "wsl"
+      },
+      {
+        "kind": "text",
+        "text": "应用正在退出，无法创建远程工作区连接"
+      },
+      {
+        "kind": "text",
+        "text": "窗口已关闭，无法创建远程工作区连接"
+      },
+      {
+        "kind": "template",
+        "head": "远程连接 requestId 重复，requestId=",
+        "spans": [
+          {
+            "placeholder": "resolvedRequestId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "info"
+      },
+      {
+        "kind": "template",
+        "head": "正在通过窗口 Host 连接 ",
+        "spans": [
+          {
+            "placeholder": "resolvedTarget.kind",
+            "text": " workspace"
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": "未找到远程 workspace session，sessionId=",
+        "spans": [
+          {
+            "placeholder": "sessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": "远程 workspace session 不属于当前窗口，sessionId=",
+        "spans": [
+          {
+            "placeholder": "sessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": "未找到远程 workspace 所属窗口 Host，sessionId=",
+        "spans": [
+          {
+            "placeholder": "sessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "workspace-context-bound"
+      },
+      {
+        "kind": "text",
+        "text": "attachable"
+      },
+      {
+        "kind": "text",
+        "text": "[window-host-remote] renderer reattach failed"
+      },
+      {
+        "kind": "text",
+        "text": "attachable"
+      },
+      {
+        "kind": "text",
+        "text": "disposed"
+      },
+      {
+        "kind": "text",
+        "text": "session-disposed"
+      },
+      {
+        "kind": "template",
+        "head": "远程 workspace session 已释放，sessionId=",
+        "spans": [
+          {
+            "placeholder": "sessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "window-closed"
+      },
+      {
+        "kind": "text",
+        "text": "窗口已关闭，attachment 已取消"
+      },
+      {
+        "kind": "text",
+        "text": "窗口已关闭，远程连接已取消"
+      },
+      {
+        "kind": "text",
+        "text": "web-remote-replayable"
+      },
+      {
+        "kind": "text",
+        "text": "kind"
+      },
+      {
+        "kind": "template",
+        "head": "未找到远程 workspace session，sessionId=",
+        "spans": [
+          {
+            "placeholder": "params.remoteSessionId",
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "text",
+        "text": "REMOTE_SESSION_MISSING"
+      },
+      {
+        "kind": "text",
+        "text": "attachable"
+      },
+      {
+        "kind": "text",
+        "text": "远程 workspace source 当前离线"
+      },
+      {
+        "kind": "text",
+        "text": "REMOTE_SESSION_OFFLINE"
+      },
+      {
+        "kind": "text",
+        "text": "远程 workspace session 不属于当前窗口"
+      },
+      {
+        "kind": "text",
+        "text": "REMOTE_SESSION_WINDOW_MISMATCH"
+      },
+      {
+        "kind": "text",
+        "text": "远程 workspaceKey 与 logical session 不匹配。"
+      },
+      {
+        "kind": "text",
+        "text": "REMOTE_WORKSPACE_IDENTITY_MISMATCH"
+      },
+      {
+        "kind": "text",
+        "text": "remote"
+      },
+      {
+        "kind": "text",
+        "text": "应用正在退出，远程连接已取消"
+      },
+      {
+        "kind": "text",
+        "text": "app-shutdown"
+      }
+    ],
+    "regex": [],
+    "numbers": [
+      "15000",
+      "0",
+      "1"
+    ]
+  }
+}
