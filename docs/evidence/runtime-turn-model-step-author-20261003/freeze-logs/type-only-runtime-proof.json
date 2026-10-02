@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "path": "turn-model-step-fields.ts",
+      "emittedSyntaxEqual": true
+    },
+    {
+      "path": "turn-model-step-operation.ts",
+      "emittedSyntaxEqual": true
+    },
+    {
+      "path": "turn-model-step-records.ts",
+      "emittedSyntaxEqual": true
+    },
+    {
+      "path": "turn-model-step-recovery.ts",
+      "emittedSyntaxEqual": true
+    },
+    {
+      "path": "turn-model-step.ts",
+      "emittedSyntaxEqual": true
+    }
+  ],
+  "qualification": "Transpile identity for type-only declaration naming proof; runtime evidence uses zero-diagnostic actual compiler below"
+}

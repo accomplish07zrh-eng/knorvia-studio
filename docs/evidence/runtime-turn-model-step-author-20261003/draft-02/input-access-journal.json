@@ -1,0 +1,53 @@
+[
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/packet.json",
+    "sha256": "1db0ce1b8b50ecea353ee11bc264d39ede902a8d91b3fa529ed9c97dece8074a",
+    "bytes": 1338
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/contract.md",
+    "sha256": "4b1216c31b19ab6adfd75b1d6f894cfc451a81ee0912e2f500c6b7bf0ba10397",
+    "bytes": 11109
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/api.d.ts",
+    "sha256": "2c52215044d7f3f8afc36fca09e5e25338add92036fde6ddc3193acbfaaaf6dc",
+    "bytes": 945
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/imports.d.ts",
+    "sha256": "bebd6492646fe1c222e35b2872eac2b404c2b2ab1ad8f7649f8f7e9f512ea631",
+    "bytes": 2553
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+    "sha256": "08d3de770eb4b0ceb002071a090dd14ddbf3acd106942241cb99cd138393e806",
+    "bytes": 24765
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/runtime-ports.d.ts",
+    "sha256": "98d62bc1b71a194386d6385ea87aceb63dc6a0b225729af5bbe85eabef114c85",
+    "bytes": 1633
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/dependency-ports.json",
+    "sha256": "8bbf96bdaa2091cf57eb0e79e87ac11aa699ef4fd80f63cb3a12177c28fddb2a",
+    "bytes": 21731
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/literals.json",
+    "sha256": "b1a140118263ca7cc89400087c0dbd4f196649f52fd82f4161e8ee9555e6fce8",
+    "bytes": 1431
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/log-fields.json",
+    "sha256": "db6e811589932717a2a519ee594d63713865efb743857369d76b0c43a910c1b1",
+    "bytes": 1772
+  },
+  {
+    "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/port-clarification.d.ts",
+    "sha256": "65f197e3dc682d36f302d757effa5233c9e77296add330d2270a706819c05eab",
+    "bytes": 9350,
+    "authorization": "curator-supplied supplemental body-free clarification before seal"
+  }
+]
