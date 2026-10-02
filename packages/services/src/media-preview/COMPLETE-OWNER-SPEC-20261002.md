@@ -12,3 +12,5 @@ prepare -> format admission -> stat -> paired local hooks? -> authorize -> URL -
 ```
 
 Minimum synthetic validation checks denied authorization cannot produce URLs/read bytes, unsupported kind cannot stat, and inline budget/returned data identity. Relevant scoped types/lint/format/architecture only; no broad tests/builds or licensing changes.
+
+Coordinator clarification before acceptance: local result format mediaType and stat size are observed before synchronous URL creation; hooks mutating these objects do not retroactively affect captured result fields. Getter failures occur before URL invocation. Raw draft is retained; author freezes its own correction.

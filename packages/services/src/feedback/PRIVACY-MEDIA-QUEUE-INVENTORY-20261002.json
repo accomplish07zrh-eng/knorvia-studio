@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "4e096b3c515cc2ab1f7f4a43d9da275f53a558a5",
+  "files": [
+    {
+      "path": "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+      "sha256": "bf38fa4dd5cb780a2915728fea767555d8ad1684e6c2e34d9306642529cbb770",
+      "blob": "e1d688891867805ba989bd877bbe630555e1d861",
+      "nonblank": 24,
+      "status": "retained-fixed-data-declarations-or-small-adapter",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/logger/serviceLogger.ts",
+      "sha256": "4f00ea00270cead8955fe4a24cabf7b14274191f873f197b771e4ed10958bc21",
+      "blob": "33a4201d66884ec6bd4f8b809ba4bdb42edaaad5",
+      "nonblank": 60,
+      "status": "retained-fixed-data-declarations-or-small-adapter",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+      "sha256": "b1b0e4c98eb800e845a0d2fe71d522bf877fa909e1124b23003cf7419c37d39e",
+      "blob": "85e48f02136292faaea29129c32657c8a1a4f56d",
+      "nonblank": 59,
+      "status": "complete-owner-submitted-focused-validation-passed-parent-classification-pending",
+      "localExactAcceptedReview": false,
+      "submittedSha256": "d3b2b71a9c1e3eb27b3e5d7f92ecee0564b260ad47302bfb4cd116bd2d1b0b26"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchivePolicy.ts",
+      "sha256": "7b8a7a6e0fea314c37a20702d306b416072aaa5d9a28971b7b263b580fa7c509",
+      "blob": "2157d7423317bf4b8d854147a7f00df26d7b9623",
+      "nonblank": 64,
+      "status": "retained-fixed-data-declarations-or-small-adapter",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+      "sha256": "b9c7ec24e7f02562066fb76a7b47e5cf387cbdc49a579afea966edef7288974c",
+      "blob": "8d8e03f627bc9a31c481ac6dc68f8aa0849c593b",
+      "nonblank": 60,
+      "status": "complete-owner-submitted-focused-validation-passed-parent-classification-pending",
+      "localExactAcceptedReview": false,
+      "submittedSha256": "2f498dbbccef4149863487342bb816c13f71d0b00fdd0f18ef69a7a527276bb7"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+      "sha256": "a056f81444db856597f7872a01b98014523488c3ac90ec79c984b9fc69a4d34a",
+      "blob": "43094816005233b4f70ea3da89d332c4a1532aaf",
+      "nonblank": 78,
+      "status": "blocked-missing-yazl-required-writer-dependency",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/contract.ts",
+      "sha256": "a2242230f0c9d7dc11fb2ac104119c3fb208b1ad44eba07ab1a978290ef1b12d",
+      "blob": "f2d7d7efd4586692853607aecff9359bcf0a5742",
+      "nonblank": 267,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/creationJobs.ts",
+      "sha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
+      "blob": "33797ea8913b833d307370c59751081456de4ccb",
+      "nonblank": 373,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "sha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+      "blob": "5ba561b5bf1935149ab99a365f65c8a252b458e7",
+      "nonblank": 88,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/creationRunDeadline.ts",
+      "sha256": "b6b569e75865a12f4ac48d895c62d67731ae8e77654dc3954585dfb17daed1d7",
+      "blob": "da18e495c0c246171982b33f884a84f793be04b1",
+      "nonblank": 6,
+      "status": "retained-fixed-data-declarations-or-small-adapter",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/creationService.ts",
+      "sha256": "7e68b8a345a3d88d38b060a0be0b57642b72a0d79a221dc7d1d6c6cdafdd8ffd",
+      "blob": "873175f69e6fb3045e6996bc44e160a3d8a8e312",
+      "nonblank": 379,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/creationStorage.ts",
+      "sha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
+      "blob": "80414d556ec09eec9ca03e3e1f3a6dfda9aae544",
+      "nonblank": 369,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/modelValidation.ts",
+      "sha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+      "blob": "e6c633bbac848e67731c4ce98aa15f69406bed3e",
+      "nonblank": 71,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/module.ts",
+      "sha256": "d8888e77eaf79f0beb3f39f8fb0f66f9ebc77b9309b15a43c78854adaf7d5e4e",
+      "blob": "1f4b8163f695e493f35e7b377bd5cdb652b1c910",
+      "nonblank": 10,
+      "status": "retained-fixed-data-declarations-or-small-adapter",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/node.ts",
+      "sha256": "0d1b17f82798930be42aa7a6da8599e5fad20360c39a4bbd92d5480c5b335e70",
+      "blob": "6a58078822ec6086a9a77129c924adea791625fd",
+      "nonblank": 3,
+      "status": "retained-fixed-data-declarations-or-small-adapter",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/creation/providers.ts",
+      "sha256": "6ba1dd1fe283c5c150f6568f20dd3a3cef970f964a2143efc3f8a47dac8cdbb0",
+      "blob": "b4b81da1852651465a8ead9709c1ed8ddd2d6e4e",
+      "nonblank": 374,
+      "status": "parent-exact-origin-binding-pending",
+      "localExactAcceptedReview": false
+    },
+    {
+      "path": "packages/services/src/media-preview/mediaPreview.ts",
+      "sha256": "e1263f8d945290612c65995d466151f149b2503c628e77061ff7e2418d1ca6e8",
+      "blob": "94f31eb73c3d51d4c0501f02ebb6192cebf0143f",
+      "nonblank": 85,
+      "status": "complete-owner-submitted-focused-validation-passed-parent-classification-pending",
+      "localExactAcceptedReview": false,
+      "submittedSha256": "70b15195a8b1fce1448c4fb99ee9cb11e1ff5f362c70d6c711f4258fc633d564"
+    }
+  ],
+  "frozenOriginals": "/tmp/knorvia-privacy-media-originals-20261002",
+  "rootReceipt": "licensing/evidence/services-current-matrix-root-review-20261001.json",
+  "rootReceiptSha256": "f096a3c816678ea5b52dd1ff73fa9bc99ff8ef60d091db69e68a6675f2959dcd",
+  "provenance": "No exact reviews.json entry exists for these17 paths. Root archive integration binds4 exact current hashes but second-fast-lanes review explicitly says source-exposed, retained rights remain. Creation migration receipt says missing-origin-review-do-not-assume-rewrite. Parent-only accepted state is not inferred from local absence.",
+  "preservedBlockers": [
+    "missing ignore",
+    "missing croner",
+    "missing CUA entrypoints/export",
+    "historical59 listenEPERM",
+    "commitMessageFileScope predecessor HOLD",
+    "creation origin binding pending",
+    "missing yazl"
+  ],
+  "limits": "No global inventory/receipt/license/dependency changes. No real application files/logs/content/provider/network/credential/database operations. No broad tests/builds or main integration.",
+  "retainedVerifiedUnchanged": 14
+}

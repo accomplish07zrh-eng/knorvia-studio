@@ -13,3 +13,5 @@ candidate -> canonical/lstat admission -> open -> fstat identity -> bounded read
 ```
 
 Minimum strict synthetic ports check link traversal prevention, opened identity races preventing reads, positional partial-read accounting, closure and exact failure identity. No real log/user content/telemetry/credential/filesystem/network/provider/database operations. Missing yazl blocks writer validation; leave writer unchanged. Existing missing ignore/croner/CUA, historical EPERM and provenance holds remain. Only relevant types/lint/format/architecture and new safety checks; no broad suites/builds.
+
+Coordinator clarification before acceptance: absent/failed root realpath continues without lstat. Exit-only directory entries still reach the isFile check; no recursion occurs. Strict indexed accesses use the existing nonempty/cursor invariant. Raw draft is retained; author freezes its own correction.

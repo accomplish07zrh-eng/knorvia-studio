@@ -1,0 +1,378 @@
+{
+  "date": "2026-10-02",
+  "authorModel": "GPT-6.1 Sol high; user requested saved Fast; no independent tier switch claimed",
+  "coordinator": "Source-exposed behavioral/API preparer and candidate reviewer. No inherited bodies supplied to fresh fork-none authors. Clarifications followed frozen first drafts; all authors froze their own revisions. Coordinator copied and formatted production only.",
+  "packets": [
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/candidates-api.ts",
+      "sha256": "c3e5da4d9ec086791864435f7c4cc3b51abac0ec6946748ce3ee11b0377c200a",
+      "bytes": 595,
+      "mode": "0o444",
+      "contents": "import type { Dirent } from \"node:fs\";\n\nimport { lstat, readdir, realpath } from \"node:fs/promises\";\n\nimport { join, posix } from \"node:path\";\n\nimport {\n  feedbackArchiveLimits,\n  isFeedbackArchiveFilename,\n  type FeedbackLogSource,\n} from \"./feedbackArchivePolicy.js\";\n\nexport interface FeedbackArchiveCandidate {\n  path: string;\n  name: string;\n}\n\ninterface DirectoryFrame {\n  path: string;\n  prefix: string;\n  depth: number;\n  entries: Dirent[];\n  cursor: number;\n}\n\nexport function* feedbackArchiveCandidates(sources: readonly FeedbackLogSource[]): AsyncGenerator<FeedbackArchiveCandidate>;\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md",
+      "sha256": "382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed",
+      "bytes": 1015,
+      "mode": "0o444",
+      "contents": "Retained dependency contracts: createServiceDescriptor<T>(channelName:string) returns ServiceDescriptor<T>. Import ServiceChannels.MediaPreview runtime from @knorvia/shared for same-name IMediaPreviewService const. Shared MediaPreviewKind audio|video and getMediaPreviewFormat(path) returns {extension,kind,mediaType}|null. FileStat uses type:string and size?:number; FileMediaPreview uses dataBase64:string, mediaType:string, totalBytes:number. Existing IFileService declaration is authoritative. Retained feedbackArchiveLimits object exported policy: fileBytes8388608,totalBytes33554432,visits2000,depth4. SnapshotResult inferred public return is included{entry,cost}|skipped{reason:string}. Shared redactFeedbackText(text:string,{diagnostic:true}) returns string. Retain imports and type declarations; no dependency implementation authoring. Retain source legacy import .js specifiers. No old-source imports via tools/typecompiler; use only these packets and standard Node declarations. No license header claim.\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/descriptor-api.ts",
+      "sha256": "89043c1dedbbb4953954693468e115ad92ee829f7ae85530f5cb68ebe3c54aa4",
+      "bytes": 254,
+      "mode": "0o444",
+      "contents": "export interface ServiceDescriptor<T> {\n  readonly channelName: string;\n  /** Phantom type \u2014 \u4ec5\u7528\u4e8e\u7c7b\u578b\u63a8\u65ad\uff0c\u8fd0\u884c\u65f6\u4e0d\u5b58\u5728 */\n  readonly _brand?: T;\n}\n\nexport function createServiceDescriptor<T>(channelName: string): ServiceDescriptor<T>;\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/feedback-behavior.md",
+      "sha256": "925d10b2418eef26214a63b06b1456960b7f9cb4359d17b8aaeef2a824d5acfc",
+      "bytes": 3550,
+      "mode": "0o444",
+      "contents": "# Feedback traversal and snapshot complete owners\n\nBefore source replacement: candidates SHA256 b1b0e4c98eb800e845a0d2fe71d522bf877fa909e1124b23003cf7419c37d39e; snapshot SHA256 b9c7ec24e7f02562066fb76a7b47e5cf387cbdc49a579afea966edef7288974c. Exact root-integration evidence and the second-fast-lanes receipt identify source-exposed extraction, not accepted independent authorship. Fresh authors get declarations and these behavioral contracts; coordinator has read the originals. Retain pure policy, redaction, archive writer, APIs and rights. No legal acceptance is implied.\n\nTraversal exclusively owns global visited-entry count and depth-first order. Iterate sources in supplied order. For each resolve realpath, tolerating failure as absent; then lstat original root, tolerating failure. Admit only directory roots while below 2000 visits. Read canonical root with withFileTypes true, tolerate read errors as empty, locale-sort sibling names. Count every encountered entry, including ignored/link entries. Skip symlinks; use native join for path and posix join for archive names. Descend regular directories only for non-exit-only sources through depth4 (root0); depth4 directories' children may be considered but depth5 directories are not opened. Normal/exit-only filename rules and limits come from unchanged policy. Yield regular matching files in depth-first order. Budget is global across roots and scan continues only when consumer resumes the generator; no pre-reading whole tree or new root discovery. Keep original order of realpath/lstat even after count is exhausted for the next source.\n\nSnapshot exclusively owns a handle for one admission attempt. Require candidate realpath to equal input; failed/different realpath yields unsafe-path. lstat failure or failed policy yields metadata-policy. Open read-only with O_NOFOLLOW when available; failure yields open-failed. Inside try/finally, stat handle, require retained metadata policy and same ino/dev as pre-open; otherwise opened-file-policy. Allocate exactly opened size, positional reads of remaining bytes starting at0; positive partial reads continue, zero yields short-read. Do not read appended bytes. Decode through retained helper; null yields unsupported-text. Redact through public shared redactFeedbackText once with diagnostic:true, UTF8 encode, apply retained size policy; failure yields redacted-size-limit. Return included entry with unchanged candidate name and cost max(original length, redacted length). No extra filename/path-prefix checks; scanner and retained policy own those boundaries. All handle stat/read/redaction exceptions propagate unchanged; close is awaited on every post-open exit, and close failures retain precedence. No handle is acquired for earlier rejection paths.\n\n```text\ncaller -> traversal (single scan count) -> candidate\ncandidate -> canonical/lstat admission -> open -> fstat identity -> bounded read -> decode/redact -> result\n                                               -> finally close, on every post-open outcome\n```\n\nMinimum strict synthetic ports check link traversal prevention, opened identity races preventing reads, positional partial-read accounting, closure and exact failure identity. No real log/user content/telemetry/credential/filesystem/network/provider/database operations. Missing yazl blocks writer validation; leave writer unchanged. Existing missing ignore/croner/CUA, historical EPERM and provenance holds remain. Only relevant types/lint/format/architecture and new safety checks; no broad suites/builds.\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/file-api.ts",
+      "sha256": "a8863ec0f4f46ace0b83f7a17f31f2e0d2533403f73e4c6af3fce2a226063579",
+      "bytes": 3860,
+      "mode": "0o444",
+      "contents": "import type {\n  FileBinaryPreview,\n  FileEntry,\n  FileMediaPreview,\n  FileStat,\n  WorkspaceFileEntry,\n  FileTextSlice,\n} from \"@knorvia/shared\";\n\nimport { ServiceChannels } from \"@knorvia/shared\";\n\nimport { createServiceDescriptor } from \"../descriptors.js\";\n\nexport interface WorkspaceFileSearchParams {\n  rootPath: string;\n  workspaceIdentity?: string;\n  query: string;\n  limit?: number;\n  /** \u65e0\u547d\u4e2d\u8865\u626b\uff1a\u7ed5\u8fc7\u5c1a\u672a\u8fc7\u671f\u7684\u6587\u4ef6\u7d22\u5f15\u3002 */\n  refresh?: boolean;\n}\n\nexport interface IFileService {\n  /** Host \u5339\u914d\u5e76\u8fd4\u56de\u6709\u754c\u5019\u9009\uff0c\u907f\u514d Renderer \u4e0b\u8f7d\u5b8c\u6574\u6587\u4ef6\u7d22\u5f15\u3002 */\n  searchWorkspaceFiles(params: WorkspaceFileSearchParams): Promise<WorkspaceFileEntry[]>;\n  readdir(params: { path: string; includeHidden?: boolean }): Promise<FileEntry[]>;\n  stat(params: { path: string }): Promise<FileStat>;\n  checkFilesExist(params: { paths: string[] }): Promise<Array<{ path: string; exists: boolean }>>;\n  resolvePath(params: { path: string }): Promise<string>;\n  ensureConversationWorkspace(): Promise<{\n    path: string;\n    created: boolean;\n    workspacePurpose: \"conversation\";\n  }>;\n  createDefaultWorkspace(): Promise<{ path: string }>;\n  createScratchWorkspace(params: { name: string }): Promise<{ path: string }>;\n  readTextFile(params: { path: string; offset?: number; length?: number }): Promise<FileTextSlice>;\n  readMediaPreview(params: { path: string; maxBytes?: number }): Promise<FileMediaPreview>;\n  /**\n   * \u6309\u504f\u79fb\u8bfb\u53d6\u6587\u4ef6\u7684\u4e00\u6bb5\u539f\u59cb\u5b57\u8282\uff0c\u4f9b\u5927\u4e8c\u8fdb\u5236\u6587\u4ef6\uff08\u5982 PDF\uff09\u6309\u9700\u5206\u6bb5\u52a0\u8f7d\u3002\n   * \u8fd4\u56de\u503c\u5fc5\u987b\u4fdd\u6301\u9876\u5c42 Uint8Array\uff1aRPC \u5e8f\u5217\u5316\u53ea\u5bf9\u9876\u5c42\u4e8c\u8fdb\u5236\u8d70\u539f\u59cb\u5b57\u8282\u901a\u9053\uff0c\n   * \u5d4c\u5957\u5728\u5bf9\u8c61\u5b57\u6bb5\u91cc\u4f1a\u9000\u5316\u6210 JSON+base64\u3002EOF \u65f6\u8fd4\u56de\u77ed\u6570\u7ec4\u3002\n   */\n  readFileRange(params: { path: string; offset: number; length: number }): Promise<Uint8Array>;\n  readBinaryPreview(params: { path: string; maxBytes?: number }): Promise<FileBinaryPreview>;\n  /**\n   * workspace \u6587\u4ef6\u7d22\u5f15\u7684\u5217\u5f0f\u6253\u5305\u957f\u5ea6\uff08\u5b57\u7b26\u6570\uff09\u3002\u4e0e listWorkspaceFilesRange \u914d\u5bf9\uff0c\n   * \u8c03\u7528\u65b9\u6309\u957f\u5ea6\u5206\u5757\u62c9\u53d6\uff08\u89c1 fetchWorkspaceFileEntriesPacked\uff09\u3002\n   * \u8fd4\u56de number\uff1aRPC Int \u5feb\u901f\u8def\u5f84\u3002\n   */\n  listWorkspaceFilesLength(params: { rootPath: string }): Promise<number>;\n  /**\n   * \u5206\u5757\u8fd4\u56de\u5217\u5f0f\u6253\u5305\u5b57\u7b26\u4e32\uff08workspaceFileEntriesCodec \u683c\u5f0f\uff0c[offset, offset+length)\uff09\u3002\n   * \u5fc5\u987b\u662f\u88f8 string \u9876\u5c42\u8fd4\u56de\uff1aRPC String \u5feb\u901f\u8def\u5f84\uff08\u957f\u5ea6\u524d\u7f00+\u539f\u59cb\u5b57\u8282\uff09\uff1bObject \u4f1a\n   * JSON \u8f6c\u4e49\u5927\u5b57\u7b26\u4e32\uff08\u5b9e\u6d4b 6-9s \u4e3b\u7ebf\u7a0b\u957f\u4efb\u52a1\uff09\u3002\u5355\u5757\u4e0d\u8d85\u8fc7 ~4MB\uff1a\u5927\u6d88\u606f\u5728\n   * renderer \u63a5\u6536\u7aef\u7684\u5206\u5e27\u91cd\u7ec4\u662f\u79d2\u7ea7\u957f\u4efb\u52a1\uff08\u5b9e\u6d4b 4.6-6.3s\uff09\uff0c\u5206\u5757 + \u5757\u95f4\u8ba9\u51fa\u540e\n   * \u4e3b\u7ebf\u7a0b\u6bcf\u6b21\u53ea\u5904\u7406\u4e00\u5c0f\u5757\uff08~50ms\uff09\uff0c\u8f93\u5165\u6c38\u4e0d\u51bb\u7ed3\u3002\n   * Host \u4fa7\u6709 60s TTL + .knorviaignore \u6307\u7eb9\u7b7e\u540d\u7684\u6574\u5305\u7f13\u5b58\uff0c\u5206\u5757\u53ea\u662f\u5207\u7247\u3002\n   */\n  listWorkspaceFilesRange(params: {\n    rootPath: string;\n    offset: number;\n    length: number;\n  }): Promise<string>;\n  /**\n   * workspace \u641c\u7d22\u5ffd\u7565\u89c4\u5219\uff08.knorviaignore\uff09\u7684\u8bfb\u5199\uff0c\u4f9b\u8bbe\u7f6e\u9875\u7f16\u8f91\u4f7f\u7528\u3002\n   * source: \"file\" \u5df2\u5b58\u5728\u6587\u4ef6\u5185\u5bb9\uff1b\"template\" \u5c1a\u672a\u521b\u5efa\u65f6\u7684\u521d\u59cb\u5185\u5bb9\u9884\u89c8\uff08\u4fdd\u5b58\u65f6\u624d\u843d\u76d8\uff09\u3002\n   */\n  readWorkspaceFileSearchIgnore(params: {\n    rootPath: string;\n  }): Promise<{ content: string; source: \"file\" | \"template\" }>;\n  /**\n   * \u8bbe\u7f6e\u9875\u5206\u533a\u64cd\u4f5c\uff08\u8fd4\u56de\u65b0\u5185\u5bb9\u586b\u5145\u7f16\u8f91\u6846\uff0c\u4fdd\u5b58\u624d\u843d\u76d8\uff09\uff1a\n   * \"sync-gitignore\" \u53ea\u91cd\u5199 gitignore \u540c\u6b65\u533a\uff08\u4fdd\u7559\u9ed8\u8ba4\u6bb5\u4e0e\u81ea\u5b9a\u4e49\u533a\uff09\uff1b\n   * \"reset-defaults\" \u53ea\u91cd\u7f6e\u9ed8\u8ba4\u6392\u9664\u6bb5\uff08\u4fdd\u7559 gitignore \u533a\u4e0e\u81ea\u5b9a\u4e49\u533a\uff09\u3002\n   */\n  applyWorkspaceFileSearchIgnoreTransform(params: {\n    rootPath: string;\n    transform: \"sync-gitignore\" | \"reset-defaults\";\n  }): Promise<{ content: string }>;\n  writeWorkspaceFileSearchIgnore(params: { rootPath: string; content: string }): Promise<void>;\n}\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/manifest.json",
+      "sha256": "c2ba061e72a9547616dd43fa72e01742858aa029875f11cc14160544fbe9bc57",
+      "bytes": 1863,
+      "mode": "0o444",
+      "contents": "[\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/candidates-api.ts\",\n    \"sha256\": \"c3e5da4d9ec086791864435f7c4cc3b51abac0ec6946748ce3ee11b0377c200a\",\n    \"bytes\": 595\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\",\n    \"sha256\": \"382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed\",\n    \"bytes\": 1015\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/descriptor-api.ts\",\n    \"sha256\": \"89043c1dedbbb4953954693468e115ad92ee829f7ae85530f5cb68ebe3c54aa4\",\n    \"bytes\": 254\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/feedback-behavior.md\",\n    \"sha256\": \"925d10b2418eef26214a63b06b1456960b7f9cb4359d17b8aaeef2a824d5acfc\",\n    \"bytes\": 3550\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/file-api.ts\",\n    \"sha256\": \"a8863ec0f4f46ace0b83f7a17f31f2e0d2533403f73e4c6af3fce2a226063579\",\n    \"bytes\": 3860\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/media-api.ts\",\n    \"sha256\": \"99edfeebe9808216e36812257fb4f171cac8cac6cf58afa2018fdb470ec4bc2b\",\n    \"bytes\": 1274\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/media-behavior.md\",\n    \"sha256\": \"22e8bd55b7dea212d794dc89100d34bc4593e9f67187fbdcbf09b440be12f242\",\n    \"bytes\": 2192\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/policy-api.ts\",\n    \"sha256\": \"7fea6e4541780f79389f60256b8f4b7e3657e2b72fcdb16ad4d1733afce58663\",\n    \"bytes\": 732\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/sharedMedia-api.ts\",\n    \"sha256\": \"22417afbbb38869fdc2acb54488528743d08134bd658e05d12de727386c1a2aa\",\n    \"bytes\": 240\n  },\n  {\n    \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/snapshot-api.ts\",\n    \"sha256\": \"51ecd3b18e61fc33a9abdf7746148d2d2475e8d28b60760cda68b2b87211deb6\",\n    \"bytes\": 749\n  }\n]\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/media-api.ts",
+      "sha256": "99edfeebe9808216e36812257fb4f171cac8cac6cf58afa2018fdb470ec4bc2b",
+      "bytes": 1274,
+      "mode": "0o444",
+      "contents": "import { getMediaPreviewFormat, ServiceChannels, type MediaPreviewKind } from \"@knorvia/shared\";\n\nimport type { IFileService } from \"../file/file.js\";\n\nimport { createServiceDescriptor } from \"../descriptors.js\";\n\nexport type MediaPreviewPreparation =\n  | {\n      kind: \"local-url\";\n      mediaType: string;\n      path: string;\n      size: number;\n      url: string;\n    }\n  | {\n      kind: \"host-range-url\";\n      mediaType: string;\n      path: string;\n      previewId: string;\n      size: number;\n      url: string;\n      urlExpiresAt: number;\n    }\n  | {\n      kind: \"inline\";\n      dataBase64: string;\n      mediaType: string;\n      path: string;\n      size: number;\n    };\n\nexport interface IMediaPreviewService {\n  prepare(params: {\n    path: string;\n    expectedKind: MediaPreviewKind;\n  }): Promise<MediaPreviewPreparation>;\n  refreshPlaybackUrl?(params: { previewId: string }): Promise<{\n    url: string;\n    expiresAt: number;\n  }>;\n  release?(params: { previewId: string }): Promise<void>;\n}\n\nexport function createMediaPreviewService(options: {\n    fileService: IFileService;\n    authorizeLocalMediaPreviewPath?: (path: string) => Promise<string>;\n    createLocalMediaPreviewUrl?: (path: string) => string;\n    inlineMaxBytes?: number;\n}): IMediaPreviewService;\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/media-behavior.md",
+      "sha256": "22e8bd55b7dea212d794dc89100d34bc4593e9f67187fbdcbf09b440be12f242",
+      "bytes": 2192,
+      "mode": "0o444",
+      "contents": "# Media preparation complete owner\n\nBefore source replacement: original SHA256 e1263f8d945290612c65995d466151f149b2503c628e77061ff7e2418d1ca6e8. Migration evidence binds inherited modified source; no legal acceptance is implied. Replace the complete preparation owner through a fresh declaration/behavior-only author. Coordinator has read the original. Keep public types, descriptor, optional methods and dependencies unchanged.\n\nThe service owns one preparation operation and its factory-captured inline budget (`inlineMaxBytes ?? 8*1024*1024`). Resolve the public shared format first; reject absent/mismatched kind with `Unsupported media preview format: ${path}` before any IO. Await `fileService.stat({path})`; reject non-file or non-number size with `Path is not a media file: ${path}`. Do not add validation of numeric edge values.\n\nWhen both local hooks are present, await authorization of the input path, then call URL creation with the returned canonical path. Return local-url using canonical path, format media type and original stat size, regardless of inline budget. Never read inline bytes in this branch; authorization failures keep original identity and prevent URL creation. Otherwise enforce stat-size greater-than budget with `Media file is too large for inline preview: ${path}`, then request `readMediaPreview({path,maxBytes:budget})` once. Its base64, mediaType and totalBytes are forwarded without recomputation in the inline result with original input path. Preserve errors from format/stat/hooks/read and synchronous URL exceptions. Hooks and file service are read from the passed options at use time; only budget is captured at creation. No real filesystem/provider/network or application state in acceptance checks.\n\n```text\nprepare -> format admission -> stat -> paired local hooks? -> authorize -> URL -> result\n                                    -> size admission -> bounded preview read -> result\n```\n\nMinimum synthetic validation checks denied authorization cannot produce URLs/read bytes, unsupported kind cannot stat, and inline budget/returned data identity. Relevant scoped types/lint/format/architecture only; no broad tests/builds or licensing changes.\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/policy-api.ts",
+      "sha256": "7fea6e4541780f79389f60256b8f4b7e3657e2b72fcdb16ad4d1733afce58663",
+      "bytes": 732,
+      "mode": "0o444",
+      "contents": "import type { Stats } from \"node:fs\";\n\nexport interface FeedbackLogSource {\n  directory: string;\n  archivePrefix: string;\n  exitLogsOnly?: boolean;\n}\n\nexport interface FeedbackArchiveWindow {\n  start: number;\n  end: number;\n  budget: number;\n}\n\nexport function feedbackArchiveWindow(now: Date, budget?: number): FeedbackArchiveWindow;\n\nexport function isFeedbackArchiveFilename(name: string, exitOnly?: boolean): boolean;\n\nexport function fitsFeedbackArchive(size: number, charged: number, window: FeedbackArchiveWindow): boolean;\n\nexport function isFeedbackArchiveMetadata(info: Stats | null, charged: number, window: FeedbackArchiveWindow): info is Stats;\n\nexport function decodeFeedbackArchiveText(bytes: Buffer): string | null;\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/sharedMedia-api.ts",
+      "sha256": "22417afbbb38869fdc2acb54488528743d08134bd658e05d12de727386c1a2aa",
+      "bytes": 240,
+      "mode": "0o444",
+      "contents": "export type MediaPreviewKind = \"audio\" | \"video\";\n\nexport interface MediaPreviewFormat {\n  extension: string;\n  kind: MediaPreviewKind;\n  mediaType: string;\n}\n\nexport function getMediaPreviewFormat(path: string): MediaPreviewFormat | null;\n"
+    },
+    {
+      "path": "/tmp/knorvia-privacy-media-contracts-20261002/snapshot-api.ts",
+      "sha256": "51ecd3b18e61fc33a9abdf7746148d2d2475e8d28b60760cda68b2b87211deb6",
+      "bytes": 749,
+      "mode": "0o444",
+      "contents": "import { constants } from \"node:fs\";\n\nimport { lstat, open, realpath } from \"node:fs/promises\";\n\nimport { redactFeedbackText } from \"@knorvia/shared\";\n\nimport type { FeedbackArchiveCandidate } from \"./feedbackArchiveCandidates.js\";\n\nimport {\n  decodeFeedbackArchiveText,\n  fitsFeedbackArchive,\n  isFeedbackArchiveMetadata,\n  type FeedbackArchiveWindow,\n} from \"./feedbackArchivePolicy.js\";\n\nexport interface FeedbackArchiveEntry {\n  name: string;\n  data: Buffer;\n}\n\ntype SnapshotResult =\n  | { kind: \"included\"; entry: FeedbackArchiveEntry; cost: number }\n  | { kind: \"skipped\"; reason: string };\n\nexport function feedbackArchiveSnapshot(candidate: FeedbackArchiveCandidate, charged: number, window: FeedbackArchiveWindow): Promise<SnapshotResult>;\n"
+    }
+  ],
+  "generator": {
+    "path": "/tmp/knorvia-privacy-media-api-extract-20261002.mjs",
+    "sha256": "4204294b7b118616f9afba4c385df82b6963020bdc1c09e4edd66ed74931a7e7",
+    "bytes": 2861,
+    "mode": "0o600",
+    "contents": "import ts from '/tmp/knorvia-settings-tools/node_modules/typescript/lib/typescript.js';\nimport fs from 'node:fs';\nconst root='/workspace/knorvia-studio/';const out='/tmp/knorvia-privacy-media-contracts-20261002/';fs.mkdirSync(out,{recursive:true});\nconst files={\"media\": \"packages/services/src/media-preview/mediaPreview.ts\", \"candidates\": \"packages/services/src/feedback/feedbackArchiveCandidates.ts\", \"snapshot\": \"packages/services/src/feedback/feedbackArchiveSnapshot.ts\", \"policy\": \"packages/services/src/feedback/feedbackArchivePolicy.ts\", \"file\": \"packages/services/src/file/file.ts\", \"descriptor\": \"packages/services/src/descriptors.ts\", \"sharedMedia\": \"packages/shared/src/media-preview.ts\"};\nconst printer=ts.createPrinter({newLine:ts.NewLineKind.LineFeed});\nconst params=nodes=>nodes.map(p=>ts.factory.updateParameterDeclaration(p,undefined,p.dotDotDotToken,p.name,p.questionToken??(p.initializer?ts.factory.createToken(ts.SyntaxKind.QuestionToken):undefined),p.type,undefined));\nfor(const[name,path]of Object.entries(files)){\n const sf=ts.createSourceFile(path,fs.readFileSync(root+path,'utf8'),ts.ScriptTarget.Latest,true);const chunks=[];\n for(const n of sf.statements){\n  if(ts.isImportDeclaration(n))chunks.push(n.getText(sf));\n  else if(ts.isInterfaceDeclaration(n)||ts.isTypeAliasDeclaration(n))chunks.push(n.getText(sf));\n  else if(ts.isFunctionDeclaration(n)&&n.modifiers?.some(m=>m.kind===ts.SyntaxKind.ExportKeyword))chunks.push(printer.printNode(ts.EmitHint.Unspecified,ts.factory.updateFunctionDeclaration(n,n.modifiers?.filter(m=>m.kind!==ts.SyntaxKind.AsyncKeyword),n.asteriskToken,n.name,n.typeParameters,params(n.parameters),n.type,undefined),sf));\n  else if(ts.isClassDeclaration(n)){\n   const members=[];\n   for(const m of n.members){\n    if(m.modifiers?.some(x=>x.kind===ts.SyntaxKind.PrivateKeyword))continue;\n    if(ts.isMethodDeclaration(m))members.push(ts.factory.updateMethodDeclaration(m,m.modifiers?.filter(x=>x.kind!==ts.SyntaxKind.AsyncKeyword),m.asteriskToken,m.name,m.questionToken,m.typeParameters,params(m.parameters),m.type,undefined));\n    else if(ts.isConstructorDeclaration(m))members.push(ts.factory.updateConstructorDeclaration(m,m.modifiers,params(m.parameters),undefined));\n   }\n   chunks.push(printer.printNode(ts.EmitHint.Unspecified,ts.factory.updateClassDeclaration(n,n.modifiers,n.name,n.typeParameters,n.heritageClauses,members),sf));\n  }\n }\n const output=chunks.join('\\n\\n')+'\\n';const parsed=ts.createSourceFile(name+'.ts',output,ts.ScriptTarget.Latest,true);let bodies=0;\n const walk=n=>{if((ts.isFunctionDeclaration(n)||ts.isMethodDeclaration(n)||ts.isArrowFunction(n)||ts.isFunctionExpression(n)||ts.isConstructorDeclaration(n))&&n.body)bodies++;ts.forEachChild(n,walk)};walk(parsed);if(bodies)throw Error(name+' body');fs.writeFileSync(out+name+'-api.ts',output);console.log(name,'zero bodies');\n}\n"
+  },
+  "packetValidation": "Seven packets AST zero function/method/arrow/function-expression/constructor bodies; imports/type declarations retained including DirectoryFrame. Behavioral rules/error literals/numerical limits/standard APIs remain compatibility inputs.",
+  "originals": [
+    {
+      "path": "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+      "sha256": "bf38fa4dd5cb780a2915728fea767555d8ad1684e6c2e34d9306642529cbb770",
+      "blob": "e1d688891867805ba989bd877bbe630555e1d861",
+      "nonblank": 24
+    },
+    {
+      "path": "packages/services/src/logger/serviceLogger.ts",
+      "sha256": "4f00ea00270cead8955fe4a24cabf7b14274191f873f197b771e4ed10958bc21",
+      "blob": "33a4201d66884ec6bd4f8b809ba4bdb42edaaad5",
+      "nonblank": 60
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+      "sha256": "b1b0e4c98eb800e845a0d2fe71d522bf877fa909e1124b23003cf7419c37d39e",
+      "blob": "85e48f02136292faaea29129c32657c8a1a4f56d",
+      "nonblank": 59
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchivePolicy.ts",
+      "sha256": "7b8a7a6e0fea314c37a20702d306b416072aaa5d9a28971b7b263b580fa7c509",
+      "blob": "2157d7423317bf4b8d854147a7f00df26d7b9623",
+      "nonblank": 64
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+      "sha256": "b9c7ec24e7f02562066fb76a7b47e5cf387cbdc49a579afea966edef7288974c",
+      "blob": "8d8e03f627bc9a31c481ac6dc68f8aa0849c593b",
+      "nonblank": 60
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+      "sha256": "a056f81444db856597f7872a01b98014523488c3ac90ec79c984b9fc69a4d34a",
+      "blob": "43094816005233b4f70ea3da89d332c4a1532aaf",
+      "nonblank": 78
+    },
+    {
+      "path": "packages/services/src/creation/contract.ts",
+      "sha256": "a2242230f0c9d7dc11fb2ac104119c3fb208b1ad44eba07ab1a978290ef1b12d",
+      "blob": "f2d7d7efd4586692853607aecff9359bcf0a5742",
+      "nonblank": 267
+    },
+    {
+      "path": "packages/services/src/creation/creationJobs.ts",
+      "sha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
+      "blob": "33797ea8913b833d307370c59751081456de4ccb",
+      "nonblank": 373
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "sha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+      "blob": "5ba561b5bf1935149ab99a365f65c8a252b458e7",
+      "nonblank": 88
+    },
+    {
+      "path": "packages/services/src/creation/creationRunDeadline.ts",
+      "sha256": "b6b569e75865a12f4ac48d895c62d67731ae8e77654dc3954585dfb17daed1d7",
+      "blob": "da18e495c0c246171982b33f884a84f793be04b1",
+      "nonblank": 6
+    },
+    {
+      "path": "packages/services/src/creation/creationService.ts",
+      "sha256": "7e68b8a345a3d88d38b060a0be0b57642b72a0d79a221dc7d1d6c6cdafdd8ffd",
+      "blob": "873175f69e6fb3045e6996bc44e160a3d8a8e312",
+      "nonblank": 379
+    },
+    {
+      "path": "packages/services/src/creation/creationStorage.ts",
+      "sha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
+      "blob": "80414d556ec09eec9ca03e3e1f3a6dfda9aae544",
+      "nonblank": 369
+    },
+    {
+      "path": "packages/services/src/creation/modelValidation.ts",
+      "sha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+      "blob": "e6c633bbac848e67731c4ce98aa15f69406bed3e",
+      "nonblank": 71
+    },
+    {
+      "path": "packages/services/src/creation/module.ts",
+      "sha256": "d8888e77eaf79f0beb3f39f8fb0f66f9ebc77b9309b15a43c78854adaf7d5e4e",
+      "blob": "1f4b8163f695e493f35e7b377bd5cdb652b1c910",
+      "nonblank": 10
+    },
+    {
+      "path": "packages/services/src/creation/node.ts",
+      "sha256": "0d1b17f82798930be42aa7a6da8599e5fad20360c39a4bbd92d5480c5b335e70",
+      "blob": "6a58078822ec6086a9a77129c924adea791625fd",
+      "nonblank": 3
+    },
+    {
+      "path": "packages/services/src/creation/providers.ts",
+      "sha256": "6ba1dd1fe283c5c150f6568f20dd3a3cef970f964a2143efc3f8a47dac8cdbb0",
+      "blob": "b4b81da1852651465a8ead9709c1ed8ddd2d6e4e",
+      "nonblank": 374
+    },
+    {
+      "path": "packages/services/src/media-preview/mediaPreview.ts",
+      "sha256": "e1263f8d945290612c65995d466151f149b2503c628e77061ff7e2418d1ca6e8",
+      "blob": "94f31eb73c3d51d4c0501f02ebb6192cebf0143f",
+      "nonblank": 85
+    }
+  ],
+  "authors": {
+    "media": [
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/own-review.json",
+        "sha256": "b4e9f772420194118da070f38d0bd5c965a6c514b16731c08642391189d410f6",
+        "bytes": 3356,
+        "mode": "0o444",
+        "contents": "{\n  \"preferred_frozen_path\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/mediaPreview.ts\",\n  \"candidate_sha256\": \"b0077bdcfaf4ad0d942b6e024775f91eef97c16e58bf71ecd2f6277cf98b38d2\",\n  \"input_receipt_sha256\": \"ad2b87fc937f9cba797b3d6b558e6d2aee349dc9ed4c237498928820e7a674b0\",\n  \"review_after_raw_freeze\": true,\n  \"review_method\": \"Manual review of frozen authored bytes against the six supplied declaration/behavior inputs; line-count and SHA256 checks only.\",\n  \"total_lines\": 94,\n  \"nonblank_lines\": 83,\n  \"suppression_directives\": false,\n  \"corrections\": [],\n  \"revisions\": [],\n  \"review_findings\": [\n    \"All preparation union members and fields, optional interface methods, factory arguments and return type match declarations. Same-name descriptor uses ServiceChannels.MediaPreview and relative imports retain .js.\",\n    \"Shared format resolution and absent/mismatched admission precede stat; format/stat exceptions propagate without wrapping.\",\n    \"Stat accepts only type file and typeof size number; numeric edge values receive no added validation.\",\n    \"Both hooks are checked after stat. Authorization is awaited before URL construction. Rejection exits before URL construction or inline read; synchronous URL failures propagate unchanged.\",\n    \"Local results use canonical authorized path, shared format mediaType and original stat size without inline budget admission.\",\n    \"Only inlineMaxBytes is captured at factory invocation using nullish fallback 8*1024*1024. Hook functions and file service remain options property reads at point of use.\",\n    \"Inline admission uses stat.size > budget and one readMediaPreview call with original path and maxBytes budget. Returned dataBase64, mediaType and totalBytes are directly forwarded; original path is retained.\",\n    \"Each required error message matches supplied behavior literally. No additional dependencies, dependency implementations, runtime state, or catches were introduced.\"\n  ],\n  \"actual_content_reads\": [\n    \"/tmp/knorvia-privacy-media-contracts-20261002/media-api.ts\",\n    \"/tmp/knorvia-privacy-media-contracts-20261002/file-api.ts\",\n    \"/tmp/knorvia-privacy-media-contracts-20261002/descriptor-api.ts\",\n    \"/tmp/knorvia-privacy-media-contracts-20261002/sharedMedia-api.ts\",\n    \"/tmp/knorvia-privacy-media-contracts-20261002/media-behavior.md\",\n    \"/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\",\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/mediaPreview.ts\",\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/input-receipt.json\"\n  ],\n  \"access_limits\": \"No original or inherited implementation, repository files/history, tests/probes, network/app data or TypeScript compiler used. No product imports resolved. Standard Python infrastructure only for filesystem writes, hashes, modes and counts. All authored writes under the assigned /tmp candidate directory; no production edit or commit.\",\n  \"remaining_validation\": \"Compiler/type, lint, format and runtime/synthetic acceptance checks were intentionally not run under this delegated access restriction. Independent authorized validation is outside this author task.\",\n  \"claim_scope\": \"Declaration/behavior-only authoring and own manual review of this candidate; no legal, licensing or whole-process independence conclusion.\"\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/input-receipt.json",
+        "sha256": "ad2b87fc937f9cba797b3d6b558e6d2aee349dc9ed4c237498928820e7a674b0",
+        "bytes": 1803,
+        "mode": "0o444",
+        "contents": "{\n  \"candidate\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/mediaPreview.ts\",\n  \"sha256\": \"b0077bdcfaf4ad0d942b6e024775f91eef97c16e58bf71ecd2f6277cf98b38d2\",\n  \"bytes\": 2749,\n  \"mode\": \"0444\",\n  \"stage\": \"raw-first-ready before review or static checking\",\n  \"inputs\": [\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/media-api.ts\",\n      \"sha256\": \"99edfeebe9808216e36812257fb4f171cac8cac6cf58afa2018fdb470ec4bc2b\",\n      \"bytes\": 1274\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/file-api.ts\",\n      \"sha256\": \"a8863ec0f4f46ace0b83f7a17f31f2e0d2533403f73e4c6af3fce2a226063579\",\n      \"bytes\": 3860\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/descriptor-api.ts\",\n      \"sha256\": \"89043c1dedbbb4953954693468e115ad92ee829f7ae85530f5cb68ebe3c54aa4\",\n      \"bytes\": 254\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/sharedMedia-api.ts\",\n      \"sha256\": \"22417afbbb38869fdc2acb54488528743d08134bd658e05d12de727386c1a2aa\",\n      \"bytes\": 240\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/media-behavior.md\",\n      \"sha256\": \"22e8bd55b7dea212d794dc89100d34bc4593e9f67187fbdcbf09b440be12f242\",\n      \"bytes\": 2192\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\",\n      \"sha256\": \"382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed\",\n      \"bytes\": 1015\n    }\n  ],\n  \"access_limits\": \"Only six approved contract files read; no inherited implementation, repository, tests, probes, network, application data, compiler, or runtime validation accessed. Candidate and receipt are authored under /tmp. Standard Python execution used for writing and hashing.\",\n  \"validation_before_freeze\": \"none\"\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/mediaPreview.ts",
+        "sha256": "b0077bdcfaf4ad0d942b6e024775f91eef97c16e58bf71ecd2f6277cf98b38d2",
+        "bytes": 2749,
+        "mode": "0o444",
+        "contents": "import { getMediaPreviewFormat, ServiceChannels, type MediaPreviewKind } from \"@knorvia/shared\";\n\nimport type { IFileService } from \"../file/file.js\";\n\nimport { createServiceDescriptor } from \"../descriptors.js\";\n\nexport type MediaPreviewPreparation =\n  | {\n      kind: \"local-url\";\n      mediaType: string;\n      path: string;\n      size: number;\n      url: string;\n    }\n  | {\n      kind: \"host-range-url\";\n      mediaType: string;\n      path: string;\n      previewId: string;\n      size: number;\n      url: string;\n      urlExpiresAt: number;\n    }\n  | {\n      kind: \"inline\";\n      dataBase64: string;\n      mediaType: string;\n      path: string;\n      size: number;\n    };\n\nexport interface IMediaPreviewService {\n  prepare(params: {\n    path: string;\n    expectedKind: MediaPreviewKind;\n  }): Promise<MediaPreviewPreparation>;\n  refreshPlaybackUrl?(params: { previewId: string }): Promise<{\n    url: string;\n    expiresAt: number;\n  }>;\n  release?(params: { previewId: string }): Promise<void>;\n}\n\nexport const IMediaPreviewService = createServiceDescriptor<IMediaPreviewService>(\n  ServiceChannels.MediaPreview,\n);\n\nexport function createMediaPreviewService(options: {\n  fileService: IFileService;\n  authorizeLocalMediaPreviewPath?: (path: string) => Promise<string>;\n  createLocalMediaPreviewUrl?: (path: string) => string;\n  inlineMaxBytes?: number;\n}): IMediaPreviewService {\n  const budget = options.inlineMaxBytes ?? 8 * 1024 * 1024;\n\n  return {\n    async prepare({ path, expectedKind }): Promise<MediaPreviewPreparation> {\n      const format = getMediaPreviewFormat(path);\n      if (format === null || format.kind !== expectedKind) {\n        throw new Error(`Unsupported media preview format: ${path}`);\n      }\n\n      const stat = await options.fileService.stat({ path });\n      if (stat.type !== \"file\" || typeof stat.size !== \"number\") {\n        throw new Error(`Path is not a media file: ${path}`);\n      }\n\n      if (options.authorizeLocalMediaPreviewPath && options.createLocalMediaPreviewUrl) {\n        const canonicalPath = await options.authorizeLocalMediaPreviewPath(path);\n        const url = options.createLocalMediaPreviewUrl(canonicalPath);\n        return {\n          kind: \"local-url\",\n          mediaType: format.mediaType,\n          path: canonicalPath,\n          size: stat.size,\n          url,\n        };\n      }\n\n      if (stat.size > budget) {\n        throw new Error(`Media file is too large for inline preview: ${path}`);\n      }\n\n      const preview = await options.fileService.readMediaPreview({ path, maxBytes: budget });\n      return {\n        kind: \"inline\",\n        dataBase64: preview.dataBase64,\n        mediaType: preview.mediaType,\n        path,\n        size: preview.totalBytes,\n      };\n    },\n  };\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/clarification-input.txt",
+        "sha256": "b3159a39b9e74abb3ca06d4fb63f4ed0d8176b817c725809e4a3760b886b9ee3",
+        "bytes": 605,
+        "mode": "0o444",
+        "contents": "Bounded behavior clarification from coordinator review (no body feedback/test source): in local result construction, format.mediaType and stat.size are observed BEFORE synchronous URL factory execution, so a URL hook mutating those objects cannot change those already captured result fields. Original exception order also preserves mediaType/size getter failures before invoking URL creation. Please freeze your own separate revision after checking this clarification; raw-first-ready stays immutable. No tests or source reads. Record exact clarification input in receipt and preferred revision path/hash."
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/input-receipt.json",
+        "sha256": "bcc3e16d4df584f0434dbe548baccee9dfd9b1e72af96b84858623cbcf7280a7",
+        "bytes": 3177,
+        "mode": "0o444",
+        "contents": "{\n  \"candidate\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/mediaPreview.ts\",\n  \"sha256\": \"70b15195a8b1fce1448c4fb99ee9cb11e1ff5f362c70d6c711f4258fc633d564\",\n  \"bytes\": 2729,\n  \"mode\": \"0444\",\n  \"stage\": \"revision-1 frozen before own review or static checking\",\n  \"inputs\": [\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/media-api.ts\",\n      \"sha256\": \"99edfeebe9808216e36812257fb4f171cac8cac6cf58afa2018fdb470ec4bc2b\",\n      \"bytes\": 1274\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/file-api.ts\",\n      \"sha256\": \"a8863ec0f4f46ace0b83f7a17f31f2e0d2533403f73e4c6af3fce2a226063579\",\n      \"bytes\": 3860\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/descriptor-api.ts\",\n      \"sha256\": \"89043c1dedbbb4953954693468e115ad92ee829f7ae85530f5cb68ebe3c54aa4\",\n      \"bytes\": 254\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/sharedMedia-api.ts\",\n      \"sha256\": \"22417afbbb38869fdc2acb54488528743d08134bd658e05d12de727386c1a2aa\",\n      \"bytes\": 240\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/media-behavior.md\",\n      \"sha256\": \"22e8bd55b7dea212d794dc89100d34bc4593e9f67187fbdcbf09b440be12f242\",\n      \"bytes\": 2192\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\",\n      \"sha256\": \"382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed\",\n      \"bytes\": 1015\n    }\n  ],\n  \"clarification_input\": {\n    \"path\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/clarification-input.txt\",\n    \"sha256\": \"b3159a39b9e74abb3ca06d4fb63f4ed0d8176b817c725809e4a3760b886b9ee3\",\n    \"exact_text\": \"Bounded behavior clarification from coordinator review (no body feedback/test source): in local result construction, format.mediaType and stat.size are observed BEFORE synchronous URL factory execution, so a URL hook mutating those objects cannot change those already captured result fields. Original exception order also preserves mediaType/size getter failures before invoking URL creation. Please freeze your own separate revision after checking this clarification; raw-first-ready stays immutable. No tests or source reads. Record exact clarification input in receipt and preferred revision path/hash.\"\n  },\n  \"author_owned_prior_candidate\": {\n    \"path\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/mediaPreview.ts\",\n    \"sha256\": \"b0077bdcfaf4ad0d942b6e024775f91eef97c16e58bf71ecd2f6277cf98b38d2\"\n  },\n  \"author_owned_prior_input_receipt\": {\n    \"path\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/input-receipt.json\",\n    \"sha256\": \"ad2b87fc937f9cba797b3d6b558e6d2aee349dc9ed4c237498928820e7a674b0\"\n  },\n  \"access_limits\": \"Only original approved six contract files previously read; this revision reads author-owned raw-first-ready candidate and input receipt, and receives the exact bounded coordinator clarification above. No product source, repository/history, tests/probes, compiler, network or app data accessed. All writes under assigned /tmp candidate directory.\",\n  \"validation_before_freeze\": \"none\"\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/mediaPreview.ts",
+        "sha256": "70b15195a8b1fce1448c4fb99ee9cb11e1ff5f362c70d6c711f4258fc633d564",
+        "bytes": 2729,
+        "mode": "0o444",
+        "contents": "import { getMediaPreviewFormat, ServiceChannels, type MediaPreviewKind } from \"@knorvia/shared\";\n\nimport type { IFileService } from \"../file/file.js\";\n\nimport { createServiceDescriptor } from \"../descriptors.js\";\n\nexport type MediaPreviewPreparation =\n  | {\n      kind: \"local-url\";\n      mediaType: string;\n      path: string;\n      size: number;\n      url: string;\n    }\n  | {\n      kind: \"host-range-url\";\n      mediaType: string;\n      path: string;\n      previewId: string;\n      size: number;\n      url: string;\n      urlExpiresAt: number;\n    }\n  | {\n      kind: \"inline\";\n      dataBase64: string;\n      mediaType: string;\n      path: string;\n      size: number;\n    };\n\nexport interface IMediaPreviewService {\n  prepare(params: {\n    path: string;\n    expectedKind: MediaPreviewKind;\n  }): Promise<MediaPreviewPreparation>;\n  refreshPlaybackUrl?(params: { previewId: string }): Promise<{\n    url: string;\n    expiresAt: number;\n  }>;\n  release?(params: { previewId: string }): Promise<void>;\n}\n\nexport const IMediaPreviewService = createServiceDescriptor<IMediaPreviewService>(\n  ServiceChannels.MediaPreview,\n);\n\nexport function createMediaPreviewService(options: {\n  fileService: IFileService;\n  authorizeLocalMediaPreviewPath?: (path: string) => Promise<string>;\n  createLocalMediaPreviewUrl?: (path: string) => string;\n  inlineMaxBytes?: number;\n}): IMediaPreviewService {\n  const budget = options.inlineMaxBytes ?? 8 * 1024 * 1024;\n\n  return {\n    async prepare({ path, expectedKind }): Promise<MediaPreviewPreparation> {\n      const format = getMediaPreviewFormat(path);\n      if (format === null || format.kind !== expectedKind) {\n        throw new Error(`Unsupported media preview format: ${path}`);\n      }\n\n      const stat = await options.fileService.stat({ path });\n      if (stat.type !== \"file\" || typeof stat.size !== \"number\") {\n        throw new Error(`Path is not a media file: ${path}`);\n      }\n\n      if (options.authorizeLocalMediaPreviewPath && options.createLocalMediaPreviewUrl) {\n        const canonicalPath = await options.authorizeLocalMediaPreviewPath(path);\n        return {\n          kind: \"local-url\",\n          mediaType: format.mediaType,\n          path: canonicalPath,\n          size: stat.size,\n          url: options.createLocalMediaPreviewUrl(canonicalPath),\n        };\n      }\n\n      if (stat.size > budget) {\n        throw new Error(`Media file is too large for inline preview: ${path}`);\n      }\n\n      const preview = await options.fileService.readMediaPreview({ path, maxBytes: budget });\n      return {\n        kind: \"inline\",\n        dataBase64: preview.dataBase64,\n        mediaType: preview.mediaType,\n        path,\n        size: preview.totalBytes,\n      };\n    },\n  };\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/own-review.json",
+        "sha256": "18ff1d4c899e7d56746828603c48736749be95732f5cadbde8eb45c106b333ab",
+        "bytes": 2819,
+        "mode": "0o444",
+        "contents": "{\n  \"preferred_frozen_path\": \"/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/mediaPreview.ts\",\n  \"candidate_sha256\": \"70b15195a8b1fce1448c4fb99ee9cb11e1ff5f362c70d6c711f4258fc633d564\",\n  \"receipt_sha256\": \"bcc3e16d4df584f0434dbe548baccee9dfd9b1e72af96b84858623cbcf7280a7\",\n  \"clarification_sha256\": \"b3159a39b9e74abb3ca06d4fb63f4ed0d8176b817c725809e4a3760b886b9ee3\",\n  \"raw_first_ready_sha256\": \"b0077bdcfaf4ad0d942b6e024775f91eef97c16e58bf71ecd2f6277cf98b38d2\",\n  \"review_after_revision_freeze\": true,\n  \"review_method\": \"Manual review of frozen revision bytes against approved packet and exact bounded coordinator clarification; SHA256/mode/line count only. No tests or compiler.\",\n  \"lines\": 93,\n  \"nonblank_lines\": 82,\n  \"corrections\": [\n    \"Moved URL factory execution into the final local result property, so format.mediaType and stat.size are read first. Their getter exceptions therefore propagate before URL invocation; URL-hook mutations cannot change the already captured result properties.\"\n  ],\n  \"review_findings\": [\n    \"Local result property evaluation reads format.mediaType, uses canonical path, reads stat.size, then obtains and invokes options.createLocalMediaPreviewUrl with canonical path.\",\n    \"URL hook retains options as its call receiver and is read at use time. Authorization still precedes result construction; denial exits before URL or inline read.\",\n    \"Public types, same-name descriptor, dependencies and .js relative imports are preserved.\",\n    \"Original format/stat admission, errors, captured inline budget and inline data forwarding are unchanged from raw candidate.\",\n    \"No further corrections found; no suppressions. Raw-first-ready artifacts were not modified.\"\n  ],\n  \"new_reads_during_revision\": [\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/mediaPreview.ts\",\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/raw-first-ready/input-receipt.json\",\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/mediaPreview.ts\",\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/input-receipt.json\",\n    \"/tmp/knorvia-privacy-media-candidates-20261002/media/revision-1/own-review.json\"\n  ],\n  \"access_limits\": \"The six original approved packet reads remain the only external content file reads. Revision adds the exact coordinator message and author-owned artifacts only. No original/product source, repository/history, tests/probes, compiler, network or application data accessed. Writes limited to assigned /tmp candidate directory; no production edit or commit.\",\n  \"remaining_validation\": \"No compiler, lint, formatter, runtime or synthetic acceptance run under delegated restrictions.\",\n  \"claim_scope\": \"Scoped authoring and manual review only; no legal or whole-process conclusion.\"\n}\n"
+      }
+    ],
+    "candidates": [
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/raw-first-ready/actual-input-receipt.json",
+        "sha256": "1b2aa41890ddcf8a4abf523fd4037b3c3f5bd105870305a0217a3b8a4cf9e089",
+        "bytes": 1982,
+        "mode": "0o444",
+        "contents": "{\n  \"frozen_at_utc\": \"2026-10-02T21:24:09.782049+00:00\",\n  \"artifact\": \"/tmp/knorvia-privacy-media-candidates-20261002/candidates/raw-first-ready/feedbackArchiveCandidates.ts\",\n  \"artifact_sha256\": \"4f31ef865447f7b89e4d4e4fa40ee8d86d857eed6c06d365226aeadd5b26c4e3\",\n  \"mode\": \"0444\",\n  \"stage\": \"raw-first-ready before any own review or static check\",\n  \"actual_input_reads\": [\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/candidates-api.ts\",\n      \"sha256\": \"c3e5da4d9ec086791864435f7c4cc3b51abac0ec6946748ce3ee11b0377c200a\",\n      \"access\": \"read via cat; repeated only for this receipt hash\"\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/policy-api.ts\",\n      \"sha256\": \"7fea6e4541780f79389f60256b8f4b7e3657e2b72fcdb16ad4d1733afce58663\",\n      \"access\": \"read via cat; repeated only for this receipt hash\"\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/feedback-behavior.md\",\n      \"sha256\": \"925d10b2418eef26214a63b06b1456960b7f9cb4359d17b8aaeef2a824d5acfc\",\n      \"access\": \"read via cat; repeated only for this receipt hash\"\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\",\n      \"sha256\": \"382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed\",\n      \"access\": \"read via cat; repeated only for this receipt hash\"\n    }\n  ],\n  \"authorship_basis\": \"Supplied declarations and behavioral contracts only\",\n  \"access_limits\": \"No repository, original implementation, inherited source, history, tests, probes, network, app data, or product compiler imports accessed. Standard Node imports are declared in the output but were not resolved or executed. Only /tmp output writes.\",\n  \"pre_freeze_actions\": [\n    \"Read the four authorized packet files\",\n    \"Created output directory\",\n    \"Authored file using apply_patch\",\n    \"Set file read-only\",\n    \"Hashed artifact and authorized inputs for this receipt\"\n  ],\n  \"own_review_before_freeze\": false\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/raw-first-ready/feedbackArchiveCandidates.ts",
+        "sha256": "4f31ef865447f7b89e4d4e4fa40ee8d86d857eed6c06d365226aeadd5b26c4e3",
+        "bytes": 2266,
+        "mode": "0o444",
+        "contents": "import type { Dirent } from \"node:fs\";\n\nimport { lstat, readdir, realpath } from \"node:fs/promises\";\n\nimport { join, posix } from \"node:path\";\n\nimport {\n  feedbackArchiveLimits,\n  isFeedbackArchiveFilename,\n  type FeedbackLogSource,\n} from \"./feedbackArchivePolicy.js\";\n\nexport interface FeedbackArchiveCandidate {\n  path: string;\n  name: string;\n}\n\ninterface DirectoryFrame {\n  path: string;\n  prefix: string;\n  depth: number;\n  entries: Dirent[];\n  cursor: number;\n}\n\nasync function directoryEntries(path: string): Promise<Dirent[]> {\n  const entries = await readdir(path, { withFileTypes: true }).catch(() => []);\n  return entries.sort((left, right) => left.name.localeCompare(right.name));\n}\n\nexport async function* feedbackArchiveCandidates(\n  sources: readonly FeedbackLogSource[],\n): AsyncGenerator<FeedbackArchiveCandidate> {\n  let visits = 0;\n\n  for (const source of sources) {\n    const root = await realpath(source.directory).catch(() => null);\n    const info = await lstat(source.directory).catch(() => null);\n    if (!root || !info?.isDirectory() || visits >= feedbackArchiveLimits.visits) {\n      continue;\n    }\n\n    const stack: DirectoryFrame[] = [\n      {\n        path: root,\n        prefix: source.archivePrefix,\n        depth: 0,\n        entries: await directoryEntries(root),\n        cursor: 0,\n      },\n    ];\n\n    while (stack.length > 0 && visits < feedbackArchiveLimits.visits) {\n      const frame = stack[stack.length - 1];\n      if (frame.cursor >= frame.entries.length) {\n        stack.pop();\n        continue;\n      }\n\n      const entry = frame.entries[frame.cursor++];\n      visits++;\n      if (entry.isSymbolicLink()) {\n        continue;\n      }\n\n      const path = join(frame.path, entry.name);\n      const name = posix.join(frame.prefix, entry.name);\n      if (entry.isDirectory()) {\n        if (!source.exitLogsOnly && frame.depth < feedbackArchiveLimits.depth) {\n          stack.push({\n            path,\n            prefix: name,\n            depth: frame.depth + 1,\n            entries: await directoryEntries(path),\n            cursor: 0,\n          });\n        }\n        continue;\n      }\n\n      if (entry.isFile() && isFeedbackArchiveFilename(entry.name, source.exitLogsOnly)) {\n        yield { path, name };\n      }\n    }\n  }\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/raw-first-ready/own-review.md",
+        "sha256": "662cf8f676294f212a9209ec34310c4ce7a13d28310767165ef02ddf2dd63c89",
+        "bytes": 2009,
+        "mode": "0o444",
+        "contents": "The preferred artifact is feedbackArchiveCandidates.ts in this directory. Its first-ready bytes were frozen before this review and have not been revised.\n\nOwn review was limited to reading the frozen authored file and counting its nonblank lines. It has 73 nonblank lines, no suppression directives, and mode 0444. No compiler, tests, probes, production imports, repository files, history, network, app data, or original implementation were accessed.\n\nManual contract review found:\n\n- The public candidate shape, source type import, legacy .js policy specifier, and asynchronous generator return boundary are retained.\n- Sources remain in input order. Each source resolves realpath before lstat of its original directory; both attempts precede the exhausted-budget admission check.\n- A root must be a directory according to lstat of the original root. Root reads use its canonical path. Lookup failures are treated as absence and directory read failures as empty entries.\n- The stack preserves locale-sorted sibling order and depth-first traversal. Native join builds filesystem paths and posix.join builds archive names.\n- Every consumed entry increments one generator-local counter before classification, including ignored entries and symlinks. The counter is shared by all sources and controlled by the retained policy limit.\n- Symlinks are skipped before directory or file handling. Exit-only sources do not descend. Root depth is zero; children of depth-four frames are considered, but a directory at depth five is never opened.\n- Only regular files accepted by the retained filename predicate are yielded, with the source exit-only option forwarded.\n- Each yield suspends subsequent traversal and source discovery until the consumer resumes. A directory is read only as it is reached; the complete tree is not read ahead.\n\nNo revision was needed after this review. No execution or compilation evidence is claimed. Coordinator-side validation remains necessary under the task's allowed validation scope.\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/revision-1/actual-input-receipt.json",
+        "sha256": "7bf5f4a25b3461e82c009323c96ee5c0923a74f84b50bad6ec62376c419ff276",
+        "bytes": 2315,
+        "mode": "0o444",
+        "contents": "{\n  \"frozen_at_utc\": \"2026-10-02T21:25:38.493663+00:00\",\n  \"artifact\": \"/tmp/knorvia-privacy-media-candidates-20261002/candidates/revision-1/feedbackArchiveCandidates.ts\",\n  \"artifact_sha256\": \"d3b2b71a9c1e3eb27b3e5d7f92ecee0564b260ad47302bfb4cd116bd2d1b0b26\",\n  \"mode\": \"0444\",\n  \"stage\": \"separate revision-1 frozen before post-edit own review\",\n  \"actual_input_reads\": [\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/candidates-api.ts\",\n      \"sha256\": \"c3e5da4d9ec086791864435f7c4cc3b51abac0ec6946748ce3ee11b0377c200a\",\n      \"access\": \"authorized packet previously read via cat; repeated for receipt hash\"\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/policy-api.ts\",\n      \"sha256\": \"7fea6e4541780f79389f60256b8f4b7e3657e2b72fcdb16ad4d1733afce58663\",\n      \"access\": \"authorized packet previously read via cat; repeated for receipt hash\"\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/feedback-behavior.md\",\n      \"sha256\": \"925d10b2418eef26214a63b06b1456960b7f9cb4359d17b8aaeef2a824d5acfc\",\n      \"access\": \"authorized packet previously read via cat; repeated for receipt hash\"\n    },\n    {\n      \"path\": \"/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\",\n      \"sha256\": \"382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed\",\n      \"access\": \"authorized packet previously read via cat; repeated for receipt hash\"\n    }\n  ],\n  \"additional_input\": {\n    \"origin\": \"coordinator task message\",\n    \"path\": \"/tmp/knorvia-privacy-media-candidates-20261002/candidates/revision-1/coordinator-clarification.txt\",\n    \"sha256\": \"2f4f8e4ab219eb6ec6d8151c2e766104b19094017fe7325732d5921ccd805431\"\n  },\n  \"prior_authored_file\": {\n    \"path\": \"/tmp/knorvia-privacy-media-candidates-20261002/candidates/raw-first-ready/feedbackArchiveCandidates.ts\",\n    \"sha256\": \"4f31ef865447f7b89e4d4e4fa40ee8d86d857eed6c06d365226aeadd5b26c4e3\",\n    \"access\": \"copied as own authored basis; raw not modified\"\n  },\n  \"access_limits\": \"Only supplied four packet files, coordinator clarification, and own prior/generated outputs. No repository, original implementation, history, tests, probes, network, app data, product compiler imports, or production/git writes. All writes under /tmp.\",\n  \"own_review_after_revision_freeze\": false\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/revision-1/coordinator-clarification.txt",
+        "sha256": "2f4f8e4ab219eb6ec6d8151c2e766104b19094017fe7325732d5921ccd805431",
+        "bytes": 678,
+        "mode": "0o444",
+        "contents": "Coordinator bounded behavior clarification (no original body/test source): when root realpath rejects or is falsy, do not call lstat for that source; continue immediately. Also preserve the decision shape for exit-only directory entries: directory recursion is eligible only when !exitLogsOnly; other entries, including directory entries in exit-only mode, are tested with isFile before filename policy. DirectoryFrame/cursor accesses should satisfy strict noUncheckedIndexedAccess using existing stack/length invariants (no suppressions). Please own-review and freeze separate revision/receipt, preserving raw. Only approved packet plus this clarification; no repo/test reads.\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/revision-1/feedbackArchiveCandidates.ts",
+        "sha256": "d3b2b71a9c1e3eb27b3e5d7f92ecee0564b260ad47302bfb4cd116bd2d1b0b26",
+        "bytes": 2298,
+        "mode": "0o444",
+        "contents": "import type { Dirent } from \"node:fs\";\n\nimport { lstat, readdir, realpath } from \"node:fs/promises\";\n\nimport { join, posix } from \"node:path\";\n\nimport {\n  feedbackArchiveLimits,\n  isFeedbackArchiveFilename,\n  type FeedbackLogSource,\n} from \"./feedbackArchivePolicy.js\";\n\nexport interface FeedbackArchiveCandidate {\n  path: string;\n  name: string;\n}\n\ninterface DirectoryFrame {\n  path: string;\n  prefix: string;\n  depth: number;\n  entries: Dirent[];\n  cursor: number;\n}\n\nasync function directoryEntries(path: string): Promise<Dirent[]> {\n  const entries = await readdir(path, { withFileTypes: true }).catch(() => []);\n  return entries.sort((left, right) => left.name.localeCompare(right.name));\n}\n\nexport async function* feedbackArchiveCandidates(\n  sources: readonly FeedbackLogSource[],\n): AsyncGenerator<FeedbackArchiveCandidate> {\n  let visits = 0;\n\n  for (const source of sources) {\n    const root = await realpath(source.directory).catch(() => null);\n    if (!root) {\n      continue;\n    }\n    const info = await lstat(source.directory).catch(() => null);\n    if (!info?.isDirectory() || visits >= feedbackArchiveLimits.visits) {\n      continue;\n    }\n\n    const stack: DirectoryFrame[] = [\n      {\n        path: root,\n        prefix: source.archivePrefix,\n        depth: 0,\n        entries: await directoryEntries(root),\n        cursor: 0,\n      },\n    ];\n\n    while (stack.length > 0 && visits < feedbackArchiveLimits.visits) {\n      const frame = stack[stack.length - 1]!;\n      if (frame.cursor >= frame.entries.length) {\n        stack.pop();\n        continue;\n      }\n\n      const entry = frame.entries[frame.cursor++]!;\n      visits++;\n      if (entry.isSymbolicLink()) {\n        continue;\n      }\n\n      const path = join(frame.path, entry.name);\n      const name = posix.join(frame.prefix, entry.name);\n      if (entry.isDirectory() && !source.exitLogsOnly) {\n        if (frame.depth < feedbackArchiveLimits.depth) {\n          stack.push({\n            path,\n            prefix: name,\n            depth: frame.depth + 1,\n            entries: await directoryEntries(path),\n            cursor: 0,\n          });\n        }\n        continue;\n      }\n\n      if (entry.isFile() && isFeedbackArchiveFilename(entry.name, source.exitLogsOnly)) {\n        yield { path, name };\n      }\n    }\n  }\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/candidates/revision-1/own-review.md",
+        "sha256": "6232918aba2578b81f61526195b6e500054fed89f5345b99eed69bc904b308d0",
+        "bytes": 2124,
+        "mode": "0o444",
+        "contents": "Preferred artifact: feedbackArchiveCandidates.ts in revision-1. The revision and actual-input receipt were frozen at mode 0444 before the post-edit manual review. The raw-first-ready artifact remains unchanged, with SHA256 4f31ef865447f7b89e4d4e4fa40ee8d86d857eed6c06d365226aeadd5b26c4e3 and mode 0444.\n\nPost-freeze review read the revision and checked its line count and modes, plus the hash and mode of the author's raw file. It found 76 nonblank lines and no suppression directives. No further revision was needed.\n\nThe coordinator clarification is reflected exactly: a failed or falsy root realpath continues before lstat; a successful realpath still precedes lstat before the exhausted-budget check. Directory recursion's branch requires !exitLogsOnly, so exit-only directory entries fall through to isFile, with the filename predicate called only if isFile succeeds.\n\nThe two non-null assertions follow existing bounds: the frame index is used only when stack.length is positive, and the entry cursor begins at zero and advances only after the upper-bound guard. Both arrays are locally constructed dense arrays and are not exposed for mutation. These assertions provide defined indexed types under noUncheckedIndexedAccess without suppression directives or changes to traversal decisions.\n\nRemaining manual checks confirmed a shared visit counter, counting before classification, locale-sorted depth-first traversal, canonical root reads, native filesystem and POSIX archive joins, symlink rejection, depth-four child consideration without opening depth-five directories, retained policy imports, and yield suspension before further traversal or source discovery.\n\nThis revision's inputs were limited to the four approved packet files, the coordinator's bounded clarification, and the author's own previously generated artifact. No repository, original implementation, history, tests, probes, network, app data, or product compiler imports were accessed. No production or git writes occurred; all writes remained under /tmp. Compilation and execution were not performed, and coordinator validation remains necessary.\n"
+      }
+    ],
+    "snapshot": [
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/snapshot/raw-first-ready/SHA256SUMS",
+        "sha256": "0018827cc24da5ff410228f779678ee036b29c7fe00d56faf7384057eebc4c66",
+        "bytes": 810,
+        "mode": "0o444",
+        "contents": "a01f383513b6f103bd94f64c183922d651defaa9c4d5cb080d43af77e02fd4cd  /tmp/knorvia-privacy-media-candidates-20261002/snapshot/raw-first-ready/feedbackArchiveSnapshot.ts\n51ecd3b18e61fc33a9abdf7746148d2d2475e8d28b60760cda68b2b87211deb6  /tmp/knorvia-privacy-media-contracts-20261002/snapshot-api.ts\nc3e5da4d9ec086791864435f7c4cc3b51abac0ec6946748ce3ee11b0377c200a  /tmp/knorvia-privacy-media-contracts-20261002/candidates-api.ts\n7fea6e4541780f79389f60256b8f4b7e3657e2b72fcdb16ad4d1733afce58663  /tmp/knorvia-privacy-media-contracts-20261002/policy-api.ts\n925d10b2418eef26214a63b06b1456960b7f9cb4359d17b8aaeef2a824d5acfc  /tmp/knorvia-privacy-media-contracts-20261002/feedback-behavior.md\n382cde46b260517bcb4b4288cff1252acaa7e0841f013a776af91557494e86ed  /tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/snapshot/raw-first-ready/actual-input-receipt.txt",
+        "sha256": "d9b9af59b0659ae30d7a37f0b227d6634d56c2c5ce2655f2a5802acc36ea8501",
+        "bytes": 1073,
+        "mode": "0o444",
+        "contents": "Task: complete feedbackArchiveSnapshot.ts bounded opened-file admission/read/redaction owner.\nAuthorship inputs actually read before first-ready freeze:\n/tmp/knorvia-privacy-media-contracts-20261002/snapshot-api.ts\n/tmp/knorvia-privacy-media-contracts-20261002/candidates-api.ts\n/tmp/knorvia-privacy-media-contracts-20261002/policy-api.ts\n/tmp/knorvia-privacy-media-contracts-20261002/feedback-behavior.md\n/tmp/knorvia-privacy-media-contracts-20261002/dependencies.md\nMethod: one cat command containing only those five files; SHA256SUMS records exact input bytes by hashes.\nOther authored-source/history/tests/probes/repository files/network/appdata read: none.\nProvided session environment, developer instructions, and delegated task were available context.\nWrites: only /tmp/knorvia-privacy-media-candidates-20261002/snapshot/raw-first-ready/.\nSource frozen mode 0444 and hash recorded before own review/static checking.\nNo compiler/typecompiler/product dependencies imported or executed.\nNo legal acceptance, license-header assertion, or whole-process clean-room claim.\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/snapshot/raw-first-ready/feedbackArchiveSnapshot.ts",
+        "sha256": "a01f383513b6f103bd94f64c183922d651defaa9c4d5cb080d43af77e02fd4cd",
+        "bytes": 2591,
+        "mode": "0o444",
+        "contents": "import { constants } from \"node:fs\";\nimport { lstat, open, realpath } from \"node:fs/promises\";\n\nimport { redactFeedbackText } from \"@knorvia/shared\";\n\nimport type { FeedbackArchiveCandidate } from \"./feedbackArchiveCandidates.js\";\nimport {\n  decodeFeedbackArchiveText,\n  fitsFeedbackArchive,\n  isFeedbackArchiveMetadata,\n  type FeedbackArchiveWindow,\n} from \"./feedbackArchivePolicy.js\";\n\nexport interface FeedbackArchiveEntry {\n  name: string;\n  data: Buffer;\n}\n\ntype SnapshotResult =\n  | { kind: \"included\"; entry: FeedbackArchiveEntry; cost: number }\n  | { kind: \"skipped\"; reason: string };\n\nexport async function feedbackArchiveSnapshot(\n  candidate: FeedbackArchiveCandidate,\n  charged: number,\n  window: FeedbackArchiveWindow,\n): Promise<SnapshotResult> {\n  const canonicalPath = await realpath(candidate.path).catch(() => null);\n  if (canonicalPath !== candidate.path) {\n    return { kind: \"skipped\", reason: \"unsafe-path\" };\n  }\n\n  const beforeOpen = await lstat(candidate.path).catch(() => null);\n  if (!isFeedbackArchiveMetadata(beforeOpen, charged, window)) {\n    return { kind: \"skipped\", reason: \"metadata-policy\" };\n  }\n\n  const handle = await open(\n    candidate.path,\n    constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0),\n  ).catch(() => null);\n  if (handle === null) {\n    return { kind: \"skipped\", reason: \"open-failed\" };\n  }\n\n  try {\n    const opened = await handle.stat();\n    if (\n      !isFeedbackArchiveMetadata(opened, charged, window) ||\n      opened.ino !== beforeOpen.ino ||\n      opened.dev !== beforeOpen.dev\n    ) {\n      return { kind: \"skipped\", reason: \"opened-file-policy\" };\n    }\n\n    const original = Buffer.alloc(opened.size);\n    let offset = 0;\n    while (offset < original.length) {\n      const { bytesRead } = await handle.read(\n        original,\n        offset,\n        original.length - offset,\n        offset,\n      );\n      if (bytesRead === 0) {\n        return { kind: \"skipped\", reason: \"short-read\" };\n      }\n      offset += bytesRead;\n    }\n\n    const text = decodeFeedbackArchiveText(original);\n    if (text === null) {\n      return { kind: \"skipped\", reason: \"unsupported-text\" };\n    }\n\n    const redacted = Buffer.from(\n      redactFeedbackText(text, { diagnostic: true }),\n      \"utf8\",\n    );\n    if (!fitsFeedbackArchive(redacted.length, charged, window)) {\n      return { kind: \"skipped\", reason: \"redacted-size-limit\" };\n    }\n\n    return {\n      kind: \"included\",\n      entry: { name: candidate.name, data: redacted },\n      cost: Math.max(original.length, redacted.length),\n    };\n  } finally {\n    await handle.close();\n  }\n}\n"
+      },
+      {
+        "path": "/tmp/knorvia-privacy-media-candidates-20261002/snapshot/review-receipt.txt",
+        "sha256": "a22e3ae220c1edd053c65a889f74df0b07043ab1689cad679ad3cef41d27a7d6",
+        "bytes": 1867,
+        "mode": "0o444",
+        "contents": "Preferred artifact: raw-first-ready/feedbackArchiveSnapshot.ts\nSHA256: a01f383513b6f103bd94f64c183922d651defaa9c4d5cb080d43af77e02fd4cd\nFrozen source permissions: 0444.\nFirst-ready source, hashes and actual-input receipt were frozen before own review.\nPost-freeze actual accesses: read own frozen source for manual contract review, SHA256/nonblank count/mode; read own SHA256SUMS output. No additional external inputs read.\nNonblank source lines: 80 (limit 400).\nManual review: canonical-path admission precedes lstat admission, which precedes open; no early rejection acquires a handle. Retained metadata predicate governs both admissions; opened ino/dev must match pre-open metadata before reads. Buffer length is exactly opened size. Reads are positional and request only remaining bytes; partial reads advance offset; zero bytes yields short-read. Retained decoder is used and public shared redaction is invoked once with diagnostic:true. Retained size policy checks UTF8 output; cost is max original and redacted byte lengths. Candidate name is preserved. Post-open operations remain inside try/finally; stat/read/redaction exceptions propagate unchanged unless awaited close fails, which retains precedence.\nNo extra filename/path-prefix checks, suppressions, license header, old-source imports or product compiler execution.\nRevisions: none; raw-first-ready is preferred and preserved.\nChecks performed: manual behavioral review and own-file line/mode/hash inspection only. No runtime synthetic ports or TypeScript compiler checks performed in this delegated task.\nRemaining validation: coordinator integration and independent synthetic-port/type/lint/format checks, within authorized scope.\nWrites throughout this delegated task were confined to /tmp/knorvia-privacy-media-candidates-20261002/snapshot/.\nNo legal acceptance or whole-process clean-room claim.\n"
+      }
+    ]
+  },
+  "submitted": [
+    {
+      "path": "packages/services/src/media-preview/mediaPreview.ts",
+      "sha256": "70b15195a8b1fce1448c4fb99ee9cb11e1ff5f362c70d6c711f4258fc633d564",
+      "bytes": 2729,
+      "mode": "0o600",
+      "owner": "media",
+      "nonblank": 82
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+      "sha256": "d3b2b71a9c1e3eb27b3e5d7f92ecee0564b260ad47302bfb4cd116bd2d1b0b26",
+      "bytes": 2298,
+      "mode": "0o600",
+      "owner": "candidates",
+      "nonblank": 76
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+      "sha256": "2f498dbbccef4149863487342bb816c13f71d0b00fdd0f18ef69a7a527276bb7",
+      "bytes": 2527,
+      "mode": "0o600",
+      "owner": "snapshot",
+      "nonblank": 71
+    }
+  ],
+  "limits": [
+    "No novelty requirement; API declarations, data literals, retained dependencies and standard platform expressions remain lineage, not claimed wholly original.",
+    "No legal acceptance, MIT licence change or whole-process pristine cleanroom guarantee.",
+    "Author access based on actual tool receipts; no OS-level access audit asserted.",
+    "Production dependencies not replaced by runtime test mocks; mocks exclusively strict synthetic safety acceptance."
+  ],
+  "retainedOriginalsVerifiedUnchanged": [
+    "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+    "packages/services/src/logger/serviceLogger.ts",
+    "packages/services/src/feedback/feedbackArchivePolicy.ts",
+    "packages/services/src/feedback/feedbackLogArchive.ts",
+    "packages/services/src/creation/contract.ts",
+    "packages/services/src/creation/creationJobs.ts",
+    "packages/services/src/creation/creationReference.ts",
+    "packages/services/src/creation/creationRunDeadline.ts",
+    "packages/services/src/creation/creationService.ts",
+    "packages/services/src/creation/creationStorage.ts",
+    "packages/services/src/creation/modelValidation.ts",
+    "packages/services/src/creation/module.ts",
+    "packages/services/src/creation/node.ts",
+    "packages/services/src/creation/providers.ts"
+  ]
+}
