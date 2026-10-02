@@ -1,0 +1,158 @@
+import {
+    WorkflowGraphSeedSchema,
+    type WorkflowGraphCollection,
+    type WorkflowGraphEdge,
+    type WorkflowGraphNode,
+    type WorkflowGraphSeed,
+    type WorkflowRunSnapshot,
+} from "@knorvia/contracts";
+import type {
+    ApplyWorkflowGraphSeedOptions,
+    ApplyWorkflowGraphSeedResult,
+} from "./lifecycle.js";
+
+function orderedNonempty(values: readonly string[]): string[] {
+    const retained: string[] = [];
+    const seen = new Set<string>();
+    for (const value of values) {
+        if (typeof value !== "string" || value.length === 0 || seen.has(value)) continue;
+        seen.add(value);
+        retained.push(value);
+    }
+    return retained;
+}
+
+function edgeId(edge: WorkflowGraphEdge): string {
+    return `${edge.from}->${edge.to}`;
+}
+
+function hasPath(edges: readonly WorkflowGraphEdge[], start: string, target: string): boolean {
+    const visited = new Set<string>();
+    const pending = [start];
+    while (pending.length > 0) {
+        const current = pending.pop()!;
+        if (current === target) return true;
+        if (visited.has(current)) continue;
+        visited.add(current);
+        for (const edge of edges) {
+            if (edge.from === current && !visited.has(edge.to)) pending.push(edge.to);
+        }
+    }
+    return false;
+}
+
+export function applyWorkflowGraphSeed<TSnapshot extends WorkflowRunSnapshot>(
+    snapshot: TSnapshot,
+    seed: WorkflowGraphSeed,
+    options: ApplyWorkflowGraphSeedOptions,
+): ApplyWorkflowGraphSeedResult<TSnapshot> {
+    const parsed = WorkflowGraphSeedSchema.parse(seed);
+    const graph = snapshot.graph;
+    const knownNodes = new Set(graph.nodes.map((node) => node.id));
+    const addedNodes: WorkflowGraphNode[] = [];
+    for (const node of parsed.nodes) {
+        if (knownNodes.has(node.id)) {
+            throw new Error(`Workflow graph seed returned duplicate node: ${node.id}`);
+        }
+        knownNodes.add(node.id);
+        addedNodes.push({
+            collectionId: node.collectionId,
+            dependsOn: orderedNonempty(node.dependsOn),
+            description: node.description,
+            id: node.id,
+            kind: node.kind ?? "task",
+            phase: node.phase ?? options.phase,
+            prompt: node.prompt,
+            status: "pending",
+            title: node.title,
+        });
+    }
+
+    const addedEdges: WorkflowGraphEdge[] = parsed.edges.map((edge) => ({
+        from: edge.from,
+        to: edge.to,
+    }));
+    const knownEdges = new Set([...graph.edges, ...addedEdges].map(edgeId));
+    for (const node of addedNodes) {
+        for (const dependency of node.dependsOn) {
+            const edge = { from: dependency, to: node.id };
+            const id = edgeId(edge);
+            if (knownEdges.has(id)) continue;
+            addedEdges.push(edge);
+            knownEdges.add(id);
+        }
+    }
+
+    const pendingEdges = [...graph.edges];
+    const acceptedIds = new Set(graph.edges.map(edgeId));
+    for (const edge of addedEdges) {
+        if (edge.from === edge.to) {
+            throw new Error(
+                `Workflow graph seed returned a self-loop edge: ${edge.from} -> ${edge.to}`,
+            );
+        }
+        if (!knownNodes.has(edge.from)) {
+            throw new Error(
+                `Workflow graph seed returned an edge with unknown source node: ${edge.from}`,
+            );
+        }
+        if (!knownNodes.has(edge.to)) {
+            throw new Error(
+                `Workflow graph seed returned an edge with unknown target node: ${edge.to}`,
+            );
+        }
+        const id = edgeId(edge);
+        if (acceptedIds.has(id)) {
+            throw new Error(`Workflow graph seed returned duplicate edge: ${id}`);
+        }
+        if (hasPath(pendingEdges, edge.to, edge.from)) {
+            throw new Error(`Workflow graph seed returned an edge that would create a cycle: ${id}`);
+        }
+        pendingEdges.push(edge);
+        acceptedIds.add(id);
+    }
+
+    const knownCollections = new Set((graph.collections ?? []).map((item) => item.collectionId));
+    const addedCollections: WorkflowGraphCollection[] = [];
+    for (const collection of parsed.collections) {
+        if (knownCollections.has(collection.collectionId)) {
+            throw new Error(
+                `Workflow graph seed returned duplicate collection: ${collection.collectionId}`,
+            );
+        }
+        knownCollections.add(collection.collectionId);
+        const nodeIds = orderedNonempty([
+            ...(collection.nodeIds ?? []),
+            ...addedNodes.filter((node) => node.collectionId === collection.collectionId)
+                .map((node) => node.id),
+        ]);
+        for (const id of nodeIds) {
+            if (!knownNodes.has(id)) {
+                throw new Error(
+                    `Workflow graph seed collection "${collection.collectionId}" references unknown node: ${id}`,
+                );
+            }
+        }
+        addedCollections.push({
+            collectionId: collection.collectionId,
+            explorable: collection.explorable,
+            frontierTarget: collection.frontierTarget,
+            goal: collection.goal,
+            metric: collection.metric,
+            nodeIds,
+            phase: collection.phase ?? options.phase,
+            title: collection.title,
+        });
+    }
+    const changed = addedNodes.length > 0 || addedEdges.length > 0 || addedCollections.length > 0;
+    const next = changed ? {
+        ...snapshot,
+        graph: {
+            collections: [...(graph.collections ?? []), ...addedCollections],
+            edges: [...graph.edges, ...addedEdges],
+            nodes: [...graph.nodes, ...addedNodes],
+        },
+        updatedAt: options.timestamp,
+    } : snapshot;
+    return { addedCollections, addedEdges, addedNodes, changed, snapshot: next };
+}
