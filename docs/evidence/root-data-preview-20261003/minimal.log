@@ -1,0 +1,3 @@
+baseline: 3 minimal synthetic groups pass (scan limits/symlinks, exact preview authority/TTL, worker abort/settlement).
+candidate: 3 minimal synthetic groups pass (scan limits/symlinks, exact preview authority/TTL, worker abort/settlement).
+Frozen missing initial budget observation reproduced; corrected owner does not open the directory. All IO/workers/protocols fake; import.meta URL synthetically substituted for CommonJS fixture only.

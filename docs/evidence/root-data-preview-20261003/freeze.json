@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-02T20:19:47.942986+00:00",
+  "drafts": {
+    "draft-dataSizeWorkerClient.ts": {
+      "bytes": 1657,
+      "sha256": "a14db09ada2b29ee0f0abb1f1876ebe9bd2c1585d8c7a9b3b9a2999503be26b4"
+    },
+    "draft-localMediaPreviewProtocol.ts": {
+      "bytes": 4217,
+      "sha256": "4979b9676807de8685150bb5ec4afdfcb3d5a3351993908459fbad478bb0b054"
+    },
+    "draft-dataSizeScanner.ts": {
+      "bytes": 3664,
+      "sha256": "4ae1b1456776e306b3ce5aed2e32dc09d3a3441f4ea62252a5d71a02fcf41608"
+    }
+  },
+  "bodyReadBeforeFreeze": false
+}

@@ -1,0 +1,20 @@
+{
+  "packages/desktop/src/main/dataSizeScanner.ts": [
+    "import { lstat, opendir } from \"node:fs/promises\";",
+    "import { join } from \"node:path\";"
+  ],
+  "packages/desktop/src/main/dataSizeWorkerClient.ts": [
+    "import { Worker } from \"node:worker_threads\";",
+    "import {\n  isKnorviaDataSizeScanResult,\n  type KnorviaDataSizeScanRequest,\n  type KnorviaDataSizeScanResult,\n} from \"./dataSizeScanner.js\";"
+  ],
+  "packages/desktop/src/main/localMediaPreviewProtocol.ts": [
+    "import { realpath as fsRealpath } from \"node:fs/promises\";",
+    "import { realpathSync as fsRealpathSync, statSync as fsStatSync } from \"node:fs\";",
+    "import { isAbsolute } from \"node:path\";",
+    "import { LOCAL_MEDIA_PREVIEW_SCHEME, buildLocalMediaPreviewUrl } from \"@knorvia/shared\";"
+  ],
+  "packages/desktop/src/main/dataSizeWorker.ts": [
+    "import { isMainThread, parentPort, workerData } from \"node:worker_threads\";",
+    "import { scanKnorviaDataDirectory, type KnorviaDataSizeScanRequest } from \"./dataSizeScanner.js\";"
+  ]
+}
