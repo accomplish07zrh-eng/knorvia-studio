@@ -1,0 +1,42 @@
+{
+  "baselineBeforeInstallation": "1bb9b58eeced5b2f1774d43986596f74d7573b96",
+  "instruction": "Install and commit E own complete reviewed candidates in E draft branch. Deferred integration means combining lanes/final acceptance/merging; no crosslane imports. Preserve original reviewer failure and qualified retained expression. Verify exact installed bindings and necessary scoped static checks only; do not rerun unchanged synthetic probes or ordinary suites.",
+  "candidates": [
+    {
+      "scope": "env",
+      "source": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/env/env-info.ts.txt",
+      "bytes": 2765,
+      "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192"
+    },
+    {
+      "scope": "skills",
+      "source": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/skills.ts.txt",
+      "bytes": 2127,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0"
+    },
+    {
+      "scope": "parts",
+      "source": "apps/cli/packages/core/src/session-context/parts.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/parts.ts.txt",
+      "bytes": 3337,
+      "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9"
+    },
+    {
+      "scope": "session",
+      "source": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/session/read-session-context.ts.txt",
+      "bytes": 11537,
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca"
+    }
+  ],
+  "sourcePatchesAllowed": false,
+  "savedFast": "unchanged/unverified",
+  "requestedSolReasoning": "high",
+  "ordinaryChecksDeferred": true,
+  "syntheticRerunAuthorized": false,
+  "crossLaneIntegrationDeferred": true,
+  "materialObligationsRemaining": 21,
+  "utc": "2026-10-02T21:38:10.751951+00:00"
+}
