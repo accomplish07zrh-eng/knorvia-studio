@@ -1,0 +1,22 @@
+{
+  "files": {
+    "src/runtime/methods/message-persistence.ts": "41c8b488448632f2cbdc67e8a809132b354c74c52a600f91ee4774e45f7d8141",
+    "dist/runtime/methods/message-persistence.js": "ddf0ecb8568878ff47d89cea19599abbb1b96b144437636787afa68f30fb10d5",
+    "dist/runtime/methods/message-persistence.d.ts": "78a758207097833c87c0385f6f661f2a6cb9b0d2641d695fe6ef0639385f698e",
+    "src/runtime/methods/events-session.ts": "86196161b02167d9834e040e204ae7f4b5c4906bbc2bd14824421ef67da22f20",
+    "dist/runtime/methods/events-session.js": "5062c4dab031b76b6acca66453fc1c3882e63731dd1cb7787e0d346e81e3ec59",
+    "dist/runtime/methods/events-session.d.ts": "389a51d666ed65d7ced4b6f598e4699fa6af2d73f614709ebb920d480b1e850e",
+    "src/runtime/methods/events-durable.ts": "71af0bcb66b04e9961fe7bebe71754726085ab680668c77664c527f1fc7bb997",
+    "dist/runtime/methods/events-durable.js": "4ca457fcab7fb31d79177a04ff44dc2ac0bf9a4a042e981122c256319c8e4674",
+    "dist/runtime/methods/events-durable.d.ts": "ae7ccd29272c483963098221b65052771811b2d625c6b3750fa1b99713017d1b",
+    "src/runtime/methods/events-summary.ts": "e6c60e6c7114e09f19d7e0b403a5a795c8ac4d3d185322a0f94d68ee2f16d3f9",
+    "dist/runtime/methods/events-summary.js": "500c459cacdeb906c4b9426812e27ff474317917a6a15880084c9b671ec12a61",
+    "dist/runtime/methods/events-summary.d.ts": "528f366c52fd28d9f45e1493dd1c43d12460c1c4eabaafb035622b846e72ee49",
+    "src/runtime/methods/events.ts": "49f3ccff0f2330e54861713dadc897c777e95a572f22156286769fa8e503f312",
+    "dist/runtime/methods/events.js": "f0f8101512b8566bda4ea1c062152bcc468e5aeaf251652d81137a0752e14bf0",
+    "dist/runtime/methods/events.d.ts": "6b55bdd84eaece2039c4d11b383626e011445599c1ce612feab17561eb77c200",
+    "src/runtime/methods/workspace-checkpoints.ts": "57bab6b3bed5c0ec444eaab0728aa55b825832d1f54c8332ef592951aad4cd00",
+    "dist/runtime/methods/workspace-checkpoints.js": "3bc00746efc076da8bb979fef3b2b5aff6d3919165d07c566900f8a272c43db0",
+    "dist/runtime/methods/workspace-checkpoints.d.ts": "6270ea7980067820cbf2e20bf193abffcfac82a6734c74eb7a8ffed43d87ac08"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "base": "811877b3d5df766276e0d21dfd06a9f11529384b",
+  "owners": [
+    "message-persistence",
+    "events",
+    "workspace-checkpoints"
+  ],
+  "modules": [
+    "message-persistence",
+    "events-session",
+    "events-durable",
+    "events-summary",
+    "events",
+    "workspace-checkpoints"
+  ]
+}

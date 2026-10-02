@@ -1,0 +1,52 @@
+{
+  "base": "811877b3d5df766276e0d21dfd06a9f11529384b",
+  "productionHead": "eadf5cbd52b683eb3e08c4a0cd5b86ef0313fc5b",
+  "productionCommits": {
+    "message-persistence": "c355ed501651d0414190eae9267abb8b656640fe",
+    "events": "95f33cd803a124fc97611c412c795ea88d66e0c9",
+    "workspace-checkpoints": "eadf5cbd52b683eb3e08c4a0cd5b86ef0313fc5b"
+  },
+  "owners": [
+    "message-persistence",
+    "events",
+    "workspace-checkpoints"
+  ],
+  "modules": [
+    "message-persistence",
+    "events-session",
+    "events-durable",
+    "events-summary",
+    "events",
+    "workspace-checkpoints"
+  ],
+  "receiptDigests": {
+    "message-persistence": "280b5d2a193db91aacf39e586931c4156f98b7bb1ea9d3f5b26c0101f889f640",
+    "events": "e1137e5fd317ec684565ceeef983a5f6bd800b0f4303628ce9ba64a19ca16c96",
+    "workspace-checkpoints": "7796afede2fa15ffc49595cd66648ab18442654a1ca7a362daa08fcca6a03cd7"
+  },
+  "currentSelectorSha256": "e6a6c58e52e020582da1948531d98ef68a361d7c33711ee9b37ea5f8aa7dafa0",
+  "artifactPinsVerified": 18,
+  "publicSignatures": 17,
+  "checks": {
+    "types": "0 scoped diagnostics; exact historical vs current emitted declaration shapes resolved",
+    "dataSafety": "3 paired groups plus2 appended regression observations; one final actual-emitted pass, no source/emitted duplication",
+    "lint": "0 warnings/errors,94 rules",
+    "format": "6 files +fixture",
+    "architecture": "0 violations; CLI unmanaged"
+  },
+  "originalFailures": [
+    "Baseline fixture temp resolution and missing logger.debug retained",
+    "TS2345 artifact result parsed as string",
+    "Two sealed-draft transpile data mismatches: client projection/read phase and stored-event trace identity",
+    "Source-vs-declaration signature printing false difference for default options; emitted declaration comparison proves exact public shape; retained negative report"
+  ],
+  "remainingSelectedQueue": [],
+  "protectedProductionDiff": "Only six selected owner/helper paths changed vs base; prior ten, command admission/registry, permission/full-access, E workflow/compact/message-history/other lane sources unchanged.",
+  "retained": "Source-exposed curator and detailed source-derived functional/schema constraints; authored drafts isolated and sealed, but rights/whole-file expression acceptance remains root-owned. Fixed prose/protocol, standard projection/async glue retained; restore wrapper gets no originality credit. No header/registry/MIT grant.",
+  "limits": [
+    "Ordinary suites/builds/native and other behavioral branches unrun",
+    "Transitive workspace dependencies via tsx, not all emitted",
+    "Root independent runtime/expression/licence review and aggregate acceptance pending",
+    "Freshness fetch failed configured proxy8080; no bypass/environment change; existing Node24.19.0 vs pinned24.14"
+  ]
+}
