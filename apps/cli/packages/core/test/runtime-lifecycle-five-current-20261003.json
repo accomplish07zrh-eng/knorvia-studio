@@ -1,0 +1,20 @@
+{
+  "compiler": "TypeScript6.0.2 scoped actual emit",
+  "files": {
+    "src/runtime/methods/background-notifications.ts": "17a33fe5a7d85ce1bc8521c967a52ad4a0bdfdb0eab173ea031bc13e48e70b32",
+    "dist/runtime/methods/background-notifications.js": "ecd1422a0dda2b6ff6ebcdd27f43d5e55fcfef51cf23ea774fe9a68257146b2e",
+    "dist/runtime/methods/background-notifications.d.ts": "d008df8bb3ec60423278542127db108096b1b7b220eccff98ff0f7ff1d668a81",
+    "src/runtime/methods/hooks.ts": "4fdff175c19c98cfbda7fa1c7ea8b63d573b6c888a160f99de7e041938be6298",
+    "dist/runtime/methods/hooks.js": "095b3bde14dbe1f83829f3523d5cdfd06fba9a0b71c4090b4206838ea0e60fc1",
+    "dist/runtime/methods/hooks.d.ts": "63aea3b43fda4d54dbf2bfb1bf1798075178b4894bc27f2c8befc232232e93e3",
+    "src/runtime/methods/session-title.ts": "f214bb0512c583516cbc1a66466421bb169af6a05e4c65dec9b2479f17a77da5",
+    "dist/runtime/methods/session-title.js": "6af6fe6a8bd1b3642f342ee46d4be7f714147630009010a6cc1fe93f76fc793a",
+    "dist/runtime/methods/session-title.d.ts": "93e894b04be6e6806ad90788efa805bfbf6e61e42605ec6838b41f6b03fe2c39",
+    "src/runtime/methods/workspace-generate-text.ts": "34643a907130279756f89a3c89b2b9dd2c752579a88f2cf56481e6a07f8ca83d",
+    "dist/runtime/methods/workspace-generate-text.js": "4df661ca284042839c905f3b62e3d35ab02baf88a55e11d2508f7c2e0886729e",
+    "dist/runtime/methods/workspace-generate-text.d.ts": "32cf10a15a7cdff70d5a57624bedd4ec3f4569cbc15192fec3909739770a5e3a",
+    "src/runtime/methods/title-generation-sidecar.ts": "766fa21b5e4c3e6b58c6448a3100a267a3070c0cf941633ec837bf641ff377d8",
+    "dist/runtime/methods/title-generation-sidecar.js": "21f49e2497b528b6e5978235d7ae864ad4b0642ac0f1bcbd02f87baca6cd130f",
+    "dist/runtime/methods/title-generation-sidecar.d.ts": "cae0816ebdc0ec5d4a52a44110f991886557878006aad4b5be31b52bac246ad2"
+  }
+}

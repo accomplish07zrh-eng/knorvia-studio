@@ -1,0 +1,64 @@
+{
+  "base": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "productionHead": "28157b03d8dfeeed2fa2a90295b388100116425c",
+  "productionCommits": {
+    "background-notifications": "792f2cb71c092da4fb78d70301f3ea5668e66084",
+    "hooks": "6c601c5f35654f4b2bf509104b7e1d814a021e6d",
+    "session-title": "03c4f5921dcb87424b051a58a1a9c56102d72a82",
+    "title-generation-sidecar": "2d6c073a5f5c940334500eb9ea7f346b5101cb4f",
+    "workspace-generate-text": "28157b03d8dfeeed2fa2a90295b388100116425c"
+  },
+  "owners": [
+    "background-notifications",
+    "hooks",
+    "session-title",
+    "workspace-generate-text",
+    "title-generation-sidecar"
+  ],
+  "receipts": {
+    "background-notifications": "7ec95315559ac098a2ee6f7ca80605f3517869dfbf21297e8311384477f7b4fc",
+    "hooks": "4dc505601e91329076d926011dc735f1b23228c06c347445ff3f1f0ddb942416",
+    "session-title": "e44e7c4142f628d3db7813fd07d1f338ae8245185089d377dca77f35de663210",
+    "workspace-generate-text": "b27658a65b9d6c48ca9914470b937b45977ab575509c73d67d06567967a48d93",
+    "title-generation-sidecar": "34411c651d5c6cc1b2b1eff292b590f745fa5f22690c408f543b49cffde05598"
+  },
+  "currentSelectorSha256": "3b88c296f1519591378dff02fd0ced39f7d1d8bfeabdb2d1b85307d276eb2b26",
+  "finalFixtureSha256": "a3e7e111a3d7532cd82be423d1a6716d93b3287180cb53fe837602451749ecc7",
+  "checks": {
+    "scopedTypes": "TypeScript6.0.2:0 diagnostics;18 historical/current call signatures equal;6 interface/constant declaration statements separately AST-equal (includes private batch interface). Only5 owner JS/dts emitted; no whole build.",
+    "syntheticSafety": "One final strict current actual-emitted pass:5 shared write/lifecycle groups plus2 appended concrete regression observations; immutable predecessor observations5 groups, no multiplicative per-owner totals.",
+    "artifacts": "15 exact current source/JS/dts,5 exact historical source/compilerJS/declaration oracles,5 sealed draft/output journals verified. Wrong JS/missing declaration reject.",
+    "lint": "5 sources,94rules,0 warnings/errors",
+    "format": "5 sources +1 fixture pass",
+    "architecture": "0 violations;CLI unmanaged"
+  },
+  "originalFailures": [
+    "3674157: sealed hook draft reads type/path/path vs predecessor path/type/path",
+    "3674157: sealed title draft tracks work but observes pre-track work.catch; predecessor attaches catch to tracked result"
+  ],
+  "remainingSelectedQueue": [],
+  "nextLedgerGaps": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/background.ts",
+      "status": "Historical inventory upstream-modified/unreviewed; no completion-receipt hit; background lifetime/promotion/cleanup candidate needs next ownership scope review."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/model-status.ts",
+      "status": "Historical inventory upstream-unchanged/unreviewed; no completion-receipt hit; model-status publication candidate, not inspected/rewritten in this batch."
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/usage-observability.ts",
+      "status": "Historical inventory upstream-modified/unreviewed; no completion-receipt hit; usage write lifecycle remains dependency and future ownership candidate."
+    }
+  ],
+  "protectedScope": "Production diff vs base exactly five stated owners. Accepted persistence/fork/rewind/publication, command admission/registry, permission/full-access, E workflow/compaction/history/context and other lanes unchanged. No cross-lane integration.",
+  "authorship": "5 fresh internal authors fork_turns=none, Sol/high. Body-free API/functional packet plus recorded receiver facts and clarifications; drafts sealed before curator comparison. Curator source-exposed; source-derived packet constrained sequences/projections. Post-draft source-exposed corrections listed per receipt. Fresh drafting and matching tests do not establish licensing or whole-file independence.",
+  "retained": "Fixed model prompt/connectivity text/logs/errors, declarations/protocol fields, regex vocabulary and standard async/order/object/loop expressions retained/constrained. Applicable existing attribution remains. Root independently decides contribution/rights, no header/inventory/MIT grant.",
+  "limits": [
+    "Ordinary tests, source/emitted matrix, broad builds/suites and native/live-provider acceptance deliberately skipped.",
+    "Targeted fixture does not cover all success/cancel/error branches. Real runtime callers statically traced; not launched.",
+    "Transitive dependencies via tsx, not all-emitted.",
+    "Freshness fetch failed configured proxy8080; settings/access unchanged and no proxy bypass.",
+    "No main/recovery push, merge, deploy, publication or licence claim."
+  ]
+}

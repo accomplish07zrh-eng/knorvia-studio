@@ -230,11 +230,99 @@ async function observe(o) {
   }
   return results;
 }
-const observations = await observe(old);
+async function regressions(o) {
+  const reads = [],
+    trace = { traceId: "owned" },
+    attachment = {
+      get path() {
+        reads.push("path");
+        return "owned";
+      },
+      get type() {
+        reads.push("type");
+        return "text";
+      },
+    };
+  await o.hooks.runUserPromptSubmitHooks.call(
+    {
+      config: {},
+      workingDirectory: "owned",
+      getMode: () => "build",
+      sessionId: "owned",
+      hookRunner: {
+        async run() {
+          return { additionalContexts: [] };
+        },
+      },
+    },
+    "Owned",
+    [attachment],
+    trace,
+  );
+  const calls = [],
+    runtime = {
+      sessionTitleGenerationAttempted: false,
+      config: { titleGeneration: {} },
+      sessionStore: {
+        async getSession() {
+          return null;
+        },
+      },
+      turnNumber: 0,
+      agentTelemetry: {
+        captureCausation() {
+          return undefined;
+        },
+      },
+      trackResidencyBlockingWork(work) {
+        calls.push("track");
+        return {
+          catch() {
+            calls.push("tracked-catch");
+          },
+        };
+      },
+    };
+  assert.equal(
+    o["session-title"].maybeStartSessionTitleGeneration.call(
+      runtime,
+      "Owned title seed",
+      "owned",
+      trace,
+    ),
+    true,
+  );
+  return { reads, calls };
+}
+
+const currentText = await read("test/runtime-lifecycle-five-current-20261003.json");
+assert.equal(hash(currentText), "3b88c296f1519591378dff02fd0ced39f7d1d8bfeabdb2d1b85307d276eb2b26");
+const currentPins = JSON.parse(currentText).files;
+async function select(reader = read) {
+  for (const [p, h] of Object.entries(currentPins)) assert.equal(hash(await reader(p)), h, p);
+}
+await select();
+await assert.rejects(select(async (p) => (p.endsWith("session-title.js") ? "wrong" : read(p))));
+await assert.rejects(
+  select(async (p) => {
+    if (p.endsWith("hooks.d.ts")) throw Error("Owned missing");
+    return read(p);
+  }),
+);
+const now = {};
+for (const n of Object.keys(baselines))
+  now[n] = await import(new URL("dist/runtime/methods/" + n + ".js", core));
+const actual = await observe(now),
+  historical = await observe(old);
+assert.deepEqual(actual, historical);
+assert.deepEqual(await regressions(now), await regressions(old));
 console.log(
   JSON.stringify({
-    mode: "immutable predecessor actual emitted",
+    mode: "strict current actual compiler emitted",
     syntheticSafetyGroups: 5,
-    observations,
+    appendedConcreteRegressionObservations: 2,
+    observations: actual,
+    limits:
+      "Synthetic ports only. Transitive workspace dependencies via tsx, not all emitted. Ordinary suites/builds/native unrun.",
   }),
 );
