@@ -49,8 +49,8 @@
         },
         {
           "path": "docs/evidence/core-history-projection-author-packet-20261003/history/dependency-api.d.ts",
-          "bytes": 976,
-          "sha256": "58f4762036e21692d7f5d633e5a42a9ee977fb02f1fd2db85275757650325672"
+          "bytes": 1038,
+          "sha256": "f61d45f83f1ca7288a5482ce84434c80c885dbe301986290f2ee1a5418f33922"
         },
         {
           "path": "docs/evidence/core-history-projection-author-packet-20261003/history/public-api.d.ts",
