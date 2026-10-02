@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/model-streaming-event-queue.ts",
+  "kind": "file",
+  "sha256": "705712a028c60ce5ca541419f4e318c6355697ee393999e2c3de882701864a15",
+  "normalizedSha256": "705712a028c60ce5ca541419f4e318c6355697ee393999e2c3de882701864a15",
+  "encoding": "utf8-lf",
+  "bytes": 2051,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/model-streaming-event-queue.ts",
+    "blob": "85860026bc5f296a4d4cf95a3a9a942b23857420",
+    "normalizedSha256": "705712a028c60ce5ca541419f4e318c6355697ee393999e2c3de882701864a15",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/model-streaming-event-queue.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

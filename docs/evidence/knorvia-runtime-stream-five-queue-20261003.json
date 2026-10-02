@@ -1,0 +1,20 @@
+{
+  "base": "13b8f25ef1ac338cf34e9b9b9189c25d15beb7b5",
+  "owners": {
+    "conversation": "helpers/conversation",
+    "streaming-tool-ledger": "helpers/streaming-tool-ledger",
+    "streaming-tool-coordinator": "methods/streaming-tool-coordinator",
+    "model-streaming-event-queue": "methods/model-streaming-event-queue",
+    "streaming-recovery": "methods/streaming-recovery"
+  },
+  "modules": [
+    "helpers/conversation",
+    "helpers/streaming-tool-ledger",
+    "methods/streaming-tool-coordinator",
+    "methods/model-streaming-event-queue",
+    "methods/streaming-recovery"
+  ],
+  "protection": "E context/provider/media/compaction/workflow helpers; accepted methods, permission/full-access and global licensing unchanged",
+  "validation": "Ordinary suites/builds/native deferred; scoped author/API/type/lint/format and minimum synthetic write/lifecycle safety only",
+  "authorship": "Source-exposed curator; fresh internal authors only source-derived body-free API/function contracts, own packets, sealed drafts before comparison; no clean-room or rights claim"
+}
