@@ -72,8 +72,10 @@ export function reduceOrdering<E extends ReducibleEdge>(edges: readonly E[]): E[
     seeds: Iterable<string>,
     allowed: ReadonlySet<OrderKind>,
     omit?: { from: string; to: string },
+    target?: string,
   ): Set<string> => {
     const visited = new Set(seeds);
+    if (target !== undefined && visited.has(target)) return visited;
     const queue = [...visited];
     for (let cursor = 0; cursor < queue.length; cursor++) {
       const node = queue[cursor] as string;
@@ -83,6 +85,7 @@ export function reduceOrdering<E extends ReducibleEdge>(edges: readonly E[]): E[
         if (omit !== undefined && node === omit.from && edge.to === omit.to) continue;
         if (visited.has(edge.to)) continue;
         visited.add(edge.to);
+        if (target !== undefined && edge.to === target) return visited;
         queue.push(edge.to);
       }
     }
@@ -93,7 +96,7 @@ export function reduceOrdering<E extends ReducibleEdge>(edges: readonly E[]): E[
     const edge = state.edge;
     const allowed = JUSTIFIED_BY[edge.kind];
     if (allowed === undefined || edge.from === edge.to) continue;
-    if (reachable([edge.from], allowed, edge).has(edge.to)) state.live = false;
+    if (reachable([edge.from], allowed, edge, edge.to).has(edge.to)) state.live = false;
   }
 
   // A bridge joins two forward closures; no second carry can enter either closure.
@@ -109,7 +112,7 @@ export function reduceOrdering<E extends ReducibleEdge>(edges: readonly E[]): E[
         if (allowed.has(bridge.edge.carryOf ?? "data")) heads.add(bridge.edge.to);
       }
     }
-    if (reachable(heads, allowed).has(edge.to)) candidate.live = false;
+    if (reachable(heads, allowed, undefined, edge.to).has(edge.to)) candidate.live = false;
   }
 
   const result: E[] = [];
