@@ -43,4 +43,4 @@ No production file, licence/header/global inventory or fixed root publication ch
 
 ## Subsequent static review
 
-The immutable freeze above records the state before review. A later [static review](knorvia-event-log-static-review-20261002.md) found the required clock/read order preserved, but did not grant a positive whole-owner independent-expression finding because callable bodies closely match the inherited owner after private-storage normalization. The draft remains uninstalled, uncompiled and untested.
+The immutable freeze above records the state before review. A later [static review and clarified disposition](knorvia-event-log-static-review-20261002.md) found the required clock/read order preserved. Exact normalized body matches are retained as evidence; the clarification distinguishes required contract expression from ordinary wrapper idioms and identifies no concrete non-mandated copied expression. It supports a bounded author contribution, without requiring textual novelty or granting global licence clearance. The draft remains uninstalled, uncompiled and untested.
