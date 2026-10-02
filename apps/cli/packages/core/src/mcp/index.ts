@@ -1,5 +1,3 @@
-// MCP tool bridge - projects MCP descriptors into core tool entries
-
 import {
   type JsonSchema,
   type McpPort,
@@ -19,41 +17,24 @@ import {
   isTrustedWindowsComputerUseTool,
   preserveWindowsComputerUseFrames,
 } from "./windows-computer-use.js";
-
 import { formatMcpToolResult } from "./result-format.js";
 
 export { toMcpToolName } from "./name.js";
-
-export {
-  HOST_NODE_REPL_IMAGE_MAX_DIMENSION,
-  MCP_IMAGE_INLINE_BASE64_BYTES,
-  MCP_IMAGE_INLINE_RAW_BYTES,
-} from "./image-normalization.js";
-
-const MCP_TOOL_TIMEOUT_MS = 30_000;
-const OFFICIAL_CUA_PERMISSION_CAPABILITY_GROUP = "official_cua" satisfies PermissionCapabilityGroup;
-const CUA_USER_TITLE_SCHEMA = {
-  type: "string",
-  minLength: 1,
-  maxLength: 120,
-  description:
-    "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state",
-} satisfies JsonSchema;
-const KNORVIA_CUA_CANONICAL_MODEL_PREFIX = "mcp__computer-use__";
-const KNORVIA_CUA_PROVIDER_SPELLING_ALIAS_PREFIX = "mcp__computer_use__";
+export { HOST_NODE_REPL_IMAGE_MAX_DIMENSION, MCP_IMAGE_INLINE_BASE64_BYTES, MCP_IMAGE_INLINE_RAW_BYTES, } from "./image-normalization.js";
 
 export interface RegisterMcpToolsOptions {
   allowedTools?: readonly string[];
   disallowedTools?: readonly string[];
-  /**
-   * 由 runtime 使用不可伪造的 product authority 凭据验明的官方 CUA server。
-   * 名称本身不构成信任；省略时 fail-closed，所有 MCP 都按普通工具处理，
-   * 不投影官方 CUA 规范名，也不挂载 provider 拼写别名。
-   */
   officialCuaServerNames?: ReadonlySet<string>;
-  /** 独立于旧 CUA broker，由 bootstrap 内置宿主最后合并与插件启用状态证明。 */
   trustedWindowsComputerUseServerNames?: ReadonlySet<string>;
 }
+
+const observationTitlePolicy: JsonSchema = {
+  type: "string",
+  minLength: 1,
+  maxLength: 120,
+  description: "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state",
+};
 
 export function registerMcpTools(
   registry: ToolRegistry,
@@ -62,245 +43,173 @@ export function registerMcpTools(
   options: RegisterMcpToolsOptions = {},
 ): string[] {
   const allowed = options.allowedTools ? new Set(options.allowedTools) : undefined;
-  const disallowed = createToolRuleNameSet(options.disallowedTools);
+  const denied = createToolRuleNameSet(options.disallowedTools);
   const registered: string[] = [];
+  const canonicalPrefix = "mcp__computer-use__";
 
   for (const descriptor of descriptors) {
-    const officialCuaAuthorityVerified =
-      options.officialCuaServerNames?.has(descriptor.serverName) === true;
+    const authority = options.officialCuaServerNames?.has(descriptor.serverName) === true;
     const descriptorName = toMcpToolName(descriptor);
-    const name = toRegisteredMcpToolName(descriptor, officialCuaAuthorityVerified);
-    // 官方 CUA 投影模型主名后，如果只按新名检查规则，升级前保存的 namespaced
-    // denylist 会静默失效并放行。新旧名称任一命中 deny 即拒绝，任一命中 allow 即接受。
-    if (allowed && !allowed.has(name) && !allowed.has(descriptorName)) continue;
-    if (disallowed?.has(name) || disallowed?.has(descriptorName)) continue;
-    registry.register(
-      createMcpToolEntry(
-        name,
-        descriptor,
-        mcpPort,
-        officialCuaAuthorityVerified,
-        isTrustedWindowsComputerUseTool(descriptor, options.trustedWindowsComputerUseServerNames),
-      ),
-    );
-    registered.push(name);
-  }
+    const modelName = authority && descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
+      ? `${canonicalPrefix}${toModelVisibleMcpNamePart(descriptor.toolName)}`
+      : toMcpToolName(descriptor);
+    if (allowed && !allowed.has(modelName) && !allowed.has(descriptorName)) continue;
+    if (denied?.has(modelName) || denied?.has(descriptorName)) continue;
 
+    const trustedWindows = isTrustedWindowsComputerUseTool(
+      descriptor,
+      options.trustedWindowsComputerUseServerNames,
+    );
+    const windowsAccessRequest = trustedWindows && descriptor.toolName === "computer_request_access";
+    const readOnly = trustedWindows
+      ? descriptor.toolName === "computer_list_windows" || descriptor.toolName === "computer_observe"
+      : descriptor.annotations?.readOnlyHint === true;
+    const destructive = trustedWindows
+      ? descriptor.toolName === "computer_action"
+      : descriptor.annotations?.destructiveHint === true;
+    const hostExecution = descriptor.serverName === "node_repl" && descriptor.toolName === "js";
+    const sideEffectScope: ModelToolSideEffectScope = hostExecution || trustedWindows ? "system" : "network";
+    const riskLevel: RiskLevel = hostExecution || windowsAccessRequest || destructive
+      ? "high"
+      : readOnly ? "low" : "medium";
+    const needsApproval = !trustedWindows || windowsAccessRequest;
+    const timeoutMs = descriptor.timeoutMs ?? 30000;
+    const observation = needsObservationTitle(descriptor);
+    const aliasSuffix = authority
+      && descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
+      && modelName.startsWith(canonicalPrefix)
+      ? modelName.slice(canonicalPrefix.length)
+      : "";
+    const resultBudget: ToolEntry["resultBudget"] = authority || trustedWindows
+      ? {
+          maxInlineBytes: 256 * 1024,
+          maxModelBytes: 256 * 1024,
+          strategy: "truncate",
+          preview: { direction: "head" },
+        }
+      : hostExecution
+        ? {
+            maxInlineBytes: 1000000,
+            maxModelBytes: 64 * 1024,
+            strategy: "artifact",
+            preview: { direction: "tail", maxBytes: 64 * 1024 },
+            artifact: { enabled: true, retention: "session" },
+          }
+        : {
+            maxInlineBytes: 100000,
+            maxModelBytes: 50000,
+            strategy: "truncate",
+            preview: { direction: "head" },
+          };
+
+    const entry: ToolEntry = {
+      ...(windowsAccessRequest ? { approvalAuthority: "user" as const } : {}),
+      aliases: aliasSuffix ? [`mcp__computer_use__${aliasSuffix}`] : undefined,
+      capability: `MCP tool exposed by ${descriptor.serverName}: ${descriptor.toolName}`,
+      ...(authority ? {
+        permissionCapabilityGroup: "official_cua" as PermissionCapabilityGroup,
+        modelContentProtection: OFFICIAL_CUA_FRAME_MODEL_CONTENT_PROTECTION,
+      } : {}),
+      inputSchema: bridgeInputSchema(descriptor.inputSchema, observation),
+      outputSchema: McpToolOutputJsonSchema,
+      metadata: {
+        concurrentSafe: trustedWindows
+          ? descriptor.toolName === "computer_stop" || descriptor.toolName === "computer_list_windows"
+          : readOnly || descriptor.annotations?.idempotentHint === true,
+        destructive,
+        description: descriptor.description,
+        name: modelName,
+        mcpPresentation: {
+          serverName: descriptor.serverName,
+          toolName: descriptor.toolName,
+          ...(descriptor.description ? { description: descriptor.description } : {}),
+          ...(descriptor.official ? { official: true } : {}),
+        },
+        needsApproval,
+        readOnly,
+        riskLevel,
+        sideEffectScope,
+        timeoutMs,
+      },
+      permission: {
+        permission: "mcp",
+        reason: `MCP tool ${descriptor.serverName}/${descriptor.toolName} executes through an external server`,
+        riskLevel,
+        sideEffectScope,
+        needsApproval,
+        patternSources: ["toolName", "input", "network"],
+        denyPriority: "beforeAsk",
+        ...(trustedWindows ? { alwaysAsk: true, askOptions: { allowAlways: false } } : {}),
+      },
+      ...(trustedWindows && !windowsAccessRequest ? {
+        prepareApproval: () => ({ gate: "proceed" as const }),
+      } : {}),
+      resultBudget,
+      timeout: { defaultMs: timeoutMs, allowCallOverride: false },
+      cancellation: {
+        supported: true,
+        cleanup: "bestEffort",
+        userVisibleMessage: `MCP tool ${modelName} was cancelled`,
+      },
+      trace: {
+        required: true,
+        propagateToAdapters: true,
+        recordInput: "summary",
+        recordOutput: "summary",
+      },
+      handler: async (input, context) => {
+        const record = input && typeof input === "object" && !Array.isArray(input)
+          ? input as Record<string, unknown>
+          : {};
+        let argumentsRecord = record;
+        if (observation && "title" in record) {
+          argumentsRecord = { ...record };
+          delete argumentsRecord.title;
+        }
+        const result = await mcpPort.callTool(
+          {
+            serverName: descriptor.serverName,
+            toolName: descriptor.toolName,
+            arguments: argumentsRecord,
+            trace: {
+              traceId: context.traceId,
+              spanId: context.spanId,
+              parentSpanId: context.parentSpanId,
+              sessionId: context.sessionId,
+              turnId: context.turnId,
+            },
+            runtimeScope: context.runtimeScope ?? "main",
+            workspacePath: context.workingDirectory,
+            ...(context.remoteSessionId ? { remoteSessionId: context.remoteSessionId } : {}),
+            ...(context.workspaceIdentity?.trim() ? {
+              workspaceIdentity: context.workspaceIdentity.trim(),
+              workspaceKey: context.workspaceIdentity.trim(),
+            } : { workspaceKey: context.workingDirectory }),
+            ...(context.turnId ? { turnId: context.turnId } : {}),
+            clientMode: context.clientMode ?? "desktop-continuous",
+            deliveryKind: context.deliveryKind ?? "desktop-continuous",
+          },
+          { signal: context.abortSignal, timeoutMs },
+        );
+        if (trustedWindows) return preserveWindowsComputerUseFrames(result);
+        return normalizeMcpToolResultForModel({
+          compressOversizedImages: hostExecution,
+          context,
+          descriptor,
+          preserveOfficialCuaFrames: authority,
+          result,
+          toolName: modelName,
+        });
+      },
+      formatModelContent: (output) => formatMcpToolResult(output, trustedWindows),
+    };
+    registry.register(entry);
+    registered.push(modelName);
+  }
   return registered;
 }
 
-function toRegisteredMcpToolName(
-  descriptor: McpToolDescriptor,
-  officialCuaAuthorityVerified: boolean,
-): string {
-  if (
-    officialCuaAuthorityVerified &&
-    descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME
-  ) {
-    // adapter 会把官方插件 serverName 命名空间化，descriptor.name 因而是
-    // mcp__plugin_cua_computer-use__*；直接沿用它会让 provider 约定的 computer-use
-    // 工具永远不存在。可信门成立后仅投影模型可见名称，handler 仍用 descriptor 的原路由。
-    return `${KNORVIA_CUA_CANONICAL_MODEL_PREFIX}${toModelVisibleMcpNamePart(descriptor.toolName)}`;
-  }
-  return toMcpToolName(descriptor);
-}
-
-function createMcpToolEntry(
-  name: string,
-  descriptor: McpToolDescriptor,
-  mcpPort: McpPort,
-  officialCuaAuthorityVerified: boolean,
-  trustedWindowsComputerUse: boolean,
-): ToolEntry {
-  const requestsWindowsAccess =
-    trustedWindowsComputerUse && descriptor.toolName === "computer_request_access";
-  const readOnly = trustedWindowsComputerUse
-    ? descriptor.toolName === "computer_list_windows" || descriptor.toolName === "computer_observe"
-    : descriptor.annotations?.readOnlyHint === true;
-  const destructive = trustedWindowsComputerUse
-    ? descriptor.toolName === "computer_action"
-    : descriptor.annotations?.destructiveHint === true;
-  const isHostNodeReplExecution =
-    descriptor.serverName === "node_repl" && descriptor.toolName === "js";
-  const isCuaAppObservation = isKnorviaCuaGetAppState(descriptor);
-  // 宿主 node_repl 的 js 能执行本机 Node 代码，不能沿用普通未知 MCP 的 medium/network
-  // 默认值；否则权限 UI 会把文件/进程级能力错误描述成普通网络调用。
-  const sideEffectScope: ModelToolSideEffectScope =
-    isHostNodeReplExecution || trustedWindowsComputerUse ? "system" : "network";
-  const riskLevel: RiskLevel =
-    isHostNodeReplExecution || requestsWindowsAccess
-      ? "high"
-      : destructive
-        ? "high"
-        : readOnly
-          ? "low"
-          : "medium";
-  const needsApproval = !trustedWindowsComputerUse || requestsWindowsAccess;
-  const timeoutMs = descriptor.timeoutMs ?? MCP_TOOL_TIMEOUT_MS;
-  const resultBudget =
-    officialCuaAuthorityVerified || trustedWindowsComputerUse
-      ? {
-          // 图片 block 的 base64 不计入模型文本预算，但树文本仍可能超过普通 MCP 的
-          // 50 KiB。这里给官方 CUA 足够的有界文本空间，避免通用截断把结构化
-          // image/image_ref 退化成纯字符串或改变相邻顺序。
-          maxInlineBytes: 256 * 1024,
-          maxModelBytes: 256 * 1024,
-          strategy: "truncate" as const,
-          preview: { direction: "head" as const },
-        }
-      : isHostNodeReplExecution
-        ? {
-            maxInlineBytes: 1_000_000,
-            maxModelBytes: 64 * 1024,
-            strategy: "artifact" as const,
-            preview: { direction: "tail" as const, maxBytes: 64 * 1024 },
-            artifact: { enabled: true, retention: "session" as const },
-          }
-        : {
-            maxInlineBytes: 100_000,
-            maxModelBytes: 50_000,
-            strategy: "truncate" as const,
-            preview: { direction: "head" as const },
-          };
-
-  return {
-    ...(requestsWindowsAccess ? { approvalAuthority: "user" as const } : {}),
-    // 因精确查找直接返回 Tool not found。只在不可伪造的官方 authority 门成立且内部
-    // serverName 仍是官方 namespaced 名时挂单向别名；provider 继续只看规范名称。
-    aliases: officialCuaProviderSpellingAliases(name, descriptor, officialCuaAuthorityVerified),
-    capability: `MCP tool exposed by ${descriptor.serverName}: ${descriptor.toolName}`,
-    // 项目级 CUA 授权只能复用不可伪造的 official authority gate。
-    // server/tool 名可以被第三方仿冒，因此绝不能用名称 wildcard 表达这一权限。
-    ...(officialCuaAuthorityVerified
-      ? {
-          permissionCapabilityGroup: OFFICIAL_CUA_PERMISSION_CAPABILITY_GROUP,
-          // 最终栅格和紧随其后的 image_ref 共同定义模型唯一可用的像素坐标系。
-          // modelContentProtection 是唯一 Host authority；通用 resultBudget / hook
-          // 投影据此不能截断、丢弃或重排这组块，避免并行 boolean 漂移。
-          modelContentProtection: OFFICIAL_CUA_FRAME_MODEL_CONTENT_PROTECTION,
-        }
-      : {}),
-    inputSchema: createModelFacingMcpInputSchema(descriptor, isCuaAppObservation),
-    outputSchema: McpToolOutputJsonSchema,
-    metadata: {
-      concurrentSafe: trustedWindowsComputerUse
-        ? descriptor.toolName === "computer_stop" || descriptor.toolName === "computer_list_windows"
-        : readOnly || descriptor.annotations?.idempotentHint === true,
-      destructive,
-      // 必须把 MCP tool 的 description 透传到 metadata，让 registry 把它带进模型输入，
-      // 否则模型侧只看到 name + inputSchema，调用 MCP 工具时缺乏判断依据。
-      description: descriptor.description,
-      name,
-      mcpPresentation: {
-        serverName: descriptor.serverName,
-        toolName: descriptor.toolName,
-        ...(descriptor.description ? { description: descriptor.description } : {}),
-        // 只有官方 MCP 的结果才允许携带被客户端信任的结构化标识（额度耗尽 / 无套餐）。
-        ...(descriptor.official ? { official: true } : {}),
-      },
-      needsApproval,
-      readOnly,
-      riskLevel,
-      sideEffectScope,
-      timeoutMs,
-    },
-    permission: {
-      permission: "mcp",
-      reason: `MCP tool ${descriptor.serverName}/${descriptor.toolName} executes through an external server`,
-      riskLevel,
-      sideEffectScope,
-      needsApproval,
-      patternSources: ["toolName", "input", "network"],
-      denyPriority: "beforeAsk",
-      // 先通过 alwaysAsk 的硬 deny 分支，避免 yolo 早返回跳过显式禁用。
-      // 已授权动作的唯一授权事实在宿主，下面的窄 gate 只免除重复提示，不授予窗口权限。
-      ...(trustedWindowsComputerUse ? { alwaysAsk: true, askOptions: { allowAlways: false } } : {}),
-    },
-    ...(trustedWindowsComputerUse && !requestsWindowsAccess
-      ? { prepareApproval: () => ({ gate: "proceed" as const }) }
-      : {}),
-    resultBudget,
-    timeout: {
-      defaultMs: timeoutMs,
-      allowCallOverride: false,
-    },
-    cancellation: {
-      supported: true,
-      cleanup: "bestEffort",
-      userVisibleMessage: `MCP tool ${name} was cancelled`,
-    },
-    trace: {
-      required: true,
-      propagateToAdapters: true,
-      recordInput: "summary",
-      recordOutput: "summary",
-    },
-    handler: async (input, context) => {
-      const result = await mcpPort.callTool(
-        {
-          serverName: descriptor.serverName,
-          toolName: descriptor.toolName,
-          arguments: toMcpRuntimeArguments(input, isCuaAppObservation),
-          trace: {
-            traceId: context.traceId,
-            spanId: context.spanId,
-            parentSpanId: context.parentSpanId,
-            sessionId: context.sessionId,
-            turnId: context.turnId,
-          },
-          runtimeScope: context.runtimeScope ?? "main",
-          workspacePath: context.workingDirectory,
-          ...(context.remoteSessionId ? { remoteSessionId: context.remoteSessionId } : {}),
-          ...(context.workspaceIdentity?.trim()
-            ? {
-                workspaceIdentity: context.workspaceIdentity.trim(),
-                workspaceKey: context.workspaceIdentity.trim(),
-              }
-            : { workspaceKey: context.workingDirectory }),
-          ...(context.turnId ? { turnId: context.turnId } : {}),
-          clientMode: context.clientMode ?? "desktop-continuous",
-          deliveryKind: context.deliveryKind ?? "desktop-continuous",
-        },
-        {
-          signal: context.abortSignal,
-          timeoutMs,
-        },
-      );
-      if (trustedWindowsComputerUse) return preserveWindowsComputerUseFrames(result);
-      // MCP server 会返回大 base64 图片；resultBudget 只看到图片占位文本，
-      // 必须在 handler 阶段保存副本并替换模型可见内容，避免 provider 请求体被打爆。
-      return normalizeMcpToolResultForModel({
-        compressOversizedImages: isHostNodeReplExecution,
-        context,
-        descriptor,
-        preserveOfficialCuaFrames: officialCuaAuthorityVerified,
-        result,
-        toolName: name,
-      });
-    },
-    formatModelContent: (output) => formatMcpToolResult(output, trustedWindowsComputerUse),
-  };
-}
-
-function officialCuaProviderSpellingAliases(
-  name: string,
-  descriptor: McpToolDescriptor,
-  officialCuaAuthorityVerified: boolean,
-): readonly string[] | undefined {
-  if (
-    !officialCuaAuthorityVerified ||
-    descriptor.serverName !== KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME ||
-    !name.startsWith(KNORVIA_CUA_CANONICAL_MODEL_PREFIX)
-  ) {
-    return undefined;
-  }
-  const toolName = name.slice(KNORVIA_CUA_CANONICAL_MODEL_PREFIX.length);
-  return toolName.length > 0
-    ? [`${KNORVIA_CUA_PROVIDER_SPELLING_ALIAS_PREFIX}${toolName}`]
-    : undefined;
-}
-
-export const McpToolOutputJsonSchema = {
+export const McpToolOutputJsonSchema: JsonSchema = {
   type: "object",
   required: ["content"],
   properties: {
@@ -323,88 +232,40 @@ export const McpToolOutputJsonSchema = {
   additionalProperties: false,
 } satisfies JsonSchema;
 
-function normalizeInputSchema(schema: JsonSchema | undefined): JsonSchema {
+function bridgeInputSchema(schema: JsonSchema, observation: boolean): JsonSchema {
+  let normalized: JsonSchema;
   if (!schema || typeof schema !== "object") {
-    return {
+    normalized = { type: "object", properties: {}, additionalProperties: true };
+  } else {
+    const properties = schema.properties;
+    normalized = {
+      ...schema,
       type: "object",
-      properties: {},
-      additionalProperties: true,
+      properties: properties && typeof properties === "object" && !Array.isArray(properties)
+        ? properties
+        : {},
     };
   }
-
-  return {
-    ...schema,
-    type: "object",
-    properties:
-      schema.properties &&
-      typeof schema.properties === "object" &&
-      !Array.isArray(schema.properties)
-        ? schema.properties
-        : {},
-  };
-}
-
-function createModelFacingMcpInputSchema(
-  descriptor: McpToolDescriptor,
-  isCuaAppObservation: boolean,
-): JsonSchema {
-  const schema = normalizeInputSchema(descriptor.inputSchema);
-  if (!isCuaAppObservation) return schema;
-
-  const properties = schema.properties as Record<string, unknown>;
-  const required = Array.isArray(schema.required)
-    ? schema.required.filter((value): value is string => typeof value === "string")
+  if (!observation) return normalized;
+  const required = Array.isArray(normalized.required)
+    ? normalized.required.filter((value): value is string => typeof value === "string")
     : [];
-
-  // 原因：title 是 Knorvia 给用户看的意图摘要，不属于上游 cua 参数。只在模型 contract
-  // 叠加必填字段，runtime dispatch 再剥离，既让模型稳定生成可读标题，也保持上游严格 schema 兼容。
   return {
-    ...schema,
+    ...normalized,
     properties: {
-      ...properties,
-      title: CUA_USER_TITLE_SCHEMA,
+      ...normalized.properties as Record<string, unknown>,
+      title: observationTitlePolicy,
     },
     required: [...new Set([...required, "title"])],
   };
 }
 
-// 官方 CUA MCP 的 serverName 别名。`zcode-cua` 是上游插件命名空间，保留它用于识别
-// 已安装的旧插件；`knorvia-cua` 是本项目名称。两者都是精确别名，不能放宽成 includes("cua")，
-// 否则用户自建的任意含 "cua" 的 MCP server 都会被误判为官方 CUA。
-const CUA_SERVER_NAME_ALIASES = ["knorvia-cua", "zcode-cua"] as const;
-
-function isKnorviaCuaGetAppState(
-  descriptor: Pick<McpToolDescriptor, "serverName" | "toolName">,
-): boolean {
-  if (descriptor.toolName.trim().toLowerCase().replace(/-/g, "_") !== "get_app_state") {
-    return false;
-  }
-
-  const serverName = descriptor.serverName.trim().toLowerCase().replace(/_/g, "-");
-  return (
-    descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME ||
-    CUA_SERVER_NAME_ALIASES.some((alias) => serverName === alias) ||
-    serverName === "computer-use" ||
-    (CUA_SERVER_NAME_ALIASES.some((alias) => serverName.includes(alias)) &&
-      serverName.includes("computer-use"))
-  );
-}
-
-function toRecordInput(input: unknown): Record<string, unknown> {
-  if (input && typeof input === "object" && !Array.isArray(input)) {
-    return input as Record<string, unknown>;
-  }
-  return {};
-}
-
-function toMcpRuntimeArguments(
-  input: unknown,
-  stripCuaUserTitle: boolean,
-): Record<string, unknown> {
-  const argumentsRecord = toRecordInput(input);
-  if (!stripCuaUserTitle || !("title" in argumentsRecord)) return argumentsRecord;
-
-  const runtimeArguments = { ...argumentsRecord };
-  delete runtimeArguments.title;
-  return runtimeArguments;
+function needsObservationTitle(descriptor: McpToolDescriptor): boolean {
+  if (descriptor.toolName.trim().toLowerCase().replace(/-/g, "_") !== "get_app_state") return false;
+  if (descriptor.serverName === KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME) return true;
+  const server = descriptor.serverName.trim().toLowerCase().replace(/_/g, "-");
+  return server === "knorvia-cua"
+    || server === "zcode-cua"
+    || server === "computer-use"
+    || ((server.includes("knorvia-cua") || server.includes("zcode-cua")) && server.includes("computer-use"));
 }
