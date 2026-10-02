@@ -1,0 +1,256 @@
+{
+  "formatVersion": 1,
+  "baseline": "9b1f253ecd9caf9ee8c427e8df729cd73843d238",
+  "freeze": "615c346ec758b3fe706ba2d91f25295e0ea4733a",
+  "implementation": "c68152c6ec7a42dad2356215ce245a7162584b5b",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+    "apps/cli/packages/core/test/causality-order-settlement-baseline.json",
+    "apps/cli/packages/core/test/causality-order-settlement-cases.ts",
+    "apps/cli/packages/core/test/causality-order-settlement-contract.json",
+    "apps/cli/packages/core/test/causality-order-settlement-current.json",
+    "apps/cli/packages/core/test/causality-order-settlement-fixture.ts",
+    "apps/cli/packages/core/test/causality-order-settlement.test.ts",
+    "specs/knorvia-causality-order-settlement.md",
+    "docs/knorvia-causality-order-settlement-20261002.md",
+    "docs/evidence/knorvia-causality-order-settlement-check-20261002.mjs",
+    "docs/evidence/knorvia-causality-order-settlement-20261002.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+      "bytes": 12746,
+      "sha256": "0251eb8858f332b45c692686363288d255bae87f54f50a230f9b17e55e51154b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-baseline.json",
+      "bytes": 16861,
+      "sha256": "62a3e3eb5de6eb5ee0e56e2867494ac13cbd51aef773c978cf37ff7dd61d16ac"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-cases.ts",
+      "bytes": 7956,
+      "sha256": "853aeda414caf32bd895fcea8c18cf3190cbd39f5bbf7a79a1a62f90d7559f4b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-contract.json",
+      "bytes": 1877,
+      "sha256": "97b80797bb23ee729bc6d9a07487a3c7a409036b528f847515dcd44f369f51db"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-current.json",
+      "bytes": 267,
+      "sha256": "2be890a636de5f45db754ec23a80bb1101bcc85a572c204fd118bc803d91194b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-fixture.ts",
+      "bytes": 4698,
+      "sha256": "facae2c10724cdfc94d9fffa3c72a3c53cd972bd16219b99fb89e3cbf592a714"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement.test.ts",
+      "bytes": 4405,
+      "sha256": "3b06432eedb30a5f9d7c021f2c7388ae0b562f3d0306d8bae37a93c00c2d98ef"
+    },
+    {
+      "path": "specs/knorvia-causality-order-settlement.md",
+      "bytes": 4206,
+      "sha256": "a2ff8828644f3fcc11cb3e9f5c8b9d538a02e93b01e93cd187ddc558f0193902"
+    },
+    {
+      "path": "docs/knorvia-causality-order-settlement-20261002.md",
+      "bytes": 5797,
+      "sha256": "73f5332da76447bde18e8a3bce4456b6218754167763043b62469dbe37b0cb93"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-order-settlement-check-20261002.mjs",
+      "bytes": 5825,
+      "sha256": "fc9d86a93f824162e869a922fa34501c62d42f620c7114c84231abfa0337184b"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-order-settle.js",
+      "bytes": 11719,
+      "sha256": "b30ede76edb685e534f2237cec3a07638fd71a50c09afac12eab3999764d22f2"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-order-settle.d.ts",
+      "bytes": 2597,
+      "sha256": "699b1382dc27895a9553f4706e1a4020e204f05a240d0bc245f320de95cfa6e5"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-order-settle.d.ts.map",
+      "bytes": 923,
+      "sha256": "be5b160ee5f9923f259bf5a3e1f0bdf5243bef08fdba1427b0723050325dac89"
+    }
+  ],
+  "immutableFreeze": [
+    "apps/cli/packages/core/test/causality-order-settlement-baseline.json",
+    "apps/cli/packages/core/test/causality-order-settlement-cases.ts",
+    "apps/cli/packages/core/test/causality-order-settlement-contract.json",
+    "apps/cli/packages/core/test/causality-order-settlement-fixture.ts",
+    "apps/cli/packages/core/test/causality-order-settlement.test.ts",
+    "specs/knorvia-causality-order-settlement.md"
+  ],
+  "upstream": {
+    "path": "apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+    "blob": "c6fa31b8dc5f148de80f1d3dc6caad21b342e7bf",
+    "normalizedSha256": "0d43b6c54db63e8607a4b461462c02059b7e1d8feb5b99ed6682ac862049f703",
+    "verification": "Local actual publisher bytes equal baseline; association from existing inventory, no new remote or authorship verification"
+  },
+  "design": {
+    "new": "First-admission eligibility index plus exact-witness set; certain-before-maybe batch commit, empty-evidence widening selection and one terminal event projection",
+    "singleStateOwner": "Existing TraceState/strand helpers retain issued, frame, cache and joined state; batches are local derived data only",
+    "retained": "All text outside two owned bodies; ancestry/admission, binding/control functions, public declarations and substantial inherited prose. Within bodies: filter/admission sequencing, summary lookup, visibility/commit primitives and fixed claim/event expressions",
+    "sourceExposure": true,
+    "separateUnexposedAuthor": false,
+    "rights": "Mixed pending independent root review; no whole-body/file independence or header/registry/MIT grant; applicable attribution preserved"
+  },
+  "checks": {
+    "freeze": {
+      "sourceGroups": 7,
+      "sourcePass": 7,
+      "emittedGroups": 7,
+      "emittedPass": 7
+    },
+    "final": {
+      "sourceGroups": 7,
+      "sourcePass": 7,
+      "emittedGroups": 7,
+      "emittedPass": 7,
+      "fail": 0,
+      "skip": 0,
+      "cancelled": 0
+    },
+    "coverage": {
+      "admissionCases": 7,
+      "barrierCases": 6,
+      "thrownOperationControls": 5,
+      "guardCases": 3,
+      "analyzerScripts": 5
+    },
+    "overlap": "Same seven groups per mode. Five analyzer comparisons are inside one group, not additional group totals; no neighboring smoke counted",
+    "routing": "Exact old settlement injected into hashed real calls/loops/walk/order/interpret/analyze artifacts; current paths import actual current source or emitted code",
+    "historicalArchiveSha256": "62a3e3eb5de6eb5ee0e56e2867494ac13cbd51aef773c978cf37ff7dd61d16ac",
+    "declarationSha256": "699b1382dc27895a9553f4706e1a4020e204f05a240d0bc245f320de95cfa6e5",
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "fixtureRoots": 3,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "scope": "Only owner JS/declaration/map"
+    },
+    "lint": {
+      "configuredFiles": 1,
+      "ownedFiles": 5,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": "Nine runtime/spec/fixture/checker files and final receipt/document checked",
+    "architecture": {
+      "violations": 0,
+      "new": 0
+    },
+    "evidence": "Exact two-body diff, six immutable freeze files and six unchanged emitted caller artifacts"
+  },
+  "preservedFailures": [
+    {
+      "phase": "pre-freeze synthetic consumer generation",
+      "diagnostic": "TS2739 Node<string> lacks Promise<string> members",
+      "correction": "Use Node-valued synthetic seed; production unchanged"
+    },
+    {
+      "phase": "pre-freeze fixture types",
+      "diagnostic": "TS2339 SourceFile public type has no parseDiagnostics",
+      "correction": "Explicit fixture-only intersection type preserves the same runtime assertion"
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/knorvia-order-settlement-freeze-generation.log",
+      "bytes": 701,
+      "sha256": "1562647795cbc51e430d15a8ae63dcc441f13050cc02d75a20dfc50b55b92358"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-freeze-generation-corrected.log",
+      "bytes": 53,
+      "sha256": "ef96938ef9e3171fa5fd4fa7f0a5233a60d6d69a668e8d57a6279cdd11862b94"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-freeze-types.log",
+      "bytes": 1058,
+      "sha256": "cdf011debaa4f7b6f42a10f7696ae971f6a7373ab18fe39c3a170fe0fde567ed"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-freeze-types-corrected.log",
+      "bytes": 162,
+      "sha256": "881a4e08276043680dcb6fbb6f780e813b07967e54ff8b6bbe32cd3ba6116716"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-freeze-source.log",
+      "bytes": 851,
+      "sha256": "a95ad66fe3642afb54d37325c5d0a76109bd5a721102d749fdda83cea188eb5f"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-freeze-emitted.log",
+      "bytes": 851,
+      "sha256": "08f33b0db6096e19d2496cb51f2e8cc3ea8f629fba9b4dd157aec6800476e66b"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-compile.log",
+      "bytes": 253,
+      "sha256": "421915683733fcd029f3096d05a1c70aa72ab2c2e62a344e40938aeb5ad24575"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-source.log",
+      "bytes": 852,
+      "sha256": "2b3ffc3dcbd1f0b865423656a4013cffe8facdaf7710910fa59b505fee636614"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-emitted.log",
+      "bytes": 852,
+      "sha256": "fb8b81a3401dbc5f54d0c995aa78e723c189bc06437b72190232e5ae7fc4dfac"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-configured-lint.log",
+      "bytes": 89,
+      "sha256": "d3911fa13b03a22b7bcbe7ab6d70415a5138aa6eac3ad661253c0dd4ffe3b284"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-owned-lint.log",
+      "bytes": 90,
+      "sha256": "a5635e635f65992552ff4a23f323f0f2a180a59c75559792184aa60427e8d48b"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-format.log",
+      "bytes": 112,
+      "sha256": "55e5f9750293cf3878e1d1ec5ab8269c2ffdc59ce915d00288b97b2badd5d705"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-final-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "nextGap": {
+    "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts",
+    "responsibility": "Await-position scanning and promise-strand joining",
+    "localHistory": "Only 7619e41 snapshot; historical inventory upstream-unchanged/unreviewed",
+    "blob": "cd8321e11f200a4ceff818bdf3c3d66226086c49",
+    "sourceSha256": "919132d12de90b0b59825637e92bfd35bca89799d63cdc2977dc80c132878861",
+    "status": "Untouched; separate owner/spec/freeze required"
+  },
+  "limits": [
+    "Supported compiler-produced records and owned failures; no arbitrary getter/builtin guarantee",
+    "Synchronous analysis only; no simultaneous execution or runtime cancellation/deadline policy claim",
+    "No broad suite/build/benchmark/native/Windows/browser interaction acceptance",
+    "Source exposure and substantial retained prose/bodies remain; root owns final expression/licence and aggregate acceptance",
+    "No live workflow/provider/user data, settings/security changes, header/registry grant or publication"
+  ]
+}
