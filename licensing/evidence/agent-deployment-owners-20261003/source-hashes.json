@@ -1,0 +1,26 @@
+{
+  "queueBaseline": "60c3b1c544067b753b9476ace3698683c3714428",
+  "freshAuthor": "/root/agent_deployment_owner_author",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none",
+  "inputs": {
+    "/tmp/knorvia-agent-deployment-author-packet.md": "f2dd31bbd5f62b723ea949adde18a48410c608bb9def0bd67e0ccc593e9964a0",
+    "/workspace/knorvia-studio/AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "owners": [
+    {
+      "path": "packages/server/src/remote/agentDeploy.ts",
+      "baselineSha256": "2f7e526d5c976f12365ee2467218e4d8fc623b82de303e9ff4c03c8543de0127",
+      "rawAuthorSha256": "bf9491e27256aa3cedfeee991068aadeca3dfd8dda67105e1b7ebd8bc97dc7d2",
+      "formattedCandidateSha256": "1b842fc168bbb313005c6ff0342815732a4f7891b7fa7a1cff08db0ef614514d"
+    },
+    {
+      "path": "packages/server/src/remote/agentDevDeploy.ts",
+      "baselineSha256": "e98f138dc69a79a2e825ae3e0f388b7d05c7414f0e06a7da089685894daad0ed",
+      "rawAuthorSha256": "4317a4c321197afd94238e7e710d3ab3abadb2060a9c20925e4f13cf6aa701af",
+      "formattedCandidateSha256": "913954f82ebf313352dbd55e9bcbab058b7faba2915157ac7598072c21235a01"
+    }
+  ]
+}
