@@ -23,7 +23,9 @@ export function createPrioritizedConfig(
   return { config, scope, priority: getScopePriority(scope) };
 }
 
-export function mergeConfigs(...configs: PrioritizedConfig[]): RuntimeConfigPatch {
+export function mergeConfigs(
+  ...configs: PrioritizedConfig[]
+): RuntimeConfigPatch {
   const ordered = [...configs].sort((a, b) => a.priority - b.priority);
   const result: RuntimeConfigPatch = {};
 
@@ -87,7 +89,9 @@ export function mergeConfigs(...configs: PrioritizedConfig[]): RuntimeConfigPatc
       }
       const plugins = { ...previousPlugins, ...incoming };
       if (incoming.dirs) {
-        plugins.dirs = [...new Set([...(previousPlugins?.dirs ?? []), ...incoming.dirs])];
+        plugins.dirs = [
+          ...new Set([...(previousPlugins?.dirs ?? []), ...incoming.dirs]),
+        ];
       }
       if (incoming.enabledPlugins) {
         plugins.enabledPlugins = {
@@ -128,7 +132,10 @@ export function mergeConfigs(...configs: PrioritizedConfig[]): RuntimeConfigPatc
         ][];
         for (const [event, matchers] of entries) {
           if (matchers) {
-            hooks.events[event] = [...(hooks.events[event] ?? []), ...matchers];
+            hooks.events[event] = [
+              ...(hooks.events[event] ?? []),
+              ...matchers,
+            ];
           }
         }
       }

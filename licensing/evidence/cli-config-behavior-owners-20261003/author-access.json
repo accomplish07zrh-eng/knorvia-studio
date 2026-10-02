@@ -1,0 +1,96 @@
+{
+  "curatorExposure": "source-exposed curator inspected four inherited bodies and finite metadata, authored behavior/public-API packets and synthetic harness; authors received only packets/instructions/public clarifications",
+  "authors": [
+    {
+      "owner": "factory",
+      "agent": "/root/cli_config_factory_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "inherited requested setting; not independently verified by tool",
+      "declaredReads": [
+        "factory-author-packet.md",
+        "AGENTS.md",
+        "apps/cli/AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md",
+        "initial public priority/internal/member clarification delivered after sole first write",
+        "factory-correction-1-packet.md",
+        "factory-correction-2-packet.md"
+      ],
+      "declaredWrites": [
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-correction-1.ts.txt",
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-correction-2.ts.txt",
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/factory-initial.ts.txt"
+      ],
+      "postWriteOnly": "sha256sum; no reopening/execution/formatting/tests/network/repository edits",
+      "restriction": "instruction-limited fresh task; no OS clean-room enforcement or formal certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "merger",
+      "agent": "/root/cli_config_merger_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "inherited requested setting; not independently verified by tool",
+      "declaredReads": [
+        "merger-author-packet.md",
+        "AGENTS.md",
+        "apps/cli/AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md",
+        "ConfigScope.Project clarification delivered after sole first write",
+        "merger-correction-1-packet.md"
+      ],
+      "declaredWrites": [
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-correction-1.ts.txt",
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/merger-initial.ts.txt"
+      ],
+      "postWriteOnly": "sha256sum; no reopening/execution/formatting/tests/network/repository edits",
+      "restriction": "instruction-limited fresh task; no OS clean-room enforcement or formal certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "file",
+      "agent": "/root/cli_config_file_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "inherited requested setting; not independently verified by tool",
+      "declaredReads": [
+        "file-author-packet.md",
+        "AGENTS.md",
+        "apps/cli/AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md"
+      ],
+      "declaredWrites": [
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/file-initial.ts.txt"
+      ],
+      "postWriteOnly": "sha256sum; no reopening/execution/formatting/tests/network/repository edits",
+      "restriction": "instruction-limited fresh task; no OS clean-room enforcement or formal certification",
+      "acceptedCredit": 0
+    },
+    {
+      "owner": "project",
+      "agent": "/root/cli_config_project_author",
+      "modelRequested": "gpt-6.1-sol",
+      "reasoningRequested": "high",
+      "forkTurns": "none",
+      "fast": "inherited requested setting; not independently verified by tool",
+      "declaredReads": [
+        "project-author-packet.md",
+        "AGENTS.md",
+        "apps/cli/AGENTS.md",
+        ".agents/skills/architecture-governance/SKILL.md",
+        "public MCP discriminant confirmation before first write",
+        "project-correction-1-packet.md"
+      ],
+      "declaredWrites": [
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/project-correction-1.ts.txt",
+        "licensing/evidence/cli-config-behavior-owners-20261003/drafts/project-initial.ts.txt"
+      ],
+      "postWriteOnly": "sha256sum; no reopening/execution/formatting/tests/network/repository edits",
+      "restriction": "instruction-limited fresh task; no OS clean-room enforcement or formal certification",
+      "acceptedCredit": 0
+    }
+  ]
+}

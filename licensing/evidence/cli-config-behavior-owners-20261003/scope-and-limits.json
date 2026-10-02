@@ -1,0 +1,23 @@
+{
+  "selectedOwners": 4,
+  "acceptedIndependentReplacementCredit": 0,
+  "licenseDecision": "deferred to parent; no MIT assertion or root LICENSE/review/inventory updates",
+  "wholeRawDrafts": 8,
+  "minimumUniqueSyntheticCases": 10,
+  "otherAdapterSourcesUnchanged": 239,
+  "remainingAdapterLedger": 33,
+  "retainedConfigPolicyFiles": [
+    "schema.ts",
+    "env-config.adapter.ts",
+    "index.ts"
+  ],
+  "runtimeData": "synthetic only; product fs/os/env/process/time/random/log/config/shared ports injected; pure POSIX path math receives synthetic paths",
+  "nativeAcceptance": false,
+  "ordinaryTestsBuilds": false,
+  "semanticDependencyTypecheck": false,
+  "scopedTypeEvidence": "AST exported API structural shape and syntax/transpile only; contracts dist absent; no environment installation or broad typecheck",
+  "nodeActual": "v24.19.0",
+  "nodePin": "24.14.0; existing environment version mismatch retained",
+  "architecture": "unassigned/unmanaged CLI; initial/final 0 baseline and 0 new; no invented managed module/layer claim",
+  "protected": "Reserved preview/persisted merge/reducer paths hash-only unchanged. No main/cross-lane integration, SSH/deployment/auth/security/settings/actual permissions access. UI Library403/cancelled upload unchanged."
+}

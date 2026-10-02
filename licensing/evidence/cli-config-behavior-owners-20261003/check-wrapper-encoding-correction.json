@@ -1,0 +1,1 @@
+{"immutableRecordsWithLiteralTrailingEscape": [], "readPolicy": "remove literal trailing backslash-n for parsing only; original files unchanged", "testRunnerCorrection": "node --test stripped custom args; use node owners.test.mjs args, which retains node:test output", "previousRuns": "all allocated 8 cases, not owner-filtered; preserved accurately"}

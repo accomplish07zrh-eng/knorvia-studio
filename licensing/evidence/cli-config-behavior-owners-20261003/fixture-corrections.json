@@ -1,0 +1,11 @@
+{
+  "baselineFailures": [
+    "initial hook merge creates event array retaining matcher identity",
+    "project options retained when subsequent project omits plugins"
+  ],
+  "productSourceChanged": false,
+  "rerunOwners": [
+    "merger",
+    "factory"
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "owner": "factory",
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/factory-correction-2-packet.md",
+    "sha256": "f37290481bfec74d1406db64fb42c3cbd494e444dd3724497f9be168010da12c",
+    "exposure": "public DTO field/discriminant and external input/output/error ordering only"
+  },
+  {
+    "owner": "project",
+    "packet": "licensing/evidence/cli-config-behavior-owners-20261003/project-correction-1-packet.md",
+    "sha256": "fc08e0c1fa2715d17a9f803f7ddcce57344326701bac9b8de92b6cbccdca4d7d",
+    "exposure": "public DTO field/discriminant and external input/output/error ordering only"
+  }
+]

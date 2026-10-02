@@ -8,8 +8,6 @@ import {
 } from "@knorvia/shared/workspace-hook-discovery";
 import { loadFileConfig, type LoadedConfig } from "./file-config.adapter.js";
 
-const CURRENT_DIRECTORY = ".";
-
 export interface ProjectConfigFile {
   baseDir: string;
   config: RuntimeConfigPatch;
@@ -28,22 +26,61 @@ export interface ProjectConfigDiscovery {
   mcpServerNames: string[];
 }
 
+const PROJECT_CONFIG_DIRECTORY = ".knorvia-studio";
+const STDIO_TYPE = "stdio";
+const DEFAULT_CWD = ".";
+const INITIAL_ORDER = 0;
+const TRUST_WARNING_CODE = "config_project_hooks_pending_trust";
+const TRUST_WARNING_MESSAGE = "Project hooks are pending workspace trust and remain blocked";
+const TRUST_WARNING_PATH = "hooks";
+const TRUST_WARNING_SEVERITY = "warning";
+
+function resolveProjectServer(server: McpServerConfig, baseDir: string): McpServerConfig {
+  if (server.type !== STDIO_TYPE) {
+    return server;
+  }
+  const directory = server.cwd ?? DEFAULT_CWD;
+  return {
+    ...server,
+    cwd: isAbsolute(directory) ? directory : resolve(baseDir, directory),
+  };
+}
+
+function projectPatch(source: RuntimeConfigPatch, baseDir: string): RuntimeConfigPatch {
+  const patch = { ...source };
+  if (patch.hooks) {
+    delete patch.hooks;
+  }
+  if (patch.mcp?.servers) {
+    patch.mcp = {
+      ...patch.mcp,
+      servers: Object.fromEntries(
+        Object.entries(patch.mcp.servers).map(([name, server]) => [
+          name,
+          resolveProjectServer(server, baseDir),
+        ]),
+      ),
+    };
+  }
+  return patch;
+}
+
 export function loadProjectConfigs(
   workingDirectory?: string,
   explicitProjectConfigPath?: string,
 ): ProjectConfigDiscovery {
-  const resolvedWorkingDirectory = resolve(workingDirectory ?? process.cwd());
-  const files = discoverWorkspaceHookConfigPaths({
-    workingDirectory: resolvedWorkingDirectory,
+  const directory = resolve(workingDirectory ?? process.cwd());
+  const references = discoverWorkspaceHookConfigPaths({
+    workingDirectory: directory,
     ...(explicitProjectConfigPath ? { explicitProjectConfigPath } : {}),
-  }).map((ref, discoveryOrder) =>
-    loadProjectConfigFile(ref.path, {
-      discoveryOrder,
-      explicitProjectConfig: ref.explicitProjectConfig,
-      workingDirectory: resolvedWorkingDirectory,
+  });
+  const files = references.map((reference, index) =>
+    loadProjectConfigFile(reference.path, {
+      discoveryOrder: index,
+      explicitProjectConfig: reference.explicitProjectConfig,
+      workingDirectory: directory,
     }),
   );
-
   return summarizeProjectConfigs(files);
 }
 
@@ -56,39 +93,39 @@ export function loadProjectConfigFile(
   } = {},
 ): ProjectConfigFile {
   const result = loadFileConfig(path);
-  const baseDir = getProjectConfigBaseDir(result.path);
+  const parentDirectory = dirname(result.path);
+  const baseDir =
+    basename(parentDirectory) === PROJECT_CONFIG_DIRECTORY
+      ? dirname(parentDirectory)
+      : parentDirectory;
   const diagnostics = [...result.diagnostics];
   const hooks = result.loaded ? result.config.hooks : undefined;
-
   if (hooks) {
     diagnostics.push({
-      code: "config_project_hooks_pending_trust",
+      code: TRUST_WARNING_CODE,
       filePath: result.path,
-      message: "Project hooks are pending workspace trust and remain blocked",
-      path: "hooks",
-      severity: "warning",
+      message: TRUST_WARNING_MESSAGE,
+      path: TRUST_WARNING_PATH,
+      severity: TRUST_WARNING_SEVERITY,
     });
   }
-
+  const config: RuntimeConfigPatch = result.loaded ? projectPatch(result.config, baseDir) : {};
+  let hookCandidate: WorkspaceHookSourceInput | undefined;
+  if (hooks) {
+    const validatedHooks = workspaceHooksConfigSchema.parse(hooks);
+    hookCandidate = createWorkspaceHookSourceInput({
+      path: result.path,
+      workingDirectory: resolve(options.workingDirectory ?? baseDir),
+      hooks: validatedHooks,
+      discoveryOrder: options.discoveryOrder ?? INITIAL_ORDER,
+      explicitProjectConfig: options.explicitProjectConfig,
+    });
+  }
   return {
     baseDir,
-    config: result.loaded ? normalizeProjectConfig(result.config, baseDir) : {},
+    config,
     diagnostics,
-    ...(hooks
-      ? {
-          hookCandidate: createWorkspaceHookSourceInput({
-            path: result.path,
-            workingDirectory: resolve(options.workingDirectory ?? baseDir),
-            // hooks 字段已由 loadFileConfig 经 KnorviaConfigFileSchema（shared 单源
-            // schema）完成运行时校验；这里的 parse 仅做类型桥接——HooksRuntimeConfigPatch
-            // 与 WorkspaceHooksConfig 是两个领域类型（执行 side vs 配置 side，字段语义有
-            // 微差），不共享 TS 结构。禁止改成 as 断言绕过校验。
-            hooks: workspaceHooksConfigSchema.parse(hooks),
-            discoveryOrder: options.discoveryOrder ?? 0,
-            explicitProjectConfig: options.explicitProjectConfig,
-          }),
-        }
-      : {}),
+    ...(hookCandidate ? { hookCandidate } : {}),
     loaded: result.loaded,
     path: result.path,
   };
@@ -96,63 +133,24 @@ export function loadProjectConfigFile(
 
 export function summarizeProjectConfigs(files: ProjectConfigFile[]): ProjectConfigDiscovery {
   const loadedFiles = files.filter((file) => file.loaded);
-  const mcpServerNames = new Set<string>();
-
+  const serverNames = new Set<string>();
   for (const file of loadedFiles) {
     for (const name of Object.keys(file.config.mcp?.servers ?? {})) {
-      mcpServerNames.add(name);
+      serverNames.add(name);
     }
   }
-
+  const diagnostics = files.flatMap((file) => file.diagnostics);
+  const hookCandidates = loadedFiles.flatMap((file) => {
+    const candidate = file.hookCandidate;
+    return candidate ? [candidate] : [];
+  });
+  const paths = loadedFiles.map((file) => file.path);
   return {
-    diagnostics: files.flatMap((file) => file.diagnostics),
+    diagnostics,
     files: loadedFiles,
-    hookCandidates: loadedFiles.flatMap((file) => (file.hookCandidate ? [file.hookCandidate] : [])),
-    loaded: loadedFiles.length > 0,
-    paths: loadedFiles.map((file) => file.path),
-    mcpServerNames: [...mcpServerNames],
-  };
-}
-
-function getProjectConfigBaseDir(path: string): string {
-  const configDirectory = dirname(path);
-  return basename(configDirectory) === ".knorvia-studio"
-    ? dirname(configDirectory)
-    : configDirectory;
-}
-
-function normalizeProjectConfig(config: RuntimeConfigPatch, baseDir: string): RuntimeConfigPatch {
-  const normalized: RuntimeConfigPatch = config.hooks
-    ? (() => {
-        const { hooks: _hooks, ...safeConfig } = config;
-        // Project Hook declarations are retained only in the immutable candidate side-channel.
-        // The executable RuntimeConfigPatch remains hook-free until a later admission phase.
-        return safeConfig;
-      })()
-    : { ...config };
-
-  if (!normalized.mcp?.servers) return normalized;
-
-  return {
-    ...normalized,
-    mcp: {
-      ...normalized.mcp,
-      servers: Object.fromEntries(
-        Object.entries(normalized.mcp.servers).map(([name, server]) => [
-          name,
-          normalizeProjectMcpServer(server, baseDir),
-        ]),
-      ),
-    },
-  };
-}
-
-function normalizeProjectMcpServer(server: McpServerConfig, baseDir: string): McpServerConfig {
-  if (server.type !== "stdio") return server;
-
-  const cwd = server.cwd ?? CURRENT_DIRECTORY;
-  return {
-    ...server,
-    cwd: isAbsolute(cwd) ? cwd : resolve(baseDir, cwd),
+    hookCandidates,
+    loaded: loadedFiles.length > INITIAL_ORDER,
+    paths,
+    mcpServerNames: [...serverNames],
   };
 }

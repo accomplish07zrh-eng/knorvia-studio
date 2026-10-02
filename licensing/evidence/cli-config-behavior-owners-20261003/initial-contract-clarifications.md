@@ -1,0 +1,1 @@
+Public dependency facts before draft completion: createPrioritizedConfig(config:RuntimeConfigPatch,scope:ConfigScope); internal hook source is {kind:"internal"}; user source is {kind:"user",path:userResult.path}. MCP discriminant is server.type; stdio means server.type==="stdio".

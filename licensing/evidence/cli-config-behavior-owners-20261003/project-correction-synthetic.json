@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/src/config/owners.test.mjs",
+    "--owner=project"
+  ],
+  "stdout": "sourceMode=installed-candidate; selectedOwner=project\n✔ project: base directory, stdio cwd, blocked schema candidate and failed diagnostics (58.103795ms)\n✔ project: discovery order and normalization errors precede hook parsing (14.892568ms)\n✔ project: summary output key and error observation ordering (11.65844ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 89.511053\n",
+  "stderr": "",
+  "exitCode": 0
+}
