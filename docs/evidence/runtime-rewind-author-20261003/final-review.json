@@ -1,0 +1,15 @@
+{
+  "batch": "rewind",
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "api": [
+    {
+      "module": "rewind",
+      "equal": true
+    },
+    {
+      "module": "rewind-message",
+      "equal": true
+    }
+  ]
+}

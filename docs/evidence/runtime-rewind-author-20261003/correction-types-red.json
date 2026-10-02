@@ -1,0 +1,12 @@
+{
+  "batch": "rewind",
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2339,
+      "message": "Property 'traceContextToLogContext' does not exist on type '{ abortSignal?: AbortSignal | undefined; events: SessionEvent[]; plan: AvailablePlan; targetMessageId: MessageId; traceContext: TraceContext; }'.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind-conversation-state.ts"
+    }
+  ],
+  "api": []
+}
