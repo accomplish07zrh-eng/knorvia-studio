@@ -1,0 +1,66 @@
+{
+  "typescript": "6.0.2",
+  "baselineContainerSha256": "e376ca25b02ffe7b4fb5d2f407194fed2839fdf87d62798ad1009a527bde6cd2",
+  "diagnostics": [],
+  "exportedCallSignatures": {
+    "baseline": {
+      "buildForkHistoryMessages": [
+        "(parentMessages: MessageWithParts[], forkSourceMessages: MessageWithParts[], targetIndex: number, forkHistoryEndIndex: number): MessageWithParts[]"
+      ],
+      "copyGoalStateForFork": [
+        "(this: AgentRuntimeInternal, options: { forkedSessionId: SessionId; goalBoundary?: StableForkGoalBoundaryMetadata | undefined; messageIdMap: Map<MessageId, MessageId>; traceContext: TraceContext; }): Promise<void>"
+      ],
+      "createForkedSession": [
+        "(runtime: AgentRuntimeInternal, options: { parentSession: SessionInfo; forkedSessionId?: SessionId | undefined; stableForkMetadata?: ForkChildSessionMetadata | undefined; }): Promise<SessionId>"
+      ],
+      "createSelectionSideConversation": [
+        "(this: AgentRuntimeInternal, options: SelectionSideChatCreateOptions): Promise<WorkspaceForkResult>"
+      ],
+      "forkConversationBeforeMessage": [
+        "(this: AgentRuntimeInternal, options: ConversationBeforeInputForkOptions): Promise<WorkspaceForkResult>"
+      ],
+      "forkConversationFromMessage": [
+        "(this: AgentRuntimeInternal, options: { forkedSessionId?: SessionId | undefined; targetMessageId: MessageId; traceContext: TraceContext; beforeTarget?: true | undefined; }): Promise<WorkspaceForkResult>"
+      ],
+      "forkSourceMessagesForSession": [
+        "(parentMessages: MessageWithParts[], parentSession: SessionInfo): MessageWithParts[]"
+      ],
+      "forkStableConversationAtMessage": [
+        "(this: AgentRuntimeInternal, options: StableConversationForkOptions): Promise<WorkspaceForkResult>"
+      ],
+      "resolveForkHistoryEndIndex": [
+        "(messages: MessageWithParts[], targetIndex: number, expandAssistantTurn: boolean): number"
+      ]
+    },
+    "current": {
+      "buildForkHistoryMessages": [
+        "(parentMessages: MessageWithParts[], forkSourceMessages: MessageWithParts[], targetIndex: number, forkHistoryEndIndex: number): MessageWithParts[]"
+      ],
+      "copyGoalStateForFork": [
+        "(this: AgentRuntimeInternal, options: { forkedSessionId: SessionId; goalBoundary?: StableForkGoalBoundaryMetadata | undefined; messageIdMap: Map<MessageId, MessageId>; traceContext: TraceContext; }): Promise<void>"
+      ],
+      "createForkedSession": [
+        "(runtime: AgentRuntimeInternal, options: { parentSession: SessionInfo; forkedSessionId?: SessionId | undefined; stableForkMetadata?: ForkChildSessionMetadata | undefined; }): Promise<SessionId>"
+      ],
+      "createSelectionSideConversation": [
+        "(this: AgentRuntimeInternal, options: SelectionSideChatCreateOptions): Promise<WorkspaceForkResult>"
+      ],
+      "forkConversationBeforeMessage": [
+        "(this: AgentRuntimeInternal, options: ConversationBeforeInputForkOptions): Promise<WorkspaceForkResult>"
+      ],
+      "forkConversationFromMessage": [
+        "(this: AgentRuntimeInternal, options: { forkedSessionId?: SessionId | undefined; targetMessageId: MessageId; traceContext: TraceContext; beforeTarget?: true | undefined; }): Promise<WorkspaceForkResult>"
+      ],
+      "forkSourceMessagesForSession": [
+        "(parentMessages: MessageWithParts[], parentSession: SessionInfo): MessageWithParts[]"
+      ],
+      "forkStableConversationAtMessage": [
+        "(this: AgentRuntimeInternal, options: StableConversationForkOptions): Promise<WorkspaceForkResult>"
+      ],
+      "resolveForkHistoryEndIndex": [
+        "(messages: MessageWithParts[], targetIndex: number, expandAssistantTurn: boolean): number"
+      ]
+    }
+  },
+  "equal": true
+}

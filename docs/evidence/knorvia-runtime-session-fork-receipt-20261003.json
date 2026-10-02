@@ -1,0 +1,50 @@
+{
+  "batch": "session-fork",
+  "files": {
+    "src/runtime/methods/session-fork.ts": "04dbcc01de998e09f6c465d51d00c203247794d78d8621f0184dd983dc099ab5",
+    "dist/runtime/methods/session-fork.js": "42c727b1d6bb98895c4ce388e92b01787d6c50410adca399c328dc59d513f827",
+    "dist/runtime/methods/session-fork.d.ts": "05bb334a973dcb0f781cc715e5b17d87d34e97b68df59e7be3e1cbc5bdbb2e1d",
+    "src/runtime/methods/session-fork-atomic.ts": "ec19c9e47e78a3fbca8069a026df5fe4b0dec70ddca89029e81219cc2007c9e6",
+    "dist/runtime/methods/session-fork-atomic.js": "598b9d2db688469e9573e13daeb1ded17650ed7f638c197880e238f96c9ab599",
+    "dist/runtime/methods/session-fork-atomic.d.ts": "6a2da5f5efc261053bcc2f34e9eb18d0b228e206686029ae09c930004577ac87",
+    "src/runtime/methods/session-fork-identities.ts": "0df3dae773a2a7df8f066770f0b9afe95d4495e66d6ec2d4ea3ba23265ec728d",
+    "dist/runtime/methods/session-fork-identities.js": "789cd196e3b8ba10b4c8871f6fa8ebc449af3d7ea38335d163e57821514769b2",
+    "dist/runtime/methods/session-fork-identities.d.ts": "3d1fd872174c830b04401c5688bcea7ea3fb3bae27370ac17834498fb07c694d",
+    "src/runtime/methods/session-fork-legacy-goal.ts": "01a1e51584d99f37120b17d8bd41ba3eef0682348d301a7bab3c4a6493a1bd53",
+    "dist/runtime/methods/session-fork-legacy-goal.js": "cb03e9ead4b7cec6d301d9c639f1f9c944873c0e6f13c870520ebba54281f7b1",
+    "dist/runtime/methods/session-fork-legacy-goal.d.ts": "579f6d7b9d49f12cc8ec27007995472b200a40d36a78b7b84324b60e24bdb74e",
+    "src/runtime/methods/session-fork-notices.ts": "8417e2360b91d8855a8675019782a603dc46286e2ed0ee235fc4297542c5289b",
+    "dist/runtime/methods/session-fork-notices.js": "17a55b04634346a32150ff477a405310d6aa7a4a084919a54cc13b520b927657",
+    "dist/runtime/methods/session-fork-notices.d.ts": "e0aa5966289c0de09aa47c10f87c3f64cc2e046a0091bb79d1fa9a17340edcd6",
+    "src/runtime/methods/session-fork-session.ts": "d609a433e9853720ee336a6f5682617f577e0da63ebad9b00660923b8bf51e31",
+    "dist/runtime/methods/session-fork-session.js": "83a48720164cf4ec0b340db2673dbd5a8cfb2e757a0861154fddfbb68ea9ba6a",
+    "dist/runtime/methods/session-fork-session.d.ts": "f77b96e2a8665d32f73d0e663ab9f81750fe5344eadd19f09a09bf2e0b367b87",
+    "src/runtime/methods/session-fork-transcript.ts": "c5fdb6a07cf5679f8f160ff1eefbf46f42dbef05dc985b4724422832fa12cf62",
+    "dist/runtime/methods/session-fork-transcript.js": "84505dbd4644ecdc98b0d1c98a8c8e99de0eff3fa0a82e8ffdecd16955302737",
+    "dist/runtime/methods/session-fork-transcript.d.ts": "de733e7f00c0868a9e50fae6b1dc8d563b46f6de141ac35da8d9f99f1a170631",
+    "src/runtime/methods/session-fork-verifiers.ts": "1f29b07eb54d6ab75dd01a31e03f1cf83e55c7031fe520d04fa8c86c6ac7eb7f",
+    "dist/runtime/methods/session-fork-verifiers.js": "355207224f3eb211f13d95be54d5703215e1f3b686dd6e1dc3f371cd884d9961",
+    "dist/runtime/methods/session-fork-verifiers.d.ts": "0e148ea794409a4590a37470db0f324a5bce4fb60f984c3ceb2b283dab3c8da4"
+  },
+  "draft": "d07fbfb sealed eight-file API/functional author draft before comparison; author access report and individual original draft hashes retained",
+  "design": "One atomic commit owner coordinates transcript and child identity maps, verifiers, notices and single bundle; separate legacy ordered writes/goal copy. Runtime clone/execution-state helpers remain existing owners. No new policy/cache/retry layer.",
+  "corrections": [
+    "cf0f679 retains three type diagnostics; narrow assistant guard before unchanged resolveExecutionState and typed legacy payload record",
+    "Static compatibility review preserves repeated config agent reads and optional transcript target handling; original public parameter names restored",
+    "Declaration statement layout legitimately differs through reexports. Retained failed syntactic layout report; zero-diagnostic compiler resolves all nine exact exported call signatures against immutable historical declaration, all equal. Not declaration byte identity."
+  ],
+  "retained": "Source-derived detailed fixed schema/field/string/error/await/identity-allocation constraints plus conventional map/loop/spread/copy glue. Fixed three side-chat model-facing sentences and other notice/error text deliberately retained. Curator source-exposed; restricted author access neither erases that nor proves whole-file independence/MIT. Independent root comparison remains necessary.",
+  "checks": {
+    "types": "0 diagnostics; 9/9 resolved exported call signatures equal",
+    "lint": "0 warnings/errors,94 rules",
+    "format": "eight owners",
+    "architecture": "changed check 0 unmanaged CLI violations",
+    "dataSafety": "one paired actual-emitted synthetic before-input fork bundle: atomic-only commit, copied child-local messages/parts/anchors, shared source refs, caught post-commit parent append failure; strict current/wrong/missing artifact controls"
+  },
+  "deferred": [
+    "ordinary behavioral suites/build/native",
+    "stable/side-chat/legacy/goal-verifier branches statically compared, not dynamically exercised in this batch",
+    "transitive workspace dependencies via tsx, not all emitted",
+    "root independent runtime/expression/licence acceptance"
+  ]
+}
