@@ -1,0 +1,7 @@
+{
+  "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/corrected-sessions-index-workflow-activity.ts",
+  "authorOutput": "/tmp/knorvia-shared-activity-next-authored/sessions-index-workflow-activity.ts",
+  "sha256": "b376342a13f3fc4a64e9ab90f1bdf2fc7c4e89ceab181966cbc5cf896c821da5",
+  "access": "Whole heredoc overwrite then sha256sum only; no extra reads/tests/format/repo edits",
+  "reason": "Preserve native sparse-array visitation"
+}

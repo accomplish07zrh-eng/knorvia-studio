@@ -1,0 +1,781 @@
+{
+  "baselineCommit": "7caec377c3b6aace6f9a08344d77497726459eb2",
+  "selectedBeforeAuthoring": [
+    "packages/shared/src/assistant-presentation.ts",
+    "packages/shared/src/background-task-controls.ts",
+    "packages/shared/src/memoryDiagnostics.ts",
+    "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts",
+    "packages/shared/src/tool-projection-memory.ts"
+  ],
+  "selectionRecords": [
+    {
+      "path": "packages/shared/src/assistant-presentation.ts",
+      "snapshotRecord": {
+        "path": "packages/shared/src/assistant-presentation.ts",
+        "kind": "file",
+        "sha256": "ff54a4522ddbb6ad169d540d802fe43fc88212469d7ccd69fae0fd67aa6bdb04",
+        "normalizedSha256": "ff54a4522ddbb6ad169d540d802fe43fc88212469d7ccd69fae0fd67aa6bdb04",
+        "encoding": "utf8-lf",
+        "bytes": 4306,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/shared/src/assistant-presentation.ts",
+          "blob": "ddcca29ee5889ce9c81171c18d3f7cd586ac3390",
+          "normalizedSha256": "32e33d09e7d92d0b68eb3d20df8dab754a2288c6b2f87fd425f43a3ddab59297",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviewRecord": null,
+      "references": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+        "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json"
+      ],
+      "baselineSha256": "ff54a4522ddbb6ad169d540d802fe43fc88212469d7ccd69fae0fd67aa6bdb04",
+      "selection": "complete pure behavior owner; no accepted matching owner receipt found, not a provenance acceptance"
+    },
+    {
+      "path": "packages/shared/src/background-task-controls.ts",
+      "snapshotRecord": {
+        "path": "packages/shared/src/background-task-controls.ts",
+        "kind": "file",
+        "sha256": "9e215b216982d227bc2cf75f36b0792112a0c646463895b37777d9fce0e95973",
+        "normalizedSha256": "9e215b216982d227bc2cf75f36b0792112a0c646463895b37777d9fce0e95973",
+        "encoding": "utf8-lf",
+        "bytes": 11673,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/shared/src/background-task-controls.ts",
+          "blob": "70241856a7fa6c0aaede2c8b588f4afce6f2f9f3",
+          "normalizedSha256": "8f6f3ab37561a57184009d85ecf36ae3663bd4ba87c2b56782329b4f7b2b3295",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviewRecord": null,
+      "references": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+        "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json"
+      ],
+      "baselineSha256": "9e215b216982d227bc2cf75f36b0792112a0c646463895b37777d9fce0e95973",
+      "selection": "complete pure behavior owner; no accepted matching owner receipt found, not a provenance acceptance"
+    },
+    {
+      "path": "packages/shared/src/memoryDiagnostics.ts",
+      "snapshotRecord": {
+        "path": "packages/shared/src/memoryDiagnostics.ts",
+        "kind": "file",
+        "sha256": "6f7881b27e0c146788af6290dfdf35cf9b2713273310560a992c7ea9c5a65b77",
+        "normalizedSha256": "6f7881b27e0c146788af6290dfdf35cf9b2713273310560a992c7ea9c5a65b77",
+        "encoding": "utf8-lf",
+        "bytes": 6838,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/shared/src/memoryDiagnostics.ts",
+          "blob": "e2e32a7efb7ea0b169face78e3f3e83913386bdb",
+          "normalizedSha256": "6f7881b27e0c146788af6290dfdf35cf9b2713273310560a992c7ea9c5a65b77",
+          "contentMatchedPaths": [
+            "packages/shared/src/memoryDiagnostics.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviewRecord": null,
+      "references": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+        "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json"
+      ],
+      "baselineSha256": "6f7881b27e0c146788af6290dfdf35cf9b2713273310560a992c7ea9c5a65b77",
+      "selection": "complete pure behavior owner; no accepted matching owner receipt found, not a provenance acceptance"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts",
+      "snapshotRecord": {
+        "path": "packages/shared/src/protocol-v4/sessions-index-workflow-activity.ts",
+        "kind": "file",
+        "sha256": "2602d89235e78cbd145c8af1b0a06a59e97f0986242c28b94c7a6885d6aeadb4",
+        "normalizedSha256": "2602d89235e78cbd145c8af1b0a06a59e97f0986242c28b94c7a6885d6aeadb4",
+        "encoding": "utf8-lf",
+        "bytes": 10400,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/shared/src/zcode-protocol-v4/sessions-index-workflow-activity.ts",
+          "blob": "6aa8166b67c89718b91443a0eaee8ae32ea4a427",
+          "normalizedSha256": "2602d89235e78cbd145c8af1b0a06a59e97f0986242c28b94c7a6885d6aeadb4",
+          "contentMatchedPaths": [
+            "packages/shared/src/zcode-protocol-v4/sessions-index-workflow-activity.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviewRecord": null,
+      "references": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+        "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json"
+      ],
+      "baselineSha256": "2602d89235e78cbd145c8af1b0a06a59e97f0986242c28b94c7a6885d6aeadb4",
+      "selection": "complete pure behavior owner; no accepted matching owner receipt found, not a provenance acceptance"
+    },
+    {
+      "path": "packages/shared/src/tool-projection-memory.ts",
+      "snapshotRecord": {
+        "path": "packages/shared/src/tool-projection-memory.ts",
+        "kind": "file",
+        "sha256": "7d36e65cbb3a5c71c02889e251ad6df25e4e7636d07ec310bdbba37ae9e7e0e2",
+        "normalizedSha256": "7d36e65cbb3a5c71c02889e251ad6df25e4e7636d07ec310bdbba37ae9e7e0e2",
+        "encoding": "utf8-lf",
+        "bytes": 2616,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviewRecord": null,
+      "references": [
+        "licensing/evidence/repository-migration-scope-20260930.json",
+        "licensing/evidence/shared-assembly-projection-owners-20261003/selection-and-remaining-inventory.json",
+        "licensing/evidence/shared-delta-preview-owners-20261003/selection-and-remaining-inventory.json"
+      ],
+      "baselineSha256": "7d36e65cbb3a5c71c02889e251ad6df25e4e7636d07ec310bdbba37ae9e7e0e2",
+      "selection": "complete pure behavior owner; no accepted matching owner receipt found, not a provenance acceptance"
+    }
+  ],
+  "heldReducer": {
+    "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+    "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+    "reason": "pending parent historical reconciliation; held unchanged"
+  },
+  "excludedPriorOwners": [
+    "packages/shared/src/browser-use/backend.ts",
+    "packages/shared/src/browser-use/command-metadata.ts",
+    "packages/shared/src/browser-use/commands.ts",
+    "packages/shared/src/browser-use/index.ts",
+    "packages/shared/src/browser-use/input-fields.ts",
+    "packages/shared/src/browser-use/nodeReplBroker.ts",
+    "packages/shared/src/browser-use/playwright-actions.ts",
+    "packages/shared/src/browser-use/recording-actions.ts",
+    "packages/shared/src/browser-use/result.ts",
+    "packages/shared/src/browser-use/snapshot.ts",
+    "packages/shared/src/browser-use/viewport-limits.ts",
+    "packages/shared/src/browser-use/wire-schema.ts",
+    "packages/shared/src/conversation-preview-artifacts.ts",
+    "packages/shared/src/endpoint.ts",
+    "packages/shared/src/feedbackPrivacy.ts",
+    "packages/shared/src/persistedMessageMerge.ts",
+    "packages/shared/src/protocol-v4/wire-binary.ts",
+    "packages/shared/src/protocol-v4/wire-codec.ts",
+    "packages/shared/src/protocol-v4/wire-reassembly.ts",
+    "packages/shared/src/remote-workspace-identity.ts",
+    "packages/shared/src/remoteSshHostKey.ts",
+    "packages/shared/src/telemetryRedaction.ts",
+    "packages/shared/src/protocol-v4/workflow-runs-concurrency.ts",
+    "packages/shared/src/protocol-v4/workflow-runs-node-progress.ts",
+    "packages/shared/src/protocol-v4/workflow-runs-phases.ts",
+    "packages/shared/src/workspaceFileEntriesCodec.ts",
+    "packages/shared/src/workspaceFileSearch.ts",
+    "packages/shared/src/wslUserValidation.ts",
+    "packages/shared/src/protocol-v4/apply.ts",
+    "packages/shared/src/protocol-v4/coalesce.ts",
+    "packages/shared/src/streaming-tool-input-preview.ts",
+    "packages/shared/src/tool-call-summary.ts",
+    "packages/shared/src/permission-request-preview.ts",
+    "packages/shared/src/protocol-v4/wire-assembler.ts",
+    "packages/shared/src/protocol-v4/workflow-runs-artifacts.ts",
+    "packages/shared/src/conversation-message-projection-policy.ts",
+    "packages/shared/src/session-visible-content.ts",
+    "packages/shared/src/tool-plan-adapter.ts"
+  ],
+  "rootOtherLanesExcluded": [
+    "desktop release",
+    "desktop notification",
+    "desktop cron"
+  ],
+  "remainingMetadataCandidates": [
+    {
+      "path": "packages/shared/src/agent-model-state.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 121,
+      "functionTokens": 11,
+      "imports": [
+        "import { formatModelPickerValue } from \"./model-selection.js\";",
+        "import type { KnorviaSessionMode, KnorviaSessionSettingsState } from \"./protocol/index.js\";",
+        "import type { KnorviaConfigOption, KnorviaTaskModeInfo } from \"./task-types-core.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/api-retry-status.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 122,
+      "functionTokens": 8,
+      "imports": [
+        "import type { KnorviaApiRetryStatus } from \"./task-types-core.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/background-task-notifications.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 114,
+      "functionTokens": 7,
+      "imports": [
+        "import type { KnorviaMessageWithParts } from \"./protocol-legacy-types.js\";",
+        "import { textFromKnorviaMessageParts } from \"./protocol-legacy-types.js\";",
+        "import type { KnorviaStreamEvent } from \"./task-types-core.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/conversation-share.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 442,
+      "functionTokens": 6,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import type { Locale } from \"./protocol.js\";",
+        "import {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 181,
+      "functionTokens": 4,
+      "imports": [
+        "import { z } from \"zod\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/errors.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 92,
+      "functionTokens": 6,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/forceUpdate.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 137,
+      "functionTokens": 4,
+      "imports": [
+        "import type { ForceUpdateConfig } from \"./coding-plan-subscription.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/lineChangeStat.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 87,
+      "functionTokens": 3,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 192,
+      "functionTokens": 5,
+      "imports": [
+        "import { z } from \"zod\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/mcp.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 374,
+      "functionTokens": 13,
+      "imports": [
+        "import type { SettingsDirectoryLocation } from \"./settings-source.js\";",
+        "import type { McpServerFailureKind } from \"./protocol/index.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 123,
+      "functionTokens": 4,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import { compileModelOptionMap } from \"@knorvia/model-option-map\";",
+        "import { sparseShape } from \"./config-schema.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/model-provider-family.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 171,
+      "functionTokens": 14,
+      "imports": [
+        "import { BIGMODEL_PROVIDER_ID, type OAuthProviderId, ZAI_PROVIDER_ID } from \"./oauth.js\";",
+        "import { BUILTIN_MODEL_PROVIDER_IDS, type BuiltinModelProviderId } from \"./model-provider-types.js\";",
+        "import { KNORVIA_ENV } from \"./env.js\";",
+        "import { buildBigModelCodingPlanTeamManageUrl } from \"./endpoint.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/model-provider-types.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 81,
+      "functionTokens": 6,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/network-debug-status.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 153,
+      "functionTokens": 11,
+      "imports": [
+        "import type {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/node/atomicFileLock.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 278,
+      "functionTokens": 18,
+      "imports": [
+        "import { KNORVIA_FILE_LOCK_TIMEOUT_ERROR_CODE } from \"../errors.js\";",
+        "import { mkdir, readFile, readdir, rmdir, rm, stat, writeFile } from \"node:fs/promises\";",
+        "import { join } from \"node:path\";",
+        "import { setTimeout as sleep } from \"node:timers/promises\";",
+        "import { createLockInstanceObserver, type ObserveLockInstance } from \"./lockInstanceObserver.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 93,
+      "functionTokens": 7,
+      "imports": [
+        "import { availableParallelism } from \"node:os\";",
+        "import { bytesToKb } from \"../memoryDiagnostics.js\";",
+        "import type { NodeSelfResourceSample } from \"../validation.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/node/privateFilePersistence.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 121,
+      "functionTokens": 11,
+      "imports": [
+        "import { createHash } from \"node:crypto\";",
+        "import { chmod, mkdir, readFile, rename, rm, writeFile } from \"node:fs/promises\";",
+        "import { basename, dirname, join } from \"node:path\";",
+        "import { setTimeout as sleep } from \"node:timers/promises\";",
+        "import { acquireFileLock } from \"./atomicFileLock.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/node/subagentMarkdownMigration.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 97,
+      "functionTokens": 7,
+      "imports": [
+        "import { randomUUID } from \"node:crypto\";",
+        "import { chmod, lstat, readFile, readdir, realpath, rename, rm, writeFile } from \"node:fs/promises\";",
+        "import { basename, dirname, join } from \"node:path\";",
+        "import { migrateSubagentMarkdownProvider } from \"../subagent-markdown-selection.js\";",
+        "import { importSubagentStateSelections } from \"../subagent-state-migration.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/off-peak-types.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 220,
+      "functionTokens": 3,
+      "imports": [
+        "import type { KnorviaTaskMode } from \"./task-types-core.js\";",
+        "import type { ModelSelection } from \"./model-selection.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/official-mcp-auth.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 274,
+      "functionTokens": 12,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/plan-identity.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 103,
+      "functionTokens": 3,
+      "imports": [
+        "import type { ProviderFamilyDomain } from \"./model-provider-family.js\";",
+        "import type {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 961,
+      "functionTokens": 66,
+      "imports": [
+        "import type {",
+        "import type {",
+        "import type { AppSettings, Locale } from \"./protocol.js\";",
+        "import type { ArmsCustomEventPayload, RendererTelemetryEventPayload } from \"./telemetry.js\";",
+        "import type {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/pluginStoreOrdering.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 90,
+      "functionTokens": 12,
+      "imports": [
+        "import { KNORVIA_OFFICIAL_PLUGIN_MARKETPLACE_ID } from \"./plugin-marketplaces.js\";",
+        "import type { PluginStoreModeOrder } from \"./pluginStoreOrder.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/processResourceTelemetry.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 179,
+      "functionTokens": 6,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol/index.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 3759,
+      "functionTokens": 16,
+      "imports": [
+        "import {",
+        "import { bashOutputDisplaySchema } from \"../bash-output-display.js\";",
+        "import { executionOutputPreviewSchema } from \"../execution-output-preview.js\";",
+        "import { z } from \"zod\";",
+        "import { errorAttributionSchema } from \"../protocol-v4/snapshot.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol-legacy-types.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 533,
+      "functionTokens": 3,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import { modelSelectionSchema } from \"./model-selection.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/command.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 479,
+      "functionTokens": 4,
+      "imports": [
+        "import { localTtftContextSchema, localTtftClockSchema } from \"../localTtft.js\";",
+        "import { z } from \"zod\";",
+        "import { conversationRowTargetSchema, timestampSchema } from \"./core.js\";",
+        "import { attachmentRefSchema } from \"./attachment-ref.js\";",
+        "import { v4ConversationFileRewindPreviewResultSchema } from \"./transport.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/controller.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 316,
+      "functionTokens": 7,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import { knorviaTaskMetaSchema } from \"../validation.js\";",
+        "import { pendingInteractionSummarySchema } from \"./sessions-index.js\";",
+        "import { sessionWorkflowActivitySchema } from \"./sessions-index-workflow-activity.js\";",
+        "import { sessionPhaseSchema } from \"./snapshot.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/telemetry.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 323,
+      "functionTokens": 3,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import { knorviaSyntheticUserMessageSourceSchema } from \"../protocol-legacy-types.js\";",
+        "import { timestampSchema } from \"./core.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/transport.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 1122,
+      "functionTokens": 25,
+      "imports": [
+        "import { localTtftFactsSchema } from \"../localTtft.js\";",
+        "import { z } from \"zod\";",
+        "import { APP_USAGE_RANGES, appUsageSnapshotSchema } from \"../usage-stats.js\";",
+        "import { knorviaWorkspaceRefSchema } from \"../protocol-legacy-types.js\";",
+        "import {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 641,
+      "functionTokens": 23,
+      "imports": [
+        "import {",
+        "import { serializeWorkflowArtifact } from \"./workflow-artifact.js\";",
+        "import {",
+        "import { reduceConcurrencyChanged, withoutCooldown } from \"./workflow-runs-concurrency.js\";",
+        "import { readRunIdField, readWorkflowRunStopReason } from \"./workflow-runs-lineage.js\";"
+      ],
+      "status": "held unchanged due user historical older WIP reducer/graph corrections; not accepted or reimplemented by this lane"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workspace-hook-review.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 210,
+      "functionTokens": 7,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import { timestampSchema } from \"./core.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/remoteAppConfig.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 94,
+      "functionTokens": 9,
+      "imports": [
+        "import type { Locale } from \"./protocol.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/remoteResourcePackages.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 91,
+      "functionTokens": 9,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/remoteUsageTelemetry.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 92,
+      "functionTokens": 4,
+      "imports": [
+        "import type { RemoteTarget } from \"./remoteTarget.js\";",
+        "import type { TelemetryEventPayload } from \"./telemetry.js\";",
+        "import {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/runtimeEnv.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 317,
+      "functionTokens": 22,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/shortcutCommands.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 225,
+      "functionTokens": 8,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/storage.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 150,
+      "functionTokens": 4,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/subagent-markdown-selection.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 109,
+      "functionTokens": 5,
+      "imports": [
+        "import { decodeCustomModelValue, encodeCustomModelValue } from \"./custom-model-value.js\";",
+        "import {",
+        "import { parseModelPickerValue, type ModelSelection } from \"./model-selection.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/subagent-state-migration.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 88,
+      "functionTokens": 3,
+      "imports": [
+        "import { modelSelectionSchema } from \"./model-selection.js\";",
+        "import {",
+        "import { parseSubagentMarkdownSelection } from \"./subagent-markdown-selection.js\";",
+        "import {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/subagents-types.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 158,
+      "functionTokens": 4,
+      "imports": [
+        "import type { KnorviaProvider } from \"./task-types-core.js\";",
+        "import { modelSelectionSchema, type ModelSelection } from \"./model-selection.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/task-realtime-core.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 523,
+      "functionTokens": 10,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import type { KnorviaTaskMigrationSource, KnorviaTaskMode } from \"./task-types-core.js\";",
+        "import { agentProviderSchema } from \"./agent-policy.js\";",
+        "import { knorviaPermissionResponseSchema } from \"./protocol-legacy-types.js\";",
+        "import { workspaceHookReviewDecisionSchema } from \"./protocol-v4/workspace-hook-review.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/task-types.ts",
+      "snapshotClass": "unreviewed",
+      "lines": 243,
+      "functionTokens": 6,
+      "imports": [
+        "import { createUuid } from \"./uuid.js\";",
+        "import type {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/telemetry.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 124,
+      "functionTokens": 6,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/tool-identity.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 125,
+      "functionTokens": 5,
+      "imports": [],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 579,
+      "functionTokens": 17,
+      "imports": [
+        "import { z } from \"zod\";",
+        "import { REMOTE_ASSET_INSTALL_MODES } from \"./remoteAssetInstallMode.js\";",
+        "import { isKnownRemoteResourcePackageId } from \"./remoteResourcePackages.js\";",
+        "import { wslUserSchema } from \"./wslUserValidation.js\";",
+        "import { normalizeKnorviaEndpointOrigin } from \"./endpoint.js\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-config.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 365,
+      "functionTokens": 20,
+      "imports": [
+        "import { existsSync, statSync } from \"node:fs\";",
+        "import { access, readFile, stat } from \"node:fs/promises\";",
+        "import { basename, dirname, join, resolve } from \"node:path\";",
+        "import { z } from \"zod\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-digest.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 269,
+      "functionTokens": 11,
+      "imports": [
+        "import { createHash } from \"node:crypto\";",
+        "import { basename, relative, resolve } from \"node:path\";",
+        "import {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-mutation.ts",
+      "snapshotClass": "upstream-modified",
+      "lines": 153,
+      "functionTokens": 9,
+      "imports": [
+        "import { open, mkdir, readFile, rename, rm } from \"node:fs/promises\";",
+        "import { basename, dirname, resolve } from \"node:path\";",
+        "import type { WorkspaceHookBundleSnapshotData } from \"./workspace-hook-digest.js\";",
+        "import { createWorkspaceHookDeclarationDigest } from \"./workspace-hook-digest.js\";",
+        "import {"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
+      "snapshotClass": "upstream-unchanged",
+      "lines": 99,
+      "functionTokens": 3,
+      "imports": [
+        "import { z } from \"zod\";"
+      ],
+      "status": "unselected metadata candidate; not yet a complete eligibility/provenance decision"
+    }
+  ],
+  "remainingLimit": "50 metadata-screened candidates, not eligible/approved owner decisions",
+  "globalInventoryAndReviewsUnchanged": true,
+  "noCrossLaneImports": true
+}

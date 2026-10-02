@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^assistant presentation",
+    "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+    "/tmp/knorvia-shared-presentation-control-baseline"
+  ],
+  "stdout": "\u2714 assistant presentation preserves root tool identity and ordered partial/settled content (47.181518ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 56.178332\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "key": "assistant",
+    "authorOutput": "/tmp/knorvia-shared-assistant-next-authored/assistant-presentation.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/initial-assistant-presentation.ts",
+    "sha256": "90e48380c8d1f29875e90896365f9520837cc5cc8b332472f48904305a521cc9"
+  },
+  {
+    "key": "background",
+    "authorOutput": "/tmp/knorvia-shared-background-next-authored/background-task-controls.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/initial-background-task-controls.ts",
+    "sha256": "1b84ab8e2f946b5b2aed68756026c1bbce23869f08a00200f9666f4c672e5195"
+  },
+  {
+    "key": "memory",
+    "authorOutput": "/tmp/knorvia-shared-memory-next-authored/memoryDiagnostics.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/initial-memoryDiagnostics.ts",
+    "sha256": "497fed4309fa15e42397101299637420e4c4e26102a984982a799f305a1140a9"
+  },
+  {
+    "key": "activity",
+    "authorOutput": "/tmp/knorvia-shared-activity-next-authored/sessions-index-workflow-activity.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/initial-sessions-index-workflow-activity.ts",
+    "sha256": "bc43844a9f08f2eff3fa19c9bfa20040668bf5590264ad9f8a89a7d6a8a85b89"
+  },
+  {
+    "key": "projection",
+    "authorOutput": "/tmp/knorvia-shared-projection-next-authored/tool-projection-memory.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-presentation-control-freezes/initial-tool-projection-memory.ts",
+    "sha256": "286f5c954e8d054dd4a38f0c7b1af7bee0ee7905746fb47d24e9bf326e6da974"
+  }
+]

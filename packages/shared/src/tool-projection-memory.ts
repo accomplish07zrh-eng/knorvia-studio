@@ -34,31 +34,27 @@ export function resolveKnorviaToolProjectionMetadata(
   toolId: string,
   memory: KnorviaToolProjectionMemory,
 ): KnorviaToolProjectionMetadata {
-  const toolName = readNonEmptyString(payload.toolName) ?? memory.toolNameById?.get(toolId);
+  const suppliedName = payload.toolName;
+  const toolName =
+    typeof suppliedName === "string" && suppliedName.length > 0
+      ? suppliedName
+      : memory.toolNameById?.get(toolId);
+
   if (toolName) {
     memory.toolNameById?.set(toolId, toolName);
   }
 
   if ("input" in payload) {
-    return {
-      hasInput: payload.input !== undefined,
-      input: payload.input,
-      toolName,
-    };
+    const input = payload.input;
+    return { hasInput: input !== undefined, input, toolName };
   }
 
-  if (memory.completeToolInputById?.has(toolId)) {
-    return {
-      hasInput: true,
-      input: memory.completeToolInputById.get(toolId),
-      toolName,
-    };
+  const completedInputs = memory.completeToolInputById;
+  if (completedInputs?.has(toolId)) {
+    return { hasInput: true, input: completedInputs.get(toolId), toolName };
   }
 
-  return {
-    hasInput: false,
-    toolName,
-  };
+  return { hasInput: false, toolName };
 }
 
 export function finalizeKnorviaToolProjectionInput(
@@ -66,12 +62,13 @@ export function finalizeKnorviaToolProjectionInput(
   input: unknown,
   memory: KnorviaToolProjectionMemory,
 ): void {
-  memory.completeToolInputById ??= new Map<string, unknown>();
-  memory.completeToolInputById.set(toolId, input);
-  const streamingState = memory.streamingToolInputById?.get(toolId);
-  if (streamingState) {
-    streamingState.lastPreviewRawInputLength = streamingState.rawInput.length;
-    streamingState.rawInput = "";
+  const completedInputs = (memory.completeToolInputById ??= new Map<string, unknown>());
+  completedInputs.set(toolId, input);
+
+  const streamingInput = memory.streamingToolInputById?.get(toolId);
+  if (streamingInput) {
+    streamingInput.lastPreviewRawInputLength = streamingInput.rawInput.length;
+    streamingInput.rawInput = "";
   }
 }
 
@@ -82,8 +79,4 @@ export function forgetKnorviaToolProjectionMetadata(
   memory.completeToolInputById?.delete(toolId);
   memory.streamingToolInputById?.delete(toolId);
   memory.toolNameById?.delete(toolId);
-}
-
-function readNonEmptyString(value: unknown): string | undefined {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
 }
