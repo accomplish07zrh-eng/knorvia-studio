@@ -1,0 +1,24 @@
+{
+  "scope": "loop",
+  "utc": "2026-10-02T21:54:56.541Z",
+  "files": [
+    {
+      "file": "memory-agent-loop.ts.txt",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/loop/memory-agent-loop.ts",
+      "target": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "bytes": 7166,
+      "lines": 221,
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/loop/author-record.json",
+      "bytes": 11101,
+      "lines": 158,
+      "sha256": "94bbe928ac316d5dbf746736c0ae2b2162a13a2ee85417218409af8955de9ba2",
+      "mode": "444"
+    }
+  ],
+  "qualification": "Complete original source/author record copied byte-exactly from frozen two-output scratch before source rendering/review. Author receipt self-report, shared executor instruction-only; no OS/access audit or separation/licence proof."
+}
