@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/cli-media-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "[{\"owner\":\"image-index\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"prepareForModel\",\"candidate\":\"prepareForModel\",\"bodyHash\":\"c1ccfbe1b78339b3df0104185c8d1bcddb3892f822680ed63f79ae31c076d0c4\"}],\"identicalExpressionCount\":43},{\"owner\":\"image-compression\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":126},{\"owner\":\"pdf-index\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":243}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,18 +1,22 @@
-import { Jimp, JimpMime, ResizeStrategy } from "jimp";
+import { Jimp, JimpMime, ResizeStrategy } from 'jimp';
 import {
   createImageProcessorError,
   type ImageCompressionStrategy,
   type ImagePrepareForModelRequest,
   type ImagePrepareForModelResult,
-} from "@knorvia/contracts";
+} from '@knorvia/contracts';
 import {
   detectImageMediaType,
   jimpOutputMediaType,
   normalizeMediaType,
   throwIfAborted,
-} from "./jimp-media.js";
-import { createImageBudget, fitsImageBudget, validatePrepareRequest } from "./image-budget.js";
-import { prepareWebpPassthrough } from "./webp-passthrough.js";
+} from './jimp-media.js';
+import {
+  createImageBudget,
+  fitsImageBudget,
+  validatePrepareRequest,
+} from './image-budget.js';
+import { prepareWebpPassthrough } from './webp-passthrough.js';
 
 type DecodedImage = Awaited<ReturnType<typeof Jimp.read>>;
 type OutputMediaType = ReturnType<typeof jimpOutputMediaType>;
@@ -74,7 +78,13 @@ async function tryJpegLevels(
   signal: AbortSignal | undefined,
 ): Promise<EncodedChoice | undefined> {
   for (const quality of QUALITY_LEVELS) {
-    const choice = await encodeChoice(image, JimpMime.jpeg, "jpeg-quality", signal, { quality });
+    const choice = await encodeChoice(
+      image,
+      JimpMime.jpeg,
+      'jpeg-quality',
+      signal,
+      { quality },
+    );
     if (fitsImageBudget(choice.data, budget)) return choice;
   }
   return undefined;
@@ -88,10 +98,16 @@ async function trySourceFormat(
 ): Promise<EncodedChoice | undefined> {
   throwIfAborted(signal);
   if (sourceMediaType === JimpMime.png) {
-    const choice = await encodeChoice(image, JimpMime.png, "png-optimized", signal, {
-      deflateLevel: PNG_DEFLATE_LEVEL,
-      deflateStrategy: PNG_DEFLATE_STRATEGY,
-    });
+    const choice = await encodeChoice(
+      image,
+      JimpMime.png,
+      'png-optimized',
+      signal,
+      {
+        deflateLevel: PNG_DEFLATE_LEVEL,
+        deflateStrategy: PNG_DEFLATE_STRATEGY,
+      },
+    );
     return fitsImageBudget(choice.data, budget) ? choice : undefined;
   }
   if (sourceMediaType === JimpMime.jpeg) {
@@ -101,7 +117,7 @@ async function trySourceFormat(
     const choice = await encodeChoice(
       image,
       jimpOutputMediaType(JimpMime.gif, image.mime),
-      "preserve-format",
+      'preserve-format',
       signal,
     );
     return fitsImageBudget(choice.data, budget) ? choice : undefined;
@@ -118,7 +134,8 @@ async function selectEncoding(
   budget: ModelBudget,
   signal: AbortSignal | undefined,
 ): Promise<EncodedChoice | undefined> {
-  const withinDimension = originalWidth <= maxDimension && originalHeight <= maxDimension;
+  const withinDimension =
+    originalWidth <= maxDimension && originalHeight <= maxDimension;
   if (withinDimension) {
     const choice = await trySourceFormat(image, sourceMediaType, budget, signal);
     if (choice) return choice;
@@ -128,12 +145,13 @@ async function selectEncoding(
   const isPng = sourceMediaType === JimpMime.png;
   if (
     !isPng &&
-    (bounded.bitmap.width !== originalWidth || bounded.bitmap.height !== originalHeight)
+    (bounded.bitmap.width !== originalWidth ||
+      bounded.bitmap.height !== originalHeight)
   ) {
     const choice = await encodeChoice(
       bounded,
       jimpOutputMediaType(sourceMediaType, bounded.mime),
-      "resized",
+      'resized',
       signal,
     );
     if (fitsImageBudget(choice.data, budget)) return choice;
@@ -147,7 +165,10 @@ async function selectEncoding(
   const boundedJpeg = await tryJpegLevels(bounded, budget, signal);
   if (boundedJpeg) return boundedJpeg;
 
-  const longestBoundedEdge = Math.max(bounded.bitmap.width, bounded.bitmap.height);
+  const longestBoundedEdge = Math.max(
+    bounded.bitmap.width,
+    bounded.bitmap.height,
+  );
   for (const factor of SHRINK_FACTORS) {
     const edge = Math.max(MINIMUM_EDGE, Math.round(longestBoundedEdge * factor));
     const scaled = copyWithinEdge(bounded, edge);
@@ -161,9 +182,13 @@ async function selectEncoding(
 
   for (const edge of FALLBACK_EDGES) {
     const scaled = copyWithinEdge(image, Math.min(edge, maxDimension));
-    const choice = await encodeChoice(scaled, JimpMime.jpeg, "jpeg-fallback", signal, {
-      quality: FALLBACK_QUALITY,
-    });
+    const choice = await encodeChoice(
+      scaled,
+      JimpMime.jpeg,
+      'jpeg-fallback',
+      signal,
+      { quality: FALLBACK_QUALITY },
+    );
     if (fitsImageBudget(choice.data, budget)) return choice;
   }
   return undefined;
@@ -178,12 +203,13 @@ export async function prepareJimpImageForModel(
   const input = Buffer.from(request.data);
   if (input.byteLength === 0) {
     throw createImageProcessorError({
-      code: "empty",
-      message: "Image file is empty (0 bytes)",
+      code: 'empty',
+      message: 'Image file is empty (0 bytes)',
     });
   }
-  const detectedType = detectImageMediaType(input) ?? normalizeMediaType(request.mediaType);
-  if (detectedType === "image/webp") {
+  const detectedType =
+    detectImageMediaType(input) ?? normalizeMediaType(request.mediaType);
+  if (detectedType === 'image/webp') {
     return prepareWebpPassthrough(input, request);
   }
 
@@ -192,8 +218,8 @@ export async function prepareJimpImageForModel(
     image = await Jimp.read(input);
   } catch (cause) {
     throw createImageProcessorError({
-      code: "processing_failed",
-      message: "Unable to decode image data",
+      code: 'processing_failed',
+      message: 'Unable to decode image data',
       cause,
     });
   }
@@ -217,7 +243,7 @@ export async function prepareJimpImageForModel(
       width: originalWidth,
       resized: false,
       compressed: false,
-      strategy: "original",
+      strategy: 'original',
       transformedSizeBytes: input.byteLength,
     };
   }
@@ -233,7 +259,7 @@ export async function prepareJimpImageForModel(
   );
   if (!choice) {
     throw createImageProcessorError({
-      code: "too_large",
+      code: 'too_large',
       message: `Unable to compress image (${input.byteLength} bytes) within the requested model image budget`,
     });
   }
@@ -250,7 +276,9 @@ export async function prepareJimpImageForModel(
       choice.width !== undefined &&
       choice.height !== undefined &&
       (choice.width !== originalWidth || choice.height !== originalHeight),
-    compressed: choice.data.byteLength < input.byteLength || encodedMediaType !== sourceMediaType,
+    compressed:
+      choice.data.byteLength < input.byteLength ||
+      encodedMediaType !== sourceMediaType,
     strategy: choice.strategy,
     transformedSizeBytes: choice.data.byteLength,
   };

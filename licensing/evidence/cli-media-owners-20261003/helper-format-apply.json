@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--write",
+    "--config",
+    "apps/cli/.oxfmtrc.json",
+    "apps/cli/packages/adapters/test/media-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-media-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-media-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Finished in 22ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

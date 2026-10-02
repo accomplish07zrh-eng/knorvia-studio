@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/esbuild",
+    "apps/cli/packages/adapters/src/pdf/index.ts",
+    "--outdir=/tmp/knorvia-cli-media-corrected-pdf-syntax",
+    "--platform=node",
+    "--format=esm",
+    "--log-level=warning"
+  ],
+  "stdout": "",
+  "stderr": "",
+  "exitCode": 0
+}

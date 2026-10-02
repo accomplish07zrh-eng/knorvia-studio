@@ -1,0 +1,9 @@
+{
+  "owner": "pdf-index",
+  "author": "/root/media_pdf_index_author",
+  "output": "/tmp/knorvia-cli-media-pdf-index-correction-1.ts",
+  "freeze": "/tmp/knorvia-cli-media-freezes/pdf-index-correction-1.ts",
+  "archive": "licensing/evidence/cli-media-owners-20261003/drafts/pdf-index-correction-1.ts.txt",
+  "sha256": "4ee0b16a0c36597c586844e20879f0cba3b1758aa263f6dbee337f719b5a59dc",
+  "frozenBeforeCuratorInspection": true
+}

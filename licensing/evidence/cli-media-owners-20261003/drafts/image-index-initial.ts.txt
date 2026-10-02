@@ -4,14 +4,15 @@ import type {
   ImageProcessorPort,
   ImageResizeRequest,
   ImageResizeResult,
-} from "@knorvia/contracts";
-import { Jimp, ResizeStrategy } from "jimp";
-import { prepareJimpImageForModel } from "./jimp-compression.js";
-import { jimpOutputMediaType, throwIfAborted } from "./jimp-media.js";
+} from '@knorvia/contracts';
+import { Jimp, ResizeStrategy } from 'jimp';
+import { prepareJimpImageForModel } from './jimp-compression.js';
+import { jimpOutputMediaType, throwIfAborted } from './jimp-media.js';
 
-const WEBP_MEDIA_TYPE = "image/webp";
+const WEBP_MEDIA_TYPE = 'image/webp';
 const MINIMUM_DIMENSION = 0;
-const INVALID_DIMENSION_MESSAGE = "Image resize maxDimension must be a positive finite number";
+const INVALID_DIMENSION_MESSAGE =
+  'Image resize maxDimension must be a positive finite number';
 
 export function createJimpImageProcessorAdapter(): ImageProcessorPort {
   return {

@@ -1,0 +1,26 @@
+{
+  "files": [
+    {
+      "path": "apps/cli/packages/adapters/src/image/index.ts",
+      "added": 66,
+      "deleted": 66,
+      "net": 0
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+      "added": 181,
+      "deleted": 268,
+      "net": -87
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/pdf/index.ts",
+      "added": 206,
+      "deleted": 200,
+      "net": 6
+    }
+  ],
+  "added": 453,
+  "deleted": 534,
+  "net": -81,
+  "limit": "Source line change is not independent provenance or license acceptance."
+}

@@ -1,0 +1,53 @@
+{
+  "batch": 32,
+  "baselineCommit": "de46e4f9555dd2781d12a6b17ebeddd2330da01e",
+  "branch": "recovery/server-lifecycle-20261002",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "target": "recovery/independent-logging-20260930-0456",
+  "selectedPaths": [
+    "apps/cli/packages/adapters/src/image/index.ts",
+    "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+    "apps/cli/packages/adapters/src/pdf/index.ts"
+  ],
+  "acceptedIndependentReplacementCredit": 0,
+  "newMITDecisions": 0,
+  "curatorExposure": "Curator reviewed selected predecessor bodies and finite public ImageProcessor/PDF/Execution DTOs. Curator wrote external requirements and synthetic tests. No independent provenance from source-exposed refactor/extraction claimed.",
+  "authoring": "Three fresh gpt-6.1-sol/high fork-none authors with frozen body-free behavior/public-port packets. Private implementation free; no predecessor private helper/state/decomposition names supplied. Initial/corrected whole literal drafts frozen before inspection, whole files installed and formatted only.",
+  "accessLimit": "Author-reported read restrictions on shared filesystem; not OS-enforced clean room or independent license acceptance. Saved Fast inherited, no speed-setting tool.",
+  "wholeDraftArtifacts": "Four full raw .ts.txt initial/corrected drafts preserved verbatim, not imported, formatted or built. Packet/raw/frozen/formatted/installed SHA bindings retained.",
+  "syntheticScope": "All runtime imports virtual: Jimp/codec/media/budget/WebP public ports; execution and fs/os/path public ports. Fixed synthetic Uint8Array/Buffer data and trace/paths, in-memory VM only. esbuild syntax tooling process permitted; no product native process/filesystem/image transformation.",
+  "checks": {
+    "baseline": "4 original cases +1 temporal case all pass",
+    "initial": "original4 pass; added temporal PDF case fails; initial lint warning exit0 retained",
+    "corrected": "3 directly affected PDF cases pass; image runtime unchanged and not repeated",
+    "finalUniqueSyntheticCases": 5,
+    "lint": "0 errors/0 warnings",
+    "syntax": "initial selected3 pass, correctedPDF-only pass",
+    "api": "3 exported declaration/structural-return API shapes match using TypeScript AST; not semantic types",
+    "architecture": "0 baseline/new violations, existing unmanaged cli module, no policy changes",
+    "whitespace": "pass",
+    "formatAndFreezeBinding": "whole independently formatted selected freezes equal installed bytes"
+  },
+  "failuresRetained": [
+    "initial-pdf-temporal.json",
+    "initial-lint.json"
+  ],
+  "notExecuted": [
+    "native Jimp/actual codec or image/PDF transformation",
+    "actual Poppler/execution/fs/os temp output or listener",
+    "real browser/provider/network/credentials/userdata/SSH/auth/production/database/deployment",
+    "semantic project typechecks/declaration emit/builds or ordinary suites",
+    "full direct-consumer/native integration",
+    "cross-lane combination/main merge",
+    "Library403 alternate route or cancelled source-tree upload"
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "pinnedNode": "24.14.0",
+    "contractsDistPresent": false,
+    "tools": "existing local esbuild/TypeScript AST/oxfmt/oxlint; no installation"
+  },
+  "lint": "Scoped existing-root-rule copy removes CLI ignore; retains source max-lines. Test-only MJS line exemption parallels existing TS tests. No product permission/security change.",
+  "remainder": "40 unresolved adapters require bounded receipt/owner screening; not presumed eligible. Prior logging candidates/sparse fix retained, config authority unallocated, image budget/media/WebP helpers constrained. Other240 adapter hashes and root holds unchanged.",
+  "protected": "No root LICENSE/global provenance/inventory/dependencies/manifests/settings/security/permission files changed; no main merge or another PR."
+}

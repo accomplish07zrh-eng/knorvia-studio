@@ -1,0 +1,63 @@
+[
+  {
+    "owner": "image-index",
+    "author": "/root/media_image_index_author",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "high",
+    "fork": "none",
+    "actualReportedReads": [
+      "licensing/evidence/cli-media-owners-20261003/image-index-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "sourceBodyExposure": "author reports none; curator source-exposed",
+    "outputMode": "one whole literal heredoc, SHA only, no selfinspection/transformation/runtime/build/format/network/repowrites reported",
+    "accessEnforcement": "instructional restriction on shared filesystem; no OS-enforced clean-room assertion",
+    "speed": "saved Fast inherited; no separate speed-setting tool or independent verification",
+    "newMITDecision": 0,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "image-compression",
+    "author": "/root/media_image_compression_author",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "high",
+    "fork": "none",
+    "actualReportedReads": [
+      "licensing/evidence/cli-media-owners-20261003/image-compression-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "sourceBodyExposure": "author reports none; curator source-exposed",
+    "outputMode": "one whole literal heredoc, SHA only, no selfinspection/transformation/runtime/build/format/network/repowrites reported",
+    "accessEnforcement": "instructional restriction on shared filesystem; no OS-enforced clean-room assertion",
+    "speed": "saved Fast inherited; no separate speed-setting tool or independent verification",
+    "newMITDecision": 0,
+    "acceptedIndependentReplacementCredit": 0
+  },
+  {
+    "owner": "pdf-index",
+    "author": "/root/media_pdf_index_author",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "high",
+    "fork": "none",
+    "actualReportedReads": [
+      "licensing/evidence/cli-media-owners-20261003/pdf-index-author-packet.md",
+      "AGENTS.md",
+      "apps/cli/AGENTS.md",
+      ".agents/skills/architecture-governance/SKILL.md"
+    ],
+    "sourceBodyExposure": "author reports none; curator source-exposed",
+    "outputMode": "one whole literal heredoc, SHA only, no selfinspection/transformation/runtime/build/format/network/repowrites reported",
+    "accessEnforcement": "instructional restriction on shared filesystem; no OS-enforced clean-room assertion",
+    "speed": "saved Fast inherited; no separate speed-setting tool or independent verification",
+    "newMITDecision": 0,
+    "acceptedIndependentReplacementCredit": 0,
+    "correctionReportedNewReads": [
+      "licensing/evidence/cli-media-owners-20261003/pdf-index-correction-1-packet.md"
+    ],
+    "correctionOutputMode": "one whole literal heredoc, SHA only; no selfinspection/transformation/runtime/build/format/network/repowrites reported"
+  }
+]

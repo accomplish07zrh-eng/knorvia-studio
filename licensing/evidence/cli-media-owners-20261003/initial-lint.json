@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/cli-media-owners-20261003/scoped-lint-config.json",
+    "apps/cli/packages/adapters/src/image/index.ts",
+    "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+    "apps/cli/packages/adapters/src/pdf/index.ts",
+    "apps/cli/packages/adapters/test/media-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-media-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-media-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "\n  ! eslint(no-unsafe-finally): Unsafe `finally` block.\n     ,-[apps/cli/packages/adapters/src/pdf/index.ts:281:13]\n 280 |           if (!primaryFailed) {\n 281 |             throw filesystemFailure(\"Unable to remove temporary PDF page images.\", signal, cause);\n     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n 282 |           }\n     `----\n  help: Control flow inside `try` or `catch` blocks will be overwritten by this statement.\n\nFound 1 warning and 0 errors.\nFinished in 20ms on 6 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

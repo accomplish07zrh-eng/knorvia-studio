@@ -1,0 +1,34 @@
+[
+  {
+    "owner": "image-index",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-media-freezes/image-index-initial.ts",
+    "artifact": "licensing/evidence/cli-media-owners-20261003/drafts/image-index-initial.ts.txt",
+    "sha256": "0abd9fefe42d9ef5a74556a57ae2633a2b19074be1f756c1f718087a507db804",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "image-compression",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-media-freezes/image-compression-initial.ts",
+    "artifact": "licensing/evidence/cli-media-owners-20261003/drafts/image-compression-initial.ts.txt",
+    "sha256": "e6347a47f55086f4b00574215d0c8cf36d51f923edd17becf27429782e7cf0dc",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "pdf-index",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-media-freezes/pdf-index-initial.ts",
+    "artifact": "licensing/evidence/cli-media-owners-20261003/drafts/pdf-index-initial.ts.txt",
+    "sha256": "3462ada74bba5f5b026870173fccaea638cf3c43e53aeb934b0514de6d8cdc2c",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "pdf-index",
+    "version": "correction-1",
+    "frozen": "/tmp/knorvia-cli-media-freezes/pdf-index-correction-1.ts",
+    "artifact": "licensing/evidence/cli-media-owners-20261003/drafts/pdf-index-correction-1.ts.txt",
+    "sha256": "4ee0b16a0c36597c586844e20879f0cba3b1758aa263f6dbee337f719b5a59dc",
+    "artifactEqualsFrozen": true
+  }
+]
