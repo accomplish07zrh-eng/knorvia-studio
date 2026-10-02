@@ -352,19 +352,21 @@ async function manifestFor(
   if (active) return active;
   const cached = manifestTasks.get(key);
   if (!cached) {
-    const result = await startManifest(c, key, false);
+    const result = await startManifest(
+      c,
+      key,
+      Boolean(c.options.refreshManifest) || decide !== undefined,
+    );
     return refreshTasks.get(key) ?? result;
   }
   const retained = await cached;
   if (refreshTasks.has(key)) return refreshTasks.get(key)!;
-  const newer = manifestTasks.get(key);
-  if (newer && newer !== cached) return newer;
   const wantsRefresh =
     retained !== null &&
-    (Boolean(c.options.refreshManifest) || (decide !== undefined && (await decide(retained))));
+    (c.options.refreshManifest
+      ? await Promise.resolve(true)
+      : decide !== undefined && (await decide(retained)));
   if (refreshTasks.has(key)) return refreshTasks.get(key)!;
-  const afterDecision = manifestTasks.get(key);
-  if (afterDecision && afterDecision !== cached) return afterDecision;
   return wantsRefresh ? startManifest(c, key, true) : retained;
 }
 export async function fetchRemoteAssetManifestRefFromCdn(
@@ -602,9 +604,8 @@ async function download(response: Response, destination: string, loggers: Logger
 async function artifactResponse(
   c: Context,
   component: Component,
-  bases: string[],
+  urls: string[],
 ): Promise<Response> {
-  const urls = buildComponentArtifactUrlCandidates(bases, component.artifactPath, c.version);
   const fetch = resolveRemoteAssetFetch(c.options.remoteAssetNetwork),
     failures: string[] = [];
   for (const url of urls) {
@@ -701,12 +702,13 @@ async function migrateOldRelease(
     suffix = component.version.slice(plus + 1);
   if (plus < 0 || !/^[a-f0-9]{12,64}$/iu.test(suffix)) return false;
   const releases = path.join(c.cache, "releases");
-  let versions: string[];
+  let entries: Dirent[];
   try {
-    versions = await readdir(releases);
+    entries = await readdir(releases, { withFileTypes: true });
   } catch {
     return false;
   }
+  const versions = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name);
   versions.sort((a, b) => b.localeCompare(a));
   for (const version of versions) {
     if (version === c.version || !(await info(path.join(releases, version)))?.isDirectory())
@@ -762,18 +764,20 @@ async function componentOperation(
       }
     }
   }
+  const urls = buildComponentArtifactUrlCandidates(bases, component.artifactPath, c.version);
+  await mkdir(path.join(c.cache, "staging"), { recursive: true });
   const stage = stageAt(c, `remote-component-${component.id}-${c.platform}-${component.version}`);
   const archive = path.join(stage, "component.tar.gz"),
     extracted = path.join(stage, "extract");
+  await mkdir(extracted, { recursive: true });
   try {
-    const response = await artifactResponse(c, component, bases);
+    const response = await artifactResponse(c, component, urls);
     await download(response, archive, c.loggers);
     const digest = await digestFile(archive);
     if (digest !== component.sha256)
       throw problem(
         `sha256 mismatch for ${component.id}@${component.version}: expected=${component.sha256}, actual=${digest}`,
       );
-    await mkdir(extracted, { recursive: true });
     await extractTarGzArchive(archive, extracted);
     await nonempty(
       extracted,
@@ -846,7 +850,7 @@ function releaseDirectory(
   return path.join(releaseBase(c), ...contentSegments(manifest, ids));
 }
 function ordinarySelection(ids: string[] | undefined): boolean {
-  return ids !== undefined && !ids.includes("server-bundle") && !ids.includes("knorvia");
+  return ids !== undefined && !ids.some(usesRemoteAssetContentAddressedCacheIdentity);
 }
 async function mountComponent(
   c: Context,
@@ -912,14 +916,19 @@ async function releaseOperation(
   if (c.options.manifestRef !== undefined) ref = c.options.manifestRef;
   else {
     const fetchContext = { ...c, options: { ...c.options, refreshManifest: false } };
-    ref = await manifestFor(fetchContext, async (cached) => {
-      if (!contentSegments(cached.manifest, ids).length) return false;
-      return Boolean(
-        await info(
-          path.join(releaseDirectory(c, cached.manifest, ids), `manifest-${c.platform}.json`),
-        ),
-      );
-    });
+    ref = await manifestFor(
+      fetchContext,
+      ordinarySelection(ids)
+        ? undefined
+        : async (cached) => {
+            if (!contentSegments(cached.manifest, ids).length) return false;
+            return Boolean(
+              await info(
+                path.join(releaseDirectory(c, cached.manifest, ids), `manifest-${c.platform}.json`),
+              ),
+            );
+          },
+    );
   }
   if (!ref) throw problem(`manifest not found for ${c.platform}: manifest-${c.platform}.json`);
   const selected = selectRemoteAssetManifestComponents(ref.manifest, ids);
