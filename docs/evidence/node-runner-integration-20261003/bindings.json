@@ -1,0 +1,24 @@
+{
+  "installedAtUtc": "2026-10-02T17:51:23.601514+00:00",
+  "parentCommit": "c9ca489ceecb2324f45ca8f909b72e2ae3c79553",
+  "inputFreezeCommit": "356f3d35",
+  "typeQualificationCommit": "65f145ee",
+  "completeDraftArchiveCommit": "c9ca489c",
+  "source": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+  "predecessor": {
+    "bytes": 9624,
+    "sha256": "d3a303875d60a9f4629e3a3af815fc5aff407b2048a70480543ffd841233f40f"
+  },
+  "installed": {
+    "bytes": 12352,
+    "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27",
+    "byteIdenticalToFrozenDraft": true
+  },
+  "allFiveAuthorInputBindingsVerified": true,
+  "integrationCorrections": [],
+  "extraImplementationFiles": [],
+  "anotherLaneSourceImportedOrMerged": false,
+  "ordinaryRuntimeTestsRun": false,
+  "projectCompilationRun": false,
+  "licenceDecision": null
+}
