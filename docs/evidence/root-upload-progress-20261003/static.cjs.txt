@@ -1,0 +1,5 @@
+const fs=require('fs'),path=require('path'),ts=require(process.cwd()+'/node_modules/typescript');
+const root=path.resolve('packages/server'),file=root+'/src/remote/sshUploadProgress.ts';const source=fs.readFileSync(process.argv.includes('--working')?file:'/tmp/knorvia-root-upload-progress-20261003/draft-sshUploadProgress.ts','utf8');
+const options=ts.parseJsonConfigFileContent(ts.readConfigFile(root+'/tsconfig.json',ts.sys.readFile).config,ts.sys,root).options;Object.assign(options,{types:['node'],typeRoots:[path.resolve('node_modules/@types')],composite:false,noEmit:true});
+const host=ts.createCompilerHost(options),get=host.getSourceFile;host.getSourceFile=(f,l,e,n)=>f===file?ts.createSourceFile(f,source,l,true):get(f,l,e,n);
+const p=ts.createProgram([file],options,host),ds=ts.getPreEmitDiagnostics(p);if(ds.length){console.error(ts.formatDiagnosticsWithColorAndContext(ds,{getCanonicalFileName:f=>f,getCurrentDirectory:()=>process.cwd(),getNewLine:()=> '\n'}));process.exit(1)}console.log('Target strict types: zero diagnostics. No runtime tests/builds.');

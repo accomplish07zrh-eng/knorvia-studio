@@ -1,18 +1,12 @@
-import { stat } from "node:fs/promises";
-import { posix } from "node:path";
+import { stat } from 'node:fs/promises';
+import { posix } from 'node:path';
 
-export type SSHUploadTransport = "sftp" | "exec";
+export type SSHUploadTransport = 'sftp' | 'exec';
 
 const STATUS_NAMES: Record<number, string> = {
-  0: "OK",
-  1: "EOF",
-  2: "NO_SUCH_FILE",
-  3: "PERMISSION_DENIED",
-  4: "FAILURE",
-  5: "BAD_MESSAGE",
-  6: "NO_CONNECTION",
-  7: "CONNECTION_LOST",
-  8: "OP_UNSUPPORTED",
+  0: 'OK', 1: 'EOF', 2: 'NO_SUCH_FILE', 3: 'PERMISSION_DENIED',
+  4: 'FAILURE', 5: 'BAD_MESSAGE', 6: 'NO_CONNECTION',
+  7: 'CONNECTION_LOST', 8: 'OP_UNSUPPORTED',
 };
 const BYTES_PER_MB = 1024 * 1024;
 
@@ -32,12 +26,12 @@ export function formatSSHUploadLabel(remotePath: string): string {
 export function formatSSHUploadError(error: unknown): string {
   if (error instanceof Error) {
     const withCode = error as Error & { code?: unknown };
-    if (typeof withCode.code === "number") {
-      return `${STATUS_NAMES[withCode.code] ?? "UNKNOWN"}(code=${withCode.code})`;
+    if (typeof withCode.code === 'number') {
+      return `${STATUS_NAMES[withCode.code] ?? 'UNKNOWN'}(code=${withCode.code})`;
     }
     if (error.message) return error.message;
   }
-  if (typeof error === "string" && error.trim().length > 0) return error.trim();
+  if (typeof error === 'string' && error.trim().length > 0) return error.trim();
   try {
     return JSON.stringify(error);
   } catch {
@@ -55,28 +49,21 @@ export function createSSHUploadProgressReporter(
   return (transferredBytes, force) => {
     const now = Date.now();
     const elapsed = Math.max((now - startedAt) / 1000, 0.001);
-    const speed = transferredBytes / BYTES_PER_MB / elapsed;
     const transferredMB = transferredBytes / BYTES_PER_MB;
+    const speed = transferredMB / elapsed;
     const totalMB = totalBytes != null ? totalBytes / BYTES_PER_MB : null;
-    const percent =
-      totalBytes != null && totalBytes > 0
-        ? Math.min((transferredBytes / totalBytes) * 100, 100)
-        : null;
+    const percent = totalBytes != null && totalBytes > 0
+      ? Math.min((transferredBytes / totalBytes) * 100, 100)
+      : null;
     const intervalReady = now - previous.at >= 1000;
     const stepReady = percent !== null && percent - previous.percent >= 5;
     const ended = percent !== null && percent >= 100;
     if (!force && !intervalReady && !stepReady && !ended) return;
-    if (
-      force &&
-      transferredBytes === previous.bytes &&
-      (percent === null || percent <= previous.percent)
-    )
-      return;
+    if (force && transferredBytes === previous.bytes && (percent === null || percent <= previous.percent)) return;
     const prefix = `[ssh] upload progress [${transport}] (${uploadLabel}): `;
-    const detail =
-      totalMB !== null && percent !== null
-        ? `${percent.toFixed(1)}% (${transferredMB.toFixed(1)}/${totalMB.toFixed(1)} MB, ${speed.toFixed(2)} MB/s)`
-        : `${transferredMB.toFixed(1)} MB (total unknown, ${speed.toFixed(2)} MB/s)`;
+    const detail = totalMB !== null && percent !== null
+      ? `${percent.toFixed(1)}% (${transferredMB.toFixed(1)}/${totalMB.toFixed(1)} MB, ${speed.toFixed(2)} MB/s)`
+      : `${transferredMB.toFixed(1)} MB (total unknown, ${speed.toFixed(2)} MB/s)`;
     console.log(prefix + detail);
     previous.at = now;
     previous.bytes = transferredBytes;
