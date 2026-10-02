@@ -1,0 +1,332 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "business",
+  "baseline": "06e67e0e73a101cb9d68b072a1fcd7a9976de269",
+  "target": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "1397c6f043e2d54447521720d184a75edd4039ea59f5c0ed6dab9adeb7151602",
+    "candidate": "1397c6f043e2d54447521720d184a75edd4039ea59f5c0ed6dab9adeb7151602"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeImports": {
+    "predecessor": [
+      "apps/cli/packages/core/src/runtime/deps.js#CoreErrorType",
+      "apps/cli/packages/core/src/runtime/deps.js#createCoreError",
+      "apps/cli/packages/core/src/runtime/helpers/data.js#isPlainRecord"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/runtime/deps.js#CoreErrorType",
+      "apps/cli/packages/core/src/runtime/deps.js#createCoreError",
+      "apps/cli/packages/core/src/runtime/helpers/data.js#isPlainRecord"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/contract.md",
+      "bytes": 4752,
+      "sha256": "8cb44191e795edeae93061e75e07ef69f9d55ce1b0ada1175829250026af24cb",
+      "actual": {
+        "bytes": 4752,
+        "sha256": "8cb44191e795edeae93061e75e07ef69f9d55ce1b0ada1175829250026af24cb"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/public-api.d.ts",
+      "bytes": 494,
+      "sha256": "1c17cf91889bcf28708546ce4aaee6cc210d444f453015818e7e07a13a22421e",
+      "actual": {
+        "bytes": 494,
+        "sha256": "1c17cf91889bcf28708546ce4aaee6cc210d444f453015818e7e07a13a22421e"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/dependency-api.d.ts",
+      "bytes": 631,
+      "sha256": "3c39923968adc5816b31a9b354735d8cecf7528272272ae5edda58af5ae0a267",
+      "actual": {
+        "bytes": 631,
+        "sha256": "3c39923968adc5816b31a9b354735d8cecf7528272272ae5edda58af5ae0a267"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/public-shapes.d.ts",
+      "bytes": 211,
+      "sha256": "ad2e10a5a092d83137548b45461565da97a7b171d7f21130557ac30dc9dda3eb",
+      "actual": {
+        "bytes": 211,
+        "sha256": "ad2e10a5a092d83137548b45461565da97a7b171d7f21130557ac30dc9dda3eb"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/imports.json",
+      "bytes": 608,
+      "sha256": "042fad26bb865b74b6015f8b5dd89bbac9f15a7aa991ea6f50b4470ea5232a63",
+      "actual": {
+        "bytes": 608,
+        "sha256": "042fad26bb865b74b6015f8b5dd89bbac9f15a7aa991ea6f50b4470ea5232a63"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-error-telemetry-author-packet-20261003/business/output-data.json",
+      "bytes": 1042,
+      "sha256": "df2e7673b7e12f6006b5d54073a0ff477d9e623bd9006adc18797138b10b10bd",
+      "actual": {
+        "bytes": 1042,
+        "sha256": "df2e7673b7e12f6006b5d54073a0ff477d9e623bd9006adc18797138b10b10bd"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-provider-business-error.ts.txt",
+      "bytes": 5830,
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "actual": {
+        "bytes": 5830,
+        "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 5830,
+        "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 186
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6584,
+      "sha256": "fd7cb93e89c1ddf5060cc175f1b97e52aa5c158870be2487956abfbe6a2f75d8",
+      "actual": {
+        "bytes": 6584,
+        "sha256": "fd7cb93e89c1ddf5060cc175f1b97e52aa5c158870be2487956abfbe6a2f75d8"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "draft-provider-business-error.ts.txt",
+      "bytes": 5830,
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6584,
+      "sha256": "fd7cb93e89c1ddf5060cc175f1b97e52aa5c158870be2487956abfbe6a2f75d8",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "actual": {
+        "bytes": 961,
+        "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "actual": {
+        "bytes": 8781,
+        "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+      "bytes": 4164,
+      "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b",
+      "actual": {
+        "bytes": 4164,
+        "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "actual": {
+        "bytes": 9586,
+        "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "actual": {
+        "bytes": 9134,
+        "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5664,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "actual": {
+        "bytes": 5664,
+        "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/config/index.ts",
+      "bytes": 12544,
+      "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab",
+      "actual": {
+        "bytes": 12544,
+        "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/logging/logger.ts",
+      "bytes": 2592,
+      "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a",
+      "actual": {
+        "bytes": 2592,
+        "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "actual": {
+        "bytes": 36215,
+        "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/artifact-uri.ts",
+      "bytes": 1005,
+      "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b",
+      "actual": {
+        "bytes": 1005,
+        "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "module": "./data.js",
+      "exists": true
+    }
+  ],
+  "extractionDiagnosticsQualified": true,
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}
