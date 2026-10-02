@@ -1,0 +1,42 @@
+[
+  {
+    "module": "./runtime-input-presentation.js",
+    "clause": "{ runtimeInputMetadata }"
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "{ modelMessageContentToText, selectActiveConversationBranch }"
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type {\n  FilePart,\n  MessagePart,\n  MessageWithParts,\n  ModelMessageContent,\n  ModelMessageContentBlock,\n  ModelReasoningContentBlock,\n  MessageId,\n  ToolArtifactStorePort,\n  ToolPart,\n}"
+  },
+  {
+    "module": "../system-reminder/source.js",
+    "clause": "{\n  getSystemReminderDescriptor,\n  wrapSystemReminderForSource,\n  type SystemReminderSource,\n}"
+  },
+  {
+    "module": "../system-reminder/prompt-attachment.js",
+    "clause": "{\n  buildPromptAttachmentReminderBodies,\n  type PromptAttachmentReminderInput,\n}"
+  },
+  {
+    "module": "./message-history-usage.js",
+    "clause": "{ persistedTokenUsageBaseline }"
+  },
+  {
+    "module": "./message-history.js",
+    "clause": "{\n  isKnownSystemReminderSource,\n  legacySyntheticRuntimeMetadata,\n  realUserRuntimeMetadata,\n  systemReminderAttachmentEntry,\n  systemReminderRuntimeMetadata,\n  todoReminderRuntimeMetadata,\n  type MessageHistory,\n  type RuntimeMessageEntry,\n  type RuntimeMessageMetadata,\n  type RuntimeMessageSource,\n  type ToolCallInput,\n}"
+  },
+  {
+    "module": "./compact-session.js",
+    "clause": "{ compactActiveSessionMessages, isActiveCompactionBoundaryPart }"
+  },
+  {
+    "module": "./file-part-hydration.js",
+    "clause": "{ filePartToContentBlock, projectPersistedToolMediaContent }"
+  },
+  {
+    "module": "./tool-part-order.js",
+    "clause": "{ selectToolPartsForHistory }"
+  }
+]
