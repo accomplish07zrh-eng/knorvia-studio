@@ -1,0 +1,211 @@
+{
+  "formatVersion": 1,
+  "baseline": "8fce80b33a9e2476bb44d48bf91cdc091a5a24e0",
+  "preDocumentaryProofCommit": "2c7c9e99213849c11e694f365b3891fc3284304f",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+    "apps/cli/packages/core/test/causality-order-settlement-current.json",
+    "apps/cli/packages/core/test/causality-order-settlement-fixture.ts",
+    "apps/cli/packages/core/test/causality-order-settlement-documentation-baseline.json",
+    "apps/cli/packages/core/test/causality-order-settlement-documentation-proof.ts",
+    "apps/cli/packages/core/test/causality-order-settlement-documentation.test.ts",
+    "specs/knorvia-causality-order-settlement-documentation.md",
+    "docs/knorvia-causality-order-settlement-documentation-20261002.md",
+    "docs/evidence/knorvia-causality-order-settlement-documentation-check-20261002.mjs",
+    "docs/evidence/knorvia-causality-order-settlement-documentation-20261002.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-settle.ts",
+      "bytes": 8200,
+      "sha256": "7db70a0dea97cc3855fe614c2d990e0171a972749b300e6dadeae250b275d1ae"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-current.json",
+      "bytes": 267,
+      "sha256": "d4df15b7a47dabf1c9bd747c450de9d54e010022ede452c8f0a39af543153f51"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-fixture.ts",
+      "bytes": 4897,
+      "sha256": "57c79a39154f9d5f9da3df618fe86bb780b963d379d44b6aed2016a20ee30fa1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-documentation-baseline.json",
+      "bytes": 726,
+      "sha256": "b3f86f07a8d7b3cc1fc1d38bed4bb26d11daf88cd6b50b4dbe2a6ac6131a0f36"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-documentation-proof.ts",
+      "bytes": 1959,
+      "sha256": "f334a17891e89d273e5349f33cd3bad8a5d4bc3532e11af5f362ece066a2530d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-settlement-documentation.test.ts",
+      "bytes": 5299,
+      "sha256": "828be5cb14793bcea5930c71882f2abe177afeebab6f91808e1bcd26765cbe09"
+    },
+    {
+      "path": "specs/knorvia-causality-order-settlement-documentation.md",
+      "bytes": 2250,
+      "sha256": "3ace75715e8ccf41f44e79a9ff5d690cfdc5cf4e9702f4d8738f7f204d375176"
+    },
+    {
+      "path": "docs/knorvia-causality-order-settlement-documentation-20261002.md",
+      "bytes": 5059,
+      "sha256": "59fcbd51e70a611d443a6e5a4877130bfda14ce50dc912d8dce29eff021d2316"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-order-settlement-documentation-check-20261002.mjs",
+      "bytes": 9657,
+      "sha256": "2d1d744373ee6da208efacf8b7a00f123c10732a8dc19effc7249b00c24a2b3f"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-order-settle.js",
+      "bytes": 7642,
+      "sha256": "4e29870b350241e08a102e945d190d312ae9fe34e09761e0d1ffefaf3ef28a7a"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-order-settle.d.ts",
+      "bytes": 1543,
+      "sha256": "31d6906b2f9f6b793aeb2904e4ebf7fc9c1207acc2f1361920ecaf488b69d876"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-order-settle.d.ts.map",
+      "bytes": 932,
+      "sha256": "bc238b48273225742c698fe72e9e050b6923f98efe39311956975ce4b1fb0b40"
+    }
+  ],
+  "runtimeReceipt": {
+    "path": "docs/evidence/knorvia-causality-order-settlement-20261002.json",
+    "sha256": "3f1ea169b41becaa2ae8a76b8f2289cce7c30d7074f27a96b921d90794112735"
+  },
+  "protection": "Reuse exact earlier file records except only owner/comments, current pins and documented fixture assumption migration; Git scope preserves all other tracked history",
+  "comments": {
+    "source": [
+      "// Oracle witnesses, barriers and guard bindings share the existing TraceState.",
+      "/** Ordered site claims; empty results share readonly arrays and must not be mutated. */",
+      "/**\n * Cache lexical loop/callback ancestors by node identity. Parent links and iteration\n * indexes must remain stable while this TraceState cache is in use.\n */",
+      "/**\n * Admit issued requests, or later sites sharing an indexed lexical iteration with\n * the await. Unissued sites outside that shared iteration are excluded.\n */",
+      "/**\n * Classify real, admitted sites in first-witness order, combining duplicate exactness.\n * Only one exact issued site is certain. Repetition stays maybe: boundary iterations\n * can await a seed or leave the final request pending. Guard reads omit temporal\n * admission because they describe control evidence rather than settlement.\n */",
+      "// First admission owns eligibility; any admitted exact witness can establish exactness.",
+      "/** Read await-position witnesses using the current temporal admission rule. */",
+      "/**\n * Settle witnesses and joined summaries in certain-before-maybe order. Visibility\n * spans active frames; writes affect only the current frame. Already-settled claims\n * add no steps. Empty evidence widens to pending issued sites and may overstate order.\n * Joins attach to the first event, including an empty event when only a join remains.\n * Strand ownership and await-operand interpretation stay in joinStrands.\n */",
+      "// Commit one side before reading the next; certain steps become visible to maybe.",
+      "// Resolve all state changes before publishing; a join with no steps still has an event.",
+      "/** Bind each pattern leaf to ordered step identities; ignore identifiers without symbols. */",
+      "/**\n * Scan guard bindings without entering nested functions, then merge oracle witnesses.\n * Syntactic and exact singleton controllers take precedence over ambiguous sites.\n * Both inputs are needed for implicit-control and derived-value evidence.\n */",
+      "/** Append a control record only when either controller list has entries. */"
+    ],
+    "emittedSourceIndexes": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "declarationSourceIndexes": [1, 6, 7, 10, 12],
+    "declarationMap": "//# sourceMappingURL=causality-order-settle.d.ts.map"
+  },
+  "retainedFunctions": [
+    "iterationAncestorsOf",
+    "admissionOf",
+    "settlesAt",
+    "bindSteps",
+    "controllersOf",
+    "recordControl"
+  ],
+  "expressionDecision": {
+    "additionalRuntimeChange": false,
+    "substantiveInherited": "Issued/shared-iteration admission; syntactic/oracle guard precedence and merge. Prior rewritten bodies also retain filter/lookup/visibility/projection expression",
+    "conventionalRetained": "Parent-chain traversal, memoization, binding leaf/set operations, forwarding API and fixed record shape; no whole-body authorship finding",
+    "rejectedAlternatives": "Extraction, traversal stacks and added indexes do not demonstrate a simpler cohesive owner",
+    "documentation": "Original factual rules/limitations replace discretionary narrative; three earlier factual body comments preserved",
+    "sourceExposure": true,
+    "rights": "Mixed unresolved pending independent root review; no header/registry/MIT or whole-file completion grant",
+    "maySet": "Explicitly mixed/unresolved and untouched"
+  },
+  "checks": {
+    "sourceGroups": 3,
+    "sourcePass": 3,
+    "emittedGroups": 3,
+    "emittedPass": 3,
+    "fail": 0,
+    "skip": 0,
+    "cancelled": 0,
+    "overlap": "Same two documentary plus one strict-loader group per mode; zero behavioral reruns",
+    "syntaxTrees": 3,
+    "comments": {
+      "source": 13,
+      "emitted": 11,
+      "declaration": 6,
+      "templateAdjacentControl": true
+    },
+    "historicalArchiveSha256": "62a3e3eb5de6eb5ee0e56e2867494ac13cbd51aef773c978cf37ff7dd61d16ac",
+    "historicalDeclarationSha256": "699b1382dc27895a9553f4706e1a4020e204f05a240d0bc245f320de95cfa6e5",
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "documentaryFixtureRoots": 3,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "scope": "Only owner JS/declaration/map"
+    },
+    "lint": {
+      "configuredFiles": 1,
+      "ownedFiles": 5,
+      "rules": 94,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": "Eight scoped code/spec/proof files and final document/receipt checked",
+    "architecture": {
+      "violations": 0,
+      "new": 0
+    },
+    "behavioralRuns": 0,
+    "newRuntimeCheckpoint": false
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-compile.log",
+      "bytes": 251,
+      "sha256": "fa16087235aedf2ddc9cfc7a62c82ffb54b753c750bc693a7f458b45ce533019"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-source.log",
+      "bytes": 430,
+      "sha256": "d515fd0eef016d7ed7955bac7e859b3fd2b1f2fee9e4ec649768b2b7fc18936b"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-emitted.log",
+      "bytes": 429,
+      "sha256": "1190fa098ecb8d219eeefb780142786e849808772540b9bba75e3730b385696d"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-configured-lint.log",
+      "bytes": 89,
+      "sha256": "ab3e8e25790158c3a199b7beea61b3789d2f0fd2a9e1eaf1991e873852554d23"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-owned-lint.log",
+      "bytes": 90,
+      "sha256": "59f30a13efc9eb3cb1c0e3d77c706f8932d08f8fc94bcb0c1d48ab074eee69a8"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-format.log",
+      "bytes": 112,
+      "sha256": "59d61feb07f90d1c03fe756030d044d9f5ca56270a0e8e6af12fc36edc527933"
+    },
+    {
+      "path": "/tmp/knorvia-order-settlement-doc-architecture.log",
+      "bytes": 50,
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "limits": [
+    "Historical runtime 7/7 per mode belongs to immutable 8fce80b, not a new run",
+    "No broad suite/build/benchmark, arbitrary getter/builtin matrix or native acceptance",
+    "Existing source exposure, contributor/notice obligations and mixed retained bodies remain",
+    "Root owns final expression/licence and aggregate/native acceptance; no providers/user data/settings/deployment"
+  ]
+}

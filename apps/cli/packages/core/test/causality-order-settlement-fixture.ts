@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { dynamic, sha } from "./causality-reduction-fixture.js";
+import { assertSettlementDeclarationShape } from "./causality-order-settlement-documentation-proof.js";
 export { sha };
 export * from "./causality-order-settlement-cases.js";
 
@@ -28,7 +29,10 @@ export async function loadCurrent(readArtifact = read) {
     ["dist/analysis/causality-order-settle.d.ts", pins.declarationSha256],
   ])
     assert.equal(sha(await readArtifact(new URL(p, root))), hash, p);
-  assert.equal(pins.declarationSha256, archive.declarationSha256);
+  await assertSettlementDeclarationShape(
+    await readArtifact(new URL("dist/analysis/causality-order-settle.d.ts", root)),
+    archive.declarationSha256,
+  );
   return dynamic("analysis/causality-order-settle");
 }
 export const current = await loadCurrent();
