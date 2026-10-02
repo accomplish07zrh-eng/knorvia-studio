@@ -22,7 +22,7 @@ export async function loadHistorical(readArchive = read) {
 }
 export const archive = await loadHistorical();
 const pinText = await read(new URL("./workflow-collection-planner-current.json", import.meta.url));
-assert.equal(sha(pinText), "7cb12227f55f0d19e0c58e79c7166dc891671d0fd91686000e3ae4ff38a9054b");
+assert.equal(sha(pinText), "0d08f8202aeb6e3f25e49551620b67c0d0bb41b3fe30cbd1e178514b7855f171");
 export const pins: { files: Record<string, string> } = JSON.parse(pinText);
 export async function loadCurrent(readArtifact = read) {
   for (const [path, digest] of Object.entries(pins.files))

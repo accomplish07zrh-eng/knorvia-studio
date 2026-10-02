@@ -238,6 +238,8 @@ function failAttempt(
   };
   return {
     collection,
+    errorCount,
+    exhausted,
     message,
     snapshot: upsertActivity(failed, activity, runtime.eventLog.timestamp()),
   };
@@ -341,6 +343,8 @@ async function attemptPlanner(
     failure = error;
   }
   const failed = failAttempt(attempt, failure, options, runtime);
+  // 发布端口可改写 collection；保留失败时已确定的计数和耗尽结论，见 failure publication 回归。
+  const { errorCount, exhausted } = failed;
   await runtime.writeSnapshot(failed.snapshot, { signal: options.abortSignal });
   await runtime.eventLog.appendCollectionRecord(
     failed.snapshot,
@@ -351,13 +355,13 @@ async function attemptPlanner(
     message: failed.message,
     payload: {
       collectionId: collection.collectionId,
-      errorCount: failed.collection.errorCount,
-      exhausted: failed.collection.exhausted,
+      errorCount,
+      exhausted,
     },
     phase: options.phase,
     signal: options.abortSignal,
   });
-  if (failed.collection.exhausted) {
+  if (exhausted) {
     await runtime.eventLog.emitEvent(failed.snapshot, "collection_exhausted", {
       message: `Collection exhausted: ${collection.collectionId}`,
       payload: { collectionId: collection.collectionId, reason: "planner_error_threshold" },
