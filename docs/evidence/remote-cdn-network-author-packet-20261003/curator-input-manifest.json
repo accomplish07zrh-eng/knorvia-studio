@@ -1,0 +1,54 @@
+{
+  "frozenAtUtc": "2026-10-02T18:29:14.871893+00:00",
+  "baseline": "931ab6f441d38ea81ac1ac097c69f342a2aeb6df",
+  "inputs": [
+    {
+      "path": "docs/evidence/remote-cdn-network-author-packet-20261003/contract.md",
+      "bytes": 11500,
+      "sha256": "1108133e8fd70b668c69d20e6bfa2947f08a5c8a9fe3500cb5e70f4363640337"
+    },
+    {
+      "path": "docs/evidence/remote-cdn-network-author-packet-20261003/remoteAssetCdn-public-api.d.ts",
+      "bytes": 1025,
+      "sha256": "4a41cb84e889277e319ef4c9075fd265be215a18fbfcfcf2d1d30937d25be490"
+    },
+    {
+      "path": "docs/evidence/remote-cdn-network-author-packet-20261003/remoteAssetNetwork-public-api.d.ts",
+      "bytes": 199,
+      "sha256": "51efc4772a44b9d4df8ea311639d7d94fe042d351d3501d93715d98f6680b615"
+    },
+    {
+      "path": "docs/evidence/remote-cdn-network-author-packet-20261003/dependency-api.md",
+      "bytes": 1005,
+      "sha256": "09111dc9f41d807c08adcfb5b4286ceb59e4068c95b7b2462d986b8655a73cf0"
+    },
+    {
+      "path": "docs/evidence/remote-cdn-network-author-packet-20261003/error-text.json",
+      "bytes": 1070,
+      "sha256": "062f5af30ec7fb79c25571283d7a85fe2dcd29d02f777c919df868283ca0e3dd"
+    }
+  ],
+  "sources": [
+    {
+      "path": "packages/server/src/remote/remoteAssetCdn.ts",
+      "bytes": 7457,
+      "sha256": "6a81f481fafa55be55fcbe3bc1d14172e66938390002ffd0d51ccff2f1bf9db9",
+      "gitBlob": "523e69802bff711550b4c5494208a4b83221a30c"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetNetwork.ts",
+      "bytes": 451,
+      "sha256": "242a6c493e341edafa5fc63e090921add37ee25795de108a21b741620b45d613",
+      "gitBlob": "b3685569d411a4c82d302c1ec7161fa39e90f7e7"
+    }
+  ],
+  "curatorSourceExposed": true,
+  "curatorRead": "Complete pinned target bodies and their public declarations; bounded cache import/callsite name search only, no test/history bodies read for packet.",
+  "rootContextQualification": "Root reports public declarations/callable dependency exposure, no deliberate target-body/history/test reading; prior generic scanners/compiler may have processed bytes. Broad existing context retained. Not no-inherited-context or OS isolation.",
+  "exclusiveImplementationOwner": "Root; E packet coordination only, no target source changes",
+  "publicDeclarationExtraction": "TypeScript6.0.2, zero diagnostics; not project compile",
+  "prescribedImplementationStructure": false,
+  "testsRun": false,
+  "projectCompilationRun": false,
+  "licenceDecision": null
+}
