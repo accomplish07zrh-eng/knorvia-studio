@@ -1,0 +1,9 @@
+✔ release timeout cleans only owned streams and retains its diagnostic identity (3.808824ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.866614
