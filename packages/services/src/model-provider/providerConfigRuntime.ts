@@ -17,13 +17,9 @@ export interface ProviderConfigRuntimeOptions {
   readonly watch?: boolean;
 }
 
-/**
- * Services 装配层只读取本地随包模型模板和当前 Knorvia 配置。
- * 不导入其它产品的数据，也不访问上游远程配置服务。
- */
 export class ProviderConfigRuntime {
   readonly configService: NodeProviderConfigRuntime["configService"];
-  readonly #runtime: NodeProviderConfigRuntime;
+  #runtime: NodeProviderConfigRuntime;
 
   constructor(options: ProviderConfigRuntimeOptions) {
     const runtimeOptions: NodeProviderConfigRuntimeOptions = {
@@ -61,7 +57,7 @@ export class ProviderConfigRuntime {
   }
 
   dispose(): void {
-    this.#runtime.dispose();
+    return this.#runtime.dispose();
   }
 }
 
