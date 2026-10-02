@@ -1,0 +1,869 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-02",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio",
+  "branch": "parallel/material-closure-fast-20261002",
+  "baselineCommit": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "scope": "Third-party material evidence only. No product code, assets, global licensing decisions, reviews.json, current-files.json, source deployments or releases modified.",
+  "obligationCountBasis": "21 obligations supplied by parent. Published main and continuation inventory both record an empty reviewRequired array but have stale input paths; this lane does not treat that array as completion.",
+  "fullyClosedParentObligations": 0,
+  "newScopedNoticeTexts": 2,
+  "newLicenseScopeOverview": 1,
+  "packages": [
+    {
+      "package": "@arms/rum-browser@0.1.8",
+      "metadataUrl": "https://registry.npmjs.org/%40arms%2Frum-browser/0.1.8",
+      "metadataSha256": "c67df1cbdb3dbd429ac0cc1fe227aaa882dd6fe10cf564b9086e54e0fd0fd29d",
+      "archiveUrl": "https://registry.npmjs.org/@arms/rum-browser/-/rum-browser-0.1.8.tgz",
+      "archiveSha256": "c931065b3ca66a504fde9fb00cab1100cd771da95226cc67011247a48c0eb377",
+      "integrity": "sha512-XqGzZB3ziQf8nNVYCf4lDkwonclPCOQYHjk8XBr8U28u/JrTtMSF1hNYZN4JlKqyLypelGb9Nx7T8BtS5bIEhQ==",
+      "shasum": "1fbf3610acf62ae8615c2df23023eb2fe04333ba",
+      "gitHead": "b3bb39c51630c034572644f845f5e68b7da994d0",
+      "repository": null,
+      "license": "ISC",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": false,
+      "matchesLockIntegrity": null,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "616ebcec092bdb4b8d53c9c872d988f93be23e85555d6553eb1e11c4441e7d1a",
+          "bytes": 139
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "distributionScope": "Present in the committed historical third-party inventory/overrides; absent from all current workspace package.json files and pnpm-lock.yaml at this baseline. A target artifact graph is needed before retiring this historical package obligation."
+    },
+    {
+      "package": "@arms/rum-core@0.1.4",
+      "metadataUrl": "https://registry.npmjs.org/%40arms%2Frum-core/0.1.4",
+      "metadataSha256": "02e338132a79bb21217dd983596b8635a5ce2ad5c71389975225fb8efb19f64a",
+      "archiveUrl": "https://registry.npmjs.org/@arms/rum-core/-/rum-core-0.1.4.tgz",
+      "archiveSha256": "9ea195bb1504209879359247a39c8ca2cb46b832e9e5f00932c0c0661d3a083f",
+      "integrity": "sha512-if7tvpBnKhKddUKk+/u9iXKUVC+/nugiK6FGHTBuqS6LBLL0Fl8xAm4FTN3hGq07DAmP77RmWaG5mb1vmJ73SQ==",
+      "shasum": "ad07410be1926af7905da13bca251f3f30d580c4",
+      "gitHead": "b63b290389cb1ece96a05324414318d12241563f",
+      "repository": null,
+      "license": "ISC",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": false,
+      "matchesLockIntegrity": null,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "5da126320694ef3fdd58a65e2bbbe3a59042c992ed8e72b47370631a05dfd736",
+          "bytes": 69
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "distributionScope": "Present in the committed historical third-party inventory/overrides; absent from all current workspace package.json files and pnpm-lock.yaml at this baseline. A target artifact graph is needed before retiring this historical package obligation."
+    },
+    {
+      "package": "@arms/rum-electron@0.0.3",
+      "metadataUrl": "https://registry.npmjs.org/%40arms%2Frum-electron/0.0.3",
+      "metadataSha256": "8b9f2fe5f4d5d8ef3776c7b11f6409ade2704c7101153fc4d0a7354ef862a0ed",
+      "archiveUrl": "https://registry.npmjs.org/@arms/rum-electron/-/rum-electron-0.0.3.tgz",
+      "archiveSha256": "05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7",
+      "integrity": "sha512-ieiMhVQNpkSEv3tgwfQZqhvy8p9cyhl3B7AS4j+8kikDcriNOA5xE0d8JwpItzfOm7kfeYqGbZYwZMF45EDl4Q==",
+      "shasum": "c017c2430ace8674d2e77b9c60694d60f8d10d6c",
+      "gitHead": "d472fec87e50b4bceb552800da99a8e7510bf1e1",
+      "repository": null,
+      "license": "MIT",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": false,
+      "matchesLockIntegrity": null,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "698fdb0ab31ec9b151ca6d2da464524db3cbcfcb05da3c6abc00f96610212084",
+          "bytes": 11606
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "distributionScope": "Present in the committed historical third-party inventory/overrides; absent from all current workspace package.json files and pnpm-lock.yaml at this baseline. A target artifact graph is needed before retiring this historical package obligation."
+    },
+    {
+      "package": "is-node-process@1.2.0",
+      "metadataUrl": "https://registry.npmjs.org/is-node-process/1.2.0",
+      "metadataSha256": "e26b82b8553458d990d164a90ad98f6f87e0af4f51a4a7f8ffb57c55c17fe884",
+      "archiveUrl": "https://registry.npmjs.org/is-node-process/-/is-node-process-1.2.0.tgz",
+      "archiveSha256": "810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba",
+      "integrity": "sha512-Vg4o6/fqPxIjtxgUH5QLJhwZ7gW5diGCVlXpuUfELC62CuxM1iHcRe51f2W1FDy04Ai4KJkagKjx3XaqyfRKXw==",
+      "shasum": "ea02a1b90ddb3934a19aea414e88edef7e11d134",
+      "gitHead": null,
+      "repository": {
+        "url": "git+https://github.com/mswjs/is-node-process.git",
+        "type": "git"
+      },
+      "license": "MIT",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": true,
+      "matchesLockIntegrity": true,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "99ec68724abdc41fb27309e31cd81700a9ac17c7ba33802ccc8bd72695dd27b4",
+          "bytes": 1002
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "sourceEvidence": {
+        "repository": "mswjs/is-node-process",
+        "revision": "8a6152c795d8705be97166bd5167e70ac6efc67c",
+        "revisionEvidence": "existing repository review reference; source package name/version checked, not an npm attestation",
+        "sourcePackageUrl": "https://raw.githubusercontent.com/mswjs/is-node-process/8a6152c795d8705be97166bd5167e70ac6efc67c/package.json",
+        "sourcePackageSha256": "e966955a8622d7bd281d937d9c0d7d39ab0d94bea55304637c8f2144e20635ee",
+        "treeUrl": "https://api.github.com/repos/mswjs/is-node-process/git/trees/8a6152c795d8705be97166bd5167e70ac6efc67c?recursive=1",
+        "treeSha256": "345e92687359c15628d5a74e15f7ac2aa0d6d5fecdb971ff588a141fb9cb971c",
+        "truncated": false,
+        "licensePaths": []
+      }
+    },
+    {
+      "package": "strict-event-emitter@0.5.1",
+      "metadataUrl": "https://registry.npmjs.org/strict-event-emitter/0.5.1",
+      "metadataSha256": "42980c581490b5d9f4bede4f49a4a0a5953df27689621bf573d8f3e6877896a4",
+      "archiveUrl": "https://registry.npmjs.org/strict-event-emitter/-/strict-event-emitter-0.5.1.tgz",
+      "archiveSha256": "43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab",
+      "integrity": "sha512-vMgjE/GGEPEFnhFub6pa4FmJBRBVOLpIII2hvCZ8Kzb7K0hlHo7mQv6xYrBvCL2LtAIBwFUK8wvuJgTVSQ5MFQ==",
+      "shasum": "1602ece81c51574ca39c6815e09f1a3e8550bd93",
+      "gitHead": null,
+      "repository": {
+        "url": "git+ssh://git@github.com/open-draft/strict-event-emitter.git",
+        "type": "git"
+      },
+      "license": "MIT",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": true,
+      "matchesLockIntegrity": true,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "c99806746abe863eaa7e941fed608eadf89d1ff9bde0216ea76d024ee0e14843",
+          "bytes": 2243
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "sourceEvidence": {
+        "repository": "open-draft/strict-event-emitter",
+        "revision": "56e004cf2793053ea9ece4330fd52cace96acbff",
+        "revisionEvidence": "existing repository review reference; source package name/version checked, not an npm attestation",
+        "sourcePackageUrl": "https://raw.githubusercontent.com/open-draft/strict-event-emitter/56e004cf2793053ea9ece4330fd52cace96acbff/package.json",
+        "sourcePackageSha256": "9ef204df6c0538147843bd985efd2d7f0b0f8dd03208cd21805d7aa41d70e9a1",
+        "treeUrl": "https://api.github.com/repos/open-draft/strict-event-emitter/git/trees/56e004cf2793053ea9ece4330fd52cace96acbff?recursive=1",
+        "treeSha256": "c1b9459f507ec6aeac020333afb92fef0fc8e29ab6e22a6fb0fdab0cd37c3f39",
+        "truncated": false,
+        "licensePaths": []
+      }
+    },
+    {
+      "package": "lazy-val@1.0.5",
+      "metadataUrl": "https://registry.npmjs.org/lazy-val/1.0.5",
+      "metadataSha256": "b89c1fd70f2fdef869138eaa43addcc73719738762bb84cd6a1bbd3d776b841f",
+      "archiveUrl": "https://registry.npmjs.org/lazy-val/-/lazy-val-1.0.5.tgz",
+      "archiveSha256": "7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372",
+      "integrity": "sha512-0/BnGCCfyUMkBpeDgWihanIAF9JmZhHBgUhEqzvf+adhNGLoP6TaiI5oF8oyb3I45P+PcnrqihSf01M0l0G5+Q==",
+      "shasum": "6cf3b9f5bc31cee7ee3e369c0832b7583dcd923d",
+      "gitHead": "b69ad4119f1b19bdab13c61ee2fcc88d46b89071",
+      "repository": {
+        "url": "git+https://github.com/develar/lazy-val.git",
+        "type": "git"
+      },
+      "license": "MIT",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": true,
+      "matchesLockIntegrity": true,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/readme.md",
+          "sha256": "87dd77cd27b045ab279f6f2c99acedaeec6b7c92e296a354bb2687b9f2965438",
+          "bytes": 158
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "sourceEvidence": {
+        "repository": "develar/lazy-val",
+        "revision": "b69ad4119f1b19bdab13c61ee2fcc88d46b89071",
+        "revisionEvidence": "npm gitHead",
+        "sourcePackageUrl": "https://raw.githubusercontent.com/develar/lazy-val/b69ad4119f1b19bdab13c61ee2fcc88d46b89071/package.json",
+        "sourcePackageSha256": "a642078ae0684963e5747e9499487a4c649c150bbddbfdfd8eb357bfcbf9c1c2",
+        "treeUrl": "https://api.github.com/repos/develar/lazy-val/git/trees/b69ad4119f1b19bdab13c61ee2fcc88d46b89071?recursive=1",
+        "treeSha256": "6940f5342f761866ee56cb21436dcbb48a617ec9ec596234c36fb3528ac3a654",
+        "truncated": false,
+        "licensePaths": []
+      }
+    },
+    {
+      "package": "semaphore@1.1.0",
+      "metadataUrl": "https://registry.npmjs.org/semaphore/1.1.0",
+      "metadataSha256": "0188d053cd8e7d3886910b253ef322be456cc118e33411d216b351838dfe50d6",
+      "archiveUrl": "https://registry.npmjs.org/semaphore/-/semaphore-1.1.0.tgz",
+      "archiveSha256": "72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2",
+      "integrity": "sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==",
+      "shasum": "aaad8b86b20fe8e9b32b16dc2ee682a8cd26a8aa",
+      "gitHead": "88a33875b168cc7b5943d7fe987c36d08321d252",
+      "repository": {
+        "url": "git+ssh://git@github.com/abrkn/semaphore.js.git",
+        "type": "git"
+      },
+      "license": null,
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": true,
+      "matchesLockIntegrity": true,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "be2a8a71f8055b65f5b5d2724418aef1642c5d4ba243f3206eebd915d35ba228",
+          "bytes": 1187
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "sourceEvidence": {
+        "repository": "abrkn/semaphore.js",
+        "revision": "88a33875b168cc7b5943d7fe987c36d08321d252",
+        "revisionEvidence": "npm gitHead",
+        "sourcePackageUrl": "https://raw.githubusercontent.com/abrkn/semaphore.js/88a33875b168cc7b5943d7fe987c36d08321d252/package.json",
+        "sourcePackageSha256": "5e9f2a33e61b07906ddab0abd05ae0aff382954774ede7aeee30e6964ae1a37a",
+        "treeUrl": "https://api.github.com/repos/abrkn/semaphore.js/git/trees/88a33875b168cc7b5943d7fe987c36d08321d252?recursive=1",
+        "treeSha256": "fc0caee23ca60c82f432ae18ff111230e707a42306ae11d9af725a0c3e11ee9b",
+        "truncated": false,
+        "licensePaths": []
+      }
+    },
+    {
+      "package": "unsafe-pointer@0.2.0",
+      "metadataUrl": "https://registry.npmjs.org/unsafe-pointer/0.2.0",
+      "metadataSha256": "37499deab16ce6f167d63cdca00ab26468948a02f3bd38a189054bf6b728a00f",
+      "archiveUrl": "https://registry.npmjs.org/unsafe-pointer/-/unsafe-pointer-0.2.0.tgz",
+      "archiveSha256": "9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446",
+      "integrity": "sha512-5AzhXe8ZGzV/wVVfomw7KszPt4RPOpVcsWi66DrMrzy6fi86+rTiTx3Gu88UshFhfQLAXbFvgRyHVpQ+nZ7bvg==",
+      "shasum": "f280c1c1fa35b0240465c95f946d467b3dd89286",
+      "gitHead": null,
+      "repository": {
+        "url": "git+https://github.com/justjake/node-unsafe-pointer.git"
+      },
+      "license": "MIT",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": true,
+      "matchesLockIntegrity": true,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "8a37f04b4927ff5751875b3a95e1df2af838aca89961a28a6983965cbc3bf8a7",
+          "bytes": 4244
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "sourceEvidence": {
+        "repository": "justjake/node-unsafe-pointer",
+        "revision": "f9771c0c21e863e4938a7aed0af89575f9673152",
+        "revisionEvidence": "existing repository review reference; source package name/version checked, not an npm attestation",
+        "sourcePackageUrl": "https://raw.githubusercontent.com/justjake/node-unsafe-pointer/f9771c0c21e863e4938a7aed0af89575f9673152/package.json",
+        "sourcePackageSha256": "0ff64f19f2ac1659ec232cfc6f8d5517f8a40c41b67819b0749541a058877dd5",
+        "treeUrl": "https://api.github.com/repos/justjake/node-unsafe-pointer/git/trees/f9771c0c21e863e4938a7aed0af89575f9673152?recursive=1",
+        "treeSha256": "47b3e65186eecf4623a0662f05f62325a8fba0294dadb748542496e6d131eb2b",
+        "truncated": false,
+        "licensePaths": []
+      }
+    },
+    {
+      "package": "quickjs-wasi@2.2.0",
+      "metadataUrl": "https://registry.npmjs.org/quickjs-wasi/2.2.0",
+      "metadataSha256": "19e41cc0661fdd4afcc4443aec970120ac38a8781e3d8b09081063f711d2f1c7",
+      "archiveUrl": "https://registry.npmjs.org/quickjs-wasi/-/quickjs-wasi-2.2.0.tgz",
+      "archiveSha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1",
+      "integrity": "sha512-zQxXmQMrEoD3S+jQdYsloq4qAuaxKFHZj6hHqOYGwB2iQZH+q9e/lf5zQPXCKOk0WJuAjzRFbO4KwHIp2D05Iw==",
+      "shasum": "85d8984aa1b048546e5634c764165034c6e22d48",
+      "gitHead": null,
+      "repository": {
+        "url": "git://github.com/vercel-labs/quickjs-wasi.git",
+        "type": "git"
+      },
+      "license": "MIT",
+      "archiveMatchesRegistryIntegrity": true,
+      "archiveMatchesRegistryShasum": true,
+      "currentLockContainsPackage": true,
+      "matchesLockIntegrity": true,
+      "archiveNoticeCandidates": [
+        {
+          "member": "package/README.md",
+          "sha256": "f8db37af6ecfe7a7fba9483ff42e22409ef5dd395e60d762c9b5f3ca31229d9a",
+          "bytes": 23973
+        }
+      ],
+      "status": "open-publisher-notice",
+      "result": "No complete component copyright/permission notice in the exact published archive; license identifier or short declaration is insufficient for this material-closure task. No copyright holder inferred from author metadata.",
+      "sourceEvidence": {
+        "repository": "vercel-labs/quickjs-wasi",
+        "revision": "cc1fea4a6a4ac1d960e0db68d35e1459064a1a23",
+        "revisionEvidence": "existing repository review reference; source package name/version checked, not an npm attestation",
+        "sourcePackageUrl": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/package.json",
+        "sourcePackageSha256": "929926b0c65241a5458e7896139cfa1ff6fe19e2567c154aa12c919dcf387285",
+        "treeUrl": "https://api.github.com/repos/vercel-labs/quickjs-wasi/git/trees/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23?recursive=1",
+        "treeSha256": "e5828000ff9f4292f74605e4e05b7e4de859b44916624ebc20ed0d77880c2250",
+        "truncated": false,
+        "licensePaths": [
+          "extensions/crypto/mbedtls/LICENSE"
+        ]
+      }
+    }
+  ],
+  "skia": {
+    "status": "partial-notice-evidence-ready",
+    "parentPackage": "@napi-rs/canvas@0.1.100",
+    "publisherSourceRevision": "db337893b9b53483050ca7b24c6d306e4da06741",
+    "skiaRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+    "freetypeRevision": "264b5fbf5b912b39f98d038bf75d39be0a73f21b",
+    "publisherTree": {
+      "source": "https://api.github.com/repos/Brooooooklyn/canvas/git/trees/db337893b9b53483050ca7b24c6d306e4da06741",
+      "sha256": "610895320a163a6ffb9baa738af11b6ac329d8ec227c0d568346af07dae67389",
+      "skiaGitlink": "fe2718df5f53a681087be6f0539045ca1b4b8c09"
+    },
+    "publishedPackages": [
+      {
+        "package": "@napi-rs/canvas@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas/0.1.100",
+        "metadataSha256": "c422202b63205c82b8970aaf08a88b411feab3305c85c0354d81d9c813d9cccf",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas/-/canvas-0.1.100.tgz",
+        "archiveSha256": "ec7dc504d4ade7fd36846d16643e50eed5c914335f3a86b6a2a8d632391e5bfa",
+        "integrity": "sha512-xglYA6q3XO5P3BNJYxVZ1IV7DLVjp1Py6nwag88YntrS+3vKHyYcMqXVS4ZztJmwz2uGvz1FWhI/4LgbR5uQDA==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/LICENSE",
+            "sha256": "8802fecf9da4367bc23bcf20b21cc143785fc6c92b152f3fa7fbe6ce08d344d6",
+            "bytes": 1075
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-darwin-arm64@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-darwin-arm64/0.1.100",
+        "metadataSha256": "74be872c71280d454ef836153a660097701e1d72c4e91f1ff9fd12e9ce5bc99f",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-darwin-arm64/-/canvas-darwin-arm64-0.1.100.tgz",
+        "archiveSha256": "c7c8dcb69aae6ddb58fe23e5f20d1c772a8065b077560f5a18336307779add91",
+        "integrity": "sha512-2PcswRaC7Ly645DGt88///zuFDhJxJYdKAs1uU3mfk1atYkXufgcgLfBpk6Tm12nCQBaNt1wpybuPZ4qOhTo8A==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.darwin-arm64.node",
+            "sha256": "a9c429727b4a133e34e60c5ffa7f701541ffe941afa9574abe6273a1648c342d",
+            "bytes": 26297696
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-darwin-x64@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-darwin-x64/0.1.100",
+        "metadataSha256": "94b753695c80a556ffb8d3f2031558cfe0471f64587e00eaf8fc5bfde1478343",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-darwin-x64/-/canvas-darwin-x64-0.1.100.tgz",
+        "archiveSha256": "ffc0979d3cca5b87678371cb5feefeb1b5730939d702c3ce55541d5471d5b024",
+        "integrity": "sha512-ePNZtj7pNIva/siZMg+HmbeozkIjqUIYdoymH8HaA3qK7LfzFN4WMBM8G6HQ9ZC+H3+Dnn5pqtiXpgLykaPOhw==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.darwin-x64.node",
+            "sha256": "acf5855324808f5ab6461b91b09b193b29a2516004035d7139a17eab211dc743",
+            "bytes": 31530340
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-linux-arm64-gnu@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-linux-arm64-gnu/0.1.100",
+        "metadataSha256": "c80f78b9827f3b842f7ca7190a5be195a6a569038ef89fa57c4eeec227f12af7",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-gnu/-/canvas-linux-arm64-gnu-0.1.100.tgz",
+        "archiveSha256": "a2e623648a0abac073f0b488770a650f889fa8be10f2a05adc0712087371264c",
+        "integrity": "sha512-rDxgxRu69RvDlX/bh9o22DxLsGr8EqsNgotL9+RwQE1S0b0cqeatqsw6aW45mukm0B42DIAaAacKaYQ8cqS1nw==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.linux-arm64-gnu.node",
+            "sha256": "03e173f76f574969cc8cc945bfbb9ddb050a961350564467136045465827628f",
+            "bytes": 27711392
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-linux-arm64-musl@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-linux-arm64-musl/0.1.100",
+        "metadataSha256": "a285fff160cf5cb32fc8b7b044df337bf5fdf44de510ff6b7e0e209717be32c4",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-musl/-/canvas-linux-arm64-musl-0.1.100.tgz",
+        "archiveSha256": "2536891a79b54a0eaeea6d85517af2fcc4df834a216e74a7a7f460ff242d84b9",
+        "integrity": "sha512-K3mDW66N+xT2/V439u1alFANiBUjdEx2gLiNYnCmUsva5jZMxWTjafBYwTzYK+EMFMHrUoabuU+T1BIP5CgbYQ==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.linux-arm64-musl.node",
+            "sha256": "e76d9425c6cd74ae27bb639fa3950cb1c0a5a03ab337f0074f3f8de448f4f99d",
+            "bytes": 25619728
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-linux-x64-gnu@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-linux-x64-gnu/0.1.100",
+        "metadataSha256": "aaf9b0782a9a7cc4d79360cdb5da33cad725d869e9c5a51b6c4aca4b693936aa",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-gnu/-/canvas-linux-x64-gnu-0.1.100.tgz",
+        "archiveSha256": "fbb244fcf0e38fed930914fc732a84369eada961e6cd1c034a7ce2f1ca55c7ef",
+        "integrity": "sha512-1eCvkDCazm7FFhsT7DfGOdSaHgZVK3bt/dSBl5EWHOWmnz+I7j8tPseJqqD81NF+MH21jKUK4wQSDjN0mdhnTg==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.linux-x64-gnu.node",
+            "sha256": "059a0873c1114a8a59195f6c4bc76eab9c4e928251003cd501b59bc8aaaf3fa0",
+            "bytes": 33393024
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-linux-x64-musl@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-linux-x64-musl/0.1.100",
+        "metadataSha256": "e2930ce74b0bbdbe3f2dd32ce35bfd4a4d163a0d96af97629c5ed106d1fc06ea",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-musl/-/canvas-linux-x64-musl-0.1.100.tgz",
+        "archiveSha256": "d00792d0d7c6cf0c2807eca935aefc0f293b43f3e175d331caec4a288d4dcf23",
+        "integrity": "sha512-20arT6lnI19S68qNlii73TSEDbECNgzMz2EpldC1V3mZFuRkeujXkcebRk0LRJe9SEUAooYiLokfMViY8IX7yA==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.linux-x64-musl.node",
+            "sha256": "0396e3f0d1cec95684ace216b2fe397532901ed628ab5572f511a1786cbe361c",
+            "bytes": 29754136
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-win32-arm64-msvc@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-win32-arm64-msvc/0.1.100",
+        "metadataSha256": "c40ee2ba1e839930474a9ac687cfdc7a22ee85b9006c218e16ea79bb01bde480",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-win32-arm64-msvc/-/canvas-win32-arm64-msvc-0.1.100.tgz",
+        "archiveSha256": "3dc8c824d3c9096bf3769c1c0cb1c24b280cecd117baccd535aaa87e2433a1d2",
+        "integrity": "sha512-DZFFT1wIAg37LJw37yhMRFfjATd3vTQzjZ1Yki8u2vhO6Hi5VE6BVaGQ1aaDu7xb4iMErz+9EOwjpS7xcxFeBw==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.win32-arm64-msvc.node",
+            "sha256": "7a5d6d46e3e8be87c998dc7dfd4a840ef42eee16872a0504a877bff8584e5e46",
+            "bytes": 20029440
+          }
+        ]
+      },
+      {
+        "package": "@napi-rs/canvas-win32-x64-msvc@0.1.100",
+        "metadataUrl": "https://registry.npmjs.org/%40napi-rs%2Fcanvas-win32-x64-msvc/0.1.100",
+        "metadataSha256": "a6998e9a5ad4eb651ffa152c1a19e59e6ea9f72fd929ade2ed49c937c26273de",
+        "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.100.tgz",
+        "archiveSha256": "a918366995d85d6989bd85c1c82f21eae90479cb1df40c2d6867ccb00338595b",
+        "integrity": "sha512-MyT1j3mHC2+Lu4pBi9mKyMJhtP6U7k7EldY7sj/uS5gJA65gTXt8MefJQXLJo5d/vZbuWmfxzkEUNc/urV3pHA==",
+        "gitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+        "archiveMatchesRegistryIntegrity": true,
+        "archiveMatchesRegistryShasum": true,
+        "matchesLockIntegrity": true,
+        "members": [
+          {
+            "member": "package/skia.win32-x64-msvc.node",
+            "sha256": "0f76fb0648fbff832856f6ce202059fc3fa38be7ad925300e96935906ea11132",
+            "bytes": 27294720
+          }
+        ]
+      }
+    ],
+    "buildEvidence": [
+      {
+        "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/third_party/freetype2/BUILD.gn",
+        "sha256": "cfa21c0467ee264bd3177262cc476562fb8d26079a698aaa9fc003cace2b1645",
+        "result": "Bundled FreeType source list includes src/base/ftbase.c and src/gzip/ftgzip.c. skia_use_freetype_zlib defaults true; skia_use_freetype_zlib_bundled follows !skia_use_system_zlib."
+      },
+      {
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/base/ftbase.c",
+        "sha256": "dc3d0ab282abd22ea0600d7bc5691fa72e4b242985efde21d455dc6168b63c42",
+        "result": "Includes fthash.c."
+      },
+      {
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/gzip/ftgzip.c",
+        "sha256": "9f58df64e777c7b1b5c8692881b16a4a00087b6392658e6707cfb90650854d86",
+        "result": "Includes the bundled zlib implementation when FT_CONFIG_OPTION_USE_ZLIB is set and FT_CONFIG_OPTION_SYSTEM_ZLIB is not set."
+      },
+      {
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/gzip/zlib.h",
+        "sha256": "c86a25c27f74cb97b8fa07b175f479f063d5064ace9995b4684063643c81cf1b",
+        "result": "Bundled version is 1.3.1; copyright 1995-2024 Jean-loup Gailly and Mark Adler. The existing separately pinned Skia zlib notice covers 1.2.12, copyright 1995-2022, and does not establish this bundled copy."
+      },
+      {
+        "file": "third-party/upstream/4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f.txt",
+        "sha256": "4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f"
+      },
+      {
+        "file": "third-party/upstream/d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965.txt",
+        "sha256": "d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965"
+      }
+    ],
+    "noticeAdditions": [
+      {
+        "component": "FreeType license scope",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/LICENSE.TXT",
+        "sourceSha256": "bd36c8b474855fa294c2ec5c184544478ef3720aad37d65a6296a4f264fd2d3b",
+        "file": "third-party/upstream/bd36c8b474855fa294c2ec5c184544478ef3720aad37d65a6296a4f264fd2d3b.txt",
+        "sha256": "bd36c8b474855fa294c2ec5c184544478ef3720aad37d65a6296a4f264fd2d3b",
+        "bytes": 2149,
+        "extraction": "Whole source file; Gitiles base64 response decoded without newline normalization.",
+        "retrievedFrom": "https://chromium.googlesource.com/chromium/src/third_party/freetype2.git/+/264b5fbf5b912b39f98d038bf75d39be0a73f21b/LICENSE.TXT?format=TEXT"
+      },
+      {
+        "component": "FreeType hashing routines",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/base/fthash.c",
+        "sourceSha256": "693e5a54b3ce30140975a94a3369dbe706eb1f280c69e80da426d39cc45b94ef",
+        "file": "third-party/upstream/5285d96f6aa3188193d5fbefd8710ed6a46af185e0a43817c17acee5f4b1ab3d.txt",
+        "sha256": "5285d96f6aa3188193d5fbefd8710ed6a46af185e0a43817c17acee5f4b1ab3d",
+        "bytes": 1232,
+        "extraction": "Second C block comment, byte-for-byte, with one trailing LF."
+      },
+      {
+        "component": "zlib 1.3.1 bundled in FreeType",
+        "source": "https://raw.githubusercontent.com/freetype/freetype/264b5fbf5b912b39f98d038bf75d39be0a73f21b/src/gzip/zlib.h",
+        "sourceSha256": "c86a25c27f74cb97b8fa07b175f479f063d5064ace9995b4684063643c81cf1b",
+        "file": "third-party/upstream/02421fcfbfb1d656ef0b6ff4cd3c39f2946f08c3219fa42db482add7ce1f53ea.txt",
+        "sha256": "02421fcfbfb1d656ef0b6ff4cd3c39f2946f08c3219fa42db482add7ce1f53ea",
+        "bytes": 1328,
+        "extraction": "First C block comment, byte-for-byte, with one trailing LF."
+      }
+    ],
+    "requiredIntegration": "Append these component-scoped notice records to the existing Skia.notices array in third-party/embedded-components.json and regenerate notices from the target dependency graph. Preserve its reviewRequired field. No global inventory/registry is changed by this lane.",
+    "remaining": "Exact per-platform linkage and complete nested attribution still require the parent audit. These additions fix specific source-notice omissions only; they do not close the Skia obligation or establish that every source is linked on every platform."
+  },
+  "quickjs": {
+    "status": "open-two-obligations",
+    "version": "2.2.0",
+    "sourceRevision": "cc1fea4a6a4ac1d960e0db68d35e1459064a1a23",
+    "engineRevision": "dec012362bd93876449f3ecff4f835b2eba89bab",
+    "publisherNewNotice": {
+      "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/066475d399936cd40a38cabde6935d5f7b080dec/LICENSE",
+      "sha256": "f7735da3b2531ddf451937117343cfadb853fd8054b499e7a70695dc57ffd184",
+      "introducedIn": "066475d399936cd40a38cabde6935d5f7b080dec",
+      "mergedPullRequest": "https://github.com/vercel-labs/quickjs-wasi/pull/51",
+      "maintainerConfirmationUrl": "https://github.com/vercel-labs/quickjs-wasi/pull/51#issuecomment-5710526252",
+      "confirmedVersion": "3.6.0",
+      "confirmedSourceRevision": "54c4d2dd4be2445409aeab603ecfc3bb209c7310",
+      "result": "Explicit prior-version confirmation covers 3.6.0, not the retained 2.2.0 wrapper. No retroactive 2.2.0 grant inferred."
+    },
+    "buildEvidence": {
+      "makefileSha256": "417fa227d75b1e22a15d8389ca8b5e8b7b86241c3b1b17288d20523016ef6fa6",
+      "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/Makefile",
+      "wasiSdkMajor": 32,
+      "outputs": [
+        "quickjs.wasm",
+        "extensions/url/url.so",
+        "extensions/encoding/encoding.so",
+        "extensions/base64/base64.so",
+        "extensions/headers/headers.so",
+        "extensions/structured-clone/structured-clone.so",
+        "extensions/crypto/crypto.so"
+      ],
+      "result": "Makefile specifies WASI SDK 32 and compiles all seven native/WASM outputs. Published archive has no npm provenance attestation. Source recipe plus compiler version does not establish exact linked bytes/sysroot provenance."
+    },
+    "remaining": [
+      "Complete publisher wrapper notice applicable to 2.2.0 remains unresolved.",
+      "Exact linkage of retained WASI/LLVM/Ada/Mbed TLS/Everest material to the seven published native/WASM outputs remains unresolved."
+    ],
+    "nativeMembers": [
+      {
+        "member": "package/extensions/base64/base64.so",
+        "sha256": "f51012d6c63195a53ca9f2daa6c3de6b0995873888c8106979813015b3388adc",
+        "bytes": 12518
+      },
+      {
+        "member": "package/extensions/crypto/crypto.so",
+        "sha256": "3c0ca1e0ecbca51f88ae22ae5da75ee83e6f87170ec8c7efc2ec9ba52b1bd913",
+        "bytes": 187423
+      },
+      {
+        "member": "package/extensions/encoding/encoding.so",
+        "sha256": "50af2847297183c0be2f97948cd83473b0888b424b98af51aaf4200160dce77f",
+        "bytes": 12780
+      },
+      {
+        "member": "package/extensions/headers/headers.so",
+        "sha256": "fcc7d25dfdda38d1d57d0a532540f3baa56a957f76f85548919716a174ac9037",
+        "bytes": 14232
+      },
+      {
+        "member": "package/extensions/structured-clone/structured-clone.so",
+        "sha256": "76356bc2983ce24b6c503a0cb1fa0308e09c18e60aa38d44ca737454ee769c06",
+        "bytes": 9648
+      },
+      {
+        "member": "package/extensions/url/url.so",
+        "sha256": "54167390c210290f0703752527000ba44885606c4ed1ae12be30462c147a9215",
+        "bytes": 920499
+      },
+      {
+        "member": "package/quickjs.wasm",
+        "sha256": "b92a9f3d9cd20c7a0b0163269437115314c96712e3248d2da1b631ca1c8b008e",
+        "bytes": 1545650
+      }
+    ]
+  },
+  "reactBestPractices": {
+    "status": "open-publisher-notice",
+    "declaredVersion": "1.0.0",
+    "publisherRevision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "treeUrl": "https://api.github.com/repos/vercel-labs/agent-skills/git/trees/063bee94c3f4df8453406c830b0a7df0f2860278?recursive=1",
+    "treeSha256": "e2177b3b1fe9f05d499cbab6915bdd93f00fde455faf43a941380ff5e1468e70",
+    "truncated": false,
+    "licensePaths": [],
+    "localFiles": 76,
+    "byteMatchesPublisherBlobs": 4,
+    "directorySha256": "416b2aa1b35516b1f6e1c89c6c5ca8820322ec07eabf8770f08339e09bc76699",
+    "directoryDigestEncoding": "SHA-256 of sorted local path + TAB + file SHA-256 + LF for each retained file. This is a directory binding, not a source-copy attribution test.",
+    "entryFiles": [
+      {
+        "path": ".agents/skills/react-best-practices/AGENTS.md",
+        "sha256": "9d0d1c4f1922a65ddead8b869b4f2653bf3c10c84b1c8c9dd2507e0a4a4c82cb",
+        "gitBlob": "d0f2573551572e39e05484baf3ab9ac453867098",
+        "publisherPath": "skills/react-best-practices/AGENTS.md",
+        "publisherBlob": "4e340a50684a8e7811d5bfa4df48bd9989d0fd87",
+        "byteMatchesPublisherBlob": false
+      },
+      {
+        "path": ".agents/skills/react-best-practices/README.md",
+        "sha256": "e49f5e0088d47dab6687a7d501e9f3b23ce8ce7e8a8e428a2fd590e582f966da",
+        "gitBlob": "57412d7b1ecaa48896cb1eff2e32741174c41681",
+        "publisherPath": "skills/react-best-practices/README.md",
+        "publisherBlob": "f283e1c0c21c5b13c848452528c3949ff544846c",
+        "byteMatchesPublisherBlob": false
+      },
+      {
+        "path": ".agents/skills/react-best-practices/SKILL.md",
+        "sha256": "b7d246acb440bee224ab33614979a5b8debe5fdb13d0304967aa19358eb69d9f",
+        "gitBlob": "c1b007e694f70edcf56d593aa91286af8c70c3f0",
+        "publisherPath": "skills/react-best-practices/SKILL.md",
+        "publisherBlob": "237988de4a66dd8a71d30a2c24ebe1a86b58d04e",
+        "byteMatchesPublisherBlob": false
+      },
+      {
+        "path": ".agents/skills/react-best-practices/metadata.json",
+        "sha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354",
+        "gitBlob": "3bec38b176cc71d105895ec4678bbe79305dcb4c",
+        "publisherPath": "skills/react-best-practices/metadata.json",
+        "publisherBlob": "3bec38b176cc71d105895ec4678bbe79305dcb4c",
+        "byteMatchesPublisherBlob": true
+      }
+    ],
+    "publisherIssues": [
+      "https://github.com/vercel-labs/agent-skills/issues/230",
+      "https://github.com/vercel-labs/agent-skills/issues/249"
+    ],
+    "result": "README/skill declare MIT, but current pinned primary tree still has no original full notice. Local formatting means most vendored files do not byte-match this reference; original import revision remains unknown. Open contributor license proposals do not supply a publisher grant."
+  },
+  "coloredProviderAssets": {
+    "status": "open-eight-assets",
+    "priorPublisherGrantLookup": "Negative according to parent; no unchanged search repeated in this lane.",
+    "result": "Exact current provider asset identities/digests are bound below. Black/white authorship statements are not applied to these files. No license assigned and no asset changed.",
+    "files": [
+      {
+        "file": "packages/ui/src/assets/provider-icons/logo-bigmodel.svg",
+        "sha256": "63d72de1b988ab15000f8e5c495d9a9da39272748c8fef103a4b39fda6605847"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/logo-moonshoot.svg",
+        "sha256": "0f44e74d497f6d5d9921af67417ba6788435bc6bd503f6164f0b0c3398cfe4cd"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/logo-zai-square.svg",
+        "sha256": "07a45e8e35b0b631ed2c68cd1cb041f9721b1ceeb0bd0e34f1459b0304a741c7"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/logo-zai.svg",
+        "sha256": "90c8bff54f1ecae58aeb2e48ec6cbf6115c6200f34e64e9b78aed93e0bc4555b"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/model-provider-opencode-dark.svg",
+        "sha256": "a591279801990635cf8f11fb8138bcb04a2d06327943e2ef8019b4e756635451"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/model-provider-opencode-light.svg",
+        "sha256": "f37a9e2c6a08e07ed06612e3f9fd1754e6e1065225f145e1f8c45fefdb12cd94"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/model-provider-openrouter-dark.svg",
+        "sha256": "3870df563cb88433484fba09346cea53986b500b3101c16db384f95d774068a1"
+      },
+      {
+        "file": "packages/ui/src/assets/provider-icons/model-provider-openrouter-light.svg",
+        "sha256": "e57bf033b668c8bd284e6862d9a5a4c755f9949713205951107aec36f9bb7686"
+      }
+    ]
+  },
+  "rust": {
+    "status": "open-version-specific-notice",
+    "revision": "6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+    "source": "https://github.com/rust-lang/rust/tree/6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+    "priorRevisionLookup": "Negative according to parent; no unchanged lookup repeated.",
+    "binaryBindings": [
+      {
+        "archive": "ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+        "archiveSha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+        "matchesInventory": true,
+        "binaries": [
+          {
+            "member": "rg.exe",
+            "sha256": "6545d832a57164e54405f019cf6861c397920aa1d6cc4569bfd85441f79ea043",
+            "rustcSourceRevisions": [
+              "6a6eaca656978778f7c1c750ee0c3db87f8bffb2"
+            ],
+            "rustcVersionStrings": []
+          }
+        ]
+      },
+      {
+        "archive": "ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+        "archiveSha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+        "matchesInventory": true,
+        "binaries": [
+          {
+            "member": "rg.exe",
+            "sha256": "57aec5102a212204920d089562d9dbcaa438e9f2222d9a370d439622441b64f0",
+            "rustcSourceRevisions": [
+              "6a6eaca656978778f7c1c750ee0c3db87f8bffb2"
+            ],
+            "rustcVersionStrings": []
+          }
+        ]
+      }
+    ],
+    "missingLegacyWindowsArchives": [
+      {
+        "release": "v13.0.0-10",
+        "platform": "win32-arm64",
+        "sha256": "6c12d2c95073a4b981e5706981f42327b6359fc4cd7449ebd11f6769768dea97"
+      },
+      {
+        "release": "v13.0.0-10",
+        "platform": "win32-x64",
+        "sha256": "7b35b95cf3d7f92d8fe087006899617b1b5a6dac4bbed5d4f6ace6f0934799dc"
+      }
+    ],
+    "legacyScopeEvidence": {
+      "files": [
+        {
+          "file": "scripts/remote-native-search-tools-config.mjs",
+          "sha256": "472322a66f84c7452f96aa9e16e9c4e0600f7c2588a03dc6bc869229161b1cb2"
+        },
+        {
+          "file": "packages/shared/src/runtime-tool-runtime.ts",
+          "sha256": "52a0275a2c4ccc4d2693dfda38dc2ddf5c0987c81c1b0875d12ba112dfd88666"
+        }
+      ],
+      "checkedTargets": [
+        "darwin-arm64 -> v13.0.0-10",
+        "darwin-x64 -> v13.0.0-10",
+        "linux-arm64 -> v14.1.1-1",
+        "linux-x64 -> v14.1.1-1",
+        "win32-arm64 -> unsupported remote target",
+        "win32-x64 -> unsupported remote target"
+      ],
+      "result": "Missing legacy Windows archives are not selected by the current remote planner. Parent can reassess whether historical material is in the target release scope; no archive or obligation deleted here."
+    },
+    "remaining": "Both current Windows ripgrep 14 archive bytes match the inventory and contain this exact Rust revision. Its version-specific original notice remains unavailable; notices from a different Rust revision cannot replace it."
+  },
+  "checks": [
+    {
+      "command": "node scripts/check-workspace-freshness.mjs",
+      "result": "pass; published main bd0bb014 baseline verified; work branch initially had no upstream."
+    },
+    {
+      "command": "node scripts/provenance/cli.mjs --check (before additions)",
+      "exitCode": 0,
+      "result": "Fresh baseline registry, 8336 files, reviewProblems 0. This does not establish complete independence or third-party material closure."
+    },
+    {
+      "command": "readVerifiedNotices(repositoryRoot, {requireComplete:true}) (before additions)",
+      "exitCode": 1,
+      "result": "ENOENT: no such file or directory, open '/workspace/knorvia-studio/apps/zcode-cli/package.json'"
+    },
+    {
+      "command": "Archive SHA-512 integrity + SHA-1 shasum comparison against pinned npm metadata",
+      "result": "18/18 downloaded package archives match registry digests; 15/15 packages present in the current lockfile also match its integrity; three ARMS packages absent from current lockfile."
+    },
+    {
+      "command": "Read and hash all 18 checked-in native archive bytes; inspect executable Rust source paths",
+      "result": "18/18 archive hashes match committed inventory. Two current Windows ripgrep 14 binaries carry the unresolved Rust revision."
+    },
+    {
+      "command": "Verify three notice hashes/lengths and five fetched FreeType source Git blobs against the exact publisher tree",
+      "result": "pass; the overview, hash notice and bundled zlib notice are byte-bound to the pinned FreeType source."
+    },
+    {
+      "command": "node scripts/provenance/cli.mjs --check (after additions)",
+      "exitCode": 1,
+      "result": "The committed current-file report is stale after the five new evidence/notice files. Parent refresh required; no forbidden current-files.json or reviews.json edit made."
+    },
+    {
+      "command": "Verify eight provider asset hashes, two Rust archive/binary bindings and the report evidence link",
+      "result": "pass"
+    }
+  ],
+  "sourceFetchFailures": [
+    {
+      "url": "https://api.github.com/repos/vercel-labs/quickjs-wasi/git/ref/tags/v2.2.0",
+      "httpStatus": 404,
+      "result": "No tag at this name; pinned source package version independently verified."
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/third_party/freetype2.git/+/264b5fbf5b912b39f98d038bf75d39be0a73f21b/docs/LICENSE.TXT?format=TEXT",
+      "httpStatus": 404,
+      "result": "License overview resides at repository root LICENSE.TXT, fetched successfully."
+    }
+  ],
+  "verificationEnvironment": {
+    "nodeActual": "24.19.0",
+    "nodeConfigured": "24.14.0",
+    "workspaceDependenciesInstalled": false
+  },
+  "remainingParentWork": [
+    "Integrate the three exact Skia/FreeType notice records and regenerate target notices without dropping the open Skia audit.",
+    "Reconcile historical ARMS and legacy Windows archive scope against the actual target artifact dependency graph.",
+    "Keep all original missing grants/notice scopes open until exact applicable publisher material or an authorized project decision is available.",
+    "Refresh the global provenance and notice inventories in the integrating parent; this evidence-only branch intentionally leaves them unchanged."
+  ]
+}
