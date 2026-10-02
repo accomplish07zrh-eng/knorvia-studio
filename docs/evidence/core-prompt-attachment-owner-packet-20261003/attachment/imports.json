@@ -1,0 +1,14 @@
+[
+  {
+    "module": "@knorvia/contracts",
+    "clause": "{ READ_DEFAULT_MAX_LINES, type ModelMessageContentBlock }"
+  },
+  {
+    "module": "../tool/handlers/read-text.js",
+    "clause": "{ formatReadTextOutput }"
+  },
+  {
+    "module": "./source.js",
+    "clause": "{ wrapSystemReminderForSource }"
+  }
+]
