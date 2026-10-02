@@ -1,0 +1,17 @@
+// Static required output data only; normalize immutable string labels and template placeholder names.
+// No source execution, novelty or grant proof. Unused original local strings retained in packet, not required output.
+const fs=require('fs'),cp=require('child_process'),crypto=require('crypto'),ts=require('/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js');
+const p='docs/evidence/core-model-context-session-owner-packet-20261003',m=JSON.parse(fs.readFileSync(p+'/curator-input-manifest.json')),results=[];
+function data(path,b){const t=ts.createSourceFile(path,b.toString(),ts.ScriptTarget.Latest,true),labels=new Map(),ignored=[];
+ for(const n of t.statements)if(ts.isVariableStatement(n))for(const d of n.declarationList.declarations)if(ts.isIdentifier(d.name)&&d.initializer&&ts.isStringLiteral(d.initializer))labels.set(d.name.text,d.initializer.text);
+ const strings=[],templates=[],regex=[],numbers=[];function walk(n){if(ts.isStringLiteral(n)||ts.isNoSubstitutionTemplateLiteral(n))strings.push(n.text);else if(ts.isTemplateExpression(n)){let value=n.head.text;for(const span of n.templateSpans){const e=span.expression;value+=ts.isIdentifier(e)&&labels.has(e.text)?labels.get(e.text):'<value>';value+=span.literal.text;}templates.push(value);}else if(n.kind===ts.SyntaxKind.RegularExpressionLiteral)regex.push(n.getText(t));else if(ts.isNumericLiteral(n))numbers.push(n.text);ts.forEachChild(n,walk);}walk(t);
+ // Exact original env unused declarations are evidence data, no reachable output obligation.
+ if(path.endsWith('/env-info.ts'))for(const name of ['GIT_LABEL','NOT_A_GIT_REPOSITORY'])if(labels.has(name)){ignored.push({name,text:labels.get(name),reason:'Original immutable declaration is unused by executable target; full frozen output-data still retains exact value'});}
+ return{strings,templates,regex,numbers,ignored};}
+for(const [scope,r]of Object.entries(m.scopes)){
+ const b=fs.readFileSync(p+'/'+scope+'/'+r.source.split('/').at(-1)+'.txt'),original=cp.execFileSync('git',['show',m.baseline+':'+r.source]),a=data(r.source,original),c=data(r.source,b),allCandidateText=[...c.strings,...c.templates];
+ const requiredStrings=[...new Set(a.strings)].filter(x=>!a.ignored.some(v=>v.text===x)),requiredTemplates=[...new Set(a.templates)];
+ const missingStrings=requiredStrings.filter(x=>!allCandidateText.some(y=>y.includes(x))),missingTemplates=requiredTemplates.filter(x=>!c.templates.includes(x)),missingRegex=a.regex.filter(x=>!c.regex.includes(x)),missingNumbers=a.numbers.filter(x=>!c.numbers.includes(x));
+ const passed=!missingStrings.length&&!missingTemplates.length&&!missingRegex.length&&!missingNumbers.length;results.push({scope,source:{bytes:b.length,sha256:crypto.createHash('sha256').update(b).digest('hex')},requiredStrings,requiredTemplates,retainedUnusedExpressionQualification:a.ignored,missingStrings,missingTemplates,missingRegex,missingNumbers,passed});
+}
+const passed=results.every(x=>x.passed);console.log(JSON.stringify({kind:'Static required output literal/template/regex/numeric data; immutable label embedding and template placeholder identifiers normalized, string fragment containment only, no evaluation/semantics/novelty/license proof',results,passed,sourceIntegrationRun:false},null,2));if(!passed)process.exitCode=1;

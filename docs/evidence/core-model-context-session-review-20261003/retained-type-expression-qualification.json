@@ -1,0 +1,18 @@
+{
+  "kind": "Static reviewer type-literal normalization failure; original result and checker preserved",
+  "exitCode": 1,
+  "missingLiteral": "assistant",
+  "scope": "session",
+  "origin": "Original private MessageSnippet.role union literal user|assistant; draft uses MessageWithParts[\"info\"][\"role\"], whose authoritative public type closure is supplied. No runtime assistant literal needed in this owner.",
+  "correction": "Exclude syntax-only LiteralTypeNode values from runtime/output data retention walk; public API/type-owner and schemas remain separately byte-bound, public declarations zero diagnostics and equal.",
+  "candidateSourceChanges": 0,
+  "syntheticAssistantVisibilityGateAlreadyPassed": true,
+  "checkRerun": "Only affected static retained-data checker; fourAPI checks and ten safety groups not repeated.",
+  "failedChecker": {
+    "path": "docs/evidence/core-model-context-session-review-20261003/verify-retained-data-initial-failure.cjs.txt",
+    "bytes": 3318,
+    "sha256": "91fe678f12aabde59ab1ef9e3fb5b4f09d004872face76996464a86d796c93fd"
+  },
+  "actualOwnerEvidence": "Frozen session/public-shapes.d.ts contains original MessageInfo.role public declaration; candidate private indexed owner type retained.",
+  "noProjectSemanticCompilationClaim": true
+}

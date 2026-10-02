@@ -1,0 +1,422 @@
+{
+  "recordedAtUtc": "2026-10-02T21:34:26.113487+00:00",
+  "baseline": "c976764dd27fd89ec598967c361b57592067c01a",
+  "directoryReservationCommit": "db9854cc",
+  "selectedReservationCommit": "66ed0b9b",
+  "inputFreezeCommit": "e544dcc4",
+  "completeOriginalArchiveCommit": "19d63375",
+  "completeDrafts": [
+    {
+      "scope": "env",
+      "target": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/env/env-info.ts.txt",
+      "bytes": 2765,
+      "lines": 97,
+      "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192",
+      "version": 1,
+      "installed": false,
+      "completeFrozenOriginal": true
+    },
+    {
+      "scope": "skills",
+      "target": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/skills.ts.txt",
+      "bytes": 2127,
+      "lines": 68,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0",
+      "version": 1,
+      "installed": false,
+      "completeFrozenOriginal": true
+    },
+    {
+      "scope": "parts",
+      "target": "apps/cli/packages/core/src/session-context/parts.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/parts.ts.txt",
+      "bytes": 3337,
+      "lines": 96,
+      "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9",
+      "version": 1,
+      "installed": false,
+      "completeFrozenOriginal": true
+    },
+    {
+      "scope": "session",
+      "target": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "archive": "docs/evidence/core-model-context-session-owner-packet-20261003/session/read-session-context.ts.txt",
+      "bytes": 11537,
+      "lines": 336,
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca",
+      "version": 1,
+      "installed": false,
+      "completeFrozenOriginal": true
+    }
+  ],
+  "unchangedRepositorySources": [
+    {
+      "path": "apps/cli/packages/core/src/context/sections/env-info.ts",
+      "bytes": 4233,
+      "sha256": "adbe41b484fe4c97424fad2214230f0659fcf18d89b901bd91c931a8668be4d3",
+      "unchangedFromPublishedBaseline": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/skills.ts",
+      "bytes": 2431,
+      "sha256": "7dce62317af0d505202e7cbeb58c59d814542c273138cd4348829dc458bb8b9a",
+      "unchangedFromPublishedBaseline": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/parts.ts",
+      "bytes": 3496,
+      "sha256": "963f0a85f5fdef0bb0fd3d981cf5e6d493f8f1728cf8f43b21cff7aac7c94d14",
+      "unchangedFromPublishedBaseline": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "bytes": 11784,
+      "sha256": "77d802aba4d476812736b84b25991e2c1abb4005d37fbc377c5a2bc188f6c1f6",
+      "unchangedFromPublishedBaseline": true
+    }
+  ],
+  "checks": [
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/env-static-v1.json",
+      "bytes": 9151,
+      "sha256": "4a29ab200a8ea3cdc9d4a6077e95076068027071e3a5f9b06faa5ad3d825cf7c",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/skills-static-v1.json",
+      "bytes": 9170,
+      "sha256": "00fbf2261411a98a74edca50404495e3b32f3685fb13e7d3281869416236b535",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/parts-static-v1.json",
+      "bytes": 9155,
+      "sha256": "c2e310b782d254e74d04b9b412a9631a109deb72a8276bcfd957323c5fa7c942",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/session-static-v1.json",
+      "bytes": 9661,
+      "sha256": "2f9c2f780314028f15fceaf2812fccb2175e4235e61ec4dc1196d6cf83af8979",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/retained-data-v1-static.json",
+      "bytes": 6541,
+      "sha256": "5f650d4e9ff529f19b46ecb2b33b02c4efd6f5e3bf49bdab5fbdd72bdc5c1cbc",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/minimal-safety-v1-results.json",
+      "bytes": 2778,
+      "sha256": "479ef35b10b3ecc11441a7bb026438190262f1f55b2ddfa55d59999817b57a2a",
+      "passed": true
+    }
+  ],
+  "evidenceFiles": [
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/curator-input-manifest.json",
+      "bytes": 7373,
+      "sha256": "b59e4db47c78ec9b9aac0d53f0c6e27f2e674b67e759b6a81e2ad1a52de73ee1"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/directory-reservation.json",
+      "bytes": 7831,
+      "sha256": "40ecea413acc0b4cdce87e504e98236b059afe02956765ce237ea1923729a170"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/author-record.json",
+      "bytes": 8999,
+      "sha256": "dd2312d82e3c8acff87081345d4402d9cc2b7a3809c3c7a9148da6095fa2b2c1"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/contract.md",
+      "bytes": 3607,
+      "sha256": "890fc20012ccd1354b1bad10a772bcddea6bd3b00d903553bd1041061841128d"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/curator-draft-manifest.json",
+      "bytes": 902,
+      "sha256": "82302a90d499d5fe25dabda5a3f9ffc8bc9511571dc021b6d780d54475d56bcc"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/dependency-api.d.ts",
+      "bytes": 221,
+      "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/env-info.ts.txt",
+      "bytes": 2765,
+      "sha256": "e27a9fe9aac27e27c4fae0d8996715ae5d70b979a88f135e739e7eb991a27192"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/imports.json",
+      "bytes": 239,
+      "sha256": "0a2d281d0d02d8ca7535f2f58bf55f63bc8c293b454e319424ab3759a9b49e35"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/output-data.json",
+      "bytes": 6019,
+      "sha256": "62c46970a18deaddbf553dc80cc1465da87c4b7bab19fd353327b42cfd9655d2"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/public-api.d.ts",
+      "bytes": 370,
+      "sha256": "46d931eae9100027b2c9c357fdb8d023238bf066c36d08c96ca644c9797bb853"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/public-shapes.d.ts",
+      "bytes": 2961,
+      "sha256": "0007cab7b3e45c8c6635630d90e942b571606b664bb75358dbdece236da92412"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/extract-public.cjs",
+      "bytes": 6907,
+      "sha256": "d8d299eb5fe503c7a37a56317403ef49025d0539036e156b74cb0e1d71833b1a"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/author-record.json",
+      "bytes": 9337,
+      "sha256": "0347dfa8d425b617ce6fbe61fc2d25a99eec6edf9029e7891cfb331edf5d2c55"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/contract.md",
+      "bytes": 4006,
+      "sha256": "272e342ec5aba2f8c60091b266b66d3a5a7256a9cf5247aec3bcd51c816ceb7c"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/curator-draft-manifest.json",
+      "bytes": 898,
+      "sha256": "55df20467e4e390f9d0aa2f083358fde822a982c8df5d95ad9efcc8ef13e8292"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/dependency-api.d.ts",
+      "bytes": 303,
+      "sha256": "ec0b29822d0386fc5c3e059760728193bae81cc01c068fbbd2a562187b6190d7"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/imports.json",
+      "bytes": 165,
+      "sha256": "1b2b59cb1ede659f8d2d17beb10ecb7f2ffe0e7338bbd20ddea7710e4dd05d77"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/output-data.json",
+      "bytes": 5635,
+      "sha256": "7722c2c1e955cab6c476396a30b6fc13df5e40342b1669c38facd3dabfb92cb3"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/parts.ts.txt",
+      "bytes": 3337,
+      "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/public-api.d.ts",
+      "bytes": 209,
+      "sha256": "46e6b96f096daecdcd35b650bad519ac79f998a44b547a49bf6c7865af772738"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/parts/public-shapes.d.ts",
+      "bytes": 8932,
+      "sha256": "602ba1c117c040fe5954d2773aa9e2cb6ab65c45d7eaa1e418e9e66359d8fae5"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/public-extraction-record.json",
+      "bytes": 5260,
+      "sha256": "22059d21861464a83a692e8c7b2ebd7684ca82ad265189acf9eb82e9ca1a9979"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/reservation.json",
+      "bytes": 13662,
+      "sha256": "fb59c3ac6fe2a7992f5008354f19260a1b932804b88cd9486c79a6ae5ed13bfb"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/author-record.json",
+      "bytes": 10843,
+      "sha256": "7423f8ff8a57775a1556f3c2c37036e67471e12279523c5418a00553b658a0e8"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/contract.md",
+      "bytes": 8355,
+      "sha256": "f24c143b12f0c286f4a421700f410e500e680e1d4e3555d1a225eb6cddc69bf2"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/curator-draft-manifest.json",
+      "bytes": 952,
+      "sha256": "733a71dacb760f4f91eb754868383d84c1615e183acae1049784fc8f78d82631"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/dependency-api.d.ts",
+      "bytes": 1405,
+      "sha256": "f4955c8d364520e4bc9ecd213232cd3f2cb9f017102d354acf816001362fdbd8"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/imports.json",
+      "bytes": 486,
+      "sha256": "20add8d5d0ff06ecca675cad50784cbc42375e5d4a8a7aa62b7d305bf7cd6e5c"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/output-data.json",
+      "bytes": 6679,
+      "sha256": "27c384f88b34c4a092322aa7308ce1ff77985a49c91bbc7c8659843f3cf11f6d"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/protocol-schema-data.json",
+      "bytes": 2570,
+      "sha256": "c80b1b80e69229822b31dac4917d533d16110093d4992b19dc169c36fc860c88"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/public-api.d.ts",
+      "bytes": 1623,
+      "sha256": "18a2c30360257258f98c9129ca857784d72da04043e6b0b7f70006e6d5c5280a"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/public-shapes.d.ts",
+      "bytes": 13697,
+      "sha256": "033978f2070e30b60e586cad90ba8fd561ffe2d811af00d04a8536273ecfed1f"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/read-session-context.ts.txt",
+      "bytes": 11537,
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/author-record.json",
+      "bytes": 9121,
+      "sha256": "dd3fdac1f1ddcd05f118b50fc0c8c859f8b82c95ef86091e8e0976dbefa9d439"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/contract.md",
+      "bytes": 3348,
+      "sha256": "daef7633df188b236c153c3e239b24ba5506e3b85b48c9ecfeda96011dad35be"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/curator-draft-manifest.json",
+      "bytes": 905,
+      "sha256": "203ead75c58077e575363f30cbe32fb330999619959a4b5f57275a71205dc282"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/dependency-api.d.ts",
+      "bytes": 221,
+      "sha256": "05a29337f93ee8ebf881030f579b0aed0f8979c5716150c4e86e9b0b0fee0b6f"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/imports.json",
+      "bytes": 256,
+      "sha256": "1c848c0c3fc8cfbcfe73b0a66f0a1e9cc493f0fd86ed3230da6343fcb729a687"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/output-data.json",
+      "bytes": 2474,
+      "sha256": "d0ab9385ef5fd8904cd562e531509628ae4e7405f44a7c9f478c3c7c8547632b"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/public-api.d.ts",
+      "bytes": 315,
+      "sha256": "7b7fdcbc98d3d17d474436f73f878114e4be52f944553ff5f596ef8dd35fb298"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/public-shapes.d.ts",
+      "bytes": 2625,
+      "sha256": "06c105d216875117e70ff8c5864b5905c0c6be74d6d6fa5cdd9fd48fe8007065"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/skills/skills.ts.txt",
+      "bytes": 2127,
+      "sha256": "5d32c11256ec8dc422a4b2278795a0fddd9e696898c4faa41cfc46e67ded61d0"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-owner-packet-20261003/untouched-boundary-bindings.json",
+      "bytes": 4068,
+      "sha256": "2d1296c43ca84cc90be1f7ad82dcdfaec712b4e953cb3d3a99a523c949b5b7cd"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/env-static-v1.json",
+      "bytes": 9151,
+      "sha256": "4a29ab200a8ea3cdc9d4a6077e95076068027071e3a5f9b06faa5ad3d825cf7c"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/minimal-safety-probes.cjs",
+      "bytes": 10526,
+      "sha256": "44d9f7207bb32cf3ddb030082b213832f2a8d307909b11aa15f089681f7b8f0c"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/minimal-safety-v1-results.json",
+      "bytes": 2778,
+      "sha256": "479ef35b10b3ecc11441a7bb026438190262f1f55b2ddfa55d59999817b57a2a"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/parts-static-v1.json",
+      "bytes": 9155,
+      "sha256": "c2e310b782d254e74d04b9b412a9631a109deb72a8276bcfd957323c5fa7c942"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/remaining-inventory.json",
+      "bytes": 11994,
+      "sha256": "3e2cb4f1a8f068608da81f527fc33f2a359845d8267ccf4195f47ead61e6448d"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/retained-data-v1-initial-failure.json",
+      "bytes": 6611,
+      "sha256": "c690a39a900db87ee995a1823b6e553487756e6290fe7bd4ea42c0186191242e"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/retained-data-v1-static.json",
+      "bytes": 6541,
+      "sha256": "5f650d4e9ff529f19b46ecb2b33b02c4efd6f5e3bf49bdab5fbdd72bdc5c1cbc"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/retained-type-expression-qualification.json",
+      "bytes": 1282,
+      "sha256": "85352b2b25154c59e5ec1cbfdaf295e1a6ea2c4d6a1e459e10c4a0db61ef9fba"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/session-static-v1.json",
+      "bytes": 9661,
+      "sha256": "2f9c2f780314028f15fceaf2812fccb2175e4235e61ec4dc1196d6cf83af8979"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/skills-static-v1.json",
+      "bytes": 9170,
+      "sha256": "00fbf2261411a98a74edca50404495e3b32f3685fb13e7d3281869416236b535"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/verify-retained-data-initial-failure.cjs.txt",
+      "bytes": 3318,
+      "sha256": "91fe678f12aabde59ab1ef9e3fb5b4f09d004872face76996464a86d796c93fd"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/verify-retained-data.cjs",
+      "bytes": 3352,
+      "sha256": "fd88f5591701407ed799945a234d2996ee39ea2393445d2bd92074384d6413e9"
+    },
+    {
+      "path": "docs/evidence/core-model-context-session-review-20261003/verify-static.cjs",
+      "bytes": 5153,
+      "sha256": "f0b8b419dd3bc1e7d270a22d67f1825b8dc8ac913cc9aac54d5dba673e45147e"
+    }
+  ],
+  "originalSelectedLines": 686,
+  "draftSelectedLines": 597,
+  "sourceIntegrationDeferred": true,
+  "installedDraftSources": 0,
+  "completeAuthors": 4,
+  "correctedDrafts": 0,
+  "curatorSourcePatches": 0,
+  "minimumSyntheticGroups": 10,
+  "unchangedBoundaryFiles": 23,
+  "retainedExpressionQualifications": [
+    "Template placeholder names and immutable string-label concatenation normalized for required output data; fragment containment is not behavior proof",
+    "Two unused env string declarations remain in original target/frozen data but not required draft output; no fabricated novelty",
+    "Initial retained-data result falsely treated private assistant literal type spelling as runtime expression: full failure and checker retained, original MessageWithParts indexedrole owner used, only static type-literal normalization revised; no source changes or safety/API reruns"
+  ],
+  "curatorExposure": "Selected4/retained13 bodies read after directoryreservation; accepted2 not reread. Selected dependency types parsed mechanically, incidental small model parseModelSelectionValue dependency body read during type snippet and recorded. Complete drafts and full receipts archived before curator bodyreview; initial source+receipt combinedrender truncated middle receipts, all4source bodies visible, skills/parts non-input accounting/manual/exposure fields re-read in bounded form; all25exact input receipts checked by static gate. Earlier broader/source/tool/dependency context remains qualified.",
+  "authorRestrictions": "GPT6.1Sol/high/forknone requested, Fast unchanged/unverified; instruction-only sharedexecutor, receipts selfreports, no OS isolation/accessaudit/cleanseparation/novelty/grant proof. Authors report no known breaches in this batch; prior repaired changes-v2 scratch-write breach remains disclosed.",
+  "ordinaryChecksDeferred": true,
+  "sourceEmittedMatricesDeferred": true,
+  "noActualProviderSessionContextCredentialsNetworkBusinessOperations": true,
+  "materialObligationsClosed": 0,
+  "materialObligationsRemaining": 21,
+  "rootDesktop": "Root implements allocated IPC/remote packet separately; E did not inspect root work or import crosslane sources"
+}
