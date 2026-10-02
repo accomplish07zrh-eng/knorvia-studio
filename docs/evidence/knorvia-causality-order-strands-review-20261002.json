@@ -1,0 +1,167 @@
+{
+  "formatVersion": 1,
+  "baseline": "3bd6e11bafaa1c27bb71fa261979d80ef985f145",
+  "freeze": "4cb150d1f0aa52d7a0ad0ba51fa9ec53e06d1269",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts",
+  "decision": "Retain inherited/unresolved; no production reconstruction",
+  "productionChanges": 0,
+  "sourceExposure": true,
+  "grant": null,
+  "excludedStatuses": {
+    "maySet": "mixed/unresolved",
+    "settlement": "mixed/unresolved"
+  },
+  "publisher": {
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "path": "apps/zcode-cli/packages/dynamic-workflow/src/analysis/causality-order-strands.ts",
+    "blob": "cd8321e11f200a4ceff818bdf3c3d66226086c49",
+    "sha256": "919132d12de90b0b59825637e92bfd35bca89799d63cdc2977dc80c132878861",
+    "bytes": 9272,
+    "verification": "Local exact blob comparison; commit/path association from existing inventory"
+  },
+  "selector": "apps/cli/packages/core/test/causality-order-strands-current.json",
+  "archive": "apps/cli/packages/core/test/causality-order-strands-baseline.json",
+  "scope": [
+    "specs/knorvia-causality-order-strands.md",
+    "apps/cli/packages/core/test/causality-order-strands-baseline.json",
+    "apps/cli/packages/core/test/causality-order-strands-current.json",
+    "apps/cli/packages/core/test/causality-order-strands-contract.json",
+    "apps/cli/packages/core/test/causality-order-strands-fixture.ts",
+    "apps/cli/packages/core/test/causality-order-strands.test.ts",
+    "docs/knorvia-causality-order-strands-review-20261002.md",
+    "docs/evidence/knorvia-causality-order-strands-review-check-20261002.mjs",
+    "docs/evidence/knorvia-causality-order-strands-review-20261002.json"
+  ],
+  "frozenPaths": [
+    "specs/knorvia-causality-order-strands.md",
+    "apps/cli/packages/core/test/causality-order-strands-baseline.json",
+    "apps/cli/packages/core/test/causality-order-strands-current.json",
+    "apps/cli/packages/core/test/causality-order-strands-contract.json",
+    "apps/cli/packages/core/test/causality-order-strands-fixture.ts",
+    "apps/cli/packages/core/test/causality-order-strands.test.ts"
+  ],
+  "files": [
+    {
+      "path": "specs/knorvia-causality-order-strands.md",
+      "sha256": "74a307299f2c5c5ae63e755aabf075ae95227b635d19b86fa627939885ae85a0"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-strands-baseline.json",
+      "sha256": "c1f55bc621e6a5b5f71937592c272024f86d3c366c45a0da76b76faf342742d8"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-strands-current.json",
+      "sha256": "8a9abee12922e74dcfcbfaa93ba3e3e18cd56730dfe56a973777d62b2eb52e1d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-strands-contract.json",
+      "sha256": "725bff67fd3467b1838c6369dd72bdd5cfeaeabc6d4969874069975cc15ad91f"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-strands-fixture.ts",
+      "sha256": "3d21f0e19839fcb140ee31a7e46937357895147462c43db1af14778f459a1d12"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-order-strands.test.ts",
+      "sha256": "6bb9535cd3c1e972e083f0c7dde43b12c9183f2bbdeb82211c7bbdc6bf257e8d"
+    },
+    {
+      "path": "docs/knorvia-causality-order-strands-review-20261002.md",
+      "sha256": "352fd819c0a1c2a38a7f37259e59587242cc94d1d20277bb39cf478f1b5fe708"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-order-strands-review-check-20261002.mjs",
+      "sha256": "ebc03d80b1d712de8a426ebe11d1bf1b4e8a49b325595593c11e672a9e6ffd09"
+    }
+  ],
+  "retainedFunctions": [
+    "currentFrame",
+    "isVisiblySettled",
+    "innermostOpenStrand",
+    "openStrand",
+    "closeStrand",
+    "strandMark",
+    "strandsSince",
+    "bindStrands",
+    "isAsyncFunction",
+    "isPromiseCombinator",
+    "awaitedIdentifiers",
+    "joinStrands"
+  ],
+  "retainedCommentCount": 26,
+  "retainedCommentsSha256": "14f894bb2b392cef171466646b56a069371f5a59b601e6d884fa87f4f9b1a462",
+  "validation": {
+    "sourceGroups": 6,
+    "emittedGroups": 6,
+    "consumerScriptsInsideGroupSix": 3,
+    "awaitPositionExamplesInsideGroupTwo": 6,
+    "partialFailureControlsInsideGroupFour": 3,
+    "selectedArtifactControlsInsideGroupFive": 25,
+    "types": {
+      "compiler": "6.0.2",
+      "ownerRoots": 1,
+      "fixtureRoots": 2,
+      "diagnostics": 0
+    },
+    "productionEmit": false,
+    "ownedLint": {
+      "files": 2,
+      "warnings": 0,
+      "errors": 0
+    },
+    "configuredOwnerLint": {
+      "files": 1,
+      "warnings": 0,
+      "errors": 0
+    },
+    "format": true,
+    "architecture": {
+      "new": 0
+    },
+    "broadSuite": false,
+    "build": false,
+    "nativeAcceptance": false
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-order-strands-freeze-generation.log",
+      "sha256": "477b9b25ed984a82104bcf01585e32d0f091842d3203e9a1a416b04e16f1903b"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-scoped-types.log",
+      "sha256": "bd5c990622a90fe5916ec474bf41f7089ee9fbd61be3d1659e4d1152e82dc63c"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-freeze-source.log",
+      "sha256": "e9312a07be5d7525c86690bc2e72ee6f55c5028a781d4af50f9607973f5aa679"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-freeze-emitted.log",
+      "sha256": "603aa4b4d9f02bfcf9abb2bad5acecb3d6232f4abbc40962cd4d393decf5e989"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-owned-lint.log",
+      "sha256": "3b887536455bbda3f83acb259027e6afb9e7dc09a0f2b33e263dd8a807d177f7"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-configured-lint.log",
+      "sha256": "d3911fa13b03a22b7bcbe7ab6d70415a5138aa6eac3ad661253c0dd4ffe3b284"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-format.log",
+      "sha256": "8ce882fae6ba1e23f402a179c0982efd3eddb7891a6b2772818e59b9f14a3d59"
+    },
+    {
+      "path": "/tmp/knorvia-order-strands-architecture.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "limits": [
+    "No runtime reconstruction or correctness defect proved",
+    "No arbitrary getter or simultaneous-execution claim",
+    "Three consumer scripts overlap focused group six",
+    "No live promises/workflows/providers/data or aggregate/native acceptance",
+    "Current actual compiled artifacts selected; scoped check did not emit or build"
+  ],
+  "nextDecision": "Independent retained-expression/licence review; functions resolution/recursion is an untouched ledger candidate"
+}
