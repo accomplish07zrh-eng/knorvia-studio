@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "/tmp/knorvia-cli-browser-scoped-oxlint-corrected.json",
+    "--disable-nested-config",
+    "--deny-warnings",
+    "apps/cli/packages/adapters/src/browser/index.ts",
+    "apps/cli/packages/adapters/src/browser/session.ts",
+    "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-managed-browser-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-managed-browser-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 28ms on 6 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

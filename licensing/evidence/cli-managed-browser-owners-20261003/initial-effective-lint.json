@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "/tmp/knorvia-cli-browser-scoped-oxlint.json",
+    "--disable-nested-config",
+    "--deny-warnings",
+    "apps/cli/packages/adapters/src/browser/index.ts",
+    "apps/cli/packages/adapters/src/browser/session.ts",
+    "apps/cli/packages/adapters/src/browser/page-command.ts",
+    "apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs"
+  ],
+  "stdout": "\n  ! eslint-plugin-unicorn(no-useless-spread): `Promise.allSettled` accepts an iterable, so it's unnecessary to convert the iterable to an array.\n     ,-[apps/cli/packages/adapters/src/browser/index.ts:376:39]\n 375 |     closing.clear();\n 376 |     await bounded(Promise.allSettled([...admissions.values()]));\n     :                                       ^^^\n 377 |     await bounded(Promise.allSettled([...sessions.values()].map((session) => session.close())));\n     `----\n  help: Consider removing the spread operator.\n\n  x eslint(max-lines): File has too many lines (542).\n     ,-[apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs:552:4]\n 551 |   await runtime.close();\n 552 | });\n     :    ^\n     `----\n  help: Maximum allowed is 400.\n\n  ! eslint(no-unused-vars): Identifier 'fs' is imported but never used.\n   ,-[apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs:2:8]\n 1 | import assert from \"node:assert/strict\";\n 2 | import fs from \"node:fs\";\n   :        ^|\n   :         `-- 'fs' is imported here\n 3 | import vm from \"node:vm\";\n   `----\n  help: Consider removing this import.\n\nFound 2 warnings and 1 error.\nFinished in 21ms on 4 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

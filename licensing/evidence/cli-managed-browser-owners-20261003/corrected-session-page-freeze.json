@@ -1,0 +1,14 @@
+[
+  {
+    "owner": "session",
+    "output": "/tmp/knorvia-cli-browser-session-correction-1.ts",
+    "frozen": "/tmp/knorvia-cli-managed-browser-freezes/session-correction-1.ts",
+    "sha256": "b657986aa53c34e98c772ca9d99d1b65eddde8af53228ea421e2dcb091b4a730"
+  },
+  {
+    "owner": "page-command",
+    "output": "/tmp/knorvia-cli-browser-page-command-correction-1.ts",
+    "frozen": "/tmp/knorvia-cli-managed-browser-freezes/page-command-correction-1.ts",
+    "sha256": "16d48cca6a17edc4c29ff3c358054d6d1290403262de21ddad2a63c834fa06df"
+  }
+]
