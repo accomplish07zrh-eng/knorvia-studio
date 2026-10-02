@@ -1,0 +1,45 @@
+{
+  "baselineCommit": "13b8f25ef1ac338cf34e9b9b9189c25d15beb7b5",
+  "freezeCommit": "64d0478",
+  "portFactsAndFixtureBoundaryCommit": "0955914",
+  "draftCommit": "efd374a",
+  "redProofCommit": "725d8d8",
+  "owner": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+  "privateHelpers": [],
+  "packetAndDraftPins": {
+    "api.d.ts": "39c02aac54eaf37443adfef45018618b56814334aa714f63bbacae8ac4a53baa",
+    "contract.md": "a6063030a53c7d5613bdeb89efaa43ec57cdfb883676c3afbc85d8368e184662",
+    "draft-01/access-journal.json": "d20b3682148ee1edf9bcd1759282c26e70d444960da1872de7ab81715706f6fb",
+    "draft-01/seal.sha256": "30e5f7ef29a660216cff8f9e6776a286190c4dd01b3ba4352a95ee67cee459e8",
+    "draft-01/streaming-tool-ledger.ts": "cf113aab30050bb6801d48c7d67ca79e6eb01fbee0978b691e99fb91029ff296",
+    "imports.d.ts": "9406140c0923939b0bddef4d3b5cf52d67f4741b4029cfab516b7aec3367e4c8",
+    "lineage.json": "28211d5f4b5a19230263af3c859839674aa2e4796bc16638ce0f3bd87581cd20",
+    "port-facts.md": "df9498481f602c0249236e32f8dd34eede10d231bdade0ee77dd9029859a4174",
+    "supporting-api.d.ts": "6774567f065b82a0e9fe1e9665df82c74b66b59c7612332d85aafae3f3a3e0c9"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-streaming-tool-ledger-baseline-20261003.json",
+    "sha256": "c4e5ed649e0cdd42b0f6aeaaf2db99b46cb2a05deeb1d006e001a6d85454d175"
+  },
+  "finalPins": {
+    "src/runtime/helpers/streaming-tool-ledger.ts": "037c246f2f677db43d8c6e7083742069568979c7bb030edbfc9650dec73b8a44",
+    "dist/runtime/helpers/streaming-tool-ledger.js": "d8162b78a71be8d1939914b16ba1f702263451c76ce5b74439bda6c6e4e11428",
+    "dist/runtime/helpers/streaming-tool-ledger.d.ts": "06dfdc2034daf07e629bde41945caccf8443621205009e24ebd6be66650f93ba"
+  },
+  "design": "Complete ledger/anchor payload projection and native append/accepted-array publication from body-free protocol contract. Metadata admission is local to ledger projection; registry remains sole tool owner.",
+  "postDraftCorrections": [
+    "Source-exposed public declaration/default and named constant restoration.",
+    "725d8d8 preserves two\u2192one readOnly reads; final retains original two reads.",
+    "Branded ToolCallId cast restores draft diagnostic without policy change."
+  ],
+  "authorship": "Fresh internal authors fork_turns=none,Sol/high; own body-free source-derived functional/API/import/type packets, declaration-only supplements and recorded messages. Drafts sealed before curator source comparison. Conversation,ledger,coordinator journals disclose incidental sibling agent-status/design/hash summaries; no strict packet-only or absolute clean-room claim. Curator source-exposed; public declarations copied as fixed API and compatibility corrections source-exposed.",
+  "retention": "Fixed APIs/protocol/type vocabulary, ordered payload fields, runtime errors/log/prose, permission predicates, retry bounds and async/promise combinations remain. Ordinary loops/maps/sets/objects/promise glue can match. Ledger/queue and recovery/coordinator phases have strong predecessor structural correspondence; fresh drafting does not establish whole-file expression clearance. Existing attribution/notice obligations unchanged; root independently reviews.",
+  "checks": "Shared scoped types0 diagnostics;20 public call signatures+1literal public constant exact, fixed non-function declaration AST facts equal. One final actual-emitted4write/lifecycle groups+3concrete preserved red observations+1error own-field observation.18 strict current source/JS/dts,5immutable oracles;6source lint94rules0;7format files pass;architecture0. No per-owner multiplied case totals.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplication/full runtime consumer launches deferred per user speed cadence.",
+    "Conversation has only its concrete red observation,no general pure projection replay; eligibility/execution and partial recovery success paths statically reviewed,not fully exercised.",
+    "Transitive unchanged workspace dependencies via tsx,not all-emitted. Selected historical ledger/recovery bindings explicitly rebound for predecessor comparisons; raw archives unchanged.",
+    "Root expression/correctness/licence and aggregate acceptance pending; no header/global inventory/MIT or publication grant.",
+    "Freshness fetch blocked configured proxy8080;no access/settings bypass."
+  ]
+}
