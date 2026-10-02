@@ -1,0 +1,353 @@
+{
+  "baseline": "f13bf0d5bf25eca17be4d1b6efbc875b55abdbfa",
+  "origin": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "selectedNewOwners": [],
+  "decision": "Return precise bounded remainder for root allocation; no new author cycle or cosmetic implementation change.",
+  "basis": {
+    "path": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+    "sha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+    "coreTypescriptFiles": 612,
+    "priorMetadataRecords": 97,
+    "snapshotBaseline": "735395542692589c572bd5c0941b27ce872f92de",
+    "coreSourceDiffSinceSnapshot": [
+      "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts"
+    ],
+    "onlyChangedSourceAlreadyRecordedAt": "b5c932451925e02d8916e13095ceea8de24c7447"
+  },
+  "protectedOrCompleted": [
+    "A model/turn/runtime/permission/trust",
+    "Completed memory/context/session-context/workflow/plugin-reference/prompt queues",
+    "Root exclusive desktop platform/host/about/menu",
+    "B renderer/G model adapters"
+  ],
+  "allocationGroups": [
+    {
+      "id": "session_hydration",
+      "reason": "Requires exact A/context/history/media/read-state allocation; read-state hydrator imports session-history and existing read-file-state ports. Prior context packet names an untouched boundary, not accepted replacement proof.",
+      "targets": [
+        {
+          "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+          "bytes": 5921,
+          "lines": 181,
+          "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/agent/file-part-hydration.ts",
+            "blob": "c57aa0c9e04f02d387d01d9e8c0ad22a36975f2c",
+            "normalizedSha256": "cb49c397d0cdaa1c5cbbeafd97d32773e03320949d4f8bb3d841062f762cc401",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+          "bytes": 6011,
+          "lines": 183,
+          "sha256": "1b4a8d1acc994ed2717f8d403f8dc4e23b0f8242fe8bbf91a14e6799a3fd2488",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/agent/read-file-state-hydrator.ts",
+            "blob": "67670d690769aefed10a7857d81574e5b691a526",
+            "normalizedSha256": "f534a2975df54fc3f704a83b8cfaaae8ac835d828f2fac095904d0760897fe4e",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+          "bytes": 20974,
+          "lines": 589,
+          "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/agent/session-history-hydrator.ts",
+            "blob": "220dc62d0edbb48490ef41fd1c4bccdbc657d850",
+            "normalizedSha256": "2243d9df782a0e139be3d84162058358e33f9a182d407afb221656f35c3e0d31",
+            "contentMatchedPaths": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "subagent_profile_policy",
+      "reason": "Profile composes built-in explore/general-purpose, tool policy and model-selection ports; runner is2142lines and sits on subagent runtime/permission ownership. No E allocation inferred. Shared profile-frontmatter parser is retained as configuration/common helper.",
+      "targets": [
+        {
+          "path": "apps/cli/packages/core/src/subagent/profile.ts",
+          "bytes": 12527,
+          "lines": 351,
+          "sha256": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/subagent/profile.ts",
+            "blob": "4044279c9110f7d94ea80d1bffb5826a3bedd391",
+            "normalizedSha256": "0689767ec24156d52bc2595b55872d35ba6a9ba1b1b2319ac851dd46c033d1f3",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "path": "apps/cli/packages/core/src/subagent/runner.ts",
+          "bytes": 68642,
+          "lines": 2142,
+          "sha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/subagent/runner.ts",
+            "blob": "d327f8b1a3aa37a2d26362c3f196cab94a0c2675",
+            "normalizedSha256": "acbd362bc6e0556c65cb27722ddb0f0ccf1f82328f7184725574e651cdb884e7",
+            "contentMatchedPaths": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "runtime_task_admission",
+      "reason": "Registry exports RuntimeTaskRegistry/InMemoryRuntimeTaskRegistry and task-state helpers; notifications consume registry and fixed workflow copy. Requires runtime/queue/workflow allocation, not duplicate completed queues.",
+      "targets": [
+        {
+          "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+          "bytes": 9112,
+          "lines": 287,
+          "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+            "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+            "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+          "bytes": 21056,
+          "lines": 420,
+          "sha256": "6438eef51c94a13b8377c67d088a7d28236e40ab590b14b559d44ac5fc29163b",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/runtime-task/notification.ts",
+            "blob": "2686ae185ed00a2b63ff530fd96f14deda74f18f",
+            "normalizedSha256": "162cd5d71141f9eb9de87cf06ee0229b9899af114a30b55033702a850372ce01",
+            "contentMatchedPaths": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "mcp_frame_and_visibility",
+      "reason": "Bridge imports tool visibility/registry and CUA frame contract; image normalization imports CUA authority/image processing context. Requires explicit tool/provider/frame allocation. Previously screened helper/original projections retained.",
+      "targets": [
+        {
+          "path": "apps/cli/packages/core/src/mcp/index.ts",
+          "bytes": 16207,
+          "lines": 410,
+          "sha256": "0b819ddfa17c664ac432c9fcdcff2dcb46bd35a2af63e03183e86193449b5f58",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/mcp/index.ts",
+            "blob": "01ce6820957bfbf50fd576ce544c380c9a454fe3",
+            "normalizedSha256": "dc1040c3151f0f4ec16a3c63318ba7607a86fa4ac6b0dcf23b453dbfe5936d17",
+            "contentMatchedPaths": []
+          }
+        },
+        {
+          "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+          "bytes": 14567,
+          "lines": 412,
+          "sha256": "8e959fc63c11d0b02149a50ca20250088a5547e77cdef87e237033903ef71032",
+          "exactPriorSourceRecords": [],
+          "inventoryClassification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "apps/zcode-cli/packages/core/src/mcp/image-normalization.ts",
+            "blob": "6d40c395a2fbbffeffceba1d01eda60341485f3f",
+            "normalizedSha256": "00b765bcca31f6181eeb10dcb5f81709c8f3040bcad170bc3cc99684bdaaf54f",
+            "contentMatchedPaths": []
+          }
+        }
+      ]
+    }
+  ],
+  "publicImportExportMetadata": [
+    {
+      "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "imports": [
+        "@knorvia/shared",
+        "@knorvia/contracts"
+      ],
+      "exports": [
+        "filePartToContentBlock",
+        "projectPersistedToolMediaContent"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "imports": [
+        "@knorvia/contracts",
+        "../tool/read-file-state-metadata.js",
+        "../tool/read-file-state.js",
+        "../tool/types.js",
+        "./session-history-hydrator.js"
+      ],
+      "exports": [
+        "ReadFileStateHydrationResult",
+        "hydrateReadFileStateFromSession"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile-frontmatter.ts",
+      "imports": [],
+      "exports": [
+        "splitMarkdownFrontmatter",
+        "parseAgentFrontmatter"
+      ],
+      "decision": "retain common/config parser surface; not selected as a count-forcing owner"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile.ts",
+      "imports": [
+        "node:path",
+        "./general-purpose.js",
+        "./explore.js",
+        "./explore-tools.js",
+        "./profile-frontmatter.js",
+        "./tool-policy.js",
+        "@knorvia/shared",
+        "./profile-model-selection.js"
+      ],
+      "decision": "profile model/permission-policy composition requires allocation"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "imports": [
+        "@knorvia/contracts"
+      ],
+      "exports": [
+        "RuntimeTaskType",
+        "RuntimeTaskUsageSnapshot",
+        "RuntimeTaskPendingMessage",
+        "RuntimeTaskMessageSink",
+        "RuntimeTaskSnapshot",
+        "RuntimeTaskRegistry",
+        "InMemoryRuntimeTaskRegistry",
+        "isTerminalRuntimeTask",
+        "hasRunningBackgroundRuntimeTask"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/notification.ts",
+      "imports": [
+        "@knorvia/contracts",
+        "./registry.js",
+        "./workflow-notification-copy.js"
+      ],
+      "exports": [
+        "TaskNotificationInput",
+        "formatTaskNotification",
+        "truncateTaskNotification",
+        "escapeXml"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/index.ts",
+      "imports": [
+        "@knorvia/contracts",
+        "@knorvia/shared",
+        "@knorvia/cua/frame-contract",
+        "../tool/registry.js",
+        "../tool/types.js",
+        "../tool/tool-visibility.js",
+        "./image-normalization.js",
+        "./name.js",
+        "./windows-computer-use.js",
+        "./result-format.js"
+      ],
+      "exports": [
+        "RegisterMcpToolsOptions",
+        "registerMcpTools",
+        "McpToolOutputJsonSchema"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "imports": [
+        "node:path",
+        "@knorvia/contracts",
+        "@knorvia/cua/frame-contract",
+        "../tool/types.js"
+      ],
+      "exports": [
+        "MCP_IMAGE_INLINE_BASE64_BYTES",
+        "MCP_IMAGE_INLINE_RAW_BYTES",
+        "HOST_NODE_REPL_IMAGE_MAX_DIMENSION",
+        "normalizeMcpToolResultForModel",
+        "hasOfficialCuaFrameAuthority",
+        "asDataUrl",
+        "base64PayloadFromMcpImageData"
+      ]
+    },
+    {
+      "path": "apps/cli/packages/core/src/index.ts",
+      "imports": [],
+      "namedDeclarationExports": [],
+      "decision": "192-line public re-export facade, retain; no substantive local declaration owner identified"
+    }
+  ],
+  "otherRemainder": {
+    "tool": {
+      "files": 233,
+      "inventoryFlags": {
+        "upstream-unchanged": 45,
+        "upstream-modified": 98,
+        "independent-replacement": 90
+      },
+      "decision": "Needs root lane-aware allocation; mixed protected executor/permission/runtime, existing replacements, helpers and handlers; exact612ledger contains all paths/hashes."
+    },
+    "repl": {
+      "files": 10,
+      "inventoryFlag": "independent-replacement",
+      "focusHistory": {
+        "path": "apps/cli/packages/core/src/repl/cell-compiler.ts",
+        "commit": "d64e20f7476f44f17da1c68fb6b8a56b41517199",
+        "subject": "feat: track file provenance and independently implement the REPL cell compiler"
+      },
+      "decision": "Retain recorded existing reconstruction; no repeated authorship or grant assertion."
+    },
+    "browser-client": {
+      "files": 31,
+      "inventoryFlag": "independent-replacement",
+      "focusHistory": [
+        {
+          "path": "apps/cli/packages/core/src/browser-client/documentation.ts",
+          "commit": "ce21790f6eed9c6802a22870e2193db4c0cbd85b",
+          "subject": "feat: independently implement scoped browser documentation"
+        },
+        {
+          "path": "apps/cli/packages/core/src/browser-client/api-catalog.ts",
+          "commit": "9bc6619fb8d16da8cfdb13f493630c933cda3645",
+          "subject": "feat: independently implement browser selection and API visibility"
+        }
+      ],
+      "decision": "Retain recorded existing reconstruction; full semantic/origin/rights acceptance not inferred from flags/history."
+    }
+  },
+  "receiptFollowup": "Bounded targeted metadata search found only prior context untouched-boundary file for hydration/profile/runtime-task focus paths, no accepted source record. This absence is not sole inheritance/origin evidence.",
+  "sourceExposure": "Curator already source-exposed with prior broader/tool/dependency context and repaired scratch-write breach. This turn reused source hashes and inspected only top-level imports/export names via AST for9files; no implementation bodies displayed or executed. Shared executor instruction-only/no OS isolation/access audit/separation/novelty/rights assertion.",
+  "requestedConfig": "Sol/high; saved Fast unchanged/unverified; no new authors spawned.",
+  "ordinaryChecksDeferred": true,
+  "noBusinessIo": true,
+  "materialObligationsOpen": 21
+}
