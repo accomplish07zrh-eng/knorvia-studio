@@ -1,0 +1,24 @@
+{
+  "scope": "history-v2",
+  "files": [
+    {
+      "file": "session-history-hydrator.ts.txt",
+      "target": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "bytes": 13191,
+      "lines": 289,
+      "sha256": "458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f",
+      "scratch": "/tmp/knorvia-hydration-owner-20261003/history-v2/session-history-hydrator.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 28197,
+      "lines": 511,
+      "sha256": "e72afe57837ef5b0fccc56469ac3281617cf08865083f18862e40a7f50899fa3",
+      "scratch": "/tmp/knorvia-hydration-owner-20261003/history-v2/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "New complete same-author source and full cumulative receipt archived before body review; original draft/receipt/failure retained; no curator source patch."
+}
