@@ -1,0 +1,229 @@
+{
+  "formatVersion": 1,
+  "baseline": "dc97ed2f0ce6961c35f3b80c72f07744e478ffbb",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+    "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+    "apps/cli/packages/core/test/causality-reduction-current.json",
+    "apps/cli/packages/core/test/causality-reduction-declaration-baseline.json",
+    "apps/cli/packages/core/test/causality-reduction-documentation-proof.ts",
+    "apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+    "specs/knorvia-causality-reduction-documentation.md",
+    "docs/knorvia-causality-reduction-documentation-handoff-20261001.md",
+    "docs/evidence/knorvia-causality-reduction-documentation-check-20261001.mjs",
+    "docs/evidence/knorvia-causality-reduction-documentation-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/causality-reduce.ts",
+      "bytes": 4192,
+      "sha256": "ea28054d36b42d1f3f008ba655c8a73b3530a376f8dcbbcc0b2e7c8399af799d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-fixture.ts",
+      "bytes": 9014,
+      "sha256": "62eb7931f74a98c1a017c0bdbf129f963dd8c3c36e6f0a587f18e5bded43c55e"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-current.json",
+      "bytes": 267,
+      "sha256": "237652ac4b07e7faebc75d044014974a566b257e158735fde59265348f1f61e1"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-declaration-baseline.json",
+      "bytes": 4631,
+      "sha256": "80bdeda7b0a4924209d77e865a2b48c8cbac300a498860f505fe58334398e41b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-documentation-proof.ts",
+      "bytes": 2761,
+      "sha256": "5979a5bdcf2aee72f8688e08a784d371c22f14ba83f70c4d164decade9f7786d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/causality-reduction-documentation.test.ts",
+      "bytes": 5094,
+      "sha256": "3209390ac02babb982e968ca969563eb8c938a26b4057973e92c62774323ecd8"
+    },
+    {
+      "path": "specs/knorvia-causality-reduction-documentation.md",
+      "bytes": 1909,
+      "sha256": "2719187b9af62f3824445d2e7c592bdb46f0e05e155ef132180865f72cec1a28"
+    },
+    {
+      "path": "docs/knorvia-causality-reduction-documentation-handoff-20261001.md",
+      "bytes": 3573,
+      "sha256": "e070e73d8398bfb359f6561096dfb204a3e2619c0b56c77732547a58d4a4b2bb"
+    },
+    {
+      "path": "docs/evidence/knorvia-causality-reduction-documentation-check-20261001.mjs",
+      "bytes": 4791,
+      "sha256": "3d36309c70cb914394eb5e753d5a1c011002595ef97b742ee78c9df0015cf27b"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.js",
+      "bytes": 3915,
+      "sha256": "c94096b9112f4827842aaaf9eb4f541892a8347b384faf251ff47dde399ad97c"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.d.ts",
+      "bytes": 1040,
+      "sha256": "ea2b93a79cd12bdb0aa120b57009a5cec3930b310409e9b13e7907a75c7a738b"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/causality-reduce.d.ts.map",
+      "bytes": 573,
+      "sha256": "c88577dbaf0f3cabe1a438aa9bd520d780beaf82313ae9b04cf8103550d4eec8"
+    }
+  ],
+  "unchanged": [
+    "apps/cli/packages/core/test/causality-reduction-baseline.json",
+    "apps/cli/packages/core/test/causality-reduction-contract.json",
+    "apps/cli/packages/core/test/causality-reduction.test.ts",
+    "specs/knorvia-causality-reduction-owner.md",
+    "docs/knorvia-causality-reduction-handoff-20261001.md",
+    "docs/evidence/knorvia-causality-reduction-check-20261001.mjs",
+    "docs/evidence/knorvia-causality-reduction-20261001.json"
+  ],
+  "documentation": {
+    "replacedCommentIndices": [0, 1, 2, 4],
+    "exactSurgicalReplacement": true,
+    "sourceSyntaxSha256": "41286043909b12b4414a031b7891b2551c30eb1a8898dfd06f700a5deeae66a5",
+    "emittedSyntaxSha256": "fce1e848aa96b8585c75cbf203355e108c80366c11e4f420e398b522f7e59735",
+    "declarationSyntaxSha256": "899ea3255dea184c83a82b3f6ec86e74ebd379874e5338e111c14809c729ba0c",
+    "historicalDeclarationSha256": "347f2cacda781da42d0b1d9b7a6857d316f63d65f001837986784676357f74e5",
+    "historicalProofSha256": "80bdeda7b0a4924209d77e865a2b48c8cbac300a498860f505fe58334398e41b",
+    "method": "TypeScript parsed syntax tree excluding JSDoc; separate parser-token comment inventory. Reconstruct pre-documentation JS and declaration in memory with unchanged compiler config and historical source overlay; require exact pinned bytes."
+  },
+  "comments": {
+    "source": [
+      "/**\n * Reduce ordering graphs using edge-kind strength. Data and control have equal\n * witness strength, followed by fifo and seq. Carry edges represent one iteration\n * boundary and are tested separately from forward edges.\n */",
+      "/** Ordered-pair deduplication ranks; witness eligibility uses separate rules. */",
+      "/** Forward kind used to judge a carry witness; omitted values use data. */",
+      "// Witness strength is separate from the public dedup rank.",
+      "/**\n * Visit forward edges in input order, then carry edges, removing candidates with\n * surviving eligible witnesses. Return original edge references in input order;\n * shared input references share deletion decisions. Inputs are not modified.\n */",
+      "// Input occurrences retain their order; aliases share only the liveness decision.",
+      "// Multi-source forward closure, optionally excluding the candidate's direct pair.",
+      "// A bridge joins two forward closures; no second carry can enter either closure."
+    ],
+    "emitted": [
+      "/**\n * Reduce ordering graphs using edge-kind strength. Data and control have equal\n * witness strength, followed by fifo and seq. Carry edges represent one iteration\n * boundary and are tested separately from forward edges.\n */",
+      "/** Ordered-pair deduplication ranks; witness eligibility uses separate rules. */",
+      "// Witness strength is separate from the public dedup rank.",
+      "/**\n * Visit forward edges in input order, then carry edges, removing candidates with\n * surviving eligible witnesses. Return original edge references in input order;\n * shared input references share deletion decisions. Inputs are not modified.\n */",
+      "// Input occurrences retain their order; aliases share only the liveness decision.",
+      "// Multi-source forward closure, optionally excluding the candidate's direct pair.",
+      "// A bridge joins two forward closures; no second carry can enter either closure."
+    ],
+    "declaration": [
+      "/**\n * Reduce ordering graphs using edge-kind strength. Data and control have equal\n * witness strength, followed by fifo and seq. Carry edges represent one iteration\n * boundary and are tested separately from forward edges.\n */",
+      "/** Ordered-pair deduplication ranks; witness eligibility uses separate rules. */",
+      "/** Forward kind used to judge a carry witness; omitted values use data. */",
+      "/**\n * Visit forward edges in input order, then carry edges, removing candidates with\n * surviving eligible witnesses. Return original edge references in input order;\n * shared input references share deletion decisions. Inputs are not modified.\n */",
+      "//# sourceMappingURL=causality-reduce.d.ts.map"
+    ]
+  },
+  "checks": {
+    "source": {
+      "groups": 4,
+      "pass": 4,
+      "fail": 0
+    },
+    "emitted": {
+      "groups": 4,
+      "pass": 4,
+      "fail": 0
+    },
+    "overlap": "The same three documentary groups and unchanged export/loader group run in both modes; four unique groups. Other reducer/quotient groups not rerun.",
+    "controls": [
+      "Exact historical declaration integrity; wrong/missing proof fails closed",
+      "Exact current source/JS/declaration pins; wrong/missing artifacts fail closed",
+      "Code/type/template-runtime-text changes fail syntax identity; comment-only changes preserve shape",
+      "All current comments enumerated, including positive control after a template literal"
+    ],
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "coreTestRoots": 4,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "diagnostics": 0,
+      "scope": "Reducer JS/declaration/map only; original dynamic-workflow config"
+    },
+    "lint": {
+      "configuredSourceFiles": 1,
+      "ownedTypeScriptFiles": 4,
+      "errors": 0,
+      "warnings": 0,
+      "rules": 94
+    },
+    "format": "ten owned files checked before commit",
+    "architecture": "owned changed check before commit; no new violations",
+    "failure": "Preserved historical-reconstruction module-context harness failure; corrected to package-aware program and memory-only emission. No product assertion changes."
+  },
+  "preservedFailure": {
+    "stage": "initial scoped type harness before freeze",
+    "cause": "Dynamic-workflow package config incorrectly used for core utilities/tests; rootDir/library diagnostics, not reducer behavior",
+    "correction": "Isolated fixture and separate per-owner type programs; no repository config or test assertion weakening",
+    "log": {
+      "path": "/tmp/knorvia-reduction-freeze-types.log",
+      "sha256": "e0049be81dba12fc67bdd080b78f7e4618a095aa0cebff6298ac3a8a4609f53b"
+    }
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-reduction-documentation-emit.log",
+      "bytes": 394,
+      "sha256": "aff1923367a9c6462ec0cb828e6bdccb5615de64d41e28069f18fc001e1ceddf"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-documentation-source.log",
+      "bytes": 526,
+      "sha256": "598b7a4d7f4820bc0313780a7fc6d8abc37e8e64277c417a263da0866ec7c967"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-documentation-emitted.log",
+      "bytes": 527,
+      "sha256": "4b55712ffd31d488885438a90dc1c1ebb938fb8a3d134ec5d6e24c7bdf7311c2"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-documentation-types.log",
+      "bytes": 340,
+      "sha256": "4c78bdbdf36d85566c0dedf5b80b2ec0876cfde417c4025476e69a3c906d9f62"
+    },
+    {
+      "path": "/tmp/knorvia-reduction-documentation-lint.log",
+      "bytes": 179,
+      "sha256": "afa9e037e951ce1cdf264c3dce398268d0aeb749fb139894a94fddb70d58a3c1"
+    }
+  ],
+  "commands": [
+    "node --import tsx --test --test-name-pattern='documentation|public exports/declarations' apps/cli/packages/core/test/causality-reduction-documentation.test.ts apps/cli/packages/core/test/causality-reduction.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test --test-name-pattern='documentation|public exports/declarations' apps/cli/packages/core/test/causality-reduction-documentation.test.ts apps/cli/packages/core/test/causality-reduction.test.ts",
+    "node --import tsx docs/evidence/knorvia-causality-reduction-documentation-check-20261001.mjs"
+  ],
+  "retained": {
+    "sourceExposure": true,
+    "currentProse": "Four newly written public factual descriptions; four factual private comments from the prior algorithm checkpoint. No old discretionary narrative remains in current owner comments.",
+    "compatibility": "Fixed public interfaces/generic signature/field labels, KIND_RANK, eligibility Sets, carryOf default and ordinary Map/Set/queue idioms remain. Source executable bytes outside four comments are unchanged.",
+    "history": "Existing compiled oracle and historical declaration retain inherited implementation/prose as attributed evidence; all old baseline assertions/digests/receipts unchanged.",
+    "rights": "No licence header/registry decision/grant. Contributor/notice obligations remain; root owns final expression/rights review."
+  },
+  "limits": [
+    "No nine-group behavioral rerun, quotient regression, full product suite or aggregate build",
+    "No native/Windows/browser acceptance; root owns aggregate/native checks",
+    "No graph bounds/fold/pin, runtime/Host, other-lane, licensing/dependency/CI/security/settings changes",
+    "No real graph/workflow/provider/network/user data or credential effects"
+  ],
+  "documentaryFailure": {
+    "stage": "Initial evidence reconstruction",
+    "cause": "Isolated transpileModule lacked package NodeNext module context and failed exact historical JS digest",
+    "correction": "Package-aware compiler program with historical source overlay and memory-only output, unchanged config and exact digest assertions",
+    "path": "/tmp/knorvia-reduction-documentation-digest-failure.log",
+    "sha256": "c5fc15adf8ed005ea4eddcf2b24e489c0e09bca3e2ddaa4a04e89baf18c691c8"
+  }
+}

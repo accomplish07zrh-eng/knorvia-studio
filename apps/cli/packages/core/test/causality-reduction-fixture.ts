@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import dns from "node:dns";
+import { assertDeclarationShape } from "./causality-reduction-documentation-proof.js";
 export const sha = (value: string) => createHash("sha256").update(value).digest("hex");
 const emitted = process.env.KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED === "1";
 const forbiddenNetwork = () => {
@@ -32,7 +33,10 @@ export async function loadCurrent(readArtifact = read) {
     ["dist/analysis/causality-reduce.d.ts", pins.declarationSha256],
   ])
     assert.equal(sha(await readArtifact(new URL(path, root))), pin, path);
-  assert.equal(pins.declarationSha256, archive.declarationSha256);
+  await assertDeclarationShape(
+    await readArtifact(new URL("dist/analysis/causality-reduce.d.ts", root)),
+    archive.declarationSha256,
+  );
   return dynamic("analysis/causality-reduce");
 }
 export const current = await loadCurrent();

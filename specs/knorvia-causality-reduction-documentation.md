@@ -1,0 +1,9 @@
+# Reducer documentation boundary
+
+Baseline `dc97ed2f0ce6961c35f3b80c72f07744e478ffbb`. Change only the reducer's opening description and KIND_RANK, carryOf and reduceOrdering JSDoc. Describe present behavior concisely; remove the inherited repair narrative and explanatory prose. Preserve all executable tokens, kind eligibility/rank literals, public API shape and runtime strings. Inspect every remaining comment through parsed token boundaries, including comments following template literals.
+
+Keep the existing compiled oracle, baseline digests, behavioral assertions, old receipts and graph files untouched. Capture the exact historical declaration separately, bound to its existing SHA256. Record pre-documentation source/emitted/declaration syntax fingerprints. Current artifact pins continue to require exact current source/JS/declaration bytes. Replace only the fixture's documentary byte-equality assumption with historical-declaration integrity and parsed API-shape equality; wrong or missing artifacts must still fail closed.
+
+The proof is test-only and has no runtime owner or effects. Use the TypeScript parser to compare complete syntax trees excluding JSDoc, not a regular-expression comment stripper. Inventory parser-attached leading/trailing comment ranges separately; syntax equality alone is insufficient. Include small positive/negative controls for documentation, type/code changes, corrupted/missing artifacts and comments adjacent to template literals.
+
+Run only the declaration/loader/documentation groups in source and actual-emitted modes, scoped owner/test type checks, allowlisted reducer emission, owned/configured lint, formatting and architecture. No repeated reducer behavior groups, broad suites or builds. Retained fixed interfaces, kind sets and conventional implementation glue remain disclosed; historical prose remains evidence, and root owns any final rights decision.
