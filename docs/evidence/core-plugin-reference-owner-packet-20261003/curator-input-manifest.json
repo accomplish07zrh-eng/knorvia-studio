@@ -35,9 +35,27 @@
           "path": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/output-data.json",
           "bytes": 1010,
           "sha256": "c3e1c23aceeb774eb764b45ff217590499c9621e3121526013e8e2361f229a40"
+        },
+        {
+          "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-scaling-review.md",
+          "bytes": 1420,
+          "sha256": "390b8f8ce9ce08d1150aa96b303bb759fe9cacd921bb74149e75e8457a071ec7"
+        },
+        {
+          "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/catalog.ts",
+          "archivedAs": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/catalog.ts.txt",
+          "bytes": 1692,
+          "sha256": "7af928b54e007bf0be45d3334be6dd38fa3a0031c7ea270f6089e08125c13dd4"
+        },
+        {
+          "path": "/tmp/knorvia-plugin-reference-owners-20261003/catalog/author-record.json",
+          "archivedAs": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog/author-record.json",
+          "bytes": 8446,
+          "sha256": "59e3fe0a63e205d916f265b0a962782ee7b504da715791f2d938c55c82d51b61"
         }
       ],
-      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/catalog"
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/catalog-v2",
+      "archiveDirectory": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2"
     },
     "references": {
       "source": "apps/cli/packages/core/src/plugin-reference/references.ts",

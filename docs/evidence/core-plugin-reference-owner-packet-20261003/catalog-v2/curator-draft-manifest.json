@@ -1,0 +1,25 @@
+{
+  "scope": "catalog",
+  "utc": "2026-10-02T22:19:58.133850+00:00",
+  "files": [
+    {
+      "file": "catalog.ts.txt",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/catalog-v2/catalog.ts",
+      "target": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "bytes": 2201,
+      "lines": 78,
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-plugin-reference-owners-20261003/catalog-v2/author-record.json",
+      "bytes": 13925,
+      "lines": 212,
+      "sha256": "785f4288f883855093b3fee9a14831bda7eb568fca00f4230a453388b9090d5b",
+      "mode": "444"
+    }
+  ],
+  "originalArchive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog",
+  "qualification": "Full complete same-author scaling correction and receipt frozen and archived before v2 body review; original fullsource/receipt/manual finding preserved; no curator source patch/performance suite/business inventory."
+}
