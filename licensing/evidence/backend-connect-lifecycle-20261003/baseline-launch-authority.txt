@@ -1,0 +1,21 @@
+[synthetic-connect] detecting remote env...
+[synthetic-connect] detected: { platform: 'synthetic-platform', arch: 'synthetic-arch' }
+[synthetic-connect] launching remote server...
+[synthetic-connect] remote server exec started
+[synthetic-connect] performing handshake...
+[synthetic-connect] handshake done, server version: synthetic
+[synthetic-connect] detecting remote env...
+[synthetic-connect] detected: { platform: 'synthetic-platform', arch: 'synthetic-arch' }
+[synthetic-connect] launching remote server...
+[synthetic-connect] remote server exec started
+[synthetic-connect] performing handshake...
+[synthetic-connect] handshake done, server version: synthetic
+✔ launch proxy assignments retain the existing authoritative admission guard (16.646599ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 70.559775

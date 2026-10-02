@@ -7,12 +7,11 @@ export async function createRemoteBackend(target: RemoteTarget): Promise<IRemote
   switch (target.kind) {
     case "ssh": {
       const { SSHBackend } = await import("./ssh-backend.js");
-      let privateKey: string | Buffer | undefined;
+      let privateKey: Buffer | undefined;
       if (target.privateKeyPath) {
         const keyPath = target.privateKeyPath.replace(/^~/, homedir());
         privateKey = await readFile(keyPath);
       }
-
       return new SSHBackend({
         host: target.host,
         port: target.port,
