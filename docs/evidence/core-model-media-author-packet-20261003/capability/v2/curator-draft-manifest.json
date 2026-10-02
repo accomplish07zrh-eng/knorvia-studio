@@ -1,0 +1,37 @@
+{
+  "archivedAtUtc": "2026-10-02T19:55:22.998848+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "25ee17f8",
+  "correctionInputsCommit": "bbab3a07",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/capability/imports.json",
+      "bytes": 2608,
+      "sha256": "e23dde99120eba962c98fd65a5d9e2b9c23a15e5d69702abf5a7e4c2d603faff"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/capability/log-fields-qualification.json",
+      "bytes": 709,
+      "sha256": "e2a7dc5727a8a08cdb07a0edd966e297cbc191e35718f9d16beb3a0e54323e5d"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/capability/correction-qualification.md",
+      "bytes": 1244,
+      "sha256": "675b1614b87c77b7b406bd2e538b9d5832973b5e09c647493cfa99363c933875"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-capability.ts.txt",
+      "bytes": 5664,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10331,
+      "sha256": "697595883b7b9b443d6fe39c9509baa9c6eb6da439235e1a2c15085704635311"
+    }
+  ]
+}

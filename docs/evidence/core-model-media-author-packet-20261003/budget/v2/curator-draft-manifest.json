@@ -1,0 +1,32 @@
+{
+  "archivedAtUtc": "2026-10-02T19:55:22.998376+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "sameAuthorCorrection": true,
+  "originalArchiveCommit": "25ee17f8",
+  "correctionInputsCommit": "bbab3a07",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/budget/imports.json",
+      "bytes": 3118,
+      "sha256": "c7bc53ea494974a30c8f8221c26d6112e6906154c82eaab4d68e7191906e7703"
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/budget/correction-qualification.md",
+      "bytes": 726,
+      "sha256": "8c08fa52bac21d54af4de0f833358bbc94d00cd7439c5b3bc8c275aa57af7de4"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-budget.ts.txt",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 8798,
+      "sha256": "a8df81fa954d6a4a0babb31f472dfdc99054a3f8718d4fd69060d23e0c2e4af1"
+    }
+  ]
+}
