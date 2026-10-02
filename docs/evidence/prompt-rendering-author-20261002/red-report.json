@@ -1,0 +1,7 @@
+{
+  "kind": "concrete report artifact bytes: historical emitted vs transpiled original draft",
+  "baseline": "# Workflow Report\n\nRun: owned\nTask: Owned task\nStatus: pending\nDirectory: owned\nCreated: owned-time\nUpdated: owned-time\n\n## Phases\n\n\n## Activities\n\n\n## Artifacts\n\n",
+  "draft": "# Workflow Report\n\nRun: owned\nTask: Owned task\nStatus: pending\nDirectory: owned\nCreated: owned-time\nUpdated: owned-time\n\n## Phases\n\n\n\n## Activities\n\n\n\n## Artifacts\n\n\n",
+  "baselineBytes": 163,
+  "draftBytes": 166
+}
