@@ -1,0 +1,39 @@
+{
+  "scope": "media",
+  "source": {
+    "path": "docs/evidence/core-hydration-owner-packet-20261003/media/file-part-hydration.ts.txt",
+    "bytes": 4739,
+    "sha256": "01c5a7b27cda2e2e1b56a874654847ae90d8430983fea7cc21258516bcb1200a"
+  },
+  "required": [
+    "image",
+    "video/",
+    "video",
+    "file",
+    "application/pdf",
+    "text/",
+    "text",
+    "local_ref",
+    "symbol",
+    "[Attached ",
+    ": ",
+    "]",
+    "attachment",
+    "inline",
+    "resource",
+    "local_file",
+    "image/*",
+    "image/",
+    ";",
+    ",",
+    "data:",
+    "image/png"
+  ],
+  "patterns": [
+    "/^data:([^;,]+)(?:;base64)?,/i"
+  ],
+  "missing": [],
+  "missingPatterns": [],
+  "passed": true,
+  "qualification": "Static value/fragment/pattern retention only; import identities separately checked, native typeof guard strings excluded from output obligations. No runtime equivalence, source novelty, semantic compilation, dependency execution or material rights claim."
+}

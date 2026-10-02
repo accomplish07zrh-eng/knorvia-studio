@@ -23,7 +23,7 @@ function file(id, extra = {}) { return { id, type:'file', sessionID:'synthetic',
 function historyPorts() {
   const events = [], mediaCalls = [], options = { selected:undefined, compacted:undefined, tools:undefined, usage:false, presentation:undefined };
   const known = new Set(['task_status','queued_system_notification','todo_reminder','target_continuation','rewind_notice','prompt_attachment','tool_result_warning','incoming_message']);
-  const runtime = source => ({ source });
+  const runtime = source => { events.push(['metadata',source]); return { source }; };
   const append = { addEntries(entries) { assert.equal(this, append); events.push(['entries', entries]); }, addAttachment(source,text) { assert.equal(this,append); events.push(['attachment',source,text]); }, addAssistant(...args) { assert.equal(this,append); events.push(['assistant',...args]); }, addToolResult(...args) { assert.equal(this,append); events.push(['tool',...args]); } };
   const ports = {
     '@knorvia/contracts': {
@@ -107,6 +107,7 @@ const tool = (id,status,extra={}) => ({ id,type:'tool',callID:id+'-call',tool:'R
     const entries=h.events.filter(x=>x[0]==='entries');assert.equal(entries.length,2);const e=entries[0][1][0];
     assert.deepEqual(plain(e.message.content.map(b=>b.type)),['file','text','text','image']);assert.equal(e.message.content[1].text,'last');assert.equal(e.message.content[2].text,'[Selected agent: helper]');assert.notEqual(e.message.content[3],image.block);assert.equal(e.message.content[3].source,image.block.source);assert.equal(e.metadata.source,'legacy_synthetic');
     assert.equal(entries[1][1][0].message.content,'');assert.equal(entries[1][1][0].metadata.source,'real_user');assert.equal(entries[1][1][1].kind,'attachment');assert.equal(entries[1][1][1].metadata.source,'prompt_attachment');
+    assert(h.events.findIndex(x=>x[0]==='contentText')<h.events.findIndex(x=>x[0]==='metadata'));
     assert.equal(JSON.stringify(all),before);const branch=h.events.find(x=>x[0]==='branch');assert.deepEqual(Object.keys(branch[2]),['branchCutAfterMessageId','rewindCreatedMessageId','rewindKeptMessageIds','rewindTargetMessageId']);
   });
   await group('raw synthetic attachment source and provider wrapping/metadata precedence', async () => {
@@ -133,6 +134,9 @@ const tool = (id,status,extra={}) => ({ id,type:'tool',callID:id+'-call',tool:'R
     snapshot.options.beforeMedia=()=>{changing.metadata.providerToolName='later';changing.state={status:'completed',input:{},output:'after'};};
     await snapshot.owner.hydrateMessageHistoryFromSession({history:snapshot.append,messages:[message('snapshot','assistant',[changing])]});
     const snapshotResult=snapshot.events.find(x=>x[0]==='tool');assert.equal(snapshotResult[2],'original');assert.equal(snapshotResult[3],'after');
+    const counted=historyPorts(),countedMessages=[message('counted','assistant',[],{tokens})];counted.options.usage=true;const append=counted.append.addAssistant;
+    counted.append.addAssistant=function(...args){append.apply(this,args);countedMessages.push(message('late-empty','user',[]));};
+    const countResult=await counted.owner.hydrateMessageHistoryFromSession({history:counted.append,messages:countedMessages});assert.equal(countResult.messageCount,2);assert.equal(countResult.appliedMessageCount,1);
   });
   const passed=groups.every(x=>x.passed);console.log(JSON.stringify({bindings,groups,passed,qualification:'At most six distinct minimum synthetic candidate-only groups; --media-only restricts the initial media boundary review to two. In-memory VM and explicit fake original ports only; isolated transpilation to execute synthetic cases, no semantic/project compilation or source-emitted matrix, real session/media/provider/network/user data, business writes or dependency body execution. Installed exact-byte static binding reuses these checks without repeating them.'},null,2));if(!passed)process.exitCode=1;
 })();
