@@ -4,6 +4,16 @@ E owns complete collection-events.ts and prompts.ts replacements under workflow/
 
 Collection-event effects remain sequential: expansion event when graph changes, then late exhaustion observation; exhaustion persistence, collection record and final event. Signals/phases and original collection ids are read at their specified gates. snapshot persistence stays with the supplied runtime; this owner adds no snapshot-access owner or policy.
 
+```mermaid
+flowchart LR
+    A[Expansion graph-change gate] --> B[Await graph event when selected]
+    B --> C[Read current exhaustion state]
+    C --> D[Await exhaustion event when selected]
+    E[Project exhausted collection and graph snapshot] --> F[Await runtime snapshot persistence]
+    F --> G[Await collection record]
+    G --> H[Await final exhaustion event]
+```
+
 Prompt rendering retains exact text, metadata sections, newline/optional-section rules, node/artifact ordering and artifact-name semantics. The prose and advertised JSON are source-derived retained functional output material, not claimed as newly authored text. Fresh authoring applies to the complete rendering/publication implementation using ordinary idioms; artificial novelty is not required.
 
 Freeze complete input-limited author output/read/hash evidence before curator comparison and install a separately bound descendant. Any correction is separately frozen; original artifacts remain unchanged. Each owner remains below400 readable lines and introduces no new public API/runtime dependency.
