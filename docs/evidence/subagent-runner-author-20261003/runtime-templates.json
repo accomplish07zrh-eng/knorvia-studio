@@ -1,0 +1,185 @@
+[
+  {
+    "pieces": [
+      "",
+      "/",
+      ""
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "",
+      "/",
+      ""
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "",
+      ": ",
+      ""
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "Subagent task aborted: ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Agent type '",
+      "' is ambiguous"
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "matches ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Use the exact name: ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Agent type '",
+      "' not found. Available agents: ",
+      ""
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "agent_",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "subagent_",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "SendMessage was aborted for ",
+      "."
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "No active local_agent task found for target ",
+      "."
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Cannot resume local agent ",
+      ": profile ",
+      " is unavailable."
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "Cannot resume local agent ",
+      ": missing child session id."
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "msg_",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Message queued for delivery to ",
+      " at its next tool round."
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Agent \"",
+      "\" was stopped (",
+      "); resumed it in the background with your message. You'll be notified when it finishes. Output: ",
+      ""
+    ],
+    "slotCount": 3
+  },
+  {
+    "pieces": [
+      "Message ",
+      " was sent to its active turn for local agent ",
+      "."
+    ],
+    "slotCount": 2
+  },
+  {
+    "pieces": [
+      "msg_",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Subagent was inactive for ",
+      "ms"
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "Background agent task stopped notification was not enqueued: ",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "span_",
+      ""
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "",
+      "\n"
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "",
+      "\n"
+    ],
+    "slotCount": 1
+  },
+  {
+    "pieces": [
+      "",
+      "\n"
+    ],
+    "slotCount": 1
+  }
+]

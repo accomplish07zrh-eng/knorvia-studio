@@ -1,0 +1,17 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": 0,
+  "oracleSha256": "bc847c5c92336930de86749ce0d0e8c72f5a1ea8373b88deb5429ce9bc9db8a9",
+  "owners": {
+    "profile": {
+      "source": "d0f45f04a2d0c9b8e8e7debad6f34330dc824bc3d51656580d4eee9ea811592c",
+      "compiled": "936d8be9958cf12c7bbc1ab8e9ec71268b79d36c79a814b4ad1ffb5730696fff",
+      "declaration": "71b509e927a2d76a441f722f3bf28564b83e8c43041ed947f7fdf647f0cac4be"
+    },
+    "runner": {
+      "source": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e",
+      "compiled": "20c2667c45b51e50e469326d11bac99568ea6c21460b22a97eb224fb43c1150a",
+      "declaration": "21eb4daff441b50092d544aa334c824dfd813eda18609448feacd8b9d35ca8bd"
+    }
+  }
+}
