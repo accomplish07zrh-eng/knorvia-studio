@@ -4,20 +4,27 @@ interface SkillSyncPathOptions {
   unsafePathLabel?: string;
 }
 
+function unsafePath(path: string, options: SkillSyncPathOptions): Error {
+  return new Error(`${options.unsafePathLabel ?? "unsafe skill sync path"}: ${path}`);
+}
+
 export function normalizeSkillSyncRelativePath(
   path: string,
   options: SkillSyncPathOptions = {},
 ): string {
-  const normalized = path.replaceAll("\\", "/").replace(/^\/+/u, "").replace(/\/+$/u, "");
+  const normalized = path.replaceAll("\\", "/").replace(/^\/+|\/+$/gu, "");
+  const invalidComponent = normalized
+    .split("/")
+    .some((part) => !part || part === "." || part === "..");
   if (
     !normalized ||
     isAbsolute(path) ||
     posix.isAbsolute(path) ||
     path.includes("\\") ||
     /^[a-zA-Z]:/u.test(path) ||
-    normalized.split("/").some((part) => !part || part === "." || part === "..")
+    invalidComponent
   ) {
-    throw new Error(`${options.unsafePathLabel ?? "unsafe skill sync path"}: ${path}`);
+    throw unsafePath(path, options);
   }
   return normalized;
 }
@@ -27,17 +34,12 @@ export function resolveSkillSyncPathWithin(
   path: string,
   options: SkillSyncPathOptions = {},
 ): string {
-  const normalizedRoot = resolve(targetRoot);
-  const normalizedPath = normalizeSkillSyncRelativePath(path, options);
-  const targetPath = resolve(normalizedRoot, ...normalizedPath.split("/"));
-  const relativePath = relative(normalizedRoot, targetPath);
-  if (
-    relativePath === "" ||
-    relativePath.startsWith(`..${sep}`) ||
-    relativePath === ".." ||
-    isAbsolute(relativePath)
-  ) {
-    throw new Error(`${options.unsafePathLabel ?? "unsafe skill sync path"}: ${path}`);
+  const root = resolve(targetRoot);
+  const normalized = normalizeSkillSyncRelativePath(path, options);
+  const target = resolve(root, ...normalized.split("/"));
+  const distance = relative(root, target);
+  if (!distance || distance === ".." || distance.startsWith(`..${sep}`) || isAbsolute(distance)) {
+    throw unsafePath(path, options);
   }
-  return targetPath;
+  return target;
 }
