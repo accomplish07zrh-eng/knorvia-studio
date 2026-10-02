@@ -1,0 +1,212 @@
+{
+  "task": "Whole allocated mcp/image-normalization.ts instruction-only author, 20261003",
+  "modelAndPreference": {
+    "requested": "GPT-6.1 Sol/high; fork:none",
+    "actualModelConfiguration": "Not independently verified by this owner",
+    "savedFast": "Unchanged and unverified"
+  },
+  "scope": {
+    "readAllowlist": "Exactly the seven frozen packet files below and the two own outputs",
+    "outputAllowlist": [
+      "/tmp/knorvia-mcp-owners-20261003/image/image-normalization.ts",
+      "/tmp/knorvia-mcp-owners-20261003/image/author-record.json"
+    ],
+    "sourceLineRequirement": "Under 400 lines; final source has 294 lines",
+    "directories": "Only assigned output directory and needed ancestors created; no extra accounting or scratch file"
+  },
+  "accountingConvention": {
+    "bytes": "Exact UTF-8 file bytes, including trailing newline",
+    "lines": "len(bytes.splitlines()); all final files end in newline",
+    "reads": "Full read_bytes calls, including the source modification read and final frozen receipt read",
+    "writes": "Full content write_bytes calls, excluding chmod metadata operations",
+    "hash": "SHA-256 over exact bytes; final receipt full-file hash is reported externally in the final response because embedding that hash would change its own input"
+  },
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/contract.md",
+      "sha256": "907f5a836891d51807c93bdcd416c0c24b425eb9f8211361c1ebd77e22ab80e4",
+      "bytes": 11750,
+      "lines": 29,
+      "readCount": 1,
+      "writeCount": 0,
+      "totalBytesRead": 11750,
+      "totalLinesRead": 29,
+      "fullTextShown": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/public-api.d.ts",
+      "sha256": "66e6b976ff49f77bb9f0e45a7309a00d27e4af57d5c1bfc0cf983d9238b77e5b",
+      "bytes": 878,
+      "lines": 16,
+      "readCount": 1,
+      "writeCount": 0,
+      "totalBytesRead": 878,
+      "totalLinesRead": 16,
+      "fullTextShown": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+      "sha256": "cb9d79e2d1062c16bc303610d35de3bf729b9a925f64f1518b07e1f3bcc8018e",
+      "bytes": 21001,
+      "lines": 540,
+      "readCount": 2,
+      "writeCount": 0,
+      "totalBytesRead": 42002,
+      "totalLinesRead": 1080,
+      "fullTextShown": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/dependency-api.d.ts",
+      "sha256": "9ddc26fb6d8a1de797d8861d1bf04c48fac86e6ad370d1824d6c5dda445377a8",
+      "bytes": 782,
+      "lines": 13,
+      "readCount": 1,
+      "writeCount": 0,
+      "totalBytesRead": 782,
+      "totalLinesRead": 13,
+      "fullTextShown": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/imports.json",
+      "sha256": "222af1f9a1d76d5d1d84f0e64fb8f9295c8bb8b4f8d2830a963eca651ca4823f",
+      "bytes": 725,
+      "lines": 25,
+      "readCount": 1,
+      "writeCount": 0,
+      "totalBytesRead": 725,
+      "totalLinesRead": 25,
+      "fullTextShown": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/output-data.json",
+      "sha256": "4da3fcb8c6542aa4d3c2e392d623be26fda1a212232c903442c53785608f194a",
+      "bytes": 6673,
+      "lines": 396,
+      "readCount": 1,
+      "writeCount": 0,
+      "totalBytesRead": 6673,
+      "totalLinesRead": 396,
+      "fullTextShown": true
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-mcp-owner-packet-20261003/image/public-data.json",
+      "sha256": "33d840ec51c8a158de2b8a2aadb6816794f36247a40e7d936f9d0f708fe12a25",
+      "bytes": 1448,
+      "lines": 33,
+      "readCount": 1,
+      "writeCount": 0,
+      "totalBytesRead": 1448,
+      "totalLinesRead": 33,
+      "fullTextShown": true
+    }
+  ],
+  "inputTotals": {
+    "distinctFiles": 7,
+    "distinctBytes": 43257,
+    "distinctLines": 1052,
+    "readCount": 8,
+    "totalBytesRead": 64258,
+    "totalLinesRead": 1592,
+    "writeCount": 0
+  },
+  "readPresentation": {
+    "initialCall": "All seven inputs read fully; combined tool presentation truncated a middle portion of public-shapes.d.ts",
+    "repair": "public-shapes.d.ts was then reread and displayed in full alone; all seven complete texts are now shown",
+    "otherInputReads": 0
+  },
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-mcp-owners-20261003/image/image-normalization.ts",
+      "sha256": "409ef7e6faf758f178f31e57bebd2c70692c10c79d5ea0eef8d92c2eadf0e80c",
+      "bytes": 10644,
+      "lines": 294,
+      "readCount": 3,
+      "writeCount": 2,
+      "totalBytesRead": 31894,
+      "totalLinesRead": 880,
+      "totalBytesWritten": 21269,
+      "totalLinesWritten": 587,
+      "chmodCount": 1,
+      "mode": "0444",
+      "versions": [
+        {
+          "sha256": "54bb85dbd382e685a8c830752c311061230d07e5ea09ba043cf66a0859a3ce89",
+          "bytes": 10625,
+          "lines": 293,
+          "readCount": 2,
+          "writeCount": 1
+        },
+        {
+          "sha256": "409ef7e6faf758f178f31e57bebd2c70692c10c79d5ea0eef8d92c2eadf0e80c",
+          "bytes": 10644,
+          "lines": 294,
+          "readCount": 1,
+          "writeCount": 1
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-mcp-owners-20261003/image/author-record.json",
+      "sha256": "External final-response full-file SHA-256; no recursive self-hash assertion",
+      "bytes": 12481,
+      "lines": 212,
+      "readCount": 1,
+      "writeCount": 1,
+      "totalBytesRead": 12481,
+      "totalLinesRead": 212,
+      "totalBytesWritten": 12481,
+      "totalLinesWritten": 212,
+      "chmodCount": 1,
+      "mode": "0444"
+    }
+  ],
+  "manualReview": {
+    "method": "Entire first source draft read and manually reviewed; one targeted source edit; entire final source read and manually reviewed. No implementation, dependency, port, or test execution.",
+    "findings": [
+      "All five supplied import clauses, modules, identities and type-only bindings retained; public export names and signatures retained.",
+      "Exact exported initializer expressions retained: 200 * 1024; Math.floor((MCP_IMAGE_INLINE_BASE64_BYTES * 3) / 4); 2048. First two explicitly number, third remains inferred literal 2048. Compression request uses 2000.",
+      "New internal organization separates sequential projection, metadata index collection, recoverable screenshot backup, compression, generic artifact fallback, and pure presentation functions; no private predecessor decomposition was provided by the packet.",
+      "Preservation first computes shared-node context, explicit truthy preservation short-circuits structural scanner checks, and imported preserveOfficialCuaFrameResult receives exact ordered options and returns exact identity. Imported gate/scanner/constants and all dependency port implementations remain imported.",
+      "Authority hint requires non-array object, content array, truthy imported integrity metadata, native some with image and immediate-next string scanner acceptance. This structural hint is not cryptographic verification or an authority grant.",
+      "Compression-disabled path ignores screenshot metadata. Enabled path uses imported-key nullish fallback, native Set, numeric integer bounds and sequential native content array iteration.",
+      "Marked valid images attempt binary-only backup before inline sizing. Captured binary method uses original receiver; decoded empty bytes skip backup; decode and eligibility remain outside recoverable catch. Successful relative paths use imported resolve with one argument; absolute paths are retained.",
+      "Manual first review identified backup toolName should be explicitly captured outside its recoverable write attempt; targeted edit added that capture, then final entire source was reread.",
+      "Malformed or small images retain original identity; base64 payload size uses native UTF-8 Buffer.byteLength. Oversized compression uses original receiver, exact request and trace field order, ordered signal options, decoded nonempty bytes and exact prepared MIME/size acceptance.",
+      "Only backup and compression are recoverable catches. Each rethrows the same caught value iff current abortSignal.aborted is truthy. Successful returns are processed without an invented abort check. Generic write and imported scanner/gate exceptions propagate.",
+      "Backup suppresses duplicate generic artifacts and produces adjacent path notice after projection. Without backup, missing current store produces supplied omission text. Generic helper rereads current store at its write boundary, uses original binary or text method receiver, and keeps nullish path/URI labeling.",
+      "Binary/text request topology, own undefined trace fields, retention, extension mapping, current descriptor fields, Date timing, two-space JSON summary order, full original dataUrl and exact supplied output sentences/templates are retained.",
+      "Whole normalized official reference text blocks are removed by imported scanner; unchanged block identities and result identity persist when possible. Changed outputs shallow-spread current input.result, preserve nested metadata and structuredContent identities, and overwrite only content.",
+      "Native array some/entries, optional/nullish access, Set handling, shallow spread, Buffer base64 conversion, Date ISO conversion, node:path isAbsolute/resolve, JSON.stringify and exact size rounding idioms retained. No constant folding or substitute port implementations."
+    ],
+    "limitations": [
+      "Manual contract-to-source review only; no compiler, type checker, lint, tests, runtime probes, dependency loading, integration validation or execution of authored TypeScript.",
+      "Behavioral equivalence and isolated declaration acceptance are manually assessed, not machine-proven. No actual frames, images, tools, providers, browsers, artifacts, media or user data were exercised.",
+      "Only file-byte accounting and output authoring/freeze shell operations ran; no business I/O, network, credential/configuration access, authority/access grant or dependency modification.",
+      "Instruction-only shared executor; there is no OS isolation proof or access audit. Mode 0444 is the requested file freeze, not an immutability guarantee against privileged changes.",
+      "No legal novelty, ownership, permission grant, license compatibility, MIT closure or clean-room conclusion asserted."
+    ]
+  },
+  "exposureAndHistory": {
+    "currentOwnerDirectExposure": "Seven body-free frozen packet inputs plus own authored source and receipt; no repo, target source, history, AGENTS, dependency bodies or other drafts discovered/read in this owner.",
+    "sourceExposedParentAndCurator": "Parent/curator is source-exposed as disclosed in the delegation; no parent progress messages or source snippets sent. Current source is available through shared executor and authoring/read transcripts for later archived review.",
+    "earlierExposureRetained": "Delegation discloses earlier wider repository/tool/dependency exposures and full MCP helper body exposures. These limitations persist; this fresh owner does not erase them or claim the wider process was body-free.",
+    "priorScratchBreachRetained": "Delegation discloses an earlier extra scratch-write breach that was repaired. That breach and repair remain disclosed; this owner created no third output or extra scratch/accounting file.",
+    "independentHistoricalAudit": "Earlier exposure and repair disclosures are parent-supplied, not independently audited here."
+  },
+  "prohibitedOperations": {
+    "subagents": 0,
+    "parentProgressCalls": 0,
+    "repositoryDiscovery": 0,
+    "sourceOrHistoryDiscovery": 0,
+    "AGENTSDiscovery": 0,
+    "otherDraftReads": 0,
+    "dependencyLoading": 0,
+    "compilerTestsLintRuntimeProbes": 0,
+    "actualToolProviderBrowserFrameMediaUserDataOperations": 0,
+    "networkCredentialConfigurationOperations": 0,
+    "newAccessAuthorityGrants": 0,
+    "extraOutputFiles": 0
+  },
+  "freeze": "Both assigned outputs chmod 0444 after final source manual review and receipt creation; final receipt read is byte accounting only.",
+  "remainingBlockers": "No authoring blocker. Automated validation intentionally not performed under scope; parent archived source review remains outside this owner."
+}
