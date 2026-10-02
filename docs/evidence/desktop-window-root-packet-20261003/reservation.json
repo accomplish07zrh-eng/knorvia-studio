@@ -1,0 +1,89 @@
+{
+  "baseline": "1b64757edf64aa5983915d948220be2b5f37999b",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+      "bytes": 15866,
+      "lines": 423,
+      "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+      "currentOriginRecord": {
+        "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+        "kind": "file",
+        "sha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+        "normalizedSha256": "7811b200fb288b56b677522996d45cd0d8ca4a8c5e742d956ad84dfbae150c23",
+        "encoding": "utf8-lf",
+        "bytes": 15866,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+          "blob": "5a98136fe82ab0e17e2d160690ea8cfa59e678e1",
+          "normalizedSha256": "95bc08441fa13e06eacd75a58dd6daac9f8191f1cfced2f2b3fd43c0bd99f0f5",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamRecord": {
+        "path": "packages/desktop/src/main/desktopWindowLifecycle.ts",
+        "mode": "100644",
+        "blob": "5a98136fe82ab0e17e2d160690ea8cfa59e678e1",
+        "kind": "file",
+        "sha256": "95bc08441fa13e06eacd75a58dd6daac9f8191f1cfced2f2b3fd43c0bd99f0f5",
+        "normalizedSha256": "95bc08441fa13e06eacd75a58dd6daac9f8191f1cfced2f2b3fd43c0bd99f0f5",
+        "encoding": "utf8-lf",
+        "bytes": 15666
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+      "bytes": 19380,
+      "lines": 536,
+      "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+      "currentOriginRecord": {
+        "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+        "kind": "file",
+        "sha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+        "normalizedSha256": "97f8d51ed30293aa00a69a84d8698a7a8760748a0ac50d6680cf03be326ad040",
+        "encoding": "utf8-lf",
+        "bytes": 19380,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+          "blob": "07840d2a13584b442305e9463ab1084c32e10a99",
+          "normalizedSha256": "39d25be9d338d81615639c3c6f7188f72b0f5b169049bf62061e2589d1d35948",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "upstreamRecord": {
+        "path": "packages/desktop/src/main/desktopWindowChrome.ts",
+        "mode": "100644",
+        "blob": "07840d2a13584b442305e9463ab1084c32e10a99",
+        "kind": "file",
+        "sha256": "39d25be9d338d81615639c3c6f7188f72b0f5b169049bf62061e2589d1d35948",
+        "normalizedSha256": "39d25be9d338d81615639c3c6f7188f72b0f5b169049bf62061e2589d1d35948",
+        "encoding": "utf8-lf",
+        "bytes": 27214
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ]
+    }
+  ],
+  "allocation": "Root exclusively owns lifecycle/chrome implementations and any cohesive splits. E screens origin and publishes body-free public behavior/API/port/static-data only. G preload/B UI and all other desktop/core owners untouched.",
+  "screen": "Exact current origin matches source, upstream-modified substantial owners; reviews null and exact reviews.json target entries absent. Bounded exact filename search in licensing/evidence and docs/evidence found existing platform/Host packet dependency bindings only, not an accepted exact replacement receipt. No assertion based solely on missing receipt.",
+  "rootPriorReported": "Root reported platform/Host PR12 ecf4968a771bdb736da8bbf88151722cd4cf7f2c installed;43 registrations and3 platform +4 Host minimum groups/API/lint/architecture pass, null-bootstrap/missing-browser timing counterexamples corrected;semantic2 dependency diagnostics blocked. Parent report only; no E revalidation or source import.",
+  "qualification": "Source-exposed curator read both complete original bodies, source-derived required behavior/data honest. Prior broader exposures/repaired scratch-write breach remain; instructions/shared executor only, no OS isolation/access audit or authorship/novelty/grant/license acceptance.",
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21
+}
