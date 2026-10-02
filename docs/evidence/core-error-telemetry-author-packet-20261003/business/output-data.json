@@ -1,0 +1,39 @@
+{
+  "retainedExpression": "Exact existing protocol/fields/prose/constants/format material; no new grant or novelty claim",
+  "errorTypeReference": "CoreErrorType.ModelError",
+  "fallbackMessage": "Provider returned a business error.",
+  "recoverable": true,
+  "retryable": false,
+  "codePriority": [
+    "record.code",
+    "record.providerCode",
+    "record.error_code",
+    "errorRecord.code",
+    "errorRecord.providerCode",
+    "errorRecord.error_code",
+    "contextRecord.providerCode",
+    "contextRecord.code"
+  ],
+  "messagePriority": [
+    "record.msg",
+    "record.providerMessage",
+    "record.message",
+    "errorRecord.msg",
+    "errorRecord.providerMessage",
+    "errorRecord.message",
+    "contextRecord.providerMessage",
+    "contextRecord.msg",
+    "contextRecord.message"
+  ],
+  "resultKeys": [
+    "message",
+    "providerCode",
+    "responseBodySummary"
+  ],
+  "coreContextKeys": [
+    "providerCode",
+    "responseBodySummary"
+  ],
+  "markedErrorName": "ProviderBusinessError",
+  "markerFlag": "isProviderBusinessError"
+}

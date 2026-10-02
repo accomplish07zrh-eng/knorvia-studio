@@ -1,0 +1,82 @@
+[
+  {
+    "path": "apps/cli/packages/core/src/runtime/deps.ts",
+    "bytes": 9333,
+    "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/types.ts",
+    "bytes": 30820,
+    "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+    "bytes": 961,
+    "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+    "bytes": 8781,
+    "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/streaming-tool-ledger.ts",
+    "bytes": 4164,
+    "sha256": "45a0239c9157f2914711b7075afbc10d5078a8ead4e515d484788d9e87cf1f6b"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+    "bytes": 9586,
+    "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+    "bytes": 9134,
+    "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac"
+  },
+  {
+    "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+    "bytes": 5664,
+    "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/errors/index.ts",
+    "bytes": 4087,
+    "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/model/index.ts",
+    "bytes": 33076,
+    "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/config/index.ts",
+    "bytes": 12544,
+    "sha256": "9b09db9b182f4faa5ab81261d9296855e2b696f4c762d6f6fbd6351ebf2be2ab"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/logging/logger.ts",
+    "bytes": 2592,
+    "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+    "bytes": 7056,
+    "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+    "bytes": 2712,
+    "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+  },
+  {
+    "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+    "bytes": 36215,
+    "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+  },
+  {
+    "path": "packages/shared/src/artifact-uri.ts",
+    "bytes": 1005,
+    "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b"
+  }
+]

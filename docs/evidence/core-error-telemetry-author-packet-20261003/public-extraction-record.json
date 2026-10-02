@@ -1,0 +1,10 @@
+{
+  "typescript": "6.0.2",
+  "kind": "Target public declaration extraction only, no body/project typecheck",
+  "diagnostics": {
+    "business": [],
+    "anomaly": [],
+    "telemetry": []
+  },
+  "dependencySelection": "Selected declaration nodes/function signatures with bodies stripped; standalone fragments preserve actual imported type owner references. No dependency implementation."
+}
