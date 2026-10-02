@@ -1,0 +1,21 @@
+{
+  "baseline": "13d2a5902f536cc8e73db816098d8cfe11db8b37",
+  "rootExclusiveTargets": [
+    {
+      "path": "packages/shared/src/conversation-preview-artifacts.ts",
+      "bytes": 13598,
+      "lines": 393,
+      "sha256": "07a99057b75335835784d8cdb94ea9f0026a75e0d3f4f3dcb47a44395d9d8d40"
+    },
+    {
+      "path": "packages/shared/src/persistedMessageMerge.ts",
+      "bytes": 4465,
+      "lines": 114,
+      "sha256": "f603412a7e5a69f5e8e41e672926d1e6bc8553a7ddf97c3a5f47d294d0d3fc22"
+    }
+  ],
+  "currentReviewMatches": [],
+  "eligibility": "Bounded current evidence/source-history search found only original preview snapshot and prior generic compiler program-input bindings; no accepted complete reconstruction record. Not global licence clearance.",
+  "priorGenericCompilerExposure": "docs/evidence/collection-planner-v2-types-20261002/program-inputs.json includes both targets at matching source digests; root reports filenames/counts only in current authoring pass; broader context/tooling exposure applies.",
+  "EWillImplementTargets": false
+}
