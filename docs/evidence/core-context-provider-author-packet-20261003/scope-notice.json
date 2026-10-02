@@ -1,0 +1,43 @@
+{
+  "baseline": "f6046f8d12dc800febddd797e210308baee759f4",
+  "owners": [
+    {
+      "path": "apps/cli/packages/core/src/context/builder.ts",
+      "lines": 372,
+      "bytes": 12708,
+      "sha256": "8560c9382493df3fcf40c38fa3a02a5d0595e46a2ee0defcecd0f16a9977dfa7",
+      "lastLocalSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa"
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/sections/request-user-context.ts",
+      "lines": 134,
+      "bytes": 3936,
+      "sha256": "68f3f5944228c5966a8055e874dd59eb32ad3d7ddd409effcc7fa3189f586967",
+      "lastLocalSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history-usage.ts",
+      "lines": 64,
+      "bytes": 2300,
+      "sha256": "896e2bee48a2aaa8d4a2357580cbfcd617b2512639d0a1116c9e7d9e219ca9c9",
+      "lastLocalSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "lines": 82,
+      "bytes": 3202,
+      "sha256": "0f33c0fa750b31702f75e5185a2055a7b276c87fc3a0821ef245d26c7aac28f0",
+      "lastLocalSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "lines": 233,
+      "bytes": 7993,
+      "sha256": "638acaa81dae81e033f9643b57f264638b90ba2726401a7a1a220b38c22717c0",
+      "lastLocalSourceCommit": "7619e41b950bd52073ebf36754146cf25659d9fa"
+    }
+  ],
+  "selection": "Bounded current public-path/declaration/local evidence search found no accepted replacement record; not global rights reclassification. Exact paths reported before target body review.",
+  "excluded": "Previously accepted owners, workflow/compaction/history queues, A runtime/methods, permission/fullaccess/security, client/RPC/services/UI and other lanes",
+  "cadence": "Ordinary tests/builds deferred; minimum synthetic checks only concrete data safety; static provenance/API/import review allowed"
+}
