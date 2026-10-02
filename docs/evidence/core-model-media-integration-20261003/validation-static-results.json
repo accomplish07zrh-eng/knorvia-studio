@@ -1,0 +1,367 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "validation",
+  "baseline": "92c73c86143b0be5b4bbd24e8530b12f2fffbaa2",
+  "target": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "2676dec38339e391a5f80f6fb92ef714e6b32659096c79e397e76b013dba37d3",
+    "candidate": "2676dec38339e391a5f80f6fb92ef714e6b32659096c79e397e76b013dba37d3"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeImports": {
+    "predecessor": [
+      "apps/cli/packages/core/src/runtime/deps.js#CoreErrorType",
+      "apps/cli/packages/core/src/runtime/deps.js#createCoreError",
+      "apps/cli/packages/core/src/runtime/deps.js#traceContextToLogContext"
+    ],
+    "candidate": [
+      "apps/cli/packages/core/src/runtime/deps.js#CoreErrorType",
+      "apps/cli/packages/core/src/runtime/deps.js#createCoreError",
+      "apps/cli/packages/core/src/runtime/deps.js#traceContextToLogContext"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/contract.md",
+      "bytes": 2852,
+      "sha256": "b43e857cee56adf8880a52190b0e54a421b5b8c3a664cd1c5d91db29711f7b58",
+      "actual": {
+        "bytes": 2852,
+        "sha256": "b43e857cee56adf8880a52190b0e54a421b5b8c3a664cd1c5d91db29711f7b58"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/public-api.d.ts",
+      "bytes": 603,
+      "sha256": "2715975bd31c7c128be67f6ab78c46f2f5c5ebeb5045519c0202e885c5695b61",
+      "actual": {
+        "bytes": 603,
+        "sha256": "2715975bd31c7c128be67f6ab78c46f2f5c5ebeb5045519c0202e885c5695b61"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/dependency-api.d.ts",
+      "bytes": 618,
+      "sha256": "7cd65d48d6a7f09412b0498963cfe17cf1a7571dda93b3af62e346d1b11b27ae",
+      "actual": {
+        "bytes": 618,
+        "sha256": "7cd65d48d6a7f09412b0498963cfe17cf1a7571dda93b3af62e346d1b11b27ae"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/public-shapes.d.ts",
+      "bytes": 4410,
+      "sha256": "50892bc034d5dc41d33c825256d61d65ae7591e636cf70e7042515acfb1f6b07",
+      "actual": {
+        "bytes": 4410,
+        "sha256": "50892bc034d5dc41d33c825256d61d65ae7591e636cf70e7042515acfb1f6b07"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/output-data.json",
+      "bytes": 524,
+      "sha256": "21817c983ff7a89c7846a84d339f242ea11920aff92347eabe7ef9ab9b87e616",
+      "actual": {
+        "bytes": 524,
+        "sha256": "21817c983ff7a89c7846a84d339f242ea11920aff92347eabe7ef9ab9b87e616"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-model-media-author-packet-20261003/validation/imports.json",
+      "bytes": 1517,
+      "sha256": "fb925289c342d0f47caa87a4ccb7479783b7905e03f16d565c80c75358910ad7",
+      "actual": {
+        "bytes": 1517,
+        "sha256": "fb925289c342d0f47caa87a4ccb7479783b7905e03f16d565c80c75358910ad7"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-model-tool-call-validation.ts.txt",
+      "bytes": 2821,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "actual": {
+        "bytes": 2821,
+        "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 2821,
+        "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 84
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6487,
+      "sha256": "70772c589b1bcb665d544f77ebde31b98b6dfb111bb1a6bf0fc01d710d2c3736",
+      "actual": {
+        "bytes": 6487,
+        "sha256": "70772c589b1bcb665d544f77ebde31b98b6dfb111bb1a6bf0fc01d710d2c3736"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "draft-model-tool-call-validation.ts.txt",
+      "bytes": 2821,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "target": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6487,
+      "sha256": "70772c589b1bcb665d544f77ebde31b98b6dfb111bb1a6bf0fc01d710d2c3736",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/official-cua-media.ts",
+      "bytes": 1030,
+      "sha256": "be48de64eb0c8106ac83449c1b2a49fdf673b01c92aacd26832f30102f082b89",
+      "actual": {
+        "bytes": 1030,
+        "sha256": "be48de64eb0c8106ac83449c1b2a49fdf673b01c92aacd26832f30102f082b89"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/conversation.ts",
+      "bytes": 8781,
+      "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029",
+      "actual": {
+        "bytes": 8781,
+        "sha256": "471145b6ecec412ccd9c777bd67f84fc9dfc18d8f84ffc2e650dd7faa7219029"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/data.ts",
+      "bytes": 961,
+      "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111",
+      "actual": {
+        "bytes": 961,
+        "sha256": "ae22686ac0c31176d7d9fa9846d7bd82e9fa090b61991c679930addbf1757111"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts",
+      "bytes": 6629,
+      "sha256": "071fd73b81ac45b1ea4d4b52d4c53571aac91ba4e42f9489a7f41b4ad29002dd",
+      "actual": {
+        "bytes": 6629,
+        "sha256": "071fd73b81ac45b1ea4d4b52d4c53571aac91ba4e42f9489a7f41b4ad29002dd"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-entry-origins.ts",
+      "bytes": 3130,
+      "sha256": "7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7",
+      "actual": {
+        "bytes": 3130,
+        "sha256": "7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-mid-conversation-system.ts",
+      "bytes": 5968,
+      "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1",
+      "actual": {
+        "bytes": 5968,
+        "sha256": "d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/context/builder.ts",
+      "bytes": 9031,
+      "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8",
+      "actual": {
+        "bytes": 9031,
+        "sha256": "ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "actual": {
+        "bytes": 8319,
+        "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/model.ts",
+      "bytes": 2186,
+      "sha256": "9f85b44235e4c221a9092c659a6fea3267c635b62ad77118873d9670167e9279",
+      "actual": {
+        "bytes": 2186,
+        "sha256": "9f85b44235e4c221a9092c659a6fea3267c635b62ad77118873d9670167e9279"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/media-policy.ts",
+      "bytes": 2061,
+      "sha256": "474db277e239c1c81b3e2deed89ca6ec5be175e932f1ff56199b6362ab971aa2",
+      "actual": {
+        "bytes": 2061,
+        "sha256": "474db277e239c1c81b3e2deed89ca6ec5be175e932f1ff56199b6362ab971aa2"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/logging/logger.ts",
+      "bytes": 2592,
+      "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a",
+      "actual": {
+        "bytes": 2592,
+        "sha256": "4cc7ac83bd98b6755a7c966c6588a4e17a528883f5ff22bb42666eb799af285a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "module": "../deps.js",
+      "exists": true
+    }
+  ],
+  "extractionDiagnosticsQualified": true,
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}

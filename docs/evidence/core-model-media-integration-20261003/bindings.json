@@ -1,0 +1,85 @@
+{
+  "recordedAtUtc": "2026-10-02T19:57:18.829518+00:00",
+  "preIntegrationHead": "474c72a967d9753177a96afcbcf24ef4a12c253e",
+  "installed": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 8844,
+      "lines": 216,
+      "sha256": "730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9",
+      "scope": "request",
+      "version": "v2",
+      "staticResult": "request-static-results.json",
+      "matchesFrozenOutput": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "lines": 278,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "scope": "budget",
+      "version": "v2",
+      "staticResult": "budget-static-results.json",
+      "matchesFrozenOutput": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "bytes": 2821,
+      "lines": 84,
+      "sha256": "25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450",
+      "scope": "validation",
+      "version": "v1",
+      "staticResult": "validation-static-results.json",
+      "matchesFrozenOutput": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5664,
+      "lines": 167,
+      "sha256": "ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7",
+      "scope": "capability",
+      "version": "v2",
+      "staticResult": "capability-static-results.json",
+      "matchesFrozenOutput": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 9586,
+      "lines": 295,
+      "sha256": "24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145",
+      "scope": "errors",
+      "version": "v2",
+      "staticResult": "errors-static-results.json",
+      "matchesFrozenOutput": true
+    }
+  ],
+  "totalInstalledLines": 1040,
+  "baselineTotalLines": 1205,
+  "helpersAdded": [],
+  "unchangedDesktopRootExclusiveTargets": [
+    {
+      "path": "packages/desktop/src/main/releaseUpdateCheck.ts",
+      "bytes": 5011,
+      "lines": 144,
+      "sha256": "bdff43d5b1e58a6d53f437ce3e90f5c1d70784095fe06973bbf5b5f304ccd406",
+      "matchesReservation": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopNotifications.ts",
+      "bytes": 5498,
+      "lines": 158,
+      "sha256": "29581f30f5239e7714158f0a79bd57278270092793b692244fc4fa8454d61310",
+      "matchesReservation": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCronScheduler.ts",
+      "bytes": 7050,
+      "lines": 197,
+      "sha256": "803e026c68f0d6ac79b2a347fb1c41917f7e5a1d60402a0d5a388d653d39d590",
+      "matchesReservation": true
+    }
+  ],
+  "untouchedBoundaries": "17 exact source/dependency files in each static result",
+  "declarationQualification": "Inherited two errors TS9007 infer-return diagnostics and known CoreError constructor return preserved/qualified; all candidate diagnosticszero.",
+  "negativeChecks": "13 final isolated synthetic probes pass; 3 original concrete failures preserved separately, no aggregate acceptance."
+}

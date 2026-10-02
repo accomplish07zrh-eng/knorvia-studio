@@ -1,333 +1,216 @@
-import {
-  ProviderEntryOrigins,
-  isPresentedInput,
-  projectIncomingMessageEntries,
-} from "./provider-entry-origins.js";
-import {
-  projectMidConversationSystemEntries,
-  moveLegacySystemRemindersAfterToolResultRun,
-  isToolResultUserMessage,
-  type ProjectedRuntimeMessageEntry,
-} from "./provider-mid-conversation-system.js";
 import type { ModelMessageContent, ModelMessageContentBlock } from "@knorvia/contracts";
-import type { ModelInputMessage, RuntimeMessageEntry } from "../../agent/message-history.js";
 import {
-  cloneModelInputMessage,
-  cloneModelMessageContent,
-  isKnownSystemReminderSource,
-  isRuntimeAttachmentEntry,
+    cloneModelInputMessage,
+    cloneModelMessageContent,
+    isKnownSystemReminderSource,
+    isRuntimeAttachmentEntry,
+    type ModelInputMessage,
+    type RuntimeMessageEntry,
 } from "../../agent/message-history.js";
 import {
-  getSystemReminderDescriptor,
-  isMidConversationSystemSource,
-  wrapSystemReminderForSource,
-  type SystemReminderSource,
+    getSystemReminderDescriptor,
+    isMidConversationSystemSource,
+    wrapSystemReminderForSource,
+    type SystemReminderSource,
 } from "../../system-reminder/source.js";
+import {
+    ProviderEntryOrigins,
+    isPresentedInput,
+    projectIncomingMessageEntries,
+} from "./provider-entry-origins.js";
+import {
+    projectMidConversationSystemEntries,
+    moveLegacySystemRemindersAfterToolResultRun,
+    isToolResultUserMessage,
+    type ProjectedRuntimeMessageEntry,
+} from "./provider-mid-conversation-system.js";
 
 export interface ProviderRequestMessageProjectionResult {
-  messages: ModelInputMessage[];
-  /** 仅用于内部归属；runtime metadata 不会进入 `messages`。 */
-  sourceEntries: Array<RuntimeMessageEntry | undefined>;
-  diagnostics: {
-    bubbledAttachmentEntryCount: number;
-    latestRealUserMessageIndex?: number;
-    strippedRuntimeMetaCount: number;
-    cacheControlIndex?: number;
-  };
-}
-
-// 相邻 user 合并是 Anthropic provider 的协议序列化责任；
-// MCS/provider projection 保持 provider-neutral，避免影响 OpenAI-compatible 请求形态。
-const ENABLE_MCS_ADJACENT_USER_MERGE = false;
-
-// State changes must keep their causal position relative to older target continuations.
-const NON_BUBBLING_ATTACHMENT_SOURCES: ReadonlySet<SystemReminderSource> = new Set([
-  "goal_state_change",
-]);
-
-export function buildProviderRequestMessages(input: {
-  entries: readonly RuntimeMessageEntry[];
-  applyCacheControl?: boolean;
-  skipCacheWrite?: boolean;
-  useMidConversationSystem?: boolean;
-}): ProviderRequestMessageProjectionResult {
-  const useMidConversationSystem = input.useMidConversationSystem !== false;
-  const origins = new ProviderEntryOrigins();
-  const reorderResult = reorderAttachmentLikeEntries(
-    projectIncomingMessageEntries(input.entries, origins),
-  );
-  const midSystemProjection = useMidConversationSystem
-    ? projectMidConversationSystemEntries(reorderResult.entries, origins)
-    : { entries: reorderResult.entries };
-  const projectedEntries = moveLegacySystemRemindersAfterToolResultRun(midSystemProjection.entries);
-  // media-budget 在 provider-clean messages 上运行，必须在剥离 metadata 前记录
-  // latest real user 的 projection 后索引，避免用户 literal system-reminder 被误当成 meta。
-  const latestRealUserMessageIndex = findLatestRealUserEntryIndex(projectedEntries, origins);
-  const renderedMessages = projectedEntries.map(renderProjectedEntryToModelMessage);
-  const mergeResult = ENABLE_MCS_ADJACENT_USER_MERGE
-    ? mergeAdjacentUserMessages(renderedMessages)
-    : skipAdjacentUserMessageMerge(renderedMessages);
-  const messages = mergeResult.messages;
-  const sourceEntries: Array<RuntimeMessageEntry | undefined> = [];
-  for (const [projectedIndex, mergedIndex] of mergeResult.indexMap.entries()) {
-    if (sourceEntries[mergedIndex] !== undefined) continue;
-    const entry = projectedEntries[projectedIndex];
-    if (entry) sourceEntries[mergedIndex] = origins.representative(entry);
-  }
-  const finalLatestRealUserMessageIndex =
-    latestRealUserMessageIndex >= 0 ? (mergeResult.indexMap[latestRealUserMessageIndex] ?? -1) : -1;
-  const cacheControlIndex =
-    input.applyCacheControl === true
-      ? finalizeLatestNonSystemMessageCacheControl(messages, {
-          skipCacheWrite: input.skipCacheWrite === true,
-        })
-      : undefined;
-
-  return {
-    messages,
-    sourceEntries,
+    messages: ModelInputMessage[];
+    sourceEntries: Array<RuntimeMessageEntry | undefined>;
     diagnostics: {
-      bubbledAttachmentEntryCount: reorderResult.bubbledAttachmentEntryCount,
-      // 新标记能证明“没有真实用户”；省略索引会让媒体预算按 user role 重新猜来源。
-      ...(finalLatestRealUserMessageIndex >= 0 || input.entries.some(isPresentedInput)
-        ? { latestRealUserMessageIndex: finalLatestRealUserMessageIndex }
-        : {}),
-      strippedRuntimeMetaCount: input.entries.filter((entry) => entry.metadata).length,
-      ...(cacheControlIndex !== undefined ? { cacheControlIndex } : {}),
-    },
-  };
+        bubbledAttachmentEntryCount: number;
+        latestRealUserMessageIndex?: number;
+        strippedRuntimeMetaCount: number;
+        cacheControlIndex?: number;
+    };
 }
 
-interface AttachmentReorderResult {
-  entries: RuntimeMessageEntry[];
-  bubbledAttachmentEntryCount: number;
-}
+// Fixed provider protocol policy: neighboring user messages remain separate.
+const ADJACENT_USER_MERGE_ENABLED = false;
 
-function reorderAttachmentLikeEntries(
-  entries: readonly RuntimeMessageEntry[],
-): AttachmentReorderResult {
-  const result: RuntimeMessageEntry[] = [];
-  const pending: RuntimeMessageEntry[] = [];
-  let bubbledAttachmentEntryCount = 0;
-
-  for (let index = entries.length - 1; index >= 0; index--) {
-    const entry = entries[index]!;
-    if (isAttachmentLikeUserEntry(entry)) {
-      pending.push(entry);
-      continue;
-    }
-
-    if (
-      (isPresentedInput(entry) ||
-        (!isRuntimeAttachmentEntry(entry) && isBubbleStop(entry.message))) &&
-      pending.length > 0
-    ) {
-      result.push(...pending);
-      bubbledAttachmentEntryCount += pending.length;
-      pending.length = 0;
-    }
-    result.push(entry);
-  }
-
-  if (pending.length > 0) {
-    result.push(...pending);
-    bubbledAttachmentEntryCount += pending.length;
-  }
-
-  result.reverse();
-  return { entries: result, bubbledAttachmentEntryCount };
-}
-
-function isAttachmentLikeUserEntry(entry: RuntimeMessageEntry): boolean {
-  if (isPresentedInput(entry)) return false;
-  if (isRuntimeAttachmentEntry(entry)) {
-    const source = entry.metadata.source;
-    if (!isKnownSystemReminderSource(source)) return false;
-    if (NON_BUBBLING_ATTACHMENT_SOURCES.has(source)) return false;
+function descriptorAllowsBubbling(source: SystemReminderSource): boolean {
     const descriptor = getSystemReminderDescriptor(source);
-    if (descriptor.channel === "history_continuity") return false;
-    return (
-      descriptor.isMeta &&
-      descriptor.providerVisibility === "provider_visible" &&
-      descriptor.channel !== "tool_result" &&
-      descriptor.channel !== "real_user"
-    );
-  }
-
-  if (entry.message.role !== "user") return false;
-  if (isToolResultUserMessage(entry.message)) return false;
-  const source = entry.metadata?.source;
-  if (!source || source === "real_user") return false;
-  if (source === "legacy_synthetic") return true;
-  if (!isKnownSystemReminderSource(source)) return false;
-  if (isMidConversationSystemSource(source)) return false;
-
-  const descriptor = getSystemReminderDescriptor(source);
-  if (descriptor.channel === "history_continuity") return false;
-  return (
-    descriptor.isMeta &&
-    descriptor.providerVisibility === "provider_visible" &&
-    descriptor.channel !== "tool_result" &&
-    descriptor.channel !== "real_user"
-  );
+    return descriptor.channel !== "history_continuity"
+        && Boolean(descriptor.isMeta)
+        && descriptor.providerVisibility === "provider_visible"
+        && descriptor.channel !== "tool_result"
+        && descriptor.channel !== "real_user";
 }
 
-function isBubbleStop(message: ModelInputMessage): boolean {
-  return (
-    message.role === "system" ||
-    message.role === "assistant" ||
-    message.role === "tool" ||
-    isToolResultUserMessage(message)
-  );
+function canBubble(entry: RuntimeMessageEntry): boolean {
+    if (isPresentedInput(entry)) return false;
+    if (isRuntimeAttachmentEntry(entry)) {
+        const source = entry.metadata.source;
+        if (!isKnownSystemReminderSource(source) || source === "goal_state_change") return false;
+        return descriptorAllowsBubbling(source);
+    }
+    if (entry.message.role !== "user" || isToolResultUserMessage(entry.message)) return false;
+    const source = entry.metadata?.source;
+    if (!source || source === "real_user") return false;
+    if (source === "legacy_synthetic") return true;
+    if (!isKnownSystemReminderSource(source) || isMidConversationSystemSource(source)) return false;
+    return descriptorAllowsBubbling(source);
 }
 
-function renderProjectedEntryToModelMessage(
-  entry: ProjectedRuntimeMessageEntry,
-): ModelInputMessage {
-  if (isRuntimeAttachmentEntry(entry)) {
+function isAttachmentBoundary(entry: RuntimeMessageEntry): boolean {
+    if (isPresentedInput(entry)) return true;
+    if (isRuntimeAttachmentEntry(entry)) return false;
+    return entry.message.role === "system"
+        || entry.message.role === "assistant"
+        || entry.message.role === "tool"
+        || isToolResultUserMessage(entry.message);
+}
+
+function reorderAttachments(entries: readonly RuntimeMessageEntry[]): {
+    entries: RuntimeMessageEntry[];
+    bubbledAttachmentEntryCount: number;
+} {
+    const reversed: RuntimeMessageEntry[] = [];
+    const pending: RuntimeMessageEntry[] = [];
+    let bubbledAttachmentEntryCount = 0;
+    const flush = (): void => {
+        for (const entry of pending) reversed.push(entry);
+        bubbledAttachmentEntryCount += pending.length;
+        pending.length = 0;
+    };
+    for (let index = entries.length - 1; index >= 0; index--) {
+        const entry = entries[index]!;
+        if (canBubble(entry)) {
+            pending.push(entry);
+            continue;
+        }
+        if (isAttachmentBoundary(entry) && pending.length > 0) flush();
+        reversed.push(entry);
+    }
+    if (pending.length > 0) flush();
+    reversed.reverse();
+    return { entries: reversed, bubbledAttachmentEntryCount };
+}
+
+function renderEntry(entry: ProjectedRuntimeMessageEntry): ModelInputMessage {
+    if (!isRuntimeAttachmentEntry(entry)) return cloneModelInputMessage(entry.message);
     const source = entry.metadata.source;
     if (!isKnownSystemReminderSource(source)) {
-      throw new Error(`Attachment source ${source} is not a system reminder source`);
+        throw new Error(`Attachment source ${source} is not a system reminder source`);
     }
-    const message: ModelInputMessage = {
-      role: "user",
-      // incoming 载荷也可能含关闭标签；统一在 provider 包装时转义，canonical 原文不变。
-      content: wrapSystemReminderForSource(source, entry.content),
+    return {
+        role: "user",
+        content: wrapSystemReminderForSource(source, entry.content),
+        ...(entry.cacheControl ? { cacheControl: { ...entry.cacheControl } } : {}),
     };
-    if (entry.cacheControl) {
-      message.cacheControl = { ...entry.cacheControl };
+}
+
+function dormantMergeBlocks(content: ModelMessageContent): ModelMessageContentBlock[] {
+    if (typeof content === "string") return [{ type: "text", text: content }];
+    return cloneModelMessageContent(content) as ModelMessageContentBlock[];
+}
+
+function retainUserBoundaries(rendered: ModelInputMessage[]): {
+    messages: ModelInputMessage[];
+    messageIndices: number[];
+} {
+    if (!ADJACENT_USER_MERGE_ENABLED) {
+        return {
+            messages: [...rendered],
+            messageIndices: rendered.map((_message, index) => index),
+        };
     }
-    return message;
-  }
-  return cloneModelInputMessage(entry.message);
+    // Dormant content-merge policy retains the existing clone collaborator edge.
+    const messages: ModelInputMessage[] = [];
+    const messageIndices: number[] = [];
+    rendered.forEach(message => {
+        const previous = messages[messages.length - 1];
+        if (!previous || previous.role !== "user" || message.role !== "user"
+            || isToolResultUserMessage(previous) || isToolResultUserMessage(message)) {
+            messages.push(message);
+            messageIndices.push(messages.length - 1);
+            return;
+        }
+        const before = dormantMergeBlocks(previous.content);
+        const after = dormantMergeBlocks(message.content);
+        const tail = before[before.length - 1];
+        const head = after[0];
+        if (tail?.type === "text" && head?.type === "text") {
+            tail.text += "\n";
+        }
+        const cacheControl = message.cacheControl ?? previous.cacheControl;
+        messages[messages.length - 1] = {
+            role: "user",
+            content: [...before, ...after],
+            ...(cacheControl ? { cacheControl: { ...cacheControl } } : {}),
+        };
+        messageIndices.push(messages.length - 1);
+    });
+    return { messages, messageIndices };
 }
 
-interface MessageMergeResult {
-  messages: ModelInputMessage[];
-  indexMap: number[];
-}
-
-function mergeAdjacentUserMessages(messages: readonly ModelInputMessage[]): MessageMergeResult {
-  const merged: ModelInputMessage[] = [];
-  const indexMap: number[] = [];
-
-  for (let index = 0; index < messages.length; index++) {
-    const message = messages[index]!;
-    const previous = merged.at(-1);
-    if (previous && canMergeAdjacentUserMessages(previous, message)) {
-      const mergedIndex = merged.length - 1;
-      merged[mergedIndex] = mergeUserMessages(previous, message);
-      indexMap[index] = mergedIndex;
-      continue;
+function applyRequestCacheControl(messages: ModelInputMessage[], skipCacheWrite: boolean): number | undefined {
+    for (let index = 0; index < messages.length; index++) {
+        const message = messages[index]!;
+        if (message.role !== "system" && message.cacheControl) {
+            const { cacheControl: _cacheControl, ...remaining } = message;
+            messages[index] = remaining;
+        }
     }
-
-    indexMap[index] = merged.length;
-    merged.push(message);
-  }
-
-  return { messages: merged, indexMap };
+    let skip = skipCacheWrite;
+    for (let index = messages.length - 1; index >= 0; index--) {
+        const message = messages[index]!;
+        if (message.role === "system") continue;
+        if (skip) {
+            skip = false;
+            continue;
+        }
+        messages[index] = { ...message, cacheControl: { type: "ephemeral" } };
+        return index;
+    }
+    return undefined;
 }
 
-function skipAdjacentUserMessageMerge(messages: readonly ModelInputMessage[]): MessageMergeResult {
-  return {
-    messages: [...messages],
-    indexMap: messages.map((_, index) => index),
-  };
-}
-
-function canMergeAdjacentUserMessages(
-  previous: ModelInputMessage,
-  next: ModelInputMessage,
-): boolean {
-  if (previous.role !== "user" || next.role !== "user") return false;
-  return !isToolResultUserMessage(previous) && !isToolResultUserMessage(next);
-}
-
-function mergeUserMessages(
-  previous: ModelInputMessage,
-  next: ModelInputMessage,
-): ModelInputMessage {
-  const merged: ModelInputMessage = {
-    role: "user",
-    content: mergeUserContent(previous.content, next.content),
-  };
-  const cacheControl = next.cacheControl ?? previous.cacheControl;
-  if (cacheControl) merged.cacheControl = { ...cacheControl };
-  return merged;
-}
-
-function mergeUserContent(
-  previous: ModelMessageContent,
-  next: ModelMessageContent,
-): ModelMessageContentBlock[] {
-  const previousBlocks = modelContentToMergeBlocks(previous);
-  const nextBlocks = modelContentToMergeBlocks(next);
-  const previousLast = previousBlocks.at(-1);
-  const nextFirst = nextBlocks[0];
-
-  if (previousLast?.type === "text" && nextFirst?.type === "text") {
-    previousBlocks[previousBlocks.length - 1] = {
-      ...previousLast,
-      text: `${previousLast.text}\n`,
+export function buildProviderRequestMessages(input: {
+    entries: readonly RuntimeMessageEntry[];
+    applyCacheControl?: boolean;
+    skipCacheWrite?: boolean;
+    useMidConversationSystem?: boolean;
+}): ProviderRequestMessageProjectionResult {
+    const useMidConversationSystem = input.useMidConversationSystem !== false;
+    const origins = new ProviderEntryOrigins();
+    const incoming = projectIncomingMessageEntries(input.entries, origins);
+    const reordered = reorderAttachments(incoming);
+    const midSystemEntries = useMidConversationSystem
+        ? projectMidConversationSystemEntries(reordered.entries, origins).entries
+        : reordered.entries;
+    const entries = moveLegacySystemRemindersAfterToolResultRun(midSystemEntries);
+    const latestRealUserMessageIndex = entries.findLastIndex(entry => origins.hasRealUser(entry));
+    const rendered = entries.map(renderEntry);
+    const { messages, messageIndices } = retainUserBoundaries(rendered);
+    const sourceEntries: Array<RuntimeMessageEntry | undefined> = [];
+    messageIndices.forEach((messageIndex, originalIndex) => {
+        const entry = entries[originalIndex];
+        if (sourceEntries[messageIndex] === undefined && entry) {
+            sourceEntries[messageIndex] = origins.representative(entry);
+        }
+    });
+    const cacheControlIndex = input.applyCacheControl === true
+        ? applyRequestCacheControl(messages, input.skipCacheWrite === true)
+        : undefined;
+    const diagnostics: ProviderRequestMessageProjectionResult["diagnostics"] = {
+        bubbledAttachmentEntryCount: reordered.bubbledAttachmentEntryCount,
+        ...(latestRealUserMessageIndex >= 0 || input.entries.some(isPresentedInput)
+            ? { latestRealUserMessageIndex }
+            : {}),
+        strippedRuntimeMetaCount: input.entries.filter(entry => entry.metadata).length,
+        ...(cacheControlIndex !== undefined ? { cacheControlIndex } : {}),
     };
-  }
-
-  return [...previousBlocks, ...nextBlocks];
-}
-
-function modelContentToMergeBlocks(content: ModelMessageContent): ModelMessageContentBlock[] {
-  if (typeof content === "string") {
-    return [{ type: "text", text: content }];
-  }
-  return cloneModelMessageContent(content) as ModelMessageContentBlock[];
-}
-
-function findLatestRealUserEntryIndex(
-  entries: readonly ProjectedRuntimeMessageEntry[],
-  origins: ProviderEntryOrigins,
-): number {
-  return entries.findLastIndex((entry) => origins.hasRealUser(entry));
-}
-
-function finalizeLatestNonSystemMessageCacheControl(
-  messages: ModelInputMessage[],
-  options: { skipCacheWrite?: boolean } = {},
-): number | undefined {
-  clearNonSystemMessageCacheControl(messages);
-
-  const latestIndex = findPreviousNonSystemMessageIndex(messages, messages.length - 1);
-  if (latestIndex === undefined) return undefined;
-
-  // 但不作为 cache write breakpoint，marker 应前移到 compact prompt 前的真实上下文。
-  const cacheControlIndex =
-    options.skipCacheWrite === true
-      ? findPreviousNonSystemMessageIndex(messages, latestIndex - 1)
-      : latestIndex;
-  if (cacheControlIndex === undefined) return undefined;
-
-  const message = messages[cacheControlIndex]!;
-  messages[cacheControlIndex] = {
-    ...message,
-    cacheControl: { type: "ephemeral" },
-  };
-  return cacheControlIndex;
-}
-
-function findPreviousNonSystemMessageIndex(
-  messages: readonly ModelInputMessage[],
-  startIndex: number,
-): number | undefined {
-  for (let index = Math.min(startIndex, messages.length - 1); index >= 0; index--) {
-    if (messages[index]?.role !== "system") return index;
-  }
-  return undefined;
-}
-
-function clearNonSystemMessageCacheControl(messages: ModelInputMessage[]): void {
-  for (let index = 0; index < messages.length; index++) {
-    const message = messages[index]!;
-    if (message.role === "system" || !message.cacheControl) continue;
-    const { cacheControl: _cacheControl, ...messageWithoutCacheControl } = message;
-    messages[index] = messageWithoutCacheControl;
-  }
+    return { messages, sourceEntries, diagnostics };
 }
