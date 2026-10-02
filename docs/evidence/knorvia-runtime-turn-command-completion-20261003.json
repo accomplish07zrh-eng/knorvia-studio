@@ -1,0 +1,221 @@
+{
+  "base": "c5705a3b0eca23f51b3974a6e554aa9ae0d5bf3a",
+  "implementationCommit": "5716e71c43a9db283084b5410c4b853a1bc8c7a2",
+  "ownedPaths": [
+    "apps/cli/packages/core/src/runtime/methods/turn-command-data.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-command-state.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn.ts"
+  ],
+  "design": "One admitted per-turn lifetime holds captured selection/output style and live turn/target/loop identities. A synchronous factory supplies one native async operation directly to the existing trace owner; it retains all initialization, shortcut, preparation, loop and failure awaits. Root retains the original telemetry chain and native async finalizer. Synchronous data/phase helpers add no promise settlement owner. Existing queue, history, target, model, usage, deadline and permission subsystems stay authoritative.",
+  "authorship": {
+    "freshAuthor": "GPT-6.1 Sol/high, fork_turns none, same executor; ten body-free functional/API inputs plus separately bound type supplement and factual curator clarification messages. Whole draft saved/sealed before compiler/source comparison.",
+    "curatorSourceExposed": true,
+    "strictPacketOnly": false,
+    "draftSeal": {
+      "path": "docs/evidence/runtime-turn-command-author-20261003/draft-01/seal.json",
+      "sha256": "f8c108e9ec4299a012f5d50d53c766bad27fbe40b0e4e2c9cb9cd53707e23052",
+      "closureUtc": "2026-10-02T22:51:41.743377+00:00",
+      "activeSources": 4,
+      "preservedInitialIntermediateEntries": 19
+    },
+    "limits": [
+      "Curator reviewed predecessor and supplied exact fields/statuses/port facts; author access journal preserves those supplements.",
+      "Installed candidate includes post-seal source-exposed compatibility corrections; it is not the unchanged restricted draft.",
+      "Complete lifetime was drafted, but fixed admission/publication/cleanup sequences can strongly correspond to predecessor; later independent expression review remains required.",
+      "No clean-room, independent-origin whole-file, MIT, header or global inventory grant."
+    ]
+  },
+  "retainedExpression": [
+    "executeTurn enqueue wrapper retained byte-for-byte, source SHA52d283bf22ae08e696eb6b8e0edfbe3c14e9d51574e63c46fcbfae5c13dea394; relocation credit zero.",
+    "Public signatures, event/log/error/model-facing strings, field order and native await gates are compatibility requirements.",
+    "Conventional object/spread/conditional/state-wrapper expressions and source-exposed ordering corrections may match; no algorithmic novelty required or claimed.",
+    "Imported predecessor/accepted helpers and E/G/protected implementations remain unchanged dependencies; no credit for module splitting/names/format/hash changes."
+  ],
+  "lineage": {
+    "inventory": "licensing/current-files.json (historical lane input, unchanged)",
+    "classification": "upstream-modified; review null",
+    "publisherPath": "apps/zcode-cli/packages/core/src/runtime/methods/turn.ts",
+    "publisherBlob": "351cf9b5a229e0d6929cb90d7e9c370d61171722",
+    "publisherNormalizedSha256": "2070421417f5dfb97ac722d9c0fce0a4a647599332262cd99041b66a024485ee",
+    "localPublisherVerificationPerformed": false,
+    "existingAttributionObligationsRemain": true
+  },
+  "postSealCorrections": [
+    "Browser cleanup warning converts Error to message/other values to String and stringifies turnId; original two-group predecessor pass and draft failure retained at8fa2cce.",
+    "Exact rewind null and prompt-hook truthy admissions; re-read CoreError cancellation category after effect boundaries rather than cache it.",
+    "Capture consumed flags before outcome port lookup; retain source-order shared-context identifier reads and messageHistory.addEntries lookup before entry construction.",
+    "Separate synchronous synthetic history insertion from notice projection so persistence port lookup precedes notice fields; no extra await.",
+    "Private notice source typed as ReturnType<typeof syntheticInput> after preserved2345 type diagnostic.",
+    "Retain original executeTurn export order and exact body; initial API comparison rejected changed insertion order, no assertion weakened."
+  ],
+  "preservedFailures": {
+    "source-type-correction-failure": {
+      "path": "docs/evidence/runtime-turn-command-author-20261003/freeze-logs/source-type-correction-failure.json",
+      "sha256": "bf22f8bc1ebe8527f36b9d4b3d28fd32251f5b886d7b08ef9a8013e7214e7219",
+      "diagnostics": [
+        {
+          "code": 2345,
+          "file": "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+          "message": "Argument of type '{ messageID: MessageId; metadata: { visibility: string; inputPresentation?: \"task_notification\" | \"user_steer\" | \"coordinator_steer\" | \"coordinator_input\" | \"subagent_reply_steer\" | \"subagent_reply\" | \"task_notification_steer\" | undefined; targetId?: string | undefined; }; ... 4 more ...; visibility: \"model-only\"; }' is not assignable to parameter of type '{ messageID: MessageId; sessionId: SessionId; source: \"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | ... 5 more ... | \"shared_context\"; text: string; traceContext: TraceContext; metadata?: Record<...> | undefined; visibility?: \"user-visible\" | ... 1 more .....'.\n  Types of property 'source' are incompatible.\n    Type 'string' is not assignable to type '\"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\"'."
+        }
+      ],
+      "apiEqual": false
+    },
+    "final-types": {
+      "path": "docs/evidence/runtime-turn-command-author-20261003/freeze-logs/final-types.json",
+      "sha256": "8d2feee986caebec899c6505f028fb023389314050198f32df20cfbea25dc888",
+      "diagnostics": [],
+      "apiEqual": false
+    }
+  },
+  "packet": {
+    "path": "docs/evidence/runtime-turn-command-author-20261003/packet.json",
+    "sha256": "f4e8a9e4d369ed7cb78d9e14095677d4b711a566f864a73b570719be895125a3",
+    "originalInputs": 10,
+    "separateSupplementSha256": "7c13480846c2222d91fa94909f52f100c66a562292c198be63fab0efceb747b8"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-turn-command-baseline-20261003.json",
+    "sha256": "7957aa55629c1982c1faf5234bf1025f0ac1bfc7b5eb55487caf6cdfa1d4c3bd",
+    "source": "e71b8d1aac21d88bd097c7c7599313ff4811971f7c198d97559fed7bb3539c3c",
+    "compiled": "f92abc6ed1c8b3baa79e1d715ae2f81e868ebb795afdee0169e6c553f6682177",
+    "declaration": "aa131c04766e9f4ed31be3c08f3fa38563ae5b3a4eebb597aec1592ea2efc9ea"
+  },
+  "currentManifest": {
+    "path": "docs/evidence/knorvia-runtime-turn-command-current-20261003.json",
+    "sha256": "beacb27633635d85f901a63d3eeebc6936d6fc4de34c2ae3006fa3749e23d057",
+    "sourceJsDeclarationMatches": 12
+  },
+  "checks": {
+    "final-safety-reviewed": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-safety-reviewed-20261003.json",
+      "sha256": "c7ca3656ab705b25e9cf3c45da2294110fde9e7880baedb262c7435e21d4b9eb",
+      "result": {
+        "mode": "current",
+        "count": 2,
+        "groups": [
+          "early abort retains admission and ordered cleanup, no model/data writes",
+          "synchronous model creation failure publishes before telemetry/cleanup, browser error swallowed"
+        ],
+        "selected": "exact compiler-emitted owner; unchanged real dependency owners through source loader",
+        "liveIO": false
+      }
+    },
+    "final-artifact": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-artifact-20261003.json",
+      "sha256": "65f1abba5103e27c3b16b2164e5007d2c7063b547016dd9652dac210d587ddd9",
+      "result": {
+        "exactManifest": "beacb27633635d85f901a63d3eeebc6936d6fc4de34c2ae3006fa3749e23d057",
+        "currentArtifactMatches": 12,
+        "wrongCompiledFailsClosed": true,
+        "missingDeclarationFailsClosed": true,
+        "liveIO": false
+      }
+    },
+    "final-types-reviewed": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-types-reviewed-20261003.json",
+      "sha256": "9fdeb506bbe331f11e0a996763a9776b6a16a96affd7486dc7d6c1626c0246b4",
+      "result": {
+        "typescript": "6.0.2",
+        "diagnostics": [],
+        "apiEqual": true,
+        "apiProof": {
+          "historical": {
+            "executeTurn": [
+              "(this: AgentRuntimeInternal, input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined): Promise<TurnResult>"
+            ],
+            "executeTurnCommand": [
+              "(this: AgentRuntimeInternal, input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined, startReservation?: ActiveTurnStartReservation | undefined): Promise<TurnResult>"
+            ]
+          },
+          "current": {
+            "executeTurn": [
+              "(this: AgentRuntimeInternal, input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined): Promise<TurnResult>"
+            ],
+            "executeTurnCommand": [
+              "(this: AgentRuntimeInternal, input: string, attachments?: TurnAttachment[] | undefined, options?: ExecuteTurnOptions | undefined, startReservation?: ActiveTurnStartReservation | undefined): Promise<TurnResult>"
+            ]
+          }
+        },
+        "modules": [
+          "apps/cli/packages/core/src/runtime/methods/turn-command-data.ts",
+          "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+          "apps/cli/packages/core/src/runtime/methods/turn-command-state.ts",
+          "apps/cli/packages/core/src/runtime/methods/turn.ts"
+        ]
+      }
+    },
+    "final-protected": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-protected-20261003.json",
+      "sha256": "d5d7bae289157b51bf4cb94a4c401a762ccbe1d6da59036020a5b5469def62de",
+      "result": {
+        "protectedPriorArtifactMatches": {
+          "model-tools": 15,
+          "turn-model-step": 15
+        },
+        "protectedNewCoordination": [
+          {
+            "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+            "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc",
+            "unchangedFrom": "c5705a3"
+          },
+          {
+            "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+            "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d",
+            "unchangedFrom": "c5705a3"
+          },
+          {
+            "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+            "sha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466",
+            "unchangedFrom": "c5705a3"
+          },
+          {
+            "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+            "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+            "unchangedFrom": "c5705a3"
+          }
+        ]
+      }
+    },
+    "final-wrapper": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-wrapper-20261003.json",
+      "sha256": "60fa6ca6eb2893c2acb4c8805cac75ead9bb98d1d25e33c90df2221b8ee636e0",
+      "result": {
+        "retainedExecuteTurnExactSource": true,
+        "sha256": "52d283bf22ae08e696eb6b8e0edfbe3c14e9d51574e63c46fcbfae5c13dea394",
+        "relocationOriginalityCredit": 0
+      }
+    },
+    "final-lint": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-lint-20261003.txt",
+      "sha256": "786daa0d9e5b259661ea4dbc500d52a1fbf51ecf145033dd59e2558fa55eb1b7"
+    },
+    "final-format-check": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-format-check-20261003.txt",
+      "sha256": "3325a1fc179e42d80bd5f2a6f64100f4eac1972c7323a0ab0883f0bcd1d9a006"
+    },
+    "final-architecture": {
+      "path": "docs/evidence/knorvia-runtime-turn-command-final-architecture-20261003.txt",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  },
+  "counts": {
+    "finalMinimumEmittedGroups": 2,
+    "sourceModeReplay": 0,
+    "currentArtifactControls": 2,
+    "publicRootSignaturesPreserved": 2,
+    "priorModelToolStepArtifactMatches": 30,
+    "earlierCurrentRunBeforeFinalStaticCorrection": 2,
+    "overlap": "Earlier current2 and final current2 exercise the same frozen cohorts; not four distinct behavior groups. Baseline2 and draft red are historical evidence,not additional current coverage."
+  },
+  "verificationLimits": [
+    "Owned fake runtime/store/browser/telemetry; selected four modules use exact compiler-emitted JS. Unchanged real dependency owners resolve through source loader.",
+    "Normal-loop success,shared-context imports,provider integration,full call-runner,concurrency and hostile timing grids were not executed. Static native await/order review is narrower than exhaustive runtime equivalence.",
+    "Ordinary suites/source replay,aggregate builds/root gates and native acceptance intentionally deferred under speed-first cadence.",
+    "Author evidence and historical oracles remain immutable; no lane merge,license grant or publication."
+  ],
+  "protected": "Both prior model/tool and model-step manifests match15 artifacts each. New E hydration reservations,held read-state SHA5acb4ca...,runtime-task registry and all other production paths unchanged. Root recovery/main,shared licensing,CI/dependencies/settings untouched.",
+  "remainingInventory": "docs/evidence/knorvia-runtime-turn-command-remaining-20261003.json",
+  "status": "Own branch candidate for draftPR11; clean checkpoint expected after receipt commit. Normal push/update authorized; no merge/deploy/publication or source-rights decision."
+}

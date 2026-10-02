@@ -1,0 +1,17 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+      "message": "Argument of type '{ messageID: MessageId; metadata: { visibility: string; inputPresentation?: \"task_notification\" | \"user_steer\" | \"coordinator_steer\" | \"coordinator_input\" | \"subagent_reply_steer\" | \"subagent_reply\" | \"task_notification_steer\" | undefined; targetId?: string | undefined; }; ... 4 more ...; visibility: \"model-only\"; }' is not assignable to parameter of type '{ messageID: MessageId; sessionId: SessionId; source: \"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | ... 5 more ... | \"shared_context\"; text: string; traceContext: TraceContext; metadata?: Record<...> | undefined; visibility?: \"user-visible\" | ... 1 more .....'.\n  Types of property 'source' are incompatible.\n    Type 'string' is not assignable to type '\"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\"'."
+    }
+  ],
+  "apiEqual": false,
+  "modules": [
+    "apps/cli/packages/core/src/runtime/methods/turn-command-data.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-command-operation.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-command-state.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn.ts"
+  ]
+}
