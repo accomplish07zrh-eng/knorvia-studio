@@ -1,0 +1,370 @@
+{
+  "owner": "manifest",
+  "version": "v2",
+  "role": "same restricted complete independent author; not curator",
+  "receipt_time_utc": "2026-10-02T21:57:57.854662+00:00",
+  "scope": "Complete same-author corrected implementation. New frozen error-order requirement governs paired per-entry rejection; original public API/imports, traversal, frontmatter, privacy, ordering and output data retained.",
+  "model": {
+    "requested": "GPT-6.1 Sol",
+    "requested_reasoning_effort": "high",
+    "selection_authority": "parent task reports user authorization",
+    "actual_model_and_reasoning": "not independently verified",
+    "saved_fast_setting": "unchanged by this author; unverified",
+    "serving_tier": "no proof"
+  },
+  "lineage": {
+    "archived_original_source": {
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "bytes": 3981,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "lines": 101,
+      "mode": "0444",
+      "preserved": "No write or chmod in correction turn."
+    },
+    "archived_original_receipt": {
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+      "bytes": 9523,
+      "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0",
+      "lines": 144,
+      "mode": "0444",
+      "preserved": "No write or chmod in correction turn."
+    },
+    "original_receipt_complete": {
+      "owner": "manifest",
+      "role": "restricted complete independent author; not curator",
+      "receipt_time_utc": "2026-10-02T21:53:03.847382+00:00",
+      "scope": "Complete candidate preserving frozen public API, imports, behavior and output data; internal organization chosen by author.",
+      "model": {
+        "requested": "GPT-6.1 Sol",
+        "requested_reasoning_effort": "high",
+        "selection_authority": "parent task reports user authorization",
+        "actual_model_and_reasoning": "not independently verified",
+        "saved_fast_setting": "unchanged by this author; unverified",
+        "serving_tier": "no proof"
+      },
+      "actual_explicit_file_reads": [
+        {
+          "sequence": 1,
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/contract.md",
+          "bytes": 3810,
+          "sha256": "a0d48cccac112ee51039377a7884476f791642b2901d30f806b62980ed7c1c25",
+          "extent": "entire file",
+          "purpose": "frozen public input read, hash and manual review"
+        },
+        {
+          "sequence": 2,
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/public-api.d.ts",
+          "bytes": 376,
+          "sha256": "5a14e54117352a09ceb0da907090397083febfeb8b5e20e41443dec3b347aab6",
+          "extent": "entire file",
+          "purpose": "frozen public input read, hash and manual review"
+        },
+        {
+          "sequence": 3,
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/dependency-api.d.ts",
+          "bytes": 181,
+          "sha256": "cdd5bbd9801ee7a9bc725b6c36e2acfe0e1f8e55d0a07a9e81289b84faa4cb76",
+          "extent": "entire file",
+          "purpose": "frozen public input read, hash and manual review"
+        },
+        {
+          "sequence": 4,
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/public-shapes.d.ts",
+          "bytes": 6340,
+          "sha256": "5c85152002ff5b80a9c4abdd46f480458df85224a3bd76a71b3dbb8e3d482ebd",
+          "extent": "entire file",
+          "purpose": "frozen public input read, hash and manual review"
+        },
+        {
+          "sequence": 5,
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/imports.json",
+          "bytes": 364,
+          "sha256": "3f7489a358106d568573010915a296af5996f270205e59de1d98e39433df8d7a",
+          "extent": "entire file",
+          "purpose": "frozen public input read, hash and manual review"
+        },
+        {
+          "sequence": 6,
+          "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/output-data.json",
+          "bytes": 1041,
+          "sha256": "2dc3df7f647b8a9d53f3dc7bbcd5d0a80f4c436235f52df2433a97f23e92d4b2",
+          "extent": "entire file",
+          "purpose": "frozen public input read, hash and manual review"
+        },
+        {
+          "sequence": 7,
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+          "bytes": 3738,
+          "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+          "lines": 97,
+          "extent": "entire file",
+          "purpose": "initial own draft full read, hash, line count and manual review"
+        },
+        {
+          "sequence": 8,
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+          "bytes": 3738,
+          "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+          "lines": 97,
+          "extent": "entire file",
+          "purpose": "own draft full read, hash and line count immediately before own revision"
+        },
+        {
+          "sequence": 9,
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+          "bytes": 3981,
+          "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+          "lines": 101,
+          "extent": "entire file",
+          "purpose": "final own source full read, hash, line count and manual review"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+          "bytes": 3981,
+          "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+          "lines": 101,
+          "complete_original_authored_source": true,
+          "freeze_mode": "0444"
+        },
+        {
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+          "freeze_mode": "0444",
+          "filesystem_reads": 0,
+          "hash_reporting": "Final serialized bytes hashed in memory during authoring and reported through tool output; receipt self-hash omitted to avoid circular content."
+        }
+      ],
+      "operations": [
+        "1: One exec_command Python process explicitly read all six frozen input files in listed order, SHA256 hashed and printed their complete content; manual review of output. One UTC clock tool call.",
+        "2: One exec_command Python process created only the assigned output directory and wrote manifest.ts (initial 3738-byte, 97-line source). No explicit file reads.",
+        "3: One exec_command Python process read only own manifest.ts once, hashed, counted lines and printed full source for manual review. One UTC clock tool call.",
+        "4: One exec_command Python process read only own manifest.ts once, hashed and counted lines, then revised that same file to await both members of every failed I/O pair.",
+        "5: One exec_command Python process read only own final manifest.ts once, hashed, counted lines and printed full source for manual review. One UTC clock tool call.",
+        "6: This exec_command Python process authors author-record.json entirely from known in-memory data, reads the UTC clock, serializes and hashes receipt bytes in memory, writes that receipt, and chmods exactly manifest.ts and author-record.json to 0444. No explicit filesystem content reads.",
+        "Tool orchestration used functions.exec and exec_command only for the listed authoring, explicit reads, hashing, line counting and chmod; clock tool used for time. No extra scratch/accounting files, subagents or installs."
+      ],
+      "manual_review": [
+        "Public exports and signatures match public-api.d.ts; import module, name and type-only sets match imports.json.",
+        "Directory recursion fully awaits each listed directory before siblings; candidate symlinks alone receive traversal-time stat; errors on those stats are ignored; traversal failure yields [].",
+        "All path discovery precedes per-file I/O. Per-path stat and 30-line read start together in traversal order. Both promises settle before an entry is accepted or omitted; outer allSettled preserves order.",
+        "Stable descending mtime sort and 200-entry slice follow all per-file I/O; missing mtime uses zero. Supplied path spelling and native-relative separator normalization are preserved.",
+        "Single BOM removal, CRLF normalization, exact opening and first closing marker, YAML parse handling, description truthiness and metadata type fallback follow contract.",
+        "Result own-field order is optional description, filePath, filename, mtimeMs, optional type; no unknown frontmatter, body or own undefined optionals escape.",
+        "Formatter preserves supplied order and exact bracket/date/description templates, propagates date errors and never uses full filePath."
+      ],
+      "retained_data_and_idioms": [
+        "Required original public names, import bindings and type shapes; MEMORY_RECALL_TYPES remains opaque at its original dependency owner and is used for the required four-type membership check.",
+        "Required MEMORY.md exclusion, lowercase .md suffix, exact --- markers, metadata/type/description keys, offsetLine 0, limitLines 30, and post-I/O cap 200.",
+        "Exact required /^\\uFEFF/u and /\\r\\n/gu regular expressions, slash normalization and output templates including bracket prefix, ISO date parentheses, colon-space description and newline joining.",
+        "Ordinary async recursion, paired Promise.allSettled, ordered collection, nullish coalescing, object spread, stable Array.sort and slice; these are not asserted novel."
+      ],
+      "known_exposures_and_breaches": [
+        "Curator is source-exposed, as disclosed by parent and frozen contract.",
+        "Shared executor restrictions are instruction-only; no OS isolation or access audit was performed. Explicit read enumeration describes authored tool requests, not an independently audited complete process/system access log.",
+        "Prior broader source/tool/dependency context and a prior repaired scratch-write breach are inherited disclosures from parent/contract and remain qualifications. This author did not inspect those materials or breach details during this delegated task.",
+        "Visible task/tool/skill metadata and supplied public type closure were available; public-referenced types were treated as API shapes rather than helper prescriptions.",
+        "No additional prohibited explicit content reads, scratch writes or business filesystem/provider/model/tool-port executions occurred in this delegated authoring turn."
+      ],
+      "limits_and_blockers": [
+        "Manual source review only. No compiler, build, linter, test, mock, dependency implementation, repository source/history, AGENTS, other draft, actual memory/user data, credentials, network/provider calls or business filesystem port invocation.",
+        "Candidate was neither imported nor executed; compatibility and runtime behavior remain unverified by execution, as required by authoring restrictions.",
+        "No novelty, clean separation or licence attestation; no global licensing or adjacent-owner claims.",
+        "No authoring blocker. Receipt timestamp is observed immediately before serialization/write/chmod, not an independently audited filesystem freeze timestamp."
+      ]
+    },
+    "history_qualification": "Original receipt is historical, including its incorrect all-pairs-settle manual-review interpretation. Parent reported that frozen candidate failed a synthetic error-order gate. V2 supersedes only that interpretation and implementation. V2 happens to match the earlier 3738-byte own draft recorded as original read sequences 7 and 8; this is disclosed same-author lineage, not novelty or separation."
+  },
+  "actual_explicit_file_reads_cumulative": [
+    {
+      "sequence": 1,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/contract.md",
+      "bytes": 3810,
+      "sha256": "a0d48cccac112ee51039377a7884476f791642b2901d30f806b62980ed7c1c25",
+      "extent": "entire file",
+      "purpose": "frozen public input read, hash and manual review"
+    },
+    {
+      "sequence": 2,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/public-api.d.ts",
+      "bytes": 376,
+      "sha256": "5a14e54117352a09ceb0da907090397083febfeb8b5e20e41443dec3b347aab6",
+      "extent": "entire file",
+      "purpose": "frozen public input read, hash and manual review"
+    },
+    {
+      "sequence": 3,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/dependency-api.d.ts",
+      "bytes": 181,
+      "sha256": "cdd5bbd9801ee7a9bc725b6c36e2acfe0e1f8e55d0a07a9e81289b84faa4cb76",
+      "extent": "entire file",
+      "purpose": "frozen public input read, hash and manual review"
+    },
+    {
+      "sequence": 4,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/public-shapes.d.ts",
+      "bytes": 6340,
+      "sha256": "5c85152002ff5b80a9c4abdd46f480458df85224a3bd76a71b3dbb8e3d482ebd",
+      "extent": "entire file",
+      "purpose": "frozen public input read, hash and manual review"
+    },
+    {
+      "sequence": 5,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/imports.json",
+      "bytes": 364,
+      "sha256": "3f7489a358106d568573010915a296af5996f270205e59de1d98e39433df8d7a",
+      "extent": "entire file",
+      "purpose": "frozen public input read, hash and manual review"
+    },
+    {
+      "sequence": 6,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-packet-20261003/manifest/output-data.json",
+      "bytes": 1041,
+      "sha256": "2dc3df7f647b8a9d53f3dc7bbcd5d0a80f4c436235f52df2433a97f23e92d4b2",
+      "extent": "entire file",
+      "purpose": "frozen public input read, hash and manual review"
+    },
+    {
+      "sequence": 7,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "bytes": 3738,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "lines": 97,
+      "extent": "entire file",
+      "purpose": "initial own draft full read, hash, line count and manual review"
+    },
+    {
+      "sequence": 8,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "bytes": 3738,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "lines": 97,
+      "extent": "entire file",
+      "purpose": "own draft full read, hash and line count immediately before own revision"
+    },
+    {
+      "sequence": 9,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "bytes": 3981,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "lines": 101,
+      "extent": "entire file",
+      "purpose": "final own source full read, hash, line count and manual review"
+    },
+    {
+      "sequence": 10,
+      "path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/manifest-error-order.md",
+      "bytes": 1087,
+      "sha256": "26e81b4c50fb5ef28b5398fc9006ff2909e7aacbd55f9662b3f99d535732cab4",
+      "lines": 5,
+      "extent": "entire file",
+      "purpose": "new full frozen error-order finding read, hash, line count and manual review"
+    },
+    {
+      "sequence": 11,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "bytes": 3981,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "lines": 101,
+      "extent": "entire file",
+      "purpose": "full archived original source read, hash, line count and manual review"
+    },
+    {
+      "sequence": 12,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+      "bytes": 9523,
+      "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0",
+      "lines": 144,
+      "extent": "entire file",
+      "purpose": "full archived original receipt read, hash, line count and manual review"
+    },
+    {
+      "sequence": 13,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "bytes": 3981,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "lines": 101,
+      "extent": "entire file",
+      "purpose": "full archived original source read and hash to author separate complete correction"
+    },
+    {
+      "sequence": 14,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest-v2/manifest.ts",
+      "bytes": 3738,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "lines": 97,
+      "extent": "entire file",
+      "purpose": "full corrected own source read, hash, line count and manual review"
+    },
+    {
+      "sequence": 15,
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+      "bytes": 9523,
+      "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0",
+      "lines": 144,
+      "extent": "entire file",
+      "purpose": "full archived original receipt read and hash to retain complete lineage in v2 receipt"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest-v2/manifest.ts",
+      "bytes": 3738,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "lines": 97,
+      "complete_source": true,
+      "freeze_mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest-v2/author-record.json",
+      "filesystem_reads": 0,
+      "freeze_mode": "0444",
+      "hash_reporting": "Final serialized bytes hashed in memory and reported through tool output; self-hash omitted from receipt content to avoid circularity."
+    }
+  ],
+  "operations_correction_turn": [
+    "1: exec_command Python explicitly read finding, original source and original receipt once each in that order; full byte/hash/line output and manual review. No writes.",
+    "2: exec_command Python explicitly read original source once, hashed and counted it, authored the full corrected source into the assigned v2 directory, then read only that own corrected source once for hash/line/full-source manual review. Created only the assigned output directory and manifest.ts.",
+    "3: This exec_command Python explicitly reads original receipt once, hashes/counts it, parses its own JSON to preserve full original lineage, authors complete v2 receipt, reads UTC time, hashes final receipt bytes in memory, writes only v2 author-record.json, and chmods exactly v2 manifest.ts and v2 author-record.json to 0444.",
+    "Only functions.exec/exec_command orchestration for permitted explicit read/hash/line/manual review/write/chmod operations and UTC clock reading. No progress tools, extra scratch/accounting files, subagents or installs."
+  ],
+  "correction": {
+    "finding_path": "/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/manifest-error-order.md",
+    "finding_sha256": "26e81b4c50fb5ef28b5398fc9006ff2909e7aacbd55f9662b3f99d535732cab4",
+    "change": "Inner Promise.allSettled plus explicit result unwrapping replaced by paired Promise.all. Outer Promise.allSettled retained.",
+    "required_effect": "Stat and range-read are both invoked before awaiting the pair. Either rejection rejects that entry without waiting for a stalled companion. Outer aggregation still waits for all other per-entry promises, emits fulfilled results in input order, and applies stable descending mtime ordering and final 200-entry cap.",
+    "peer_handling": "No retry, cancellation, additional port call or logging introduced."
+  },
+  "manual_review": [
+    "Complete corrected source read and reviewed without execution: paired Promise.all rejects when either already-started operation rejects, and does not await the stalled companion before the per-entry rejection reaches outer allSettled.",
+    "Public exports/signatures and import module/name/type-only sets remain those of the frozen inputs.",
+    "Directory traversal remains sequential depth-first in listed order; only candidate symlinks receive traversal-time stat; symlink stat failure ignored; traversal failure gives [].",
+    "Per-file I/O starts after all discovery and in path order; own signal field passed even undefined; only readTextFileRange offsetLine 0 limitLines 30 used for previews.",
+    "Stable descending mtime sort, missing mtime zero, post-entry-settlement 200 limit, original path spelling and native-relative slash normalization preserved.",
+    "Exact frontmatter markers, one BOM removal, CRLF normalization, YAML parse exception/nonrecord behavior, truthy untrimmed string description, metadata nullish fallback and required recall-type validation preserved.",
+    "Own result field order and absence of undefined optionals preserved; body/unknown metadata excluded. Formatting uses filenames, exact templates, supplied order and normal ISO date errors."
+  ],
+  "retained_data_and_idioms": [
+    "Original public API names, import bindings and referenced public types retained. Dependencies stay opaque at original owners.",
+    "MEMORY.md exclusion, .md suffix, --- markers, type/description/metadata keys, required four recall types via imported MEMORY_RECALL_TYPES, native separators, offsetLine 0, limitLines 30 and cap 200 retained.",
+    "Exact /^\\uFEFF/u and /\\r\\n/gu patterns and bracket/date/colon/newline formatter data retained.",
+    "Ordinary async recursion, Promise.all pair, outer Promise.allSettled, object spread, nullish coalescing, native-relative paths, stable Array.sort/slice retained without novelty claims."
+  ],
+  "known_exposures_and_breaches": [
+    "Curator is source-exposed, as disclosed by parent and frozen contract.",
+    "Shared executor restrictions are instruction-only; no OS isolation or access audit was performed. Explicit read enumeration describes authored tool requests, not an independently audited complete process/system access log.",
+    "Prior broader source/tool/dependency context and a prior repaired scratch-write breach are inherited disclosures from parent/contract and remain qualifications. This author did not inspect those materials or breach details during this delegated task.",
+    "Visible task/tool/skill metadata and supplied public type closure were available; public-referenced types were treated as API shapes rather than helper prescriptions.",
+    "No additional prohibited explicit content reads, scratch writes or business filesystem/provider/model/tool-port executions occurred in this delegated authoring turn.",
+    "Correction additionally sees the frozen finding and its own two archived outputs only. No other draft or private source read.",
+    "Original authored error-order mistake and inaccurate manual-review interpretation are acknowledged; parent synthetic-gate report is received evidence, not a gate run by this author."
+  ],
+  "limits_and_blockers": [
+    "Manual source review only; no compiler/build/lint/test/mock/dependency implementation/repository source/history/AGENTS/other draft/user memory/credentials/network/provider or business filesystem/model/tool-port execution.",
+    "No runtime execution or independent gate verification in this author turn. Parent must perform any authorized review elsewhere.",
+    "Requested GPT-6.1 Sol high remains parent-authorized but not independently verified; saved Fast unchanged/unverified; no serving-tier proof.",
+    "Curator source exposure, instruction-only shared executor restrictions, no OS/access audit, inherited broader/dependency/tool context and repaired prior scratch-write breach remain fully qualified through original receipt.",
+    "No novelty, clean separation or licence attestation; no global licensing/adjacent-owner assertions.",
+    "No correction authoring blocker. Receipt UTC timestamp observed immediately before final serialization/write/chmod, not independently audited freeze time."
+  ]
+}

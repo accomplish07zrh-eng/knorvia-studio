@@ -119,14 +119,16 @@
           "sha256": "175cf0333820d01e33de5c0942a438b54608682b2facaaab91e5abdf263e2c16"
         },
         {
-          "path": "docs/evidence/core-memory-owner-packet-20261003/path/memory-file-path.ts.txt",
+          "path": "/tmp/knorvia-memory-owners-20261003/path/memory-file-path.ts",
           "bytes": 1930,
-          "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558"
+          "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+          "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/path/memory-file-path.ts.txt"
         },
         {
-          "path": "docs/evidence/core-memory-owner-packet-20261003/path/author-record.json",
+          "path": "/tmp/knorvia-memory-owners-20261003/path/author-record.json",
           "bytes": 8647,
-          "sha256": "800cb5d20fbcf6f90abcd0ac0b515dbf12c15d1c9911265d784ab6bc0c8329ab"
+          "sha256": "800cb5d20fbcf6f90abcd0ac0b515dbf12c15d1c9911265d784ab6bc0c8329ab",
+          "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/path/author-record.json"
         }
       ],
       "scratch": "/tmp/knorvia-memory-owners-20261003/path-v2",
@@ -200,9 +202,27 @@
           "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/output-data.json",
           "bytes": 1041,
           "sha256": "2dc3df7f647b8a9d53f3dc7bbcd5d0a80f4c436235f52df2433a97f23e92d4b2"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-review-20261003/manifest-error-order.md",
+          "bytes": 1087,
+          "sha256": "26e81b4c50fb5ef28b5398fc9006ff2909e7aacbd55f9662b3f99d535732cab4"
+        },
+        {
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+          "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/manifest/manifest.ts.txt",
+          "bytes": 3981,
+          "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794"
+        },
+        {
+          "path": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+          "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/manifest/author-record.json",
+          "bytes": 9523,
+          "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0"
         }
       ],
-      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest"
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest-v2",
+      "archiveDirectory": "docs/evidence/core-memory-owner-packet-20261003/manifest-v2"
     }
   },
   "ordinaryChecksDeferred": true,

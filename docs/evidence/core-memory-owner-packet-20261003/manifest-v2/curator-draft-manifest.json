@@ -1,0 +1,25 @@
+{
+  "scope": "manifest",
+  "utc": "2026-10-02T21:58:24.891127+00:00",
+  "files": [
+    {
+      "file": "manifest.ts.txt",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest-v2/manifest.ts",
+      "target": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "bytes": 3738,
+      "lines": 97,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest-v2/author-record.json",
+      "bytes": 24192,
+      "lines": 370,
+      "sha256": "dda530b2d4e36515dfab7a70701b9f55c68fa1facee39c495cb587b3869347e1",
+      "mode": "444"
+    }
+  ],
+  "originalArchive": "docs/evidence/core-memory-owner-packet-20261003/manifest",
+  "qualification": "Entire same-author complete v2+receipt frozen and archived before v2 source rendering/review. Original failed candidate and synthetic error-order gate remain preserved; no curator source patch"
+}
