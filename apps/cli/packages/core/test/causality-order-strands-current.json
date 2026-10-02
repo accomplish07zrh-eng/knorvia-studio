@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "files": {
+    "src/analysis/causality-order-strands.ts": "919132d12de90b0b59825637e92bfd35bca89799d63cdc2977dc80c132878861",
+    "dist/analysis/causality-order-strands.js": "a78e77e6c85b1baaa968c6b16bf9230db18ffa85f9fb3438c001b94bb2d01641",
+    "src/analysis/callbacks.ts": "91cf3a7bc05b036342aa9508110f0fb9b44f8cbe64364027d9da21671a26ba61",
+    "dist/analysis/callbacks.js": "68ead157f96a4fd88e876792b72e62f2c3b3349e3e65cf761668d8476b0f3465",
+    "src/analysis/causality-order-functions.ts": "76196deb7c5889b5125f19c47d5104955bf4b174b3221fb2b17fb2d3503fe14d",
+    "dist/analysis/causality-order-functions.js": "eb6c87ce6d37fd871d0ddd861387bef0dbdc47a621d353737703382cdeebffc1",
+    "src/analysis/sites.ts": "6d15282ae4b5e4166fcade61c9adb45a0fa040ecd482b20d0b82357c12038322",
+    "dist/analysis/sites.js": "d22ac8f5a9d9e6ecf108ba52159c9f649b743cf7f8d8150a30cd1d297d2bad34",
+    "src/analysis/causality-order-state.ts": "7c7ec70dd3a372217ff136a327156dfdb7fd1ef3dcbe721fe3b2d361782b13b8",
+    "dist/analysis/causality-order-state.js": "86b97719859af605cfb5d79a2a4139b80292323c0cf97b85bbb778d119986bdc",
+    "src/analysis/causality-order-settle.ts": "7db70a0dea97cc3855fe614c2d990e0171a972749b300e6dadeae250b275d1ae",
+    "dist/analysis/causality-order-settle.js": "4e29870b350241e08a102e945d190d312ae9fe34e09761e0d1ffefaf3ef28a7a",
+    "src/analysis/causality-order-calls.ts": "c153d1349a06fd08151e8980954e2f570c7c8c8888b1016fdea097065b052462",
+    "dist/analysis/causality-order-calls.js": "41264eb7acaef4f51c405bebb8ec6789682d810e85a0e70cd78a8f4f0c9d6199",
+    "src/analysis/causality-order-loops.ts": "ce80981d778eb5d2d3eb15c4349aab8770cb94081c4fc45bc462a41c26c7f76f",
+    "dist/analysis/causality-order-loops.js": "659ff5a9f63144b16c8f4613440246538804c6b459bcaf926574df443905bf90",
+    "src/analysis/causality-order-walk.ts": "a63999b12058dc2fa97cce78417d0e7a798e62a84a000431bfbff8b3dadb8044",
+    "dist/analysis/causality-order-walk.js": "b1666697f6b8de423a078efe261ae70db2af336c13b0ece1de5df9acdb7a2290",
+    "src/analysis/causality-order.ts": "20bf97bf46a9e8a26878c57f3a4f4e078458fa841c85f18f3be7218622d1001d",
+    "dist/analysis/causality-order.js": "cccfdec4ae2b1c1c960fcdd91a1b48e4e42c0fdb98c4e8611964169fc622ca60",
+    "src/analysis/interpret.ts": "1b31152eeffeb71d80fbf7bc2c40e25b76de74d6bb0794b248f89ed6b1cfe5c2",
+    "dist/analysis/interpret.js": "a47bd1dd7b122e77c1c783f0356480b1409c916ef31a944d535692b9dacdd2f7",
+    "src/analysis/analyze.ts": "a70965143a76ddb95dc2ff2e3a08c790e55fcf8db09b0b93d3731014012ee643",
+    "dist/analysis/analyze.js": "03b8fb8010c72dd18a2117f796cc82ed03ecaf8b351ad1eb4990ba59914c3961",
+    "dist/analysis/causality-order-strands.d.ts": "6aaf3260ec117d6a5c2e14dadf0f5bdf2760c79254beee2f3a99e615a45d7b41"
+  }
+}
