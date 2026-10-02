@@ -1,0 +1,27 @@
+{
+  "batch": "turn-persistence",
+  "typescript": "6.0.2",
+  "diagnostics": [],
+  "api": [
+    {
+      "module": "timeline-persistence",
+      "equal": true
+    },
+    {
+      "module": "tool-part-persistence",
+      "equal": true
+    },
+    {
+      "module": "input-intent-persistence",
+      "equal": true
+    },
+    {
+      "module": "cancelled-stream-persistence",
+      "equal": true
+    },
+    {
+      "module": "workspace-checkpoint-persistence",
+      "equal": true
+    }
+  ]
+}

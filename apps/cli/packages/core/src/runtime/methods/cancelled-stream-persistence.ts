@@ -13,8 +13,6 @@ export async function persistCancelledStreamSnapshot(
     traceContext: TraceContext;
   },
 ): Promise<void> {
-  // 用户 stop 时模型请求会以异常退出，成功路径里的最终 text/reasoning
-  // 持久化不会执行；这里只 flush 已经到达本进程的 text/reasoning，工具仍等终态路径处理。
   const completedAt = Date.now();
   for (const reasoning of options.snapshot.reasoning) {
     if (!hasAssistantReasoningContent(reasoning)) continue;
@@ -26,17 +24,12 @@ export async function persistCancelledStreamSnapshot(
         type: "reasoning",
         text: reasoning.text,
         metadata: reasoning.providerOptions,
-        time: {
-          start: options.assistantCreatedAt,
-          end: completedAt,
-        },
+        time: { start: options.assistantCreatedAt, end: completedAt },
       },
       options.traceContext,
     );
   }
-  if (!options.snapshot.text) {
-    return;
-  }
+  if (!options.snapshot.text) return;
   await runtime.persistPart(
     {
       id: createPartId(),
@@ -44,10 +37,7 @@ export async function persistCancelledStreamSnapshot(
       messageID: options.assistantMessageId,
       type: "text",
       text: options.snapshot.text,
-      time: {
-        start: options.assistantCreatedAt,
-        end: completedAt,
-      },
+      time: { start: options.assistantCreatedAt, end: completedAt },
     },
     options.traceContext,
   );

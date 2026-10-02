@@ -6,11 +6,8 @@ import type {
   ToolCall,
   TraceContext,
 } from "../deps.js";
-import type { AgentRuntimeInternal } from "../internal.js";
 import { requireRuntimeToolCallName } from "../helpers/index.js";
-
-const EMPTY_TOOL_NAME_PLACEHOLDER = "empty_tool_name";
-const PROVIDER_TOOL_NAME_METADATA_KEY = "providerToolName";
+import type { AgentRuntimeInternal } from "../internal.js";
 
 interface NonEmptyToolNameProjection {
   metadata?: Record<string, unknown>;
@@ -18,13 +15,8 @@ interface NonEmptyToolNameProjection {
 }
 
 export function projectToolNameForNonEmptyBoundary(toolName: string): NonEmptyToolNameProjection {
-  if (toolName.trim().length > 0) {
-    return { toolName };
-  }
-  return {
-    metadata: { [PROVIDER_TOOL_NAME_METADATA_KEY]: toolName },
-    toolName: EMPTY_TOOL_NAME_PLACEHOLDER,
-  };
+  if (toolName.trim().length > 0) return { toolName };
+  return { metadata: { providerToolName: toolName }, toolName: "empty_tool_name" };
 }
 
 export async function persistPendingToolPart(
@@ -60,17 +52,11 @@ export async function persistPendingToolPart(
       callID: options.toolCall.id,
       declarationIndex: options.declarationIndex,
       tool: projected.toolName,
-      metadata: {
-        ...projected.metadata,
-        ...options.metadata,
-      },
+      metadata: { ...projected.metadata, ...options.metadata },
       state: {
         status: "pending",
         input: options.input,
-        raw: JSON.stringify({
-          tool: projected.toolName,
-          input: options.toolCall.input,
-        }),
+        raw: JSON.stringify({ tool: projected.toolName, input: options.toolCall.input }),
       },
     },
     options.traceContext,

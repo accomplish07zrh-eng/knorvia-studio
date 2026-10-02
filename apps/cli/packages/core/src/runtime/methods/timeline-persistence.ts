@@ -5,7 +5,6 @@ import type {
   ModelSelection,
   PartId,
   SessionId,
-  TimelinePart,
   TimelinePartDraft,
   TraceContext,
 } from "../deps.js";
@@ -24,7 +23,12 @@ export function recordPendingModelChange(
   const existing = this.pendingModelChangeTimeline;
   const fromModel = existing?.fromModel ?? input.fromModel;
   const fromModelLabel = existing?.fromModelLabel ?? input.fromModelLabel;
-  if (fromModel && isSameModelSelection(fromModel, input.toModel)) {
+  if (
+    fromModel &&
+    fromModel.providerId === input.toModel.providerId &&
+    fromModel.modelId === input.toModel.modelId &&
+    fromModel.options?.reasoningLevel === input.toModel.options?.reasoningLevel
+  ) {
     this.pendingModelChangeTimeline = undefined;
     return;
   }
@@ -45,7 +49,6 @@ export async function persistPendingModelChangeTimeline(
   const pending = this.pendingModelChangeTimeline;
   if (!pending) return;
   this.pendingModelChangeTimeline = undefined;
-
   const created = Date.now();
   await this.persistAssistantTimelinePartForSession({
     sessionId: this.sessionId,
@@ -65,7 +68,9 @@ export async function persistPendingModelChangeTimeline(
             providerId: pending.fromModel.providerId,
             modelId: pending.fromModel.modelId,
             ...(pending.fromModel.options ? { options: pending.fromModel.options } : {}),
-            label: pending.fromModelLabel ?? formatModelSelectionLabel(pending.fromModel),
+            label:
+              pending.fromModelLabel ??
+              `${pending.fromModel.providerId}/${pending.fromModel.modelId}`,
           }
         : undefined,
       toModel: {
@@ -74,10 +79,7 @@ export async function persistPendingModelChangeTimeline(
         ...(pending.toModel.options ? { options: pending.toModel.options } : {}),
         label: pending.toModelLabel,
       },
-      time: {
-        start: created,
-        end: created,
-      },
+      time: { start: created, end: created },
     },
     traceContext,
   });
@@ -103,7 +105,6 @@ export async function persistAssistantTimelinePartForSession(
       partID: options.partID ?? createPartId(),
     };
   }
-
   const messageID = options.messageID ?? createMessageId();
   const partID = options.partID ?? createPartId();
   const created = options.created ?? options.timeline.time?.start ?? Date.now();
@@ -113,20 +114,14 @@ export async function persistAssistantTimelinePartForSession(
       id: messageID,
       sessionID: options.sessionId,
       role: "assistant",
-      time: {
-        created,
-        completed: options.completed ?? options.timeline.time?.end,
-      },
+      time: { created, completed: options.completed ?? options.timeline.time?.end },
       parentID: options.parentID ?? this.latestConversationMessageId ?? messageID,
       modelId: selection && createModelId(selection.modelId),
       providerId: selection && createModelProviderId(selection.providerId),
       mode: this.config.mode ?? "build",
       planEnabled: this.getPlanEnabled(),
       agent: this.config.agentName ?? "agent",
-      path: {
-        cwd: this.workingDirectory,
-        root: this.workspaceRoot,
-      },
+      path: { cwd: this.workingDirectory, root: this.workspaceRoot },
       cost: 0,
       tokens: emptyTokenUsageInfo(),
       finish: options.finish ?? options.timeline.status,
@@ -147,21 +142,8 @@ export async function persistAssistantTimelinePartForSession(
       sessionID: options.sessionId,
       messageID,
       type: "timeline",
-    } as TimelinePart,
+    },
     options.traceContext,
   );
-
   return { messageID, partID };
-}
-
-function isSameModelSelection(left: ModelSelection, right: ModelSelection): boolean {
-  return (
-    left.providerId === right.providerId &&
-    left.modelId === right.modelId &&
-    left.options?.reasoningLevel === right.options?.reasoningLevel
-  );
-}
-
-function formatModelSelectionLabel(selection: ModelSelection): string {
-  return `${selection.providerId}/${selection.modelId}`;
 }
