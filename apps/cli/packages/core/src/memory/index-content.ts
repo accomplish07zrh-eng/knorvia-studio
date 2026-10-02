@@ -1,67 +1,68 @@
-import { Lexer } from "marked";
+import { Lexer } from 'marked';
 
-const MEMORY_INDEX_LINE_LIMIT = 200;
-const MEMORY_INDEX_CHARACTER_LIMIT = 25_000;
-const LEADING_FRONTMATTER_PATTERN = /^---\s*\n[\s\S]*?---\s*\n?/u;
-const HTML_COMMENT_PATTERN = /<!--[\s\S]*?-->/gu;
+const entryLimit = 200;
+const characterLimit = 25000;
+
+function renderedSize(count: number): string {
+  if (count < 1024) return `${count} bytes`;
+
+  let quantity = count / 1024;
+  let unit = 'KB';
+  if (quantity >= 1024) {
+    quantity /= 1024;
+    unit = 'MB';
+    if (quantity >= 1024) {
+      quantity /= 1024;
+      unit = 'GB';
+    }
+  }
+  return `${quantity.toFixed(1).replace(/\.0$/u, '')}${unit}`;
+}
 
 export function formatProjectMemoryIndexContent(content: string): string {
-  const withoutFrontmatter = content.replace(LEADING_FRONTMATTER_PATTERN, "");
-  return formatMemoryIndexContent(stripTopLevelMarkdownHtmlComments(withoutFrontmatter));
+  const body = content.replace(/^---\s*\n[\s\S]*?---\s*\n?/u, '');
+  if (!body.includes('<!--')) return formatMemoryIndexContent(body);
+
+  const pieces: string[] = [];
+  for (const token of new Lexer({ gfm: false }).lex(body)) {
+    const kind = token.type;
+    const raw = token.raw;
+    if (
+      kind === 'html' &&
+      raw.trimStart().startsWith('<!--') &&
+      raw.includes('-->')
+    ) {
+      const remaining = raw.replace(/<!--[\s\S]*?-->/gu, '');
+      if (remaining.trim().length > 0) pieces.push(remaining);
+    } else {
+      pieces.push(raw);
+    }
+  }
+  return formatMemoryIndexContent(pieces.join(''));
 }
 
 export function formatMemoryIndexContent(content: string): string {
-  const trimmed = content.trim();
-  if (!trimmed) return "";
+  const body = content.trim();
+  if (body.length === 0) return '';
 
-  const lines = trimmed.split("\n");
-  const lineCount = lines.length;
-  const characterCount = trimmed.length;
-  const lineTruncated = lineCount > MEMORY_INDEX_LINE_LIMIT;
-  const characterTruncated = characterCount > MEMORY_INDEX_CHARACTER_LIMIT;
-  if (!lineTruncated && !characterTruncated) return trimmed;
+  const rows = body.split('\n');
+  const tooManyRows = rows.length > entryLimit;
+  const tooManyCharacters = body.length > characterLimit;
+  if (!tooManyRows && !tooManyCharacters) return body;
 
-  let truncated = lineTruncated ? lines.slice(0, MEMORY_INDEX_LINE_LIMIT).join("\n") : trimmed;
-  if (truncated.length > MEMORY_INDEX_CHARACTER_LIMIT) {
-    const finalNewline = truncated.lastIndexOf("\n", MEMORY_INDEX_CHARACTER_LIMIT);
-    truncated = truncated.slice(0, finalNewline > 0 ? finalNewline : MEMORY_INDEX_CHARACTER_LIMIT);
+  let excerpt = tooManyRows ? rows.slice(0, entryLimit).join('\n') : body;
+  if (excerpt.length > characterLimit) {
+    const boundary = excerpt.lastIndexOf('\n', characterLimit);
+    excerpt = excerpt.slice(0, boundary > 0 ? boundary : characterLimit);
   }
 
-  const sizeDescription =
-    characterTruncated && !lineTruncated
-      ? `${formatBytes(characterCount)} (limit: ${formatBytes(MEMORY_INDEX_CHARACTER_LIMIT)}) — index entries are too long`
-      : lineTruncated && !characterTruncated
-        ? `${lineCount} lines (limit: ${MEMORY_INDEX_LINE_LIMIT})`
-        : `${lineCount} lines and ${formatBytes(characterCount)}`;
-
-  return `${truncated}\n\n> WARNING: MEMORY.md is ${sizeDescription}. Only part of it was loaded. Keep index entries to one line under ~200 chars; move detail into topic files.`;
-}
-
-function formatBytes(value: number): string {
-  const kilobytes = value / 1024;
-  if (kilobytes < 1) return `${value} bytes`;
-  if (kilobytes < 1024) return `${kilobytes.toFixed(1).replace(/\.0$/u, "")}KB`;
-  const megabytes = kilobytes / 1024;
-  if (megabytes < 1024) return `${megabytes.toFixed(1).replace(/\.0$/u, "")}MB`;
-  return `${(megabytes / 1024).toFixed(1).replace(/\.0$/u, "")}GB`;
-}
-
-function stripTopLevelMarkdownHtmlComments(content: string): string {
-  if (!content.includes("<!--")) return content;
-
-  let result = "";
-  for (const token of new Lexer({ gfm: false }).lex(content)) {
-    if (token.type === "html") {
-      const trimmedToken = token.raw.trimStart();
-      if (trimmedToken.startsWith("<!--") && trimmedToken.includes("-->")) {
-        const withoutComments = token.raw.replace(HTML_COMMENT_PATTERN, "");
-        // 只删除 Markdown lexer 识别到的顶层 HTML comment token；
-        // list、blockquote、paragraph 和 code token 内的 comment 必须保持 provider-visible。
-        if (withoutComments.trim().length > 0) result += withoutComments;
-        continue;
-      }
-    }
-    result += token.raw;
+  let description: string;
+  if (tooManyRows && tooManyCharacters) {
+    description = `${rows.length} lines and ${renderedSize(body.length)}`;
+  } else if (tooManyRows) {
+    description = `${rows.length} lines (limit: ${entryLimit})`;
+  } else {
+    description = `${renderedSize(body.length)} (limit: ${renderedSize(characterLimit)}) — index entries are too long`;
   }
-  return result;
+  return `${excerpt}\n\n> WARNING: MEMORY.md is ${description}. Only part of it was loaded. Keep index entries to one line under ~200 chars; move detail into topic files.`;
 }

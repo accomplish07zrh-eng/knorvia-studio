@@ -1,0 +1,516 @@
+{
+  "passed": true,
+  "baseline": "b5152875cb5aa236e920af07779b05fe2b8b8752",
+  "targets": [
+    {
+      "scope": "extraction",
+      "target": "apps/cli/packages/core/src/memory/extraction.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/extraction/extraction.ts.txt",
+      "bytes": 8265,
+      "lines": 220,
+      "sha256": "7c4ae83f19d893a00dbca51c0b97960ccbc9c438a816191115b59189ab0b4e77",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/extraction-static.json",
+      "staticReviewSha256": "8dacdf5e4f346ac74ebfa271d5dbade18744762165597aef1bd17b64a686a6b4",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/extraction.ts",
+        "bytes": 10405,
+        "lines": 301,
+        "sha256": "3112e116149ecc27e78396aedd836117c3f02bf2926b8053c96dd7842016192b",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    },
+    {
+      "scope": "loop",
+      "target": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/loop/memory-agent-loop.ts.txt",
+      "bytes": 7166,
+      "lines": 221,
+      "sha256": "9805d1a5eb58be815685f8d4dac753309d6d8ee0673564414f4ad26c14594c05",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/loop-static.json",
+      "staticReviewSha256": "8aea3c976199098dfd9812f1d1eb490d11a75c88381fcd957839ff56d5be5250",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+        "bytes": 9755,
+        "lines": 292,
+        "sha256": "b65c8010ba6029e03b9c5b4ed9070d9fbef2d20e7e2b85ff3846d36da551bcf9",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    },
+    {
+      "scope": "path",
+      "target": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/path-v2/memory-file-path.ts.txt",
+      "bytes": 1966,
+      "lines": 81,
+      "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/path-v2-static.json",
+      "staticReviewSha256": "4579209b92a8e971961b266832cc5bbedbae4ed6a020105de0169359fb916878",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+        "bytes": 2342,
+        "lines": 83,
+        "sha256": "6864da8586c7bdad420debb03a30c279f7bc87a562b2b2f2de4c8f0bcf3f096c",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    },
+    {
+      "scope": "index",
+      "target": "apps/cli/packages/core/src/memory/index-content.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/index/index-content.ts.txt",
+      "bytes": 2281,
+      "lines": 68,
+      "sha256": "de62e45a34a9d79d1683fcc4fbfe82442d8d4bbfcc1849ab4bf1e8f30915c50a",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/index-static.json",
+      "staticReviewSha256": "31acfff612364e194ba3aeb62572077414642e24d867cccf30a7be0f5ac5fb56",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/index-content.ts",
+        "bytes": 2990,
+        "lines": 67,
+        "sha256": "09397af14b35c25822e901c44dc702c927b94b75c072a6f5cd595b7d9e9f4e71",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    },
+    {
+      "scope": "manifest",
+      "target": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "archive": "docs/evidence/core-memory-owner-packet-20261003/manifest-v2/manifest.ts.txt",
+      "bytes": 3738,
+      "lines": 97,
+      "sha256": "9c62d032ce529b6c85cbc91d1e5fd1bc8f891ef3bcc187ed6618186ed5a924df",
+      "staticReview": "docs/evidence/core-memory-owner-review-20261003/manifest-v2-static.json",
+      "staticReviewSha256": "cd09b6b4bb316b27ec6b9dc335c843e0d6942e4ee9d380eab287d4ef6dfa2695",
+      "original": {
+        "path": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+        "bytes": 4516,
+        "lines": 137,
+        "sha256": "a26731eac4945743d6afabcc0f7040383374aa0b137328e1ff5567734fb04b53",
+        "priorCompleteDraftRecords": [],
+        "bodyReviewedForThisProposal": false,
+        "bodyReviewedForReservation": false,
+        "decision": "selected substantive complete owner"
+      },
+      "exact": true,
+      "reviewExact": true,
+      "reviewPassed": true
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/contract.md",
+      "bytes": 5079,
+      "sha256": "0d1ee708106aaee926a632ec4109ea112549204d99d6fe9eedd0557f8d88c9ab",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/public-api.d.ts",
+      "bytes": 1333,
+      "sha256": "ea57e8f4289902ffe6d6a8dfdec4fbc0c16c050994e07e499230665b667aeabd",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/dependency-api.d.ts",
+      "bytes": 635,
+      "sha256": "7ad21db3a6d22deedd53676c04d0b2625b47de470cdc4507aeba49bde6a7b073",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/public-shapes.d.ts",
+      "bytes": 12474,
+      "sha256": "dd570cdcb807f2f8beffa160c6565e6b1ad578048330143e550cb94080959e82",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/imports.json",
+      "bytes": 387,
+      "sha256": "304d39a871034ef03c076c4faf434e72bcf830d414d7dd816505795a18a8b4fd",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/output-data.json",
+      "bytes": 2640,
+      "sha256": "a1c43694eee4d6ed24567cd599e2b12e0ec8537710f2ef8547262915bf5459b7",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/contract.md",
+      "bytes": 6160,
+      "sha256": "04a30a38a888a269a5ef894a893b1168506124db142c0e8695da40f2e5a15c55",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-api.d.ts",
+      "bytes": 725,
+      "sha256": "ffd135d5d3b2cec6ed1cca57c791495468f5c48e037231ffa10a63f5650f09d9",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/dependency-api.d.ts",
+      "bytes": 3671,
+      "sha256": "e497728eb00103c3baba3b965da29ddecf3309d86a83c8f7c4a4840e92dc3cef",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+      "bytes": 7616,
+      "sha256": "0624492a5dc88d2c5e96ffa28a3f8bb440d605323f6178ef1f07cd243b371809",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/imports.json",
+      "bytes": 1119,
+      "sha256": "99e9bdf0dea30c90f110f272800b0ef66fe6afa273284c306f1e1ded60143b28",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/output-data.json",
+      "bytes": 1176,
+      "sha256": "1a84b81ef4d7f8e299a2e87756f8e56232904afc94abbfabc1ee0c90fcadaafe",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/loop/receiver-addendum.md",
+      "bytes": 527,
+      "sha256": "1250d02044a3d954281140c52eb9673f155096c533e40410ce8b3cb9dd554feb",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/path/contract.md",
+      "bytes": 3111,
+      "sha256": "e6d0977049993810c07b268e3b1475fb5cafc05871d3ac2f31071926efaee26a",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/path/public-api.d.ts",
+      "bytes": 474,
+      "sha256": "083aed79267a4adf4471cd1482e65010fc628a677610f0057163457a78fa2303",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/path/dependency-api.d.ts",
+      "bytes": 407,
+      "sha256": "d2eff8478b898e4917a6d6c9907c013d213dbaafbad851643b6730674ebf9790",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/path/public-shapes.d.ts",
+      "bytes": 61,
+      "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/path/imports.json",
+      "bytes": 170,
+      "sha256": "4ac10ff49d55afa82c1c30a2e1b23ef25fe5329d27c55e196d3fbc11f591d800",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/path/output-data.json",
+      "bytes": 2071,
+      "sha256": "771a472861d79bd9f0dd5434234c6f5f8ae3ca6e6fc77911bb895fb95a7357cd",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-review-20261003/path-type-review.md",
+      "bytes": 1143,
+      "sha256": "175cf0333820d01e33de5c0942a438b54608682b2facaaab91e5abdf263e2c16",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/path/memory-file-path.ts",
+      "bytes": 1930,
+      "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558",
+      "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/path/memory-file-path.ts.txt",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/path/author-record.json",
+      "bytes": 8647,
+      "sha256": "800cb5d20fbcf6f90abcd0ac0b515dbf12c15d1c9911265d784ab6bc0c8329ab",
+      "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/path/author-record.json",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/index/contract.md",
+      "bytes": 3406,
+      "sha256": "6e1548245f0f3cd0a891bffa96ad048d44286206666b2eb5bb9916435b49fb2f",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/index/public-api.d.ts",
+      "bytes": 157,
+      "sha256": "6bcc063a369f198f925a71f1235319516939f9465cefa4f1d7de0b9342262bd5",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/index/dependency-api.d.ts",
+      "bytes": 234,
+      "sha256": "db20b2c2840ce9cbe1a993d9ab0de39dc10248c9814ed955a3cd28c4a10a6178",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/index/public-shapes.d.ts",
+      "bytes": 61,
+      "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/index/imports.json",
+      "bytes": 62,
+      "sha256": "3657b7f869c3fe02ade0d5b2ca2324d7323edf5b275a30ae877f45420457a572",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/index/output-data.json",
+      "bytes": 2206,
+      "sha256": "1c6e42498f7aee4ac28828d18d6ebfcf6f19c056d8ff2fab430cf6c9d260b4be",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/contract.md",
+      "bytes": 3810,
+      "sha256": "a0d48cccac112ee51039377a7884476f791642b2901d30f806b62980ed7c1c25",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/public-api.d.ts",
+      "bytes": 376,
+      "sha256": "5a14e54117352a09ceb0da907090397083febfeb8b5e20e41443dec3b347aab6",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/dependency-api.d.ts",
+      "bytes": 181,
+      "sha256": "cdd5bbd9801ee7a9bc725b6c36e2acfe0e1f8e55d0a07a9e81289b84faa4cb76",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/public-shapes.d.ts",
+      "bytes": 6340,
+      "sha256": "5c85152002ff5b80a9c4abdd46f480458df85224a3bd76a71b3dbb8e3d482ebd",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/imports.json",
+      "bytes": 364,
+      "sha256": "3f7489a358106d568573010915a296af5996f270205e59de1d98e39433df8d7a",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/output-data.json",
+      "bytes": 1041,
+      "sha256": "2dc3df7f647b8a9d53f3dc7bbcd5d0a80f4c436235f52df2433a97f23e92d4b2",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-review-20261003/manifest-error-order.md",
+      "bytes": 1087,
+      "sha256": "26e81b4c50fb5ef28b5398fc9006ff2909e7aacbd55f9662b3f99d535732cab4",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/manifest/manifest.ts.txt",
+      "bytes": 3981,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "exact": true,
+      "archiveAliasExact": true
+    },
+    {
+      "path": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+      "archivedAs": "docs/evidence/core-memory-owner-packet-20261003/manifest/author-record.json",
+      "bytes": 9523,
+      "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0",
+      "exact": true,
+      "archiveAliasExact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/types.ts",
+      "bytes": 312,
+      "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3458,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-command-parser.ts",
+      "bytes": 8047,
+      "sha256": "22a8f172e0615cd08687a85764bdaf1cb349cf1971420e8e61b04f163e9b44dc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-semantics.ts",
+      "bytes": 5922,
+      "sha256": "68455c0492a35ea15f680d38ffc58d760827a6eef33b09a3845b92b500c5c26b",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "bytes": 549,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/model.ts",
+      "bytes": 2186,
+      "sha256": "9f85b44235e4c221a9092c659a6fea3267c635b62ad77118873d9670167e9279",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/path-policy.ts",
+      "bytes": 2265,
+      "sha256": "e7e0568b2ee8e2d36400aceabcba708615e9f7226089eb11d10b035147c51dee",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/directory.ts",
+      "bytes": 814,
+      "sha256": "04058c420517931bb3366ad590ba0acfadee132fe875e51b5b7cb22febfeca93",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/origin-session.ts",
+      "bytes": 1859,
+      "sha256": "5fd667e140c5b79c697c973cb6f05597c8c37d0ea2b404754f31eb94621e4fc0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/project-root.ts",
+      "bytes": 1106,
+      "sha256": "69ea16dc573f1e60e5579be494d02dc7735ab24821208071f304e5699c2d7f55",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/index.ts",
+      "bytes": 147,
+      "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25",
+      "unchanged": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/evidence/core-memory-owner-review-20261003/retained-data.json",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-review-20261003/minimal-safety-after-fixture.json",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-review-20261003/path-v2-safety.json",
+      "passed": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-review-20261003/manifest-v2-safety.json",
+      "passed": true
+    }
+  ],
+  "outsideAllocatedScope": [],
+  "qualification": "Installed bytes equal archived reviewed author outputs; public declaration/import/receipt/data and minimum safety gates reused by exact digest. No ordinary/runtime/project/semantic/compiler rerun; no cross-lane imports or global licensing edits. Metadata byte equality is not OS/access/novelty/rights/final acceptance proof."
+}
