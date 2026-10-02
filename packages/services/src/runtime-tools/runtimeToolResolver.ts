@@ -1,8 +1,38 @@
 import { accessSync, constants, existsSync } from "node:fs";
-import { delimiter, dirname, join, resolve as resolvePath } from "node:path";
+import { delimiter, dirname, join, resolve } from "node:path";
+
 import { getRuntimeToolRuntime, type RuntimeToolId } from "@knorvia/shared";
 
-function isExecutableFile(path: string): boolean {
+function combinePathEntries(entries: readonly string[]): string {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const entry of entries) {
+    if (!entry || seen.has(entry)) continue;
+    seen.add(entry);
+    result.push(entry);
+  }
+
+  return result.join(delimiter);
+}
+
+export function prependPathEntries(
+  currentPath: string | undefined,
+  entries: readonly string[],
+): string {
+  const currentEntries = currentPath?.split(delimiter).filter(Boolean) ?? [];
+  return combinePathEntries([...entries, ...currentEntries]);
+}
+
+export function appendPathEntries(
+  currentPath: string | undefined,
+  entries: readonly string[],
+): string {
+  const currentEntries = currentPath?.split(delimiter).filter(Boolean) ?? [];
+  return combinePathEntries([...currentEntries, ...entries]);
+}
+
+function isExecutable(path: string): boolean {
   try {
     accessSync(path, constants.X_OK);
     return true;
@@ -11,157 +41,93 @@ function isExecutableFile(path: string): boolean {
   }
 }
 
-function resolveExistingPath(candidates: Array<string | null | undefined>): string | null {
-  for (const candidate of candidates) {
-    if (!candidate) {
-      continue;
-    }
-
-    if (existsSync(candidate) && isExecutableFile(candidate)) {
-      return candidate;
-    }
-  }
-
-  return null;
+function isBinaryCandidate(path: string | undefined): path is string {
+  if (!path) return false;
+  return existsSync(path) && isExecutable(path);
 }
 
-function resolveCommandOnPath(
-  command: string,
-  env: NodeJS.ProcessEnv = process.env,
-): string | null {
-  const pathEnv = env.PATH;
-  if (!pathEnv) {
-    return null;
-  }
+function findCommandOnPath(command: string, env: NodeJS.ProcessEnv): string | null {
+  if (!env.PATH) return null;
 
-  const windowsPathExt =
-    process.platform === "win32"
+  const extensions =
+    process.platform === "win32" && !command.includes(".")
       ? (env.PATHEXT?.split(";").filter(Boolean) ?? [".EXE", ".CMD", ".BAT", ".COM"])
       : [""];
-  const extensions = process.platform === "win32" && !command.includes(".") ? windowsPathExt : [""];
 
-  for (const pathEntry of pathEnv.split(delimiter)) {
-    if (!pathEntry) {
-      continue;
-    }
-
+  for (const entry of env.PATH.split(delimiter)) {
+    if (!entry) continue;
     for (const extension of extensions) {
-      const candidate = join(pathEntry, `${command}${extension}`);
-      if (isExecutableFile(candidate)) {
-        return candidate;
-      }
+      const path = join(entry, command + extension);
+      if (isExecutable(path)) return path;
     }
   }
 
   return null;
 }
 
-function resolvePlatformScopedBundledToolRoots(moduleDir?: string): Array<string | null> {
-  const platformKey = `${process.platform}-${process.arch}`;
-  return [
-    resolvePath(process.cwd(), "bundled-tools", platformKey),
-    resolvePath(process.cwd(), "packages", "desktop", "bundled-tools", platformKey),
-    resolvePath(process.cwd(), "..", "desktop", "bundled-tools", platformKey),
-    moduleDir
-      ? resolvePath(moduleDir, "..", "..", "..", "desktop", "bundled-tools", platformKey)
-      : null,
-    moduleDir ? resolvePath(moduleDir, "..", "..", "desktop", "bundled-tools", platformKey) : null,
-  ];
-}
+function findRuntimeToolBinary(toolId: RuntimeToolId, env: NodeJS.ProcessEnv): string | null {
+  const descriptor = getRuntimeToolRuntime(toolId);
+  const segments = descriptor.resolveEntrySegments(process.platform);
+  const override = env[descriptor.binaryEnvVar]?.trim();
+  if (isBinaryCandidate(override)) return override;
 
-export function prependPathEntries(
-  currentPath: string | undefined,
-  entries: readonly string[],
-): string {
-  const normalizedCurrent = currentPath?.split(delimiter).filter(Boolean) ?? [];
-  return joinUniquePathEntries([...entries, ...normalizedCurrent]);
-}
-
-export function appendPathEntries(
-  currentPath: string | undefined,
-  entries: readonly string[],
-): string {
-  const normalizedCurrent = currentPath?.split(delimiter).filter(Boolean) ?? [];
-  return joinUniquePathEntries([...normalizedCurrent, ...entries]);
-}
-
-function joinUniquePathEntries(entries: readonly string[]): string {
-  const nextEntries: string[] = [];
-  const seen = new Set<string>();
-
-  for (const entry of entries) {
-    if (!entry || seen.has(entry)) {
-      continue;
-    }
-    seen.add(entry);
-    nextEntries.push(entry);
-  }
-
-  return nextEntries.join(delimiter);
-}
-
-function findRuntimeToolBinary(
-  toolId: RuntimeToolId,
-  env: NodeJS.ProcessEnv = process.env,
-): string | null {
-  const runtime = getRuntimeToolRuntime(toolId);
-  const entrySegments = runtime.resolveEntrySegments(process.platform);
-  const envPath = env[runtime.binaryEnvVar]?.trim();
-  if (envPath && existsSync(envPath) && isExecutableFile(envPath)) {
-    return envPath;
-  }
-
+  const resourceProcess = process as NodeJS.Process & { resourcesPath?: unknown };
   const resourcesPath =
-    typeof (process as NodeJS.Process & { resourcesPath?: string }).resourcesPath === "string"
-      ? (process as NodeJS.Process & { resourcesPath?: string }).resourcesPath
-      : null;
+    typeof resourceProcess.resourcesPath === "string" ? resourceProcess.resourcesPath : undefined;
   const runtimeRoot = env.KNORVIA_SERVER_RUNTIME_ROOT?.trim();
-  const moduleDir: string | undefined = import.meta.dirname;
-  const candidate = resolveExistingPath([
-    runtimeRoot
-      ? resolvePath(runtimeRoot, "tools", runtime.bundledResourceDir, ...entrySegments)
-      : null,
-    resourcesPath
-      ? resolvePath(resourcesPath, "tools", runtime.bundledResourceDir, ...entrySegments)
-      : null,
-    ...resolvePlatformScopedBundledToolRoots(moduleDir).map((root) =>
-      root ? resolvePath(root, runtime.bundledResourceDir, ...entrySegments) : null,
-    ),
-  ]);
+  const moduleDir = import.meta.dirname;
+  const platformKey = `${process.platform}-${process.arch}`;
+  const candidates: string[] = [];
 
-  if (candidate) {
-    return candidate;
+  if (runtimeRoot) {
+    candidates.push(resolve(runtimeRoot, "tools", descriptor.bundledResourceDir, ...segments));
+  }
+  if (resourcesPath) {
+    candidates.push(resolve(resourcesPath, "tools", descriptor.bundledResourceDir, ...segments));
   }
 
-  const binaryName = entrySegments[entrySegments.length - 1];
-  if (!binaryName) {
-    return null;
+  const bundledRoots = [
+    resolve(process.cwd(), "bundled-tools", platformKey),
+    resolve(process.cwd(), "packages", "desktop", "bundled-tools", platformKey),
+    resolve(process.cwd(), "..", "desktop", "bundled-tools", platformKey),
+    moduleDir
+      ? resolve(moduleDir, "..", "..", "..", "desktop", "bundled-tools", platformKey)
+      : null,
+    moduleDir ? resolve(moduleDir, "..", "..", "desktop", "bundled-tools", platformKey) : null,
+  ];
+
+  for (const root of bundledRoots) {
+    if (root === null) continue;
+    candidates.push(resolve(root, descriptor.bundledResourceDir, ...segments));
   }
 
-  return resolveCommandOnPath(binaryName.replace(/\.exe$/i, ""), env);
+  for (const candidate of candidates) {
+    if (isBinaryCandidate(candidate)) return candidate;
+  }
+
+  const binaryName = segments[segments.length - 1];
+  if (!binaryName) return null;
+  return findCommandOnPath(binaryName.replace(/\.exe$/i, ""), env);
 }
 
 export function buildRuntimeToolEnvPatch(
   toolIds: readonly RuntimeToolId[],
   baseEnv: NodeJS.ProcessEnv = process.env,
 ): Record<string, string> {
-  const envPatch: Record<string, string> = {};
-  const pathEntries: string[] = [];
+  const patch: Record<string, string> = {};
+  const directories: string[] = [];
 
   for (const toolId of toolIds) {
-    const runtime = getRuntimeToolRuntime(toolId);
+    const descriptor = getRuntimeToolRuntime(toolId);
     const binaryPath = findRuntimeToolBinary(toolId, baseEnv);
-    if (!binaryPath) {
-      continue;
-    }
-
-    envPatch[runtime.binaryEnvVar] = binaryPath;
-    pathEntries.push(dirname(binaryPath));
+    if (binaryPath === null) continue;
+    patch[descriptor.binaryEnvVar] = binaryPath;
+    directories.push(dirname(binaryPath));
   }
 
-  if (pathEntries.length > 0) {
-    envPatch.PATH = appendPathEntries(baseEnv.PATH, pathEntries);
+  if (directories.length > 0) {
+    patch.PATH = appendPathEntries(baseEnv.PATH, directories);
   }
 
-  return envPatch;
+  return patch;
 }
