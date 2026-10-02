@@ -71,6 +71,11 @@
           "path": "docs/evidence/core-memory-owner-packet-20261003/loop/output-data.json",
           "bytes": 1176,
           "sha256": "1a84b81ef4d7f8e299a2e87756f8e56232904afc94abbfabc1ee0c90fcadaafe"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/receiver-addendum.md",
+          "bytes": 527,
+          "sha256": "1250d02044a3d954281140c52eb9673f155096c533e40410ce8b3cb9dd554feb"
         }
       ],
       "scratch": "/tmp/knorvia-memory-owners-20261003/loop"
