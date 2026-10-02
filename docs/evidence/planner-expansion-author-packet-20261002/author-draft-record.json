@@ -1,0 +1,26 @@
+{
+  "draft_path": "/tmp/knorvia-expansion-author-20261002/output/planner-expansion.ts",
+  "sha256": "b0ceffd900a1228b57546d06fa8656b6d52a383cb17482a60c7c3a2693b1385d",
+  "byte_count": 5219,
+  "inputs_actually_read": [
+    {
+      "filename": "inputs/contract.md",
+      "sha256": "11490555e4c19a3f72cb947e7407ae3405bf4d788a23b3792a654f480b6ec358",
+      "byte_count": 8595
+    },
+    {
+      "filename": "inputs/public-api.d.ts",
+      "sha256": "bd73cbec3754418db7fc8d75db28f8140875485fd741d6dece5a897dadbba32e",
+      "byte_count": 474
+    },
+    {
+      "filename": "inputs/dependency-api.d.ts",
+      "sha256": "00da614b794de5b38add26cf15d1c2f302d381cc6c12f57648eb5c77fdad1dbf",
+      "byte_count": 1634
+    }
+  ],
+  "input_limit_violations": [],
+  "unresolved_contract_questions": [],
+  "validation": "No compilation, runtime, comparison, or correctness tests performed; restricted draft is frozen at this checkpoint.",
+  "authorship_scope": "One input-restricted authorship attempt using only the three recorded packet inputs. No absolute clean-room or licensing claim."
+}
