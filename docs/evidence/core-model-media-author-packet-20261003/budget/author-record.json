@@ -1,0 +1,106 @@
+{
+  "task": "Fresh scoped complete media-budget.ts authoring for Knorvia reconstruction",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/budget/input/contract.md",
+      "bytes": 4889,
+      "sha256": "7067a5e0bfbb571c87100dad09da128a4ba38287e82db2b3fdd16ed06815da3f",
+      "exposure": "Read in full; byte count and SHA256 measured.",
+      "freeze": "published49ca0267"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/budget/input/public-api.d.ts",
+      "bytes": 1265,
+      "sha256": "58a84f194af26d8f3a1b3708e67068c35eb8eadb42e7590c171d4998f5939d64",
+      "exposure": "Read in full; byte count and SHA256 measured.",
+      "freeze": "published49ca0267"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/budget/input/dependency-api.d.ts",
+      "bytes": 1952,
+      "sha256": "3624c57f90927bcf90027f2fd27737dd5de18dd3b85b0e787fc42bef86610f58",
+      "exposure": "Read in full; byte count and SHA256 measured.",
+      "freeze": "published49ca0267"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/budget/input/public-shapes.d.ts",
+      "bytes": 4247,
+      "sha256": "212b8bbdff4a4aa809a6477fa9af8ac96d1791d1b0fedfdba8cafe4a1e6f9704",
+      "exposure": "Read in full; byte count and SHA256 measured.",
+      "freeze": "published49ca0267"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/budget/input/output-data.json",
+      "bytes": 761,
+      "sha256": "a5056ee68f5249d9b1d925058e215ebd07df22a2616a106f208e39a2f3fb970e",
+      "exposure": "Read in full; byte count and SHA256 measured.",
+      "freeze": "published49ca0267"
+    },
+    {
+      "path": "/tmp/knorvia-core-model-media-20261003/budget/input/imports.json",
+      "bytes": 3118,
+      "sha256": "c7bc53ea494974a30c8f8221c26d6112e6906154c82eaab4d68e7191906e7703",
+      "exposure": "Read in full; byte count and SHA256 measured.",
+      "freeze": "b834d31a"
+    }
+  ],
+  "actualExposedInputs": "The six listed contract/API/data/mapping files, delegated task instructions, and bounded parent messages correcting the import-mapping omission. No other source bodies were exposed or read by this author.",
+  "source": {
+    "path": "/tmp/knorvia-core-model-media-20261003/budget/output/media-budget.ts",
+    "bytes": 9074,
+    "sha256": "c76f28c5550313085ce3f587ab4e7982f82192335620182f367d335aa62d934c",
+    "lines": 276,
+    "completeModule": true,
+    "separateHelperFiles": []
+  },
+  "modelSettings": {
+    "parentReportedTaskToolModel": "gpt-6.1-sol",
+    "parentReportedTaskToolReasoningEffort": "high",
+    "parentReportedForkTurns": "none",
+    "requestedServiceTier": "Fast",
+    "serviceTierQualification": "Parent reports no separate Fast-tier control exposed; actual service tier is not independently observable to this author. No claim that Fast was selected.",
+    "modelQualification": "Configuration recorded from the scoped task message; actual backend model and reasoning effort cannot be independently inspected in this author environment."
+  },
+  "retainedExpression": [
+    "Exact module paths, imported bindings, public interfaces, and private return/options alias names required by the supplied API and import mapping.",
+    "Existing required byte budget (40 * 1024 * 1024), utf8 encoding, error kinds, exact error strings, shared imported attachment error-code reference, placeholder, omission suffix, media key format, and log constants.",
+    "Required schema/property order, own undefined properties, delegation calls, native array visitation, option observation, cloning rules, and capability-before-budget ordering.",
+    "Ordinary TypeScript and JavaScript expressions including spread, optional chaining, nullish fallback, Set membership, sorting, and array callbacks. These retained expressions are identified openly without authorship, cosmetic novelty, or grant claims."
+  ],
+  "discretionaryArchitecture": [
+    "One complete module with local helpers for encoded-byte measurement, media key generation, block cloning, and content projection.",
+    "Local MediaReference records and collection-order accumulation followed by protected-byte validation, a filtered stable descending candidate sort, and retained-key projection.",
+    "Names and layout of local helpers and accumulation variables were independently chosen within the functional contract."
+  ],
+  "scopeAndProtection": {
+    "restrictionMechanism": "Shared-executor task instruction restrictions; not OS isolation or an independent access audit.",
+    "repositoryHistoryTestsReviewsDependenciesOtherAuthorsAccessed": false,
+    "networkAccessed": false,
+    "credentialParsing": false,
+    "delegatedCollaboratorsChanged": false,
+    "sourceInstalledOrGitUsed": false,
+    "compilerTestsBuildLintMocksRun": false,
+    "writes": [
+      "/tmp/knorvia-core-model-media-20261003/budget/output/media-budget.ts",
+      "/tmp/knorvia-core-model-media-20261003/budget/output/author-record.json"
+    ]
+  },
+  "reviewPerformed": "Static self-review of the complete own source against the supplied contracts and mapping; file byte/hash/line measurements only. No executable validation or collaborator source access.",
+  "questions": [
+    {
+      "issue": "The original dependency declarations omitted exact runtime import paths and shared-code binding location.",
+      "reportedBeforeImplementation": true,
+      "resolution": "Parent acknowledged curator omission, preserved all five original frozen inputs, and authorized the separately frozen sixth imports.json supplement at b834d31a. Read supplement before beginning implementation.",
+      "remaining": false
+    }
+  ],
+  "breaches": [],
+  "remainingBlockers": [],
+  "frozenAtUtc": "2026-10-02T19:47:16.731488Z",
+  "freezeTimestampMeaning": "UTC captured immediately before writing the final record and changing both outputs to readonly mode 0444.",
+  "freeze": {
+    "complete": true,
+    "readonlyMode": "0444",
+    "noSilentPostFreezeEdits": true
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "kind": "Independent complete scoped model-errors author record",
+  "status": "Complete source and record frozen read-only before any body comparison",
+  "authorTask": "/root/model_errors_complete_author",
+  "configuration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "forkTurns": "none",
+    "qualification": "Parent supplied task-tool configuration; runtime model identity is not independently verified here.",
+    "serviceTierRequested": "Fast",
+    "serviceTierQualification": "No distinct exposed Fast setting was available; no Fast execution claim is made."
+  },
+  "inputPacket": {
+    "originalFiveBindingSuppliedByParent": "frozen49ca0267",
+    "separateImportMappingSupplementBindingSuppliedByParent": "b834d31a",
+    "separateRapidRefillTypeQualificationBindingSuppliedByParent": "frozen87da9359",
+    "bindings": [
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/contract.md",
+        "bytes": 5320,
+        "sha256": "c77c69f30c23f0d0aa0826fde9efa995583e6f7c6a461789162a407942c2188a"
+      },
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/public-api.d.ts",
+        "bytes": 1680,
+        "sha256": "046fffd7ce77d7b8fbe7202e23cd1f310b05bebe060e517998f7ef1587d9ecb3"
+      },
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/dependency-api.d.ts",
+        "bytes": 1196,
+        "sha256": "ddd0d95ad6dd6b4c043ed241d13dd88832403db04434eaafb97771489db0ab4e"
+      },
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/public-shapes.d.ts",
+        "bytes": 3064,
+        "sha256": "287ae4924514bc10dd953b3dbce34f00a2a2682430b618b47318d6e4aef77e18"
+      },
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/output-data.json",
+        "bytes": 1671,
+        "sha256": "e75373c6e70f39eb504b5eb163b10b10b0ce6fb0ce03501ea8621e6f02cb1831"
+      },
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/imports.json",
+        "bytes": 1916,
+        "sha256": "d7930dded9c6ffd248b9c278e187d0304a417bede64aef92bc203c499b74ab16"
+      },
+      {
+        "path": "/tmp/knorvia-core-model-media-20261003/errors/input/rapid-refill-type-qualification.json",
+        "bytes": 471,
+        "sha256": "1bfb38624d3729a31d1a8f31e43d594c61111d98735d8ff1aa2e64c9f552174c"
+      }
+    ],
+    "originalInputs": "Original input files were only read, not changed by this author."
+  },
+  "actualExposure": {
+    "readPaths": [
+      "/tmp/knorvia-core-model-media-20261003/errors/input/contract.md",
+      "/tmp/knorvia-core-model-media-20261003/errors/input/public-api.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/errors/input/dependency-api.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/errors/input/public-shapes.d.ts",
+      "/tmp/knorvia-core-model-media-20261003/errors/input/output-data.json",
+      "/tmp/knorvia-core-model-media-20261003/errors/input/imports.json",
+      "/tmp/knorvia-core-model-media-20261003/errors/input/rapid-refill-type-qualification.json",
+      "/tmp/knorvia-core-model-media-20261003/errors/output/model-errors.ts"
+    ],
+    "writePaths": [
+      "/tmp/knorvia-core-model-media-20261003/errors/output/model-errors.ts",
+      "/tmp/knorvia-core-model-media-20261003/errors/output/author-record.json"
+    ],
+    "nonFileExposure": [
+      "Selected environment and developer execution instructions, available tool descriptions, and parent scoped task allocation.",
+      "Parent task disclosed import mapping omission previously flagged by other authors, without other-author or predecessor bodies.",
+      "Parent clarified metadata then model reads before lookup; failure uses captured model; no failure reads finishReason, rawFinishReason, model in that order; both supplied context field orders confirmed.",
+      "Parent authorized a seventh qualification input and confirmed exact rapid-refill type CoreErrorType.ModelContextExceeded."
+    ],
+    "activityQualification": "This is a candid record of this author tool activity and exposure, not a claim of OS-enforced isolation or an access audit.",
+    "unaccessedByThisAuthor": [
+      "repository",
+      "git/history",
+      "test/review/predecessor/other-author bodies",
+      "dependency implementation bodies",
+      "other file paths",
+      "network"
+    ],
+    "toolsUsed": [
+      "exec_command for bounded Python file reading, hashing, output directory creation, record creation and read-only freeze",
+      "apply_patch for own source",
+      "collaboration.send_message and collaboration.wait_agent for curator questions"
+    ]
+  },
+  "source": {
+    "path": "/tmp/knorvia-core-model-media-20261003/errors/output/model-errors.ts",
+    "bytes": 9552,
+    "sha256": "49bcb877fbe4b6219ab54646988a7984ecdcbe75457091b95a2390efb9c7b31c",
+    "lines": 293,
+    "publicFunctions": [
+      "readRawFinishReason",
+      "isContextExceededFinishReason",
+      "createModelContextExceededFinishError",
+      "createCompactRapidRefillError",
+      "isSuspiciousEmptyModelResult",
+      "buildSuspiciousEmptyDiagnostics",
+      "finalizeSuspiciousEmptyModelResult",
+      "normalizeStreamError",
+      "isModelContextExceededError",
+      "isModelMediaTooLargeError"
+    ],
+    "helperFiles": [],
+    "returnTypeQualification": "The two constructors explicitly retain the supplied ReturnType<typeof createCoreError>; the known inherited CoreError return contract was curator-qualified; raw isolated diagnostics were not author input."
+  },
+  "retainedExpression": [
+    "Exact output-data prose, interpolation ordering, reason/source strings, diagnostic/context field names and order, 20-key limit, depth 6 bound, marker lists and imported constant references.",
+    "Exact declared public APIs, actual import paths and type-only/value distinctions from imports.json, unchanged collaborator delegation and opaque imported types.",
+    "Ordinary TypeScript/JavaScript idioms including object spreads, short-circuit boolean checks, optional chaining, nullish defaults, Set/WeakSet, property reads, loops and JSON.stringify are retained openly.",
+    "No cosmetic novelty, exclusive-originality claim or source/global grant is inferred from retaining mandatory material."
+  ],
+  "discretionaryDesign": [
+    "Local marker sets and cohesive normalization/message/zero-usage helpers; no extra helper file.",
+    "Two explicit bounded classifier loops preserve different context/media gates without a configurable generic traversal.",
+    "Named captures directly express the confirmed finalize observation order while optional failure fields retain truthy test then reread.",
+    "Suspicious-result checks short-circuit strict response/tool counts before a single optional finish normalization and unsanitized zero-usage comparison."
+  ],
+  "questionsAndQualifications": [
+    {
+      "question": "Finalize delegate observation ordering and context field ordering",
+      "resolution": "Parent confirmed capture metadata then model before lookup, and finish/raw/model reread on empty path, with supplied context ordering.",
+      "timing": "Asked and resolved before complete source writing and freeze."
+    },
+    {
+      "question": "Exact rapid-refill CoreError type omitted from original contract",
+      "resolution": "Parent supplied authorized seventh qualification input specifying CoreErrorType.ModelContextExceeded.",
+      "timing": "Asked after an unfrozen complete draft inferred that type; qualification was read before final freeze and matched the draft, requiring no type edit.",
+      "curatorOmission": "Type was not explicitly present in the original rapid-refill contract paragraph."
+    },
+    {
+      "qualification": "Original import mapping omission was disclosed in task allocation and supplied as separate sixth input before implementation."
+    }
+  ],
+  "verification": {
+    "performed": "Manual reading of own source against the supplied contract and bindings; byte/digest/line metadata only.",
+    "notRun": [
+      "compiler",
+      "tests",
+      "build",
+      "lint",
+      "mocks",
+      "body comparison"
+    ],
+    "reason": "Task restrictions explicitly prohibited compiler/tests/build/lint/mocks and body exposure before freeze."
+  },
+  "breaches": [],
+  "remainingBlockers": [],
+  "freeze": {
+    "utc": "2026-10-02T19:48:47.438411+00:00",
+    "paths": [
+      "/tmp/knorvia-core-model-media-20261003/errors/output/model-errors.ts",
+      "/tmp/knorvia-core-model-media-20261003/errors/output/author-record.json"
+    ],
+    "permissions": "0444",
+    "qualification": "Complete output files made read-only in this freeze operation; no subsequent edit is authorized silently."
+  }
+}
