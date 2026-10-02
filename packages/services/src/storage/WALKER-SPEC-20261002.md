@@ -15,3 +15,5 @@ input -> sole owner -> admission/order -> state or traversal -> existing API out
 Acceptance: synthetic original/replacement boundary check only. Ordinary suites/builds deferred. Missing ignore dependency retains exact TS2307 baseline, no parser equivalence claim/network installation. No actual files/databases/scans/deletes/credentials/process/network or other-lane integration.
 
 Clarification before submission: rootPath,onEntry,onError,signal captured once at invocation; subsequent options mutation cannot retarget authority. File blocks always await async yield helper, including below threshold microtask barrier. Entry path join precedes link check. Await pump settlement before returning result.
+
+Final clarification: failure observation occurs in a chained continuation after success continuation; preserve that extra microtask before pump failure admission stops. Other active tasks remain unjoined.

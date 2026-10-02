@@ -39,3 +39,43 @@ packages/services/src/file/workspaceFileIgnore.ts(3,44): error TS2307: Cannot fi
 ```
 
 Architecture baseline/context storage/services passed0/0/0; storage managed domain/adapters dependencies unchanged. Freshness passed; absent tracking-ref behind-remote check skipped. Node24.19.0 vs pinned CLI24.14.0 and experimental/deprecated namedExports module-mock warnings retained. Full matcher/platform/stress/provenance acceptance deferred; no main/cross-lane integration or global grant.
+
+Final bounded queue outcome: all four allocated remaining owners collected as complete fresh drafts/revisions. Fault cc2df78, filter c2f366c, aggregate49ebe61; walker submitted with this final batch. Four changed sources below400 nonblank lines, no new public APIs/dependencies. All19 unselected current sources match the frozen23-source baseline, including8 previously submitted complete-owner sources and11 retained sources. No listed unselected substantive owner is silently marked accepted.
+
+Remaining retention/classification inventory (not reauthored in this queue; no new origin grant):
+
+- `packages/services/src/file/file.ts`
+- `packages/services/src/file/workspaceFileSearch.ts`
+- `packages/services/src/storage/contract.ts`
+- `packages/services/src/storage/module.ts`
+- `packages/services/src/storage/adapters/inProcessScanRunner.ts`
+- `packages/services/src/storage/adapters/rootsResolver.ts`
+- `packages/services/src/storage/adapters/volumeProbe.ts`
+- `packages/services/src/storage/app/ports.ts`
+- `packages/services/src/storage/domain/cleanPlan.ts`
+- `packages/services/src/storage/domain/storageCatalog.ts`
+- `packages/services/src/media-preview/mediaPreview.ts`
+
+Retained sources include permission/catalog policy and existing adapters/facades; these are explicitly unclassified here and can require later classification or an independently allocated owner. Neither adjacent fresh owner nor prior CLI acceptance resolves their lineage. Four specifically allocated substantive owners now covered.
+
+Final minimum safety original4/4 and replacement4/4 passed; walker revision2 separately1/1 after final failure-timing correction. Changed source/test and atomic/settings/cleaner/scan-runner scoped types passed; final walker/direct consumers types passed after its change. FileService direct consumer types remain blocked by the original missing ignore diagnostic exactly:
+
+```text
+packages/services/src/file/workspaceFileIgnore.ts(3,44): error TS2307: Cannot find module 'ignore' or its corresponding type declarations.
+```
+
+A transitional unblocked type run was launched during source staging; its passing output `/tmp/knorvia-remaining-transition-unblocked-types-20261002.txt` is preserved but not classified as original-only evidence. Definitive original full scoped baseline and final replacement/consumer checks remain separate. No dependency installed or production types/parser fabricated. Source/test lint8files0warnings/errors and final walkerlint2files0warnings/errors, formatting/staged whitespace and architecture0/0/0 passed. No ordinary suites/builds repeated.
+
+Exact command outputs frozen locally with SHA-256 below; timing/mock warnings are preserved, no failures erased:
+
+| Output                                                           | SHA-256                                                            |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `/tmp/knorvia-remaining-original-safety-20261002.txt`            | `ab46f9a46daa00d47fe028bf89c67d4a4d484ab2df5eac351b9c37f1dff87045` |
+| `/tmp/knorvia-remaining-original-final-safety-20261002.txt`      | `25823568c16fee66a68ce9a54190e64940f2930ad08e41c19af3a015ccd5ad6a` |
+| `/tmp/knorvia-remaining-original-types-20261002.txt`             | `35f610dee3a9fcd622e2dcfebe4574f93a6b899efb2ff5f60547d67bedd34520` |
+| `/tmp/knorvia-remaining-transition-unblocked-types-20261002.txt` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `/tmp/knorvia-remaining-replacement-safety-20261002.txt`         | `4e2d23a1d2665f187878f7df4339648801650ee2bbd5340040776f36859893a5` |
+| `/tmp/knorvia-remaining-replacement-types-20261002.txt`          | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `/tmp/knorvia-remaining-file-consumer-types-20261002.txt`        | `35f610dee3a9fcd622e2dcfebe4574f93a6b899efb2ff5f60547d67bedd34520` |
+| `/tmp/knorvia-remaining-walker-final-safety-20261002.txt`        | `29581ea0a3c0af9d89b41610e56989cbf629f7ccffe01432cb0a86c9854f509e` |
+| `/tmp/knorvia-remaining-walker-final-types-20261002.txt`         | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
