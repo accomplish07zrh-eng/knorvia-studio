@@ -1,0 +1,52 @@
+{
+  "baselineCommit": "13b8f25ef1ac338cf34e9b9b9189c25d15beb7b5",
+  "freezeCommit": "64d0478",
+  "portFactsAndFixtureBoundaryCommit": "0955914",
+  "draftCommit": "efd374a",
+  "redProofCommit": "725d8d8",
+  "owner": "apps/cli/packages/core/src/runtime/methods/streaming-tool-coordinator.ts",
+  "privateHelpers": [
+    "apps/cli/packages/core/src/runtime/methods/streaming-tool-execution.ts"
+  ],
+  "packetAndDraftPins": {
+    "api.d.ts": "b91ea1f8db1d7a1ab506119bd058344d39abbebf3f106851a6456bf4d3918e20",
+    "contract.md": "74933e4c8d218bd3e2a70dd66b22fd547c6d69cecb61256c5fe6817d2baf9f4d",
+    "draft-01/access-journal.json": "1dcb2359d2ee559e4d747d6f1e9666158130e899a32ae1934ed1f2fcc847d24c",
+    "draft-01/seal.sha256": "ec33ddac38f5127656ccad3e0e1dab0fee4ce1e6ca278fbebda1a48403d6a1a1",
+    "draft-01/streaming-tool-coordinator.ts": "6057aef48cd043b1d40bdcafa18e7828ed50fd4f5a73dfcca4adb5ac5e765115",
+    "draft-01/streaming-tool-execution.ts": "1af458ce902fdd23a0d8425d176d21bca754b0b4ae39f5140341b91ab6f35ebc",
+    "imports.d.ts": "2e3226a0b7b1b7bcc8209f0a623e74cef7a0d457985c9aa7f28fcf5527eabbf1",
+    "lineage.json": "3a7a06a6a31c96189e098fe9e7dbf34998accf98513d5fd271cee234e247b9d3",
+    "port-facts.md": "f29bbe4e28ad6ded285bed29ca4123b9ecd791e5e7ea7230b412b474e202e86f",
+    "supporting-api.d.ts": "8ba55118d77749fbbf97a0aa540d1d10a0ad591934feded162da69f0dca05b69"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-streaming-tool-coordinator-baseline-20261003.json",
+    "sha256": "711e00759a4161659d8f776a8217bb76e3632bf05498a1be8bc7d9fef6ca97c0"
+  },
+  "finalPins": {
+    "src/runtime/methods/streaming-tool-coordinator.ts": "a2a71814ae493aaf06ad5cc63c3e4a0c269279210c42c00416ccd98c2d8128f0",
+    "dist/runtime/methods/streaming-tool-coordinator.js": "c5e1c3c9b5630ac730f3de4e420ab37c2b70ad6284d9fde0f8a35a628420a323",
+    "dist/runtime/methods/streaming-tool-coordinator.d.ts": "c2facc16e7ffb4b9e08ef58a2435f6a91c41c514f5da355e36039dfc77a6aa51",
+    "src/runtime/methods/streaming-tool-execution.ts": "280461b7678ac468141ac82bb3f3899ecddcb4508d05a9e688a26790bd32a0a0",
+    "dist/runtime/methods/streaming-tool-execution.js": "d2857a963b9663c257bf9d448fd544e14ce22f49eae28b7b6ff4a865c60fd2f8",
+    "dist/runtime/methods/streaming-tool-execution.d.ts": "ba6aeea4df2ec5ba389d292f438d5ca88575b787e1049cdd07492dfed6e208ab"
+  },
+  "design": "Complete captured declaration/execution lifetime from body-free contract, with direct during-stream execution phase in a private module. One abort link; existing registry/parts/turn state remain sole underlying owners.",
+  "postDraftCorrections": [
+    "Original public declarations/defaults retained; warning label period removed.",
+    "Source-exposed restores asynchronous result-collection owner and direct map-return phases; no async map wrapper or extra per-item awaits.",
+    "Branded final toolCallId cast restores diagnostic.",
+    "Internal execution module boundary receives no separate originality credit."
+  ],
+  "authorship": "Fresh internal authors fork_turns=none,Sol/high; own body-free source-derived functional/API/import/type packets, declaration-only supplements and recorded messages. Drafts sealed before curator source comparison. Conversation,ledger,coordinator journals disclose incidental sibling agent-status/design/hash summaries; no strict packet-only or absolute clean-room claim. Curator source-exposed; public declarations copied as fixed API and compatibility corrections source-exposed.",
+  "retention": "Fixed APIs/protocol/type vocabulary, ordered payload fields, runtime errors/log/prose, permission predicates, retry bounds and async/promise combinations remain. Ordinary loops/maps/sets/objects/promise glue can match. Ledger/queue and recovery/coordinator phases have strong predecessor structural correspondence; fresh drafting does not establish whole-file expression clearance. Existing attribution/notice obligations unchanged; root independently reviews.",
+  "checks": "Shared scoped types0 diagnostics;20 public call signatures+1literal public constant exact, fixed non-function declaration AST facts equal. One final actual-emitted4write/lifecycle groups+3concrete preserved red observations+1error own-field observation.18 strict current source/JS/dts,5immutable oracles;6source lint94rules0;7format files pass;architecture0. No per-owner multiplied case totals.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplication/full runtime consumer launches deferred per user speed cadence.",
+    "Conversation has only its concrete red observation,no general pure projection replay; eligibility/execution and partial recovery success paths statically reviewed,not fully exercised.",
+    "Transitive unchanged workspace dependencies via tsx,not all-emitted. Selected historical ledger/recovery bindings explicitly rebound for predecessor comparisons; raw archives unchanged.",
+    "Root expression/correctness/licence and aggregate acceptance pending; no header/global inventory/MIT or publication grant.",
+    "Freshness fetch blocked configured proxy8080;no access/settings bypass."
+  ]
+}
