@@ -1,0 +1,24 @@
+{
+  "scope": "attachment",
+  "revision": "complete same-author v2",
+  "files": [
+    {
+      "file": "prompt-attachment.ts.txt",
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment-v2/prompt-attachment.ts",
+      "bytes": 3410,
+      "lines": 86,
+      "sha256": "0a42762c74366ea0e2012ffbce960db14b75d7649a24614c669711346a457f33",
+      "mode": "444",
+      "target": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment-v2/author-record.json",
+      "bytes": 16685,
+      "lines": 258,
+      "sha256": "b927ebaa60c354c3d463f56793f00d73e1ac2665a31c1794965d220e5f3eadb8",
+      "mode": "444"
+    }
+  ],
+  "qualification": "Whole completev2 frozen and archived before body review; exactly two outputs. Original whole source/receipt/failure retained. No curator source patch."
+}

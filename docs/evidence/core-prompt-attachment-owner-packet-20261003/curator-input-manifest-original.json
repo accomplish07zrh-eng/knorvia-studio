@@ -40,27 +40,9 @@
           "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/output-data.json",
           "bytes": 4746,
           "sha256": "e6c5e0b066c8e63a0604b5ba0e88b1dbc49393204107e220634fb0334a171557"
-        },
-        {
-          "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/file-body-boundary-finding.md",
-          "bytes": 1385,
-          "sha256": "239471bcc1292c6a99cf5204fb408902b6e7935f0d91f945c7f76b6d08c1dc30"
-        },
-        {
-          "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/prompt-attachment.ts",
-          "bytes": 3407,
-          "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
-          "archivedAs": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/prompt-attachment.ts.txt"
-        },
-        {
-          "path": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/author-record.json",
-          "bytes": 9876,
-          "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172",
-          "archivedAs": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/author-record.json"
         }
       ],
-      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment-v2",
-      "archiveDirectory": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment-v2"
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment"
     }
   },
   "qualification": "Whole body-free original public contracts/data only; no helper/body/decomposition. Curator source-exposed with earlier context/dependency/scratch breach qualifications. Instruction-only/no OS access audit; Sol/high/fork-none requested/Fast unverified."
