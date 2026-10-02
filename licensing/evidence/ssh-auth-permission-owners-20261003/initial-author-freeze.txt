@@ -1,0 +1,2 @@
+dd53a3a0ca99391f66d0b094fece3f7fe79f444ed03507cb73d122cea28ca3d2  /tmp/knorvia-ssh-auth-permission-freeze-1/agentOfficialPluginPermissionRepair.ts
+cf0976c372b52f072b857196ad5db066dc2a3cfc3934a2f94e77a38672e40157  /tmp/knorvia-ssh-auth-permission-freeze-1/sshAuth.ts
