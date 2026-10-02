@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "path": "scheduled-phase.ts",
+      "bytes": 5585,
+      "sha256": "9f3c0583766c8271f16cea505e80a5f97e7b71aec13c63577c3a49318d16f1b6"
+    },
+    {
+      "path": "failures.ts",
+      "bytes": 5108,
+      "sha256": "606ffa59edd99ca799df84dd9df75606483028ac36d6f0e468d183a31cdcdb12"
+    }
+  ],
+  "access": "Functional/API packet and recorded API clarifications only; hashed before curator review."
+}
