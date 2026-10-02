@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { dynamic, sha } from "./causality-reduction-fixture.js";
+import { assertLaneDeclarationShape } from "./causality-lane-documentation-proof.js";
 export { sha };
 
 const emitted = process.env.KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED === "1";
@@ -27,7 +28,10 @@ export async function loadCurrent(readArtifact = read) {
     ["dist/analysis/causality-graph-lanes.d.ts", pins.declarationSha256],
   ])
     assert.equal(sha(await readArtifact(new URL(p, root))), hash, p);
-  assert.equal(pins.declarationSha256, archive.declarationSha256);
+  await assertLaneDeclarationShape(
+    await readArtifact(new URL("dist/analysis/causality-graph-lanes.d.ts", root)),
+    archive.declarationSha256,
+  );
   return dynamic("analysis/causality-graph-lanes");
 }
 export const current = await loadCurrent();

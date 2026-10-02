@@ -9,33 +9,18 @@ import {
   type Step,
 } from "./causality-graph-types.js";
 
-// causality-graph.ts 顶到 oxlint max-lines 上限（400 行），把成品图上的机械改写与
-// 事实层的小工具（may-set 车道展开 expandMaySetLanes 及其两个常量、dedupeFacts、weakest）拆到
-// 本文件；公开面仍从 causality-graph.ts 导出。本文件不 import `typescript`。
+// Pure finished-graph expansion and fact joins, without compiler or I/O dependencies.
 
-/**
- * Upper bound on an expandable may-set. Past it the step keeps its single card: a capped
- * may-set FALLS BACK rather than truncating, since dropping candidates would assert
- * something the analysis cannot. The cap keeps the multiplication (k steps, up to k² on a
- * self-carry) well inside the payload limits of 64 steps / 256 edges.
- */
+// Larger candidate sets remain unexpanded.
 const MAY_SET_LANE_CAP = 4;
 
-/** Copy id separator: collides with neither `ask#3/2` nor the runtime's `ask#3@7`. */
+// Separator in projected lane-copy ids.
 const COPY_SEPARATOR = "~";
 
 /**
- * The LAST pass: rewrite a may-set step into one copy per candidate lane.
- *
- * `(cond ? a : b).ask(p)` is the same program as `cond ? a.ask(p) : b.ask(p)`, and the
- * analyzer already draws the second form as one `maybe` step per lane. Drawing the first
- * form as a single card made the picture depend on where the ternary sits, and on a
- * script whose every ask is a may-set it left candidate lanes with no homed step at all —
- * which the mermaid emitter culls, erasing an actor from the workflow.
- *
- * This runs AFTER ordering and reduction by contract: reduction never sees copies, so
- * every reduction rule and its corpus behaviour are unchanged and this stays a mechanical
- * rewrite of the finished graph.
+ * Expand candidate lane sets after reduction and before phase projection.
+ * Return the input unchanged when no step expands. Copies retain their source site
+ * and have maybe certainty; FIFO wiring connects equal lanes only.
  */
 export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
   type Endpoint = { certainty?: Certainty; id: string; lane?: string };
@@ -108,7 +93,10 @@ export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
   };
 }
 
-/** Collapse facts to one edge per ordered pair, keeping the strongest claim. */
+/**
+ * Join ordered-pair facts in first-key order without mutating input records or phase sets.
+ * Higher rank and true exactness win; maybe, absent provenance and non-jump witnesses dominate.
+ */
 export function dedupeFacts(facts: readonly Fact[]): Fact[] {
   const paired = new Map<string, Fact>();
   for (const fact of facts) {
@@ -148,6 +136,7 @@ function joinFact(prior: Fact, incoming: Fact): Fact {
   return joined;
 }
 
+/** Return maybe if present, otherwise always, including for an empty input. */
 export function weakest(values: readonly Certainty[]): Certainty {
   return values.includes("maybe") ? "maybe" : "always";
 }
