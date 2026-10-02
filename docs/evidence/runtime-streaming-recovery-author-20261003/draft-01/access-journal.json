@@ -1,0 +1,129 @@
+{
+  "task": "streaming-recovery admission and partial-output publication owner",
+  "authorTask": "/root/streaming_recovery_author",
+  "outputDirectory": "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery",
+  "scope": "Restricted-input implementation from the authorized packet and body-free curator messages; no assertion about whole-file provenance or licence.",
+  "inputs": [
+    {
+      "kind": "ambient_context",
+      "description": "Delegation, developer instructions, tool API descriptions and environment metadata supplied in the conversation; no repository instruction files read."
+    },
+    {
+      "kind": "message_received",
+      "sender": "/root",
+      "text": "Fresh restricted-input author. Implement full stream-recovery admission/partial-output publication owner from ONLY /workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/{api.d.ts,imports.d.ts,supporting-api.d.ts,contract.md,protocol.json}. No AGENTS/source/history/lineage/tests/oracles/dependency bodies or other packets. Same executor, only packet reads and own writes/hashes; no IO/providers/userdata/settings/process execution. Output /tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/streaming-recovery.ts (and tightly necessary private helper only if400lineboundary requires it), access-journal.json, seal.sha256. Complete independently organized error-walk/admission/publication owner, preserve exact native awaits/partial failures/field order/references. Fixed strings and protocol vocabulary remain. No framework/algorithm novelty or cosmetic rewrap. <=400physical lines/module after formatting. No production edits/tests/builds/subagents. Seal before curator review; journal accesses including messages. No absolute clean-room/whole-file/licence claim. Ask body-free type/port clarifications only if necessary. Return hashes/design."
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/api.d.ts"
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/imports.d.ts"
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/supporting-api.d.ts"
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/contract.md"
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/protocol.json"
+    },
+    {
+      "kind": "tool_metadata_read",
+      "method": "functions.exec ALL_TOOLS filter",
+      "description": "Inspected available tool names/descriptions to find a filesystem-only reader or writer. No discovered connector invoked."
+    },
+    {
+      "kind": "message_received",
+      "sender": "/root",
+      "text": "Additional authorized declaration-only file ready: docs/evidence/runtime-streaming-recovery-author-20261003/port-facts.md. All requested event members/runtime/helper/persistence APIs and classifier mapping/precedence/flags provided. Narrow shell packet read/own write/hash authorized; no authored-code execution/tests/live IO. Read only supplement, record it, finish and seal."
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-streaming-recovery-author-20261003/port-facts.md"
+    },
+    {
+      "kind": "message_received",
+      "sender": "/root",
+      "text": "Body-free clarification: retryability first tests record.retryable===true; only then acquire context, test context.retryable. code = nonempty(record.code) ?? nonempty(context?.code); reason likewise; nonempty unrecognized root masks context. Fallback anchor is `${options.assistantMessageId}:previous-message-anchor`. Record message input; continue."
+    },
+    {
+      "kind": "message_received",
+      "sender": "/root",
+      "text": "Correct: after processing depth6 without early return, the lazy walk reads that record.cause before termination; early match must not read cause. Record this compatibility fact; finish and seal."
+    }
+  ],
+  "messagesSent": [
+    "Packet read completed. Body-free port clarification needed: exact SessionEventType members for Started/AnchorSelected/TailDiscarded/RetryStarted, runtime event-create receiver/method signature and append signature, helper signatures createStreamingToolAttemptId/createStreamRecoveryAnchorId, and receiveModelResponse input shape. supporting-api.d.ts currently supplies state fields only. Used exec_command cat for only the five packet reads; interpreting no process execution as no authored-code execution/tests, please correct if shell filesystem I/O is also excluded.",
+    "Also need body-free classification detail: emitted failureKind literals and exact timeout/network conditions/precedence, event message selection for non-Error values, and retryable regex flags. Contract names only fallback provider_stream_error/unknown and says timeout before network, without concrete mappings.",
+    "Available filesystem actions are exec_command/apply_patch; a metadata-only tools inventory search found no dedicated read/write-file tools. I will keep filesystem operations confined to packet reads and own output writes/hashes and run no authored code. Please place clarifications in the authorized supporting-api.d.ts/contract.md if easier.",
+    "Admission/busy-error portion is written to the requested private output, with lazy depth-0..6 error traversal and distinct busy predicate versus exhausted-code candidate selection. Remaining event/partial-output portion awaits the missing body-free ports/classification clarifications; no dependency/source bodies read.",
+    "Still awaiting body-free ports and classification details. Please send status or amend authorized packet; final seal cannot be accurate with unprovided event/runtime signatures.",
+    "Supplement read. Final two getter-order ambiguities in retryability: (1) Is record.context acquired before checking record.retryable, or only after that check fails? (2) Are code/reason root→context first-nonempty fallbacks, or independent checks so an unrecognized nonempty root does not mask a transient context value? Contract says tests code/context.code and reason/context.reason; classifier explicitly says fallback.",
+    "One anchor format clarification: contract's fallback 'assistant:previous-message-anchor' means `${options.assistantMessageId}:previous-message-anchor` (assistant denotes supplied ID), correct?",
+    "Retryability/fallback clarification received and applied. One final cap getter edge: after processing depth 6 without a match, should traversal still read that record's cause before loop termination, or stop without reading depth-6 cause? Current lazy generator reads cause after each processed record, including depth 6; packet does not explicitly state cap getter timing."
+  ],
+  "ownOutputOperations": [
+    {
+      "kind": "file_write",
+      "method": "apply_patch",
+      "path": "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/streaming-recovery.ts",
+      "description": "Created admission/error-walk portion, appended classifier/publication/partial-output owner, appended retryability predicate, applied manual formatting."
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command wc -l",
+      "path": "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/streaming-recovery.ts",
+      "description": "Intermediate line count: 311 before retryability and final formatting."
+    },
+    {
+      "kind": "file_read",
+      "method": "exec_command cat",
+      "path": "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/streaming-recovery.ts",
+      "description": "Manual review of own implementation before final formatting."
+    },
+    {
+      "kind": "file_write",
+      "method": "apply_patch",
+      "path": "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/access-journal.json",
+      "description": "This access journal."
+    },
+    {
+      "kind": "final_seal_operation",
+      "method": "exec_command wc -l and sha256sum",
+      "paths": [
+        "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/streaming-recovery.ts",
+        "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/access-journal.json",
+        "/tmp/knorvia-runtime-stream-five-20261003/streaming-recovery/seal.sha256"
+      ],
+      "description": "Count formatted implementation lines; hash module and journal into seal.sha256; read the manifest and hash the manifest. No subsequent artifact mutation planned."
+    }
+  ],
+  "verification": {
+    "method": "Manual contract review and own-file line count/SHA-256 only",
+    "authoredCodeExecuted": false,
+    "testsExecuted": false,
+    "buildsExecuted": false,
+    "productionFilesWritten": false,
+    "externalConnectorsInvoked": false,
+    "subagentsSpawned": false
+  },
+  "design": {
+    "errorTraversal": "Identity-bounded lazy generator processes depths zero through six; unsuccessful depth-six processing reads cause before termination. Early returns do not advance the generator.",
+    "admission": "Count increments precede attempt construction; regular budget ten, busy admission two with existing-count indexed delays. Busy detection uses first nonempty candidate, exhausted diagnostics eagerly examine all four candidates per record.",
+    "publication": "Runtime receiver-bound create/append calls retain direct exported await boundaries; all retry events constructed before first append; accepted events are pushed individually; pending request assigned after three successful appends.",
+    "partialOutput": "Positive discarded-byte sum and retryability admit recovery; abort, count increment, Started append, assistant persistence, response/history/machine transitions, retry events, then listener removal. Failures retain preceding effects."
+  },
+  "remainingBlockers": []
+}
