@@ -1,0 +1,32 @@
+[
+  {
+    "path": "packages/shared/src/telemetry.ts",
+    "authorOutput": "/tmp/knorvia-telemetry-telemetry-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-telemetry.ts",
+    "sha256": "210517081c80beb32ef84cee5a5da91e6568022396dc83ac3c8dca83cbd562c4"
+  },
+  {
+    "path": "packages/shared/src/processResourceTelemetry.ts",
+    "authorOutput": "/tmp/knorvia-telemetry-processResourceTelemetry-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-processResourceTelemetry.ts",
+    "sha256": "5bcc69eaa3dc3f69dd1f596b59f179bbebd3eb0fe3cfb30ceb8db54fc9c035ed"
+  },
+  {
+    "path": "packages/shared/src/remoteUsageTelemetry.ts",
+    "authorOutput": "/tmp/knorvia-telemetry-remoteUsageTelemetry-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-remoteUsageTelemetry.ts",
+    "sha256": "15a1185521b8ce415a8ad154a1e7e5ddbd200786084fb1873cb16d28c473e105"
+  },
+  {
+    "path": "packages/shared/src/shortcutCommands.ts",
+    "authorOutput": "/tmp/knorvia-telemetry-shortcutCommands-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-shortcutCommands.ts",
+    "sha256": "7849f45142660c6ed30b6413de656ae9447c7e3b078905ca677369a8a1ac1f29"
+  },
+  {
+    "path": "packages/shared/src/node/subagentMarkdownMigration.ts",
+    "authorOutput": "/tmp/knorvia-telemetry-node_subagentMarkdownMigration-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-node_subagentMarkdownMigration.ts",
+    "sha256": "7ee17ad31033a6d50c6ed2e17b8e9d2cb9cbe78438d6eb1fada5e57f68c891c8"
+  }
+]

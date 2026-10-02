@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/telemetry.ts",
+    "packages/shared/src/processResourceTelemetry.ts",
+    "packages/shared/src/remoteUsageTelemetry.ts",
+    "packages/shared/src/shortcutCommands.ts",
+    "packages/shared/src/node/subagentMarkdownMigration.ts",
+    "packages/shared/test/shared-telemetry-shortcut-migration-boundaries.test.mjs",
+    "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 21ms on 7 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

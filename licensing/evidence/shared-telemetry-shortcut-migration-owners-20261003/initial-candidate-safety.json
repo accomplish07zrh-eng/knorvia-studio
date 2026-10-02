@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-telemetry-shortcut-migration-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2714 telemetry privacy preserves sanitized copy and injected context precedence (13.561365ms)\n\u2714 resource admission excludes undefined while preserving privacy and count boundary (4.788418ms)\n\u2714 remote telemetry retains ordered error classes and emits enums without raw scope data (6.090999ms)\n\u2714 shortcut grammar preserves canonical modifier order and known default reference (4.240805ms)\n\u2714 migration fake ports preserve concurrent edit denial cleanup and depth-first atomic ownership (16.136682ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 49.914781\n",
+  "stderr": "",
+  "exitCode": 0
+}

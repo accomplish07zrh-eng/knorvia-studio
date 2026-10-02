@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/telemetry.ts",
+    "packages/shared/src/processResourceTelemetry.ts",
+    "packages/shared/src/remoteUsageTelemetry.ts",
+    "packages/shared/src/shortcutCommands.ts",
+    "packages/shared/src/node/subagentMarkdownMigration.ts",
+    "packages/shared/test/shared-telemetry-shortcut-migration-boundaries.test.mjs",
+    "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/shared-telemetry-shortcut-migration-owners-20261003/retained-static-body-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 35ms on 8 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

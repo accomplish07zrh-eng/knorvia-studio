@@ -1,0 +1,57 @@
+[
+  {
+    "path": "packages/shared/src/telemetry.ts",
+    "baselineSha256": "9083cdb68f1047912c47bb84eba040319ff859e2bd986ff2ed919dad940aeeba",
+    "initialRawFrozenSha256": "210517081c80beb32ef84cee5a5da91e6568022396dc83ac3c8dca83cbd562c4",
+    "selectedRawFrozenSha256": "bf130182966bfe8151c43bbe9fbf4ff231199f05ae413a9fd134b894dcf121df",
+    "selectedFreeze": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/corrected/telemetry.ts",
+    "formattedFrozenSha256": "5799d23a22afc28d0416f1e9e8d70a089990e5b955b83d3f957b37c04ef5d5c5",
+    "installedSha256": "5799d23a22afc28d0416f1e9e8d70a089990e5b955b83d3f957b37c04ef5d5c5",
+    "formattedWholeSelectedFreezeExactlyMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/processResourceTelemetry.ts",
+    "baselineSha256": "80755dca90c85e2db32e7bcac839e5e2436779ca3d4b7774edc677e2373044dd",
+    "initialRawFrozenSha256": "5bcc69eaa3dc3f69dd1f596b59f179bbebd3eb0fe3cfb30ceb8db54fc9c035ed",
+    "selectedRawFrozenSha256": "5bcc69eaa3dc3f69dd1f596b59f179bbebd3eb0fe3cfb30ceb8db54fc9c035ed",
+    "selectedFreeze": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-processResourceTelemetry.ts",
+    "formattedFrozenSha256": "986bfb93017f24a2a94779379b80b4f8f14ba35a756bfe836f56e0c9c0fbd08f",
+    "installedSha256": "986bfb93017f24a2a94779379b80b4f8f14ba35a756bfe836f56e0c9c0fbd08f",
+    "formattedWholeSelectedFreezeExactlyMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/remoteUsageTelemetry.ts",
+    "baselineSha256": "cba734ec10059e3071f0f30a19c0062fba945f6ef37ca42fbcf07ecd01170345",
+    "initialRawFrozenSha256": "15a1185521b8ce415a8ad154a1e7e5ddbd200786084fb1873cb16d28c473e105",
+    "selectedRawFrozenSha256": "15a1185521b8ce415a8ad154a1e7e5ddbd200786084fb1873cb16d28c473e105",
+    "selectedFreeze": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-remoteUsageTelemetry.ts",
+    "formattedFrozenSha256": "8991d4d8cb8e66a3f0158ff7e2ce04c5ee19efc760b02d6846bffde06d4cc750",
+    "installedSha256": "8991d4d8cb8e66a3f0158ff7e2ce04c5ee19efc760b02d6846bffde06d4cc750",
+    "formattedWholeSelectedFreezeExactlyMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/shortcutCommands.ts",
+    "baselineSha256": "82873bfb3a6d6aa79494a2f2fd26b6abf862b5b7d441076cd50384d7952e8a3f",
+    "initialRawFrozenSha256": "7849f45142660c6ed30b6413de656ae9447c7e3b078905ca677369a8a1ac1f29",
+    "selectedRawFrozenSha256": "7849f45142660c6ed30b6413de656ae9447c7e3b078905ca677369a8a1ac1f29",
+    "selectedFreeze": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-shortcutCommands.ts",
+    "formattedFrozenSha256": "ea03480a91a780ba37779fd396e67d775eadda06ceaf99f375cb5c547d9530c3",
+    "installedSha256": "ea03480a91a780ba37779fd396e67d775eadda06ceaf99f375cb5c547d9530c3",
+    "formattedWholeSelectedFreezeExactlyMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/node/subagentMarkdownMigration.ts",
+    "baselineSha256": "0fd58b9929b923575d7bb3ac68594e17086d4de80ab8235297d656bed05af904",
+    "initialRawFrozenSha256": "7ee17ad31033a6d50c6ed2e17b8e9d2cb9cbe78438d6eb1fada5e57f68c891c8",
+    "selectedRawFrozenSha256": "7ee17ad31033a6d50c6ed2e17b8e9d2cb9cbe78438d6eb1fada5e57f68c891c8",
+    "selectedFreeze": "/tmp/knorvia-shared-telemetry-shortcut-migration-freezes/initial-node_subagentMarkdownMigration.ts",
+    "formattedFrozenSha256": "168f5329bd1719304d01313c7c38060d78485b8d6e0a88c493adaa775b761ceb",
+    "installedSha256": "168f5329bd1719304d01313c7c38060d78485b8d6e0a88c493adaa775b761ceb",
+    "formattedWholeSelectedFreezeExactlyMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  }
+]

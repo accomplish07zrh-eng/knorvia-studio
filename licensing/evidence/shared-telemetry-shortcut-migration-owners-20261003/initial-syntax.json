@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/telemetry.ts",
+    "packages/shared/src/processResourceTelemetry.ts",
+    "packages/shared/src/remoteUsageTelemetry.ts",
+    "packages/shared/src/shortcutCommands.ts",
+    "packages/shared/src/node/subagentMarkdownMigration.ts"
+  ],
+  "stdout": "packages/shared/src/telemetry.ts: 0 syntax-only diagnostics\npackages/shared/src/processResourceTelemetry.ts: 0 syntax-only diagnostics\npackages/shared/src/remoteUsageTelemetry.ts: 0 syntax-only diagnostics\npackages/shared/src/shortcutCommands.ts: 0 syntax-only diagnostics\npackages/shared/src/node/subagentMarkdownMigration.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

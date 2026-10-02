@@ -1,15 +1,19 @@
 import type { RemoteTarget } from "./remoteTarget.js";
+
 import type { TelemetryEventPayload } from "./telemetry.js";
+
 import {
   parseRemoteWorkspaceIdentity,
   type RemoteWorkspaceIdentityKind,
 } from "./remote-workspace-identity.js";
 
-/** 只提取场景枚举；未知远端身份仍为 remote，禁止向业务埋点暴露地址或路径。 */
 export function resolveWorkspaceTelemetryDetail(scope: {
   workspaceIdentity?: string | null;
   remoteSessionId?: string | null;
-}): { workspace_kind: "local" | "remote"; remote_kind: RemoteWorkspaceIdentityKind | "" } {
+}): {
+  workspace_kind: "local" | "remote";
+  remote_kind: RemoteWorkspaceIdentityKind | "";
+} {
   const identity = scope.workspaceIdentity?.trim();
   return {
     workspace_kind: identity || scope.remoteSessionId?.trim() ? "remote" : "local",
@@ -18,9 +22,13 @@ export function resolveWorkspaceTelemetryDetail(scope: {
 }
 
 export type RemoteUsageRemoteKind = RemoteTarget["kind"];
+
 export type RemoteUsageWorkspaceKind = "local" | "remote";
+
 export type RemoteUsageResult = "success" | "failure";
+
 export type RemoteWorkspaceConnectTrigger = "new" | "reconnect" | "restore";
+
 export type RemoteUsageErrorCategory =
   | "auth"
   | "connect"
@@ -49,43 +57,36 @@ export function buildRemoteWorkspaceConnectResultTelemetry(input: {
   };
 }
 
-function readErrorSearchText(error: unknown): string {
-  if (typeof error === "string") {
-    return error.toLowerCase();
-  }
-  if (typeof error !== "object" || error === null) {
-    return "";
-  }
-  const code = "code" in error ? String((error as { code?: unknown }).code ?? "") : "";
-  const message = "message" in error ? String((error as { message?: unknown }).message ?? "") : "";
-  return `${code} ${message}`.toLowerCase();
-}
-
-/**
- * 原始错误只在本地参与匹配，返回值固定为低基数枚举，禁止把远端目标或错误消息带入埋点。
- */
 export function classifyRemoteUsageError(error: unknown): RemoteUsageErrorCategory {
-  const value = readErrorSearchText(error);
-  if (/(auth|password|credential|token|permission|denied|unauthor)/.test(value)) {
+  let text = "";
+  if (typeof error === "string") {
+    text = error.toLowerCase();
+  } else if (typeof error === "object" && error !== null) {
+    const code = "code" in error ? String(error.code ?? "") : "";
+    const message = "message" in error ? String(error.message ?? "") : "";
+    text = (code + " " + message).toLowerCase();
+  }
+
+  if (/(auth|password|credential|token|permission|denied|unauthor)/.test(text)) {
     return "auth";
   }
-  if (/(deploy|download|install|asset|checksum)/.test(value)) {
+  if (/(deploy|download|install|asset|checksum)/.test(text)) {
     return "deploy";
   }
-  if (/(host_start|host start|spawn|process.*(?:exit|start)|host.*(?:exit|start))/.test(value)) {
+  if (/(host_start|host start|spawn|process.*(?:exit|start)|host.*(?:exit|start))/.test(text)) {
     return "host_start";
   }
   if (
     /(attach|desktop_host_missing|workspace.*(?:identity|missing|mismatch)|remote_session)/.test(
-      value,
+      text,
     )
   ) {
     return "attach";
   }
-  if (/(relay|websocket|web socket|pair|device.*(?:kicked|not.found))/.test(value)) {
+  if (/(relay|websocket|web socket|pair|device.*(?:kicked|not.found))/.test(text)) {
     return "relay";
   }
-  if (/(connect|network|socket|ssh|wsl|docker|server|timeout|timedout|econn)/.test(value)) {
+  if (/(connect|network|socket|ssh|wsl|docker|server|timeout|timedout|econn)/.test(text)) {
     return "connect";
   }
   return "unknown";
