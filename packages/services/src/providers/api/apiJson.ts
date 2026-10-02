@@ -1,59 +1,30 @@
 import { ApiError, type ApiClient, type ApiRequestInit } from "@knorvia/shared";
 
-const DIAGNOSTIC_RESPONSE_HEADER_NAMES = ["x-request-id", "x-trace-id", "x-span-id"] as const;
-
-function resolveMethod(init?: ApiRequestInit): string {
-  return (init?.method ?? "GET").toUpperCase();
-}
-
-function resolveUrl(input: string | URL): string {
-  return typeof input === "string" ? input : input.toString();
-}
-
-function readDiagnosticResponseHeaders(headers: Headers): Record<string, string> | undefined {
-  const responseHeaders: Record<string, string> = {};
-
-  for (const name of DIAGNOSTIC_RESPONSE_HEADER_NAMES) {
-    const value = headers.get(name)?.trim();
-    if (value) {
-      responseHeaders[name] = value;
-    }
+function diagnosticHeaders(response: Response): Record<string, string> | undefined {
+  const result: Record<string, string> = {};
+  for (const name of ["x-request-id", "x-trace-id", "x-span-id"]) {
+    const value = response.headers.get(name)?.trim();
+    if (value) result[name] = value;
   }
-
-  return Object.keys(responseHeaders).length > 0 ? responseHeaders : undefined;
+  return Object.keys(result).length ? result : undefined;
 }
 
-async function readResponseMessage(response: Response): Promise<string> {
+async function failureMessage(response: Response): Promise<string> {
+  const fallback = `HTTP ${response.status}`;
   try {
-    const body = await response.text();
-    const trimmed = body.trim();
-    if (!trimmed) {
-      return `HTTP ${response.status}`;
-    }
-
+    const body = (await response.text()).trim();
+    if (!body) return fallback;
     try {
-      const parsed = JSON.parse(trimmed) as {
-        error?: unknown;
-        message?: unknown;
-        msg?: unknown;
-        detail?: unknown;
-      };
-      const message =
-        typeof parsed.error === "string"
-          ? parsed.error
-          : typeof parsed.message === "string"
-            ? parsed.message
-            : typeof parsed.msg === "string"
-              ? parsed.msg
-              : typeof parsed.detail === "string"
-                ? parsed.detail
-                : "";
-      return message.trim() || `HTTP ${response.status}`;
+      const parsed = JSON.parse(body);
+      for (const key of ["error", "message", "msg", "detail"]) {
+        if (typeof parsed[key] === "string") return parsed[key].trim() || fallback;
+      }
+      return fallback;
     } catch {
-      return trimmed;
+      return body;
     }
   } catch {
-    return `HTTP ${response.status}`;
+    return fallback;
   }
 }
 
@@ -62,21 +33,19 @@ export async function readApiJson<T>(
   input: string | URL,
   init?: ApiRequestInit,
 ): Promise<T> {
-  const url = resolveUrl(input);
-  const method = resolveMethod(init);
+  const url = typeof input === "string" ? input : input.toString();
+  const method = (init?.method ?? "GET").toUpperCase();
   const response = await apiClient.request(input, init);
-
   if (!response.ok) {
-    const message = await readResponseMessage(response);
+    const message = await failureMessage(response);
     throw new ApiError({
       message,
       url,
       method,
       status: response.status,
-      responseHeaders: readDiagnosticResponseHeaders(response.headers),
+      responseHeaders: diagnosticHeaders(response),
     });
   }
-
   try {
     return (await response.json()) as T;
   } catch (error) {
@@ -85,7 +54,7 @@ export async function readApiJson<T>(
       url,
       method,
       status: response.status,
-      responseHeaders: readDiagnosticResponseHeaders(response.headers),
+      responseHeaders: diagnosticHeaders(response),
       cause: error,
     });
   }
