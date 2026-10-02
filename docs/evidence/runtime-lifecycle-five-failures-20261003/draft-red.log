@@ -1,0 +1,34 @@
+{"baseline":{"reads":["path","type","path"],"calls":["track","tracked-catch"]},"candidate":{"reads":["type","path","path"],"calls":["track"]}}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
+    calls: [
+      'track',
+-     'tracked-catch'
+    ],
+    reads: [
+-     'path',
+      'type',
+      'path',
++     'path'
+    ]
+  }
+
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/.lifecycle-five-red-probe.mjs:39:131) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: { reads: [ 'type', 'path', 'path' ], calls: [ 'track' ] },
+  expected: {
+    reads: [ 'path', 'type', 'path' ],
+    calls: [ 'track', 'tracked-catch' ]
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
