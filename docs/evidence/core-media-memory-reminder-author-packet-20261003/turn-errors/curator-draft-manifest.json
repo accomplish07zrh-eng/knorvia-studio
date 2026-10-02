@@ -1,0 +1,24 @@
+{
+  "scope": "turn-errors",
+  "recordedAtUtc": "2026-10-02T20:44:36.548199+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "fastRequested": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "osIsolationOrAccessAuditVerified": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 7575,
+      "sha256": "a35d83cd26dd30f2d9aded749c3770b99e9c32ad6d42175c75b82e64e0dba35f"
+    },
+    {
+      "file": "turn-errors.ts.txt",
+      "bytes": 7609,
+      "sha256": "5229c2ab9f6a860a1c4cf39bb0908dbe58040c6e050af9920cc623497338df3e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts"
+    }
+  ]
+}

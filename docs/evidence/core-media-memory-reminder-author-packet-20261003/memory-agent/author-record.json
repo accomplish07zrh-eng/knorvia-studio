@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "scope": "complete independent project-memory-agent.ts owner",
+  "contractFreeze": "c4eda8a6",
+  "configuration": {
+    "requestedModel": "Sol",
+    "requestedReasoning": "high",
+    "requestedFork": "none",
+    "requestedServiceTier": "Fast",
+    "actualModelVerification": "Not exposed to author; requested configuration supplied by parent.",
+    "actualReasoningVerification": "Not independently exposed or verified.",
+    "actualForkVerification": "Parent assigned fork:none; no repository or predecessor context read.",
+    "fastTierQualification": "Fast requested without exposed or verified tier control.",
+    "executionIsolation": "Shared executor; read restrictions are instruction-only, not OS isolation or access-audit proof.",
+    "reviewQualification": "Source-exposed curator and prior broad context qualified; no source-unexposed independence claim."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/contract.md",
+      "bytes": 5369,
+      "sha256": "dc774c1810aa004141c369d73e68ca65980487f299e1003999d2d4e02b9ac93b",
+      "lineCount": 13,
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/public-api.d.ts",
+      "bytes": 1383,
+      "sha256": "44a24122a5a8138ea1b91d41d28795a5723698b4bd631036187f2fbfc70b1ea7",
+      "lineCount": 26,
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/dependency-api.d.ts",
+      "bytes": 5366,
+      "sha256": "bdb755763b6ce2ef61d654500fda23f57b3be45732bef3315986345ec912dada",
+      "lineCount": 108,
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/public-shapes.d.ts",
+      "bytes": 5612,
+      "sha256": "0da27b7a5a311bed9b6a554555651ad1e5f3accc0ed115e340d8ecf7fe8e7f1d",
+      "lineCount": 164,
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/imports.json",
+      "bytes": 2507,
+      "sha256": "3b3d9f2da50ffdc0817e6d6e0c82a2738400f40ec2a99c0d6f08716dc21700b8",
+      "lineCount": 56,
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/output-data.json",
+      "bytes": 1361,
+      "sha256": "38092b45b7ae6be703949e10ddcc23c7806f8f925b80094e28c6df94914ddbad",
+      "lineCount": 54,
+      "mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/qualified-return-contracts.d.ts",
+      "bytes": 324,
+      "sha256": "a4aaeee3d09dbe810c09056339d8fdaf9d80961a711fbc61538609e3d7cb29a9",
+      "lineCount": 2,
+      "mode": "0444"
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/output/project-memory-agent.ts",
+    "bytes": 4516,
+    "sha256": "4f14af4aa285de7bb34532afcd075c2c7df176f8e52f5614d9761a413b61b83b",
+    "lineCount": 118,
+    "maximumExclusiveLines": 400,
+    "mode": "0444"
+  },
+  "receipt": {
+    "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/output/author-record.json",
+    "mode": "0444",
+    "binding": "All seven frozen input byte lengths, SHA-256 digests, and line counts; complete generated source byte length, SHA-256 digest, and line count. Receipt does not claim a self-referential digest."
+  },
+  "exactReadPaths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/contract.md",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/public-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/dependency-api.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/public-shapes.d.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/imports.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/output-data.json",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/qualified-return-contracts.d.ts"
+  ],
+  "readPathAccounting": "Seven input paths only; each read once for authoring and once while recording byte hashes and modes. No own-output content reads were necessary; source hash computed from exact bytes written. Own-output mode observations only after freeze.",
+  "writtenPaths": [
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/output/project-memory-agent.ts",
+    "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/output/author-record.json"
+  ],
+  "outputDirectory": {
+    "path": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/output",
+    "mode": "0555"
+  },
+  "chosenStructure": {
+    "description": "One complete module with the exact public context interface and three direct exported functions. Each function keeps its cohesive construction and delegation inline; no additional private helper, state, cache, transaction, or feature is introduced.",
+    "capture": "Lazy nullish base-model selection, wrapped invocation callback, then one ordered fresh context snapshot.",
+    "providerMessages": "Locally typed fresh entry array and one opaque projection call; unused runtime argument preserved.",
+    "executor": "One ordered options literal passed directly to the original imported executor constructor; output identity preserved.",
+    "noveltyQualification": "No cosmetic naming novelty or originality claim. Ordinary idioms and required expression are intentionally retained."
+  },
+  "retainedExpression": [
+    "Actual import module paths, imported symbols, exact public interface member names and types, and three public function names and argument contracts.",
+    "Original ownership of opaque runtime methods, protected permission constructors, provider projection helper, and executor; no dependency implementation read, invented, copied into this module, or rewritten.",
+    "Nullish input.model selection and runtime.getSessionModelSelection() only inside fallback evaluation, preserving even falsy non-nullish overrides without upfront tool/config/selection observations.",
+    "Invocation callback closes over the newly assigned wrapped model and reads live input/runtime only when invoked; runtime-header refresh creation is deferred inside that callback.",
+    "Ordered invocation fields metadata, modelRequestSessionType, modelCall, refreshRuntimeHeadersBeforeAttempt, traceContext; metadata spread followed by querySource and skipTranscript:true; modelRequestSessionType other and operation field retained.",
+    "Ordered snapshot keys causation, memoryRoot, providerEntries, midConversationSystem, model, operation, readFileState, tools, traceContext, workingDirectory, workspaceRoot; captureCausation receiver and first snapshot evaluation preserved.",
+    "Provider entries fresh outer array preserves entry/message/content identities under supplied immutable-history assumption; tool member objects shallow-cloned; readFileState new Map retains value identities.",
+    "No freeze/deep clone, path equality, sanitization, new history mutation, transcript writes, full-body logging, or extraction self-feedback added.",
+    "Provider message array appends exactly one user message with content then role, without metadata; original context entries untouched and runtime argument unobserved.",
+    "buildRuntimeProviderRequestMessages receives exact reduced runtime config and applyCacheControl:true, entries, model options, and its messages property is returned unchanged.",
+    "Ordered executor keys artifactStore, emitEvent, executionPort, fileSystemPort, getBashShellSelection, getMode, getMemoryRoot, getWorkingDirectory, getWorkspaceRoot, imageProcessorPort, pdfDocumentPort, maxConcurrency, model, permissionBroker, permissionService, readFileState, registry, runtimeScope, sessionId, sessionStore, skillPort, traceContext.",
+    "No-op asynchronous emitEvent; deferred live runtime.config shell selection; mode yolo and runtimeScope main retained as existing constants without new authority.",
+    "Separate deferred memory-root, working-directory, and workspace-root context callbacks; no cwd substitution; original runtime receiver/property-read timing and object evaluation order preserved.",
+    "createDenyPermissionBroker() and new PermissionService(defaultPermissionConfig) remain actual opaque original imports; no allow broker, full-access permission substitute, new grant, configuration, or action.",
+    "Executor read map shallow clone admits supplied existing read facts while keeping maps distinct; opaque registry, session, store, ports, and policy references passed through unchanged.",
+    "Explicit ReturnType<typeof createToolExecutor> annotation follows qualified-return-contracts.d.ts; inherited raw isolated TS9007 recorded rather than claiming inference or compiler repair.",
+    "Required protocol, types, fields, prose, formats, constants, evaluation order, and ordinary idioms acknowledged as retained expression without license grant."
+  ],
+  "qualifiedReturn": {
+    "sourceAnnotation": "ReturnType<typeof createToolExecutor>",
+    "authority": "/tmp/knorvia-media-memory-reminder-20261003/memory-agent/input/qualified-return-contracts.d.ts",
+    "rawDiagnostic": "TS9007",
+    "status": "Inherited raw isolated inference diagnostic preserved as packet qualification; no compiler invoked and no assertion that isolated fragments compile."
+  },
+  "verification": {
+    "performed": "Manual source-to-contract authoring assessment only; source byte hashing, input byte hashing and line counts, and authorized file-mode observations.",
+    "notPerformed": [
+      "compiler",
+      "tests",
+      "lint",
+      "build",
+      "mocks",
+      "real memory/provider/executor requests",
+      "real artifact-store or file-system-port operations",
+      "real user-data or credential actions",
+      "repository inspection",
+      "dependency-body inspection",
+      "network access",
+      "Library access"
+    ],
+    "publicContractAssessment": "Exact interface and three functions retained; executor return qualified by supplied authority.",
+    "evaluationAssessment": "Capture model choice precedes snapshot; causation first within snapshot; invocation and executor option orders match frozen contract.",
+    "identityAssessment": "Shallow arrays/maps/tool objects and exact provider/executor delegated results maintained by direct construction.",
+    "limits": "No dynamic behavior or type checking performed; authoritative opaque imports and callback-timing contracts assumed as supplied."
+  },
+  "breaches": [],
+  "questions": [],
+  "remainingBlockers": [],
+  "freezeUTC": "2026-10-02T20:42:06.995438Z",
+  "freezeSequence": "Record timestamp taken after source and record content preparation; write source and receipt, then chmod each 0444 and output directory 0555 before reporting for curator review."
+}
