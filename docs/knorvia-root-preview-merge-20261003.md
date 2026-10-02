@@ -1,0 +1,7 @@
+# Root preview and message projection candidates
+
+Two complete candidates cover path normalization/protected Markdown and citation extraction/candidate gating, plus pure consecutive-assistant coalescence. Schema/media/grammar/format owners remain retained. Frozen functional/API drafts preceded deliberate target source comparison; earlier generic compiler exposure and broader root context are explicit.
+
+[Exact review/check bindings](evidence/root-preview-merge-20261003/review.json) preserve the original drafts, compiler errors and source-aware corrections. A concrete unsupported mutable descriptor-kind citation regression was reproduced and corrected. Three small paired synthetic groups check containment/reverted references, that citation guard and message/tool/identity preservation. They use transpiled owners with mocked public media/schema ports, not full consumer/platform acceptance.
+
+Scoped actual-dependency semantic types, API declarations, lint, architecture and whitespace pass. No full suites/builds or real user files/database/network operations. Same-root review is qualified; arbitrary effectful descriptor getters and monkeypatched runtime iterators are outside its observation-equivalence claim. Retained grammar/projection contracts and conventional idioms remain substantial. Final provenance/legal and aggregate acceptance remain pending; no global licence change or cross-lane merge.

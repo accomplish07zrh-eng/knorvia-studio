@@ -1,0 +1,3 @@
+baseline: 3 minimal synthetic containment/citation-kind/data-preservation groups pass; mocked media/schema ports, transpiled modules only
+candidate: 3 minimal synthetic containment/citation-kind/data-preservation groups pass; mocked media/schema ports, transpiled modules only
+Frozen draft citation mutation regression reproduced; corrected candidate rejects unsupported descriptor kind. No real files/network/database touched.

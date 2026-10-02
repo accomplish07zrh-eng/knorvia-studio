@@ -1,0 +1,79 @@
+{
+  "qualification": "Source-derived exact matching grammar only; no helper/function bodies. Retained contract expression, not new author grant.",
+  "patterns": [
+    {
+      "expressionLiteral": "/\\bfile:\\/\\/[^\\s<>()\\]`\"'*，。！？；：、]+/giu",
+      "line": 100
+    },
+    {
+      "expressionLiteral": "/:{1,2}(?:knorvia|knorvia)-file-citation\\{([^}]*)\\}/giu",
+      "line": 101
+    },
+    {
+      "expressionLiteral": "/\\[([^\\]\\n]*)\\]\\(([^)\\n]+)\\)/g",
+      "line": 102
+    },
+    {
+      "expressionLiteral": "/([`\"'])([^`\"'\\r\\n]+?\\.(?:md|html?|docx|xlsx|pptx|pdf|mp4|mov|webm|m4v|mp3|wav|m4a|ogg|opus|flac|weba)(?::\\d+(?::\\d+)?)?)\\1/giu",
+      "line": 104
+    },
+    {
+      "expressionLiteral": "/(?:^|[\\s(\"'`,.;:!?，。！？；：、])((?:(?:\\.{1,2}[\\\\/]|[a-zA-Z]:[\\\\/]|\\/|[\\p{L}\\p{N}\\p{M}\\p{S}_.@()-]+[\\\\/])[\\p{L}\\p{N}\\p{M}\\p{S}_.@() -]+?(?:[\\\\/][\\p{L}\\p{N}\\p{M}\\p{S}_.@() -]+?)*|[\\p{L}\\p{N}\\p{M}\\p{S}_.@()-]+)\\.(?:md|html?|docx|xlsx|pptx|pdf|mp4|mov|webm|m4v|mp3|wav|m4a|ogg|opus|flac|weba)(?::\\d+(?::\\d+)?)?)(?=$|[\\s)\"'`,.;:!?，。！？；：、])/giu",
+      "line": 106
+    },
+    {
+      "expressionLiteral": "/\\\\/gu",
+      "line": 109
+    },
+    {
+      "expressionLiteral": "/[.,;!?，。！？；：、]+$/gu",
+      "line": 115
+    },
+    {
+      "expressionLiteral": "/:\\d+(?::\\d+)?$/u",
+      "line": 116
+    },
+    {
+      "expressionLiteral": "/^\\/[a-zA-Z]:\\//u",
+      "line": 132
+    },
+    {
+      "expressionLiteral": "/^[a-zA-Z]:[\\\\/]/u",
+      "line": 141
+    },
+    {
+      "expressionLiteral": "/\\/{2,}/gu",
+      "line": 159
+    },
+    {
+      "expressionLiteral": "/^~[\\\\/]/u",
+      "line": 181
+    },
+    {
+      "expressionLiteral": "/^file:\\/\\//iu",
+      "line": 182
+    },
+    {
+      "expressionLiteral": "/\\/$/u",
+      "line": 187
+    },
+    {
+      "expressionLiteral": "/\\/+$/u",
+      "line": 201
+    },
+    {
+      "expressionLiteral": "/\\/$/u",
+      "line": 206
+    },
+    {
+      "expressionLiteral": "/\\/$/u",
+      "line": 207
+    },
+    {
+      "expressionLiteral": "/^<|>$/gu",
+      "line": 269
+    }
+  ],
+  "directiveParameterPattern": "${name}\\s*=\\s*[\"']([^\"']+)[\"']",
+  "directiveFlags": "iu"
+}
