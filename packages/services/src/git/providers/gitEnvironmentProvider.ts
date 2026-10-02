@@ -10,14 +10,13 @@ export interface GitEnvironmentProvider {
   createCommandEnv(): NodeJS.ProcessEnv;
 }
 
-async function canExecuteGitCandidate(candidate: string, env: NodeJS.ProcessEnv): Promise<boolean> {
+async function probeGitBinary(candidate: string, env: NodeJS.ProcessEnv): Promise<boolean> {
   return await new Promise<boolean>((resolve) => {
     const child = spawn(candidate, ["--version"], {
       env,
       stdio: "ignore",
       windowsHide: true,
     });
-
     const timer = setTimeout(() => {
       child.kill();
       resolve(false);
@@ -35,30 +34,27 @@ async function canExecuteGitCandidate(candidate: string, env: NodeJS.ProcessEnv)
 }
 
 export function createGitEnvironmentProvider(): GitEnvironmentProvider {
-  let cachedGitBinaryPromise: Promise<string | null> | null = null;
+  let discovery: Promise<string | null> | null = null;
 
   return {
-    async resolveGitBinary(): Promise<string | null> {
-      if (cachedGitBinaryPromise) {
-        return await cachedGitBinaryPromise;
+    async resolveGitBinary() {
+      if (discovery) {
+        return await discovery;
       }
 
       const env = getGitCommandEnv();
-      // Git binary 的探测在一次会话里不会频繁变化，
-      // 这里缓存第一次探测结果，避免每个 Git RPC 都重复打一遍 `git --version`。
-      cachedGitBinaryPromise = (async () => {
+      discovery = (async () => {
         for (const candidate of getGitBinaryCandidates()) {
-          if (await canExecuteGitCandidate(candidate, env)) {
+          if (await probeGitBinary(candidate, env)) {
             return candidate;
           }
         }
         return null;
       })();
 
-      return await cachedGitBinaryPromise;
+      return await discovery;
     },
-
-    createCommandEnv(): NodeJS.ProcessEnv {
+    createCommandEnv() {
       return getGitCommandEnv();
     },
   };

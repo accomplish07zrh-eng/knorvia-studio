@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "queueBase": "cd729da5314429d2d7f90cabf1cb94daa569edec",
+  "coordinatorSourceExposed": true,
+  "wholeFileLicenseGrant": false,
+  "authors": {
+    "environment": {
+      "owner": "environment",
+      "status": "first-ready-frozen",
+      "target": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "firstReady": {
+        "path": "/tmp/knorvia-git-cli-candidates-20261002/environment/first-ready/packages/services/src/git/providers/gitEnvironmentProvider.ts",
+        "sha256": "7c057ffd2687914016156235bc143f4428268354a873bdd5df8f28ae2c6203c8",
+        "rawFirstReady": true,
+        "reviewedBeforeFreeze": false,
+        "correctedBeforeFreeze": false,
+        "revisions": []
+      },
+      "inputs": [
+        {
+          "path": "/tmp/knorvia-git-cli-contracts-20261002/environment.md",
+          "sha256": "5a83f6ecfbba17521a17f437c6d05be7d1d2fce25c70b81b771ac3cca8d6998e"
+        },
+        {
+          "path": "/tmp/knorvia-git-cli-contracts-20261002/environment-api.ts",
+          "sha256": "9cbf148de04c525f86e3151b23545a7c4fe0c34bf9cc67ebd4dc6e89fe1baae1"
+        },
+        {
+          "path": "/tmp/knorvia-git-cli-contracts-20261002/config-api.ts",
+          "sha256": "47e012f859ef764f1717f55a67c3e91b6da3f56a3a2a5448dfb80fc0e363d43e"
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5"
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+        }
+      ],
+      "actualAccessLog": [
+        {
+          "sequence": 1,
+          "tool": "exec_command",
+          "operation": "read",
+          "command": "cat /tmp/knorvia-git-cli-contracts-20261002/environment.md /tmp/knorvia-git-cli-contracts-20261002/environment-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "exitCode": 0
+        },
+        {
+          "sequence": 2,
+          "tool": "apply_patch",
+          "operation": "create raw first-ready source",
+          "path": "/tmp/knorvia-git-cli-candidates-20261002/environment/first-ready/packages/services/src/git/providers/gitEnvironmentProvider.ts"
+        },
+        {
+          "sequence": 3,
+          "tool": "exec_command",
+          "operation": "read bytes for SHA-256 freeze and input evidence",
+          "command": "sha256sum /tmp/knorvia-git-cli-contracts-20261002/environment.md /tmp/knorvia-git-cli-contracts-20261002/environment-api.ts /tmp/knorvia-git-cli-contracts-20261002/config-api.ts /workspace/knorvia-studio/AGENTS.md /workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md /tmp/knorvia-git-cli-candidates-20261002/environment/first-ready/packages/services/src/git/providers/gitEnvironmentProvider.ts",
+          "exitCode": 0
+        },
+        {
+          "sequence": 4,
+          "tool": "apply_patch",
+          "operation": "create this provenance manifest",
+          "path": "/tmp/knorvia-git-cli-candidates-20261002/environment/candidate.json"
+        }
+      ],
+      "design": {
+        "stateOwner": "One nullable discovery promise owned by each factory instance",
+        "externalPorts": "Retained config imports; config body not accessed or modified",
+        "eventOrder": "Fresh discovery environment before invoking and assigning async loop; ordered sequential probes; spawn then timer then error listener then close listener",
+        "cacheLifetime": "Success, null, and rejection remain cached; synchronous environment failure precedes assignment",
+        "commandEnvironment": "Each createCommandEnv call delegates directly to a fresh getGitCommandEnv call"
+      },
+      "scopeLimitations": [
+        "Only supplied contract packet, designated repository guidance, and own new source accessed.",
+        "No repository implementation, dependency body, test, history, receipt, filename discovery, or other candidate accessed.",
+        "No repository edits or config/security behavior changes.",
+        "No tests, builds, architecture commands, freshness commands, real Git, or candidate runtime process spawning performed; author restrictions override broader repository workflow instructions.",
+        "Static authorship only; coordinator must run the prescribed fake-process, clock, and environment checks.",
+        "Existing compatibility imports, names, and timeout behavior retained as required by packet; no novelty or full-origin claim.",
+        "Coordinator source exposure is disclosed by supplied contract."
+      ]
+    }
+  },
+  "submittedSources": [
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "sha256": "0ebf9b4971fe63b5e752bc32eb8481455c369ed2e89a319fdb13213f05c6e785"
+    }
+  ]
+}
