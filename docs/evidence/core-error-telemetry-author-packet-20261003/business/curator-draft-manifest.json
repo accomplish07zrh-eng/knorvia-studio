@@ -1,0 +1,21 @@
+{
+  "archivedAtUtc": "2026-10-02T20:08:42.706557+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposedcontrol",
+  "files": [
+    {
+      "file": "draft-provider-business-error.ts.txt",
+      "bytes": 5830,
+      "sha256": "6482135adca00be864682dae728dc2725f93d1f9a08b39165c60ae290c475d86",
+      "target": "apps/cli/packages/core/src/runtime/helpers/provider-business-error.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6584,
+      "sha256": "fd7cb93e89c1ddf5060cc175f1b97e52aa5c158870be2487956abfbe6a2f75d8"
+    }
+  ]
+}
