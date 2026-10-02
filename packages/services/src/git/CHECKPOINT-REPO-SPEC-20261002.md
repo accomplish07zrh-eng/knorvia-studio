@@ -19,3 +19,5 @@ request -> sole service/repo/store/command owner -> existing admission gate
 Acceptance: minimum original/replacement synthetic write/permission safety, source/types/lint/architecture only. No actual user repository/history/files/deletion/reset/remotes/credentials/network/process actions; no ordinary suites/builds or cross-lane integration. Missing ignore parser/dependency stays blocked/unverified.
 
 Before submission clarification: computeDiff in restore gets a new workspace/from/to parameter record after first resolution. Conflict collector captures scalar repoRoot/workspaceInRepoPath at invocation, checkpoint and affected-array references retained. Expected lstat direct try/await/catch; unexpected path async exists helper preserves separate await barrier. Index discovery stdout trimmed once.
+
+Final exit gate: trim/index stdout inspection only inside exitCode===0, one local trim; nonzero result proceeds to existing fallback without inspecting stdout.

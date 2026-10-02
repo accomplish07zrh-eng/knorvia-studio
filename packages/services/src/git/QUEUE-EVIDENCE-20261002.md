@@ -27,10 +27,42 @@ Prior receipts checked: read-projection/root review, message-generator and graph
 | `packages/services/src/git/repo/gitCliTypes.ts`                 | retain existing unselected declaration/config/helper/owner; unclassified here | `02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92` | `28360bc4829c073cd0827f60a271ac15e18b73cd` |
 | `packages/services/src/git/repo/gitCommitGraphPlan.ts`          | retain prior partial/full scope receipt and limits                            | `ce6ed70519437ec60f381f021cff640bb779bf8025708b16593a882e8a862c3d` | `1bc3ee14ffb7c3bc1d15e17e95fb45db0e363c0c` |
 
-Complete owners selected: checkpoint service workflow, repository staging/ref/restore lifecycle, manifest store queue/persistence, checkpoint path/diff parser helpers, Git child command lifetime. Four/five other retained substantial obligations include full gitCliRepo remainder, gitCliHelpers, gitEnvironmentProvider and commitMessageFileScope; config contains retained environment/path policy, not a new origin grant. All15unselected sources must remain hash-identical. Prior file/storage11retained sources unchanged/no classification change.
+Complete owners selected: checkpoint service workflow, repository staging/ref/restore lifecycle, manifest store queue/persistence, checkpoint path/diff parser helpers, Git child command lifetime. Remaining unselected substantive inventory includes full gitCliRepo remainder, gitCliHelpers, gitEnvironmentProvider and commitMessageFileScope; config contains retained environment/path policy, not a new origin grant. All15unselected sources must remain hash-identical. Prior file/storage11retained sources unchanged/no classification change.
 
 Five fresh GPT-6.1 Sol high authors fork without inherited conversation. Only designated manual behavior/API packets, AST-selected interfaces/type aliases/signatures verified zero implementation bodies, root guidance and own new draft. Store public declaration packet handwritten; no runtime class body. Original bodies/old tests/history/snapshots/dependency bodies not allowed. Coordinator source-exposed for contract extraction/review; policy/compatibility strings/public types and retained dependencies keep expression lineage. Raw first-ready before review, own-source corrected revisions separate. No novelty/whole-file MIT/global origin grant.
 
 Original synthetic safety5/5 passed; fake FS/command/env/child/clock/UUID/hash ports only, no actual Git process, userrepository/history/reset/restore/delete/remotes/credentials/network. Tests inspect only ordinary scoped source via imports/mock controls. Existing graph fixture was read for guidance on fake-provider boundaries, not executed or reused as fresh author input. Original scoped source/test types status/full exact output `/tmp/knorvia-git-original-types-20261002.txt`; baseline captured before implementation. Ordinary suites/builds, real Git/platform/IPC/concurrency stress and complete provenance acceptance deferred. Missing ignore dependency remains blocked/unverified in prior file consumer scope; no install/production substitute/parser equivalence. Node24.19.0 vs pinnedCLI24.14.0 and experimental/deprecated namedExports modulemock warnings retained. No rootexclusive artifacts/message merge, other lanes/shared/UI/CLI/client/RPC/global LICENSE/inventory/manifests, main/cross-lane integration changes.
 
 Original scoped source/tests types passed with no diagnostics.
+
+Initial replacement scoped types failed with new provider narrowing TS2322; exact failure frozen at `/tmp/knorvia-git-first-replacement-types-20261002.txt`, corrected only in fresh author own-source revision2 before final pass:
+
+```text
+packages/services/src/git/providers/gitCommandProvider.ts(109,13): error TS2322: Type 'string | null' is not assignable to type 'string'.
+  Type 'null' is not assignable to type 'string'.
+```
+
+Final allocated queue collected: service1d358cb, store1d6fdde, helpers21580f7, command84fc4e2 and complete checkpoint repository owner with this final batch. Five selected sources freshly authored below400nonblank lines (74/78/139/318/185 for service/store/helpers/repository/command). No new helper sources/ports/manifests or API shape added. All15unselected original sources SHA-256 match the frozen20-source baseline. Eight prior receipt sources retain their partial/source-exposed limits; seven original declaration/config/helper/owner sources retained explicitly. Prior file/storage unselected19hashes also reverified unchanged, including eleven retained classification obligations.
+
+Next substantive Git inventory (not covered by adjacent owner or inferred accepted):
+
+- `packages/services/src/git/repo/gitCliRepo.ts`: remainder of whole1558-line owner beyond retained partial graph extraction; complete independent provenance unresolved. Prior graph source remains exactly receipt bytes; no rewriting in this queue.
+- `packages/services/src/git/repo/gitCliHelpers.ts`: status/diff/line-stat/path/error helpers.
+- `packages/services/src/git/providers/gitEnvironmentProvider.ts`: binary discovery/cache/environment forwarding owner.
+- `packages/services/src/git/commitMessageFileScope.ts`: commit-message workspace/diff path scope.
+
+Retained policy/declarations/facades (no new origin acceptance): config.ts environment/path/quoting policy, git.ts/gitCheckpoint.ts service descriptors and repo/gitCliTypes.ts declarations plus existing createEmptySummary behavior. Retained prior source scopes: gitService/read-projection, generator/invocation/prompt/response plans, CLIrepo graph slice/graph plan; these still need aggregate classification with exact prior limits. No whole Git directory completion/origin grant claimed.
+
+Final minimum original5/5 and replacement5/5 safety; changed repository/provider revisions rechecked2/2. Final scoped five-owner source/tests and direct GitCliRepo/GitEnvironmentProvider types passed after disclosed TS2322 correction; original types passed. Source/test lint10files0warnings/errors and final revisedsource lint2files0warnings/errors, formatting/staged whitespace and architecture0/0/0 passed. No ordinary suites/builds or old broad acceptance rerun. All child/fs/clock/env/hash/UUID/Git ports fake, no real userrepository/history/reset/restore/deletion/staging/credentials/remotes/network/process actions. Existing rollback/partial-effect semantics retained rather than adding new product safety policy. Missing ignore dependency remains blocked/unverified in prior file consumer scope; no install/parser-equivalence/production-declaration substitute.
+
+Exact output evidence (local outputs retained, hashes durable):
+
+| Output                                                  | SHA-256                                                            |
+| ------------------------------------------------------- | ------------------------------------------------------------------ |
+| `/tmp/knorvia-git-original-safety-20261002.txt`         | `659142c59a94077ea16109dc7e6a962ff9b2c71174d4a2c3ba4cf6cb16b6686b` |
+| `/tmp/knorvia-git-original-types-20261002.txt`          | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `/tmp/knorvia-git-replacement-safety-20261002.txt`      | `50edb2d6eefb461a87aba583f034cbe7c0e3e180c9d74dcb7e38b022eb7e4ae0` |
+| `/tmp/knorvia-git-first-replacement-types-20261002.txt` | `17a6696106dd05e607d7aee146f9e56550a3bbf22cab690090cd71a41d8a119b` |
+| `/tmp/knorvia-git-replacement-lint-20261002.txt`        | `fe3bc571334015b73a484d4e4a5b24182f89fb0f1a1fad9e3ef34aba03662dee` |
+| `/tmp/knorvia-git-final-two-safety-20261002.txt`        | `817270f9939771153e24a1f46a90185b25c6b9eebbc3cf971e465687cffd741f` |
+| `/tmp/knorvia-git-final-types-20261002.txt`             | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
