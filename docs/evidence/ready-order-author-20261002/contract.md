@@ -34,6 +34,7 @@ This is an observable sequence rule; no specific storage or loop form is require
 Do not substitute a conventional rotating queue that loses K across removals.
 
 Examples (group contents shown after participation selection):
+
 - [A1,A2], [B1,B2], [C1], [D1,D2] -> A1,B1,C1,D1,A2,D2,B2.
 - Group X first receives [u,v], Y receives [v,w], X later receives [w]:
   group order X,Y; exploratory output u,v,v,w,w (references repeated).

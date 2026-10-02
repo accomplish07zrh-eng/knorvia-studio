@@ -19,7 +19,16 @@ interface WorkflowGraph {
   edges: { from: string; to: string }[];
   collections?: WorkflowGraphCollection[];
 }
-declare function readyExecutableNodes(graph: WorkflowGraph, executableNodeIds: Set<string>): WorkflowGraphNode[];
+declare function readyExecutableNodes(
+  graph: WorkflowGraph,
+  executableNodeIds: Set<string>,
+): WorkflowGraphNode[];
 declare function graphCollections(graph: WorkflowGraph): WorkflowGraphCollection[];
-declare function collectionNodeIdsForGraph(collection: WorkflowGraphCollection, graph: WorkflowGraph): string[];
-export declare function orderedReadyExecutableNodes(graph: WorkflowGraph, executableNodeIds: Set<string>): WorkflowGraphNode[];
+declare function collectionNodeIdsForGraph(
+  collection: WorkflowGraphCollection,
+  graph: WorkflowGraph,
+): string[];
+export declare function orderedReadyExecutableNodes(
+  graph: WorkflowGraph,
+  executableNodeIds: Set<string>,
+): WorkflowGraphNode[];
