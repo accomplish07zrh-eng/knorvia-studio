@@ -7,6 +7,15 @@ import {
 import { MAX_IMAGE_ATTACHMENT_DIMENSION } from "../types.js";
 import type { PreparedImageData } from "../types.js";
 
+function parseBase64DataUrlPayload(dataUrl: string): string | undefined {
+  const match = /^data:([^;,]+);base64,(.*)$/i.exec(dataUrl);
+  const data = match?.[2];
+  if (!match || !data) {
+    return undefined;
+  }
+  return data;
+}
+
 export async function prepareImageDataUrl(
   dataUrl: string,
   mediaType: string,
@@ -17,7 +26,9 @@ export async function prepareImageDataUrl(
   },
 ): Promise<PreparedImageData | undefined> {
   const base64Data = parseBase64DataUrlPayload(dataUrl);
-  if (!base64Data) return undefined;
+  if (!base64Data) {
+    return undefined;
+  }
   if (!options.imageProcessorPort) {
     return { dataUrl, mediaType };
   }
@@ -50,17 +61,16 @@ export async function prepareImageDataUrl(
   };
 }
 
-function parseBase64DataUrlPayload(dataUrl: string): string | undefined {
-  const match = /^data:([^;,]+);base64,(.*)$/i.exec(dataUrl);
-  const data = match?.[2];
-  if (!match || !data) return undefined;
-  return data;
-}
-
 export function inferImageMimeFromPath(path: string): string {
   const lower = path.toLowerCase();
-  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
-  if (lower.endsWith(".gif")) return "image/gif";
-  if (lower.endsWith(".webp")) return "image/webp";
+  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) {
+    return "image/jpeg";
+  }
+  if (lower.endsWith(".gif")) {
+    return "image/gif";
+  }
+  if (lower.endsWith(".webp")) {
+    return "image/webp";
+  }
   return "image/png";
 }

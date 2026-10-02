@@ -1,0 +1,330 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "postcompact",
+  "baseline": "6ef553405a64328590961dc548950f05fb28ce48",
+  "target": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+  "qualifiedCandidateReturns": true,
+  "reexportsEqual": true,
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "ccd54af178ddfdd4d4307febf6ba73bffcafe846f716187357a5b37611ff0b08",
+    "candidate": "ccd54af178ddfdd4d4307febf6ba73bffcafe846f716187357a5b37611ff0b08"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeMultiplicityQualification": "Exact runtime import multiset unchanged",
+  "runtimeImports": {
+    "predecessor": [
+      "@knorvia/shared#ESTIMATED_TOKEN_CHAR_DIVISOR",
+      "apps/cli/packages/core/src/agent/message-history.js#systemReminderAttachmentEntry"
+    ],
+    "candidate": [
+      "@knorvia/shared#ESTIMATED_TOKEN_CHAR_DIVISOR",
+      "apps/cli/packages/core/src/agent/message-history.js#systemReminderAttachmentEntry"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/contract.md",
+      "bytes": 5733,
+      "sha256": "07c7698366be10630207e9370b43e76b7696af3c3ed55c847132fcaf905e6107",
+      "actual": {
+        "bytes": 5733,
+        "sha256": "07c7698366be10630207e9370b43e76b7696af3c3ed55c847132fcaf905e6107"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/public-api.d.ts",
+      "bytes": 413,
+      "sha256": "570efaef7e034c4f1cb3df1f15566f1a244164329b16e074182e930a24bb626b",
+      "actual": {
+        "bytes": 413,
+        "sha256": "570efaef7e034c4f1cb3df1f15566f1a244164329b16e074182e930a24bb626b"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/dependency-api.d.ts",
+      "bytes": 410,
+      "sha256": "a4b3fd6f15b5ae205d385ea1869507e3941bf4dfbdc0bab2006d96f0e1153528",
+      "actual": {
+        "bytes": 410,
+        "sha256": "a4b3fd6f15b5ae205d385ea1869507e3941bf4dfbdc0bab2006d96f0e1153528"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/public-shapes.d.ts",
+      "bytes": 2107,
+      "sha256": "1278147da6e8d2b8ee7b9e4310b235e137d8b26332a5114917148f7bcab29e7f",
+      "actual": {
+        "bytes": 2107,
+        "sha256": "1278147da6e8d2b8ee7b9e4310b235e137d8b26332a5114917148f7bcab29e7f"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/imports.json",
+      "bytes": 334,
+      "sha256": "1b0b94619b39bf57d08e19a321e256bae74cd4d89952b01f271167fc94b13099",
+      "actual": {
+        "bytes": 334,
+        "sha256": "1b0b94619b39bf57d08e19a321e256bae74cd4d89952b01f271167fc94b13099"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/output-data.json",
+      "bytes": 2281,
+      "sha256": "6496c7e58e81efe42525c6e1baed622567598baaeeeee98250dc698b276cc008",
+      "actual": {
+        "bytes": 2281,
+        "sha256": "6496c7e58e81efe42525c6e1baed622567598baaeeeee98250dc698b276cc008"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 10847,
+      "sha256": "1e800f63345813344c080ea27fa86e0277603a00054e307bf284a3f242993af0",
+      "actual": {
+        "bytes": 10847,
+        "sha256": "1e800f63345813344c080ea27fa86e0277603a00054e307bf284a3f242993af0"
+      },
+      "matchesArchive": true
+    },
+    {
+      "file": "compact-post-reminders.ts.txt",
+      "bytes": 4263,
+      "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037",
+      "target": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "actual": {
+        "bytes": 4263,
+        "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 4263,
+        "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 119
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "author-record.json",
+      "bytes": 10847,
+      "sha256": "1e800f63345813344c080ea27fa86e0277603a00054e307bf284a3f242993af0",
+      "unchanged": true
+    },
+    {
+      "file": "compact-post-reminders.ts.txt",
+      "bytes": 4263,
+      "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037",
+      "target": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-model-content.ts",
+      "bytes": 7184,
+      "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728",
+      "actual": {
+        "bytes": 7184,
+        "sha256": "8292f45f88d6c264b92d50a279e4757bf8da0badb0d5a53e0842ad2f06557728"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "actual": {
+        "bytes": 17225,
+        "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/scheduler.ts",
+      "bytes": 2000,
+      "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e",
+      "actual": {
+        "bytes": 2000,
+        "sha256": "4608352f9412a992f2a2f5cbb9a5a5cff5f128bd0ab30e71949cf72ef0778c2e"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/write.ts",
+      "bytes": 4118,
+      "sha256": "a7cf94cc0ec1dc2acdf540a5796e30d6491c3752539cd05ba9ea1520c0285c53",
+      "actual": {
+        "bytes": 4118,
+        "sha256": "a7cf94cc0ec1dc2acdf540a5796e30d6491c3752539cd05ba9ea1520c0285c53"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/events/session.events.ts",
+      "bytes": 42930,
+      "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c",
+      "actual": {
+        "bytes": 42930,
+        "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/image-processor.port.ts",
+      "bytes": 2122,
+      "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93",
+      "actual": {
+        "bytes": 2122,
+        "sha256": "0f52a57217b2e17de62e53f204c3f64431f04f6c057c9f62091ab9fcd8dc4d93"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "actual": {
+        "bytes": 2904,
+        "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "bytes": 1733,
+      "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca",
+      "actual": {
+        "bytes": 1733,
+        "sha256": "6bcc8dd8d9304117874d956fd21c4335c196ea3cae3bebac3475cf8f9dbf2eca"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "actual": {
+        "bytes": 10410,
+        "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/usage-stats.ts",
+      "bytes": 15523,
+      "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081",
+      "actual": {
+        "bytes": 15523,
+        "sha256": "8216ca11b847b66b0c2f2cb0f63bf47decc4417fbebf1ab56686b9907b9d7081"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "actual": {
+        "bytes": 1372,
+        "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "actual": {
+        "bytes": 644882,
+        "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "module": "../../agent/message-history.js",
+      "exists": true
+    }
+  ],
+  "predecessorDiagnosticsMatchFrozen": true,
+  "extractionDiagnosticsQualified": true,
+  "inheritedInferenceQualification": "All five predecessor/candidate isolated extractions must be zero; original-owner opaque fragments are not semantic/project typing",
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}
