@@ -1,0 +1,32 @@
+[
+  {
+    "key": "retry",
+    "authorOutput": "/tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/initial-api-retry-status.ts",
+    "sha256": "fcaf7992583cac9058baf2c5c573ef80fe70368fd13d3781d55d7c6a7c8ffb2f"
+  },
+  {
+    "key": "notification",
+    "authorOutput": "/tmp/knorvia-shared-notification-queue-authored/background-task-notifications.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/initial-background-task-notifications.ts",
+    "sha256": "037ac76cd5dd31f7a6ac17d4304555720e2e7a4b6dd179989db456b676d8075b"
+  },
+  {
+    "key": "debug",
+    "authorOutput": "/tmp/knorvia-shared-debug-queue-authored/network-debug-status.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/initial-network-debug-status.ts",
+    "sha256": "0c0e2ac8ddd0c4ca8b25214e08bbab0ef8eb6e1abb2bf9569cde74eb217409ed"
+  },
+  {
+    "key": "markdown",
+    "authorOutput": "/tmp/knorvia-shared-markdown-queue-authored/subagent-markdown-selection.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/initial-subagent-markdown-selection.ts",
+    "sha256": "b411c1a9083a9b31eaaf3894720c0d4deb23e93746d945c0bebdaef2e82d8b49"
+  },
+  {
+    "key": "lines",
+    "authorOutput": "/tmp/knorvia-shared-lines-queue-authored/lineChangeStat.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/initial-lineChangeStat.ts",
+    "sha256": "8da03e64f8807cd880030ea73b9a36ac6bd552bda953ceca792992dc165badaa"
+  }
+]

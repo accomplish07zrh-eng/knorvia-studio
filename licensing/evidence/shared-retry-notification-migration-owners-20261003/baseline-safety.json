@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs",
+    "/tmp/knorvia-shared-retry-notification-migration-baseline"
+  ],
+  "stdout": "\u2714 retry projection admits integer counters and preserves pending recovery versus clear decisions (10.291965ms)\n\u2714 notification parsing preserves ordered entity decoding, role admission and metadata identity (5.236333ms)\n\u2714 network debug projection retains event/query identity and filters header and numeric field admission (3.106948ms)\n\u2714 Markdown selection keeps formal fields and lossless provider migration boundaries through fake identity ports (5.295873ms)\n\u2714 line changes preserve logical newline data and bounded LCS cutoff after shared-edge trimming (64.666819ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 93.048228\n",
+  "stderr": "",
+  "exitCode": 0
+}

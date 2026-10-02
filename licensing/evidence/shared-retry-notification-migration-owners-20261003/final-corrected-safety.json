@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^(retry projection|line changes)",
+    "packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2714 retry projection admits integer counters and preserves pending recovery versus clear decisions (17.109105ms)\n\u2714 line changes preserve logical newline data and bounded LCS cutoff after shared-edge trimming (105.585193ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 132.807101\n",
+  "stderr": "",
+  "exitCode": 0
+}

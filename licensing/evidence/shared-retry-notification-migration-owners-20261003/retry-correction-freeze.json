@@ -1,0 +1,10 @@
+{
+  "authorOutput": "/tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts",
+  "frozenBeforeReview": "/tmp/knorvia-shared-retry-notification-migration-freezes/corrected-api-retry-status.ts",
+  "sha256": "8226c8505c1a03c6eee0ed19c820480b8f30b90bae5e27a8a3b1561b9e88f650",
+  "exactCommands": [
+    "cat > /tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts <<'EOF' (whole internal draft)",
+    "sha256sum /tmp/knorvia-shared-retry-queue-authored/api-retry-status.ts"
+  ],
+  "otherReadsWritesChecks": "None"
+}

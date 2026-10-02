@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "stdout": "\u2716 retry projection admits integer counters and preserves pending recovery versus clear decisions (11.135178ms)\n\u2714 notification parsing preserves ordered entity decoding, role admission and metadata identity (7.649809ms)\n\u2714 network debug projection retains event/query identity and filters header and numeric field admission (7.660084ms)\n\u2714 Markdown selection keeps formal fields and lossless provider migration boundaries through fake identity ports (5.99617ms)\n\u2714 line changes preserve logical newline data and bounded LCS cutoff after shared-edge trimming (68.091915ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 4\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 105.639164\n\n\u2716 failing tests:\n\ntest at packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs:47:1\n\u2716 retry projection admits integer counters and preserves pending recovery versus clear decisions (11.135178ms)\n  TypeError: Cannot read properties of null (reading 'attempt')\n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs:99:26)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n",
+  "stderr": "",
+  "exitCode": 1
+}
