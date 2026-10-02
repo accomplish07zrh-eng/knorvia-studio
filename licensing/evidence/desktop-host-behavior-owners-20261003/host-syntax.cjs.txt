@@ -1,0 +1,8 @@
+const fs=require('fs'),ts=require('/workspace/knorvia-studio/node_modules/typescript');
+for(const file of ['browserControlMainBridge','remotePromptAttachments','remoteWorkspaceServiceCollection']){
+ const p='packages/desktop/src/host/'+file+'.ts',text=fs.readFileSync(p,'utf8');
+ const result=ts.transpileModule(text,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,isolatedModules:true},reportDiagnostics:true,fileName:p});
+ const errors=result.diagnostics.filter(d=>d.category===ts.DiagnosticCategory.Error);
+ if(errors.length){console.error(errors.map(d=>ts.flattenDiagnosticMessageText(d.messageText,'\n')));process.exitCode=1;}
+ else console.log(p+': scoped syntax/transpile pass; no semantic/native acceptance');
+}

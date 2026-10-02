@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-host-behavior-owners-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/host/browserControlMainBridge.ts",
+    "packages/desktop/src/host/remotePromptAttachments.ts",
+    "packages/desktop/src/host/remoteWorkspaceServiceCollection.ts",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "licensing/evidence/desktop-host-behavior-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/desktop-host-behavior-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "\n  ! eslint(no-control-regex): Unexpected control character\n    ,-[packages/desktop/src/host/remotePromptAttachments.ts:78:15]\n 77 |   const cleaned = value\n 78 |     .replace(/\\0/g, \"-\")\n    :               ^|\n    :                `-- '\\0' matches the null character (U+0000), which is a control character.\n 79 |     .replace(/[^A-Za-z0-9._-]+/g, \"-\")\n    `----\n  help: Avoid matching control characters in regular expressions. If intentional, consider using a Unicode escape instead.\n\nFound 1 warning and 0 errors.\nFinished in 22ms on 6 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 1
+}

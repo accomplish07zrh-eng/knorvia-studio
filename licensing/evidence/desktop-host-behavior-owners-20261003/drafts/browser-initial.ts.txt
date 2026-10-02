@@ -1,0 +1,391 @@
+import { randomUUID } from "node:crypto";
+
+import { HostResponseTypes } from "@knorvia/shared";
+
+import type {
+    BrowserBackendDescriptor,
+    BrowserClientMode,
+    BrowserCommand,
+    BrowserCommandResult,
+    BrowserRecordingArtifact,
+} from "@knorvia/shared";
+
+interface BrowserExecuteRequestMessage {
+    type: typeof HostResponseTypes.BrowserExecuteRequest;
+    requestId: string;
+    browserId: string;
+    browserGeneration: number;
+    sessionId: string;
+    turnId?: string;
+    workspaceKey: string;
+    workspacePath: string;
+    workspaceIdentity?: string;
+    remoteSessionId?: string;
+    clientMode: BrowserClientMode;
+    sessionContext: "live" | "cached";
+    command: BrowserCommand;
+}
+
+interface BrowserExecuteResultMessage {
+    requestId: string;
+    result: BrowserCommandResult;
+}
+
+interface BrowserControlMainBridge {
+    list(): Promise<BrowserBackendDescriptor[]>;
+    execute(input: {
+        requestId?: string;
+        browserId?: string;
+        browserGeneration?: number;
+        sessionId: string;
+        turnId?: string;
+        workspaceKey?: string;
+        workspacePath?: string;
+        workspaceIdentity?: string;
+        remoteSessionId?: string;
+        clientMode?: BrowserClientMode;
+        sessionContext?: "live" | "cached";
+        command: BrowserCommand;
+    }): Promise<BrowserCommandResult>;
+    handleResult(message: BrowserExecuteResultMessage): Promise<void>;
+    dispose(): void;
+}
+
+type ExecutionScope = Omit<BrowserExecuteRequestMessage, "requestId">;
+
+type PendingExecution = {
+    startedAt: number;
+    timer: ReturnType<typeof setTimeout> | undefined;
+    scope: ExecutionScope;
+    outputPath: string | undefined;
+    workspaceIdentity: string | undefined;
+    remoteSessionId: string | undefined;
+    resolve: (result: BrowserCommandResult) => void;
+};
+
+const mutatingMethods = new Set<string>([
+    "navigate",
+    "back",
+    "forward",
+    "reload",
+    "click",
+    "fill",
+    "type",
+    "press",
+    "cuaKeypress",
+    "scroll",
+    "cuaScroll",
+    "domCuaScroll",
+    "hover",
+    "select",
+    "check",
+    "drag",
+    "cuaDrag",
+    "recordingStart",
+    "recordingCancel",
+    "handleDialog",
+    "close",
+    "finalize",
+    "newTab",
+]);
+
+const mutatingLocatorOperations = new Set<string>([
+    "click",
+    "dblclick",
+    "downloadMedia",
+    "fill",
+    "press",
+    "selectOption",
+    "setChecked",
+]);
+
+function commandMayMutate(command: BrowserCommand): boolean {
+    if (command.method === "playwright" && command.action.name === "locator") {
+        return mutatingLocatorOperations.has(command.action.operation);
+    }
+    return mutatingMethods.has(command.method);
+}
+
+function commandBudget(command: BrowserCommand, configured: number): number {
+    if (command.method === "playwrightWaitForTimeout") {
+        return command.timeoutMs + 2000;
+    }
+    if (command.method === "playwright") {
+        const actionTimeout =
+            "timeoutMs" in command.action ? command.action.timeoutMs ?? configured : configured;
+        return actionTimeout + 2000;
+    }
+    return configured;
+}
+
+function errorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
+}
+
+export function createBrowserControlMainBridge(deps: {
+    postToMain: (message: BrowserExecuteRequestMessage) => void;
+    timeoutMs?: number;
+    materializeRecording?(input: {
+        artifact: BrowserRecordingArtifact;
+        localPath: string;
+        outputPath: string;
+        workspacePath: string;
+        workspaceIdentity?: string;
+        remoteSessionId?: string;
+    }): Promise<BrowserRecordingArtifact>;
+}): BrowserControlMainBridge {
+    const authorityId = `iab:${randomUUID()}`;
+    const authorityGeneration = Date.now();
+    const descriptor = {
+        id: authorityId,
+        generation: authorityGeneration,
+        type: "iab",
+        name: "Knorvia Studio In-app Browser",
+        metadata: {
+            provider: "knorvia-desktop-iab",
+        },
+        capabilities: {
+            tab: {},
+            browser: {
+                visibility: {
+                    description:
+                        "Use to show or hide the browser to the user, and to determine the browser's current visibility. Keep browser work in the background unless the user asks to see it or live viewing is useful. When the browser should be visible, call set(true).",
+                },
+            },
+        },
+        apiSupportOverrides: {
+            "BrowserUser.claimTab": true,
+            "Tabs.finalize": true,
+            "Tab.markDeliverable": true,
+            "Tab.markHandoff": true,
+            "BrowserRecordingAPI.start": true,
+            "BrowserRecordingAPI.status": true,
+            "BrowserRecordingAPI.cancel": true,
+        },
+    } as BrowserBackendDescriptor;
+    const pending = new Map<string, PendingExecution>();
+
+    function take(requestId: string, execution: PendingExecution): boolean {
+        if (pending.get(requestId) !== execution) {
+            return false;
+        }
+        pending.delete(requestId);
+        if (execution.timer !== undefined) {
+            clearTimeout(execution.timer);
+        }
+        return true;
+    }
+
+    return {
+        async list() {
+            return [descriptor];
+        },
+
+        async execute(input) {
+            if (input.browserId && input.browserId !== authorityId) {
+                return {
+                    ok: false,
+                    error: {
+                        code: "backend_unavailable",
+                        message: `browser backend '${input.browserId}' is no longer available`,
+                    },
+                    elapsedMs: 0,
+                };
+            }
+            if (
+                input.browserGeneration !== undefined &&
+                input.browserGeneration !== authorityGeneration
+            ) {
+                return {
+                    ok: false,
+                    error: {
+                        code: "backend_unavailable",
+                        message: `browser backend '${authorityId}' generation ${input.browserGeneration} is stale`,
+                    },
+                    elapsedMs: 0,
+                };
+            }
+
+            const requestId = input.requestId ?? randomUUID();
+            if (pending.has(requestId)) {
+                return {
+                    ok: false,
+                    error: {
+                        code: "duplicate_request_id",
+                        message: `browser requestId '${requestId}' is already running`,
+                    },
+                    sideEffect: "none",
+                    elapsedMs: 0,
+                };
+            }
+
+            const startedAt = Date.now();
+            const workspaceKey =
+                input.workspaceKey === undefined ? input.sessionId : input.workspaceKey;
+            const workspacePath =
+                input.workspacePath === undefined ? workspaceKey : input.workspacePath;
+            const command = input.command;
+            const scope: ExecutionScope = {
+                type: HostResponseTypes.BrowserExecuteRequest,
+                browserId: authorityId,
+                browserGeneration: authorityGeneration,
+                sessionId: input.sessionId,
+                turnId: input.turnId,
+                workspaceKey,
+                workspacePath,
+                workspaceIdentity: input.workspaceIdentity,
+                remoteSessionId: input.remoteSessionId,
+                clientMode:
+                    input.clientMode === undefined ? "desktop-continuous" : input.clientMode,
+                sessionContext: input.sessionContext === undefined ? "live" : input.sessionContext,
+                command,
+            };
+            const budget = commandBudget(command, deps.timeoutMs ?? 30000);
+            const outputPath =
+                command.method === "recordingStatus" && command.outputPath
+                    ? command.outputPath
+                    : undefined;
+
+            return new Promise<BrowserCommandResult>((resolve) => {
+                const execution: PendingExecution = {
+                    startedAt,
+                    timer: undefined,
+                    scope,
+                    outputPath,
+                    workspaceIdentity: input.workspaceIdentity || undefined,
+                    remoteSessionId: input.remoteSessionId || undefined,
+                    resolve,
+                };
+                pending.set(requestId, execution);
+                execution.timer = setTimeout(() => {
+                    if (!take(requestId, execution)) {
+                        return;
+                    }
+                    try {
+                        deps.postToMain({
+                            ...scope,
+                            requestId: randomUUID(),
+                            command: { method: "cancelRequest", requestId },
+                        });
+                    } catch {
+                        // Cancellation is best effort; the original timeout still settles.
+                    }
+                    resolve({
+                        ok: false,
+                        error: {
+                            code: "timeout",
+                            message: `browser 命令 ${command.method} 超时（${budget}ms）`,
+                        },
+                        sideEffect: commandMayMutate(command) ? "uncertain" : "none",
+                        elapsedMs: Date.now() - startedAt,
+                    });
+                }, budget);
+
+                try {
+                    deps.postToMain({ ...scope, requestId });
+                } catch (error) {
+                    if (take(requestId, execution)) {
+                        resolve({
+                            ok: false,
+                            error: {
+                                code: "backend_unavailable",
+                                message: errorMessage(error),
+                            },
+                            elapsedMs: Date.now() - startedAt,
+                        });
+                    }
+                }
+            });
+        },
+
+        async handleResult(message) {
+            const execution = pending.get(message.requestId);
+            if (!execution || !take(message.requestId, execution)) {
+                return;
+            }
+
+            const result = message.result;
+            const recording = result.recording;
+            const artifact = recording?.artifact;
+            if (recording?.status === "completed" && artifact) {
+                if (!execution.outputPath) {
+                    const recordingWithoutArtifact = { ...recording };
+                    delete recordingWithoutArtifact.artifact;
+                    execution.resolve({ ...result, recording: recordingWithoutArtifact });
+                    return;
+                }
+
+                if (result.ok) {
+                    if (!deps.materializeRecording) {
+                        execution.resolve({
+                            ok: false,
+                            error: {
+                                code: "backend_unavailable",
+                                message: "browser recording artifact materialization is unavailable",
+                            },
+                            sideEffect: "none",
+                            elapsedMs: Date.now() - execution.startedAt,
+                        });
+                        return;
+                    }
+
+                    try {
+                        const materializationInput: {
+                            artifact: BrowserRecordingArtifact;
+                            localPath: string;
+                            outputPath: string;
+                            workspacePath: string;
+                            workspaceIdentity?: string;
+                            remoteSessionId?: string;
+                        } = {
+                            artifact,
+                            localPath: artifact.path,
+                            outputPath: execution.outputPath,
+                            workspacePath: execution.scope.workspacePath,
+                        };
+                        if (execution.workspaceIdentity) {
+                            materializationInput.workspaceIdentity = execution.workspaceIdentity;
+                        }
+                        if (execution.remoteSessionId) {
+                            materializationInput.remoteSessionId = execution.remoteSessionId;
+                        }
+                        const materialized = await deps.materializeRecording(materializationInput);
+                        execution.resolve({
+                            ...result,
+                            recording: { ...recording, artifact: materialized },
+                        });
+                    } catch (error) {
+                        execution.resolve({
+                            ok: false,
+                            error: {
+                                code: "execution_error",
+                                message: errorMessage(error),
+                            },
+                            sideEffect: "none",
+                            elapsedMs: Date.now() - execution.startedAt,
+                        });
+                    }
+                    return;
+                }
+            }
+
+            execution.resolve(result);
+        },
+
+        dispose() {
+            for (const [requestId, execution] of pending) {
+                if (take(requestId, execution)) {
+                    execution.resolve({
+                        ok: false,
+                        error: {
+                            code: "backend_unavailable",
+                            message: "browser bridge disposed while command was pending",
+                        },
+                        sideEffect: "uncertain",
+                        elapsedMs: Date.now() - execution.startedAt,
+                    });
+                }
+            }
+        },
+    };
+}

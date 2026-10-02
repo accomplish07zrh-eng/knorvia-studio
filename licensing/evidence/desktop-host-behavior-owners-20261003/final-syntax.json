@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/host-syntax.cjs"
+  ],
+  "stdout": "packages/desktop/src/host/browserControlMainBridge.ts: scoped syntax/transpile pass; no semantic/native acceptance\npackages/desktop/src/host/remotePromptAttachments.ts: scoped syntax/transpile pass; no semantic/native acceptance\npackages/desktop/src/host/remoteWorkspaceServiceCollection.ts: scoped syntax/transpile pass; no semantic/native acceptance\n",
+  "stderr": "",
+  "exitCode": 0
+}

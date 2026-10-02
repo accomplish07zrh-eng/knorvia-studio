@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--owner=attachments"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=attachments\n✔ attachments: sequential staging preserves data and task/session proxy identity (104.449975ms)\n✔ attachments: lexical containment and failure cleanup preserve original cause (35.705816ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 144.681424\n",
+  "stderr": "",
+  "exitCode": 0
+}

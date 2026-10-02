@@ -1,0 +1,23 @@
+{
+  "initial": 3,
+  "wholeCorrections": {
+    "browser": 2,
+    "attachments": 2,
+    "collection": 1
+  },
+  "browser": "Nested error.sideEffect/capability arrays/construction-time budget/awaited result identity, then recording-input error and timer/error ordering",
+  "attachments": "Materializer method receiver/captured original callback, then equivalent NUL string sanitization for scoped no-control-regex rule; no new suppression/policy",
+  "collection": "register/two-stage Event subscription/preferences payload vs resolution union",
+  "curatorImplementationChanges": "Whole raw source copies and formatting only, no source-exposed manual production patch/extraction. Validation helpers reused from earlier scoped packet, no credit assigned.",
+  "frozenFailures": [
+    "initial-pnpm-architecture.json",
+    "initial-pnpm-context.json",
+    "initial-candidate-synthetic.json",
+    "initial-attachment-receiver.json",
+    "initial-lint.json",
+    "correction-1-lint.json",
+    "correction-1-browser-artifact-error.json"
+  ],
+  "syntaxLimit": "Initial AST API/syntax also passed despite behavior/port errors; their pass is not semantic or functional acceptance.",
+  "credit": 0
+}

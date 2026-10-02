@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/behaviorOwners.test.mjs",
+    "--owner=browser"
+  ],
+  "stdout": "sourceMode=installed-candidate; owner=browser\n✔ browser: captured authority, duplicate correlation and dispose settlement (66.775555ms)\n✔ browser: timeout cancellation and detached recording identity (14.400676ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 94.473488\n",
+  "stderr": "",
+  "exitCode": 0
+}

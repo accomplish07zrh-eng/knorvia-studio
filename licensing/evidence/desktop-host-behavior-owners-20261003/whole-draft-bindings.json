@@ -1,0 +1,50 @@
+[
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/attachments-correction-1.ts.txt",
+    "sha256": "6852b554d03fc2d72e19272bf2b158929fcc8c13b74c052facb62199a7734c4c",
+    "bytes": 10741,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/attachments-correction-2.ts.txt",
+    "sha256": "b1ff903ae55508e58c012c2ac6bfc9f4b70b9f6c3f78c2b5a9c691c4489b6a1d",
+    "bytes": 10743,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/attachments-initial.ts.txt",
+    "sha256": "0c78549485d5f4e5ecea6d39a0a4b7977922f3000dd6b8cc4d5ab6f991a4d9b9",
+    "bytes": 10331,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/browser-correction-1.ts.txt",
+    "sha256": "3d88985db79e7669be9477d210ea1d1b43a3c5dd41824afff90809a33b502a9a",
+    "bytes": 13476,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/browser-correction-2.ts.txt",
+    "sha256": "1b4e2f0db6328c5769ef9176f5db90e42f3530da7e4a6aa86c679bd32777fbe7",
+    "bytes": 14062,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/browser-initial.ts.txt",
+    "sha256": "d84c6f5bdaa72c9b26c6c4e099afaa31098197b20131587bd73e8c98dbcd0b42",
+    "bytes": 13960,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/collection-correction-1.ts.txt",
+    "sha256": "41e21fa27c568cb2c6e915172e940f215ae612e6152bdeb8fd351d2eb9b2648d",
+    "bytes": 9184,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  },
+  {
+    "raw": "licensing/evidence/desktop-host-behavior-owners-20261003/drafts/collection-initial.ts.txt",
+    "sha256": "4c88a861cb7bc3be1c053e13217834cef754ead13b084be72a820d580a71f600",
+    "bytes": 9177,
+    "reviewOnlyNotFormattedImportedExecutedOrBuilt": true
+  }
+]

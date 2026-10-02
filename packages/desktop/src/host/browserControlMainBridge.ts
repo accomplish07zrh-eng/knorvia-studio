@@ -1,5 +1,7 @@
 import { randomUUID } from "node:crypto";
+
 import { HostResponseTypes } from "@knorvia/shared";
+
 import type {
   BrowserBackendDescriptor,
   BrowserClientMode,
@@ -7,13 +9,6 @@ import type {
   BrowserCommandResult,
   BrowserRecordingArtifact,
 } from "@knorvia/shared";
-
-/**
- * host↔main browser 执行桥。host 侧把一条命令经 parentPort 发给 main（WebContentsView+CDP 执行），
- * 按 requestId 关联回传结果。仿 createFullFeedbackLogArchiveViaMain 的 pending map 模式。
- *
- * 设计成可注入 postMessage + 无全局依赖，便于单测（假 parentPort）。
- */
 
 interface BrowserExecuteRequestMessage {
   type: typeof HostResponseTypes.BrowserExecuteRequest;
@@ -36,24 +31,41 @@ interface BrowserExecuteResultMessage {
   result: BrowserCommandResult;
 }
 
-interface PendingEntry {
-  resolve: (result: BrowserCommandResult) => void;
-  timer: ReturnType<typeof setTimeout>;
-  method: BrowserCommand["method"];
-  startedAt: number;
-  workspacePath: string;
-  workspaceIdentity?: string;
-  remoteSessionId?: string;
-  outputPath?: string;
+interface BrowserControlMainBridge {
+  list(): Promise<BrowserBackendDescriptor[]>;
+  execute(input: {
+    requestId?: string;
+    browserId?: string;
+    browserGeneration?: number;
+    sessionId: string;
+    turnId?: string;
+    workspaceKey?: string;
+    workspacePath?: string;
+    workspaceIdentity?: string;
+    remoteSessionId?: string;
+    clientMode?: BrowserClientMode;
+    sessionContext?: "live" | "cached";
+    command: BrowserCommand;
+  }): Promise<BrowserCommandResult>;
+  handleResult(message: BrowserExecuteResultMessage): Promise<void>;
+  dispose(): void;
 }
 
-/**
- * host→main browser 子命令预算。外层 node_repl MCP 工具默认 60s；这里保留 30s，给 JS
- * 收尾、图片归一化和结构化错误返回留下余量，不能让两层 deadline 同时竞争。
- */
-const DEFAULT_TIMEOUT_MS = 30_000;
+type CapturedScope = Omit<BrowserExecuteRequestMessage, "type" | "requestId">;
 
-function mayHaveSideEffects(command: BrowserCommand): boolean {
+interface InProgress {
+  start: number;
+  timer: ReturnType<typeof setTimeout> | undefined;
+  scope: CapturedScope;
+  outputPath: string | undefined;
+  complete: (value: BrowserCommandResult) => void;
+}
+
+function failureText(value: unknown): string {
+  return value instanceof Error ? value.message : String(value);
+}
+
+function isPotentialMutation(command: BrowserCommand): boolean {
   if (command.method === "playwright" && command.action.name === "locator") {
     return [
       "click",
@@ -92,25 +104,16 @@ function mayHaveSideEffects(command: BrowserCommand): boolean {
   ].includes(command.method);
 }
 
-interface BrowserControlMainBridge {
-  list(): Promise<BrowserBackendDescriptor[]>;
-  execute(input: {
-    requestId?: string;
-    browserId?: string;
-    browserGeneration?: number;
-    sessionId: string;
-    turnId?: string;
-    workspaceKey?: string;
-    workspacePath?: string;
-    workspaceIdentity?: string;
-    remoteSessionId?: string;
-    clientMode?: BrowserClientMode;
-    sessionContext?: "live" | "cached";
-    command: BrowserCommand;
-  }): Promise<BrowserCommandResult>;
-  /** main 回传结果时由 host 消息分派调用。 */
-  handleResult(message: BrowserExecuteResultMessage): Promise<void>;
-  dispose(): void;
+function budgetFor(command: BrowserCommand, configured: number): number {
+  if (command.method === "playwrightWaitForTimeout") {
+    return command.timeoutMs + 2000;
+  }
+  if (command.method === "playwright") {
+    const actionBudget =
+      "timeoutMs" in command.action ? (command.action.timeoutMs ?? configured) : configured;
+    return actionBudget + 2000;
+  }
+  return configured;
 }
 
 export function createBrowserControlMainBridge(deps: {
@@ -125,24 +128,18 @@ export function createBrowserControlMainBridge(deps: {
     remoteSessionId?: string;
   }): Promise<BrowserRecordingArtifact>;
 }): BrowserControlMainBridge {
-  const pending = new Map<string, PendingEntry>();
-  const timeoutMs = deps.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-  const browserId = `iab:${randomUUID()}`;
-  const browserGeneration = Date.now();
-  const deletePendingIfCurrent = (requestId: string, entry: PendingEntry): boolean => {
-    if (pending.get(requestId) !== entry) return false;
-    pending.delete(requestId);
-    return true;
-  };
+  const configuredTimeout = deps.timeoutMs ?? 30000;
+  const authority = `iab:${randomUUID()}`;
+  const generation = Date.now();
   const descriptor: BrowserBackendDescriptor = {
-    id: browserId,
-    generation: browserGeneration,
+    id: authority,
+    generation,
     type: "iab",
     name: "Knorvia Studio In-app Browser",
+    metadata: {
+      provider: "knorvia-desktop-iab",
+    },
     capabilities: {
-      // capability collection 只列 optional capability；tabs/cua/screenshot/dialog 是 core API，
-      // 不能伪装成 capability。viewport 是 Playwright-like Tab 核心 API；browser capability
-      // 当前只保留 visibility，pageAssets/cdp 未实现不暴露。
       browser: [
         {
           id: "visibility",
@@ -161,57 +158,54 @@ export function createBrowserControlMainBridge(deps: {
       "BrowserRecordingAPI.status": true,
       "BrowserRecordingAPI.cancel": true,
     },
-    metadata: {
-      provider: "knorvia-desktop-iab",
-    },
   };
+  const active = new Map<string, InProgress>();
+
+  function removeCurrent(requestId: string, state: InProgress): boolean {
+    if (active.get(requestId) !== state) {
+      return false;
+    }
+    active.delete(requestId);
+    return true;
+  }
+
+  function clearOwnedTimer(state: InProgress): void {
+    if (state.timer !== undefined) {
+      clearTimeout(state.timer);
+    }
+  }
 
   return {
-    async list(): Promise<BrowserBackendDescriptor[]> {
+    async list() {
       return [descriptor];
     },
 
-    async execute({
-      requestId: inputRequestId,
-      browserId: requestedBrowserId,
-      browserGeneration: requestedBrowserGeneration,
-      sessionId,
-      turnId,
-      workspaceKey = sessionId,
-      workspacePath = workspaceKey,
-      workspaceIdentity,
-      remoteSessionId,
-      clientMode = "desktop-continuous",
-      sessionContext = "live",
-      command,
-    }): Promise<BrowserCommandResult> {
-      if (requestedBrowserId && requestedBrowserId !== browserId) {
+    async execute(input) {
+      const requestedAuthority = input.browserId;
+      if (requestedAuthority && requestedAuthority !== authority) {
         return {
           ok: false,
           error: {
             code: "backend_unavailable",
-            message: `browser backend '${requestedBrowserId}' is no longer available`,
+            message: `browser backend '${requestedAuthority}' is no longer available`,
           },
           elapsedMs: 0,
         };
       }
-      if (
-        requestedBrowserGeneration !== undefined &&
-        requestedBrowserGeneration !== browserGeneration
-      ) {
+      const requestedGeneration = input.browserGeneration;
+      if (requestedGeneration !== undefined && requestedGeneration !== generation) {
         return {
           ok: false,
           error: {
             code: "backend_unavailable",
-            message: `browser backend '${browserId}' generation ${requestedBrowserGeneration} is stale`,
+            message: `browser backend '${authority}' generation ${requestedGeneration} is stale`,
           },
           elapsedMs: 0,
         };
       }
-      const requestId = inputRequestId ?? randomUUID();
-      if (pending.has(requestId)) {
-        // requestId 是结果与 Promise 的 correlation key。覆盖同 key entry
-        // 会把旧结果交给新 Promise，并让旧 timer/finally 删除新请求。必须在 transport 前失败。
+
+      const requestId = input.requestId ?? randomUUID();
+      if (active.has(requestId)) {
         return {
           ok: false,
           error: {
@@ -222,178 +216,189 @@ export function createBrowserControlMainBridge(deps: {
           elapsedMs: 0,
         };
       }
-      const startedAt = Date.now();
-      // 固定等待的 transport budget 为请求时长加 2 秒，覆盖等待本身和传输开销。
-      // 否则 waitForTimeout(>=30s) 会在 timer 正常完成前被 host bridge 误判超时。
-      const requestTimeoutMs =
-        command.method === "playwrightWaitForTimeout"
-          ? command.timeoutMs + 2_000
-          : command.method === "playwright"
-            ? ("timeoutMs" in command.action
-                ? (command.action.timeoutMs ?? timeoutMs)
-                : timeoutMs) + 2_000
-            : timeoutMs;
-      return await new Promise<BrowserCommandResult>((resolve) => {
-        let entry: PendingEntry;
-        const timer = setTimeout(() => {
-          // 只允许当前 entry 结算自己的生命周期；防止未来新增路径重新引入同 key 覆盖后，
-          // 旧 timer 删除或取消后来登记的请求。
-          if (!deletePendingIfCurrent(requestId, entry)) return;
-          // 过去 host 只结束本地等待，main/backend 中的动作仍会继续执行，调用方却已
-          // 收到 timeout。现在用同一 scope 发送反向 cancel；动作是否已经下发无法证明时，
-          // 必须按操作结果契约标记 uncertain，不能谎报成无副作用超时。
-          const cancelRequestId = randomUUID();
+
+      const start = Date.now();
+      const {
+        sessionId,
+        turnId,
+        workspaceKey = sessionId,
+        workspacePath = workspaceKey,
+        workspaceIdentity,
+        remoteSessionId,
+        clientMode = "desktop-continuous",
+        sessionContext = "live",
+        command,
+      } = input;
+      const scope: CapturedScope = {
+        browserId: authority,
+        browserGeneration: generation,
+        sessionId,
+        turnId,
+        workspaceKey,
+        workspacePath,
+        workspaceIdentity,
+        remoteSessionId,
+        clientMode,
+        sessionContext,
+        command,
+      };
+      const timeout = budgetFor(command, configuredTimeout);
+      const outputPath =
+        command.method === "recordingStatus" && command.outputPath ? command.outputPath : undefined;
+
+      return new Promise<BrowserCommandResult>((complete) => {
+        const state: InProgress = {
+          start,
+          timer: undefined,
+          scope,
+          outputPath,
+          complete,
+        };
+        state.timer = setTimeout(() => {
+          if (!removeCurrent(requestId, state)) {
+            return;
+          }
+          const cancelId = randomUUID();
           try {
             deps.postToMain({
               type: HostResponseTypes.BrowserExecuteRequest,
-              requestId: cancelRequestId,
-              browserId,
-              browserGeneration,
-              sessionId,
-              turnId,
-              workspaceKey,
-              workspacePath,
-              workspaceIdentity,
-              remoteSessionId,
-              clientMode,
-              sessionContext,
+              requestId: cancelId,
+              ...scope,
               command: { method: "cancelRequest", requestId },
             });
           } catch {
-            // 原请求已经超时；cancel transport 失败不会覆盖更有用的 timeout 结果。
+            // 取消传输失败不改变原请求的超时结算。
           }
-          resolve({
+          complete({
             ok: false,
             error: {
               code: "timeout",
-              message: `browser 命令 ${command.method} 超时（${requestTimeoutMs}ms）`,
-              sideEffect: mayHaveSideEffects(command) ? "uncertain" : "none",
+              message: `browser 命令 ${command.method} 超时（${timeout}ms）`,
+              sideEffect: isPotentialMutation(command) ? "uncertain" : "none",
             },
-            elapsedMs: Date.now() - startedAt,
+            elapsedMs: Date.now() - start,
           });
-        }, requestTimeoutMs);
-        entry = {
-          resolve,
-          timer,
-          method: command.method,
-          startedAt,
-          workspacePath,
-          ...(workspaceIdentity ? { workspaceIdentity } : {}),
-          ...(remoteSessionId ? { remoteSessionId } : {}),
-          ...(command.method === "recordingStatus" && command.outputPath
-            ? { outputPath: command.outputPath }
-            : {}),
-        };
-        pending.set(requestId, entry);
+        }, timeout);
+        active.set(requestId, state);
+
         try {
           deps.postToMain({
             type: HostResponseTypes.BrowserExecuteRequest,
             requestId,
-            browserId,
-            browserGeneration,
-            sessionId,
-            turnId,
-            workspaceKey,
-            workspacePath,
-            workspaceIdentity,
-            remoteSessionId,
-            clientMode,
-            sessionContext,
-            command,
+            ...scope,
           });
         } catch (error) {
-          clearTimeout(timer);
-          deletePendingIfCurrent(requestId, entry);
-          resolve({
+          clearOwnedTimer(state);
+          removeCurrent(requestId, state);
+          complete({
             ok: false,
             error: {
               code: "backend_unavailable",
-              message: error instanceof Error ? error.message : String(error),
+              message: failureText(error),
             },
-            elapsedMs: Date.now() - startedAt,
+            elapsedMs: Date.now() - start,
           });
         }
       });
     },
 
-    async handleResult(message): Promise<void> {
-      const entry = pending.get(message.requestId);
-      if (!entry) {
-        // 迟到结果（已超时清理）——忽略。
+    async handleResult(message) {
+      const requestId = message.requestId;
+      const state = active.get(requestId);
+      if (!state) {
         return;
       }
-      clearTimeout(entry.timer);
-      if (!deletePendingIfCurrent(message.requestId, entry)) return;
+      clearOwnedTimer(state);
+      if (!removeCurrent(requestId, state)) {
+        return;
+      }
+
       const artifact = message.result.recording?.artifact;
       if (
         message.result.ok &&
         message.result.recording?.status === "completed" &&
         artifact &&
-        entry.outputPath
+        state.outputPath
       ) {
         if (!deps.materializeRecording) {
-          entry.resolve({
+          state.complete({
             ok: false,
             error: {
               code: "backend_unavailable",
               message: "browser recording artifact materialization is unavailable",
               sideEffect: "none",
             },
-            elapsedMs: Date.now() - entry.startedAt,
+            elapsedMs: Date.now() - state.start,
           });
           return;
         }
+
         try {
-          const materialized = await deps.materializeRecording({
+          const recordingInput: {
+            artifact: BrowserRecordingArtifact;
+            localPath: string;
+            outputPath: string;
+            workspacePath: string;
+            workspaceIdentity?: string;
+            remoteSessionId?: string;
+          } = {
             artifact,
             localPath: artifact.path,
-            outputPath: entry.outputPath,
-            workspacePath: entry.workspacePath,
-            ...(entry.workspaceIdentity ? { workspaceIdentity: entry.workspaceIdentity } : {}),
-            ...(entry.remoteSessionId ? { remoteSessionId: entry.remoteSessionId } : {}),
-          });
-          entry.resolve({
+            outputPath: state.outputPath,
+            workspacePath: state.scope.workspacePath,
+          };
+          if (state.scope.workspaceIdentity) {
+            recordingInput.workspaceIdentity = state.scope.workspaceIdentity;
+          }
+          if (state.scope.remoteSessionId) {
+            recordingInput.remoteSessionId = state.scope.remoteSessionId;
+          }
+          const storedArtifact = await deps.materializeRecording(recordingInput);
+          // 等待后按当前结果复制，只替换已经物化的 artifact。
+          state.complete({
             ...message.result,
-            recording: { ...message.result.recording, artifact: materialized },
+            recording: {
+              ...message.result.recording,
+              artifact: storedArtifact,
+            },
           });
         } catch (error) {
-          entry.resolve({
+          state.complete({
             ok: false,
             error: {
               code: "execution_error",
-              message: error instanceof Error ? error.message : String(error),
+              message: failureText(error),
               sideEffect: "none",
             },
-            elapsedMs: Date.now() - entry.startedAt,
+            elapsedMs: Date.now() - state.start,
           });
         }
         return;
       }
-      if (message.result.recording?.status === "completed" && artifact && !entry.outputPath) {
-        const { artifact: _mainTemporaryArtifact, ...recording } = message.result.recording;
-        entry.resolve({
-          ...message.result,
-          recording,
-        });
+
+      if (message.result.recording?.status === "completed" && artifact && !state.outputPath) {
+        const recording = { ...message.result.recording };
+        delete recording.artifact;
+        state.complete({ ...message.result, recording });
         return;
       }
-      entry.resolve(message.result);
+      state.complete(message.result);
     },
 
-    dispose(): void {
-      for (const [requestId, entry] of pending) {
-        if (!deletePendingIfCurrent(requestId, entry)) continue;
-        clearTimeout(entry.timer);
-        // 直接 clear map 会让所有正在 await 的调用永久悬空。bridge shutdown 必须
-        // 结束 promise，并明确 backend 是否已执行不可判定。
-        entry.resolve({
+    dispose() {
+      for (const [requestId, state] of active) {
+        if (!removeCurrent(requestId, state)) {
+          continue;
+        }
+        clearOwnedTimer(state);
+        state.complete({
           ok: false,
           error: {
             code: "backend_unavailable",
             message: "browser bridge disposed while command was pending",
             sideEffect: "uncertain",
           },
-          elapsedMs: Date.now() - entry.startedAt,
+          elapsedMs: Date.now() - state.start,
         });
       }
     },
