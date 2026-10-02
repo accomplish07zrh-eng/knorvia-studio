@@ -1,5 +1,7 @@
 # Collection-planner v2: two concerns resolved in focused owner checks
 
+Current status: E subsequently installed this exact frozen v2 as its own source descendant. See [integration bindings and deferred acceptance](knorvia-planner-owner-integration-20261002.md). The chronology and uninstalled-stage statements below remain historical evidence.
+
 **Result:** the same original author produced a complete v2 module, and both affected owner-boundary probes now match corrected `39cc7b5`. This resolves the two concrete concerns from the [v1 static review](knorvia-collection-planner-packet-draft-review-20261002.md) within the measured scope. Root still owns strict compilation, emitted/direct-consumer validation and production/licence disposition; this is not full runtime acceptance.
 
 The exact [v2 draft](evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt) is **11,883 bytes**, SHA-256 **`32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af`**, frozen in commit `e694dba4` before curator comparison or execution. The intended integration path remains `apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts`. No new runtime import or separate admission module is required. Any formatting or integration edit creates a separately bound descendant; do not assign it the frozen draft's hash.

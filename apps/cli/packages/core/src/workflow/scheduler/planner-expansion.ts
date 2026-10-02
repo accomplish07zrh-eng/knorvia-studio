@@ -1,8 +1,7 @@
 import {
   WorkflowGraphPlannerResultSchema,
-  type WorkflowGraph,
+  type WorkflowGraphCollectionStatus,
   type WorkflowGraphNode,
-  type WorkflowGraphPlannerNode,
   type WorkflowRunSnapshot,
 } from "@knorvia/contracts";
 import {
@@ -19,6 +18,40 @@ import type {
   WorkflowGraphSchedulerPlannerRunResult,
 } from "./types.js";
 
+function addRoute(
+  routes: Map<string, Set<string>>,
+  edge: WorkflowGraphRecordEdge,
+): void {
+  let targets = routes.get(edge.from);
+  if (targets === undefined) {
+    targets = new Set<string>();
+    routes.set(edge.from, targets);
+  }
+  targets.add(edge.to);
+}
+
+function hasRoute(
+  routes: ReadonlyMap<string, ReadonlySet<string>>,
+  start: string,
+  destination: string,
+): boolean {
+  const pending = [start];
+  const visited = new Set<string>();
+  while (pending.length > 0) {
+    const current = pending.pop()!;
+    if (current === destination) return true;
+    if (visited.has(current)) continue;
+    visited.add(current);
+    const targets = routes.get(current);
+    if (targets !== undefined) {
+      for (const target of targets) {
+        if (!visited.has(target)) pending.push(target);
+      }
+    }
+  }
+  return false;
+}
+
 export function applyPlannerExpansion(
   snapshot: WorkflowRunSnapshot,
   collection: SchedulerCollection,
@@ -27,46 +60,111 @@ export function applyPlannerExpansion(
   timestamp: string,
 ): AppliedPlannerExpansion {
   const result = WorkflowGraphPlannerResultSchema.parse(rawResult);
-  const existingNodeIds = new Set(snapshot.graph.nodes.map((node) => node.id));
-  const addedNodes = (result.nodes ?? []).map((node) =>
-    workflowNodeFromPlannerNode(node, collection.collectionId),
-  );
+  const graph = snapshot.graph;
+
+  const addedNodes: WorkflowGraphNode[] = result.nodes.map((node) => ({
+    collectionId: node.collectionId ?? collection.collectionId,
+    dependsOn: node.dependsOn,
+    description: node.description,
+    id: node.id,
+    kind: node.kind,
+    phase: node.phase,
+    prompt: node.prompt,
+    status: "pending",
+    title: node.title,
+  }));
+
+  const nodeIds = new Set(graph.nodes.map((node) => node.id));
   for (const node of addedNodes) {
-    if (existingNodeIds.has(node.id)) {
+    if (nodeIds.has(node.id)) {
       throw new Error(`Planner returned duplicate workflow node: ${node.id}`);
     }
-    existingNodeIds.add(node.id);
+    nodeIds.add(node.id);
   }
 
-  const addedEdges = normalizePlannerEdges(snapshot.graph, addedNodes, result.edges ?? []);
-  validateNewEdges(snapshot.graph, addedNodes, addedEdges);
+  const addedEdges: WorkflowGraphRecordEdge[] = [...result.edges];
+  const inferenceKeys = new Set<string>();
+  for (const edge of graph.edges) inferenceKeys.add(edgeId(edge));
+  for (const edge of addedEdges) inferenceKeys.add(edgeId(edge));
+  for (const node of addedNodes) {
+    for (const dependency of node.dependsOn) {
+      const edge = { from: dependency, to: node.id };
+      const key = edgeId(edge);
+      if (!inferenceKeys.has(key)) {
+        addedEdges.push(edge);
+        inferenceKeys.add(key);
+      }
+    }
+  }
 
-  const existingCollectionNodeIds = collectionNodeIdsForGraph(collection, snapshot.graph);
-  const collectionNodeIds = [
-    ...new Set([
-      ...existingCollectionNodeIds,
-      ...(result.collectionNodeIds ?? addedNodes.map((node) => node.id)),
-    ]),
-  ];
+  const acceptedKeys = new Set<string>();
+  const routes = new Map<string, Set<string>>();
+  for (const edge of graph.edges) {
+    acceptedKeys.add(edgeId(edge));
+    addRoute(routes, edge);
+  }
+  for (const edge of addedEdges) {
+    if (edge.from === edge.to) {
+      throw new Error(
+        `Planner returned a self-loop edge: ${edge.from} -> ${edge.to}`,
+      );
+    }
+    if (!nodeIds.has(edge.from)) {
+      throw new Error(
+        `Planner returned an edge with unknown source node: ${edge.from}`,
+      );
+    }
+    if (!nodeIds.has(edge.to)) {
+      throw new Error(
+        `Planner returned an edge with unknown target node: ${edge.to}`,
+      );
+    }
+    const key = edgeId(edge);
+    if (acceptedKeys.has(key)) {
+      throw new Error(`Planner returned duplicate workflow edge: ${key}`);
+    }
+    if (hasRoute(routes, edge.to, edge.from)) {
+      throw new Error(
+        `Planner returned an edge that would create a cycle: ${key}`,
+      );
+    }
+    acceptedKeys.add(key);
+    addRoute(routes, edge);
+  }
+
+  const membership = new Set(collectionNodeIdsForGraph(collection, graph));
+  const requestedMembers =
+    result.collectionNodeIds ?? addedNodes.map((node) => node.id);
+  for (const id of requestedMembers) membership.add(id);
+
+  const analyzed = new Set(collection.analyzedNodeIds);
+  for (const id of unseenCompletions) analyzed.add(id);
+
   const graphChanged = addedNodes.length > 0 || addedEdges.length > 0;
-  const nextStatus =
-    result.exhausted === true
-      ? "exhausted"
-      : !graphChanged &&
-          collectionFrontier(snapshot.graph, collection) === 0 &&
-          unseenCompletions.length === 0
-        ? collection.status === "draining"
-          ? "exhausted"
-          : "draining"
-        : "active";
+  let status: WorkflowGraphCollectionStatus;
+  if (result.exhausted === true) {
+    status = "exhausted";
+  } else if (
+    graphChanged ||
+    collectionFrontier(graph, collection) > 0 ||
+    unseenCompletions.length > 0
+  ) {
+    status = "active";
+  } else {
+    status = collection.status === "draining" ? "exhausted" : "draining";
+  }
+
   const nextCollection = normalizeCollection({
     ...collection,
-    analyzedNodeIds: [...new Set([...collection.analyzedNodeIds, ...unseenCompletions])],
-    exhausted: nextStatus === "exhausted",
+    analyzedNodeIds: [...analyzed],
+    exhausted: status === "exhausted",
     lastGraphChangeAt: graphChanged ? timestamp : collection.lastGraphChangeAt,
-    nodeIds: collectionNodeIds,
-    status: nextStatus,
+    nodeIds: [...membership],
+    status,
   });
+  const collections = graphCollections(graph).map((entry) =>
+    entry.collectionId === collection.collectionId ? nextCollection : entry,
+  );
 
   return {
     addedEdges,
@@ -75,104 +173,11 @@ export function applyPlannerExpansion(
     snapshot: {
       ...snapshot,
       graph: {
-        collections: graphCollections(snapshot.graph).map((item) =>
-          item.collectionId === collection.collectionId ? nextCollection : item,
-        ),
-        edges: [...snapshot.graph.edges, ...addedEdges],
-        nodes: [...snapshot.graph.nodes, ...addedNodes],
+        collections,
+        edges: [...graph.edges, ...addedEdges],
+        nodes: [...graph.nodes, ...addedNodes],
       },
       updatedAt: timestamp,
     },
   };
-}
-
-function workflowNodeFromPlannerNode(
-  node: WorkflowGraphPlannerNode,
-  fallbackCollectionId: string,
-): WorkflowGraphNode {
-  return {
-    collectionId: node.collectionId ?? fallbackCollectionId,
-    dependsOn: node.dependsOn ?? [],
-    description: node.description,
-    id: node.id,
-    kind: node.kind ?? "task",
-    phase: node.phase,
-    prompt: node.prompt,
-    status: "pending",
-    title: node.title,
-  };
-}
-
-function normalizePlannerEdges(
-  graph: WorkflowGraph,
-  addedNodes: readonly WorkflowGraphNode[],
-  plannerEdges: readonly WorkflowGraphRecordEdge[],
-): WorkflowGraphRecordEdge[] {
-  const edges = [...plannerEdges];
-  const existing = new Set([...graph.edges, ...edges].map(edgeId));
-  for (const node of addedNodes) {
-    for (const dependencyId of node.dependsOn) {
-      const edge = { from: dependencyId, to: node.id };
-      if (existing.has(edgeId(edge))) continue;
-      edges.push(edge);
-      existing.add(edgeId(edge));
-    }
-  }
-  return edges;
-}
-
-function validateNewEdges(
-  graph: WorkflowGraph,
-  addedNodes: readonly WorkflowGraphNode[],
-  addedEdges: readonly WorkflowGraphRecordEdge[],
-): void {
-  const nodeIds = new Set([
-    ...graph.nodes.map((node) => node.id),
-    ...addedNodes.map((node) => node.id),
-  ]);
-  const existingEdgeIds = new Set(graph.edges.map(edgeId));
-  const pendingEdges = [...graph.edges];
-  for (const edge of addedEdges) {
-    if (edge.from === edge.to) {
-      throw new Error(`Planner returned a self-loop edge: ${edge.from} -> ${edge.to}`);
-    }
-    if (!nodeIds.has(edge.from)) {
-      throw new Error(`Planner returned an edge with unknown source node: ${edge.from}`);
-    }
-    if (!nodeIds.has(edge.to)) {
-      throw new Error(`Planner returned an edge with unknown target node: ${edge.to}`);
-    }
-    const id = edgeId(edge);
-    if (existingEdgeIds.has(id)) {
-      throw new Error(`Planner returned duplicate workflow edge: ${id}`);
-    }
-    if (wouldFormCycle(pendingEdges, edge)) {
-      throw new Error(`Planner returned an edge that would create a cycle: ${id}`);
-    }
-    existingEdgeIds.add(id);
-    pendingEdges.push(edge);
-  }
-}
-
-function wouldFormCycle(
-  edges: readonly WorkflowGraphRecordEdge[],
-  newEdge: WorkflowGraphRecordEdge,
-): boolean {
-  const outgoing = new Map<string, string[]>();
-  for (const edge of edges) {
-    const list = outgoing.get(edge.from) ?? [];
-    list.push(edge.to);
-    outgoing.set(edge.from, list);
-  }
-
-  const visited = new Set<string>();
-  const queue: string[] = [newEdge.to];
-  while (queue.length > 0) {
-    const current = queue.shift()!;
-    if (current === newEdge.from) return true;
-    if (visited.has(current)) continue;
-    visited.add(current);
-    queue.push(...(outgoing.get(current) ?? []));
-  }
-  return false;
 }

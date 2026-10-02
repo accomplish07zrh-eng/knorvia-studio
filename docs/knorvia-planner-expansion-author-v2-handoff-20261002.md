@@ -1,5 +1,7 @@
 # Planner expansion author v2: collection API clarification
 
+Current status: E subsequently installed this exact frozen v2 as its own source descendant. See [integration bindings and deferred acceptance](knorvia-planner-owner-integration-20261002.md). The chronology and uninstalled-stage statements below remain historical evidence.
+
 The existing packet-only author remained available. It received only the [versioned functional API clarification](evidence/planner-expansion-author-packet-20261002/v2/collection-identity-api.md), containing the exact public collection schema/type declaration from checkpoint `8a16740cb7e8b6373c2a910ead6c937359bf6b55`. No new author initialization, environment switch, source/history/test/review access or integrator patch delivery occurred. The original role remains Astra/high; the native continuation exposes no separate Fast control.
 
 The omission is preserved explicitly: v1 described collection identity behavior but imported `WorkflowGraphCollection` without exposing its `collectionId` member. The author guessed `id`. V1's packet, draft, receipt, curator manifest and original read chronology are unchanged. V2 is an author continuation from the additional functional declaration, not a silent source-exposed integrator replacement.

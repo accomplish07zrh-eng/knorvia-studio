@@ -1,0 +1,347 @@
+{
+  "kind": "static declarations/imports only; not project compilation or runtime acceptance",
+  "typescript": "6.0.2",
+  "predecessorCommit": "0a85acce48de26d2c5b1c81004fcfaa8aafc532a",
+  "owners": [
+    {
+      "owner": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+      "byteIdenticalToFrozenDraft": true,
+      "predecessorHashMatches": true,
+      "integratedHashMatches": true,
+      "exportedDeclarationsEqual": true,
+      "publicSurfaceSha256": {
+        "predecessor": "e06b62a9a94587d55a14322175a45143dc856f83d3546691d676f9d7c5fe2eab",
+        "integrated": "e06b62a9a94587d55a14322175a45143dc856f83d3546691d676f9d7c5fe2eab"
+      },
+      "runtimeImportsEqual": true,
+      "runtimeImports": [
+        {
+          "module": "./graph.js",
+          "name": "collectionFrontier",
+          "local": "collectionFrontier",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "collectionNodeIdsForGraph",
+          "local": "collectionNodeIdsForGraph",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "edgeId",
+          "local": "edgeId",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "graphCollections",
+          "local": "graphCollections",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "normalizeCollection",
+          "local": "normalizeCollection",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphPlannerResultSchema",
+          "local": "WorkflowGraphPlannerResultSchema",
+          "typeOnly": false
+        }
+      ],
+      "typeImports": {
+        "predecessor": [
+          {
+            "module": "./types.js",
+            "name": "AppliedPlannerExpansion",
+            "local": "AppliedPlannerExpansion",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "SchedulerCollection",
+            "local": "SchedulerCollection",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphRecordEdge",
+            "local": "WorkflowGraphRecordEdge",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphSchedulerPlannerRunResult",
+            "local": "WorkflowGraphSchedulerPlannerRunResult",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowGraph",
+            "local": "WorkflowGraph",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowGraphNode",
+            "local": "WorkflowGraphNode",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowGraphPlannerNode",
+            "local": "WorkflowGraphPlannerNode",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowRunSnapshot",
+            "local": "WorkflowRunSnapshot",
+            "typeOnly": true
+          }
+        ],
+        "integrated": [
+          {
+            "module": "./types.js",
+            "name": "AppliedPlannerExpansion",
+            "local": "AppliedPlannerExpansion",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "SchedulerCollection",
+            "local": "SchedulerCollection",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphRecordEdge",
+            "local": "WorkflowGraphRecordEdge",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphSchedulerPlannerRunResult",
+            "local": "WorkflowGraphSchedulerPlannerRunResult",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowGraphCollectionStatus",
+            "local": "WorkflowGraphCollectionStatus",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowGraphNode",
+            "local": "WorkflowGraphNode",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowRunSnapshot",
+            "local": "WorkflowRunSnapshot",
+            "typeOnly": true
+          }
+        ]
+      },
+      "relativeDependencyFilesExist": true,
+      "declarationDiagnostics": {
+        "predecessor": [],
+        "integrated": []
+      }
+    },
+    {
+      "owner": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "byteIdenticalToFrozenDraft": true,
+      "predecessorHashMatches": true,
+      "integratedHashMatches": true,
+      "exportedDeclarationsEqual": true,
+      "publicSurfaceSha256": {
+        "predecessor": "578de342d6c62bb0e228d099d5bbff8c57f5f296680d289e6055447cfe25c222",
+        "integrated": "578de342d6c62bb0e228d099d5bbff8c57f5f296680d289e6055447cfe25c222"
+      },
+      "runtimeImportsEqual": true,
+      "runtimeImports": [
+        {
+          "module": "./collection-events.js",
+          "name": "emitExpansionEvents",
+          "local": "emitExpansionEvents",
+          "typeOnly": false
+        },
+        {
+          "module": "./collection-events.js",
+          "name": "exhaustCollection",
+          "local": "exhaustCollection",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "addArtifact",
+          "local": "addArtifact",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "collectionFrontier",
+          "local": "collectionFrontier",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "collectionNodeIdsForGraph",
+          "local": "collectionNodeIdsForGraph",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "compactWorkflowPayload",
+          "local": "compactWorkflowPayload",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "graphCollections",
+          "local": "graphCollections",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "isCollectionInPhase",
+          "local": "isCollectionInPhase",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "nodeById",
+          "local": "nodeById",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "normalizeCollection",
+          "local": "normalizeCollection",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "updateGraphCollection",
+          "local": "updateGraphCollection",
+          "typeOnly": false
+        },
+        {
+          "module": "./graph.js",
+          "name": "upsertActivity",
+          "local": "upsertActivity",
+          "typeOnly": false
+        },
+        {
+          "module": "./planner-expansion.js",
+          "name": "applyPlannerExpansion",
+          "local": "applyPlannerExpansion",
+          "typeOnly": false
+        },
+        {
+          "module": "./prompts.js",
+          "name": "buildDefaultPlannerPrompt",
+          "local": "buildDefaultPlannerPrompt",
+          "typeOnly": false
+        },
+        {
+          "module": "./prompts.js",
+          "name": "safeArtifactName",
+          "local": "safeArtifactName",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "createChildTraceContext",
+          "local": "createChildTraceContext",
+          "typeOnly": false
+        }
+      ],
+      "typeImports": {
+        "predecessor": [
+          {
+            "module": "./collection-runtime.js",
+            "name": "WorkflowCollectionPlannerRuntime",
+            "local": "WorkflowCollectionPlannerRuntime",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "SchedulerCollection",
+            "local": "SchedulerCollection",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphSchedulerRunOptions",
+            "local": "WorkflowGraphSchedulerRunOptions",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowGraphCollection",
+            "local": "WorkflowGraphCollection",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowRunSnapshot",
+            "local": "WorkflowRunSnapshot",
+            "typeOnly": true
+          }
+        ],
+        "integrated": [
+          {
+            "module": "./collection-runtime.js",
+            "name": "WorkflowCollectionPlannerRuntime",
+            "local": "WorkflowCollectionPlannerRuntime",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "SchedulerCollection",
+            "local": "SchedulerCollection",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphSchedulerChildSessionStartedEvent",
+            "local": "WorkflowGraphSchedulerChildSessionStartedEvent",
+            "typeOnly": true
+          },
+          {
+            "module": "./types.js",
+            "name": "WorkflowGraphSchedulerRunOptions",
+            "local": "WorkflowGraphSchedulerRunOptions",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowActivitySnapshot",
+            "local": "WorkflowActivitySnapshot",
+            "typeOnly": true
+          },
+          {
+            "module": "@knorvia/contracts",
+            "name": "WorkflowRunSnapshot",
+            "local": "WorkflowRunSnapshot",
+            "typeOnly": true
+          }
+        ]
+      },
+      "relativeDependencyFilesExist": true,
+      "declarationDiagnostics": {
+        "predecessor": [],
+        "integrated": []
+      }
+    }
+  ],
+  "runtimeTestsRun": false,
+  "combinedCompilerCheckRun": false
+}
