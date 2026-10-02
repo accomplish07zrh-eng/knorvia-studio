@@ -1,0 +1,174 @@
+{
+  "selectedBeforeAuthoring": [
+    "packages/shared/src/endpoint.ts",
+    "packages/shared/src/feedbackPrivacy.ts",
+    "packages/shared/src/telemetryRedaction.ts",
+    "packages/shared/src/workspaceFileEntriesCodec.ts",
+    "packages/shared/src/workspaceFileSearch.ts"
+  ],
+  "selectedSnapshotRows": [
+    {
+      "path": "packages/shared/src/endpoint.ts",
+      "snapshot": {
+        "path": "packages/shared/src/endpoint.ts",
+        "kind": "file",
+        "sha256": "826672be9e7e0d4cd296f85bfcaa5c780ec2c4fddc264e60c35d54a05691e1c0",
+        "normalizedSha256": "826672be9e7e0d4cd296f85bfcaa5c780ec2c4fddc264e60c35d54a05691e1c0",
+        "encoding": "utf8-lf",
+        "bytes": 6276,
+        "classification": "unreviewed",
+        "upstream": null,
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "review": null,
+      "existingEvidenceReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ]
+    },
+    {
+      "path": "packages/shared/src/feedbackPrivacy.ts",
+      "snapshot": {
+        "path": "packages/shared/src/feedbackPrivacy.ts",
+        "kind": "file",
+        "sha256": "f663f9d34bbed0de62ced1a4712dd2d52dad69e7b1a9c55aa78ed106b43547b6",
+        "normalizedSha256": "f663f9d34bbed0de62ced1a4712dd2d52dad69e7b1a9c55aa78ed106b43547b6",
+        "encoding": "utf8-lf",
+        "bytes": 7921,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/shared/src/feedbackPrivacy.ts",
+          "blob": "461a6a0bb4ae0c0338eb7ceca9f0f21f68ee0c36",
+          "normalizedSha256": "f663f9d34bbed0de62ced1a4712dd2d52dad69e7b1a9c55aa78ed106b43547b6",
+          "contentMatchedPaths": [
+            "packages/shared/src/feedbackPrivacy.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "review": null,
+      "existingEvidenceReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ]
+    },
+    {
+      "path": "packages/shared/src/telemetryRedaction.ts",
+      "snapshot": {
+        "path": "packages/shared/src/telemetryRedaction.ts",
+        "kind": "file",
+        "sha256": "ebf3d0ae160958b091cb078abd0c532903923f333bea69cfaab82bb290b31ead",
+        "normalizedSha256": "ebf3d0ae160958b091cb078abd0c532903923f333bea69cfaab82bb290b31ead",
+        "encoding": "utf8-lf",
+        "bytes": 10530,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/shared/src/telemetryRedaction.ts",
+          "blob": "dcc87147cf21a8852e21ab508a6b1bc1afa74cc8",
+          "normalizedSha256": "321952311f5e36187edbe7b365c51ceded8f67869c0faffec986b370e6540d60",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "review": null,
+      "existingEvidenceReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
+      "snapshot": {
+        "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
+        "kind": "file",
+        "sha256": "d3fa40ba630d9c1ac6dba0460b64e3542f8a26b7db5587a62a1a1e785874acd6",
+        "normalizedSha256": "d3fa40ba630d9c1ac6dba0460b64e3542f8a26b7db5587a62a1a1e785874acd6",
+        "encoding": "utf8-lf",
+        "bytes": 3289,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/shared/src/workspaceFileEntriesCodec.ts",
+          "blob": "97e1376732b10efe53d1b7cf9691ce4aede37903",
+          "normalizedSha256": "d0d91c822eb21c14d6e6cacd5a2aab776731d8491a34099e85f22ed47bb82abd",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "review": null,
+      "existingEvidenceReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ]
+    },
+    {
+      "path": "packages/shared/src/workspaceFileSearch.ts",
+      "snapshot": {
+        "path": "packages/shared/src/workspaceFileSearch.ts",
+        "kind": "file",
+        "sha256": "d622e45a8f9a3feaac72f9f53ad907ce6496e38cecc574a11655f8aef2419f18",
+        "normalizedSha256": "d622e45a8f9a3feaac72f9f53ad907ce6496e38cecc574a11655f8aef2419f18",
+        "encoding": "utf8-lf",
+        "bytes": 8564,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/shared/src/workspaceFileSearch.ts",
+          "blob": "6b8fbfef2080f0b856568cfe0b95aa2725627903",
+          "normalizedSha256": "8f45d9288caa23a15b03f9a7b05eea3f035ae9578615cde83e35014dc3c91fbc",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "review": null,
+      "existingEvidenceReferences": [
+        "licensing/evidence/repository-migration-scope-20260930.json"
+      ]
+    }
+  ],
+  "excludedPriorBrowserOwners": [
+    "packages/shared/src/browser-use/backend.ts",
+    "packages/shared/src/browser-use/command-metadata.ts",
+    "packages/shared/src/browser-use/commands.ts",
+    "packages/shared/src/browser-use/index.ts",
+    "packages/shared/src/browser-use/input-fields.ts",
+    "packages/shared/src/browser-use/nodeReplBroker.ts",
+    "packages/shared/src/browser-use/playwright-actions.ts",
+    "packages/shared/src/browser-use/recording-actions.ts",
+    "packages/shared/src/browser-use/result.ts",
+    "packages/shared/src/browser-use/snapshot.ts",
+    "packages/shared/src/browser-use/viewport-limits.ts",
+    "packages/shared/src/browser-use/wire-schema.ts"
+  ],
+  "excludedPriorReconstructedReceiptOwners": [
+    "packages/shared/src/protocol-v4/wire-binary.ts",
+    "packages/shared/src/protocol-v4/wire-codec.ts",
+    "packages/shared/src/protocol-v4/wire-reassembly.ts",
+    "packages/shared/src/workflow-runs-concurrency.ts",
+    "packages/shared/src/workflow-runs-phases.ts",
+    "packages/shared/src/workflow-runs-node-progress.ts",
+    "packages/shared/src/remote-workspace-identity.ts",
+    "packages/shared/src/remoteSshHostKey.ts",
+    "packages/shared/src/wslUserValidation.ts"
+  ],
+  "excludedRootReservedOwners": [
+    "packages/shared/src/conversation-preview-artifacts.ts",
+    "packages/shared/src/persistedMessageMerge.ts"
+  ],
+  "noImportOfRootPr12Head": "5b5e4d2882109cbbd3fece1a275942c8423c74e3",
+  "receiptReadLimitation": "An initial broad concatenation of receipt JSON exceeded tool output; no complete reading is claimed. Replaced by bounded structured metadata extraction and path-reference scans.",
+  "classificationNotUpdated": true
+}

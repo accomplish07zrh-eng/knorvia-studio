@@ -1,0 +1,11 @@
+{
+  "label": "final-syntax",
+  "cmd": "node /tmp/knorvia-scoped-syntax.mjs packages/shared/src/endpoint.ts packages/shared/src/feedbackPrivacy.ts packages/shared/src/telemetryRedaction.ts packages/shared/src/workspaceFileEntriesCodec.ts packages/shared/src/workspaceFileSearch.ts",
+  "result": {
+    "chunk_id": "019b30",
+    "wall_time_seconds": 0.296148852,
+    "exit_code": 0,
+    "original_token_count": 85,
+    "output": "packages/shared/src/endpoint.ts: 0 syntax-only diagnostics\npackages/shared/src/feedbackPrivacy.ts: 0 syntax-only diagnostics\npackages/shared/src/telemetryRedaction.ts: 0 syntax-only diagnostics\npackages/shared/src/workspaceFileEntriesCodec.ts: 0 syntax-only diagnostics\npackages/shared/src/workspaceFileSearch.ts: 0 syntax-only diagnostics\n"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "label": "final-telemetry-safety",
+  "cmd": "node --test-name-pattern='^telemetry boundary' packages/shared/test/shared-normalization-boundaries.test.mjs packages/shared/src",
+  "result": {
+    "chunk_id": "71ea36",
+    "wall_time_seconds": 0.000025639,
+    "exit_code": 0,
+    "original_token_count": 59,
+    "output": "✔ telemetry boundary rejects local/private identities and secrets while admitting synthetic stable IDs (22.313009ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26.420103\n"
+  }
+}

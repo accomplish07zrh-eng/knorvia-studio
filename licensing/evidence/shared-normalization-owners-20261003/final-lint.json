@@ -1,0 +1,11 @@
+{
+  "label": "final-lint",
+  "cmd": "node_modules/.bin/oxlint packages/shared/src/endpoint.ts packages/shared/src/feedbackPrivacy.ts packages/shared/src/telemetryRedaction.ts packages/shared/src/workspaceFileEntriesCodec.ts packages/shared/src/workspaceFileSearch.ts packages/shared/test/shared-normalization-boundaries.test.mjs licensing/evidence/shared-normalization-owners-20261003/public-api-shape-check.mjs licensing/evidence/shared-normalization-owners-20261003/syntax-only-check.mjs",
+  "result": {
+    "chunk_id": "0fd89b",
+    "wall_time_seconds": 0.00002589,
+    "exit_code": 0,
+    "original_token_count": 23,
+    "output": "Found 0 warnings and 0 errors.\nFinished in 26ms on 8 files with 94 rules using 4 threads.\n"
+  }
+}
