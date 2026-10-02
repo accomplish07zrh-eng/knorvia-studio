@@ -1,0 +1,37 @@
+{
+  "batch": "rewind",
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2554,
+      "message": "Expected 2 arguments, but got 1.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind-conversation-state.ts"
+    },
+    {
+      "code": 2554,
+      "message": "Expected 2 arguments, but got 1.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind-workspace-cascade.ts"
+    },
+    {
+      "code": 2554,
+      "message": "Expected 2 arguments, but got 1.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind.ts"
+    },
+    {
+      "code": 2554,
+      "message": "Expected 2 arguments, but got 1.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind.ts"
+    },
+    {
+      "code": 2554,
+      "message": "Expected 2 arguments, but got 1.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind.ts"
+    },
+    {
+      "code": 2554,
+      "message": "Expected 2 arguments, but got 1.",
+      "file": "apps/cli/packages/core/src/runtime/methods/rewind.ts"
+    }
+  ],
+  "api": []
+}
