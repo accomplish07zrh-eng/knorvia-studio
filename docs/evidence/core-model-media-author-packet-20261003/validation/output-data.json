@@ -1,0 +1,14 @@
+{
+  "retainedExpression": "Exact mandatory protocol/format/constants/text data from existing product, not a new authorship or grant claim",
+  "logMessage": "Model returned invalid tool call",
+  "errorMessage": "Model returned an invalid tool call: tool name is empty.",
+  "log": {
+    "event": "model.invalid_tool_call",
+    "module": "core.runtime",
+    "status": "failed",
+    "modelFormat": "${providerId}/${modelId}"
+  },
+  "errorTypeReference": "CoreErrorType.ModelError",
+  "recoverable": true,
+  "retryable": false
+}

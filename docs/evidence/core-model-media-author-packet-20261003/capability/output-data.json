@@ -1,0 +1,12 @@
+{
+  "retainedExpression": "Exact mandatory protocol/format/constants/text data from existing product, not a new authorship or grant claim",
+  "clearedPairedText": {
+    "type": "text",
+    "text": ""
+  },
+  "log": {
+    "module": "core.runtime",
+    "status": "completed"
+  },
+  "replacementText": "Delegated to createUnsupportedModelInputMediaText and officialCuaRasterUnavailableBlock; no collaborator prose supplied or rewritten."
+}

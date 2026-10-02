@@ -1,0 +1,15 @@
+{
+  "retainedExpression": "Exact mandatory protocol/format/constants/text data from existing product, not a new authorship or grant claim",
+  "defaultMediaBudgetBytes": 41943040,
+  "encoding": "utf8",
+  "invalidBudgetMessage": "Invalid model request media budget",
+  "currentAttachmentErrorMessage": "Current attachments are too large to send. Remove or compress attachments and try again.",
+  "errorCodeReference": "MEDIA_BUDGET_CURRENT_ATTACHMENT_TOO_LARGE_ERROR_CODE",
+  "fallbackPlaceholder": "[Attached media]",
+  "omissionSuffix": "\n[Media omitted from provider request to keep the request body under the configured media budget.]",
+  "keyFormat": "${messageIndex}:${blockIndex}",
+  "log": {
+    "module": "core.runtime",
+    "status": "completed"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "retainedExpression": "Exact mandatory protocol/format/constants/text data from existing product, not a new authorship or grant claim",
+  "contextExceededMessage": "Model request exceeded the provider context window.",
+  "rapidRefillMessage": "Autocompact stopped because the context refilled within fewer than ${toolTurnThreshold} tool turns after compaction ${maxConsecutiveRapidRefills} times in a row. A file or tool output may be too large. Read it in smaller chunks, or start a new session.",
+  "rapidRefillReason": "compact_rapid_refill_breaker",
+  "suspiciousEmptyMessage": "Model returned no text, no tool calls, and no usage before completing the turn.",
+  "emptyReason": "empty_model_response",
+  "source": "provider",
+  "streamFallback": "Model stream failed",
+  "maximumCauseDepthInclusive": 6,
+  "metadataKeyLimit": 20,
+  "nonSuspiciousFinishReasons": [
+    "stop",
+    "tool-calls",
+    "tool_calls"
+  ],
+  "contextMarkerReferences": [
+    "CoreErrorType.ModelContextExceeded",
+    "ModelErrorCode.ModelContextExceeded"
+  ],
+  "contextMarkerStrings": [
+    "context_exceeded",
+    "context_length_exceeded",
+    "context_window_exceeded",
+    "model_context_window_exceeded",
+    "prompt_too_long"
+  ],
+  "mediaMarkerStrings": [
+    "media_too_large",
+    "media_payload_too_large",
+    "image_too_large",
+    "document_too_large"
+  ],
+  "contextMessageWordGroups": [
+    [
+      "context",
+      "exceed"
+    ],
+    [
+      "context",
+      "too long"
+    ],
+    [
+      "prompt",
+      "too long"
+    ]
+  ],
+  "mediaMessageWordGroups": [
+    [
+      "media",
+      "image",
+      "document"
+    ],
+    [
+      "too large",
+      "exceed"
+    ]
+  ]
+}

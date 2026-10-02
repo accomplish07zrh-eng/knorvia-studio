@@ -1,0 +1,12 @@
+{
+  "retainedExpression": "Exact mandatory protocol/format/constants/text data from existing product, not a new authorship or grant claim",
+  "adjacentUserMergeEnabled": false,
+  "nonBubblingAttachmentSources": [
+    "goal_state_change"
+  ],
+  "unknownAttachmentError": "Attachment source ${source} is not a system reminder source",
+  "cacheControl": {
+    "type": "ephemeral"
+  },
+  "dormantTextBoundarySeparator": "\n"
+}
