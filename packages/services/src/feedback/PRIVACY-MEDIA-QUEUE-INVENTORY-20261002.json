@@ -57,24 +57,27 @@
       "sha256": "a2242230f0c9d7dc11fb2ac104119c3fb208b1ad44eba07ab1a978290ef1b12d",
       "blob": "f2d7d7efd4586692853607aecff9359bcf0a5742",
       "nonblank": 267,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/creation/creationJobs.ts",
       "sha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
       "blob": "33797ea8913b833d307370c59751081456de4ccb",
       "nonblank": 373,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/creation/creationReference.ts",
       "sha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
       "blob": "5ba561b5bf1935149ab99a365f65c8a252b458e7",
       "nonblank": 88,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/creation/creationRunDeadline.ts",
@@ -89,24 +92,27 @@
       "sha256": "7e68b8a345a3d88d38b060a0be0b57642b72a0d79a221dc7d1d6c6cdafdd8ffd",
       "blob": "873175f69e6fb3045e6996bc44e160a3d8a8e312",
       "nonblank": 379,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/creation/creationStorage.ts",
       "sha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
       "blob": "80414d556ec09eec9ca03e3e1f3a6dfda9aae544",
       "nonblank": 369,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/creation/modelValidation.ts",
       "sha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
       "blob": "e6c633bbac848e67731c4ce98aa15f69406bed3e",
       "nonblank": 71,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/creation/module.ts",
@@ -129,8 +135,9 @@
       "sha256": "6ba1dd1fe283c5c150f6568f20dd3a3cef970f964a2143efc3f8a47dac8cdbb0",
       "blob": "b4b81da1852651465a8ead9709c1ed8ddd2d6e4e",
       "nonblank": 374,
-      "status": "parent-exact-origin-binding-pending",
-      "localExactAcceptedReview": false
+      "status": "root-no-exact-accepted-review-confirmed;bounded-retention-recommended-whole-file-origin-still-open",
+      "localExactAcceptedReview": false,
+      "investigation": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json"
     },
     {
       "path": "packages/services/src/media-preview/mediaPreview.ts",
@@ -156,5 +163,6 @@
     "missing yazl"
   ],
   "limits": "No global inventory/receipt/license/dependency changes. No real application files/logs/content/provider/network/credential/database operations. No broad tests/builds or main integration.",
-  "retainedVerifiedUnchanged": 14
+  "retainedVerifiedUnchanged": 14,
+  "creationRootResolution": "Parent confirms seven unreviewed origins with no accepted review; creationReference root has later containment fix absent locally, no integration. Local Git/content investigation recommends provisional retention, not original/MIT acceptance."
 }
