@@ -1,0 +1,32 @@
+import { BrowserWindow } from "electron";
+import { type RemoteTarget, type TelemetryEventPayload } from "@knorvia/shared";
+import { type RemoteConnectionStats } from "./desktopRemoteUsageArmsTelemetry.js";
+export declare function registerRemoteIpcHandlers(options: {
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+        error: (...args: unknown[]) => void;
+    };
+    reportRemoteUsageEvent: (rendererId: number, event: TelemetryEventPayload) => void;
+    createRemoteWorkspaceSession: (win: BrowserWindow, target: RemoteTarget, requestId?: string, context?: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+    }, lifecycle?: {
+        remoteUsageTelemetryEligible?: boolean;
+    }) => Promise<string>;
+    getRemoteConnectionStats: () => RemoteConnectionStats;
+    disposeRemoteWorkspaceSession: (sessionId: string, reason: string, signalGracePeriodMs?: number) => void;
+    cancelPendingRemoteWorkspaceSessionsForWindow: (wcId: number, reason: string, requestId?: string) => void;
+    bindRemoteWorkspaceSessionContext: (sessionId: string, context: {
+        workspacePath: string;
+        workspaceIdentity?: string;
+    }, expectedWebContentsId?: number) => Promise<void>;
+    confirmRendererAttachmentReady: (webContentsId: number, payload: {
+        sessionId: string;
+        attachmentId: string;
+    }) => void;
+    isDockerDaemonAvailable: () => Promise<boolean>;
+    listAvailableWSLDistros: () => Promise<unknown[]>;
+    listAvailableDockerContainers: () => Promise<unknown[]>;
+    listSSHConfigAliases: () => Promise<unknown[]>;
+}): void;
