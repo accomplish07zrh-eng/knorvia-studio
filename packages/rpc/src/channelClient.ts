@@ -1,5 +1,5 @@
 import { VSBuffer } from "./buffer.js";
-import { CancellationToken, Event, Emitter, type IDisposable } from "./foundation.js";
+import { CancellationToken, Emitter, Event, type IDisposable } from "./foundation.js";
 import { BufferReader, BufferWriter, deserialize, serialize } from "./serialization.js";
 import type { IMessagePassingProtocol } from "./protocol.js";
 import {
@@ -11,39 +11,36 @@ import {
   ResponseType,
 } from "./channels.shared.js";
 
-enum State {
+enum ClientState {
   Uninitialized,
   Idle,
 }
 
 export class ChannelClient implements IChannelClient, IDisposable {
-  private state = State.Uninitialized;
-  private isDisposed = false;
-  private activeRequests = new Set<IDisposable>();
-  private handlers = new Map<number, IHandler>();
-  // Promise 请求和事件监听共用 handlers，但只有前者需要在连接终结时 reject。
-  // 单独维护 reject map，避免 dispose 把事件订阅误当成挂起的 RPC 请求。
-  private pendingRejections = new Map<number, (error: Error) => void>();
-  private lastRequestId = 0;
+  private state = ClientState.Uninitialized;
+  private disposed = false;
+  private nextId = 0;
+  private readonly activeRequests = new Set<IDisposable>();
+  private readonly handlers = new Map<number, IHandler>();
+  private readonly pendingRejections = new Map<number, (error: Error) => void>();
+  private readonly initializeEmitter = new Emitter<void>();
+  readonly onDidInitialize: Event<void> = this.initializeEmitter.event;
   private protocolListener: IDisposable | null;
 
-  private readonly _onDidInitialize = new Emitter<void>();
-  readonly onDidInitialize = this._onDidInitialize.event;
-
-  constructor(private protocol: IMessagePassingProtocol) {
-    this.protocolListener = this.protocol.onMessage((msg) => this.onBuffer(msg));
+  constructor(private readonly protocol: IMessagePassingProtocol) {
+    this.protocolListener = protocol.onMessage((buffer) => this.onBuffer(buffer));
   }
 
   getChannel<T extends IChannel>(channelName: string): T {
     return {
-      call: (command: string, arg?: any, cancellationToken?: CancellationToken) => {
-        if (this.isDisposed) {
+      call: <R>(command: string, arg?: any, cancellationToken?: CancellationToken): Promise<R> => {
+        if (this.disposed) {
           return Promise.reject(new Error("ChannelClient is disposed"));
         }
         return this.requestPromise(channelName, command, arg, cancellationToken);
       },
-      listen: (event: string, arg?: any) => {
-        if (this.isDisposed) {
+      listen: <R>(event: string, arg?: any): Event<R> => {
+        if (this.disposed) {
           return Event.None;
         }
         return this.requestEvent(channelName, event, arg);
@@ -51,44 +48,48 @@ export class ChannelClient implements IChannelClient, IDisposable {
     } as T;
   }
 
+  private whenInitialized(): Promise<void> {
+    return this.state === ClientState.Idle
+      ? Promise.resolve()
+      : Event.toPromise(this.onDidInitialize);
+  }
+
   private requestPromise(
     channelName: string,
     name: string,
     arg?: any,
-    cancellationToken = CancellationToken.None,
+    token: CancellationToken = CancellationToken.None,
   ): Promise<any> {
-    const id = this.lastRequestId++;
-
-    if (cancellationToken.isCancellationRequested) {
+    const id = this.nextId++;
+    if (token.isCancellationRequested) {
       return Promise.reject(new Error("Cancelled"));
     }
 
-    let disposable: IDisposable | undefined;
+    let cancellationListener: IDisposable | undefined;
     const result = new Promise<any>((resolve, reject) => {
       this.pendingRejections.set(id, reject);
+
       const doRequest = () => {
-        // dispose/cancel 可能发生在 Initialize 之前；此时不能再把已经 rejected
-        // 的请求发送到新连接或已终结的传输上。
-        if (this.isDisposed || !this.pendingRejections.has(id)) {
+        if (this.disposed || !this.pendingRejections.has(id)) {
           return;
         }
-
         const handler: IHandler = (response) => {
           switch (response.type) {
             case ResponseType.PromiseSuccess:
               this.handlers.delete(id);
               this.pendingRejections.delete(id);
               resolve(response.data);
-              return;
+              break;
             case ResponseType.PromiseError: {
               this.handlers.delete(id);
               this.pendingRejections.delete(id);
-              const error = new Error(response.data.message) as Error & Record<string, unknown>;
-              error.name = response.data.name;
-              if (response.data.stack) {
-                error.stack = response.data.stack.join("\n");
+              const payload = response.data;
+              const error = new Error(payload.message);
+              error.name = payload.name;
+              if (payload.stack) {
+                error.stack = payload.stack.join("\n");
               }
-              const passthroughKeys = [
+              const metadataKeys = [
                 "code",
                 "kind",
                 "status",
@@ -99,20 +100,20 @@ export class ChannelClient implements IChannelClient, IDisposable {
                 "taskId",
                 "traceId",
               ] as const;
-              for (const key of passthroughKeys) {
-                const value = response.data[key];
+              for (const key of metadataKeys) {
+                const value = payload[key];
                 if (value !== undefined) {
-                  error[key] = value;
+                  (error as Error & Record<string, unknown>)[key] = value;
                 }
               }
               reject(error);
-              return;
+              break;
             }
             case ResponseType.PromiseErrorObj:
               this.handlers.delete(id);
               this.pendingRejections.delete(id);
               reject(response.data);
-              return;
+              break;
           }
         };
 
@@ -120,13 +121,13 @@ export class ChannelClient implements IChannelClient, IDisposable {
         this.sendRequest(RequestType.Promise, id, channelName, name, arg);
       };
 
-      if (this.state === State.Idle) {
+      if (this.state === ClientState.Idle) {
         doRequest();
       } else {
         this.whenInitialized().then(doRequest);
       }
 
-      disposable = cancellationToken.onCancellationRequested(() => {
+      cancellationListener = token.onCancellationRequested(() => {
         if (!this.pendingRejections.has(id)) {
           return;
         }
@@ -135,27 +136,26 @@ export class ChannelClient implements IChannelClient, IDisposable {
         this.pendingRejections.delete(id);
         reject(new Error("Cancelled"));
       });
-      this.activeRequests.add(disposable);
+      this.activeRequests.add(cancellationListener);
     });
 
     return result.finally(() => {
-      disposable?.dispose();
-      if (disposable) {
-        this.activeRequests.delete(disposable);
+      cancellationListener?.dispose();
+      if (cancellationListener) {
+        this.activeRequests.delete(cancellationListener);
       }
     });
   }
 
   private requestEvent(channelName: string, name: string, arg?: any): Event<any> {
-    const id = this.lastRequestId++;
+    const id = this.nextId++;
     const emitter = new Emitter<any>({
       onWillAddFirstListener: () => {
         const doRequest = () => {
           this.activeRequests.add(emitter);
           this.sendRequest(RequestType.EventListen, id, channelName, name, arg);
         };
-
-        if (this.state === State.Idle) {
+        if (this.state === ClientState.Idle) {
           doRequest();
         } else {
           this.whenInitialized().then(doRequest);
@@ -167,11 +167,10 @@ export class ChannelClient implements IChannelClient, IDisposable {
         this.handlers.delete(id);
       },
     });
-
     this.handlers.set(id, (response) => {
-      emitter.fire((response as { data: any }).data);
+      const eventResponse = response as Extract<IRawResponse, { type: ResponseType.EventFire }>;
+      emitter.fire(eventResponse.data);
     });
-
     return emitter.event;
   }
 
@@ -180,7 +179,7 @@ export class ChannelClient implements IChannelClient, IDisposable {
     id: number,
     channelName: string,
     name: string,
-    arg?: any,
+    arg: any,
   ): void {
     const writer = new BufferWriter();
     serialize(writer, [type, id, channelName, name]);
@@ -188,88 +187,70 @@ export class ChannelClient implements IChannelClient, IDisposable {
     try {
       this.protocol.send(writer.buffer);
     } catch {
-      /* noop */
+      // Transport send failures do not change request settlement.
     }
   }
 
-  private sendCancelOrDispose(
-    type: RequestType.PromiseCancel | RequestType.EventDispose,
-    id: number,
-  ): void {
+  private sendCancelOrDispose(type: RequestType, id: number): void {
     const writer = new BufferWriter();
     serialize(writer, [type, id]);
     serialize(writer, undefined);
     try {
       this.protocol.send(writer.buffer);
     } catch {
-      /* noop */
+      // Transport send failures do not change local cleanup.
     }
   }
 
-  private onBuffer(message: VSBuffer): void {
-    const reader = new BufferReader(message);
+  private onBuffer(buffer: VSBuffer): void {
+    const reader = new BufferReader(buffer);
     const header = deserialize(reader);
     const body = deserialize(reader);
-    const type = header[0] as ResponseType;
-
+    const type = header[0];
     switch (type) {
       case ResponseType.Initialize:
-        this.onResponse({ type: ResponseType.Initialize });
-        return;
+        this.onResponse({ type });
+        break;
       case ResponseType.PromiseSuccess:
       case ResponseType.PromiseError:
-      case ResponseType.EventFire:
       case ResponseType.PromiseErrorObj:
-        this.onResponse({
-          type,
-          id: header[1],
-          data: body,
-        } as IRawResponse);
-        return;
+      case ResponseType.EventFire:
+        this.onResponse({ type, id: header[1], data: body });
+        break;
     }
   }
 
   private onResponse(response: IRawResponse): void {
     if (response.type === ResponseType.Initialize) {
-      this.state = State.Idle;
-      this._onDidInitialize.fire();
+      this.state = ClientState.Idle;
+      this.initializeEmitter.fire();
       return;
     }
-
     this.handlers.get(response.id)?.(response);
   }
 
-  private whenInitialized(): Promise<void> {
-    if (this.state === State.Idle) {
-      return Promise.resolve();
-    }
-    return Event.toPromise(this.onDidInitialize);
-  }
-
   dispose(reason?: Error): void {
-    if (this.isDisposed) {
+    if (this.disposed) {
       return;
     }
-    this.isDisposed = true;
+    this.disposed = true;
     this.protocolListener?.dispose();
     this.protocolListener = null;
 
-    const rejection = reason ?? new Error("ChannelClient disposed");
+    const error = reason ?? new Error("ChannelClient disposed");
     if (!reason) {
-      rejection.name = "ConnectionClosed";
+      error.name = "ConnectionClosed";
     }
-    // 传输已终结时，所有已发出以及排队等待 Initialize 的 Promise 请求都必须
-    // fail-closed。否则上层的 in-flight 去重 Promise 会永久占用 workspace key。
     for (const [id, reject] of this.pendingRejections) {
       this.pendingRejections.delete(id);
       this.handlers.delete(id);
-      reject(rejection);
+      reject(error);
     }
-    for (const disposable of this.activeRequests) {
-      disposable.dispose();
+    for (const resource of this.activeRequests) {
+      resource.dispose();
     }
     this.activeRequests.clear();
     this.pendingRejections.clear();
-    this._onDidInitialize.dispose();
+    this.initializeEmitter.dispose();
   }
 }

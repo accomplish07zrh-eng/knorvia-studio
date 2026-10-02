@@ -1,0 +1,118 @@
+{
+  "files": {
+    "packages/rpc/src/channelClient.ts": {
+      "baseline": {
+        "sha256": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+        "bytes": 8369
+      },
+      "baselineCommit": "ca62bd4d3895c7f8676d01aee6a1fe9c7b6b8f1e",
+      "baselineBlob": "27675cd7a6a9771926c14d0f0df7a79222854820",
+      "initialFrozen": {
+        "sha256": "17a5e81c1e90294516185764b319f8b681658f69f2a9e6a2a98b8491783427df",
+        "bytes": 7833
+      },
+      "installedFrozen": {
+        "sha256": "5b0e9d4c41b33b8b389619e2af85e874fa42714a318cb278d58b8b3e17cce611",
+        "bytes": 7936
+      },
+      "candidate": {
+        "sha256": "5f2409b75cfaba1c9e5e093bc1f4273ab243aeec05dd0bac1bb28b442a5ef6fd",
+        "bytes": 7936
+      },
+      "packet": {
+        "sha256": "0222f2658fd2ae5ba7e22f32393aced3b7ea89d32b0e3dd464b93de5aa39eb20",
+        "bytes": 6708
+      }
+    },
+    "packages/rpc/src/channelServer.ts": {
+      "baseline": {
+        "sha256": "b9c61bd3881fff11b38a93853c60fa5c2bc871bcbea5dad0e9be0a4674f6c9da",
+        "bytes": 7784
+      },
+      "baselineCommit": "ca62bd4d3895c7f8676d01aee6a1fe9c7b6b8f1e",
+      "baselineBlob": "fe7a8d8a49bebab4d2d45be64a558bae44664cc6",
+      "initialFrozen": {
+        "sha256": "2b9dd5f04b6bbe05117a4508945da3bcf64dcac46c48a2990ba831743b920af2",
+        "bytes": 6808
+      },
+      "installedFrozen": {
+        "sha256": "25edc24356c60484f00054bcaa7bb634d8cfe28f62b676b54563b79f3f86ef7c",
+        "bytes": 7340
+      },
+      "candidate": {
+        "sha256": "00757689372616d9fb8b3e82d722f4774a968649323ae31724dc140eb22c557b",
+        "bytes": 7365
+      },
+      "packet": {
+        "sha256": "3b7c88cb5de277dbb1aa63861f62e4e788a6fc508aef810cd3496395b8d11ffa",
+        "bytes": 6391
+      }
+    },
+    "packages/rpc/src/persistent-protocol.ts": {
+      "baseline": {
+        "sha256": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978",
+        "bytes": 9918
+      },
+      "baselineCommit": "ca62bd4d3895c7f8676d01aee6a1fe9c7b6b8f1e",
+      "baselineBlob": "deef78b78320fdcf8541fc6bdacd246300f9561e",
+      "initialFrozen": {
+        "sha256": "76b8f25df13ee003742840d4dfd6ad07ebfeee80e270b00caf8ebf85abe86f3f",
+        "bytes": 6922
+      },
+      "installedFrozen": {
+        "sha256": "76b8f25df13ee003742840d4dfd6ad07ebfeee80e270b00caf8ebf85abe86f3f",
+        "bytes": 6922
+      },
+      "candidate": {
+        "sha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0",
+        "bytes": 6973
+      },
+      "packet": {
+        "sha256": "199808414cd276a57b98139d312db9702ecf7a32278ea1b12239951ce3df4e62",
+        "bytes": 6639
+      }
+    }
+  },
+  "inputBindings": {
+    "AGENTS.md": {
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "bytes": 10384
+    },
+    ".agents/skills/architecture-governance/SKILL.md": {
+      "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+      "bytes": 5026
+    },
+    "packages/rpc/src/channels.shared.ts": {
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+      "bytes": 1723
+    },
+    "packages/rpc/src/foundation.ts": {
+      "sha256": "84ccf6231582d652bb30facc7c525279f927d3ba26fb315ac8c377e43acd87d8",
+      "bytes": 6812
+    },
+    "packages/rpc/src/serialization.ts": {
+      "sha256": "a73fc4911723036a9c47a4d5a4dfe8860d5eaee649fd1541c3b051d9a9c866e7",
+      "bytes": 8744
+    },
+    "packages/rpc/src/protocol.ts": {
+      "sha256": "1c26b9adb7edf661aa7ec9347aa009bd9fcb29b98e07ccf606714fe9ae018d56",
+      "bytes": 12702
+    },
+    "licensing/current-files.json": {
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff",
+      "bytes": 9510569
+    },
+    "licensing/reviews.json": {
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "bytes": 3446188
+    }
+  },
+  "test": {
+    "sha256": "acb875a3a8d6074d7079741d75a1ef0eb6fc02389a96e1b11ec35756cdca9618",
+    "bytes": 11733
+  },
+  "spec": {
+    "sha256": "94ce62c85afad44b96f28e22894fdcabd0b67a8784329df412884c4f54efff22",
+    "bytes": 1957
+  }
+}
