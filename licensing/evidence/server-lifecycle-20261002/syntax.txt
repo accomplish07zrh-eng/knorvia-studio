@@ -1,0 +1,1 @@
+TypeScript transpile-only syntax diagnostics: 0 across 7 owner files. This is not typechecking or a runtime/build test.

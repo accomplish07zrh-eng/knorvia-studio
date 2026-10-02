@@ -14,40 +14,36 @@ export interface HostCapabilityStore {
   consume(capability: string | undefined): boolean;
 }
 
-/** 短期、一次性 desktop host capability；只在 HTTP server 进程内存中存在。 */
 export function createHostCapabilityStore(
   options: HostCapabilityStoreOptions = {},
 ): HostCapabilityStore {
-  const ttlMs = options.ttlMs ?? DEFAULT_HOST_CAPABILITY_TTL_MS;
-  const now = options.now ?? Date.now;
-  const createCapability =
-    options.createCapability ?? (() => randomBytes(32).toString("base64url"));
-  const expiresByCapability = new Map<string, number>();
+  const ttl = options.ttlMs ?? DEFAULT_HOST_CAPABILITY_TTL_MS;
+  const clock = options.now ?? Date.now;
+  const generate = options.createCapability ?? (() => randomBytes(32).toString("base64url"));
+  const issued = new Map<string, number>();
 
-  const purgeExpired = (at: number): void => {
-    for (const [capability, expiresAt] of expiresByCapability) {
-      if (expiresAt <= at) expiresByCapability.delete(capability);
+  function purge(time: number): void {
+    for (const [token, expiry] of issued) {
+      if (expiry <= time) issued.delete(token);
     }
-  };
+  }
 
   return {
     issue() {
-      const issuedAt = now();
-      purgeExpired(issuedAt);
-      const capability = createCapability();
-      const expiresAt = issuedAt + ttlMs;
-      expiresByCapability.set(capability, expiresAt);
+      const time = clock();
+      purge(time);
+      const capability = generate();
+      const expiresAt = time + ttl;
+      issued.set(capability, expiresAt);
       return { capability, expiresAt };
     },
     consume(capability) {
       if (!capability) return false;
-      const consumedAt = now();
-      const expiresAt = expiresByCapability.get(capability);
-      // 旧 mode header 是可重放的长期提权声明。ticket 无论成功、过期
-      // 还是重放都先删除，只有首次且 TTL 内的消费能获得 trusted-host role。
-      expiresByCapability.delete(capability);
-      purgeExpired(consumedAt);
-      return expiresAt !== undefined && expiresAt > consumedAt;
+      const time = clock();
+      const expiry = issued.get(capability);
+      issued.delete(capability);
+      purge(time);
+      return expiry !== undefined && expiry > time;
     },
   };
 }

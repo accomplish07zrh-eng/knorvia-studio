@@ -1,51 +1,38 @@
 import { randomUUID } from "node:crypto";
-import { Emitter, VSBuffer, SocketProtocol, ChannelServer, type ISocket } from "@knorvia/rpc";
+import { ChannelServer, Emitter, SocketProtocol, VSBuffer, type ISocket } from "@knorvia/rpc";
 import {
-  IKnorviaAgentService,
   createKnorviaAgentConnectionScope,
+  IKnorviaAgentService,
   type ServiceCollection,
 } from "@knorvia/services";
 
-/**
- * Wrap process.stdin/stdout as an ISocket for RPC communication.
- * In stdio mode, stdout is reserved exclusively for RPC data.
- * All logging must go through stderr.
- */
 export function wrapStdio(): ISocket {
-  const onData = new Emitter<VSBuffer>();
-  const onClose = new Emitter<void>();
-  const onEnd = new Emitter<void>();
-
+  const received = new Emitter<VSBuffer>();
+  const closed = new Emitter<void>();
+  const ended = new Emitter<void>();
+  const close = () => {
+    closed.fire();
+    ended.fire();
+  };
   process.stdin.on("data", (chunk: Buffer) => {
-    onData.fire(VSBuffer.wrap(new Uint8Array(chunk)));
+    received.fire(VSBuffer.wrap(new Uint8Array(chunk)));
   });
-  process.stdin.on("end", () => {
-    onClose.fire();
-    onEnd.fire();
-  });
-  process.stdin.on("error", () => {
-    onClose.fire();
-    onEnd.fire();
-  });
+  process.stdin.on("end", close);
+  process.stdin.on("error", close);
 
   return {
-    onData: onData.event,
-    onClose: onClose.event,
-    onEnd: onEnd.event,
-    write(buffer: VSBuffer) {
+    onData: received.event,
+    onClose: closed.event,
+    onEnd: ended.event,
+    write(buffer) {
       process.stdout.write(Buffer.from(buffer.buffer));
     },
     end() {
       process.stdout.end();
     },
     drain() {
-      return new Promise<void>((resolve) => {
-        if (process.stdout.writableNeedDrain) {
-          process.stdout.once("drain", resolve);
-        } else {
-          resolve();
-        }
-      });
+      if (!process.stdout.writableNeedDrain) return Promise.resolve();
+      return new Promise<void>((resolve) => process.stdout.once("drain", resolve));
     },
     dispose() {
       process.stdin.destroy();
@@ -53,42 +40,35 @@ export function wrapStdio(): ISocket {
   };
 }
 
-export function createStdioServer(services: ServiceCollection) {
+export function createStdioServer(services: ServiceCollection): { stop(): Promise<void> } {
   const socket = wrapStdio();
-  const protocol = new SocketProtocol(socket);
-  const channelServer = new ChannelServer(protocol, "stdio");
-  const agentService = services.getOptional(IKnorviaAgentService);
-  const connectionScope = agentService
-    ? createKnorviaAgentConnectionScope(agentService, {
+  const channelServer = new ChannelServer(new SocketProtocol(socket), "stdio");
+  const agent = services.getOptional(IKnorviaAgentService);
+  const scope = agent
+    ? createKnorviaAgentConnectionScope(agent, {
         connectionId: `server-stdio-${randomUUID()}`,
         clientMode: "desktop-continuous",
         role: "trusted-host-relay",
       })
     : undefined;
-  services.exposeOnChannelServer(
-    channelServer,
-    connectionScope
-      ? new Map([[IKnorviaAgentService.channelName, connectionScope.service]])
-      : new Map(),
-  );
-  let stopPromise: Promise<void> | undefined;
-  const stop = (): Promise<void> => {
-    if (stopPromise) {
-      return stopPromise;
-    }
+  const overrides = new Map<string, unknown>();
+  if (scope) overrides.set(IKnorviaAgentService.channelName, scope.service);
+  services.exposeOnChannelServer(channelServer, overrides);
 
-    // 先同步摘掉 protocol listener，保证从这一刻起不再接收新的 service RPC；
-    // connection scope 的异步退订完成后再关闭底层 stdio。
-    channelServer.dispose();
-    stopPromise = (async () => {
-      try {
-        await connectionScope?.dispose();
-      } finally {
-        socket.dispose();
-      }
-    })();
-    return stopPromise;
-  };
+  let stopping: Promise<void> | undefined;
+  function stop(): Promise<void> {
+    if (!stopping) {
+      channelServer.dispose();
+      stopping = (async () => {
+        try {
+          await scope?.dispose();
+        } finally {
+          socket.dispose();
+        }
+      })();
+    }
+    return stopping;
+  }
   socket.onClose(() => {
     void stop();
   });
