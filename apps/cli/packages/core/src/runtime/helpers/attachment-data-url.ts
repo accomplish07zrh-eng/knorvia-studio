@@ -1,36 +1,78 @@
-export function parseDataUrlHeader(dataUrl: string): { mediaType: string } | undefined {
-  const commaIndex = dataUrl.indexOf(",");
-  if (dataUrl.slice(0, "data:".length).toLowerCase() !== "data:" || commaIndex < 0) {
-    return undefined;
-  }
-  const mediaType = dataUrl.slice("data:".length, commaIndex).split(";", 1)[0]?.trim();
-  return mediaType ? { mediaType: mediaType.toLowerCase() } : undefined;
+const DATA_URL_PREFIX = "data:";
+const BASE64_GROUP_LENGTH = 4;
+const BASE64_GROUP_BYTES = 3;
+const UPPERCASE_START = 65;
+const UPPERCASE_END = 90;
+const LOWERCASE_START = 97;
+const LOWERCASE_END = 122;
+const DIGIT_START = 48;
+const DIGIT_END = 57;
+const PLUS_CODE = 43;
+const SLASH_CODE = 47;
+const PADDING_CODE = 61;
+
+export function parseDataUrlHeader(dataUrl: string): {
+    mediaType: string;
+} | undefined {
+    const commaPosition = dataUrl.indexOf(",");
+    if (
+        dataUrl.slice(0, DATA_URL_PREFIX.length).toLowerCase() !== DATA_URL_PREFIX ||
+        commaPosition === -1
+    ) {
+        return undefined;
+    }
+
+    const mediaType = dataUrl
+        .slice(DATA_URL_PREFIX.length, commaPosition)
+        .split(";", 1)[0]
+        ?.trim();
+    if (!mediaType) {
+        return undefined;
+    }
+    return { mediaType: mediaType.toLowerCase() };
 }
 
-/** base64 正文对应的原始字节数（无需解码）。 */
 export function base64PayloadByteLength(payload: string): number {
-  // base64 末尾的 padding 不代表内容字节；扣除它，避免上限处的合法媒体被多算 1–2 字节。
-  const paddingBytes = payload.endsWith("==") ? 2 : payload.endsWith("=") ? 1 : 0;
-  return Math.floor((payload.length * 3) / 4) - paddingBytes;
+    const paddingLength = payload.endsWith("==")
+        ? 2
+        : payload.endsWith("=")
+          ? 1
+          : 0;
+    return Math.floor(payload.length * BASE64_GROUP_BYTES / BASE64_GROUP_LENGTH) - paddingLength;
 }
 
 export function isStrictBase64Payload(payload: string): boolean {
-  if (payload.length === 0) return true;
-  if (payload.length % 4 !== 0) return false;
-  const paddingBytes = payload.endsWith("==") ? 2 : payload.endsWith("=") ? 1 : 0;
-  const contentLength = payload.length - paddingBytes;
-  for (let index = 0; index < contentLength; index += 1) {
-    const code = payload.charCodeAt(index);
-    const valid =
-      (code >= 65 && code <= 90) ||
-      (code >= 97 && code <= 122) ||
-      (code >= 48 && code <= 57) ||
-      code === 43 ||
-      code === 47;
-    if (!valid) return false;
-  }
-  for (let index = contentLength; index < payload.length; index += 1) {
-    if (payload.charCodeAt(index) !== 61) return false;
-  }
-  return true;
+    if (payload.length === 0) {
+        return true;
+    }
+    if (payload.length % BASE64_GROUP_LENGTH !== 0) {
+        return false;
+    }
+
+    const paddingLength = payload.endsWith("==")
+        ? 2
+        : payload.endsWith("=")
+          ? 1
+          : 0;
+    const contentLength = payload.length - paddingLength;
+
+    for (let position = 0; position < contentLength; position += 1) {
+        const code = payload.charCodeAt(position);
+        const accepted =
+            (code >= UPPERCASE_START && code <= UPPERCASE_END) ||
+            (code >= LOWERCASE_START && code <= LOWERCASE_END) ||
+            (code >= DIGIT_START && code <= DIGIT_END) ||
+            code === PLUS_CODE ||
+            code === SLASH_CODE;
+        if (!accepted) {
+            return false;
+        }
+    }
+
+    for (let position = contentLength; position < payload.length; position += 1) {
+        if (payload.charCodeAt(position) !== PADDING_CODE) {
+            return false;
+        }
+    }
+    return true;
 }

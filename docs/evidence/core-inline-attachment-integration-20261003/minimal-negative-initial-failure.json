@@ -1,0 +1,15 @@
+{
+  "kind": "Curator synthetic probe expectation failure; preserved before correction",
+  "exitCode": 1,
+  "error": "SyntaxError: \"undefined\" is not valid JSON",
+  "location": "minimal-negative-probes.cjs:17:469, plain():7:31",
+  "priorCompletedGroups": 4,
+  "reason": "Curator expected exact non-multiline native video regex to accept final newline. It returns undefined; JSON plain helper then throws. This is harness expectation error, not candidate discrepancy.",
+  "sourceChangesRequired": false,
+  "failedHarness": {
+    "path": "docs/evidence/core-inline-attachment-integration-20261003/minimal-negative-probes-initial-failure.cjs.txt",
+    "bytes": 7321,
+    "sha256": "85bb32653800e0294bafd1b973bf68101769d892e7e60b2e9b87a71df1f997ab"
+  },
+  "correction": "Assert undefined for final-newline video input; retain original exact regex and four frozen author sources. No scope broadening or predecessor execution."
+}
