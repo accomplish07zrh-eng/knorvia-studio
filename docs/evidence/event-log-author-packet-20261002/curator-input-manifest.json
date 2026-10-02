@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "frozenAtUtc": "2026-10-02T16:34:04.006266+00:00",
+  "phase": "inputs frozen before new author creation",
+  "sourceCheckpoint": "3d8c4fda78de6583851d0d69bd1d712060b1ac98",
+  "publishedBranch": "parallel/material-closure-fast-20261002",
+  "ownerPath": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+  "ownerGitBlob": "90776ca16e1704c6c01ef4fdcb7db1ab52c8821e",
+  "sameOwnerAt": [
+    "39cc7b5fa60c7337a4b1139e8bab8cc0d6a079ec",
+    "0cca0d486ea9709a59caae138192f8a9c339c48d"
+  ],
+  "authorInputs": {
+    "contract.md": {
+      "bytes": 13647,
+      "sha256": "ce4463a056fd19af8f34d7cfc61edc95fa449b4d9757f32868700bd0f92bab91"
+    },
+    "public-api.d.ts": {
+      "bytes": 3121,
+      "sha256": "7fee633393fd228aabf9057efe3d74ebd93d234b38ee50d240d76d6173a1fc33"
+    },
+    "public-data-shapes.md": {
+      "bytes": 6082,
+      "sha256": "b77596c0b62b857849836bb7c84ae4dfc67bca75230b6e0c0dccefb3cc738e44"
+    }
+  },
+  "sourceEvidence": {
+    "apps/cli/packages/core/src/workflow/scheduler/events.ts": {
+      "bytes": 3771,
+      "sha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/types.ts": {
+      "bytes": 4401,
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": {
+      "bytes": 7567,
+      "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5"
+    },
+    "apps/cli/packages/contracts/src/workflow/index.ts": {
+      "bytes": 28035,
+      "sha256": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62"
+    }
+  },
+  "publicDeclarationBasis": {
+    "path": "events.d.ts emitted from exact corrected source in prior isolated TypeScript 6.0.2 check",
+    "binding": {
+      "bytes": 1199,
+      "sha256": "5745e4a1748f0531f66b1aaebbe7382ebc18381611e2652479f6c0de60149f15"
+    },
+    "curation": "Private member declarations and map comment removed; public class signature retained, supplemented only with public dependency signatures and data schemas."
+  },
+  "boundary": {
+    "curator": "Source-exposed; read existing events owner and types to derive required observations. No source-unexposed-spec claim.",
+    "author": "Not yet created. Intended new native fork_turns none author; original collection and expansion authors must not be reused.",
+    "allowlist": "Only three copied input files and own outputs; no source/tests/reviews/history/network supplied.",
+    "enforcement": "Instruction-restricted shared executor, not independent filesystem isolation.",
+    "scope": "Complete uninstalled class draft only, no lower-owner implementation, production or licence changes.",
+    "modelRequest": "gpt-6-astra/high; separate Fast/service-tier control is not exposed by the native tool."
+  },
+  "keyConstraint": "Graph append outer runId and record runId precede the mutation-capable clock; event fields precede clock while options.signal follows it.",
+  "publicationBoundary": "No retry, rerouting or upload of the cancelled root source-tree publication."
+}
