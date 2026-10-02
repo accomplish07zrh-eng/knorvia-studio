@@ -1,0 +1,189 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "bytes": 9114,
+      "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/aboutWindow.ts",
+      "bytes": 4837,
+      "sha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "bytes": 13080,
+      "sha256": "dfd11178f06f2ada16612bb7cdf9603eb1d012649d819872688f790a68c1ea3d",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/contract.md",
+      "bytes": 13171,
+      "sha256": "c5474d8a45c17cf12d20438a9140721f3bc0f38c36625649a37e643f85819167",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/about-public-api.d.ts",
+      "bytes": 1451,
+      "sha256": "78f5f69ea6feaac8b587a80d51dfebd1fd0167b4e7c1ab8aa5839ff9a0da3013",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/aboutWindow-public-api.d.ts",
+      "bytes": 332,
+      "sha256": "3a28009756d14838e34606a40d5e6728986f3a4252ea1d2aee8b5e1d46392475",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/desktopApplicationMenu-public-api.d.ts",
+      "bytes": 809,
+      "sha256": "8ab1024bfcfb5fe96207d8157099a25d4e62b82cdf24fd141d833712fb2523f7",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 8551,
+      "sha256": "80c9b76641a5dcc347f581d4d8f7efba5a6bbd0fa7323d5ad0c5bd9510186e70",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/imports.json",
+      "bytes": 1775,
+      "sha256": "be9765b42bb6841701d95ccdfa35b7852991525306c040680c273595e17ccb62",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/required-literal-data.json",
+      "bytes": 24406,
+      "sha256": "bd1502748f336cf3c795e4ae327384b9c8fba5a90927b4ba4acb157bc962ca30",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/public-dependency-data.json",
+      "bytes": 4754,
+      "sha256": "7f84eb91fa4d070c22080061bdb1231e5964f4b06346d794cf560521dfe000ae",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/menu-schema-data.json",
+      "bytes": 5406,
+      "sha256": "e5f943950b81baf5056c6777574ce5340fe23ad0747200952b0eabf66ba8bc1d",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/localized-about-data.json",
+      "bytes": 899,
+      "sha256": "4e658263be02df980b92eb40dca7497c05b53fb8aaeb83ac8785415b3064a6b7",
+      "exact": true
+    },
+    {
+      "path": "docs/evidence/desktop-about-menu-root-packet-20261003/external-port-notes.md",
+      "bytes": 1743,
+      "sha256": "710a386b443cae527143ccc45e4cca87eb1d380d1552666af4ac3d79036c1fcb",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/shortcutCommands.ts",
+      "bytes": 8895,
+      "sha256": "82873bfb3a6d6aa79494a2f2fd26b6abf862b5b7d441076cd50384d7952e8a3f",
+      "exact": true
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "bytes": 2086,
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/version.ts",
+      "bytes": 725,
+      "sha256": "212bafb37bfea57fea69672991fdad94e65652c17c300a28ab39753820ef7b49",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/env.ts",
+      "bytes": 2620,
+      "sha256": "bc4307ae7fef1cc5633c45da4df067bdfc077e2f1d52a4f4b65146c052e77ee3",
+      "exact": true
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5",
+      "exact": true
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "bytes": 11026,
+      "sha256": "93ea5812027c5b211b793b33c0b280af18312735cfdb1c0e057fb200555f87e3",
+      "exact": true
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "bytes": 98523,
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "exact": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "exact": true
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 2891968,
+      "sha256": "0e1d8a260b0833464599eb3bfe0a94c22dafb256ba0ddf3d5118c285a491eefc",
+      "exact": true
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 8812184,
+      "sha256": "a4dc0142fd63fb14edeecc2aedf2875cb50c1db44d4c602af95c0b0430ed396e",
+      "exact": true
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "exact": true
+    }
+  ],
+  "targetPrivateHelperHitsInRootInputs": [],
+  "qualifiedRootApi": true,
+  "embeddedScriptBodyOmitted": true,
+  "qualification": "Static packet/public API/data/digest and target-private helper exclusion only, no semantic typing/runtime/rights/access audit. Private identifiers never emitted by checker; only failed hits would carry hashed identity. Embedded script function body omitted, events externally specified."
+}

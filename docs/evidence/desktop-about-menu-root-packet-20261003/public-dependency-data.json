@@ -1,0 +1,32 @@
+[
+  {
+    "owner": "packages/shared/src/desktopMenu.ts",
+    "publicName": "desktopMenuMessageIds",
+    "staticInitializer": "{\n  file: \"titleBar.menu.file\",\n  edit: \"titleBar.menu.edit\",\n  view: \"titleBar.menu.view\",\n  window: \"titleBar.menu.window\",\n  help: \"titleBar.menu.help\",\n  fileNewTask: \"titleBar.menu.file.newTask\",\n  fileOpenWorkspace: \"titleBar.menu.file.openWorkspace\",\n  fileCloseWindow: \"titleBar.menu.file.closeWindow\",\n  editUndo: \"titleBar.menu.edit.undo\",\n  editRedo: \"titleBar.menu.edit.redo\",\n  editCut: \"titleBar.menu.edit.cut\",\n  editCopy: \"titleBar.menu.edit.copy\",\n  editPaste: \"titleBar.menu.edit.paste\",\n  editDelete: \"titleBar.menu.edit.delete\",\n  editSelectAll: \"titleBar.menu.edit.selectAll\",\n  viewToggleFullScreen: \"titleBar.menu.view.toggleFullScreen\",\n  viewActualSize: \"titleBar.menu.view.actualSize\",\n  viewZoomIn: \"titleBar.menu.view.zoomIn\",\n  viewZoomOut: \"titleBar.menu.view.zoomOut\",\n  windowMinimize: \"titleBar.menu.window.minimize\",\n  windowZoom: \"titleBar.menu.window.zoom\",\n  windowBringAllToFront: \"titleBar.menu.window.bringAllToFront\",\n  appServices: \"titleBar.menu.app.services\",\n  appHide: \"titleBar.menu.app.hide\",\n  appHideOthers: \"titleBar.menu.app.hideOthers\",\n  appShowAll: \"titleBar.menu.app.showAll\",\n  appQuit: \"titleBar.menu.app.quit\",\n  helpAbout: \"titleBar.menu.help.about\",\n  helpWhatsNew: \"titleBar.menu.help.whatsNew\",\n  helpCheckForUpdates: \"titleBar.menu.help.checkForUpdates\",\n  helpToggleDevTools: \"titleBar.menu.help.toggleDevTools\",\n  helpResourceManager: \"titleBar.menu.help.resourceManager\",\n  helpToggleKnorviaStdioTap: \"titleBar.menu.help.toggleKnorviaStdioTap\",\n  helpKnorviaEndpoint: \"titleBar.menu.help.endpoint\",\n  helpKnorviaEndpointProduction: \"titleBar.menu.help.endpoint.production\",\n  helpKnorviaEndpointTest: \"titleBar.menu.help.endpoint.test\",\n  helpKnorviaEndpointCustom: \"titleBar.menu.help.endpoint.custom\",\n  helpKnorviaEndpointReset: \"titleBar.menu.help.endpoint.reset\",\n  helpFeedback: \"titleBar.menu.help.feedback\",\n  helpExportLogs: \"titleBar.menu.help.exportLogs\",\n  helpClearAllData: \"titleBar.menu.help.clearAllData\",\n  helpCheckingForUpdates: \"desktopMenu.help.checkingForUpdates\",\n  helpUpdateAvailableVersion: \"desktopMenu.help.updateAvailableVersion\",\n  helpDownloadingUpdateVersion: \"desktopMenu.help.downloadingUpdateVersion\",\n  helpDownloadingUpdateProgress: \"desktopMenu.help.downloadingUpdateProgress\",\n  helpRestartToUpdate: \"desktopMenu.help.restartToUpdate\",\n  dockShowCurrentWindow: \"dock.menu.showCurrentWindow\",\n  trayTooltip: \"tray.tooltip\",\n  trayOpenKnorvia: \"tray.menu.openKnorvia\",\n  trayQuit: \"tray.menu.quit\",\n} as const"
+  },
+  {
+    "owner": "packages/shared/src/platform.ts",
+    "publicName": "DesktopCommandIds",
+    "staticInitializer": "{\n  NewTask: \"newTask\",\n  OpenWorkspace: \"openWorkspace\",\n  CloseActiveContext: \"closeActiveContext\",\n  CloseWindow: \"closeWindow\",\n  MinimizeWindow: \"minimizeWindow\",\n  ToggleMaximizeWindow: \"toggleMaximizeWindow\",\n  ToggleFullScreen: \"toggleFullScreen\",\n  ResetWindowSize: \"resetWindowSize\",\n  ResetZoom: \"resetZoom\",\n  ZoomIn: \"zoomIn\",\n  ZoomOut: \"zoomOut\",\n  ShowAbout: \"showAbout\",\n  OpenChangelog: \"openChangelog\",\n  CheckForUpdates: \"checkForUpdates\",\n  RelaunchApp: \"relaunchApp\",\n  OpenFeedback: \"openFeedback\",\n  OpenCommunity: \"openCommunity\",\n  ExportLogs: \"exportLogs\",\n  ToggleDevTools: \"toggleDevTools\",\n  OpenResourceManager: \"openResourceManager\",\n  ToggleKnorviaStdioTapDevProxy: \"toggleKnorviaStdioTapDevProxy\",\n  SetKnorviaEndpointProduction: \"setKnorviaEndpointProduction\",\n  SetKnorviaEndpointTest: \"setKnorviaEndpointTest\",\n  SetKnorviaEndpointCustom: \"setKnorviaEndpointCustom\",\n  ResetKnorviaEndpoint: \"resetKnorviaEndpoint\",\n  ClearAllData: \"clearAllData\",\n  ClearCodingPlanWebviewStorage: \"clearCodingPlanWebviewStorage\",\n  GetCuaOsSupport: \"getCuaOsSupport\",\n} as const"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopCommandHandlers.ts",
+    "publicName": "HELP_TOGGLE_DEV_TOOLS_MENU_ID",
+    "staticInitializer": "\"help.toggle-dev-tools\""
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopCommandHandlers.ts",
+    "publicName": "HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID",
+    "staticInitializer": "\"help.toggle-stdio-tap\""
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopZoom.ts",
+    "publicName": "DESKTOP_ZOOM_MIN_LEVEL",
+    "staticInitializer": "-3"
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopZoom.ts",
+    "publicName": "DESKTOP_ZOOM_MAX_LEVEL",
+    "staticInitializer": "5"
+  }
+]

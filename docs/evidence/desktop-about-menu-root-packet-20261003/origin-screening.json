@@ -1,0 +1,168 @@
+{
+  "targets": {
+    "packages/desktop/src/main/about.ts": {
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "earliestAvailableSource": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 9114,
+        "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b"
+      },
+      "currentSource": {
+        "bytes": 9114,
+        "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b"
+      }
+    },
+    "packages/desktop/src/main/aboutWindow.ts": {
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "earliestAvailableSource": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 4837,
+        "sha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6"
+      },
+      "currentSource": {
+        "bytes": 4837,
+        "sha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6"
+      }
+    },
+    "packages/desktop/src/main/desktopApplicationMenu.ts": {
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot",
+        "88001f027b04324f816176ff5f08b5d1a236f27f 2026-09-25 style: format the repository with oxfmt and enforce fmt:check in CI"
+      ],
+      "earliestAvailableSource": {
+        "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+        "bytes": 13039,
+        "sha256": "4da81b9faf7e3aa2bc2fa493df87c9e25711514ec5aa653bf9e4130d8ccb111c"
+      },
+      "currentSource": {
+        "bytes": 13080,
+        "sha256": "dfd11178f06f2ada16612bb7cdf9603eb1d012649d819872688f790a68c1ea3d"
+      }
+    }
+  },
+  "historyQualification": "Earliest available snapshot inclusion/format-only history and missing review records do not prove upstream inheritance or original authorship. No origin grant/clearance inferred.",
+  "licensing/reviews.json": [],
+  "licensing/current-files.json": [
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "kind": "file",
+      "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b",
+      "normalizedSha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b",
+      "encoding": "utf8-lf",
+      "bytes": 9114,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/about.ts",
+        "blob": "8553c5f191dc68141ff9ad4ef51d84b6d728e5f2",
+        "normalizedSha256": "a1921e991b3f04764101a602874a0cb07884a9dedbb021c561be3ea37701edcc",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/aboutWindow.ts",
+      "kind": "file",
+      "sha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6",
+      "normalizedSha256": "f95c664be0cd894815bfe8db5ba27d509a575c563a6d566363c130cbc42819a6",
+      "encoding": "utf8-lf",
+      "bytes": 4837,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/aboutWindow.ts",
+        "blob": "20985933d4fb09900aa96d67c3135eb5be82daf8",
+        "normalizedSha256": "9975da54221761f977d5f1611edb60414ac4ff7a2815c1f9413ec4cb05b0bc24",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "kind": "file",
+      "sha256": "dfd11178f06f2ada16612bb7cdf9603eb1d012649d819872688f790a68c1ea3d",
+      "normalizedSha256": "dfd11178f06f2ada16612bb7cdf9603eb1d012649d819872688f790a68c1ea3d",
+      "encoding": "utf8-lf",
+      "bytes": 13080,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+        "blob": "df3efd58cc2eb5b22e45aa15492d0bbbfba55c15",
+        "normalizedSha256": "5005272e24f7586c8beb3ffa3350d40b8e6a48c0543adf26a8eb861dc17c8428",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  ],
+  "upstreamBaseline": {
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "entries": [
+      {
+        "path": "packages/desktop/src/main/about.ts",
+        "mode": "100644",
+        "blob": "8553c5f191dc68141ff9ad4ef51d84b6d728e5f2",
+        "kind": "file",
+        "sha256": "a1921e991b3f04764101a602874a0cb07884a9dedbb021c561be3ea37701edcc",
+        "normalizedSha256": "a1921e991b3f04764101a602874a0cb07884a9dedbb021c561be3ea37701edcc",
+        "encoding": "utf8-lf",
+        "bytes": 8924
+      },
+      {
+        "path": "packages/desktop/src/main/aboutWindow.ts",
+        "mode": "100644",
+        "blob": "20985933d4fb09900aa96d67c3135eb5be82daf8",
+        "kind": "file",
+        "sha256": "9975da54221761f977d5f1611edb60414ac4ff7a2815c1f9413ec4cb05b0bc24",
+        "normalizedSha256": "9975da54221761f977d5f1611edb60414ac4ff7a2815c1f9413ec4cb05b0bc24",
+        "encoding": "utf8-lf",
+        "bytes": 6004
+      },
+      {
+        "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+        "mode": "100644",
+        "blob": "df3efd58cc2eb5b22e45aa15492d0bbbfba55c15",
+        "kind": "file",
+        "sha256": "5005272e24f7586c8beb3ffa3350d40b8e6a48c0543adf26a8eb861dc17c8428",
+        "normalizedSha256": "5005272e24f7586c8beb3ffa3350d40b8e6a48c0543adf26a8eb861dc17c8428",
+        "encoding": "utf8-lf",
+        "bytes": 15934
+      }
+    ]
+  },
+  "upstreamObjectAvailability": [
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "blob": "8553c5f191dc68141ff9ad4ef51d84b6d728e5f2",
+      "localGitObjectAvailable": false,
+      "error": ""
+    },
+    {
+      "path": "packages/desktop/src/main/aboutWindow.ts",
+      "blob": "20985933d4fb09900aa96d67c3135eb5be82daf8",
+      "localGitObjectAvailable": false,
+      "error": ""
+    },
+    {
+      "path": "packages/desktop/src/main/desktopApplicationMenu.ts",
+      "blob": "df3efd58cc2eb5b22e45aa15492d0bbbfba55c15",
+      "localGitObjectAvailable": false,
+      "error": ""
+    }
+  ],
+  "screeningDecision": "All3 substantive main-process public owners are root-eligible on exact repository upstream-modified inventory plus absent prior E receipts, not lack-of-review alone. Retain required visual/menu/HTML/CSS/CSP/brand literal data and public schemas; do not replace original configuration for cosmetic originality. Actual primary-source upstream blob verification unavailable where localGitObjectAvailable=false; no final origin/rights clearance."
+}
