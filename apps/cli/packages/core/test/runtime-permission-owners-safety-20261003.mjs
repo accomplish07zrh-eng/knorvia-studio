@@ -8,7 +8,7 @@ const core = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const repo = path.resolve(core, "../../../..");
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const mode = process.argv[2];
-assert.ok(["baseline", "current"].includes(mode));
+assert.ok(["baseline", "current", "draft"].includes(mode));
 const source = {};
 const entries = {};
 if (mode === "baseline") {
@@ -20,6 +20,18 @@ if (mode === "baseline") {
     for (const key of ["source", "compiled", "declaration"])
       assert.equal(hash(row[key]), row[key + "Sha256"]);
     source[name] = row.compiled;
+    entries[name] = path.join(core, "src/runtime", name.replace(/\.ts$/u, ".js"));
+  }
+} else if (mode === "draft") {
+  const bytes = await fs.readFile(process.argv[3]);
+  assert.equal(hash(bytes), "acbc1beb05dbbb9b414bf3794c9c9cada374b7966906b6b5a87088c87b29b602");
+  const draft = JSON.parse(bytes);
+  assert.equal(draft.diagnostics.length, 0);
+  assert.equal(draft.apiEqual, true);
+  for (const [file, text] of draft.emissions) {
+    if (!file.endsWith(".js")) continue;
+    const name = file.split("/dist/runtime/")[1].replace(/\.js$/u, ".ts");
+    source[name] = text;
     entries[name] = path.join(core, "src/runtime", name.replace(/\.ts$/u, ".js"));
   }
 } else {
@@ -160,6 +172,31 @@ function fixture() {
     },
   };
   return { runtime, calls, receipts, events, selected, a, b, c };
+}
+if (process.argv.includes("--recovery-busy-probe")) {
+  const f = fixture();
+  const failure = new Error("Owned publication rejection");
+  f.runtime.eventStore.getEvents = async function () {
+    f.calls.push("events-failed");
+    throw failure;
+  };
+  await assert.rejects(grant.call(f.runtime, "owned-request"), (error) => error === failure);
+  f.runtime.permissionFullAccessPending = true;
+  const before = [...f.calls];
+  await assert.rejects(R.recoverPendingPermissionGrant(f.runtime), {
+    message: "Queue mutation is busy; retry approval",
+  });
+  assert.deepEqual(f.calls, before);
+  console.log(
+    JSON.stringify({
+      mode,
+      focusedRecoveryBusyProbe: "pass",
+      count: 1,
+      effects: "owned fake receipt/event ports only",
+      liveIO: false,
+    }),
+  );
+  process.exit(0);
 }
 const groups = [];
 {
