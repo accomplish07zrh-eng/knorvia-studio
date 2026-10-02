@@ -1,0 +1,52 @@
+{
+  "created_at_utc": "2026-10-02T19:54:34.451005+00:00",
+  "lane": "restricted-input A-lane author",
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-usage-observability-author-20261003/api.d.ts",
+      "sha256": "39dcb67304a7b9c0dba7e455746309c183bb0fd271c619e78266ac1baa1c64a3",
+      "bytes": 1457,
+      "access": "read body-free author input"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-usage-observability-author-20261003/contract.md",
+      "sha256": "10d1aa06abb014548ff2258cb612d0e5d357dc174c2fa4dff2bcc1fcb5efe485",
+      "bytes": 10001,
+      "access": "read body-free author input"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-usage-observability-author-20261003/supporting-facts.md",
+      "sha256": "6cffe32baa843fe5c22122a2d7871814f983ddbd78b09b694814e3840430204a",
+      "bytes": 5038,
+      "access": "read body-free author input"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-runtime-attribution-three-20261003/usage-observability/usage-observability.ts",
+      "sha256": "c22bd5f69c8f5ba74a7b88a9dca135aeff8f8fc7bd4161e9b5fda3a67ffa49c6",
+      "bytes": 13925,
+      "lines": 340,
+      "access": "created and inspected draft only"
+    }
+  ],
+  "operations": [
+    "Read api.d.ts and contract.md with cat.",
+    "Requested missing body-free declaration facts from parent.",
+    "Created the authorized draft directory and wrote usage-observability.ts with apply_patch.",
+    "Read explicitly authorized supporting-facts.md with cat.",
+    "Updated draft type seams and optional summary access with apply_patch.",
+    "Read only draft source for line count and SHA256.",
+    "Read only allowed inputs and draft for this SHA256-bound journal.",
+    "Read own access journal; recorded final body-free clarification and sealed unchanged source plus journal hashes."
+  ],
+  "excluded_accesses": "No predecessor, lineage, history, tests, oracles, dependency bodies, other packets, production source, live providers, data, processes, or settings accessed; no agents spawned.",
+  "validation": "Static contract reasoning and source line/hash inspection only; no tests or builds run.",
+  "ambiguities": [],
+  "comparison_status": "No curator comparison received or performed before journal creation.",
+  "sealed_at_utc": "2026-10-02T19:54:49.004650+00:00",
+  "clarifications": [
+    "Parent confirmed body-free fact: model row attemptIndex=input.attemptIndex, with undefined allowed; only the ID suffix defaults to zero.",
+    "Parent confirmed body-free effect fact: record construction occurs inside try as the argument to the captured store live writer member call; writer property lookup precedes argument field evaluation; model/turn listed preprocessing stays outside catch; no extra async helper await."
+  ]
+}
