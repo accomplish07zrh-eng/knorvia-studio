@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "archivedAtUtc": "2026-10-02T16:37:44.510969+00:00",
+  "phase": "exact draft archived before curator body review, source comparison or testing",
+  "inputFreezeCommit": "1e6b6d41c56944d064e50bf5d1952668ad3d87f1",
+  "author": {
+    "nativeTask": "/root/event_log_packet_author",
+    "fork_turns": "none",
+    "model": "gpt-6-astra",
+    "reasoning_effort": "high",
+    "fastControl": "Not exposed by native tool",
+    "reusedCollectionOrExpansionAuthor": false
+  },
+  "authorReportedFreezeUtc": "2026-10-02T16:36:53.365697Z",
+  "files": {
+    "author-record.json": {
+      "bytes": 2141,
+      "sha256": "02bdbce4cc3cd7a98432380ab6ef35e92969813b3a7c76221ac3fcb15c077a9a"
+    },
+    "draft-events.ts.txt": {
+      "bytes": 3724,
+      "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174"
+    },
+    "author-invocation.txt": {
+      "bytes": 1371,
+      "sha256": "22a097a3d7c0220ba6d9d04a09eeb7c98e5b5028f1dc6c39ddbc0b60598c2459"
+    }
+  },
+  "authorReported": {
+    "boundaryBreaches": [],
+    "unresolvedQuestions": [],
+    "compiled": false,
+    "tested": false,
+    "compared": false
+  },
+  "curatorLimit": "Source-exposed curator; shared executor and instruction-only author allowlist, not independent filesystem isolation. No runtime/licence acceptance."
+}
