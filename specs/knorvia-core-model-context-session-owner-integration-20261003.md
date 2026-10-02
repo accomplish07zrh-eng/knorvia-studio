@@ -14,3 +14,5 @@ supplied parts/messages → original history and formatting ports → pure selec
 ```
 
 Preserve model-only user suppression, ignored/system-reminder/synthetic-part filtering, tool preview caps and output status branches, last-value/first-position part deduplication, native date/error/JSON behavior, ranking/tie/selection order, tail and chunk budget policies, ownundefined fields, exact static format data and no inputmutation. Four complete sources below400 lines, with cohesive private split only if required and preallocated by contract.
+
+Integration is explicitly deferred in the latest parent instruction: this batch delivers complete frozen candidate drafts plus scoped review evidence. The four repository target source files remain original and byte-bound. Draft acceptance for source integration is a later root decision; no source installation by E in this batch.

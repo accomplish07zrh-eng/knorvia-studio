@@ -1,0 +1,27 @@
+{
+  "scope": "session",
+  "archivedBeforeCuratorBodyReview": true,
+  "archivedAtUtc": "2026-10-02T21:31:14.591534+00:00",
+  "files": [
+    {
+      "file": "read-session-context.ts.txt",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/session/output/read-session-context.ts",
+      "bytes": 11537,
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca",
+      "lines": 336,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/session-context/read-session-context.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-model-context-session-20261003/session/output/author-record.json",
+      "bytes": 10843,
+      "sha256": "7423f8ff8a57775a1556f3c2c37036e67471e12279523c5418a00553b658a0e8",
+      "lines": 200,
+      "freezeMode": "0444"
+    }
+  ],
+  "authorReceiptSelfReported": true,
+  "noOsIsolationOrAccessAudit": true,
+  "sourceIntegrationDeferred": true
+}

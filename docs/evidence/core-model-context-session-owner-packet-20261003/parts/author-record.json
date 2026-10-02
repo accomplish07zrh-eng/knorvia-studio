@@ -1,0 +1,192 @@
+{
+  "recordVersion": 1,
+  "task": "Complete contract-only parts.ts author",
+  "requestedConfiguration": {
+    "model": "GPT-6.1 Sol",
+    "reasoningEffort": "high",
+    "fork": "none",
+    "qualification": "Requested configuration supplied by parent; effective serving model and reasoning controls are not independently verified."
+  },
+  "fastSetting": {
+    "value": "saved Fast unchanged/unverified",
+    "qualification": "No setting inspection or modification was performed; no inference about effective Fast behavior."
+  },
+  "suppliedInputFreeze": "e544dcc4",
+  "inputFreezeVerification": "Supplied identifier only; no git or freeze verification was performed.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/parts/input/contract.md",
+      "bytes": 4006,
+      "sha256": "272e342ec5aba2f8c60091b266b66d3a5a7256a9cf5247aec3bcd51c816ceb7c",
+      "lines": 15,
+      "readOperations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file",
+          "toolCall": 1,
+          "uses": "UTF-8 content display, byte count, SHA256, splitlines count"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/parts/input/public-api.d.ts",
+      "bytes": 209,
+      "sha256": "46e6b96f096daecdcd35b650bad519ac79f998a44b547a49bf6c7865af772738",
+      "lines": 3,
+      "readOperations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file",
+          "toolCall": 1,
+          "uses": "UTF-8 content display, byte count, SHA256, splitlines count"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/parts/input/dependency-api.d.ts",
+      "bytes": 303,
+      "sha256": "ec0b29822d0386fc5c3e059760728193bae81cc01c068fbbd2a562187b6190d7",
+      "lines": 4,
+      "readOperations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file",
+          "toolCall": 1,
+          "uses": "UTF-8 content display, byte count, SHA256, splitlines count"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/parts/input/public-shapes.d.ts",
+      "bytes": 8932,
+      "sha256": "602ba1c117c040fe5954d2773aa9e2cb6ab65c45d7eaa1e418e9e66359d8fae5",
+      "lines": 330,
+      "readOperations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file",
+          "toolCall": 1,
+          "uses": "UTF-8 content display, byte count, SHA256, splitlines count"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/parts/input/imports.json",
+      "bytes": 165,
+      "sha256": "1b2b59cb1ede659f8d2d17beb10ecb7f2ffe0e7338bbd20ddea7710e4dd05d77",
+      "lines": 10,
+      "readOperations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file",
+          "toolCall": 1,
+          "uses": "UTF-8 content display, byte count, SHA256, splitlines count"
+        }
+      ]
+    },
+    {
+      "path": "/tmp/knorvia-model-context-session-20261003/parts/input/output-data.json",
+      "bytes": 5635,
+      "sha256": "7722c2c1e955cab6c476396a30b6fc13df5e40342b1669c38facd3dabfb92cb3",
+      "lines": 328,
+      "readOperations": [
+        {
+          "operation": "Path.read_bytes",
+          "count": 1,
+          "scope": "entire file",
+          "toolCall": 1,
+          "uses": "UTF-8 content display, byte count, SHA256, splitlines count"
+        }
+      ]
+    }
+  ],
+  "ownSource": {
+    "path": "/tmp/knorvia-model-context-session-20261003/parts/output/parts.ts",
+    "bytes": 3337,
+    "sha256": "b6806d258a6714243d93abdf5beff85ad081718f945b0a8f8b174c247bee4ac9",
+    "lines": 96,
+    "writes": [
+      {
+        "operation": "Path.write_bytes",
+        "count": 1,
+        "toolCall": 2
+      }
+    ],
+    "reads": [
+      {
+        "operation": "Path.read_bytes",
+        "count": 1,
+        "scope": "entire file",
+        "toolCall": 2,
+        "uses": "manual content review, byte count, SHA256, splitlines count"
+      }
+    ]
+  },
+  "ownReceipt": {
+    "path": "/tmp/knorvia-model-context-session-20261003/parts/output/author-record.json",
+    "writes": [
+      {
+        "operation": "Path.write_bytes",
+        "count": 1,
+        "toolCall": 3
+      }
+    ],
+    "reads": [
+      {
+        "operation": "Path.read_bytes",
+        "count": 1,
+        "scope": "entire file",
+        "toolCall": 3,
+        "uses": "post-freeze byte count, SHA256, splitlines count; executed after chmod in the same tool invocation"
+      }
+    ],
+    "selfHashQualification": "Receipt metadata is emitted after freeze; no self-referential receipt hash is embedded."
+  },
+  "outputReadOperations": "Exactly one full own-source byte read and one full own-receipt byte read. Authored source literal and tool-displayed own source also informed manual review; no other output file content was read.",
+  "retainedDataExpressionsAndOrdinaryIdioms": [
+    "Exact two import clauses and module strings; MessagePart remains owned by @knorvia/contracts and safeJson/truncateText by ./utils.js.",
+    "Exact nine synthetic source literals, system-reminder regex, formatting strings, separators, public discriminants, and 3000/1600/900/1600 caps.",
+    "Short-circuit text filters; optional chaining; nullish coalescing; truthy filename/command/path/preview checks; filter(Boolean) with joins; template interpolation.",
+    "File path ternary deliberately repeats part.source getter reads. Preview expression is part.metadata?.preview?.text ?? part.source?.text.value.",
+    "Tool input uses the native in operator and passes safeJson output directly to original truncateText; statuses use ordered completed/error/pending branches with repeated part.state reads.",
+    "Native Map over original-order id/part pairs; Array.from of Map values; original object references retained.",
+    "Required data and expressions are retained honestly; no novelty, clean-separation, or license grant assertion."
+  ],
+  "manualFindings": [
+    "Source has only the two prescribed public function exports, the two prescribed imports, private formatting/filter helpers, and private numeric constants; no mutable module state or added dependency/type owners.",
+    "formatPartForContext switches on part.type first. ignored rejection precedes regex rejection, which precedes synthetic-source rejection; each rejection stops later reads.",
+    "File path is evaluated before preview and header; empty metadata preview suppresses source fallback; missing source text can throw; no raw URL/base64/content is automatically emitted.",
+    "Tool formatting retains inherited input-property recognition, dependency output/error propagation, and no fallback, catch, logging, or redaction.",
+    "Compaction uses nullish fallback and retains empty timeline text. Reasoning, snapshot, step-start, and timeline return null.",
+    "Unknown runtime part.type falls off the switch and returns undefined despite declared string | null; no new default policy.",
+    "Deduplication retains last duplicate value at first insertion position, returns a fresh array, and does not mutate the caller array.",
+    "96 source lines satisfy the fewer-than-400-lines constraint.",
+    "Manual reasoning only; no compiler, tests, builds, lint, mocks, authored-source execution, or dependency execution."
+  ],
+  "knownExposure": [
+    "Parent delegation text, platform/developer instructions, and the six named input files were visible.",
+    "Own authored source and this own receipt were visible.",
+    "No repository, history, review, test, predecessor, dependency implementation, collaborator draft, private/user data, or credential content is known to have been read by this author."
+  ],
+  "knownBreaches": [],
+  "questions": [],
+  "blockers": [],
+  "deferredWork": [
+    "Repository integration and any source compilation/runtime/test verification are intentionally deferred to the parent-authorized downstream workflow."
+  ],
+  "restrictionQualification": "This is an author self-report of tool use and instruction compliance. Shared-executor restrictions are instruction-only; no OS isolation, access audit, clean-separation, or provider/session/context/store inspection is asserted. Filesystem operations were limited to named-input reads, own-output writes/reads, hashes/counts, permissions, and timestamps; no actual business/provider/session/context/store/OS/network/userdata operations were performed.",
+  "freezeUTC": "2026-10-02T21:29:55.060294Z",
+  "freezeTimestampSemantics": "Exact UTC timestamp sampled at the start of the receipt-write/permissions-freeze sequence; applied as file and directory modification timestamp. Completion time is emitted after successful chmod. This is not an atomic filesystem transaction or isolation claim.",
+  "freezePermissions": {
+    "source": "0444",
+    "receipt": "0444",
+    "outputDirectory": "0555"
+  },
+  "freezeBeforeParentBodyReview": true,
+  "timestampAndPermissionOperations": "One UTC sample starts freeze, own receipt is written, both output files and output directory receive the sample modification timestamp, files chmod 0444, directory chmod 0555, completion UTC is sampled, own receipt is read for final metadata."
+}
