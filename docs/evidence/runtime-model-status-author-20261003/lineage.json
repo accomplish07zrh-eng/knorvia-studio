@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/model-status.ts",
+  "kind": "file",
+  "sha256": "fa3d352a6ede00b7d4341d5a6f228605a325beebdc352b7c219c210a0d5080c3",
+  "normalizedSha256": "fa3d352a6ede00b7d4341d5a6f228605a325beebdc352b7c219c210a0d5080c3",
+  "encoding": "utf8-lf",
+  "bytes": 4450,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/model-status.ts",
+    "blob": "ba271ddd46760acf1d400eed39d410fa013399af",
+    "normalizedSha256": "fa3d352a6ede00b7d4341d5a6f228605a325beebdc352b7c219c210a0d5080c3",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/model-status.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}
