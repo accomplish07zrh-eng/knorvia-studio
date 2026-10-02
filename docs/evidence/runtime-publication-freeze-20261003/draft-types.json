@@ -1,0 +1,138 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2345,
+      "message": "Argument of type 'ToolArtifactReadResult' is not assignable to parameter of type 'string'.",
+      "file": "apps/cli/packages/core/src/runtime/methods/workspace-checkpoints.ts"
+    }
+  ],
+  "api": [
+    {
+      "owner": "message-persistence",
+      "before": {
+        "persistAssistantMessage": [
+          "(this: AgentRuntimeInternal, messageID: MessageId, parentID: MessageId, created: number, update: { completed?: number | undefined; error?: { name: string; data?: Record<string, unknown> | undefined; } | undefined; finish?: string | undefined; tokens?: { total?: number | undefined; input: number; output: number; reasoning: number; cache: { read: number; write: number; }; } | undefined; } | undefined, traceContext: TraceContext, model?: Model | undefined): Promise<void>"
+        ],
+        "persistMessage": [
+          "(this: AgentRuntimeInternal, input: MessageInfo, traceContext: TraceContext, copyFrom?: { sessionID: SessionId; id: string; } | undefined): Promise<void>"
+        ],
+        "persistPart": [
+          "(this: AgentRuntimeInternal, input: MessagePart, traceContext: TraceContext, copyFrom?: { sessionID: SessionId; id: string; } | undefined): Promise<void>"
+        ],
+        "persistSyntheticUserNotice": [
+          "(this: AgentRuntimeInternal, messageID: MessageId, text: string, traceContext: TraceContext): Promise<void>"
+        ],
+        "persistSyntheticUserNoticeForSession": [
+          "(this: AgentRuntimeInternal, options: { messageID: MessageId; sessionId: SessionId; source: \"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\"; text: string; traceContext: TraceContext; metadata?: Record<string, unknown> | undefined; visibility?: \"user-visible\" | \"model-only\" | undefined; }): Promise<void>"
+        ],
+        "persistUserPrompt": [
+          "(this: AgentRuntimeInternal, messageID: MessageId, input: string, attachments: ResolvedTurnAttachment[] | undefined, traceContext: TraceContext, options?: { steerDelivery?: \"queue\" | \"guide\" | undefined; inputPresentation?: \"task_notification\" | \"user_steer\" | \"coordinator_steer\" | \"coordinator_input\" | \"subagent_reply_steer\" | \"subagent_reply\" | \"task_notification_steer\" | undefined; sessionInputId?: string | undefined; sourceCommandId?: string | undefined; clientId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; executionKind?: TurnExecutionKind | undefined; epilogueStart?: number | undefined; } | undefined): Promise<void>"
+        ],
+        "rebuildProjection": [
+          "(this: AgentRuntimeInternal): Promise<SessionProjection>"
+        ]
+      },
+      "after": {
+        "persistAssistantMessage": [
+          "(this: AgentRuntimeInternal, messageID: MessageId, parentID: MessageId, created: number, update: { completed?: number | undefined; error?: { name: string; data?: Record<string, unknown> | undefined; } | undefined; finish?: string | undefined; tokens?: { total?: number | undefined; input: number; output: number; reasoning: number; cache: { read: number; write: number; }; } | undefined; } | undefined, traceContext: TraceContext, model?: Model | undefined): Promise<void>"
+        ],
+        "persistMessage": [
+          "(this: AgentRuntimeInternal, input: MessageInfo, traceContext: TraceContext, copyFrom?: { sessionID: SessionId; id: string; } | undefined): Promise<void>"
+        ],
+        "persistPart": [
+          "(this: AgentRuntimeInternal, input: MessagePart, traceContext: TraceContext, copyFrom?: { sessionID: SessionId; id: string; } | undefined): Promise<void>"
+        ],
+        "persistSyntheticUserNotice": [
+          "(this: AgentRuntimeInternal, messageID: MessageId, text: string, traceContext: TraceContext): Promise<void>"
+        ],
+        "persistSyntheticUserNoticeForSession": [
+          "(this: AgentRuntimeInternal, options: { messageID: MessageId; sessionId: SessionId; source: \"subagent\" | \"background_task\" | \"fork\" | \"goal_state_change\" | \"goal-continuation\" | \"plugin_reference\" | \"rewind\" | \"selection_side_chat\" | \"subagent_message\" | \"todo_reminder\" | \"workflow_launch\" | \"shared_context\"; text: string; traceContext: TraceContext; metadata?: Record<string, unknown> | undefined; visibility?: \"user-visible\" | \"model-only\" | undefined; }): Promise<void>"
+        ],
+        "persistUserPrompt": [
+          "(this: AgentRuntimeInternal, messageID: MessageId, input: string, attachments: ResolvedTurnAttachment[] | undefined, traceContext: TraceContext, options?: { steerDelivery?: \"queue\" | \"guide\" | undefined; inputPresentation?: \"task_notification\" | \"user_steer\" | \"coordinator_steer\" | \"coordinator_input\" | \"subagent_reply_steer\" | \"subagent_reply\" | \"task_notification_steer\" | undefined; sessionInputId?: string | undefined; sourceCommandId?: string | undefined; clientId?: string | undefined; intent?: TurnInputIntentMetadata | undefined; executionKind?: TurnExecutionKind | undefined; epilogueStart?: number | undefined; } | undefined): Promise<void>"
+        ],
+        "rebuildProjection": [
+          "(this: AgentRuntimeInternal): Promise<SessionProjection>"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "events",
+      "before": {
+        "appendEvent": [
+          "(this: AgentRuntimeInternal, event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ],
+        "createEvent": [
+          "(this: AgentRuntimeInternal, type: SessionEventType, payload: unknown, traceContext: TraceContext): SessionEvent"
+        ],
+        "ensureSessionPersisted": [
+          "(this: AgentRuntimeInternal, input: string, traceContext: TraceContext): Promise<void>"
+        ],
+        "isSessionPersisted": [
+          "(this: AgentRuntimeInternal): boolean"
+        ],
+        "notifyEventSinks": [
+          "(this: AgentRuntimeInternal, event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ]
+      },
+      "after": {
+        "appendEvent": [
+          "(this: AgentRuntimeInternal, event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ],
+        "createEvent": [
+          "(this: AgentRuntimeInternal, type: SessionEventType, payload: unknown, traceContext: TraceContext): SessionEvent"
+        ],
+        "ensureSessionPersisted": [
+          "(this: AgentRuntimeInternal, input: string, traceContext: TraceContext): Promise<void>"
+        ],
+        "isSessionPersisted": [
+          "(this: AgentRuntimeInternal): boolean"
+        ],
+        "notifyEventSinks": [
+          "(this: AgentRuntimeInternal, event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "workspace-checkpoints",
+      "before": {
+        "copySessionMessagesForFork": [
+          "(this: AgentRuntimeInternal, options: { forkedSessionId: SessionId; messages: MessageWithParts[]; traceContext: TraceContext; }): Promise<{ copiedMessageCount: number; messageIdMap: Map<MessageId, MessageId>; }>"
+        ],
+        "forkWorkspaceFromCheckpoint": [
+          "(this: AgentRuntimeInternal, options?: { abortSignal?: AbortSignal | undefined; forkedSessionId?: SessionId | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceForkResult>"
+        ],
+        "listWorkspaceCheckpoints": [
+          "(this: AgentRuntimeInternal, options?: { limit?: number | undefined; } | undefined): Promise<WorkspaceCheckpointSummary[]>"
+        ],
+        "loadCheckpointMessagePreviews": [
+          "(this: AgentRuntimeInternal): Promise<Map<MessageId, string>>"
+        ],
+        "restoreWorkspaceCheckpointArtifact": [
+          "(this: AgentRuntimeInternal, artifact: { kind: \"workspace_file_before_change\"; version: 1; files: { path: string; structuredPatch: { oldStart: number; oldLines: number; newStart: number; newLines: number; lines: string[]; }[]; beforeContent: string | null; existedBefore: boolean; afterContent?: string | undefined; afterContentLength?: number | undefined; }[]; toolName: string; toolCallId: string; createdAt: string; }, traceContext: TraceContext, abortSignal?: AbortSignal | undefined): Promise<WorkspaceRewindRestoredFile[]>"
+        ]
+      },
+      "after": {
+        "copySessionMessagesForFork": [
+          "(this: AgentRuntimeInternal, options: { forkedSessionId: SessionId; messages: MessageWithParts[]; traceContext: TraceContext; }): Promise<{ copiedMessageCount: number; messageIdMap: Map<MessageId, MessageId>; }>"
+        ],
+        "forkWorkspaceFromCheckpoint": [
+          "(this: AgentRuntimeInternal, options?: { abortSignal?: AbortSignal | undefined; forkedSessionId?: SessionId | undefined; targetCheckpointId?: string | undefined; targetMessageId?: MessageId | undefined; traceContext?: TraceContext | undefined; } | undefined): Promise<WorkspaceForkResult>"
+        ],
+        "listWorkspaceCheckpoints": [
+          "(this: AgentRuntimeInternal, options?: { limit?: number | undefined; } | undefined): Promise<WorkspaceCheckpointSummary[]>"
+        ],
+        "loadCheckpointMessagePreviews": [
+          "(this: AgentRuntimeInternal): Promise<Map<MessageId, string>>"
+        ],
+        "restoreWorkspaceCheckpointArtifact": [
+          "(this: AgentRuntimeInternal, artifact: { kind: \"workspace_file_before_change\"; version: 1; files: { path: string; structuredPatch: { oldStart: number; oldLines: number; newStart: number; newLines: number; lines: string[]; }[]; beforeContent: string | null; existedBefore: boolean; afterContent?: string | undefined; afterContentLength?: number | undefined; }[]; toolName: string; toolCallId: string; createdAt: string; }, traceContext: TraceContext, abortSignal?: AbortSignal | undefined): Promise<WorkspaceRewindRestoredFile[]>"
+        ]
+      },
+      "equal": true
+    }
+  ]
+}
