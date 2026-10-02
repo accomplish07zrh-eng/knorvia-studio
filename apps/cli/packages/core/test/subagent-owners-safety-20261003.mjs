@@ -258,6 +258,90 @@ function fixture() {
   assert.ok(launch.background === false);
   groups.push("setup cancellation removes unready child and no terminal publication");
 }
+{
+  const f = fixture(),
+    order = [];
+  let finishChild;
+  const ended = new Promise((resolve) => {
+    const emit = f.options.emitParentEvent;
+    f.options.emitParentEvent = async function (e, t) {
+      order.push(e.type);
+      await emit.call(this, e, t);
+      if (e.type === C.SessionEventType.SubagentStopped) resolve();
+    };
+  });
+  f.options.enqueueParentTaskNotification = function (n) {
+    assert.equal(this, f.options);
+    order.push("enqueue");
+    f.notifications.push(n);
+    return undefined;
+  };
+  f.options.runExploreAgent = async function (r, o) {
+    f.children.push([r, o]);
+    const completion = new Promise((resolve) => {
+      finishChild = () =>
+        resolve({ response: "Owned background result", traceId: trace.traceId, events: [] });
+    });
+    await r.onSessionReady();
+    return await completion;
+  };
+  const output = await f.port.start(request);
+  assert.equal(output.canReadOutputFile, true);
+  assert.equal(output.status, "async_launched");
+  assert.equal(f.children[0][0].background, true);
+  finishChild();
+  await ended;
+  assert.deepEqual(order, [
+    C.SessionEventType.SubagentSpawned,
+    "enqueue",
+    C.SessionEventType.BackgroundTaskCompleted,
+    C.SessionEventType.SubagentStopped,
+  ]);
+  assert.equal(f.notifications.length, 1);
+  assert.equal(f.reg.get("owned-agent").notified, true);
+  assert.equal(f.reg.get("owned-agent").status, "completed");
+  assert.equal(f.notifications[0].taskId, "owned-agent");
+  groups.push("background terminal artifacts then one queue notification before events");
+}
+{
+  const f = fixture();
+  let child;
+  f.options.runExploreAgent = async function (r, o) {
+    child = [r, o];
+    await r.onSessionReady();
+    return await new Promise(() => {});
+  };
+  await f.port.start(request);
+  const previous = f.reg.get("owned-agent");
+  f.options.enqueueParentTaskNotification = () => {
+    throw new Error("Owned enqueue rejection");
+  };
+  await assert.rejects(
+    f.port.stopTask("owned-agent"),
+    (e) => e.message === "Background agent task stopped notification was not enqueued: owned-agent",
+  );
+  assert.equal(f.reg.get("owned-agent"), previous);
+  assert.equal(child[1].signal.aborted, false);
+  assert.deepEqual(
+    f.events.map((e) => e.type),
+    [C.SessionEventType.SubagentSpawned],
+  );
+  f.options.enqueueParentTaskNotification = () => undefined;
+  const stopped = await f.port.stopTask("owned-agent");
+  assert.equal(stopped.status, "killed");
+  assert.equal(child[1].signal.aborted, true);
+  assert.deepEqual(
+    f.events.map((e) => e.type),
+    [
+      C.SessionEventType.SubagentSpawned,
+      C.SessionEventType.BackgroundTaskCompleted,
+      C.SessionEventType.SubagentStopped,
+    ],
+  );
+  assert.equal(f.events[1].payload.status, "cancelled");
+  assert.equal(f.events[2].payload.status, "stopped");
+  groups.push("stop queue rejection restores exact task before authority commit");
+}
 console.log(
   JSON.stringify({
     mode,
