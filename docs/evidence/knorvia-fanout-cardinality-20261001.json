@@ -1,0 +1,243 @@
+{
+  "formatVersion": 1,
+  "baseline": "996c6061a00178ee3d9d12a89ad7f81e899cc5b2",
+  "freeze": "04429747dd5d71e7d00a5f7c1da85ca1ec990dde",
+  "implementation": "6af7d8ab91fdcb93b36ab9ceea93055231a2560b",
+  "owner": "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+  "scope": [
+    "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+    "apps/cli/packages/core/test/fanout-cardinality-baseline.json",
+    "apps/cli/packages/core/test/fanout-cardinality-contract.json",
+    "apps/cli/packages/core/test/fanout-cardinality-current.json",
+    "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+    "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+    "specs/knorvia-fanout-cardinality-owner.md",
+    "docs/knorvia-fanout-cardinality-handoff-20261001.md",
+    "docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs",
+    "docs/evidence/knorvia-fanout-cardinality-20261001.json"
+  ],
+  "files": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+      "bytes": 4842,
+      "sha256": "379aaccfbcd9528e5f35f4f3886f8751faf7427a887f7abe64cfac88098f007b"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-baseline.json",
+      "bytes": 6369,
+      "sha256": "9e9d325801c1a6ca2f7d83123a53fc50a40342427abd6ea3a4955bc27d71090d"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-contract.json",
+      "bytes": 4065,
+      "sha256": "ef20cf43e15e20504d4e7d1925f485b027af6183caf35e6e140ebbc1a11cd936"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-current.json",
+      "bytes": 267,
+      "sha256": "6b8d2a087b0362f63f73501966dcc5352391027e2b0a743194225d8347df8295"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+      "bytes": 7235,
+      "sha256": "bf31af1d5c8f3848474c637ef27d44d5ea55da4151b7c3d89725bbdae33ac536"
+    },
+    {
+      "path": "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+      "bytes": 2170,
+      "sha256": "257c22d4857d06d3e72e3c93f640ef1c12efb72c51a2e64ff82914c97dda6359"
+    },
+    {
+      "path": "specs/knorvia-fanout-cardinality-owner.md",
+      "bytes": 3161,
+      "sha256": "811c6d4b10b6256c3fde7061a5414871f6afa572bfa150e8606b3f87c3bd3c62"
+    },
+    {
+      "path": "docs/knorvia-fanout-cardinality-handoff-20261001.md",
+      "bytes": 4418,
+      "sha256": "aff51b82349a07195a9c0f7243abb8817a18c2962c79cdd8385a5d856600d989"
+    },
+    {
+      "path": "docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs",
+      "bytes": 4147,
+      "sha256": "6f99d41bbe2ec364a310f8c18fefd26fe194c188bc538e4ccca76833012c4210"
+    }
+  ],
+  "emitted": [
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/fanout-cardinality.js",
+      "bytes": 4904,
+      "sha256": "a807ecc72b813e56c6a5adb85cd8e4b95045b2702d9b869b27f714b0d3d4a2fa"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/fanout-cardinality.d.ts",
+      "bytes": 681,
+      "sha256": "6df2e52e3d50890410d40737bb1eac728909b66b2c8c55dad05a5e9b0c1ead47"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/dist/analysis/fanout-cardinality.d.ts.map",
+      "bytes": 297,
+      "sha256": "84af90def77cc2ba070b65e84dafbeb3873a81ff5a59c89b0f404488c78223d2"
+    }
+  ],
+  "testRoots": [
+    "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+    "apps/cli/packages/core/test/fanout-cardinality.test.ts"
+  ],
+  "immutableFreeze": [
+    "apps/cli/packages/core/test/fanout-cardinality-baseline.json",
+    "apps/cli/packages/core/test/fanout-cardinality-contract.json",
+    "apps/cli/packages/core/test/fanout-cardinality-fixture.ts",
+    "apps/cli/packages/core/test/fanout-cardinality.test.ts",
+    "specs/knorvia-fanout-cardinality-owner.md"
+  ],
+  "design": {
+    "boundary": "Complete positive cardinality proof and symbol mutation query",
+    "structure": "Fixed wrapper grammar -> dense literal count or direct const initialization -> stateless short-circuit symbol query -> unified reference/member/assignment mutation-context classifier",
+    "removed": "Old mutable written traversal flag and split write-reference/assignment-target/span helper ownership",
+    "unchanged": "Public declaration/prose, source/checker symbols and receiver traces, existing alias/wrapped-receiver limitations, interpreter/projection/state owners; no cache/framework/async/I/O"
+  },
+  "checks": {
+    "freeze": {
+      "sourceGroups": 4,
+      "sourcePass": 4,
+      "emittedGroups": 4,
+      "emittedPass": 4
+    },
+    "final": {
+      "sourceGroups": 4,
+      "sourcePass": 4,
+      "emittedGroups": 4,
+      "emittedPass": 4,
+      "fail": 0,
+      "overlap": "same four groups per mode; cases inside groups are not extra test totals"
+    },
+    "casesWithinGroups": {
+      "direct": 22,
+      "checkerFailurePoints": 3,
+      "virtualInterpreterCoreHandoffMermaidConsumers": 3
+    },
+    "consumerCardinalities": [
+      "literal const: 2",
+      "mutated const: absent",
+      "alias-mutated const: 2 (existing limitation)"
+    ],
+    "types": {
+      "typescript": "6.0.2",
+      "ownerRoots": 1,
+      "coreTestRoots": 2,
+      "diagnostics": 0
+    },
+    "emission": {
+      "written": 3,
+      "diagnostics": 0,
+      "config": "unchanged dynamic-workflow tsconfig; owner JS/declaration/map only"
+    },
+    "lint": {
+      "configuredSourceFiles": 1,
+      "ownedTypeScriptFiles": 3,
+      "rules": 94,
+      "errors": 0,
+      "warnings": 0
+    },
+    "format": "ten owned files checked before receipt commit",
+    "architecture": "owned changed check before commit, no new violations",
+    "publicDeclaration": "byte-identical to historical artifact"
+  },
+  "preservedFailure": {
+    "stage": "first scoped emission harness",
+    "cause": "Previous reducer filename accidentally retained in temporary allowlist; writer rejected owner JS before any artifact writes",
+    "correction": "Temporary regex renamed to exact fanout-cardinality JS/declaration/map allowlist, no source/assertion/config/budget/security changes",
+    "log": {
+      "path": "/tmp/knorvia-fanout-cardinality-emit-harness-failure.log",
+      "bytes": 1520,
+      "sha256": "11cfbd4a222389cab5068ecddcd5b28a16407e031437357ccab5bd2f62f7b3ac"
+    }
+  },
+  "logs": [
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-freeze-generation.log",
+      "bytes": 53,
+      "sha256": "8aeac2e7767c28ac66482b7e37e7a7be2bc07b8f908d20f915fc30ccedd62fd6"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-freeze-source.log",
+      "bytes": 502,
+      "sha256": "ad54a2202d032ffd5c6244baa488a4df5468259fa6179d30f568bec0238c4b34"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-freeze-emitted.log",
+      "bytes": 501,
+      "sha256": "eb60dc1f3f300151e5b027885fbd689ecca9db25818992a195ecc9b716caa879"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-final-emit.log",
+      "bytes": 402,
+      "sha256": "043088658919f240625e2d533b033533b2ebcb42b6c473daeef67fd0144c0054"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-final-source.log",
+      "bytes": 502,
+      "sha256": "d0894ad4c69a0863b459520c78ecceb494b5404c40d9a7c3c2028bc7416cbc03"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-final-emitted.log",
+      "bytes": 502,
+      "sha256": "512e1e9bf7c4e7484ec5093624fa5eae9761f416656c818fe1d81851ed8a1854"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-final-types.log",
+      "bytes": 193,
+      "sha256": "8040144ee6c500db1ad3058da2440d53831ae7a62591a6a7c6282b2ddc9e7369"
+    },
+    {
+      "path": "/tmp/knorvia-fanout-cardinality-final-lint.log",
+      "bytes": 179,
+      "sha256": "d42c478dae27a7d00d5708c5c2f279b8a411c3bfce27b195dac762eb27be3a95"
+    }
+  ],
+  "commands": [
+    "node --import tsx --test apps/cli/packages/core/test/fanout-cardinality.test.ts",
+    "KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED=1 node --import tsx --test apps/cli/packages/core/test/fanout-cardinality.test.ts",
+    "node docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs",
+    "node docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs --types (reproduces scoped programs)",
+    "node docs/evidence/knorvia-fanout-cardinality-check-20261001.mjs --emit (reproduces allowlisted emission)"
+  ],
+  "provenance": {
+    "sourceExposure": true,
+    "author": "Same lane; source inspected before spec-led body drafting, no separate unexposed author/clean-room claim",
+    "ledgerBefore": "upstream-modified/unreviewed",
+    "publisher": {
+      "path": "apps/zcode-cli/packages/dynamic-workflow/src/analysis/fanout-cardinality.ts",
+      "blob": "2e377239119d33c023b85648a3694a5cbeb7fa22",
+      "bytes": 5383,
+      "normalizedSha256": "8f967c348b025d1616bf3c68c3116ef0ac95c325237d4e688609c9d2d75ed3cb",
+      "verified": "Local Git object content/hash matches existing inventory; publisher association is inventory evidence, no new remote acquisition/authorship verification"
+    },
+    "retained": [
+      "Exact introductory publisher JSDoc and TypeScript import/public signature/declaration",
+      "Const/symbol admission idioms and short shared AST predicate expressions",
+      "Fixed mutator/wrapper vocabulary, assignment operator range, span comparisons and ordinary AST iteration glue"
+    ],
+    "newStructures": [
+      "Wrapper-kind normalization and direct element-count proof",
+      "Returned short-circuit invalidation query with no mutable traversal flag",
+      "Unified mutation context decision owner"
+    ],
+    "testMaterial": "Exact old compiled implementation/prose archived as inherited historical evidence; frozen output/checker traces and conventional loader infrastructure are not newly authored publisher facts",
+    "wholeFileDecision": null,
+    "status": "Mixed public prose/compatibility expression and reconstructed body, root independent expression/rights review pending",
+    "rights": "Notices/obligations retained; no header, registry or MIT grant"
+  },
+  "nextGap": {
+    "implementation": "Inherited expandMaySetLanes projection in causality-graph-lanes.ts (inspected, untouched)",
+    "documentary": "Retained discretionary public cardinality introduction; root decides bounded follow-up after body review"
+  },
+  "limits": [
+    "22 representative direct AST cases, three checker failures and three compiled/analyzed synthetic consumers; no huge matrix or arbitrary AST/builtin monkeypatch guarantee",
+    "Scripts are never executed; no live model/provider/network/workflow, user files/data or credentials. Only repository fixture and owned log material.",
+    "No full suite/build, native/Windows/browser acceptance; root owns aggregate gates",
+    "Strict current source/actual-emitted/declaration pins and immutable old oracle/observations; missing/wrong artifacts fail closed",
+    "Protected causality reducer, graph bounds/fold, get-workflow-run, prior receipts, root runtime/Host/shared licensing/dependencies/CI/other lanes untouched"
+  ]
+}
