@@ -1,0 +1,95 @@
+{
+  "formatVersion": 1,
+  "logs": [
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-initial-source-20261002.log",
+      "sha256": "e521c8bf268a8ec82fbcd7eef115428474f4f7ab5e75859558f98972fe7e859c",
+      "bytes": 2666,
+      "text": "\u2714 source: scope, resume repair, terminal priority and deadlock (7.91262ms)\n\u2714 source: started gate serializes admission, native completions reuse bounded slots (8.091986ms)\n\u2714 source: error threshold drains live work and successes reset observed error count (6.964009ms)\n\u2714 source: actual collection boundary expands executable scope before dispatch (6.614888ms)\n\u2716 source: invocation isolation, frontier failure and abort leave exact partial lifetimes (15.335698ms)\n\u2714 source: actual scheduled-phase caller retains summary and paused error (3.978466ms)\n\u2714 source: current owner/caller and exact historical loader remain distinct and fail closed (69.24954ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 6\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2891.842519\n\n\u2716 failing tests:\n\ntest at apps/cli/packages/core/test/workflow-scheduler-observations.test.ts:1:8056\n\u2716 source: invocation isolation, frontier failure and abort leave exact partial lifetimes (15.335698ms)\n  AssertionError [ERR_ASSERTION]: Expected \"actual\" to be reference-equal to \"expected\":\n  + actual - expected\n  ... Skipped lines\n  \n    {\n      kind: 'expert',\n      message: 'Workflow scheduler frontier changed.',\n      nodeId: undefined,\n      payload: {\n  ...\n      phase: undefined,\n  +   runId: 'two',\n  +   timestamp: '1970-01-01T00:00:03.000Z',\n  -   runId: 'one',\n  -   timestamp: '1970-01-01T00:00:02.000Z',\n      type: 'frontier_changed'\n    }\n  \n      at WorkflowSchedulerEventLog.onWorkflowEvent (/workspace/knorvia-studio/apps/cli/packages/core/test/workflow-scheduler-observation-ports.ts:139:14)\n      at WorkflowSchedulerEventLog.emitEvent (/workspace/knorvia-studio/apps/cli/packages/core/src/workflow/scheduler/events.ts:140:16)\n      at async WorkflowGraphScheduler.emitFrontierChangedIfNeeded (/workspace/knorvia-studio/apps/cli/packages/core/src/workflow/scheduler.ts:204:5)\n      at async WorkflowGraphScheduler.run (/workspace/knorvia-studio/apps/cli/packages/core/src/workflow/scheduler.ts:87:21) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: { kind: 'expert', message: 'Workflow scheduler frontier changed.', nodeId: undefined, payload: { activeNodeIds: [], blockedNodes: [], readyNodeIds: [Array] }, phase: undefined, runId: 'two', timestamp: '1970-01-01T00:00:03.000Z', type: 'frontier_changed' },\n    expected: { kind: 'expert', message: 'Workflow scheduler frontier changed.', nodeId: undefined, payload: { activeNodeIds: [], blockedNodes: [], readyNodeIds: [Array] }, phase: undefined, runId: 'one', timestamp: '1970-01-01T00:00:02.000Z', type: 'frontier_changed' },\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+      "role": "initial-source"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-interrupted-source-20261002.log",
+      "sha256": "875402d72287c4b945324f4bc775ebb8ef7bbf0f57aab0581c2a3de1198cdd16",
+      "bytes": 195,
+      "text": "\u2714 source: actual scheduled-phase caller retains summary and paused error (5.007018ms)\n\u2714 source: current owner/caller and exact historical loader remain distinct and fail closed (58.563285ms)\n",
+      "role": "interrupted-source"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-initial-compile-20261002.log",
+      "sha256": "74ee7a99d1ee004a36537b366c197d3725a011d43d89092b52fb78521b1b6699",
+      "bytes": 1636,
+      "text": "{\"typescript\":\"6.0.2\",\"roots\":8,\"diagnostics\":1}\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: \u001b[96mapps/cli/packages/core/test/workflow-scheduler-consumers.test.ts\u001b[0m:\u001b[93m70\u001b[0m:\u001b[93m86\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2345: \u001b[0mArgument of type '{ abortSignal: AbortSignal; cwd: string; }' is not assignable to parameter of type 'ExpertWorkflowRunOptions'.\n  Property 'task' is missing in type '{ abortSignal: AbortSignal; cwd: string; }' but required in type 'ExpertWorkflowRunOptions'.\n\n\u001b[7m70\u001b[0m     const run = caller.runScheduledPhase(ctx as any, p.options.snapshot, definition, {\n\u001b[7m  \u001b[0m \u001b[91m                                                                                     ~\u001b[0m\n\u001b[7m71\u001b[0m       abortSignal: p.controller.signal,\n\u001b[7m  \u001b[0m \u001b[91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n\u001b[7m72\u001b[0m       cwd: \"owned-cwd\",\n\u001b[7m  \u001b[0m \u001b[91m~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n\u001b[7m73\u001b[0m     });\n\u001b[7m  \u001b[0m \u001b[91m~~~~~\u001b[0m\n\n  \u001b[96mapps/cli/packages/core/src/workflow/expert/types.ts\u001b[0m:\u001b[93m61\u001b[0m:\u001b[93m3\u001b[0m\n    \u001b[7m61\u001b[0m   task: string;\n    \u001b[7m  \u001b[0m \u001b[96m  ~~~~\u001b[0m\n    'task' is declared here.\n\n\n1 !== 0\n\n    at file:///tmp/knorvia-workflow-scheduler-scoped-proof-20261002.mjs:19:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 1,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n",
+      "role": "initial-compile"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-type-packet-max-lines-20261002.log",
+      "sha256": "177a40b10c537ee235cecf00e0998f67398068dee7783f8f455f28e17734fc06",
+      "bytes": 820,
+      "text": "\n  x eslint(max-lines): File has too many lines (578).\n     ,-[docs/knorvia-workflow-scheduler-author-inputs-20261002/supporting-types.d.ts:578:13]\n 577 |   | \"resume\"\n 578 |   | \"error\";\n     :             ^\n     `----\n  help: Maximum allowed is 400.\n\n  ! typescript-eslint(no-this-alias): Unexpected aliasing of 'this' to local variable.\n    ,-[apps/cli/packages/core/test/workflow-scheduler-observations.test.ts:58:5]\n 57 |   repaired.deps.writeSnapshot = function (value, settings) {\n 58 |     receiver = this;\n    :     ^^^^^^^^\n 59 |     return write(value, settings);\n    `----\n  help: Assigning a variable to this instead of properly using arrow lambdas may be a symptom of pre-ES2015 practices or not managing scope well.\n\nFound 1 warning and 1 error.\nFinished in 19ms on 7 files with 94 rules using 4 threads.\n",
+      "role": "type-packet-max-lines"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-final-source-20261002.log",
+      "sha256": "f4f108d7217ccab7c0d9f070e0e409c89dc8c16233ab6d1c49e08595e7dfaf77",
+      "bytes": 783,
+      "text": "\u2714 source: actual scheduled-phase caller retains summary and paused error (5.813733ms)\n\u2714 source: current owner/caller and exact historical loader remain distinct and fail closed (52.38714ms)\n\u2714 source: scope, resume repair, terminal priority and deadlock (4.825358ms)\n\u2714 source: started gate serializes admission, native completions reuse bounded slots (3.921882ms)\n\u2714 source: error threshold drains live work and successes reset observed error count (2.553517ms)\n\u2714 source: actual collection boundary expands executable scope before dispatch (3.538846ms)\n\u2714 source: invocation isolation, frontier failure and abort leave exact partial lifetimes (2.491671ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2876.563807\n",
+      "role": "final-source"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-final-emitted-20261002.log",
+      "sha256": "9a1b846e8dc8e5bbf78383b88d961166498610ffdb9397bd1345fe9edc070acb",
+      "bytes": 791,
+      "text": "\u2714 emitted: actual scheduled-phase caller retains summary and paused error (5.273461ms)\n\u2714 emitted: current owner/caller and exact historical loader remain distinct and fail closed (75.438094ms)\n\u2714 emitted: scope, resume repair, terminal priority and deadlock (5.134134ms)\n\u2714 emitted: started gate serializes admission, native completions reuse bounded slots (3.815212ms)\n\u2714 emitted: error threshold drains live work and successes reset observed error count (4.272495ms)\n\u2714 emitted: actual collection boundary expands executable scope before dispatch (3.981813ms)\n\u2714 emitted: invocation isolation, frontier failure and abort leave exact partial lifetimes (2.675815ms)\n\u2139 tests 7\n\u2139 suites 0\n\u2139 pass 7\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 3217.242723\n",
+      "role": "final-emitted"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-final-consumer-source-20261002.log",
+      "sha256": "a44ad3e8f38142f695226b89a125c7a1f497579563406dac0fd5fc3df22d9c25",
+      "bytes": 310,
+      "text": "\u2714 source: actual scheduled-phase caller retains summary and paused error (5.032494ms)\n\u2714 source: current owner/caller and exact historical loader remain distinct and fail closed (52.982899ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2634.59901\n",
+      "role": "final-consumer-source"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-final-consumer-emitted-20261002.log",
+      "sha256": "d9b104976baacebfd0adbf131f97f7a7a1f8f7851930912a452f711c25d3d29c",
+      "bytes": 313,
+      "text": "\u2714 emitted: actual scheduled-phase caller retains summary and paused error (5.263025ms)\n\u2714 emitted: current owner/caller and exact historical loader remain distinct and fail closed (55.249345ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 2676.066801\n",
+      "role": "final-consumer-emitted"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-scoped-proof-20261002.log",
+      "sha256": "3a1c5ca95373eec84f561e4e8f69c3fbe22d79623eea00fec9d12bbb1493c096",
+      "bytes": 2263,
+      "text": "{\"typescript\":\"6.0.2\",\"roots\":13,\"diagnostics\":0}\n{\n  \"supportingShapePairs\": [\n    \"WorkflowRunSnapshot\",\n    \"WorkflowGraphNode\",\n    \"WorkflowGraph\",\n    \"WorkflowGraphCollection\",\n    \"WorkflowGraphPlannerResult\",\n    \"WorkflowGraphRecord\",\n    \"WorkflowEvent\",\n    \"WorkflowGraphCollectionStatus\",\n    \"WorkflowNodeStatus\",\n    \"WorkflowSchedulerDerivedNode\",\n    \"WorkflowSchedulerState\",\n    \"SessionId\",\n    \"TurnId\",\n    \"EventId\",\n    \"TraceId\",\n    \"QueryId\",\n    \"TraceContext\",\n    \"SessionEvent\",\n    \"SessionEventType\"\n  ],\n  \"apiShapePairs\": [\n    \"WorkflowGraphSchedulerActivityInput\",\n    \"WorkflowGraphSchedulerActivityResult\",\n    \"WorkflowGraphSchedulerChildSessionStartedEvent\",\n    \"WorkflowGraphSchedulerRunner\",\n    \"WorkflowGraphSchedulerPlannerInput\",\n    \"WorkflowGraphSchedulerPlannerRunResult\",\n    \"WorkflowGraphSchedulerPlannerRunner\",\n    \"WorkflowGraphSchedulerDeps\",\n    \"WorkflowGraphSchedulerRunOptions\",\n    \"WorkflowGraphSchedulerRunResult\",\n    \"NodeRunStarted\",\n    \"NodeRunOutcome\",\n    \"WorkflowGraphSchedulerSnapshotAccess\",\n    \"AppliedPlannerExpansion\",\n    \"WorkflowGraphRecordEdge\",\n    \"SchedulerCollection\",\n    \"WorkflowSchedulerNodePromise\"\n  ],\n  \"publicSchedulerMembers\": 2,\n  \"dependencyShapePairs\": 13,\n  \"bodyFreeDeclarations\": [\n    {\n      \"file\": \"docs/knorvia-workflow-scheduler-author-inputs-20261002/api.d.ts\",\n      \"bodies\": 0,\n      \"initializers\": 0\n    },\n    {\n      \"file\": \"docs/knorvia-workflow-scheduler-author-inputs-20261002/workflow-types.d.ts\",\n      \"bodies\": 0,\n      \"initializers\": 0\n    },\n    {\n      \"file\": \"docs/knorvia-workflow-scheduler-author-inputs-20261002/supporting-types.d.ts\",\n      \"bodies\": 0,\n      \"initializers\": 0\n    },\n    {\n      \"file\": \"docs/knorvia-workflow-scheduler-author-inputs-20261002/dependencies.d.ts\",\n      \"bodies\": 0,\n      \"initializers\": 0\n    }\n  ],\n  \"parsedCommentRanges\": 0,\n  \"existingOwnerEmitExact\": [\n    {\n      \"path\": \"apps/cli/packages/core/dist/workflow/scheduler.js\",\n      \"sha256\": \"9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba\"\n    },\n    {\n      \"path\": \"apps/cli/packages/core/dist/workflow/scheduler.d.ts\",\n      \"sha256\": \"7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e\"\n    }\n  ]\n}\n",
+      "role": "scoped-proof"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-final-lint-20261002.log",
+      "sha256": "c8d9ef16a197f17a9eb633e62a04cbd9c7581f1df7314a1a38687388ce62ea0a",
+      "bytes": 569,
+      "text": "\n  ! typescript-eslint(no-this-alias): Unexpected aliasing of 'this' to local variable.\n    ,-[apps/cli/packages/core/test/workflow-scheduler-observations.test.ts:58:5]\n 57 |   repaired.deps.writeSnapshot = function (value, settings) {\n 58 |     receiver = this;\n    :     ^^^^^^^^\n 59 |     return write(value, settings);\n    `----\n  help: Assigning a variable to this instead of properly using arrow lambdas may be a symptom of pre-ES2015 practices or not managing scope well.\n\nFound 1 warning and 0 errors.\nFinished in 27ms on 8 files with 94 rules using 4 threads.\n",
+      "role": "final-lint"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-final-architecture-20261002.log",
+      "sha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "bytes": 50,
+      "text": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n",
+      "role": "final-architecture"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-scheduler-abort-probe-20261002.log",
+      "sha256": "020069cd62e0d25c6fc1d6ec545643e6c61940978313b47179d0fa7aee0d6fd1",
+      "bytes": 1343,
+      "text": "{\n  \"beforePortSettlement\": \"pending after owned abort\",\n  \"after\": \"exact abort reason, node publication retained\",\n  \"pendingTrace\": [\n    \"clock:0\",\n    \"clock:1\",\n    \"event:frontier_changed:\",\n    \"callback:frontier_changed:\",\n    \"activity:1\",\n    \"clock:2\",\n    \"clock:3\",\n    \"write:owned-run:a=active\",\n    \"clock:4\",\n    \"record:owned-run:op:active\",\n    \"clock:5\",\n    \"event:node_started:a\",\n    \"callback:node_started:a\",\n    \"runner:owned-run:a\",\n    \"clock:6\",\n    \"event:frontier_changed:\",\n    \"callback:frontier_changed:\"\n  ],\n  \"fullTrace\": [\n    \"clock:0\",\n    \"clock:1\",\n    \"event:frontier_changed:\",\n    \"callback:frontier_changed:\",\n    \"activity:1\",\n    \"clock:2\",\n    \"clock:3\",\n    \"write:owned-run:a=active\",\n    \"clock:4\",\n    \"record:owned-run:op:active\",\n    \"clock:5\",\n    \"event:node_started:a\",\n    \"callback:node_started:a\",\n    \"runner:owned-run:a\",\n    \"clock:6\",\n    \"event:frontier_changed:\",\n    \"callback:frontier_changed:\",\n    \"artifact:owned-run:artifacts/exec/a.md:Owned response\",\n    \"clock:7\",\n    \"clock:8\",\n    \"clock:9\",\n    \"clock:10\",\n    \"write:owned-run:a=completed\",\n    \"clock:11\",\n    \"record:owned-run:op:completed\",\n    \"clock:12\",\n    \"event:artifact_written:a\",\n    \"callback:artifact_written:a\",\n    \"clock:13\",\n    \"event:node_completed:a\",\n    \"callback:node_completed:a\"\n  ]\n}\n",
+      "role": "abort-probe"
+    }
+  ],
+  "interruptedRun": "Exit 130 after two consumer groups reported passing; no completed runtime-group count is claimed.",
+  "approvalRejection": {
+    "action": "Changing new fixture events.at(-1) reference assertion to includes(event)",
+    "reason": "Automatic approval review rejected weakening strict event-order/reference assertions.",
+    "resolution": "Proposed weakening restored; serial assertion kept; concurrent input uses exact ordinal-reference and interleaving assertions. No bypass or settings/access change."
+  }
+}
