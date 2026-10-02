@@ -59,3 +59,38 @@ Stop: preaborted signal throws reason nullish Error('Subagent stop aborted') bef
 Prepare notification status stopped before writes. If outputFile truthy: write outputFile stopped message+LF,then same-dir task.output,then metadata.json with ordered agentId,childSessionId,completedAt newISO,description,outputFile,parentSessionId,parentToolUseId,profileId,prompt,status stopped,taskOutputFile,updatedAt newISO. No outputFile => async no-op writer still awaited. Update registry {...stopped,notified:current.notified}. Enqueue;false restores previous exact snapshot and throws Error('Background agent task stopped notification was not enqueued: ID'),WITHOUT abort controller effects/events. Success re-read committed;missing->undefined/noabort. Otherwise synchronous abort table controller with Error('Background agent task stopped.: ID'),delete table,THEN await background event status cancelled,then stopped event status stopped with error;each skips absent parentSessionId but retains native async no-op gate. Log then return committed reference. Publication failure after commit does not rollback/repair. Later background completion must observe terminal and do nothing.
 
 All emitted events createSessionEvent(type,parentSessionId,payload,{turnId,traceId}),await options.emitParentEvent(event,traceContext). Parent/runtime and children retain identity,trace/cwd/workspace,tool/model/permission admission and queue ownership. Preserve public runtime prose exactly; supporting declarations and log-fields file bind fixed vocabulary/shape. No new product rules. Mandatory tests use synthetic filesystem/registry/child/notification/timer ports only,never actual children/files/providers.
+
+## Ownership and publication sequence
+
+```mermaid
+flowchart LR
+  Request[Public request] --> Port[One subagent port lifecycle]
+  Port --> Profiles[Unchanged profile and tool policy]
+  Port --> Registry[Existing task and message registry]
+  Port --> Child[Injected child runtime]
+  Port --> Artifacts[Existing filesystem ports]
+  Port --> Parent[Parent event and synchronous queue ports]
+```
+
+```mermaid
+sequenceDiagram
+  participant P as Port lifecycle
+  participant R as Task registry
+  participant F as Artifact ports
+  participant C as Injected child
+  participant E as Parent event/queue ports
+  P->>R: register running
+  P->>F: await initial metadata
+  P->>C: invoke child with readiness callback
+  C->>E: await spawned event at readiness
+  C-->>P: result
+  P->>F: await outputs and terminal metadata
+  P->>R: terminal projection
+  opt background completion
+    P->>E: synchronous notification enqueue
+    P->>E: await background completion event
+  end
+  P->>E: await stopped event
+```
+
+Stop commits only after artifact publication and synchronous notification admission. Queue rejection restores the exact prior task before abort/event effects. Existing registry and runtime continue owning their respective accepted states; no added policy or persistence owner.
