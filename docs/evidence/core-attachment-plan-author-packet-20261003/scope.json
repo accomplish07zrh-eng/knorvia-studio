@@ -1,0 +1,64 @@
+{
+  "recordedAtUtc": "2026-10-02T20:17:51.220732+00:00",
+  "baseline": "59e3508660fae96d17895f1d507a97ca692e3362",
+  "allocation": "Parent next five substantial planning/context/provider/media helpers; exact paths selected from bounded metadata inventory before new target-body curation",
+  "sourceExposedCurator": true,
+  "instructionOnlyRestrictions": true,
+  "rootAndPriorSourceExposureRetained": true,
+  "targets": [
+    {
+      "scope": "plan",
+      "path": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "lines": 119,
+      "bytes": 3094,
+      "sha256": "ba31f513a17fdb9cd7fcb7f908c9fcc3c4eec0f66aaa32e5f5fe7aa6476af295",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "attachments",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "lines": 307,
+      "bytes": 10543,
+      "sha256": "9df65c013869caa8a902337e931755ee1d594a55461ad1d700761ab76c1f6f11",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "artifacts",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "lines": 111,
+      "bytes": 3074,
+      "sha256": "4b012392d36549561deded2f6675bb2ec45bd886ac3089752232e504b6e2c1d1",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "paths",
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "lines": 131,
+      "bytes": 4813,
+      "sha256": "0ad592b316de4f85f298cf025166fb1bc55219c907ffda73c5a27abef490a7e3",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    },
+    {
+      "scope": "persistence",
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "lines": 120,
+      "bytes": 4031,
+      "sha256": "6960778af3ff66ca519349b7913bfe51cbca1b504e7890e57739c67233a7040b",
+      "matchingReviewPathPresent": false,
+      "boundedAcceptedRecordFound": false
+    }
+  ],
+  "excluded": [
+    "A/runtime conversation.ts, streaming-tool-ledger.ts, runtime/methods",
+    "security/permissions/fullaccess",
+    "prior accepted complete owners",
+    "schemas/config/prompts/facades",
+    "root-exclusive desktop/shared implementations"
+  ],
+  "boundedSearch": "Exact five target filenames in docs/specs and exact licensing/reviews.json paths had no matching acceptance record; not an exhaustive history/rights audit",
+  "ordinaryChecksDeferred": true
+}
