@@ -1,0 +1,13 @@
+{
+  "session-fork": {
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/session-fork.ts",
+      "blob": "525d24afed33d889f7edd4f520739c90375736d8",
+      "normalizedSha256": "e09bad82ac764e6f9dfcee9c549c768e6cd0c3a5297ff1aa3614a2b36c770438",
+      "contentMatchedPaths": []
+    },
+    "review": null
+  }
+}

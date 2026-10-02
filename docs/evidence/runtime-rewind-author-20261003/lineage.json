@@ -1,0 +1,26 @@
+{
+  "rewind": {
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/rewind.ts",
+      "blob": "babdf230430e3a9c40f3aaaf5b37961496643c19",
+      "normalizedSha256": "1b9be0fdafedc37f8256f1524b0a5d0f0f70a9444d7a0da9c0066e48d55dec52",
+      "contentMatchedPaths": []
+    },
+    "review": null
+  },
+  "rewind-message": {
+    "classification": "upstream-unchanged",
+    "upstream": {
+      "relation": "unchanged",
+      "path": "apps/zcode-cli/packages/core/src/runtime/methods/rewind-message.ts",
+      "blob": "db4900bd604a7cf50f89299d92f0229bc6027c27",
+      "normalizedSha256": "06eef8a0fcdeefd08b4fd56c2cf02b55b258f25bdb489018f4f631e8f2ab65dd",
+      "contentMatchedPaths": [
+        "apps/zcode-cli/packages/core/src/runtime/methods/rewind-message.ts"
+      ]
+    },
+    "review": null
+  }
+}
