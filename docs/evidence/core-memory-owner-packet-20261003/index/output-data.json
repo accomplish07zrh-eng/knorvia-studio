@@ -1,0 +1,108 @@
+{
+  "strings": [
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": " (limit: "
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": ") — index entries are too long"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": " lines (limit: "
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": " lines and "
+        },
+        {
+          "placeholder": "VALUE_6",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": "\n\n> WARNING: MEMORY.md is "
+        },
+        {
+          "placeholder": "VALUE_8",
+          "text": ". Only part of it was loaded. Keep index entries to one line under ~200 chars; move detail into topic files."
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_9",
+          "text": " bytes"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": "KB"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_11",
+          "text": "MB"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": "GB"
+        }
+      ]
+    }
+  ],
+  "regex": [
+    "/^---\\s*\\n[\\s\\S]*?---\\s*\\n?/u",
+    "/<!--[\\s\\S]*?-->/gu",
+    "/\\.0$/u",
+    "/\\.0$/u",
+    "/\\.0$/u"
+  ],
+  "qualification": "Exact externally visible prose/template/regex/static segment data retained; generic template placeholders disclose no predecessor private identifier or decomposition. Internal labels/names omitted. No novelty/grant claim."
+}

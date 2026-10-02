@@ -1,0 +1,126 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "node:path"
+    },
+    {
+      "kind": "text",
+      "text": "../tool/path-policy.js"
+    },
+    {
+      "kind": "text",
+      "text": ".git"
+    },
+    {
+      "kind": "text",
+      "text": "hooks"
+    },
+    {
+      "kind": "text",
+      "text": ".husky"
+    },
+    {
+      "kind": "text",
+      "text": ".githooks"
+    },
+    {
+      "kind": "text",
+      "text": "node_modules"
+    },
+    {
+      "kind": "text",
+      "text": ".vscode"
+    },
+    {
+      "kind": "text",
+      "text": ".idea"
+    },
+    {
+      "kind": "text",
+      "text": "head"
+    },
+    {
+      "kind": "text",
+      "text": "config"
+    },
+    {
+      "kind": "text",
+      "text": "objects"
+    },
+    {
+      "kind": "text",
+      "text": "refs"
+    },
+    {
+      "kind": "text",
+      "text": ".knorvia-studio"
+    },
+    {
+      "kind": "text",
+      "text": "skills"
+    },
+    {
+      "kind": "text",
+      "text": "commands"
+    },
+    {
+      "kind": "text",
+      "text": "agents"
+    },
+    {
+      "kind": "text",
+      "text": ".cargo"
+    },
+    {
+      "kind": "text",
+      "text": ".devcontainer"
+    },
+    {
+      "kind": "text",
+      "text": ".yarn"
+    },
+    {
+      "kind": "text",
+      "text": ".mvn"
+    },
+    {
+      "kind": "text",
+      "text": "write"
+    },
+    {
+      "kind": "text",
+      "text": ".."
+    },
+    {
+      "kind": "text",
+      "text": "../"
+    },
+    {
+      "kind": "text",
+      "text": "..\\"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": ":"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": ""
+    }
+  ],
+  "regex": [
+    "/[\\\\/]+/u",
+    "/[\\u200c-\\u200f\\u202a-\\u202e\\u206a-\\u206f\\ufeff]/gu",
+    "/[. ]+$/u"
+  ],
+  "qualification": "Exact externally visible prose/template/regex/static segment data retained; generic template placeholders disclose no predecessor private identifier or decomposition. Internal labels/names omitted. No novelty/grant claim."
+}

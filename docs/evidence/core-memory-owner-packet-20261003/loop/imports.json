@@ -1,0 +1,38 @@
+[
+  {
+    "module": "node:path",
+    "clause": "{ isAbsolute }"
+  },
+  {
+    "module": "@knorvia/contracts",
+    "clause": "type {\n  ModelInputMessage,\n  ModelMessageContent,\n  Model,\n  ModelReasoningContentBlock,\n  ModelRequest,\n  ModelToolCall,\n  ModelToolContract,\n}"
+  },
+  {
+    "module": "../runtime/helpers/tool-result.js",
+    "clause": "{ modelContentForToolResult, isErrorForToolResult }"
+  },
+  {
+    "module": "../runtime/helpers/media-budget.js",
+    "clause": "{ projectMessagesForModelMediaPolicy }"
+  },
+  {
+    "module": "../tool/handlers/bash-command-parser.js",
+    "clause": "{\n  analyzeBashCommand,\n  isBashCommandPermissionSafe,\n}"
+  },
+  {
+    "module": "../tool/handlers/bash-semantics.js",
+    "clause": "{ isRuntimeReadOnlyBashCommand }"
+  },
+  {
+    "module": "../tool/types.js",
+    "clause": "type { ExecutableToolCall, ToolExecutionResult }"
+  },
+  {
+    "module": "./memory-file-path.js",
+    "clause": "{ resolveContainedMemoryFilePath, resolveSafeMemoryFilePath }"
+  },
+  {
+    "module": "../model/auxiliary-model-options.js",
+    "clause": "{ auxiliaryModelOptions }"
+  }
+]

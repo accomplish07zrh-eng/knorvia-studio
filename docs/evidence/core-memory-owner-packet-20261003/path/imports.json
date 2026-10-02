@@ -1,0 +1,10 @@
+[
+  {
+    "module": "node:path",
+    "clause": "{ isAbsolute, relative }"
+  },
+  {
+    "module": "../tool/path-policy.js",
+    "clause": "{ resolveWorkspacePath }"
+  }
+]

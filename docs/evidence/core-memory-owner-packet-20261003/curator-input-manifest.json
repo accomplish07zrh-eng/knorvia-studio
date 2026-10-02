@@ -1,0 +1,189 @@
+{
+  "baseline": "b5152875cb5aa236e920af07779b05fe2b8b8752",
+  "selectedReservation": "6ea4fe51",
+  "directoryReservation": "c2fe9497",
+  "scopes": {
+    "extraction": {
+      "source": "apps/cli/packages/core/src/memory/extraction.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/contract.md",
+          "bytes": 5079,
+          "sha256": "0d1ee708106aaee926a632ec4109ea112549204d99d6fe9eedd0557f8d88c9ab"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/public-api.d.ts",
+          "bytes": 1333,
+          "sha256": "ea57e8f4289902ffe6d6a8dfdec4fbc0c16c050994e07e499230665b667aeabd"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/dependency-api.d.ts",
+          "bytes": 635,
+          "sha256": "7ad21db3a6d22deedd53676c04d0b2625b47de470cdc4507aeba49bde6a7b073"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/public-shapes.d.ts",
+          "bytes": 12474,
+          "sha256": "dd570cdcb807f2f8beffa160c6565e6b1ad578048330143e550cb94080959e82"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/imports.json",
+          "bytes": 387,
+          "sha256": "304d39a871034ef03c076c4faf434e72bcf830d414d7dd816505795a18a8b4fd"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/output-data.json",
+          "bytes": 2640,
+          "sha256": "a1c43694eee4d6ed24567cd599e2b12e0ec8537710f2ef8547262915bf5459b7"
+        }
+      ],
+      "scratch": "/tmp/knorvia-memory-owners-20261003/extraction"
+    },
+    "loop": {
+      "source": "apps/cli/packages/core/src/memory/memory-agent-loop.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/contract.md",
+          "bytes": 6160,
+          "sha256": "04a30a38a888a269a5ef894a893b1168506124db142c0e8695da40f2e5a15c55"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-api.d.ts",
+          "bytes": 725,
+          "sha256": "ffd135d5d3b2cec6ed1cca57c791495468f5c48e037231ffa10a63f5650f09d9"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/dependency-api.d.ts",
+          "bytes": 3671,
+          "sha256": "e497728eb00103c3baba3b965da29ddecf3309d86a83c8f7c4a4840e92dc3cef"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+          "bytes": 7616,
+          "sha256": "0624492a5dc88d2c5e96ffa28a3f8bb440d605323f6178ef1f07cd243b371809"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/imports.json",
+          "bytes": 1119,
+          "sha256": "99e9bdf0dea30c90f110f272800b0ef66fe6afa273284c306f1e1ded60143b28"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/loop/output-data.json",
+          "bytes": 1176,
+          "sha256": "1a84b81ef4d7f8e299a2e87756f8e56232904afc94abbfabc1ee0c90fcadaafe"
+        }
+      ],
+      "scratch": "/tmp/knorvia-memory-owners-20261003/loop"
+    },
+    "path": {
+      "source": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/contract.md",
+          "bytes": 3111,
+          "sha256": "e6d0977049993810c07b268e3b1475fb5cafc05871d3ac2f31071926efaee26a"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/public-api.d.ts",
+          "bytes": 474,
+          "sha256": "083aed79267a4adf4471cd1482e65010fc628a677610f0057163457a78fa2303"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/dependency-api.d.ts",
+          "bytes": 407,
+          "sha256": "d2eff8478b898e4917a6d6c9907c013d213dbaafbad851643b6730674ebf9790"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/public-shapes.d.ts",
+          "bytes": 61,
+          "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/imports.json",
+          "bytes": 170,
+          "sha256": "4ac10ff49d55afa82c1c30a2e1b23ef25fe5329d27c55e196d3fbc11f591d800"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/output-data.json",
+          "bytes": 2071,
+          "sha256": "771a472861d79bd9f0dd5434234c6f5f8ae3ca6e6fc77911bb895fb95a7357cd"
+        }
+      ],
+      "scratch": "/tmp/knorvia-memory-owners-20261003/path"
+    },
+    "index": {
+      "source": "apps/cli/packages/core/src/memory/index-content.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/index/contract.md",
+          "bytes": 3406,
+          "sha256": "6e1548245f0f3cd0a891bffa96ad048d44286206666b2eb5bb9916435b49fb2f"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/index/public-api.d.ts",
+          "bytes": 157,
+          "sha256": "6bcc063a369f198f925a71f1235319516939f9465cefa4f1d7de0b9342262bd5"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/index/dependency-api.d.ts",
+          "bytes": 234,
+          "sha256": "db20b2c2840ce9cbe1a993d9ab0de39dc10248c9814ed955a3cd28c4a10a6178"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/index/public-shapes.d.ts",
+          "bytes": 61,
+          "sha256": "4fe5743a0f8e2c4a105ec80a4787ae5d6478dfe371a54e2ab8bebd7c40146f57"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/index/imports.json",
+          "bytes": 62,
+          "sha256": "3657b7f869c3fe02ade0d5b2ca2324d7323edf5b275a30ae877f45420457a572"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/index/output-data.json",
+          "bytes": 2206,
+          "sha256": "1c6e42498f7aee4ac28828d18d6ebfcf6f19c056d8ff2fab430cf6c9d260b4be"
+        }
+      ],
+      "scratch": "/tmp/knorvia-memory-owners-20261003/index"
+    },
+    "manifest": {
+      "source": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/contract.md",
+          "bytes": 3810,
+          "sha256": "a0d48cccac112ee51039377a7884476f791642b2901d30f806b62980ed7c1c25"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/public-api.d.ts",
+          "bytes": 376,
+          "sha256": "5a14e54117352a09ceb0da907090397083febfeb8b5e20e41443dec3b347aab6"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/dependency-api.d.ts",
+          "bytes": 181,
+          "sha256": "cdd5bbd9801ee7a9bc725b6c36e2acfe0e1f8e55d0a07a9e81289b84faa4cb76"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/public-shapes.d.ts",
+          "bytes": 6340,
+          "sha256": "5c85152002ff5b80a9c4abdd46f480458df85224a3bd76a71b3dbb8e3d482ebd"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/imports.json",
+          "bytes": 364,
+          "sha256": "3f7489a358106d568573010915a296af5996f270205e59de1d98e39433df8d7a"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/output-data.json",
+          "bytes": 1041,
+          "sha256": "2dc3df7f647b8a9d53f3dc7bbcd5d0a80f4c436235f52df2433a97f23e92d4b2"
+        }
+      ],
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest"
+    }
+  },
+  "ordinaryChecksDeferred": true,
+  "qualifiedExposure": "Source-exposed curator, selected public-referenced types only; no private helper bodies/names/decomposition or template-expression identifiers delivered; instruction-only shared executor, no OS/access audit; prior broader context and repaired scratch-write breach retained."
+}
