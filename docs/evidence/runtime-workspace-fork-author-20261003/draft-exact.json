@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "file": "stable-fork-boundary.ts",
+      "bytes": 4071,
+      "sha256": "866cbd3e5d2de736e776b04aa4fd29e46a060970264ec9f385f6ecb9e2e33568"
+    },
+    {
+      "file": "workspace-fork.ts",
+      "bytes": 8914,
+      "sha256": "f5013ed9c1b4848799051eacd35a588eb279ef16caeae7502e14fc21290b5f47"
+    }
+  ],
+  "workflow": "fresh no-inherited-context internal author; source-derived functional/API packet; saved before curator comparison",
+  "access": "Only authorized packet files and own outputs for hashing; no repository/history/oracles"
+}
