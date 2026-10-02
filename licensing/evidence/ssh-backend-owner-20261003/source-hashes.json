@@ -1,0 +1,22 @@
+{
+  "baselineHead": "a27c9aaf4679d948bd5f6bd0cb2e4aafb0884a11",
+  "integrationParent": "f1fed7dadccfa5f2331f08b904c09b45cb68b5ba",
+  "freshAuthor": "/root/ssh_backend_safety_author",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none",
+  "inputs": {
+    "/tmp/knorvia-ssh-backend-packet.md": "ad87d267a1328c73be0dcd747b9722f42aa16dca9c6b69144f637b53a5da63c0",
+    "/workspace/knorvia-studio/AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "owner": {
+    "path": "packages/server/src/remote/ssh-backend.ts",
+    "baselineSha256": "7c3069d243f7a83b119bf7cd034817828e21da059d82bf94e0c42898322fe4b4",
+    "baselineBytes": 23338,
+    "initialFreezeSha256": "7e66776ee2657f0e7b92f8e1ccd77eb01e1c9894d9e15168c87a899832790f9c",
+    "correctedFreezeSha256": "e3d722e8bb63d8c606c1d2474bcb926c14d4876f5eef19add978cca2c5aeab55",
+    "formattedCandidateSha256": "7e5e5fbb8a6c8c75b287d44753de51c39440d2de5676978574c30d343eec47a1"
+  },
+  "comparisonBoundary": "Both initial and corrected tmp outputs copied and hashed before respective content comparison. Corrections author-made, formatting-only integration."
+}
