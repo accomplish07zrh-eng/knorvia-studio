@@ -1,0 +1,15 @@
+/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-safety-20261003.test.mjs:34
+ const listenerCalls=[],signal={aborted:false,addEventListener(type,fn,opts){listenerCalls.push(['add',type,opts.once]);this.fn=fn;},removeEventListener(type,fn){assert.equal(fn,this.fn);listenerCalls.push(['remove',type]);}},events=[],created=[],state={turnAbortSignal:signal,events},runtime={config:{modelStreaming:'off'},registry:{get(){throw Error('Disabled tool must not read registry');}},createEvent(type,payload){created.push({type,payload});return {type,payload};},appendEvent:async()=>{}},coordinator=o['streaming-tool-coordinator'].createStreamingToolCoordinator(runtime,state,{assistantMessageId:'owned-message',model:{},traceContext:trace});
+                                                                                                                                                                                                                                                                                                                                                          ^
+
+Error: Disabled tool must not read registry
+    at Object.get (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-safety-20261003.test.mjs:34:347)
+    at getLedgerToolMetadata (<immutable historical module URL>:51:36)
+    at emitStreamingToolLedgerUpdate (<immutable historical module URL>:13:12)
+    at <immutable historical module URL>:58:88
+    at Array.map (<anonymous>)
+    at Object.abandon (<immutable historical module URL>:58:70)
+    at observations (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-safety-20261003.test.mjs:35:352)
+    at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-stream-five-safety-20261003.test.mjs:44:16)
+
+Node.js v24.19.0
