@@ -1,0 +1,318 @@
+{
+  "version": "draft-01",
+  "typescript": "6.0.2",
+  "scope": [
+    {
+      "owner": "model-request",
+      "draft": "/tmp/knorvia-model-request-author-20261003/draft-01/runtime/methods/model.ts",
+      "rel": "runtime/methods/model.ts"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "draft": "/tmp/knorvia-turn-tool-batch-author-20261003/draft-01/runtime/methods/turn-tool-batch-follow-up.ts",
+      "rel": "runtime/methods/turn-tool-batch-follow-up.ts"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "draft": "/tmp/knorvia-turn-tool-batch-author-20261003/draft-01/runtime/methods/turn-tool-batch-publication.ts",
+      "rel": "runtime/methods/turn-tool-batch-publication.ts"
+    },
+    {
+      "owner": "turn-tool-batch",
+      "draft": "/tmp/knorvia-turn-tool-batch-author-20261003/draft-01/runtime/methods/turn-tools.ts",
+      "rel": "runtime/methods/turn-tools.ts"
+    }
+  ],
+  "productionEdited": false,
+  "diagnostics": [
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 39,
+      "message": "Property 'inputFormat' does not exist on type 'Model'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 97,
+      "message": "Property 'contextWindow' does not exist on type 'Model'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 191,
+      "message": "Property 'delta' does not exist on type '{ type: \"text_delta\"; id?: string | undefined; text: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 192,
+      "message": "Property 'delta' does not exist on type '{ type: \"text_delta\"; id?: string | undefined; text: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 196,
+      "message": "Property 'delta' does not exist on type '{ type: \"text_delta\"; id?: string | undefined; text: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 218,
+      "message": "Property 'delta' does not exist on type '{ type: \"reasoning_delta\"; id?: string | undefined; text: string; providerMetadata?: Record<string, unknown> | undefined; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 219,
+      "message": "Property 'delta' does not exist on type '{ type: \"reasoning_delta\"; id?: string | undefined; text: string; providerMetadata?: Record<string, unknown> | undefined; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 224,
+      "message": "Property 'delta' does not exist on type '{ type: \"reasoning_delta\"; id?: string | undefined; text: string; providerMetadata?: Record<string, unknown> | undefined; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 243,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_start\"; id: string; toolName: string; providerExecuted?: boolean | undefined; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 249,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_start\"; id: string; toolName: string; providerExecuted?: boolean | undefined; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 258,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_start\"; id: string; toolName: string; providerExecuted?: boolean | undefined; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 263,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_delta\"; id: string; delta: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 266,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_end\"; id: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 271,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_end\"; id: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 278,
+      "message": "Property 'toolCallId' does not exist on type '{ type: \"tool_input_end\"; id: string; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 286,
+      "message": "Property 'toolCallId' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 287,
+      "message": "Property 'toolCallId' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 288,
+      "message": "Property 'toolCallId' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 296,
+      "message": "Property 'toolCallId' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 297,
+      "message": "Property 'toolName' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 305,
+      "message": "Property 'toolCallId' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/model.ts",
+      "line": 306,
+      "message": "Property 'toolName' does not exist on type 'ModelToolCall'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "line": 24,
+      "message": "Property 'status' does not exist on type 'TurnSteerResult'.\n  Property 'status' does not exist on type '{ kind: \"queued\"; pendingInputId: string; queueLength: number; turnId: TurnId; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "line": 29,
+      "message": "Property 'pendingInputId' does not exist on type 'TurnSteerResult'.\n  Property 'pendingInputId' does not exist on type '{ activeTurnId?: TurnId | undefined; kind: \"rejected\"; reason: TurnSteerRejectReason; }'."
+    },
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "line": 31,
+      "message": "Type '\"queued\"' is not assignable to type '\"cancelled\" | \"failed\" | \"completed\" | \"started\" | \"waiting\" | undefined'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "line": 38,
+      "message": "Property 'activeTurnId' does not exist on type 'TurnSteerResult'.\n  Property 'activeTurnId' does not exist on type '{ kind: \"queued\"; pendingInputId: string; queueLength: number; turnId: TurnId; }'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+      "line": 41,
+      "message": "Property 'reason' does not exist on type 'TurnSteerResult'.\n  Property 'reason' does not exist on type '{ kind: \"queued\"; pendingInputId: string; queueLength: number; turnId: TurnId; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-publication.ts",
+      "line": 39,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-publication.ts",
+      "line": 119,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-publication.ts",
+      "line": 121,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-publication.ts",
+      "line": 126,
+      "message": "Type 'string' is not assignable to type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-publication.ts",
+      "line": 136,
+      "message": "Type 'unknown' is not assignable to type 'Record<string, unknown> | undefined'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-publication.ts",
+      "line": 141,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 53,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 57,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 64,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2353,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 78,
+      "message": "Object literal may only specify known properties, and 'event' does not exist in type 'EmitLedgerUpdateOptions'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 92,
+      "message": "Property 'schedule' does not exist on type 'TurnMachineImpl'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 93,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 104,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2353,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 107,
+      "message": "Object literal may only specify known properties, and 'event' does not exist in type 'EmitLedgerUpdateOptions'."
+    },
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 129,
+      "message": "Type '(ids: ToolCallId[]) => Promise<void>' is not assignable to type '(toolCallIds: string[]) => Promise<void>'.\n  Types of parameters 'ids' and 'toolCallIds' are incompatible.\n    Type 'string[]' is not assignable to type 'ToolCallId[]'.\n      Type 'string' is not assignable to type 'ToolCallId'.\n        Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2353,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 156,
+      "message": "Object literal may only specify known properties, and 'event' does not exist in type 'EmitLedgerUpdateOptions'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 173,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 176,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 193,
+      "message": "Argument of type 'string' is not assignable to parameter of type 'ToolCallId'.\n  Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    },
+    {
+      "code": 2551,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 197,
+      "message": "Property 'aggregateToolResults' does not exist on type 'TurnMachineImpl'. Did you mean 'aggregateResults'?"
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+      "line": 263,
+      "message": "Property 'getMessages' does not exist on type 'MessageHistory'."
+    }
+  ],
+  "emitted": {}
+}
