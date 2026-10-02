@@ -33,7 +33,11 @@ if (mode === "baseline") {
   const b = await readFile(
     path.join(repo, "docs/evidence/knorvia-runtime-model-tools-current-20261003.json"),
   );
-  assert.equal(hash(b), "CURRENT_PIN", "exact current manifest, no oracle fallback");
+  assert.equal(
+    hash(b),
+    "2a1e933bbe0972e1191365df848f5de1502b1a4903b9c6b7c930874b69fc50ae",
+    "exact current manifest, no oracle fallback",
+  );
   for (const [n, entries] of Object.entries(JSON.parse(b).files)) {
     for (const [k, e] of Object.entries(entries)) {
       const b = await readFile(path.join(repo, e.path));

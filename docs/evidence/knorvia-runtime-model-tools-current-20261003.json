@@ -1,0 +1,92 @@
+{
+  "base": "eb65f77831eebae524afe4ea27c0296641b5b860",
+  "typescript": "6.0.2",
+  "selection": "exact current sources and actual selected compiler JS/declarations; no historical fallback",
+  "files": {
+    "model-request": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/model.ts",
+        "sha256": "7ad1ea1a3bc71f8bdf8e8ad23ba915ab526379483e0c3f4a1f3d2dc3f4ed6353",
+        "bytes": 12876
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/model.js",
+        "sha256": "961d31e08531dd1d0852cf588dc4ff24a3c9d10c841c2e0fec4d8701884e3e02",
+        "bytes": 14737
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/model.d.ts",
+        "sha256": "2926f3df239ef08fe49ab4066661a42ab3cb96bb0f62355a50caf568e389de5f",
+        "bytes": 325
+      }
+    },
+    "model-request-stream-state": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/model-request-stream-state.ts",
+        "sha256": "c644681ce3749dd800ddbe47d148b596f3c7aa3cfad67a1db87e64d4d8daadec",
+        "bytes": 5603
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/model-request-stream-state.js",
+        "sha256": "c96acb0e5b9b5f0c5e636f48b8c4477b8c52ac168225cc52fdcf76b713f54318",
+        "bytes": 4554
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/model-request-stream-state.d.ts",
+        "sha256": "604bf2ec5c060d97a75d9082500f901d3bb6adda57995b9f56d5f2fe12db2b36",
+        "bytes": 1569
+      }
+    },
+    "turn-tool-batch": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-tools.ts",
+        "sha256": "c7cc44e35c908dd0e359f523d189d7091d14ba80c30322532a17657a57c4999e",
+        "bytes": 14534
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-tools.js",
+        "sha256": "e5f1cc11df3c640b138cd330100b96bc4b18a7388b4cda4ebce47834e6c7b8e0",
+        "bytes": 14898
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-tools.d.ts",
+        "sha256": "2b9029b31145895ae8c8cc1996ea7d2b070a57f87ca590db40ad483b2a91e680",
+        "bytes": 713
+      }
+    },
+    "turn-tool-batch-parts": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-parts.ts",
+        "sha256": "ef9e0717928a316d290425176e87e3af2b88bf97244dde39c5c16c22e7928201",
+        "bytes": 2599
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-tool-batch-parts.js",
+        "sha256": "3ab9c2d8fc5a5fe509c51e2272698415ce91ba1f7b0cc2c6f5c7c7244c3fe95b",
+        "bytes": 1791
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-tool-batch-parts.d.ts",
+        "sha256": "d03d270b9e4e8fb4524ec5dbf8336d164d3aff4dbdf1bbacbbdb25c6067d5c5f",
+        "bytes": 25520
+      }
+    },
+    "turn-tool-batch-follow-up": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-tool-batch-follow-up.ts",
+        "sha256": "f0e4bb1cb0840c9d4f9a0f10f2926a424ce3cae4bf668225e373ad10644f3496",
+        "bytes": 1639
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-tool-batch-follow-up.js",
+        "sha256": "9bd93e91ad72a2aef7a04c8c7f152d78ad73b812a09902664c46224e87cf3f3d",
+        "bytes": 1514
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-tool-batch-follow-up.d.ts",
+        "sha256": "6d6feb7998952bab51a5b5ef2110a9892e63f808a7d98adc79edae95eed3abf1",
+        "bytes": 430
+      }
+    }
+  }
+}
