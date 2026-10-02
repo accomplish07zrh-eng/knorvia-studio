@@ -1,0 +1,135 @@
+import { contextBridge, ipcRenderer } from "electron";
+import { PlatformChannels } from "@knorvia/shared";
+import { installEmbeddedBrowserWheelForwarding } from "./embeddedBrowserWheel.js";
+
+interface DialogBridgeResult {
+    handled: boolean;
+    value?: boolean;
+}
+
+const BRIDGE_KEY = "__knorviaEmbeddedBrowserJavaScriptDialog__";
+
+if (typeof window !== "undefined") {
+    installEmbeddedBrowserWheelForwarding(window, (channel, payload) => {
+        ipcRenderer.sendToHost(channel, payload);
+    });
+}
+
+contextBridge.exposeInMainWorld(BRIDGE_KEY, {
+    show(type: "alert" | "confirm", message: string): DialogBridgeResult {
+        try {
+            const reply: unknown = ipcRenderer.sendSync(
+                PlatformChannels.EmbeddedBrowserJavaScriptDialog,
+                { type, message },
+            );
+            if (reply === null || typeof reply !== "object") {
+                return { handled: false };
+            }
+            const fields = reply as { handled?: unknown; value?: unknown };
+            if (fields.handled !== true) {
+                return { handled: false };
+            }
+            const value = fields.value;
+            return typeof value === "boolean"
+                ? { handled: true, value }
+                : { handled: true };
+        } catch {
+            return { handled: false };
+        }
+    },
+});
+
+contextBridge.executeInMainWorld({
+    func: (bridgeKey: string) => {
+        type TargetWindow = Window & typeof globalThis;
+        type DialogPort = {
+            show(
+                type: "alert" | "confirm",
+                message: string,
+            ): { handled: boolean; value?: boolean };
+        };
+
+        const bridge = (window as unknown as Record<string, DialogPort>)[bridgeKey];
+        if (!bridge) {
+            return;
+        }
+
+        const confirmations = new WeakMap<TargetWindow, TargetWindow["confirm"]>();
+        const watchedFrames = new WeakSet<HTMLIFrameElement>();
+
+        function wrapDialogs(target: TargetWindow): void {
+            try {
+                if (confirmations.get(target) === target.confirm) {
+                    return;
+                }
+                const nativeAlert = target.alert.bind(target);
+                const nativeConfirm = target.confirm.bind(target);
+
+                target.alert = (message?: unknown): void => {
+                    const text = message === undefined ? "" : String(message);
+                    const result = bridge.show("alert", text);
+                    if (!result.handled) {
+                        nativeAlert(text);
+                    }
+                };
+                const confirm = (message?: unknown): boolean => {
+                    const text = message === undefined ? "" : String(message);
+                    const result = bridge.show("confirm", text);
+                    return result.handled ? result.value === true : nativeConfirm(text);
+                };
+                target.confirm = confirm;
+                confirmations.set(target, confirm);
+            } catch {
+                // Inaccessible windows and installation failures leave the tree walk usable.
+            }
+        }
+
+        function visitFrame(frame: HTMLIFrameElement): void {
+            try {
+                const child = frame.contentWindow;
+                if (child) {
+                    visitWindow(child as TargetWindow);
+                }
+            } catch {
+                // Frame access can fail across origin boundaries.
+            }
+        }
+
+        function visitWindow(target: TargetWindow): void {
+            wrapDialogs(target);
+            try {
+                const frames = target.document.querySelectorAll("iframe");
+                for (const frame of frames) {
+                    if (!watchedFrames.has(frame)) {
+                        watchedFrames.add(frame);
+                        frame.addEventListener("load", () => visitFrame(frame), true);
+                    }
+                    visitFrame(frame);
+                }
+            } catch {
+                // A protected subtree must not prevent later root traversals.
+            }
+        }
+
+        visitWindow(window);
+
+        const observeTree = (): void => {
+            visitWindow(window);
+            const root = window.document?.documentElement;
+            if (!root) {
+                return;
+            }
+            new window.MutationObserver(() => visitWindow(window)).observe(root, {
+                childList: true,
+                subtree: true,
+            });
+        };
+
+        if (window.document?.documentElement) {
+            observeTree();
+        } else {
+            window.addEventListener?.("DOMContentLoaded", observeTree, { once: true });
+        }
+    },
+    args: [BRIDGE_KEY],
+});

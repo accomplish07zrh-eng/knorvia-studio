@@ -1,4 +1,3 @@
-/* eslint-disable max-lines -- preload bridge 集中暴露桌面平台 IPC，拆散会让 contextBridge 权限边界更难审计。 */
 import {
   databaseStartupControlSchema,
   databaseStartupStateSchema,
@@ -145,15 +144,11 @@ updateProcessTitle();
 window.addEventListener("DOMContentLoaded", updateProcessTitle, { once: true });
 
 contextBridge.exposeInMainWorld("knorvia", {
-  connectRemote(
-    options: RemoteTarget,
-    requestId?: string,
-    context?: {
-      workspacePath: string;
-      workspaceIdentity?: string;
-      connectTrigger?: import("@knorvia/shared").RemoteWorkspaceConnectTrigger;
-    },
-  ) {
+  connectRemote(options: RemoteTarget, requestId?: string, context?: {
+    workspacePath: string;
+    workspaceIdentity?: string;
+    connectTrigger?: import("@knorvia/shared").RemoteWorkspaceConnectTrigger;
+  }) {
     return ipcRenderer.invoke(PlatformChannels.ConnectRemote, {
       target: options,
       requestId,
@@ -255,63 +250,49 @@ contextBridge.exposeInMainWorld("knorvia", {
   onOpenBrowserUrl(callback: (request: EmbeddedBrowserOpenUrlRequest) => void): () => void {
     return subscribe(PlatformChannels.OpenBrowserUrl, callback);
   },
-  onBrowserViewReady(
-    callback: (payload: {
-      workspaceKey: string;
-      remoteSessionId?: string;
-      sessionId: string;
-      tabId: string;
-      browserId: string;
-      browserGeneration: number;
-    }) => void,
-  ): () => void {
+  onBrowserViewReady(callback: (payload: {
+    workspaceKey: string;
+    remoteSessionId?: string;
+    sessionId: string;
+    tabId: string;
+    browserId: string;
+    browserGeneration: number;
+  }) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewReady, callback);
   },
   onBrowserViewOperation(callback: (payload: BrowserViewOperationPayload) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewOperation, callback);
   },
-  onBrowserViewViewportChanged(
-    callback: (payload: BrowserViewViewportChangedPayload) => void,
-  ): () => void {
+  onBrowserViewViewportChanged(callback: (payload: BrowserViewViewportChangedPayload) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewViewportChanged, callback);
   },
-  onBrowserViewScreenshotSurfacePrepare(
-    callback: (payload: BrowserViewScreenshotSurfacePreparePayload) => void,
-  ): () => void {
+  onBrowserViewScreenshotSurfacePrepare(callback: (payload: BrowserViewScreenshotSurfacePreparePayload) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewScreenshotSurfacePrepare, callback);
   },
-  onBrowserViewScreenshotSurfaceRelease(
-    callback: (payload: BrowserViewScreenshotSurfaceReleasePayload) => void,
-  ): () => void {
+  onBrowserViewScreenshotSurfaceRelease(callback: (payload: BrowserViewScreenshotSurfaceReleasePayload) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewScreenshotSurfaceRelease, callback);
   },
   browserViewScreenshotSurfaceReady(payload: BrowserViewScreenshotSurfaceReadyPayload): void {
     ipcRenderer.send(PlatformChannels.BrowserViewScreenshotSurfaceReady, payload);
   },
-  onBrowserViewVisibility(
-    callback: (payload: {
-      visible: boolean;
-      workspaceKey: string;
-      remoteSessionId: string | undefined;
-      sessionId: string;
-      tabId?: string;
-      browserId: string;
-      browserGeneration: number;
-    }) => void,
-  ): () => void {
+  onBrowserViewVisibility(callback: (payload: {
+    visible: boolean;
+    workspaceKey: string;
+    remoteSessionId: string | undefined;
+    sessionId: string;
+    tabId?: string;
+    browserId: string;
+    browserGeneration: number;
+  }) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewVisibility, callback);
   },
   onBrowserViewCloseTab(callback: (payload: BrowserViewCloseTabNotification) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewCloseTab, callback);
   },
-  onBrowserViewSuspend(
-    callback: (payload: BrowserViewResidencyTransitionPayload) => void,
-  ): () => void {
+  onBrowserViewSuspend(callback: (payload: BrowserViewResidencyTransitionPayload) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewSuspend, callback);
   },
-  onBrowserViewRestore(
-    callback: (payload: BrowserViewResidencyTransitionPayload) => void,
-  ): () => void {
+  onBrowserViewRestore(callback: (payload: BrowserViewResidencyTransitionPayload) => void): () => void {
     return subscribe(PlatformChannels.BrowserViewRestore, callback);
   },
   onNewTask(callback: () => void): () => void {
@@ -340,17 +321,13 @@ contextBridge.exposeInMainWorld("knorvia", {
   getDesktopWindowChromeState(): Promise<DesktopWindowChromeState> {
     return ipcRenderer.invoke(PlatformChannels.GetDesktopWindowChromeState);
   },
-  onDesktopWindowChromeStateChanged(
-    callback: (state: DesktopWindowChromeState) => void,
-  ): () => void {
+  onDesktopWindowChromeStateChanged(callback: (state: DesktopWindowChromeState) => void): () => void {
     return subscribe(PlatformChannels.DesktopWindowChromeStateChanged, callback);
   },
   getWindowControlsOverlayMetrics(): WindowControlsOverlayMetrics {
     return overlayMetrics ?? currentMetrics();
   },
-  onWindowControlsOverlayChanged(
-    callback: (metrics: WindowControlsOverlayMetrics) => void,
-  ): () => void {
+  onWindowControlsOverlayChanged(callback: (metrics: WindowControlsOverlayMetrics) => void): () => void {
     callback(overlayMetrics ?? currentMetrics());
     return subscribe(PlatformChannels.WindowControlsOverlayChanged, callback);
   },
@@ -426,31 +403,28 @@ contextBridge.exposeInMainWorld("knorvia", {
   getRendererActionTraceConfig(): Promise<RendererActionTraceConfigV1> {
     return ipcRenderer.invoke(PlatformChannels.GetRendererActionTraceConfig);
   },
-  onRendererActionTraceConfigChanged(
-    callback: (config: RendererActionTraceConfigV1) => void,
-  ): () => void {
+  onRendererActionTraceConfigChanged(callback: (config: RendererActionTraceConfigV1) => void): () => void {
     return subscribe(PlatformChannels.RendererActionTraceConfigChanged, callback);
   },
-  reportLocalTtftBatch: (batch: import("@knorvia/shared").LocalTtftBatch): void =>
-    ipcRenderer.send(PlatformChannels.ReportLocalTtftBatch, batch),
-  reportRendererActionTraceBatch: (batch: RendererActionTraceBatchV1): void =>
-    ipcRenderer.send(PlatformChannels.ReportRendererActionTraceBatch, batch),
-  reportRendererHeapSample: (sample: RendererHeapSample): void =>
-    ipcRenderer.send(PlatformChannels.ReportRendererHeapSample, sample),
+  reportLocalTtftBatch(batch: import("@knorvia/shared").LocalTtftBatch): void {
+    ipcRenderer.send(PlatformChannels.ReportLocalTtftBatch, batch);
+  },
+  reportRendererActionTraceBatch(batch: RendererActionTraceBatchV1): void {
+    ipcRenderer.send(PlatformChannels.ReportRendererActionTraceBatch, batch);
+  },
+  reportRendererHeapSample(sample: RendererHeapSample): void {
+    ipcRenderer.send(PlatformChannels.ReportRendererHeapSample, sample);
+  },
   showTaskNotification(payload: TaskNotificationPayload) {
     return ipcRenderer.send(PlatformChannels.ShowTaskNotification, payload);
   },
   exportLogs(): Promise<{ success: boolean; path?: string; error?: string }> {
     return ipcRenderer.invoke(PlatformChannels.ExportLogs);
   },
-  previewLocalDiagnostics(
-    request: import("@knorvia/shared").LocalDiagnosticRequest,
-  ): Promise<import("@knorvia/shared").LocalDiagnosticPreview> {
+  previewLocalDiagnostics(request: import("@knorvia/shared").LocalDiagnosticRequest): Promise<import("@knorvia/shared").LocalDiagnosticPreview> {
     return ipcRenderer.invoke(PlatformChannels.PreviewLocalDiagnostics, request);
   },
-  exportLocalDiagnostics(
-    id: string,
-  ): Promise<import("@knorvia/shared").LocalDiagnosticExportResult> {
+  exportLocalDiagnostics(id: string): Promise<import("@knorvia/shared").LocalDiagnosticExportResult> {
     return ipcRenderer.invoke(PlatformChannels.ExportLocalDiagnostics, id);
   },
   checkReleaseUpdate(): Promise<import("@knorvia/shared").ReleaseUpdateCheckResult> {
@@ -485,9 +459,7 @@ contextBridge.exposeInMainWorld("knorvia", {
   browserViewEnsureResident(payload: BrowserViewCloseTabRequest): Promise<void> {
     return ipcRenderer.invoke(PlatformChannels.BrowserViewEnsureResident, payload);
   },
-  browserViewRestoreTabs(
-    payload: BrowserViewRestoreTabsRequest,
-  ): Promise<BrowserViewRestoredTabShell[]> {
+  browserViewRestoreTabs(payload: BrowserViewRestoreTabsRequest): Promise<BrowserViewRestoredTabShell[]> {
     return ipcRenderer.invoke(PlatformChannels.BrowserViewRestoreTabs, payload);
   },
   browserViewUpdateViewport(payload: { tabId: string; viewport: BrowserViewportSize | null }) {
@@ -591,16 +563,12 @@ ipcRenderer.on(InternalChannels.ServicePort, (event, payload) => {
 ipcRenderer.on(InternalChannels.ScopedServicePort, (event, payload) => {
   const [port] = event.ports;
   if (port) {
-    window.postMessage(
-      {
-        type: InternalChannels.ScopedServicePort,
-        attachmentId: payload.attachmentId,
-        sessionId: payload.sessionId,
-        target: payload.target,
-      },
-      "*",
-      [port],
-    );
+    window.postMessage({
+      type: InternalChannels.ScopedServicePort,
+      attachmentId: payload.attachmentId,
+      sessionId: payload.sessionId,
+      target: payload.target,
+    }, "*", [port]);
   }
 });
 window.addEventListener("message", (event) => {
@@ -614,7 +582,7 @@ window.addEventListener("message", (event) => {
     sessionId: payload.sessionId,
   });
 });
-ipcRenderer.on(PlatformChannels.TaskNotificationSound, () => {
+ipcRenderer.on(InternalChannels.TaskNotificationSound, () => {
   window.postMessage(InternalChannels.TaskNotificationSound, "*");
 });
 ipcRenderer.on(InternalChannels.DatabaseStartupState, (_event, raw) => {
@@ -624,8 +592,7 @@ ipcRenderer.on(InternalChannels.DatabaseStartupState, (_event, raw) => {
   }
 });
 window.addEventListener("message", (event) => {
-  if (event.source !== window || event.data?.type !== InternalChannels.DatabaseStartupControl)
-    return;
+  if (event.source !== window || event.data?.type !== InternalChannels.DatabaseStartupControl) return;
   const parsed = databaseStartupControlSchema.safeParse(event.data.control);
   if (parsed.success) {
     ipcRenderer.send(InternalChannels.DatabaseStartupControl, parsed.data);

@@ -1,0 +1,1 @@
+{"fixtureIssue": "Parenthesized function return types equivalent to unparenthesized; normalize ParenthesizedTypeNode structurally", "productChanges": false, "initialFailureRetained": true}

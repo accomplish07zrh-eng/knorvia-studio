@@ -1,0 +1,37 @@
+{
+  "baselineCommit": "5ddfd57c24b47b56996bfa7110865b8c124d0bbc",
+  "explicitLane": "G preload subtree only; root main and B renderer excluded",
+  "selectedOwners": 3,
+  "minimumUniqueSyntheticCases": 8,
+  "wholeRawDrafts": 7,
+  "finalAffectedCaseEvidence": {
+    "index": [
+      "correction-1-index-synthetic.json",
+      2
+    ],
+    "wheel": [
+      "corrected-wheel-synthetic.json",
+      2
+    ],
+    "dialog": [
+      "corrected-dialog-synthetic.json",
+      4
+    ]
+  },
+  "indexFinalCommentOnly": "index-comment-only-syntax-proof.json proves entire TS token stream identical; no redundant runtime rerun",
+  "retainedDesktopTrackedFiles": 1405,
+  "allCliAdapterSourcesUnchanged": 243,
+  "remainingCliLedger": 33,
+  "nativeInstallationBrowserClipboardMediaSettingsPermissionsDataOperations": false,
+  "ordinarySuitesBuildsNativeAcceptance": false,
+  "semanticDependencyTypecheck": false,
+  "typeEvidence": "Public API/bridge order/channel vocabulary AST plus individual syntax/transpile only; semantic shared-reference/Electron/fully composed native types not checked",
+  "architecture": "desktop unassigned/unmanaged; initial/final baseline/new 0/0; no managed-layer claim",
+  "nodeActual": "v24.19.0",
+  "nodePin": "24.14.0",
+  "globalLicensingManifestsAndImportedSecurityPolicyChanged": false,
+  "mainMergeCrossLaneCombination": false,
+  "acceptedIndependentReplacementCredit": 0,
+  "licenseGrant": false,
+  "restrictions": "Library403 no alternate access; cancelled source-tree upload never retried; root reserved preview/persisted-merge/reducer hash-only unchanged"
+}

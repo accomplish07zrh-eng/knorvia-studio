@@ -1,0 +1,185 @@
+{
+  "baselineCommit": "5ddfd57c24b47b56996bfa7110865b8c124d0bbc",
+  "upstreamMetadata": {
+    "schemaVersion": 1,
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "encoding": "UTF-8 CRLF normalized to LF only; binary bytes and original blob IDs preserved"
+  },
+  "files": [
+    {
+      "path": "packages/desktop/src/preload/index.ts",
+      "sha256": "aa0db341ed4fbda215cd1eb899ddf81a8b7a1ed3f65bd018a4697ab5b1b6821a",
+      "normalizedSha256": "aa0db341ed4fbda215cd1eb899ddf81a8b7a1ed3f65bd018a4697ab5b1b6821a",
+      "receiptEntries": {
+        "current-files.json": [
+          {
+            "path": "packages/desktop/src/preload/index.ts",
+            "kind": "file",
+            "sha256": "aa0db341ed4fbda215cd1eb899ddf81a8b7a1ed3f65bd018a4697ab5b1b6821a",
+            "normalizedSha256": "aa0db341ed4fbda215cd1eb899ddf81a8b7a1ed3f65bd018a4697ab5b1b6821a",
+            "encoding": "utf8-lf",
+            "bytes": 37226,
+            "classification": "upstream-modified",
+            "upstream": {
+              "relation": "modified",
+              "path": "packages/desktop/src/preload/index.ts",
+              "blob": "c1f63a2d182932c3aed7261d8e9f168de1b6ba4c",
+              "normalizedSha256": "2643c439d9388e9c5f6a786893cc7a62fcd85c9208d8cd43b99b3db478882548",
+              "contentMatchedPaths": []
+            },
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        ],
+        "upstream-baseline.json": [
+          {
+            "path": "packages/desktop/src/preload/index.ts",
+            "mode": "100644",
+            "blob": "c1f63a2d182932c3aed7261d8e9f168de1b6ba4c",
+            "kind": "file",
+            "sha256": "2643c439d9388e9c5f6a786893cc7a62fcd85c9208d8cd43b99b3db478882548",
+            "normalizedSha256": "2643c439d9388e9c5f6a786893cc7a62fcd85c9208d8cd43b99b3db478882548",
+            "encoding": "utf8-lf",
+            "bytes": 43107
+          }
+        ],
+        "reviews.json": [],
+        "repository-migration-scope-20260930.json": [
+          {
+            "path": "packages/desktop/src/preload/index.ts",
+            "sha256": "aa0db341ed4fbda215cd1eb899ddf81a8b7a1ed3f65bd018a4697ab5b1b6821a",
+            "classification": "upstream-modified",
+            "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+            "localDeclaredThirdParty": []
+          }
+        ]
+      },
+      "history": [
+        "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+        "682dcc84438e92af4715b7759387202166505ec7 feat: finalize Knorvia Studio 0.8.0 preview",
+        "dfbf2b66db3b2dd3e16fb09417b260ef6e33114c chore: refresh Knorvia Studio preview snapshot",
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "selected": true,
+      "eligibilityBasis": "Digest-matched current report and pinned upstream same-path modified relation; migration review needed; no prior whole-replacement evidence found in bounded evidence path/name search. Absence of review alone not eligibility.",
+      "nature": "Substantive behavior plus constrained static facade contract data; static data no novelty/credit"
+    },
+    {
+      "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+      "sha256": "5d573da2090905aa045a725eea6abca383361fdb1fa254a944bc09421cb9c219",
+      "normalizedSha256": "5d573da2090905aa045a725eea6abca383361fdb1fa254a944bc09421cb9c219",
+      "receiptEntries": {
+        "current-files.json": [
+          {
+            "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+            "kind": "file",
+            "sha256": "5d573da2090905aa045a725eea6abca383361fdb1fa254a944bc09421cb9c219",
+            "normalizedSha256": "5d573da2090905aa045a725eea6abca383361fdb1fa254a944bc09421cb9c219",
+            "encoding": "utf8-lf",
+            "bytes": 4638,
+            "classification": "upstream-modified",
+            "upstream": {
+              "relation": "modified",
+              "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+              "blob": "674947dcbda40abda69ec25b32d35f0176034bd8",
+              "normalizedSha256": "7d83c29b48f81a1bdd411a221dc3be38cbf95b7ad609639d2469b4f0ef325249",
+              "contentMatchedPaths": []
+            },
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        ],
+        "upstream-baseline.json": [
+          {
+            "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+            "mode": "100644",
+            "blob": "674947dcbda40abda69ec25b32d35f0176034bd8",
+            "kind": "file",
+            "sha256": "7d83c29b48f81a1bdd411a221dc3be38cbf95b7ad609639d2469b4f0ef325249",
+            "normalizedSha256": "7d83c29b48f81a1bdd411a221dc3be38cbf95b7ad609639d2469b4f0ef325249",
+            "encoding": "utf8-lf",
+            "bytes": 4636
+          }
+        ],
+        "reviews.json": [],
+        "repository-migration-scope-20260930.json": [
+          {
+            "path": "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+            "sha256": "5d573da2090905aa045a725eea6abca383361fdb1fa254a944bc09421cb9c219",
+            "classification": "upstream-modified",
+            "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+            "localDeclaredThirdParty": []
+          }
+        ]
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "selected": true,
+      "eligibilityBasis": "Digest-matched current report and pinned upstream same-path modified relation; migration review needed; no prior whole-replacement evidence found in bounded evidence path/name search. Absence of review alone not eligibility.",
+      "nature": "Substantive behavior plus constrained static facade contract data; static data no novelty/credit"
+    },
+    {
+      "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+      "sha256": "8f4297751f2a5c411db78f0a8741204bfe51cfa1dd7b76716d522d520ca9dad1",
+      "normalizedSha256": "8f4297751f2a5c411db78f0a8741204bfe51cfa1dd7b76716d522d520ca9dad1",
+      "receiptEntries": {
+        "current-files.json": [
+          {
+            "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+            "kind": "file",
+            "sha256": "8f4297751f2a5c411db78f0a8741204bfe51cfa1dd7b76716d522d520ca9dad1",
+            "normalizedSha256": "8f4297751f2a5c411db78f0a8741204bfe51cfa1dd7b76716d522d520ca9dad1",
+            "encoding": "utf8-lf",
+            "bytes": 4087,
+            "classification": "upstream-modified",
+            "upstream": {
+              "relation": "modified",
+              "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+              "blob": "5eda3e6a402dcebf2cfeab71ab072ceb722fddec",
+              "normalizedSha256": "ab95ee52fa33ace55592a704592f966260b373fdbd963882492d1a6d18acc15d",
+              "contentMatchedPaths": []
+            },
+            "license": "NOASSERTION",
+            "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+            "thirdParty": [],
+            "review": null
+          }
+        ],
+        "upstream-baseline.json": [
+          {
+            "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+            "mode": "100644",
+            "blob": "5eda3e6a402dcebf2cfeab71ab072ceb722fddec",
+            "kind": "file",
+            "sha256": "ab95ee52fa33ace55592a704592f966260b373fdbd963882492d1a6d18acc15d",
+            "normalizedSha256": "ab95ee52fa33ace55592a704592f966260b373fdbd963882492d1a6d18acc15d",
+            "encoding": "utf8-lf",
+            "bytes": 4083
+          }
+        ],
+        "reviews.json": [],
+        "repository-migration-scope-20260930.json": [
+          {
+            "path": "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+            "sha256": "8f4297751f2a5c411db78f0a8741204bfe51cfa1dd7b76716d522d520ca9dad1",
+            "classification": "upstream-modified",
+            "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+            "localDeclaredThirdParty": []
+          }
+        ]
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "selected": true,
+      "eligibilityBasis": "Digest-matched current report and pinned upstream same-path modified relation; migration review needed; no prior whole-replacement evidence found in bounded evidence path/name search. Absence of review alone not eligibility.",
+      "nature": "Substantive behavior plus constrained static facade contract data; static data no novelty/credit"
+    }
+  ]
+}

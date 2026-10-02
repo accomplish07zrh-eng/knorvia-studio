@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "/tmp/preload-syntax.cjs"
+  ],
+  "stdout": "packages/desktop/src/preload/index.ts: scoped syntax/transpile pass; no semantic/native acceptance\npackages/desktop/src/preload/embeddedBrowserWheel.ts: scoped syntax/transpile pass; no semantic/native acceptance\npackages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts: scoped syntax/transpile pass; no semantic/native acceptance\n",
+  "stderr": "",
+  "exitCode": 0
+}

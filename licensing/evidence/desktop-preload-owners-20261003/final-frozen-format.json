@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "/tmp/knorvia-preload-format-proof/index.ts",
+    "/tmp/knorvia-preload-format-proof/embeddedBrowserWheel.ts",
+    "/tmp/knorvia-preload-format-proof/embeddedBrowserJavaScriptDialog.ts"
+  ],
+  "stdout": "Finished in 28ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

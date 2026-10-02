@@ -2,6 +2,11 @@ import { contextBridge, ipcRenderer } from "electron";
 import { PlatformChannels } from "@knorvia/shared";
 import { installEmbeddedBrowserWheelForwarding } from "./embeddedBrowserWheel.js";
 
+interface DialogBridgeResult {
+  handled: boolean;
+  value?: boolean;
+}
+
 const BRIDGE_KEY = "__knorviaEmbeddedBrowserJavaScriptDialog__";
 
 if (typeof window !== "undefined") {
@@ -10,27 +15,23 @@ if (typeof window !== "undefined") {
   });
 }
 
-interface DialogBridgeResult {
-  handled: boolean;
-  value?: boolean;
-}
-
 contextBridge.exposeInMainWorld(BRIDGE_KEY, {
   show(type: "alert" | "confirm", message: string): DialogBridgeResult {
     try {
-      const result = ipcRenderer.sendSync(PlatformChannels.EmbeddedBrowserJavaScriptDialog, {
-        type,
-        message,
-      }) as unknown;
-      if (typeof result !== "object" || result === null) return { handled: false };
-      const candidate = result as Partial<DialogBridgeResult>;
-      if (candidate.handled !== true) return { handled: false };
-      return {
-        handled: true,
-        ...(typeof candidate.value === "boolean" ? { value: candidate.value } : {}),
-      };
+      const response: unknown = ipcRenderer.sendSync(
+        PlatformChannels.EmbeddedBrowserJavaScriptDialog,
+        { type, message },
+      );
+      if (response !== null && typeof response === "object") {
+        const result = response as { handled?: unknown; value?: unknown };
+        if (result.handled === true) {
+          return typeof result.value === "boolean"
+            ? { handled: true, value: result.value }
+            : { handled: true };
+        }
+      }
+      return { handled: false };
     } catch {
-      // Main 不可用时退回 Chromium 原生 API，不能吞掉网页 Dialog。
       return { handled: false };
     }
   },
@@ -38,72 +39,93 @@ contextBridge.exposeInMainWorld(BRIDGE_KEY, {
 
 contextBridge.executeInMainWorld({
   func: (bridgeKey: string) => {
-    type Bridge = {
-      show: (type: "alert" | "confirm", message: string) => DialogBridgeResult;
+    type BrowserWindow = Window & typeof globalThis;
+    type DialogBridge = {
+      show(type: "alert" | "confirm", message: string): { handled: boolean; value?: boolean };
     };
-    const bridge = (window as unknown as Record<string, Bridge | undefined>)[bridgeKey];
-    if (!bridge) return;
 
-    const installedConfirmByWindow = new WeakMap<Window, Window["confirm"]>();
-    const observedFrames = new WeakSet<HTMLIFrameElement>();
+    const bridge = (window as unknown as Record<string, DialogBridge>)[bridgeKey];
+    if (!bridge) {
+      return;
+    }
 
-    const installInWindow = (target: Window): void => {
+    const windowConfirmations = new WeakMap<BrowserWindow, BrowserWindow["confirm"]>();
+    const registeredFrames = new WeakSet<HTMLIFrameElement>();
+
+    function installDialogs(target: BrowserWindow): void {
       try {
-        if (installedConfirmByWindow.get(target) === target.confirm) return;
+        if (windowConfirmations.get(target) === target.confirm) {
+          return;
+        }
+
         const nativeAlert = target.alert.bind(target);
         const nativeConfirm = target.confirm.bind(target);
         target.alert = (message?: unknown): void => {
           const text = message === undefined ? "" : String(message);
-          const result = bridge.show("alert", text);
-          if (!result.handled) nativeAlert(text);
+          const answer = bridge.show("alert", text);
+          if (!answer.handled) {
+            nativeAlert(text);
+          }
         };
-        const wrappedConfirm = (message?: string): boolean => {
+        const confirmation = (message?: unknown): boolean => {
           const text = message === undefined ? "" : String(message);
-          const result = bridge.show("confirm", text);
-          return result.handled ? result.value === true : nativeConfirm(text);
+          const answer = bridge.show("confirm", text);
+          return answer.handled ? answer.value === true : nativeConfirm(text);
         };
-        target.confirm = wrappedConfirm;
-        installedConfirmByWindow.set(target, wrappedConfirm);
+        target.confirm = confirmation;
+        windowConfirmations.set(target, confirmation);
       } catch {
-        // 跨源 frame 不允许宿主读取 Window；它在真实导航时会自行加载同一 preload。
+        // Window installation can be blocked by an origin or property boundary.
       }
-    };
+    }
 
-    const installFrameTree = (target: Window): void => {
-      installInWindow(target);
+    function installTree(target: BrowserWindow): void {
+      installDialogs(target);
       try {
-        for (const frame of target.document.querySelectorAll("iframe")) {
-          if (!observedFrames.has(frame)) {
-            observedFrames.add(frame);
+        const descendants = target.document.querySelectorAll("iframe");
+        for (const frame of descendants) {
+          if (!registeredFrames.has(frame)) {
+            registeredFrames.add(frame);
             frame.addEventListener(
               "load",
               () => {
-                if (frame.contentWindow) installFrameTree(frame.contentWindow);
+                if (frame.contentWindow) {
+                  installTree(frame.contentWindow as BrowserWindow);
+                }
               },
               true,
             );
           }
-          if (frame.contentWindow) installFrameTree(frame.contentWindow);
+          if (frame.contentWindow) {
+            installTree(frame.contentWindow as BrowserWindow);
+          }
         }
       } catch {
-        // 跨源文档的 frame tree 由对应 frame 自己的 preload 处理。
+        // Stop this traversal when the document or a frame cannot be read.
       }
-    };
+    }
 
-    installFrameTree(window);
-    const observeFrames = (): void => {
-      installFrameTree(window);
+    installTree(window);
+
+    const beginObservation = (): void => {
+      installTree(window);
       const root = window.document?.documentElement;
-      if (!root) return;
-      // 无 src 的继承型 about:blank iframe 不发生文档级导航，Electron 不会
-      // 为它单独执行 preload；监听页面插入后，从同源父 frame 安装相同包装。
-      new window.MutationObserver(() => installFrameTree(window)).observe(root, {
+      if (!root) {
+        return;
+      }
+      new window.MutationObserver(() => installTree(window)).observe(root, {
         childList: true,
         subtree: true,
       });
     };
-    if (window.document?.documentElement) observeFrames();
-    else window.addEventListener?.("DOMContentLoaded", observeFrames, { once: true });
+
+    if (window.document?.documentElement) {
+      beginObservation();
+    } else {
+      window.addEventListener?.("DOMContentLoaded", beginObservation, {
+        once: true,
+      });
+    }
   },
   args: [BRIDGE_KEY],
 });

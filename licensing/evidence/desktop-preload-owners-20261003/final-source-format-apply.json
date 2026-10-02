@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "packages/desktop/src/preload/index.ts",
+    "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+    "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts"
+  ],
+  "stdout": "Finished in 28ms on 3 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

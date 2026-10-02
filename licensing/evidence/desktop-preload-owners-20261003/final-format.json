@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/preload/index.ts",
+    "packages/desktop/src/preload/embeddedBrowserWheel.ts",
+    "packages/desktop/src/preload/embeddedBrowserJavaScriptDialog.ts",
+    "packages/desktop/src/preload/owners.test.mjs",
+    "licensing/evidence/desktop-preload-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/desktop-preload-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 54ms on 6 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}
