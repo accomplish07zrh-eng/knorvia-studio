@@ -1,0 +1,80 @@
+{
+  "installedAtUtc": "2026-10-02T19:00:23.493415+00:00",
+  "parentCommit": "16776502c1d62ec0c0369e345b5dad0c7d7a7bd3",
+  "scopeNoticeCommit": "ec9dc960",
+  "inputFreezeCommit": "5440a760",
+  "policyMicroV1ArchiveCommit": "c765cb4c",
+  "selectionV1ArchiveCommit": "08be430e",
+  "captureQualificationCommit": "c598241d",
+  "qualifiedV2ArchiveCommit": "16776502",
+  "owners": [
+    {
+      "scope": "policy",
+      "target": "apps/cli/packages/core/src/compact/policy.ts",
+      "draftPath": "docs/evidence/core-compaction-author-packet-20261003/policy/draft-policy.ts.txt",
+      "predecessor": {
+        "bytes": 6197,
+        "sha256": "ffabcb93f16eca22aa044779a07d77a1d162feb36dbdf8edc81e0d67ca9f752d"
+      },
+      "installed": {
+        "bytes": 5600,
+        "sha256": "7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03"
+      },
+      "lines": 154,
+      "installedByteIdenticalToDraft": true,
+      "matchesFrozenReceipt": true,
+      "exportedDeclarationStructureEqual": true,
+      "runtimeBindingsEqual": true
+    },
+    {
+      "scope": "microcompact",
+      "target": "apps/cli/packages/core/src/compact/microcompact.ts",
+      "draftPath": "docs/evidence/core-compaction-author-packet-20261003/microcompact/v2/draft-microcompact.ts.txt",
+      "predecessor": {
+        "bytes": 9352,
+        "sha256": "27731cd99707cce37a5f2de803c371107024f7ed2b6e8982fe973ee14f4b97db"
+      },
+      "installed": {
+        "bytes": 8400,
+        "sha256": "3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64"
+      },
+      "lines": 251,
+      "installedByteIdenticalToDraft": true,
+      "matchesFrozenReceipt": true,
+      "exportedDeclarationStructureEqual": true,
+      "runtimeBindingsEqual": true
+    },
+    {
+      "scope": "selection",
+      "target": "apps/cli/packages/core/src/runtime/helpers/compact-selection.ts",
+      "draftPath": "docs/evidence/core-compaction-author-packet-20261003/selection/v2/draft-compact-selection.ts.txt",
+      "predecessor": {
+        "bytes": 13898,
+        "sha256": "6d470cb1a6a97ce42a6c8c462115a9de93841a67f42a4cdb2c1e52b74a1d49dc"
+      },
+      "installed": {
+        "bytes": 11784,
+        "sha256": "c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36"
+      },
+      "lines": 315,
+      "installedByteIdenticalToDraft": true,
+      "matchesFrozenReceipt": true,
+      "exportedDeclarationStructureEqual": true,
+      "runtimeBindingsEqual": true
+    }
+  ],
+  "everyInputAndReceiptBindingVerified": true,
+  "originalArtifactsUnchanged": true,
+  "collaboratorCallerAndPriorOwnerBoundariesUnchanged": true,
+  "integrationCorrections": [],
+  "authorCorrections": [
+    "Microcompact incoming timestamp capture",
+    "Selection upfront trigger, operation-wide estimate flags, retry cause/flag capture"
+  ],
+  "packetOmissionsDisclosed": true,
+  "newHelperFiles": [],
+  "anotherLaneImplementationImportedOrMerged": false,
+  "ordinaryTestsBuildsProjectTypecheckLintRun": false,
+  "syntheticRuntimeProbeRun": false,
+  "licenceDecision": null
+}

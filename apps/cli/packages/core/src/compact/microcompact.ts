@@ -6,26 +6,16 @@ import {
   type ModelMessageContent,
   type ToolCallId,
 } from "@knorvia/contracts";
-import type { CompactModelMessage } from "./manual.js";
-import { estimateMessageTokens } from "./manual.js";
+import { estimateMessageTokens, type CompactModelMessage } from "./manual.js";
 
 export const MICROCOMPACT_CLEARED_TOOL_RESULT_PREFIX = "[Old tool result content cleared]";
 export const MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE = "[Old tool result content cleared]";
 export const DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS = 5;
-const DEFAULT_MICROCOMPACT_IDLE_THRESHOLD_MINUTES = 60;
 export const DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS = 256;
 export const DEFAULT_MICROCOMPACT_THRESHOLD_RATIO = 0.9;
-export const DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS = 2_000;
+export const DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS = 2000;
 export const DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS = [
-  "Read",
-  "Bash",
-  "Grep",
-  "Glob",
-  "WebFetch",
-  "WebSearch",
-  "Edit",
-  "Write",
-  "ApplyPatch",
+  "Read", "Bash", "Grep", "Glob", "WebFetch", "WebSearch", "Edit", "Write", "ApplyPatch",
 ] as const;
 
 export interface LocalMicrocompactPolicyConfig {
@@ -40,7 +30,11 @@ export interface LocalMicrocompactPolicyConfig {
 
 export interface LocalMicrocompactMessage extends CompactModelMessage {
   isError?: boolean;
-  toolCalls?: Array<{ id: string; input: unknown; name: string }>;
+  toolCalls?: Array<{
+    id: string;
+    input: unknown;
+    name: string;
+  }>;
   toolCallId?: string;
   toolName?: string;
 }
@@ -69,198 +63,13 @@ export interface LocalMicrocompactResult<T extends LocalMicrocompactMessage> {
   payload?: LocalMicrocompactBoundaryPayload;
 }
 
-interface ToolResultCandidate {
-  index: number;
-  toolCallId: string;
-}
+type Candidate = { index: number; toolCallId: string };
 
-export function buildDefaultMicrocompactThreshold(autoCompactThreshold: number): number {
-  const ratioThreshold = Math.floor(autoCompactThreshold * DEFAULT_MICROCOMPACT_THRESHOLD_RATIO);
-  const bufferThreshold = autoCompactThreshold - DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS;
-  return Math.max(0, Math.min(ratioThreshold, bufferThreshold));
-}
-
-export function maybeLocalMicrocompactMessages<T extends LocalMicrocompactMessage>(input: {
-  config?: LocalMicrocompactPolicyConfig;
-  lastAssistantCompletedAtMs?: number;
-  messages: readonly T[];
-  nowMs?: number;
-}): LocalMicrocompactResult<T> {
-  const config = input.config ?? {};
-  const messages = input.messages.map(cloneLocalMicrocompactMessage);
-  const estimatedTokenCount = estimateMessageTokens(messages);
-  const thresholdTokens = positiveInt(config.thresholdTokens);
-
-  if (config.enabled === false) {
-    return {
-      decision: { estimatedTokenCount, reason: "disabled", thresholdTokens },
-      messages,
-    };
+function normalizeCount(value: number | undefined): number | undefined {
+  if (value === undefined || !Number.isFinite(value) || value < 0) {
+    return undefined;
   }
-
-  const trigger = resolveMicrocompactTrigger({
-    config,
-    estimatedTokenCount,
-    lastAssistantCompletedAtMs: input.lastAssistantCompletedAtMs,
-    nowMs: input.nowMs,
-    thresholdTokens,
-  });
-  if (!trigger) {
-    return {
-      decision: { estimatedTokenCount, reason: "not_triggered", thresholdTokens },
-      messages,
-    };
-  }
-
-  const candidateGroups = collectCompactableToolResultGroups(messages, config);
-  if (candidateGroups.length === 0) {
-    return {
-      decision: { estimatedTokenCount, reason: "no_candidates", thresholdTokens, trigger },
-      messages,
-    };
-  }
-
-  const keepCount =
-    positiveInt(config.keepRecentToolResults) ?? DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS;
-  const boundedKeepCount = Math.max(1, keepCount);
-  const clearGroupCount = Math.max(0, candidateGroups.length - boundedKeepCount);
-  if (clearGroupCount === 0) {
-    return {
-      decision: { estimatedTokenCount, reason: "nothing_to_clear", thresholdTokens, trigger },
-      messages,
-    };
-  }
-
-  const toClear = candidateGroups.slice(0, clearGroupCount).flat();
-  const toKeep = candidateGroups.slice(clearGroupCount).flat();
-  for (const candidate of toClear) {
-    const message = messages[candidate.index];
-    if (!message) continue;
-    messages[candidate.index] = {
-      ...message,
-      content: buildClearedToolResultContent(),
-    };
-  }
-
-  const postTokenCount = estimateMessageTokens(messages);
-  const tokensSaved = Math.max(0, estimatedTokenCount - postTokenCount);
-  const minSavings = positiveInt(config.minTokenSavings) ?? DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS;
-  if (tokensSaved < minSavings) {
-    return {
-      decision: { estimatedTokenCount, reason: "below_min_savings", thresholdTokens, trigger },
-      messages: input.messages.map(cloneLocalMicrocompactMessage),
-    };
-  }
-
-  return {
-    decision: { estimatedTokenCount, reason: "applied", thresholdTokens, trigger },
-    messages,
-    payload: {
-      clearedMessageCount: toClear.length,
-      clearedToolCallIds: toClear.map((candidate) => candidate.toolCallId as ToolCallId),
-      keptToolCallIds: toKeep.map((candidate) => candidate.toolCallId as ToolCallId),
-      postMicrocompactTokenCount: postTokenCount,
-      preMicrocompactTokenCount: estimatedTokenCount,
-      strategy: MicrocompactStrategy.LocalToolResultClear,
-      tokensSaved,
-      trigger,
-    },
-  };
-}
-
-function resolveMicrocompactTrigger(input: {
-  config: LocalMicrocompactPolicyConfig;
-  estimatedTokenCount: number;
-  lastAssistantCompletedAtMs?: number;
-  nowMs?: number;
-  thresholdTokens?: number;
-}): MicrocompactTrigger | undefined {
-  const idleThresholdMinutes =
-    positiveInt(input.config.idleThresholdMinutes) ?? DEFAULT_MICROCOMPACT_IDLE_THRESHOLD_MINUTES;
-  if (
-    input.lastAssistantCompletedAtMs !== undefined &&
-    Number.isFinite(input.lastAssistantCompletedAtMs)
-  ) {
-    const elapsedMs = (input.nowMs ?? Date.now()) - input.lastAssistantCompletedAtMs;
-    if (elapsedMs > idleThresholdMinutes * 60_000) {
-      return MicrocompactTrigger.TimeBased;
-    }
-  }
-
-  if (input.thresholdTokens !== undefined && input.estimatedTokenCount >= input.thresholdTokens) {
-    return MicrocompactTrigger.TokenPressure;
-  }
-
-  return undefined;
-}
-
-function collectCompactableToolResultGroups<T extends LocalMicrocompactMessage>(
-  messages: readonly T[],
-  config: LocalMicrocompactPolicyConfig,
-): ToolResultCandidate[][] {
-  const compactableTools = new Set(
-    config.compactableToolNames ?? DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS,
-  );
-  const clearErrorResults = config.clearErrorResults === true;
-  const groups: ToolResultCandidate[][] = [];
-  let currentGroup: ToolResultCandidate[] | undefined;
-
-  const flushCurrentGroup = (): void => {
-    if (currentGroup && currentGroup.length > 0) {
-      groups.push(currentGroup);
-    }
-    currentGroup = undefined;
-  };
-
-  messages.forEach((message, index) => {
-    if (message.role === "assistant" && message.toolCalls && message.toolCalls.length > 0) {
-      flushCurrentGroup();
-      currentGroup = [];
-      return;
-    }
-
-    if (message.role !== "tool") return;
-    if (!message.toolCallId || !message.toolName) return;
-    if (!compactableTools.has(message.toolName)) return;
-    if (message.isError && !clearErrorResults) return;
-    if (isMicrocompactClearedToolResultContent(message.content)) return;
-    if (hasMediaToolResultContent(message.content)) return;
-
-    if (!currentGroup) {
-      groups.push([{ index, toolCallId: message.toolCallId }]);
-      return;
-    }
-
-    currentGroup.push({ index, toolCallId: message.toolCallId });
-  });
-
-  flushCurrentGroup();
-  return groups;
-}
-
-function buildClearedToolResultContent(): ModelMessageContent {
-  return MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE;
-}
-
-function isMicrocompactClearedToolResultContent(content: ModelMessageContent): boolean {
-  return modelMessageContentToText(content) === MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE;
-}
-
-function hasMediaToolResultContent(content: ModelMessageContent): boolean {
-  if (!Array.isArray(content)) return false;
-  return content.some((block) => {
-    if (!block || typeof block !== "object" || !("type" in block)) return false;
-    // video 与 image/file 同为受保护媒体：Read 视频结果漏判会被 microcompact 清掉。
-    return block.type === "image" || block.type === "video" || block.type === "file";
-  });
-}
-
-function cloneLocalMicrocompactMessage<T extends LocalMicrocompactMessage>(message: T): T {
-  return {
-    ...message,
-    content: cloneContent(message.content),
-    toolCalls: message.toolCalls?.map((toolCall) => ({ ...toolCall })),
-  };
+  return Math.floor(value);
 }
 
 function cloneContent(content: ModelMessageContent): ModelMessageContent {
@@ -273,10 +82,170 @@ function cloneContent(content: ModelMessageContent): ModelMessageContent {
       return { ...block, providerOptions: { ...block.providerOptions } };
     }
     return { ...block };
-  }) as ModelMessageContent;
+  });
 }
 
-function positiveInt(value: number | undefined): number | undefined {
-  if (value === undefined || !Number.isFinite(value) || value < 0) return undefined;
-  return Math.floor(value);
+function cloneMessages<T extends LocalMicrocompactMessage>(messages: readonly T[]): T[] {
+  return messages.map((message) => ({
+    ...message,
+    content: cloneContent(message.content),
+    toolCalls: message.toolCalls?.map((call) => ({ ...call })),
+  }));
+}
+
+function makeDecision(
+  estimatedTokenCount: number,
+  reason: LocalMicrocompactDecision["reason"],
+  thresholdTokens: number | undefined,
+  trigger?: MicrocompactTrigger,
+): LocalMicrocompactDecision {
+  if (trigger === undefined) {
+    return { estimatedTokenCount, reason, thresholdTokens };
+  }
+  return { estimatedTokenCount, reason, thresholdTokens, trigger };
+}
+
+function collectGroups(
+  messages: readonly LocalMicrocompactMessage[],
+  allowedNames: Set<string>,
+  clearErrorResults: boolean,
+): Candidate[][] {
+  const groups: Candidate[][] = [];
+  let active: Candidate[] | undefined;
+  for (let index = 0; index < messages.length; index += 1) {
+    const message = messages[index]!;
+    if (message.role === "assistant" && message.toolCalls && message.toolCalls.length > 0) {
+      if (active && active.length > 0) groups.push(active);
+      active = [];
+    }
+    if (
+      message.role !== "tool" ||
+      !message.toolCallId ||
+      !message.toolName ||
+      !allowedNames.has(message.toolName) ||
+      (message.isError && !clearErrorResults)
+    ) {
+      continue;
+    }
+    if (modelMessageContentToText(message.content) === MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE) {
+      continue;
+    }
+    if (
+      Array.isArray(message.content) &&
+      message.content.some((block) =>
+        block.type === "image" || block.type === "video" || block.type === "file",
+      )
+    ) {
+      continue;
+    }
+    const candidate = { index, toolCallId: message.toolCallId };
+    if (active === undefined) groups.push([candidate]);
+    else active.push(candidate);
+  }
+  if (active && active.length > 0) groups.push(active);
+  return groups;
+}
+
+export function buildDefaultMicrocompactThreshold(autoCompactThreshold: number): number {
+  return Math.max(
+    0,
+    Math.min(
+      Math.floor(autoCompactThreshold * DEFAULT_MICROCOMPACT_THRESHOLD_RATIO),
+      autoCompactThreshold - DEFAULT_MICROCOMPACT_THRESHOLD_BUFFER_TOKENS,
+    ),
+  );
+}
+
+export function maybeLocalMicrocompactMessages<T extends LocalMicrocompactMessage>(input: {
+  config?: LocalMicrocompactPolicyConfig;
+  lastAssistantCompletedAtMs?: number;
+  messages: readonly T[];
+  nowMs?: number;
+}): LocalMicrocompactResult<T> {
+  const config = input.config ?? {};
+  const messages = cloneMessages(input.messages);
+  const estimatedTokenCount = estimateMessageTokens(messages);
+  const thresholdTokens = normalizeCount(config.thresholdTokens);
+  if (config.enabled === false) {
+    return {
+      decision: makeDecision(estimatedTokenCount, "disabled", thresholdTokens),
+      messages,
+    };
+  }
+
+  const lastAssistantCompletedAtMs = input.lastAssistantCompletedAtMs;
+  const nowMs = input.nowMs;
+  const idleMinutes = normalizeCount(config.idleThresholdMinutes) ?? 60;
+  let trigger: MicrocompactTrigger | undefined;
+  if (
+    lastAssistantCompletedAtMs !== undefined &&
+    Number.isFinite(lastAssistantCompletedAtMs)
+  ) {
+    const elapsed = (nowMs ?? Date.now()) - lastAssistantCompletedAtMs;
+    if (elapsed > idleMinutes * 60_000) trigger = MicrocompactTrigger.TimeBased;
+  }
+  if (trigger === undefined && thresholdTokens !== undefined && estimatedTokenCount >= thresholdTokens) {
+    trigger = MicrocompactTrigger.TokenPressure;
+  }
+  if (trigger === undefined) {
+    return {
+      decision: makeDecision(estimatedTokenCount, "not_triggered", thresholdTokens),
+      messages,
+    };
+  }
+
+  const allowedNames = new Set(config.compactableToolNames ?? DEFAULT_MICROCOMPACT_COMPACTABLE_TOOLS);
+  const clearErrorResults = config.clearErrorResults === true;
+  const groups = collectGroups(messages, allowedNames, clearErrorResults);
+  if (groups.length === 0) {
+    return {
+      decision: makeDecision(estimatedTokenCount, "no_candidates", thresholdTokens, trigger),
+      messages,
+    };
+  }
+
+  const keepCount = Math.max(1, normalizeCount(config.keepRecentToolResults) ?? DEFAULT_MICROCOMPACT_KEEP_RECENT_TOOL_RESULTS);
+  const clearGroupCount = Math.max(0, groups.length - keepCount);
+  if (clearGroupCount === 0) {
+    return {
+      decision: makeDecision(estimatedTokenCount, "nothing_to_clear", thresholdTokens, trigger),
+      messages,
+    };
+  }
+
+  const cleared = groups.slice(0, clearGroupCount).flat();
+  const kept = groups.slice(clearGroupCount).flat();
+  for (const candidate of cleared) {
+    const message = messages[candidate.index];
+    if (message !== undefined) {
+      messages[candidate.index] = {
+        ...message,
+        content: MICROCOMPACT_CLEARED_TOOL_RESULT_MESSAGE,
+      };
+    }
+  }
+  const postMicrocompactTokenCount = estimateMessageTokens(messages);
+  const tokensSaved = Math.max(0, estimatedTokenCount - postMicrocompactTokenCount);
+  const minimum = normalizeCount(config.minTokenSavings) ?? DEFAULT_MICROCOMPACT_MIN_TOKEN_SAVINGS;
+  if (tokensSaved < minimum) {
+    return {
+      decision: makeDecision(estimatedTokenCount, "below_min_savings", thresholdTokens, trigger),
+      messages: cloneMessages(input.messages),
+    };
+  }
+
+  return {
+    decision: makeDecision(estimatedTokenCount, "applied", thresholdTokens, trigger),
+    messages,
+    payload: {
+      clearedMessageCount: cleared.length,
+      clearedToolCallIds: cleared.map((candidate) => candidate.toolCallId as ToolCallId),
+      keptToolCallIds: kept.map((candidate) => candidate.toolCallId as ToolCallId),
+      postMicrocompactTokenCount,
+      preMicrocompactTokenCount: estimatedTokenCount,
+      strategy: MicrocompactStrategy.LocalToolResultClear,
+      tokensSaved,
+      trigger,
+    },
+  };
 }
