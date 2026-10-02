@@ -1,0 +1,33 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "freezeCommit": "9f4c740",
+  "draftAndRedProofCommit": "aa8c75e",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/goal-summary-title.ts",
+  "sourceExposure": "Curator read predecessor; source-derived functional/API packet. Fresh internal author fork_turns=none,Sol/high; actual input/tool journal and sealed draft archived before curator comparison. No absolute clean-room claim.",
+  "draftSha256": "5ac3db373077b414a05413d852406da757c5e903730dd49867cfe6c962031e21",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/goal-summary-title.ts",
+      "sha256": "a342fccd89dc3f7898b37efdc548d367ce9522a617fe1fb799e8d771d50895c6"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/goal-summary-title.js",
+      "sha256": "58e7793535c361bd1b9093cdb9764346381793dc94c442025f65f97ea4d695bf"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/goal-summary-title.d.ts",
+      "sha256": "8e6078b42f7fdb4235f2bd260a852795f90f3f1adb7468f9b4ec8fed8e44af77"
+    }
+  },
+  "physicalLines": 251,
+  "design": "Ordered title admission, native request routine, generated/fallback persistence and returned tracked-promise catches; store retains record ownership.",
+  "retained": "Ordered eligibility, stale/matching-target checks, asynchronous read/write/event publication and fallback catches remain structurally close. Fixed log labels/protocol fields/API, normalization helper and100-character cap retained. Draft duplicates fallback logging instead of predecessor helper; this organization alone is not originality credit.",
+  "corrections": "Source-exposed private causation type changed to optional to match actual captureCausation result; no runtime change. Eligible launch-before-tracking and ineligible tracking-callee-before-argument clarified preseal.",
+  "api": {
+    "exactSignatures": true,
+    "fixedDeclarationFacts": true
+  },
+  "sharedChecks": "docs/evidence/runtime-goal-stop-five-checks-20261003:0scoped TS6.0.2 diagnostics;23public signatures unchanged;5sources94lint rules0;7filesformatted;architecture0;one actual-emitted5synthetic persistence/lifecycle groups plus separate1control metadata red-proof closure(overlap).15current and15historical source/JS/dts,44packet/draft/journal files digest verified. Wrong/missing verifier inputs reject.",
+  "limits": "Ordinary suites/builds/native/source duplicate/full runtime consumers not run per user speed-first. Historical/current selected JS actual compiler; unchanged transitive deps through tsx source resolution. Live receivers/provider/credentials/userdata untouched. Independent expression/licence review remains root-owned; no header/inventory/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-goal-summary-title-author-20261003/lineage.json"
+}
