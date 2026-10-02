@@ -1,0 +1,34 @@
+{
+  "imports": [
+    {
+      "module": "@knorvia/contracts",
+      "clause": "type {\n  DynamicWorkflowRunError,\n  DynamicWorkflowRunLifecycleStatus,\n  DynamicWorkflowRunStopReason,\n  ModelUsage,\n}",
+      "names": [
+        "DynamicWorkflowRunError",
+        "DynamicWorkflowRunLifecycleStatus",
+        "DynamicWorkflowRunStopReason",
+        "ModelUsage"
+      ]
+    },
+    {
+      "module": "./registry.js",
+      "clause": "type { RuntimeTaskType }",
+      "names": [
+        "RuntimeTaskType"
+      ]
+    },
+    {
+      "module": "./workflow-notification-copy.js",
+      "clause": "{ formatWorkflowProviderStopError }",
+      "names": [
+        "formatWorkflowProviderStopError"
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "module": "./workflow-notification-copy.js",
+      "clause": "{\n  formatWorkflowEscalationNotification,\n  formatWorkflowProviderStopError,\n  formatWorkflowStallNotification,\n  type WorkflowEscalationNotificationInput,\n  type WorkflowStallNotificationInput,\n}"
+    }
+  ]
+}
