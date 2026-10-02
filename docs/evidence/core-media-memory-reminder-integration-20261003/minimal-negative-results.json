@@ -1,0 +1,138 @@
+{
+  "kind": "Minimum synthetic write/authority/privacy/error gates only",
+  "typescript": "6.0.2",
+  "sourceBindings": [
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "bytes": 1317,
+      "sha256": "f9e9c5fc154bdc49fbb6447d0a5d7f50ff2c91c779ba28850ed5f3e731664aa0"
+    },
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/inline.ts",
+      "bytes": 6510,
+      "sha256": "159728269b5686d933ad09ff8e3f3250d7edfbe76edbc44d3b20cfc4e76a4a30"
+    },
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local.ts",
+      "bytes": 2140,
+      "sha256": "d5d78a8ddae643eda84af10c261268643700d0e77f759da7f95c966a23ce84ae"
+    },
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-image.ts",
+      "bytes": 3108,
+      "sha256": "e0eb6edd40ab19e7af1dc13d1a0689f414af9aef9406e4e4931832cd6caf1ab1"
+    },
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/read-failure.ts",
+      "bytes": 504,
+      "sha256": "0df4450b8825e85750226d8207bd8321e9729e750ee8bd56cdce93e480dc864e"
+    },
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-pdf.ts",
+      "bytes": 3043,
+      "sha256": "8b73272b463c4d0a234af93960baf70a6300f3571b86cae8e6dc75f07aaf9b5d"
+    },
+    {
+      "scope": "resolver",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver/local-video.ts",
+      "bytes": 2894,
+      "sha256": "1f037d8d89d47c1a52cfa376f1d0cec31b1546a099b0d8cde53dc2b6c4cc2a71"
+    },
+    {
+      "scope": "memory-agent",
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+      "bytes": 4516,
+      "sha256": "4f14af4aa285de7bb34532afcd075c2c7df176f8e52f5614d9761a413b61b83b"
+    },
+    {
+      "scope": "extraction",
+      "path": "apps/cli/packages/core/src/runtime/helpers/project-memory-extraction.ts",
+      "bytes": 6258,
+      "sha256": "ce64687c480394ff7c14bdce3afd38df85b535e18cd470ea7fcd0eabf3679e4d"
+    },
+    {
+      "scope": "reminders",
+      "path": "apps/cli/packages/core/src/runtime/helpers/runtime-reminders.ts",
+      "bytes": 9506,
+      "sha256": "8a180914dabe4e90b5c47a514277a2b74af5ff2ccf824cf7458481a852c997ae"
+    },
+    {
+      "scope": "turn-errors",
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-errors.ts",
+      "bytes": 7609,
+      "sha256": "5229c2ab9f6a860a1c4cf39bb0908dbe58040c6e050af9920cc623497338df3e"
+    }
+  ],
+  "results": [
+    {
+      "scope": "resolver",
+      "name": "Invalid/oversized inline material never reaches durable write",
+      "passed": true
+    },
+    {
+      "scope": "resolver",
+      "name": "Durable failure escapes media catches without success downgrade",
+      "passed": true
+    },
+    {
+      "scope": "resolver",
+      "name": "Local caps and typed bounded-read failures preserve no-write gates",
+      "passed": true
+    },
+    {
+      "scope": "resolver",
+      "name": "Local durable references retain PDF URI and image/video URI absence",
+      "passed": true
+    },
+    {
+      "scope": "memory-agent",
+      "name": "Snapshot and invocation preserve transcript privacy and deferred headers",
+      "passed": true
+    },
+    {
+      "scope": "memory-agent",
+      "name": "Memory execution delegates original deny policy and separate existing roots",
+      "passed": true
+    },
+    {
+      "scope": "extraction",
+      "name": "Disabled/remote extraction avoids store reads; captured boundary excludes later data",
+      "passed": true
+    },
+    {
+      "scope": "extraction",
+      "name": "Missing captured boundary rejects and fake loop retains write-root/abort/error ownership",
+      "passed": true
+    },
+    {
+      "scope": "reminders",
+      "name": "Disabled mode avoids history reads and output style omits private prompt",
+      "passed": true
+    },
+    {
+      "scope": "turn-errors",
+      "name": "External faults override cancellation while ordinary abort and bounded cause traversal remain",
+      "passed": true
+    },
+    {
+      "scope": "turn-errors",
+      "name": "Append failure prevents local event/log mutation; cancelled outcome preserves queue flags",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false,
+  "noCanonicalDataUsed": true,
+  "noActualProviderNetworkStoreFilesystemOsOperation": true,
+  "noPredecessorExecution": true,
+  "noSourceEmittedMatrix": true
+}
