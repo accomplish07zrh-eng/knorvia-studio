@@ -49,7 +49,8 @@ async function observe(owner, scenario, Runtime) {
   const writes = [],
     events = [],
     trace = [];
-  let stored,
+  let reportResult,
+    stored,
     clock = 0,
     runnerCalls = 0;
   const definition = {
@@ -76,12 +77,14 @@ async function observe(owner, scenario, Runtime) {
       assert.equal(this, store);
       events.push(event);
       trace.push(["event", args.length, args[0]?.signal?.aborted, JSON.stringify(event)]);
-      if (event.type === "run_completed" && scenario !== "success") throw failure;
+      if (event.type === "run_completed" && !["success", "mutable"].includes(scenario))
+        throw failure;
     },
     async writeReport(runId, report, options) {
       assert.equal(this, store);
       trace.push(["report", runId, report, options.signal?.aborted]);
-      return { relativePath: "owned/report.md" };
+      reportResult = { relativePath: "owned/report.md" };
+      return reportResult;
     },
     async writeArtifact(runId, path, text, options) {
       assert.equal(this, store);
@@ -110,7 +113,11 @@ async function observe(owner, scenario, Runtime) {
     agentRunner,
     createRunId: () => "owned-run",
     createActivityId: () => "owned-activity",
-    now: () => new Date(clock++ * 1000),
+    now: () => {
+      if (scenario === "mutable" && reportResult)
+        reportResult.relativePath = `owned/report-${clock}.md`;
+      return new Date(clock++ * 1000);
+    },
   };
   const options = { cwd: "owned", task: "Owned task", abortSignal: controller.signal };
   let result, initial;
@@ -126,9 +133,9 @@ async function observe(owner, scenario, Runtime) {
   assert.equal(result.snapshot, writes.at(-1));
   assert.equal(runnerCalls, Runtime ? 1 : 0);
   assert.equal(result.snapshot.phases[2].status, "pending");
-  if (scenario === "success") {
+  if (scenario === "success" || scenario === "mutable") {
     assert.equal(result.status, "completed");
-    assert.equal(result.reportPath, "owned/report.md");
+    if (scenario === "success") assert.equal(result.reportPath, "owned/report.md");
     assert.equal(events.at(-1).type, "run_completed");
   } else {
     assert.equal("reportPath" in result, false);
@@ -147,7 +154,7 @@ async function observe(owner, scenario, Runtime) {
 }
 
 test("emitted continuation terminal-write recovery and runtime.start consumer", async () => {
-  for (const scenario of ["success", "terminal", "null", "abort"])
+  for (const scenario of ["success", "terminal", "null", "abort", "mutable"])
     assert.deepEqual(
       await observe(current, scenario),
       await observe(historical, scenario),
