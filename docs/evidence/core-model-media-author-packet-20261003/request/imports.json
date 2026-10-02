@@ -1,0 +1,131 @@
+{
+  "kind": "Existing exact module/export import mapping; no bodies or new dependencies",
+  "imports": [
+    {
+      "module": "./provider-entry-origins.js",
+      "bindings": [
+        {
+          "name": "ProviderEntryOrigins",
+          "localName": "ProviderEntryOrigins",
+          "typeOnly": false
+        },
+        {
+          "name": "isPresentedInput",
+          "localName": "isPresentedInput",
+          "typeOnly": false
+        },
+        {
+          "name": "projectIncomingMessageEntries",
+          "localName": "projectIncomingMessageEntries",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "./provider-mid-conversation-system.js",
+      "bindings": [
+        {
+          "name": "projectMidConversationSystemEntries",
+          "localName": "projectMidConversationSystemEntries",
+          "typeOnly": false
+        },
+        {
+          "name": "moveLegacySystemRemindersAfterToolResultRun",
+          "localName": "moveLegacySystemRemindersAfterToolResultRun",
+          "typeOnly": false
+        },
+        {
+          "name": "isToolResultUserMessage",
+          "localName": "isToolResultUserMessage",
+          "typeOnly": false
+        },
+        {
+          "name": "ProjectedRuntimeMessageEntry",
+          "localName": "ProjectedRuntimeMessageEntry",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "@knorvia/contracts",
+      "bindings": [
+        {
+          "name": "ModelMessageContent",
+          "localName": "ModelMessageContent",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelMessageContentBlock",
+          "localName": "ModelMessageContentBlock",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "../../agent/message-history.js",
+      "bindings": [
+        {
+          "name": "ModelInputMessage",
+          "localName": "ModelInputMessage",
+          "typeOnly": true
+        },
+        {
+          "name": "RuntimeMessageEntry",
+          "localName": "RuntimeMessageEntry",
+          "typeOnly": true
+        }
+      ]
+    },
+    {
+      "module": "../../agent/message-history.js",
+      "bindings": [
+        {
+          "name": "cloneModelInputMessage",
+          "localName": "cloneModelInputMessage",
+          "typeOnly": false
+        },
+        {
+          "name": "cloneModelMessageContent",
+          "localName": "cloneModelMessageContent",
+          "typeOnly": false
+        },
+        {
+          "name": "isKnownSystemReminderSource",
+          "localName": "isKnownSystemReminderSource",
+          "typeOnly": false
+        },
+        {
+          "name": "isRuntimeAttachmentEntry",
+          "localName": "isRuntimeAttachmentEntry",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../../system-reminder/source.js",
+      "bindings": [
+        {
+          "name": "getSystemReminderDescriptor",
+          "localName": "getSystemReminderDescriptor",
+          "typeOnly": false
+        },
+        {
+          "name": "isMidConversationSystemSource",
+          "localName": "isMidConversationSystemSource",
+          "typeOnly": false
+        },
+        {
+          "name": "wrapSystemReminderForSource",
+          "localName": "wrapSystemReminderForSource",
+          "typeOnly": false
+        },
+        {
+          "name": "SystemReminderSource",
+          "localName": "SystemReminderSource",
+          "typeOnly": true
+        }
+      ]
+    }
+  ],
+  "constantQualification": "Imported constant values and opaque type details stay with unchanged original collaborators; do not define replacements. Follow original type-only versus value imports. A retained dormant import may be used only by reconstructed dormant behavior, never enabling it."
+}

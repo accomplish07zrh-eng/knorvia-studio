@@ -1,0 +1,56 @@
+{
+  "kind": "Existing exact module/export import mapping; no bodies or new dependencies",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "CoreErrorType",
+          "localName": "CoreErrorType",
+          "typeOnly": false
+        },
+        {
+          "name": "createCoreError",
+          "localName": "createCoreError",
+          "typeOnly": false
+        },
+        {
+          "name": "traceContextToLogContext",
+          "localName": "traceContextToLogContext",
+          "typeOnly": false
+        }
+      ]
+    },
+    {
+      "module": "../deps.js",
+      "bindings": [
+        {
+          "name": "Logger",
+          "localName": "Logger",
+          "typeOnly": true
+        },
+        {
+          "name": "Model",
+          "localName": "Model",
+          "typeOnly": true
+        },
+        {
+          "name": "ModelToolCall",
+          "localName": "ModelToolCall",
+          "typeOnly": true
+        },
+        {
+          "name": "ToolCall",
+          "localName": "ToolCall",
+          "typeOnly": true
+        },
+        {
+          "name": "TraceContext",
+          "localName": "TraceContext",
+          "typeOnly": true
+        }
+      ]
+    }
+  ],
+  "constantQualification": "Imported constant values and opaque type details stay with unchanged original collaborators; do not define replacements. Follow original type-only versus value imports. A retained dormant import may be used only by reconstructed dormant behavior, never enabling it."
+}
