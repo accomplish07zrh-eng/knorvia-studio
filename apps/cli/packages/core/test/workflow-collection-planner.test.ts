@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
 import type { WorkflowCollectionPlannerRuntime } from "../src/workflow/scheduler/collection-runtime.js";
+import type { WorkflowGraphSchedulerPlannerRunResult } from "../src/workflow/scheduler/types.js";
 import {
   actual,
   archive,
@@ -123,6 +124,7 @@ test(`${surface}: activation/child gates and successful publication identity`, a
         traceId: "owned-linked-trace",
         turnId: "owned-linked-turn",
       });
+      // Keep the frozen partial node response; expansion supplies its schema defaults.
       return {
         response: "Owned planner success",
         sessionId: "owned-final",
@@ -131,7 +133,7 @@ test(`${surface}: activation/child gates and successful publication identity`, a
         nodes: [{ id: "owned-added", title: "Owned added" }],
         edges: [],
         exhausted: true,
-      };
+      } as unknown as WorkflowGraphSchedulerPlannerRunResult;
     };
     const pending = run(check, p);
     await flush();
@@ -365,6 +367,9 @@ test(`${surface}: exact historical and current owner selection fail closed`, asy
     "src/workflow/scheduler/collection-planner.ts",
     "dist/workflow/scheduler/collection-planner.js",
     "dist/workflow/scheduler/collection-planner.d.ts",
+    "src/workflow/scheduler/collection-planner-admission.ts",
+    "dist/workflow/scheduler/collection-planner-admission.js",
+    "dist/workflow/scheduler/collection-planner-admission.d.ts",
   ]) {
     await assert.rejects(
       loadCurrent((url) =>

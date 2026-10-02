@@ -14,7 +14,7 @@
     "dist/workflow/scheduler.d.ts": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
     "dist/workflow/scheduler.js": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
     "dist/workflow/scheduler/collection-events.js": "3f739c7e641b759943991a1212c29875a24bd626a344c1832fdc286c2f89ae22",
-    "dist/workflow/scheduler/collection-planner.js": "5c4edfca4583ee36008fa4a7508e82dc2d8b2b77388a9501d6f8914dd0b73dee",
+    "dist/workflow/scheduler/collection-planner.js": "93cf2ad3b9dc842d4447cf5170313cff4207f8e0112cb7ac14f1ab1a92c078d1",
     "dist/workflow/scheduler/events.js": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
     "dist/workflow/scheduler/graph.js": "b2330aefde3b0808b6e9ef484da839eff8badfb5e07eae51952d2910600e13d9",
     "dist/workflow/scheduler/node-runner-outcome.js": "29f1fb2a3346aeeb4ae9e41182d7b248f01edf6ae98419f7f2fc999a4df64cfa",
@@ -31,7 +31,7 @@
     "src/workflow/lifecycle.ts": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
     "src/workflow/scheduler.ts": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
     "src/workflow/scheduler/collection-events.ts": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
-    "src/workflow/scheduler/collection-planner.ts": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+    "src/workflow/scheduler/collection-planner.ts": "c0038cbf4d18bd92030fe73b1c1c57a690283c7fafc9355397bf0a6c8f0032fc",
     "src/workflow/scheduler/events.ts": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
     "src/workflow/scheduler/graph.ts": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
     "src/workflow/scheduler/node-runner-outcome.ts": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a",
@@ -40,6 +40,9 @@
     "src/workflow/scheduler/prompts.ts": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
     "dist/workflow/scheduler/collection-planner.d.ts": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08",
     "src/workflow/scheduler/collection-runtime.ts": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d",
-    "src/workflow/scheduler/types.ts": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+    "src/workflow/scheduler/types.ts": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106",
+    "src/workflow/scheduler/collection-planner-admission.ts": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+    "dist/workflow/scheduler/collection-planner-admission.js": "9c8737a28f5703c381de9090bee4c32d4d3d4eed5927b79f0f4688f36c25419f",
+    "dist/workflow/scheduler/collection-planner-admission.d.ts": "094a501110470842331c4f70c1254305086d0ed73c257168cbf4b450c3c07d66"
   }
 }
