@@ -1,30 +1,35 @@
-import type { RuntimeInputPresentation } from "@knorvia/contracts";
-import { createModelId, createModelProviderId } from "@knorvia/contracts";
-import { SessionEventType, createPartId, traceContextToLogContext } from "../deps.js";
-import type {
-  EnvInfo,
-  MessageId,
-  MessagePart,
-  MessageVisibility,
-  Model,
-  SessionId,
-  SessionProjection,
-  SessionStorePort,
-  TraceContext,
-  SyntheticUserMessageSource,
-  TurnInputIntentMetadata,
-  TurnExecutionKind,
+import {
+  createModelId,
+  createModelProviderId,
+  type RuntimeInputPresentation,
+} from "@knorvia/contracts";
+import {
+  SessionEventType,
+  createPartId,
+  traceContextToLogContext,
+  type EnvInfo,
+  type MessageId,
+  type MessagePart,
+  type MessageVisibility,
+  type Model,
+  type SessionId,
+  type SessionProjection,
+  type SessionStorePort,
+  type SyntheticUserMessageSource,
+  type TraceContext,
+  type TurnExecutionKind,
+  type TurnInputIntentMetadata,
 } from "../deps.js";
-import { emptyTokenUsageInfo, toTokenUsageInfo } from "../helpers/index.js";
-import type { ResolvedTurnAttachment } from "../types.js";
+import { emptyTokenUsageInfo, type toTokenUsageInfo } from "../helpers/index.js";
 import type { AgentRuntimeInternal } from "../internal.js";
+import type { ResolvedTurnAttachment } from "../types.js";
+import { buildPersistedConversationInputIntent } from "./input-intent-persistence.js";
+import { buildProjectionAnchor, mapSyntheticSourceToAnchorOrigin } from "./projection-anchor.js";
 import {
   buildSyntheticUserNoticeMessageMetadata,
   buildSyntheticUserNoticePartMetadata,
   buildSyntheticUserNoticeSemantics,
 } from "./synthetic-notice-metadata.js";
-import { buildPersistedConversationInputIntent } from "./input-intent-persistence.js";
-import { buildProjectionAnchor, mapSyntheticSourceToAnchorOrigin } from "./projection-anchor.js";
 
 export async function persistUserPrompt(
   this: AgentRuntimeInternal,
@@ -33,25 +38,13 @@ export async function persistUserPrompt(
   attachments: ResolvedTurnAttachment[] | undefined,
   traceContext: TraceContext,
   options?: {
-    /**
-     * drain 注入的输入把投递语义落到持久事实（metadata.turnSteerDelivery），
-     * 冷恢复据此还原「queue=独立轮 / guide=内联当前轮」的切分，与 live 结构一致。
-     */
     steerDelivery?: "guide" | "queue";
     inputPresentation?: RuntimeInputPresentation;
-    /**
-     * （promotion 原子性）：给定账本 id 且 store 支持时，账本置 promoted
-     * 与 message/parts 持久化走同一事务——杜绝「queue 已消费但 transcript 无
-     * user message」的孤儿窗口（旧 drain 跨 store 无事务）。
-     */
     sessionInputId?: string;
-    /** V4 command 幂等锚点；必须来自 CLI admission，不能在 drain 时换新 id。 */
     sourceCommandId?: string;
     clientId?: string;
     intent?: TurnInputIntentMetadata;
-    /** 冷恢复所需的执行语义；不能只存在于 live TurnStarted。 */
     executionKind?: TurnExecutionKind;
-    /** 引擎附加文本的起点；同样为冷恢复而存。 */
     epilogueStart?: number;
   },
 ): Promise<void> {
@@ -69,12 +62,10 @@ export async function persistUserPrompt(
     id: messageID,
     sessionID: this.sessionId,
     role: "user",
-    time: {
-      created,
-    },
+    time: { created },
     agent: this.config.agentName ?? "agent",
     modelSelection: this.getSessionModelSelection(),
-    contextSnapshot: buildPersistedContextSnapshot(this.config.envInfo),
+    contextSnapshot: persistedEnvironment(this.config.envInfo),
     semantics: {
       origin: "real_user",
       kind: "user_prompt",
@@ -105,9 +96,9 @@ export async function persistUserPrompt(
               ? { inputClientId: options?.intent?.clientId ?? options?.clientId }
               : {}),
             ...(options?.executionKind ? { executionKind: options.executionKind } : {}),
-            ...(options?.epilogueStart === undefined
-              ? {}
-              : { epilogueStart: options.epilogueStart }),
+            ...(options?.epilogueStart !== undefined
+              ? { epilogueStart: options.epilogueStart }
+              : {}),
           },
         }
       : {}),
@@ -119,25 +110,22 @@ export async function persistUserPrompt(
       messageID,
       type: "text",
       text: input,
-      time: {
-        start: created,
-        end: created,
-      },
+      time: { start: created, end: created },
     },
-    ...(attachments ?? []).map(
-      (attachment): MessagePart => ({
-        id: createPartId(),
-        sessionID: this.sessionId,
-        messageID,
-        type: "file",
-        mime: attachment.mime,
-        filename: attachment.filename,
-        url: attachment.url,
-        source: attachment.source,
-        metadata: attachment.metadata,
-      }),
-    ),
   ];
+  for (const attachment of attachments ?? []) {
+    parts.push({
+      id: createPartId(),
+      sessionID: this.sessionId,
+      messageID,
+      type: "file",
+      mime: attachment.mime,
+      filename: attachment.filename,
+      url: attachment.url,
+      source: attachment.source,
+      metadata: attachment.metadata,
+    });
+  }
 
   if (options?.sessionInputId && this.sessionStore.promoteSessionInput) {
     await this.sessionStore.promoteSessionInput({
@@ -156,9 +144,6 @@ export async function persistUserPrompt(
     });
     const sourceCommandId =
       options.intent?.sourceCommandId ?? options.sourceCommandId ?? options.sessionInputId;
-    // promotion 事务提交后再发事件：gateway 只能在此边界解除 live-input pin。
-    // 若在 queue remove/TurnStarted 就解除，LRU churn 会在 transcript 尚未落盘时把
-    // commands/query 退化成 unknown，重复执行同一输入。
     await this.appendEvent(
       this.createEvent(
         SessionEventType.SessionInputPromoted,
@@ -203,7 +188,6 @@ export async function persistSyntheticUserNoticeForSession(
     source: SyntheticUserMessageSource;
     text: string;
     traceContext: TraceContext;
-    /** 额外结构化 metadata，会与 `{ source }` 合并写到 part.metadata 上，供 UI 识别消息类型。 */
     metadata?: Record<string, unknown>;
     visibility?: MessageVisibility;
   },
@@ -215,7 +199,7 @@ export async function persistSyntheticUserNoticeForSession(
 
   const created = Date.now();
   const visibility = options.visibility ?? "model-only";
-  const messageMetadata = buildSyntheticUserNoticeMessageMetadata(
+  const metadata = buildSyntheticUserNoticeMessageMetadata(
     options.source,
     visibility,
     options.metadata,
@@ -230,11 +214,9 @@ export async function persistSyntheticUserNoticeForSession(
       id: options.messageID,
       sessionID: options.sessionId,
       role: "user",
-      time: {
-        created,
-      },
+      time: { created },
       agent: this.config.agentName ?? "agent",
-      metadata: messageMetadata,
+      metadata,
       modelSelection: this.getSessionModelSelection(),
       semantics: buildSyntheticUserNoticeSemantics(options.source, visibility),
       anchor: buildProjectionAnchor(
@@ -257,10 +239,7 @@ export async function persistSyntheticUserNoticeForSession(
       type: "text",
       text: options.text,
       synthetic: true,
-      time: {
-        start: created,
-        end: created,
-      },
+      time: { start: created, end: created },
       metadata: partMetadata,
     },
     options.traceContext,
@@ -285,38 +264,27 @@ export async function persistAssistantMessage(
 ): Promise<void> {
   this.latestConversationMessageId = messageID;
   this.latestAssistantMessageId = messageID;
-  if (traceContext.turnId) {
-    this.latestAssistantTurnId = traceContext.turnId;
-  }
+  if (traceContext.turnId) this.latestAssistantTurnId = traceContext.turnId;
   if (!this.sessionStore) return;
+
   const selection = this.getSessionModelSelection();
   const providerId =
     model?.providerId ?? (selection && createModelProviderId(selection.providerId));
   const modelId = model?.modelId ?? (selection && createModelId(selection.modelId));
-
   await this.persistMessage(
     {
       id: messageID,
       sessionID: this.sessionId,
       role: "assistant",
-      time: {
-        created,
-        completed: update?.completed,
-      },
+      time: { created, completed: update?.completed },
       error: update?.error,
       parentID,
-      // 默认模型可能在请求进行中切换；模型请求路径必须显式传入生成这条
-      // 消息的模型。默认值只保留给不经过模型结果的既有 synthetic/fallback 路径。
       modelId,
       providerId,
       mode: this.config.mode ?? "build",
       planEnabled: this.getPlanEnabled(),
       agent: this.config.agentName ?? "agent",
-      path: {
-        cwd: this.workingDirectory,
-        // cwd 可随 Bash cd 变化，root 必须保留会话初始工作区身份。
-        root: this.workspaceRoot,
-      },
+      path: { cwd: this.workingDirectory, root: this.workspaceRoot },
       cost: 0,
       tokens: update?.tokens ?? emptyTokenUsageInfo(),
       finish: update?.finish,
@@ -370,19 +338,11 @@ export async function persistPart(
   });
 }
 
-function buildPersistedContextSnapshot(envInfo: EnvInfo | undefined):
-  | {
-      envInfo: EnvInfo;
-    }
-  | undefined {
-  if (!envInfo) {
-    return undefined;
-  }
-
-  return { envInfo: { ...envInfo } };
-}
-
 export async function rebuildProjection(this: AgentRuntimeInternal): Promise<SessionProjection> {
   const events = await this.eventStore.getEvents(this.sessionId);
   return this.eventReducer.reduce(events);
+}
+
+function persistedEnvironment(envInfo: EnvInfo | undefined): { envInfo: EnvInfo } | undefined {
+  return envInfo ? { envInfo: { ...envInfo } } : undefined;
 }
