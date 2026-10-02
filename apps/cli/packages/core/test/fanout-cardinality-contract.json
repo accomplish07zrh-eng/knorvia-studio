@@ -1,0 +1,209 @@
+{
+  "direct": [
+    {
+      "value": 2,
+      "calls": []
+    },
+    {
+      "value": 2,
+      "calls": []
+    },
+    {
+      "value": null,
+      "calls": []
+    },
+    {
+      "value": null,
+      "calls": []
+    },
+    {
+      "value": null,
+      "calls": []
+    },
+    {
+      "value": 2,
+      "calls": ["get", "xs@62", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@62"]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@60"]
+    },
+    {
+      "value": 2,
+      "calls": [
+        "get",
+        "xs@76",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "const@59",
+        "get",
+        "xs@76"
+      ]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@74", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@55"]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@77", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@55"]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@71", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@55"]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@76", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@62"]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@77", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@57"]
+    },
+    {
+      "value": null,
+      "calls": [
+        "get",
+        "xs@83",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "v@58",
+        "get",
+        "xs@60"
+      ]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@72", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@55"]
+    },
+    {
+      "value": null,
+      "calls": ["get", "xs@76", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@55"]
+    },
+    {
+      "value": 2,
+      "calls": [
+        "get",
+        "xs@94",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "xs@63",
+        "get",
+        "xs@73",
+        "get",
+        "push@77",
+        "get",
+        "xs@94"
+      ]
+    },
+    {
+      "value": 2,
+      "calls": [
+        "get",
+        "xs@89",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "ys@61",
+        "get",
+        "xs@66",
+        "get",
+        "ys@70",
+        "get",
+        "push@74",
+        "get",
+        "xs@89"
+      ]
+    },
+    {
+      "value": 2,
+      "calls": [
+        "get",
+        "xs@82",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "xs@55",
+        "get",
+        "map@59",
+        "get",
+        "x@63",
+        "get",
+        "x@67",
+        "get",
+        "xs@82"
+      ]
+    },
+    {
+      "value": 2,
+      "calls": [
+        "get",
+        "xs@76",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "xs@57",
+        "get",
+        "push@61",
+        "get",
+        "xs@76"
+      ]
+    },
+    {
+      "value": null,
+      "calls": [
+        "get",
+        "xs@93",
+        "get",
+        "__workflowScript__@14",
+        "get",
+        "xs@43",
+        "get",
+        "edit@64",
+        "get",
+        "xs@73"
+      ]
+    },
+    {
+      "value": null,
+      "calls": ["get", "missing@45"]
+    }
+  ],
+  "errors": {
+    "1": {
+      "error": "Owned checker failure",
+      "sameError": true,
+      "calls": ["get", "xs@62"]
+    },
+    "2": {
+      "error": "Owned checker failure",
+      "sameError": true,
+      "calls": ["get", "xs@62", "get", "__workflowScript__@14"]
+    },
+    "4": {
+      "error": "Owned checker failure",
+      "sameError": true,
+      "calls": ["get", "xs@62", "get", "__workflowScript__@14", "get", "xs@43", "get", "xs@62"]
+    }
+  },
+  "consumers": [
+    "c7862a959f915cfa8603ed45aa9e120f02d82bc450ed883c5876e110c9e33974",
+    "a43547401f68bc4e3be26c15dcf9ff4c9e956688e56da91bde6a692a5a803113",
+    "01606c83df0bab9e604ee7223a439de6a63da3e80d8167fc8baebc0a03ef0a04"
+  ]
+}
