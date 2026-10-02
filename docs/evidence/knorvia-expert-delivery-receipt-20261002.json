@@ -1,0 +1,50 @@
+{
+  "batch": "execution-delivery",
+  "files": {
+    "scheduled-phase": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+        "sha256": "2b66098500538ba62a0712bb8289759d10fac6bafd5a0d504e3db7b8dff27772"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.js",
+        "sha256": "23bd5ee251fcf19e931f34b129a90058416ae13a0d200d8b6473e813bdc3c6cf"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/scheduled-phase.d.ts",
+        "sha256": "6dbfb198b9572488416662ac2ecfe6eb4bcfcd0ae761efe5ddebedfe7765d45d"
+      }
+    },
+    "failures": {
+      "source": {
+        "path": "apps/cli/packages/core/src/workflow/expert/failures.ts",
+        "sha256": "d93b9e128fc82618830d4e98d62506ea1b8465c8b449b0da6d8d6a6fa8748613"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/failures.js",
+        "sha256": "e0009b42ff20ee15e1ebd89e70f180eea9e718c81a341db381387795f0014ae3"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/workflow/expert/failures.d.ts",
+        "sha256": "ffd63e059a37f9f334e6897323165ddeea0f80d97dbf0b357c2846010211e240"
+      }
+    }
+  },
+  "draft": "51e70d9 archived exact original drafts before comparison; only packet/API messages read by author",
+  "correction": "Curator source-exposed correction restores ctx.appendEvent for phase/artifact publication and two-argument store.appendEvent forwarding, after preserved eight type diagnostics at 27ed3d9. Failure classification draft installed with formatting only.",
+  "retained": "Fixed enum/loose classification priority, failure fields/actions/strings, graph/scheduler/parser dependencies and publication gates are retained contract material. Close expression correspondence remains; bounded author access does not establish whole-file rights.",
+  "checks": {
+    "scopeTypes": "0 diagnostics",
+    "publicAPI": "2/2 equal",
+    "lint": "0 warnings/errors",
+    "format": "2 files",
+    "architecture": "0 violations",
+    "concreteSafety": "one actual-emitted predecessor/candidate synthetic publication check with real branch scheduler/context; exact owner pins plus wrong/missing rejection"
+  },
+  "limits": [
+    "ordinary groups/builds/full suites/native acceptance skipped",
+    "transitive workspace dependencies via tsx; not all compiled",
+    "fixture setup failures separately retained; historical assertions untouched",
+    "prior consumer pins preserved, root aggregate selector refresh deferred"
+  ]
+}
