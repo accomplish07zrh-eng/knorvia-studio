@@ -1,0 +1,49 @@
+{
+  "frozenAtUtc": "2026-10-02T17:46:22.325711+00:00",
+  "eBaseline": "dbfbccfe2c3bc9d8262cde4f04b3941518b913f7",
+  "behaviorBaseline": {
+    "publishedPr": 11,
+    "commit": "cf1cfe00ec135de840b17926f66014712e4d3fc5",
+    "sources": [
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+        "bytes": 7701,
+        "sha256": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+        "gitBlob": "18523fd43ef142e2fad73f5869dc1f6ea312b673"
+      },
+      {
+        "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner-outcome.ts",
+        "bytes": 3609,
+        "sha256": "7930fa28918c636f5405b9cedf1aed1fcbdfa57cc572921a12611a8a6fbbcf0a",
+        "gitBlob": "e6283d941b0d35235c572609a95fb2edc5770e28"
+      }
+    ]
+  },
+  "inputFiles": [
+    {
+      "file": "contract.md",
+      "bytes": 15469,
+      "sha256": "e7c57aa1340d66153c9b1657ba3a16ce891dffae2184909371326847d468870b"
+    },
+    {
+      "file": "public-api.d.ts",
+      "bytes": 834,
+      "sha256": "8d8776f4396010dece49583d22e8e487386e289432893e9a8029be2392381e17"
+    },
+    {
+      "file": "dependency-api.d.ts",
+      "bytes": 5370,
+      "sha256": "f1f7c642193d18425c788c5ca01068738de7d035442a5ed1c4272cea2d5c472f"
+    },
+    {
+      "file": "public-data-shapes.md",
+      "bytes": 3220,
+      "sha256": "d97be02c6c18a24609462235c737ac1485d93f5a9ddd93f52b2f7ae33d659ab4"
+    }
+  ],
+  "curatorExposure": "Read E predecessor and published corrected node runner/outcome helper plus public prior handoff/spec, graph/prompt/tracing context. No corrected implementation or test bodies supplied to author.",
+  "scope": "Complete E-authored node-runner owner; no A/root implementation import or merge. Outcome projection can be private within complete owner.",
+  "declarations": "TypeScript6.0.2 public declaration extraction; zero owner extraction diagnostics; not project typecheck.",
+  "testsRun": false,
+  "authorBoundary": "Fresh no-inherited-context task to be created after this input freeze; instruction allowlist in shared executor, not OS isolation."
+}
