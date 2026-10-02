@@ -1,0 +1,132 @@
+{
+  "scope": "attachment",
+  "baseline": "735395542692589c572bd5c0941b27ce872f92de",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/contract.md",
+      "bytes": 5173,
+      "sha256": "62eedc7002adbc11ffbee3913f2dd59b4a1353b5cc5c2e4f1d35deb059c0b48d",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-api.d.ts",
+      "bytes": 690,
+      "sha256": "8e8f5a505740092a66ed5e8c5357d98052c26956e9918235e18db794a91c7680",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/dependency-api.d.ts",
+      "bytes": 2792,
+      "sha256": "932088c1da938a76ea16ab3ce7a69b40cf57d0b026419797f140cb6c1f749ddc",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-shapes.d.ts",
+      "bytes": 2277,
+      "sha256": "47111f82a7565ef57538080d8d454f95f281154949655174e4432b6862efac3c",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/dependency-data.json",
+      "bytes": 126,
+      "sha256": "158941b3139087b71612e91c16388b7b389fb2d8bcd15d962637b0958bd5a8e4",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/imports.json",
+      "bytes": 305,
+      "sha256": "569bbb492711eb43ced92cc3030fd345b2649f004c55ff9a594338e01eeeabf6",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/output-data.json",
+      "bytes": 4746,
+      "sha256": "e6c5e0b066c8e63a0604b5ba0e88b1dbc49393204107e220634fb0334a171557",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "prompt-attachment.ts.txt",
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/prompt-attachment.ts",
+      "bytes": 3407,
+      "lines": 86,
+      "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8",
+      "mode": "444",
+      "target": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-prompt-attachment-owner-20261003/attachment/author-record.json",
+      "bytes": 9876,
+      "lines": 143,
+      "sha256": "89995c7c3483f2f9922ad84881a81ee1342811a82a8801bb8aba9e149cdf2172",
+      "mode": "444",
+      "exact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+      "bytes": 7447,
+      "sha256": "75669f23f63902c6f226779d2d1aa0cef869de40ce9784f7a27faf6d35032d0e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/source.ts",
+      "bytes": 8319,
+      "sha256": "f7f37a4d297f351ed749359685e19a79109ec78899bdf68e5484edd706c6395c",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/system-reminder/incoming-message.ts",
+      "bytes": 2676,
+      "sha256": "263b8ea544c2be4b215f6ccc4984f3a46981c297392ab04e78f01256c229d607",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Isolated declaration/metadata checks only, not semantic/project compilation. Complete original archive reviewed before installation, opaque original ports remain untouched. Self-report/instruction-only shared executor; no access audit, clean separation or rights assertion. Ordinary checks deferred."
+}

@@ -1,0 +1,32 @@
+{
+  "passed": false,
+  "groups": [
+    {
+      "name": "absent/inline context remains data, labels bounded and input immutable",
+      "passed": true
+    },
+    {
+      "name": "file projection preserves preview/nullish fields, native line counts and raw formatter result",
+      "passed": true
+    },
+    {
+      "name": "file truncation guidance retains exact cap/text and suppression rule",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    'Called the Read tool with the following input: {\"file_path\":\"file\"}',\n+   'Result of calling the Read tool:\\n' +\n+     'FORMAT[raw]\\n' +\n+     \"Note: The file was too large and has been truncated to the first 2000 lines. Don't tell the user about this truncation. Use Read to read more of the file if you need.\"\n-   'Result of calling the Read tool:\\nFORMAT[raw]',\n-   \"Note: The file was too large and has been truncated to the first 2000 lines. Don't tell the user about this truncation. Use Read to read more of the file if you need.\"\n  ]\n\n    at /workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.cjs:30:9\n    at gate (/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.cjs:6:44)\n    at Object.<anonymous> (/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.cjs:28:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    },
+    {
+      "name": "text blocks delegate original wrapper in order, with exact source and fail-fast error identity",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n2 !== 3\n\n    at /workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.cjs:35:9\n    at gate (/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.cjs:6:44)\n    at Object.<anonymous> (/workspace/knorvia-studio/docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-probes.cjs:33:1)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\n    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)\n    at node:internal/main/run_main_module:33:47"
+    }
+  ],
+  "bindings": [
+    {
+      "scope": "attachment",
+      "archive": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/prompt-attachment.ts.txt",
+      "bytes": 3407,
+      "sha256": "2f16cd276aa2c516e734fa763f4e8b6cf99e19a62401b1efe2e653c2191564c8"
+    }
+  ],
+  "qualification": "Four distinct minimum synthetic data/authority/port/error gates; archived complete candidate only, fake original formatter/wrapper and constant ports. No original/dependency/business runtime or actual users/files/plugins/provider/memory/store/network/credentials. No ordinary suite/project/build/lint/performance or source-emitted matrix; not final acceptance/origin/rights proof."
+}
