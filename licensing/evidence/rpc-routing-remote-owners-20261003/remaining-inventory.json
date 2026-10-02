@@ -1,0 +1,170 @@
+{
+  "records": [
+    {
+      "path": "packages/rpc/src/buffer.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+        "bytes": 1866
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721"
+    },
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "5f2409b75cfaba1c9e5e093bc1f4273ab243aeec05dd0bac1bb28b442a5ef6fd",
+        "bytes": 7936
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "4ff54aec9697fc609a72279c08cdab1848efac42"
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "00757689372616d9fb8b3e82d722f4774a968649323ae31724dc140eb22c557b",
+        "bytes": 7365
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "4ff54aec9697fc609a72279c08cdab1848efac42"
+    },
+    {
+      "path": "packages/rpc/src/channels.shared.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+        "bytes": 1723
+      },
+      "laneDisposition": "retained",
+      "basis": "public types/enums"
+    },
+    {
+      "path": "packages/rpc/src/channels.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
+        "bytes": 199
+      },
+      "laneDisposition": "retained",
+      "basis": "export facade"
+    },
+    {
+      "path": "packages/rpc/src/delayedChannel.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "e7607b7fe9f35c742db206df90852e2ccafb75abc088606cf1ddbae801574ecf",
+        "bytes": 632
+      },
+      "laneDisposition": "retained",
+      "basis": "tiny existing Relay delegate"
+    },
+    {
+      "path": "packages/rpc/src/foundation.ts",
+      "globalSnapshotClassification": "upstream-modified",
+      "currentHash": {
+        "sha256": "fc2d655c586b91f9326adf2ab3e1649c1b3aaaa02ac69e60ac1fb8dcb193c140",
+        "bytes": 4675
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721"
+    },
+    {
+      "path": "packages/rpc/src/index.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "6a5adcfb0e6c7a7d385e10fede09c3e9c808e3555c27b938091868cdf0c3fbef",
+        "bytes": 5013
+      },
+      "laneDisposition": "retained",
+      "basis": "exports/declarations surface"
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "globalSnapshotClassification": "upstream-modified",
+      "currentHash": {
+        "sha256": "b74ebf2694a2504e884df80cd727673893bfcc4d2d0dd97fc92ce6a104c230a7",
+        "bytes": 8173
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "this commit"
+    },
+    {
+      "path": "packages/rpc/src/logging-middleware.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "6d3b327b0bb5c56b7a8f1aad7b64b7da23fb4d22616bc1f18fa919dd625f287e",
+        "bytes": 3240
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "69e86fb1f3798d83002573808eb4948d0e29ead7"
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-middleware.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "ee97f63bf5598f1f69b6607e9e6728ea22b6f0156f072b08a8ff08cf8c2e4d48",
+        "bytes": 4205
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "69e86fb1f3798d83002573808eb4948d0e29ead7"
+    },
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0",
+        "bytes": 6973
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "4ff54aec9697fc609a72279c08cdab1848efac42"
+    },
+    {
+      "path": "packages/rpc/src/protocol.ts",
+      "globalSnapshotClassification": "upstream-modified",
+      "currentHash": {
+        "sha256": "02e5815d8e109dd3f85d53452d73480272569f9d3f4f7a5f8fadbda76f00b592",
+        "bytes": 8100
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721"
+    },
+    {
+      "path": "packages/rpc/src/proxy-channel.ts",
+      "globalSnapshotClassification": "upstream-modified",
+      "currentHash": {
+        "sha256": "cceb7734ed1c11a3135939341acedca2916e4f0eeaa06ed2e2c54e39f28cbe01",
+        "bytes": 3770
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721"
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "globalSnapshotClassification": "upstream-unchanged",
+      "currentHash": {
+        "sha256": "793b3e8723436177e0f3f0412fbece45403b435f35511db990004723a57028fe",
+        "bytes": 6185
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "this commit"
+    },
+    {
+      "path": "packages/rpc/src/serialization.ts",
+      "globalSnapshotClassification": "upstream-modified",
+      "currentHash": {
+        "sha256": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
+        "bytes": 5892
+      },
+      "laneDisposition": "complete functional author candidate; provenance acceptance pending",
+      "ownerCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721"
+    }
+  ],
+  "sourceCount": 16,
+  "completeOwnerCandidateCount": 12,
+  "retainedCount": 4,
+  "remainingEligibleSubstantiveOwners": [],
+  "rpcGlobalReviewEntries": [],
+  "authority": "Bounded lane accounting only; no global provenance/review/licence decision; all acceptance deferred to parent"
+}

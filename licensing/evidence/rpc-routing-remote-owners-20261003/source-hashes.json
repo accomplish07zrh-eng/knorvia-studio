@@ -1,0 +1,106 @@
+{
+  "files": {
+    "packages/rpc/src/ipc.ts": {
+      "baselineCommit": "69e86fb1f3798d83002573808eb4948d0e29ead7",
+      "baselineBlob": "b93dccaf47346b4d0c998a00c14af1b19a21770a",
+      "baseline": {
+        "sha256": "53bcc9f09406515ee75b1bec8768d88f19351a05c33e66ed3a87f8c58f481d94",
+        "bytes": 11545
+      },
+      "initialAuthorFreeze": {
+        "sha256": "62f49162da5832b4cd6f40af12bdbe6f458870e8895e9f7df99c49fb43ab367b",
+        "bytes": 8182
+      },
+      "installedAuthorFreeze": {
+        "sha256": "62f49162da5832b4cd6f40af12bdbe6f458870e8895e9f7df99c49fb43ab367b",
+        "bytes": 8182
+      },
+      "candidate": {
+        "sha256": "b74ebf2694a2504e884df80cd727673893bfcc4d2d0dd97fc92ce6a104c230a7",
+        "bytes": 8173
+      },
+      "packet": {
+        "sha256": "97f33420fa4e2f571293c7b058a12039ad7589846a5392ddf69cc59119d7a73e",
+        "bytes": 6326
+      }
+    },
+    "packages/rpc/src/remote.ts": {
+      "baselineCommit": "69e86fb1f3798d83002573808eb4948d0e29ead7",
+      "baselineBlob": "dab4dadb63dd17b18872767d445528037e0a4aaf",
+      "baseline": {
+        "sha256": "a11e072d5df7e1c1ce64814a68f72afc081246b364f0da409b5c9d22bc815957",
+        "bytes": 10935
+      },
+      "initialAuthorFreeze": {
+        "sha256": "b7004665e87abe5dc1a83cd5637556fcd26de40045338e388317f36e7e391d80",
+        "bytes": 6196
+      },
+      "installedAuthorFreeze": {
+        "sha256": "fbcb09062895af2e0b3e044fd0c91e55f82ca447066a25d4d745975c87bffe0a",
+        "bytes": 6215
+      },
+      "candidate": {
+        "sha256": "793b3e8723436177e0f3f0412fbece45403b435f35511db990004723a57028fe",
+        "bytes": 6185
+      },
+      "packet": {
+        "sha256": "aae5289802c633327be3dde8b5a3edda26ed57e32a2f5612c987b427dbf613a0",
+        "bytes": 5515
+      },
+      "apiCorrectedFreeze": {
+        "sha256": "651dba7d9781b0e8d30f32c5e2eb63c92e97f5755c4a9497687935ba78d92900",
+        "bytes": 6230
+      }
+    }
+  },
+  "inputs": {
+    "AGENTS.md": {
+      "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+      "bytes": 10384
+    },
+    ".agents/skills/architecture-governance/SKILL.md": {
+      "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+      "bytes": 5026
+    },
+    "packages/rpc/src/foundation.ts": {
+      "sha256": "fc2d655c586b91f9326adf2ab3e1649c1b3aaaa02ac69e60ac1fb8dcb193c140",
+      "bytes": 4675
+    },
+    "packages/rpc/src/channels.shared.ts": {
+      "sha256": "e2d3ce17dfb23d53ea8fef6cd4dc87bef4558ff6e72b458e50fd456b0b2a6ae2",
+      "bytes": 1723
+    },
+    "packages/rpc/src/channels.ts": {
+      "sha256": "afaba1724055a3d2e6b8b379553569489b71ac6eb252f636ab91649657485209",
+      "bytes": 199
+    },
+    "packages/rpc/src/protocol.ts": {
+      "sha256": "02e5815d8e109dd3f85d53452d73480272569f9d3f4f7a5f8fadbda76f00b592",
+      "bytes": 8100
+    },
+    "packages/rpc/src/serialization.ts": {
+      "sha256": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
+      "bytes": 5892
+    },
+    "licensing/reviews.json": {
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "bytes": 3446188
+    },
+    "licensing/current-files.json": {
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff",
+      "bytes": 9510569
+    }
+  },
+  "test": {
+    "sha256": "adda3f8325a8db1e1d84ce610d1da8243c8b006a52eed7dbf9778670ffe45760",
+    "bytes": 11539
+  },
+  "spec": {
+    "sha256": "b1514a3f7ded8501e733d227485c49ddec4f4d269a3ec6c5b19febe552e39924",
+    "bytes": 1428
+  },
+  "apiHelper": {
+    "sha256": "cd1486313fb6877f88bb4b84f3a3197e25a8bd41aa99b50ce83f6a3307186d50",
+    "bytes": 5218
+  }
+}
