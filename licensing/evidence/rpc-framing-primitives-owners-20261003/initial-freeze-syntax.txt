@@ -1,0 +1,5 @@
+/tmp/knorvia-rpc-primitives-freeze-1/protocol.ts: 0 syntax-only diagnostics
+/tmp/knorvia-rpc-primitives-freeze-1/proxy-channel.ts: 0 syntax-only diagnostics
+/tmp/knorvia-rpc-primitives-freeze-1/buffer.ts: 0 syntax-only diagnostics
+/tmp/knorvia-rpc-primitives-freeze-1/foundation.ts: 0 syntax-only diagnostics
+/tmp/knorvia-rpc-primitives-freeze-1/serialization.ts: 0 syntax-only diagnostics

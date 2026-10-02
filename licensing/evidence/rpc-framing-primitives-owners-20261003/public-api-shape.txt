@@ -1,0 +1,6 @@
+protocol.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded
+proxy-channel.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded
+buffer.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded
+foundation.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded
+serialization.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded
+AST-only shape comparison; no semantic typecheck or declaration emit.
