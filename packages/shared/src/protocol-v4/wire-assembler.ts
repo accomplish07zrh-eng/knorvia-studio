@@ -1,14 +1,11 @@
-/* eslint-disable max-lines -- physical assembly 的 ordinal、预算、校验与释放必须保持单一原子状态机。 */
-// V4 incremental physical assembler：ownership 过滤后逐片接纳，只在
-// checksum/UTF-8/JSON/schema 全部通过后产出一个 logical frame。
-import { z } from "zod";
+/* eslint-disable max-lines -- Ordinal admission and decoded-byte accounting share one atomic owner. */
+import type { z } from "zod";
 import { PROTOCOL_V4_LIMITS } from "./core.js";
 import { crc32WireBytes, decodeWireBase64 } from "./wire-binary.js";
 import { measureTopicNotificationEnvelopeBytes } from "./wire-codec.js";
 import type { TopicFrameDeliveryKind, TopicWireFrameCandidate } from "./wire.js";
 
 export interface TopicWireAssemblyFault {
-  /** 缺失/伪值本身也必须成为 owned typed fault，此时不能伪造用途。 */
   deliveryKind?: TopicFrameDeliveryKind;
   reasonCode: string;
   logicalFrameId: string;
@@ -30,12 +27,24 @@ export interface TopicWireFrameAssemblerOptions {
   maxPhysicalFrameBytes?: number;
 }
 
-interface FragmentAssembly {
-  deliveryKind: TopicFrameDeliveryKind;
+interface FrameIdentity {
+  deliveryKind?: unknown;
   logicalFrameId: string;
   logicalFrameOrdinal: number;
   topic: string;
   subscriptionId: string;
+}
+
+interface FragmentFields {
+  fragmentIndex: number;
+  fragmentCount: number;
+  logicalBytes: number;
+  checksum: { algorithm: string; value: string };
+  dataBase64: string;
+}
+
+interface Assembly extends FrameIdentity {
+  deliveryKind: TopicFrameDeliveryKind;
   fragmentCount: number;
   logicalBytes: number;
   checksum: { algorithm: "crc32"; value: string };
@@ -45,21 +54,12 @@ interface FragmentAssembly {
   firstSeenAt: number;
 }
 
-interface SettledLogicalFrame {
-  logicalFrameId: string;
-  logicalFrameOrdinal: number;
+interface SettledFrame {
+  id: string;
+  ordinal: number;
 }
 
-type FragmentWireCandidate = Extract<TopicWireFrameCandidate, { kind: "fragment" }>;
-type ValidatedFragmentWire = FragmentWireCandidate & {
-  fragmentIndex: number;
-  fragmentCount: number;
-  logicalBytes: number;
-  checksum: { algorithm: string; value: string };
-  dataBase64: string;
-};
-
-const COMPLETE_WIRE_KEYS = new Set([
+const COMPLETE_KEYS = new Set([
   "wireVersion",
   "kind",
   "deliveryKind",
@@ -69,7 +69,8 @@ const COMPLETE_WIRE_KEYS = new Set([
   "subscriptionId",
   "frame",
 ]);
-const FRAGMENT_WIRE_KEYS = new Set([
+
+const FRAGMENT_KEYS = new Set([
   "wireVersion",
   "kind",
   "deliveryKind",
@@ -83,39 +84,54 @@ const FRAGMENT_WIRE_KEYS = new Set([
   "checksum",
   "dataBase64",
 ]);
+
 const CHECKSUM_KEYS = new Set(["algorithm", "value"]);
+
+function deliveryKindOf(value: unknown): TopicFrameDeliveryKind | null {
+  return value === "initial" || value === "online" || value === "recovery" ? value : null;
+}
+
+function routeKey(source: Pick<FrameIdentity, "topic" | "subscriptionId">): string {
+  return `${source.topic}\0${source.subscriptionId}`;
+}
 
 function hasOnlyKeys(value: object, allowed: ReadonlySet<string>): boolean {
   return Object.keys(value).every((key) => allowed.has(key));
 }
 
-function parseDeliveryKind(value: unknown): TopicFrameDeliveryKind | null {
-  return value === "initial" || value === "online" || value === "recovery" ? value : null;
-}
-
-function hasValidFragmentInner(wire: FragmentWireCandidate): wire is ValidatedFragmentWire {
+function hasFragmentFields(
+  wire: TopicWireFrameCandidate,
+): wire is TopicWireFrameCandidate & FragmentFields {
   if (
-    !hasOnlyKeys(wire, FRAGMENT_WIRE_KEYS) ||
+    wire.kind !== "fragment" ||
+    !hasOnlyKeys(wire, FRAGMENT_KEYS) ||
     typeof wire.fragmentIndex !== "number" ||
     typeof wire.fragmentCount !== "number" ||
     typeof wire.logicalBytes !== "number" ||
-    typeof wire.dataBase64 !== "string" ||
-    typeof wire.checksum !== "object" ||
-    wire.checksum === null ||
-    Array.isArray(wire.checksum) ||
-    !hasOnlyKeys(wire.checksum, CHECKSUM_KEYS)
+    typeof wire.dataBase64 !== "string"
   ) {
     return false;
   }
-  const checksum = wire.checksum as Record<string, unknown>;
-  return typeof checksum.algorithm === "string" && typeof checksum.value === "string";
+  const checksum = wire.checksum;
+  return (
+    typeof checksum === "object" &&
+    checksum !== null &&
+    !Array.isArray(checksum) &&
+    hasOnlyKeys(checksum, CHECKSUM_KEYS) &&
+    "algorithm" in checksum &&
+    typeof checksum.algorithm === "string" &&
+    "value" in checksum &&
+    typeof checksum.value === "string"
+  );
 }
 
-function routeKey(topic: string, subscriptionId: string): string {
-  return `${topic}\0${subscriptionId}`;
+function matchesEnvelope(value: unknown, source: FrameIdentity): boolean {
+  if (typeof value !== "object" || value === null) return false;
+  const frame = value as { topic?: unknown; subscriptionId?: unknown };
+  return frame.topic === source.topic && frame.subscriptionId === source.subscriptionId;
 }
 
-function bytesEqual(left: Uint8Array, right: Uint8Array): boolean {
+function sameBytes(left: Uint8Array, right: Uint8Array): boolean {
   if (left.byteLength !== right.byteLength) return false;
   for (let index = 0; index < left.byteLength; index += 1) {
     if (left[index] !== right[index]) return false;
@@ -123,65 +139,70 @@ function bytesEqual(left: Uint8Array, right: Uint8Array): boolean {
   return true;
 }
 
-function frameMatchesEnvelope(
-  frame: unknown,
-  wire: { topic: string; subscriptionId: string },
-): boolean {
-  if (typeof frame !== "object" || frame === null) return false;
-  const value = frame as { topic?: unknown; subscriptionId?: unknown };
-  return value.topic === wire.topic && value.subscriptionId === wire.subscriptionId;
-}
-
-function hardBound(value: number | undefined, maximum: number, name: string): number {
-  const resolved = value ?? maximum;
-  if (!Number.isFinite(resolved) || resolved <= 0) {
+function boundedOption(value: number | undefined, maximum: number, name: string): number {
+  const requested = value ?? maximum;
+  if (!Number.isFinite(requested) || requested <= 0) {
     throw new RangeError(`${name} must be a positive finite number`);
   }
-  return Math.min(Math.floor(resolved), maximum);
+  return Math.min(Math.floor(requested), maximum);
+}
+
+function faultEvent<F>(source: FrameIdentity, suffix: string): TopicWireAssemblyEvent<F> {
+  const deliveryKind = deliveryKindOf(source.deliveryKind);
+  return {
+    kind: "fault",
+    fault: {
+      ...(deliveryKind === null ? {} : { deliveryKind }),
+      reasonCode: `proto.${suffix}`,
+      logicalFrameId: source.logicalFrameId,
+      logicalFrameOrdinal: source.logicalFrameOrdinal,
+      topic: source.topic,
+      subscriptionId: source.subscriptionId,
+    },
+  };
 }
 
 export class TopicWireFrameAssembler<F> {
-  private readonly assemblies = new Map<string, FragmentAssembly>();
-  /** 每 route 的单调 ordinal tombstone；不会像 bounded id LRU 一样淘汰后复活旧帧。 */
-  private readonly settledByRoute = new Map<string, SettledLogicalFrame>();
-  private stagedDecodedBytes = 0;
   private readonly maxAssemblyBytes: number;
   private readonly maxFragments: number;
   private readonly maxConcurrentAssemblies: number;
   private readonly maxStagedDecodedBytes: number;
   private readonly timeoutMs: number;
   private readonly maxPhysicalFrameBytes: number;
+  private readonly assemblies = new Map<string, Assembly>();
+  private readonly settled = new Map<string, SettledFrame>();
+  private stagedDecodedBytes = 0;
 
   constructor(
     private readonly frameSchema: z.ZodType<F>,
     options: TopicWireFrameAssemblerOptions = {},
   ) {
-    this.maxAssemblyBytes = hardBound(
+    this.maxAssemblyBytes = boundedOption(
       options.maxAssemblyBytes,
       PROTOCOL_V4_LIMITS.logicalFrameAssemblyMaxBytes,
       "maxAssemblyBytes",
     );
-    this.maxFragments = hardBound(
+    this.maxFragments = boundedOption(
       options.maxFragments,
       PROTOCOL_V4_LIMITS.logicalFrameAssemblyMaxFragments,
       "maxFragments",
     );
-    this.maxConcurrentAssemblies = hardBound(
+    this.maxConcurrentAssemblies = boundedOption(
       options.maxConcurrentAssemblies,
       PROTOCOL_V4_LIMITS.logicalFrameAssemblyMaxConcurrent,
       "maxConcurrentAssemblies",
     );
-    this.maxStagedDecodedBytes = hardBound(
+    this.maxStagedDecodedBytes = boundedOption(
       options.maxStagedDecodedBytes,
       PROTOCOL_V4_LIMITS.logicalFrameAssemblyMaxStagedBytes,
       "maxStagedDecodedBytes",
     );
-    this.timeoutMs = hardBound(
+    this.timeoutMs = boundedOption(
       options.timeoutMs,
       PROTOCOL_V4_LIMITS.logicalFrameAssemblyTimeoutMs,
       "timeoutMs",
     );
-    this.maxPhysicalFrameBytes = hardBound(
+    this.maxPhysicalFrameBytes = boundedOption(
       options.maxPhysicalFrameBytes,
       PROTOCOL_V4_LIMITS.maxFrameBytes,
       "maxPhysicalFrameBytes",
@@ -190,30 +211,25 @@ export class TopicWireFrameAssembler<F> {
 
   accept(wire: TopicWireFrameCandidate, now = Date.now()): TopicWireAssemblyEvent<F>[] {
     const events = this.expire(now);
-    const key = routeKey(wire.topic, wire.subscriptionId);
+    const key = routeKey(wire);
     if (!Number.isSafeInteger(wire.logicalFrameOrdinal) || wire.logicalFrameOrdinal < 1) {
-      events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
+      events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
       return events;
     }
 
-    // ordinal 淘汰检查必须早于 envelope/base64：迟到旧坏片不得释放正在组装的新帧。
-    const settled = this.settledByRoute.get(key);
+    const settled = this.settled.get(key);
     if (settled) {
-      if (wire.logicalFrameOrdinal < settled.logicalFrameOrdinal) return events;
-      if (wire.logicalFrameOrdinal === settled.logicalFrameOrdinal) {
-        if (wire.logicalFrameId !== settled.logicalFrameId) {
-          events.push(this.fault(wire, "proto.frameAssemblyOrdinalConflict"));
+      if (wire.logicalFrameOrdinal < settled.ordinal) return events;
+      if (wire.logicalFrameOrdinal === settled.ordinal) {
+        if (wire.logicalFrameId !== settled.id) {
+          events.push(faultEvent(wire, "frameAssemblyOrdinalConflict"));
         }
         return events;
       }
     }
 
-    const deliveryKind = parseDeliveryKind(wire.deliveryKind);
+    const deliveryKind = deliveryKindOf(wire.deliveryKind);
     if (deliveryKind === "recovery") {
-      // accept() 先 expire 再接当前 wire。若旧 online 恰在 recovery 首片到达的
-      // 同次调用超时，向 consumer 上报旧 fault 会关掉 route 并丢失已接 recovery
-      // fragment。更高 ordinal 的权威 recovery 已取代旧 assembly，过滤该旧 fault；
-      // recovery 自身若坏，后续仍会产生带 recovery kind 的 typed fault。
       for (let index = events.length - 1; index >= 0; index -= 1) {
         const event = events[index];
         if (
@@ -226,96 +242,149 @@ export class TopicWireFrameAssembler<F> {
         }
       }
     }
-    const current = this.assemblies.get(key);
-    if (current) {
-      if (wire.logicalFrameOrdinal < current.logicalFrameOrdinal) return events;
-      if (wire.logicalFrameOrdinal === current.logicalFrameOrdinal) {
-        if (wire.logicalFrameId !== current.logicalFrameId) {
-          this.release(key, current);
-          this.settle(key, current);
-          events.push(this.fault(wire, "proto.frameAssemblyOrdinalConflict"));
+
+    const active = this.assemblies.get(key);
+    if (active) {
+      if (wire.logicalFrameOrdinal < active.logicalFrameOrdinal) return events;
+      if (wire.logicalFrameOrdinal === active.logicalFrameOrdinal) {
+        if (wire.logicalFrameId !== active.logicalFrameId) {
+          this.release(active);
+          this.settle(active);
+          events.push(faultEvent(wire, "frameAssemblyOrdinalConflict"));
           return events;
         }
       } else {
-        this.release(key, current);
-        this.settle(key, current);
-        // same-sub recovery 本来就是权威替换残缺旧帧；若仍把旧 online
-        // assembly 作为同批 fault 上报，decoder 会 fail-close 并丢掉紧随其后的完整
-        // recovery，flight 永远无法收口。只有权威 recovery 可无 fault supersede。
+        this.release(active);
+        this.settle(active);
         if (deliveryKind !== "recovery") {
-          events.push(this.fault(current, "proto.frameAssemblySuperseded"));
+          events.push(faultEvent(active, "frameAssemblySuperseded"));
         }
       }
     }
 
     if (deliveryKind === null) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
       return events;
     }
 
     if (wire.kind === "complete") {
-      if (
-        !hasOnlyKeys(wire, COMPLETE_WIRE_KEYS) ||
-        !Object.prototype.hasOwnProperty.call(wire, "frame")
-      ) {
-        this.releaseAndSettle(key, wire);
-        events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
-        return events;
-      }
-      if (measureTopicNotificationEnvelopeBytes(wire).maxBytes > this.maxPhysicalFrameBytes) {
-        this.releaseAndSettle(key, wire);
-        events.push(this.fault(wire, "proto.frameEnvelopeTooLarge"));
-        return events;
-      }
-      const active = this.assemblies.get(key);
-      if (active) {
-        this.release(key, active);
-        this.settle(key, active);
-        events.push(this.fault(active, "proto.frameAssemblyMetadataMismatch"));
-        return events;
-      }
-      const logicalBytes = new TextEncoder().encode(JSON.stringify(wire.frame)).byteLength;
-      if (logicalBytes > this.maxAssemblyBytes) {
-        this.settle(key, wire);
-        events.push(this.fault(wire, "proto.frameAssemblyTooLarge"));
-        return events;
-      }
-      if (!frameMatchesEnvelope(wire.frame, wire)) {
-        this.settle(key, wire);
-        events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
-        return events;
-      }
-      const parsed = this.frameSchema.safeParse(wire.frame);
-      if (!parsed.success) {
-        this.settle(key, wire);
-        events.push(this.fault(wire, "proto.frameAssemblyInvalidPayload"));
-        return events;
-      }
-      this.settle(key, wire);
-      events.push({ kind: "complete", frame: parsed.data, deliveryKind });
-      return events;
+      return this.acceptComplete(wire, deliveryKind, events);
     }
+    return this.acceptFragment(wire, deliveryKind, now, events);
+  }
 
-    if (!hasValidFragmentInner(wire)) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
+  expire(now = Date.now()): TopicWireAssemblyEvent<F>[] {
+    const events: TopicWireAssemblyEvent<F>[] = [];
+    for (const assembly of this.assemblies.values()) {
+      if (now - assembly.firstSeenAt < this.timeoutMs) continue;
+      this.release(assembly);
+      this.settle(assembly);
+      events.push(faultEvent(assembly, "frameAssemblyTimedOut"));
+    }
+    return events;
+  }
+
+  discard(topic: string, subscriptionId: string): void {
+    const key = routeKey({ topic, subscriptionId });
+    const active = this.assemblies.get(key);
+    if (active) this.release(active);
+    this.settled.delete(key);
+  }
+
+  abort(topic: string, subscriptionId: string): void {
+    const active = this.assemblies.get(routeKey({ topic, subscriptionId }));
+    if (!active) return;
+    this.release(active);
+    this.settle(active);
+  }
+
+  clear(): void {
+    this.assemblies.clear();
+    this.settled.clear();
+    this.stagedDecodedBytes = 0;
+  }
+
+  getStats(): { assemblies: number; stagedDecodedBytes: number } {
+    return { assemblies: this.assemblies.size, stagedDecodedBytes: this.stagedDecodedBytes };
+  }
+
+  get nextExpiryAt(): number | null {
+    let next: number | null = null;
+    for (const assembly of this.assemblies.values()) {
+      const expiry = assembly.firstSeenAt + this.timeoutMs;
+      if (next === null || expiry < next) next = expiry;
+    }
+    return next;
+  }
+
+  private acceptComplete(
+    wire: TopicWireFrameCandidate & { kind: "complete" },
+    deliveryKind: TopicFrameDeliveryKind,
+    events: TopicWireAssemblyEvent<F>[],
+  ): TopicWireAssemblyEvent<F>[] {
+    if (!hasOnlyKeys(wire, COMPLETE_KEYS) || !Object.prototype.hasOwnProperty.call(wire, "frame")) {
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
       return events;
     }
     if (measureTopicNotificationEnvelopeBytes(wire).maxBytes > this.maxPhysicalFrameBytes) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameEnvelopeTooLarge"));
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameEnvelopeTooLarge"));
       return events;
     }
+    const active = this.assemblies.get(routeKey(wire));
+    if (active) {
+      this.release(active);
+      this.settle(active);
+      events.push(faultEvent(active, "frameAssemblyMetadataMismatch"));
+      return events;
+    }
+    const logicalBytes = new TextEncoder().encode(JSON.stringify(wire.frame)).byteLength;
+    if (logicalBytes > this.maxAssemblyBytes) {
+      this.settle(wire);
+      events.push(faultEvent(wire, "frameAssemblyTooLarge"));
+      return events;
+    }
+    if (!matchesEnvelope(wire.frame, wire)) {
+      this.settle(wire);
+      events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
+      return events;
+    }
+    const parsed = this.frameSchema.safeParse(wire.frame);
+    this.settle(wire);
+    if (!parsed.success) {
+      events.push(faultEvent(wire, "frameAssemblyInvalidPayload"));
+    } else {
+      events.push({ kind: "complete", frame: parsed.data, deliveryKind });
+    }
+    return events;
+  }
 
+  private acceptFragment(
+    wire: TopicWireFrameCandidate,
+    deliveryKind: TopicFrameDeliveryKind,
+    now: number,
+    events: TopicWireAssemblyEvent<F>[],
+  ): TopicWireAssemblyEvent<F>[] {
+    if (!hasFragmentFields(wire)) {
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
+      return events;
+    }
+    if (measureTopicNotificationEnvelopeBytes(wire).maxBytes > this.maxPhysicalFrameBytes) {
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameEnvelopeTooLarge"));
+      return events;
+    }
     if (wire.fragmentCount > this.maxFragments) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameFragmentCountExceeded"));
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameFragmentCountExceeded"));
       return events;
     }
     if (wire.logicalBytes > this.maxAssemblyBytes) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameAssemblyTooLarge"));
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameAssemblyTooLarge"));
       return events;
     }
     if (
@@ -330,18 +399,18 @@ export class TopicWireFrameAssembler<F> {
       wire.checksum.algorithm !== "crc32" ||
       !/^[0-9a-f]{8}$/u.test(wire.checksum.value)
     ) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
       return events;
     }
-
     const decoded = decodeWireBase64(wire.dataBase64);
     if (!decoded) {
-      this.releaseAndSettle(key, wire);
-      events.push(this.fault(wire, "proto.frameAssemblyInvalidBase64"));
+      this.releaseAndSettle(wire);
+      events.push(faultEvent(wire, "frameAssemblyInvalidBase64"));
       return events;
     }
 
+    const key = routeKey(wire);
     let assembly = this.assemblies.get(key);
     if (assembly) {
       if (
@@ -351,20 +420,20 @@ export class TopicWireFrameAssembler<F> {
         assembly.checksum.algorithm !== wire.checksum.algorithm ||
         assembly.checksum.value !== wire.checksum.value
       ) {
-        this.release(key, assembly);
-        this.settle(key, assembly);
-        events.push(this.fault(wire, "proto.frameAssemblyMetadataMismatch"));
+        this.release(assembly);
+        this.settle(assembly);
+        events.push(faultEvent(wire, "frameAssemblyMetadataMismatch"));
         return events;
       }
     } else {
       if (this.assemblies.size >= this.maxConcurrentAssemblies) {
-        this.settle(key, wire);
-        events.push(this.fault(wire, "proto.frameAssemblyConcurrentLimit"));
+        this.settle(wire);
+        events.push(faultEvent(wire, "frameAssemblyConcurrentLimit"));
         return events;
       }
       if (this.stagedDecodedBytes + decoded.byteLength > this.maxStagedDecodedBytes) {
-        this.settle(key, wire);
-        events.push(this.fault(wire, "proto.frameAssemblyBudgetExceeded"));
+        this.settle(wire);
+        events.push(faultEvent(wire, "frameAssemblyBudgetExceeded"));
         return events;
       }
       assembly = {
@@ -378,7 +447,7 @@ export class TopicWireFrameAssembler<F> {
         checksum: { algorithm: "crc32", value: wire.checksum.value },
         fragments: Array.from(
           { length: wire.fragmentCount },
-          () => undefined as Uint8Array | undefined,
+          (): Uint8Array | undefined => undefined,
         ),
         receivedCount: 0,
         decodedBytes: 0,
@@ -389,185 +458,114 @@ export class TopicWireFrameAssembler<F> {
 
     const previous = assembly.fragments[wire.fragmentIndex];
     if (previous) {
-      if (!bytesEqual(previous, decoded)) {
-        this.release(key, assembly);
-        this.settle(key, assembly);
-        events.push(this.fault(wire, "proto.frameAssemblyFragmentConflict"));
+      if (!sameBytes(previous, decoded)) {
+        this.release(assembly);
+        this.settle(assembly);
+        events.push(faultEvent(wire, "frameAssemblyFragmentConflict"));
       }
       return events;
     }
     if (this.stagedDecodedBytes + decoded.byteLength > this.maxStagedDecodedBytes) {
-      this.release(key, assembly);
-      this.settle(key, assembly);
-      events.push(this.fault(wire, "proto.frameAssemblyBudgetExceeded"));
+      this.release(assembly);
+      this.settle(assembly);
+      events.push(faultEvent(wire, "frameAssemblyBudgetExceeded"));
       return events;
     }
     if (assembly.decodedBytes + decoded.byteLength > assembly.logicalBytes) {
-      this.release(key, assembly);
-      this.settle(key, assembly);
-      events.push(this.fault(wire, "proto.frameAssemblyLengthMismatch"));
+      this.release(assembly);
+      this.settle(assembly);
+      events.push(faultEvent(wire, "frameAssemblyLengthMismatch"));
       return events;
     }
     assembly.fragments[wire.fragmentIndex] = decoded;
     assembly.receivedCount += 1;
     assembly.decodedBytes += decoded.byteLength;
     this.stagedDecodedBytes += decoded.byteLength;
-    if (assembly.receivedCount !== assembly.fragmentCount) return events;
+    if (assembly.receivedCount < assembly.fragmentCount) return events;
 
-    this.release(key, assembly);
+    this.release(assembly);
+    return this.completeAssembly(assembly, events);
+  }
+
+  private completeAssembly(
+    assembly: Assembly,
+    events: TopicWireAssemblyEvent<F>[],
+  ): TopicWireAssemblyEvent<F>[] {
     if (assembly.decodedBytes !== assembly.logicalBytes) {
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyLengthMismatch"));
+      this.settle(assembly);
+      events.push(faultEvent(assembly, "frameAssemblyLengthMismatch"));
       return events;
     }
-    const logical = new Uint8Array(assembly.decodedBytes);
+    const bytes = new Uint8Array(assembly.decodedBytes);
     let offset = 0;
     for (const fragment of assembly.fragments) {
       if (!fragment) {
-        this.settle(key, assembly);
-        events.push(this.fault(assembly, "proto.frameAssemblyLengthMismatch"));
+        this.settle(assembly);
+        events.push(faultEvent(assembly, "frameAssemblyLengthMismatch"));
         return events;
       }
-      logical.set(fragment, offset);
+      bytes.set(fragment, offset);
       offset += fragment.byteLength;
     }
-    if (crc32WireBytes(logical) !== assembly.checksum.value) {
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyChecksumMismatch"));
+    if (crc32WireBytes(bytes) !== assembly.checksum.value) {
+      this.settle(assembly);
+      events.push(faultEvent(assembly, "frameAssemblyChecksumMismatch"));
       return events;
     }
-    let json: string;
+    let text: string;
     try {
-      json = new TextDecoder("utf-8", { fatal: true }).decode(logical);
+      text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
     } catch {
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyInvalidUtf8"));
+      this.settle(assembly);
+      events.push(faultEvent(assembly, "frameAssemblyInvalidUtf8"));
       return events;
     }
     let value: unknown;
     try {
-      value = JSON.parse(json);
+      value = JSON.parse(text);
     } catch {
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyInvalidJson"));
+      this.settle(assembly);
+      events.push(faultEvent(assembly, "frameAssemblyInvalidJson"));
       return events;
     }
-    if (!frameMatchesEnvelope(value, assembly)) {
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyMetadataMismatch"));
+    if (!matchesEnvelope(value, assembly)) {
+      this.settle(assembly);
+      events.push(faultEvent(assembly, "frameAssemblyMetadataMismatch"));
       return events;
     }
     const parsed = this.frameSchema.safeParse(value);
+    this.settle(assembly);
     if (!parsed.success) {
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyInvalidPayload"));
-      return events;
-    }
-    this.settle(key, assembly);
-    events.push({ kind: "complete", frame: parsed.data, deliveryKind: assembly.deliveryKind });
-    return events;
-  }
-
-  expire(now = Date.now()): TopicWireAssemblyEvent<F>[] {
-    const events: TopicWireAssemblyEvent<F>[] = [];
-    for (const [key, assembly] of this.assemblies) {
-      if (now - assembly.firstSeenAt < this.timeoutMs) continue;
-      this.release(key, assembly);
-      this.settle(key, assembly);
-      events.push(this.fault(assembly, "proto.frameAssemblyTimedOut"));
+      events.push(faultEvent(assembly, "frameAssemblyInvalidPayload"));
+    } else {
+      events.push({ kind: "complete", frame: parsed.data, deliveryKind: assembly.deliveryKind });
     }
     return events;
   }
 
-  discard(topic: string, subscriptionId: string): void {
-    const key = routeKey(topic, subscriptionId);
-    const assembly = this.assemblies.get(key);
-    if (assembly) this.release(key, assembly);
-    this.settledByRoute.delete(key);
-  }
-
-  /** fault 后释放该 route 的 active bytes，但保留 ordinal tombstone 防旧 replay 复活。 */
-  abort(topic: string, subscriptionId: string): void {
-    const key = routeKey(topic, subscriptionId);
-    const assembly = this.assemblies.get(key);
-    if (!assembly) return;
-    this.release(key, assembly);
-    this.settle(key, assembly);
-  }
-
-  clear(): void {
-    this.assemblies.clear();
-    this.settledByRoute.clear();
-    this.stagedDecodedBytes = 0;
-  }
-
-  getStats(): { assemblies: number; stagedDecodedBytes: number } {
-    return { assemblies: this.assemblies.size, stagedDecodedBytes: this.stagedDecodedBytes };
-  }
-
-  get nextExpiryAt(): number | null {
-    let next: number | null = null;
-    for (const assembly of this.assemblies.values()) {
-      const expiresAt = assembly.firstSeenAt + this.timeoutMs;
-      if (next === null || expiresAt < next) next = expiresAt;
-    }
-    return next;
-  }
-
-  private release(key: string, assembly: FragmentAssembly): void {
+  private release(assembly: Assembly): void {
+    const key = routeKey(assembly);
     if (this.assemblies.get(key) !== assembly) return;
     this.assemblies.delete(key);
     this.stagedDecodedBytes -= assembly.decodedBytes;
   }
 
-  private settle(
-    key: string,
-    frame: Pick<FragmentAssembly, "logicalFrameId" | "logicalFrameOrdinal">,
-  ): void {
-    const previous = this.settledByRoute.get(key);
-    if (previous && previous.logicalFrameOrdinal > frame.logicalFrameOrdinal) return;
-    this.settledByRoute.set(key, {
-      logicalFrameId: frame.logicalFrameId,
-      logicalFrameOrdinal: frame.logicalFrameOrdinal,
-    });
+  private settle(source: FrameIdentity): void {
+    const key = routeKey(source);
+    const previous = this.settled.get(key);
+    if (previous && previous.ordinal > source.logicalFrameOrdinal) return;
+    this.settled.set(key, { id: source.logicalFrameId, ordinal: source.logicalFrameOrdinal });
   }
 
-  private releaseAndSettle(
-    key: string,
-    frame: Pick<FragmentAssembly, "logicalFrameId" | "logicalFrameOrdinal">,
-  ): void {
-    const active = this.assemblies.get(key);
+  private releaseAndSettle(source: FrameIdentity): void {
+    const active = this.assemblies.get(routeKey(source));
     if (
       active &&
-      active.logicalFrameOrdinal === frame.logicalFrameOrdinal &&
-      active.logicalFrameId === frame.logicalFrameId
+      active.logicalFrameId === source.logicalFrameId &&
+      active.logicalFrameOrdinal === source.logicalFrameOrdinal
     ) {
-      this.release(key, active);
+      this.release(active);
     }
-    this.settle(key, frame);
-  }
-
-  private fault(
-    source: {
-      deliveryKind?: unknown;
-      logicalFrameId: string;
-      logicalFrameOrdinal: number;
-      topic: string;
-      subscriptionId: string;
-    },
-    reasonCode: string,
-  ): TopicWireAssemblyEvent<F> {
-    const deliveryKind = parseDeliveryKind(source.deliveryKind);
-    return {
-      kind: "fault",
-      fault: {
-        ...(deliveryKind === null ? {} : { deliveryKind }),
-        reasonCode,
-        logicalFrameId: source.logicalFrameId,
-        logicalFrameOrdinal: source.logicalFrameOrdinal,
-        topic: source.topic,
-        subscriptionId: source.subscriptionId,
-      },
-    };
+    this.settle(source);
   }
 }

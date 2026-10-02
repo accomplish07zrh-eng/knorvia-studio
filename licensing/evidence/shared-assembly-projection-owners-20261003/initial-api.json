@@ -1,0 +1,10 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "chunk_id": "184e80",
+    "wall_time_seconds": 0.17319224,
+    "exit_code": 0,
+    "original_token_count": 194,
+    "output": "protocol-v4/wire-assembler.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nprotocol-v4/workflow-runs-artifacts.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nconversation-message-projection-policy.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nsession-visible-content.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\ntool-plan-adapter.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n"
+  }
+}

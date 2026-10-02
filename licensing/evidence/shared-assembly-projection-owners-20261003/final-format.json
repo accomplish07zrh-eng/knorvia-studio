@@ -1,0 +1,11 @@
+{
+  "label": "final-format",
+  "cmd": "node_modules/.bin/oxfmt --check packages/shared/src/protocol-v4/wire-assembler.ts packages/shared/src/protocol-v4/workflow-runs-artifacts.ts packages/shared/src/conversation-message-projection-policy.ts packages/shared/src/session-visible-content.ts packages/shared/src/tool-plan-adapter.ts packages/shared/test/shared-assembly-projection-boundaries.test.mjs",
+  "result": {
+    "chunk_id": "0d9c55",
+    "wall_time_seconds": 0.049030166,
+    "exit_code": 0,
+    "original_token_count": 28,
+    "output": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 42ms on 6 files using 4 threads.\n"
+  }
+}

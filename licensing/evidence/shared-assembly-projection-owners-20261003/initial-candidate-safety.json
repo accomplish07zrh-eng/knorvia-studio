@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-assembly-projection-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "exitCode": 1,
+  "stdout": "\u2714 wire assembly admits owned recovery after expiry and rejects stale/conflicting or invalid payloads (14.863174ms)\n\u2714 artifact data boundary admits bounded summaries and same-id updates while excluding invalid/private payload fields (3.447019ms)\n\u2716 message policy admits visible assistant/user data and excludes model-only/synthetic carriers from visible input (3.95935ms)\n\u2714 session snapshot projection preserves visible identities and goal boundaries without inheriting stopped-goal iterations (4.429618ms)\n\u2714 plan projection admits complete main-agent collections and rejects malformed/child or non-plan data (3.619699ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 4\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 38.02409\n\n\u2716 failing tests:\n\ntest at packages/shared/test/shared-assembly-projection-boundaries.test.mjs:85:1\n\u2716 message policy admits visible assistant/user data and excludes model-only/synthetic carriers from visible input (3.95935ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'timelineOnly'\n  - 'realUserInput'\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-assembly-projection-boundaries.test.mjs:96:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'timelineOnly',\n    expected: 'realUserInput',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": ""
+}

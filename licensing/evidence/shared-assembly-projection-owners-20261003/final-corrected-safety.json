@@ -1,0 +1,11 @@
+{
+  "label": "final-corrected-safety",
+  "cmd": "node --test-name-pattern='^(wire assembly|message policy)' packages/shared/test/shared-assembly-projection-boundaries.test.mjs packages/shared/src",
+  "result": {
+    "chunk_id": "f17910",
+    "wall_time_seconds": 0.00002606,
+    "exit_code": 0,
+    "original_token_count": 90,
+    "output": "✔ wire assembly admits owned recovery after expiry and rejects stale/conflicting or invalid payloads (23.492095ms)\n✔ message policy admits visible assistant/user data and excludes model-only/synthetic carriers from visible input (7.177254ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 35.217817\n"
+  }
+}

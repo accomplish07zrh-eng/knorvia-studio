@@ -1,0 +1,9 @@
+{
+  "artifact-behavior-packet.md": "f7de1767b00aff95561efb8e1fc6be1912eae557ad69bc5d61d6663f4a828399",
+  "policy-behavior-packet.md": "c1cbb241351c894027128e91c92a9fafbad71fc2477d9014a20554dc2d8b9e97",
+  "plan-behavior-packet.md": "69c35f2faee811723d7101d166cdb8d7d9be021c956c8d17d236531944a834d4",
+  "visible-behavior-packet.md": "9617245519233dc0a5846844d5e3fc7d34b53de28f3c9e5fa232caddb08519b8",
+  "assembly-behavior-packet.md": "4c631f764ff827bc9250f6d73a18b0edd13e3c16fbf9de30566b36e254fdb44d",
+  "finalTestSha256": "fb23c3763caa8b0b04c085d7f0ce65fe61d9d65ee9c983b3f730cca9409aa085",
+  "testHashTiming": "Hash after final formatting; five cases and later policy regression authored before baseline/candidate runs. Packets copied before authoring, unchanged; body-free clarifications recorded separately."
+}

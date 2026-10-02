@@ -1,0 +1,52 @@
+[
+  {
+    "path": "packages/shared/src/protocol-v4/wire-assembler.ts",
+    "baselineCommit": "79a01c179f68977d4410b569ea9b14f9bebe4ed3",
+    "baselineBlob": "c10c9a132423d0628d95b3f7c97357242f2d8a17",
+    "baselineSha256": "c939e99f0ec4773efec91f3c9f9b1071a6a29326fa2e829f35bab523d529945a",
+    "initialFrozenSha256": "347ddc7be2851b16a5b4fdf23b56dc0ad4c60ce2cada5fbca4d9bc165ef89196",
+    "selectedFrozenSha256": "8d1028ba2adcc81b7322f6c7cdd1208722924136e8eeedeced17e03b58b50f4b",
+    "installedSha256": "639813743a3089e3696ca7377050fa6f5eb0fbe92a8e6a01bd3523122632401f",
+    "formattedFrozenOutputMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/protocol-v4/workflow-runs-artifacts.ts",
+    "baselineCommit": "79a01c179f68977d4410b569ea9b14f9bebe4ed3",
+    "baselineBlob": "ad17cd840cc4c3f88ce3e352218fb9c0b99d1ee0",
+    "baselineSha256": "de8e08048c7a30603f976ddaf32ac7d5b67bee7d513bcd29237d308c9905d8af",
+    "initialFrozenSha256": "3fbe92d7d8c34b8c2aac470501f9083345c0a2e4366c3a87c9b73a5b4e8471ef",
+    "selectedFrozenSha256": "3fbe92d7d8c34b8c2aac470501f9083345c0a2e4366c3a87c9b73a5b4e8471ef",
+    "installedSha256": "6300b9d43d9cc32f9d643b5246d1c4f67d9cba0eb8c17abeed693b354086713e",
+    "formattedFrozenOutputMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/conversation-message-projection-policy.ts",
+    "baselineCommit": "79a01c179f68977d4410b569ea9b14f9bebe4ed3",
+    "baselineBlob": "376f8646909b7a03fe67f988c5241d2386af9e97",
+    "baselineSha256": "f4d5931753e6b62ba34e7090fdcf8c071e85edd7b673904023d138507f0afa45",
+    "initialFrozenSha256": "fba3e8b9fee7e910c2370a79da64058ac023b669b09dbb84707e6badb19dbf65",
+    "selectedFrozenSha256": "3a62b52ae7b4405c6212d625e50bc71fb52896e5e595fe7f0c648979bd3de2bf",
+    "installedSha256": "543320970aa08021c6b004d4c46f60e95fce9a961f5e0d20d07ae5aadd012f1c",
+    "formattedFrozenOutputMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/session-visible-content.ts",
+    "baselineCommit": "79a01c179f68977d4410b569ea9b14f9bebe4ed3",
+    "baselineBlob": "0e91c040df84d0b22f785f07293cfd0061e0aaf1",
+    "baselineSha256": "c1745db3704aee12325d22a0f5eadf54c3979115482ebb48e5a631af4f04f90b",
+    "initialFrozenSha256": "8e98ca1b66ddd93917bce2ba1b43c79d3f669c024ddbab7aab1bf04520544143",
+    "selectedFrozenSha256": "8e98ca1b66ddd93917bce2ba1b43c79d3f669c024ddbab7aab1bf04520544143",
+    "installedSha256": "787378a8e35d27c32dc03a419f8b28e1e4faf944958cd9f05ba9e855436291f2",
+    "formattedFrozenOutputMatchesInstalled": true
+  },
+  {
+    "path": "packages/shared/src/tool-plan-adapter.ts",
+    "baselineCommit": "79a01c179f68977d4410b569ea9b14f9bebe4ed3",
+    "baselineBlob": "cbe291d0e1eae927505199aaaccca224929212b3",
+    "baselineSha256": "20fb61fed2db6ebca20c4629919ab25cfa30f85dc7c8c48614c9ba70cdc7d808",
+    "initialFrozenSha256": "69660280948f3301e5985e7859bcef590d34baba5e3379f488450ea270f994be",
+    "selectedFrozenSha256": "69660280948f3301e5985e7859bcef590d34baba5e3379f488450ea270f994be",
+    "installedSha256": "a0b71231282c0ad463d00d71a3bc40cecda2fa44ff14add4765d2d1477d3f0fd",
+    "formattedFrozenOutputMatchesInstalled": true
+  }
+]

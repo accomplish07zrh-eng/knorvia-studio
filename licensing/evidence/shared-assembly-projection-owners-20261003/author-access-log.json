@@ -1,0 +1,88 @@
+{
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "forkTurns": "none",
+  "authors": [
+    {
+      "agent": "/root/shared_wire_assembly_author",
+      "packet": "assembly-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-assembly-authored/wire-assembler.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "mkdir own tmp dir",
+        "whole output via apply_patch",
+        "sha256sum own output"
+      ],
+      "followupAccesses": [
+        "quoted literal heredoc whole temp overwrite",
+        "sha256sum own output"
+      ],
+      "followupNoOtherReads": true
+    },
+    {
+      "agent": "/root/shared_workflow_artifact_author",
+      "packet": "artifact-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-artifact-authored/workflow-runs-artifacts.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "mkdir own tmp dir",
+        "whole output via quoted literal heredoc",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_conversation_policy_author",
+      "packet": "policy-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-policy-authored/conversation-message-projection-policy.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "mkdir own tmp dir",
+        "whole output via apply_patch",
+        "sha256sum own output"
+      ],
+      "followupAccesses": [
+        "quoted literal heredoc whole temp overwrite",
+        "sha256sum own output"
+      ],
+      "followupNoOtherReads": true
+    },
+    {
+      "agent": "/root/shared_visible_session_author",
+      "packet": "visible-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-visible-authored/session-visible-content.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "whole output via apply_patch",
+        "sha256sum own output"
+      ]
+    },
+    {
+      "agent": "/root/shared_tool_plan_author",
+      "packet": "plan-behavior-packet.md",
+      "output": "/tmp/knorvia-shared-plan-authored/tool-plan-adapter.ts",
+      "accesses": [
+        "cat packet",
+        "cat root AGENTS",
+        "cat architecture skill",
+        "mkdir own tmp dir",
+        "whole output via quoted literal heredoc",
+        "sha256sum own output"
+      ]
+    }
+  ],
+  "allAuthorsReportedNoProhibitedAccesses": "source/dependencies/tests/history/other packets/outputs/guidance/repository edits/runtime/network/env/userdata/credentials",
+  "curatorSourceExposed": true,
+  "curatorAdditionalPortsRead": "Wire candidate/type schemas, assembly limits; workflow artifact summary/types/limits; legacy text port and message type names; plan-step/goal public declarations. Prior shared scope metadata.",
+  "sharedFilesystemNotOsIsolation": true,
+  "installation": "Whole selected frozen outputs plus formatting only",
+  "independentProvenanceAcceptance": false,
+  "mitClaim": false
+}
