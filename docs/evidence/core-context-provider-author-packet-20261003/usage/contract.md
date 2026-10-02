@@ -1,0 +1,11 @@
+# Persisted usage baseline normalization
+
+Own only agent/message-history-usage.ts; pure projection, no history/cache/persistence mutation, I/O or new provider logic. Preserve exact public API/type and imported TokenUsageInfo. Complete source<400lines; read only packet, no source/dependency/test/history/review bodies. Required numeric/public field rules and ordinary floor/nullish arithmetic are retained contract expression. Do not rewrite schemas or add validation/extra fields/logs.
+
+If tokens falsy return undefined. Finite-integer normalization: undefined or Number.isFinite(value) false=>undefined; otherwise Math.floor(value), positive normalization accepts only >0, nonnegative accepts >=0 (including negative-zero identity), elseundefined. Do not round/ceil/coerce/absolute-value inputs.
+
+Determine input window in order: positive-normalize tokens.input; if usable return that exact integer and do not inspect total/output/cache for this stage. Else positive-normalize tokens.total; if usable, input=Math.max(0,total-(nonnegative-normalized tokens.output??0)), with no cache fallback even if result0. Else compute (nonnegative-normalized tokens.cache.read??0)+(nonnegative-normalized tokens.cache.write??0); positive sum becomes input, zero sum=>undefined. If determined input undefined or <=0 return undefined without final-output/cache/total projection stage.
+
+For admitted positive input, observe fields again in this exact order: outputTokens=positive-normalized tokens.output??0; cacheReadTokens=nonnegative-normalized tokens.cache.read??0; cacheWriteTokens=nonnegative-normalized tokens.cache.write??0; totalTokens=positive-normalized tokens.total. Do not reuse earlier fallback observations or skip the total read based on final output. contextUsageTokens: if outputTokens>0, input+output regardless total; else if usable total>=input, total; elseundefined. Output0 without usable total cannot prove assistant coverage, so keep contextUsageTokens ownundefined.
+
+Return fresh plain object with own cacheReadTokens,cacheWriteTokens,contextUsageTokens,inputTokens,outputTokens in exactly that order; no total/reasoning/extra fields. Input tokens/cache objects remain untouched. No catch or fallback for malformed typed inputs; existing field-read/number failures propagate.

@@ -1,0 +1,12 @@
+{
+  "sectionName": "Request User Context",
+  "sectionSource": "request_user_context",
+  "header": "# agentsMd",
+  "instructionsHeader": "Codebase and user instructions are shown below. Be sure to adhere to these instructions. IMPORTANT: These instructions OVERRIDE any default behavior and you MUST follow them exactly as written.",
+  "memoryFilename": "MEMORY.md",
+  "memoryHeading": "Contents of ${joinedPath} (user's auto-memory, persists across conversations):",
+  "sourceHeading": "Contents of ${source.filePath} (${scopePhrase}):",
+  "scopeUser": "user default instructions",
+  "scopeWorkspace": "workspace instructions",
+  "truncatedMarker": "[File truncated: ${source.fileName}]"
+}
