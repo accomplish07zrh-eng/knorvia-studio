@@ -1,0 +1,25 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+  "imports": [
+    {
+      "module": "@knorvia/shared",
+      "clause": "{ isArtifactUri }",
+      "text": "import { isArtifactUri } from \"@knorvia/shared\";"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "type { FilePart }",
+      "text": "import type { FilePart } from \"@knorvia/contracts\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "{ createPartId }",
+      "text": "import { createPartId } from \"../deps.js\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "type {\n  MessageId,\n  ModelMessageContent,\n  ModelMessageContentBlock,\n  SessionId,\n  SessionStorePort,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnId,\n}",
+      "text": "import type {\n  MessageId,\n  ModelMessageContent,\n  ModelMessageContentBlock,\n  SessionId,\n  SessionStorePort,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnId,\n} from \"../deps.js\";"
+    }
+  ]
+}

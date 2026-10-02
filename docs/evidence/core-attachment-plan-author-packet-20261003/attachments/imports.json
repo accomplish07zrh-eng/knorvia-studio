@@ -1,0 +1,60 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "clause": "{ basename, resolvePath }",
+      "text": "import { basename, resolvePath } from \"../deps.js\";"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "{ READ_DEFAULT_MAX_LINES, READ_MAX_FILE_SIZE_BYTES }",
+      "text": "import { READ_DEFAULT_MAX_LINES, READ_MAX_FILE_SIZE_BYTES } from \"@knorvia/contracts\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "type {\n  FilePartSource,\n  FileSystemPort,\n  ImageProcessorPort,\n  SessionId,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnAttachment,\n  TurnAttachmentMeta,\n  TurnState,\n  TurnId,\n}",
+      "text": "import type {\n  FilePartSource,\n  FileSystemPort,\n  ImageProcessorPort,\n  SessionId,\n  ToolArtifactStorePort,\n  TraceContext,\n  TurnAttachment,\n  TurnAttachmentMeta,\n  TurnState,\n  TurnId,\n} from \"../deps.js\";"
+    },
+    {
+      "module": "../../tool/handlers/read-text.js",
+      "clause": "{ readTextFileForModel }",
+      "text": "import { readTextFileForModel } from \"../../tool/handlers/read-text.js\";"
+    },
+    {
+      "module": "../types.js",
+      "clause": "type { ResolvedTurnAttachment }",
+      "text": "import type { ResolvedTurnAttachment } from \"../types.js\";"
+    },
+    {
+      "module": "./attachment-artifacts.js",
+      "clause": "{ readInlineAttachmentContent }",
+      "text": "import { readInlineAttachmentContent } from \"./attachment-artifacts.js\";"
+    },
+    {
+      "module": "./attachment-data-url.js",
+      "clause": "{ parseDataUrlHeader }",
+      "text": "import { parseDataUrlHeader } from \"./attachment-data-url.js\";"
+    },
+    {
+      "module": "./attachment-media-resolver.js",
+      "clause": "{\n  resolveInlineMediaAttachment,\n  resolveLocalMediaAttachment,\n}",
+      "text": "import {\n  resolveInlineMediaAttachment,\n  resolveLocalMediaAttachment,\n} from \"./attachment-media-resolver.js\";"
+    },
+    {
+      "module": "./attachment-placeholder.js",
+      "clause": "{ resolvedPlaceholderAttachment }",
+      "text": "import { resolvedPlaceholderAttachment } from \"./attachment-placeholder.js\";"
+    },
+    {
+      "module": "./attachment-image.js",
+      "clause": "{ inferImageMimeFromPath }",
+      "text": "import { inferImageMimeFromPath } from \"./attachment-image.js\";"
+    },
+    {
+      "module": "./attachment-path-reference.js",
+      "clause": "{\n  inferAttachmentMimeFromPath,\n  isDataOrArtifactUrl,\n  isTextLikePath,\n  resolvedInlineTextAttachment,\n  resolvedPathReferenceAttachment,\n}",
+      "text": "import {\n  inferAttachmentMimeFromPath,\n  isDataOrArtifactUrl,\n  isTextLikePath,\n  resolvedInlineTextAttachment,\n  resolvedPathReferenceAttachment,\n} from \"./attachment-path-reference.js\";"
+    }
+  ]
+}

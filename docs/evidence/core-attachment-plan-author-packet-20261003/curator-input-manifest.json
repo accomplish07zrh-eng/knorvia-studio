@@ -1,0 +1,206 @@
+{
+  "recordedAtUtc": "2026-10-02T20:21:48.896888+00:00",
+  "baseline": "bffae9a34fe3f729e29e66614695cb3fb6a23e90",
+  "scopeCommit": "bffae9a3",
+  "sourceExposedCurator": true,
+  "instructionOnlyRestrictions": true,
+  "noAccessAuditOrOsIsolationClaim": true,
+  "sourceExposure": {
+    "targetBodies": [
+      "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts"
+    ],
+    "mechanicalSelectedDependencyInputs": "public-extraction-record.json lists25 selected whole-file AST/declaration inputs, including targets; bodies stripped before author inputs",
+    "incidentalDeliberateDependencyBodies": "Bounded read-text file first105lines and attachment-path-reference first90lines, message-history first75lines, CoreError first80lines, TurnAttachment surroundingfactoryprefix, artifactstore/type contracts. Prior broad source/tool exposure remains. None supplied as author body.",
+    "unchangedApis": "Node paths, FileSystemPort, ToolArtifactStorePort, session types/state, model/storage/metadata shapes, readText/media/placeholder/path-reference/reexport APIs"
+  },
+  "scopes": {
+    "plan": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/contract.md",
+          "bytes": 4312,
+          "sha256": "62d17e700e9c8ca4b301ae04d4bf70fbb53d54ddad3d1f08e3b1d093a46e4f56"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/public-api.d.ts",
+          "bytes": 715,
+          "sha256": "0e4f11b9e15c8ad611d87ccf3a41d1d9d087ff7d43dcde2266b3c6f41496bafe"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/dependency-api.d.ts",
+          "bytes": 4604,
+          "sha256": "b32b7a70e2b8682bfd4440c0723e7cf3a0fcd758867468a82e24a1826470c2e2"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/public-shapes.d.ts",
+          "bytes": 4495,
+          "sha256": "7a5347469389fc80e16aa57666adc00d332203c5231f955d55da4257e76ae73e"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/imports.json",
+          "bytes": 956,
+          "sha256": "b9486b74bb0aab6b14b5648300f78be5f0c6f68afb3b47c9586c6c3142ce78e4"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/plan/output-data.json",
+          "bytes": 977,
+          "sha256": "72ec80b1e64fcabfbafcc02377d70061f72937588c3b383bea75eede7741656d"
+        }
+      ]
+    },
+    "attachments": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachments.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/contract.md",
+          "bytes": 8795,
+          "sha256": "14a3f03d8d02c1521b5548127beaea3e9c0b32a9188a92dbfc87f95b65a802ca"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/public-api.d.ts",
+          "bytes": 955,
+          "sha256": "36d1e2e53054d6eba3a4afc0f47516dad25e752580874e7d94415f53ef6b0950"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/dependency-api.d.ts",
+          "bytes": 3959,
+          "sha256": "0d1348832248fdabf8a4c053c593cb8d29f4c744d012718309c37d179657dc3f"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/public-shapes.d.ts",
+          "bytes": 8950,
+          "sha256": "0e81afc517d37a155d16417c8424e623560b836876e8e0925045ecc18a379279"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/imports.json",
+          "bytes": 2849,
+          "sha256": "c61cded659474da0a8c8988693575271bb2089ce60ac4e9fbb4888840a3d804e"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/attachments/output-data.json",
+          "bytes": 1511,
+          "sha256": "7dcba5db04d4548871a1da92c0dbe0c325c184629eaf052b8772bbfd81d6a76c"
+        }
+      ]
+    },
+    "artifacts": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/contract.md",
+          "bytes": 4452,
+          "sha256": "2cf76fc21b6396cb2cb387da24a2f8acd6f2fcb2ba0ae38b00316be44f700731"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/public-api.d.ts",
+          "bytes": 1052,
+          "sha256": "84ada01f7a3a9abb55c656908459f084f447b1b8098dc11575baa1ebbb20027c"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/dependency-api.d.ts",
+          "bytes": 307,
+          "sha256": "b57588b7798c447db177e3f94c00a62ca148d4bc6462fa5606e23cdeb963d2ff"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/public-shapes.d.ts",
+          "bytes": 3387,
+          "sha256": "d59a6a7314e7e7415f3db95ca73b0ddc9aa1af07e39ef0428b1a78d5ecbc7b55"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/imports.json",
+          "bytes": 556,
+          "sha256": "e5ed971151eb1aa6cd7d31254b4660dd826e79dbeb93fd55ce4851fc48a29796"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/artifacts/output-data.json",
+          "bytes": 720,
+          "sha256": "af88730ac4fa058153c7c3e7ad44cbfd90f5da7d142908fc4948f8857e18619f"
+        }
+      ]
+    },
+    "paths": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/contract.md",
+          "bytes": 5423,
+          "sha256": "ef1b19a7a68ce49fa40ef3705b40b0413b1392592950a19a72b581bff19d9d93"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/public-api.d.ts",
+          "bytes": 252,
+          "sha256": "173ea3f4c2e07b5788fd279f9f7f8476e7407e1a97d417273c62f5a5154cb20a"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/dependency-api.d.ts",
+          "bytes": 307,
+          "sha256": "b57588b7798c447db177e3f94c00a62ca148d4bc6462fa5606e23cdeb963d2ff"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/public-shapes.d.ts",
+          "bytes": 4294,
+          "sha256": "98ccc5c0cbff7385be6309fdaa4704809cdd93f6b2eb6bd3845b427aeab3070c"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/imports.json",
+          "bytes": 537,
+          "sha256": "8ce2c98997dbe0c95eb9345dd9c682add9ec1c06bbe6eab234b9d1f845b87c9f"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/output-data.json",
+          "bytes": 708,
+          "sha256": "ad63ae7cd4f4277b38c0d511bd9abb9685c832139787d17e208a8f02b68aec42"
+        }
+      ]
+    },
+    "persistence": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/tool-result-media-persistence.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/contract.md",
+          "bytes": 4814,
+          "sha256": "bdae62a061b0b0ec289bb058d4f2f67e08322adbf66e07a5e32a9c5bea79d358"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/public-api.d.ts",
+          "bytes": 822,
+          "sha256": "41c082eec2c1e05a7b0b11ffb9bb5cfb145908a0cba3a1c090e4488e786df495"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/dependency-api.d.ts",
+          "bytes": 438,
+          "sha256": "c8d31e603d37fb1757d10710028478ce27dcd59b543556665e2465a37af7a265"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/public-shapes.d.ts",
+          "bytes": 5949,
+          "sha256": "0d26c861a9f737f62eda83e936094215b84b02a06e1cf00111c3a39f6df7c7cc"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/imports.json",
+          "bytes": 1001,
+          "sha256": "c0b3800ed48f604bbd9c42e1000fd3f5e18056e31efd112518f2368f5ca72cf7"
+        },
+        {
+          "path": "docs/evidence/core-attachment-plan-author-packet-20261003/persistence/output-data.json",
+          "bytes": 1007,
+          "sha256": "286b9cf57d0158d2d393870f993846fe0da2171500742ec6a0c275057b96e578"
+        }
+      ]
+    }
+  },
+  "targetDeclarationExtractionDiagnostics": {
+    "plan": [],
+    "attachments": [],
+    "artifacts": [],
+    "paths": [],
+    "persistence": []
+  },
+  "thirdPartyMaterialClosed": 0,
+  "ordinaryChecksDeferred": true
+}

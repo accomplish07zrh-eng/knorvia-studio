@@ -1,0 +1,33 @@
+{
+  "retainedExpression": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+  "writeFields": [
+    "content",
+    "contentType",
+    "retention",
+    "sessionId",
+    "toolCallId",
+    "toolName",
+    "trace",
+    "turnId"
+  ],
+  "contentType": "text/plain",
+  "retention": "session",
+  "toolCallId": "attachment-${index+1}",
+  "toolName": "attachment:${mediaType}",
+  "recoverability": "provider_ready",
+  "storageKinds": [
+    "artifact",
+    "inline"
+  ],
+  "dataPrefix": "data:",
+  "safeDataRef": "inline:data-url",
+  "persistMetadataKeys": [
+    "artifactUri",
+    "recoverability",
+    "storageKind"
+  ],
+  "readFields": [
+    "trace",
+    "uri"
+  ]
+}
