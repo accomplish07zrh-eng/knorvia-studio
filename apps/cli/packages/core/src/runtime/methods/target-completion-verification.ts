@@ -32,11 +32,20 @@ export interface TargetCompletionVerificationResult {
   verification: GoalCompletionVerificationOutput;
 }
 
-const TARGET_VERIFIER_START_PLAN_BUSY_RETRY_DELAYS_MS = [1_000, 2_000] as const;
-const START_PLAN_TARGET_VERIFIER_RETRY_PROVIDER_IDS = new Set([
-  "account:bigmodel-start-plan",
-  "account:zai-start-plan",
-]);
+type VerificationInput = {
+  abortSignal?: AbortSignal;
+  events: SessionEvent[];
+  target: SessionGoal;
+  traceContext: TraceContext;
+};
+
+type GenerationInput = {
+  abortSignal?: AbortSignal;
+  events: SessionEvent[];
+  messages: Parameters<Model["generateText"]>[0]["messages"];
+  model: Model;
+  traceContext: TraceContext;
+};
 
 export async function verifyActiveTargetCompletionForContinuation(
   this: AgentRuntimeInternal,
@@ -52,19 +61,13 @@ export async function verifyActiveTargetCompletionForContinuation(
 
   const execute = async (): Promise<TargetCompletionVerificationResult> => {
     const events: SessionEvent[] = [];
-    const verification = await verifyTargetCompletion.call(this, {
+    const verification = await verifyTargetCompletion(this, {
       abortSignal: input.abortSignal,
       events,
       target: input.target,
       traceContext: input.traceContext,
     });
-
-    if (!verification.passed) {
-      return {
-        target: input.target,
-        verification,
-      };
-    }
+    if (!verification.passed) return { target: input.target, verification };
 
     const previousTarget = await this.readSessionTargetForContext(input.traceContext);
     const completedTarget =
@@ -79,44 +82,64 @@ export async function verifyActiveTargetCompletionForContinuation(
       target: completedTarget,
       traceContext: input.traceContext,
     });
-
-    return {
-      target: completedTarget,
-      verification,
-    };
+    return { target: completedTarget, verification };
   };
   return runTargetCompletionVerificationWithTelemetry(this, input, execute);
 }
 
+async function nextGoalIteration(runtime: AgentRuntimeInternal, targetId: string): Promise<number> {
+  const projection = await runtime.rebuildProjection();
+  const timeline = projection.targetCompletionVerificationTimeline.filter(
+    (item) => item.targetId === targetId,
+  );
+  return (
+    timeline.reduce(
+      (previous, item, index) => Math.max(previous, item.goalIteration ?? index + 1),
+      0,
+    ) + 1
+  );
+}
+
+function trimPendingAssistantTools(
+  entries: readonly RuntimeMessageEntry[],
+): readonly RuntimeMessageEntry[] {
+  const last = entries[entries.length - 1];
+  if (
+    last &&
+    !isRuntimeAttachmentEntry(last) &&
+    last.message.role === "assistant" &&
+    last.message.toolCalls &&
+    last.message.toolCalls.length > 0
+  ) {
+    return entries.slice(0, -1);
+  }
+  return entries;
+}
+
 async function verifyTargetCompletion(
-  this: AgentRuntimeInternal,
-  input: {
-    abortSignal?: AbortSignal;
-    events: SessionEvent[];
-    target: SessionGoal;
-    traceContext: TraceContext;
-  },
+  runtime: AgentRuntimeInternal,
+  input: VerificationInput,
 ): Promise<GoalCompletionVerificationOutput> {
-  // 目标验证期间也允许切换 session 默认模型；请求、重试和 usage 必须共用
-  // 验证开始时的模型快照，不能在 provider 返回后重新读取 Session Selection。
-  const requestedModelSelection = this.getSessionModelSelection();
-  const model = createRuntimeModel(this, { selection: requestedModelSelection });
-  const modelTraceContext = createChildTraceContext(input.traceContext, {
+  const selection = runtime.getSessionModelSelection();
+  const model = createRuntimeModel(runtime, { selection });
+  const childTrace = createChildTraceContext(input.traceContext, {
     attributes: {
       model: `${model.providerId}/${model.modelId}`,
       querySource: GOAL_COMPLETION_VERIFICATION_QUERY_SOURCE,
       targetId: input.target.targetID,
     },
   });
-  const verificationId = modelTraceContext.spanId ?? modelTraceContext.traceId;
-  const foregroundExecutionId = this.activeForegroundExecution?.foregroundExecutionId;
-  const goalIteration = await getNextTargetCompletionVerificationIteration.call(
-    this,
-    input.target.targetID,
-  );
-  const anchor = targetCompletionVerificationAnchor.call(this, input.traceContext);
-  await this.appendEvent(
-    this.createEvent(
+  const verificationId = childTrace.spanId ?? childTrace.traceId;
+  const foregroundExecutionId = runtime.activeForegroundExecution?.foregroundExecutionId;
+  const goalIteration = await nextGoalIteration(runtime, input.target.targetID);
+  const assistantId = runtime.latestAssistantMessageId;
+  const turnId = runtime.latestAssistantTurnId ?? input.traceContext.turnId;
+  const anchor = {
+    ...(assistantId ? { anchorAssistantMessageId: assistantId } : {}),
+    ...(turnId ? { anchorTurnId: turnId } : {}),
+  };
+  await runtime.appendEvent(
+    runtime.createEvent(
       SessionEventType.TargetCompletionVerification,
       {
         ...anchor,
@@ -126,32 +149,28 @@ async function verifyTargetCompletion(
         targetId: input.target.targetID,
         verificationId,
       },
-      modelTraceContext,
+      childTrace,
     ),
-    modelTraceContext,
+    childTrace,
   );
-  const providerMessages = buildRuntimeProviderRequestMessages(this, {
+
+  const entries = runtime.messageHistory.borrowReadOnlyRuntimeEntries();
+  const trimmed = trimPendingAssistantTools(entries);
+  const providerMessages = buildRuntimeProviderRequestMessages(runtime, {
     entries: [
-      ...withoutTrailingPendingAssistantToolCallEntries(
-        this.messageHistory.borrowReadOnlyRuntimeEntries(),
-      ),
+      ...trimmed,
       {
-        message: {
-          role: "user" as const,
-          content: formatGoalCompletionVerificationPrompt(input.target),
-        },
+        message: { role: "user", content: formatGoalCompletionVerificationPrompt(input.target) },
       },
     ],
     applyCacheControl: true,
     model,
   }).messages;
-  // verifier 直接消费完整历史但曾绕过正常请求的媒体策略；只补 capability
-  // 仍会让聚合超限失败进入 fail-open。请求前统一执行能力和预算投影。
   const messages = projectMessagesForModelMediaPolicy(
     providerMessages,
     model.properties.inputFormat,
   ).messages;
-  const modelRequestEvent = this.createEvent(
+  const modelRequestEvent = runtime.createEvent(
     SessionEventType.ModelRequest,
     {
       messages,
@@ -160,24 +179,25 @@ async function verifyTargetCompletion(
       querySource: GOAL_COMPLETION_VERIFICATION_QUERY_SOURCE,
       toolCount: 0,
     },
-    modelTraceContext,
+    childTrace,
   );
-  await this.appendEvent(modelRequestEvent, modelTraceContext);
+  await runtime.appendEvent(modelRequestEvent, childTrace);
   input.events.push(modelRequestEvent);
   const modelStartedAt = Date.now();
   const networkEventStartIndex = input.events.length;
 
+  // Setup failures remain outside the recoverable model phase.
   try {
-    const result = await generateTargetCompletionVerificationText.call(this, {
+    const result = await generateVerification(runtime, {
       abortSignal: input.abortSignal,
       events: input.events,
       messages,
       model,
-      traceContext: modelTraceContext,
+      traceContext: childTrace,
     });
     throwIfTurnAborted(input.abortSignal);
-    const toolCalls = this.extractToolCallsFromResult(result);
-    const modelCompleteEvent = this.createEvent(
+    const toolCalls = runtime.extractToolCallsFromResult(result);
+    const modelCompleteEvent = runtime.createEvent(
       SessionEventType.ModelComplete,
       {
         content: result.text,
@@ -186,11 +206,11 @@ async function verifyTargetCompletion(
         toolCallCount: toolCalls.length,
         usage: result.usage,
       },
-      modelTraceContext,
+      childTrace,
     );
-    await this.appendEvent(modelCompleteEvent, modelTraceContext);
+    await runtime.appendEvent(modelCompleteEvent, childTrace);
     input.events.push(modelCompleteEvent);
-    await recordModelUsageFact(this, {
+    await recordModelUsageFact(runtime, {
       events: input.events,
       model,
       networkEventStartIndex,
@@ -199,7 +219,7 @@ async function verifyTargetCompletion(
       startedAt: modelStartedAt,
       status: "completed",
       toolCallCount: toolCalls.length,
-      traceContext: modelTraceContext,
+      traceContext: childTrace,
     });
     const verification =
       toolCalls.length > 0
@@ -207,8 +227,8 @@ async function verifyTargetCompletion(
             "The completion verifier attempted to call tools instead of returning a verification result.",
           )
         : parseGoalCompletionVerificationText(result.text);
-    await this.appendEvent(
-      this.createEvent(
+    await runtime.appendEvent(
+      runtime.createEvent(
         SessionEventType.TargetCompletionVerification,
         {
           ...anchor,
@@ -219,13 +239,13 @@ async function verifyTargetCompletion(
           verification,
           verificationId,
         },
-        modelTraceContext,
+        childTrace,
       ),
-      modelTraceContext,
+      childTrace,
     );
     return verification;
   } catch (error) {
-    await recordModelUsageFact(this, {
+    await recordModelUsageFact(runtime, {
       error,
       events: input.events,
       model,
@@ -233,13 +253,13 @@ async function verifyTargetCompletion(
       querySource: GOAL_COMPLETION_VERIFICATION_QUERY_SOURCE,
       startedAt: modelStartedAt,
       status: input.abortSignal?.aborted ? "cancelled" : "error",
-      traceContext: modelTraceContext,
+      traceContext: childTrace,
     });
     if (input.abortSignal?.aborted) {
       const preserveQueueAutoDrainOnCancel =
-        this.activeForegroundExecution?.preserveQueueAutoDrainOnCancel === true;
-      await this.appendEvent(
-        this.createEvent(
+        runtime.activeForegroundExecution?.preserveQueueAutoDrainOnCancel === true;
+      await runtime.appendEvent(
+        runtime.createEvent(
           SessionEventType.TargetCompletionVerification,
           {
             ...anchor,
@@ -253,18 +273,15 @@ async function verifyTargetCompletion(
             ),
             verificationId,
           },
-          modelTraceContext,
+          childTrace,
         ),
-        modelTraceContext,
+        childTrace,
       );
-      // 用户 Stop 或队列“立即发送”打断 goal verifier 时，当前没有普通
-      // executeTurn 的取消收口路径会暂停 target。如果仍保持 active，后续
-      // resumeSession + sendPrompt 会被 agent 当成 goal continuation，普通用户消息会继续输出 checkpoint。
-      await this.pauseActiveTargetForCancellation(modelTraceContext);
+      await runtime.pauseActiveTargetForCancellation(childTrace);
       throw error;
     }
-    this.logger?.warn("Goal completion verification failed open", {
-      ...traceContextToLogContext(modelTraceContext),
+    runtime.logger?.warn("Goal completion verification failed open", {
+      ...traceContextToLogContext(childTrace),
       errorMessage: error instanceof Error ? error.message : String(error),
       event: "target.completion_verification.failed_open",
       module: "core.runtime",
@@ -276,8 +293,8 @@ async function verifyTargetCompletion(
         ? `Completion verifier request failed: ${error.message}`
         : "The completion verifier could not confirm that every goal requirement is complete.",
     );
-    await this.appendEvent(
-      this.createEvent(
+    await runtime.appendEvent(
+      runtime.createEvent(
         SessionEventType.TargetCompletionVerification,
         {
           ...anchor,
@@ -288,48 +305,28 @@ async function verifyTargetCompletion(
           verification,
           verificationId,
         },
-        modelTraceContext,
+        childTrace,
       ),
-      modelTraceContext,
+      childTrace,
     );
     return verification;
   }
 }
 
-function targetCompletionVerificationAnchor(
-  this: AgentRuntimeInternal,
-  traceContext: TraceContext,
-): { anchorAssistantMessageId?: string; anchorTurnId?: string } {
-  const anchorAssistantMessageId = this.latestAssistantMessageId;
-  const anchorTurnId = this.latestAssistantTurnId ?? traceContext.turnId;
-  return {
-    ...(anchorAssistantMessageId ? { anchorAssistantMessageId } : {}),
-    ...(anchorTurnId ? { anchorTurnId } : {}),
-  };
-}
-
-async function generateTargetCompletionVerificationText(
-  this: AgentRuntimeInternal,
-  input: {
-    abortSignal?: AbortSignal;
-    events: SessionEvent[];
-    messages: ReturnType<typeof buildRuntimeProviderRequestMessages>["messages"];
-    model: Model;
-    traceContext: TraceContext;
-  },
-) {
-  const maxAttempts = TARGET_VERIFIER_START_PLAN_BUSY_RETRY_DELAYS_MS.length + 1;
+async function generateVerification(runtime: AgentRuntimeInternal, input: GenerationInput) {
+  const maxAttempts = 3;
+  const delays = [1000, 2000];
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
-      const invocationContext = {
+      const invocationContext: Parameters<typeof runWithModelInvocationContext>[0] = {
         metadata: traceContextToLogContext(input.traceContext),
-        modelRequestSessionType: resolveModelRequestSessionTypeFromTaskType(this.config.taskType),
-        modelCall: {
-          operation: "goal_completion_verification" as const,
-        },
-        statusSink: this.createModelStatusSink(input.traceContext, input.events),
+        modelRequestSessionType: resolveModelRequestSessionTypeFromTaskType(
+          runtime.config.taskType,
+        ),
+        modelCall: { operation: "goal_completion_verification" },
+        statusSink: runtime.createModelStatusSink(input.traceContext, input.events),
         traceContext: input.traceContext,
-        refreshRuntimeHeadersBeforeAttempt: createRefreshRuntimeHeadersBeforeModelAttempt(this, {
+        refreshRuntimeHeadersBeforeAttempt: createRefreshRuntimeHeadersBeforeModelAttempt(runtime, {
           abortSignal: input.abortSignal,
           model: input.model,
           traceContext: input.traceContext,
@@ -339,76 +336,38 @@ async function generateTargetCompletionVerificationText(
         input.model.generateText({
           abortSignal: input.abortSignal,
           messages: input.messages,
-          // Verifier 继承已绑定的思考配置，不能套用低成本辅助调用的降档和封顶策略。
           options: { maxOutputTokens: input.model.optionSpecs.maxOutputTokens.max },
           tools: [],
         }),
       );
     } catch (error) {
-      const retryDelayMs = TARGET_VERIFIER_START_PLAN_BUSY_RETRY_DELAYS_MS[attempt - 1];
+      const retryDelay = delays[attempt - 1];
       if (
         input.abortSignal?.aborted ||
-        retryDelayMs === undefined ||
-        !isTargetVerifierStartPlanBusyFailure(error, input.model.providerId)
+        retryDelay === undefined ||
+        !isRetryableVerificationFailure(error, input.model.providerId)
       ) {
         throw error;
       }
-
-      // 目标完成验证发生在用户已看到 assistant 迭代之后；Start Plan busy
-      // 是 admission 瞬时并发。先短暂重试，避免直接走 fail-open 把可恢复并发误当完成。
-      this.logger?.warn("Goal completion verification retrying after Start Plan busy", {
+      runtime.logger?.warn("Goal completion verification retrying after Start Plan busy", {
         ...traceContextToLogContext(input.traceContext),
         attempt,
         event: "target.completion_verification.retry_start_plan_busy",
         maxAttempts,
         module: "core.runtime",
-        retryDelayMs,
+        retryDelayMs: retryDelay,
         status: "waiting",
       });
-      await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+      await new Promise<void>((resolve) => setTimeout(resolve, retryDelay));
       throwIfTurnAborted(input.abortSignal);
     }
   }
-
   throw new Error("Goal completion verification retry loop exhausted unexpectedly.");
 }
 
-function isTargetVerifierStartPlanBusyFailure(error: unknown, providerId: string): boolean {
+function isRetryableVerificationFailure(error: unknown, providerId: string): boolean {
   return (
-    START_PLAN_TARGET_VERIFIER_RETRY_PROVIDER_IDS.has(providerId) &&
+    (providerId === "account:bigmodel-start-plan" || providerId === "account:zai-start-plan") &&
     isStartPlanBusyStreamRecoveryFailure(error)
   );
-}
-
-async function getNextTargetCompletionVerificationIteration(
-  this: AgentRuntimeInternal,
-  targetId: string,
-): Promise<number> {
-  const projection = await this.rebuildProjection();
-  const targetTimeline = projection.targetCompletionVerificationTimeline.filter(
-    (item) => item.targetId === targetId,
-  );
-  const latestIteration = targetTimeline.reduce(
-    (maxIteration, item, index) => Math.max(maxIteration, item.goalIteration ?? index + 1),
-    0,
-  );
-  // goal 迭代由 verifier lifecycle 推进，而不是普通 turn 或用户继续次数。
-  // runtime 在 started/completed/failed_closed/cancelled 上固定同一个编号，UI 与 snapshot 才不会各自猜。
-  return latestIteration + 1;
-}
-
-function withoutTrailingPendingAssistantToolCallEntries(
-  entries: readonly RuntimeMessageEntry[],
-): readonly RuntimeMessageEntry[] {
-  const last = entries.at(-1);
-  if (
-    !last ||
-    isRuntimeAttachmentEntry(last) ||
-    last?.message.role !== "assistant" ||
-    !last.message.toolCalls ||
-    last.message.toolCalls.length === 0
-  ) {
-    return entries;
-  }
-  return entries.slice(0, -1);
 }
