@@ -1,0 +1,22 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/target-completion-verification.ts",
+  "kind": "file",
+  "sha256": "fd8b2aec4da2af2fa022c172f02c91b79468bb0906f0b49909e3adcfda935000",
+  "normalizedSha256": "fd8b2aec4da2af2fa022c172f02c91b79468bb0906f0b49909e3adcfda935000",
+  "encoding": "utf8-lf",
+  "bytes": 14924,
+  "classification": "upstream-unchanged",
+  "upstream": {
+    "relation": "unchanged",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/target-completion-verification.ts",
+    "blob": "4e6b9e66c6921e8faadcbfb54ff2c9860da32cf5",
+    "normalizedSha256": "fd8b2aec4da2af2fa022c172f02c91b79468bb0906f0b49909e3adcfda935000",
+    "contentMatchedPaths": [
+      "apps/zcode-cli/packages/core/src/runtime/methods/target-completion-verification.ts"
+    ]
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

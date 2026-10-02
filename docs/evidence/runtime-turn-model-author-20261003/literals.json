@@ -1,0 +1,19 @@
+{
+  "description": "Fixed import/runtime/protocol string vocabulary; template interpolations specified by functional contract; no bodies/comments",
+  "values": [
+    "@knorvia/contracts",
+    "../deps.js",
+    "../internal.js",
+    "../model-selection.js",
+    "./model-runtime-headers.js",
+    "./runtime-model.js",
+    "../execution-state.js",
+    "../types.js",
+    "execution",
+    "command",
+    "Session model selection persistence failed",
+    "session.model_selection.persist_failed",
+    "core.runtime",
+    "failed"
+  ]
+}

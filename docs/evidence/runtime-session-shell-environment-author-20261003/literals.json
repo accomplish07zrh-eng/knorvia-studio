@@ -1,0 +1,18 @@
+{
+  "description": "Fixed import/runtime/protocol string vocabulary; template interpolations specified by functional contract; no bodies/comments",
+  "values": [
+    "../deps.js",
+    "../internal.js",
+    "../types.js",
+    "./bash-shell-snapshot.js",
+    "./context-refresh.js",
+    "./shell-environment.js",
+    "./embedded-search-branch.js",
+    "bashShellSelection",
+    "function",
+    "restored",
+    "fallback",
+    "shell_environment_change",
+    "attachment"
+  ]
+}

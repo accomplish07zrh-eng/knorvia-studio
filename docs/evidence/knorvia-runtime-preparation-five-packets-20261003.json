@@ -1,0 +1,52 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "packets": {
+    "target-completion-verification": {
+      "contract.md": "150e9cba417d9df44837254f438fbb2cd9798d3054201a319c855152cb911a23",
+      "api.d.ts": "6ff0a991f0b82ebda047b871ca9e8bd84964950ebd7f5e2f8e802de59d6640de",
+      "imports.d.ts": "6617524aab2266725feda3aaeb70a25d7de16b54fdf449806e4c2aaee0245344",
+      "literals.json": "f3ebbb8694af0a5f03ee7c8c9e35166a73e86a92fb493afd71918412d0725c32",
+      "supporting.d.ts": "b15fac46b3ce70426cf3e78c07de3d4d1a67c9ea729c4a5cef11611f148c636f"
+    },
+    "turn-loop": {
+      "contract.md": "a6ef8713b664348ae1aa3ba9c33c899929a42f126fe4a195823549ce4ca1aa1c",
+      "api.d.ts": "1ce72129b7b85e59dec8eb097d68f7cd68fc0be487314bc22e7f73359ae2675c",
+      "imports.d.ts": "6698764b5f1dafbf13add57166fb0b345d474766fe0d718088cdb0907cb71e83",
+      "literals.json": "37e230db3daa33bb6cd8298dacfaddfc7ea2f6703ef82741992cb2ddb4bf3da8",
+      "supporting.d.ts": "f9d7a653f925d1373e0141045006cb90fd2ce7c175a701b9c3c5fa9862d0eed7"
+    },
+    "turn-model": {
+      "contract.md": "ac6a8d649333c7e6132eceb70e14b9c7570b9c3818da1c4c6f2ceeebb8a664ad",
+      "api.d.ts": "b101117d1c6b1eba961b1756ee973757bd6a6456ddff254eb44338a2fe9ecb26",
+      "imports.d.ts": "1cf93ada8a32295834e059d8800053f9848bdb7a63ac93b29ed1e10f4fe3c3fa",
+      "literals.json": "7793102f42e2b5a6121e5f7c6d3964b25eb459c2697149b37d229f487e98a13e",
+      "supporting.d.ts": "1c05e4a256fe2ab92792d42b3bacc40b526bbc469f52042c48d1ecee6b538248"
+    },
+    "plugin-reference": {
+      "contract.md": "53b7bd78939bd0ec2aa4a2ae8abd14b0948fb10247a8b16d9558caf539bf57e5",
+      "api.d.ts": "c84493a16a053573891eecc1872bfbfd91569493759358f226784d2e91ef3103",
+      "imports.d.ts": "61383ad4f1a0cf40e0ae6e08bbf2c08fb62f237706ea65e2fa0c84f94cb60083",
+      "literals.json": "55a7726fd78c5fd6698657bb27453b2314d4ea98617be26cef5fc6dc4368d8d1",
+      "supporting.d.ts": "b15fac46b3ce70426cf3e78c07de3d4d1a67c9ea729c4a5cef11611f148c636f"
+    },
+    "session-shell-environment": {
+      "contract.md": "51793b89a8663c6c3e8c7bb12adc98d717842cbf2e6dee71be37ff9fc625dd11",
+      "api.d.ts": "76ae7437a9a11806730cb1ca55ad0cce0e54aca2edbf48c11f3fb2ca4316eaeb",
+      "imports.d.ts": "e3562799402cc5dd9749d6c110ba2ee15063a42934f80f668ec222bf48c85a7b",
+      "literals.json": "2f791ae78ac19da26c863ae03c0d6e18e43ab6e88ae0064bbbd8507e2840694d",
+      "supporting.d.ts": "4e046a92b1e2070482d4b3c98deca9bb04059bb46f0dbbbc41f4201820df83b8"
+    }
+  },
+  "freeze": {
+    "diagnostics": 0,
+    "typescript": "6.0.2",
+    "owners": [
+      "target-completion-verification",
+      "turn-loop",
+      "turn-model",
+      "plugin-reference",
+      "session-shell-environment"
+    ],
+    "mode": "exact source plus actual scoped compiler JS/declaration; other dependencies unchanged"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "description": "Fixed import/runtime/protocol string vocabulary; template interpolations specified by functional contract; no bodies/comments",
+  "values": [
+    "@knorvia/contracts",
+    "../deps.js",
+    "../helpers/index.js",
+    "../../agent/message-history.js",
+    "../internal.js",
+    "./turn-model-step.js",
+    "./turn-loop-state.js",
+    "./turn-output-token-continuation.js",
+    "rapid_refill_blocked",
+    "compacted",
+    "mcp",
+    "tools",
+    "plan_mode_exit",
+    "runtime_mode",
+    "TodoWrite",
+    "todo_reminder",
+    "output_style",
+    "Model request started",
+    "model.request.started",
+    "core.runtime",
+    "started",
+    "break"
+  ]
+}
