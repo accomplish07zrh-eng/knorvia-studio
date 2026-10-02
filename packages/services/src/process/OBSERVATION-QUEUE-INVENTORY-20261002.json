@@ -1,0 +1,3907 @@
+{
+  "schemaVersion": 1,
+  "checkpoint": "0b098111c827656a648a1e3067762897e903a180",
+  "sourceCount": 388,
+  "files": [
+    {
+      "path": "packages/services/src/accessor.ts",
+      "sha256": "0ecceb85fe775877677020a6664a74581997201eaacb53ce857272d21aef03a7",
+      "nonblank": 77,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-registration-contract-entrypoint;not-allocated"
+    },
+    {
+      "path": "packages/services/src/agent/agent.ts",
+      "sha256": "b2c00cc85c7f54550cd8452079285c78d24ff744446b875a09eca83688788159",
+      "nonblank": 816,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentBrowserAmbientContext.ts",
+      "sha256": "f68a88ca66df146df6f9c33a1270af0804ba3bd184b50216aef3d5e067173044",
+      "nonblank": 127,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentConnectionScope.ts",
+      "sha256": "9cc9ec73c223b4d1819c1303498763c694abfcd55e518b39cf7673ab9e2b2036",
+      "nonblank": 1018,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentErrors.ts",
+      "sha256": "909de22fac96171cabe3530b546c781867b091a89dd14ef8b4ba31245c0c4fb8",
+      "nonblank": 19,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentPluginParams.ts",
+      "sha256": "8af30135f008df18cc1566b205997bfaf37b2fb4b8ebcb3628b8d61fefa6ba81",
+      "nonblank": 134,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentPresentationSurface.ts",
+      "sha256": "f7c6642cfdfcdfb18a41c68553c299e143b713727b447c4169b8498882b75312",
+      "nonblank": 21,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentProcessManager.ts",
+      "sha256": "c01c9c65867c3c06d492eb0425025cfd026ac7f210e4908ceb4d5205d1906e1a",
+      "nonblank": 1407,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentService.ts",
+      "sha256": "bacd25882b4cc1799c06d4c30245aa37ea92033dda24dd9ca7849a29d11a4af3",
+      "nonblank": 4677,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentSpawnCwd.ts",
+      "sha256": "1cc9522b8605ff6b34e6f7ee0d9953207894f235770a68a618404883189c5b58",
+      "nonblank": 24,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentStderrCollector.ts",
+      "sha256": "3cc0b96ce6dd5feabc430386971b0c1e11c0b319bd1d268189f78e47efd6d128",
+      "nonblank": 41,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/agentWorkflowParams.ts",
+      "sha256": "a212b6d52d40927a1f1fcdcb8b0e5ff4e52a4ba6e218d4850566720fc78c92ec",
+      "nonblank": 37,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/automationToolPolicy.ts",
+      "sha256": "1586e08c94bc7ff4d8e23bd1703ef21bdd9f5c7da786991e15f1226a550e66c0",
+      "nonblank": 21,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/configOptions.ts",
+      "sha256": "9e9c29d598abdd2f23a45c5705b5436b493ac3d48707b07adf554e3793e6bfc8",
+      "nonblank": 58,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/cuaOperationTurnTracker.ts",
+      "sha256": "69f6f2e8c7ef0f79dc35e6cb140ea933c2b1f80b134b3d98eb6a62a2001229b9",
+      "nonblank": 309,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/independentPlanSupport.ts",
+      "sha256": "c1eb294b55f92bf5466b950b2ed3f910dc1a537cf61348bddd38641d5f7f3fd8",
+      "nonblank": 21,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectory.ts",
+      "sha256": "496fbee6e8e01d8116309847f1cff900ee1d3e41fdcf1ffbc5537363e1db2688",
+      "nonblank": 418,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/modelTrajectoryFileTail.ts",
+      "sha256": "78e3b512f5752d0abe20623c75424c324a3a21ffc2cc32d70e41da9393cbee45",
+      "nonblank": 47,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/pluginReferenceCatalogRequest.ts",
+      "sha256": "cc030f23073742c9f19c18167b55693cdfb33b8d96de3e7a8793599fd71d612a",
+      "nonblank": 27,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/protocolClient.ts",
+      "sha256": "1a28886f9568c5ff9d18f461d42ca3b676867cd3319db7129e181d587a0e4660",
+      "nonblank": 360,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/protocolTransport.ts",
+      "sha256": "43e98b25e7ddd9f6dc94f06756ebe214168c6aaa195e6d31e4f10956c9900926",
+      "nonblank": 15,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/repairSubagentTaskIndex.ts",
+      "sha256": "67c88fcc8e7d2e95cb818558f169e772481c25cf181b3d15481d9fe18449b902",
+      "nonblank": 45,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/sessionEventCoalescer.ts",
+      "sha256": "5813ae114edcf1acddd7ae2d2520fa3c851d5e8fa926912b817cafbc2b9d3e99",
+      "nonblank": 180,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f",
+      "nonblank": 60,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTransport.ts",
+      "sha256": "ffd032b47e510c5e2568e83a573e4cab28d442471c2f869151481a0cbd202ab1",
+      "nonblank": 365,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/storageStartupGate.ts",
+      "sha256": "6a0c7171ba3ba92d7cadf1e0177509f8557ba7ea7ca9a799aa89036d03f2ad16",
+      "nonblank": 106,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "sha256": "529d114c34c331f54d4e744890526d34c83b54e7f48c00a916fab2583bdbec2c",
+      "nonblank": 1872,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/taskServiceAdapter.ts",
+      "sha256": "87b0f72142489b643aea66162328f111edda2517c66de4fb7f0f464b8b33e38b",
+      "nonblank": 5422,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent/v4HostCommand.ts",
+      "sha256": "a27dabe767fd7b8b26678f736ad5f85d4b143111b23776adf47d556029174bd9",
+      "nonblank": 149,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
+      "sha256": "41a30bd04df8df05661a7f4cb62ec4f8198ab647c4ff4286d11d51828be0fb9e",
+      "nonblank": 34,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent-session/session.ts",
+      "sha256": "f08ed80e1d0e1e9ce310ae7c54c072eb681e83169eae0023344be550ec09dd6f",
+      "nonblank": 146,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+      "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+      "nonblank": 126,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+      "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+      "nonblank": 32,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "sha256": "dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199",
+      "nonblank": 478,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/broadcast/broadcast.ts",
+      "sha256": "482a22d7ff72ec90a098f258c6006e5317684277f278cf0f1cab956e958b4013",
+      "nonblank": 49,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/broadcast/broadcastService.ts",
+      "sha256": "28196ba39efbf4ba620f6af06b400d44ec77840a4102200768fdcdf0e4d58124",
+      "nonblank": 215,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/collection.ts",
+      "sha256": "eee2a145c5aff50027ea123a80802d67e8cbe5c0d37c05e5eb8fb151698a1f4b",
+      "nonblank": 37,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/commands/commandConfig.ts",
+      "sha256": "7830f1dda2ccdd7b8a91b4f1ae008f5059762c026df8c7348f7ace48fd624711",
+      "nonblank": 92,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/commands/commandDiscovery.ts",
+      "sha256": "30bc241b47314b0f944353ebb63dcbcc9aa0ff714ceed8e79c2bf5ae525dae80",
+      "nonblank": 276,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/commands/commandFileParser.ts",
+      "sha256": "a2cfb99247d2130f395300c8a5bc6ad9f718f228bbd52c5220488d53998fab4b",
+      "nonblank": 69,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/commands/commandLocations.ts",
+      "sha256": "f3cbb9e96854dca31fcb9a010c6b30ab7b1dd2ea87ad3859a11d9d794f04efc2",
+      "nonblank": 89,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/commands/commands.ts",
+      "sha256": "a264c5b3369f5810795279f46ab1b1950d679ad3b19f584764dd8560b37814cd",
+      "nonblank": 26,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/commands/commandsService.ts",
+      "sha256": "96f766759fc28bdd037014af7d0b9fc8147271be239e19fc01023c1a2711cdad",
+      "nonblank": 116,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/conversation-telemetry/conversationTelemetry.ts",
+      "sha256": "bf38fa4dd5cb780a2915728fea767555d8ad1684e6c2e34d9306642529cbb770",
+      "nonblank": 24,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/creation/contract.ts",
+      "sha256": "a2242230f0c9d7dc11fb2ac104119c3fb208b1ad44eba07ab1a978290ef1b12d",
+      "nonblank": 267,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/creationJobs.ts",
+      "sha256": "3c3909ef7d0bf7e5f11089e86a6e6ba3b88ca24ce269f3a7c1bfbd11e06b15c4",
+      "nonblank": 373,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "sha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+      "nonblank": 88,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/creationRunDeadline.ts",
+      "sha256": "b6b569e75865a12f4ac48d895c62d67731ae8e77654dc3954585dfb17daed1d7",
+      "nonblank": 6,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/creationService.ts",
+      "sha256": "7e68b8a345a3d88d38b060a0be0b57642b72a0d79a221dc7d1d6c6cdafdd8ffd",
+      "nonblank": 379,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/creationStorage.ts",
+      "sha256": "562c992ce58fe43e49a551d8574542f7bba41b88a041d3e4a24775adff528f1d",
+      "nonblank": 369,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/modelValidation.ts",
+      "sha256": "dff1665426a22fd9655092a9484c90b1fd7b9fd76bd37e84ba0a9d75dc865fa1",
+      "nonblank": 71,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/module.ts",
+      "sha256": "d8888e77eaf79f0beb3f39f8fb0f66f9ebc77b9309b15a43c78854adaf7d5e4e",
+      "nonblank": 10,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/node.ts",
+      "sha256": "0d1b17f82798930be42aa7a6da8599e5fad20360c39a4bbd92d5480c5b335e70",
+      "nonblank": 3,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/creation/providers.ts",
+      "sha256": "6ba1dd1fe283c5c150f6568f20dd3a3cef970f964a2143efc3f8a47dac8cdbb0",
+      "nonblank": 374,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "provisional-retention;origin-hold-no-rewrite"
+    },
+    {
+      "path": "packages/services/src/credential/credential.ts",
+      "sha256": "99c78fc47a495b937287d3a1ac29758f09207139fb0ca0e9a5e46a1895a733c8",
+      "nonblank": 17,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/credential/credentialService.ts",
+      "sha256": "c041e82e96bb2f6955183625d0c523332beae0029c2322a924547e664a6647e2",
+      "nonblank": 119,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/credential/providers/credentialCipherProvider.ts",
+      "sha256": "08a1bcabd7a6776d50b7c21e6b3f5b0c9951ced98e5572e70799295be042df93",
+      "nonblank": 94,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaAgentAdmissionGate.ts",
+      "sha256": "5700c8bd9141e63144a67be81ddeb65c1472b4a98547a943ee41fb15c285fcc6",
+      "nonblank": 90,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaHelperInstaller.ts",
+      "sha256": "14ce61458b5a2d24f3568fc210f7c518431e8840aa180ec402a3a6d7d6e54feb",
+      "nonblank": 48,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPermissionService.ts",
+      "sha256": "7524cb660156065343d520e5ed4b5110b06a83bfee180ab47c731cdc5a5b5234",
+      "nonblank": 48,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPipSession.ts",
+      "sha256": "9acd78b7e3975eb26333fc962ef5b608e61664762cd018258b184cbc7e46ece4",
+      "nonblank": 13,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+      "sha256": "1d7fc87e8a537b3e5c54ebfc8a8484e5ab4c944cb4b2082306e9279d67c1e6e4",
+      "nonblank": 276,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/cuaRestrictedGateWiring.ts",
+      "sha256": "c43941d7f9aa4e57bf60f5bef46a0ae4bdf68fb301134de033fa02d1a6a14587",
+      "nonblank": 80,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/index.ts",
+      "sha256": "cab9317b64e56fd64f6c525c896f1550e69a795b38f7273f024e8783d7a8e50c",
+      "nonblank": 112,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaDevHelperHost.ts",
+      "sha256": "45073a6b9ad6d4641e112d21579132dc30684fcdb70f1fe574cf8ff6a7a1cf4b",
+      "nonblank": 477,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaDevRuntime.ts",
+      "sha256": "1213b40cbabdb4aa8046540c7dde56d787f17bb16cbb7c5274610233d9f3a615",
+      "nonblank": 532,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/cua-permission-broker/windowsCuaHelperHostSupport.ts",
+      "sha256": "e1b8c4590998af63364338a83e25a11c004200e498a8bbba7519df335000de56",
+      "nonblank": 214,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-authority-security-boundary;not-allocated"
+    },
+    {
+      "path": "packages/services/src/descriptors.ts",
+      "sha256": "5b2defea851b2ebd6d1b65d751bc6fda8a0e1252b41dabd38a4b61724e712a3c",
+      "nonblank": 14,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/device/deviceMid.ts",
+      "sha256": "0a00984ee8fa226cf1dc803cb009df25e3572e7c2e43b18e7d7808bc6028b76b",
+      "nonblank": 143,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+      "sha256": "d3b2b71a9c1e3eb27b3e5d7f92ecee0564b260ad47302bfb4cd116bd2d1b0b26",
+      "nonblank": 76,
+      "classification": "unreviewed",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchivePolicy.ts",
+      "sha256": "7b8a7a6e0fea314c37a20702d306b416072aaa5d9a28971b7b263b580fa7c509",
+      "nonblank": 64,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+      "sha256": "2f498dbbccef4149863487342bb816c13f71d0b00fdd0f18ef69a7a527276bb7",
+      "nonblank": 71,
+      "classification": "unreviewed",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+      "sha256": "a056f81444db856597f7872a01b98014523488c3ac90ec79c984b9fc69a4d34a",
+      "nonblank": 78,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/file/file.ts",
+      "sha256": "7b88de12342840b459a34f5c4cf7c17c4355304d56c450f9068e178e6c8adeb7",
+      "nonblank": 79,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/file/fileService.ts",
+      "sha256": "83f7ef4dcb37f67cf586c49dfe335c4d08ce3dbbbcacd859928697b3ff2e57e1",
+      "nonblank": 189,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/file/fileServiceIO.ts",
+      "sha256": "c26849802d1056af2c1a6cc2d58c840ebf046e3cdc5145ce51bc6c4725c1953a",
+      "nonblank": 140,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/file/fileServiceIndex.ts",
+      "sha256": "e0fe50f29af8f428cd175ea8f58f87b00e5e552d567013b1a3f3742d1f5b28a7",
+      "nonblank": 108,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/file/workspaceFileIgnore.ts",
+      "sha256": "49bbdc6820b6d672c07f143f14ee1c51b96b9b06fd788d5a64f4d3e028d76b66",
+      "nonblank": 254,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/file/workspaceFileMentionFilter.ts",
+      "sha256": "34684f72121cfa476ee19a819637877ef25a6c0df1e4788000b3d2cf2e8b8dd2",
+      "nonblank": 109,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/file/workspaceFileSearch.ts",
+      "sha256": "8337dfe3e1c55a8a3b6c152345acf2b02e775fdeaf429f753b5391f04eb94cc8",
+      "nonblank": 39,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcher.ts",
+      "sha256": "54c14389ba3c3a13d5e9e11b5b967cec4d57768adb0e85fe59d63d027ea24bac",
+      "nonblank": 23,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherBatch.ts",
+      "sha256": "4e715e853724e7162c3d384bff2f5326095ebf21c3ede1a991a4192260ac10ea",
+      "nonblank": 19,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherRuntime.ts",
+      "sha256": "a1ff8ae6056a6890baf033b22c24a04cb6a4a6662a2fc822e4f503cd82b7c37a",
+      "nonblank": 26,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/fileWatcher/fileWatcherService.ts",
+      "sha256": "6a874c651b6d0421206ae34973c09d75eb5d537e51158f1afeccd5e1665ecaf7",
+      "nonblank": 114,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/fs/atomicFileUtils.ts",
+      "sha256": "32452a0069325ad7d9a232e267ec3022bad74e13e019f0841bf13e013d9b9260",
+      "nonblank": 125,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/fs/fsFaultInjection.ts",
+      "sha256": "d53c22a7e0a05d5d366dd810ec2cda16b1cadaa1184dd281016760cdeb7190aa",
+      "nonblank": 243,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "nonblank": 84,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/config.ts",
+      "sha256": "3e32b00bcfa83909d550165c1279a1e65fd8b8a5bec73b77a63b172c0767ebc8",
+      "nonblank": 117,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/git.ts",
+      "sha256": "6f7e3bb85573005ac764da81960a20143ea45ae9551887e87253adadf67f9350",
+      "nonblank": 53,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitCheckpoint.ts",
+      "sha256": "1b23b32dd70e02cd76c8ca814d67b1bcc5273288b9d3b910050add357f2e8dfd",
+      "nonblank": 20,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitCheckpointService.ts",
+      "sha256": "c6eaa411281c99dfd76760a45d55a689bf350dc3ded2a1a91b0ccef66d71029d",
+      "nonblank": 74,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+      "sha256": "ff759b2a18d6ac589348f2a2fec18838796a653de3c5c5b066ec3b5f34b7a04d",
+      "nonblank": 153,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+      "sha256": "11e51545b244f8bb13d2e04c43db055f7300cf066a864671bea4f1c455587466",
+      "nonblank": 68,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+      "sha256": "9bc248922e98e692a9278c8845b28f1f40f5de39e8425baeb9c97e0268c2fc78",
+      "nonblank": 140,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+      "sha256": "5623dde994cbcd3aee411d556c8249f3feeaa9ab8c2676ed8d082a4d430b6fda",
+      "nonblank": 35,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitService.ts",
+      "sha256": "ccc15ab67ef51e32aa4b772d16ffa39092dc39498083d975ec117ff24466d8ce",
+      "nonblank": 187,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/gitServiceReadProjection.ts",
+      "sha256": "f692965141f59e0a77fd7cb181ba8b9f001ce17a105e7aa4767013434a6a3930",
+      "nonblank": 121,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitCommandProvider.ts",
+      "sha256": "4152dc54f5e9c6bb286dcf47b46ae7e0ca7108580e75492cc42b6174dc18a1a1",
+      "nonblank": 185,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/providers/gitEnvironmentProvider.ts",
+      "sha256": "0ebf9b4971fe63b5e752bc32eb8481455c369ed2e89a319fdb13213f05c6e785",
+      "nonblank": 54,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCheckpointHelpers.ts",
+      "sha256": "640a4b2a9a64ab09415263dbb22385ac8b8fdec935db20f195bbdf7bb0ce9bec",
+      "nonblank": 139,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCheckpointRepo.ts",
+      "sha256": "07cc8ff0c9cf02a94f4bf099606e1079af2298e1b6041eb43385f5b9974635fa",
+      "nonblank": 318,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCheckpointStore.ts",
+      "sha256": "4fe76f975bbdd298fd4cbf8cc6a8780528635a32acd6ad9c784520d6ed304e17",
+      "nonblank": 78,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "3430fdd7cd6a565022a82d2cd56b9ee779aa5fe180c2b32566cab777a2285533",
+      "nonblank": 314,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliParsing.ts",
+      "sha256": "7789656c7dbe2d7d2ac5529856e03023179af53fc766a2aa90ebc98eb0ee90eb",
+      "nonblank": 125,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliRepo.ts",
+      "sha256": "4aab433d3a5b380904d789449d2d52b0bda256fe32c99e1bac41981a8863e50e",
+      "nonblank": 54,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliTypes.ts",
+      "sha256": "02f8b238b2ba13c7b94dc41b714418bc2b731434facf3624b050a9b9f1096d92",
+      "nonblank": 110,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+      "sha256": "ce6ed70519437ec60f381f021cff640bb779bf8025708b16593a882e8a862c3d",
+      "nonblank": 178,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoBranches.ts",
+      "sha256": "59d6e82d2c4e7bea3e6ca4e4eeba8fa6e7cd7483c496d53e1190b7ef94879849",
+      "nonblank": 128,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoCommit.ts",
+      "sha256": "c1908d10f8511b9f40d97ba8b6f9b43ecf5ce2d02417e3392d95fa5e5465f76b",
+      "nonblank": 132,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoDiff.ts",
+      "sha256": "f3b6911c3a1ad821812944a5d1621e300f2a4a57707f08fddcc07209bf69d9d0",
+      "nonblank": 169,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoOwner.ts",
+      "sha256": "b5a726a3d0e4b3dfc6595d35a96386cddd5de1ffb0532a611b8afefee03ca3bc",
+      "nonblank": 46,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoPush.ts",
+      "sha256": "9351272abf7cfea970dcc9f701586e4c0e99512d700af6598b3bb1555c060541",
+      "nonblank": 83,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoResolution.ts",
+      "sha256": "c6488099576df407d6494595d072d3d5530873337fc63659a31bd28afb13a5fc",
+      "nonblank": 123,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoStatus.ts",
+      "sha256": "8e1ed732ebd5c8aa9ab71fe62a260700770c999161bcf3c4c28327ca297a8a6e",
+      "nonblank": 273,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitRepoWrites.ts",
+      "sha256": "cd07e34bb18926d65536a221bd23f4152d79d2173291265e8f43e67d0bca7ee4",
+      "nonblank": 53,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/hooks/hooks.ts",
+      "sha256": "92de67d53c737b132719cc44e3877f76cd13aecc77048213ee758c67ec8e77fb",
+      "nonblank": 35,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/hooks/hooksService.ts",
+      "sha256": "17b9e70888f31d8ca1967ac2925cd737742e040320840416d7b3aef0c99a2cca",
+      "nonblank": 259,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/hooks/workspaceHookConfigMutation.ts",
+      "sha256": "6c20264e53df560b668b78e3163338bd543b8857948bd9a8d4dd3750df40af03",
+      "nonblank": 6,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/hooks/workspaceHookSettingsModel.ts",
+      "sha256": "18a5681472817b95dd5e39aa84f320075cd81801b464d92eb27800864c59d442",
+      "nonblank": 241,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/index.ts",
+      "sha256": "0e6cd1019e1182cf12bf6b08f35fca05b6c8a63e0befc4df1aba5bad1494c788",
+      "nonblank": 207,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-registration-contract-entrypoint;not-allocated"
+    },
+    {
+      "path": "packages/services/src/logger/serviceLogger.ts",
+      "sha256": "4f00ea00270cead8955fe4a24cabf7b14274191f873f197b771e4ed10958bc21",
+      "nonblank": 60,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpArgumentPaths.ts",
+      "sha256": "aaff4e0b459d69e8e9f0ab9d71a402346db8f4f19173b58e41d8511413441e94",
+      "nonblank": 62,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpConfig.ts",
+      "sha256": "04c304832b3185aac5568ebd3de66704cd443275c37ded242be2718dce94303e",
+      "nonblank": 189,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpDirectories.ts",
+      "sha256": "704117806fc10f0f9273b5161b8e67694f5f66f27d7e871ce497356b751be1a0",
+      "nonblank": 92,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpSync.ts",
+      "sha256": "3d3b4a3869cc0278460b8288b0c4381256563b51f32d2d3896a5a150b99138f4",
+      "nonblank": 45,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/mcp-sync/mcpSyncService.ts",
+      "sha256": "3b0cbb8ac68f39f1c0ada3524ce3a023b825a048f683867207f6957bd74b1355",
+      "nonblank": 147,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/media-preview/mediaPreview.ts",
+      "sha256": "70b15195a8b1fce1448c4fb99ee9cb11e1ff5f362c70d6c711f4258fc633d564",
+      "nonblank": 82,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/memory/memory.ts",
+      "sha256": "e8bfa7c90778d8fe220ae0d5d42f8dee3f33c85104af05637ed8aab13377edf8",
+      "nonblank": 29,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/memory/memoryService.ts",
+      "sha256": "aa4eb3ee68d1969f6b4962b9b1ff774e9c4e71aeb36f2820bcc0098c9ef32b0a",
+      "nonblank": 172,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+      "sha256": "e9038c8997dc41bd39d5c048b4632d8370d441e6a6610cc2500bb7207b002e50",
+      "nonblank": 81,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/memoryDiagnostics.ts",
+      "sha256": "c08376d1629d21eed6b5c5a12301d3f2d0905b622a94d3fbdb98ee871c030fbc",
+      "nonblank": 23,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyModelProviderSerialized.ts",
+      "sha256": "e741de10388a542c99a8aecf79c728a9adf96bf800083603db0873e77badb92f",
+      "nonblank": 53,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyProviderEndpoints.ts",
+      "sha256": "2426bef6a24b5a4672b4f8edeb3128cf3be14e20f0a0bb1f9c4f78908c9c0850",
+      "nonblank": 111,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyProviderMigration.ts",
+      "sha256": "9a6e8c4ed6b07dba0af9f73c7627fa272ddd31d47efcb712df4d10562982e9af",
+      "nonblank": 96,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyProviderModels.ts",
+      "sha256": "4567b4c216a353230e73c112fb39ec89bba2d449485e1d2059d0aa119c949e1b",
+      "nonblank": 187,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyProviderSchemas.ts",
+      "sha256": "4145a1ae02cd5008433e1868a6a71862e1763f5617a1be78ca832d169b448aa7",
+      "nonblank": 140,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/legacyProviderTypes.ts",
+      "sha256": "4961e3faf4f3d972f8cbbc14d338834a5cda25fab7e60cf6ea9ff49b2ad9c0d6",
+      "nonblank": 100,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerConfigRuntime.ts",
+      "sha256": "eee80029f8ed400e4610956ba472afd85a6800febb989bea9dfc33b2da346825",
+      "nonblank": 58,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerFacadeServices.ts",
+      "sha256": "7fcecd2b76fe747414d126992c92d3ca58901a3b988d7faebfda741a41fbb807",
+      "nonblank": 252,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerRuntime.ts",
+      "sha256": "e0b5c365f124225cf1cd73a2238a1087bfc3c9932f892559ee5e63d91ca190dd",
+      "nonblank": 177,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/model-provider/providerSettingsConnectivity.ts",
+      "sha256": "bb9baf39f478cec32bfda0ccd58c8cfd3831f9a2a62c08ddf4cc8b547b29405e",
+      "nonblank": 33,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "nonblank": 1982,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-registration-contract-entrypoint;not-allocated"
+    },
+    {
+      "path": "packages/services/src/onboarding/onboardingRecord.ts",
+      "sha256": "2d1bd6a12a8a9afdbca45d0c2dceb1669f3d4dcbc4acaa2085c705ffd1962636",
+      "nonblank": 49,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/onboarding/onboardingRecordService.ts",
+      "sha256": "db4cda6dbc07daf1aae5fa67f24eb12401c2407487fda36174e50b0f84e50580",
+      "nonblank": 125,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/paths.ts",
+      "sha256": "ca67067abcbbc11d8ed0ccc530363e8607ae39e0a352ca47702c80fabb99763a",
+      "nonblank": 222,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSync.ts",
+      "sha256": "7a5024fe706ce06535adf5b24bd473d124722899f3384bcecf8bb98b544cbfe3",
+      "nonblank": 42,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncArchive.ts",
+      "sha256": "2ababad98e46fd8c29443aaf53aa9a6e3d94972a2c32eb07ef3f4e1caa85471a",
+      "nonblank": 286,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncInventory.ts",
+      "sha256": "ad09f1f6b352bb1c141a626227355704a33c4d05a7fea7b9859f12c610d68c9c",
+      "nonblank": 197,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncMarketplace.ts",
+      "sha256": "c68b7a31a6a212d08630538454f3c3bcc75fa763b3093f54fb778832d2ea9a1a",
+      "nonblank": 229,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncMarketplaceArchive.ts",
+      "sha256": "2cbc56805a218d1743ff6ed0d41f80d3d90eff7f9a8b612e3780c49d47376c97",
+      "nonblank": 145,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncPath.ts",
+      "sha256": "7a15368e05537d694aab13192ca079cbf41f3a3621d6ced110c998ca93207c17",
+      "nonblank": 40,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncService.ts",
+      "sha256": "eb723801fbb8263586c0adae80ec7de186ec12dbb818fc10309fa3a53b72d50d",
+      "nonblank": 204,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/plugins/installedPluginRoots.ts",
+      "sha256": "3a9031a0d4dafaeb8f7f98861319b5a7d991f02268fa5a2942bf50d6fb02eeeb",
+      "nonblank": 36,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginManagement.ts",
+      "sha256": "912b44ed5d8de774d41759a74b82846180156810c97037d478c096d7b41c8340",
+      "nonblank": 97,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginManagementService.ts",
+      "sha256": "0770c9c395c6710b766c091cf6af16f6902ca2cbeae9766e0703a5e261c08446",
+      "nonblank": 55,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/plugins/plugins.ts",
+      "sha256": "3d704c6506c41da16c9532efbeef50ab0dcc2c68ef8f9aa961c5009169901f37",
+      "nonblank": 52,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/plugins/pluginsService.ts",
+      "sha256": "76f0ed213aa69c77912e61760b58a8d26d150e76db8f25cfc8f922cc68c5b4b5",
+      "nonblank": 76,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/process/processResourceSampler.ts",
+      "sha256": "868a2956ad4c8ad30b4597509d8b9dfceccaa48fac4c913e1975ebf2e18dd9c4",
+      "nonblank": 433,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/processTreeOwnership.ts",
+      "sha256": "317d164711846cb34b133e13561a67652a718017a262cdbf7a7129abcd8b0b65",
+      "nonblank": 128,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/process/processTreeSnapshot.ts",
+      "sha256": "8ad4ac632339502b737b0b108c72d804aaa1c7cdae069ed9354999ba216350b6",
+      "nonblank": 325,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+    },
+    {
+      "path": "packages/services/src/process/processTreeSnapshotAsync.ts",
+      "sha256": "97cd446734ae061564e30b6ec4762bde2f1f43458a1a24452b6b37a8d8d09847",
+      "nonblank": 151,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTerminator.ts",
+      "sha256": "26a03e474baba58effcd5a0a831e4b28dd7782b1d4ee1fc2655a38e799d11a97",
+      "nonblank": 446,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/processTreeTypes.ts",
+      "sha256": "4f4a9beb1453087503e1e155adbcc97fa78ee1e74ca63fb7d991fd1ee69bc942",
+      "nonblank": 62,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/processTreeWaiter.ts",
+      "sha256": "b0235f55cf9a7cf299005952210f293d54ea73b63031552309e0be38c23cb34f",
+      "nonblank": 234,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+    },
+    {
+      "path": "packages/services/src/process/runtimeProcessLifecycle.ts",
+      "sha256": "acabe25b0320b0aeb3df911107f0088be6fbe68329bd9307cdea33921c47c680",
+      "nonblank": 80,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/process/windowsProcessListAsync.ts",
+      "sha256": "cc9c2fd08d95e948b5fffcd81210e23918606e6fdbefe879576a3bfd8ce8c4eb",
+      "nonblank": 189,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+    },
+    {
+      "path": "packages/services/src/process/windowsTaskkillRunner.ts",
+      "sha256": "8c3d02ee4dc96ac66dabbc0c7f43ac6bcf8372e1f66fb7cb0f48f780c9b1ad45",
+      "nonblank": 15,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-runtime-termination-sampling-type-adapter;not-allocated"
+    },
+    {
+      "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransfer.ts",
+      "sha256": "71ee63a66002e1902a5ee5aba4b8028b44f817f965f717658a6fc523342a8776",
+      "nonblank": 42,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/prompt-attachment-transfer/promptAttachmentTransferService.ts",
+      "sha256": "8b81f23ea1aba8e03fcda3d0e7f6c590cb645e628954c4bbab0e360b5947d5e4",
+      "nonblank": 42,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/providers/api/apiJson.ts",
+      "sha256": "8817908dde43a434a9b69a825555d185803982b9ceb545653649a02b9f5be46b",
+      "nonblank": 58,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/providers/api/apiKeyHeaders.ts",
+      "sha256": "ebddee791e684867a08c35a7b4e637eeaaa885671a1b3aa834f24a6d4be8fdda",
+      "nonblank": 9,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/providers/api/index.ts",
+      "sha256": "c75cd335bef1a43847613d8c4d09617cf93460fe33e7f48d0023ff4cbe5c8252",
+      "nonblank": 9,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/providers/api/networkErrorClassifier.ts",
+      "sha256": "e0c5500ea57359c2efaf48d0fd60f2695864503a3862a0426d18a759feb5659c",
+      "nonblank": 58,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/providers/api/nodeApiClient.ts",
+      "sha256": "ae87c77735014a39526c433fe59bf471a83a6d79bc10646c86abca113473d866",
+      "nonblank": 53,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/providers/api/nodeApiNetwork.ts",
+      "sha256": "a34c633fbe53362f8039e7c0af0beeb5fd31365b3b95929388ccab1f5fcbc132",
+      "nonblank": 192,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/providers/api/requestIdHeaders.ts",
+      "sha256": "3b4f26686328985308f9085c8f531ff532810251312f1b19ef91c684c60f9b90",
+      "nonblank": 25,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/remote-sync/remoteSyncWriteAccess.ts",
+      "sha256": "2167b77ca6525e79745f2a857f63a2ab751461c4a6e8184bd464659c67998315",
+      "nonblank": 31,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/agentProxyEnv.ts",
+      "sha256": "aeb8567cf99220a40e9b53ec6cff22a748858a65dd5de89d0a7a7b440397ee7c",
+      "nonblank": 99,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/appCaCert.ts",
+      "sha256": "cfc63353e0051a80d8e7ba90b94c11707dc9bd817bd00de9cd430bdd3b1be425",
+      "nonblank": 69,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/clientPlatform.ts",
+      "sha256": "6b78a5e414e8a28f7f3bea42ea36ab02215bae53450a91b42f37094082f72a8f",
+      "nonblank": 28,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/node-forge.d.ts",
+      "sha256": "e738d41d69d8967248b43b4f6576298ea251c0ddf7d2a62f67bbb604fbfec2b2",
+      "nonblank": 51,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/nodeEnv.ts",
+      "sha256": "700e70e372a097d354c80af56cc7af7b9a3b58d41c6c65f164dc854475c287c0",
+      "nonblank": 16,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/providerRuntimeResolver.ts",
+      "sha256": "eef2129e1bc83b11af87c9916cc7f08d82311f1750142a9f2ddb30ebd05dbcd1",
+      "nonblank": 87,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/runtimeCommandEnv.ts",
+      "sha256": "1c4b33d56adb3160bada9a9deca12eb7c3a4b5cca207a31b18513a19d5d25286",
+      "nonblank": 251,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/runtimeLoginShellEnvCapture.ts",
+      "sha256": "f8250760c1dfee45c033a637dc02b022be8e1a30437f67cb3f1e010bc6769ff6",
+      "nonblank": 205,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/runtime-tools/runtimeToolResolver.ts",
+      "sha256": "7d949ac1d52e4e2985cf17f4b0a87289a7c44030c92a6d0d8c91a1b33d8ccb9c",
+      "nonblank": 110,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/session/automationAdmissionConstraints.ts",
+      "sha256": "700513a71ac658f27e18dffdd401cda07595e72f63172df47e320ca5730a53fe",
+      "nonblank": 22,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/automationCron.ts",
+      "sha256": "989013a364f2739055d7ee7f82541de27ad79b1e8ba185ad63059393ae8ae037",
+      "nonblank": 427,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationCronValidation.ts",
+      "sha256": "8e7cb2807d6c6e9c3ddea47dd0e8daf8deb4ab0fad7b75f63c39187a2c208cb3",
+      "nonblank": 11,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/automationIntervalCarrier.ts",
+      "sha256": "72fa6ee1f7debd2fa841ba239c308abe9dc762153c73617c786eea8f6f0dccf5",
+      "nonblank": 86,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationRepo.ts",
+      "sha256": "f0d11e0165dabf5b2d841f303d8edfa766b21e14f59fb21f43dbd4dc27aa1d30",
+      "nonblank": 1421,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/automationService.ts",
+      "sha256": "2c114c1bcab9556d7aa1eebb3807df1e9edb3d80fd1aa5ed78b8b4794c93f2b6",
+      "nonblank": 313,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/session/automationValidation.ts",
+      "sha256": "b4df09d74e6d4d7b6ef67a335ef066ddd9b62d27299cbbde47c14b7528e7b284",
+      "nonblank": 105,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/buildImportedClaudeTaskFile.ts",
+      "sha256": "9b530e1833e40ab286bc1064e9b7733407c4ba6aeb7e9c7f0474f43f9191dd9a",
+      "nonblank": 69,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeImportedSessionTypes.ts",
+      "sha256": "7ecab783c21dffd9ab4706964109f8ebca92d65b7360c434c59c0a62639f8c58",
+      "nonblank": 16,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+      "sha256": "3d2581be2006855b450ae0997169895cf2354023260dc45ac8d4f10291baefdc",
+      "nonblank": 192,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
+      "sha256": "1ee2bcd6e7bf952b5b3de3922ce42757f35a8ee4c0b8ae83f7b4dc739e3c2c66",
+      "nonblank": 244,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
+      "sha256": "877bea41f1d8968ede4c97b87b7aa657515387b2464737719e247b6901a3fe86",
+      "nonblank": 215,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
+      "sha256": "1b24ae1e190f7bae4ebce0cc02522d6d07453ae1befc45061bdac095f07fae1e",
+      "nonblank": 170,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
+      "sha256": "95ef9d40716062481e0d81e053703975e90079ab64678fd96671374e02017be7",
+      "nonblank": 174,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/importedClaudeTaskFileFilter.ts",
+      "sha256": "a4ec7572317dff8cf6d724eb10b56db15ee0580ff98defe11950718037c4f4bc",
+      "nonblank": 35,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/jsonLineRecord.ts",
+      "sha256": "927bc29b6bc910b085a85c4c637174e85f961eca67f8d0a1eb6009b4abf2f9c7",
+      "nonblank": 11,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/persistImportedClaudeTask.ts",
+      "sha256": "d7e6a1f097de4035620f56756c7b1e54ca719790e268d4e342215dd414376e9f",
+      "nonblank": 80,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/claude-native/sessionHistoryJsonl.ts",
+      "sha256": "de6a732fe4ada99d0e86358d863d839db4e8f474035787b12ccc7268e4cbdca5",
+      "nonblank": 63,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/contract.ts",
+      "sha256": "78cfdb265d5b8d257672f1959de4769b42dbf35c6c4415c110d28d709a34dd13",
+      "nonblank": 6,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/legacyTaskSessionFile.ts",
+      "sha256": "5f9c332e0919f34d12745d3ca37943cfde00870e62a3066a39a5363d8a1f56d5",
+      "nonblank": 18,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/mcpWorkspaceScope.ts",
+      "sha256": "5858f27ae656f010b6b6df5c9a8e8d5c3d6e3920eaa54b0cefd2599056c7f67a",
+      "nonblank": 32,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/sessionMailbox.ts",
+      "sha256": "17141b83e2e76d3f2d040a81277af015ebc5d73a4ebc52f5d017b5d7828e2fe5",
+      "nonblank": 15,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/sessionRealtimePort.ts",
+      "sha256": "4f7fbb145d2fd11927c458fa40bef0c74dc548b04d9b6725642e81b048bfd478",
+      "nonblank": 44,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/sessionTitle.ts",
+      "sha256": "1e9b9641da8675c9430bb6bc912fc2e78a166ae4f531fabb7c9880587493da4b",
+      "nonblank": 15,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/taskChangeSummary.ts",
+      "sha256": "55ea43a8b3b3f3ef359291cbf39380e58f7260f1d6d587ed05932e9693a9cdfb",
+      "nonblank": 68,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/taskIndexRepo.ts",
+      "sha256": "d514a1643213f7559156ee687b55239843d662403d7cd92d1ceefc006078ca4d",
+      "nonblank": 2466,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/taskListTypes.ts",
+      "sha256": "acc6dd095832279143f930707a5a661a13bc2a3aaf4dcbda7d93038383944138",
+      "nonblank": 105,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/taskService.ts",
+      "sha256": "9591efd0cfe6d18c99edf93e6e6cd9724325b0fbce4d8859073fa5aa63dfa094",
+      "nonblank": 661,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/agent-identity-v4.ts",
+      "sha256": "c4cf2c2ab89a44d26e912f0f08475518dbf8966a41737d75b5243cf8e3cce908",
+      "nonblank": 8,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/migrations.ts",
+      "sha256": "c57f2e84f0db5f479ed3c76c73b05352784307828ab5ff624ecba1b4e1d24ebf",
+      "nonblank": 264,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/official-glm-selection-v3.ts",
+      "sha256": "75af27386da487df526f5e329537e5abd4213a1255fa03efa92cd0d1a6571e66",
+      "nonblank": 35,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/prepared.ts",
+      "sha256": "f6660d5c977764afd0e9806e4285430e390f98b88c43d9331c868b0d278ce40d",
+      "nonblank": 18,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/provider-selection-v2.ts",
+      "sha256": "b5a496b8854cb3c5fae4238622b10ce5c0cfeaf41aadc98fdece611f0bc2dbf2",
+      "nonblank": 95,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/schema-v1.ts",
+      "sha256": "761eaba0a85b51eb529b865ab4f0f2edb21af46fdb9b8fdbdb49e53d22114f24",
+      "nonblank": 170,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/sqliteSnapshot.ts",
+      "sha256": "6df7431c4ee3bab9dec2eb9c612b8c2bad8fd46592f8b4fb6d561deca52b0574",
+      "nonblank": 58,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "sha256": "d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde",
+      "nonblank": 129,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/setting/dataLocation.ts",
+      "sha256": "f77142b542a21f9851e3d162500b371fc58adc5b5c8f9eabee7b3910aa6a33f3",
+      "nonblank": 13,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/setting/normalizeSettingsPatch.ts",
+      "sha256": "caf64e86b3aef1db3dd9fd21cdd003825175b2db2962776271f4d69a6809cce2",
+      "nonblank": 27,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/setting/observableSettingService.ts",
+      "sha256": "3f1c786612e2126c9cd4cff5fa04bf0d89e3802d05ac6e35b71341a358970569",
+      "nonblank": 24,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/setting/setting.ts",
+      "sha256": "95026e164945596cc898828eb0e0b2f900884de41233a001572dc079da381e04",
+      "nonblank": 18,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/setting/settingService.ts",
+      "sha256": "9a6f4ab89ec2fb6c5b262750feef37bba277b479ae7875bb41d3f9846aeddae0",
+      "nonblank": 217,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/setting/settingsWriteQueue.ts",
+      "sha256": "1ee6d7715e41cbffd998be98e9a4acc22385ef2d505be56ca8d0c730a38b9a9e",
+      "nonblank": 30,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSync.ts",
+      "sha256": "f32877ae0e920ce567f0a1419a56b9717b10dad1a0390888bbf421f0c634035f",
+      "nonblank": 39,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSyncCatalog.ts",
+      "sha256": "58b1c613c49a575163f1318fb52e2af32c6900a2b838ba03932a5fedb64a359c",
+      "nonblank": 131,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSyncImport.ts",
+      "sha256": "c75a136ff185b31c512cb1ce2273869efbcfc067284fb0ae12e9b448964be873",
+      "nonblank": 192,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSyncService.ts",
+      "sha256": "e53c89f7aa5fd611e7defab977509c87ccdbbbc2edacf18c4a165e2bb4a39a1d",
+      "nonblank": 330,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/settings-sync/settingsSyncSources.ts",
+      "sha256": "5b95fe026feec2de396f2572c3e56bcc19d8374e8dd3fb0d8482fad8ba9e4802",
+      "nonblank": 299,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSync.ts",
+      "sha256": "83ad6842e74ef51396f5ab1d14f7ccddf128c92e979aaa71d30c673d6528ff9a",
+      "nonblank": 28,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncArchive.ts",
+      "sha256": "077652d4827b77e2c7649c06529a1342c7c34692258db42f30a42c8150d8bdc9",
+      "nonblank": 223,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncDiscovery.ts",
+      "sha256": "8d21e2f6740c106f43b21395f2c9867319a886dcc6915413d2b3fd6250980a9e",
+      "nonblank": 185,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncErrors.ts",
+      "sha256": "8d14b86abb69c49e9043bd44154b798a42e13cf5736ed5499eb2b1c2e14f3b79",
+      "nonblank": 14,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncPath.ts",
+      "sha256": "7665260686f1354a3776d45e3b85311d5184ef56c5eef05ba163b3a7d328e5c1",
+      "nonblank": 41,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skill-sync/skillSyncService.ts",
+      "sha256": "8bc8978af9995065e707dd14d32d5bcbd23b60b15fd5263ee3cdc3bddb1c9b67",
+      "nonblank": 158,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skills/skillDefinitions.ts",
+      "sha256": "3ca091b001932085e6f16ecd1a0e7a923f4430d2d9c924fdac6a0909aa38a09b",
+      "nonblank": 130,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skills/skillDiscovery.ts",
+      "sha256": "2315ec046f6fbef1fbc0513f9b33c074830d6036fe690e392ff33183eff05afc",
+      "nonblank": 194,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skills/skillDiscoveryWalk.ts",
+      "sha256": "52255863d8ca0b1a5ded4afc73e03367bc95dc49b1c311c86eae2d7c05ed0b9b",
+      "nonblank": 60,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skills/skillLocations.ts",
+      "sha256": "0053a27e5f5fcac21e082e82906a8fb7c39f87dd534c3ef7ebd942396a9f6814",
+      "nonblank": 93,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skills/skillPluginRoots.ts",
+      "sha256": "b7649e439bdb20f003927050da5dbdb67f58e45079a446e96d255ce6fd8371fe",
+      "nonblank": 131,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/skills/skills.ts",
+      "sha256": "75217b6859f1624cc1e8ec66967aeecf445896cc6112c3ab6f377ff45ee7a040",
+      "nonblank": 46,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/skills/skillsService.ts",
+      "sha256": "53b7680b7e74440ace268fb123e390d781b5d824c78c0a3118e018fd7cbfd88f",
+      "nonblank": 173,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/fsCleaner.ts",
+      "sha256": "1732a134972e5245816c23e796354dd7996a0ff0525d53c305a4c7c685fdfb83",
+      "nonblank": 106,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/fsWalker.ts",
+      "sha256": "97e3ede324afff368faed59315713b332022efbf8088bf227604421a875591d2",
+      "nonblank": 127,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/inProcessScanRunner.ts",
+      "sha256": "e391f71039876ebd9086ed3b9eb436032750b8b00035d2dcfc88b0df90d75555",
+      "nonblank": 52,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/rootsResolver.ts",
+      "sha256": "b524f05c3070958b91b5ef95472a74b2e98d473354c10c1c9b4c040dedd6e03a",
+      "nonblank": 32,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage/adapters/volumeProbe.ts",
+      "sha256": "3283794faffa7eb4b94604efcb9c4735b0cdcd774218ad03b5e901765ac11271",
+      "nonblank": 39,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage/app/ports.ts",
+      "sha256": "37bdf6755036dcf0310063fc38dcbe613f99a05ec5effb9039aeb08159af20fe",
+      "nonblank": 44,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage/app/scanJob.ts",
+      "sha256": "14397f8869278e264f84319ca5322bd938a1482979a492abae4c61ff13d64ca7",
+      "nonblank": 104,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/storage/app/storageService.ts",
+      "sha256": "c302f1f42127262c2442d30552187b40a3a0a14a080e618d35ea58d046e88682",
+      "nonblank": 98,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/storage/contract.ts",
+      "sha256": "e15cd96be40f11fe6bbeae3deda2aaa4bdc49120f30fbafc63533bfca8bb9854",
+      "nonblank": 34,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage/domain/cleanPlan.ts",
+      "sha256": "820abcde0edfc6bf67447a78ded27f098d32f558b66db5ab3b84cf0a7894bcc5",
+      "nonblank": 74,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage/domain/storageCatalog.ts",
+      "sha256": "e2c84069eb31304074e96cf32fa26eda504e2036e71a6f48e81863a8d3cb709d",
+      "nonblank": 204,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/storage/domain/usageAggregate.ts",
+      "sha256": "263a788f656645fc01903a9c33a497fa320d3b71083e129114a6bd11b5c05897",
+      "nonblank": 100,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/storage/module.ts",
+      "sha256": "810ede38ffdd67e7a2c39f3d6b80d36864b7ac37a06edfebb0d441946ddc8943",
+      "nonblank": 10,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/storage-startup.ts",
+      "sha256": "7c5675f88950233126ca96ec3f581ee69f86b1a2339cd6d685b803c289cf467f",
+      "nonblank": 5,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/builtinEvents.ts",
+      "sha256": "d0e77951e2f59b4e33722a28bff978a172f1df378fc430b9ba9dd4606864561f",
+      "nonblank": 130,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/builtinKernel.ts",
+      "sha256": "1c8b54d421a9617276963b92fbc15d6a376a9906ce2c884d3a397fc52747228b",
+      "nonblank": 283,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/creationAgentBridge.ts",
+      "sha256": "c800c0135eb281d1df3b7e77009895bdd07ad046867cc3c5e6040cbbccbab413",
+      "nonblank": 251,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpCatalog.ts",
+      "sha256": "5a2e365564ee345e0e4cacc20f54fddc898ea7687bbeed325ca4885cc2144bac",
+      "nonblank": 152,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpCommands.ts",
+      "sha256": "beb3764eb5a227b28597daf711d74a7e2bd589e2cf683ccb6f943d69ac875dc3",
+      "nonblank": 29,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpManifest.ts",
+      "sha256": "a93808660f2b9db41f80d0116696df8cf41eadbf417e1f5b3d5ce733357bdb2e",
+      "nonblank": 115,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpMcp.ts",
+      "sha256": "1300b4aa1315e087637692ce8361ab1b9fc0b3aa6eee87026cf94d2c8ffaa5e7",
+      "nonblank": 67,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpOptions.ts",
+      "sha256": "4862895b9edd3467d9758af11994867a66b2d88b896a79b54efb9c7563dad86d",
+      "nonblank": 111,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProbe.ts",
+      "sha256": "cf0f4cddec31e792515cdf6243c15ee711e2a698ed317db3e3ba3b51f2c9a59b",
+      "nonblank": 63,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/acpProtocol.ts",
+      "sha256": "0d1071694d7317c046dfc850a8a1b9594e884f30202dbdac314e9396122cd78a",
+      "nonblank": 177,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/antigravityProtocol.ts",
+      "sha256": "76e8f990f11a6f408612ff44708e87ff25aaa622f9f038ddd26d408e5bf18a8e",
+      "nonblank": 150,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeCommands.ts",
+      "sha256": "78b03f48379fcb940e2f0f6ac52a73c36ca03cf53b79590dc9f593ce846763ef",
+      "nonblank": 60,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/claudeProtocol.ts",
+      "sha256": "12bb8c65cb13a2b4251d202f7089cb8dd88d44afab16555b5f897cff4e411d8c",
+      "nonblank": 243,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/codexProtocol.ts",
+      "sha256": "15f12ea14a4113f6c1aa1033d9ad58d79b67bfb2429f959779509455aabfc1b2",
+      "nonblank": 312,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/download.ts",
+      "sha256": "7ff5d6fb2459d704a510fafd185e18716cced952a41c4e5885a86c1daf2b1bac",
+      "nonblank": 121,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/executable.ts",
+      "sha256": "54857ada11619f98f8d05a22b1fa847b47ab098be7cf540e128f655d334c2114",
+      "nonblank": 168,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/externalUpdate.ts",
+      "sha256": "d909f2d3b7864ba542f3cc34d77d3ecbb3984b59b7fbf574de9c2c2f2231fce1",
+      "nonblank": 170,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokAuth.ts",
+      "sha256": "43e4d355e1cb4b42014f63a48eb5741f289054647776ce053a60d53086d37168",
+      "nonblank": 14,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/grokProtocol.ts",
+      "sha256": "5019116139aa8c3640c08a90e34cf73950ec805462b71dc8fddf888ba05f1bf8",
+      "nonblank": 230,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/installSource.ts",
+      "sha256": "35f3accce435acd846dbd693bc7e2e99a886b45c8aaa761f7654faece4baac4c",
+      "nonblank": 91,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/isolatedInspection.ts",
+      "sha256": "1d049ccf4995fd4e807e37d057ae10425c362a7f92840b56fd41a7ab130a1631",
+      "nonblank": 45,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelInspection.ts",
+      "sha256": "15590ead28727504292af87750ea9e18f6124021aa15c9b86fbaa68ee2056681",
+      "nonblank": 229,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRegistry.ts",
+      "sha256": "f372eae286bdfbe4521ef28a7d619b0ca5d9d5b6182341ccadfb95daa0ce1405",
+      "nonblank": 289,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/kernelRun.ts",
+      "sha256": "57e2291ec5283579268551e517f795c26dba3f04ce71a2c15f336647c4cb3681",
+      "nonblank": 158,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedKernels.ts",
+      "sha256": "b963ec1f0acb585bb4a96064a82fd0986171c37561c4f44b1dfcdcdb2da28a43",
+      "nonblank": 139,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedPaths.ts",
+      "sha256": "509b29e2070eb538d05030618a14f96acf194d14f951a31096ecb4ac82eaff40",
+      "nonblank": 159,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managedVersions.ts",
+      "sha256": "9e645d88d98c2fb19ee2b4c0eb81484e0fff5ac39b633a21cd4c7a42a1777917",
+      "nonblank": 167,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/managementLease.ts",
+      "sha256": "fb10ddb57d3bf9724b07018704f59743e14a33d23a4268bc988f6ea0498519b2",
+      "nonblank": 50,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/modelOptions.ts",
+      "sha256": "944496bdd2920ca70ea11cde34b419545bfed13b217eec8b26277bf728a7434d",
+      "nonblank": 292,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/probeResult.ts",
+      "sha256": "500673dd9f93b63d3625f4956d3df50e2aca22f33ba709c883b827f9235cd615",
+      "nonblank": 216,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/processTransport.ts",
+      "sha256": "e55e4068707433c9d047f906ccbc0524d63c1dbe93b0348241657075e2c46935",
+      "nonblank": 304,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/protocolBindings.ts",
+      "sha256": "13d3020ebd7c4ae1759884aa245bc81b5f98700e57e287a585d59a635725dc80",
+      "nonblank": 45,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/publishVersion.ts",
+      "sha256": "969f4e13ee075decd3e3dcb6e775827aea91df391f7e5ada04828da3e278a19d",
+      "nonblank": 29,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteAgentIdentity.ts",
+      "sha256": "8c0ee5fc9dfb2b84e90cca6c42aa2149ecee41d8a1449d3a1335d8bb575b0f55",
+      "nonblank": 17,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelBridge.ts",
+      "sha256": "e29f664cb895df8c41ed64518c499f0ae3cb6951686dde91cd28c8221403b51d",
+      "nonblank": 243,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/remoteKernelCatalog.ts",
+      "sha256": "f52c5ad4fea6872787cad6c35040089cbba7fbd263294eb1308ff6d71e868402",
+      "nonblank": 42,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/kernels/tarExtract.ts",
+      "sha256": "b89f64553ff26bea0d741d331c6c37c9b9c202420207699fb2c847343c52c800",
+      "nonblank": 103,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/longPath.ts",
+      "sha256": "7be223278e96a001698fcd16241c312498efa32eb88e3268682a730ebbd6c953",
+      "nonblank": 41,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/pluginMcpProjection.ts",
+      "sha256": "34aba15e84d622191a8d4dcb667a57e1075dbe21c6a9455c5b57be8adc0d1f02",
+      "nonblank": 212,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/sharedCapabilities.ts",
+      "sha256": "8829565734eb39f3e1c7ade224a0e2ca4bf752688cf1f94576af451b3991fec1",
+      "nonblank": 327,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/studioDatabase.ts",
+      "sha256": "019b07ea44eb3677fd5aab9b5ea010982098f86bdeb233243d1b473ca6763274",
+      "nonblank": 208,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/temporaryMcpConfig.ts",
+      "sha256": "579cb907c24b0ecb018c06f058e2e31de1ad318601a16539e12d08451709892d",
+      "nonblank": 61,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceApply.ts",
+      "sha256": "77ab4451443ec52f021f9d278610e40a1b9f85fa69265b5810f87b4a21b25651",
+      "nonblank": 135,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceFiles.ts",
+      "sha256": "52ac5781dd5e1297ab95c9867e2ee1da9621d84a9777b4381ea25b152bc93723",
+      "nonblank": 177,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceJournal.ts",
+      "sha256": "1aa41e04ed74a288c9e9e0c75ab5ec28084d7c48e77aa636dc3b6db05d3e39df",
+      "nonblank": 181,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceLocks.ts",
+      "sha256": "c6d0da5248f094c546cd391a4d484268c723bef515ddeba2aa0730943cba517a",
+      "nonblank": 113,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceManager.ts",
+      "sha256": "63dbad6799105661b5246aa4c6286a7216150b53ccbcd5128480ddb5a7e034ac",
+      "nonblank": 263,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceRecovery.ts",
+      "sha256": "41ab51feef393c88d53c028a3bfc9ad725402ff5152357dfafb5372ecac6d62c",
+      "nonblank": 206,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/adapters/workspaceSnapshot.ts",
+      "sha256": "1713a4fa698671a05c01338877cbbeb7c35b67d3216c4bb711a8bc2986d020a0",
+      "nonblank": 147,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/checkpointStorage.ts",
+      "sha256": "22d78d2a3f544ce10f165b034dc3e796d4f2bb5cd8f7434ac74b2f0ab7dcdf99",
+      "nonblank": 83,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/commandAdmission.ts",
+      "sha256": "15c266de4f22d4f71a2cc079abe0f529c8752423744bfe3b1c310943b3073d54",
+      "nonblank": 383,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/executionLimiter.ts",
+      "sha256": "a162efb9291ac9a3e2068bdc3768b711adf3dc8cdecdb4b31064de86ecabf803",
+      "nonblank": 36,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupExecutor.ts",
+      "sha256": "cfa5db78cc61aca46fd8069f88e5c2170f0ea82b90f4f2df29feb2c2842aa5aa",
+      "nonblank": 242,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupMetricsProjection.ts",
+      "sha256": "7d141989c2fefc30bdb3f0180e6233922c464244d2758c654c9c468166aaac83",
+      "nonblank": 114,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupSteering.ts",
+      "sha256": "4bfb903e3a7a33eb07e757582fd31c916aa497a09edc6fc600720e68cc508d9e",
+      "nonblank": 167,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupSteps.ts",
+      "sha256": "b29f29d4622944f7f43d5f7138f40be785a64a2b1503adca26c6718cfb0b9088",
+      "nonblank": 139,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/groupWorkspaceIdentity.ts",
+      "sha256": "c7a101feb645f6a5145b06c756712af222fb4ae234ad3893667ed0c41bfbdd18",
+      "nonblank": 27,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/kernelOperations.ts",
+      "sha256": "6e43ac8863ea32c064277c9ecb1d743c8a03b2e341e23f5f9b2fbc765653f2fc",
+      "nonblank": 78,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/pendingInbox.ts",
+      "sha256": "4a3f8803ff464df2dac71e88caf6893c9cb590543b910747e269cea9c7018ae3",
+      "nonblank": 17,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/ports.ts",
+      "sha256": "175e70c36d1c0bd9ba7900c17e9b36fcab07285b1b63da460aafdf03013d88e9",
+      "nonblank": 191,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/remoteAdmission.ts",
+      "sha256": "7251e57d2718870de9c3f6f0485eb9b49eb60f014f16b58f1033592939132498",
+      "nonblank": 35,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runExecutor.ts",
+      "sha256": "e16d5ea08c072456c4be77c80219469b954a3dfdc65eff7e33a90ee78588e5c2",
+      "nonblank": 344,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runOutcomeProjection.ts",
+      "sha256": "a905e5ac7e4efd1cf4d2b32f24915f63691eadfacad1e2f1eda94753a76483fe",
+      "nonblank": 249,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runQueries.ts",
+      "sha256": "935dbfa4d38ad3fa776c6a64de823cbd59f8938497d61df1303086d736a76882",
+      "nonblank": 17,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeInteractions.ts",
+      "sha256": "0ad6e2c614de44910c08113b10b4acbe8aecae2c75f849ff8e1b198498c42935",
+      "nonblank": 83,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeLifecycle.ts",
+      "sha256": "72dfeb7b89010c7efc5119f9aa60eda552d37b8d0c4d15729f348035fccd62bb",
+      "nonblank": 33,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/runtimeProjections.ts",
+      "sha256": "eb8e8cfda1a0202c01df796ac71bf9583e40f9469df56ed0cde35914c80e04d2",
+      "nonblank": 97,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/stepInputs.ts",
+      "sha256": "b121cfa067a55312b47eb9607cd13634750f48a0dcdbf69b6ce20ebc779ca39e",
+      "nonblank": 39,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/stepOutputProduction.ts",
+      "sha256": "fafd970bbe8cfb566391b9e94f7d7d45fee6aef1107e917c519a2b7917ec4b5b",
+      "nonblank": 79,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/storePort.ts",
+      "sha256": "38cfe1519d3832d89fb95dace470c0f2806ba2fd4c2c02ad5aa417bc8b5a548c",
+      "nonblank": 56,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/studioRuntimeService.ts",
+      "sha256": "0726fc4cd96f5b1729cbe6d51152292d6c7385311f058607fa87f9fb248ab790",
+      "nonblank": 276,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnEvents.ts",
+      "sha256": "e571ec600f01f998bb42296477a59da4e1eed1d39a144fe65aeb0c4d7c52ea45",
+      "nonblank": 53,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/turnExecutor.ts",
+      "sha256": "a0464891c18fccaf47fcfec6a5f7fc4911be13c0df53d7cd6cbf3e9e6c38c28b",
+      "nonblank": 359,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workflowExecutor.ts",
+      "sha256": "7c07af850ebb8ab0e0b0d386957a08ff81b60d8d637f02bb23657790b9c409a1",
+      "nonblank": 193,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workflowSteps.ts",
+      "sha256": "647abbc26255c129c78d688bd06e2ec0f13d0def9a5818c587522e09eefbcac4",
+      "nonblank": 348,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/app/workspaceReview.ts",
+      "sha256": "d88fddbcb16ef02dd381f4f2d6fe74f10e9996d0cfa9f5d51c7e73c21be176cd",
+      "nonblank": 259,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.example.ts",
+      "sha256": "42651a5ce078174b168c5f25944d01c150a72a728eb8f8ee19473d992ef9a6ae",
+      "nonblank": 20,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/contract.ts",
+      "sha256": "dec6323497f5f3cd00dd7396cf1670bae681b259bc324923927002879826a415",
+      "nonblank": 123,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/capabilityMatrix.ts",
+      "sha256": "5bf45e84051de0986076ac3d120fcb5a938fa809e154d887a053072548dca80a",
+      "nonblank": 247,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/condition.ts",
+      "sha256": "48c4505c331eb43f6d495b1a2b602faa398e93c665a4a7b0048b1b1a9edbed07",
+      "nonblank": 197,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/groupPolicy.ts",
+      "sha256": "90cd307fe74110c2137c18cf659dd6f87b42e1a4da7c5cf27639fb21d39b6aa7",
+      "nonblank": 211,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/groupPrompts.ts",
+      "sha256": "b58f8ac6c00eed3061b79a9e079589e1a7a2fa60b264c3a6584ff8513500f728",
+      "nonblank": 58,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelIdentity.ts",
+      "sha256": "fcf5895d3809a183b6a2034f607841bc3fa2b34315b58a7314248ff92e090c61",
+      "nonblank": 32,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelPolicy.ts",
+      "sha256": "64465c18c81d62ece1ab33a680e5f20940ab9b1f47a3d45f0ae11768c2a9ac74",
+      "nonblank": 94,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/kernelUsage.ts",
+      "sha256": "d4e637a97e324f8028d5ca023c405029246ace03ff184c5cfba37da79731a4fb",
+      "nonblank": 43,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/outputBuild.ts",
+      "sha256": "24b3a45a6af6685f428babf796bc12f1bf3fade1ab285a2fa3c099d53b2ebada",
+      "nonblank": 153,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/outputRef.ts",
+      "sha256": "53961ad22fed9e2c5361b04b15aebb677a16d6f17ed08df21862a2588ad44500",
+      "nonblank": 300,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/projectIdentity.ts",
+      "sha256": "5cb7d240f510e3ccb7d7241744a55b9b496119f697019994255b931904d256bc",
+      "nonblank": 7,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/reference.ts",
+      "sha256": "838d569b164dc0d94d80ff7331baf3def844c61217b599a112c8e083a02c2ccd",
+      "nonblank": 377,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/referencePath.ts",
+      "sha256": "a9f922cdc427de24b078595b87a86f1ba7909ffe0171a4240f110540dc4b9ecd",
+      "nonblank": 78,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/remoteAgentIdentity.ts",
+      "sha256": "0101172ace28c9dcd6b848575634e5ade7ab2da1774f857bf0b256f955a8fc9f",
+      "nonblank": 12,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/stepReference.ts",
+      "sha256": "a82fcd34921532aa384dada95c232066769f7762ced06311928f2f48248e6dfb",
+      "nonblank": 7,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/validation.ts",
+      "sha256": "e7fc31753ec85ce69831dffadf7b38f01f429d80f76680fda16d314b157f2ebb",
+      "nonblank": 155,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/workflowGraph.ts",
+      "sha256": "84751a30818d5213c657cf422c6c00d2a9239dd768dd581eac52616abe6ba34c",
+      "nonblank": 258,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/domain/workflowParams.ts",
+      "sha256": "2792130994c6eb639aacbd6f2902e504605a46c4d1c4a93ef4b4b9b508abbc2e",
+      "nonblank": 271,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/kernelTypes.ts",
+      "sha256": "c67b924be755ef1955ec5fec1094c37d84efdb3a6533cd19d3fe5e866fe777e4",
+      "nonblank": 182,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/module.ts",
+      "sha256": "ecf5c19913036dbf0a8d036b9ba0bc416ceaf8f13fd643044c49e4fba2ca8d5a",
+      "nonblank": 6,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/node.ts",
+      "sha256": "ca5da326a2d89496ed168e0468a57b245046debc8c0175eb7aca75b243641edc",
+      "nonblank": 96,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/types.ts",
+      "sha256": "6022439cb1069513713581db349ff3d5cb5176ca705c7524de0d7cd69939118a",
+      "nonblank": 227,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/studio-runtime/workflowTypes.ts",
+      "sha256": "e02da6ef13106099462f31cd9535733536d777149a718d97306fbca524523ddd",
+      "nonblank": 143,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-root-allocation-and-origin-holds;no-cross-lane-change"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentMarkdown.ts",
+      "sha256": "6ebbb048088d53f7e22ac4a71794eaefa275b6e6199699b8211e219806f60203",
+      "nonblank": 324,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentModelSelection.ts",
+      "sha256": "12023979f3cdcd97890a71c35f26f16d252ee27871aaebd2402585f8ec16f82c",
+      "nonblank": 12,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServiceFiles.ts",
+      "sha256": "324a2fc29362455c8c21317418a87b47106b890fde10f68c7caea1f8d2f80e66",
+      "nonblank": 99,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
+      "sha256": "c992591f52bb4c1bc17125b20971fc8024dd5e79eb9a51f8ad098f136779f416",
+      "nonblank": 217,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServiceState.ts",
+      "sha256": "11273fe436ea5021a17697403112303e512ab16026a28bac832ac3ce336b79b6",
+      "nonblank": 74,
+      "classification": null,
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentStorage.ts",
+      "sha256": "8635578b7b54aed73ed8abaaf27c6b7d11d92dd8e2117443b25ce401afe820a8",
+      "nonblank": 59,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/subagents/subagents.ts",
+      "sha256": "b13e98fcf764eab231a7299e728a8d6e3b03dc7ae3b3f0d1a8b38f79021ecd44",
+      "nonblank": 36,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentsService.ts",
+      "sha256": "de9e8f27bf5d323f4e53423303e26b152fa9d51277a12680de2c1dcfe50e6e6e",
+      "nonblank": 246,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/system/integratedTerminalShells.ts",
+      "sha256": "5d0a87f7f5ae306708ef8b12446bc675914bf1bb1ca55f946c0da009d916019b",
+      "nonblank": 100,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": false,
+      "review": null,
+      "inThisLaneChanged": true,
+      "screenStatus": "completed-lane-source;no-repeat;acceptance-limits-retained"
+    },
+    {
+      "path": "packages/services/src/system/sshConfigAlias.ts",
+      "sha256": "d79a9c9da8e48f5e3ad80d61e33ce84b83c74102685a232642de9cba741eecab",
+      "nonblank": 616,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/system/system.ts",
+      "sha256": "dbb8bf479ed1a5c6006a917511248e6033c2ab5ad33f576af0ea07fb399d9935",
+      "nonblank": 14,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/system/systemService.ts",
+      "sha256": "31900f947598d9d3006eb2a15ef24b9243c898d96fe4bd072b8506bc1d008a0e",
+      "nonblank": 344,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-queue-retained-policy-data-location-authority-or-owner;not-allocated"
+    },
+    {
+      "path": "packages/services/src/terminal/terminal.ts",
+      "sha256": "f840b36586ad17b93dd5fca7f411686d345127340c869e022cf558d05ea7f76c",
+      "nonblank": 25,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfile.ts",
+      "sha256": "477f44cd9d1e27cbaa10fb939e047f53c6256bd6b6a9092229c45ae1c79d41f1",
+      "nonblank": 73,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+      "sha256": "703f953469e223bd409671d686776518b64fb6e70170918bc1884aeedd13fd52",
+      "nonblank": 45,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+      "sha256": "a54ac244a4264bb01ff12a1752139452adc2eda44db9f71a58de249ddd8d685d",
+      "nonblank": 182,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileMacOsPlist.ts",
+      "sha256": "c16279d4cd983328c2dc8c7dcce91e07df4741593b01fde68c38b8924c5ed364",
+      "nonblank": 23,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfilePortableFormats.ts",
+      "sha256": "e507c2aaf2107fa7a84fd9859a3c68a168df64206c2db2e196c4a2dda98a7e71",
+      "nonblank": 105,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfilePortablePlan.ts",
+      "sha256": "8ca6cd2923494f543769f583aded227c46ee9988fb092a35ab7c7f65c43c02c4",
+      "nonblank": 91,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfilePortableRead.ts",
+      "sha256": "bdbcca134ffb604a2cb55a16a4f3cbddce0e6e2da576aa05fc7ab0f52a0a7570",
+      "nonblank": 22,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalProfileTypes.ts",
+      "sha256": "2b61bb42156542e062d6e786c580a9747b479e0f6b65d684503e3480e61eca0b",
+      "nonblank": 30,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalService.ts",
+      "sha256": "965a6d2c2497f774949d2d8ba907b819de0b9d17cca1e5ff8f39c9725d93ec58",
+      "nonblank": 227,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalServiceInstanceOwner.ts",
+      "sha256": "cdbc250649be8a8b91589e0c0d2e0db39f05a171b6da0c37520649a7fc829c96",
+      "nonblank": 264,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/terminal/terminalServiceLaunchPlan.ts",
+      "sha256": "5c86f0ea5295a519e808a53734eca2e88999dcc961caf2a8e2fff1811338ba4d",
+      "nonblank": 112,
+      "classification": "unreviewed",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "prior-completed-queue-or-retained-root-binding-hold;no-repeat"
+    },
+    {
+      "path": "packages/services/src/types/yazl.d.ts",
+      "sha256": "3173f85a4494f285ea6e0fd504358b74e210cf7a3fddc4f764eb87fbd2e50be7",
+      "nonblank": 15,
+      "classification": "upstream-unchanged",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/usage-stats/usageStats.ts",
+      "sha256": "73a23f1ff2f4f89d5de7b18bcc1f93f134ae1adc9e00619d55fdc0709dd3d9d3",
+      "nonblank": 9,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/usage-stats/usageStatsService.ts",
+      "sha256": "ef348d720fb3ec663778cee3467c603d7557afa253dff3a40f1ee2c421bc7038",
+      "nonblank": 16,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    },
+    {
+      "path": "packages/services/src/window-controller/windowController.ts",
+      "sha256": "d55d6806eab32b8d71e57052c1d48d1bdd58a5e3da63e324789d6fb73ab5ec73",
+      "nonblank": 65,
+      "classification": "upstream-modified",
+      "inventoryHashMatches": true,
+      "review": null,
+      "inThisLaneChanged": false,
+      "screenStatus": "retained-small-adapter-type-policy-or-prior-queue-boundary"
+    }
+  ],
+  "selected": [
+    "packages/services/src/process/processTreeSnapshot.ts",
+    "packages/services/src/process/processTreeSnapshotAsync.ts",
+    "packages/services/src/process/processTreeWaiter.ts",
+    "packages/services/src/process/windowsProcessListAsync.ts"
+  ],
+  "scopeEvidence": "Exact four current hashes upstream-unchanged and migration-bound; local licensing/reviews/evidence search found no accepted review for four; terminal/SCOPE-EVIDENCE20261002 explicitly left them unselected. Parent-only acceptance is not inferred from local absence; classification remains parent-owned.",
+  "nonExhaustion": "Services is not legally/provenance-completely exhausted. Four technical owners selected; many original-origin, authority-boundary, earlier completion/dependency/acceptance holds remain. No forced fifth/rewrite of completed owners.",
+  "preserved": [
+    "creation7 sources",
+    "A runtime",
+    "G shared/CLI adapters",
+    "E core memory",
+    "B UI",
+    "root desktop main",
+    "LICENSE/global provenance/dependencies",
+    "historical59listenEPERM",
+    "missing ignore/croner/CUA/yazl",
+    "commitMessageFileScope predecessor HOLD"
+  ]
+}
