@@ -1,0 +1,139 @@
+{
+  "curatedAtUtc": "2026-10-02T19:49:27.509Z",
+  "baseline": "7d43c62ac3b90934a58e2e4e5a8c5f2c000d6388",
+  "reservationCommit": "ca9a2da0",
+  "sourceExposedCurator": true,
+  "targetBodyExposure": [
+    "packages/desktop/src/main/releaseUpdateCheck.ts",
+    "packages/desktop/src/main/desktopNotifications.ts",
+    "packages/desktop/src/main/desktopCronScheduler.ts"
+  ],
+  "dependencyAstOrBoundedSourceExposure": [
+    {
+      "path": "packages/shared/src/releaseUpdate.ts",
+      "bytes": 1366,
+      "sha256": "76b1322a82c3f87ff42b67920a8bcdfa9b83ef37cb4c0876e8d3fd942e27a822"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/shared/src/validation.ts",
+      "bytes": 44442,
+      "sha256": "27c20a5a2e76a1f3300b79273da4eca3d0db86f29aa15ff6b9a019edacdac7c4"
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e"
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c"
+    },
+    {
+      "path": "packages/desktop/src/scheduler/schedulerProtocol.ts",
+      "bytes": 2862,
+      "sha256": "5067d862bd4eee92f76e183a9389307762005909366f85d879cba9b9cf71156b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopRuntimeEnv.ts",
+      "bytes": 19865,
+      "sha256": "74cbdfd11402b8442c1fbd473c8fbd9902c807d05096a9ec736673ab2a55e194"
+    },
+    {
+      "path": "packages/desktop/src/main/processResourceSelfHeapSource.ts",
+      "bytes": 2338,
+      "sha256": "1dfd4738279d6c6eb1d8eec0054b9aff572506c04e12ef6951e1883d678a72f6"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3"
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "bytes": 4262,
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5"
+    }
+  ],
+  "incidentalBodies": "release URL validator; bounded formatter/schema/heap ingest/register/unregister/env-return snippets. Complete selected-file mechanical AST inputs read; no bodies emitted to packet.",
+  "rootExposureQualification": "Root reports only names/counts/reviewsabsence deliberately seen in this pass; broader previous generic tooling/context remains. No independent access audit or fresh-context root claim.",
+  "acceptedRecordSearch": "Exact three target .ts names in docs/specs/licensing/reviews.json found only this reservation; no accepted complete reconstruction record in this bounded search. Not an exhaustive source-history or rights audit.",
+  "typescript": "6.0.2",
+  "declarationExtractionDiagnostics": {
+    "releaseUpdateCheck": [
+      {
+        "code": 9010,
+        "message": "Variable must have an explicit type annotation with --isolatedDeclarations."
+      }
+    ],
+    "desktopNotifications": [],
+    "desktopCronScheduler": []
+  },
+  "dependencyTypeQualification": "External electron/semver types and inferred buildHostProcessEnv type are preserved via original-module typeof/Pick, not an isolated standalone compilation unit. Selected public signatures/protocol/types contain no function bodies. No dependency implementation is supplied.",
+  "packageConstraints": {
+    "electron": "41.0.3",
+    "semver": "^7.7.4",
+    "typesSemver": "^7.7.1"
+  },
+  "packageConstraintQualification": "Declared package.json constraints only, not installed/lockfile provenance or new licence grant.",
+  "noSourceImplementation": true,
+  "noTargetExecutionOrOsEffects": true,
+  "releaseExtractionQualification": "Inherited isolated-declaration TS9010 for exported arithmetic interval constant; emitted API still number and exact numeric interval86400000 is supplied as contract data. No successful project/body compilation claim.",
+  "packetFiles": [
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/contract-data.json",
+      "bytes": 2912,
+      "sha256": "a724679edd869e097cc87e52e2f169b3efb7f73073737cad45a9422f815aa8a7"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/contract.md",
+      "bytes": 9524,
+      "sha256": "6c2026c022a8ff572d3e9755aa47c19894197636a58ab424083fbc6f75bb2d04"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 2113,
+      "sha256": "e5ca399ea295a05c5da8fb3a19e6d42fddb3d7945a20f9310e868b12783d85bb"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/desktopCronScheduler-public-api.d.ts",
+      "bytes": 1179,
+      "sha256": "cdffbbd8f46637f29dfd6f1aec4425040c5b342cc518f746fd990f2a43ddb24e"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/desktopNotifications-public-api.d.ts",
+      "bytes": 316,
+      "sha256": "4fd48cee6f9f5bf89928053f2fe9f6e2be6b5246beb3ffa6f2fb4ba45cd30ce9"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/imports.json",
+      "bytes": 4346,
+      "sha256": "c83f92ed9a5cee0be5f3b5139ad6619cc60e2addb630d07cc5ac1beecbfd022e"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/releaseUpdateCheck-public-api.d.ts",
+      "bytes": 634,
+      "sha256": "8ca4239234314822289eb9be51361865ec811700615a92936f1ce00b595b5131"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/reservation.json",
+      "bytes": 1646,
+      "sha256": "428e92eeada44672d53a3d2b3a5141c6c6333b5324fdd98be4a873015588c8c6"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/scheduler-protocol.d.ts",
+      "bytes": 1446,
+      "sha256": "7006a9b2e12fc0703a3731869d649db7752a7763a95d0d683d9565c21bc45874"
+    },
+    {
+      "path": "docs/evidence/desktop-lifecycle-root-packet-20261003/shared-public-types.d.ts",
+      "bytes": 1062,
+      "sha256": "ddb134c713227a80e654ea09d0af8bde19061d8062d24332f643c9e9ad2a278d"
+    }
+  ]
+}

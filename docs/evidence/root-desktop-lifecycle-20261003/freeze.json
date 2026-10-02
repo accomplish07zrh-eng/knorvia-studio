@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-02T19:55:11.771248+00:00",
+  "drafts": {
+    "draft-desktopCronScheduler.ts": {
+      "bytes": 4919,
+      "sha256": "165fc973810a1144ba54aa7bd9994fb8e5cc1c825b07aa3e422e95a52cb7df41"
+    },
+    "draft-desktopNotifications.ts": {
+      "bytes": 2870,
+      "sha256": "92129471828d8eccb294717d57f9b266eef30fa685dec06a2cac1ee7e96d81a6"
+    },
+    "draft-releaseUpdateCheck.ts": {
+      "bytes": 4597,
+      "sha256": "de63be3a073f931008887a079ddff69eb909b43e820d56cf629bc916803feea7"
+    }
+  },
+  "bodyReadBeforeFreeze": false
+}

@@ -5,28 +5,23 @@ import {
   type ReleaseUpdateCheckResult,
 } from "@knorvia/shared";
 
-export const FIRST_RELEASE_CHECK_DELAY_MS = 30_000;
-export const RELEASE_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1_000;
-const MAX_RELEASE_RESPONSE_BYTES = 64 * 1024;
-const RELEASE_REQUEST_TIMEOUT_MS = 6_000;
-
-function versionFromTag(value: unknown): string | null {
-  if (typeof value !== "string") return null;
-  return semver.valid(value.trim().replace(/^studio-/i, ""));
+export const FIRST_RELEASE_CHECK_DELAY_MS = 30000;
+export const RELEASE_CHECK_INTERVAL_MS: number = 86400000;
+function version(value: unknown): string | null {
+  return typeof value === "string" ? semver.valid(value.trim().replace(/^studio-/i, "")) : null;
 }
-
-async function readBoundedJson(response: Response): Promise<unknown> {
+async function boundedJson(response: Response): Promise<unknown> {
   const reader = response.body?.getReader();
   if (!reader) throw new Error("empty response");
   const chunks: Uint8Array[] = [];
-  let total = 0;
+  let length = 0;
   try {
-    for (;;) {
-      const item = await reader.read();
-      if (item.done) break;
-      total += item.value.byteLength;
-      if (total > MAX_RELEASE_RESPONSE_BYTES) throw new Error("oversized response");
-      chunks.push(item.value);
+    while (true) {
+      const result = await reader.read();
+      if (result.done) break;
+      length += result.value.byteLength;
+      if (length > 65536) throw new Error("oversized response");
+      chunks.push(result.value);
     }
   } catch (error) {
     await reader.cancel().catch(() => undefined);
@@ -34,7 +29,7 @@ async function readBoundedJson(response: Response): Promise<unknown> {
   } finally {
     reader.releaseLock();
   }
-  const bytes = new Uint8Array(total);
+  const bytes = new Uint8Array(length);
   let offset = 0;
   for (const chunk of chunks) {
     bytes.set(chunk, offset);
@@ -42,14 +37,13 @@ async function readBoundedJson(response: Response): Promise<unknown> {
   }
   return JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
 }
-
 export async function checkReleaseUpdate(options: {
   getSettings: () => Promise<Pick<AppSettings, "releaseInfoUrl" | "releaseChecksEnabled">>;
   currentVersion: string;
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
 }): Promise<ReleaseUpdateCheckResult> {
-  const currentVersion = versionFromTag(options.currentVersion);
+  const currentVersion = version(options.currentVersion);
   if (!currentVersion)
     return { status: "failed", currentVersion: options.currentVersion, reason: "invalid-response" };
   let settings: Pick<AppSettings, "releaseInfoUrl" | "releaseChecksEnabled">;
@@ -63,14 +57,11 @@ export async function checkReleaseUpdate(options: {
   if (!source) return { status: "unconfigured", currentVersion };
   if (!validReleaseInfoUrl(source))
     return { status: "failed", currentVersion, reason: "invalid-source" };
-
   const controller = new AbortController();
-  const timer = setTimeout(
-    () => controller.abort(),
-    options.timeoutMs ?? RELEASE_REQUEST_TIMEOUT_MS,
-  );
+  const timeout = setTimeout(() => controller.abort(), options.timeoutMs ?? 6000);
   try {
-    const response = await (options.fetchImpl ?? fetch)(source, {
+    const fetcher = options.fetchImpl ?? fetch;
+    const response = await fetcher(source, {
       method: "GET",
       headers: { accept: "application/json" },
       credentials: "omit",
@@ -81,25 +72,23 @@ export async function checkReleaseUpdate(options: {
       return { status: "failed", currentVersion, reason: "http", httpStatus: response.status };
     let payload: unknown;
     try {
-      payload = await readBoundedJson(response);
+      payload = await boundedJson(response);
     } catch {
       return { status: "failed", currentVersion, reason: "invalid-response" };
     }
     if (!payload || typeof payload !== "object" || Array.isArray(payload))
       return { status: "failed", currentVersion, reason: "invalid-response" };
-    const release = payload as Record<string, unknown>;
-    const latestVersion = versionFromTag(release.tag_name ?? release.version);
+    const record = payload as Record<string, unknown>;
+    const latestVersion = version(record.tag_name ?? record.version);
     if (!latestVersion) return { status: "failed", currentVersion, reason: "invalid-response" };
-    const preview = release.prerelease === true || semver.prerelease(latestVersion) !== null;
+    const preview = record.prerelease === true || semver.prerelease(latestVersion) !== null;
     if (preview && semver.prerelease(currentVersion) === null)
       return { status: "no-compatible-release", currentVersion };
     if (!semver.gt(latestVersion, currentVersion))
       return { status: "up-to-date", currentVersion, latestVersion };
-    const candidateUrl = release.html_url ?? release.url;
+    const candidate = record.html_url ?? record.url;
     const releaseUrl =
-      typeof candidateUrl === "string" && validReleaseInfoUrl(candidateUrl)
-        ? candidateUrl
-        : undefined;
+      typeof candidate === "string" && validReleaseInfoUrl(candidate) ? candidate : undefined;
     return {
       status: "available",
       currentVersion,
@@ -113,21 +102,21 @@ export async function checkReleaseUpdate(options: {
       reason: controller.signal.aborted ? "timeout" : "offline",
     };
   } finally {
-    clearTimeout(timer);
+    clearTimeout(timeout);
   }
 }
-
 export function scheduleReleaseUpdateChecks(
   check: () => Promise<ReleaseUpdateCheckResult>,
   onResult: (result: ReleaseUpdateCheckResult) => void,
 ): () => void {
   let disposed = false;
-  const run = () =>
-    void check()
+  const run = () => {
+    check()
       .then((result) => {
         if (!disposed) onResult(result);
       })
       .catch(() => undefined);
+  };
   const first = setTimeout(() => {
     if (disposed) return;
     run();
