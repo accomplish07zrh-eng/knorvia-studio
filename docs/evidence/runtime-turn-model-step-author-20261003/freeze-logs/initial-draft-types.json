@@ -1,0 +1,22 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+      "message": "Property 'maxOutputTokens' does not exist on type '{ requiresMfjsToolSchema: boolean; contextWindow: number; inputFormat: { supportsText: boolean; supportsImage: boolean; supportsVideo: boolean; supportsAudio: boolean; supportsPdf: boolean; }; ... 4 more ...; supportsMidConversationSystem: boolean; }'."
+    },
+    {
+      "code": 2353,
+      "file": "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts",
+      "message": "Object literal may only specify known properties, and 'source' does not exist in type 'Options'."
+    }
+  ],
+  "apiEqual": false,
+  "modules": [
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-failure.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step-recovery.ts",
+    "apps/cli/packages/core/src/runtime/methods/turn-model-step.ts"
+  ],
+  "emissions": []
+}

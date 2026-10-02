@@ -1,0 +1,102 @@
+{
+  "draft": "01",
+  "authoringClosureUtc": "2026-10-02T22:28:35.790728+00:00",
+  "sourceFiles": [
+    {
+      "path": "initial-authored/turn-model-step-failure.ts",
+      "sha256": "98fb4403ab180cd370879b2206065900e9cf97e30e7962fdc9c0bdca89eecf69",
+      "bytes": 6411,
+      "physicalLines": 136
+    },
+    {
+      "path": "initial-authored/turn-model-step-recovery.ts",
+      "sha256": "b6eff7c0d7462d16908383642655a93122bc5e9b92953cbe6c986439f3211646",
+      "bytes": 2266,
+      "physicalLines": 51
+    },
+    {
+      "path": "initial-authored/turn-model-step.ts",
+      "sha256": "2326f4027d7a92386040dea8c510cbdd2578ffc8f777128d224e1ca40414578f",
+      "bytes": 16010,
+      "physicalLines": 329
+    },
+    {
+      "path": "turn-model-step-failure.ts",
+      "sha256": "3e1b3e7f737da1b2faad15702543458fdcffd3fee7c2155d55cef7f1b2380bfd",
+      "bytes": 6527,
+      "physicalLines": 144
+    },
+    {
+      "path": "turn-model-step-recovery.ts",
+      "sha256": "8ec3fdb2013bf8947157915ded9694aae23e54d3ed5a6ad74954f25b40d3862d",
+      "bytes": 2256,
+      "physicalLines": 51
+    },
+    {
+      "path": "turn-model-step.ts",
+      "sha256": "bcf2a06610fcf71ec0dba62f72afce191907b822209bd59aaa15d377af2a7926",
+      "bytes": 16042,
+      "physicalLines": 330
+    }
+  ],
+  "inputAccessJournal": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/packet.json",
+      "sha256": "1db0ce1b8b50ecea353ee11bc264d39ede902a8d91b3fa529ed9c97dece8074a",
+      "bytes": 1338
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/contract.md",
+      "sha256": "4b1216c31b19ab6adfd75b1d6f894cfc451a81ee0912e2f500c6b7bf0ba10397",
+      "bytes": 11109
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/api.d.ts",
+      "sha256": "2c52215044d7f3f8afc36fca09e5e25338add92036fde6ddc3193acbfaaaf6dc",
+      "bytes": 945
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/imports.d.ts",
+      "sha256": "bebd6492646fe1c222e35b2872eac2b404c2b2ab1ad8f7649f8f7e9f512ea631",
+      "bytes": 2553
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+      "sha256": "08d3de770eb4b0ceb002071a090dd14ddbf3acd106942241cb99cd138393e806",
+      "bytes": 24765
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/runtime-ports.d.ts",
+      "sha256": "98d62bc1b71a194386d6385ea87aceb63dc6a0b225729af5bbe85eabef114c85",
+      "bytes": 1633
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/dependency-ports.json",
+      "sha256": "8bbf96bdaa2091cf57eb0e79e87ac11aa699ef4fd80f63cb3a12177c28fddb2a",
+      "bytes": 21731
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/literals.json",
+      "sha256": "b1a140118263ca7cc89400087c0dbd4f196649f52fd82f4161e8ee9555e6fce8",
+      "bytes": 1431
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/log-fields.json",
+      "sha256": "db6e811589932717a2a519ee594d63713865efb743857369d76b0c43a910c1b1",
+      "bytes": 1772
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-turn-model-step-author-20261003/port-clarification.d.ts",
+      "sha256": "65f197e3dc682d36f302d757effa5233c9e77296add330d2270a706819c05eab",
+      "bytes": 9350,
+      "authorization": "curator-supplied supplemental body-free clarification before seal"
+    }
+  ],
+  "qualification": "Source-derived body-free original packet plus curator-authorized supplemental port declarations. No predecessor/history/tests/oracle access; no compiler or provider operations.",
+  "remainingReviewIssues": [
+    "Failure helper adds native asynchronous settlement; preserved as initial complete candidate, to be revised in draft-02.",
+    "Model-step initial index capture currently unused.",
+    "Cancelled snapshot commit helper semantics require curator review.",
+    "No licence or independent-origin claim."
+  ]
+}
