@@ -1,0 +1,17 @@
+{
+  "archivedAtUtc": "2026-10-02T19:12:07.734504+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 4905,
+      "sha256": "70d5daa073fcff3ae955a40f700ace91635a25114359c7987647551536eebb6a"
+    },
+    {
+      "file": "draft-message-history.ts.txt",
+      "bytes": 12178,
+      "sha256": "6510c3ccc241b19bb4d5c2fd754b5c39070758e52f1993992c1302665b68c3cf",
+      "target": "apps/cli/packages/core/src/agent/message-history.ts"
+    }
+  ]
+}
