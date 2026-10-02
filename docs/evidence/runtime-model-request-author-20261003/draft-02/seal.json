@@ -1,0 +1,140 @@
+{
+  "owner": "model-request",
+  "draft": "draft-02",
+  "initialDraft": false,
+  "sourceDerived": true,
+  "sourceExposedReviewerFeedback": true,
+  "originalityConclusion": null,
+  "licensingConclusion": null,
+  "files": [
+    {
+      "path": "runtime/methods/model-request-stream-state.ts",
+      "logicalPath": "runtime/methods/model-request-stream-state.ts",
+      "sha256": "e679c72bc3218ecf44000842fcdf9814d31ac437af07cde9739bad896f7ffebf",
+      "bytes": 4927,
+      "physicalLines": 140
+    },
+    {
+      "path": "runtime/methods/model.ts",
+      "logicalPath": "runtime/methods/model.ts",
+      "sha256": "e337ce3abe1ee53688e76cfa90c50935d27e69dc9004e691f6f6314836b31748",
+      "bytes": 12259,
+      "physicalLines": 345
+    }
+  ],
+  "readInputJournal": {
+    "manifest": {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/packet.json",
+      "sha256": "9947c4c727601ebffa176591a8dc5fde4959d1af356809509f5e2c602f66c845",
+      "bytes": 1332
+    },
+    "inputs": [
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/contract.md",
+        "sha256": "9c5eee579c6327be516c7b9f98a35268b49d66cf35e88d9cc6017a23c779ad66",
+        "bytes": 6657,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/api.d.ts",
+        "sha256": "4eeef16e4f047fe4a94fb7e320369637e60389d5e425d6362c5bb120c6671e3f",
+        "bytes": 290,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/imports.d.ts",
+        "sha256": "ad623a3b53c486671936d5ffac8d166879fd1aa209734f423ec2d423fe36c6ab",
+        "bytes": 1331,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/supporting.d.ts",
+        "sha256": "039fe8399107686873615788144f57a7f32a111ac75b59f92b549f44ba5c4da5",
+        "bytes": 3994,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/runtime-ports.d.ts",
+        "sha256": "5309dc3243702ffb3a416b1e33c39bfbaf7e19bdf23dcaa7a42b2947df14b766",
+        "bytes": 865,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/dependency-ports.json",
+        "sha256": "38c0326b498c58cb06d894382e056c034a913ca02bbf6db3d75a8b3adb70fc04",
+        "bytes": 7514,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/literals.json",
+        "sha256": "54a9144e67cbdf2602f098b5c6330b9f48bf0a1319ac7f700799483426316cfe",
+        "bytes": 1109,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/log-fields.json",
+        "sha256": "4e3f2ddc2d974bd5c32619d10d6387681612598ed1e0ac5a80b8f590c0135766",
+        "bytes": 1619,
+        "readPurpose": "original authorized input; reseal digest verification"
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/public-shapes-supplement.d.ts",
+        "sha256": "d8ad266ab95c9fa49d2ece87fec5369d6200dbfd31aeb9dc8dfac780b629afb1",
+        "bytes": 10897,
+        "readPurpose": "complete authorized supplemental read and seal digest verification",
+        "sourceExposedReviewerFeedback": false
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/review-clarification.md",
+        "sha256": "610218353a4100a88d092899ba6a8dea0b1a8cc8822038b96fee04023facd43f",
+        "bytes": 2157,
+        "readPurpose": "complete authorized supplemental read and seal digest verification",
+        "sourceExposedReviewerFeedback": true
+      }
+    ],
+    "ownDraftReads": [
+      "draft-01/runtime/methods/model.ts for version reconstruction",
+      "draft-01/seal.json and sealed source for preservation digest verification",
+      "draft-02 complete formatted sources for author review and seal verification"
+    ],
+    "parentMessages": [
+      "Authorized supplement scope and formatter-only operation",
+      "Existing formatter executable path and optional-call laziness/native-settlement reminders"
+    ],
+    "otherRepositorySourceReads": []
+  },
+  "authorInputLimits": [
+    "original manifest and its eight body-free inputs plus two expressly authorized supplements",
+    "own drafts and formatter executable/help only",
+    "no production source/history/tests/oracles/lineage/other author output",
+    "no compiler, test, build, provider IO, new cloud task, or child agent"
+  ],
+  "formatting": {
+    "executable": "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+    "targets": [
+      "runtime/methods/model-request-stream-state.ts",
+      "runtime/methods/model.ts"
+    ],
+    "config": "own temporary empty JSON config; own empty ignore file; deleted after use",
+    "repositoryConfigRead": false
+  },
+  "compatibilityCorrections": [
+    "model.properties input format/context window and live capability identifier reads",
+    "conditional status-sink options and uncached recovery reads at context assembly positions",
+    "public event text/id fields and tool-call id/name fields",
+    "incoming options for streaming callbacks",
+    "synchronous stream acquisition outside catch",
+    "normal final drain outside catch",
+    "lazy suspicious-diagnostic evaluation inside optional logger call",
+    "empty-array inputKeys for invalid/nonobject inputs"
+  ],
+  "organization": "Synchronous private stream-state creation and final classification; async queue/buffer gates retained; loop stays in exported async owner.",
+  "reviewAssumptions": [
+    "No further implementation assumptions beyond the original functional contract and the authorized supplemental declarations/compatibility feedback."
+  ],
+  "preservation": {
+    "draft01Unchanged": true,
+    "draft01SealSha256": "ac08ebafef88b66fde615024c4355e06acd804bcf3f4fda63db66ed0b23ca6c2",
+    "draft02WholeFilesSealedBeforeCuratorReview": true
+  }
+}
