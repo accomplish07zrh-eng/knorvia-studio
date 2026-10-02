@@ -11,12 +11,33 @@ type QualifiedRemoteIpcRegistrationResult = void;
 // Manager's other method signatures/ordered object fields are exact in its public-api.d.ts.
 // Its raw isolated disposeAllAndWaitForAppShutdown(_reason:string):any is specifically Promise<void>.
 type QualifiedDisposeAllAndWaitForAppShutdown = (_reason: string) => Promise<void>;
-// Suggested replacement result shape uses existing public declaration mapped type only:
-type QualifiedRemoteSessionManager = Omit<
-  ReturnType<typeof import("../../../packages/desktop/src/main/desktopRemoteSessions.js").createRemoteWorkspaceSessionManager>,
-  "disposeAllAndWaitForAppShutdown"
-> & {
-  disposeAllAndWaitForAppShutdown: QualifiedDisposeAllAndWaitForAppShutdown;
+// Explicit complete private return shape; no self-return-derived type.
+type QualifiedRemoteSessionManager = {
+    createRemoteWorkspaceSession: (win: BrowserWindow, target: RemoteTarget, requestId?: string, context?: RemoteWorkspaceSessionContext, lifecycle?: {
+        remoteUsageTelemetryEligible?: boolean;
+    }) => Promise<string>;
+    attachRemoteWorkspaceSessionHost: (params: {
+        windowId: number;
+        remoteSessionId: string;
+        workspacePath: string;
+        workspaceIdentity: string;
+        workspaceKey: string;
+        clientMode: "web-remote-replayable";
+    }) => {
+        process: ElectronUtilityProcess;
+        port: MessagePortMain;
+        remoteKind: RemoteTarget["kind"];
+    };
+    bindRemoteWorkspaceSessionContext: (sessionId: string, context: RemoteWorkspaceSessionContext, expectedWebContentsId?: number) => Promise<void>;
+    confirmRendererAttachmentReady: (webContentsId: number, payload: {
+        sessionId: string;
+        attachmentId: string;
+    }) => void;
+    reattachRemoteWorkspaceSessionsForWindow: (win: BrowserWindow, reason: string) => void;
+    getRemoteConnectionStats: () => RemoteConnectionStats;
+    disposeRemoteWorkspaceSession: (sessionId: string, _reason?: string) => void;
+    disposeRemoteWorkspaceSessionsForWindow: (webContentsId: number) => void;
+    disposeAllAndWaitForAppShutdown: (_reason: string) => Promise<void>;
+    cancelPendingRemoteWorkspaceSessionsForWindow: (webContentsId: number, _reason: string, requestId?: string) => void;
+    handleWorkspaceRunningTaskCountChanged: () => void;
 };
-// Avoid using this self-return-derived suggestion within its own implementation if it causes circular inference.
-// Authors may explicitly spell the exact private return interface from supplied method signatures instead.

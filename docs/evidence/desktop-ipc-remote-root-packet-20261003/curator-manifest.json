@@ -638,8 +638,8 @@
       "9007": 1
     },
     "desktopRemoteSessions": {
-      "9016": 9,
-      "9007": 2
+      "9007": 2,
+      "9016": 9
     }
   },
   "authorInputs": [
@@ -675,8 +675,8 @@
     },
     {
       "path": "docs/evidence/desktop-ipc-remote-root-packet-20261003/qualified-return-contracts.d.ts",
-      "bytes": 1364,
-      "sha256": "8f0445e1fb89f19d8acf0af86ab9c5e958c5b2a02506bef091b0ac6b6a435c87"
+      "bytes": 2337,
+      "sha256": "1f4b64fcec19791b151529fa43b40fbf62b63b5f59f7b51705f380a250200835"
     },
     {
       "path": "docs/evidence/desktop-ipc-remote-root-packet-20261003/imports.json",
@@ -747,8 +747,8 @@
     },
     {
       "path": "docs/evidence/desktop-ipc-remote-root-packet-20261003/qualified-return-contracts.d.ts",
-      "bytes": 1364,
-      "sha256": "8f0445e1fb89f19d8acf0af86ab9c5e958c5b2a02506bef091b0ac6b6a435c87"
+      "bytes": 2337,
+      "sha256": "1f4b64fcec19791b151529fa43b40fbf62b63b5f59f7b51705f380a250200835"
     },
     {
       "path": "docs/evidence/desktop-ipc-remote-root-packet-20261003/reservation.json",
@@ -788,5 +788,9 @@
   "priorScratchWriteBreach": "ChangesV2 extra scratch accountingfile, removedbeforefreeze and disclosed; completev1/v2/correction lineage archived",
   "coreNextScope": "Screen retained15metadata inventory afterthishandoff, upto5substantiveeligible owners; no forcedtrivial rewrites",
   "materialObligationsClosed": 0,
-  "materialObligationsRemaining": 21
+  "materialObligationsRemaining": 21,
+  "qualificationAssemblerFailure": {
+    "error": "TypeError: text.index is not a function",
+    "effect": "Initial explicit-shape assembler failed before writing. Packet95171e8d retained mapped suggestion. Corrected supplemental qualification before author dispatch; no source or check changes."
+  }
 }
