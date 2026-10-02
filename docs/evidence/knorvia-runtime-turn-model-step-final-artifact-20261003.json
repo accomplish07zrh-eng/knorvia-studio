@@ -1,0 +1,7 @@
+{
+  "exactManifest": "c26360942ea6f1de1867fce6e473ca2c5b310a30ea3776d90b70ffc6b737da3b",
+  "currentArtifactMatches": 15,
+  "wrongCompiledFailsClosed": true,
+  "missingDeclarationFailsClosed": true,
+  "liveIO": false
+}
