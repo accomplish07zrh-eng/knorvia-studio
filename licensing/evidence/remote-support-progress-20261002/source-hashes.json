@@ -1,0 +1,20 @@
+{
+  "baselineCommit": "6b21b98ce11d625032179c2817ef4435ce03280c",
+  "files": [
+    {
+      "path": "packages/server/src/remote/remotePlatformSupport.ts",
+      "baselineSha256": "5f8ff0827388ca32698449df39754c3af951e81cf87ec1a36012fa13db96c4ee",
+      "baselineBlob": "b7acebc24b67396bfe797746de9426fcab6c1862",
+      "authorOutputSha256": "f5634bb5652e88be37d360fd89557f515127323262ac851ad2fc94dbb7b8aaaa",
+      "candidateSha256": "a3e89d8b79cd24324b330e6ef53c7d7076b19e2f923605a5fd8471e91fb12a63"
+    },
+    {
+      "path": "packages/server/src/remote/remoteConnectionProgressContext.ts",
+      "baselineSha256": "8bf894b67bcef92ff610866d0c8c4ea446b789f79be0bcd8f3bf8d8d45de3322",
+      "baselineBlob": "23e13f9e9609ac4febd4da5e282f3e02ba894008",
+      "authorOutputSha256": "5ad6f5592e7bba2717a7b9d8535cda5d8dd70b591413cae57b773802bd5bcef6",
+      "candidateSha256": "af8e9a677ed73bbf874bc5756f91831062323f07aa355a978e832dfaf3f425a4"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Copied both complete authored files into existing paths and applied oxfmt only. No semantic correction or source-exposed patch was applied."
+}
