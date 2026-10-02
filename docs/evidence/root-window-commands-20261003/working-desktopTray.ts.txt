@@ -1,0 +1,44 @@
+import { app, Menu, Tray } from 'electron';
+import { join } from 'node:path';
+import { DesktopCommandIds, desktopMenuMessageIds, getDesktopMenuMessage, type DesktopCommandId, type Locale } from '@knorvia/shared';
+
+let desktopTray: Tray | null = null;
+let rebuildMenu: (() => void) | null = null;
+export function createWindowsDesktopTray(options: {
+  getLocale: () => Locale;
+  showCurrentWindow: () => Promise<void> | void;
+  executeDesktopCommand: (command: DesktopCommandId) => Promise<unknown>;
+  quitApp: () => void;
+  logger: { warn: (...args: unknown[]) => void };
+}): Tray | null {
+  if (process.platform !== 'win32') return null;
+  if (desktopTray) return desktopTray;
+  try {
+    const icon = app.isPackaged ? join(process.resourcesPath, 'tray_icon.ico') : join(import.meta.dirname, '../../build/icon.ico');
+    desktopTray = new Tray(icon);
+  } catch (error) { options.logger.warn('[desktop-tray] failed to create tray icon', error); return null; }
+  const label = (id: Parameters<typeof getDesktopMenuMessage>[1]) => getDesktopMenuMessage(options.getLocale(), id);
+  const show = () => { void Promise.resolve(options.showCurrentWindow()).catch((error) => options.logger.warn('[desktop-tray] failed to show current window', error)); };
+  const execute = (command: DesktopCommandId) => {
+    void Promise.resolve(options.showCurrentWindow()).then(() => options.executeDesktopCommand(command)).catch((error) => options.logger.warn(`[desktop-tray] failed to execute tray command ${command}`, error));
+  };
+  rebuildMenu = () => {
+    desktopTray?.setToolTip(label(desktopMenuMessageIds.trayTooltip));
+    desktopTray?.setContextMenu(Menu.buildFromTemplate([
+      { label: label(desktopMenuMessageIds.trayOpenKnorvia), click: show },
+      { type: 'separator' },
+      { label: label(desktopMenuMessageIds.fileNewTask), click: () => execute(DesktopCommandIds.NewTask) },
+      { label: label(desktopMenuMessageIds.fileOpenWorkspace), click: () => execute(DesktopCommandIds.OpenWorkspace) },
+      { type: 'separator' },
+      { label: label(desktopMenuMessageIds.helpAbout), click: () => execute(DesktopCommandIds.ShowAbout) },
+      { label: label(desktopMenuMessageIds.helpClearAllData), click: () => execute(DesktopCommandIds.ClearAllData) },
+      { type: 'separator' },
+      { label: label(desktopMenuMessageIds.trayQuit), click: () => options.quitApp() },
+    ]));
+  };
+  desktopTray.on('click', show);
+  desktopTray.on('double-click', show);
+  rebuildMenu();
+  return desktopTray;
+}
+export function updateWindowsDesktopTrayMenu(): void { rebuildMenu?.(); }

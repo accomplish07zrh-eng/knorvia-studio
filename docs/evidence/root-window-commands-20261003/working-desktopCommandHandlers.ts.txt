@@ -1,0 +1,104 @@
+import { app, BrowserWindow, dialog } from 'electron';
+import { DesktopCommandIds, PlatformChannels, type AppSettings, type DesktopCommandId, type Locale, type CuaOsSupport } from '@knorvia/shared';
+import { readKnorviaStdioTapDevState, setKnorviaStdioTapDevEnabled } from '@knorvia/services/node';
+import { showAboutDialog } from './about.js';
+import { exportLogs } from './exportLogs.js';
+import { openResourceManager } from './resourceManagerWindow.js';
+import { resolveCuaOsSupport } from './cuaOsSupport.js';
+import { syncWindowControlsOverlayForZoomLevel } from './desktopWindowButtonPosition.js';
+import { DEFAULT_DESKTOP_WINDOW_HEIGHT, DEFAULT_DESKTOP_WINDOW_WIDTH } from './desktopWindowSize.js';
+import { clampDesktopZoomLevel, resolveDesktopZoomFactorForLevel, resolveDesktopZoomLevelFromFactor } from './desktopZoom.js';
+export const HELP_TOGGLE_DEV_TOOLS_MENU_ID = 'help.toggle-dev-tools';
+export const HELP_TOGGLE_KNORVIA_STDIO_TAP_MENU_ID = 'help.toggle-stdio-tap';
+export async function resolveCommunityUrl(_options: unknown): Promise<string | undefined> { return undefined; }
+export async function executeDesktopCommand(options: {
+    command: DesktopCommandId;
+    fetchHelpConfig?: () => Promise<unknown>;
+    senderWindow?: BrowserWindow | null;
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+        error: (...args: unknown[]) => void;
+    };
+    updateKnorviaStdioTapDevMenuState: () => void;
+    onDesktopZoomChanged?: (zoomLevel: number) => Promise<void> | void;
+    onRelaunchApp: () => Promise<void>;
+    settingService: {
+        get(): Promise<Pick<AppSettings, "knorviaEndpointOrigin" | "desktopZoomLevel">>;
+        update(patch: Partial<Pick<AppSettings, "knorviaEndpointOrigin" | "desktopZoomLevel">>): Promise<void>;
+    };
+    credentialsDir: string;
+    currentApplicationLocale: Locale;
+}): Promise<void | CuaOsSupport> {
+  const sender = options.senderWindow;
+  const target = sender && !sender.isDestroyed()
+    ? sender : BrowserWindow.getFocusedWindow() ?? BrowserWindow.getAllWindows()[0] ?? null;
+  options.logger.info(`[desktop-command] execute ${options.command} windowId=${target?.id ?? '<none>'}`);
+  let zoomAction: 'reset' | 'in' | 'out' | undefined;
+  switch (options.command) {
+    case DesktopCommandIds.NewTask: target?.webContents.send(PlatformChannels.NewTask); return;
+    case DesktopCommandIds.OpenWorkspace: target?.webContents.send(PlatformChannels.OpenWorkspace); return;
+    case DesktopCommandIds.CloseActiveContext: target?.webContents.send(PlatformChannels.CloseActiveContextRequest); return;
+    case DesktopCommandIds.CloseWindow: target?.close(); return;
+    case DesktopCommandIds.MinimizeWindow: target?.minimize(); return;
+    case DesktopCommandIds.ToggleMaximizeWindow: if (target?.isMaximized()) target.unmaximize(); else target?.maximize(); return;
+    case DesktopCommandIds.ToggleFullScreen: if (target) target.setFullScreen(!target.isFullScreen()); return;
+    case DesktopCommandIds.ResetWindowSize:
+      if (target) { if (target.isFullScreen()) target.setFullScreen(false); if (target.isMaximized()) target.unmaximize(); target.setSize(DEFAULT_DESKTOP_WINDOW_WIDTH, DEFAULT_DESKTOP_WINDOW_HEIGHT, true); } return;
+    case DesktopCommandIds.ResetZoom: zoomAction = 'reset'; break;
+    case DesktopCommandIds.ZoomIn: zoomAction = 'in'; break;
+    case DesktopCommandIds.ZoomOut: zoomAction = 'out'; break;
+    case DesktopCommandIds.ShowAbout: await showAboutDialog(target ?? undefined, options.currentApplicationLocale); return;
+    case DesktopCommandIds.RelaunchApp: await options.onRelaunchApp(); return;
+    case DesktopCommandIds.ExportLogs: await exportLogs(); return;
+    case DesktopCommandIds.ToggleDevTools: target?.webContents.toggleDevTools(); return;
+    case DesktopCommandIds.OpenResourceManager: openResourceManager(); return;
+    case DesktopCommandIds.GetCuaOsSupport: return resolveCuaOsSupport();
+    case DesktopCommandIds.ToggleKnorviaStdioTapDevProxy: toggleTap({ logger: options.logger, updateKnorviaStdioTapDevMenuState: options.updateKnorviaStdioTapDevMenuState }); return;
+    case DesktopCommandIds.ClearAllData: await clearData({ credentialsDir: options.credentialsDir, logger: options.logger }); return;
+  }
+  if (zoomAction === undefined) return;
+  const next = zoom(target, zoomAction);
+  if (next !== undefined) {
+    await persistZoom({ zoomLevel: next, logger: options.logger, settingService: options.settingService });
+    await options.onDesktopZoomChanged?.(next);
+  }
+}
+async function persistZoom(options: {
+  zoomLevel: number;
+  logger: { warn: (...args: unknown[]) => void };
+  settingService: { update(patch: Pick<AppSettings, 'desktopZoomLevel'>): Promise<void> };
+}): Promise<void> {
+  try { await options.settingService.update({ desktopZoomLevel: options.zoomLevel }); }
+  catch (error) { options.logger.warn('[desktop-zoom] persist zoom level failed:', error); }
+}
+function zoom(window: BrowserWindow | null, direction: 'reset' | 'in' | 'out'): number | undefined {
+  if (!window || window.isDestroyed()) return undefined;
+  const current = resolveDesktopZoomLevelFromFactor(window.webContents.getZoomFactor());
+  const next = direction === 'reset' ? 0 : clampDesktopZoomLevel(current + (direction === 'in' ? 1 : -1));
+  window.webContents.setZoomFactor(resolveDesktopZoomFactorForLevel(next));
+  syncWindowControlsOverlayForZoomLevel(window, next);
+  window.webContents.send(PlatformChannels.DesktopZoomLevelChanged, { zoomLevel: next });
+  return next;
+}
+function toggleTap(options: Pick<Parameters<typeof executeDesktopCommand>[0], 'logger' | 'updateKnorviaStdioTapDevMenuState'>): void {
+  const current = readKnorviaStdioTapDevState();
+  const next = setKnorviaStdioTapDevEnabled(!current.enabled);
+  options.updateKnorviaStdioTapDevMenuState();
+  options.logger.info('[stdio-tap] dev proxy toggled', { enabled: next.enabled, visible: next.visible, logDir: next.logDir });
+}
+async function clearData(options: Pick<Parameters<typeof executeDesktopCommand>[0], 'credentialsDir' | 'logger'>): Promise<void> {
+  const { response } = await dialog.showMessageBox({ type: 'warning', buttons: ['Cancel', 'Clear All'], defaultId: 0, cancelId: 0, title: 'Clear All Data', message: '确定要清除所有数据吗？', detail: '将删除 ~/.knorvia-studio/v2（配置、凭据、日志）和浏览器缓存（localStorage）。操作不可恢复，清除后应用将自动重启。' });
+  if (response !== 1) return;
+  const { rm } = await import('node:fs/promises');
+  try { await rm(options.credentialsDir, { recursive: true, force: true }); options.logger.info('[clear-all-data] deleted ~/.knorvia-studio/v2'); }
+  catch (error) { options.logger.error('[clear-all-data] failed to delete ~/.knorvia-studio/v2:', error); }
+  for (const window of BrowserWindow.getAllWindows()) {
+    try { await window.webContents.executeJavaScript('localStorage.clear()'); } catch { /* Existing per-window failures do not block remaining cleanup. */ }
+  }
+  try {
+    const session = BrowserWindow.getAllWindows()[0]?.webContents.session;
+    if (session) { await session.clearStorageData(); options.logger.info('[clear-all-data] cleared session storage data'); }
+  } catch (error) { options.logger.error('[clear-all-data] failed to clear session data:', error); }
+  app.relaunch(); app.exit(0);
+}
