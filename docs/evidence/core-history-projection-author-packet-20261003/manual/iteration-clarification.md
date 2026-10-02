@@ -1,0 +1,5 @@
+# Manual message-estimate array observation qualification
+
+Static curator comparison of archived v1 found a functional observation omitted from the first packet. The public messages array estimate visits only present elements within the length captured at operation admission, in ascending numeric index order. Sparse slots contribute nothing. A serialization callback that appends later messages does not extend this admitted estimate; deletion of a not-yet-visited slot causes that slot to be skipped, and replacement of an upcoming slot is observed when visited. Tool-call iteration inside an admitted message retains its ordinary iterable traversal. Other filtering/cloning/usage/catch/default/field-order requirements remain unchanged.
+
+This is functional input, not a prescribed helper/loop body. Preserve the complete original draft/receipt; author a separately frozen complete v2 source and receipt in output-v2, recording this fifth input, original ancestry and actual exposure. No source/dependency/test/history body or failing runtime case is provided, and no runtime failure or fresh-author event is claimed. No tests/builds/project typechecking/lint are authorized.
