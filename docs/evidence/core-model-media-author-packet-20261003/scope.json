@@ -1,0 +1,114 @@
+{
+  "recordedAtUtc": "2026-10-02T19:39:31.700743+00:00",
+  "baseline": "c2245187c5b805a5c49cf6b33001d72c12eebaa2",
+  "allocation": "Parent source thread 01a0f025-c78c-7401-9ad2-a524f08d50e5 explicitly allocated the five recorded remaining helpers, same PR8/conversation SolhighFast.",
+  "targets": [
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/provider-request-messages.ts",
+      "bytes": 11797,
+      "lines": 333,
+      "sha256": "da7a90c694682d2f5b7771f1c073772cc918cfeb2cc715152fa10eeca9ab4e1d",
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "publicNames": [
+        "ProviderRequestMessageProjectionResult",
+        "buildProviderRequestMessages"
+      ],
+      "moduleSpecifiers": [
+        "./provider-entry-origins.js",
+        "./provider-mid-conversation-system.js",
+        "@knorvia/contracts",
+        "../../agent/message-history.js",
+        "../../agent/message-history.js",
+        "../../system-reminder/source.js"
+      ],
+      "matchingReviewPathPresent": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9534,
+      "lines": 280,
+      "sha256": "55a18508c4b0689b6cb753ded26b39349982f8f7d57e4007d1ef08cdf0762e7d",
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "publicNames": [
+        "MediaBudgetProjection",
+        "projectMessagesForModelMediaPolicy",
+        "projectMessagesForMediaBudget",
+        "logMediaBudgetProjection"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "../deps.js",
+        "./official-cua-media.js",
+        "./conversation.js",
+        "./media-capability.js"
+      ],
+      "matchingReviewPathPresent": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-tool-call-validation.ts",
+      "bytes": 3061,
+      "lines": 111,
+      "sha256": "5ae3591655c94a624be0e8323afd012d12b029b8aadcef37433d69e899ed105e",
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "publicNames": [
+        "normalizeModelToolCallsForRuntime",
+        "requireRuntimeToolCallName"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "../deps.js"
+      ],
+      "matchingReviewPathPresent": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-capability.ts",
+      "bytes": 5013,
+      "lines": 160,
+      "sha256": "4158f9bb81dada562b78668d73594c853861f6da9026fb766d06e1934391f17c",
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "publicNames": [
+        "MediaCapabilityProjection",
+        "projectMessagesForInputFormat",
+        "logMediaCapabilityProjection"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "../deps.js",
+        "./official-cua-media.js"
+      ],
+      "matchingReviewPathPresent": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/model-errors.ts",
+      "bytes": 10927,
+      "lines": 321,
+      "sha256": "9025fb0c3ed3671f447aae6654bb86e020497c190d983b80e591a8b2976e2ab5",
+      "lastLocalCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "publicNames": [
+        "readRawFinishReason",
+        "isContextExceededFinishReason",
+        "createModelContextExceededFinishError",
+        "createCompactRapidRefillError",
+        "isSuspiciousEmptyModelResult",
+        "buildSuspiciousEmptyDiagnostics",
+        "finalizeSuspiciousEmptyModelResult",
+        "normalizeStreamError",
+        "isModelContextExceededError",
+        "isModelMediaTooLargeError"
+      ],
+      "moduleSpecifiers": [
+        "../deps.js",
+        "../deps.js",
+        "./data.js",
+        "./provider-business-error.js"
+      ],
+      "matchingReviewPathPresent": false
+    }
+  ],
+  "bodyReviewBeforeThisScope": "Only prior public-name/module-path/size/digest inventory recorded for these targets in the preceding queue; no new deliberate full target-body review for this queue before this scope. Broader earlier source/tool context exposure is not erased.",
+  "sourceExposedCurator": true,
+  "authors": "Five new gpt-6.1-sol/high fork_turns:none author tasks after complete frozen body-free packets. No separate Fast-tier control is exposed. Shared executor restrictions are instruction-only.",
+  "noAccessAuditOrOsIsolationClaim": true,
+  "boundaries": "No dependency/security/model/contracts/logger edits, caller/API changes, crosslane integration, global licensing, main merge, release, deployment or private-data access.",
+  "checks": "Ordinary tests/builds/project typechecks/lint/source-emitted matrices deferred by parent; minimal synthetic negative probes restricted to concrete validation/authority/data-safety boundaries. Static declaration/import/provenance bindings permitted."
+}
