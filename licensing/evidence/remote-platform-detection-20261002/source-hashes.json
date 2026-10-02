@@ -1,0 +1,34 @@
+{
+  "baselineCommit": "784e3ad23aa8b3afbfe7daacd682551719f0f970",
+  "files": [
+    {
+      "path": "packages/server/src/remote/detectEnv.ts",
+      "baselineSha256": "843a741559c6b5be7c53a8acab68439f48db2e56219a7f17fc0c729857ab2cd6",
+      "baselineBlob": "eacb50b9330a1c239b8ce944e5fdbf15d93452eb",
+      "authorOutputSha256": "7b7857174bfa6dd13fb392675ca3153d6c43613ee35523a1fcda4a72f2d13b10",
+      "candidateSha256": "9cf97377c7b0877b2d6aa29c5c7eba8f759c21b44024bb0935dc78fb55f7f40c"
+    },
+    {
+      "path": "packages/server/src/remote/posixShell.ts",
+      "baselineSha256": "46f0bbcc46e97043d8fa4ddefc9016693e4c8dc4f087836a15c7560c7c986f20",
+      "baselineBlob": "e6d30863383b0f43b9d8ea50319287d8fe7b9c32",
+      "authorOutputSha256": "c318c9ad1e247fa8650db31d82c635c399f64abc0ccbc43f1d8db2a48110aa86",
+      "candidateSha256": "8e33335dfc4ea05618b62fbdcaf96e180da74c42adad185591350e8899c9ba85"
+    },
+    {
+      "path": "packages/server/src/remote/docker-detect.ts",
+      "baselineSha256": "6f5af15c080a685484eba5d54fdc6312272601c6c33a0396ab15e799096b80ab",
+      "baselineBlob": "6605fcc78525f3a2a0a7260778c48e96dc525e95",
+      "authorOutputSha256": "27d1e72d63ffcd805c41d6a72b213266fa5d469e2df86a6064ef977ece96ce59",
+      "candidateSha256": "631ac46b6b5545c12db376cce95043351364d25d1ce64f8ebc8034a1bf076c39"
+    },
+    {
+      "path": "packages/server/src/remote/wsl-detect.ts",
+      "baselineSha256": "99783515286b8b876b7de7db61c534c4cad7bbf245f2f632a43b97db6561b4a3",
+      "baselineBlob": "d080e601bd0d844cc9f4abee640956aadb5a5393",
+      "authorOutputSha256": "8ae87fff6004eae0435f726051a72cc9163bc5a4903ba41773e19beb89e16d5c",
+      "candidateSha256": "b61734913096b7f6259e68a06533354d107c4d7898606f39cd62579f41c5ea8d"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Copied complete authored files into existing owner paths; oxfmt only. Fresh author made WSL normalization, indexed-field fallback and NUL string-operation corrections before integration."
+}

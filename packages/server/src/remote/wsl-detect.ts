@@ -1,65 +1,71 @@
 import { execFile } from "node:child_process";
 import type { WSLDistro } from "@knorvia/shared";
+
 export type { WSLDistro } from "@knorvia/shared";
+export type WSLBufferExecutor = (args: string[]) => Promise<Buffer>;
+export const WSL_DISCOVERY_CACHE_TTL_MS = 5000;
 
-const WSL_COMMAND = "wsl.exe";
-const WSL_EXEC_MAX_BUFFER = 8 * 1024 * 1024;
-
-export const WSL_DISCOVERY_CACHE_TTL_MS = 5_000;
-
-function decodeWslOutput(buffer: Buffer): string {
-  if (buffer.length === 0) {
-    return "";
-  }
-
-  // `wsl.exe -l -v` 在 Windows 上常返回 UTF-16LE。
-  // 如果这里直接按 UTF-8 解码，行内会夹满 `\0`，distro 解析会全部失效。
-  // 通过检测 NUL 字节优先走 UTF-16LE，可以同时兼容 UTF-8/UTF-16LE 两种输出。
-  if (buffer.includes(0)) {
-    return buffer.toString("utf16le");
-  }
-
-  return buffer.toString("utf8");
+interface DiscoveryEntry<T> {
+  expiresAt: number;
+  promise: Promise<T>;
 }
 
-function normalizeWslOutput(raw: string): string {
-  return raw
-    .replaceAll("\u0000", "")
+let availabilityCache = new WeakMap<WSLBufferExecutor, DiscoveryEntry<boolean>>();
+let distroCache = new WeakMap<WSLBufferExecutor, DiscoveryEntry<WSLDistro[]>>();
+
+function normalizeWSLOutput(value: string): string {
+  return value
+    .replaceAll("\0", "")
     .replace(/^\uFEFF/, "")
     .replace(/\r/g, "");
 }
 
-export function parseWSLDistroList(rawOutput: string): WSLDistro[] {
-  const lines = normalizeWslOutput(rawOutput)
-    .split("\n")
-    .map((line) => line.trimEnd())
-    .filter((line) => line.trim().length > 0);
+function decodeWSLOutput(buffer: Buffer): string {
+  if (buffer.length === 0) return "";
+  return buffer.toString(buffer.includes(0) ? "utf16le" : "utf8");
+}
 
+function executeWSL(args: string[]): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    execFile(
+      "wsl.exe",
+      args,
+      { encoding: "buffer", maxBuffer: 8 * 1024 * 1024, windowsHide: true },
+      (error, stdout, stderr) => {
+        const outputBuffer = Buffer.isBuffer(stdout) ? stdout : Buffer.from(stdout ?? "");
+        const errorBuffer = Buffer.isBuffer(stderr) ? stderr : Buffer.from(stderr ?? "");
+        if (error) {
+          reject(
+            new Error(normalizeWSLOutput(decodeWSLOutput(errorBuffer)).trim() || error.message),
+          );
+          return;
+        }
+        resolve(outputBuffer);
+      },
+    );
+  });
+}
+
+export function parseWSLDistroList(rawOutput: string): WSLDistro[] {
   const distros: WSLDistro[] = [];
-  for (const line of lines) {
-    const parts = line
+  for (const rawLine of normalizeWSLOutput(rawOutput).split("\n")) {
+    const line = rawLine.trimEnd();
+    if (!line.trim()) continue;
+    const columns = line
       .trim()
       .split(/\s{2,}/)
-      .map((part) => part.trim())
+      .map((column) => column.trim())
       .filter(Boolean);
-    if (parts.length < 3) {
-      continue;
-    }
+    if (columns.length < 3) continue;
 
-    const versionToken = parts.at(-1) ?? "";
+    const versionToken = columns[columns.length - 1] ?? "";
     const parsedVersion = Number.parseInt(versionToken, 10);
-    if (!Number.isFinite(parsedVersion)) {
-      continue;
-    }
-
-    const state = parts.at(-2) ?? "";
-    const nameToken = parts.slice(0, -2).join(" ").trim();
+    if (!Number.isFinite(parsedVersion)) continue;
+    const state = columns[columns.length - 2] ?? "";
+    const nameToken = columns.slice(0, -2).join(" ").trim();
     const isDefault = nameToken.startsWith("*");
     const name = nameToken.replace(/^\*\s*/, "").trim();
-    if (!name) {
-      continue;
-    }
-
+    if (!name) continue;
     distros.push({
       name,
       isDefault,
@@ -67,89 +73,31 @@ export function parseWSLDistroList(rawOutput: string): WSLDistro[] {
       version: parsedVersion === 1 || parsedVersion === 2 ? parsedVersion : null,
     });
   }
-
   return distros;
 }
 
-async function execWslForBuffer(args: string[]): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    execFile(
-      WSL_COMMAND,
-      args,
-      {
-        encoding: "buffer",
-        maxBuffer: WSL_EXEC_MAX_BUFFER,
-        windowsHide: true,
-      },
-      (error, stdout, stderr) => {
-        const stdoutBuffer = Buffer.isBuffer(stdout) ? stdout : Buffer.from(stdout ?? "");
-        const stderrBuffer = Buffer.isBuffer(stderr) ? stderr : Buffer.from(stderr ?? "");
-
-        if (error) {
-          const stderrText = normalizeWslOutput(decodeWslOutput(stderrBuffer)).trim();
-          reject(new Error(stderrText || error.message));
-          return;
-        }
-
-        resolve(stdoutBuffer);
-      },
-    );
-  });
-}
-
-export type WSLBufferExecutor = (args: string[]) => Promise<Buffer>;
-
-interface WSLDiscoveryCacheEntry<T> {
-  expiresAt: number;
-  promise: Promise<T>;
-}
-
-let availabilityCache = new WeakMap<WSLBufferExecutor, WSLDiscoveryCacheEntry<boolean>>();
-let distroListCache = new WeakMap<WSLBufferExecutor, WSLDiscoveryCacheEntry<WSLDistro[]>>();
-
-function getCachedDiscovery<T>(
-  cache: WeakMap<WSLBufferExecutor, WSLDiscoveryCacheEntry<T>>,
+function loadDiscovery<T>(
+  cache: WeakMap<WSLBufferExecutor, DiscoveryEntry<T>>,
   executor: WSLBufferExecutor,
   load: () => Promise<T>,
 ): Promise<T> {
-  const cached = cache.get(executor);
-  if (cached && cached.expiresAt > Date.now()) {
-    return cached.promise;
-  }
+  const current = cache.get(executor);
+  if (current && current.expiresAt > Date.now()) return current.promise;
 
-  const entry: WSLDiscoveryCacheEntry<T> = {
+  const entry: DiscoveryEntry<T> = {
     expiresAt: Date.now() + WSL_DISCOVERY_CACHE_TTL_MS,
     promise: Promise.resolve().then(load),
   };
   cache.set(executor, entry);
   void entry.promise.catch(() => {
-    // 临时 WSL CLI 错误不能把 rejected Promise 固化到 TTL 结束，
-    // 后续显式重试需要立刻重新执行探测。
-    if (cache.get(executor) === entry) {
-      cache.delete(executor);
-    }
+    if (cache.get(executor) === entry) cache.delete(executor);
   });
   return entry.promise;
 }
 
-export function invalidateWSLDiscoveryCache(executor?: WSLBufferExecutor): void {
-  if (executor) {
-    availabilityCache.delete(executor);
-    distroListCache.delete(executor);
-    return;
-  }
-  availabilityCache = new WeakMap();
-  distroListCache = new WeakMap();
-}
-
-export async function isWSLAvailable(
-  executor: WSLBufferExecutor = execWslForBuffer,
-): Promise<boolean> {
-  if (process.platform !== "win32") {
-    return false;
-  }
-
-  return getCachedDiscovery(availabilityCache, executor, async () => {
+export async function isWSLAvailable(executor: WSLBufferExecutor = executeWSL): Promise<boolean> {
+  if (process.platform !== "win32") return false;
+  return loadDiscovery(availabilityCache, executor, async () => {
     try {
       await executor(["--status"]);
       return true;
@@ -161,14 +109,21 @@ export async function isWSLAvailable(
 }
 
 export async function listWSLDistros(
-  executor: WSLBufferExecutor = execWslForBuffer,
+  executor: WSLBufferExecutor = executeWSL,
 ): Promise<WSLDistro[]> {
-  if (process.platform !== "win32") {
-    return [];
-  }
-
-  return getCachedDiscovery(distroListCache, executor, async () => {
+  if (process.platform !== "win32") return [];
+  return loadDiscovery(distroCache, executor, async () => {
     const output = await executor(["-l", "-v", "--all"]);
-    return parseWSLDistroList(decodeWslOutput(output));
+    return parseWSLDistroList(decodeWSLOutput(output));
   });
+}
+
+export function invalidateWSLDiscoveryCache(executor?: WSLBufferExecutor): void {
+  if (executor) {
+    availabilityCache.delete(executor);
+    distroCache.delete(executor);
+    return;
+  }
+  availabilityCache = new WeakMap();
+  distroCache = new WeakMap();
 }
