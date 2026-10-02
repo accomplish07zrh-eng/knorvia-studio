@@ -1,0 +1,33 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "freezeCommit": "9f4c740",
+  "draftAndRedProofCommit": "aa8c75e",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/turn-stop.ts",
+  "sourceExposure": "Curator read predecessor; source-derived functional/API packet. Fresh internal author fork_turns=none,Sol/high; actual input/tool journal and sealed draft archived before curator comparison. No absolute clean-room claim.",
+  "draftSha256": "4ed3bd95b511c1d5a41a8892968557b1dafc68f9c5be9704e1b8c605d16f631b",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/turn-stop.ts",
+      "sha256": "5d10dabc4dbfd1b378ffa88033d2e914ba08534199cdf83fae6a5fabe1a71471"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/turn-stop.js",
+      "sha256": "cb561b122dd96e980c86549f6d019456f011ad6d40f536aec1b14cdaf943d65f"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/turn-stop.d.ts",
+      "sha256": "18d549e14452652fc6110376c3f872a173ba40c57164ba369c5ee81c94c5f4e2"
+    }
+  },
+  "physicalLines": 239,
+  "design": "Complete native assistant persistence/error-carrier and text-only stop settlement functions; history, machine, guide/hook dependencies retain ownership.",
+  "retained": "Commit/delete/restore and message-part-message carriers, automation/guide/hook completion combinations closely match predecessor constraints and expression. Fixed declarations, errors, tokens/IDs/records/awaits/helper calls retained. Source narrative replaced with concise authored comments; documentary replacement is not runtime originality credit.",
+  "corrections": "Formatting only; no added async wrapper/state/policy.",
+  "api": {
+    "exactSignatures": true,
+    "fixedDeclarationFacts": true
+  },
+  "sharedChecks": "docs/evidence/runtime-goal-stop-five-checks-20261003:0scoped TS6.0.2 diagnostics;23public signatures unchanged;5sources94lint rules0;7filesformatted;architecture0;one actual-emitted5synthetic persistence/lifecycle groups plus separate1control metadata red-proof closure(overlap).15current and15historical source/JS/dts,44packet/draft/journal files digest verified. Wrong/missing verifier inputs reject.",
+  "limits": "Ordinary suites/builds/native/source duplicate/full runtime consumers not run per user speed-first. Historical/current selected JS actual compiler; unchanged transitive deps through tsx source resolution. Live receivers/provider/credentials/userdata untouched. Independent expression/licence review remains root-owned; no header/inventory/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-turn-stop-author-20261003/lineage.json"
+}
