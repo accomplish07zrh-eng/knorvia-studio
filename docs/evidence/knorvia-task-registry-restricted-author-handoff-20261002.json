@@ -1,0 +1,197 @@
+{
+  "formatVersion": 1,
+  "baseline": "f48fdd95ed81e9f1b480deda91cf4b7d3bdd85d5",
+  "kind": "behavior-only restricted-author handoff",
+  "sourceExposure": {
+    "curator": "Read predecessor and callers; disclosed",
+    "author": "No initialized author or tool-read record; access isolation not demonstrated"
+  },
+  "acceptanceCriterion": "Independent functional-contract authorship can have equal complexity; relocation of copied expression is insufficient",
+  "permittedProjectInputs": [
+    "docs/knorvia-task-registry-author-inputs-20261002/behavior.md",
+    "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts",
+    "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts",
+    "docs/knorvia-task-registry-author-inputs-20261002/inputs.json"
+  ],
+  "scope": [
+    "docs/knorvia-task-registry-author-inputs-20261002/behavior.md",
+    "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts",
+    "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts",
+    "docs/knorvia-task-registry-author-inputs-20261002/inputs.json",
+    "docs/knorvia-task-registry-restricted-author-handoff-20261002.md",
+    "docs/evidence/knorvia-task-registry-native-author-20261002.log",
+    "docs/evidence/knorvia-task-registry-native-author-prompt-20261002.txt",
+    "docs/evidence/knorvia-task-registry-restricted-author-handoff-20261002.json"
+  ],
+  "files": [
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/behavior.md",
+      "sha256": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2",
+      "bytes": 11965
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts",
+      "sha256": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e",
+      "bytes": 3260
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts",
+      "sha256": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035",
+      "bytes": 2164
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/inputs.json",
+      "sha256": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a",
+      "bytes": 1072
+    },
+    {
+      "path": "docs/knorvia-task-registry-restricted-author-handoff-20261002.md",
+      "sha256": "d9ad7242b7faf720eb6f088b9d653d6ab5e097aa87f404a3a686cc3aa0389883",
+      "bytes": 5950
+    },
+    {
+      "path": "docs/evidence/knorvia-task-registry-native-author-20261002.log",
+      "sha256": "8e3330eeb312ddb37b9da73c3ece4a8aa7e2ade4b7bb255573aa487bc89f0f58",
+      "bytes": 197
+    },
+    {
+      "path": "docs/evidence/knorvia-task-registry-native-author-prompt-20261002.txt",
+      "sha256": "09d748330e4eec19e07529f65c8dd428c0360755c926e95b8817856283358b46",
+      "bytes": 1480
+    }
+  ],
+  "projection": {
+    "ok": true,
+    "publicTypes": 21,
+    "publicClassMethods": 11,
+    "runtimeBodies": 0,
+    "parsedComments": 0,
+    "sourceOrigins": [
+      {
+        "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+        "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+        "declarations": [
+          "RuntimeTaskType",
+          "RuntimeTaskUsageSnapshot",
+          "RuntimeTaskPendingMessage",
+          "RuntimeTaskMessageSink",
+          "RuntimeTaskSnapshot",
+          "RuntimeTaskRegistry"
+        ]
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+        "declarations": ["SessionId", "TurnId", "ToolCallId", "TraceId", "QueryId"]
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/model/index.ts",
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+        "declarations": ["ModelServerToolUsage", "ModelUsage"]
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/tools/agent.ts",
+        "sha256": "11f570e70ad5413af90e7582f68a441ce06a1f4e838123e20c7c163752d80046",
+        "declarations": [
+          "AgentType",
+          "AgentTextContentBlock",
+          "AgentCompletedOutput",
+          "AgentBackgroundedOutput",
+          "AgentOutput"
+        ]
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/interfaces/subagent.port.ts",
+        "sha256": "3e563f8dea2e210e5a2e2cf25bef7408ed66bf4a512590c3c0d6de02e8fd44e3",
+        "declarations": ["SubagentTaskStatus", "SubagentTaskSnapshot"]
+      },
+      {
+        "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+        "declarations": ["TraceContext"]
+      }
+    ]
+  },
+  "callerEvidence": [
+    {
+      "path": "apps/cli/packages/core/test/task-output-retrieval.test.ts",
+      "sha256": "9daa4439a294a22dac2215f2304dd1f2192535570c5122829ff9e6e00723e9c0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runner.ts",
+      "sha256": "4656ed202720064875323ebcf2b3394e60ac26e953662090f0074c8c0a50262e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/agent-runtime.ts",
+      "sha256": "544b2940897ac38f656b38b21b7e50ec1b2342d5e47572f902f0871650cc12f1"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/resume.ts",
+      "sha256": "87bebbdcdcb876b94d993980c99b997c2ce7c30cecd8b93d862792e12a849fec"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/rewind-message.ts",
+      "sha256": "06eef8a0fcdeefd08b4fd56c2cf02b55b258f25bdb489018f4f631e8f2ab65dd"
+    }
+  ],
+  "existingInputObservation": {
+    "source": "apps/cli/packages/core/test/task-output-retrieval.test.ts",
+    "name": "live memory registry receives notification only after delivery",
+    "coverage": "Synthetic nonblocking retrieval; notified true and branchGeneration zero; not comprehensive lifecycle freeze"
+  },
+  "nativeAttempt": {
+    "executable": "codex",
+    "version": "0.159.0-alpha.3",
+    "cwd": "/tmp/knorvia-task-registry-author-20261002",
+    "mode": "New ephemeral native invocation; no resume/fork/cloud task",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "xhigh",
+    "requestedTier": "fast",
+    "sandbox": "read-only",
+    "accessEscalation": false,
+    "exitCode": 1,
+    "error": "failed to initialize in-process app-server client: Read-only file system (os error 30)",
+    "candidateExists": false,
+    "authorToolEvents": 0,
+    "modelTierExecuted": false,
+    "retries": 0,
+    "globalConfigurationChanges": false
+  },
+  "preparationLogs": [
+    {
+      "path": "/tmp/knorvia-task-registry-packet-proof.log",
+      "sha256": "c76d7f417287af5a5005f46e482c02cd5d6e2bcebff2c63c4617a5644208eaa4"
+    },
+    {
+      "path": "/tmp/knorvia-task-registry-packet-proof-corrected.log",
+      "sha256": "c563f31f64bd4b42ff98306ad7a5766cd0f5dd851c7dd637b8451c15eae0de6b"
+    }
+  ],
+  "proofCorrection": "Initial comparator rejected optional printer member semicolons; corrected parsed API comparison omits only JSDoc/semicolon tokens; declaration bytes unchanged",
+  "validation": {
+    "publicTypes": 21,
+    "classMethods": 11,
+    "runtimeBodies": 0,
+    "parsedTypeComments": 0,
+    "packetFormatting": true,
+    "newTests": 0,
+    "behavioralRuns": 0,
+    "candidateTypes": 0,
+    "candidateLint": 0,
+    "candidateArchitecture": 0,
+    "aggregateSuite": false,
+    "build": false,
+    "nativeAcceptance": false
+  },
+  "productionChanges": 0,
+  "fixtureChanges": 0,
+  "oraclesChanged": false,
+  "selectorsChanged": false,
+  "unresolvedStatuses": {
+    "strands": "inherited/unresolved",
+    "maySet": "mixed/unresolved",
+    "settlement": "mixed/unresolved"
+  },
+  "grant": null,
+  "nextStep": "Root provides this four-file packet to an available native restricted-input author, then independently validates a candidate with strict actual-artifact routing and immutable historical evidence"
+}
