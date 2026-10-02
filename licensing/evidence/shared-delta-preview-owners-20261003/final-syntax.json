@@ -1,0 +1,11 @@
+{
+  "label": "final-syntax",
+  "cmd": "node /tmp/knorvia-scoped-syntax.mjs packages/shared/src/protocol-v4/apply.ts packages/shared/src/protocol-v4/coalesce.ts packages/shared/src/streaming-tool-input-preview.ts packages/shared/src/tool-call-summary.ts packages/shared/src/permission-request-preview.ts",
+  "result": {
+    "chunk_id": "de3f94",
+    "wall_time_seconds": 0.273030951,
+    "exit_code": 0,
+    "original_token_count": 91,
+    "output": "packages/shared/src/protocol-v4/apply.ts: 0 syntax-only diagnostics\npackages/shared/src/protocol-v4/coalesce.ts: 0 syntax-only diagnostics\npackages/shared/src/streaming-tool-input-preview.ts: 0 syntax-only diagnostics\npackages/shared/src/tool-call-summary.ts: 0 syntax-only diagnostics\npackages/shared/src/permission-request-preview.ts: 0 syntax-only diagnostics\n"
+  }
+}

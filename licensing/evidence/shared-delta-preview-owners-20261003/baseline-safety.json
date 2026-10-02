@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-delta-preview-boundaries.test.mjs",
+    "/tmp/knorvia-shared-delta-preview-baseline"
+  ],
+  "exitCode": 0,
+  "stdout": "\u2714 snapshot data boundary admits loaded updates, excludes absent targets and isolates unpublished mutation (9.551709ms)\n\u2714 coalescing data boundary preserves removal/generation barriers and whole-key state replacement (3.266347ms)\n\u2714 partial-input boundary admits recognized strings and rejects unknown fields or background materialization (3.382402ms)\n\u2714 summary data boundary admits edit pairs and excludes non-edit/array sources while retaining empty-field precedence (3.02916ms)\n\u2714 permission-preview data boundary bounds paths, excludes directories/invalid changes and respects raw-input precedence (3.145806ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 26.678311\n",
+  "stderr": ""
+}

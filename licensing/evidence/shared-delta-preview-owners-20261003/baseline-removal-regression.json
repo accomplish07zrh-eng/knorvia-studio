@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern=^snapshot data",
+    "packages/shared/test/shared-delta-preview-boundaries.test.mjs",
+    "/tmp/knorvia-shared-delta-preview-baseline"
+  ],
+  "exitCode": 0,
+  "stdout": "\u2714 snapshot data boundary admits loaded updates, excludes absent targets and isolates unpublished mutation (11.429797ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 15.308605\n",
+  "stderr": ""
+}

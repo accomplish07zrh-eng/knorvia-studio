@@ -1,0 +1,11 @@
+{
+  "label": "final-format",
+  "cmd": "node_modules/.bin/oxfmt --check packages/shared/src/protocol-v4/apply.ts packages/shared/src/protocol-v4/coalesce.ts packages/shared/src/streaming-tool-input-preview.ts packages/shared/src/tool-call-summary.ts packages/shared/src/permission-request-preview.ts packages/shared/test/shared-delta-preview-boundaries.test.mjs",
+  "result": {
+    "chunk_id": "8eca9a",
+    "wall_time_seconds": 0.050145108,
+    "exit_code": 0,
+    "original_token_count": 28,
+    "output": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 32ms on 6 files using 4 threads.\n"
+  }
+}

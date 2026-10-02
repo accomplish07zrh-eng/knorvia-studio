@@ -1,0 +1,11 @@
+{
+  "label": "final-apply-safety",
+  "cmd": "node --test-name-pattern='^snapshot data' packages/shared/test/shared-delta-preview-boundaries.test.mjs packages/shared/src",
+  "result": {
+    "chunk_id": "b9f927",
+    "wall_time_seconds": 0.000026471,
+    "exit_code": 0,
+    "original_token_count": 59,
+    "output": "✔ snapshot data boundary admits loaded updates, excludes absent targets and isolates unpublished mutation (18.207319ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 25.701641\n"
+  }
+}

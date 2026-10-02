@@ -1,0 +1,4 @@
+Command: oxlint five changed sources, shared-delta-preview-boundaries.test.mjs and two review helpers.
+Exit: 0
+Found 0 warnings and 0 errors.
+Finished in 28ms on 8 files with 94 rules using 4 threads.

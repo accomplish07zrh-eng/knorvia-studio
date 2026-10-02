@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-delta-preview-boundaries.test.mjs",
+    "packages/shared/src"
+  ],
+  "exitCode": 1,
+  "stdout": "\u2716 snapshot data boundary admits loaded updates, excludes absent targets and isolates unpublished mutation (12.133125ms)\n\u2714 coalescing data boundary preserves removal/generation barriers and whole-key state replacement (3.48751ms)\n\u2714 partial-input boundary admits recognized strings and rejects unknown fields or background materialization (3.190482ms)\n\u2714 summary data boundary admits edit pairs and excludes non-edit/array sources while retaining empty-field precedence (3.456494ms)\n\u2714 permission-preview data boundary bounds paths, excludes directories/invalid changes and respects raw-input precedence (3.446078ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 4\n\u2139 fail 1\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 30.371501\n\n\u2716 failing tests:\n\ntest at packages/shared/test/shared-delta-preview-boundaries.test.mjs:28:1\n\u2716 snapshot data boundary admits loaded updates, excludes absent targets and isolates unpublished mutation (12.133125ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + undefined\n  - {\n  -   kind: 'assistantText',\n  -   rowId: 7,\n  -   text: 'synthetic'\n  - }\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/shared/test/shared-delta-preview-boundaries.test.mjs:51:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    expected: [Object],\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": ""
+}
