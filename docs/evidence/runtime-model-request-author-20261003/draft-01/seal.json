@@ -1,0 +1,124 @@
+{
+  "owner": "model-request",
+  "draft": "draft-01",
+  "initialDraft": true,
+  "sourceDerived": true,
+  "cleanRoomClaim": false,
+  "licensingClaim": false,
+  "files": [
+    {
+      "path": "runtime/methods/model.ts",
+      "logicalPath": "runtime/methods/model.ts",
+      "sha256": "9b89f826dd0407a132ba531647af25846214942a65ec18556af88037df7cf266",
+      "bytes": 15085,
+      "physicalLines": 379
+    }
+  ],
+  "readInputJournal": {
+    "manifest": {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/packet.json",
+      "sha256": "9947c4c727601ebffa176591a8dc5fde4959d1af356809509f5e2c602f66c845",
+      "bytes": 1332,
+      "reads": [
+        "initial manifest read",
+        "seal manifest read"
+      ]
+    },
+    "inputs": [
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/contract.md",
+        "sha256": "9c5eee579c6327be516c7b9f98a35268b49d66cf35e88d9cc6017a23c779ad66",
+        "bytes": 6657,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/api.d.ts",
+        "sha256": "4eeef16e4f047fe4a94fb7e320369637e60389d5e425d6362c5bb120c6671e3f",
+        "bytes": 290,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/imports.d.ts",
+        "sha256": "ad623a3b53c486671936d5ffac8d166879fd1aa209734f423ec2d423fe36c6ab",
+        "bytes": 1331,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/supporting.d.ts",
+        "sha256": "039fe8399107686873615788144f57a7f32a111ac75b59f92b549f44ba5c4da5",
+        "bytes": 3994,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/runtime-ports.d.ts",
+        "sha256": "5309dc3243702ffb3a416b1e33c39bfbaf7e19bdf23dcaa7a42b2947df14b766",
+        "bytes": 865,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/dependency-ports.json",
+        "sha256": "38c0326b498c58cb06d894382e056c034a913ca02bbf6db3d75a8b3adb70fc04",
+        "bytes": 7514,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/literals.json",
+        "sha256": "54a9144e67cbdf2602f098b5c6330b9f48bf0a1319ac7f700799483426316cfe",
+        "bytes": 1109,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      },
+      {
+        "path": "/workspace/knorvia-studio/docs/evidence/runtime-model-request-author-20261003/log-fields.json",
+        "sha256": "4e3f2ddc2d974bd5c32619d10d6387681612598ed1e0ac5a80b8f590c0135766",
+        "bytes": 1619,
+        "reads": [
+          "initial complete body-free input read",
+          "seal digest verification"
+        ]
+      }
+    ],
+    "otherRepositoryReads": [],
+    "draftReads": [
+      {
+        "path": "/tmp/knorvia-model-request-author-20261003/draft-01/runtime/methods/model.ts",
+        "purpose": "physical line count and seal digest"
+      }
+    ],
+    "unsolicitedParentMessage": "Before sealing, parent supplied actorKind origin, operationId spanId, and recovery retryNumber details and repeated the requirement to seal before clarification. No additional source files were read."
+  },
+  "authorInputLimits": [
+    "packet.json and exactly its eight body-free listed inputs",
+    "no predecessor implementation, source history, tests, or oracles",
+    "no lineage.json or other author files",
+    "no tests, builds, provider IO, new cloud tasks, or child agents"
+  ],
+  "reviewAssumptions": [
+    "Projection objects expose messages; model exposes inputFormat and contextWindow.",
+    "Stream tool_call events expose toolCall; normalized calls expose toolCallId and toolName.",
+    "Queue enqueue receives the payload directly, with only contract-specified fields.",
+    "Stream acquisition is awaited outside the loop recovery region.",
+    "Reasoning block metadata is stored as providerOptions, including reasoning_start and reasoning_end."
+  ],
+  "preservation": "Whole initial production draft and this seal are retained in draft-01; no revisions occurred before sealing."
+}
