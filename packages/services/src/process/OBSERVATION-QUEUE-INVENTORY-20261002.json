@@ -1601,7 +1601,8 @@
       "inventoryHashMatches": true,
       "review": null,
       "inThisLaneChanged": false,
-      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+      "screenStatus": "complete-owner-submitted;minimum-safety/scoped-types-quality-passed;parent-classification-pending",
+      "submittedSha256": "ed489b767eacfe66e92d53aeda3d550a1eb621cd0fc6af5b850acaf60897cef6"
     },
     {
       "path": "packages/services/src/process/processTreeSnapshotAsync.ts",
@@ -1611,7 +1612,8 @@
       "inventoryHashMatches": true,
       "review": null,
       "inThisLaneChanged": false,
-      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+      "screenStatus": "complete-owner-submitted;minimum-safety/scoped-types-quality-passed;parent-classification-pending",
+      "submittedSha256": "b56bf352935593da480356009ca2e8ccf518ad3927fc966866f52c67f0fa404a"
     },
     {
       "path": "packages/services/src/process/processTreeTerminator.ts",
@@ -1641,7 +1643,8 @@
       "inventoryHashMatches": true,
       "review": null,
       "inThisLaneChanged": false,
-      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+      "screenStatus": "complete-owner-submitted;minimum-safety/scoped-types-quality-passed;parent-classification-pending",
+      "submittedSha256": "665d91481e736a34c764a90ab5d79a8aa2b25686d46164dd23fd32e83cc2b56d"
     },
     {
       "path": "packages/services/src/process/runtimeProcessLifecycle.ts",
@@ -1661,7 +1664,8 @@
       "inventoryHashMatches": true,
       "review": null,
       "inThisLaneChanged": false,
-      "screenStatus": "selected-complete-owner;upstream-exact;prior-unselected"
+      "screenStatus": "complete-owner-submitted;minimum-safety/scoped-types-quality-passed;parent-classification-pending",
+      "submittedSha256": "9f93f3fda10317c5b296e9053c12dceb850bee5b139c075eaa00485c12410dd0"
     },
     {
       "path": "packages/services/src/process/windowsTaskkillRunner.ts",
@@ -3903,5 +3907,15 @@
     "historical59listenEPERM",
     "missing ignore/croner/CUA/yazl",
     "commitMessageFileScope predecessor HOLD"
-  ]
+  ],
+  "verifiedRetainedSourceCount": 384,
+  "parentReportedConsumerClosure": {
+    "source": "parent source_thread01a0f025-c78c-7401-9ad2-a524f08d50e5 delegation2026-10-02",
+    "status": "BLOCKED at root actual dependencies; branch not integrated; not reproduced in lane",
+    "diagnostics": [
+      "packages/services/src/feedback/feedbackLogArchive.ts:24 TS2339 outputStream.destroy missing on ReadableStream",
+      "packages/services/src/runtime-tools/appCaCert.ts:4 TS7016 node-forge declarations missing"
+    ],
+    "reconciliation": "Deferred, no full run/install or same-baseline claim; lane earlier missing yazl/ignore/croner/CUA unchanged"
+  }
 }
