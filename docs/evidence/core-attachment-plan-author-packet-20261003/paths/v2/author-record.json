@@ -1,0 +1,226 @@
+{
+  "scope": "media-attachment-path.ts",
+  "sourceOwner": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+  "completeReplacement": true,
+  "originalInputFreezeReference": "f337904a",
+  "qualificationFreezeReference": "8ba954e2",
+  "assignment": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "fork": "none",
+    "requestedSpeed": "Fast",
+    "fastQualifier": "Fast requested; no separate exposed service-tier control was available or set."
+  },
+  "inputReadPaths": [
+    "/tmp/knorvia-attachment-plan-20261003/paths/input/contract.md",
+    "/tmp/knorvia-attachment-plan-20261003/paths/input/public-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/paths/input/dependency-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/paths/input/public-shapes.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/paths/input/imports.json",
+    "/tmp/knorvia-attachment-plan-20261003/paths/input/output-data.json",
+    "/tmp/knorvia-attachment-plan-20261003/paths/source-observation-qualification.md",
+    "/tmp/knorvia-attachment-plan-20261003/paths/error-cause-qualification.md"
+  ],
+  "ownOutputReadPaths": [
+    "/tmp/knorvia-attachment-plan-20261003/paths/output/media-attachment-path.ts",
+    "/tmp/knorvia-attachment-plan-20261003/paths/output/author-record.json",
+    "/tmp/knorvia-attachment-plan-20261003/paths/output-v2/media-attachment-path.ts",
+    "/tmp/knorvia-attachment-plan-20261003/paths/output-v2/author-record.json"
+  ],
+  "inputReadTiming": {
+    "originalSix": "First operation: read together in listed order, before source authoring. Exact first-read UTC was not captured.",
+    "qualification": "Read after drafting and parent clarification, before revision or freeze. Exact first-read UTC was not captured.",
+    "accounting": "Each authorized input was reread only for byte/hash/line/mode accounting at its recorded accountingReadUTC.",
+    "errorCauseQualification": "Read before v2 authoring; exact first-read UTC was not captured. Accounting reread UTC is recorded below.",
+    "v2Accounting": "All eight authorized inputs and own v1 outputs reread for accounting during v2 production; own v2 outputs read for accounting before and after cooperative freeze."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/input/contract.md",
+      "bytes": 5423,
+      "sha256": "ef1b19a7a68ce49fa40ef3705b40b0413b1392592950a19a72b581bff19d9d93",
+      "lineCount": 13,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858045Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/input/public-api.d.ts",
+      "bytes": 252,
+      "sha256": "173ea3f4c2e07b5788fd279f9f7f8476e7407e1a97d417273c62f5a5154cb20a",
+      "lineCount": 2,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858072Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/input/dependency-api.d.ts",
+      "bytes": 307,
+      "sha256": "b57588b7798c447db177e3f94c00a62ca148d4bc6462fa5606e23cdeb963d2ff",
+      "lineCount": 4,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858089Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/input/public-shapes.d.ts",
+      "bytes": 4294,
+      "sha256": "98ccc5c0cbff7385be6309fdaa4704809cdd93f6b2eb6bd3845b427aeab3070c",
+      "lineCount": 146,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858116Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/input/imports.json",
+      "bytes": 537,
+      "sha256": "8ce2c98997dbe0c95eb9345dd9c682add9ec1c06bbe6eab234b9d1f845b87c9f",
+      "lineCount": 15,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858130Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/input/output-data.json",
+      "bytes": 708,
+      "sha256": "ad63ae7cd4f4277b38c0d511bd9abb9685c832139787d17e208a8f02b68aec42",
+      "lineCount": 26,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858145Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/source-observation-qualification.md",
+      "bytes": 1325,
+      "sha256": "cfee6f475825f16c4b78f7e5353c778cfc90bdd38c52ada68d6ee2540443e199",
+      "lineCount": 7,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858159Z"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/error-cause-qualification.md",
+      "bytes": 1377,
+      "sha256": "f32b25f37b511ee1cc48fef82a4203513dfcaa0852c9bcb46a468099ea559dd9",
+      "lineCount": 7,
+      "mode": "0o444",
+      "accountingReadUTC": "2026-10-02T20:26:14.858172Z"
+    }
+  ],
+  "outputs": {
+    "source": {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/output-v2/media-attachment-path.ts",
+      "bytes": 4278,
+      "sha256": "91d1ab6d39c2827a41e7006ca59245bf363bfe4a1cac8127997bd5fa9cd060dc",
+      "lineCount": 139,
+      "mode": "0o600",
+      "accountingReadUTC": "2026-10-02T20:26:14.858257Z",
+      "frozenMode": "0444"
+    },
+    "authorRecord": {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/output-v2/author-record.json",
+      "frozenMode": "0444",
+      "selfAccounting": "Exact final bytes, SHA256 and line count reported externally after freeze; no self-referential checksum embedded."
+    },
+    "directory": {
+      "path": "/tmp/knorvia-attachment-plan-20261003/paths/output-v2",
+      "frozenMode": "0555"
+    }
+  },
+  "retainedExpression": {
+    "acknowledgement": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim. Required retained expression and ordinary JavaScript idioms are acknowledged.",
+    "imports": "Both imports retained exactly from imports.json; dependency implementations were not read or reimplemented.",
+    "publicAPI": "projectMessagesWithMediaAttachmentPaths(messages: ModelInputMessage[], artifactStore: ToolArtifactStorePort | undefined): Promise<ModelInputMessage[]>",
+    "requiredConstantsAndProse": [
+      "application/pdf",
+      "pdf",
+      "empty derived path",
+      "Unable to materialize ${mediaKind} attachment path: ${label}",
+      "[Image: source: ${path}]",
+      "[Video: source: ${path}]",
+      "[PDF: source: ${path}]",
+      "inline",
+      "local_file",
+      "unsupported"
+    ],
+    "evaluation": "Native async messages.map and nested Promise.all, native filter/map/forEach sparse-array behavior, repeated predicate block.source reads, captured resolver source, double method/path observations, short circuiting, nullish labels and MIME fallback, Error instanceof cause gate; both standardized errors own native nonenumerable cause, undefined for pre-try rejection and non-Error caught values.",
+    "identityAndCloning": "Fresh Map keyed by original block identity; truthy insertion, duplicate-object last set and original insertion order; changed flag before cloning; source/cacheControl/toolCall shallow clones and exact input/name references; original unchanged messages and original outer array when unchanged.",
+    "authority": "ToolArtifactStorePort remains the unchanged authority for materialization. No local filesystem validation, permission/root policy, new store, canonical mutation, persistence, stale inline path fallback or invented MIME validator."
+  },
+  "chosenStructure": {
+    "description": "Public function owns concurrent per-message projection, result collection and cloning. Private functions isolate PDF classification, source admission, failure prose, one attachment resolution, generic content cloning and annotation selection.",
+    "privateUnits": [
+      "MediaBlock type alias",
+      "isPdf",
+      "hasMediaSource",
+      "materializationMessage",
+      "resolveMediaPath",
+      "cloneBlock",
+      "sourceAnnotation"
+    ],
+    "claim": "Cohesive private decomposition chosen freely; no line-by-line, naming-only, independent novelty or copyright/grant conclusion is claimed."
+  },
+  "review": {
+    "performed": "Manual review of own complete v2 source against eight authorized body-free inputs; file/hash/line/mode accounting only. The only v1-to-v2 source correction supplies { cause: undefined } to the pre-try standardized Error constructor.",
+    "notExecuted": [
+      "source",
+      "tests",
+      "compiler",
+      "typecheck",
+      "build",
+      "lint",
+      "mocks",
+      "artifact store",
+      "provider",
+      "network",
+      "repository or git operations"
+    ],
+    "runtimeCompatibilityPoints": [
+      "Only user array content is admitted; no-media and empty-path-map messages retain identity.",
+      "Image/video skip the PDF normalizer during predicate admission; PDF MIME split/trim/lowercase order retained.",
+      "Predicate observes block.source freshly for kind, URI, fallback kind and path with native short circuit.",
+      "Local-file path is returned without store invocation or trimming; durable inline artifact URI required.",
+      "Initial URI/store validation lies before try and uses placeholder/URI/id fallback with an own native nonenumerable undefined cause property.",
+      "Store method guard and invocation remain separate observations and preserve the receiver.",
+      "Unsupported is optional enhancement; ready path emptiness is checked with trim but original path is returned.",
+      "Try failures wrap exact prose with same-realm Error cause or own undefined cause.",
+      "All content entries clone for changed messages; dataUrl and other fields retained.",
+      "One annotation per Map entry follows Map iteration order; no path deduplication or input mutation."
+    ],
+    "limitations": "No runtime, compiler or test verification was authorized. Compatibility assessment is source review against eight body-free inputs."
+  },
+  "questions": [
+    {
+      "status": "resolved before freeze",
+      "question": "Does source admission capture block.source once, or observe it freshly at each predicate gate?",
+      "resolution": "Parent required fresh block.source observations and supplied the separate seventh frozen body-free qualification. Draft was revised before freeze; original six inputs were unchanged."
+    },
+    {
+      "status": "resolved by eighth frozen input before v2 freeze",
+      "question": "Does the pre-try standardized rejection have an absent cause property or an own undefined cause property?",
+      "resolution": "Curator identified an omitted error-shape detail in original prose. Both standardized Error constructors receive options containing cause; v2 adds { cause: undefined } before try. v1 remains archived unchanged."
+    }
+  ],
+  "breaches": [],
+  "constraintAcknowledgement": "Access limits are instruction-only in a shared executor. This receipt is a cooperative author record, not proof of OS isolation or an access audit. Curator remains source-exposed.",
+  "freezeUTC": "2026-10-02T20:26:14.858259Z",
+  "freezeMethod": "Cooperative chmod of v2 only: both output-v2 files 0444, then output-v2 directory 0555, before curator review. Own v1 remains frozen and untouched.",
+  "revision": "v2",
+  "authorshipEvent": "Complete same-author descendant of own frozen v1; not a new fresh-author event.",
+  "errorCauseQualificationFreezeReference": "cb97fc3b",
+  "ancestry": {
+    "v1ArchiveReference": "c6c98884",
+    "outputs": [
+      {
+        "path": "/tmp/knorvia-attachment-plan-20261003/paths/output/media-attachment-path.ts",
+        "bytes": 4250,
+        "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48",
+        "lineCount": 138,
+        "mode": "0o444",
+        "accountingReadUTC": "2026-10-02T20:26:14.858198Z"
+      },
+      {
+        "path": "/tmp/knorvia-attachment-plan-20261003/paths/output/author-record.json",
+        "bytes": 9417,
+        "sha256": "c58af433c798bdfd02243a240effc7bf2738ff74c97c9385374769ca54249929",
+        "lineCount": 182,
+        "mode": "0o444",
+        "accountingReadUTC": "2026-10-02T20:26:14.858231Z"
+      }
+    ],
+    "preservation": "Original frozen v1 source and author record were read only; no chmod, edits or other mutations were applied to them."
+  }
+}

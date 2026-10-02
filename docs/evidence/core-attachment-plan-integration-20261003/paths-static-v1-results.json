@@ -1,0 +1,380 @@
+{
+  "kind": "Static declaration/import/input/output/boundary bindings only; no owner execution/project typecheck",
+  "typescript": "6.0.2",
+  "scope": "paths",
+  "baseline": "bffae9a34fe3f729e29e66614695cb3fb6a23e90",
+  "target": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+  "reexportsEqual": true,
+  "declarationsEqual": true,
+  "declarationDigest": {
+    "predecessor": "f0ba3d7925a665369f0fd983d24a1987df3f31da8c8670003ae2cdbf58c44b49",
+    "candidate": "f0ba3d7925a665369f0fd983d24a1987df3f31da8c8670003ae2cdbf58c44b49"
+  },
+  "runtimeImportsEqual": true,
+  "runtimeImports": {
+    "predecessor": [
+      "@knorvia/shared#isArtifactUri"
+    ],
+    "candidate": [
+      "@knorvia/shared#isArtifactUri"
+    ]
+  },
+  "declarationExtractionDiagnostics": {
+    "predecessor": [],
+    "candidates": [
+      {
+        "path": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+        "diagnostics": []
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/contract.md",
+      "bytes": 5423,
+      "sha256": "ef1b19a7a68ce49fa40ef3705b40b0413b1392592950a19a72b581bff19d9d93",
+      "actual": {
+        "bytes": 5423,
+        "sha256": "ef1b19a7a68ce49fa40ef3705b40b0413b1392592950a19a72b581bff19d9d93"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/public-api.d.ts",
+      "bytes": 252,
+      "sha256": "173ea3f4c2e07b5788fd279f9f7f8476e7407e1a97d417273c62f5a5154cb20a",
+      "actual": {
+        "bytes": 252,
+        "sha256": "173ea3f4c2e07b5788fd279f9f7f8476e7407e1a97d417273c62f5a5154cb20a"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/dependency-api.d.ts",
+      "bytes": 307,
+      "sha256": "b57588b7798c447db177e3f94c00a62ca148d4bc6462fa5606e23cdeb963d2ff",
+      "actual": {
+        "bytes": 307,
+        "sha256": "b57588b7798c447db177e3f94c00a62ca148d4bc6462fa5606e23cdeb963d2ff"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/public-shapes.d.ts",
+      "bytes": 4294,
+      "sha256": "98ccc5c0cbff7385be6309fdaa4704809cdd93f6b2eb6bd3845b427aeab3070c",
+      "actual": {
+        "bytes": 4294,
+        "sha256": "98ccc5c0cbff7385be6309fdaa4704809cdd93f6b2eb6bd3845b427aeab3070c"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/imports.json",
+      "bytes": 537,
+      "sha256": "8ce2c98997dbe0c95eb9345dd9c682add9ec1c06bbe6eab234b9d1f845b87c9f",
+      "actual": {
+        "bytes": 537,
+        "sha256": "8ce2c98997dbe0c95eb9345dd9c682add9ec1c06bbe6eab234b9d1f845b87c9f"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/output-data.json",
+      "bytes": 708,
+      "sha256": "ad63ae7cd4f4277b38c0d511bd9abb9685c832139787d17e208a8f02b68aec42",
+      "actual": {
+        "bytes": 708,
+        "sha256": "ad63ae7cd4f4277b38c0d511bd9abb9685c832139787d17e208a8f02b68aec42"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    },
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/source-observation-qualification.md",
+      "bytes": 1325,
+      "sha256": "cfee6f475825f16c4b78f7e5353c778cfc90bdd38c52ada68d6ee2540443e199",
+      "actual": {
+        "bytes": 1325,
+        "sha256": "cfee6f475825f16c4b78f7e5353c778cfc90bdd38c52ada68d6ee2540443e199"
+      },
+      "matchesManifest": true,
+      "matchesReceipt": true
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-attachment-path.ts.txt",
+      "bytes": 4250,
+      "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "actual": {
+        "bytes": 4250,
+        "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48"
+      },
+      "matchesArchive": true,
+      "installed": {
+        "bytes": 4250,
+        "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48"
+      },
+      "installedExact": true,
+      "matchesReceipt": true,
+      "lines": 138
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 9417,
+      "sha256": "c58af433c798bdfd02243a240effc7bf2738ff74c97c9385374769ca54249929",
+      "actual": {
+        "bytes": 9417,
+        "sha256": "c58af433c798bdfd02243a240effc7bf2738ff74c97c9385374769ca54249929"
+      },
+      "matchesArchive": true
+    }
+  ],
+  "originalFreezeBindings": [
+    {
+      "file": "draft-media-attachment-path.ts.txt",
+      "bytes": 4250,
+      "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 9417,
+      "sha256": "c58af433c798bdfd02243a240effc7bf2738ff74c97c9385374769ca54249929",
+      "unchanged": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/shared.ts",
+      "bytes": 2712,
+      "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a",
+      "actual": {
+        "bytes": 2712,
+        "sha256": "61d036fda73aa76ff2ccd556a369e9dc5a6135a85c1f4b04a05c5ab565bbb38a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tracing/tracer.ts",
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5",
+      "actual": {
+        "bytes": 7056,
+        "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "actual": {
+        "bytes": 33076,
+        "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "actual": {
+        "bytes": 36215,
+        "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-state.ts",
+      "bytes": 7032,
+      "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2",
+      "actual": {
+        "bytes": 7032,
+        "sha256": "f2be96c39c4019e849819f416b86916c3efecec99376ed2324d1c87abfd1bfd2"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/events/session.events.ts",
+      "bytes": 42930,
+      "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c",
+      "actual": {
+        "bytes": 42930,
+        "sha256": "fdca20fec0e4ebe7d6a599d5bc92558c6fddcb78500ce39e9f5cd6a09acb986c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/types.ts",
+      "bytes": 30820,
+      "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a",
+      "actual": {
+        "bytes": 30820,
+        "sha256": "2cebe9fbc140671f51851c283e4fd58df24f36a104f5dbe970b764163386531a"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/tool-artifact-store.port.ts",
+      "bytes": 4252,
+      "sha256": "8afdc7118071c49a416cd44ec56eab189ee1bdf802a3af48065b8b9ddfa574c8",
+      "actual": {
+        "bytes": 4252,
+        "sha256": "8afdc7118071c49a416cd44ec56eab189ee1bdf802a3af48065b8b9ddfa574c8"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "actual": {
+        "bytes": 9283,
+        "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/errors/index.ts",
+      "bytes": 4087,
+      "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3",
+      "actual": {
+        "bytes": 4087,
+        "sha256": "e497688b32f8d2c0961a192fea8719dbd86aed1884e221467f26fe7c4557cee3"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/message-history.ts",
+      "bytes": 12225,
+      "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1",
+      "actual": {
+        "bytes": 12225,
+        "sha256": "2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text.ts",
+      "bytes": 7447,
+      "sha256": "75669f23f63902c6f226779d2d1aa0cef869de40ce9784f7a27faf6d35032d0e",
+      "actual": {
+        "bytes": 7447,
+        "sha256": "75669f23f63902c6f226779d2d1aa0cef869de40ce9784f7a27faf6d35032d0e"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-media-resolver.ts",
+      "bytes": 17171,
+      "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5",
+      "actual": {
+        "bytes": 17171,
+        "sha256": "584c43736a57c3aefe60853eae2a99774856fa05a3e5f8a8fb5b7243575686a5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "bytes": 1732,
+      "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4",
+      "actual": {
+        "bytes": 1732,
+        "sha256": "a940935f2d1ac6c07c17c95f60f92b3d9cdf54f1160c3a0a393b6357af75fcb4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3919,
+      "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba",
+      "actual": {
+        "bytes": 3919,
+        "sha256": "99ee13c5ba394aecc8663d48678faa160040722da44b8fcc4acdd7588be9aaba"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "bytes": 1555,
+      "sha256": "5a96166bf920a55d2cef8f0b161f913ff4e7272c84302e4377c022a6f4ed4c86",
+      "actual": {
+        "bytes": 1555,
+        "sha256": "5a96166bf920a55d2cef8f0b161f913ff4e7272c84302e4377c022a6f4ed4c86"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2135,
+      "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4",
+      "actual": {
+        "bytes": 2135,
+        "sha256": "54f95b3627e5b10c13e1aa4dee35db4655ac8837bdf3e5d17b7adb2b748ebde4"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "packages/shared/src/artifact-uri.ts",
+      "bytes": 1005,
+      "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b",
+      "actual": {
+        "bytes": 1005,
+        "sha256": "81bdf5b981be6742106a88f2606da7e824ce338b552a034196997c99191bf61b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/tools/read.ts",
+      "bytes": 10410,
+      "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c",
+      "actual": {
+        "bytes": 10410,
+        "sha256": "6917890835b7ae552fa436e296eb3d32115e194164e7e1bcef448edde9ed524c"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/deps.ts",
+      "bytes": 9333,
+      "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a",
+      "actual": {
+        "bytes": 9333,
+        "sha256": "5dd7835849d261af40bb3a1264cab1aa8fdac7ebeb6bb10b2c6eeed7d1a6833a"
+      },
+      "unchanged": true
+    }
+  ],
+  "dependencyCheck": [
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "module": "../deps.js",
+      "exists": true
+    },
+    {
+      "from": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts",
+      "module": "../deps.js",
+      "exists": true
+    }
+  ],
+  "extractionDiagnosticsQualified": true,
+  "passed": true,
+  "ordinaryTestsRun": false,
+  "buildsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}
