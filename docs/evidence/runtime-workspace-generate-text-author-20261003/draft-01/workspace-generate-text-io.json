@@ -1,0 +1,31 @@
+{
+  "inputs": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-workspace-generate-text-author-20261003/api.d.ts",
+      "sha256": "1545017a072fc43c00cb38010e6c0129c526108e4d5cd625a384851f7c7208fc",
+      "bytes": 1104
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-workspace-generate-text-author-20261003/contract.md",
+      "sha256": "14f6ce004396fd58e16509de12ab026de9412a62a34fb0d0620e448e97ed2874",
+      "bytes": 5930
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-workspace-generate-text-author-20261003/receiver-facts.md",
+      "sha256": "2deedd5789e4b99e55525d1bdb497b0b52f0f44c99d6731924400ebeef493011",
+      "bytes": 1793
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-runtime-lifecycle-five-20261003/workspace-generate-text/workspace-generate-text.ts",
+      "sha256": "42ef97969bb724a424953bceb08c151a13e5e95789ea09d3b1401c012e2bb8b4",
+      "bytes": 8084,
+      "lines": 243
+    }
+  ],
+  "checks": {
+    "line_limit": true,
+    "tests_or_builds_run": false
+  }
+}
