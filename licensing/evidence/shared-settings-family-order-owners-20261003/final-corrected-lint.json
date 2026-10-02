@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/agent-model-state.ts",
+    "packages/shared/src/model-provider-family.ts",
+    "packages/shared/src/pluginStoreOrdering.ts",
+    "packages/shared/test/shared-settings-family-order-boundaries.test.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 30ms on 4 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

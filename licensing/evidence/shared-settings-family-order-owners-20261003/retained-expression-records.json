@@ -1,0 +1,77 @@
+{
+  "files": {
+    "agent-model-state": {
+      "retainedUncounted": [
+        "imports and external types",
+        "six id/category constants",
+        "four exact fixed mode records"
+      ],
+      "requiredRecurrence": [
+        "fresh mode row shallow map/copy",
+        "Model/Mode/Thought row and key vocabulary",
+        "picker port calls and provider/name/nullish preservation",
+        "reasoning levels map, valid default membership and optional property spread",
+        "native sparse available map and thought current/default/first/empty precedence"
+      ],
+      "limit": "Small projection helper shapes necessarily recur; entire behavior authoring is a candidate, not distinctness/provenance proof."
+    },
+    "model-provider-family": {
+      "retainedUncounted": [
+        "all exported types/interfaces/imports",
+        "exact two-family exported catalogue, builtin provider IDs and static URLs",
+        "existing buildBigModelCodingPlanTeamManageUrl({ KNORVIA_ENV }) catalogue initializer"
+      ],
+      "requiredRecurrence": [
+        "module-init family/provider maps and shared catalogue reference",
+        "new URL(...).hostname.toLowerCase() and root/dot-subdomain predicate",
+        "exact zai/bigmodel normalization and oauth mapping",
+        "domain/unknown filters and delegated activeOAuth/builtin convenience functions"
+      ],
+      "limit": "Several short wrappers/normalization expressions remain identical or close to baseline; static imported environment/endpoint ports are not freshly authored or integration-validated."
+    },
+    "pluginStoreOrdering": {
+      "retainedUncounted": [
+        "public declarations/private entry interface/imports",
+        "fallback other/category list",
+        "official document ID priority vocabulary"
+      ],
+      "requiredRecurrence": [
+        "first unique rank by map size",
+        "missing rank map size difference",
+        "guide/category normalization and current exported default table positions",
+        "config category/default category/plugin/document/name/index comparison priority",
+        "native sparse map/sort/map and projected row insertion/spread behavior"
+      ],
+      "limit": "Rank/ordering control structure and fixed comparator precedence recur. No novelty requirement or independent licence conclusion."
+    },
+    "remoteAppConfig": {
+      "retainedUncounted": [
+        "imports/types/interfaces",
+        "field/locale vocabulary"
+      ],
+      "requiredRecurrence": [
+        "nonnull object acceptance includes arrays",
+        "original nonblank string return; trim only minimum version",
+        "true boolean or exact true string flag",
+        "two community keys present even undefined",
+        "remote then local same-language nullish fallback"
+      ],
+      "limit": "Several simple getter predicates and fallback expressions match baseline; validation semantics intentionally retained, not hardened."
+    },
+    "plan-identity": {
+      "retainedUncounted": [
+        "imports/public parameter and return contracts",
+        "four plan statuses and reason vocabulary"
+      ],
+      "requiredRecurrence": [
+        "caller now-generatedAt > TTL predicate",
+        "authenticated and unavailable reason admission order",
+        "explicit no_plan before truthy quota/subscription/remaining",
+        "first subscription product nullish empty fallback",
+        "coding active/unknown short-circuit before start and fresh snapshot keys"
+      ],
+      "limit": "Ordered entitlement classification predicates and branches recur; no live account/auth authorization or native clock claim."
+    }
+  },
+  "globalLimit": "Exact contracts supplied by source-exposed curator; retained-expression records describe constraints/recurrence, not an accepted independent reconstruction receipt. No MIT claim."
+}

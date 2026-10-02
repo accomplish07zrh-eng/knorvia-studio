@@ -1,0 +1,57 @@
+[
+  {
+    "path": "packages/shared/src/agent-model-state.ts",
+    "baselineSha256": "4745b5f1f7c348bee33058d362546a75d4e951159ebd778f6c46295910deb2a3",
+    "initialRawFrozenSha256": "fa8d959d2d11f659f79bda58f28f577fa2e9560e1d64ba984c8d7631fc40e33c",
+    "selectedRawFrozenSha256": "5d3b2107f6e36df42c9c9487bb2550be97ad00d6ae832336e7de5546d2c331e4",
+    "selectedFreeze": "/tmp/knorvia-shared-settings-family-order-freezes/corrected-agent-model-state.ts",
+    "formattedFrozenSha256": "33e9c5213e6d5bc0963f383f5066355b743da2abdb4f053fbaf160f592f81e62",
+    "installedSha256": "33e9c5213e6d5bc0963f383f5066355b743da2abdb4f053fbaf160f592f81e62",
+    "wholeFormattedSelectedFreezeMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/model-provider-family.ts",
+    "baselineSha256": "4d18d78a81a7d1ecd6c972662cb8cfce2fd72411d48dc8feca125b0143ee3fb3",
+    "initialRawFrozenSha256": "70f0617b9ca627a6e1f0717ee5110a12848687adb3fc91662fbc98fa345b9ae8",
+    "selectedRawFrozenSha256": "405bf04a349e99f44b72ab221ab1638f7daa816a04d3d39c56b23a9495daf449",
+    "selectedFreeze": "/tmp/knorvia-shared-settings-family-order-freezes/corrected-model-provider-family.ts",
+    "formattedFrozenSha256": "e1c4a2695042d1305af4f8b40a3d2780c78b6ef6dbacc1a2b0722cecff947a93",
+    "installedSha256": "e1c4a2695042d1305af4f8b40a3d2780c78b6ef6dbacc1a2b0722cecff947a93",
+    "wholeFormattedSelectedFreezeMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/pluginStoreOrdering.ts",
+    "baselineSha256": "05ece6d82b23b0da3160e730a239bde7f36f281307b526f894e85164af6f77b5",
+    "initialRawFrozenSha256": "3b586517b3a0fe479fef11c3ae7ab59282cafb05c4986c28820db79a62c5991d",
+    "selectedRawFrozenSha256": "f7918d57fa2ee63c4dd0d2cb99d06eb6f119ae085dcea190659ef1f0df08c345",
+    "selectedFreeze": "/tmp/knorvia-shared-settings-family-order-freezes/corrected-pluginStoreOrdering.ts",
+    "formattedFrozenSha256": "1207f4add81f87c7f75357618371952c9624840a296916b6ba9be988406f7804",
+    "installedSha256": "1207f4add81f87c7f75357618371952c9624840a296916b6ba9be988406f7804",
+    "wholeFormattedSelectedFreezeMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/remoteAppConfig.ts",
+    "baselineSha256": "de7ab8ccb11701eb44642531808831321f9b95fa21b70f8d9436f139917681b8",
+    "initialRawFrozenSha256": "8b0cef024420ff98bd91bd3912873030151267043a7da52e7a3bd4f6214135ad",
+    "selectedRawFrozenSha256": "8b0cef024420ff98bd91bd3912873030151267043a7da52e7a3bd4f6214135ad",
+    "selectedFreeze": "/tmp/knorvia-shared-settings-family-order-freezes/initial-remoteAppConfig.ts",
+    "formattedFrozenSha256": "c6c0c5ea3415d45ff4ba356d6059f22eff4d802ea13253aea96697088960f1a6",
+    "installedSha256": "c6c0c5ea3415d45ff4ba356d6059f22eff4d802ea13253aea96697088960f1a6",
+    "wholeFormattedSelectedFreezeMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  },
+  {
+    "path": "packages/shared/src/plan-identity.ts",
+    "baselineSha256": "8ad7c90d3fd7a9b52ac0594a0fb2de92f0b389d11481532ba921350d7bbd57c8",
+    "initialRawFrozenSha256": "7db8a695e23698303029eb5cb80ac01be3b166edc31d721892041407627659e2",
+    "selectedRawFrozenSha256": "7db8a695e23698303029eb5cb80ac01be3b166edc31d721892041407627659e2",
+    "selectedFreeze": "/tmp/knorvia-shared-settings-family-order-freezes/initial-plan-identity.ts",
+    "formattedFrozenSha256": "8a589ba5b0851e8cff9f7100d8356d2c7ecdfd1f0a1dd4acc6af669e95c0ceb5",
+    "installedSha256": "8a589ba5b0851e8cff9f7100d8356d2c7ecdfd1f0a1dd4acc6af669e95c0ceb5",
+    "wholeFormattedSelectedFreezeMatchesInstalled": true,
+    "curatorRuntimeEdits": false
+  }
+]

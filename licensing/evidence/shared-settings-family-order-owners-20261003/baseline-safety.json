@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/shared/test/shared-settings-family-order-boundaries.test.mjs",
+    "/tmp/knorvia-shared-settings-family-order-baseline"
+  ],
+  "stdout": "\u2714 settings projection preserves identity bytes, owned choices and empty/default admission (12.677985ms)\n\u2714 family classification preserves catalogue identity and exact domain boundaries without account access (5.431366ms)\n\u2714 plugin ordering preserves configured duplicate ranks, exact official IDs and stable item references (9.001049ms)\n\u2714 config admission retains URL bytes, array records, exact flags and same-language fallback (2.506944ms)\n\u2714 entitlement identity preserves TTL boundary, coding authority and explicit no-plan precedence (3.708012ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 37.817488\n",
+  "stderr": "",
+  "exitCode": 0
+}

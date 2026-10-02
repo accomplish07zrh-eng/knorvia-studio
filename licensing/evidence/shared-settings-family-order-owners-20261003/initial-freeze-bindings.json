@@ -1,0 +1,32 @@
+[
+  {
+    "path": "packages/shared/src/agent-model-state.ts",
+    "authorOutput": "/tmp/knorvia-settings-agent-model-state-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/initial-agent-model-state.ts",
+    "sha256": "fa8d959d2d11f659f79bda58f28f577fa2e9560e1d64ba984c8d7631fc40e33c"
+  },
+  {
+    "path": "packages/shared/src/model-provider-family.ts",
+    "authorOutput": "/tmp/knorvia-settings-model-provider-family-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/initial-model-provider-family.ts",
+    "sha256": "70f0617b9ca627a6e1f0717ee5110a12848687adb3fc91662fbc98fa345b9ae8"
+  },
+  {
+    "path": "packages/shared/src/pluginStoreOrdering.ts",
+    "authorOutput": "/tmp/knorvia-settings-pluginStoreOrdering-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/initial-pluginStoreOrdering.ts",
+    "sha256": "3b586517b3a0fe479fef11c3ae7ab59282cafb05c4986c28820db79a62c5991d"
+  },
+  {
+    "path": "packages/shared/src/remoteAppConfig.ts",
+    "authorOutput": "/tmp/knorvia-settings-remoteAppConfig-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/initial-remoteAppConfig.ts",
+    "sha256": "8b0cef024420ff98bd91bd3912873030151267043a7da52e7a3bd4f6214135ad"
+  },
+  {
+    "path": "packages/shared/src/plan-identity.ts",
+    "authorOutput": "/tmp/knorvia-settings-plan-identity-authored.ts",
+    "frozenBeforeOpening": "/tmp/knorvia-shared-settings-family-order-freezes/initial-plan-identity.ts",
+    "sha256": "7db8a695e23698303029eb5cb80ac01be3b166edc31d721892041407627659e2"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node",
+    "--test-name-pattern",
+    "^settings projection",
+    "packages/shared/test/shared-settings-family-order-boundaries.test.mjs",
+    "/tmp/knorvia-shared-settings-family-order-baseline"
+  ],
+  "stdout": "\u2714 settings projection preserves identity bytes, owned choices and empty/default admission (12.091833ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 16.092016\n",
+  "stderr": "",
+  "exitCode": 0
+}
