@@ -1,0 +1,24 @@
+{
+  "recordedAtUtc": "2026-10-02T19:46:23.045513+00:00",
+  "originalPacket": "49ca0267",
+  "finding": "Capability author flagged ambiguous four omitted/retained counters wording before source freeze. The intended exact counter keys are five, including omittedMediaCount. Original contract and output-data unchanged.",
+  "logFieldsAfterTraceSpread": [
+    "event",
+    "model",
+    "module",
+    "omittedImageCount",
+    "omittedMediaCount",
+    "omittedPdfCount",
+    "omittedVideoCount",
+    "retainedMediaCount",
+    "status"
+  ],
+  "counterFields": [
+    "omittedImageCount",
+    "omittedMediaCount",
+    "omittedPdfCount",
+    "omittedVideoCount",
+    "retainedMediaCount"
+  ],
+  "noBodySupplied": true
+}
