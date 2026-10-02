@@ -1,0 +1,147 @@
+[
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/critic-loop.ts",
+    "bytes": 7309,
+    "sha256": "e1bed6c8ce4a2a1f43a27449bdd74cc9714a2dfd11a292f27a9af949e0b33c57"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/failures.ts",
+    "bytes": 5213,
+    "sha256": "9e105ff59e071e4531d16aa8222d7219b6e0598a7211885e631fea5980d79d69"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/formatters.ts",
+    "bytes": 1289,
+    "sha256": "bc8de5bea478f410cb955186f7f487acfd95fa6ff74c394c806f1938e35711d5"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts",
+    "bytes": 5134,
+    "sha256": "3c5e20261bbdade712a2886ea9ff585f3ca064e53996a0e061982ae22ef4a670"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/ids.ts",
+    "bytes": 1035,
+    "sha256": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts",
+    "bytes": 3796,
+    "sha256": "d9c6980a73c6f0a4080a3ba34138266cbf57c4c649e94fa9eb11b08e6d758a27"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+    "bytes": 6404,
+    "sha256": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+    "bytes": 2723,
+    "sha256": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+    "bytes": 2901,
+    "sha256": "454a1f0ed323844ea8db92fc99058c5391c8dc5fad16dab4dad2e79485146ead"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts",
+    "bytes": 1367,
+    "sha256": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/phase-runner.ts",
+    "bytes": 7879,
+    "sha256": "c4f121a7e682cc41dc0a64834e6bb3f178046b858e1862834e7703dbee7c2399"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/prompts.ts",
+    "bytes": 7870,
+    "sha256": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/retry-state.ts",
+    "bytes": 2931,
+    "sha256": "2d9335dbeb4bacc032eddf51188f84785f7a8e23f434fe570cbd61bde04f76c0"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/run-loop.ts",
+    "bytes": 6430,
+    "sha256": "b1e221f39cd27f7f2f1ca117de56e959482c9bfff3438d0c5f32c9a89eb98f43"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+    "bytes": 10424,
+    "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/runtime.ts",
+    "bytes": 9164,
+    "sha256": "bece27fb3ccfad3de3fc8fc7789cc3b1f188ad0db4755ad5b73420dc991e8f92"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+    "bytes": 5478,
+    "sha256": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert/types.ts",
+    "bytes": 3211,
+    "sha256": "80bd5a6caacdd6958dd252622241d4438e3ed420ef16cd28eae68f90829cf305"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/expert.ts",
+    "bytes": 897,
+    "sha256": "1dd5a087cada3a34c2b8dd5fec49c570ddc47f7d5601674c2e852e3a6683d4ac"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+    "bytes": 2636,
+    "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+    "bytes": 11883,
+    "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts",
+    "bytes": 434,
+    "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+    "bytes": 3724,
+    "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+    "bytes": 7567,
+    "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+    "bytes": 12352,
+    "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+    "bytes": 5249,
+    "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+    "bytes": 3275,
+    "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/types.ts",
+    "bytes": 4401,
+    "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+  },
+  {
+    "path": "apps/cli/packages/core/src/workflow/scheduler.ts",
+    "bytes": 7810,
+    "sha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330"
+  }
+]

@@ -1,0 +1,70 @@
+{
+  "frozenAtUtc": "2026-10-02T18:26:28.001513+00:00",
+  "baseline": "448a1707d357ddd4fa2b9c847dc9faf440922474",
+  "owners": [
+    "apps/cli/packages/core/src/workflow/lifecycle.ts",
+    "apps/cli/packages/core/src/workflow/definition.ts"
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/lifecycle-definition-author-packet-20261003/contract.md",
+      "bytes": 17729,
+      "sha256": "7ea37c1b8ee9a3d3694ddb473fd624a5091273633db3f54d1cd797b664113ad5"
+    },
+    {
+      "path": "docs/evidence/lifecycle-definition-author-packet-20261003/lifecycle-public-api.d.ts",
+      "bytes": 2921,
+      "sha256": "a91f37906d60491d9c5feb1eb41402c090501e9e7e0076e9105382f0c1deda43"
+    },
+    {
+      "path": "docs/evidence/lifecycle-definition-author-packet-20261003/definition-public-api.d.ts",
+      "bytes": 578,
+      "sha256": "0db3c84181f275695d2c654b671123b8310aa1714aa3e6b4850276de890243d8"
+    },
+    {
+      "path": "docs/evidence/lifecycle-definition-author-packet-20261003/dependency-api.d.ts",
+      "bytes": 892,
+      "sha256": "909e4a5f5971d00e46943af69d972a5fa8515e68dc58fbfe6f50613a00cd1ee1"
+    },
+    {
+      "path": "docs/evidence/lifecycle-definition-author-packet-20261003/public-data-shapes.md",
+      "bytes": 4567,
+      "sha256": "51466733429bd3c7b1e04fc4f2f2250df7f22cbca063f2887b22f5157432b8dd"
+    },
+    {
+      "path": "docs/evidence/lifecycle-definition-author-packet-20261003/retained-configuration.json",
+      "bytes": 3726,
+      "sha256": "d6ad77fdd6dc5e65e19e11b893171e914c77406094c8c24efd6d1dc32c6d54ff"
+    }
+  ],
+  "sources": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "bytes": 17946,
+      "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f",
+      "gitBlob": "17d82c262e531879a9bc36f3c3baa6df8f3998c2"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/definition.ts",
+      "bytes": 3975,
+      "sha256": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6",
+      "gitBlob": "2dfeb50b7e620fe208c447b7c6f4763e472e3f09"
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/workflow/index.ts",
+      "bytes": 28035,
+      "sha256": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62",
+      "gitBlob": "19014a9700639cd4ad75ecbc62be2dd294fca781"
+    }
+  ],
+  "curatorExposure": "Read complete inherited lifecycle/definition owners, directly referenced public workflow schema/declaration surfaces, bounded caller resume/cancel/seed/prompt persistence-order snippets and earlier architecture-tooling failure; no bodies provided to author. Curator is source-exposed.",
+  "retainedBoundaries": [
+    "Public lifecycle interfaces/export signatures",
+    "Definition primitive constants/default strategy/phase configuration/prose",
+    "Existing public workflow schema and session-link derivation collaborator",
+    "All scheduler/A expert and other-lane source untouched"
+  ],
+  "publicDeclarationExtraction": "TypeScript6.0.2; zero lifecycle/definition extraction diagnostics; not project compilation",
+  "testsRun": false,
+  "osIsolated": false
+}
