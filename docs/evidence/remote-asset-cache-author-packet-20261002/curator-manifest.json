@@ -1,0 +1,75 @@
+{
+  "frozenAtUtc": "2026-10-02T16:50:18.529029+00:00",
+  "baseline": "674370592f06ac69996dbac08b3c0f4210983f61",
+  "repository": "https://github.com/accomplish07zrh-eng/knorvia-studio.git",
+  "owner": "packages/server/src/remote/remoteAssetCache.ts",
+  "scope": "API/behavior-only packet for root personally authoring sixth lane; no implementation authored or changed",
+  "curatorSourceExposure": "Curator read complete inherited owner and CDN/network dependency implementations, plus fileExists and extractor signature/entry context. No test bodies or history needed. No source bodies/commentary included in author inputs.",
+  "authorInputs": [
+    {
+      "path": "docs/evidence/remote-asset-cache-author-packet-20261002/contract.md",
+      "bytes": 23131,
+      "sha256": "75a5c9e20f1d1367b5020ee6d7bd865c20b235891f1bf14bf4709833643abb6f"
+    },
+    {
+      "path": "docs/evidence/remote-asset-cache-author-packet-20261002/public-api.d.ts",
+      "bytes": 2494,
+      "sha256": "794a92db2912410a8747f377512312e75a2cf1e65f6ded1863f9342edc860fda"
+    },
+    {
+      "path": "docs/evidence/remote-asset-cache-author-packet-20261002/dependency-signatures.d.ts",
+      "bytes": 1346,
+      "sha256": "f3d68a951adbcb7224cf9c5eb81880f1771437e93209fbf784db276ff373783d"
+    },
+    {
+      "path": "docs/evidence/remote-asset-cache-author-packet-20261002/messages.md",
+      "bytes": 6180,
+      "sha256": "58c09d25918cd6f8fc4c6fac3c6c4eff9fa751dbb383cde64ce1e2ae996a0c42"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/server/src/remote/remoteAssetCache.ts",
+      "bytes": 64276,
+      "sha256": "28d4d2f5d323c49a866832f3233df4dbdfff5cf4c9ec145586077c44a06ced98",
+      "gitBlob": "99a6c17f195880e9e660e86be5aebedc2ca39e35"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetCdn.ts",
+      "bytes": 7457,
+      "sha256": "6a81f481fafa55be55fcbe3bc1d14172e66938390002ffd0d51ccff2f1bf9db9",
+      "gitBlob": "523e69802bff711550b4c5494208a4b83221a30c"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetNetwork.ts",
+      "bytes": 451,
+      "sha256": "242a6c493e341edafa5fc63e090921add37ee25795de108a21b741620b45d613",
+      "gitBlob": "b3685569d411a4c82d302c1ec7161fa39e90f7e7"
+    },
+    {
+      "path": "packages/server/src/remote/deployShared.ts",
+      "bytes": 4645,
+      "sha256": "3ad344414f32c687f2d8921defbd81c9b91ccc1ac161407c1bede6fcc75f14a2",
+      "gitBlob": "f119cd07af48f78a2d52fede8b703ef36c657a6b"
+    },
+    {
+      "path": "packages/server/src/remote/localTarGz.ts",
+      "bytes": 13395,
+      "sha256": "e522010113d70d521323c68819d3b30de182c37a6129fe61646000a7614baedb",
+      "gitBlob": "c8e8da8b23174eaf8e9aa000df658545a8b712cb"
+    }
+  ],
+  "declarations": {
+    "tool": "TypeScript 6.0.2 transpileDeclaration, removeComments=true",
+    "limitation": "Declaration extraction only, not project typecheck. Emitted API timeoutMs?: number matches numeric default. Isolated-declaration diagnostic 9011: Parameter must have an explicit type annotation with --isolatedDeclarations.",
+    "preparationFailure": "First diagnostic-serialization attempt failed TypeError: Converting circular structure to JSON; no input artifact written by that attempt. Retried with plain diagnostic projection; preserved result and limitation here."
+  },
+  "notRun": [
+    "runtime tests",
+    "project typechecks",
+    "broad builds",
+    "external material fetches"
+  ],
+  "noCrossLaneIntegration": true,
+  "cancelledRootUploadRetried": false
+}
