@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { createRequire } from "node:module";
 import test from "node:test";
 const core = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, core), "utf8");
@@ -16,7 +15,7 @@ for (const [name, pin] of [
 ])
   assert.equal(sha(archive[name]), archive[pin]);
 const currentText = await read("test/workflow-phase-runner-current.json");
-assert.equal(sha(currentText), "CURRENT_HASH");
+assert.equal(sha(currentText), "71f309c2e9fdf191b2098808259b5382f39626f92a91ee7680301249e8e60ae5");
 const { files } = JSON.parse(currentText);
 async function select(reader = read) {
   for (const [path, digest] of Object.entries(files))
@@ -24,13 +23,12 @@ async function select(reader = read) {
   return import(new URL("dist/workflow/expert/phase-runner.js", core));
 }
 const current = await select();
-const resolve = createRequire(new URL("package.json", core)).resolve;
 const data = (text) => `data:text/javascript;base64,${Buffer.from(text).toString("base64")}`;
 function bind(text, overrides = {}) {
   return text.replace(
     /from "([^"]+)"/gu,
     (_, path) =>
-      `from ${JSON.stringify(overrides[path] ?? (path.startsWith(".") ? new URL(`dist/workflow/expert/${path}`, core).href : new URL(`file://${resolve(path)}`).href))}`,
+      `from ${JSON.stringify(overrides[path] ?? (path.startsWith(".") ? new URL(`dist/workflow/expert/${path}`, core).href : import.meta.resolve(path)))}`,
   );
 }
 const oldUrl = data(bind(archive.compiled));

@@ -13,7 +13,7 @@ export async function runPhase(
 ): Promise<ExpertPhaseRunResult> {
   const activityId = ctx.createActivityId();
   const inputArtifactPaths = snapshot.artifacts.map((artifact) => artifact.path);
-  const phaseTraceContext = options.traceContext
+  const traceContext = options.traceContext
     ? createChildTraceContext(options.traceContext, {
         attributes: {
           workflowActivityId: activityId,
@@ -24,60 +24,61 @@ export async function runPhase(
         sessionId: options.traceContext.sessionId,
       })
     : undefined;
-  const active = ctx.updatePhase(snapshot, definition.phase, {
+
+  const activation = ctx.updatePhase(snapshot, definition.phase, {
     activityId,
     error: undefined,
     startedAt: ctx.timestamp(),
     status: "active",
-    traceId: phaseTraceContext?.traceId,
+    traceId: traceContext?.traceId,
   });
-  const activeWithActivity = ctx.upsertActivity(active, {
+  const activeSnapshot = ctx.upsertActivity(activation, {
     activityId,
     inputArtifactPaths,
     kind: "agent_session",
     nodeId: phaseNodeId(definition.phase),
     outputArtifactPaths: [],
-    parentSessionId: active.sessionId,
+    parentSessionId: activation.sessionId,
     phase: definition.phase,
     startedAt: ctx.timestamp(),
     status: "active",
-    traceId: phaseTraceContext?.traceId,
+    traceId: traceContext?.traceId,
   });
-  await ctx.store.writeSnapshot(activeWithActivity, { signal: options.abortSignal });
-  await ctx.appendGraphStatus(active, definition.phase, "active", options.abortSignal);
-  await ctx.appendEvent(active.runId, "phase_started", {
+
+  await ctx.store.writeSnapshot(activeSnapshot, { signal: options.abortSignal });
+  await ctx.appendGraphStatus(activation, definition.phase, "active", options.abortSignal);
+  await ctx.appendEvent(activation.runId, "phase_started", {
     message: `${definition.title} started.`,
     phase: definition.phase,
     signal: options.abortSignal,
   });
-  let runningSnapshot = activeWithActivity;
 
+  let cursor = activeSnapshot;
   try {
     const result = await ctx.agentRunner.run({
       abortSignal: options.abortSignal,
       activityId,
       cwd: options.cwd,
       onChildSessionStarted: async (event) => {
-        const currentActivity = runningSnapshot.activities.find(
-          (activity) => activity.activityId === activityId,
-        );
-        if (!currentActivity || currentActivity.status !== "active") return;
-        runningSnapshot = ctx.upsertActivity(
-          ctx.updatePhase(runningSnapshot, definition.phase, {
-            sessionId: event.sessionId,
-            traceId: event.traceId ?? currentActivity.traceId,
-            turnId: event.turnId ?? currentActivity.turnId,
-          }),
-          {
-            ...currentActivity,
-            ...(event.model ? { model: event.model } : {}),
-            sessionId: event.sessionId,
-            traceId: event.traceId ?? currentActivity.traceId,
-            turnId: event.turnId ?? currentActivity.turnId,
-          },
-        );
-        await ctx.store.writeSnapshot(runningSnapshot, { signal: options.abortSignal });
-        await ctx.appendEvent(runningSnapshot.runId, "workflow_session_linked", {
+        const current = cursor.activities.find((activity) => activity.activityId === activityId);
+        if (!current || current.status !== "active") {
+          return;
+        }
+
+        const linkedPhase = ctx.updatePhase(cursor, definition.phase, {
+          sessionId: event.sessionId,
+          traceId: event.traceId ?? current.traceId,
+          turnId: event.turnId ?? current.turnId,
+        });
+        cursor = ctx.upsertActivity(linkedPhase, {
+          ...current,
+          ...(event.model ? { model: event.model } : {}),
+          sessionId: event.sessionId,
+          traceId: event.traceId ?? current.traceId,
+          turnId: event.turnId ?? current.turnId,
+        });
+        await ctx.store.writeSnapshot(cursor, { signal: options.abortSignal });
+        await ctx.appendEvent(cursor.runId, "workflow_session_linked", {
           message: `Workflow session linked: ${event.sessionId}`,
           nodeId: phaseNodeId(definition.phase),
           payload: {
@@ -92,28 +93,32 @@ export async function runPhase(
         });
       },
       onEvent: options.onEvent,
-      parentSessionId: active.sessionId,
+      parentSessionId: activation.sessionId,
       phase: definition.phase,
-      prompt: buildPhasePrompt(runningSnapshot, definition),
-      runId: active.runId,
-      task: active.task,
-      traceContext: phaseTraceContext,
+      prompt: buildPhasePrompt(cursor, definition),
+      runId: activation.runId,
+      task: activation.task,
+      traceContext,
       workflowKind: ctx.definition.kind,
     });
+
     const artifactPath = definition.artifactPath ?? `artifacts/${definition.phase}.md`;
-    const artifact = await ctx.store.writeArtifact(active.runId, artifactPath, result.response, {
-      signal: options.abortSignal,
-    });
-    const completed = ctx.updatePhase(runningSnapshot, definition.phase, {
+    const artifact = await ctx.store.writeArtifact(
+      activation.runId,
+      artifactPath,
+      result.response,
+      { signal: options.abortSignal },
+    );
+    const completedPhase = ctx.updatePhase(cursor, definition.phase, {
       activityId,
       artifactPath: artifact.relativePath,
       completedAt: ctx.timestamp(),
       sessionId: result.sessionId,
       status: "completed",
-      traceId: result.traceId ?? phaseTraceContext?.traceId,
+      traceId: result.traceId ?? traceContext?.traceId,
       turnId: result.turnId,
     });
-    const completedWithActivity = ctx.upsertActivity(completed, {
+    const completedActivity = ctx.upsertActivity(completedPhase, {
       activityId,
       artifactPath: artifact.relativePath,
       completedAt: ctx.timestamp(),
@@ -122,51 +127,60 @@ export async function runPhase(
       ...(result.model ? { model: result.model } : {}),
       nodeId: phaseNodeId(definition.phase),
       outputArtifactPaths: [artifact.relativePath],
-      parentSessionId: active.sessionId,
+      parentSessionId: activation.sessionId,
       phase: definition.phase,
       sessionId: result.sessionId,
       startedAt:
-        runningSnapshot.activities.find((activity) => activity.activityId === activityId)
-          ?.startedAt ?? ctx.timestamp(),
+        cursor.activities.find((activity) => activity.activityId === activityId)?.startedAt ??
+        ctx.timestamp(),
       status: "completed",
-      traceId: result.traceId ?? phaseTraceContext?.traceId,
+      traceId: result.traceId ?? traceContext?.traceId,
       turnId: result.turnId,
     });
-    const withArtifact = ctx.addArtifact(completedWithActivity, {
+    const completedSnapshot = ctx.addArtifact(completedActivity, {
       contentType: "text/markdown",
       createdAt: ctx.timestamp(),
       label: definition.title,
       path: artifact.relativePath,
       phase: definition.phase,
     });
-    await ctx.store.writeSnapshot(withArtifact, { signal: options.abortSignal });
-    await ctx.appendGraphStatus(withArtifact, definition.phase, "completed", options.abortSignal);
-    await ctx.appendEvent(withArtifact.runId, "artifact_written", {
+
+    await ctx.store.writeSnapshot(completedSnapshot, {
+      signal: options.abortSignal,
+    });
+    await ctx.appendGraphStatus(
+      completedSnapshot,
+      definition.phase,
+      "completed",
+      options.abortSignal,
+    );
+    await ctx.appendEvent(completedSnapshot.runId, "artifact_written", {
       message: `Artifact written: ${artifact.relativePath}`,
       phase: definition.phase,
       signal: options.abortSignal,
     });
-    await ctx.appendEvent(withArtifact.runId, "phase_completed", {
+    await ctx.appendEvent(completedSnapshot.runId, "phase_completed", {
       message: `${definition.title} completed.`,
       phase: definition.phase,
       signal: options.abortSignal,
     });
-    return { response: result.response, snapshot: withArtifact };
+    return { response: result.response, snapshot: completedSnapshot };
   } catch (error) {
     if (options.abortSignal?.aborted) {
       throw error;
     }
+
     const errorMessage = error instanceof Error ? error.message : String(error);
-    const currentActivity = runningSnapshot.activities.find(
+    const currentActivity = cursor.activities.find(
       (activity) => activity.activityId === activityId,
     );
-    const failed = ctx.updatePhase(runningSnapshot, definition.phase, {
+    const failedPhase = ctx.updatePhase(cursor, definition.phase, {
       activityId,
       completedAt: ctx.timestamp(),
       error: errorMessage,
       status: "failed",
     });
-    const failedWithActivity = ctx.upsertActivity(failed, {
+    const failedSnapshot = ctx.upsertActivity(failedPhase, {
       activityId,
       completedAt: ctx.timestamp(),
       error: errorMessage,
@@ -175,22 +189,18 @@ export async function runPhase(
       ...(currentActivity?.model ? { model: currentActivity.model } : {}),
       nodeId: phaseNodeId(definition.phase),
       outputArtifactPaths: [],
-      parentSessionId: active.sessionId,
+      parentSessionId: activation.sessionId,
       phase: definition.phase,
       ...(currentActivity?.sessionId ? { sessionId: currentActivity.sessionId } : {}),
       startedAt: currentActivity?.startedAt ?? ctx.timestamp(),
       status: "failed",
-      traceId: currentActivity?.traceId ?? phaseTraceContext?.traceId,
+      traceId: currentActivity?.traceId ?? traceContext?.traceId,
       ...(currentActivity?.turnId ? { turnId: currentActivity.turnId } : {}),
     });
-    await ctx.store.writeSnapshot(failedWithActivity, { signal: options.abortSignal });
-    await ctx.appendGraphStatus(
-      failedWithActivity,
-      definition.phase,
-      "failed",
-      options.abortSignal,
-    );
-    await ctx.appendEvent(failedWithActivity.runId, "phase_failed", {
+
+    await ctx.store.writeSnapshot(failedSnapshot, { signal: options.abortSignal });
+    await ctx.appendGraphStatus(failedSnapshot, definition.phase, "failed", options.abortSignal);
+    await ctx.appendEvent(failedSnapshot.runId, "phase_failed", {
       message: errorMessage,
       phase: definition.phase,
       signal: options.abortSignal,
