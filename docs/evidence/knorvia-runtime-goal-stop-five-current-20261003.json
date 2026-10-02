@@ -1,0 +1,76 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "typescript": "6.0.2",
+  "files": {
+    "target": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/target.ts",
+        "sha256": "103f776222a7eb7e7bd9441260fd9f75ca3438ca40576512e2aa05b91d9ce6c4"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/target.js",
+        "sha256": "74e072d533cf5dfd88d719bdb13e35a4e3cfa4df11614bb18d4c72f2a605318c"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/target.d.ts",
+        "sha256": "f194f3ce4ab4c97e0d57b99641f91ea1268561588af0915b84a79293412b87e5"
+      }
+    },
+    "goal-summary-title": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/goal-summary-title.ts",
+        "sha256": "a342fccd89dc3f7898b37efdc548d367ce9522a617fe1fb799e8d771d50895c6"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/goal-summary-title.js",
+        "sha256": "58e7793535c361bd1b9093cdb9764346381793dc94c442025f65f97ea4d695bf"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/goal-summary-title.d.ts",
+        "sha256": "8e6078b42f7fdb4235f2bd260a852795f90f3f1adb7468f9b4ec8fed8e44af77"
+      }
+    },
+    "turn-stop": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-stop.ts",
+        "sha256": "5d10dabc4dbfd1b378ffa88033d2e914ba08534199cdf83fae6a5fabe1a71471"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-stop.js",
+        "sha256": "cb561b122dd96e980c86549f6d019456f011ad6d40f536aec1b14cdaf943d65f"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-stop.d.ts",
+        "sha256": "18d549e14452652fc6110376c3f872a173ba40c57164ba369c5ee81c94c5f4e2"
+      }
+    },
+    "subagent-messages": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+        "sha256": "052092922991e2e4539b9878f3c366c6d26039c5ce72c45f63af1cb78581a088"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent-messages.js",
+        "sha256": "a682358ce2e57cd483b9d485b5537f41fc300253d1d620ccf5cc943af2e77774"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/subagent-messages.d.ts",
+        "sha256": "e46e672f3bcf27faf9982327ae15f16d3a8fa801c3f2d71de6c35d24cc489ab3"
+      }
+    },
+    "control-only-turn": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/control-only-turn.ts",
+        "sha256": "9ba50ef86a9fda3f0c234fbb242f4d6dc0bfa603cdde5ec4a3d9b0ec26937383"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/control-only-turn.js",
+        "sha256": "3eeca785d2798ce841994a0ad49213815fcc16f0ddfb7ec6c43a8e367470dc64"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/control-only-turn.d.ts",
+        "sha256": "a8d59c2fab26d3f1075df6922263c3372e8bad851233ea458b9e2761a9636705"
+      }
+    }
+  }
+}
