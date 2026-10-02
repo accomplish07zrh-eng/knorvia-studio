@@ -1,0 +1,24 @@
+{
+  "scope": "image-v2",
+  "files": [
+    {
+      "file": "image-normalization.ts.txt",
+      "target": "apps/cli/packages/core/src/mcp/image-normalization.ts",
+      "bytes": 11114,
+      "lines": 310,
+      "sha256": "fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1",
+      "scratch": "/tmp/knorvia-mcp-owners-20261003/image-v2/image-normalization.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 29458,
+      "lines": 510,
+      "sha256": "479e5ba740a2e03876a3f482218420831ce8a9a2fa280b6201e2d217f9c77291",
+      "scratch": "/tmp/knorvia-mcp-owners-20261003/image-v2/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "Whole same-author v2 and full cumulative receipt archived before body review; original full drafts/failures remain, no curator source patch."
+}
