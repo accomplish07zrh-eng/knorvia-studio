@@ -1,0 +1,54 @@
+{
+  "baseline": "735395542692589c572bd5c0941b27ce872f92de",
+  "reviewedAt": "2026-10-02T22:34:52.431429+00:00",
+  "targets": [
+    {
+      "scope": "attachment",
+      "target": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "archive": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment-v2/prompt-attachment.ts.txt",
+      "bytes": 3410,
+      "lines": 86,
+      "sha256": "0a42762c74366ea0e2012ffbce960db14b75d7649a24614c669711346a457f33",
+      "authorRecord": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment-v2/author-record.json",
+      "authorRecordBytes": 16685,
+      "authorRecordSha256": "b927ebaa60c354c3d463f56793f00d73e1ac2665a31c1794965d220e5f3eadb8",
+      "staticReview": "docs/evidence/core-prompt-attachment-owner-review-20261003/attachment-v2-static.json",
+      "staticReviewSha256": "b8f06f3dc850e52f651a9df44292dbc5a511493512041911bbc89c9ee2239409",
+      "original": {
+        "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+        "bytes": 5540,
+        "lines": 170,
+        "sha256": "6ccc10bd8d6cb96e17e0b27b021d79facdb0ccea7bc2aae62edfd442a71ad43a",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/system-reminder/prompt-attachment.ts",
+          "blob": "c617652e6fa7c53827af991d0d549cffcd2aa767",
+          "normalizedSha256": "d02ecba05443467b07d1fdca1f3fca34ded345761d974bb012cd47777f3c6032",
+          "contentMatchedPaths": []
+        },
+        "priorMetadataExact": true,
+        "availableHistory": [
+          "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+        ],
+        "decision": "selected substantive prompt attachment projection owner"
+      }
+    }
+  ],
+  "reviewEvidence": [
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/retained-data-v2.json",
+      "sha256": "1b29343320491e67481a49546f4f623ecc7e3716b1af9d435d7e522aaeccb6b8"
+    },
+    {
+      "path": "docs/evidence/core-prompt-attachment-owner-review-20261003/minimal-safety-v2.json",
+      "sha256": "0ffe67e4ef4a5b27a2377282dae48cf4ac1d74fe75f499cbd507fc3bddae77b3"
+    }
+  ],
+  "preservedOriginalEvidence": "docs/evidence/core-prompt-attachment-owner-review-20261003/preserved-original-evidence-bindings.json",
+  "allocationLedger": "docs/evidence/core-remaining-screen-20261003/core-metadata-allocation-ledger.json",
+  "allocationLedgerSha256": "103edf6b8d07c09bb554ab5a60e3e2d47af21f125c019dad65de258a67e79137",
+  "installationAuthorization": "Parent explicitly requested continuing own reviewed installation in same PR8; cross-lane/main/licence acceptance excluded.",
+  "qualifications": "Whole original+full same-author correction archived before each body review. Curator source/broader/tool/dependency exposure and repaired scratch-write breach remain. Sol/high/fork-none requested, Fast unverified; instruction-only/no OS isolation/access audit/separation/novelty/grant. Ordinary/project checks deferred;21 materials open."
+}

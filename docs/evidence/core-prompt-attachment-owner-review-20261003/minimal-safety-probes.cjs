@@ -1,9 +1,9 @@
 // Minimum synthetic projection/data/authority/error gates, candidate archive only.
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),crypto=require('crypto');
 const ts=require('/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js');
-const archive='docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/prompt-attachment.ts.txt';
+const dir='docs/evidence/core-prompt-attachment-owner-packet-20261003',manifest=JSON.parse(fs.readFileSync(dir+'/curator-input-manifest.json'));const archive=(manifest.scopes.attachment.archiveDirectory??dir+'/attachment')+'/prompt-attachment.ts.txt';
 const bytes=fs.readFileSync(archive),code=ts.transpileModule(bytes.toString(),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
-const groups=[];function gate(name,fn){try{fn();groups.push({name,passed:true});}catch(error){groups.push({name,passed:false,error:String(error.stack??error)});}}
+const groups=[];function gate(name,fn){if(process.argv.length>2&&!process.argv.slice(2).some(prefix=>name.startsWith(prefix)))return;try{fn();groups.push({name,passed:true});}catch(error){groups.push({name,passed:false,error:String(error.stack??error)});}}
 const clone=x=>JSON.parse(JSON.stringify(x));
 function fixture(){const events=[],state={formatterFailure:null,wrapperFailureAt:0,wrapperCalls:0};const exports={};const box={exports,require(name){if(name==='@knorvia/contracts')return{READ_DEFAULT_MAX_LINES:2000};if(name==='../tool/handlers/read-text.js')return{formatReadTextOutput(input){events.push({port:'formatter',input:clone(input),keys:Object.keys(input)});if(state.formatterFailure)throw state.formatterFailure;return 'FORMAT['+input.content+']';}};if(name==='./source.js')return{wrapSystemReminderForSource(source,body){events.push({port:'wrapper',source,body});state.wrapperCalls++;if(state.wrapperFailureAt===state.wrapperCalls)throw state.wrapperError;return 'WRAP['+body+']';}};throw Error('Undeclared runtime import '+name);}};vm.runInNewContext(code,box,{filename:'candidate-prompt-attachment.js'});return{api:exports,events,state};}
 gate('absent/inline context remains data, labels bounded and input immutable',()=>{

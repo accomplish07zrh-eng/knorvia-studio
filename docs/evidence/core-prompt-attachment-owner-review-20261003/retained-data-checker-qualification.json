@@ -1,0 +1,6 @@
+{
+  "initialFailure": "Missing kind, file_path and string spelling from exact original extracted strings. Frozen output-data and original failed result/checker remain intact.",
+  "correction": "Normalize equivalent public type/native object property keys; explicitly exclude only original private typeof-body string marker from required external output/protocol data. Original helper guard implementation is not prescribed by contract.",
+  "sourceUnchangedByCurator": true,
+  "actualSourceRegression": "Separate file truncation body mismatch still requires same-author complete correction; never treated as checker issue."
+}
