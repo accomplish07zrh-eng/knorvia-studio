@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T22:50:16.106229+00:00",
+  "status": "whole initial candidate prior to corrections and formatting",
+  "files": [
+    {
+      "path": "turn-command-data.ts",
+      "bytes": 8343,
+      "sha256": "dd3bf78a7170d2ab9a00c26ad0fbf4a834475d386d41cebe0a38a7fc89e1c0dd"
+    },
+    {
+      "path": "turn-command-operation.ts",
+      "bytes": 12977,
+      "sha256": "f7e0050ab4a24b383a2d8b914fa593b1b297c4b0eb845cef70dfe70e68c8a415"
+    },
+    {
+      "path": "turn-command-state.ts",
+      "bytes": 4168,
+      "sha256": "458de895b2521bf45820224752e9abd4ea708064c80d305741d8d2b9b993a076"
+    },
+    {
+      "path": "turn.ts",
+      "bytes": 3700,
+      "sha256": "b3d689ae131075e99edd4681994598d2adb25669eaea1fe08065f4658f6890e5"
+    }
+  ]
+}

@@ -122,7 +122,12 @@ function fixture(kind) {
       order.push("append-outcome");
     },
     logger: {
-      warn(message) {
+      warn(message, fields) {
+        if (message === "Browser turn cleanup failed") {
+          assert.equal(fields.error, cleanupFailure.message);
+          assert.equal(typeof fields.turnId, "string");
+          assert.deepEqual(Object.keys(fields), ["error", "event", "turnId"]);
+        }
         order.push(message === "Browser turn cleanup failed" ? "warn-browser" : "warn-escaped");
       },
       error() {

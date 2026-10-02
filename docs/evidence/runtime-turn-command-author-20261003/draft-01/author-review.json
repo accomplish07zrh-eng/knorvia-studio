@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-02T22:51:41.743281+00:00",
+  "checks": {
+    "packetInputsVerified": 10,
+    "authorizedSupplementVerified": true,
+    "candidateSourceFiles": 4,
+    "allFormattedFilesAtMost400PhysicalLines": true,
+    "singleNativeOperationCallback": true,
+    "rootPublicExportOnlyExecuteTurnCommand": true,
+    "synchronousDataAndStateHelpers": true,
+    "rootAdoptsTelemetryChainAndOneNativeFinalizer": true
+  },
+  "validation": "Source-only author review and allowed oxfmt; no compiler, tests, repository bodies, history, oracles, provider/model/network/production actions. Curator validation pending.",
+  "remainingBlockers": [],
+  "authority": "Source-derived packet and curator-exposed public facts; correspondence qualified; no independent-origin or licence claim."
+}

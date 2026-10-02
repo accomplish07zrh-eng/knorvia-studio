@@ -1,0 +1,47 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+
+Caught error:
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ Error: Owned browser callback failure
++     at fixture (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:70:22)
++     at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:174:13)
+- 'Owned browser callback failure'
+
+    at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:175:3) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + Error: Owned browser callback failure
+  +     at fixture (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:70:22)
+  +     at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:174:13)
+  - 'Owned browser callback failure'
+  
+      at Object.warn (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:127:18)
+      at file:///tmp/knorvia-model-step-safety-83WfeO/turn.mjs:95:26
+      at async waitForActual (node:assert:646:5)
+      at async strict.rejects (node:assert:769:25)
+      at async <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:175:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: Owned browser callback failure
+        at fixture (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:70:22)
+        at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-turn-command-safety-20261003.mjs:174:13),
+    expected: 'Owned browser callback failure',
+    operator: 'strictEqual',
+    diff: 'simple'
+  },
+  expected: [Function (anonymous)],
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
