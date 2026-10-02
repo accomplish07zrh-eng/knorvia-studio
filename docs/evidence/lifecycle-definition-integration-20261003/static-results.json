@@ -1,0 +1,646 @@
+{
+  "kind": "Static declaration/import/configuration/exact-byte binding; no owner execution or project compilation",
+  "typescript": "6.0.2",
+  "baseline": "448a1707d357ddd4fa2b9c847dc9faf440922474",
+  "inputBindings": [
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/contract.md",
+      "bytes": 17729,
+      "sha256": "7ea37c1b8ee9a3d3694ddb473fd624a5091273633db3f54d1cd797b664113ad5",
+      "matchesReceipt": true
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/lifecycle-public-api.d.ts",
+      "bytes": 2921,
+      "sha256": "a91f37906d60491d9c5feb1eb41402c090501e9e7e0076e9105382f0c1deda43",
+      "matchesReceipt": true
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/definition-public-api.d.ts",
+      "bytes": 578,
+      "sha256": "0db3c84181f275695d2c654b671123b8310aa1714aa3e6b4850276de890243d8",
+      "matchesReceipt": true
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/dependency-api.d.ts",
+      "bytes": 892,
+      "sha256": "909e4a5f5971d00e46943af69d972a5fa8515e68dc58fbfe6f50613a00cd1ee1",
+      "matchesReceipt": true
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/public-data-shapes.md",
+      "bytes": 4567,
+      "sha256": "51466733429bd3c7b1e04fc4f2f2250df7f22cbca063f2887b22f5157432b8dd",
+      "matchesReceipt": true
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/retained-configuration.json",
+      "bytes": 3726,
+      "sha256": "d6ad77fdd6dc5e65e19e11b893171e914c77406094c8c24efd6d1dc32c6d54ff",
+      "matchesReceipt": true
+    },
+    {
+      "path": "/tmp/knorvia-lifecycle-definition-author-20261003/inputs/seed-scalability-clarification.md",
+      "bytes": 1588,
+      "sha256": "6c1ad6bd914d19af3d3354980bd0b5065f38376426696758d70fef35c15ad8f5",
+      "matchesReceipt": true
+    }
+  ],
+  "archivedBindings": [
+    {
+      "file": "draft-lifecycle.ts.txt",
+      "bytes": 10662,
+      "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc",
+      "matchesArchive": true
+    },
+    {
+      "file": "draft-definition.ts.txt",
+      "bytes": 4621,
+      "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52",
+      "matchesArchive": true
+    },
+    {
+      "file": "draft-lifecycle-seed.ts.txt",
+      "bytes": 6051,
+      "sha256": "477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223",
+      "matchesArchive": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 10483,
+      "sha256": "8e21ebea2d3a42ee52cfdb193dad71b5604efd2c6e0e05a80a12a3a84ba37813",
+      "matchesArchive": true
+    }
+  ],
+  "owners": [
+    {
+      "target": "apps/cli/packages/core/src/workflow/lifecycle.ts",
+      "draftPath": "docs/evidence/lifecycle-definition-author-packet-20261003/v2/draft-lifecycle.ts.txt",
+      "predecessor": {
+        "bytes": 17946,
+        "sha256": "882cfeb62a8a1f01ecac4d45edebcf89b776eb6dec106b237206bc27e51d6d2f"
+      },
+      "candidate": {
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+      },
+      "installed": {
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+      },
+      "lines": 285,
+      "matchesFrozenOutput": true,
+      "installedByteIdenticalToDraft": true,
+      "exportedDeclarationsEqual": true,
+      "publicDeclarationComparison": "Named exports sorted; lifecycle seed re-export resolved to its complete declared function surface",
+      "exportedDeclarationStructureSha256": {
+        "predecessor": "e2ffc67731a871355751ca0bf8801a86364d26fee4011665c5342ec6c9a8494d",
+        "candidate": "e2ffc67731a871355751ca0bf8801a86364d26fee4011665c5342ec6c9a8494d"
+      },
+      "imports": [
+        {
+          "module": "@knorvia/contracts",
+          "name": "deriveWorkflowSessionLinks",
+          "local": "deriveWorkflowSessionLinks",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphCollection",
+          "local": "WorkflowGraphCollection",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphEdge",
+          "local": "WorkflowGraphEdge",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphNode",
+          "local": "WorkflowGraphNode",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowNodePromptUpdate",
+          "local": "WorkflowNodePromptUpdate",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowNodePromptUpdateSetSchema",
+          "local": "WorkflowNodePromptUpdateSetSchema",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowNodeStatus",
+          "local": "WorkflowNodeStatus",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowRunSnapshot",
+          "local": "WorkflowRunSnapshot",
+          "typeOnly": true
+        }
+      ],
+      "relativeDependenciesExist": true,
+      "declarationExtractionDiagnostics": {
+        "predecessor": [],
+        "candidate": []
+      }
+    },
+    {
+      "target": "apps/cli/packages/core/src/workflow/definition.ts",
+      "draftPath": "docs/evidence/lifecycle-definition-author-packet-20261003/v2/draft-definition.ts.txt",
+      "predecessor": {
+        "bytes": 3975,
+        "sha256": "97a4099333759ff1d1f0db12cfc2913dbc71cd9ccf98b58913197d40c217f3c6"
+      },
+      "candidate": {
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+      },
+      "installed": {
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+      },
+      "lines": 123,
+      "matchesFrozenOutput": true,
+      "installedByteIdenticalToDraft": true,
+      "exportedDeclarationsEqual": true,
+      "publicDeclarationComparison": "Named exports sorted; lifecycle seed re-export resolved to its complete declared function surface",
+      "exportedDeclarationStructureSha256": {
+        "predecessor": "3b6ba2b6dbd73a83652c7f229900dbb6d44b03984d24c8033ed223e737052dbe",
+        "candidate": "3b6ba2b6dbd73a83652c7f229900dbb6d44b03984d24c8033ed223e737052dbe"
+      },
+      "imports": [
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowDefinition",
+          "local": "WorkflowDefinition",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowDefinitionSchema",
+          "local": "WorkflowDefinitionSchema",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowStrategy",
+          "local": "WorkflowStrategy",
+          "typeOnly": true
+        }
+      ],
+      "relativeDependenciesExist": true,
+      "declarationExtractionDiagnostics": {
+        "predecessor": [],
+        "candidate": []
+      }
+    },
+    {
+      "target": "apps/cli/packages/core/src/workflow/lifecycle-seed.ts",
+      "draftPath": "docs/evidence/lifecycle-definition-author-packet-20261003/v2/draft-lifecycle-seed.ts.txt",
+      "predecessor": null,
+      "candidate": {
+        "bytes": 6051,
+        "sha256": "477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223"
+      },
+      "installed": {
+        "bytes": 6051,
+        "sha256": "477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223"
+      },
+      "lines": 164,
+      "matchesFrozenOutput": true,
+      "installedByteIdenticalToDraft": true,
+      "exportedDeclarationsEqual": null,
+      "publicDeclarationComparison": "Private implementation companion; no predecessor public owner",
+      "exportedDeclarationStructureSha256": null,
+      "imports": [
+        {
+          "module": "./lifecycle.js",
+          "name": "ApplyWorkflowGraphSeedOptions",
+          "local": "ApplyWorkflowGraphSeedOptions",
+          "typeOnly": true
+        },
+        {
+          "module": "./lifecycle.js",
+          "name": "ApplyWorkflowGraphSeedResult",
+          "local": "ApplyWorkflowGraphSeedResult",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphCollection",
+          "local": "WorkflowGraphCollection",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphEdge",
+          "local": "WorkflowGraphEdge",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphNode",
+          "local": "WorkflowGraphNode",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphSeed",
+          "local": "WorkflowGraphSeed",
+          "typeOnly": true
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowGraphSeedSchema",
+          "local": "WorkflowGraphSeedSchema",
+          "typeOnly": false
+        },
+        {
+          "module": "@knorvia/contracts",
+          "name": "WorkflowRunSnapshot",
+          "local": "WorkflowRunSnapshot",
+          "typeOnly": true
+        }
+      ],
+      "relativeDependenciesExist": true,
+      "declarationExtractionDiagnostics": {
+        "predecessor": [],
+        "candidate": []
+      }
+    }
+  ],
+  "externalRuntimeImports": {
+    "predecessor": [
+      "@knorvia/contracts#WorkflowDefinitionSchema",
+      "@knorvia/contracts#WorkflowGraphSeedSchema",
+      "@knorvia/contracts#WorkflowNodePromptUpdateSetSchema",
+      "@knorvia/contracts#deriveWorkflowSessionLinks"
+    ],
+    "candidate": [
+      "@knorvia/contracts#WorkflowDefinitionSchema",
+      "@knorvia/contracts#WorkflowGraphSeedSchema",
+      "@knorvia/contracts#WorkflowNodePromptUpdateSetSchema",
+      "@knorvia/contracts#deriveWorkflowSessionLinks"
+    ]
+  },
+  "externalRuntimeImportsEqual": true,
+  "configurationDataAndKeyOrderEqual": true,
+  "configurationStructureSha256": "f07a1106469037feaf4ce467f4c78ae42634254f160fffd5f0a960ea94cac283",
+  "untouchedOwners": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/critic-loop.ts",
+      "bytes": 7309,
+      "sha256": "e1bed6c8ce4a2a1f43a27449bdd74cc9714a2dfd11a292f27a9af949e0b33c57",
+      "actual": {
+        "bytes": 7309,
+        "sha256": "e1bed6c8ce4a2a1f43a27449bdd74cc9714a2dfd11a292f27a9af949e0b33c57"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/failures.ts",
+      "bytes": 5213,
+      "sha256": "9e105ff59e071e4531d16aa8222d7219b6e0598a7211885e631fea5980d79d69",
+      "actual": {
+        "bytes": 5213,
+        "sha256": "9e105ff59e071e4531d16aa8222d7219b6e0598a7211885e631fea5980d79d69"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/formatters.ts",
+      "bytes": 1289,
+      "sha256": "bc8de5bea478f410cb955186f7f487acfd95fa6ff74c394c806f1938e35711d5",
+      "actual": {
+        "bytes": 1289,
+        "sha256": "bc8de5bea478f410cb955186f7f487acfd95fa6ff74c394c806f1938e35711d5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts",
+      "bytes": 5134,
+      "sha256": "3c5e20261bbdade712a2886ea9ff585f3ca064e53996a0e061982ae22ef4a670",
+      "actual": {
+        "bytes": 5134,
+        "sha256": "3c5e20261bbdade712a2886ea9ff585f3ca064e53996a0e061982ae22ef4a670"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/ids.ts",
+      "bytes": 1035,
+      "sha256": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b",
+      "actual": {
+        "bytes": 1035,
+        "sha256": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/critic.ts",
+      "bytes": 3796,
+      "sha256": "d9c6980a73c6f0a4080a3ba34138266cbf57c4c649e94fa9eb11b08e6d758a27",
+      "actual": {
+        "bytes": 3796,
+        "sha256": "d9c6980a73c6f0a4080a3ba34138266cbf57c4c649e94fa9eb11b08e6d758a27"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/graph-seed.ts",
+      "bytes": 6404,
+      "sha256": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef",
+      "actual": {
+        "bytes": 6404,
+        "sha256": "2da4cdda91f96aacdc66d231f961acf4893155eea8e9d63f736d1fcce2cebfef"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/json.ts",
+      "bytes": 2723,
+      "sha256": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5",
+      "actual": {
+        "bytes": 2723,
+        "sha256": "2c8d896e9cd0655a6bffc502eb8172ffbb9e4081f58576ea2f6c58fc5d6e74e5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/node-prompts.ts",
+      "bytes": 2901,
+      "sha256": "454a1f0ed323844ea8db92fc99058c5391c8dc5fad16dab4dad2e79485146ead",
+      "actual": {
+        "bytes": 2901,
+        "sha256": "454a1f0ed323844ea8db92fc99058c5391c8dc5fad16dab4dad2e79485146ead"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/parsers/planner-result.ts",
+      "bytes": 1367,
+      "sha256": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0",
+      "actual": {
+        "bytes": 1367,
+        "sha256": "00c194b8aa08d3fd870ae6e94919973e9f67cf77d8ac3a021361cc9b7f2a2da0"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/phase-runner.ts",
+      "bytes": 7879,
+      "sha256": "c4f121a7e682cc41dc0a64834e6bb3f178046b858e1862834e7703dbee7c2399",
+      "actual": {
+        "bytes": 7879,
+        "sha256": "c4f121a7e682cc41dc0a64834e6bb3f178046b858e1862834e7703dbee7c2399"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/prompts.ts",
+      "bytes": 7870,
+      "sha256": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03",
+      "actual": {
+        "bytes": 7870,
+        "sha256": "73f2fdfd89836f37525670bb9b8938a444e6dd97ed5a8c709c72d809f323ef03"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/retry-state.ts",
+      "bytes": 2931,
+      "sha256": "2d9335dbeb4bacc032eddf51188f84785f7a8e23f434fe570cbd61bde04f76c0",
+      "actual": {
+        "bytes": 2931,
+        "sha256": "2d9335dbeb4bacc032eddf51188f84785f7a8e23f434fe570cbd61bde04f76c0"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/run-loop.ts",
+      "bytes": 6430,
+      "sha256": "b1e221f39cd27f7f2f1ca117de56e959482c9bfff3438d0c5f32c9a89eb98f43",
+      "actual": {
+        "bytes": 6430,
+        "sha256": "b1e221f39cd27f7f2f1ca117de56e959482c9bfff3438d0c5f32c9a89eb98f43"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+      "bytes": 10424,
+      "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7",
+      "actual": {
+        "bytes": 10424,
+        "sha256": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime.ts",
+      "bytes": 9164,
+      "sha256": "bece27fb3ccfad3de3fc8fc7789cc3b1f188ad0db4755ad5b73420dc991e8f92",
+      "actual": {
+        "bytes": 9164,
+        "sha256": "bece27fb3ccfad3de3fc8fc7789cc3b1f188ad0db4755ad5b73420dc991e8f92"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts",
+      "bytes": 5478,
+      "sha256": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7",
+      "actual": {
+        "bytes": 5478,
+        "sha256": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/types.ts",
+      "bytes": 3211,
+      "sha256": "80bd5a6caacdd6958dd252622241d4438e3ed420ef16cd28eae68f90829cf305",
+      "actual": {
+        "bytes": 3211,
+        "sha256": "80bd5a6caacdd6958dd252622241d4438e3ed420ef16cd28eae68f90829cf305"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert.ts",
+      "bytes": 897,
+      "sha256": "1dd5a087cada3a34c2b8dd5fec49c570ddc47f7d5601674c2e852e3a6683d4ac",
+      "actual": {
+        "bytes": 897,
+        "sha256": "1dd5a087cada3a34c2b8dd5fec49c570ddc47f7d5601674c2e852e3a6683d4ac"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+      "bytes": 2636,
+      "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7",
+      "actual": {
+        "bytes": 2636,
+        "sha256": "63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "bytes": 11883,
+      "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af",
+      "actual": {
+        "bytes": 11883,
+        "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts",
+      "bytes": 434,
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d",
+      "actual": {
+        "bytes": 434,
+        "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+      "bytes": 3724,
+      "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174",
+      "actual": {
+        "bytes": 3724,
+        "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/graph.ts",
+      "bytes": 7567,
+      "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+      "actual": {
+        "bytes": 7567,
+        "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "bytes": 12352,
+      "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27",
+      "actual": {
+        "bytes": 12352,
+        "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+      "bytes": 5249,
+      "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73",
+      "actual": {
+        "bytes": 5249,
+        "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+      "bytes": 3275,
+      "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5",
+      "actual": {
+        "bytes": 3275,
+        "sha256": "9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/types.ts",
+      "bytes": 4401,
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106",
+      "actual": {
+        "bytes": 4401,
+        "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+      },
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler.ts",
+      "bytes": 7810,
+      "sha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
+      "actual": {
+        "bytes": 7810,
+        "sha256": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330"
+      },
+      "unchanged": true
+    }
+  ],
+  "originalArtifacts": [
+    {
+      "file": "draft-lifecycle.ts.txt",
+      "bytes": 10662,
+      "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc",
+      "actual": {
+        "bytes": 10662,
+        "sha256": "0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc"
+      },
+      "unchanged": true
+    },
+    {
+      "file": "draft-definition.ts.txt",
+      "bytes": 4621,
+      "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52",
+      "actual": {
+        "bytes": 4621,
+        "sha256": "d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52"
+      },
+      "unchanged": true
+    },
+    {
+      "file": "draft-lifecycle-seed.ts.txt",
+      "bytes": 5787,
+      "sha256": "8a4f47dbb898db63c7cf9165b5ad09b5f46854c4182976e127c02a49c0c76bd2",
+      "actual": {
+        "bytes": 5787,
+        "sha256": "8a4f47dbb898db63c7cf9165b5ad09b5f46854c4182976e127c02a49c0c76bd2"
+      },
+      "unchanged": true
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 6235,
+      "sha256": "83074438632dcebb3c0461c7b5ae189458e31d1d41ce1cf8a7f9c448ad3ef4ae",
+      "actual": {
+        "bytes": 6235,
+        "sha256": "83074438632dcebb3c0461c7b5ae189458e31d1d41ce1cf8a7f9c448ad3ef4ae"
+      },
+      "unchanged": true
+    }
+  ],
+  "unchangedV1Owners": [
+    {
+      "name": "lifecycle.ts",
+      "byteIdentical": true
+    },
+    {
+      "name": "definition.ts",
+      "byteIdentical": true
+    }
+  ],
+  "passed": true,
+  "runtimeTestsRun": false,
+  "projectTypecheckRun": false,
+  "lintRun": false
+}
