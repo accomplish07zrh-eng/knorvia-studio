@@ -1,0 +1,24 @@
+{
+  "scope": "index",
+  "utc": "2026-10-02T21:53:03.738Z",
+  "files": [
+    {
+      "file": "index-content.ts.txt",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/index/index-content.ts",
+      "target": "apps/cli/packages/core/src/memory/index-content.ts",
+      "bytes": 2281,
+      "lines": 68,
+      "sha256": "de62e45a34a9d79d1683fcc4fbfe82442d8d4bbfcc1849ab4bf1e8f30915c50a",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/index/author-record.json",
+      "bytes": 9284,
+      "lines": 141,
+      "sha256": "1899717176bc4b8fcd5f80dc49f4f4be1296be9b90bc6b8d3ad11f192de20505",
+      "mode": "444"
+    }
+  ],
+  "qualification": "Complete original source/author record copied byte-exactly from frozen two-output scratch before source rendering/review. Author receipt self-report, shared executor instruction-only; no OS/access audit or separation/licence proof."
+}
