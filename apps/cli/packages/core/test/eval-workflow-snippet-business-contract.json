@@ -1,0 +1,9 @@
+{
+  "baselineCommit": "a1d8e7157e97762c78a5ab0835a63a29c6e38967",
+  "digests": {
+    "diagnostics": "3c35378a058e0111b3d3c7354514a8b5a99bbea0ce16b9778aa5083b13070d71",
+    "failed": "08f5c1cc0c294d601037044298311bb18ee2804a10c8729fc5d82d324ffedcff",
+    "unavailable": "4ed01440d6de4a4e67a9a903dfaa9dd16c02876a8690c68591d4a3dd36f1c844"
+  },
+  "disclosure": "Appended supported-consumer observations from the exact frozen baseline. Normal tool completion can contain a business-failure output; no new policy."
+}
