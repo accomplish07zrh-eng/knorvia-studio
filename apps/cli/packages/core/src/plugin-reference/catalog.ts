@@ -1,74 +1,73 @@
-// Session 冻结的 Plugin 身份 catalog 构建。
-// 在 App（Session runtime）创建时由 bootstrap 从 resolveStartupPlugins 的结果构建一次，
-// 之后不随 workspace 配置热更新。
 import type {
   PluginMetadata,
   PluginReferenceCatalog,
   PluginReferenceCatalogEntry,
 } from "@knorvia/contracts";
 
-function collectDeclaredSkillQualifiedNames(plugin: PluginMetadata): string[] {
-  const names = new Set<string>();
-  for (const group of plugin.components) {
-    if (group.kind !== "skill") continue;
-    for (const item of group.items) {
-      const skillName = item.name.trim();
-      if (!skillName) continue;
-      names.add(`${plugin.name}:${skillName}`);
-    }
-  }
-  return [...names].sort();
-}
-
-function collectDeclaredSubagentNames(plugin: PluginMetadata): string[] {
-  const names = new Set<string>();
-  for (const group of plugin.components) {
-    if (group.kind !== "agent") continue;
-    for (const item of group.items) {
-      const subagentName = item.name.trim();
-      if (!subagentName) continue;
-      names.add(`${plugin.name}:${subagentName}`);
-    }
-  }
-  return [...names].sort();
-}
-
-/**
- * 从 plugin loader 的权威 metadata 构建身份 catalog。
- * - 所有已发现 Plugin（含 disabled）都进入 catalog：disabled 条目支撑
- *   `disabled_in_session` 诊断与 Picker 过滤，不可被引用。
- * - 冲突定义：同 manifest.name 的多个 enabled Plugin 互相标记 conflictingPluginIds
- *   （V1 fail closed 的机器可读依据）。disabled 条目不参与冲突——runtime 名字空间里没有它。
- */
 export function buildPluginReferenceCatalog(
   plugins: readonly PluginMetadata[],
 ): PluginReferenceCatalog {
-  const enabledIdsByName = new Map<string, string[]>();
+  const enabledIds = new Map<string, Map<string, string[]>>();
   for (const plugin of plugins) {
-    if (!plugin.enabled) continue;
-    const ids = enabledIdsByName.get(plugin.name) ?? [];
-    ids.push(plugin.id);
-    enabledIdsByName.set(plugin.name, ids);
+    if (!plugin.enabled) {
+      continue;
+    }
+    let ids = enabledIds.get(plugin.name);
+    if (!ids) {
+      ids = new Map<string, string[]>();
+      enabledIds.set(plugin.name, ids);
+    }
+    let occurrences = ids.get(plugin.id);
+    if (!occurrences) {
+      occurrences = [];
+      ids.set(plugin.id, occurrences);
+    }
+    occurrences.push(plugin.id);
   }
 
-  const entries: PluginReferenceCatalogEntry[] = plugins.map((plugin) => {
-    const sameNameEnabledIds = plugin.enabled ? (enabledIdsByName.get(plugin.name) ?? []) : [];
-    return {
-      pluginId: plugin.id,
-      name: plugin.name,
-      marketplace: plugin.marketplace,
-      enabled: plugin.enabled,
-      conflictingPluginIds: sameNameEnabledIds.filter((id) => id !== plugin.id).sort(),
-      skillQualifiedNames: collectDeclaredSkillQualifiedNames(plugin),
-      // mcpServerNames 来自 enabled 分支解析出的 namespaced servers（`plugin:${name}:${server}`）；
-      // disabled Plugin 没有 runtime MCP 名字，保持空数组。
-      mcpServerNames: [...plugin.mcpServerNames].sort(),
-      subagentNames: collectDeclaredSubagentNames(plugin),
-      rootPath: plugin.rootPath,
-    };
-  });
+  return {
+    plugins: plugins.map((plugin) => {
+      const skills = new Set<string>();
+      const agents = new Set<string>();
 
-  return { plugins: entries };
+      for (const group of plugin.components) {
+        if (group.kind !== "skill" && group.kind !== "agent") {
+          continue;
+        }
+        const names = group.kind === "skill" ? skills : agents;
+        for (const item of group.items) {
+          const name = item.name.trim();
+          if (name) {
+            names.add(`${plugin.name}:${name}`);
+          }
+        }
+      }
+
+      const conflictingPluginIds: string[] = [];
+      if (plugin.enabled) {
+        for (const [id, occurrences] of enabledIds.get(plugin.name)!) {
+          if (id !== plugin.id) {
+            for (const otherId of occurrences) {
+              conflictingPluginIds.push(otherId);
+            }
+          }
+        }
+        conflictingPluginIds.sort();
+      }
+
+      return {
+        pluginId: plugin.id,
+        name: plugin.name,
+        marketplace: plugin.marketplace,
+        enabled: plugin.enabled,
+        conflictingPluginIds,
+        skillQualifiedNames: [...skills].sort(),
+        mcpServerNames: [...plugin.mcpServerNames].sort(),
+        subagentNames: [...agents].sort(),
+        rootPath: plugin.rootPath,
+      };
+    }),
+  };
 }
 
 export function findPluginReferenceCatalogEntry(

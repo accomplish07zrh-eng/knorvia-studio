@@ -1,0 +1,46 @@
+{
+  "scope": "Bounded four-file plugin-reference directory; three allocated substantive owners completed, one public barrel retained. Not a repository-wide remaining-origin or rights inventory.",
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "entries": [
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "bytes": 2201,
+      "lines": 78,
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+      "decision": "installed complete reviewed owner",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/catalog.ts.txt",
+      "unchanged": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/index.ts",
+      "bytes": 776,
+      "lines": 22,
+      "sha256": "518517bf64155789cc846105088e3d90b3aa773ec05be770541e72b482d09c7e",
+      "decision": "retained public barrel; no cosmetic rewrite",
+      "archive": null,
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "bytes": 1826,
+      "lines": 60,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "decision": "installed complete reviewed owner",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/references.ts.txt",
+      "unchanged": false
+    },
+    {
+      "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "bytes": 7757,
+      "lines": 247,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "decision": "installed complete reviewed owner",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "unchanged": false
+    }
+  ],
+  "additionalEligibleOwnerInDirectory": false,
+  "outsideScreen": "Earlier45-file metadata screen retains A/root/B/G and completed context/memory/workflow exclusions; no other source reserved or installed. No cosmetic source change to force a count.",
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21
+}

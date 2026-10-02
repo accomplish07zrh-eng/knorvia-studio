@@ -1,0 +1,114 @@
+{
+  "baseline": "8ab002a72c37bda74e37a70eae1cbd9f839abb40",
+  "reviewedAt": "2026-10-02T22:23:06.422694+00:00",
+  "targets": [
+    {
+      "scope": "catalog",
+      "target": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/catalog.ts.txt",
+      "bytes": 2201,
+      "lines": 78,
+      "sha256": "88b099384dae97f7a17bcf78f2abe190998afbeaec6df7e49f1f8f53eb38e507",
+      "authorRecord": "docs/evidence/core-plugin-reference-owner-packet-20261003/catalog-v2/author-record.json",
+      "authorRecordBytes": 13925,
+      "authorRecordSha256": "785f4288f883855093b3fee9a14831bda7eb568fca00f4230a453388b9090d5b",
+      "staticReview": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-v2-static.json",
+      "staticReviewSha256": "a6bd9d565a0215319bbc50983513d33fb6b026af431048cfa5bdaa028630de5d",
+      "original": {
+        "path": "apps/cli/packages/core/src/plugin-reference/catalog.ts",
+        "bytes": 3025,
+        "lines": 79,
+        "sha256": "0150fdf06c10cb19ba008fb0a2313a58ed78258017bee0ee8e625ffbdfd6aecb",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/plugin-reference/catalog.ts",
+          "blob": "bb17bf34166dd8bc5479f53a0a50e95cf3d6155f",
+          "normalizedSha256": "608029c012ecf704b691a85d4cc5d716088275aa2fd0b0303e79e864d3ce5e7f",
+          "contentMatchedPaths": []
+        },
+        "decision": "selected substantive complete owner"
+      }
+    },
+    {
+      "scope": "references",
+      "target": "apps/cli/packages/core/src/plugin-reference/references.ts",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/references.ts.txt",
+      "bytes": 1826,
+      "lines": 60,
+      "sha256": "d931df2c41b81514ea1d74ce61f001f8aafd8e6b2bbc0c1aa7d3610d68539e94",
+      "authorRecord": "docs/evidence/core-plugin-reference-owner-packet-20261003/references/author-record.json",
+      "authorRecordBytes": 9388,
+      "authorRecordSha256": "ef3af2d43f2e841f48476d77cb2d4400052b2ed657be34d52c89e1fb277d6f16",
+      "staticReview": "docs/evidence/core-plugin-reference-owner-review-20261003/references-static.json",
+      "staticReviewSha256": "0a6d3324fd05b5a8af01e954734f20b0388526dafafadb7c492fdf07c245b897",
+      "original": {
+        "path": "apps/cli/packages/core/src/plugin-reference/references.ts",
+        "bytes": 3909,
+        "lines": 95,
+        "sha256": "6c827cccb0d91c32077785404bd6f1ff51a8fda7026e8c8c8b17befa746c32ed",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/plugin-reference/references.ts",
+          "blob": "84496b2d674f142db880de916017e5fa450f01f2",
+          "normalizedSha256": "7342ce922c3ee6c58956bcd2aaf7c5bdfe142a9c4efd2363077d174ccdbf6505",
+          "contentMatchedPaths": []
+        },
+        "decision": "selected substantive complete owner"
+      }
+    },
+    {
+      "scope": "reminder",
+      "target": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+      "archive": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/reminder.ts.txt",
+      "bytes": 7757,
+      "lines": 247,
+      "sha256": "57c03deaf9b98bbc82449bead5ad97bd5360624e0f5df9f834423150bd4c8860",
+      "authorRecord": "docs/evidence/core-plugin-reference-owner-packet-20261003/reminder/author-record.json",
+      "authorRecordBytes": 11271,
+      "authorRecordSha256": "9f1a0e9f2c71e22ebb87c1079fd109a604bbb49346e70860a860b66921ba9097",
+      "staticReview": "docs/evidence/core-plugin-reference-owner-review-20261003/reminder-static.json",
+      "staticReviewSha256": "306abff7f0272386bc75c194dd4650dd8ff5b43fcd1cb7e8db750039b49a6dbe",
+      "original": {
+        "path": "apps/cli/packages/core/src/plugin-reference/reminder.ts",
+        "bytes": 11072,
+        "lines": 294,
+        "sha256": "497851ddee8fd619d9871174cefc742e7795b9523f9004366b50b878d86c1c35",
+        "receiptHits": [],
+        "originClassification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "apps/zcode-cli/packages/core/src/plugin-reference/reminder.ts",
+          "blob": "b6c92b0a69a2166357ad4b15ebfe13abdf7dca71",
+          "normalizedSha256": "c341ac2e63b13547a1e7625d0ec677fa725579188591cb4bb814de131f24efa1",
+          "contentMatchedPaths": []
+        },
+        "decision": "selected substantive complete owner"
+      }
+    }
+  ],
+  "reviewEvidence": [
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/retained-data.json",
+      "sha256": "145a80c3c9e0cf6f23080b2e7f68fe081512cf124d605d0f4b284d7b4d2f468d"
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/minimal-safety.json",
+      "sha256": "4b14c2c8b7850521637480b1ceb0332b58eda26292e1b3d8dc8ad31ee345beef"
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-v2-retained-data.json",
+      "sha256": "ce8d1bb9434eb79debb93352e1a5fd10797b7f7fc628ca9392447710fc74d033"
+    },
+    {
+      "path": "docs/evidence/core-plugin-reference-owner-review-20261003/catalog-v2-safety.json",
+      "sha256": "6434cef6f6215423822ff157eb5cb6e4bf6a2209b1e1ba57b5d1d8424e075516"
+    }
+  ],
+  "installationAuthorization": "Parent explicitly authorized E own reviewed owner installation in same PR8, excluding cross-lane/main/final licence acceptance.",
+  "safetyPhaseBinding": "Original six distinct groups passed on archived v1 sources; only affected catalog identity group reran on full catalog v2. Final catalog binds v2 88b09938; references/reminder unchanged v1 bind d931df2c and57c03dea. No unchanged runtime gate rerun. Result JSON carries source digests.",
+  "qualifications": "Complete originals and same-author full catalog v2 retained; no curator source patch. Curator source/broader/tool/dependency exposure and repaired scratch-write breach remain. Instruction-only shared executor/self-report, no OS isolation/access audit/separation/novelty/grant. Sol/high/fork-none requested; savedFast unverified. Ordinary/project checks deferred;21 materials open."
+}
