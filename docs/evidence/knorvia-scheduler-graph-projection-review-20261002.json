@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "kind": "scheduler-graph-projection-negative-selection",
+  "reviewedHead": "8a16740cb7e8b6373c2a910ead6c937359bf6b55",
+  "decision": "No production reconstruction selected. Existing shallow projection/default/survivor expressions remain unresolved; loop translations or generic update wrappers would not justify substantive contribution claims. Equal-complexity independent authorship is possible in principle; this review does not establish it.",
+  "sourceExposure": true,
+  "inventory": {
+    "classification": "upstream-modified",
+    "review": null,
+    "publisherPath": "apps/zcode-cli/packages/core/src/workflow/scheduler/graph.ts",
+    "publisherBlob": "477886feafd8b52cd1586a7d8f625d1f9a1684f1",
+    "publisherNormalizedSha256": "4dd263875b5caa2c3e54567c51443b0022f1db85b0719c1ba8323d249e3076a1",
+    "publisherLocallyVerified": false
+  },
+  "retained": "All graph.ts implementation/imports/public APIs remain byte-unchanged. Existing normalizers, shallow projections, filter/append combinations and scheduling order bodies retain their prior provenance; no rewrite credit is assigned.",
+  "nextCandidate": "graph.ts orderedReadyExecutableNodes: collection grouping/interleaving as consumed by scheduler dispatch; unequal queue lengths, overlaps/repeated IDs and shrinking-list cursor need compact supported-caller freeze before future implementation.",
+  "checks": {
+    "trackedFilesUnchangedBeforeEvidence": true,
+    "currentArtifactBindings": {
+      "workflow-planner-expansion-current.json": 43,
+      "workflow-collection-planner-current.json": 42
+    },
+    "bindingOverlap": "43owner/consumer bindings include the42collection-consumer bindings; not85distinct checks",
+    "protectedSourceIdentity": true,
+    "format": "New review and receipt only",
+    "architecturePrecheck": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0
+    },
+    "runtimeTests": "Not rerun: evidence-only negative selection, no production or fixtures changed. Prior receipts supply historical consumer results.",
+    "compilerBuilds": "Not run; no source/type-surface edits"
+  },
+  "fileSha256": {
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph.js": "b2330aefde3b0808b6e9ef484da839eff8badfb5e07eae51952d2910600e13d9",
+    "apps/cli/packages/core/dist/workflow/scheduler/graph.d.ts": "0c041833e2d9deab50587ad659ec7d300e4e8a6dd038fde483574f2f0f04a613",
+    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": "4c9d75dccdc0fcc72ffde190d70c0f4125a8cf64c2dd087155809925d4fc73dd",
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b",
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9",
+    "docs/evidence/knorvia-planner-expansion-owner-20261002.json": "bc50bff2a281eb4b0ab6fd0cc4bf6c24130bef61ddb6d7c402995c0b16aafd42",
+    "docs/evidence/knorvia-collection-planner-failure-publication-correction-20261002.json": "0de268c8dff91caf73a08484470d6e2812ed688dd8cdd6b3c9c6d5c6505064cd",
+    "docs/knorvia-scheduler-graph-projection-review-20261002.md": "e5305c95a0978415fca655c8aea3ebc5186edb860b57e517b99d514af3b059f1"
+  },
+  "licenceGrant": null,
+  "limits": [
+    "No new standalone projection behavior suite or source/emitted behavioral run. Read-derived contract facts are distinguished from historical executed evidence.",
+    "Current source and actual emitted bytes match existing strict pins; no fresh emit or publisher comparison claimed.",
+    "Root independently owns integrated consumers, native acceptance and expression/licence review."
+  ]
+}
