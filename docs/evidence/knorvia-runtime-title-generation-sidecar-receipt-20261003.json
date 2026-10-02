@@ -1,0 +1,41 @@
+{
+  "baselineCommit": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "freezeCommit": "d3f910f",
+  "draftCommit": "0e94759",
+  "redProofCommit": "3674157",
+  "owner": "apps/cli/packages/core/src/runtime/methods/title-generation-sidecar.ts",
+  "lineageReference": "docs/evidence/runtime-title-generation-sidecar-author-20261003/lineage.json",
+  "packetPins": {
+    "api.d.ts": "ca1a7de026f29f5085117dfc41056ad6a7ebf10f98f1e8983d9d636ce1eafe65",
+    "receiver-facts.md": "2deedd5789e4b99e55525d1bdb497b0b52f0f44c99d6731924400ebeef493011",
+    "contract.md": "8615cfe3b3c1b913f410ea4978cab8060cb0e4b1d0527a181e4e80a61a34f98c",
+    "lineage.json": "589affcd8f871c6d48b536b03ad4c85ea2d47767503e143f375a519ab2a629d4"
+  },
+  "draftPins": {
+    "draft-manifest.json": "a72af576075121194220f568839e437af9950ecfa49e2ed1f7a10a92d9fcd3cd",
+    "title-generation-sidecar.ts": "5ae8869c6244ef15334d28f16bc65c9c65a3e9d8b660c4add6368d78fb911e6a"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-title-generation-sidecar-baseline-20261003.json",
+    "sha256": "d442adbe18ab5cf8e11369319bba1fa364b413bc94e55aa675291f616d77294f"
+  },
+  "finalPins": {
+    "src/runtime/methods/title-generation-sidecar.ts": "766fa21b5e4c3e6b58c6448a3100a267a3070c0cf941633ec837bf641ff377d8",
+    "dist/runtime/methods/title-generation-sidecar.js": "21f49e2497b528b6e5978235d7ae864ad4b0642ac0f1bcbd02f87baca6cd130f",
+    "dist/runtime/methods/title-generation-sidecar.d.ts": "cae0816ebdc0ec5d4a52a44110f991886557878006aad4b5be31b52bac246ad2"
+  },
+  "design": "Complete detached title-generation request/publication, usage/error lifecycle, null admission and parser owner. Fresh body-free draft, parser groups combined without additional async owner. Exact model prompt and cleanup regex vocabulary retained; request/event/usage field and await sequence are constrained protocol. No whole-file grant.",
+  "postDraftCorrections": [
+    "Public inline declaration shape and repeated query-source read positions restored; named limits; bounded conditional input truncation restored. Post-comparison/source-exposed compatibility correction."
+  ],
+  "authorship": "Fresh internal author fork_turns=none, GPT-6.1 Sol high. Only own api.d.ts, contract.md, receiver-facts.md and recorded body-free clarifications supplied; sealed draft before curator source comparison. Curator exposed to predecessor. Packets source-derived, no absolute isolation/clean-room claim; author-reported input journal preserved.",
+  "retention": "Existing attribution/license/notice obligations unchanged. Fixed runtime prose/prompts, schema/declarations, dependency seams, regex compatibility vocabulary and conventional async/object/loop glue remain. Shared required combinations may match; root independently assesses expression/rights. No automatic file eligibility from hashes/tests or drafting process.",
+  "checks": "Shared final scoped compiler report:0 diagnostics;18 call signatures + interface/constant shapes equal. One final strict actual-emitted pass:5 shared safety groups +2 appended concrete regressions (overlap, not per-owner multiplicative counts).5 owner lint94rules0,6 format files0,architecture0.",
+  "limits": [
+    "Ordinary suites, broad builds, source/emitted duplication, native/live-provider acceptance deliberately unrun per user speed cadence.",
+    "Synthetic port observations do not establish all request success/error/cancellation branches. Direct runtime consumers statically traced, not launched.",
+    "Transitive workspace dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no proxy bypass/configuration change.",
+    "Root independent correctness/expression/licence review remains; no header/global inventory grant, no publication claim."
+  ]
+}
