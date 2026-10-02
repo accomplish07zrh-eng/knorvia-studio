@@ -27,38 +27,53 @@ export function orderedReadyExecutableNodes(
   executableNodeIds: Set<string>,
 ): WorkflowGraphNode[] {
   const readyNodes = readyExecutableNodes(graph, executableNodeIds);
-  const explorationNodeIds = new Set<string>();
-  const explorationByCollection = new Map<string, WorkflowGraphNode[]>();
-  for (const collection of graphCollections(graph)) {
-    if (!collection.explorable || collection.exhausted) continue;
-    const nodeIds = new Set(collectionNodeIdsForGraph(collection, graph));
-    for (const node of readyNodes) {
-      if (!nodeIds.has(node.id)) continue;
-      explorationNodeIds.add(node.id);
-      const list = explorationByCollection.get(collection.collectionId) ?? [];
-      list.push(node);
-      explorationByCollection.set(collection.collectionId, list);
+  const collections = graphCollections(graph);
+  const groups = new Map<string, WorkflowGraphNode[]>();
+  const exploratoryIds = new Set<string>();
+
+  for (const collection of collections) {
+    if (!collection.explorable || collection.exhausted) {
+      continue;
+    }
+
+    const memberIds = new Set(collectionNodeIdsForGraph(collection, graph));
+    const contribution = readyNodes.filter((node) => memberIds.has(node.id));
+    if (contribution.length === 0) {
+      continue;
+    }
+
+    let group = groups.get(collection.collectionId);
+    if (group === undefined) {
+      group = [];
+      groups.set(collection.collectionId, group);
+    }
+    for (const node of contribution) {
+      group.push(node);
+      exploratoryIds.add(node.id);
     }
   }
 
-  const engineeringNodes = readyNodes.filter((node) => !explorationNodeIds.has(node.id));
-  const explorationNodes: WorkflowGraphNode[] = [];
-  const collectionIds = [...explorationByCollection.keys()];
-  let index = 0;
-  while (collectionIds.length > 0) {
-    const collectionIndex = index % collectionIds.length;
-    const collectionId = collectionIds[collectionIndex]!;
-    const nodes = explorationByCollection.get(collectionId) ?? [];
-    const node = nodes.shift();
-    if (node) explorationNodes.push(node);
-    if (nodes.length === 0) {
-      collectionIds.splice(collectionIndex, 1);
+  const result = readyNodes.filter((node) => !exploratoryIds.has(node.id));
+  const remainingGroups = Array.from(groups.values(), (nodes) => ({
+    nodes,
+    next: 0,
+  }));
+  let k = 0;
+
+  while (remainingGroups.length > 0) {
+    const rank = k % remainingGroups.length;
+    const group = remainingGroups[rank]!;
+    result.push(group.nodes[group.next]!);
+    group.next += 1;
+
+    if (group.next < group.nodes.length) {
+      k += 1;
     } else {
-      index++;
+      remainingGroups.splice(rank, 1);
     }
   }
 
-  return [...engineeringNodes, ...explorationNodes];
+  return result;
 }
 
 export function blockedExecutableNodes(
