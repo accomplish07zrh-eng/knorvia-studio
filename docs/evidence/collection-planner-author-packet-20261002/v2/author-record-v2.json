@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "sameAuthorContinuation": true,
+  "authorInputCommit": "d90976cd",
+  "clarificationInputCommit": "fc8742f5",
+  "freezeTimeUtc": "2026-10-02T13:56:06.711661Z",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs/contract.md",
+      "sha256": "8d30af0ee267ebd78cb21a1766bb44d12037dcac766b42e34fe4ffdfadee0338",
+      "byteCount": 16218
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs/public-api.d.ts",
+      "sha256": "87b2aa349520f64feb3b9cf350886658fb316bca902485a859c3d58b55b7c4ed",
+      "byteCount": 6801
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs/public-data-shapes.md",
+      "sha256": "6c24dc857739d0be6ca8edeaf2e98d7de020784147a72fc4f1457bbed83fd809",
+      "byteCount": 3931
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/inputs-v2/behavior-clarification.md",
+      "sha256": "ccf57e8f4a1d483aa472476ddc7d2f91349ca0da7768b5b61e9f6b7054a4e383",
+      "byteCount": 3158
+    }
+  ],
+  "previousOutputs": [
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/output/collection-planner.ts",
+      "sha256": "23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703",
+      "byteCount": 11700
+    },
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/output/author-record.json",
+      "sha256": "db0d92b7c8aa66f0aff6b8f1e0d930dc0aff64a047c7026e9f3164b407f60d6c",
+      "byteCount": 2383
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-collection-planner-author-20261002/output/collection-planner-v2.ts",
+      "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af",
+      "byteCount": 11883
+    }
+  ],
+  "actualFilesRead": [
+    "/tmp/knorvia-collection-planner-author-20261002/inputs/contract.md",
+    "/tmp/knorvia-collection-planner-author-20261002/inputs/public-api.d.ts",
+    "/tmp/knorvia-collection-planner-author-20261002/inputs/public-data-shapes.md",
+    "/tmp/knorvia-collection-planner-author-20261002/inputs-v2/behavior-clarification.md",
+    "/tmp/knorvia-collection-planner-author-20261002/output/collection-planner.ts",
+    "/tmp/knorvia-collection-planner-author-20261002/output/author-record.json",
+    "/tmp/knorvia-collection-planner-author-20261002/output/collection-planner-v2.ts",
+    "/tmp/knorvia-collection-planner-author-20261002/output/author-record-v2.json"
+  ],
+  "readPurposes": {
+    "originalInputs": "Original authoring context retained; SHA-256 and byte count at v2 freeze.",
+    "clarification": "Version 2 functional requirements; SHA-256 and byte count at freeze.",
+    "collection-planner.ts": "Own v1 source reused for the complete revised draft; SHA-256 and byte count at freeze.",
+    "author-record.json": "SHA-256 and byte count only at v2 freeze; its post-write integrity read also occurred in v1.",
+    "collection-planner-v2.ts": "SHA-256 and byte count only at freeze.",
+    "author-record-v2.json": "SHA-256 and byte count only immediately after freezing the record."
+  },
+  "changes": [
+    "Observe phase directly from shared run options at every phase-bearing observation.",
+    "Append accepted IDs individually in returned order without spreading the accepted list into function arguments."
+  ],
+  "unresolvedQuestions": [],
+  "boundaryBreaches": [],
+  "validation": "No compilation, tests, comparison, repository inspection, or network access performed. V1 files were not written during this continuation.",
+  "limitations": [
+    "Uninstalled standalone evidence candidate; integration and behavior remain unverified.",
+    "Dependency imports are based solely on the supplied public API module labels.",
+    "Requested model/service-tier configuration was not independently verified by this author."
+  ],
+  "recordIntegrity": "This metadata record is excluded from its embedded output hashes. Its exact SHA-256 and byte count are emitted separately immediately after write."
+}
