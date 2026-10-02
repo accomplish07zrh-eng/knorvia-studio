@@ -1,0 +1,10 @@
+const fs=require('fs'),assert=require('assert/strict'),ts=require(process.cwd()+'/node_modules/typescript');
+const printer=ts.createPrinter({removeComments:true});const shape=n=>{if(ts.isParenthesizedExpression(n))return shape(n.expression);let c=[];ts.forEachChild(n,k=>{if(k.kind!==ts.SyntaxKind.DeclareKeyword)c.push(shape(k))});return[n.kind,typeof n.text==='string'?n.text:null,c]};
+for(const name of ['remoteAssetCdn','remoteAssetNetwork']){
+ const source=fs.readFileSync('packages/server/src/remote/'+name+'.ts','utf8');
+ const result=ts.transpileDeclaration(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext},fileName:name+'.ts',reportDiagnostics:true});
+ assert.equal((result.diagnostics||[]).length,0);
+ const parse=t=>ts.createSourceFile(name+'.d.ts',t,99,true).statements.map(n=>[n.name?.text,shape(n)]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+ assert.deepEqual(parse(result.outputText),parse(fs.readFileSync('/tmp/knorvia-root-cdn-20261003/packet/'+name+'-public-api.d.ts','utf8')));
+ console.log(name+': public declarations structurally match packet; declaration extraction only');
+}

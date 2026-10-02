@@ -1,0 +1,11 @@
+const fs=require('fs'),path=require('path'),ts=require(process.cwd()+'/node_modules/typescript');
+const root=path.resolve('packages/server'),dir='/tmp/knorvia-root-cdn-20261003';
+const names=['remoteAssetCdn','remoteAssetNetwork'];
+const config=ts.parseJsonConfigFileContent(ts.readConfigFile(root+'/tsconfig.json',ts.sys.readFile).config,ts.sys,root).options;
+Object.assign(config,{types:['node'],typeRoots:[path.resolve('node_modules/@types')],composite:false,noEmit:true});
+const files=Object.fromEntries(names.map(n=>[root+'/src/remote/'+n+'.ts',fs.readFileSync(process.argv.includes('--working') ? root+'/src/remote/'+n+'.ts' : dir+'/draft-'+n+'.ts','utf8')]));
+const host=ts.createCompilerHost(config),read=host.readFile,get=host.getSourceFile;
+host.readFile=f=>files[f]??read(f);host.getSourceFile=(f,l,e,n)=>files[f]!==undefined?ts.createSourceFile(f,files[f],l,true):get(f,l,e,n);
+const p=ts.createProgram(Object.keys(files),config,host),ds=ts.getPreEmitDiagnostics(p);
+if(ds.length){console.error(ts.formatDiagnosticsWithColorAndContext(ds,{getCanonicalFileName:f=>f,getCurrentDirectory:()=>process.cwd(),getNewLine:()=> '\n'}));process.exit(1)}
+console.log('Two target strict compiler: zero diagnostics. No runtime tests/builds.');

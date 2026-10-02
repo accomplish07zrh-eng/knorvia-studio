@@ -1,0 +1,15 @@
+{
+  "frozenAt": "2026-10-02T18:45:43.182417+00:00",
+  "files": {
+    "draft-remoteAssetNetwork.ts": {
+      "bytes": 255,
+      "sha256": "ded0db350cfbb74a9cf310f76ccd561632c549fce95a44ed1821cd195c9700ba"
+    },
+    "draft-remoteAssetCdn.ts": {
+      "bytes": 4666,
+      "sha256": "5907813d74e1017f97a9b7c5febf3b42bc0af4140b5bdccefd266af351669b24"
+    }
+  },
+  "targetBodyRead": false,
+  "networkQualification": "Minimal contractual selector; no distinct originality credit asserted for this ordinary idiom."
+}

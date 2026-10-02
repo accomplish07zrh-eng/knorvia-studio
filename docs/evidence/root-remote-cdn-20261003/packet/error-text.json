@@ -1,0 +1,18 @@
+{
+  "note": "Exact retained functional error output; placeholders identify substitutions, not implementation bodies.",
+  "path": {
+    "empty": "[remote-assets] {label} is empty",
+    "backslash": "[remote-assets] {label} must not contain backslash: {rawPath}",
+    "relative": "[remote-assets] {label} must be relative path: {rawPath}",
+    "emptySegment": "[remote-assets] {label} contains empty path segment: {rawPath}",
+    "parentSegment": "[remote-assets] {label} must not contain '..': {rawPath}",
+    "currentSegment": "[remote-assets] {label} must not contain '.': {rawPath}",
+    "normalized": "[remote-assets] {label} is invalid after normalize: {rawPath}"
+  },
+  "versionMismatch": {
+    "prefix": "[remote-assets] remoteCdnBaseUrl 版本不匹配：当前应用版本是 {expectedVersion}，但以下基址固定在其他版本：",
+    "item": "{pinnedVersion} ({remoteCdnBaseUrl})",
+    "separator": ", ",
+    "suffix": "。请将 KNORVIA_REMOTE_ASSET_CDN_BASE_URL 改为不带版本的发布根目录，或改为 {expectedVersion} 对应目录。"
+  }
+}
