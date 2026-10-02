@@ -1,0 +1,43 @@
+{
+  "baselineCommit": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "freezeCommit": "d3f910f",
+  "draftCommit": "0e94759",
+  "redProofCommit": "3674157",
+  "owner": "apps/cli/packages/core/src/runtime/methods/hooks.ts",
+  "lineageReference": "docs/evidence/runtime-hooks-author-20261003/lineage.json",
+  "packetPins": {
+    "api.d.ts": "65b72d9d359820ba5d70993dfa6ee851a80b613223d289bd15a59c8e711d0acf",
+    "receiver-facts.md": "cee364fc083a481f49d949496d1403b6d9c2b7f489688479501b186569a6fda7",
+    "contract.md": "c30dea78272a5fac89e7c1753c0616e5c0a15a3d494ada8094560d65aa595ebd",
+    "lineage.json": "eaf19ec842036416ff8118b62f4cff58860f365625a5d2b83df3569277e81d5a"
+  },
+  "draftPins": {
+    "hooks.ts": "6693a6d5092f4ea12e2f15fbed235d7f537192e9585b0d24bef98418eea2872e",
+    "SHA256SUMS": "c06c3d3c5c2a3ec569fabe03fdf9b5215348264841f3c15ea6ef9b1e4e1b0ab2",
+    "draft-record.json": "fff628576c5b29352610fc839238ed822487697ba8ea90173381c838249cf0de"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-hooks-baseline-20261003.json",
+    "sha256": "5fad4e0da8d5094fc9f6bfc4ef62a0824a07a93790926ec526c474c9eac02bc4"
+  },
+  "finalPins": {
+    "src/runtime/methods/hooks.ts": "4fdff175c19c98cfbda7fa1c7ea8b63d573b6c888a160f99de7e041938be6298",
+    "dist/runtime/methods/hooks.js": "095b3bde14dbe1f83829f3523d5cdfd06fba9a0b71c4090b4206838ea0e60fc1",
+    "dist/runtime/methods/hooks.d.ts": "63aea3b43fda4d54dbf2bfb1bf1798075178b4894bc27f2c8befc232232e93e3"
+  },
+  "design": "Complete lifecycle dispatch and context/continuation owner, authored from body-free event and admission contract. Single shared empty result and native async activation gate retained. Fixed event fields, attachment/context formatting and direct receiver dispatch are contract-constrained; little freedom in ordering, no algorithmic novelty claim.",
+  "postDraftCorrections": [
+    "Preserved draft read-order failure: path/type trace fixed with predecessor-compatible field evaluation; correction is source-exposed and constrained expression, not restricted draft authorship.",
+    "Named limits restored."
+  ],
+  "authorship": "Fresh internal author fork_turns=none, GPT-6.1 Sol high. Only own api.d.ts, contract.md, receiver-facts.md and recorded body-free clarifications supplied; sealed draft before curator source comparison. Curator exposed to predecessor. Packets source-derived, no absolute isolation/clean-room claim; author-reported input journal preserved.",
+  "retention": "Existing attribution/license/notice obligations unchanged. Fixed runtime prose/prompts, schema/declarations, dependency seams, regex compatibility vocabulary and conventional async/object/loop glue remain. Shared required combinations may match; root independently assesses expression/rights. No automatic file eligibility from hashes/tests or drafting process.",
+  "checks": "Shared final scoped compiler report:0 diagnostics;18 call signatures + interface/constant shapes equal. One final strict actual-emitted pass:5 shared safety groups +2 appended concrete regressions (overlap, not per-owner multiplicative counts).5 owner lint94rules0,6 format files0,architecture0.",
+  "limits": [
+    "Ordinary suites, broad builds, source/emitted duplication, native/live-provider acceptance deliberately unrun per user speed cadence.",
+    "Synthetic port observations do not establish all request success/error/cancellation branches. Direct runtime consumers statically traced, not launched.",
+    "Transitive workspace dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no proxy bypass/configuration change.",
+    "Root independent correctness/expression/licence review remains; no header/global inventory grant, no publication claim."
+  ]
+}
