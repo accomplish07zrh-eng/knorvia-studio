@@ -112,9 +112,25 @@
           "path": "docs/evidence/core-memory-owner-packet-20261003/path/output-data.json",
           "bytes": 2071,
           "sha256": "771a472861d79bd9f0dd5434234c6f5f8ae3ca6e6fc77911bb895fb95a7357cd"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-review-20261003/path-type-review.md",
+          "bytes": 1143,
+          "sha256": "175cf0333820d01e33de5c0942a438b54608682b2facaaab91e5abdf263e2c16"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/memory-file-path.ts.txt",
+          "bytes": 1930,
+          "sha256": "c69b197f042f039e0988ac29bbc12b565feeaadb5e77f75e7f4d1aca59b19558"
+        },
+        {
+          "path": "docs/evidence/core-memory-owner-packet-20261003/path/author-record.json",
+          "bytes": 8647,
+          "sha256": "800cb5d20fbcf6f90abcd0ac0b515dbf12c15d1c9911265d784ab6bc0c8329ab"
         }
       ],
-      "scratch": "/tmp/knorvia-memory-owners-20261003/path"
+      "scratch": "/tmp/knorvia-memory-owners-20261003/path-v2",
+      "archiveDirectory": "docs/evidence/core-memory-owner-packet-20261003/path-v2"
     },
     "index": {
       "source": "apps/cli/packages/core/src/memory/index-content.ts",

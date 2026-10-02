@@ -1,0 +1,25 @@
+{
+  "scope": "path",
+  "utc": "2026-10-02T21:57:21.078119+00:00",
+  "files": [
+    {
+      "file": "memory-file-path.ts.txt",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/path-v2/memory-file-path.ts",
+      "target": "apps/cli/packages/core/src/memory/memory-file-path.ts",
+      "bytes": 1966,
+      "lines": 81,
+      "sha256": "4aeef1a821f78f0ea8340e3406734ddb46899601dad82e9142ad056298a25f74",
+      "mode": "444"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/path-v2/author-record.json",
+      "bytes": 22533,
+      "lines": 374,
+      "sha256": "3168744aa4be34e74eee26571985b7e2f841073d49a7b9fa85dc002e6875ba28",
+      "mode": "444"
+    }
+  ],
+  "originalArchive": "docs/evidence/core-memory-owner-packet-20261003/path",
+  "qualification": "Entire complete same-author v2+receipt frozen/archived before v2 body rendering, original remains intact; manual typing hygiene qualification separate, no curator patch"
+}
