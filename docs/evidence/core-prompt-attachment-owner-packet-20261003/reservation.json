@@ -1,0 +1,50 @@
+{
+  "baseline": "735395542692589c572bd5c0941b27ce872f92de",
+  "directoryReservation": "160b706b",
+  "selectedSource": {
+    "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+    "bytes": 5540,
+    "lines": 170,
+    "sha256": "6ccc10bd8d6cb96e17e0b27b021d79facdb0ccea7bc2aae62edfd442a71ad43a",
+    "receiptHits": [],
+    "originClassification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "blob": "c617652e6fa7c53827af991d0d549cffcd2aa767",
+      "normalizedSha256": "d02ecba05443467b07d1fdca1f3fca34ded345761d974bb012cd47777f3c6032",
+      "contentMatchedPaths": []
+    },
+    "priorMetadataExact": true,
+    "availableHistory": [
+      "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+    ],
+    "decision": "selected substantive prompt attachment projection owner"
+  },
+  "scopes": {
+    "attachment": {
+      "path": "apps/cli/packages/core/src/system-reminder/prompt-attachment.ts",
+      "bytes": 5540,
+      "lines": 170,
+      "sha256": "6ccc10bd8d6cb96e17e0b27b021d79facdb0ccea7bc2aae62edfd442a71ad43a",
+      "receiptHits": [],
+      "originClassification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/system-reminder/prompt-attachment.ts",
+        "blob": "c617652e6fa7c53827af991d0d549cffcd2aa767",
+        "normalizedSha256": "d02ecba05443467b07d1fdca1f3fca34ded345761d974bb012cd47777f3c6032",
+        "contentMatchedPaths": []
+      },
+      "priorMetadataExact": true,
+      "availableHistory": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa 2026-09-24 chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "decision": "selected substantive prompt attachment projection owner"
+    }
+  },
+  "exactPathAnnouncedBeforeDrafting": true,
+  "sourceExposure": "Earlier source/tool/dependency exposure, prior system-reminder/source.ts declaration-extraction read and repaired scratch-write breach remain; source-exposed curator, instruction-only shared executor/no OS audit. Full system-reminder3, embedded2, MCPname/result-format/windows-computer-use bodies; first85MCPimage lines. Full read-text dependency body incidentally read to extract original public formatter port; no dependency business runtime executed.",
+  "ordinaryChecksDeferred": true,
+  "materialObligationsOpen": 21
+}
