@@ -48,8 +48,8 @@
     "contracts/src/index.ts": "3d9972674e770c92a16beaf414be53412f6f1ca10fe059b2f193041a2005bf27",
     "contracts/dist/index.js": "6b94416a5b229eaa2764dd5fa1fda83711bced445f57a613c40798bfcb92ebcc",
     "contracts/dist/index.d.ts": "08a1b5a343aa43201c4240bb792f143238f58f9ca3081ab1257c3455ffc55974",
-    "contracts/src/workflow/index.ts": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62",
-    "contracts/dist/workflow/index.js": "f635707057e69ccda1903035de524ae49db9ffba03dad1e8a7dc7e05069ce174",
+    "contracts/src/workflow/index.ts": "90e1363cdf9bae41b0fe3b99773146bdeeaed5922236c2fbc067b06b8d91f24c",
+    "contracts/dist/workflow/index.js": "75d758df831789ce48c0ae4fbf04c3771240bdc156d92ac06439c61ae85a7045",
     "contracts/dist/workflow/index.d.ts": "34f9df91d2e74c9a33437d87256c8b14a1a8af930feb36292d3e37bc597ea090",
     "contracts/src/workflow/script.ts": "9282b115b4c7bf6bfc184c6aad657e6a8ad1a6336e6fb4620c228335b434eb8d",
     "contracts/dist/workflow/script.js": "e473833b75935c6d51c2f50b484166ce6efd0bab18da7880c9f52828aba6cb97"

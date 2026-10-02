@@ -595,109 +595,165 @@ const TERMINAL_DEPENDENCY_STATUSES = new Set<WorkflowNodeStatus>([
 ]);
 
 export function deriveWorkflowSchedulerState(graph: WorkflowGraph): WorkflowSchedulerState {
-  const nodesById = new Map(graph.nodes.map((node) => [node.id, node]));
-  const incomingById = new Map<string, string[]>();
-  const outgoingById = new Map<string, string[]>();
-
+  const nodesById = new Map<string, WorkflowGraphNode>();
   for (const node of graph.nodes) {
-    incomingById.set(node.id, [...node.dependsOn]);
-    outgoingById.set(node.id, []);
+    nodesById.set(node.id, node);
   }
 
+  const incomingById = new Map<string, Set<string>>();
+  const outgoingById = new Map<string, Set<string>>();
+  for (const [id, node] of nodesById) {
+    incomingById.set(id, new Set(node.dependsOn));
+  }
   for (const edge of graph.edges) {
-    incomingById.set(edge.to, [...(incomingById.get(edge.to) ?? []), edge.from]);
-    outgoingById.set(edge.from, [...(outgoingById.get(edge.from) ?? []), edge.to]);
+    let incoming = incomingById.get(edge.to);
+    if (incoming === undefined) {
+      incoming = new Set<string>();
+      incomingById.set(edge.to, incoming);
+    }
+    incoming.add(edge.from);
+
+    let outgoing = outgoingById.get(edge.from);
+    if (outgoing === undefined) {
+      outgoing = new Set<string>();
+      outgoingById.set(edge.from, outgoing);
+    }
+    outgoing.add(edge.to);
   }
 
   const collections = graph.collections ?? [];
   const collectionIdsByNodeId = new Map<string, string[]>();
   for (const collection of collections) {
     for (const nodeId of collection.nodeIds ?? []) {
-      const collectionIds = collectionIdsByNodeId.get(nodeId) ?? [];
+      let collectionIds = collectionIdsByNodeId.get(nodeId);
+      if (collectionIds === undefined) {
+        collectionIds = [];
+        collectionIdsByNodeId.set(nodeId, collectionIds);
+      }
       collectionIds.push(collection.collectionId);
-      collectionIdsByNodeId.set(nodeId, collectionIds);
     }
   }
   for (const node of graph.nodes) {
-    if (!node.collectionId) continue;
-    const collectionIds = collectionIdsByNodeId.get(node.id) ?? [];
-    if (!collectionIds.includes(node.collectionId)) {
-      collectionIds.push(node.collectionId);
-      collectionIdsByNodeId.set(node.id, collectionIds);
+    if (node.collectionId) {
+      let collectionIds = collectionIdsByNodeId.get(node.id);
+      if (collectionIds === undefined) {
+        collectionIds = [];
+        collectionIdsByNodeId.set(node.id, collectionIds);
+      }
+      if (!collectionIds.includes(node.collectionId)) {
+        collectionIds.push(node.collectionId);
+      }
     }
   }
 
-  const nodes = graph.nodes.map((node) => {
-    const incoming = [...new Set(incomingById.get(node.id) ?? [])];
+  const activeNodeIds: string[] = [];
+  const blockedNodes: WorkflowSchedulerState["blockedNodes"] = [];
+  const nodes: WorkflowSchedulerState["nodes"] = [];
+  const readyNodeIds: string[] = [];
+  const counts: WorkflowSchedulerState["counts"] = {
+    active: 0,
+    blocked: 0,
+    completed: 0,
+    failed: 0,
+    pending: 0,
+    ready: 0,
+    total: graph.nodes.length,
+  };
+
+  for (const node of graph.nodes) {
+    const incoming = Array.from(incomingById.get(node.id) ?? []);
+    const outgoing = Array.from(outgoingById.get(node.id) ?? []);
     const blockedBy = incoming.filter((dependencyId) => {
       const dependency = nodesById.get(dependencyId);
-      return !dependency || !TERMINAL_DEPENDENCY_STATUSES.has(dependency.status);
+      return dependency === undefined || !TERMINAL_DEPENDENCY_STATUSES.has(dependency.status);
     });
-    return {
+    const ready = node.status === "pending" && blockedBy.length === 0;
+    nodes.push({
       blockedBy,
       collectionIds: collectionIdsByNodeId.get(node.id) ?? [],
       incoming,
       node,
-      outgoing: [...new Set(outgoingById.get(node.id) ?? [])],
-      ready: node.status === "pending" && blockedBy.length === 0,
-    };
-  });
+      outgoing,
+      ready,
+    });
 
-  const activeNodeIds = nodes
-    .filter((entry) => entry.node.status === "active")
-    .map((entry) => entry.node.id);
-  const blockedNodes = nodes
-    .filter((entry) => entry.node.status === "pending" && entry.blockedBy.length > 0)
-    .map((entry) => ({ blockedBy: entry.blockedBy, nodeId: entry.node.id }));
-  const readyNodeIds = nodes.filter((entry) => entry.ready).map((entry) => entry.node.id);
-  const collectionStates = collections.map((collection) => {
-    const nodeIds = [
-      ...new Set([
-        ...(collection.nodeIds ?? []),
-        ...graph.nodes
-          .filter((node) => node.collectionId === collection.collectionId)
-          .map((node) => node.id),
-      ]),
-    ];
-    const activeCollectionNodeIds = nodeIds.filter(
-      (nodeId) => nodesById.get(nodeId)?.status === "active",
-    );
-    const pendingNodeIds = nodeIds.filter((nodeId) => nodesById.get(nodeId)?.status === "pending");
-    const completedNodeIds = nodeIds.filter(
-      (nodeId) => nodesById.get(nodeId)?.status === "completed",
-    );
-    const failedNodeIds = nodeIds.filter((nodeId) => nodesById.get(nodeId)?.status === "failed");
-    const readyCollectionNodeIds = readyNodeIds.filter((nodeId) => nodeIds.includes(nodeId));
-    return {
-      activeNodeIds: activeCollectionNodeIds,
+    switch (node.status) {
+      case "active":
+        counts.active += 1;
+        activeNodeIds.push(node.id);
+        break;
+      case "completed":
+        counts.completed += 1;
+        break;
+      case "failed":
+        counts.failed += 1;
+        break;
+      case "pending":
+        counts.pending += 1;
+        if (blockedBy.length > 0) {
+          counts.blocked += 1;
+          blockedNodes.push({ blockedBy, nodeId: node.id });
+        }
+        break;
+    }
+    if (ready) {
+      counts.ready += 1;
+      readyNodeIds.push(node.id);
+    }
+  }
+
+  const collectionStates: WorkflowSchedulerState["collectionStates"] = [];
+  for (const collection of collections) {
+    const memberIds = new Set(collection.nodeIds ?? []);
+    for (const node of graph.nodes) {
+      if (node.collectionId === collection.collectionId) {
+        memberIds.add(node.id);
+      }
+    }
+
+    const active: string[] = [];
+    const pending: string[] = [];
+    const completed: string[] = [];
+    const failed: string[] = [];
+    for (const nodeId of memberIds) {
+      switch (nodesById.get(nodeId)?.status) {
+        case "active":
+          active.push(nodeId);
+          break;
+        case "pending":
+          pending.push(nodeId);
+          break;
+        case "completed":
+          completed.push(nodeId);
+          break;
+        case "failed":
+          failed.push(nodeId);
+          break;
+      }
+    }
+
+    collectionStates.push({
+      activeNodeIds: active,
       collection,
-      completedNodeIds,
+      completedNodeIds: completed,
       errorCount: collection.errorCount ?? 0,
       exhausted: collection.exhausted ?? false,
-      failedNodeIds,
-      frontier: activeCollectionNodeIds.length + pendingNodeIds.length,
+      failedNodeIds: failed,
+      frontier: active.length + pending.length,
       frontierTarget: collection.frontierTarget,
-      pendingNodeIds,
+      pendingNodeIds: pending,
       plannerRuns: collection.plannerRuns ?? 0,
-      readyNodeIds: readyCollectionNodeIds,
+      readyNodeIds: readyNodeIds.filter((nodeId) => memberIds.has(nodeId)),
       status: collection.status ?? "active",
-    };
-  });
+    });
+  }
 
   return {
     activeActivities: [],
     activeChildSessionIds: [],
     activeNodeIds,
     blockedNodes,
-    counts: {
-      active: activeNodeIds.length,
-      blocked: blockedNodes.length,
-      completed: nodes.filter((entry) => entry.node.status === "completed").length,
-      failed: nodes.filter((entry) => entry.node.status === "failed").length,
-      pending: nodes.filter((entry) => entry.node.status === "pending").length,
-      ready: readyNodeIds.length,
-      total: nodes.length,
-    },
+    counts,
     collectionStates,
     nodes,
     readyNodeIds,
