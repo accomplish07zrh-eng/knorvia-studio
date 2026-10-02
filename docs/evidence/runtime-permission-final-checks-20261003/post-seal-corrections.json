@@ -1,0 +1,18 @@
+{
+  "sourceExposed": true,
+  "originalWholeDraftAndInitialRepresentationsUnchanged": true,
+  "provedDraftFailures": [
+    "TS2322: receipt schema returns unbranded IDs; type assertion only copy preserved, both sources have identical transpiled runtime.",
+    "Selected input item/array replacement broke original identity and in-place intent update contract.",
+    "Recovery direct publication bypassed original pending/busy receipt admission; focused baseline passed and sealed draft failed."
+  ],
+  "corrections": [
+    "Type-only saved receipt event brand assertion; public API unchanged.",
+    "Receipt ID capture before optional entry await; original store read path retained after admission.",
+    "Recovery calls the public full-access method for the same fixed interaction, reparses stored receipt and preserves its busy/unsupported/error gates.",
+    "Keep selected input objects and pending array; mutate only their intent references and mode as specified.",
+    "Restore grant ID target capture before applied-id lookup and eliminate the added nested native publication await; original public owner owns event-store/publication awaits."
+  ],
+  "retainedExpression": "Runtime strings, public fields/schema/helper contracts, standard WeakMap/Set and projection/await glue. Corrected complete drafts strongly correspond to predecessor admission/persistence/application/publication combinations; body-free author workflow alone does not prove independently licensable expression. Independent review remains unresolved.",
+  "limits": "Four minimum emitted safety groups plus one focused recovery-busy group; no broad timing/getter/expiry matrix, ordinary suites, full builds or native/live acceptance."
+}
