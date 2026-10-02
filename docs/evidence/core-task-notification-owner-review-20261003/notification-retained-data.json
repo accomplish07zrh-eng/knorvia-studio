@@ -1,0 +1,118 @@
+{
+  "scope": "notification",
+  "binding": {
+    "path": "docs/evidence/core-task-notification-owner-packet-20261003/notification/notification.ts.txt",
+    "bytes": 13292,
+    "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+  },
+  "proseChecks": [
+    {
+      "text": "Artifacts listed above are already in front of the user as cards; refer to them by title and do not paste their contents. The one marked primary is the deliverable: point the user to it first.",
+      "exact": true
+    },
+    {
+      "text": "The workflow completed. Present its outcome to the user as a deliverable, in this order: the conclusion; each finding with its evidence (path and line, or the command and output that showed it); which findings were confirmed by a deterministic check or an independent subagent and which are judged only; what the run did not cover.",
+      "exact": true
+    },
+    {
+      "text": "The reported items above are individual findings: present them individually and keep their evidence. When the preview is partial (count greater than shown), say so and read the rest with GetWorkflowRun.",
+      "exact": true
+    },
+    {
+      "text": "The user stopped this workflow on purpose. Do not resume it with ResumeWorkflowRun and do not amend or rebuild it unless the user asks you to.",
+      "exact": true
+    },
+    {
+      "text": "Present what it finished before it was stopped: the reported items above are finished findings — show them individually with their evidence. Then stop and wait for the user to say what happens next.",
+      "exact": true
+    },
+    {
+      "text": "You stopped this workflow with TaskStop. If you stopped it to fix the script, do that now: call AmendWorkflow with this run's ID and the corrected script — everything that settled before the stop is imported as cache, and the sooner the fix runs the less it re-pays. (Next time, amend the running run directly: AmendWorkflow stops it for you.)",
+      "exact": true
+    },
+    {
+      "text": "Otherwise present what it finished: the reported items above are finished findings — show them individually with their evidence. Resume it unchanged only if that is what the user wants.",
+      "exact": true
+    },
+    {
+      "text": "A provider-side error stopped this run; the <error> block above names the cause and the fix. Present what the run finished: the reported items above are finished findings — show them individually with their evidence.",
+      "exact": true
+    },
+    {
+      "text": "Then resolve the cause with the user before calling ResumeWorkflowRun with run_id=\"",
+      "exact": true
+    },
+    {
+      "text": "The process that owned this run exited before it finished. Present what it finished: the reported items above are finished findings — show them individually with their evidence.",
+      "exact": true
+    },
+    {
+      "text": "\" — finished steps replay from the journal and only the unfinished ones run again.",
+      "exact": true
+    },
+    {
+      "text": "This run was stopped because you amended it: a newer run supersedes it and is already running. Do not resume this run and do not amend it again; wait for the successor's notification.",
+      "exact": true
+    },
+    {
+      "text": "This workflow was stopped before it finished. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence.",
+      "exact": true
+    },
+    {
+      "text": "The workflow script failed. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request.",
+      "exact": true
+    },
+    {
+      "text": "\") so finished work is reused. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way.",
+      "exact": true
+    },
+    {
+      "text": "\") so finished work is reused — do not paste the script inline. ResumeWorkflowRun will refuse this run: replaying the same script would fail the same way.",
+      "exact": true
+    },
+    {
+      "text": "The workflow did not complete. Present what it salvaged first: the reported items above are finished findings — show them individually with their evidence. Then explain the failure and what it means for the user's request.",
+      "exact": true
+    },
+    {
+      "text": "If the script itself was wrong, a corrected script submitted with AmendWorkflow re-uses the finished work; if the process died (error code Interrupted), the run is resumable as-is.",
+      "exact": true
+    }
+  ],
+  "entities": [
+    {
+      "text": "&lt;",
+      "exact": true
+    },
+    {
+      "text": "&gt;",
+      "exact": true
+    },
+    {
+      "text": "&amp;",
+      "exact": true
+    },
+    {
+      "text": "&apos;",
+      "exact": true
+    },
+    {
+      "text": "&quot;",
+      "exact": true
+    }
+  ],
+  "patternChecks": [
+    {
+      "text": "/[<>&'\"]/gu",
+      "exact": true
+    },
+    {
+      "text": "/[<>&]/gu",
+      "exact": true
+    }
+  ],
+  "utf16LimitRetained": true,
+  "truncationSuffixRetained": true,
+  "passed": true,
+  "qualification": "Exact required public prose/template paragraph fragments, entity values, original escape patterns and 120000/suffix retained statically. XML tags/indent/metric projection may be composed from public names and are checked by minimum exact-output fixtures; no lexical-copy or originality credit for required data. No original/private-helper runtime or semantic/project compilation/rights claim."
+}
