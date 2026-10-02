@@ -1,0 +1,119 @@
+{
+  "task": "Complete independent replacement of attachment-artifacts.ts",
+  "freezeReference": "f337904a",
+  "originalModule": "apps/cli/packages/core/src/runtime/helpers/attachment-artifacts.ts",
+  "assignment": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "fork": "none",
+    "requestedServiceTier": "Fast",
+    "serviceTierQualifier": "Fast requested; no distinct exposed service-tier control was available."
+  },
+  "accessModel": {
+    "enforcement": "Instruction-only limits in a shared executor; no OS isolation or access audit.",
+    "curator": "Source-exposed curator supplied the body-free contract.",
+    "exactReadPaths": [
+      "/tmp/knorvia-attachment-plan-20261003/artifacts/input/contract.md",
+      "/tmp/knorvia-attachment-plan-20261003/artifacts/input/public-api.d.ts",
+      "/tmp/knorvia-attachment-plan-20261003/artifacts/input/dependency-api.d.ts",
+      "/tmp/knorvia-attachment-plan-20261003/artifacts/input/public-shapes.d.ts",
+      "/tmp/knorvia-attachment-plan-20261003/artifacts/input/imports.json",
+      "/tmp/knorvia-attachment-plan-20261003/artifacts/input/output-data.json"
+    ],
+    "ownOutputReadPaths": [],
+    "prohibitedMaterialRead": false
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/input/contract.md",
+      "bytes": 4452,
+      "sha256": "2cf76fc21b6396cb2cb387da24a2f8acd6f2fcb2ba0ae38b00316be44f700731"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/input/public-api.d.ts",
+      "bytes": 1052,
+      "sha256": "84ada01f7a3a9abb55c656908459f084f447b1b8098dc11575baa1ebbb20027c"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/input/dependency-api.d.ts",
+      "bytes": 307,
+      "sha256": "b57588b7798c447db177e3f94c00a62ca148d4bc6462fa5606e23cdeb963d2ff"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/input/public-shapes.d.ts",
+      "bytes": 3387,
+      "sha256": "d59a6a7314e7e7415f3db95ca73b0ddc9aa1af07e39ef0428b1a78d5ecbc7b55"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/input/imports.json",
+      "bytes": 556,
+      "sha256": "e5ed971151eb1aa6cd7d31254b4660dd826e79dbeb93fd55ce4851fc48a29796"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/input/output-data.json",
+      "bytes": 720,
+      "sha256": "af88730ac4fa058153c7c3e7ad44cbfd90f5da7d142908fc4948f8857e18619f"
+    }
+  ],
+  "retainedExpression": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+  "chosenStructure": {
+    "description": "Private result types followed by three public functions, each expressing its own ordered admission gates and terminal outcomes directly. Persistence has reuse, inline, and durable outcomes; content recovery keeps its storage operation inside one narrow try/catch; original-reference selection remains a synchronous path/content decision.",
+    "rationale": "Keeping guards and field observations at their use sites preserves lazy branches, repeated live reads, receiver binding, and exception boundaries without an extra cache or helper changing observation timing.",
+    "noveltyClaim": false
+  },
+  "preservedContract": {
+    "publicApi": "All three exported function names, parameter shapes, return types, and both private result types retained.",
+    "imports": [
+      "import { isArtifactUri } from \"@knorvia/shared\";",
+      "SessionId, ToolArtifactStorePort, TraceContext, TurnAttachment, TurnId imported as types from ../deps.js"
+    ],
+    "persist": [
+      "Truthy existingArtifactUri is observed first; metadata URI and URL are separate subsequent reads.",
+      "Missing artifactStore or sessionId is checked left-to-right; inline metadata has no artifactUri own key.",
+      "Durable write uses artifactStore as method receiver; request fields retain content, contentType, retention, sessionId, toolCallId, toolName, trace, turnId order and options signal.",
+      "No write catch: durable rejection propagates unchanged; result URI reads remain separate.",
+      "No URI admission, decoding, index validation, inferred grants, alternate durable owner, or cache."
+    ],
+    "read": [
+      "Falsy content, case-sensitive data: prefix, then isArtifactUri admission and missing store gates preserve order and repeated content reads.",
+      "Initial getters and URI classification stay outside try; read call and artifact content observations stay inside try.",
+      "Read request preserves trace then uri field order, receiver binding, and absence of a second options argument.",
+      "Stored data: content returns exact attachment reference and live artifact content; read and in-try content failures return undefined."
+    ],
+    "originalRef": [
+      "Truthy path returns a fresh path read immediately; falsy content yields undefined.",
+      "Data URL references map to inline:data-url; all other admitted content reference strings remain unchanged.",
+      "No expanded scheme decision or blanket redaction claim."
+    ]
+  },
+  "verification": {
+    "method": "Manual source inspection against the six body-free frozen inputs; byte, SHA256 and line accounting only.",
+    "executedTests": false,
+    "compilerLintBuildMocksProviderOperations": false,
+    "repositoryOrNetworkOperations": false,
+    "sourceBelow400Lines": true
+  },
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/output/attachment-artifacts.ts",
+      "bytes": 2904,
+      "sha256": "067fc1e8b05cd2e48fe70201d240cfc7ee92036b92b905d70592610c76ddfb1f",
+      "lines": 119
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/artifacts/output/author-record.json",
+      "bytes": 6197,
+      "lines": 119,
+      "sha256": "Reported separately after freeze; a receipt cannot contain its own SHA256 digest."
+    }
+  ],
+  "breaches": [],
+  "questions": [],
+  "remainingBlockers": [],
+  "freezeUTC": "2026-10-02T20:23:36.760499Z",
+  "cooperativeFreeze": {
+    "filesMode": "0444",
+    "directoryMode": "0555",
+    "timing": "Files and directory frozen immediately after this record was finalized; curator review occurs afterward."
+  }
+}

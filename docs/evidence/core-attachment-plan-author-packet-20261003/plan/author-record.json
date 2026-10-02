@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "scope": "plan-file-continuity.ts",
+  "originalModule": "apps/cli/packages/core/src/runtime/helpers/plan-file-continuity.ts",
+  "freezeReference": "f337904a",
+  "status": "complete replacement authored from six frozen body-free inputs; cooperative freeze prepared before curator review",
+  "assignment": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "fork": "none",
+    "serviceTierRequested": "Fast",
+    "serviceTierQualifier": "Requested Fast; a distinct service-tier control was unavailable. No independent tier verification claimed."
+  },
+  "readPaths": [
+    "/tmp/knorvia-attachment-plan-20261003/plan/input/contract.md",
+    "/tmp/knorvia-attachment-plan-20261003/plan/input/public-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/plan/input/dependency-api.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/plan/input/public-shapes.d.ts",
+    "/tmp/knorvia-attachment-plan-20261003/plan/input/imports.json",
+    "/tmp/knorvia-attachment-plan-20261003/plan/input/output-data.json",
+    "/tmp/knorvia-attachment-plan-20261003/plan/output/plan-file-continuity.ts",
+    "/tmp/knorvia-attachment-plan-20261003/plan/output/author-record.json"
+  ],
+  "readPathAccounting": "Only the six authorized task-content inputs and the author own output source were read. Input reads were repeated for hashing/import assembly. Receipt is read after creation solely for output hash/mode accounting.",
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/input/contract.md",
+      "bytes": 4312,
+      "sha256": "62d17e700e9c8ca4b301ae04d4bf70fbb53d54ddad3d1f08e3b1d093a46e4f56",
+      "lineCount": 13
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/input/public-api.d.ts",
+      "bytes": 715,
+      "sha256": "0e4f11b9e15c8ad611d87ccf3a41d1d9d087ff7d43dcde2266b3c6f41496bafe",
+      "lineCount": 19
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/input/dependency-api.d.ts",
+      "bytes": 4604,
+      "sha256": "b32b7a70e2b8682bfd4440c0723e7cf3a0fcd758867468a82e24a1826470c2e2",
+      "lineCount": 129
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/input/public-shapes.d.ts",
+      "bytes": 4495,
+      "sha256": "7a5347469389fc80e16aa57666adc00d332203c5231f955d55da4257e76ae73e",
+      "lineCount": 135
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/input/imports.json",
+      "bytes": 956,
+      "sha256": "b9486b74bb0aab6b14b5648300f78be5f0c6f68afb3b47c9586c6c3142ce78e4",
+      "lineCount": 20
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/input/output-data.json",
+      "bytes": 977,
+      "sha256": "72ec80b1e64fcabfbafcc02377d70061f72937588c3b383bea75eede7741656d",
+      "lineCount": 40
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/output/plan-file-continuity.ts",
+      "bytes": 2737,
+      "sha256": "b4c854cdbf68e735048d5575f79a35d088696260f87ffb3200242ead2d32cf04",
+      "lineCount": 115,
+      "freezeMode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-attachment-plan-20261003/plan/output/author-record.json",
+      "freezeMode": "0444",
+      "accounting": "Exact final byte count, SHA256 and line count are emitted externally after writing/freeze; the receipt cannot include its own full-file SHA256 without a circular self-reference."
+    }
+  ],
+  "retainedExpression": {
+    "qualification": "Exact existing protocol/schema/fields/prose/constants/format/evaluation material; no new grant/novelty claim",
+    "items": [
+      "Exact imports from imports.json, public function names, public fields, optionality and return types.",
+      "Node join and the fixed path segments/filename; String, trim and both exact global normalization regexes.",
+      "CoreErrorType.InvalidInput, both exact error messages and recoverable options.",
+      "writeTextFile and readTextFile receiver binding, request/options own keys and their evaluation order.",
+      "PLAN_MODE_MAX_PLAN_CHARS * 4 + 1024 read-cap expression, corresponding to frozen cap 81024.",
+      "Typed not_found short-circuit and identity-preserving propagation of other errors.",
+      "plan_file_reference source, seven exact body lines, LF join, original content and unchanged collaborator output.",
+      "Ordinary TypeScript/JavaScript platform idioms and error/Promise/string/array semantics."
+    ],
+    "claims": "No cosmetic novelty, clean-room OS isolation, access-audit, ownership transfer, or new authority claim."
+  },
+  "chosenStructure": {
+    "description": "One private path helper shares path derivation. Each public async owner performs its operation directly against the port; the read owner assembles the required seven-line reminder after successful nonblank content.",
+    "rationale": "Central path normalization preserves the required workspaceRoot-before-sessionId observation. Direct public port calls preserve receiver binding and live field access without introducing snapshots or retry/persistence authority.",
+    "privateDeclarations": [
+      "planFilePath"
+    ],
+    "newAuthority": false
+  },
+  "contractReview": {
+    "method": "Manual source reasoning against the six authorized body-free inputs only; no execution, tests, mocks, compiler, lint or build.",
+    "publicApi": "Both exported async declarations preserve all fields, optional keys, source imported types and return promises.",
+    "pathOrdering": "Read workspaceRoot first, then sessionId; String -> trim -> invalid-character runs -> edge-hyphen runs -> empty validation -> Node join.",
+    "writeOrdering": "plan.trim before path/session/port access; then path; then live port method lookup and ordered request/options evaluation; return path only after awaited success.",
+    "readOrdering": "Compute path outside try; port receiver/method and request/options inside try; assign read.content untouched; typed not_found only returns undefined; blank trim after catch; factory output returned unchanged.",
+    "errorIdentity": "Write has no catch. Read rethrows the identical caught value unless the unchanged guard accepts it and code equals not_found.",
+    "authority": "No direct filesystem/provider operations in authored source, no root canonicalization/sanitization, no extra validator, logging, cache, stat/read retry or persistence.",
+    "data": "Exact supplied strings, flags, key order, constant expression, seven-line LF layout and untrimmed content are retained."
+  },
+  "restrictions": {
+    "mechanism": "Instruction-only restrictions in a shared executor; no OS isolation or access audit is asserted.",
+    "allowedActionsUsed": [
+      "Read six authorized inputs",
+      "Write own source and receipt",
+      "Hash and count authorized input/own-output bytes",
+      "Set cooperative output modes"
+    ],
+    "forbiddenActionsUsed": [],
+    "repoSourceChanged": false,
+    "curator": "Source-exposed curator; outputs frozen before review.",
+    "testsCompilerLintBuildMocksRun": false,
+    "networkProviderOSUserdataOperations": "None beyond expressly allowed local output write/hash/mode accounting and UTC freeze timestamp."
+  },
+  "breaches": [],
+  "questions": [],
+  "blockers": [],
+  "freezeUTC": "2026-10-02T20:23:00.703854Z",
+  "freezeUTCMeaning": "UTC timestamp recorded immediately before receipt write and cooperative chmod sequence; final mode accounting confirms resulting modes.",
+  "freezeDirectory": {
+    "path": "/tmp/knorvia-attachment-plan-20261003/plan/output",
+    "mode": "0555"
+  },
+  "selfAccountingReadPath": "/tmp/knorvia-attachment-plan-20261003/plan/output/author-record.json"
+}
