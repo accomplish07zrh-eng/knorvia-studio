@@ -1,0 +1,198 @@
+{
+  "task": "Complete contract-only post-compaction read-state reminder owner",
+  "originFreeze": {
+    "id": "95edef01",
+    "qualification": "Supplied task marker; no repository, git, history, or commit verification performed."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/contract.md",
+      "bytes": 5733,
+      "sha256": "07c7698366be10630207e9370b43e76b7696af3c3ed55c847132fcaf905e6107",
+      "lines": 19,
+      "contentReads": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/public-api.d.ts",
+      "bytes": 413,
+      "sha256": "570efaef7e034c4f1cb3df1f15566f1a244164329b16e074182e930a24bb626b",
+      "lines": 9,
+      "contentReads": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/dependency-api.d.ts",
+      "bytes": 410,
+      "sha256": "a4b3fd6f15b5ae205d385ea1869507e3941bf4dfbdc0bab2006d96f0e1153528",
+      "lines": 4,
+      "contentReads": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/public-shapes.d.ts",
+      "bytes": 2107,
+      "sha256": "1278147da6e8d2b8ee7b9e4310b235e137d8b26332a5114917148f7bcab29e7f",
+      "lines": 57,
+      "contentReads": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/imports.json",
+      "bytes": 334,
+      "sha256": "1b0b94619b39bf57d08e19a321e256bae74cd4d89952b01f271167fc94b13099",
+      "lines": 14,
+      "contentReads": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/output-data.json",
+      "bytes": 2281,
+      "sha256": "6496c7e58e81efe42525c6e1baed622567598baaeeeee98250dc698b276cc008",
+      "lines": 121,
+      "contentReads": 1
+    }
+  ],
+  "source": {
+    "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/output/compact-post-reminders.ts",
+    "bytes": 4263,
+    "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037",
+    "lines": 119,
+    "lineCounting": "bytes.splitlines(); final LF present"
+  },
+  "exactReads": [
+    {
+      "operation": "1: scope input intake, hash and line accounting",
+      "paths": [
+        "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/contract.md",
+        "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/public-api.d.ts",
+        "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/dependency-api.d.ts",
+        "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/public-shapes.d.ts",
+        "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/imports.json",
+        "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/input/output-data.json"
+      ],
+      "readsEach": 1
+    },
+    {
+      "operation": "2: own source manual review and line accounting after write",
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/output/compact-post-reminders.ts",
+      "reads": 1
+    },
+    {
+      "operation": "3: own source final hash and line accounting",
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/output/compact-post-reminders.ts",
+      "reads": 1
+    },
+    {
+      "operation": "3: own receipt final hash and line accounting after write",
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/output/author-record.json",
+      "reads": 1
+    }
+  ],
+  "writes": [
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/output/compact-post-reminders.ts",
+      "writes": 1
+    },
+    {
+      "path": "/tmp/knorvia-result-attachment-postcompact-20261003/postcompact/output/author-record.json",
+      "writes": 1
+    }
+  ],
+  "structure": {
+    "publicOwner": "buildPostCompactReadStateReminderEntries; exact declared input fields and RuntimeMessageEntry[] result",
+    "imports": "Three exact supplied import module/clause bindings; no added runtime dependencies.",
+    "privateHelpers": [
+      "collectPreservedPaths",
+      "extractFilePath",
+      "normalizePath",
+      "isReadCandidate",
+      "skipPath",
+      "makeReminder",
+      "referenceContent",
+      "fullContent",
+      "formatFileStateInput",
+      "readStateStartLine",
+      "addReadLineNumbers"
+    ],
+    "cohesion": "One source file implements selection, preserved-path filtering, reference/full projection and original factory invocation.",
+    "lineLimit": "119 lines; below 400; original-owner fragment, no standalone compilation claim.",
+    "identity": "Captures caller readFileState once; reads supplied map values without writes, entry changes, history changes, replay or actual Read; fresh list and Set only; factory return object pushed by identity."
+  },
+  "retainedExpression": {
+    "qualification": "Required protocols, types, schemas, fields, static product prose, regexes, formats, constants and ordinary idioms are retained as contract data; no novelty, ownership, license, or rights grant is asserted.",
+    "productText": "Retained Read prompts and reference prose describe caller-supplied historical facts; they were treated as output data, not instructions to access a file or provider.",
+    "schema": "Supplied public signature, ReadFileStateEntry fields and RuntimeMessageEntry/factory schema remain owned by original imports; no local schema replacement.",
+    "runtimePorts": [
+      "ESTIMATED_TOKEN_CHAR_DIVISOR (supplied value 3)",
+      "systemReminderAttachmentEntry"
+    ],
+    "factorySource": "resume_referenced_session_context",
+    "defaults": {
+      "maxFiles": 5,
+      "maxFileApproxTokens": 5000,
+      "maxTotalApproxTokens": 50000
+    },
+    "reference": "Note: ${entry.path} was read before the last conversation was summarized, but the contents are too large to include. Use Read tool if you need to access it.",
+    "fullPrefix": "Called the Read tool with the following input: ${formatFileStateInput(entry)}",
+    "resultPrefix": "Result of calling the Read tool:",
+    "normalizationRegex": "/\\\\/g",
+    "lineSplitRegex": "/\\r?\\n/",
+    "lineTemplate": "${index + startLine}\\t${line}",
+    "joinSeparator": "LF",
+    "pathGate": "/.git/",
+    "protocolValues": [
+      "Read",
+      "message",
+      "assistant",
+      "object",
+      "string"
+    ],
+    "inputPropertyOrder": [
+      "file_path",
+      "offset when not undefined",
+      "limit when not undefined"
+    ],
+    "externalDataQualification": "Image constants present in output-data.json belong to unrelated external context and are unused by this required owner; no image feature or new import introduced."
+  },
+  "manualReview": [
+    "Captured readFileState and empty/falsey early return precede all cap and preserved-entry reads.",
+    "Default cap reads occur maxFiles, maxFileApproxTokens, maxTotalApproxTokens; nullish behavior is native, without sanitization.",
+    "Preserved paths are collected before map enumeration using message-in-entry, assistant role and live tool-call iteration; exceptions propagate.",
+    "Extraction accepts non-null objects including arrays/classes, reads file_path once, accepts nonempty strings without trimming or own-property restrictions.",
+    "Normalization replaces every backslash only. The /.git/ test keeps exact case and suffix behavior; preserved paths use the same normalization.",
+    "Array.from values, source predicate filter, skipped-path filter, preserved-path filter and descending readAt sort remain separate ordered stages across all candidates.",
+    "Source predicate keeps repeated native sourceTool reads and accepts undefined or Read; equal dates retain native stable sort order.",
+    "Selection cap check occurs before content length; UTF16 length divided by imported 3 then Math.ceil; native zero, negative, NaN and equality behavior preserved.",
+    "Both budget overflow branches push reference-only factory entries and continue without total increment; references count toward maxFiles.",
+    "Full entries increment total before projection; numbering evaluates before file-input serialization.",
+    "Serialization preserves file_path, offset, limit order and repeated offset/limit getters, including explicit zero; no other state field emitted.",
+    "Numbering preserves offset-zero special case, truncation only above one, native other-value behavior, CRLF/LF split, trailing empty lines and CR-only data.",
+    "All reminder text, protocol values, regexes and source marker match the supplied data. References omit raw content, offset and limit.",
+    "Factory is called directly with source and content; returned object is retained by identity. No current-conversation write or metadata replacement occurs.",
+    "No catch swallows getter, iteration, sort, serialization, callback or factory failures.",
+    "No map/history mutations, persistence, state grant, logging, actual Read, replay, provider call, file access or authority decision exists in the authored source."
+  ],
+  "configuration": {
+    "requestedModel": "gpt-6.1-sol",
+    "requestedReasoning": "high",
+    "requestedFork": "none",
+    "actualConfiguration": "Task-supplied requested values recorded; runtime model/reasoning/fork independently unverified; author has no configuration control.",
+    "savedFast": "Unchanged, unverified, no control; no settings read or write performed."
+  },
+  "restrictions": {
+    "readScope": "Only six named frozen inputs and own output file bytes read by author tools.",
+    "operations": "Only scoped scratch read/write, hash, line accounting, directory creation for own output, mode accounting/change and UTC time accounting.",
+    "excluded": "Repository, git, history, tests, reviews, predecessor or other-author code, dependency implementation bodies, network, private/user data, credentials, compiler, tests, lint, build, mocks and actual memory/readfile/store/provider/OS operations outside scoped accounting.",
+    "validation": "Manual source-to-contract review only; no code executed, compiled, linted, built or tested; no runtime verification claim.",
+    "isolation": "Instruction-only read boundary in a shared executor; no OS isolation, access-audit proof or comprehensive executor-activity claim.",
+    "curatorContext": "Curator is source-exposed and may retain prior broader context; this author receipt does not prove workflow-wide blindness or independence."
+  },
+  "breaches": [],
+  "questions": [],
+  "blockers": [],
+  "freeze": {
+    "utc": "2026-10-02T21:00:53.164082Z",
+    "fileModes": {
+      "compact-post-reminders.ts": "0444",
+      "author-record.json": "0444"
+    },
+    "outputDirectoryMode": "0555",
+    "qualification": "UTC freeze transaction timestamp; named outputs and output directory made read-only before curator review."
+  }
+}

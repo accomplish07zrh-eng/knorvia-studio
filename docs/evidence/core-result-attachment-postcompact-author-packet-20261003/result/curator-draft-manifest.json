@@ -1,0 +1,24 @@
+{
+  "scope": "result",
+  "recordedAtUtc": "2026-10-02T21:01:20.197422+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "authorRequestedModel": "gpt-6.1-sol",
+  "authorRequestedReasoning": "high",
+  "savedFastUnchanged": true,
+  "fastVerified": false,
+  "instructionOnlyRestrictions": true,
+  "noOsIsolationOrAccessAuditProof": true,
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 13355,
+      "sha256": "ccf0f634911a8644ffd42f7958d912549c0b32ce256a1201c8911975a4da24e3"
+    },
+    {
+      "file": "tool-result.ts.txt",
+      "bytes": 3458,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "target": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts"
+    }
+  ]
+}
