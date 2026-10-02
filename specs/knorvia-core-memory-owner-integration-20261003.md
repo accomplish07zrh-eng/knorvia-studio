@@ -1,0 +1,14 @@
+# Complete memory owner reconstruction
+
+Reserve core/src/memory at published b5152875. Screen extraction, memory-agent-loop, recall/manifest, memory-file-path and index-content against exact accepted receipts, preserving trivial/configuration/adjacent ownership surfaces. Announce up tofive eligible paths before implementation; no forced count. G CLI adapters/src/model and A runtime/methods/streaming are excluded. No cross-lane implementation import.
+
+Existing memory identity, path containment, privacy, event/operation order, write ownership and public ports remain authoritative. Complete body-free externally required behavior/type/data contracts must not prescribe predecessor private helper names or decomposition; authors choose cohesive internals, each source under400lines. No line-by-line reconstruction or renaming-only novelty/rights claim. Required schema/prompt/path/protocol/static data and ordinary idioms retained honestly, all applicable notices remain.
+
+```text
+supplied memory identity/input → existing public owner/ports → validated contained path and bounded metadata
+supplied synthetic model/tool events → same owner/order/write authority → unchanged externally visible result
+```
+
+Fresh restricted Sol/high/fork-none authors, saved Fast unchanged/unverified. Freeze full complete original drafts/receipts and archive before source-exposed curator review. Only additive same-author complete corrections if necessary, no curator source patch; failures/lineage retained. Instruction-only sharedexecutor, no OS/access-audit or clean-separation attestation; prior broader/dependency/tool/source exposures qualified, earlier repaired scratch-write breach remains explicit.
+
+Install E own complete reviewed candidates byte-exactly into PR8. Minimum synthetic authority/privacy/containment/write/data-safety gates and necessary scoped static public API/import/input/output/receipt/data/boundary checks only. Never read or change actual user memory/files/databases/providers/credentials/networkservices; no actual business FS/store/model operations. Ordinary suites/builds/project typechecks/lint/cross-lane integration/final acceptance/merging/global licence decisions remain deferred. Known unchanged architecture TypeScript failure preserved and not repeated. No main merge/release/deployment/global licensing/reviews/current-files edits. All21 material obligations remain open.
