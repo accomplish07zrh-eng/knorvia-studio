@@ -1,0 +1,1 @@
+{"mode":"baseline","passed":true,"observation":"terminal write re-reads success after public persistence-port lookup","liveIO":false}
