@@ -1,0 +1,129 @@
+{
+  "baseline": "750a8072bb6438c32d7bc3bbdd2a97713a1ac338",
+  "selection": "Four paths explicitly allocated by parent; bounded prior local evidence search found no accepted replacement. Not global clearance.",
+  "sourceExposedCurator": true,
+  "authorRestrictions": "Instruction-based/shared executor; no OS-isolation or access-audit claim",
+  "scopes": {
+    "manual": {
+      "source": "apps/cli/packages/core/src/compact/manual.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/compact/manual.ts",
+        "bytes": 5976,
+        "sha256": "e544b902f3ab732ef734d2733d820e2d5d18aec45478697e6ca00b45197ae3da"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/manual/contract.md",
+          "bytes": 4252,
+          "sha256": "37e4b24804bbf5fe6be1a14ce4e2d0dd342c559c54080ed61d963d10ff36b550"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/manual/dependency-api.d.ts",
+          "bytes": 776,
+          "sha256": "6e1b494f9a97d32af4d9d10dfa5a6d48f6374c242116755263428764a30a93c4"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/manual/public-api.d.ts",
+          "bytes": 2130,
+          "sha256": "04cb5d009e13fbddf8703b60f84922b5c9545fbafb9677547dee7660a30eca3d"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/manual/public-shapes.d.ts",
+          "bytes": 3740,
+          "sha256": "636d75e20a2f008f11e59e3645f793d6edcc96ad4f6268ff0276f26dacf022db"
+        }
+      ]
+    },
+    "history": {
+      "source": "apps/cli/packages/core/src/agent/message-history.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/agent/message-history.ts",
+        "bytes": 16116,
+        "sha256": "17eb251a1c6e39448a33d711507868626ae5c38f2c56511376a6e5327182f4d1"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/history/contract.md",
+          "bytes": 8054,
+          "sha256": "ea6ff223462a3e229f73a2c4785298cac4fddaafca91be677fb0b1bcaac3611c"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/history/dependency-api.d.ts",
+          "bytes": 976,
+          "sha256": "58f4762036e21692d7f5d633e5a42a9ee977fb02f1fd2db85275757650325672"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/history/public-api.d.ts",
+          "bytes": 5517,
+          "sha256": "bd0bc48e9d19ac77f9bb4a295e7b411d884d7322280cde86cf3f842f30a3130d"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/history/public-shapes.d.ts",
+          "bytes": 2563,
+          "sha256": "478c65cd46aa7309f4616480920c6add0e143e32c306c2d209d0b396f0d79371"
+        }
+      ]
+    },
+    "breakdown": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/context-usage-breakdown.ts",
+        "bytes": 3308,
+        "sha256": "122f9468dfe2df10904fd0567eab9619ecc082ca44faf388d0851f565a98714b"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/breakdown/contract.md",
+          "bytes": 2479,
+          "sha256": "460fd007240176dd15113e882ea072a39971a5e564a52a9be492a6161d317cd1"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/breakdown/dependency-api.d.ts",
+          "bytes": 1067,
+          "sha256": "db092cc335a71741d169cf84011c08090e47a4f878574bcd82de8f63fe29eae1"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/breakdown/public-api.d.ts",
+          "bytes": 1792,
+          "sha256": "f9a1a537447242e3c73c1dbc0856e9aaec035c5bdc83ef25d0e612b4dbe55c1a"
+        }
+      ]
+    },
+    "media": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+      "sourceBinding": {
+        "path": "apps/cli/packages/core/src/runtime/helpers/compact-media.ts",
+        "bytes": 3889,
+        "sha256": "93f9899b37fe6d8c84a5646cd4eeb706074c3c6ee2ad80b246230408a9d410e8"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/media/contract.md",
+          "bytes": 3472,
+          "sha256": "2dd87eebb3e95d16d5030cb3b4385393b1f362e15fd8d758458a1fe9905bb61e"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/media/dependency-api.d.ts",
+          "bytes": 1038,
+          "sha256": "855311db1f15da226d7d9354fa1baca8291e39b87351b6c80f2035cae99dcc0c"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/media/message-api.d.ts",
+          "bytes": 607,
+          "sha256": "7641dfb998ed170fb474f23f30a922ceb3c0b3e5daba50d0802eed3b526643ec"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/media/public-api.d.ts",
+          "bytes": 494,
+          "sha256": "bff420b9192074e9a3f2a72f752accbe999438e9286a53e5efb17637fdcc70aa"
+        },
+        {
+          "path": "docs/evidence/core-history-projection-author-packet-20261003/media/public-shapes.d.ts",
+          "bytes": 2563,
+          "sha256": "478c65cd46aa7309f4616480920c6add0e143e32c306c2d209d0b396f0d79371"
+        }
+      ]
+    }
+  },
+  "declarationExtractionQualification": "Target manual predecessor reports isolated-declaration TS9011 for default callback inference; emitted public signature verified. Other three target public extraction diagnostics zero. Selected dependency shapes emitted from larger files with unrelated diagnostics: model9015/9010, session9013, runtime/types9010. Selected explicit shape declarations verified; no compiler-body/project acceptance claimed."
+}
