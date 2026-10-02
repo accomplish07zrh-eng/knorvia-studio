@@ -17,3 +17,5 @@ request -> sole service/repo/store/command owner -> existing admission gate
 Acceptance: minimum original/replacement synthetic write/permission safety, source/types/lint/architecture only. No actual user repository/history/files/deletion/reset/remotes/credentials/network/process actions; no ordinary suites/builds or cross-lane integration. Missing ignore parser/dependency stays blocked/unverified.
 
 Before submission clarification: optional factory parameter/no default-object initializer, optional accesses preserve explicit-null behavior and factory.length1. Run directly awaits environment binary resolver; public forwarding wrapper not used internally. Timer scheduled then error listener then stdout/stderr data listeners then close listener. Timeout callback invokes async handler with discarded return.
+
+Type-only correction before submission: bind the guarded binary as a separate nonnullable string before nested result closure; no assertion/suppression/public API change. Initial TS2322 diagnostic frozen.
