@@ -1,16 +1,7 @@
-import { execFileSync, spawn } from "node:child_process";
-import type { ChildProcess } from "node:child_process";
+import { execFileSync, spawn, type ChildProcess } from "node:child_process";
 import { accessSync, constants } from "node:fs";
+
 import { prependPathEntries } from "./runtimeToolResolver.js";
-
-const LOGIN_ENV_CAPTURE_PREFIX = "__KNORVIA_LOGIN_ENV_START__";
-const LOGIN_ENV_CAPTURE_SUFFIX = "__KNORVIA_LOGIN_ENV_END__";
-const DEFAULT_POSIX_BOOTSTRAP_PATH =
-  process.platform === "darwin"
-    ? "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-    : "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
-
-let cachedLoginShellEnvSnapshot: Record<string, string> | null | undefined;
 
 interface LoginShellExecutionOptions {
   encoding: "utf8";
@@ -27,46 +18,49 @@ export type LoginShellExecutor = (
   options: LoginShellExecutionOptions,
 ) => Promise<string>;
 
-function isExecutableFile(path: string): boolean {
-  try {
-    accessSync(path, constants.X_OK);
-    return true;
-  } catch {
-    return false;
-  }
+const bootstrapPath =
+  process.platform === "darwin"
+    ? "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    : "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
+const startMarker = "__KNORVIA_LOGIN_ENV_START__\0";
+const endMarker = "__KNORVIA_LOGIN_ENV_END__\0";
+const shellCommand =
+  "printf '%s\\0' '__KNORVIA_LOGIN_ENV_START__'; env -0; printf '%s\\0' '__KNORVIA_LOGIN_ENV_END__'";
+const defaultTimeoutMs = 4000;
+const outputLimitBytes = 2097152;
+
+let syncSnapshot: Record<string, string> | null | undefined;
+
+export function buildShellBootstrapPath(currentPath: string | undefined): string {
+  return prependPathEntries(currentPath, bootstrapPath.split(":"));
 }
 
-function resolveShellPathForLoginEnv(baseEnv: NodeJS.ProcessEnv): string | null {
-  const candidates = [baseEnv.SHELL, "/bin/zsh", "/bin/bash", "/bin/sh"];
-  for (const candidate of candidates) {
-    if (candidate && isExecutableFile(candidate)) {
+function resolveShell(baseEnv: NodeJS.ProcessEnv): string | null {
+  for (const candidate of [baseEnv.SHELL, "/bin/zsh", "/bin/bash", "/bin/sh"]) {
+    if (!candidate) continue;
+    try {
+      accessSync(candidate, constants.X_OK);
       return candidate;
+    } catch {
+      continue;
     }
   }
   return null;
 }
 
-export function buildShellBootstrapPath(currentPath: string | undefined): string {
-  return prependPathEntries(currentPath, DEFAULT_POSIX_BOOTSTRAP_PATH.split(":"));
+function shellArguments(shellPath: string): string[] {
+  const flag = shellPath.endsWith("/zsh") || shellPath.endsWith("/bash") ? "-ilc" : "-lc";
+  return [flag, shellCommand];
 }
 
-function buildLoginShellArgs(shellPath: string): string[] {
-  const command = `printf '%s\\0' '${LOGIN_ENV_CAPTURE_PREFIX}'; env -0; printf '%s\\0' '${LOGIN_ENV_CAPTURE_SUFFIX}'`;
-  return shellPath.endsWith("/zsh") || shellPath.endsWith("/bash")
-    ? ["-ilc", command]
-    : ["-lc", command];
-}
-
-function buildLoginShellExecutionOptions(baseEnv: NodeJS.ProcessEnv): LoginShellExecutionOptions {
+function executionOptions(baseEnv: NodeJS.ProcessEnv): LoginShellExecutionOptions {
   return {
     encoding: "utf8",
     windowsHide: true,
-    timeout: 4_000,
-    maxBuffer: 2 * 1024 * 1024,
+    timeout: defaultTimeoutMs,
+    maxBuffer: outputLimitBytes,
     env: {
       ...baseEnv,
-      // GUI / remote service 进程的 PATH 往往不经过 login shell 初始化。
-      // 给探测 shell 一个最小系统 PATH，再由 profile 回放用户自己的命令路径。
       PATH: buildShellBootstrapPath(baseEnv.PATH),
       TERM: "dumb",
       CI: "1",
@@ -74,65 +68,63 @@ function buildLoginShellExecutionOptions(baseEnv: NodeJS.ProcessEnv): LoginShell
   };
 }
 
-function killLoginShellProcessTree(child: ChildProcess): void {
+function killProcessTree(child: ChildProcess): void {
   if (process.platform !== "win32" && child.pid) {
     try {
       process.kill(-child.pid, "SIGKILL");
       return;
     } catch {
-      // 进程可能已在 close 前退出；继续尝试直接 kill，避免留下采集后代。
+      // Fall through to the direct child when the process group is unavailable.
     }
   }
   try {
     child.kill("SIGKILL");
   } catch {
-    // 超时与自然退出可能竞争，进程已经不存在时无需额外处理。
+    // The process may already have exited.
   }
 }
 
 const executeLoginShell: LoginShellExecutor = (shellPath, shellArgs, options) =>
-  new Promise((resolve, reject) => {
+  new Promise<string>((resolve, reject) => {
     const child = spawn(shellPath, shellArgs, {
       env: options.env,
       windowsHide: options.windowsHide,
       stdio: ["ignore", "pipe", "pipe"],
-      // login profile 可能启动继承 stdout/stderr 的后代进程；只 kill shell 会让
-      // execFile 一直等 pipe close。POSIX 下独立进程组才能在 deadline 时完整终止采集树。
       detached: process.platform !== "win32",
     });
     let stdout = "";
     let outputBytes = 0;
     let settled = false;
 
-    const killProcessTree = () => {
-      killLoginShellProcessTree(child);
-      child.stdout.destroy();
-      child.stderr.destroy();
+    const kill = (): void => {
+      killProcessTree(child);
+      child.stdout?.destroy();
+      child.stderr?.destroy();
     };
-    const handleAbort = () => {
-      killProcessTree();
-      settle(new Error(`login shell environment capture timed out after ${options.timeout}ms`));
-    };
-    const settle = (error?: Error) => {
+    const settle = (error?: Error): void => {
       if (settled) return;
       settled = true;
-      options.signal?.removeEventListener("abort", handleAbort);
+      options.signal?.removeEventListener("abort", onAbort);
       if (error) reject(error);
       else resolve(stdout);
     };
-    const appendOutput = (chunk: Buffer | string, includeInStdout: boolean) => {
-      const text = typeof chunk === "string" ? chunk : chunk.toString("utf8");
-      outputBytes += Buffer.byteLength(text);
+    const onAbort = (): void => {
+      kill();
+      settle(new Error(`login shell environment capture timed out after ${options.timeout}ms`));
+    };
+    const receive = (chunk: Buffer | string, append: boolean): void => {
+      const decoded = typeof chunk === "string" ? chunk : chunk.toString("utf8");
+      outputBytes += Buffer.byteLength(decoded);
       if (outputBytes > options.maxBuffer) {
-        killProcessTree();
+        kill();
         settle(new Error(`login shell environment capture exceeded ${options.maxBuffer} bytes`));
-      } else if (includeInStdout) {
-        stdout += text;
+        return;
       }
+      if (append) stdout += decoded;
     };
 
-    child.stdout.on("data", (chunk: Buffer | string) => appendOutput(chunk, true));
-    child.stderr.on("data", (chunk: Buffer | string) => appendOutput(chunk, false));
+    child.stdout?.on("data", (chunk: Buffer | string) => receive(chunk, true));
+    child.stderr?.on("data", (chunk: Buffer | string) => receive(chunk, false));
     child.once("error", (error) => settle(error));
     child.once("close", (code, signal) => {
       if (code === 0) settle();
@@ -144,30 +136,26 @@ const executeLoginShell: LoginShellExecutor = (shellPath, shellArgs, options) =>
         );
       }
     });
-    options.signal?.addEventListener("abort", handleAbort, { once: true });
-    if (options.signal?.aborted) handleAbort();
+    options.signal?.addEventListener("abort", onAbort, { once: true });
+    if (options.signal?.aborted) onAbort();
   });
 
-function extractCapturedEnvSnapshot(rawOutput: string): Record<string, string> | null {
-  const startMarker = `${LOGIN_ENV_CAPTURE_PREFIX}\0`;
-  const endMarker = `${LOGIN_ENV_CAPTURE_SUFFIX}\0`;
-  const startIndex = rawOutput.lastIndexOf(startMarker);
-  const endIndex = rawOutput.lastIndexOf(endMarker);
-  if (startIndex < 0 || endIndex <= startIndex) return null;
-  return parseNullSeparatedEnvSnapshot(rawOutput.slice(startIndex + startMarker.length, endIndex));
-}
+function parseSnapshot(output: string): Record<string, string> | null {
+  const start = output.lastIndexOf(startMarker);
+  const end = output.lastIndexOf(endMarker);
+  if (start < 0 || end <= start) return null;
 
-function parseNullSeparatedEnvSnapshot(rawOutput: string): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const entry of rawOutput.split("\0")) {
+  const snapshot: Record<string, string> = {};
+  const entries = output.slice(start + startMarker.length, end).split("\0");
+  for (const entry of entries) {
     if (!entry) continue;
-    const separatorIndex = entry.indexOf("=");
-    if (separatorIndex <= 0) continue;
-    const key = entry.slice(0, separatorIndex).trim();
+    const separator = entry.indexOf("=");
+    if (separator <= 0) continue;
+    const key = entry.slice(0, separator).trim();
     if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) continue;
-    result[key] = entry.slice(separatorIndex + 1);
+    snapshot[key] = entry.slice(separator + 1);
   }
-  return result;
+  return snapshot;
 }
 
 export async function captureLoginShellEnvSnapshot(
@@ -183,33 +171,29 @@ export async function captureLoginShellEnvSnapshot(
   const platform = options.platform ?? process.platform;
   if (platform === "win32" || baseEnv.VITEST) return null;
 
-  const shellPath =
-    options.shellPath === undefined ? resolveShellPathForLoginEnv(baseEnv) : options.shellPath;
+  const shellPath = options.shellPath === undefined ? resolveShell(baseEnv) : options.shellPath;
   if (!shellPath) return null;
 
-  const timeoutMs = options.timeoutMs ?? 4_000;
-  const abortController = new AbortController();
+  const timeoutMs = options.timeoutMs ?? defaultTimeoutMs;
+  const controller = new AbortController();
   let deadlineTimer: ReturnType<typeof setTimeout> | null = null;
   try {
-    const executionPromise = (options.executeShell ?? executeLoginShell)(
+    const execution = (options.executeShell ?? executeLoginShell)(
       shellPath,
-      buildLoginShellArgs(shellPath),
+      shellArguments(shellPath),
       {
-        ...buildLoginShellExecutionOptions(baseEnv),
+        ...executionOptions(baseEnv),
         timeout: timeoutMs,
-        signal: abortController.signal,
+        signal: controller.signal,
       },
     );
-    // Node execFile 的 timeout 仍会等待所有继承 pipe 的后代关闭。
-    // 外层 deadline 独立结算 API；默认 executor 同时通过 AbortSignal 杀完整 POSIX 进程组。
-    const deadlinePromise = new Promise<never>((_resolve, reject) => {
+    const deadline = new Promise<string>((_resolve, reject) => {
       deadlineTimer = setTimeout(() => {
-        abortController.abort();
+        controller.abort();
         reject(new Error(`login shell environment capture timed out after ${timeoutMs}ms`));
       }, timeoutMs);
     });
-    const output = await Promise.race([executionPromise, deadlinePromise]);
-    return extractCapturedEnvSnapshot(output);
+    return parseSnapshot(await Promise.race([execution, deadline]));
   } catch {
     return null;
   } finally {
@@ -220,27 +204,22 @@ export async function captureLoginShellEnvSnapshot(
 export function captureLoginShellEnvSnapshotSync(
   baseEnv: NodeJS.ProcessEnv,
 ): Record<string, string> | null {
-  if (cachedLoginShellEnvSnapshot !== undefined) return cachedLoginShellEnvSnapshot;
+  if (syncSnapshot !== undefined) return syncSnapshot;
   if (process.platform === "win32" || process.env.VITEST) {
-    cachedLoginShellEnvSnapshot = null;
-    return cachedLoginShellEnvSnapshot;
+    syncSnapshot = null;
+    return syncSnapshot;
   }
 
-  const shellPath = resolveShellPathForLoginEnv(baseEnv);
+  const shellPath = resolveShell(baseEnv);
   if (!shellPath) {
-    cachedLoginShellEnvSnapshot = null;
-    return cachedLoginShellEnvSnapshot;
+    syncSnapshot = null;
+    return syncSnapshot;
   }
   try {
-    // 兼容非 Desktop 的同步 createLocalServices 入口。这里即使走兼容 fallback 也只采集一次完整 snapshot。
-    const output = execFileSync(
-      shellPath,
-      buildLoginShellArgs(shellPath),
-      buildLoginShellExecutionOptions(baseEnv),
-    );
-    cachedLoginShellEnvSnapshot = extractCapturedEnvSnapshot(output);
+    const output = execFileSync(shellPath, shellArguments(shellPath), executionOptions(baseEnv));
+    syncSnapshot = parseSnapshot(output);
   } catch {
-    cachedLoginShellEnvSnapshot = null;
+    syncSnapshot = null;
   }
-  return cachedLoginShellEnvSnapshot;
+  return syncSnapshot;
 }
