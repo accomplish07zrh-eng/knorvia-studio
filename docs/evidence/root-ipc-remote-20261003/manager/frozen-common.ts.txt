@@ -1,0 +1,19 @@
+import type { BrowserWindow, MessagePortMain, UtilityProcess as ElectronUtilityProcess } from 'electron';
+import { buildSshRemoteHostKey, HostMessageTypes, PlatformChannels, type RemoteTarget } from '@knorvia/shared';
+import type { ManagerContext } from './types.js';
+export const requestKey = (webContentsId: number, requestId: string): string => `${webContentsId}\0${requestId}`;
+export const asError = (error: unknown): Error => error instanceof Error ? error : new Error(String(error));
+export function closePort(port: MessagePortMain | null | undefined): void { if (!port) return; try { port.close(); } catch { /* Original cleanup is best effort. */ } }
+export function targetKey(target: RemoteTarget): string {
+  if (target.kind === 'ssh') return `ssh:${buildSshRemoteHostKey(target)}`;
+  if (target.kind === 'wsl') return `wsl:${target.distro?.trim() || 'default'}\0${target.user?.trim() ?? ''}`;
+  return `docker:${target.container}`;
+}
+export function emitLog(win: BrowserWindow, payload: { requestId?: string; sessionId?: string; level: 'info' | 'warn' | 'error'; message: string }): void {
+  if (win.isDestroyed() || win.webContents.isDestroyed()) return;
+  win.webContents.send(PlatformChannels.RemoteConnectionLog, { label: `window-host-${win.webContents.id}`, requestId: payload.requestId, sessionId: payload.sessionId, level: payload.level, source: 'window-host-controller', message: payload.message, timestamp: new Date().toLocaleTimeString(undefined, { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) });
+}
+export function detach(context: ManagerContext, child: ElectronUtilityProcess, attachmentId: string, reason: string): void {
+  try { child.postMessage({ type: HostMessageTypes.DetachServicePort, attachmentId }); }
+  catch (error) { context.options.logger.warn('[window-host-remote] detach renderer attachment failed', { attachmentId, reason, error }); }
+}

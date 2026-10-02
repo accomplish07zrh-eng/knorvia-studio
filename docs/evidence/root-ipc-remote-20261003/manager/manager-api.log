@@ -1,0 +1,1 @@
+AST structural API: sole factory export, options, context and all 11 method contracts match; disposeAll raw any qualified to actual async Promise<void>. This is not dependency semantic type acceptance.
