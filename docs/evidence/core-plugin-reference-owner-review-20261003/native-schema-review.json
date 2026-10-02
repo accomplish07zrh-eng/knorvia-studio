@@ -1,0 +1,30 @@
+{
+  "nativeSchema": "Non-multiline /^[A-Za-z0-9][A-Za-z0-9._-]*$/",
+  "observations": [
+    {
+      "suffix": "",
+      "accepted": true
+    },
+    {
+      "suffix": "\\n",
+      "accepted": false
+    },
+    {
+      "suffix": "\\r",
+      "accepted": false
+    },
+    {
+      "suffix": "\\r\\n",
+      "accepted": false
+    },
+    {
+      "suffix": "U+2028",
+      "accepted": false
+    },
+    {
+      "suffix": "U+2029",
+      "accepted": false
+    }
+  ],
+  "qualification": "Scoped native regex/data authority inquiry only, no predecessor/dependency execution. Complete references candidate exec/match-equality retains required native schema and does not change end-terminator acceptance. No separate author correction justified. No behavior matrix or provider/userdata IO."
+}
