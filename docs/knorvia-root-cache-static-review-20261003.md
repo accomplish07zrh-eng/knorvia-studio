@@ -25,3 +25,7 @@ The candidate's discretionary organization differs substantially from the predec
 ## Review limits
 
 See [review manifest](evidence/root-cache-static-review-20261003/review-manifest.json) for source/input bindings and published receipt limits. No runtime test, compiler run, broad build, new author, production patch, cross-lane merge or publication retry occurred in E. Refresh interleavings, migration races, rollback/platform behavior and actual-consumer acceptance remain deferred. Root owns corrections and PR #12; E records this read-only review on PR #8.
+
+## Subsequent narrow clarification
+
+The [fetch-gate clarification](knorvia-remote-cache-fetch-gate-clarification-20261003.md) supplies exact local directories/order and distinguishes initial refresh-designated work from a pending ordinary non-refresh task. A refresh caller waiting on the latter may deliberately start one refresh after its nonnull result. Finding1 does not prohibit that sequence. No broad review of root's later migration correction was performed.
