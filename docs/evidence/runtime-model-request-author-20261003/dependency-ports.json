@@ -1,0 +1,198 @@
+[
+  {
+    "name": "beginLocalTurnPreparation",
+    "module": "@knorvia/contracts",
+    "signatures": [
+      "(trace: { queryId?: string | undefined; sessionId?: string | undefined; turnId?: string | undefined; }, stage: PreparationStage): (outcome?: \"completed\" | \"failed\" | \"cancelled\" | undefined) => void"
+    ]
+  },
+  {
+    "name": "runWithModelInvocationContext",
+    "module": "../deps.js",
+    "signatures": [
+      "<T>(context: ModelInvocationContext, run: () => T): T"
+    ]
+  },
+  {
+    "name": "traceContextToLogContext",
+    "module": "../deps.js",
+    "signatures": [
+      "(context: TraceContext): LogContext"
+    ]
+  },
+  {
+    "name": "ModelReasoningContentBlock",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ModelToolCall",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ModelUsage",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "ToolCallId",
+    "module": "../deps.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "buildSuspiciousEmptyDiagnostics",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: { finishReason: string | undefined; providerMetadata: Record<string, unknown> | undefined; rawFinishReason: string | undefined; outboundHeaderKeys?: string[] | undefined; }): Record<string, unknown>"
+    ]
+  },
+  {
+    "name": "finalizeSuspiciousEmptyModelResult",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(input: { finishReason: string | undefined; model: { modelId: string; providerId: string; }; providerMetadata: Record<string, unknown> | undefined; rawFinishReason: string | undefined; }): void"
+    ]
+  },
+  {
+    "name": "isContextExceededFinishReason",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(finishReason: string | undefined, rawFinishReason: string | undefined): boolean"
+    ]
+  },
+  {
+    "name": "isSuspiciousEmptyModelResult",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(finishReason: string | undefined, responseLength: number, toolCallCount: number, usage?: ModelUsage | undefined): boolean"
+    ]
+  },
+  {
+    "name": "logModelRequestMediaSummary",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(logger: Logger | undefined, traceContext: TraceContext, input: { incomingMessages: readonly ModelInputMessage[]; mediaProjection: MediaBudgetProjection; providerMessages: readonly ModelInputMessage[]; }): void"
+    ]
+  },
+  {
+    "name": "logMediaBudgetProjection",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(logger: Logger | undefined, traceContext: TraceContext, projection: MediaBudgetProjection, options: { event: string; message: string; }): void"
+    ]
+  },
+  {
+    "name": "logMediaCapabilityProjection",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(logger: Logger | undefined, traceContext: TraceContext, projection: MediaCapabilityProjection, options: { event: string; message: string; model: string; }): void"
+    ]
+  },
+  {
+    "name": "normalizeStreamError",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(error: unknown): Error"
+    ]
+  },
+  {
+    "name": "normalizeModelToolCallsForRuntime",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(toolCalls: readonly ModelToolCall[] | undefined, context: ModelToolCallValidationContext): ModelToolCall[] | undefined"
+    ]
+  },
+  {
+    "name": "projectMessagesWithMediaAttachmentPaths",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(messages: ModelInputMessage[], artifactStore: ToolArtifactStorePort | undefined): Promise<ModelInputMessage[]>"
+    ]
+  },
+  {
+    "name": "projectMessagesForInputFormat",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(messages: ModelInputMessage[], inputFormat: { supportsText: boolean; supportsImage: boolean; supportsVideo: boolean; supportsAudio: boolean; supportsPdf: boolean; }): MediaCapabilityProjection"
+    ]
+  },
+  {
+    "name": "projectMessagesForMediaBudget",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(messages: ModelInputMessage[], options?: MediaBudgetProjectionOptions): MediaBudgetProjection"
+    ]
+  },
+  {
+    "name": "readRawFinishReason",
+    "module": "../helpers/index.js",
+    "signatures": [
+      "(providerMetadata: Record<string, unknown> | undefined): string | undefined"
+    ]
+  },
+  {
+    "name": "RunModelTextRequestOptions",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "RuntimeModelTextResult",
+    "module": "../types.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "AgentRuntimeInternal",
+    "module": "../internal.js",
+    "signatures": [],
+    "type": "any"
+  },
+  {
+    "name": "modelRequestTokenLimitLogContext",
+    "module": "./model-token-limits.js",
+    "signatures": [
+      "(input: { contextWindow: number | undefined; maxOutputTokens: number | undefined; modelContextBudgetStrategy: \"legacy\" | \"preflight-v1\" | undefined; traceContext: TraceContext; }): { contextWindow: number | undefined; event: string; inputBudgetTokens: number | undefined; maxOutputTokens: number | undefined; modelContextBudgetStrategy: \"preflight-v1\"; module: string; traceId?: TraceId | undefined; sessionId?: string | undefined; turnId?: string | undefined; spanId?: string | undefined; parentSpanId?: string | undefined; toolCallId?: string | undefined; durationMs?: number | undefined; status?: \"completed\" | \"failed\" | \"cancelled\" | \"started\" | \"waiting\" | undefined; }"
+    ]
+  },
+  {
+    "name": "createModelStreamingEventQueue",
+    "module": "./model-streaming-event-queue.js",
+    "signatures": [
+      "(params: { events: SessionEvent[]; highWaterMark?: number | undefined; runtime: AgentRuntimeInternal; traceContext: TraceContext; }): ModelStreamingEventQueue"
+    ]
+  },
+  {
+    "name": "getOrCreateReasoningBlock",
+    "module": "./reasoning-stream.js",
+    "signatures": [
+      "(input: { id?: string | undefined; providerMetadata?: Record<string, unknown> | undefined; reasoning: ModelReasoningContentBlock[]; reasoningById: Map<string, ModelReasoningContentBlock>; }): ModelReasoningContentBlock"
+    ]
+  },
+  {
+    "name": "createRefreshRuntimeHeadersBeforeModelAttempt",
+    "module": "./model-runtime-headers.js",
+    "signatures": [
+      "(runtime: AgentRuntimeInternal, input: { abortSignal?: AbortSignal | undefined; model: Model; traceContext: TraceContext; }): ((attemptInput: { accountAccess?: { type: \"zhipu-account\"; accountType: \"zai\" | \"bigmodel\"; mode: \"start-plan\" | \"individual-coding-plan\" | \"team-coding-plan\" | \"off-peak\"; entitled: boolean; } | undefined; attempt: number; reason?: \"model-request\" | undefined; abortSignal?: AbortSignal | undefined; }) => Promise<{ headersApplied: boolean; requestAuth?: ModelRequestAuth | undefined; }>) | undefined"
+    ]
+  },
+  {
+    "name": "resolveModelRequestSessionTypeFromTaskType",
+    "module": "./model-request-session-type.js",
+    "signatures": [
+      "(taskType: \"interactive\" | \"fork\" | \"selection_side_chat\" | \"workflow_parent\" | \"workflow_child\" | \"subagent_child\" | \"nested_workflow_child\" | undefined): ModelRequestSessionType"
+    ]
+  },
+  {
+    "name": "isOutputTokenLimitFinishReason",
+    "module": "./turn-output-token-continuation.js",
+    "signatures": [
+      "(finishReason: string | undefined, rawFinishReason: string | undefined): boolean"
+    ]
+  }
+]

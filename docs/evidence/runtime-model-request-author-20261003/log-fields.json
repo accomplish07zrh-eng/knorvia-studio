@@ -1,0 +1,81 @@
+[
+  {
+    "message": "Model request token limits",
+    "level": "debug",
+    "orderedFields": []
+  },
+  {
+    "message": "Model streaming tool input delta flushed",
+    "level": "debug",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "deltaLength",
+      "event",
+      "module",
+      "toolCallId"
+    ]
+  },
+  {
+    "message": "Model streaming tool input started",
+    "level": "debug",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "event",
+      "module",
+      "providerExecuted",
+      "toolCallId",
+      "toolName"
+    ]
+  },
+  {
+    "message": "Model streaming tool input ended",
+    "level": "debug",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "event",
+      "module",
+      "toolCallId"
+    ]
+  },
+  {
+    "message": "Model streaming tool call completed",
+    "level": "debug",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "event",
+      "inputKeys",
+      "module",
+      "toolCallId",
+      "toolName"
+    ]
+  },
+  {
+    "message": "Model stream ended with provider context overflow",
+    "level": "warn",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "event",
+      "finishReason",
+      "module",
+      "modelProviderId",
+      "modelId",
+      "rawFinishReason",
+      "textLength",
+      "toolCallCount"
+    ]
+  },
+  {
+    "message": "Model stream ended with suspicious empty completion",
+    "level": "warn",
+    "orderedFields": [
+      "...trace-or-diagnostic",
+      "event",
+      "module",
+      "modelProviderId",
+      "modelId",
+      "textLength",
+      "toolCallCount",
+      "...trace-or-diagnostic"
+    ]
+  }
+]
