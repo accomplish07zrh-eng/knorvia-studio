@@ -1,0 +1,33 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "freezeCommit": "9f4c740",
+  "draftAndRedProofCommit": "aa8c75e",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+  "sourceExposure": "Curator read predecessor; source-derived functional/API packet. Fresh internal author fork_turns=none,Sol/high; actual input/tool journal and sealed draft archived before curator comparison. No absolute clean-room claim.",
+  "draftSha256": "272fb96034a6ca406956e161f57632a64f792b8288f3fdaec745ba1410f7bb4c",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent-messages.ts",
+      "sha256": "052092922991e2e4539b9878f3c366c6d26039c5ce72c45f63af1cb78581a088"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/subagent-messages.js",
+      "sha256": "a682358ce2e57cd483b9d485b5537f41fc300253d1d620ccf5cc943af2e77774"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/subagent-messages.d.ts",
+      "sha256": "e46e672f3bcf27faf9982327ae15f16d3a8fa801c3f2d71de6c35d24cc489ab3"
+    }
+  },
+  "physicalLines": 105,
+  "design": "Complete branch-checked command construction/XML projection and native history-before-notice persistence; existing queue/registry own state.",
+  "retained": "XML array/template/join, branch guard, ordered command/notice objects and native persistence sequence are strongly similar to predecessor, beyond merely sharing primitive vocabulary. API/runtime strings/order/receiver behavior retained; formatter name change/type annotation are not independent contribution credit.",
+  "corrections": "Formatting only; trace projection clarified preseal, no root fallback.",
+  "api": {
+    "exactSignatures": true,
+    "fixedDeclarationFacts": true
+  },
+  "sharedChecks": "docs/evidence/runtime-goal-stop-five-checks-20261003:0scoped TS6.0.2 diagnostics;23public signatures unchanged;5sources94lint rules0;7filesformatted;architecture0;one actual-emitted5synthetic persistence/lifecycle groups plus separate1control metadata red-proof closure(overlap).15current and15historical source/JS/dts,44packet/draft/journal files digest verified. Wrong/missing verifier inputs reject.",
+  "limits": "Ordinary suites/builds/native/source duplicate/full runtime consumers not run per user speed-first. Historical/current selected JS actual compiler; unchanged transitive deps through tsx source resolution. Live receivers/provider/credentials/userdata untouched. Independent expression/licence review remains root-owned; no header/inventory/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-subagent-messages-author-20261003/lineage.json"
+}
