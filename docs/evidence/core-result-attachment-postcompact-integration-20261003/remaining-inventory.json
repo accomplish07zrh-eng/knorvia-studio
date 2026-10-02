@@ -432,5 +432,67 @@
   "qualification": "Completed queue labels reflect earlier scoped E checkpoints; excluded adjacent authorities conservatively avoid A recovery/coordinator overlap; small remaining helpers require substantive/eligibility allocation, not automatic rejection or forced trivial rewrite",
   "notCountedAsProgress": "Metadata counts/projections are no implementation/rights progress",
   "all21MaterialObligationsRemaining": true,
-  "selectedOwnersRemainingAfterIntegration": 0
+  "selectedOwnersRemainingAfterIntegration": 0,
+  "metadataSourceBaseline": "250636854ad491f9d43ba5815680e983415bd979",
+  "metadataCountsArePreIntegration": true,
+  "currentSelectedInstalled": [
+    {
+      "scope": "result",
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3458,
+      "lines": 130,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/tool-result.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "changes",
+      "path": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "bytes": 3011,
+      "lines": 92,
+      "sha256": "5555e83415364680d32cf2ca54b8074465844cce945f668e0f4631a2f90d2c20",
+      "version": 2,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/v2/turn-file-changes.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "image",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "bytes": 2185,
+      "lines": 76,
+      "sha256": "d4b3ea3877208796e2d19feb604e7fcc8788c918cf891282e9928bf022c11097",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/attachment-image.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "reference",
+      "path": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "bytes": 3842,
+      "lines": 119,
+      "sha256": "f8846157dcc8870e6ddcdd082a3c6f8085f3ed1c7960847435c829377edbce47",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/attachment-path-reference.ts.txt",
+      "installedExact": true
+    },
+    {
+      "scope": "postcompact",
+      "path": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "bytes": 4263,
+      "lines": 119,
+      "sha256": "d4836dd288b950248c90e2060394ef136345dacf3a4ec021fa6a3c619591b037",
+      "version": 1,
+      "archive": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/compact-post-reminders.ts.txt",
+      "installedExact": true
+    }
+  ],
+  "scopeCompleted": true,
+  "counts": {
+    "prioracceptedcompletequeue": 23,
+    "retainedsmalladapter/schema/classifier/facadeoradjacentowner; notforcedrewrite": 15,
+    "selected currentcompletequeue": 5,
+    "excludedA/runtime/recovery/protectedpermissionoradjacentauthority": 10
+  },
+  "unclassifiedRemaining": 0
 }
