@@ -1,0 +1,151 @@
+{
+  "baseline": "d9c67ebd0bb2abd9c3e035c2ef952479494c3500",
+  "reservationCommit": "b3073b7f4b7aca48eaa925d687a3bd1525653313",
+  "scopes": {
+    "dataurl": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/contract.md",
+          "bytes": 2651,
+          "sha256": "e87495b12647372b88b4c4e34115ebbafb36e2ec940829a281a41b2eb7548e5b"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/public-api.d.ts",
+          "bytes": 248,
+          "sha256": "f22921b4350e5f7e15e2e82c2a2bf8158b67f65be7852936e069fee7c5d8a26e"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/dependency-api.d.ts",
+          "bytes": 73,
+          "sha256": "a04bb18d63b184096f34047c9c964772419fd41a7d9db252c32f80d7bec6b073"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/public-shapes.d.ts",
+          "bytes": 63,
+          "sha256": "f308256c34f7ee4d5012bdd8ead16028b65359b941557f45b5b6a8509c321061"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/imports.json",
+          "bytes": 3,
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/dataurl/output-data.json",
+          "bytes": 929,
+          "sha256": "185a40f01b5a203622c3cf448568de93506c70ac0c926183c3c61ecd800c0bbd"
+        }
+      ],
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/dataurl"
+    },
+    "pdf": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-pdf.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/contract.md",
+          "bytes": 2505,
+          "sha256": "3e0614188547bd353fbf0a0fce7692051f2c86d59329577049036a6a11862897"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/public-api.d.ts",
+          "bytes": 271,
+          "sha256": "1b621d2b9b2e9a9555c5572cd32ccb6affe61068779595adab971b18bf48308d"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/dependency-api.d.ts",
+          "bytes": 305,
+          "sha256": "c26376aa69c070b9ee4c6e38f30857b42363c5329663617f179904a2961e140c"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/public-shapes.d.ts",
+          "bytes": 63,
+          "sha256": "f308256c34f7ee4d5012bdd8ead16028b65359b941557f45b5b6a8509c321061"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/imports.json",
+          "bytes": 121,
+          "sha256": "be12226a072ea2952c9ff8fee4552df613c9fe87bb9885f59500c42dece03ae9"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/pdf/output-data.json",
+          "bytes": 1029,
+          "sha256": "b206be127e2acb031c2118b70763a050c208fe7e55001a1d6c422e307dbf70bc"
+        }
+      ],
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/pdf"
+    },
+    "video": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-video.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/contract.md",
+          "bytes": 2387,
+          "sha256": "b34609fffeb7390920971d0775d93c2df161968f2206df35780b44c1b63275a7"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/public-api.d.ts",
+          "bytes": 344,
+          "sha256": "b0c7b2da2f0f959dfe079760c0b85fb4ec6406a03c65096e3887ecb9148010ac"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/dependency-api.d.ts",
+          "bytes": 305,
+          "sha256": "c26376aa69c070b9ee4c6e38f30857b42363c5329663617f179904a2961e140c"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/public-shapes.d.ts",
+          "bytes": 349,
+          "sha256": "6f10f04fd99094cbb8a33b9380887c981d30312665247b8a36f011c501016281"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/imports.json",
+          "bytes": 207,
+          "sha256": "bd8893b2dadaf7c6439e67de413a20702b9062ed9232fe10e369a2f0e8ffe942"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/video/output-data.json",
+          "bytes": 1232,
+          "sha256": "961245c4f0360efd4b26acd8da6e13762d2378127dd9314bbd5af29035a2f539"
+        }
+      ],
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/video"
+    },
+    "placeholder": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-placeholder.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/contract.md",
+          "bytes": 3014,
+          "sha256": "f203a4517e5a6a4933b5230a17186dfa1fd2752fa912f5a069f0b6721df56365"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/public-api.d.ts",
+          "bytes": 382,
+          "sha256": "d10eef7b29be84e70f10762e3ca025ae283c10b6e48808697eaf8820df1e2b45"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/dependency-api.d.ts",
+          "bytes": 408,
+          "sha256": "bcf503a05aab2e2d517c5dbd0291b15ed573950743dbc0197f05335d82aaab32"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/public-shapes.d.ts",
+          "bytes": 2213,
+          "sha256": "e9f0ad7bd65a044e1799280398531c9db31ab12f4ae175e578a5623b770b698c"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/imports.json",
+          "bytes": 356,
+          "sha256": "e4cc7006496b9f2bfbdb7d2415c8660e9201f80a07264133552b17ddda2e2ce4"
+        },
+        {
+          "path": "docs/evidence/core-inline-attachment-owner-packet-20261003/placeholder/output-data.json",
+          "bytes": 1583,
+          "sha256": "41dfddc42e6eee94ce752fbccf58c8f27bf8b812a371e620556997e29a05db1b"
+        }
+      ],
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/placeholder"
+    }
+  },
+  "qualification": "All fifteen target bodies source-exposed curator screened before reservation; no body delivered to authors; dependencies stripped only; earlier broader/tool context qualified. Instruction only, no OS isolation/access-audit. Prior repaired scratch-write breach remains disclosed. Fast unchanged/unverified. Ordinary checks deferred; all21materials unchanged."
+}

@@ -1,0 +1,70 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "./attachment-data-url.js"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    },
+    {
+      "kind": "text",
+      "text": ","
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": ";"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": "base64"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    "20",
+    "1024",
+    "1024",
+    "0",
+    "0",
+    "1",
+    "1",
+    "5",
+    "0",
+    "37",
+    "1",
+    "80",
+    "2",
+    "68",
+    "3",
+    "70",
+    "4",
+    "45"
+  ],
+  "qualification": "Retained exact MIME/protocol/template/regex/constants and ordinary idioms; not novelty/grant claim"
+}

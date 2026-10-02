@@ -1,0 +1,76 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "./attachment-data-url.js"
+    },
+    {
+      "kind": "text",
+      "text": "mimeType"
+    },
+    {
+      "kind": "text",
+      "text": ".mp4"
+    },
+    {
+      "kind": "text",
+      "text": "video/mp4"
+    },
+    {
+      "kind": "text",
+      "text": ".m4v"
+    },
+    {
+      "kind": "text",
+      "text": "video/x-m4v"
+    },
+    {
+      "kind": "text",
+      "text": ".mov"
+    },
+    {
+      "kind": "text",
+      "text": "video/quicktime"
+    },
+    {
+      "kind": "text",
+      "text": ".webm"
+    },
+    {
+      "kind": "text",
+      "text": "video/webm"
+    },
+    {
+      "kind": "text",
+      "text": ".mkv"
+    },
+    {
+      "kind": "text",
+      "text": "video/x-matroska"
+    },
+    {
+      "kind": "text",
+      "text": ".avi"
+    },
+    {
+      "kind": "text",
+      "text": "video/x-msvideo"
+    },
+    {
+      "kind": "text",
+      "text": "video/"
+    }
+  ],
+  "regex": [
+    "/^data:([^;,]+);base64,(.*)$/i"
+  ],
+  "numericLiterals": [
+    "1",
+    "2"
+  ],
+  "qualification": "Retained exact MIME/protocol/template/regex/constants and ordinary idioms; not novelty/grant claim"
+}
