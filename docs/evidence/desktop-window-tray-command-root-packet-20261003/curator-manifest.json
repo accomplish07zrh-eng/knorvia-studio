@@ -1,0 +1,188 @@
+{
+  "curatedAtUtc": "2026-10-02T20:31:41.029185+00:00",
+  "baseline": "d12799b7219b8a0609a55c4ddb7e4a6dbc4bf926",
+  "reservationCommit": "28f7b045",
+  "sourceExposedCurator": true,
+  "targetBodyExposure": [
+    "packages/desktop/src/main/primaryWindowCoordinator.ts",
+    "packages/desktop/src/main/desktopTray.ts",
+    "packages/desktop/src/main/desktopCommandHandlers.ts"
+  ],
+  "mechanicalDependencyInputs": [
+    {
+      "path": "packages/desktop/src/main/primaryWindowCoordinator.ts",
+      "bytes": 3164,
+      "sha256": "c57002e8563519a1b0456e916d681ac6528ae5320a3b313675d00793cb8355ca"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopTray.ts",
+      "bytes": 3320,
+      "sha256": "0cf183091263876ac3e014fba6d4818a28cc1d4319f97328a7269e6dcaba5ef5"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280"
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "bytes": 2086,
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f"
+    },
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "bytes": 9114,
+      "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b"
+    },
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "bytes": 45656,
+      "sha256": "709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3"
+    },
+    {
+      "path": "packages/desktop/src/main/cuaOsSupport.ts",
+      "bytes": 1251,
+      "sha256": "c09cf69549e1b23cfb0fac5076ec667f73f47d412e0188da6de619f0dfae44f4"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+      "bytes": 4756,
+      "sha256": "f8788ab82065fa888a64797aa27d1e392bf3ff9b2aa51a3025baf4a020a0330b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e"
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e"
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c"
+    }
+  ],
+  "incidentalDependencyBodyExposure": "Complete small desktopZoom module and desktopWindowSize module deliberately printed while locating constants/APIs; previous generic/broad exposure remains. Other selected dependency files mechanically parsed wholly for stripped declarations/static properties only. No bodies emitted to packet.",
+  "rootExposureQualification": "Root reports only names/counts/reviewabsence deliberately observed this pass; earlier broad context/generic-tool exposure remains. No new no-exposure/fresh-context/OS-isolation/access-audit claim",
+  "acceptedRecordSearch": "Exact three filenames in docs/specs and exact licensing/reviews.json paths found no matching accepted record; not exhaustive history/rights audit",
+  "typescript": "6.0.2",
+  "inheritedTargetExtractionDiagnostics": {
+    "primaryWindowCoordinator": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      },
+      {
+        "code": 9016,
+        "message": "Objects that contain shorthand properties can't be inferred with --isolatedDeclarations."
+      }
+    ],
+    "desktopTray": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      },
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      }
+    ],
+    "desktopCommandHandlers": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      }
+    ]
+  },
+  "publicTypeQualification": "Raw inferred unknown/any results preserved with inherited diagnostics. Qualified source-grounded return declarations supplied separately; original Electron/Node/shared/services module types remain authoritative. No semantic compilation claim.",
+  "retainedMenuConfigQualification": "Static menus/configuration/literals remain existing required expression, no novelty or rights grant",
+  "rootReportedPriorCheckpoint": {
+    "PR": 12,
+    "head": "9d92be5f35e89539e0077e79005f786f00778202",
+    "reportedChecks": "Scopedsemantic/API/lint/architecture and3fakeportgroups, originalbudget omission corrected afterfreeze",
+    "EImportedOrRereviewed": false
+  },
+  "sourceBindingsUnchanged": true,
+  "noTargetExecutionOrOsEffects": true,
+  "noSourceImplementation": true,
+  "packetFiles": [
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/contract-data.json",
+      "bytes": 3395,
+      "sha256": "84181deb87e25e0d3d7bb51ea8fa83137404a4ca3a0402566047b4d8188fd688"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/contract.md",
+      "bytes": 13556,
+      "sha256": "544fafcaa37588906ead9cba93acce100c7776cc41796ac574ac1de99189df9c"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/dependency-api.d.ts",
+      "bytes": 3763,
+      "sha256": "1b89594e24d4c7e7137563d100070784dfb6e293308309c12c8143d996469ad1"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/desktopCommandHandlers-public-api.d.ts",
+      "bytes": 1188,
+      "sha256": "1f64616bd3ed473152e32a6f1007b8524e71aa9e1a0760d00ffd5955124d68fc"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/desktopTray-public-api.d.ts",
+      "bytes": 447,
+      "sha256": "87db10fb15075d5ef7e864a0a16740ad4fa683829b2743ebce3845dd9156e3f6"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/imports.json",
+      "bytes": 1639,
+      "sha256": "283b7b0329bf7bbc319fa5f07b3dc992a956d32380d761d3a4d756029a554c25"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/primaryWindowCoordinator-public-api.d.ts",
+      "bytes": 839,
+      "sha256": "91dfc051ae87f918e3bfed5037833566f54277ab3fb618657d6028cd157a7f46"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/public-extraction-record.json",
+      "bytes": 3906,
+      "sha256": "963b3e58a8de84fd78628de11f5f5870799347fe27972ebca98cfb9e7d008618"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/qualified-return-contracts.d.ts",
+      "bytes": 730,
+      "sha256": "b4da2d067efac1fec9d2cf4fec9519f0e006c23c069222ee09a06980bca3694e"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/reservation.json",
+      "bytes": 2539,
+      "sha256": "3090e13e153a7cc2c49000f43780e69df87c7caa45ad83b619c535904aec8bf6"
+    },
+    {
+      "path": "docs/evidence/desktop-window-tray-command-root-packet-20261003/shared-contract-data.json",
+      "bytes": 1965,
+      "sha256": "3ff21fbf2c14968f79a253b819d4b993df1e924d31633596246796b109159add"
+    }
+  ]
+}

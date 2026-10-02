@@ -1,0 +1,110 @@
+{
+  "typescript": "6.0.2",
+  "kind": "Isolated public declaration extraction only; no semantic body/project compilation or OS effect",
+  "diagnostics": {
+    "primaryWindowCoordinator": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      },
+      {
+        "code": 9016,
+        "message": "Objects that contain shorthand properties can't be inferred with --isolatedDeclarations."
+      }
+    ],
+    "desktopTray": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      },
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      }
+    ],
+    "desktopCommandHandlers": [
+      {
+        "code": 9007,
+        "message": "Function must have an explicit return type annotation with --isolatedDeclarations."
+      }
+    ]
+  },
+  "mechanicalSelectedDependencyInputs": [
+    {
+      "path": "packages/desktop/src/main/primaryWindowCoordinator.ts",
+      "bytes": 3164,
+      "sha256": "c57002e8563519a1b0456e916d681ac6528ae5320a3b313675d00793cb8355ca"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopTray.ts",
+      "bytes": 3320,
+      "sha256": "0cf183091263876ac3e014fba6d4818a28cc1d4319f97328a7269e6dcaba5ef5"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopCommandHandlers.ts",
+      "bytes": 9544,
+      "sha256": "9055507db7a6b30052379ba957e0fdc330fcb022747ca9638997b9d8baee9280"
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b"
+    },
+    {
+      "path": "packages/services/src/agent/stdioTapDevConfig.ts",
+      "bytes": 2086,
+      "sha256": "04629bdbaeea312940987c984598a8bd154f30cf55fc5c51b1005bb99b54b06f"
+    },
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "bytes": 9114,
+      "sha256": "9797ce49841eb89b6ab64ce61c889839f37b7e98074762fcf559190f3b0d019b"
+    },
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "bytes": 45656,
+      "sha256": "709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77"
+    },
+    {
+      "path": "packages/desktop/src/main/resourceManagerWindow.ts",
+      "bytes": 16528,
+      "sha256": "75d07ce51425e4d7cba31ac9c2920987f0af9efad199e97f71f72b27a153bbd3"
+    },
+    {
+      "path": "packages/desktop/src/main/cuaOsSupport.ts",
+      "bytes": 1251,
+      "sha256": "c09cf69549e1b23cfb0fac5076ec667f73f47d412e0188da6de619f0dfae44f4"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWindowButtonPosition.ts",
+      "bytes": 4756,
+      "sha256": "f8788ab82065fa888a64797aa27d1e392bf3ff9b2aa51a3025baf4a020a0330b"
+    },
+    {
+      "path": "packages/desktop/src/main/desktopZoom.ts",
+      "bytes": 677,
+      "sha256": "931251c2cd5bd27c9fdc427f7f80663b477df3029cff680b1bb7db3051b8513e"
+    },
+    {
+      "path": "packages/shared/src/desktopMenu.ts",
+      "bytes": 8754,
+      "sha256": "6fe08011e435c75e5329955701fd49e6dcc6c4a1e206330542f2bb440ac6e4de"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "bytes": 36666,
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a"
+    },
+    {
+      "path": "packages/shared/src/protocol.ts",
+      "bytes": 15340,
+      "sha256": "066999aaf312785f97554b62d519761d754154a22484fdd017e58335bf028f1e"
+    },
+    {
+      "path": "packages/shared/src/channels.ts",
+      "bytes": 48621,
+      "sha256": "0e5d67b58ca0cb1c836abc8999d766527d3b0fc92486632a37385eb3b278dc1c"
+    }
+  ],
+  "dependencyDiagnosticsQualification": "Only target extraction diagnostics are reported here. Inferred dependency signatures remain bound by original-module types/public signatures, not standalone semantic compilation."
+}

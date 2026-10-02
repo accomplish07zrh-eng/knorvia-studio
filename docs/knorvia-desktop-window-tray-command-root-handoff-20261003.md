@@ -1,0 +1,9 @@
+# Root window, tray and command-handler handoff
+
+Reserved28f7b045 fromd12799b7; body-free [contract](evidence/desktop-window-tray-command-root-packet-20261003/contract.md), [manifest](evidence/desktop-window-tray-command-root-packet-20261003/curator-manifest.json), original public declarations, qualified returns, dependency APIs, exact imports (including dynamic rm import), shared/menu/command/dialog/error/order data bind primaryWindowCoordinator101lines, desktopTray103 and desktopCommandHandlers272. E authored no desktop source and no target operation.
+
+All three targets are substantial and bounded exact-name docs/specs/reviews search found no accepted record. Root reports names/counts/reviewabsence deliberately seen thispass only; prior broad/generic exposure and source-exposed curator remain qualified, no new no-exposure/audit/isolation claim. Static menu/config/literals retained without novelty/grant.
+
+Inherited isolated TS6.0.2 diagnostics remain explicit: coordinator9007/9016, tray two9007, dispatcher9007. Rawunknown/any declarations remain preserved; separate source-grounded return contracts cover Promise<void>, Tray|null and Promise<void|CuaOsSupport>. This is no semantic body/project typing or runtime/lint proof. No actual window/tray/menu/dialog/commands/settings/filesystem/stdio proxy/userdata/OS operations, tests, build or ordinary suite performed.
+
+Contract covers gate/reuse/bootstrap coalescing and crash handling; tray singleton/menu/callback/locale/rejection lifetime; exact command/window/zoom/persistence receiver/order; confirmation and deletion/cache/error/relaunch scope. ClearAllData is described only, never invoked. Root's reported scan/worker/media-registry PR12head9d92be5f35e89539e0077e79005f786f00778202 stays separate, unimported/unrereviewed by E. No material/licence obligation closed.
