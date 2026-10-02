@@ -385,3 +385,56 @@ test(`${surface}: exact historical and current owner selection fail closed`, asy
     );
   }
 });
+
+test(`${surface}: failure publication keeps captured facts after collection append mutation`, async () => {
+  const observe = async (check: Check) => {
+    const p = owned();
+    p.options.snapshot.strategy.executor.maxConsecutiveErrors = 1;
+    const append = p.deps.appendGraphRecord;
+    let appendCalls = 0;
+    let mutatedCollection: { errorCount?: number; exhausted?: boolean } | undefined;
+    p.deps.appendGraphRecord = function (runId, record, settings) {
+      assert.equal(this, p.runtime.eventLog);
+      assert.equal(settings?.signal, p.controller.signal);
+      appendCalls++;
+      if (record.recordType === "collection" && record.collection.status === "exhausted") {
+        mutatedCollection = record.collection;
+        record.collection.errorCount = 99;
+        record.collection.exhausted = false;
+      }
+      return append.call(this, runId, record, settings);
+    };
+    p.runtime.eventLog = new events.WorkflowSchedulerEventLog(p.deps);
+    p.hooks.planner = () => {
+      throw new Error("Owned planner failure");
+    };
+    const result = await run(check, p);
+    assert.equal(appendCalls, 2);
+    assert.equal(mutatedCollection?.errorCount, 99);
+    assert.equal(mutatedCollection?.exhausted, false);
+    assert.equal(result.snapshot.activities[0]?.error, "Owned planner failure");
+    assert.equal(result.snapshot.activities[0]?.status, "failed");
+    assert.equal(result.snapshot.graph.collections?.[0]?.errorCount, 1);
+    assert.equal(result.snapshot.graph.collections?.[0]?.exhausted, true);
+    return {
+      payload: p.events.find((event) => event.type === "planner_failed")?.payload,
+      eventTypes: p.events.map((event) => event.type),
+      observation: view(p, result),
+    };
+  };
+  const expected = await observe(historical.checkCollectionPlanners);
+  const observed = await observe(current.checkCollectionPlanners);
+  if (process.env.KNORVIA_COLLECTION_FAILURE_RECORD === "1")
+    console.log(`OWNED_FAILURE_PUBLICATION ${JSON.stringify({ surface, expected, observed })}`);
+  assert.deepEqual(expected.payload, {
+    collectionId: "owned-collection",
+    errorCount: 1,
+    exhausted: true,
+  });
+  assert.deepEqual(expected.eventTypes, [
+    "planner_started",
+    "planner_failed",
+    "collection_exhausted",
+  ]);
+  assert.deepEqual(observed, expected);
+});
