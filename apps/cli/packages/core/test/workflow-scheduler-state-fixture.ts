@@ -18,7 +18,7 @@ export async function loadHistorical(reader = read) {
 }
 export const archive = await loadHistorical();
 const text = await read(new URL("./workflow-scheduler-state-current.json", import.meta.url));
-assert.equal(sha(text), "de7cb0e04f956493176c5d7af0e0a8bf12250ddacf2d750a41674ccbbe6ecb4a");
+assert.equal(sha(text), "2b7107fc822aa0848ddd6a8dbd24931ae7cda0e30610a945978b16a015a66a66");
 const pins: { files: Record<string, string> } = JSON.parse(text);
 export async function loadCurrent(reader = read) {
   for (const [path, digest] of Object.entries(pins.files))
@@ -41,7 +41,14 @@ export const historical = (await import(oldUrl)) as Pick<
 const contractsOverlay = data(
   `export * from ${JSON.stringify(import.meta.resolve("@knorvia/contracts"))};\nexport { deriveWorkflowSchedulerState } from ${JSON.stringify(oldUrl)};`,
 );
-const oldGraph = await read(new URL("core/dist/workflow/scheduler/graph.js", root));
+const graphHistoryText = await read(
+  new URL("./workflow-graph-boundary-baseline.json", import.meta.url),
+);
+assert.equal(
+  sha(graphHistoryText),
+  "6366a05a77ff4c24b61cf1338ed731c27b46fa01bcf6c318f7c651cfe2f4bfe3",
+);
+const oldGraph: string = JSON.parse(graphHistoryText).records.graph.compiled;
 assert.equal(sha(oldGraph), archive.dependencyPins["core/dist/workflow/scheduler/graph.js"]);
 const graphUrl = data(
   oldGraph.replace('from "@knorvia/contracts"', `from ${JSON.stringify(contractsOverlay)}`),
