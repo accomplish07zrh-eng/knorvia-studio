@@ -1,0 +1,15 @@
+{
+  "baselineCommit": "60c3b1c544067b753b9476ace3698683c3714428",
+  "owner": "packages/server/src/remote/localTarGz.ts",
+  "baselineSha256": "e522010113d70d521323c68819d3b30de182c37a6129fe61646000a7614baedb",
+  "rawAuthorSha256": "b0d2e16f53573b248e9c2e70149c066a4639c2cef61a4e5dbeba0e73ad337025",
+  "formattedCandidateSha256": "918d333f3af9e78ac1e4fcf3fae401baf50da4cd3ad64bf12cae793a0b7e027c",
+  "inputs": {
+    "/tmp/knorvia-localtar-author-packet.md": "ee2c9fd8cc4578b16d820a3fc6586f48fd399ae5e55329964546045e04fb1f46",
+    "/workspace/knorvia-studio/AGENTS.md": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+    "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a"
+  },
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "fork": "none"
+}
