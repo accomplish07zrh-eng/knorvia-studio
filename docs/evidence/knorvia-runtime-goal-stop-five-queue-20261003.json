@@ -1,0 +1,28 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "owners": {
+    "target": "methods/target",
+    "goal-summary-title": "methods/goal-summary-title",
+    "turn-stop": "methods/turn-stop",
+    "subagent-messages": "methods/subagent-messages",
+    "control-only-turn": "methods/control-only-turn"
+  },
+  "modules": [
+    "methods/target",
+    "methods/goal-summary-title",
+    "methods/turn-stop",
+    "methods/subagent-messages",
+    "methods/control-only-turn"
+  ],
+  "constraints": {
+    "excluded": [
+      "permission/full-access",
+      "command-queue",
+      "runtime-command-submit",
+      "runtime-task/registry",
+      "E context/provider/media/workflow/compaction/history/reminders/errors"
+    ],
+    "checks": "ordinary suites/builds/native skipped; scoped API/compiler/lint/format/architecture; minimum synthetic write/lifecycle observation only",
+    "authorship": "source-derived body-free packets; fresh internal draft; no clean-room or licence grant"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "path": "apps/cli/packages/core/src/runtime/methods/goal-summary-title.ts",
+  "kind": "file",
+  "sha256": "9cbcc749d5fef24d89569bce679f316688c4c23a28affaaa1f17f22df904b877",
+  "normalizedSha256": "9cbcc749d5fef24d89569bce679f316688c4c23a28affaaa1f17f22df904b877",
+  "encoding": "utf8-lf",
+  "bytes": 9732,
+  "classification": "upstream-modified",
+  "upstream": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/runtime/methods/goal-summary-title.ts",
+    "blob": "b852426cff7d9d62454ccf73a2ea8befb6e61b0f",
+    "normalizedSha256": "099f3c0198a75e564747bd0b5c7fd73ce850638fae3ee25474e0e27662becde5",
+    "contentMatchedPaths": []
+  },
+  "license": "NOASSERTION",
+  "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+  "thirdParty": [],
+  "review": null
+}

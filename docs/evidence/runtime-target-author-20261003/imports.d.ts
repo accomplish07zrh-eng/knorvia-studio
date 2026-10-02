@@ -1,0 +1,10 @@
+import { CoreErrorType, SessionEventType, createChildTraceContext, createCoreError, formatGoalContinuationPrompt, traceContextToLogContext, } from "../deps.js";
+import type { ModelUsageSummary, SessionGoal, TargetChangedPayload, TraceContext, } from "../deps.js";
+import type { TurnResult } from "../types.js";
+import type { AgentRuntimeInternal } from "../internal.js";
+import { createRuntimeCommandId } from "../command-queue.js";
+import type { TargetContinuationRuntimeCommand, TargetContinuationRuntimeCommandOptions, } from "../command-queue.js";
+import { hasRunningBackgroundRuntimeTask } from "../../runtime-task/registry.js";
+import { wrapSystemReminderForSource } from "../../system-reminder/source.js";
+import { verifyActiveTargetCompletionForContinuation } from "./target-completion-verification.js";
+import { enqueueCancellableRuntimeCommand } from "./runtime-command-submit.js";

@@ -1,0 +1,24 @@
+{
+  "description": "Fixed import, protocol and runtime string vocabulary only; no predecessor bodies or commentary",
+  "values": [
+    "../deps.js",
+    "../helpers/index.js",
+    "../types.js",
+    "../internal.js",
+    "./turn-guide-drain.js",
+    "./turn-loop-state.js",
+    "./turn-output-token-continuation.js",
+    "../../agent/message-history.js",
+    "latestAssistantMessageId",
+    "latestAssistantTurnId",
+    "latestConversationMessageId",
+    "Model-backed assistant persistence requires the loop Model",
+    "",
+    "step-finish",
+    "continue",
+    "break",
+    "Model-backed turn stop requires the loop Model",
+    "guide.noToolBoundary",
+    "success"
+  ]
+}

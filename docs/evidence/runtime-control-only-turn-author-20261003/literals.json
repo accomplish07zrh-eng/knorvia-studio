@@ -1,0 +1,25 @@
+{
+  "description": "Fixed import, protocol and runtime string vocabulary only; no predecessor bodies or commentary",
+  "values": [
+    "../deps.js",
+    "../helpers/index.js",
+    "../../agent/message-history.js",
+    "../internal.js",
+    "../command-queue.js",
+    "./projection-anchor.js",
+    "./goal-summary-title.js",
+    "./session-title.js",
+    "controlOnly",
+    "",
+    "success",
+    "user",
+    "agent",
+    "real_user",
+    "user_prompt",
+    "workflow_launch",
+    "visible",
+    "realUser",
+    "user-visible",
+    "text"
+  ]
+}

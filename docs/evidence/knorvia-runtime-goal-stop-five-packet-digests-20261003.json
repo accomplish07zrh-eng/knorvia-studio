@@ -1,0 +1,53 @@
+{
+  "base": "f4ee4be4b6a59e543ba61e08b8b0f28f4a3a4c15",
+  "packets": {
+    "target": {
+      "contract.md": "8940b5433dbdbd3c9ffe8a84d88f74babd20cf1700d62de586eb81f664e181b4",
+      "api.d.ts": "57f224b7ccd62194524e036cbe3eeafc19d3dcf78109e004f1d22d418a2fcac2",
+      "imports.d.ts": "a99cb9b9cba0fe2a11e5c56b32b425e3089060acaf8fcc1a6340fc89222f3c7e",
+      "literals.json": "76da5712a1e3d9503973cad00d5039d75dc3f6530b25c330ea9f5a6dd6a3552d",
+      "supporting.d.ts": "11551cd0242215af814f5b7c923a2988f768158a7806bdf34c40d017a13c6633"
+    },
+    "goal-summary-title": {
+      "contract.md": "641cf447ce5bca1dd4a3b82ee72dc6ceb1e1f98e3724e5f9da16c8bf64e95a71",
+      "api.d.ts": "241fd9d0f28ea9ca0d6f9b74c45e36355e90612ef0b05a37d54fdf1572962d1a",
+      "imports.d.ts": "9cc9b1db12c08de1d1be00971614529dc1181d50372a6bab768d6b58e7de0eb5",
+      "literals.json": "e8c6becc11e68ed9c81fb7801dba359e8181ecf19dc5193728d505e6d288e30c",
+      "supporting.d.ts": "3c412bcac198df0dbd4b6c0141675fc5c1212c3075691cca1ca8c7e4387c8d18"
+    },
+    "turn-stop": {
+      "contract.md": "858dab3cd6a99d33685c4aae9181ecdcac2be6e5b25d2086e580054de590c6cd",
+      "api.d.ts": "73958add4cbecd11ddda02f8d50f42d364ebeaa5e29d1833a14d8cd87c43db3a",
+      "imports.d.ts": "9f4396f56ec3a14f284f3fae376355a990057933a7830b4b5b57ecf8a4de1e9d",
+      "literals.json": "c3bd58e61521479a51ff05b94eb673c1a28df5d133efca9a83c9ee153ef71b7a",
+      "supporting.d.ts": "d7b6f997317df9a54a324c07bd4de5b402d9d2c6b95b8d6229944c11a2b5515c"
+    },
+    "subagent-messages": {
+      "contract.md": "9c02c65fa04a664836087328690b7a61bf05ebc6a2e7a41c39cc3585fc44d925",
+      "api.d.ts": "d8db01b1cc9ab50c9fe75aba068897217e7746bc971403cd3aebacd21c816ce7",
+      "imports.d.ts": "fb60e418cdb659ff0bec40e3e2ebc6e0e2d3011f2d007fd959ec5ecc3f2ada7c",
+      "literals.json": "696a18c243fa83c704507dc289abd2b6718f81eb803b424bc7e39e06365b84f6",
+      "supporting.d.ts": "ae26af7b3a4f3876087aea7ea1520f13734864e350cac7363153d991ae192a87"
+    },
+    "control-only-turn": {
+      "contract.md": "e3a83a75a91cc928d3324093a1f98e31f7a67750e6987bda30c6012df5eb2f27",
+      "api.d.ts": "1ca4e56d4c0c581b54bd12e9b82de0600a81d045808a048a39579b799b62bcf1",
+      "imports.d.ts": "f88e36f990b738dbe62574ecb117e8a76c9d7b7ee144f2e5694cd5e05fd1c734",
+      "literals.json": "64e5c9a5f5f5c61e2c7ec06aa75913c81f14f73a3a331fb9edb1369d428ef450",
+      "supporting.d.ts": "4f49e08fcec988287d5872fd72efd60032eea284c0021ec0d888cf72afc340ca"
+    }
+  },
+  "curator": "source-exposed; body-free/source-derived functional packets, no clean-room claim",
+  "freeze": {
+    "diagnostics": 0,
+    "typescript": "6.0.2",
+    "owners": [
+      "target",
+      "goal-summary-title",
+      "turn-stop",
+      "subagent-messages",
+      "control-only-turn"
+    ],
+    "mode": "exact source plus actual scoped compiler JS/declaration; other dependencies unchanged"
+  }
+}
