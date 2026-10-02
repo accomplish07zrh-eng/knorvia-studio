@@ -1,0 +1,13 @@
+{
+  "stage": "Source-exposed curator lint cleanup, before production commit",
+  "finding": "Removing a this-alias with an overly broad local text substitution also changed fixed protocol source:\"runtime\" to \"this\". TS2322 rejected the source. No actual user write occurred.",
+  "correction": "Restored the exact runtime literal, then compiled successfully with zero diagnostics and strict current source/JS/declaration binding before the accepted final checks.",
+  "intermediate": "A shell sequence continued after the failed compiler. Its selector and three-group/iteration logs used prior emitted bytes and are explicitly unaccepted, not final coverage. All outcomes known; records preserved. No assertion, oracle or compiler policy weakened.",
+  "records": [
+    "curator-alias-literal-types.log",
+    "draft-this-alias-lint.log",
+    "unaccepted-intermediate-selector.log",
+    "unaccepted-intermediate-safety.log",
+    "unaccepted-intermediate-iteration.log"
+  ]
+}

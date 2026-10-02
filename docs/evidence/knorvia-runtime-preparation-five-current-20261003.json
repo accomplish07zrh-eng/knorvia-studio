@@ -1,0 +1,76 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "typescript": "6.0.2",
+  "files": {
+    "target-completion-verification": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/target-completion-verification.ts",
+        "sha256": "c89d2ad88443768bc978c038b24502df323c5982b94100fce8d9f58a101f1228"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/target-completion-verification.js",
+        "sha256": "3bd5be1faccb5340538081e82008862bf64a2c85334c5c84dfa955b9f6eca8e7"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/target-completion-verification.d.ts",
+        "sha256": "8509ae2bc1f41d844be811b6192fc7a1f6a39c538526ac3f9047033a7ed101ef"
+      }
+    },
+    "turn-loop": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-loop.ts",
+        "sha256": "0210fd7cda4e6a1453dfec8765d2a8c2366d3752e5ff36f9feea7104d444675a"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-loop.js",
+        "sha256": "e9ba17f4b6436f1ba92ba1f888858fd83f7419f08af6c87116351e91f2e0c6a7"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-loop.d.ts",
+        "sha256": "44b7888240d1d141e8f1d5df43d411dbabd5e085812c52cdb7e107234496db6a"
+      }
+    },
+    "turn-model": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/turn-model.ts",
+        "sha256": "6f2f316062191376eb97ee7fc3c95a56b8e82eb7b50681f97f3d970e3a7947c4"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model.js",
+        "sha256": "ddb842ee8787da7074f5d9be395ea50cdd0c3a68dea52b2c090979eecad92b4d"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/turn-model.d.ts",
+        "sha256": "359759305ef476d42d182da78e50c23a7016e3e5c07ccad0ac8eb2d349d33528"
+      }
+    },
+    "plugin-reference": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/plugin-reference.ts",
+        "sha256": "b0955a1b518b92618cdf509cd7bb0d13900555037c140040cda7b7abf3fe32d9"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/plugin-reference.js",
+        "sha256": "92893cabdb306eeb57703e08382d9ba33c49d3680218446f32dba133059c8344"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/plugin-reference.d.ts",
+        "sha256": "00217ad1058df91795a7a1e414ad7fcbe3e35243aff285c05e2c6a508a6e4ebf"
+      }
+    },
+    "session-shell-environment": {
+      "source": {
+        "path": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+        "sha256": "4b0630066cd7e0a2e58a4762ca8711565d0332d9260277043e28b15fe68517e4"
+      },
+      "compiled": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/session-shell-environment.js",
+        "sha256": "61304d46d8f1301cd64b1a496747db917251b82853b2a86ab8666f942bfa7960"
+      },
+      "declaration": {
+        "path": "apps/cli/packages/core/dist/runtime/methods/session-shell-environment.d.ts",
+        "sha256": "f90e6515c4a6854818df4c067f55dfa4390d4c2ee1735c9661ee8dc45140000e"
+      }
+    }
+  }
+}

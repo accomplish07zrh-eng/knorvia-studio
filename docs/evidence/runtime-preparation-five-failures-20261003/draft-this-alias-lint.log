@@ -1,0 +1,12 @@
+
+  ! typescript-eslint(no-this-alias): Unexpected aliasing of 'this' to local variable.
+    ,-[apps/cli/packages/core/src/runtime/methods/target-completion-verification.ts:58:9]
+ 57 | ): Promise<TargetCompletionVerificationResult | null> {
+ 58 |   const runtime = this;
+    :         ^^^^^^^
+ 59 |   if (runtime.config.targetCompletionVerification?.enabled === false) return null;
+    `----
+  help: Assigning a variable to this instead of properly using arrow lambdas may be a symptom of pre-ES2015 practices or not managing scope well.
+
+Found 1 warning and 0 errors.
+Finished in 33ms on 5 files with 94 rules using 4 threads.

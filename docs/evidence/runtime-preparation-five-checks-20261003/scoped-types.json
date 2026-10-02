@@ -1,0 +1,158 @@
+{
+  "typescript": "6.0.2",
+  "mode": "scoped five source modules;immutable historical and actual emitted API",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "target-completion-verification",
+      "before": {
+        "TargetCompletionVerificationResult": "any",
+        "verifyActiveTargetCompletionForContinuation": [
+          "(this: AgentRuntimeInternal, input: { abortSignal?: AbortSignal | undefined; target: SessionGoal; traceContext: TraceContext; }): Promise<TargetCompletionVerificationResult | null>"
+        ]
+      },
+      "after": {
+        "TargetCompletionVerificationResult": "any",
+        "verifyActiveTargetCompletionForContinuation": [
+          "(this: AgentRuntimeInternal, input: { abortSignal?: AbortSignal | undefined; target: SessionGoal; traceContext: TraceContext; }): Promise<TargetCompletionVerificationResult | null>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "turn-loop",
+      "before": {
+        "runRegularTurnLoop": [
+          "(this: AgentRuntimeInternal, state: RegularTurnLoopState): Promise<void>"
+        ]
+      },
+      "after": {
+        "runRegularTurnLoop": [
+          "(this: AgentRuntimeInternal, state: RegularTurnLoopState): Promise<void>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "turn-model",
+      "before": {
+        "applySubmissionExecutionState": [
+          "(runtime: AgentRuntimeInternal, intent: TurnInputIntentMetadata | undefined, traceContext: TraceContext, modelExecution?: ModelExecutionContext | undefined, preparedModel?: Model | undefined): Promise<Model | undefined>"
+        ],
+        "createTurnModel": [
+          "(runtime: AgentRuntimeInternal, options?: { selection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; requestDependencies?: ModelRequestDependencies | undefined; } | undefined): Model"
+        ],
+        "persistRuntimeModelSelection": [
+          "(runtime: AgentRuntimeInternal, selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }): Promise<void>"
+        ],
+        "sameModelSelection": [
+          "(left: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined, right: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }): boolean"
+        ]
+      },
+      "after": {
+        "applySubmissionExecutionState": [
+          "(runtime: AgentRuntimeInternal, intent: TurnInputIntentMetadata | undefined, traceContext: TraceContext, modelExecution?: ModelExecutionContext | undefined, preparedModel?: Model | undefined): Promise<Model | undefined>"
+        ],
+        "createTurnModel": [
+          "(runtime: AgentRuntimeInternal, options?: { selection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined; requestDependencies?: ModelRequestDependencies | undefined; } | undefined): Model"
+        ],
+        "persistRuntimeModelSelection": [
+          "(runtime: AgentRuntimeInternal, selection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }): Promise<void>"
+        ],
+        "sameModelSelection": [
+          "(left: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | undefined, right: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }): boolean"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "plugin-reference",
+      "before": {
+        "injectPluginReferenceReminderFromTurn": [
+          "(this: AgentRuntimeInternal, userInput: string, traceContext: TraceContext, toolDisallowlist?: readonly string[] | undefined): Promise<void>"
+        ]
+      },
+      "after": {
+        "injectPluginReferenceReminderFromTurn": [
+          "(this: AgentRuntimeInternal, userInput: string, traceContext: TraceContext, toolDisallowlist?: readonly string[] | undefined): Promise<void>"
+        ]
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    },
+    {
+      "owner": "session-shell-environment",
+      "before": {
+        "announceSessionShellEnvironmentNoticeAfterResume": [
+          "(runtime: AgentRuntimeInternal, options: { persistedEnvInfo: EnvInfo | undefined; restore: BashShellSnapshotRestore; }): void"
+        ],
+        "getContextSourceShellDisplayName": [
+          "(runtime: AgentRuntimeInternal): string | undefined"
+        ],
+        "getSessionShellEnvironment": [
+          "(runtime: AgentRuntimeInternal): SessionShellEnvironment | undefined"
+        ],
+        "getSessionShellSelection": [
+          "(runtime: AgentRuntimeInternal): ExecutionShellSelection | undefined"
+        ],
+        "getSessionShellSelectionFromConfig": [
+          "(config: SessionShellConfig): ExecutionShellSelection | undefined"
+        ],
+        "initializeSessionShellEnvironmentIfNeeded": [
+          "(runtime: AgentRuntimeInternal, candidate: SessionShellEnvironmentCandidate): boolean"
+        ],
+        "persistSessionShellEnvironmentSnapshot": [
+          "(runtime: AgentRuntimeInternal, traceContext: TraceContext): Promise<void>"
+        ],
+        "restoreSessionShellEnvironmentSelectionForResume": [
+          "(runtime: AgentRuntimeInternal, options: { currentSelection: ExecutionShellSelection | undefined; traceContext: TraceContext; }): Promise<BashShellSnapshotRestore>"
+        ],
+        "SessionShellEnvironmentCandidate": "any"
+      },
+      "after": {
+        "announceSessionShellEnvironmentNoticeAfterResume": [
+          "(runtime: AgentRuntimeInternal, options: { persistedEnvInfo: EnvInfo | undefined; restore: BashShellSnapshotRestore; }): void"
+        ],
+        "getContextSourceShellDisplayName": [
+          "(runtime: AgentRuntimeInternal): string | undefined"
+        ],
+        "getSessionShellEnvironment": [
+          "(runtime: AgentRuntimeInternal): SessionShellEnvironment | undefined"
+        ],
+        "getSessionShellSelection": [
+          "(runtime: AgentRuntimeInternal): ExecutionShellSelection | undefined"
+        ],
+        "getSessionShellSelectionFromConfig": [
+          "(config: SessionShellConfig): ExecutionShellSelection | undefined"
+        ],
+        "initializeSessionShellEnvironmentIfNeeded": [
+          "(runtime: AgentRuntimeInternal, candidate: SessionShellEnvironmentCandidate): boolean"
+        ],
+        "persistSessionShellEnvironmentSnapshot": [
+          "(runtime: AgentRuntimeInternal, traceContext: TraceContext): Promise<void>"
+        ],
+        "restoreSessionShellEnvironmentSelectionForResume": [
+          "(runtime: AgentRuntimeInternal, options: { currentSelection: ExecutionShellSelection | undefined; traceContext: TraceContext; }): Promise<BashShellSnapshotRestore>"
+        ],
+        "SessionShellEnvironmentCandidate": "any"
+      },
+      "equal": true,
+      "fixedDeclarationFactsEqual": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/methods/session-shell-environment.js",
+    "dist/runtime/methods/session-shell-environment.d.ts",
+    "dist/runtime/methods/target-completion-verification.js",
+    "dist/runtime/methods/target-completion-verification.d.ts",
+    "dist/runtime/methods/turn-model.js",
+    "dist/runtime/methods/turn-model.d.ts",
+    "dist/runtime/methods/turn-loop.js",
+    "dist/runtime/methods/turn-loop.d.ts",
+    "dist/runtime/methods/plugin-reference.js",
+    "dist/runtime/methods/plugin-reference.d.ts"
+  ]
+}
