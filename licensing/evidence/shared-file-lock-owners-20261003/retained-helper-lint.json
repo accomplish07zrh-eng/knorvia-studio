@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "licensing/evidence/shared-file-lock-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 19ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

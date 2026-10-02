@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "/tmp/knorvia-scoped-syntax.mjs",
+    "packages/shared/src/node/privateFilePersistence.ts"
+  ],
+  "stdout": "packages/shared/src/node/privateFilePersistence.ts: 0 syntax-only diagnostics\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/shared-file-lock-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "atomicFileLock.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nprivateFilePersistence.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n",
+  "stderr": "",
+  "exitCode": 0
+}

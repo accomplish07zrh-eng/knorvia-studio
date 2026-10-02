@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/node/atomicFileLock.ts",
+    "packages/shared/src/node/privateFilePersistence.ts",
+    "packages/shared/test/shared-file-lock-boundaries.test.mjs",
+    "licensing/evidence/shared-file-lock-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 25ms on 4 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "/tmp/knorvia-shared-file-lock-freezes/formatted-selected/atomicFileLock.ts",
+    "/tmp/knorvia-shared-file-lock-freezes/formatted-selected/privateFilePersistence.ts"
+  ],
+  "stdout": "Finished in 13ms on 2 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}
