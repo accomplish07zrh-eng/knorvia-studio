@@ -1,0 +1,25 @@
+{
+  "archivedAtUtc": "2026-10-02T19:26:38.866183+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "delegationConfiguration": {
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "forkTurns": "none",
+    "separateFastTierExposed": false,
+    "independentRuntimeIntrospection": false
+  },
+  "configurationQualification": "Some receipts froze using delegated Sol/high before exact configured identifier arrived; source/receipt not edited afterward. This manifest supplements task-tool configuration only.",
+  "files": [
+    {
+      "file": "author-record.json",
+      "bytes": 4410,
+      "sha256": "939bfe17bcd123c95a76be884ed8bb429d50ef9a13d15f94684063b41b437d85"
+    },
+    {
+      "file": "draft-message-history-usage.ts.txt",
+      "bytes": 2396,
+      "sha256": "9fac6296a442e429b67ec714b3a328bb809add2da7bd842e615fc3e07ee409f1",
+      "target": "apps/cli/packages/core/src/agent/message-history-usage.ts"
+    }
+  ]
+}

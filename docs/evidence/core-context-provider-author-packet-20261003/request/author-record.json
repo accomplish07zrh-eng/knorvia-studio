@@ -1,0 +1,77 @@
+{
+  "status": "frozen",
+  "freezeUtc": "2026-10-02T19:26:04.056509Z",
+  "authorConfiguration": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "forkTurns": "none",
+    "configurationEvidence": "Delegating parent confirmed tool configuration; no independent runtime model introspection was available.",
+    "requestedServiceTier": "Fast",
+    "fastLimit": "No separate Fast service-tier setting was exposed; no verified Fast runtime claim is made."
+  },
+  "inputs": [
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/contract.md",
+      "bytes": 3275,
+      "sha256": "7a6eb3f488d31add7eaf151d17101a6f54d7fb2aac909335274c237584fa760f"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/public-api.d.ts",
+      "bytes": 275,
+      "sha256": "990fafc6f9371ebb172332ec69c1d8cf0f910725221fdb7185aca1187a2c7c0a"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/dependency-api.d.ts",
+      "bytes": 333,
+      "sha256": "7c67a3e612ca4c130b74d422159d220ea2ebf9a4354494903e21ab23a843bd7d"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/public-shapes.d.ts",
+      "bytes": 739,
+      "sha256": "5a214e5205745adeea64e1ed5ad666f74b0bd3a2981f841b1fe3ba3348ccb0e8"
+    },
+    {
+      "path": "/tmp/knorvia-core-context-provider-20261003/request/inputs/output-text.json",
+      "bytes": 690,
+      "sha256": "1edd638e6ca30f8b77b8733ea5702587318f112da3a3f6fa241742bd1ad483b3"
+    }
+  ],
+  "sourceOutput": {
+    "path": "/tmp/knorvia-core-context-provider-20261003/request/output/request-user-context.ts",
+    "bytes": 2882,
+    "sha256": "b212bcddab0c3133fc3d57df5290661af1df5a42830fe0b3578562e764bbcd20"
+  },
+  "receiptOutput": {
+    "path": "/tmp/knorvia-core-context-provider-20261003/request/output/author-record.json",
+    "digestPolicy": "Exact receipt bytes and SHA256 are reported separately after its final write to avoid a self-referential digest."
+  },
+  "readExposure": {
+    "allowedInputReads": "Each of the five named inputs was read once together via cat and once as bytes for metadata hashing.",
+    "ownScratch": "Created the output directory and complete source; read source bytes for its hash; created this receipt. Final receipt bytes are read only for its reported hash.",
+    "inheritedContext": "Fresh fork_turns none. Only task delegation, platform/developer instructions, scoped input contents, and parent clarification of metadata and inline-stage interpretation were exposed. No inherited repository or implementation context.",
+    "excludedExposure": "No repository files, AGENTS files, implementation bodies, dependency bodies, tests, history, review bodies, git state, network, other author outputs, or prior drafts were read."
+  },
+  "retainedExpression": [
+    "Exact section name/source, agentsMd header, instruction-relevance prose, MEMORY.md filename, instruction and memory headings, scope phrases, and truncation marker from output-text.json.",
+    "Declared public function/type imports, existing runtime imports, input/property names, fallback property ordering, section property ordering, map/filter/join projection semantics, and ordinary TypeScript idioms required by the scoped contract.",
+    "Required live instruction reads, original source-array use, memory root/index capture, formatter-before-path order, final estimate timing, preview and error propagation semantics."
+  ],
+  "discretionaryDesign": [
+    "One exported function with inline instruction and memory stages; no helper or new public API.",
+    "Local identifiers parts, instructions, sources, body, trimmedBody, scopePhrase, instructionContent, memoryRoot, memoryIndexContent, formattedMemory, memoryPath, and content.",
+    "Conventional import ordering, indentation, braces, and line wrapping; no cosmetic novelty claim."
+  ],
+  "questions": [
+    {
+      "question": "How to reconcile the contract memory-projection wording with the no-helper restriction?",
+      "resolution": "Used an inline stage with the same root/index capture and guard/formatter/path order; notified the parent. No helper was added."
+    },
+    {
+      "question": "What exact configured model metadata should be recorded?",
+      "resolution": "Parent confirmed gpt-6.1-sol, high, fork_turns none, without independent runtime introspection or separate Fast tier setting."
+    }
+  ],
+  "breaches": [],
+  "validation": "Manual contract-to-source reasoning only. No tests, builds, typechecks, lint, mocks, compiler, or repository inspection.",
+  "freezePolicy": "Source and receipt will receive no edits after this freeze without a separately frozen clarification."
+}
