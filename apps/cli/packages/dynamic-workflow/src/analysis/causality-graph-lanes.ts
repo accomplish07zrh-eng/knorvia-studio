@@ -110,35 +110,42 @@ export function expandMaySetLanes(graph: CausalityGraph): CausalityGraph {
 
 /** Collapse facts to one edge per ordered pair, keeping the strongest claim. */
 export function dedupeFacts(facts: readonly Fact[]): Fact[] {
-  const byPair = new Map<string, Fact>();
+  const paired = new Map<string, Fact>();
   for (const fact of facts) {
     const key = `${fact.from}|${fact.to}`;
-    const existing = byPair.get(key);
-    if (existing === undefined) {
-      // The phase set is cloned, not aliased: the merge below mutates it in place and the
-      // input facts must stay untouched.
-      byPair.set(key, {
-        ...fact,
-        ...(fact.toPhases === undefined ? {} : { toPhases: new Set(fact.toPhases) }),
-      });
-      continue;
-    }
-    if (KIND_RANK[fact.kind] > KIND_RANK[existing.kind]) existing.kind = fact.kind;
-    if (fact.exact !== undefined && existing.exact === undefined) existing.exact = fact.exact;
-    else if (fact.exact === true) existing.exact = true;
-    if (fact.certainty === "maybe") existing.certainty = "maybe";
-    // 一条不经跳转就成立的事实让这一对回到普通前向边：全部贡献都只能靠下一轮，才算回边。
-    if (fact.viaJump !== true) delete existing.viaJump;
-    // ABSENT DOMINATES: one contributing fact with no provenance means the merged fact has
-    // none, so it fans out fully. A `data` fact (never provenanced, and fanning out by
-    // contract) merging onto a provenanced `seq` fact must not inherit that narrowing —
-    // the pair is then ordered for reasons the barrier witness does not account for.
-    if (fact.toPhases === undefined) delete existing.toPhases;
-    else if (existing.toPhases !== undefined) {
-      for (const phase of fact.toPhases) existing.toPhases.add(phase);
-    }
+    const prior = paired.get(key);
+    paired.set(
+      key,
+      prior === undefined
+        ? {
+            ...fact,
+            ...(fact.toPhases === undefined ? {} : { toPhases: new Set(fact.toPhases) }),
+          }
+        : joinFact(prior, fact),
+    );
   }
-  return [...byPair.values()];
+  return [...paired.values()];
+}
+
+function joinFact(prior: Fact, incoming: Fact): Fact {
+  const kind = KIND_RANK[incoming.kind] > KIND_RANK[prior.kind] ? incoming.kind : prior.kind;
+  const exact =
+    incoming.exact !== undefined && prior.exact === undefined
+      ? incoming.exact
+      : incoming.exact === true
+        ? true
+        : prior.exact;
+  const certainty = incoming.certainty === "maybe" ? "maybe" : prior.certainty;
+  const joined = { ...prior };
+  if (kind !== prior.kind) joined.kind = kind;
+  if (exact !== prior.exact) joined.exact = exact;
+  if (certainty !== prior.certainty) joined.certainty = certainty;
+  if (incoming.viaJump !== true) delete joined.viaJump;
+  if (incoming.toPhases === undefined) delete joined.toPhases;
+  else if (joined.toPhases !== undefined) {
+    for (const phase of incoming.toPhases) joined.toPhases.add(phase);
+  }
+  return joined;
 }
 
 export function weakest(values: readonly Certainty[]): Certainty {
