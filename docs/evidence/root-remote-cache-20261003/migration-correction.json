@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-03 Asia/Shanghai",
+  "priorPublicCommit": "ffed10195f13f11c0726ae9df5976dd790b9b666",
+  "clarification": "Source-exposed curator confirmed directory-entry and prefix admission before readiness; symlink siblings excluded. Readiness-stat errors mean absence; separate mtime stat after readiness propagates errors. No predecessor body was sent to root.",
+  "correction": "Use Dirent directory admission for legacy component siblings; keep existing readiness and separate mtime stat sequence.",
+  "evidence": "One synthetic before/after migration counterexample: prior draft promoted an owned symlink sibling without fetch; corrected candidate excluded it, attempted injected offline fetch, preserved source and did not promote. No real network/user data.",
+  "compiler": "Corrected target zero diagnostics in existing scoped actual-declaration harness",
+  "sourceSha256": "b61cc8d8ef042fd6cc4bd10275056abaae485ca694ee80f6091d21f0c278d5f2",
+  "limits": "Other migration/concurrency/platform/final gates remain deferred; known max-lines lint gate not cleared; no cross-lane merge or licence grant."
+}

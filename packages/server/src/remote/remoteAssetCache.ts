@@ -35,7 +35,7 @@ export interface EnsureRemoteReleaseDirOptions {
   remoteAssetNetwork?: RemoteAssetNetworkPort;
 }
 import { createHash, randomUUID } from "node:crypto";
-import { createReadStream, createWriteStream, type Stats } from "node:fs";
+import { createReadStream, createWriteStream, type Dirent, type Stats } from "node:fs";
 import {
   constants as fsConstants,
   copyFile,
@@ -672,14 +672,16 @@ async function migrateOldComponent(
 ): Promise<boolean> {
   const root = componentRoot(c, component),
     prefix = `${resolveRemoteAssetComponentCacheVersion(component.version)}+`;
-  let entries: string[];
+  let entries: Dirent[];
   try {
-    entries = await readdir(root);
+    entries = await readdir(root, { withFileTypes: true });
   } catch {
     return false;
   }
   let choice: { dir: string; name: string; time: number } | undefined;
-  for (const name of entries) {
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const name = entry.name;
     if (!name.startsWith(prefix)) continue;
     const dir = path.join(root, name);
     if (path.resolve(dir) === path.resolve(target) || !(await markedDirectory(dir))) continue;

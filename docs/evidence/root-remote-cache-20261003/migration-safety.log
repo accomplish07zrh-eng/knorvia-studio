@@ -1,0 +1,15 @@
+{
+  "before": {
+    "fetches": 0,
+    "error": null,
+    "promoted": true
+  },
+  "after": {
+    "fetches": 2,
+    "error": "Error: [remote-assets] failed to fetch node-runtime@1.2.3: https://assets.invalid/release/node.tar.gz -> Error: owned offline fetch; https://assets.invalid/release/1.0.0/node.tar.gz -> Error: owned offline fetch",
+    "promoted": false
+  },
+  "sourcePreserved": true,
+  "realNetwork": false,
+  "scope": "One synthetic migration admission counterexample; no full suite"
+}
