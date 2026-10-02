@@ -1,0 +1,7 @@
+{
+  "path": "apps/cli/packages/adapters/src/commands/index.ts",
+  "added": 284,
+  "deleted": 322,
+  "net": -38,
+  "limit": "Source count/diff/refactor/renaming is not independent provenance."
+}

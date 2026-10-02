@@ -1,0 +1,7 @@
+{
+  "action": "First attempt to compose command spec/packet shell call",
+  "phase": "functions.exec JavaScript parse before evaluation",
+  "output": "Script error:\nSyntaxError: Invalid or unexpected token",
+  "exitCode": null,
+  "impact": "No tools executed or files mutated; corrected orchestration source, not a product/baseline/runtime failure."
+}

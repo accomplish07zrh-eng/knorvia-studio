@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/cli-command-owner-20261003/scoped-lint-config.json",
+    "apps/cli/packages/adapters/src/commands/index.ts",
+    "apps/cli/packages/adapters/test/custom-command-owner-compatibility/owners.test.mjs",
+    "licensing/evidence/cli-command-owner-20261003/public-api-shape.mjs",
+    "licensing/evidence/cli-command-owner-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 20ms on 4 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python",
+    "/tmp/screen-command.py"
+  ],
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/tmp/screen-command.py\", line 16, in <module>\n    for e in j['buildProof']+j['qaCounterexampleRepair']['currentBuildProof']:\n             ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nTypeError: unsupported operand type(s) for +: 'dict' and 'list'\n",
+  "exitCode": 1
+}
