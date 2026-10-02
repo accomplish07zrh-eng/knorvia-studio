@@ -320,6 +320,32 @@ test(`${surface}: preserved actual scheduler expansion consumer`, async () => {
   assert.equal(initial.graph.nodes.length, 0);
 });
 
+test(`${surface}: runner-visible collection mutation leaves original artifact identity/count`, async () => {
+  const probe = async (check: Check) => {
+    const p = owned();
+    p.hooks.planner = (input) => {
+      input.collection.collectionId = "owned-mutated";
+      input.collection.plannerRuns = 99;
+      return Promise.resolve({
+        response: "Owned mutation response",
+        sessionId: "owned-final",
+        nodes: [],
+        edges: [],
+        exhausted: true,
+      });
+    };
+    const result = await run(check, p);
+    assert.equal(
+      result.snapshot.artifacts[0]?.path,
+      "artifacts/exec/planners/owned-collection-1.md",
+    );
+    assert.equal(result.snapshot.artifacts[0]?.label, "Planner owned-collection");
+    return view(p, result);
+  };
+  const expected = await probe(historical.checkCollectionPlanners);
+  assert.deepEqual(await probe(current.checkCollectionPlanners), expected);
+});
+
 test(`${surface}: exact historical and current owner selection fail closed`, async () => {
   assert.equal(current.checkCollectionPlanners, actual.checkCollectionPlanners);
   assert.notEqual(current.checkCollectionPlanners, historical.checkCollectionPlanners);
