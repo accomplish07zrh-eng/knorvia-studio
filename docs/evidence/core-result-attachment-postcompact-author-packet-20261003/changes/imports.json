@@ -1,0 +1,14 @@
+[
+  {
+    "module": "diff",
+    "clause": "{ structuredPatch }"
+  },
+  {
+    "module": "../deps.js",
+    "clause": "type { DiffHunk, TurnFileChangeSummary }"
+  },
+  {
+    "module": "../types.js",
+    "clause": "type { RuntimeTurnFileChangeMap }"
+  }
+]

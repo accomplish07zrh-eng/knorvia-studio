@@ -1,0 +1,206 @@
+{
+  "recordedAtUtc": "2026-10-02T20:58:31.832709+00:00",
+  "baseline": "6ef553405a64328590961dc548950f05fb28ce48",
+  "publishedBaseline": "250636854ad491f9d43ba5815680e983415bd979",
+  "scopeCommit": "6ef55340",
+  "scopes": {
+    "result": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/contract.md",
+          "bytes": 5363,
+          "sha256": "a5ac67447ebb89d59f182e7ee201fc99828445fe6e17b4e4a5d117bc19db2985"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/public-api.d.ts",
+          "bytes": 1211,
+          "sha256": "debf50728585c226c41d39f0852086969ccd2ac3f5cf8259561cf6c738cd4f81"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/dependency-api.d.ts",
+          "bytes": 361,
+          "sha256": "3956e5decb37b71232fb3c38acc90048f6462ef4c38ca6f06619ff9a216495d5"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/public-shapes.d.ts",
+          "bytes": 2218,
+          "sha256": "bf74a2ba123c739419b72583f53009c47ef8d75a6b7160f1cd138109f3537b97"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/imports.json",
+          "bytes": 343,
+          "sha256": "a3bf2258e6fdf0982aac84a109dce9dfd2edaa6ed4736ef9975944292edc23a1"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/result/output-data.json",
+          "bytes": 1417,
+          "sha256": "90653d5358c8c50dcda9c115ac2ff9b5d3e76cc28a7e077cc23604a271f6f374"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "changes": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/turn-file-changes.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/contract.md",
+          "bytes": 4384,
+          "sha256": "64b5184721a7d9120ea71f6fb74658cb545a04f6da7042c2b34de7484377e866"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/public-api.d.ts",
+          "bytes": 483,
+          "sha256": "85b3e6310e3eb517f7d304a262160afaf617b2a6c7905aa158f457f39f40e4ad"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/dependency-api.d.ts",
+          "bytes": 171,
+          "sha256": "a06ff734a96635b63dc0bad2d9a1b18131546266cdd516570280a1f6008e1891"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/public-shapes.d.ts",
+          "bytes": 992,
+          "sha256": "0748c6e492b7f794ca0e3683bd5defb84fcc0a819cd13c0301717fc6539a4425"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/imports.json",
+          "bytes": 252,
+          "sha256": "c34af24197316361b229be4a3e5ec4e0a4857e8e6b9d21db3fc9ba463b30ba00"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/changes/output-data.json",
+          "bytes": 858,
+          "sha256": "4cdb05d1df8f63008a74f97b9ac02b81c83124f9900218d4075ca3075bfeed0e"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "image": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-image.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/contract.md",
+          "bytes": 3916,
+          "sha256": "85b9bfbe8ea14f5cd07fc6fc0f62e004361d9288fbbd92fc47ef8c54abbd6df7"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/public-api.d.ts",
+          "bytes": 440,
+          "sha256": "2758f0006b3f936159b9aab8b9c56b84a20a84484d4bb9369b96e77ae10f19bf"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/dependency-api.d.ts",
+          "bytes": 414,
+          "sha256": "700ccbaea85167f3c2a949d746a3138addd1caed5a75ff1218e1bbdbd6c8a5a1"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/public-shapes.d.ts",
+          "bytes": 1597,
+          "sha256": "c7348e7d99f5eebc1feb7d357e5c85234eedfa13f2cff92d8039d41d4d225e94"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/imports.json",
+          "bytes": 341,
+          "sha256": "2b7794a9ea2f4c476f98539bf69651ae5d622f0845939387500f454630cbb3df"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/image/output-data.json",
+          "bytes": 1535,
+          "sha256": "333a5114c57c9db08a84fe2489d3e33a7df85b5a2004e07c4e437340b89084f3"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "reference": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/attachment-path-reference.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/contract.md",
+          "bytes": 4597,
+          "sha256": "e677258afa7ed50cb32352ab68fbf7f8693127765edf30dc0c0f7a9b0fb874ae"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/public-api.d.ts",
+          "bytes": 885,
+          "sha256": "68ee3a5fc42f16d6ccba080244d06b4882bdea98189c69b6f27d5726e75b9f45"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/dependency-api.d.ts",
+          "bytes": 619,
+          "sha256": "ceed52d7936d9d40aae598f81fed79a75132d79176c9ae3b159ff59d5649de31"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/public-shapes.d.ts",
+          "bytes": 622,
+          "sha256": "3108f6afa7a92253e249460bbbba7cf8fa914a43a0a216b81141c5f11f01eb5b"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/imports.json",
+          "bytes": 513,
+          "sha256": "7baddcf882329c990f8be1fc542405bb6de77024714266e18cdf4c25ddfb874a"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/reference/output-data.json",
+          "bytes": 4813,
+          "sha256": "5c09780fd4cb480dc8b71fb0e5edb2cc7c35e7678e6cc2f5bd6555139f1b9ca9"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    },
+    "postcompact": {
+      "source": "apps/cli/packages/core/src/runtime/helpers/compact-post-reminders.ts",
+      "inputs": [
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/contract.md",
+          "bytes": 5733,
+          "sha256": "07c7698366be10630207e9370b43e76b7696af3c3ed55c847132fcaf905e6107"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/public-api.d.ts",
+          "bytes": 413,
+          "sha256": "570efaef7e034c4f1cb3df1f15566f1a244164329b16e074182e930a24bb626b"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/dependency-api.d.ts",
+          "bytes": 410,
+          "sha256": "a4b3fd6f15b5ae205d385ea1869507e3941bf4dfbdc0bab2006d96f0e1153528"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/public-shapes.d.ts",
+          "bytes": 2107,
+          "sha256": "1278147da6e8d2b8ee7b9e4310b235e137d8b26332a5114917148f7bcab29e7f"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/imports.json",
+          "bytes": 334,
+          "sha256": "1b0b94619b39bf57d08e19a321e256bae74cd4d89952b01f271167fc94b13099"
+        },
+        {
+          "path": "docs/evidence/core-result-attachment-postcompact-author-packet-20261003/postcompact/output-data.json",
+          "bytes": 2281,
+          "sha256": "6496c7e58e81efe42525c6e1baed622567598baaeeeee98250dc698b276cc008"
+        }
+      ],
+      "extraPrivateSourcesAllowed": null
+    }
+  },
+  "sourceExposedCurator": true,
+  "priorContextQualified": true,
+  "instructionOnlyRestrictions": true,
+  "noOsIsolationOrAccessAuditProof": true,
+  "sourceExposure": "All five targets fully printed after reservation; dependencies mechanically parsed for stripped declarations only; deliberate public read-state/scheduler/message-history types and lock diff9 metadata inspected; no A method/security/permission implementation read/parsing",
+  "preFreezeCorrections": "Completed missing opaque/public shape aliases and correct image request/result names, sole reference regex wording, native final-newline qualification before author input freeze; no author saw incomplete version",
+  "diagnostics": {
+    "result": [],
+    "changes": [],
+    "image": [],
+    "reference": [],
+    "postcompact": []
+  },
+  "ordinaryChecksDeferred": true,
+  "savedFastUnchanged": true,
+  "fastVerified": false,
+  "materialObligationsClosed": 0,
+  "materialObligationsRemaining": 21
+}

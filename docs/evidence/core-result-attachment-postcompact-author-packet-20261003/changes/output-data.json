@@ -1,0 +1,48 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "diff"
+    },
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "+"
+    },
+    {
+      "kind": "text",
+      "text": "-"
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    "5000",
+    "1",
+    "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1",
+    "1"
+  ],
+  "externalConstants": {
+    "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+    "READ_IMAGE_TARGET_BYTES": 3932160,
+    "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+    "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+  },
+  "retainedDataQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms, not novelty/rights claim; no source bodies delivered"
+}

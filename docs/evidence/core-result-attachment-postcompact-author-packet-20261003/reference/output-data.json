@@ -1,0 +1,259 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../deps.js"
+    },
+    {
+      "kind": "text",
+      "text": "../types.js"
+    },
+    {
+      "kind": "text",
+      "text": "./attachment-artifacts.js"
+    },
+    {
+      "kind": "text",
+      "text": "./attachment-video.js"
+    },
+    {
+      "kind": "text",
+      "text": "binary_file"
+    },
+    {
+      "kind": "text",
+      "text": "deferred_clipboard_text"
+    },
+    {
+      "kind": "text",
+      "text": "image_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "pdf_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "text_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "video_too_large"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "template",
+      "head": "attachment-",
+      "spans": [
+        {
+          "placeholder": "index + 1",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "utf8"
+    },
+    {
+      "kind": "text",
+      "text": "provider_ready"
+    },
+    {
+      "kind": "text",
+      "text": "utf8"
+    },
+    {
+      "kind": "text",
+      "text": "inline"
+    },
+    {
+      "kind": "text",
+      "text": "text/plain"
+    },
+    {
+      "kind": "text",
+      "text": "image"
+    },
+    {
+      "kind": "text",
+      "text": "image/*"
+    },
+    {
+      "kind": "text",
+      "text": "application/octet-stream"
+    },
+    {
+      "kind": "template",
+      "head": "Attached ",
+      "spans": [
+        {
+          "placeholder": "mime",
+          "text": ": "
+        },
+        {
+          "placeholder": "placeholder",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "The file was sent by local path because ",
+      "spans": [
+        {
+          "placeholder": "formatPathReferenceReason(options.reason)",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "Use the available file reading tools if you need to inspect the file contents."
+    },
+    {
+      "kind": "text",
+      "text": "\n"
+    },
+    {
+      "kind": "text",
+      "text": "text"
+    },
+    {
+      "kind": "text",
+      "text": "metadata_only"
+    },
+    {
+      "kind": "text",
+      "text": "local_ref"
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "data:"
+    },
+    {
+      "kind": "text",
+      "text": "."
+    },
+    {
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "kind": "text",
+      "text": "pdf"
+    },
+    {
+      "kind": "text",
+      "text": "application/pdf"
+    },
+    {
+      "kind": "text",
+      "text": "json"
+    },
+    {
+      "kind": "text",
+      "text": "application/json"
+    },
+    {
+      "kind": "text",
+      "text": "csv"
+    },
+    {
+      "kind": "text",
+      "text": "text/csv"
+    },
+    {
+      "kind": "text",
+      "text": "md"
+    },
+    {
+      "kind": "text",
+      "text": "text/markdown"
+    },
+    {
+      "kind": "text",
+      "text": "text/plain"
+    },
+    {
+      "kind": "text",
+      "text": "application/octet-stream"
+    },
+    {
+      "kind": "text",
+      "text": "deferred_clipboard_text"
+    },
+    {
+      "kind": "text",
+      "text": "it is a pasted-text temporary attachment that is deferred to keep the model context small"
+    },
+    {
+      "kind": "text",
+      "text": "image_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "the image is larger than the inline media budget"
+    },
+    {
+      "kind": "text",
+      "text": "pdf_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "the PDF is larger than the inline PDF input limit"
+    },
+    {
+      "kind": "text",
+      "text": "text_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "the text file is larger than the inline text budget"
+    },
+    {
+      "kind": "text",
+      "text": "video_too_large"
+    },
+    {
+      "kind": "text",
+      "text": "the video is larger than the Knorvia Studio video input limit"
+    },
+    {
+      "kind": "text",
+      "text": "the file is not a known text attachment"
+    }
+  ],
+  "regex": [
+    "/\\.(cjs|conf|cpp|cs|css|csv|go|h|hpp|html|ini|java|js|json|jsx|log|md|mjs|py|rs|sh|sql|toml|ts|tsx|txt|xml|yaml|yml)$/iu"
+  ],
+  "numericLiterals": [
+    "1"
+  ],
+  "externalConstants": {
+    "READ_IMAGE_MAX_BASE64_BYTES": 5242880,
+    "READ_IMAGE_TARGET_BYTES": 3932160,
+    "MAX_IMAGE_ATTACHMENT_DIMENSION": 2000,
+    "ESTIMATED_TOKEN_CHAR_DIVISOR": 3
+  },
+  "retainedDataQualification": "Exact required prose/protocol/schema/format/constant data and ordinary idioms, not novelty/rights claim; no source bodies delivered"
+}

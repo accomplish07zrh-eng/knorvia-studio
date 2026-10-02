@@ -1,0 +1,14 @@
+[
+  {
+    "module": "@knorvia/shared",
+    "clause": "{ ESTIMATED_TOKEN_CHAR_DIVISOR }"
+  },
+  {
+    "module": "../deps.js",
+    "clause": "type { ReadFileStateEntry, ReadFileStateMap }"
+  },
+  {
+    "module": "../../agent/message-history.js",
+    "clause": "{\n  systemReminderAttachmentEntry,\n  type RuntimeMessageEntry,\n}"
+  }
+]
