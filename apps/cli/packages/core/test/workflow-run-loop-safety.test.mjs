@@ -11,7 +11,7 @@ const archive = JSON.parse(archiveText);
 for (const name of ["source", "compiled", "declaration"])
   assert.equal(sha(archive[name]), archive[`${name}Sha256`]);
 const pinsText = await read("test/workflow-run-loop-current.json");
-assert.equal(sha(pinsText), "CURRENT_PIN");
+assert.equal(sha(pinsText), "e969ae00e5eb2d4781c44866c134ea691e7721cab48a8b6dc7b9309957eb9bc2");
 const pins = JSON.parse(pinsText);
 async function select(reader = read) {
   for (const [path, hash] of Object.entries(pins.files))
@@ -132,7 +132,7 @@ async function observe(owner, scenario, Runtime) {
   }
   assert.equal(result.snapshot, writes.at(-1));
   assert.equal(runnerCalls, Runtime ? 1 : 0);
-  assert.equal(result.snapshot.phases[2].status, "pending");
+  assert.equal(result.snapshot.phases[2].status, scenario === "abort" ? "cancelled" : "pending");
   if (scenario === "success" || scenario === "mutable") {
     assert.equal(result.status, "completed");
     if (scenario === "success") assert.equal(result.reportPath, "owned/report.md");

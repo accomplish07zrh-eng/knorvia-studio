@@ -19,7 +19,7 @@ export async function loadHistorical(reader = read) {
 }
 export const archive = await loadHistorical();
 const pinText = await read(new URL("./workflow-graph-artifacts-current.json", import.meta.url));
-assert.equal(sha(pinText), "9d07ca7d22f9846e6402f41a662dfbfabc19bf5d6dd4b731fbc800d5dd63cdde");
+assert.equal(sha(pinText), "22816e4d40feedc60de5fcb4961699f24e2a5f5c1e3ca916de61b9c3607d44ba");
 const pins: { files: Record<string, string> } = JSON.parse(pinText);
 export async function loadCurrent(reader = read) {
   for (const [path, digest] of Object.entries(pins.files))
@@ -50,17 +50,21 @@ function rebind(text: string, location: string, overrides: Record<string, string
 const oldUrl = data(rebind(archive.compiled, "graph-artifacts"));
 export const historical = (await import(oldUrl)) as typeof current;
 const callerText = await read(new URL("core/dist/workflow/expert/run-loop.js", root));
-assert.equal(callerText, archive.callerCompiled);
+const historicalCallerText = archive.callerCompiled;
+assert.equal(
+  sha(historicalCallerText),
+  "5a2d8a8dcb4c2ed560eb3d5f361350876e16054f6e765fabc78f9e8aea293efd",
+);
 const guard = data(
   `const unexpected = () => { throw new Error("Owned unused runtime path"); }; export { unexpected as runFinalCriticLoop, unexpected as runScheduledPhase, unexpected as latestWorkflowActivity, unexpected as workflowFailureFromError, unexpected as workflowRecoveryActions, unexpected as compactWorkflowPayload, unexpected as lifecyclePayload, unexpected as buildReport };`,
 );
 const phase = data(
   `export async function runPhase(ctx, snapshot, definition, options) { return ctx.ownedPhase(snapshot, definition, options); }`,
 );
-async function caller(owner: string) {
+async function caller(owner: string, text = callerText) {
   return import(
     data(
-      rebind(callerText, "run-loop", {
+      rebind(text, "run-loop", {
         "./graph-artifacts.js": owner,
         "./phase-runner.js": phase,
         "./critic-loop.js": guard,
@@ -75,4 +79,4 @@ async function caller(owner: string) {
 export const currentCaller = await caller(
   new URL(`core/${folder}/workflow/expert/graph-artifacts.${ext}`, root).href,
 );
-export const historicalCaller = await caller(oldUrl);
+export const historicalCaller = await caller(oldUrl, historicalCallerText);

@@ -15,7 +15,7 @@ for (const [name, pin] of [
 ])
   assert.equal(sha(archive[name]), archive[pin]);
 const currentText = await read("test/workflow-phase-runner-current.json");
-assert.equal(sha(currentText), "71f309c2e9fdf191b2098808259b5382f39626f92a91ee7680301249e8e60ae5");
+assert.equal(sha(currentText), "0cea1d8fd55a5cb242bbdad86a1ac44c583c49d53df0c6c86ec29b6af75b00df");
 const { files } = JSON.parse(currentText);
 async function select(reader = read) {
   for (const [path, digest] of Object.entries(files))
