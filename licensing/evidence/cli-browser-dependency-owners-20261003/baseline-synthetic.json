@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs",
+    "--baseline"
+  ],
+  "stdout": "✔ executable authority preserves explicit admission, candidate order, platform probes and lazy import (19.770702ms)\n✔ Playwright authority preserves CDP bytes/error detach, unavailable gates and screenshot cleanup (6.52341ms)\n✖ snapshot ownership preserves synthetic DOM data, page isolation and replacement before failed disposal (7.385899ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 37.87748\n\n✖ failing tests:\n\ntest at apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs:8:66\n✖ snapshot ownership preserves synthetic DOM data, page isolation and replacement before failed disposal (7.385899ms)\n  AssertionError [ERR_ASSERTION]: Values have same structure but are not reference-equal:\n  \n  [\n    'e1',\n    'e2'\n  ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/adapters/test/browser-dependency-compatibility/owners.test.mjs:135:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [Array],\n    expected: [Array],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

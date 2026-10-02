@@ -1,0 +1,53 @@
+[
+  {
+    "owner": "executable",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/executable-initial.ts",
+    "artifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/executable-initial.ts.txt",
+    "sha256": "2c50f0dd41ca92f902d4bf93fea9f7ffa392af95d9cffcacce9532c2eda866da",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "playwright-command",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/playwright-command-initial.ts",
+    "artifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/playwright-command-initial.ts.txt",
+    "sha256": "5344c17a737fead43b87f4ee7d3e1496bbafd8071718739ab6eda8886e89348a",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "snapshot",
+    "version": "initial",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/snapshot-initial.ts",
+    "artifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/snapshot-initial.ts.txt",
+    "sha256": "973fdd43dda9af92bcaaeb8a32b511eb025b178ba3a400a1b9a83b10ce1c0328",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "executable",
+    "version": "correction-1",
+    "output": "/tmp/knorvia-cli-browser-executable-dependency-correction-1.ts",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/executable-correction-1.ts",
+    "artifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/executable-correction-1.ts.txt",
+    "sha256": "2fb2a34122308dd174d1ff9c1790d61e23dbd9dea5a95b3af589b5f81ed20019",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "playwright-command",
+    "version": "correction-1",
+    "output": "/tmp/knorvia-cli-browser-playwright-command-dependency-correction-1.ts",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/playwright-command-correction-1.ts",
+    "artifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/playwright-command-correction-1.ts.txt",
+    "sha256": "4790c2fe391847c9382a0ccf8a845b4b95bb3f5221083b3ca9ca7d193ade5582",
+    "artifactEqualsFrozen": true
+  },
+  {
+    "owner": "snapshot",
+    "version": "correction-1",
+    "output": "/tmp/knorvia-cli-browser-snapshot-dependency-correction-1.ts",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/snapshot-correction-1.ts",
+    "artifact": "licensing/evidence/cli-browser-dependency-owners-20261003/drafts/snapshot-correction-1.ts.txt",
+    "sha256": "1cb98396a5e08d72d0f4688225b5c43e441e55a45c8ddb3c3c91300131f29a02",
+    "artifactEqualsFrozen": true
+  }
+]

@@ -1,5 +1,5 @@
-import type { BrowserSnapshot } from "@knorvia/contracts";
-import type { ElementHandle, Page } from "playwright-core";
+import type { BrowserSnapshot } from '@knorvia/contracts';
+import type { ElementHandle, Page } from 'playwright-core';
 
 const pageBindings = new WeakMap<Page, Map<string, ElementHandle<Element>>>();
 
@@ -11,65 +11,65 @@ export async function captureManagedCdpSnapshot(
   const envelope = await page.evaluateHandle(
     ({ includeHidden, maxDomNodes, maxElements }) => {
       const actionQuery =
-        "a[href],button,input,textarea,select,[role],[onclick],[tabindex],summary,label,[contenteditable]";
+        'a[href],button,input,textarea,select,[role],[onclick],[tabindex],summary,label,[contenteditable]';
       const structureQuery =
-        "body,main,nav,header,footer,aside,section,article,h1,h2,h3,h4,h5,h6,p,ul,ol,li,dl,dt,dd,blockquote,pre,code,table,caption,thead,tbody,tfoot,tr,th,td,form,fieldset,legend,figure,figcaption,img,canvas,svg,a[href],button,input,textarea,select,option,summary,label,[role],[aria-label],[contenteditable]";
+        'body,main,nav,header,footer,aside,section,article,h1,h2,h3,h4,h5,h6,p,ul,ol,li,dl,dt,dd,blockquote,pre,code,table,caption,thead,tbody,tfoot,tr,th,td,form,fieldset,legend,figure,figcaption,img,canvas,svg,a[href],button,input,textarea,select,option,summary,label,[role],[aria-label],[contenteditable]';
       const attributeKeys = [
-        "id",
-        "href",
-        "name",
-        "type",
-        "placeholder",
-        "title",
-        "alt",
-        "role",
-        "aria-label",
-        "data-testid",
-        "data-test",
-        "data-qa",
+        'id',
+        'href',
+        'name',
+        'type',
+        'placeholder',
+        'title',
+        'alt',
+        'role',
+        'aria-label',
+        'data-testid',
+        'data-test',
+        'data-qa',
       ];
       const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
       const labels = new Map<Element, string>();
       const clean = (value: unknown, limit: number): string =>
-        String(value ?? "")
-          .trim()
-          .replace(/\s+/g, " ")
-          .slice(0, limit);
+        String(value ?? '').trim().replace(/\s+/g, ' ').slice(0, limit);
       const hidden = (node: Element): boolean => {
         const style = window.getComputedStyle(node);
         const box = node.getBoundingClientRect();
         return (
-          style.display === "none" ||
-          style.visibility === "hidden" ||
-          style.opacity === "0" ||
+          style.display === 'none' ||
+          style.visibility === 'hidden' ||
+          style.opacity === '0' ||
           (box.width <= 0 && box.height <= 0)
         );
       };
       const withinViewport = (box: DOMRect): boolean =>
-        box.top < viewportHeight && box.bottom > 0 && box.left < viewportWidth && box.right > 0;
+        box.top < viewportHeight &&
+        box.bottom > 0 &&
+        box.left < viewportWidth &&
+        box.right > 0;
       const roleOf = (node: Element): string => {
-        const explicit = node.getAttribute("role");
+        const explicit = node.getAttribute('role');
         if (explicit) return explicit;
         const tag = node.tagName.toLowerCase();
-        if (tag === "a" && node.hasAttribute("href")) return "link";
-        if (tag === "button") return "button";
-        if (tag === "select") return "combobox";
-        if (tag === "textarea") return "textbox";
-        if (tag !== "input") return "";
-        const inputKind = (node.getAttribute("type") || "text").toLowerCase();
-        if (inputKind === "checkbox" || inputKind === "radio") return inputKind;
-        if (inputKind === "button" || inputKind === "submit" || inputKind === "reset") {
-          return "button";
+        if (tag === 'a' && node.hasAttribute('href')) return 'link';
+        if (tag === 'button') return 'button';
+        if (tag === 'select') return 'combobox';
+        if (tag === 'textarea') return 'textbox';
+        if (tag !== 'input') return '';
+        const inputKind = (node.getAttribute('type') || 'text').toLowerCase();
+        if (inputKind === 'checkbox' || inputKind === 'radio') return inputKind;
+        if (inputKind === 'button' || inputKind === 'submit' || inputKind === 'reset') {
+          return 'button';
         }
-        return inputKind === "search" ? "searchbox" : "textbox";
+        return inputKind === 'search' ? 'searchbox' : 'textbox';
       };
       const nameOf = (node: Element): string =>
         clean(
-          node.getAttribute("aria-label") ||
-            node.getAttribute("alt") ||
-            node.getAttribute("title") ||
-            node.getAttribute("placeholder") ||
+          node.getAttribute('aria-label') ||
+            node.getAttribute('alt') ||
+            node.getAttribute('title') ||
+            node.getAttribute('placeholder') ||
             (node as HTMLElement).innerText ||
             node.textContent,
           120,
@@ -91,7 +91,7 @@ export async function captureManagedCdpSnapshot(
         return siblings.indexOf(node) + 1;
       };
       const selectorOf = (node: Element): string => {
-        const id = node.id;
+        const id = node.getAttribute('id') || '';
         if (/^[A-Za-z][A-Za-z0-9_-]*$/.test(id)) return `#${id}`;
         const steps: string[] = [];
         let cursor: Element | null = node;
@@ -100,7 +100,7 @@ export async function captureManagedCdpSnapshot(
           steps.unshift(`${cursor.tagName.toLowerCase()}:nth-of-type(${siblingPosition(cursor)})`);
           cursor = cursor.parentElement;
         }
-        return steps.join(" > ");
+        return steps.join(' > ');
       };
       const xpathOf = (node: Element): string => {
         const steps: string[] = [];
@@ -109,13 +109,13 @@ export async function captureManagedCdpSnapshot(
           steps.unshift(`${cursor.tagName.toLowerCase()}[${siblingPosition(cursor)}]`);
           cursor = cursor.parentElement;
         }
-        return `/${steps.join("/")}`;
+        return `/${steps.join('/')}`;
       };
       const actionPool = Array.from(document.querySelectorAll(actionQuery)).filter(
         (node) => includeHidden || !hidden(node),
       );
       const candidates = actionPool.slice(0, maxElements);
-      const elements: BrowserSnapshot["elements"] = [];
+      const elements: BrowserSnapshot['elements'] = [];
       for (let index = 0; index < candidates.length; index += 1) {
         const node = candidates[index];
         const ref = `e${index + 1}`;
@@ -123,9 +123,9 @@ export async function captureManagedCdpSnapshot(
         const role = roleOf(node);
         const name = nameOf(node);
         const text = clean((node as HTMLElement).innerText, 100);
-        const value = "value" in node ? clean(String(node.value), 240) : "";
-        const disabled = "disabled" in node && Boolean(node.disabled);
-        const checked = "checked" in node ? Boolean(node.checked) : undefined;
+        const value = 'value' in node ? clean(String(node.value), 240) : '';
+        const disabled = 'disabled' in node && Boolean(node.disabled);
+        const checked = 'checked' in node ? Boolean(node.checked) : undefined;
         const selector = selectorOf(node);
         const xpath = xpathOf(node);
         const box = node.getBoundingClientRect();
@@ -162,9 +162,8 @@ export async function captureManagedCdpSnapshot(
       const structurePool = Array.from(document.querySelectorAll(structureQuery)).filter(
         (node) => includeHidden || !hidden(node),
       );
-      const dom: NonNullable<BrowserSnapshot["dom"]> = [];
-      const textTags =
-        /^(h[1-6]|p|li|dt|dd|blockquote|pre|code|caption|th|td|label|summary|button|a|option|legend|figcaption)$/;
+      const dom: NonNullable<BrowserSnapshot['dom']> = [];
+      const textTags = /^(h[1-6]|p|li|dt|dd|blockquote|pre|code|caption|th|td|label|summary|button|a|option|legend|figcaption)$/;
       for (const node of structurePool.slice(0, maxDomNodes)) {
         const tag = node.tagName.toLowerCase();
         let depth = 0;
@@ -179,7 +178,7 @@ export async function captureManagedCdpSnapshot(
         const name = nameOf(node);
         const text = textTags.test(tag)
           ? clean((node as HTMLElement).innerText || node.textContent, 300)
-          : "";
+          : '';
         const attributes = attributesOf(node);
         dom.push({
           tag,
@@ -204,8 +203,8 @@ export async function captureManagedCdpSnapshot(
     },
     { includeHidden, maxDomNodes: 300, maxElements: Math.max(1, Math.floor(maxElements)) },
   );
-  const reportHandle = await envelope.getProperty("report");
-  const candidatesHandle = await envelope.getProperty("candidates");
+  const reportHandle = await envelope.getProperty('report');
+  const candidatesHandle = await envelope.getProperty('candidates');
   const report = await reportHandle.jsonValue();
   const properties = await candidatesHandle.getProperties();
   const nextBindings = new Map<string, ElementHandle<Element>>();
@@ -219,11 +218,7 @@ export async function captureManagedCdpSnapshot(
   }
   const previousBindings = pageBindings.get(page);
   pageBindings.set(page, nextBindings);
-  await Promise.all(
-    Array.from(previousBindings?.values() ?? [], async (handle) => {
-      await handle.dispose();
-    }),
-  );
+  await Promise.all(Array.from(previousBindings?.values() ?? [], (handle) => handle.dispose()));
   await Promise.all([reportHandle.dispose(), candidatesHandle.dispose(), envelope.dispose()]);
   return report;
 }

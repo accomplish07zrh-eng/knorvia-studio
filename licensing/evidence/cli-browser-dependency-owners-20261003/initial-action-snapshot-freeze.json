@@ -1,0 +1,14 @@
+[
+  {
+    "owner": "playwright-command",
+    "output": "/tmp/knorvia-cli-browser-playwright-command-author.ts",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/playwright-command-initial.ts",
+    "sha256": "5344c17a737fead43b87f4ee7d3e1496bbafd8071718739ab6eda8886e89348a"
+  },
+  {
+    "owner": "snapshot",
+    "output": "/tmp/knorvia-cli-browser-snapshot-author.ts",
+    "frozen": "/tmp/knorvia-cli-browser-dependency-freezes/snapshot-initial.ts",
+    "sha256": "973fdd43dda9af92bcaaeb8a32b511eb025b178ba3a400a1b9a83b10ce1c0328"
+  }
+]

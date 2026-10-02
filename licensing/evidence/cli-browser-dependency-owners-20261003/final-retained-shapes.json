@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/cli-browser-dependency-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "[{\"owner\":\"executable\",\"commandCases\":0,\"identicalBodies\":[{\"baseline\":\"loadPlaywrightChromium\",\"candidate\":\"loadPlaywrightChromium\",\"bodyHash\":\"66c708744f6750f6b12a54ebaf5dd6478049b9614d02d85e6174875793c17445\"}],\"identicalExpressionCount\":66},{\"owner\":\"playwright-command\",\"commandCases\":26,\"identicalBodies\":[],\"identicalExpressionCount\":287},{\"owner\":\"snapshot\",\"commandCases\":0,\"identicalBodies\":[],\"identicalExpressionCount\":235}]\nAll normalized identical bodies/expressions receive zero new independence credit; syntax changes alone do not establish provenance.\n",
+  "stderr": "",
+  "exitCode": 0
+}
