@@ -1,0 +1,39 @@
+{
+  "functionsPreserved": 55,
+  "publicExports": [
+    "EnsureRemoteReleaseDirOptions",
+    "RemoteAssetCacheLoggers",
+    "RemoteAssetManifest",
+    "RemoteAssetManifestComponent",
+    "RemoteAssetManifestRef",
+    "buildRemoteAssetManifestFileCandidates",
+    "createRemoteAssetManifestRequestSignal",
+    "ensureRemoteReleaseDirFromCdn",
+    "fetchRemoteAssetManifestFromCdn",
+    "fetchRemoteAssetManifestRefFromCdn",
+    "parseRemoteAssetManifestFromResponse",
+    "readCachedRemoteAssetMarker",
+    "resolveFallbackRemoteAssetCacheDir",
+    "resolveRemoteAssetComponentCacheVersion",
+    "selectRemoteAssetManifestComponents",
+    "usesRemoteAssetContentAddressedCacheIdentity"
+  ],
+  "interfacesPreserved": 5,
+  "mutableMapsRetainedInOriginalMain": [
+    "manifestTasks",
+    "refreshTasks",
+    "componentTasks",
+    "releaseTasks",
+    "releaseQueues"
+  ],
+  "sourceHashes": {
+    "packages/server/src/remote/remoteAssetCache.ts": "1b8379e59e0c48dd519b391512cc6bba8b43e4a84b0874045d452c4a183ed150",
+    "packages/server/src/remote/remoteAssetCacheModel.ts": "b59ff631cf5d877e5318cd31b5204cf1ad0e6b8c300d4f776b2e8b05aaf1a9d7",
+    "packages/server/src/remote/remoteAssetCacheFiles.ts": "6a2f626cbb8b197b2c1dd878567005dbdd68ee1152f388ac87008929e0f6d059",
+    "packages/server/src/remote/remoteAssetCacheComponents.ts": "f9cd24aed3fbb92e2e814d265663d96f5469be6569f35ce1487e38326c59e968"
+  },
+  "types": "zero diagnostics for target and relative helper closure with actual dependency declarations",
+  "lint": "four files,94rules,zero errors/warnings; prior997/400 gate closed",
+  "runtime": "No runtime tests or full suites rerun for this structural batch; function syntax unchanged ignoring export modifiers/redundant parentheses, public interfaces/export set retained and mutable maps remain in main module",
+  "contribution": "Maintenance partition of existing root-authored owner; no new originality credit or cross-lane integration"
+}

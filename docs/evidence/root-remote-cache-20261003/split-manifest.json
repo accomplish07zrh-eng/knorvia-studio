@@ -1,0 +1,88 @@
+{
+  "groups": {
+    "main": [
+      "startManifest",
+      "manifestFor",
+      "fetchRemoteAssetManifestRefFromCdn",
+      "fetchRemoteAssetManifestFromCdn",
+      "ensureComponent",
+      "inReleaseOrder",
+      "releaseOperation",
+      "ensureRemoteReleaseDirFromCdn"
+    ],
+    "model": [
+      "problem",
+      "safeSegment",
+      "textField",
+      "record",
+      "requestedIds",
+      "context",
+      "createRemoteAssetManifestRequestSignal",
+      "buildRemoteAssetManifestFileCandidates",
+      "usesRemoteAssetContentAddressedCacheIdentity",
+      "resolveRemoteAssetComponentCacheVersion",
+      "resolveFallbackRemoteAssetCacheDir",
+      "selectRemoteAssetManifestComponents",
+      "parseRemoteAssetManifestFromResponse",
+      "componentRoot",
+      "componentDirectory",
+      "contentSegments",
+      "releaseBase",
+      "releaseDirectory",
+      "ordinarySelection",
+      "timeoutIdentity",
+      "manifestIdentity",
+      "requestManifest"
+    ],
+    "files": [
+      "info",
+      "markedDirectory",
+      "fullRelease",
+      "contained",
+      "absentPaths",
+      "componentReadiness",
+      "releaseReady",
+      "markerAt",
+      "stageAt",
+      "retryable",
+      "retryFs",
+      "commitDirectory",
+      "materialize",
+      "nonempty",
+      "digestFile",
+      "unpackedDigest",
+      "download",
+      "readCachedRemoteAssetMarker"
+    ],
+    "components": [
+      "artifactResponse",
+      "migrateComponent",
+      "migrateOldComponent",
+      "migrateOldRelease",
+      "componentOperation",
+      "mountComponent",
+      "assemble"
+    ]
+  },
+  "publicFunctions": [
+    "createRemoteAssetManifestRequestSignal",
+    "buildRemoteAssetManifestFileCandidates",
+    "usesRemoteAssetContentAddressedCacheIdentity",
+    "resolveRemoteAssetComponentCacheVersion",
+    "resolveFallbackRemoteAssetCacheDir",
+    "readCachedRemoteAssetMarker",
+    "selectRemoteAssetManifestComponents",
+    "parseRemoteAssetManifestFromResponse",
+    "fetchRemoteAssetManifestRefFromCdn",
+    "fetchRemoteAssetManifestFromCdn",
+    "ensureRemoteReleaseDirFromCdn"
+  ],
+  "interfaces": [
+    "RemoteAssetManifest",
+    "RemoteAssetManifestComponent",
+    "RemoteAssetManifestRef",
+    "RemoteAssetCacheLoggers",
+    "EnsureRemoteReleaseDirOptions"
+  ],
+  "stateMapsRemainInMain": true
+}
