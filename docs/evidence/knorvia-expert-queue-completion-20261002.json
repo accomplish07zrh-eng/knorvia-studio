@@ -1,0 +1,81 @@
+{
+  "base": "c5a983668e9d0e93c3ea56785f8c0218cf93abf4",
+  "queue": "11 runtime files covered across four batches; five earlier owners and types/ids unchanged",
+  "runtimeCheckpoint": "51e70d9",
+  "parserCheckpoint": "20600d9",
+  "deliveryCheckpoint": "84cbb19",
+  "renderingCheckpoint": "commit accompanying this receipt",
+  "protected": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/critic-loop.ts",
+      "sha256": "9bad65d06d2e7de38a7588a83523803c7ae2c572feda5ed44fdfae7424cb4df5",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts",
+      "sha256": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/phase-runner.ts",
+      "sha256": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/run-loop.ts",
+      "sha256": "39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/runtime-context.ts",
+      "sha256": "61ca48e1f3c429d25701abeabdcd8b7c2ac6bf2d2b1a315cda77e4710171362e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/types.ts",
+      "sha256": "80bd5a6caacdd6958dd252622241d4438e3ed420ef16cd28eae68f90829cf305",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/expert/ids.ts",
+      "sha256": "c5814ca68be0178de048124b7b05b8f743f5589f2d36923aed164089298f5a3b",
+      "unchanged": true
+    }
+  ],
+  "manifestBinding": [
+    {
+      "manifest": "apps/cli/packages/core/test/workflow-expert-parser-normalization-baseline.json",
+      "sha256": "066ef0fa49fd0ef1d656c4068d8c383ca148b2e39d1dcab117b62192cb0dac58",
+      "exactLiteralInSafetyFixture": true
+    },
+    {
+      "manifest": "apps/cli/packages/core/test/workflow-expert-parser-normalization-current.json",
+      "sha256": "4ebf7addf0a508092ed280e648cd9a787697dcd73f054df993af70f478247fea",
+      "exactLiteralInSafetyFixture": true
+    },
+    {
+      "manifest": "apps/cli/packages/core/test/workflow-expert-execution-delivery-baseline.json",
+      "sha256": "acf8496787b48b8741193aa02b7013bdf1d16840aaeb88742aa42b55dfe1c77d",
+      "exactLiteralInSafetyFixture": true
+    },
+    {
+      "manifest": "apps/cli/packages/core/test/workflow-expert-execution-delivery-current.json",
+      "sha256": "508320a0267f1b9a035c3c0d9f96a7560602d60ffca8d6cc85409cbb2761d9bf",
+      "exactLiteralInSafetyFixture": true
+    },
+    {
+      "manifest": "apps/cli/packages/core/test/workflow-expert-prompt-rendering-baseline.json",
+      "sha256": "90c1499b14a722461f460f15cbd4b4230a1fb360680ac144883d6721ac80ab1e",
+      "exactLiteralInSafetyFixture": true
+    },
+    {
+      "manifest": "apps/cli/packages/core/test/workflow-expert-prompt-rendering-current.json",
+      "sha256": "0b92ffc7a1350dfe2b2149d39fa10384a2efb67d741a7b922c76931cbb2d9430",
+      "exactLiteralInSafetyFixture": true
+    }
+  ],
+  "checks": "Scoped types 0 diagnostics and public API 2+5+2+2 comparisons. Three concrete emitted safety checks, 2+1+1 observations; no additive group inflation or broad ordinary test runs. New fixtures container hashes bound without replaying earlier paired runs.",
+  "authorshipLimits": "Four internal fresh-context authors read only saved functional/API packets and recorded clarifications. Curator source-exposed; corrections explicit, originals/red proofs immutable. Contract packets prescribe several evaluation sequences and retained prose; authorship isolation alone is not expression or licence clearance. Similarity/retained conventional glue left to root independent review.",
+  "deferred": "Ordinary tests/builds/full suites/native and root aggregate acceptance. Existing neighboring selector snapshots left unchanged and may fail after changed dependencies; no silent digest refresh or old-code routing.",
+  "boundaries": "No scheduler production, root runtime outside expert, licensing, dependencies, CI, other lane source or settings edits; no live data/providers/IO."
+}

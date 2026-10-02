@@ -10,14 +10,16 @@ export function formatExpertWorkflowStatus(snapshot: ExpertWorkflowRunSnapshot):
     "",
     "Phases:",
   ];
+
   for (const phase of snapshot.phases) {
     const marker = phase.status === "completed" ? "[x]" : phase.status === "active" ? ">" : "-";
-    const detail = phase.error ? ` (${phase.error})` : "";
+    const errorDetail = phase.error ? ` (${phase.error})` : "";
     const activityDetail = phase.activityId
-      ? ` | activity ${phase.activityId}${phase.sessionId ? ` | session ${phase.sessionId}` : ""}`
+      ? ` | activity ${phase.activityId}` + (phase.sessionId ? ` | session ${phase.sessionId}` : "")
       : "";
-    lines.push(`  ${marker} ${phase.phase}: ${phase.status}${activityDetail}${detail}`);
+    lines.push(`  ${marker} ${phase.phase}: ${phase.status}${activityDetail}${errorDetail}`);
   }
+
   if (snapshot.reportPath) {
     lines.push("", `Report: ${snapshot.reportPath}`);
   }
@@ -30,6 +32,6 @@ export function formatExpertWorkflowCompletion(snapshot: ExpertWorkflowRunSnapsh
     `Task: ${snapshot.task}`,
     snapshot.reportPath ? `Report: ${snapshot.reportPath}` : undefined,
   ]
-    .filter((line): line is string => Boolean(line))
+    .filter(Boolean)
     .join("\n");
 }

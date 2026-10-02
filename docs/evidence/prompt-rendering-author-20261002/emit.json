@@ -1,0 +1,12 @@
+{
+  "batch": "prompt-rendering",
+  "diagnostics": 0,
+  "emitted": [
+    "apps/cli/packages/core/dist/workflow/expert/prompts.js",
+    "apps/cli/packages/core/dist/workflow/expert/prompts.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/prompts.d.ts",
+    "apps/cli/packages/core/dist/workflow/expert/formatters.js",
+    "apps/cli/packages/core/dist/workflow/expert/formatters.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/formatters.d.ts"
+  ]
+}
