@@ -1,0 +1,34 @@
+{
+  "base": "04c6c761f222107054c2b5f3508846cd21f0756a",
+  "freezeCommit": "215a4fe",
+  "draftArchiveCommit": "9d228ab",
+  "redProofCommit": "ec1dc0a",
+  "ownedPath": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+  "draftSha256": "ce2000b70b114e77c5fe7608815f34bb7a0da47fbffb863d81c3fa4b89e05e66",
+  "currentArtifacts": {
+    "source": {
+      "path": "apps/cli/packages/core/src/runtime/methods/session-shell-environment.ts",
+      "sha256": "4b0630066cd7e0a2e58a4762ca8711565d0332d9260277043e28b15fe68517e4"
+    },
+    "compiled": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/session-shell-environment.js",
+      "sha256": "61304d46d8f1301cd64b1a496747db917251b82853b2a86ab8666f942bfa7960"
+    },
+    "declaration": {
+      "path": "apps/cli/packages/core/dist/runtime/methods/session-shell-environment.d.ts",
+      "sha256": "f90e6515c4a6854818df4c067f55dfa4390d4c2ee1735c9661ee8dc45140000e"
+    }
+  },
+  "physicalLines": 187,
+  "design": "Complete session-bound shell selection, initialization, config/environment projection, snapshot restore/persist and resume-notice owner. Existing shell service/transport/store boundaries unchanged.",
+  "retained": "Lazy candidate gate, selection/apply/refresh/prefix guards, spread clones/default projection, nested restore argument evaluation and notice suppression combinations remain closely corresponding. Fixed field order, shell/restore vocabulary and delegated helper calls retained. No novel OS or permission mechanism.",
+  "correction": "Formatting only. Preseal clarification binds restore argument/trace evaluation and live selection behavior; ordinary shell execution deferred.",
+  "sourceExposure": "Curator read predecessor. Source-derived body-free functional/API/import/supporting packet; fresh internal author fork_turns=none,GPT6.1Sol/high, archived input journal and hash seal before curator comparison. Ordinary environment/task metadata available. No absolute clean-room claim.",
+  "api": {
+    "exactCallSignaturesEqual": true,
+    "fixedDeclarationFactsEqual": true
+  },
+  "checksReference": "docs/evidence/runtime-preparation-five-checks-20261003",
+  "limits": "Only three minimum synthetic actual-emitted write/publication groups plus one overlapping verifier captured-ID proof. Ordinary suites, turn-loop/shell behavioral execution, builds, native acceptance and full runtime callers deferred. Import locations rebound; unchanged transitive dependencies through tsx source except declared fake seams. Strong correspondence qualified for independent expression/rights review; no header/registry/MIT grant.",
+  "lineageReference": "docs/evidence/runtime-session-shell-environment-author-20261003/lineage.json"
+}
