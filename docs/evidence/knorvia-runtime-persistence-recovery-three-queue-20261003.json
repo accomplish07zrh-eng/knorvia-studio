@@ -1,0 +1,15 @@
+{
+  "base": "890d289ed319610f58792f26327ca5f0068520f7",
+  "owners": {
+    "bash-shell-snapshot": "methods/bash-shell-snapshot",
+    "persisted-remote-session-path-repair": "helpers/persisted-remote-session-path-repair",
+    "file-rewind": "methods/file-rewind"
+  },
+  "modules": [
+    "methods/bash-shell-snapshot",
+    "helpers/persisted-remote-session-path-repair",
+    "methods/file-rewind"
+  ],
+  "excluded": "Accepted A owners;E workflow/context/provider/media/history/compaction/attachment/memory/reminder/error scopes;permission/fullaccess,command queue/submit/registry;Host/sharedlicensing/dependencies/CI",
+  "scope": "Three complete stored snapshot,identity/CAS repair and file rewind planning/rollback owners;up to five request does not force small adapters."
+}

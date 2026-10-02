@@ -1,0 +1,20 @@
+[
+  "/",
+  "@knorvia/contracts",
+  "@knorvia/shared",
+  "Persisted remote session workspace identity is invalid",
+  "Remote session disappeared during path repair",
+  "Remote session path repair CAS did not match",
+  "Remote session workspace identity changed during path repair",
+  "Remote session workspace path changed to an unsafe value during repair",
+  "Remote session workspace path is corrupted and cannot be repaired safely",
+  "Session store does not support narrow remote path repair",
+  "clean",
+  "getSession",
+  "remote:",
+  "remote_session_workspace_path_corrupted",
+  "repair",
+  "unrelated",
+  "unsafe",
+  "workspaceID"
+]
