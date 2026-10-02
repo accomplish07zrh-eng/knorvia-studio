@@ -21,5 +21,20 @@
     ]
   },
   "excluded": "command-queue/runtime-command-submit/task-registry, permission/full-access and E workflow ownership; no shared inventory edits",
-  "freshness": "Configured proxy refuses fetch; local executor available. Node24.19 vs pinned24.14. No setting changes."
+  "freshness": "Configured proxy refuses fetch; local executor available. Node24.19 vs pinned24.14. No setting changes.",
+  "helpers": {
+    "rewind": [
+      "rewind-conversation-state",
+      "rewind-workspace-cascade"
+    ],
+    "session-fork": [
+      "session-fork-atomic",
+      "session-fork-identities",
+      "session-fork-legacy-goal",
+      "session-fork-notices",
+      "session-fork-session",
+      "session-fork-transcript",
+      "session-fork-verifiers"
+    ]
+  }
 }
