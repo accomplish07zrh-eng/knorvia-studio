@@ -1,0 +1,35 @@
+{
+  "recordedAtUtc": "2026-10-02T20:48:39.808751+00:00",
+  "baseline": "1172d36bcd0c79a032c4c38427b77197b0d20a4d",
+  "targets": [
+    {
+      "path": "packages/desktop/src/main/startupWorkspace.ts",
+      "lines": 171,
+      "bytes": 5849,
+      "sha256": "4ba5e8b6fd8c579bc1a2678f40cc817e436c79220a02cd761c531a2caff5574b",
+      "targetBodyReviewedForReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/desktopWorkspaceDeepLink.ts",
+      "lines": 199,
+      "bytes": 7359,
+      "sha256": "17cfe4ce3617d9905fb59d16f77695cfb30f0ab69f27971f7e174f5f2f566fe5",
+      "targetBodyReviewedForReservation": false
+    },
+    {
+      "path": "packages/desktop/src/main/startupWorkspaceDeepLinkGate.ts",
+      "lines": 94,
+      "bytes": 3017,
+      "sha256": "c4b0adeb717415c41eebc75bb960bbce99c9f143884c570a385fcd300bff9bf6",
+      "targetBodyReviewedForReservation": false
+    }
+  ],
+  "acceptedRecordSearch": "Exact filenames docs/evidence/specs/reviews found only prior public dependency references, no accepted complete owner record; bounded not exhaustive",
+  "rootExclusive": true,
+  "noEImplementation": true,
+  "rootReportedPriorCheckpoint": "PR12 5a050ec0c98328e47fba01af98e29f95a7927abf",
+  "rootPriorExposure": "Only names/counts/reviewabsence in current pass; earlier broad context/tooling qualified",
+  "curatorPriorExposure": "startupWorkspace previously mechanically parsed wholly for public declarations, no deliberate new body inspection before this reservation; other prior broad/tool exposure remains",
+  "noTargetExecution": true,
+  "ordinaryChecksDeferred": true
+}
