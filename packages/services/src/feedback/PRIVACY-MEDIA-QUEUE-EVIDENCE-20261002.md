@@ -151,4 +151,298 @@ SHA256 `3cbb66ac94fa6899d279fdc5d58afc5cb4386c77fb0491bfd9133c1b9f489ed0`; comma
 packages/services/src/feedback/feedbackLogArchive.ts(8,25): error TS2307: Cannot find module 'yazl' or its corresponding type declarations.
 ```
 
-Final source-token comparison confirms all three submitted owners have exact TypeScript token identity with preferred frozen author files; formatting only. No changed LICENSE/NOTICE/licensing/dependency manifest paths versus checkpoint. All14 unselected inventoried source hashes asserted unchanged.
+Final token comparison passed for media/traversal but failed for snapshot: formatter-only trailing commas differ. An evidence sentence prematurely claimed all-three token identity and was committed in f9f3d93 before correcting this reporting error; no push occurred before correction. Follow-up parsed node-kind/identifier/literal/child-structure comparison passes all three, confirming copied author structure after formatting. Source bytes were unchanged during this correction. No changed LICENSE/NOTICE/licensing/dependency manifest paths versus checkpoint. All14 unselected inventoried source hashes asserted unchanged.
+
+### token-comparison-failure
+
+SHA256 `6536cc7375a627fc8cec5889baaa66e55d06a3444fb58bf985a7c1c6f8504312`; first failure reproduced and retained; no passing token-check claim.
+
+```text
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    [
+      102,
+      'import'
+    ],
+...
+    [
++     28,
++     ','
++   ],
++   [
+      22,
+      ')'
+    ],
+    [
+      25,
+...
+    [
+-     28,
+-     ','
+-   ],
+-   [
+      22,
+      ')'
+    ],
+    [
+      27,
+...
+    [
++     28,
++     ','
++   ],
++   [
+      22,
+      ')'
+    ],
+    [
+      27,
+...
+    [
++     28,
++     ','
++   ],
++   [
+      22,
+      ')'
+    ],
+    [
+      27,
+
+    at file:///workspace/knorvia-studio/[eval1]:3:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:224:26
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:221:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'constants' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"node:fs"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'lstat' ],
+    [ 28, ',' ],
+    [ 80, 'open' ],
+    [ 28, ',' ],
+    [ 80, 'realpath' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"node:fs/promises"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'redactFeedbackText' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"@knorvia/shared"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 156, 'type' ],
+    [ 19, '{' ],
+    [ 80, 'FeedbackArchiveCandidate' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"./feedbackArchiveCandidates.js"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'decodeFeedbackArchiveText' ],
+    [ 28, ',' ],
+    [ 80, 'fitsFeedbackArchive' ],
+    [ 28, ',' ],
+    [ 80, 'isFeedbackArchiveMetadata' ],
+    [ 28, ',' ],
+    [ 156, 'type' ],
+    [ 80, 'FeedbackArchiveWindow' ],
+    [ 28, ',' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"./feedbackArchivePolicy.js"' ],
+    [ 27, ';' ],
+    [ 95, 'export' ],
+    [ 120, 'interface' ],
+    [ 80, 'FeedbackArchiveEntry' ],
+    [ 19, '{' ],
+    [ 80, 'name' ],
+    [ 59, ':' ],
+    [ 154, 'string' ],
+    [ 27, ';' ],
+    [ 80, 'data' ],
+    [ 59, ':' ],
+    [ 80, 'Buffer' ],
+    [ 27, ';' ],
+    [ 20, '}' ],
+    [ 156, 'type' ],
+    [ 80, 'SnapshotResult' ],
+    [ 64, '=' ],
+    [ 52, '|' ],
+    [ 19, '{' ],
+    [ 80, 'kind' ],
+    [ 59, ':' ],
+    [ 11, '"included"' ],
+    [ 27, ';' ],
+    [ 80, 'entry' ],
+    [ 59, ':' ],
+    [ 80, 'FeedbackArchiveEntry' ],
+    [ 27, ';' ],
+    [ 80, 'cost' ],
+    [ 59, ':' ],
+    [ 150, 'number' ],
+    [ 20, '}' ],
+    [ 52, '|' ],
+    [ 19, '{' ],
+    [ 80, 'kind' ],
+    [ 59, ':' ],
+    [ 11, '"skipped"' ],
+    [ 27, ';' ],
+    [ 80, 'reason' ],
+    [ 59, ':' ],
+    [ 154, 'string' ],
+    [ 20, '}' ],
+    [ 27, ';' ],
+    [ 95, 'export' ],
+    [ 134, 'async' ],
+    [ 100, 'function' ],
+    [ 80, 'feedbackArchiveSnapshot' ],
+    [ 21, '(' ],
+    [ 80, 'candidate' ],
+    [ 59, ':' ],
+    [ 80, 'FeedbackArchiveCandidate' ],
+    [ 28, ',' ],
+    [ 80, 'charged' ],
+    [ 59, ':' ],
+    ... 400 more items
+  ],
+  expected: [
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'constants' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"node:fs"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'lstat' ],
+    [ 28, ',' ],
+    [ 80, 'open' ],
+    [ 28, ',' ],
+    [ 80, 'realpath' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"node:fs/promises"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'redactFeedbackText' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"@knorvia/shared"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 156, 'type' ],
+    [ 19, '{' ],
+    [ 80, 'FeedbackArchiveCandidate' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"./feedbackArchiveCandidates.js"' ],
+    [ 27, ';' ],
+    [ 102, 'import' ],
+    [ 19, '{' ],
+    [ 80, 'decodeFeedbackArchiveText' ],
+    [ 28, ',' ],
+    [ 80, 'fitsFeedbackArchive' ],
+    [ 28, ',' ],
+    [ 80, 'isFeedbackArchiveMetadata' ],
+    [ 28, ',' ],
+    [ 156, 'type' ],
+    [ 80, 'FeedbackArchiveWindow' ],
+    [ 28, ',' ],
+    [ 20, '}' ],
+    [ 161, 'from' ],
+    [ 11, '"./feedbackArchivePolicy.js"' ],
+    [ 27, ';' ],
+    [ 95, 'export' ],
+    [ 120, 'interface' ],
+    [ 80, 'FeedbackArchiveEntry' ],
+    [ 19, '{' ],
+    [ 80, 'name' ],
+    [ 59, ':' ],
+    [ 154, 'string' ],
+    [ 27, ';' ],
+    [ 80, 'data' ],
+    [ 59, ':' ],
+    [ 80, 'Buffer' ],
+    [ 27, ';' ],
+    [ 20, '}' ],
+    [ 156, 'type' ],
+    [ 80, 'SnapshotResult' ],
+    [ 64, '=' ],
+    [ 52, '|' ],
+    [ 19, '{' ],
+    [ 80, 'kind' ],
+    [ 59, ':' ],
+    [ 11, '"included"' ],
+    [ 27, ';' ],
+    [ 80, 'entry' ],
+    [ 59, ':' ],
+    [ 80, 'FeedbackArchiveEntry' ],
+    [ 27, ';' ],
+    [ 80, 'cost' ],
+    [ 59, ':' ],
+    [ 150, 'number' ],
+    [ 20, '}' ],
+    [ 52, '|' ],
+    [ 19, '{' ],
+    [ 80, 'kind' ],
+    [ 59, ':' ],
+    [ 11, '"skipped"' ],
+    [ 27, ';' ],
+    [ 80, 'reason' ],
+    [ 59, ':' ],
+    [ 154, 'string' ],
+    [ 20, '}' ],
+    [ 27, ';' ],
+    [ 95, 'export' ],
+    [ 134, 'async' ],
+    [ 100, 'function' ],
+    [ 80, 'feedbackArchiveSnapshot' ],
+    [ 21, '(' ],
+    [ 80, 'candidate' ],
+    [ 59, ':' ],
+    [ 80, 'FeedbackArchiveCandidate' ],
+    [ 28, ',' ],
+    [ 80, 'charged' ],
+    [ 59, ':' ],
+    ... 398 more items
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+```
+
+### final-ast-identity
+
+SHA256 `38b0a63fa4d8df3da3bca6ffb76ccb41ee28f1714a04263c421339c7056bb011`; first failure reproduced and retained; no passing token-check claim.
+
+```text
+packages/services/src/media-preview/mediaPreview.ts parsed node kind/identifier/literal/child structure identical 1b7ed3d49705e904cad66d8e9701522948b98377be3ad95c97f2fce7e2ac5b0e
+packages/services/src/feedback/feedbackArchiveCandidates.ts parsed node kind/identifier/literal/child structure identical 6c3df32a8a0af270c3f9e6aaa90d3d45451bd5458847d05bd69ea646624fd9a8
+packages/services/src/feedback/feedbackArchiveSnapshot.ts parsed node kind/identifier/literal/child structure identical f82f9641e1c22faf3789ba5881db3be714d1923a7de76b2bb013887173ded077
+```
