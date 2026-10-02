@@ -1,0 +1,46 @@
+{
+  "baselineCommit": "51a7112e2ea77cbed03133a2e5788c78e7e44e9a",
+  "owners": [
+    "background-notifications",
+    "hooks",
+    "session-title",
+    "workspace-generate-text",
+    "title-generation-sidecar"
+  ],
+  "modules": [
+    "background-notifications",
+    "hooks",
+    "session-title",
+    "workspace-generate-text",
+    "title-generation-sidecar"
+  ],
+  "scope": "five complete runtime lifecycle owners; dependency queues/history/permission/model policy unchanged",
+  "sourceExposure": "curator read predecessor; fresh authors restricted to curated body-free source-derived API/contracts; no clean-room claim",
+  "excluded": "E workflow/compaction/history/context, permission/full-access, accepted command queue/registry/admission; no cross-lane integration",
+  "validationCadence": "ordinary tests/builds skipped; scoped types/lint/format/architecture; minimal synthetic write/lifecycle safety only",
+  "consumers": {
+    "background-notifications": [
+      "methods/runtime-command-queue.ts",
+      "methods/index.ts"
+    ],
+    "hooks": [
+      "methods/turn.ts",
+      "methods/resume.ts",
+      "methods/turn-stop.ts",
+      "methods/index.ts"
+    ],
+    "session-title": [
+      "methods/turn.ts",
+      "methods/control-only-turn.ts",
+      "methods/index.ts"
+    ],
+    "title-generation-sidecar": [
+      "methods/session-title.ts",
+      "methods/goal-summary-title.ts"
+    ],
+    "workspace-generate-text": [
+      "agent-runtime.ts",
+      "methods/index.ts"
+    ]
+  }
+}
