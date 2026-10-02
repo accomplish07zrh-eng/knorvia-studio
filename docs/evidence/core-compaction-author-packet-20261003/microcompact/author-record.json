@@ -1,0 +1,102 @@
+{
+  "author_role": "fresh input-limited complete local-microcompaction author",
+  "workspace": "/tmp/knorvia-core-compaction-microcompact-author-20261003",
+  "input_revision_as_supplied": "5440a760",
+  "frozen": true,
+  "source_frozen_at_utc": "2026-10-02T18:53:09.538836Z",
+  "record_created_at_utc": "2026-10-02T18:53:09.538836Z",
+  "receipt_self_hash_excluded": true,
+  "restriction_qualification": "Instruction-based restrictions in a shared executor; no OS isolation claimed.",
+  "actual_reads": [
+    {
+      "method": "exec_command: cat with four explicit permitted input paths",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md"
+      ],
+      "purpose": "Read the authorized contract and public declarations/shapes once."
+    },
+    {
+      "method": "exec_command: Python pathlib.Path.read_bytes, one read per path",
+      "paths": [
+        "inputs/contract.md",
+        "inputs/public-api.d.ts",
+        "inputs/dependency-api.d.ts",
+        "inputs/public-data-shapes.md",
+        "output/microcompact.ts"
+      ],
+      "purpose": "Bind authorized inputs and frozen source to byte counts, SHA256, and splitlines counts."
+    },
+    {
+      "method": "exec_command: Python pathlib.Path.read_bytes after receipt write",
+      "paths": [
+        "output/author-record.json"
+      ],
+      "purpose": "Compute independent receipt byte count, SHA256, and splitlines count for reporting."
+    }
+  ],
+  "authoring_methods": [
+    "Direct independent TypeScript authoring from the four authorized inputs.",
+    "exec_command: mkdir -p output and a quoted heredoc to output/microcompact.ts.",
+    "exec_command: Python JSON serialization to output/author-record.json."
+  ],
+  "bindings": [
+    {
+      "path": "inputs/contract.md",
+      "bytes": 7682,
+      "sha256": "a8681a82c64b17a903385f413dff7153eff35d35134dd3ac1003cbb1ea3c42e2",
+      "lines": 37
+    },
+    {
+      "path": "inputs/public-api.d.ts",
+      "bytes": 2229,
+      "sha256": "e1f4ac9218b485f1d7c5b452669b6c9ac25d125bd287a93e4a1acf37530565c0",
+      "lines": 47
+    },
+    {
+      "path": "inputs/dependency-api.d.ts",
+      "bytes": 927,
+      "sha256": "0ef504ad1d740c02c8f4529651a9cba39f79eee28b0b837ec3957393b831ec5a",
+      "lines": 11
+    },
+    {
+      "path": "inputs/public-data-shapes.md",
+      "bytes": 4743,
+      "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164",
+      "lines": 52
+    },
+    {
+      "path": "output/microcompact.ts",
+      "bytes": 8324,
+      "sha256": "d79852364561f15e5f87ed2f5ca83dbe1a456fd355d04fe30dd481c760991e5f",
+      "lines": 249
+    }
+  ],
+  "breaches": [],
+  "questions": [],
+  "uncertainties": [
+    "No compiler, tests, dependency resolution, runtime execution, or comparison performed; compatibility is unverified.",
+    "Requested Sol/high/Fast is reported as a request; no separate tool Fast control was exposed or used."
+  ],
+  "forbidden_action_flags": {
+    "repository_read": false,
+    "commit_or_history_read": false,
+    "agents_or_skills_read": false,
+    "target_implementation_read": false,
+    "tests_read": false,
+    "reviews_read": false,
+    "network_access": false,
+    "other_scratch_read": false,
+    "other_author_access": false,
+    "compiler_run": false,
+    "tests_run": false,
+    "comparison_run": false,
+    "production_write": false,
+    "git_operation": false,
+    "publication": false,
+    "implementation_io_store_state_or_write_added": false,
+    "public_api_changed": false
+  }
+}
