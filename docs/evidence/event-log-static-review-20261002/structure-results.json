@@ -1,0 +1,63 @@
+{
+  "kind": "static expression comparison, not runtime acceptance",
+  "typescript": "6.0.2",
+  "baseline": {
+    "path": "apps/cli/packages/core/src/workflow/scheduler/events.ts",
+    "bytes": 3771,
+    "sha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d"
+  },
+  "draft": {
+    "path": "docs/evidence/event-log-author-packet-20261002/draft-events.ts.txt",
+    "bytes": 3724,
+    "sha256": "c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174"
+  },
+  "normalizations": [
+    "TypeScript printer removes formatting/comments",
+    "Only draft private-storage accesses renamed to corresponding baseline property names",
+    "Separately compare edge => edgeId(edge) with edgeId; current dependency consumes only its first argument, but this does not claim arbitrary replacement-callback equivalence"
+  ],
+  "methods": [
+    {
+      "method": "constructor",
+      "afterOnlyPrivateStorageAliasesEqual": true,
+      "afterAlsoEquivalentCurrentEdgeCallbackEqual": true,
+      "baselineNormalizedBodySha256": "ba6aa9e2aa606582e20203b74003b53629f597dc209d207330d0008abad6ff45",
+      "draftPrivateAliasNormalizedBodySha256": "ba6aa9e2aa606582e20203b74003b53629f597dc209d207330d0008abad6ff45"
+    },
+    {
+      "method": "timestamp",
+      "afterOnlyPrivateStorageAliasesEqual": true,
+      "afterAlsoEquivalentCurrentEdgeCallbackEqual": true,
+      "baselineNormalizedBodySha256": "e062f110c6e3ff6bd5ec3a8a0b17ea6e802eaccbf74835a9a771960be8e981ae",
+      "draftPrivateAliasNormalizedBodySha256": "e062f110c6e3ff6bd5ec3a8a0b17ea6e802eaccbf74835a9a771960be8e981ae"
+    },
+    {
+      "method": "appendGraphStatus",
+      "afterOnlyPrivateStorageAliasesEqual": true,
+      "afterAlsoEquivalentCurrentEdgeCallbackEqual": true,
+      "baselineNormalizedBodySha256": "bba76885f98e705cc429b2195d05f4f040f06df26a305123b8698e1ac56d0b03",
+      "draftPrivateAliasNormalizedBodySha256": "bba76885f98e705cc429b2195d05f4f040f06df26a305123b8698e1ac56d0b03"
+    },
+    {
+      "method": "appendCollectionRecord",
+      "afterOnlyPrivateStorageAliasesEqual": true,
+      "afterAlsoEquivalentCurrentEdgeCallbackEqual": true,
+      "baselineNormalizedBodySha256": "63287227d4d1122649cd8133c04c3442296026cc2c9593f590778ba3feb65451",
+      "draftPrivateAliasNormalizedBodySha256": "63287227d4d1122649cd8133c04c3442296026cc2c9593f590778ba3feb65451"
+    },
+    {
+      "method": "appendExpansionRecords",
+      "afterOnlyPrivateStorageAliasesEqual": false,
+      "afterAlsoEquivalentCurrentEdgeCallbackEqual": true,
+      "baselineNormalizedBodySha256": "03604426e1aa231b2ebeed749aec3491d9405029fe37d4ab7aa3d84a2eab6381",
+      "draftPrivateAliasNormalizedBodySha256": "d76d241abac5fa4a2d7c7342b1e466e7f35e6923a518bc87c6bc17a10c210e24"
+    },
+    {
+      "method": "emitEvent",
+      "afterOnlyPrivateStorageAliasesEqual": true,
+      "afterAlsoEquivalentCurrentEdgeCallbackEqual": true,
+      "baselineNormalizedBodySha256": "061c496bd694dec6676584c9376e22ac27d8cd33efc98d324fd6fb9c981f94e6",
+      "draftPrivateAliasNormalizedBodySha256": "061c496bd694dec6676584c9376e22ac27d8cd33efc98d324fd6fb9c981f94e6"
+    }
+  ]
+}

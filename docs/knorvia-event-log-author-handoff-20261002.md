@@ -40,3 +40,7 @@ The [author receipt](evidence/event-log-author-packet-20261002/author-record.jso
 No compiler or runtime checks were run for this event-log batch, and no earlier successful probes or broad suites were repeated. The updated user cadence defers aggregate acceptance to final integration. The original event-log source remains inherited; producing this packet or a draft does not change its current source/notice relationship. Graph helpers, contract/schema bodies, callback adapters, other scheduler owners and global licensing remain outside candidate clearance.
 
 No production file, licence/header/global inventory or fixed root publication checkpoint changed. No rate-limited material source was accessed. The cancelled root source-tree upload was not retried or rerouted; only the ordinary E evidence branch and its draft recovery PR are publication scope.
+
+## Subsequent static review
+
+The immutable freeze above records the state before review. A later [static review](knorvia-event-log-static-review-20261002.md) found the required clock/read order preserved, but did not grant a positive whole-owner independent-expression finding because callable bodies closely match the inherited owner after private-storage normalization. The draft remains uninstalled, uncompiled and untested.
