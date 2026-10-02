@@ -1,0 +1,1 @@
+{"mode":"baseline","count":2,"groups":["early abort retains admission and ordered cleanup, no model/data writes","synchronous model creation failure publishes before telemetry/cleanup, browser error swallowed"],"selected":"exact compiler-emitted owner; unchanged real dependency owners through source loader","liveIO":false}
