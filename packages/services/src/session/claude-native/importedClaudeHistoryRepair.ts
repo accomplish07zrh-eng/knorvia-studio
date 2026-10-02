@@ -1,10 +1,12 @@
 import { readFile } from "node:fs/promises";
+
 import type {
   KnorviaAgentMcpServer,
   KnorviaSessionImportHistory,
   KnorviaSessionImportMessage,
   KnorviaSessionStateSnapshot,
 } from "@knorvia/shared";
+
 import {
   getLegacyDeletedTaskSessionSnapshotPath,
   getLegacyTaskSessionSnapshotPath,
@@ -45,9 +47,13 @@ interface ImportedClaudeSessionRepairCreateParams {
   importedHistory: KnorviaSessionImportHistory;
 }
 
-function toImportMessages(
-  messages: readonly { role: string; content: string; timestamp?: number }[],
-): KnorviaSessionImportMessage[] {
+type ImportMessageInput = {
+  role: string;
+  content: string;
+  timestamp?: number;
+};
+
+function importMessages(messages: readonly ImportMessageInput[]): KnorviaSessionImportMessage[] {
   return messages
     .filter((message) => message.role === "user" || message.role === "assistant")
     .map((message) => ({
@@ -57,42 +63,28 @@ function toImportMessages(
     }));
 }
 
-function countAssistantMessages(messages: readonly KnorviaSessionImportMessage[]): number {
+function assistantCount(messages: readonly KnorviaSessionImportMessage[]): number {
   return messages.filter((message) => message.role === "assistant").length;
 }
 
-function shouldRepairImportedClaudeSnapshot(
-  snapshot: Pick<KnorviaSessionStateSnapshot, "messages" | "runtime" | "session">,
-): boolean {
-  if (snapshot.session.status === "running" || snapshot.runtime.activeTurnId) {
-    return false;
-  }
-  const hasLegacyFixedMessageIds = snapshot.messages.some((message) =>
+function needsImportedHistoryRepair(snapshot: KnorviaSessionStateSnapshot): boolean {
+  // 活跃轮次拥有当前状态；导入历史修复不能越过运行态权威边界。
+  if (snapshot.session.status === "running" || snapshot.runtime.activeTurnId) return false;
+  const hasLegacyFixedIds = snapshot.messages.some((message) =>
     /^msg_import_\d+$/u.test(message.info.messageId),
   );
-  if (!snapshot.session.sessionId.startsWith("claude-import-") && !hasLegacyFixedMessageIds) {
-    // user-only / assistant-first 只是异常形态，不等于 Claude 导入。
-    // 只有稳定导入 taskId 或旧版全局 msg_import_* 污染能证明它属于迁移修复边界，
-    // 避免普通 Knorvia session 被同名 legacy 备份误回填成 Claude 历史。
+  if (!snapshot.session.sessionId.startsWith("claude-import-") && !hasLegacyFixedIds) {
     return false;
   }
-  const hasAssistant = snapshot.messages.some((message) => message.info.role === "assistant");
-  if (!hasAssistant) {
-    return true;
-  }
-  if (snapshot.messages[0]?.info.role === "assistant") {
-    return true;
-  }
-  // 旧协议导入把所有 Claude session 都写成 msg_import_0/msg_import_1。
-  // 这些 ID 是全局主键，后续导入会把前一个 session 的消息改绑到新 session，
-  // 即使当前快照里有 assistant，也必须按原 Claude jsonl 重新回填，修正串会话和反序。
-  return hasLegacyFixedMessageIds;
+  if (!snapshot.messages.some((message) => message.info.role === "assistant")) return true;
+  if (snapshot.messages[0]?.info.role === "assistant") return true;
+  return hasLegacyFixedIds;
 }
 
 export async function readLegacyImportedClaudeHistory(
   target: ImportedClaudeHistoryRepairTarget,
 ): Promise<ImportedClaudeHistoryRepairResult | null> {
-  const snapshotPaths = [
+  const paths = [
     getLegacyTaskSessionSnapshotPath(target.workspacePath, target.taskId, target.workspaceIdentity),
     getLegacyDeletedTaskSessionSnapshotPath(
       target.workspacePath,
@@ -101,7 +93,7 @@ export async function readLegacyImportedClaudeHistory(
     ),
   ];
   let raw: string | undefined;
-  for (const path of snapshotPaths) {
+  for (const path of paths) {
     try {
       raw = await readFile(path, "utf-8");
       break;
@@ -110,25 +102,21 @@ export async function readLegacyImportedClaudeHistory(
     }
   }
   if (raw === undefined) return null;
-
-  const parsed = safeParseLegacyTaskSessionFile(JSON.parse(raw) as unknown);
-  if (!parsed.success || parsed.data.meta.migrationSource !== "claudeCode") {
-    return null;
-  }
-  const messages = toImportMessages(parsed.data.messages);
-  return messages.length > 0
-    ? {
-        traceId: parsed.data.meta.traceId,
-        title: parsed.data.meta.title,
-        createdAt: parsed.data.meta.createdAt,
-        updatedAt: parsed.data.meta.updatedAt,
-        messages,
-        source: "legacySnapshot",
-      }
-    : null;
+  const parsed = safeParseLegacyTaskSessionFile(JSON.parse(raw));
+  if (!parsed.success || parsed.data.meta.migrationSource !== "claudeCode") return null;
+  const messages = importMessages(parsed.data.messages);
+  if (messages.length === 0) return null;
+  return {
+    traceId: parsed.data.meta.traceId,
+    title: parsed.data.meta.title,
+    createdAt: parsed.data.meta.createdAt,
+    updatedAt: parsed.data.meta.updatedAt,
+    messages,
+    source: "legacySnapshot",
+  };
 }
 
-async function readNativeImportedClaudeHistory(
+async function readNativeImportedHistory(
   target: ImportedClaudeHistoryRepairTarget,
 ): Promise<ImportedClaudeHistoryRepairResult | null> {
   const candidates = await claudeNativeSessionImportRepo.scanImportableSessions({
@@ -137,11 +125,8 @@ async function readNativeImportedClaudeHistory(
   const candidate = candidates.find(
     (item) => buildImportedClaudeTaskId(item.workspacePath, item.sessionId) === target.taskId,
   );
-  if (!candidate) {
-    return null;
-  }
-
-  const importedSource = await parseClaudeNativeSessionFile({
+  if (!candidate) return null;
+  const source = await parseClaudeNativeSessionFile({
     filePath: candidate.sourcePath,
     workspacePath: candidate.workspacePath,
     sessionId: candidate.sessionId,
@@ -149,38 +134,27 @@ async function readNativeImportedClaudeHistory(
     fallbackCreatedAt: candidate.createdAt,
     fallbackUpdatedAt: candidate.updatedAt,
   });
-  const messages = toImportMessages(importedSource.messages);
-  return messages.length > 0
-    ? {
-        title: importedSource.title,
-        createdAt: importedSource.createdAt,
-        updatedAt: importedSource.updatedAt,
-        messages,
-        source: "nativeJsonl",
-      }
-    : null;
+  const messages = importMessages(source.messages);
+  if (messages.length === 0) return null;
+  return {
+    title: source.title,
+    createdAt: source.createdAt,
+    updatedAt: source.updatedAt,
+    messages,
+    source: "nativeJsonl",
+  };
 }
 
-async function resolveImportedClaudeHistoryForRepair(
+async function resolveImportedHistory(
   target: ImportedClaudeHistoryRepairTarget,
 ): Promise<ImportedClaudeHistoryRepairResult | null> {
-  const legacyHistory = await readLegacyImportedClaudeHistory(target);
-  if (legacyHistory && countAssistantMessages(legacyHistory.messages) > 0) {
-    return legacyHistory;
+  const legacy = await readLegacyImportedClaudeHistory(target);
+  if (legacy && assistantCount(legacy.messages) > 0) return legacy;
+  const native = await readNativeImportedHistory(target);
+  if (native && assistantCount(native.messages) >= assistantCount(legacy?.messages ?? [])) {
+    return native;
   }
-
-  const nativeHistory = await readNativeImportedClaudeHistory(target);
-  if (
-    nativeHistory &&
-    countAssistantMessages(nativeHistory.messages) >=
-      countAssistantMessages(legacyHistory?.messages ?? [])
-  ) {
-    // 旧版本可能已经把 user-only 的 legacy 备份写坏了。
-    // 这时 legacy 不能再作为权威来源，需要按 taskId 反查原 Claude jsonl 重建 assistant。
-    return nativeHistory;
-  }
-
-  return legacyHistory;
+  return legacy;
 }
 
 export async function repairImportedClaudeSessionSnapshot<T>(params: {
@@ -189,18 +163,11 @@ export async function repairImportedClaudeSessionSnapshot<T>(params: {
   createSession(input: ImportedClaudeSessionRepairCreateParams): Promise<T>;
   onRepair?(history: ImportedClaudeHistoryRepairResult): void;
 }): Promise<T | null> {
-  if (!shouldRepairImportedClaudeSnapshot(params.snapshot)) {
-    return null;
-  }
-  const history = await resolveImportedClaudeHistoryForRepair(params.target);
-  if (!history) {
-    return null;
-  }
-
+  if (!needsImportedHistoryRepair(params.snapshot)) return null;
+  const history = await resolveImportedHistory(params.target);
+  if (!history) return null;
+  // 回调先于重建执行，随后读取实时参数；回调失败必须阻止持久化。
   params.onRepair?.(history);
-  // 早期导入可能已经创建了真实 Knorvia session，但没有把 Claude 历史写入
-  // cli sessionStore，或用了全局 msg_import_* 导致串会话。这里统一用同名 sessionId
-  // 幂等回填 importedHistory，让 session/read、task snapshot 和远控恢复路径走同一套修复。
   return params.createSession({
     workspacePath: params.target.workspacePath,
     workspaceIdentity: params.target.workspaceIdentity,

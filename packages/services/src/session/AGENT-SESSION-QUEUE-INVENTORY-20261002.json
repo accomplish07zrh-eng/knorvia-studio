@@ -1019,7 +1019,7 @@
       "availableExactReceiptReferences": [
         "licensing/evidence/repository-migration-scope-20260930.json"
       ],
-      "state": "pending parent/root historical binding; not yet authorized eligible classification"
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
     },
     {
       "path": "packages/services/src/session/claude-native/claudeNativeSessionImportParser.ts",
@@ -1053,7 +1053,7 @@
       "availableExactReceiptReferences": [
         "licensing/evidence/repository-migration-scope-20260930.json"
       ],
-      "state": "pending parent/root historical binding; not yet authorized eligible classification"
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
     },
     {
       "path": "packages/services/src/session/claude-native/claudeNativeSessionImportRepo.ts",
@@ -1087,7 +1087,7 @@
       "availableExactReceiptReferences": [
         "licensing/evidence/repository-migration-scope-20260930.json"
       ],
-      "state": "pending parent/root historical binding; not yet authorized eligible classification"
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
     },
     {
       "path": "packages/services/src/session/claude-native/claudeNativeSessionImportService.ts",
@@ -1121,7 +1121,7 @@
       "availableExactReceiptReferences": [
         "licensing/evidence/repository-migration-scope-20260930.json"
       ],
-      "state": "pending parent/root historical binding; not yet authorized eligible classification"
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
     },
     {
       "path": "packages/services/src/session/claude-native/importedClaudeHistoryRepair.ts",
@@ -1155,7 +1155,7 @@
       "availableExactReceiptReferences": [
         "licensing/evidence/repository-migration-scope-20260930.json"
       ],
-      "state": "pending parent/root historical binding; not yet authorized eligible classification"
+      "state": "root resolved exact inherited binding; allocated complete owner; historical provisional state retained in commit2898187"
     }
   ],
   "receiptInputs": [
@@ -1190,6 +1190,21 @@
   ],
   "holds": {
     "missingIgnore": "prior file-consumer unresolved dependency, no install/workaround",
-    "commitMessageFileScope": "historical HOLD unchanged, absent requested historical receipt"
+    "commitMessageFileScope": {
+      "localPredecessorSha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "rootAcceptedSha256": "ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761",
+      "rootAcceptedBlob": "69e43f4ce19a30ea185ba99ffb284ac0d798c6f8",
+      "rootReceipt": "licensing/evidence/commit-message-scope-independent-replacement-20261001.json",
+      "state": "local predecessor unchanged; no copying/reauthoring; later parent integration reconciles root accepted source"
+    }
+  },
+  "rootBindingResolution": {
+    "sourceThread": "01a0f025-c78c-7401-9ad2-a524f08d50e5",
+    "exactOwnerHashesMatch": true,
+    "rootExactReviews": 0,
+    "rootBoundedReceiptSearch": "only repository-migration-scope binds exact five hashes upstream-modified behavior/expression review; no later exact-owner replacement present",
+    "allocation": "proceed complete independent five; not legal acceptance",
+    "specCommit": "878dc8f",
+    "sourceStatus": "implemented with bounded synthetic safety checks, scoped type dependency failures preserved"
   }
 }
