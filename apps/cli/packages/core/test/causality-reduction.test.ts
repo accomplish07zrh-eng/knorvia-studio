@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { targetCorners } from "./causality-reduction-target-fixture.js";
 import {
   analysis,
   analyze,
@@ -77,6 +78,10 @@ test("forward reduction preserves greedy cyclic order, direct duplicates and ali
   assert.deepEqual(gold.graphs["cycle-greedy"], [1, 2, 3]);
   assert.deepEqual(gold.graphs["cycle-reordered"], [1, 2, 3]);
   assert.deepEqual(gold.graphs["alias-deletion"], [1, 2]);
+  for (const c of targetCorners().slice(0, 1)) {
+    assert.deepEqual(indices(baseline, c.edges), c.expected, c.name);
+    assert.deepEqual(indices(current, c.edges), c.expected, c.name);
+  }
 });
 test("carry reduction requires exactly one eligible surviving bridge and defaults to hard strength", () => {
   for (const c of graphs.slice(10)) {
@@ -95,6 +100,10 @@ test("carry reduction requires exactly one eligible surviving bridge and default
   assert.deepEqual(gold.graphs["parallel-carry"], [1]);
   assert.deepEqual(gold.graphs["alias-carry"], [0, 0]);
   assert.deepEqual(gold.graphs["alias-carry-deletion"], [2]);
+  for (const c of targetCorners().slice(1)) {
+    assert.deepEqual(indices(baseline, c.edges), c.expected, c.name);
+    assert.deepEqual(indices(current, c.edges), c.expected, c.name);
+  }
 });
 test("reduction keeps original edge/extras identity without mutation or cross-call state", () => {
   for (const c of graphs) {

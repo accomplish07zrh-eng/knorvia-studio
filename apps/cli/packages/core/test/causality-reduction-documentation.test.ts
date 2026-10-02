@@ -9,6 +9,7 @@ import {
   syntaxDigest,
 } from "./causality-reduction-documentation-proof.js";
 import { loadCurrent } from "./causality-reduction-fixture.js";
+import { loadTargetBaseline } from "./causality-reduction-target-fixture.js";
 
 const root = new URL("../../dynamic-workflow/", import.meta.url);
 const source = await readFile(new URL("src/analysis/causality-reduce.ts", root), "utf8");
@@ -16,8 +17,19 @@ const emitted = await readFile(new URL("dist/analysis/causality-reduce.js", root
 const declaration = await readFile(new URL("dist/analysis/causality-reduce.d.ts", root), "utf8");
 const hash = (text: string) => createHash("sha256").update(text).digest("hex");
 
-test("documentation preserves complete source, emitted and declaration syntax trees", async () => {
+test("historical documentation preserves complete source, emitted and declaration syntax trees", async () => {
+  const { source, compiled: emitted } = await loadTargetBaseline();
   const proof = await loadDeclarationProof();
+  await assert.rejects(
+    loadTargetBaseline(async () => "{}"),
+    assert.AssertionError,
+  );
+  await assert.rejects(
+    loadTargetBaseline(async () => {
+      throw new Error("Synthetic missing documentary checkpoint");
+    }),
+    /Synthetic missing documentary checkpoint/u,
+  );
   assert.equal(syntaxDigest(source), proof.sourceSyntaxSha256);
   assert.equal(syntaxDigest(emitted, true), proof.emittedSyntaxSha256);
   assert.equal(syntaxDigest(declaration), proof.declarationSyntaxSha256);
