@@ -1,0 +1,32 @@
+[
+  {
+    "key": "error",
+    "authorOutput": "/tmp/knorvia-shared-error-config-authored/errors.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-errors.ts",
+    "sha256": "41aeb1bb02b29f9475dfb1b2efdaa3bf6ba7dca720b099159ecb0baa6af41abe"
+  },
+  {
+    "key": "version",
+    "authorOutput": "/tmp/knorvia-shared-version-config-authored/forceUpdate.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-forceUpdate.ts",
+    "sha256": "3a96307c44fffde2101d8531509dc30ca34fb877a9387d0120c1863c76a3ab4e"
+  },
+  {
+    "key": "state",
+    "authorOutput": "/tmp/knorvia-shared-state-config-authored/subagent-state-migration.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-subagent-state-migration.ts",
+    "sha256": "b1f6db73b1731b67db7fb51cda746e2862052327af8a6395059967bb6adf9c4a"
+  },
+  {
+    "key": "mcp",
+    "authorOutput": "/tmp/knorvia-shared-mcp-config-authored/mcp.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-mcp.ts",
+    "sha256": "73ec39907c94e045905f9b06284155113a53ed24f98ae65f9b54745579c68f74"
+  },
+  {
+    "key": "digest",
+    "authorOutput": "/tmp/knorvia-shared-digest-config-authored/workspace-hook-digest.ts",
+    "frozenBeforeReview": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-workspace-hook-digest.ts",
+    "sha256": "0ebb0a2d6638e7a6ae86a4bf82a0a4991908679c5f0959904c9d21ddf8595825"
+  }
+]

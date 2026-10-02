@@ -1,0 +1,57 @@
+[
+  {
+    "path": "packages/shared/src/errors.ts",
+    "baselineSha256": "7c43be8a9296d8e2b1c9ce442a864ceb6f603600427037ea135bf829966ba68a",
+    "initialRawFrozenSha256": "41aeb1bb02b29f9475dfb1b2efdaa3bf6ba7dca720b099159ecb0baa6af41abe",
+    "selectedRawFrozenSha256": "41aeb1bb02b29f9475dfb1b2efdaa3bf6ba7dca720b099159ecb0baa6af41abe",
+    "selectedFreeze": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-errors.ts",
+    "formattedFrozenSha256": "3b498f94d3930a039e4a05ba6936dfd5ec43528eb839c712203b96ff4e1f0f0e",
+    "installedSha256": "3b498f94d3930a039e4a05ba6936dfd5ec43528eb839c712203b96ff4e1f0f0e",
+    "wholeFormattedFreezeExactlyMatchesInstalled": true,
+    "curatorBehaviorEdits": false
+  },
+  {
+    "path": "packages/shared/src/forceUpdate.ts",
+    "baselineSha256": "96967ddad919457ed79d4a7c96d3df03dfb9d9fbba1376688340bb8f8617c356",
+    "initialRawFrozenSha256": "3a96307c44fffde2101d8531509dc30ca34fb877a9387d0120c1863c76a3ab4e",
+    "selectedRawFrozenSha256": "3a96307c44fffde2101d8531509dc30ca34fb877a9387d0120c1863c76a3ab4e",
+    "selectedFreeze": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-forceUpdate.ts",
+    "formattedFrozenSha256": "2099328fb5f138d4db7bf1a04df286a640e184605d3022bd48440f5c19f55fec",
+    "installedSha256": "2099328fb5f138d4db7bf1a04df286a640e184605d3022bd48440f5c19f55fec",
+    "wholeFormattedFreezeExactlyMatchesInstalled": true,
+    "curatorBehaviorEdits": false
+  },
+  {
+    "path": "packages/shared/src/subagent-state-migration.ts",
+    "baselineSha256": "002762928424a207070bfc49947f4ccb074098a494db30a115dba7714d620868",
+    "initialRawFrozenSha256": "b1f6db73b1731b67db7fb51cda746e2862052327af8a6395059967bb6adf9c4a",
+    "selectedRawFrozenSha256": "b1f6db73b1731b67db7fb51cda746e2862052327af8a6395059967bb6adf9c4a",
+    "selectedFreeze": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-subagent-state-migration.ts",
+    "formattedFrozenSha256": "e9666a3945ee69468e03e22b23c38589dc97260faac244fd1925a925e8aeeccf",
+    "installedSha256": "e9666a3945ee69468e03e22b23c38589dc97260faac244fd1925a925e8aeeccf",
+    "wholeFormattedFreezeExactlyMatchesInstalled": true,
+    "curatorBehaviorEdits": false
+  },
+  {
+    "path": "packages/shared/src/mcp.ts",
+    "baselineSha256": "cad82a46c8ae59c6314f641de2b8d5e35f753f4228c5e82cdec786df7e99cc67",
+    "initialRawFrozenSha256": "73ec39907c94e045905f9b06284155113a53ed24f98ae65f9b54745579c68f74",
+    "selectedRawFrozenSha256": "73ec39907c94e045905f9b06284155113a53ed24f98ae65f9b54745579c68f74",
+    "selectedFreeze": "/tmp/knorvia-shared-error-version-config-digest-freezes/initial-mcp.ts",
+    "formattedFrozenSha256": "15bf6ab8470f65dac2b85d63f7b600b147230d648b18cd16e41e08f38191d202",
+    "installedSha256": "15bf6ab8470f65dac2b85d63f7b600b147230d648b18cd16e41e08f38191d202",
+    "wholeFormattedFreezeExactlyMatchesInstalled": true,
+    "curatorBehaviorEdits": false
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-digest.ts",
+    "baselineSha256": "c71499d10d5dc047fe4de06b8176dd23139e890d1879469410d2cebf43c3f3a1",
+    "initialRawFrozenSha256": "0ebb0a2d6638e7a6ae86a4bf82a0a4991908679c5f0959904c9d21ddf8595825",
+    "selectedRawFrozenSha256": "ec9497e74d6b507532ce887f410418bfa08a79f1d6bf2509bf9612924390c891",
+    "selectedFreeze": "/tmp/knorvia-shared-error-version-config-digest-freezes/corrected/workspace-hook-digest.ts",
+    "formattedFrozenSha256": "ae943db2385f8ff4d6374ac7bc866841169945ee345c2cfa7666d4762acb256e",
+    "installedSha256": "ae943db2385f8ff4d6374ac7bc866841169945ee345c2cfa7666d4762acb256e",
+    "wholeFormattedFreezeExactlyMatchesInstalled": true,
+    "curatorBehaviorEdits": false
+  }
+]

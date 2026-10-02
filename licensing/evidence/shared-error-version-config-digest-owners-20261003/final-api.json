@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "errors.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nforceUpdate.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nsubagent-state-migration.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nmcp.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nworkspace-hook-digest.ts: exported declarations and public member/type shapes match; parameter identifiers and private state excluded\nAST-only shape comparison; no semantic typecheck or declaration emit.\n",
+  "stderr": "",
+  "exitCode": 0
+}

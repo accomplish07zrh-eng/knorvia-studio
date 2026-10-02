@@ -1,0 +1,13 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "/tmp/knorvia-shared-error-version-config-digest-freezes/formatted-errors.ts",
+    "/tmp/knorvia-shared-error-version-config-digest-freezes/formatted-forceUpdate.ts",
+    "/tmp/knorvia-shared-error-version-config-digest-freezes/formatted-subagent-state-migration.ts",
+    "/tmp/knorvia-shared-error-version-config-digest-freezes/formatted-mcp.ts",
+    "/tmp/knorvia-shared-error-version-config-digest-freezes/formatted-workspace-hook-digest.ts"
+  ],
+  "stdout": "Finished in 17ms on 5 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/errors.ts",
+    "packages/shared/src/forceUpdate.ts",
+    "packages/shared/src/subagent-state-migration.ts",
+    "packages/shared/src/mcp.ts",
+    "packages/shared/src/workspace-hook-digest.ts",
+    "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs",
+    "licensing/evidence/shared-error-version-config-digest-owners-20261003/public-api-shape.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 43ms on 7 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}
