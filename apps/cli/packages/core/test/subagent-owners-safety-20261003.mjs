@@ -33,7 +33,7 @@ if (mode === "baseline") {
   const b = await fs.readFile(
     path.join(repo, "docs/evidence/knorvia-subagent-owners-current-20261003.json"),
   );
-  assert.equal(h(b), "CURRENT_SUBAGENT_PIN");
+  assert.equal(h(b), "42ef2a67a991b11b624a0126caa5d5c047b50dcc898c1a0277186ef90170341a");
   for (const [n, row] of Object.entries(JSON.parse(b).files)) {
     for (const [k, e] of Object.entries(row)) {
       const b = await fs.readFile(path.join(repo, e.path));

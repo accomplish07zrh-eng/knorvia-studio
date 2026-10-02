@@ -1,0 +1,22 @@
+{
+  "correctionsAreSourceExposed": true,
+  "originalDraftsUnchanged": true,
+  "demonstratedFailures": [
+    "Initial runner TS2322 rejected stopped log status. Type-only cast copy has identical emitted runtime for ten sealed files; never installed.",
+    "Exact pre-aborted start reason null became an Error. Baseline passed; sealed draft failed.",
+    "Stop notification incorrectly included error element. Separately isolated sealed draft failed."
+  ],
+  "staticCompatibilityCorrections": [
+    "Start forwards only existing abort reason exactly; foreground retains parent nullish fallback and linked listener.",
+    "Foreground guard remains outside terminal catch; auto timer setup precedes registry wait; timer object promise enters race directly without extra then. Timer listener installs after timer; callback exceptions are not repaired.",
+    "Restore completed/failure output-pair native await; metadata creation date derives from captured numeric start and canonical request type.",
+    "Restore public/admission/delivery-or-resume native async message layers and public/finalizer stop layers, including no-op boundaries.",
+    "Construct events before reading parent event port. Normal background completion retains nested event await and request routing; stop retains task routing and absent-parent no-op awaits.",
+    "Background notification uses completed output fields; terminal dates, duration clock calls, stop duration capture and mutable committed error retain their read phases.",
+    "Usage projection precedes separate tool-count scan; usage stored keys and server counters retain order and defined-vs-nullish total semantics.",
+    "Normalize options defaults and one-time model override capture; evaluate project permission value before suppressing it; retain raw launch background read and canonical matching diagnostics read phase.",
+    "Stop queued notification has no error input; stopped logger uses cancelled, original task identity is restored before controller effects on queue rejection."
+  ],
+  "retainedMaterial": "Public types/signatures, exact model/error/event/log prose and vocabulary, status/schema fields, template fragments, helper contracts, ordinary Map/Set/spread and native promise compatibility expression remain source-derived. Strong predecessor correspondence of protocol projections is qualified for independent review, not originality or licensing credit.",
+  "limits": "Minimal emitted safety, scoped API/compiler, owned lint/format/architecture and exact digests; no exhaustive timing/getter equivalence, full suites, broad builds or native/live acceptance."
+}

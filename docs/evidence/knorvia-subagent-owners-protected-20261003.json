@@ -1,0 +1,122 @@
+{
+  "files": [
+    {
+      "path": "apps/cli/packages/core/src/subagent/borrowed-mcp-port.ts",
+      "sha256": "94e3e368aaae276a3d10a3bbef2e997d07ccf75dc5c5d0f98eac01ea57191c3d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/completion-notification.ts",
+      "sha256": "f7e20c7cadd081d9ad4abc09e5b9c03922a169f76cb83bb4c1e1511163265cde"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/computer-use-policy.ts",
+      "sha256": "0b1ef74559d31407e2402dd5440d8cc1205fc12436cadb57f714c32f6729f09f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/context-builder.ts",
+      "sha256": "f130faf161f28013d6f38e6ca718410a7ab8d15023610c848db4510867c30140"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/coordinator-response.ts",
+      "sha256": "dc8b6a3ed56496a315f800dd06de1e4f6c5bb669d97fa9a00ea2e6c4bd73f7a7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/explore-tools.ts",
+      "sha256": "178a5ef9b2c0c4e4e94885702969910084ce8c318ce2ca7dd352df987b6dd219"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/explore.ts",
+      "sha256": "25f554fd08a19471c455daa42d799873af338eda3c9efeb34a12ea477786811a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/general-purpose.ts",
+      "sha256": "2bff9478e8888f6310eef193f3b46d3082a355dc91053048fe2c7a97f35a5293"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/index.ts",
+      "sha256": "b085c7ae85f0a2c8c9ecfa67bff650896ea9d30bb5956aba2f5099f52061a3ca"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/interaction-origin.ts",
+      "sha256": "c0f70c77c3fad35a3e911dab0ad6f56ed2bc63a1cea45fe361ba942f311269cf"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/mcp-config.ts",
+      "sha256": "64c1ab2d8cfc2c7d4680e74959a7a50ce6eca33313a77d7ce615cebe8d1c903a"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/message-steering.ts",
+      "sha256": "f459e86c2513bae6d356543674a94a69195fb9a1d1f6dd6124070626ff1a1e82"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/persistent-memory-prompt.ts",
+      "sha256": "ed2298b5582d4be07676fef739ad50239e9b68c63ca4595bd54252cb867fa7c3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/persistent-memory.ts",
+      "sha256": "7626458a566cb460e3f38ea07d312c62fa384bf80097595fee2f84e84b4c2004"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile-frontmatter.ts",
+      "sha256": "a8561a0a1bf24fa4dc230eb6bff88b12baeece87daed889bd3c37125398891f6"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/profile-model-selection.ts",
+      "sha256": "d5b1ac67a032413153edb155a5d527fccda16d474a6d9bf5b5af02d72c8c44b0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/runtime-task-registry.ts",
+      "sha256": "3b4045fb74f4d309e0919ffc0b7baa450fe2edb2e1d7966e3e040f7667ca038c"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/system-prompt.ts",
+      "sha256": "0efe41e86a2113593e88d39a7c95c9e91a203e2f381d2f4f2e849a33ae4f190f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-event-mirror.ts",
+      "sha256": "0c0154cb0ff112bdb193de978e1616eea8e0e843f23060517d53be9819940f7f"
+    },
+    {
+      "path": "apps/cli/packages/core/src/subagent/tool-policy.ts",
+      "sha256": "bb6d381e9baef66bafa06328d819166f8a68c73913b3c68cb9f82dee1c988c53"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "sha256": "e39a591c43c7915ac08f11f316b7fd8fc4eebea15ee34cfca6e420c6ceb84cf7"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/session-history-hydrator.ts",
+      "sha256": "20268df4afac2cf7f05cf41724709431f8fb8538057920bef08b6faf7c2c6a0d"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/read-file-state-hydrator.ts",
+      "sha256": "5acb4ca49c0fa4a42a4f057b4e475b67ac67175e0c0d7aec9f29d4eab23a3466"
+    }
+  ],
+  "validation": {
+    "protectedSourceMatches": 25,
+    "priorCurrentManifests": {
+      "knorvia-runtime-model-tools-current-20261003.json": {
+        "manifestSha256": "2a1e933bbe0972e1191365df848f5de1502b1a4903b9c6b7c930874b69fc50ae",
+        "artifactMatches": 15
+      },
+      "knorvia-runtime-turn-model-step-current-20261003.json": {
+        "manifestSha256": "c26360942ea6f1de1867fce6e473ca2c5b310a30ea3776d90b70ffc6b737da3b",
+        "artifactMatches": 15
+      },
+      "knorvia-runtime-turn-command-current-20261003.json": {
+        "manifestSha256": "beacb27633635d85f901a63d3eeebc6936d6fc4de34c2ae3006fa3749e23d057",
+        "artifactMatches": 12
+      }
+    },
+    "sealedInputAndDraftRows": "all exact; profile 8 inputs + 4 sealed files; runner 8 inputs + 105 sealed files"
+  }
+}
