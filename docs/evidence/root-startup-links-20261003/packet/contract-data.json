@@ -1,0 +1,28 @@
+{
+  "regexLiterals": {
+    "source": "packages/desktop/src/main/desktopWorkspaceDeepLink.ts",
+    "values": [
+      "/\\//gu",
+      "/^\\\\\\\\\\?\\\\UNC\\\\/iu"
+    ]
+  },
+  "channel": {
+    "source": "packages/shared/src/channels.ts",
+    "name": "PlatformChannels.OpenWorkspacePath",
+    "value": "knorvia:open-workspace-path"
+  },
+  "warmupLimit": 3,
+  "pendingShape": {
+    "path": "string",
+    "targetWebContentsId": "number|undefined"
+  },
+  "readyIds": "Set<number>",
+  "scheme": "knorvia-studio",
+  "dialogResponseConfirmed": 0,
+  "dialogDefaultId": 1,
+  "dialogCancelId": 1,
+  "dialogNoLink": true,
+  "availabilityAccessMask": "constants.R_OK | constants.X_OK",
+  "settingsEncoding": "utf-8",
+  "noRuntimeExecution": true
+}

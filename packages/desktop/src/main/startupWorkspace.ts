@@ -1,44 +1,12 @@
-import { constants } from "node:fs";
-import { access, mkdir, readFile, stat } from "node:fs/promises";
-import {
-  appSettingsSchema,
-  formatZodError,
-  resolveStartupLocalWorkspaceSessionIndex,
-  type WorkspacePurpose,
-} from "@knorvia/shared";
-
+import { type WorkspacePurpose } from "@knorvia/shared";
 interface StartupWorkspaceLogger {
   info?: (...args: unknown[]) => void;
   warn?: (...args: unknown[]) => void;
 }
-
-async function readStartupSettings(settingsFile: string, logger?: StartupWorkspaceLogger) {
-  try {
-    const raw = await readFile(settingsFile, "utf-8");
-    const parsed = JSON.parse(raw);
-    const result = appSettingsSchema.safeParse(parsed);
-
-    if (!result.success) {
-      logger?.warn?.(
-        "[startup-workspace] invalid settings file, falling back to default workspace:",
-        formatZodError(result.error),
-      );
-      return appSettingsSchema.parse({});
-    }
-
-    return result.data;
-  } catch {
-    return appSettingsSchema.parse({});
-  }
-}
-
 export interface StartupWorkspaceWarmupTarget {
   workspacePath: string;
   workspaceIdentity?: string;
 }
-
-const STARTUP_AGENT_WARMUP_LIMIT = 3;
-
 export interface StartupWindowBootstrap {
   restoreSession?: boolean;
   initialWorkspacePath?: string;
@@ -46,59 +14,73 @@ export interface StartupWindowBootstrap {
   unavailableWorkspacePath?: string;
   agentWarmupTargets?: StartupWorkspaceWarmupTarget[];
 }
+import { constants } from "node:fs";
+import { access, mkdir, readFile, stat } from "node:fs/promises";
+import {
+  appSettingsSchema,
+  formatZodError,
+  resolveStartupLocalWorkspaceSessionIndex,
+} from "@knorvia/shared";
 
-async function isAvailableWorkspaceDirectory(workspacePath: string): Promise<boolean> {
+type Settings = ReturnType<typeof appSettingsSchema.parse>;
+async function settingsFromFile(
+  settingsFile: string,
+  logger?: StartupWorkspaceLogger,
+): Promise<Settings> {
   try {
-    const workspaceStat = await stat(workspacePath);
-    if (!workspaceStat.isDirectory()) {
-      return false;
+    const raw = await readFile(settingsFile, "utf-8");
+    const result = appSettingsSchema.safeParse(JSON.parse(raw));
+    if (!result.success) {
+      logger?.warn?.(
+        "[startup-workspace] invalid settings file, falling back to default workspace:",
+        formatZodError(result.error),
+      );
+      return appSettingsSchema.parse({});
     }
-    await access(workspacePath, constants.R_OK | constants.X_OK);
+    return result.data;
+  } catch {
+    return appSettingsSchema.parse({});
+  }
+}
+async function available(path: string): Promise<boolean> {
+  try {
+    const info = await stat(path);
+    if (!info.isDirectory()) return false;
+    await access(path, constants.R_OK | constants.X_OK);
     return true;
   } catch {
     return false;
   }
 }
-
-function resolvePersistedActiveSession(
-  sessions: NonNullable<ReturnType<typeof appSettingsSchema.parse>["lastWorkspaceSession"]>,
-  lastActiveTabIndex: number | undefined,
-) {
-  if (sessions.length === 0) {
-    return undefined;
-  }
-  const activeIndex = Math.min(Math.max(lastActiveTabIndex ?? 0, 0), sessions.length - 1);
-  return sessions[activeIndex];
-}
-
-function resolveStartupAgentWarmupTargets(
-  settings: Pick<ReturnType<typeof appSettingsSchema.parse>, "recentProjects">,
+function warmup(
+  settings: Settings,
   activeTarget: StartupWorkspaceWarmupTarget,
 ): StartupWorkspaceWarmupTarget[] {
-  const candidates: StartupWorkspaceWarmupTarget[] = [
+  const candidates = [
     activeTarget,
-    ...(settings.recentProjects ?? []).map((workspacePath) => ({
-      workspacePath,
-    })),
+    ...(settings.recentProjects ?? []).map((workspacePath) => ({ workspacePath })),
   ];
   const seen = new Set<string>();
   const targets: StartupWorkspaceWarmupTarget[] = [];
-
   for (const candidate of candidates) {
-    const workspaceKey = candidate.workspaceIdentity?.trim() || candidate.workspacePath;
-    if (!workspaceKey || seen.has(workspaceKey)) {
-      continue;
-    }
-    seen.add(workspaceKey);
+    const key =
+      (candidate as StartupWorkspaceWarmupTarget).workspaceIdentity?.trim() ||
+      candidate.workspacePath;
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
     targets.push(candidate);
-    if (targets.length === STARTUP_AGENT_WARMUP_LIMIT) {
-      break;
-    }
+    if (targets.length === 3) break;
   }
-
   return targets;
 }
-
+function persistedActive(
+  sessions: NonNullable<Settings["lastWorkspaceSession"]>,
+  lastActiveTabIndex: number | undefined,
+) {
+  if (sessions.length === 0) return undefined;
+  const index = Math.min(Math.max(lastActiveTabIndex ?? 0, 0), sessions.length - 1);
+  return sessions[index];
+}
 export function createOpenWorkspaceStartupBootstrap(workspacePath: string): StartupWindowBootstrap {
   return {
     initialWorkspacePath: workspacePath,
@@ -106,7 +88,6 @@ export function createOpenWorkspaceStartupBootstrap(workspacePath: string): Star
     agentWarmupTargets: [{ workspacePath }],
   };
 }
-
 export async function resolveStartupWindowBootstrap({
   settingsFile,
   conversationWorkspaceDir,
@@ -116,51 +97,35 @@ export async function resolveStartupWindowBootstrap({
   conversationWorkspaceDir: string;
   logger?: StartupWorkspaceLogger;
 }): Promise<StartupWindowBootstrap> {
-  const settings = await readStartupSettings(settingsFile, logger);
+  const settings = await settingsFromFile(settingsFile, logger);
   const sessions = settings.lastWorkspaceSession ?? [];
-
   if (sessions.length > 0) {
-    const persistedActiveSession = resolvePersistedActiveSession(
-      sessions,
-      settings.lastActiveTabIndex,
-    );
+    const persisted = persistedActive(sessions, settings.lastActiveTabIndex);
     const unavailableWorkspacePath =
-      persistedActiveSession?.kind === "local" &&
-      !(await isAvailableWorkspaceDirectory(persistedActiveSession.workspacePath))
-        ? persistedActiveSession.workspacePath
+      persisted?.kind === "local" && !(await available(persisted.workspacePath))
+        ? persisted.workspacePath
         : undefined;
     if (unavailableWorkspacePath) {
-      // 上次激活 workspace 被移动或删除后，Agent 仍需保留原业务路径读取历史，
-      // 但子进程 cwd 必须落在真实存在的目录；conversation backing workspace 只承担 cwd 兜底。
       await mkdir(conversationWorkspaceDir, { recursive: true });
       logger?.warn?.(
         "[startup-workspace] active local workspace unavailable; using read-only restore:",
         unavailableWorkspacePath,
       );
     }
-    const localActiveSessionIndex = resolveStartupLocalWorkspaceSessionIndex(
+    const selected = resolveStartupLocalWorkspaceSessionIndex(
       sessions,
       settings.lastActiveTabIndex,
     );
-    const activeSession =
-      localActiveSessionIndex == null ? undefined : sessions[localActiveSessionIndex];
+    const activeSession = selected == null ? undefined : sessions[selected];
     if (activeSession?.kind === "local") {
-      // 被动 sessions-index 全量恢复不能再启动全部 workspace，但只预热当前一个又让
-      // 用户在最近项目间切换重新承担完整冷启动。Main 在唯一启动边界固定选出最近 3 个，
-      // Host 仍走原 initializeWorkspace 路径；失败不继续扫描第 4 个补位。
-      const agentWarmupTargets = resolveStartupAgentWarmupTargets(settings, {
-        workspacePath: activeSession.workspacePath,
-      });
+      const targets = warmup(settings, { workspacePath: activeSession.workspacePath });
       return {
         ...(unavailableWorkspacePath ? { unavailableWorkspacePath } : {}),
-        agentWarmupTargets,
+        agentWarmupTargets: targets,
       };
     }
     return unavailableWorkspacePath ? { unavailableWorkspacePath } : {};
   }
-
-  // UI 可以没有项目，但 Agent 必须始终有真实 cwd。首次启动统一预热
-  // app-managed conversation backing workspace，不能再创建会被误认成项目的 KnorviaProject。
   await mkdir(conversationWorkspaceDir, { recursive: true });
   logger?.info?.("[startup-workspace] using conversation workspace:", conversationWorkspaceDir);
   return {

@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-02T20:57:19.392503+00:00",
+  "drafts": {
+    "draft-desktopWorkspaceDeepLink.ts": {
+      "bytes": 6025,
+      "sha256": "e29cb3de4169e88476391a22f3083e517745728287900155b375efb74371826b"
+    },
+    "draft-startupWorkspaceDeepLinkGate.ts": {
+      "bytes": 2228,
+      "sha256": "46f9011dedc85181dc70dd397dc3dc29cbf6fd4dc29d11512e504db94870b0c8"
+    },
+    "draft-startupWorkspace.ts": {
+      "bytes": 4176,
+      "sha256": "f80a4ccd5a5d0766461aff00b9786e434f8204a2d520fa9000bbd20faaff21a8"
+    }
+  },
+  "bodyReadBeforeFreeze": false
+}
