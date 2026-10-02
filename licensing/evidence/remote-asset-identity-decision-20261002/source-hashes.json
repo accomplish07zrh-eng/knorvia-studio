@@ -1,0 +1,27 @@
+{
+  "baselineCommit": "2de79f27d2bb2cf2a003b408d2f7c155b78df42f",
+  "files": [
+    {
+      "path": "packages/server/src/remote/remoteAssetDeployDecision.ts",
+      "baselineSha256": "2b7ac5d59dabb5b3ad825dd47688568f685b6bd9eb017918a65b289555dbe5a1",
+      "baselineBlob": "11f10051f2a3d926490c999ff43546325d7aa7dc",
+      "authorOutputSha256": "e7bdd8645951e8dab04f547502a192b0142bc6697636ed0ed6b0a2b020eff99a",
+      "candidateSha256": "ecca04fbdba5ad03c0d2211e017ec22c123a391d455131b7a2e339fedb83bd28"
+    },
+    {
+      "path": "packages/server/src/remote/remoteAssetLiveIdentity.ts",
+      "baselineSha256": "72e6abac6b84b2a8d13b973cc7e1370b488c8fe05bc683fc9b95ae8b20979c05",
+      "baselineBlob": "c99a97dea89226d00cb421564aef6efe5ea54dea",
+      "authorOutputSha256": "ea72fba5d6576a7a6913970dabc4d705bfb1b67cbd97fe064390a8cc6acb5b23",
+      "candidateSha256": "83a49990d50438accd61815c6ac56fa1fa3906327d6a80acc096740039250525"
+    }
+  ],
+  "observerEditsAfterAuthoring": "Repository oxfmt formatting only; compatibility corrections made by the fresh author.",
+  "freshAuthor": {
+    "task": "/root/asset_identity_decision_author",
+    "forkTurns": "none",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "accessBoundary": "Declared guidance/API-only input; shared filesystem is not OS-enforced isolation."
+  }
+}
