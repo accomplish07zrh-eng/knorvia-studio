@@ -1,0 +1,27 @@
+{
+  "revision": "draft-01",
+  "algorithm": "SHA256",
+  "draft_line_count": 310,
+  "files": [
+    {
+      "path": "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/contract.md",
+      "sha256": "8bd7080b0d2abfc659a8614ac2b9019bd2edca3eb9918e86e5cb6e0d3b4f4ee9"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/api.d.ts",
+      "sha256": "f8551af1a199fe4c6218bd09ac4a12957a4459932a9700e3669fbfaa25b4f50b"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/dependency-api.md",
+      "sha256": "13af72e424292a3f039ead0673f2429f5d4bdd7a5bb11b45dacc14a19de1cae4"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/draft-01/workspace-checkpoints.ts",
+      "sha256": "4d75814b2d42ea533f800440f2c18ba9c955f65e7359967cad25e3b20c9497b6"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-publication-20261003/workspace-checkpoints/draft-01/access-report.json",
+      "sha256": "f3b66e10490bdfcbe7d201208a3709f4af628ada3175e57fd1583c074b60db29"
+    }
+  ]
+}
