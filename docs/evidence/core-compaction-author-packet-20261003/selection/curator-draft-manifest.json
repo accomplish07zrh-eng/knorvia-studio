@@ -1,0 +1,167 @@
+{
+  "archivedAtUtc": "2026-10-02T18:54:49.002505+00:00",
+  "phase": "Complete outputs archived before curator body inspection/comparison",
+  "inputFreezeCommit": "5440a760",
+  "task": "/root/compact_selection_author",
+  "fork_turns": "none",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "fastControl": "No separate tool control exposed",
+  "files": [
+    {
+      "file": "draft-compact-selection.ts.txt",
+      "bytes": 11527,
+      "sha256": "d3767a77c30cefa6c53799525c3dd7cc80bc9face488531e4fe878efdaf4a0be"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 4952,
+      "sha256": "58d3856aef1454963e40472e7bf3c0088260620b10901ac0715f30bf128198d4"
+    }
+  ],
+  "authorReported": {
+    "schema": "runtime-compaction-independent-author-record-v1",
+    "author": "compact_selection_author",
+    "utc": "2026-10-02T18:54:00.776082Z",
+    "frozen_inputs_revision_as_supplied": "5440a760",
+    "working_directory": "/tmp/knorvia-core-compaction-selection-author-20261003",
+    "task": "Complete pure runtime compaction selection owner",
+    "frozen": true,
+    "freeze_method": "Completed source made read-only before receipt creation; completed receipt made read-only before independent receipt digest; no later edits authorized by this author.",
+    "receipt_self_hash_excluded": true,
+    "inputs": [
+      {
+        "path": "inputs/contract.md",
+        "bytes": 11996,
+        "sha256": "0eb3c5d92572ea60c9ce0d558884463a9f8895641623da991a299aad4b23b081",
+        "lines": 59
+      },
+      {
+        "path": "inputs/public-api.d.ts",
+        "bytes": 1915,
+        "sha256": "b228e77d108780e25f40adaa863eb2130e9316a1da5adf2147299bcafbf83739",
+        "lines": 44
+      },
+      {
+        "path": "inputs/dependency-api.d.ts",
+        "bytes": 2294,
+        "sha256": "7e8bd9eee9d48a74921b0d59e06a3b393b7711e4ed4e904afc30776ef810dfdf",
+        "lines": 35
+      },
+      {
+        "path": "inputs/public-data-shapes.md",
+        "bytes": 4743,
+        "sha256": "c3ddc09e227329c360616c83c9ebf2e949c0f036437473c809d029e5cfbf8164",
+        "lines": 52
+      }
+    ],
+    "outputs": [
+      {
+        "path": "output/compact-selection.ts",
+        "bytes": 11527,
+        "sha256": "d3767a77c30cefa6c53799525c3dd7cc80bc9face488531e4fe878efdaf4a0be",
+        "lines": 306
+      }
+    ],
+    "receipt": {
+      "path": "output/author-record.json",
+      "bytes": 4952,
+      "lines": 143,
+      "sha256": "Excluded from own receipt; independent SHA256 returned in final report."
+    },
+    "actual_task_data_reads_and_methods": [
+      {
+        "sequence": 1,
+        "method": "exec_command / cat",
+        "paths": [
+          "inputs/contract.md",
+          "inputs/public-api.d.ts",
+          "inputs/dependency-api.d.ts",
+          "inputs/public-data-shapes.md"
+        ],
+        "purpose": "Read the four frozen public inputs once in supplied order."
+      },
+      {
+        "sequence": 2,
+        "method": "apply_patch / Add File",
+        "paths": [],
+        "purpose": "Create own complete implementation; no task-data input read."
+      },
+      {
+        "sequence": 3,
+        "method": "apply_patch / Update File",
+        "paths": [
+          "output/compact-selection.ts"
+        ],
+        "purpose": "Read own output to defer cause access until after grouping gates."
+      },
+      {
+        "sequence": 4,
+        "method": "exec_command / cat",
+        "paths": [
+          "output/compact-selection.ts"
+        ],
+        "purpose": "Read own complete output for author inspection."
+      },
+      {
+        "sequence": 5,
+        "method": "exec_command / Python pathlib.Path.read_bytes",
+        "paths": [
+          "inputs/contract.md",
+          "inputs/public-api.d.ts",
+          "inputs/dependency-api.d.ts",
+          "inputs/public-data-shapes.md",
+          "output/compact-selection.ts"
+        ],
+        "purpose": "Compute byte counts, SHA256 hashes and line counts for frozen receipt."
+      },
+      {
+        "sequence": 6,
+        "method": "exec_command / Python pathlib.Path.read_bytes",
+        "paths": [
+          "output/author-record.json"
+        ],
+        "purpose": "After receipt freeze, compute independent receipt byte count, line count and SHA256 for final report."
+      }
+    ],
+    "actual_write_and_freeze_methods": [
+      "exec_command mkdir -p output",
+      "apply_patch creates output/compact-selection.ts",
+      "apply_patch updates only own output/compact-selection.ts",
+      "Python pathlib.Path.chmod(0o444) freezes output/compact-selection.ts",
+      "Python pathlib.Path.write_bytes writes complete author-record.json with self metadata fixed point",
+      "Python pathlib.Path.chmod(0o444) freezes author-record.json"
+    ],
+    "breaches": [],
+    "questions": [],
+    "forbidden_flags": {
+      "repository_read": false,
+      "commit_or_history_read": false,
+      "agents_or_skills_read": false,
+      "implementation_dependency_body_read": false,
+      "test_or_review_read": false,
+      "network_access": false,
+      "other_scratch_access": false,
+      "other_author_access": false,
+      "compiler_run": false,
+      "tests_run": false,
+      "comparison_run": false,
+      "production_write": false,
+      "git_action": false,
+      "publication": false,
+      "subagent_spawn": false
+    },
+    "instruction_only_qualification": "The four-input-only task-data access boundary is instruction-based in a shared executor, not OS isolation. The curator is source-exposed; this author did not read curator source or other excluded task data.",
+    "requested_execution": {
+      "model_family": "Sol",
+      "reasoning": "high",
+      "speed": "Fast",
+      "qualification": "No separate Fast invocation control is exposed; this record does not claim a verified separate speed setting."
+    },
+    "uncertainty": [
+      "No compilation, tests, implementation comparison or integration verification performed by this author."
+    ]
+  },
+  "curatorSourceExposed": true,
+  "osIsolated": false
+}
