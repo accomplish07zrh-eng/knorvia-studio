@@ -1,0 +1,602 @@
+{
+  "date": "2026-10-02",
+  "scope": "five services memory/subagent owners; no blanket license classification",
+  "coordinator": "source-exposed; fresh authors only supplied body-free contracts/API and root instructions",
+  "originals": [
+    {
+      "path": "packages/services/src/memory/memory.ts",
+      "sha256": "e8bfa7c90778d8fe220ae0d5d42f8dee3f33c85104af05637ed8aab13377edf8",
+      "blob": "397ebc9100795dba77c40598fbb81911d1baa297"
+    },
+    {
+      "path": "packages/services/src/memory/memoryService.ts",
+      "sha256": "3a5799fe67138d56b27bdd775d39ce665801da94d0b918599eebbacff6c7e68f",
+      "blob": "bfb29393482adf00037e3027a849dfe472abcc96"
+    },
+    {
+      "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+      "sha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+      "blob": "c9ef6fa4d2efc957ab3e7eeeddefc3f4b7ae5030"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentMarkdown.ts",
+      "sha256": "0dedb3bd3f4a95793954e20e28efe0cb3e26096448c97ad6084e01c33eee4850",
+      "blob": "797acb66c413ac62f84733913f939ec03d445316"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentModelSelection.ts",
+      "sha256": "12023979f3cdcd97890a71c35f26f16d252ee27871aaebd2402585f8ec16f82c",
+      "blob": "d16bab643c19bfd3e390ac35a17ea76de6bcdf4f"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentStorage.ts",
+      "sha256": "911af4f7f56b55bf1bc4d38ac14b37777120272c7630c08d3d530c7233932186",
+      "blob": "516e3c8d54a2c20f2421ccf68ba63c1e1e785743"
+    },
+    {
+      "path": "packages/services/src/subagents/subagents.ts",
+      "sha256": "b13e98fcf764eab231a7299e728a8d6e3b03dc7ae3b3f0d1a8b38f79021ecd44",
+      "blob": "37a3fa7a78426f6b095b7ea942a48274976e6173"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentsService.ts",
+      "sha256": "07eaff7de924274e2ae2ed5f6be516aef782b8b690285221ac7715fc120a3ed2",
+      "blob": "8a274636c384bc1a9212f5f52624a2f0f8b44b7c"
+    },
+    {
+      "path": "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
+      "sha256": "41a30bd04df8df05661a7f4cb62ec4f8198ab647c4ff4286d11d51828be0fb9e",
+      "blob": "1cdc56230db3a4ea08ae47a5409654705d40040a"
+    },
+    {
+      "path": "packages/services/src/agent-session/session.ts",
+      "sha256": "f08ed80e1d0e1e9ce310ae7c54c072eb681e83169eae0023344be550ec09dd6f",
+      "blob": "1db5de1a7c3de5d6e35bfada8d774e795f396c1b"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+      "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+      "blob": "4aa1bbbe49c383a4e35661956bf657768bd07ec6"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+      "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+      "blob": "905a3a0bc871e146bf8c4ffe1626b4544756416d"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "sha256": "dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199",
+      "blob": "61db9dc9481ef85eb32bf05a70a0f9c3505367fc"
+    }
+  ],
+  "authors": {
+    "catalog": {
+      "owner": "memory/memoryService.ts",
+      "status": "frozen-first-ready",
+      "revision": 0,
+      "raw_first_ready": "/tmp/knorvia-memory-agents-candidates-20261002/catalog/memoryService.ts",
+      "review_or_correction_before_freeze": false,
+      "inputs": [
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/catalog.md",
+          "sha256": "01cfe94af5115e5132049f12216de1e6da89bacbd6cf4e5db46266328e9fa9d9",
+          "bytes": 5125,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/catalog-api.ts",
+          "sha256": "177ab7e1a0c558ccde491729ce4f10de69ce9a2b57061f7491a2aa34be5effac",
+          "bytes": 55,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/memory-api.ts",
+          "sha256": "f53b57c5827c2a8d7f02d17f3e27b89d5695855824b01fa0a20d242c34b6c112",
+          "bytes": 756,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/stable-api.ts",
+          "sha256": "8f7402dec7e6d7d23b6ba8a00f23f0a7724115c573d2764a8038e716b351b2fa",
+          "bytes": 215,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+          "bytes": 10384,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+          "bytes": 5026,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        }
+      ],
+      "actual_read": [
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/catalog.md",
+          "sha256": "01cfe94af5115e5132049f12216de1e6da89bacbd6cf4e5db46266328e9fa9d9",
+          "bytes": 5125,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/catalog-api.ts",
+          "sha256": "177ab7e1a0c558ccde491729ce4f10de69ce9a2b57061f7491a2aa34be5effac",
+          "bytes": 55,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/memory-api.ts",
+          "sha256": "f53b57c5827c2a8d7f02d17f3e27b89d5695855824b01fa0a20d242c34b6c112",
+          "bytes": 756,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/stable-api.ts",
+          "sha256": "8f7402dec7e6d7d23b6ba8a00f23f0a7724115c573d2764a8038e716b351b2fa",
+          "bytes": 215,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+          "bytes": 10384,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+          "bytes": 5026,
+          "access": "read",
+          "read_count": 2,
+          "read_purposes": ["contract or designated guidance/API read", "input hash"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/catalog/memoryService.ts",
+          "sha256": "114a443898c101f81ace578f3b344e01b81cdc54f7f593f335f5cf347c4db17a",
+          "bytes": 6059,
+          "nonblank_lines": 181,
+          "access": "read",
+          "read_count": 1,
+          "read_purposes": ["output hash and nonblank line count"]
+        }
+      ],
+      "actual_access": [
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/catalog.md",
+          "operation": "read",
+          "count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/catalog-api.ts",
+          "operation": "read",
+          "count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/memory-api.ts",
+          "operation": "read",
+          "count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/stable-api.ts",
+          "operation": "read",
+          "count": 2
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "operation": "read",
+          "count": 2
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "operation": "read",
+          "count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/catalog/memoryService.ts",
+          "operation": "create",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/catalog/memoryService.ts",
+          "operation": "read",
+          "count": 1
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/catalog/candidate.json",
+          "operation": "create",
+          "count": 1
+        }
+      ],
+      "outputs": [
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/catalog/memoryService.ts",
+          "sha256": "114a443898c101f81ace578f3b344e01b81cdc54f7f593f335f5cf347c4db17a",
+          "bytes": 6059,
+          "nonblank_lines": 181
+        }
+      ],
+      "limits": {
+        "max_nonblank_lines": 400,
+        "actual_nonblank_lines": 181,
+        "suppressions": 0,
+        "allowed_read_inputs": [
+          "/tmp/knorvia-memory-agents-contracts-20261002/catalog.md",
+          "/tmp/knorvia-memory-agents-contracts-20261002/catalog-api.ts",
+          "/tmp/knorvia-memory-agents-contracts-20261002/memory-api.ts",
+          "/tmp/knorvia-memory-agents-contracts-20261002/stable-api.ts",
+          "/workspace/knorvia-studio/AGENTS.md",
+          "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+        ],
+        "write_root": "/tmp/knorvia-memory-agents-candidates-20261002/catalog",
+        "implementation_or_dependency_reads": 0,
+        "test_history_other_candidate_or_filename_discovery": 0,
+        "application_filesystem_or_user_memory_access": 0,
+        "provider_network_credentials_config_access": 0,
+        "application_processes_tests_or_builds": 0,
+        "repository_edits": 0
+      },
+      "compatibility": "Public contracts, compatibility literals, and retained ports do not establish novelty or origin. Coordinator is source-exposed.",
+      "retained_ports": [
+        "#src/memory/projectMemoryStableRead.js: readProjectMemoryFileFromStableHandle",
+        "#src/paths.js: getKnorviaDataRootDir"
+      ],
+      "validation": "No tests, builds, compiler, lint, application access, or implementation review performed. Output metadata only.",
+      "manifest_hash": "Reported externally to avoid self-referential hashing."
+    },
+    "stable": {
+      "owner": "stable",
+      "repositoryTarget": "packages/services/src/memory/projectMemoryStableRead.ts",
+      "stage": "frozen-first-ready",
+      "source": "/tmp/knorvia-memory-agents-candidates-20261002/stable/first-ready/projectMemoryStableRead.ts",
+      "sourceSha256": "038aa3f8e7e7aae4808e4c5130b801b9365d87f71ce8b72e844380ca05a88142",
+      "sourceBytes": 3036,
+      "sourceNonblankLines": 93,
+      "freeze": {
+        "beforeReviewOrCorrections": true,
+        "fileMode": "0444",
+        "revisions": []
+      },
+      "actualReads": [
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/stable.md",
+          "sha256": "25c1eb23a3a48bc6bbd133dc2a23874a03d238d5a60f61f8dac29dd3c34a1ced",
+          "bytes": 3454,
+          "accesses": ["full-text read via cat", "full-byte read for sha256 receipt"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/stable-api.ts",
+          "sha256": "8f7402dec7e6d7d23b6ba8a00f23f0a7724115c573d2764a8038e716b351b2fa",
+          "bytes": 215,
+          "accesses": ["full-text read via cat", "full-byte read for sha256 receipt"]
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/memory-api.ts",
+          "sha256": "f53b57c5827c2a8d7f02d17f3e27b89d5695855824b01fa0a20d242c34b6c112",
+          "bytes": 756,
+          "accesses": ["full-text read via cat", "full-byte read for sha256 receipt"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+          "bytes": 10384,
+          "accesses": ["full-text read via cat", "full-byte read for sha256 receipt"]
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+          "bytes": 5026,
+          "accesses": ["full-text read via cat", "full-byte read for sha256 receipt"]
+        }
+      ],
+      "ownNewDraftReads": [
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/stable/first-ready/projectMemoryStableRead.ts",
+          "access": "full-byte read for frozen-first-ready sha256 receipt",
+          "sha256": "038aa3f8e7e7aae4808e4c5130b801b9365d87f71ce8b72e844380ca05a88142"
+        }
+      ],
+      "actualWrites": [
+        "/tmp/knorvia-memory-agents-candidates-20261002/stable/first-ready/projectMemoryStableRead.ts",
+        "/tmp/knorvia-memory-agents-candidates-20261002/stable/candidate.json"
+      ],
+      "actualAccess": {
+        "repositoryFilesRead": [
+          "/workspace/knorvia-studio/AGENTS.md",
+          "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+        ],
+        "contractFilesRead": [
+          "/tmp/knorvia-memory-agents-contracts-20261002/stable.md",
+          "/tmp/knorvia-memory-agents-contracts-20261002/stable-api.ts",
+          "/tmp/knorvia-memory-agents-contracts-20261002/memory-api.ts"
+        ],
+        "implementationDependencyTestHistoryOtherCandidateReads": [],
+        "filenameDiscovery": [],
+        "repositoryWrites": [],
+        "testsBuildsApplicationUserDataConfigurationNetworkProcessActions": [],
+        "toolOperations": [
+          "exec_command: cat designated contract packet",
+          "exec_command: cat designated API files",
+          "exec_command: cat designated repository guidance",
+          "exec_command: python3 local own-draft write, receipt hashing, and freeze only"
+        ]
+      },
+      "exposureLimits": {
+        "sourceImplementationExposure": "No implementation, dependencies, tests, history, other candidates, or filename discovery were accessed.",
+        "coordinatorExposure": "Coordinator is source-exposed; this packet does not grant novelty or origin clearance.",
+        "publicNamesCompatibilityStringsStandardPatterns": "Required public names, compatibility strings, and standard Node filesystem patterns constrain the candidate; no independent novelty claim.",
+        "acceptance": "Frozen source only. No tests, builds, application filesystem actions, or native/provenance acceptance performed by this author.",
+        "guidanceBoundaries": "Designated guidance read; repository checks and spec edits deferred because the task forbids repository writes, implementation discovery, and test/build actions."
+      }
+    },
+    "storage": {
+      "owner": "storage",
+      "target": "packages/services/src/subagents/subagentStorage.ts",
+      "status": "rawfirstready frozen before review",
+      "source": {
+        "path": "/tmp/knorvia-memory-agents-candidates-20261002/storage/rawfirstready/subagentStorage.ts",
+        "sha256": "a2e78d114af097d06852cb5c5f7e0e7e41b92894164d2f1a63c7dbd03ac0a84a",
+        "nonblank_lines": 59,
+        "frozen_mode": "0444",
+        "actual_read_accesses": ["post-freeze manifest SHA-256 and nonblank-count read"],
+        "read_count": 1
+      },
+      "inputs": [
+        {
+          "role": "contract",
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/storage.md",
+          "sha256": "1a3e911ddd962d0c413cc8e647266d46a35f5085a82842aef9bcafa6dbc26257",
+          "actual_read_accesses": ["explicit cat read", "manifest SHA-256 read"],
+          "read_count": 2
+        },
+        {
+          "role": "api",
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/storage-api.ts",
+          "sha256": "75d25fe5535c57a575e8117ecab0b5edd6d44739f3057f8a7cab0ac4e24c75b1",
+          "actual_read_accesses": ["explicit cat read", "manifest SHA-256 read"],
+          "read_count": 2
+        },
+        {
+          "role": "root_guidance",
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+          "actual_read_accesses": ["explicit cat read", "manifest SHA-256 read"],
+          "read_count": 2
+        },
+        {
+          "role": "architecture_guidance",
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+          "actual_read_accesses": ["explicit cat read", "manifest SHA-256 read"],
+          "read_count": 2
+        }
+      ],
+      "actual_access_ledger": [
+        {
+          "operation": "read",
+          "scope": "four designated contract/API/guidance files",
+          "details": "Each file read once for instructions and once for hashing; no path discovery."
+        },
+        {
+          "operation": "write",
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/storage/rawfirstready/subagentStorage.ts",
+          "details": "Created complete first-ready source through apply_patch."
+        },
+        {
+          "operation": "freeze",
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/storage/rawfirstready/subagentStorage.ts",
+          "details": "Changed mode to 0444 before post-authoring source read."
+        },
+        {
+          "operation": "read",
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/storage/rawfirstready/subagentStorage.ts",
+          "details": "Hash and count only; no test, build, runtime execution, or review revision."
+        },
+        {
+          "operation": "write",
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/storage/candidate.json",
+          "details": "Created this manifest; no manifest read performed."
+        },
+        {
+          "operation": "freeze",
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/storage/candidate.json",
+          "details": "Changed manifest mode to 0444 after write."
+        }
+      ],
+      "exposure_limits": {
+        "implementation_sources_read": false,
+        "dependency_sources_read": false,
+        "tests_read_or_run": false,
+        "history_read": false,
+        "other_candidates_read": false,
+        "filename_discovery_performed": false,
+        "real_user_memory_or_filesystem_read": false,
+        "real_environment_or_configuration_read": false,
+        "provider_or_network_access": false,
+        "runtime_ports_executed": false,
+        "process_state_inspected": false,
+        "builds_run": false,
+        "repository_edited": false,
+        "allowed_reads": [
+          "/tmp/knorvia-memory-agents-contracts-20261002/storage.md",
+          "/tmp/knorvia-memory-agents-contracts-20261002/storage-api.ts",
+          "/workspace/knorvia-studio/AGENTS.md",
+          "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "/tmp/knorvia-memory-agents-candidates-20261002/storage/rawfirstready/subagentStorage.ts"
+        ],
+        "allowed_write_root": "/tmp/knorvia-memory-agents-candidates-20261002/storage",
+        "coordinator_source_exposed": true,
+        "compatibility_policy_and_literals_retained": true,
+        "novelty_or_origin_grant_claimed": false,
+        "guidance_execution_limits": "Designated packet and parent task prohibit checks, context discovery, tests, builds, and repository edits; ordinary repository workflow commands were therefore not run."
+      },
+      "revisions": [],
+      "validation": {
+        "kind": "post-freeze hash and nonblank count only",
+        "tests_or_builds": "not run as instructed",
+        "suppressions": 0
+      }
+    },
+    "markdown": {
+      "owner": "fresh complete Markdown representation",
+      "candidate_status": "raw-first-ready frozen before self-review; no revisions",
+      "frozen_at_utc": "2026-10-02T20:46:58.263416+00:00",
+      "raw_first_ready": {
+        "path": "/tmp/knorvia-memory-agents-candidates-20261002/markdown/raw-first-ready/subagents/subagentMarkdown.ts",
+        "sha256": "039ffada684ddb073e89f294d16a00b16421fb673d36ff1e17ee40688642dc86",
+        "nonblank_lines": 297,
+        "exports": ["parseSubagentMarkdown", "serializeSubagentMarkdown"],
+        "private_helpers": "same module"
+      },
+      "actual_reads": [
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/markdown.md",
+          "sha256": "143b91bd49cfae99a4d31703a728dc1db19466b63da6b8c76f318ad5816da5b5",
+          "accesses": ["contract or guidance read via cat", "byte read for freeze provenance hash"],
+          "read_count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/markdown-api.ts",
+          "sha256": "3904de4725ee940e53936458feb6d936a1aeaa5458a65348337c050cd655a0c2",
+          "accesses": ["contract or guidance read via cat", "byte read for freeze provenance hash"],
+          "read_count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/shared-api.ts",
+          "sha256": "98331d215750afc2fa69003665fc4437c23e9608c4f0872220004a0aff5f9bd5",
+          "accesses": ["contract or guidance read via cat", "byte read for freeze provenance hash"],
+          "read_count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-contracts-20261002/sharedSelection-api.ts",
+          "sha256": "872dc8a9dedf6d9ba86242fb4eb1f712b53ed98564265e589c26f1d5108ba5d4",
+          "accesses": ["contract or guidance read via cat", "byte read for freeze provenance hash"],
+          "read_count": 2
+        },
+        {
+          "path": "/workspace/knorvia-studio/AGENTS.md",
+          "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+          "accesses": ["contract or guidance read via cat", "byte read for freeze provenance hash"],
+          "read_count": 2
+        },
+        {
+          "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+          "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+          "accesses": ["contract or guidance read via cat", "byte read for freeze provenance hash"],
+          "read_count": 2
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/markdown/raw-first-ready/subagents/subagentMarkdown.ts",
+          "sha256": "039ffada684ddb073e89f294d16a00b16421fb673d36ff1e17ee40688642dc86",
+          "accesses": ["byte read for freeze provenance hash and nonblank line count"],
+          "read_count": 1
+        },
+        {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/markdown/candidate.json",
+          "sha256_of_version_read": "c46d5fb45685b7cc7224424a3c8d0342707eba67046bd8d183d3a6198c978e1a",
+          "accesses": ["byte read to append post-freeze manual review record"],
+          "read_count": 1
+        }
+      ],
+      "actual_accesses": [
+        {
+          "operation": "exec_command cat",
+          "paths": ["/tmp/knorvia-memory-agents-contracts-20261002/markdown.md"]
+        },
+        {
+          "operation": "exec_command cat",
+          "paths": [
+            "/tmp/knorvia-memory-agents-contracts-20261002/markdown-api.ts",
+            "/tmp/knorvia-memory-agents-contracts-20261002/shared-api.ts",
+            "/tmp/knorvia-memory-agents-contracts-20261002/sharedSelection-api.ts"
+          ]
+        },
+        {
+          "operation": "exec_command cat",
+          "paths": [
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md"
+          ]
+        },
+        {
+          "operation": "apply_patch create",
+          "paths": [
+            "/tmp/knorvia-memory-agents-candidates-20261002/markdown/raw-first-ready/subagents/subagentMarkdown.ts"
+          ]
+        },
+        {
+          "operation": "exec_command python3 metadata",
+          "paths": [
+            "/tmp/knorvia-memory-agents-contracts-20261002/markdown.md",
+            "/tmp/knorvia-memory-agents-contracts-20261002/markdown-api.ts",
+            "/tmp/knorvia-memory-agents-contracts-20261002/shared-api.ts",
+            "/tmp/knorvia-memory-agents-contracts-20261002/sharedSelection-api.ts",
+            "/workspace/knorvia-studio/AGENTS.md",
+            "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "/tmp/knorvia-memory-agents-candidates-20261002/markdown/raw-first-ready/subagents/subagentMarkdown.ts",
+            "/tmp/knorvia-memory-agents-candidates-20261002/markdown/candidate.json"
+          ],
+          "purpose": "source hashing, nonblank counting, manifest creation only"
+        },
+        {
+          "operation": "exec_command python3 metadata",
+          "paths": ["/tmp/knorvia-memory-agents-candidates-20261002/markdown/candidate.json"],
+          "purpose": "read existing manifest and append post-freeze manual review; raw candidate not edited or reread"
+        }
+      ],
+      "limits": {
+        "maximum_nonblank_lines_per_source": 400,
+        "observed_nonblank_lines": 297,
+        "suppressions": false,
+        "repository_edits": false,
+        "implementation_dependency_test_history_candidate_discovery": false,
+        "runtime_fs_user_memory_provider_network_credentials_process_io": false,
+        "tests_or_builds_run": false
+      },
+      "exposure": {
+        "parent_coordinator_source_exposed": true,
+        "author_implementation_source_exposed": false,
+        "public_grammar_policy_literals_retained_schema_yaml_ports_novelty_claimed": false,
+        "retained_ports": [
+          "yaml.parse",
+          "yaml.stringify",
+          "@knorvia/shared.createAgentStateId",
+          "@knorvia/shared.parseSubagentMarkdownSelection",
+          "@knorvia/shared.formatSubagentMarkdownModel"
+        ],
+        "licensing": "No license limitation or grant inferred from fresh authoring; retained source attribution and licenses require parent assessment."
+      },
+      "self_review": {
+        "order": "Manual review began only after the frozen-source SHA-256 and manifest were written.",
+        "method": "Compared authored source available in conversation against allowed contract; no candidate execution or additional source reads.",
+        "result": "No corrections identified; first-ready source remains frozen and unchanged.",
+        "revisions": []
+      },
+      "verification": "Metadata only; no execution, tests, builds, dependency inspection, or repository discovery."
+    }
+  }
+}
