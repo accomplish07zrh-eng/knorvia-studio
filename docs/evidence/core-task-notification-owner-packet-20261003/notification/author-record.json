@@ -1,0 +1,213 @@
+{
+  "task": "Whole independent runtime-task notification formatting/projection owner",
+  "author": "Delegated author /root/task_notification_complete_author_20261003",
+  "repository": "/workspace/knorvia-studio",
+  "authorized_input_scope": "Only the six frozen public inputs named below; own output reads allowed for manual review, correction and byte accounting.",
+  "accounting_scope": "All explicit task file reads and writes performed by this author through submitted tool scripts. This is a self-report on an instruction-only shared executor, not an OS audit or an inventory of interpreter/runtime/library file access.",
+  "line_count_method": "Python bytes.splitlines() count; bytes are raw UTF-8 file bytes, hashes are SHA256 of complete read/written byte payloads. Repeated reads and superseded writes count cumulatively.",
+  "files": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-task-notification-owner-packet-20261003/contract.md",
+      "read_count": 1,
+      "read_bytes": 8998,
+      "read_lines": 36,
+      "read_sha256": "a13a78106f59d9d445cba5a8e572c55eef1b9fa2941fab0b64bbec84e0acde41",
+      "write_count": 0,
+      "write_bytes": 0,
+      "write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-task-notification-owner-packet-20261003/public-api.d.ts",
+      "read_count": 1,
+      "read_bytes": 1573,
+      "read_lines": 42,
+      "read_sha256": "db1df197f0758aa68ad99edb0099819b889de94d3f3725c668de8f93bd557ca8",
+      "write_count": 0,
+      "write_bytes": 0,
+      "write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-task-notification-owner-packet-20261003/dependency-api.d.ts",
+      "read_count": 1,
+      "read_bytes": 2430,
+      "read_lines": 62,
+      "read_sha256": "d3da28eeec24bf5ff6e44c088672984d2d6f6762023bca54b2f311be987191f4",
+      "write_count": 0,
+      "write_bytes": 0,
+      "write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-task-notification-owner-packet-20261003/imports.json",
+      "read_count": 1,
+      "read_bytes": 1013,
+      "read_lines": 34,
+      "read_sha256": "b2ec90bf56b6200279d0bc52bec24b295bb3b8267a960e7cca9f0cde3d56b3a1",
+      "write_count": 0,
+      "write_bytes": 0,
+      "write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-task-notification-owner-packet-20261003/required-data.json",
+      "read_count": 1,
+      "read_bytes": 16852,
+      "read_lines": 814,
+      "read_sha256": "d553a8c7f0d61e58bcd580db52d64834b6625dc3ad59a8ecfdcaa8d7e728361f",
+      "write_count": 0,
+      "write_bytes": 0,
+      "write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-task-notification-owner-packet-20261003/public-data.json",
+      "read_count": 1,
+      "read_bytes": 445,
+      "read_lines": 17,
+      "read_sha256": "6855f27bd890d45214e79063eac28f7d27f6296498e451d101c984357c10d09f",
+      "write_count": 0,
+      "write_bytes": 0,
+      "write_lines": 0
+    },
+    {
+      "path": "/tmp/knorvia-task-notification-owner-20261003/notification.ts",
+      "read_count": 3,
+      "read_bytes": 39878,
+      "read_lines": 756,
+      "read_events": [
+        {
+          "purpose": "First complete manual body review and byte accounting",
+          "bytes": 13293,
+          "lines": 252,
+          "sha256": "e9eda7734e0471bfa5e5decb971b22e8bc7339b86282f53d9138f3b11be1179e"
+        },
+        {
+          "purpose": "Read for manual quote-escape correction",
+          "bytes": 13293,
+          "lines": 252,
+          "sha256": "e9eda7734e0471bfa5e5decb971b22e8bc7339b86282f53d9138f3b11be1179e"
+        },
+        {
+          "purpose": "Complete corrected-body manual review and final byte accounting",
+          "bytes": 13292,
+          "lines": 252,
+          "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+        }
+      ],
+      "write_count": 2,
+      "write_bytes": 26585,
+      "write_lines": 504,
+      "write_events": [
+        {
+          "purpose": "Initial complete whole-file authorship",
+          "bytes": 13293,
+          "lines": 252,
+          "sha256": "e9eda7734e0471bfa5e5decb971b22e8bc7339b86282f53d9138f3b11be1179e"
+        },
+        {
+          "purpose": "Same-author manual correction removing an unnecessary quote escape from the full XML Unicode regular expression",
+          "bytes": 13292,
+          "lines": 252,
+          "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+        }
+      ],
+      "current": {
+        "bytes": 13292,
+        "lines": 252,
+        "sha256": "24b99ab5aafdf062695abf002ee58ce85fb364034647deeb2776de4587ef7c2b"
+      },
+      "chmod": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-task-notification-owner-20261003/author-record.json",
+      "read_count": 0,
+      "read_bytes": 0,
+      "read_lines": 0,
+      "write_count": 1,
+      "write_bytes": 13918,
+      "write_lines": 213,
+      "sha256_reporting": "The SHA256 of the complete serialized receipt is computed in memory and supplied in the tool result and final handoff; it is not embedded in itself. This receipt file is never read from disk by the author.",
+      "chmod": "0444"
+    }
+  ],
+  "operation_order": [
+    "Read contract.md, public-api.d.ts, dependency-api.d.ts, imports.json, required-data.json, public-data.json in that order; hash/count each and print each complete input for manual reading.",
+    "Create the authorized /tmp output directory; write notification.ts revision 1.",
+    "Read notification.ts revision 1 in full for manual review and SHA256/byte/line accounting.",
+    "Read notification.ts revision 1 for the same-author manual correction; write notification.ts revision 2.",
+    "Read notification.ts revision 2 in full for final manual review and SHA256/byte/line accounting.",
+    "Serialize this complete cumulative receipt in memory, determine its own byte/line counts by in-memory accounting, write author-record.json once, hash the in-memory byte payload and report the hash externally.",
+    "Set notification.ts and author-record.json permissions to 0444 using chmod; no further content reads or writes."
+  ],
+  "totals": {
+    "unique_explicitly_read_files": 7,
+    "read_operations": 9,
+    "cumulative_read_bytes": 71189,
+    "cumulative_read_lines": 1761,
+    "frozen_input_read_operations": 6,
+    "frozen_input_read_bytes": 31311,
+    "frozen_input_read_lines": 1005,
+    "own_source_read_operations": 3,
+    "own_source_read_bytes": 39878,
+    "own_source_read_lines": 756,
+    "unique_written_files": 2,
+    "content_write_operations": 3,
+    "cumulative_written_bytes": 40503,
+    "cumulative_written_lines": 717,
+    "source_write_operations": 2,
+    "cumulative_source_written_bytes": 26585,
+    "cumulative_source_written_lines": 504,
+    "receipt_write_operations": 1,
+    "receipt_read_operations": 0,
+    "final_output_bytes": 27210,
+    "final_output_lines": 465,
+    "chmod_operations": 2,
+    "output_directory_creation_requests": 1,
+    "repository_source_writes": 0,
+    "extra_scratch_or_accounting_file_writes": 0
+  },
+  "design_reasoning_from_public_contract": [
+    "The exact supplied interface is retained; the three local function exports and all supplied workflow helper/type reexports remain present. Type imports and the provider helper import preserve their original module identities; dependency implementations are neither read nor reconstructed.",
+    "Exact dispatch isolates local_agent, local_bash and local_workflow. Every other task type reaches the general formatter; local_dynamic_workflow is deliberately not treated as local_workflow.",
+    "Fresh local arrays project input without assigning to input or nested structures. String values use one original-string replacement pass; general/agent/workflow XML replaces five characters, while bash and provider multiline errors replace only three. Numeric interpolation retains native template conversion.",
+    "General tags are indented two spaces, general metrics four spaces; local tags are unindented. Optional string fields use the required truthy or !== undefined gate, and sections preserve reports-before-artifacts ordering and raw count/shown semantics.",
+    "General usage includes only present metrics in the required order and never falls back for total-tokens. Agent usage uses nullish total-token fallback, preserves zero and includes only its three metrics adjacent in one usage line. Falsey or empty usage is omitted.",
+    "Workflow status uses runStatus ?? status. Provider helper invocation is gated solely by failure?.providerStop !== undefined, forwards the supplied failure identity and taskId without copying, and allows synchronous exceptions to propagate. Undefined helper output falls back to the ordinary error.",
+    "Workflow guidance is appended only when requested, after one empty line. Its precedence is completed, then each recognized stopReason independently of the other status, then stopped, errored and generic fallback. Artifact presence uses !== undefined, and script path presence distinguishes undefined from an empty string.",
+    "Required guidance prose, XML/entity values and interpolated template fragments are preserved as source-derived public preservation material. Run IDs and script paths in guidance are inserted raw, including the file-aware error branch and model path suffix.",
+    "Non-bash final projections are truncated exactly once after the entire XML and guidance are joined. Native length/slice implement the 120000 UTF-16 code-unit boundary with the exact newline[truncated] suffix; there is no surrogate repair or closing-tag repair. Bash bypasses truncation.",
+    "Private helper names and decomposition were chosen by this author from the public contract. No original notification body was supplied or read, and no equivalence to a hidden original is claimed beyond the stated manual contract review."
+  ],
+  "manual_review_only": {
+    "method": "Read the complete initial and corrected authored body; reason manually from the six public inputs. No authored source, sample harness or compiler was executed.",
+    "reviewed_by_reasoning": [
+      "Declared API, import identities, direct reexports and original provider helper arguments/error propagation.",
+      "Exact dispatch; required XML order/indentation; truthy optional fields versus empty-but-present result/error/stop-reason; full versus basic escaping.",
+      "Usage absence and zero preservation; agent nullish fallback; general metric order with no total-token fallback.",
+      "All guidance branch precedence and required paragraph order; artifact presence including count zero; missing versus empty script path; raw guidance substitutions.",
+      "Reports/artifacts missing versus present empty preview; shown attribute only when shown < count; provider output precedence/fallback.",
+      "Native UTF-16 boundary at 120000, overflow suffix, possible split surrogate, final-guidance truncation and bash exception."
+    ],
+    "manual_corrections": [
+      "One same-author correction before handoff: remove an unnecessary double-quote escape in the five-character Unicode regular expression. Two complete source writes, not one, are accounted above."
+    ],
+    "tests_run": 0,
+    "compiler_or_transpilation_runs": 0,
+    "lint_runs": 0,
+    "source_execution_runs": 0,
+    "project_or_semantic_checks_run": 0,
+    "ordinary_tests_or_source_emitted_matrices": "None",
+    "deterministic_runtime_validation": "Not performed; manual judgment only."
+  },
+  "exposure_and_limitations": {
+    "original_body_exposure": "No original notification implementation body supplied to this author or read by this author.",
+    "allowed_material_exposure": "All six frozen public inputs were read in full. Exact source-derived prose, imports, entities, numeric and template data are intentionally exposed and retained.",
+    "other_source_history_tests_docs_dependency_implementation_reads": "None by this author in the explicit task I/O recorded here.",
+    "own_output_exposure": "The two source revisions were manually reviewed as recorded; the receipt was generated and counted in memory without an on-disk read.",
+    "shared_executor": "Instruction-only shared executor; no OS audit, process-level isolation claim or independently audited file-access boundary.",
+    "curator_history_repaired_scratch_qualification": "Any source-exposed curator, historical exposure or repaired scratch breach remains qualified and is not cured by this authorship. Their existence or scope was not independently inspected by this author.",
+    "clean_room_novelty_rights_grants_material_closure": "No clean-room, novelty, originality/license credit, rights/grants, or material/standalone semantic closure claim is made. Policy/helper owners and registry remain original dependencies.",
+    "actual_agents_workflows_notifications_providers_business_network_native_io": "No actual agents, workflows, notifications, providers or business operations were run; no network access was performed. File I/O is limited to the explicit authorized reads, two outputs, directory creation and chmod described above.",
+    "saved_fast": "Saved Fast unchanged/unverified; no Saved Fast material read, modified or validated.",
+    "registry_and_root_review": "Registry unchanged by this author; registry/root accepted review is report-only, not a grant or verified acceptance.",
+    "freeze_gate": "Complete source and receipt are handed off read-only for curator freeze/commit before body review. Any real later correction must return to this same author for complete new source and cumulative receipt; no curator source patch is authorized by this handoff.",
+    "remaining_validation": "Compiler/runtime equivalence and imported policy implementations remain unverified by design; no claim that manual review is executable proof."
+  }
+}
