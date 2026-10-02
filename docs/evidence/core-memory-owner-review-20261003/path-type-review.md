@@ -1,0 +1,5 @@
+# Scoped manual public type safety review
+
+The complete frozen original path candidate has an unguarded [0] access from split before replace. Existing tsconfig.base.json enables noUncheckedIndexedAccess and core enables strict; a string array indexed value may be undefined in the static type system. No semantic/project compiler was run. Correct only this manually identified indexed-value typing issue with your own design, preserving all public APIs/imports/authority/behavior/data. Return a full complete candidate and full receipt, not a patch; original is archived unchanged. A nonempty split result can be established explicitly or use an appropriate nullish string fallback.
+
+Only new output paths /tmp/knorvia-memory-owners-20261003/path-v2/memory-file-path.ts and author-record.json. Additional allowed reads: this finding, your own original source/receipt, six originally supplied frozen inputs. No source/history/tests/dependencies/other drafts/compiler/build/lint/tests/business ports. Full lineage, input read bindings and explicit instruction-only exposure/operation qualifications; chmod0444 complete outputs before reporting.

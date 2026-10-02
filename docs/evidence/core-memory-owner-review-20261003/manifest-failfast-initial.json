@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "groups": [],
+  "error": {
+    "name": "AssertionError",
+    "message": "a rejected stat must omit its entry without awaiting a stalled preview\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: a rejected stat must omit its entry without awaiting a stalled preview\n\nfalse !== true\n\n    at /workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/minimal-safety-probes.cjs:49:152\n    at async gate (/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/minimal-safety-probes.cjs:8:93)\n    at async main (/workspace/knorvia-studio/docs/evidence/core-memory-owner-review-20261003/minimal-safety-probes.cjs:46:1)"
+  },
+  "qualification": "Failure preserved; candidate originals not modified."
+}

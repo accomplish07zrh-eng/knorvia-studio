@@ -1,0 +1,191 @@
+{
+  "scope": "manifest",
+  "baseline": "b5152875cb5aa236e920af07779b05fe2b8b8752",
+  "typescript": "6.0.2",
+  "publicApiEqual": true,
+  "importsEqual": true,
+  "dependenciesExist": true,
+  "predecessorDiagnosticsFrozen": true,
+  "predecessorDiagnostics": [],
+  "candidateDiagnostics": [],
+  "inputs": [
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/contract.md",
+      "bytes": 3810,
+      "sha256": "a0d48cccac112ee51039377a7884476f791642b2901d30f806b62980ed7c1c25",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/public-api.d.ts",
+      "bytes": 376,
+      "sha256": "5a14e54117352a09ceb0da907090397083febfeb8b5e20e41443dec3b347aab6",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/dependency-api.d.ts",
+      "bytes": 181,
+      "sha256": "cdd5bbd9801ee7a9bc725b6c36e2acfe0e1f8e55d0a07a9e81289b84faa4cb76",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/public-shapes.d.ts",
+      "bytes": 6340,
+      "sha256": "5c85152002ff5b80a9c4abdd46f480458df85224a3bd76a71b3dbb8e3d482ebd",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/imports.json",
+      "bytes": 364,
+      "sha256": "3f7489a358106d568573010915a296af5996f270205e59de1d98e39433df8d7a",
+      "exact": true,
+      "receiptMatches": true
+    },
+    {
+      "path": "docs/evidence/core-memory-owner-packet-20261003/manifest/output-data.json",
+      "bytes": 1041,
+      "sha256": "2dc3df7f647b8a9d53f3dc7bbcd5d0a80f4c436235f52df2433a97f23e92d4b2",
+      "exact": true,
+      "receiptMatches": true
+    }
+  ],
+  "files": [
+    {
+      "file": "manifest.ts.txt",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest/manifest.ts",
+      "target": "apps/cli/packages/core/src/memory/recall/manifest.ts",
+      "bytes": 3981,
+      "lines": 101,
+      "sha256": "079ee9dbae81ab9651dc96b83d4b1cd01f40c0ae7061dff3b6dfc30cfed05794",
+      "mode": "444",
+      "exact": true,
+      "receiptMatches": true,
+      "below400": true,
+      "originalStillInstalled": true
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-memory-owners-20261003/manifest/author-record.json",
+      "bytes": 9523,
+      "lines": 144,
+      "sha256": "25609f7ee870632ad4fafb7a78841ef51dadb5d9c6b8c856956dc69aa36dc6b0",
+      "mode": "444",
+      "exact": true
+    }
+  ],
+  "boundaries": [
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/session-store.port.ts",
+      "bytes": 36215,
+      "sha256": "09637e9d65dc8cc9892d473b2727364a19876c205370e39d3a52c956df748325",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/types.ts",
+      "bytes": 312,
+      "sha256": "d9557940db384c6c876989be921e75d66c54df3cdd6a08a2dc0a8e689d8d2f40",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/tool-result.ts",
+      "bytes": 3458,
+      "sha256": "cffccd59e777622f1e09fa24bb326af2f1f27349ec1416acb040e5e4a2441f0e",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime/helpers/media-budget.ts",
+      "bytes": 9134,
+      "sha256": "26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-command-parser.ts",
+      "bytes": 8047,
+      "sha256": "22a8f172e0615cd08687a85764bdaf1cb349cf1971420e8e61b04f163e9b44dc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/bash-semantics.ts",
+      "bytes": 5922,
+      "sha256": "68455c0492a35ea15f680d38ffc58d760827a6eef33b09a3845b92b500c5c26b",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/model/auxiliary-model-options.ts",
+      "bytes": 549,
+      "sha256": "71155629684b34d5ba3b5cee2b771086c48f48ed216669bd8f2488c0f8ecfbdf",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/model.ts",
+      "bytes": 2186,
+      "sha256": "9f85b44235e4c221a9092c659a6fea3267c635b62ad77118873d9670167e9279",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/model/index.ts",
+      "bytes": 33076,
+      "sha256": "66bade3a80b9901e2fc83749316eaa840568edb4f165ad07bcc71084b5dd49d1",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/types.ts",
+      "bytes": 17225,
+      "sha256": "0bf55be10fffd47251372759a64fbc48d6f858bfae71c39f821998498a24a512",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/path-policy.ts",
+      "bytes": 2265,
+      "sha256": "e7e0568b2ee8e2d36400aceabcba708615e9f7226089eb11d10b035147c51dee",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/contracts/src/interfaces/file-system.port.ts",
+      "bytes": 9283,
+      "sha256": "e0a511572634c5291ff9f86c27339dc4a4e71676e388147a22259c7c64fa2fe3",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/package.json",
+      "bytes": 1372,
+      "sha256": "59bcdc65085634d6101625bdf5131acf2d7e3232dbc4868ac1cc53e34edcdd29",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 644882,
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/directory.ts",
+      "bytes": 814,
+      "sha256": "04058c420517931bb3366ad590ba0acfadee132fe875e51b5b7cb22febfeca93",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/origin-session.ts",
+      "bytes": 1859,
+      "sha256": "5fd667e140c5b79c697c973cb6f05597c8c37d0ea2b404754f31eb94621e4fc0",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/project-root.ts",
+      "bytes": 1106,
+      "sha256": "69ea16dc573f1e60e5579be494d02dc7735ab24821208071f304e5699c2d7f55",
+      "unchanged": true
+    },
+    {
+      "path": "apps/cli/packages/core/src/memory/recall/index.ts",
+      "bytes": 147,
+      "sha256": "50b35875c6b5aa4680b77da57bb0e0a3822c7647801bc21b5df6696d7ea0fd25",
+      "unchanged": true
+    }
+  ],
+  "passed": true,
+  "qualification": "Isolated declaration/metadata checks only, not semantic/project compilation. Complete original archive reviewed before installation, opaque original ports remain untouched. Self-report/instruction-only shared executor; no access audit, clean separation or rights assertion. Ordinary checks deferred."
+}

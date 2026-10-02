@@ -1,0 +1,1 @@
+{"originalFailure":"messageCount1 !==2","cause":"Curator fixture mistakenly included current cursor write while asserting missing-cursor behavior","correction":"Rename synthetic prior-write message id so truthy cursor is absent; original failed harness and result retained; no author source change"}
