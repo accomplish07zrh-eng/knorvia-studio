@@ -1,0 +1,44 @@
+{
+  "baselineCommit": "e188428fa9f62df70650230190e3127e4ff118d9",
+  "freezeCommit": "afed3f4",
+  "draftCommit": "1f5d140",
+  "owner": "apps/cli/packages/core/src/runtime/methods/background.ts",
+  "helpers": [
+    "apps/cli/packages/core/src/runtime/methods/background-payload.ts"
+  ],
+  "packetAndDraftPins": {
+    "api.d.ts": "c0492d410d064075e3b1ef7683af9cb44fd483f82e23fc56685c7f0a915f5613",
+    "contract.md": "ad8d8b0dde50fe5fce6deeab03b719d8b517ed18198d62268759d72a5bdb6c63",
+    "draft-01/background-access-journal.md": "3d076aa7ae8f8d5b66a85ea02709b5dc11b3c4a15751d4cbb9fc01f7f5b6d61b",
+    "draft-01/background-draft.sha256": "9124463226694c63136e0d34075f0dc2b794e832052b4c95c06eb2b725438bf8",
+    "draft-01/background-evidence.sha256": "4c0fc739097831cb09ab90bf0e8a3ab327f7ee2c8a77d220477518e69b39d3b7",
+    "draft-01/background.ts": "4d4cd856e533d6432a42b3e0484863b1cb8cabce1b25fbf5a2cbf77d40b38271",
+    "lineage.json": "911a361b29f951837a17599e8a96c663810a43430c1c1ba7f2b849c994a8d4a4",
+    "supporting-api.d.ts": "57a262b10f9937eff0cbc268b141f6e9304bd1d2da448553a3263d33efa393a2"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-background-baseline-20261003.json",
+    "sha256": "98f7010aa664a834bf79675d7ed83aa5ddd99955ee730d7558fd1241e59a594f"
+  },
+  "finalPins": {
+    "src/runtime/methods/background.ts": "91ef000bfdaee2bc62ffd773fd820ecfba14eb9f4d488540488575f4e761b57e",
+    "dist/runtime/methods/background.js": "cd973321c116e624f6a4b45f46f3714df3ba0ab7e5afa53c83dd50be65d9f1c3",
+    "src/runtime/methods/background-payload.ts": "b70eabb9f81b955909f0b3a4c4ec3b865d70900b23669f76b81b7868c87e3691",
+    "dist/runtime/methods/background-payload.js": "4c7a95d48461cc82a30b6929578d1c561aed8238fbdf8a18b50ca1b929b6ae3e"
+  },
+  "design": "Captured stop target followed by explicit terminal/type admission and existing backend dispatch; Bash request, cancel, missing-snapshot and registry publication retain their original native async phases. Pure public payload projection has its own internal module; registry and existing adapters retain ownership.",
+  "postDraftCorrections": [
+    "Curator restores one-read captured terminal status test; port/status vocabulary and all existing await ownership retained.",
+    "Pure payload helper relocation is a400-line module boundary, not separate originality credit."
+  ],
+  "authorship": "Fresh internal fork_turns=none authors, Sol/high, only own body-free API/contract/supporting facts and recorded clarifications. Journals report accesses; sealed drafts precede curator comparison. Curator source-exposed; packet and feedback source-derived. No absolute isolation/clean-room or whole-file rights claim.",
+  "retainedExpression": "Fixed APIs/type/protocol names, record fields and key order, runtime errors/log/prose labels, original dependency seams and native await/effect combinations retained. Conventional maps, object projections, spreads, predicates and loop glue may match. Authorship process and tests do not resolve licensing; attribution/notice obligations unchanged.",
+  "checks": "Shared scoped compiler:0 diagnostics,10 historical/current call signatures equal.5source lint94rules0;6format files pass;architecture0. One final coherent emitted safety pass3groups+1ID regression+1cancelled-log observation. Subsequent model-status-only lint correction rerun1overlapping group+1overlapping log observation; no extra distinct group credit.15 exact current artifacts.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplicate matrices deliberately unrun per speed cadence.",
+    "Three synthetic groups do not cover all stop/usage/status branches; actual consumer call sites traced, not full runtime launched.",
+    "Transitive dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no bypass or settings change.",
+    "Root independently reviews correctness/expression/licence; no header/inventory grant, integration or publication claim."
+  ]
+}
