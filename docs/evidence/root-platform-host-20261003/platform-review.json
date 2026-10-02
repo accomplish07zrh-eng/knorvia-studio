@@ -1,0 +1,37 @@
+{
+  "utc": "2026-10-02T23:07:58.900018+00:00",
+  "scope": "Complete platform IPC registration candidate only. desktopHostProcess remains unchanged/unimplemented in this checkpoint.",
+  "packetCommit": "f13bf0d5bf25eca17be4d1b6efbc875b55abdbfa",
+  "freeze": "platform-freeze.json",
+  "exposure": "Functional/public packet before platform implementation-body comparison; post-freeze same-root source review. Source-exposed curator and broad root context remain. No separately isolated author/reviewer or legal clean room. Host body remains unread.",
+  "corrections": [
+    "Window workspace cleanup retains on(closed) rather than once(closed), including original callback boolean return; frozen synthetic repeated-close counterexample reproduced and corrected.",
+    "Corrected public dependency type name LocalDiagnosticRequest, restored string|ApplicationIconRequest and string command admission annotations/cast.",
+    "Formatting only otherwise."
+  ],
+  "retained": "All43 public registrations/order/arities, original schemas, warning strings, mandatory sender/window/main-frame checks, port sequencing and conventional forwarding expressions retained. No cosmetic originality or independent-origin credit assigned.",
+  "checks": {
+    "packet": "All9 input hashes and2 target source hashes match",
+    "minimal": "Three paired fake-port identity/authority/data groups plus43 setup order/arity bindings. Frozen once/on mismatch preserved. No actual side effects.",
+    "api": "Sole public function and referenced option shape match qualified declaration",
+    "lint": "1 file,94 rules,0 errors/warnings",
+    "architecture": "0 violations/baseline0/new0",
+    "whitespace": "clean",
+    "semantic_types": "Unrun for this batch; earlier root dependency closure blockers remain, no project pass claim.",
+    "deferred": [
+      "ordinary suites",
+      "full builds",
+      "native IPC/Electron consumers",
+      "Host owner implementation",
+      "cross-lane combination",
+      "final independent-expression/rights review"
+    ]
+  },
+  "safety": "No actual dialogs, native windows, files, settings, permissions, browser/IPC, commands, credentials or user data operated. No main merge/deployment or other lane source imported. All21 material duties remain open.",
+  "source": {
+    "path": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+    "bytes": 14434,
+    "lines": 343,
+    "sha256": "126d6fab3205d624b87eb48871540d2c24a576261892020627dc6ff4d16ef370"
+  }
+}

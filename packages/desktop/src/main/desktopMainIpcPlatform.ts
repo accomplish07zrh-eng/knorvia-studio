@@ -1,4 +1,3 @@
-/* eslint-disable max-lines -- 桌面平台 IPC 集中装配，拆散会让权限边界更难审计；行数随平台能力增长。 */
 import { BrowserWindow, dialog, ipcMain, nativeTheme } from "electron";
 import { readKnorviaStdioTapDevState } from "@knorvia/services/node";
 import {
@@ -58,7 +57,6 @@ import { registerDesktopSaveFileIpcHandler } from "./desktopSaveFile.js";
 import { registerDesktopPrintToPdfIpcHandler } from "./desktopPrintToPdf.js";
 import { applyDesktopWindowGlass } from "./desktopWindowGlass.js";
 import { registerCuaPipActiveSessionIpc } from "./desktopCuaPipIpc.js";
-
 export function registerPlatformIpcHandlers(options: {
   checkReleaseUpdate?: () => Promise<ReleaseUpdateCheckResult>;
   fetchHelpConfig?: () => Promise<unknown>;
@@ -70,8 +68,13 @@ export function registerPlatformIpcHandlers(options: {
   resolveSystemLocale: () => Locale;
   focusWorkspaceInExistingWindow: (
     path: string,
-    extra?: { skipWindowId?: number },
-  ) => { activated: boolean; winId?: number };
+    extra?: {
+      skipWindowId?: number;
+    },
+  ) => {
+    activated: boolean;
+    winId?: number;
+  };
   windowWorkspaceMap: Map<number, Set<string>>;
   windowUnreadCountMap: Map<number, number>;
   currentApplicationLocale: () => Locale;
@@ -84,65 +87,38 @@ export function registerPlatformIpcHandlers(options: {
   getDesktopSessionActivity: () => {
     runningAgentSessionCount: number;
   };
-  // Main 只同步原生窗口所消费的字段，不接管配置存储层的输入归一化。
   syncAppSettings: (
     patch: Partial<
       Pick<AppSettings, "closeToTrayOnWindows" | "keepAwakeWhileRunning" | "shortcutBindings">
     >,
   ) => void;
-  /** 快捷键设置页录制态开关：true 时 main 重建菜单摘除可配置 accelerator */
   setShortcutRecordingActive?: (active: boolean, ownerWebContentsId?: number | null) => void;
-  /** 桌面端设备标识符（基于 userData 路径的 SHA-256） */
   deviceMid: string;
-  /** CDP-on-guest pivot：renderer `<webview>` 上报 guest webContentsId → main attach。 */
   attachBrowserGuest?: AttachBrowserGuest;
-  /** renderer 自由尺寸变化 → 当前窗口所属的受控 tab。 */
   updateBrowserGuestViewport?: UpdateBrowserGuestViewport;
-  /** 可信 owner renderer 上报的后台截图表面 ready。 */
   reportBrowserScreenshotSurfaceReady?: ReportBrowserScreenshotSurfaceReady;
-  /** Browser tab 关闭、挂起、恢复与跨重启 shell IPC。 */
   browserViewResidencyHandlers?: BrowserViewResidencyIpcHandlers;
-}) {
+}): void {
   ipcMain.handle(PlatformChannels.SelectDirectory, async () => {
     const result = await dialog.showOpenDialog({
       properties: ["openDirectory", "createDirectory"],
     });
-    if (result.canceled || result.filePaths.length === 0) {
-      return null;
-    }
-    return result.filePaths[0];
+    return result.canceled || result.filePaths.length === 0 ? null : result.filePaths[0];
   });
-
   ipcMain.handle(PlatformChannels.SelectFile, async () => {
-    const result = await dialog.showOpenDialog({
-      properties: ["openFile"],
-    });
-    if (result.canceled || result.filePaths.length === 0) {
-      return null;
-    }
-    return result.filePaths[0];
+    const result = await dialog.showOpenDialog({ properties: ["openFile"] });
+    return result.canceled || result.filePaths.length === 0 ? null : result.filePaths[0];
   });
-
   ipcMain.handle(PlatformChannels.SelectFiles, async () => {
-    const result = await dialog.showOpenDialog({
-      properties: ["openFile", "multiSelections"],
-    });
-    if (result.canceled || result.filePaths.length === 0) {
-      return [];
-    }
-    return result.filePaths;
+    const result = await dialog.showOpenDialog({ properties: ["openFile", "multiSelections"] });
+    return result.canceled || result.filePaths.length === 0 ? [] : result.filePaths;
   });
-
   registerDesktopSaveFileIpcHandler(options.logger);
   registerDesktopPrintToPdfIpcHandler(options.logger);
-
   ipcMain.handle(
     PlatformChannels.CreateTempTextAttachment,
-    async (_event, payload: CreateTempTextAttachmentRequest) => {
-      return createTempTextAttachment(payload);
-    },
+    async (_event, payload: CreateTempTextAttachmentRequest) => createTempTextAttachment(payload),
   );
-
   registerDesktopBrowserIpcHandlers(
     options.attachBrowserGuest,
     options.updateBrowserGuestViewport,
@@ -150,30 +126,23 @@ export function registerPlatformIpcHandlers(options: {
     options.reportBrowserScreenshotSurfaceReady,
     options.browserViewResidencyHandlers,
   );
-
   ipcMain.handle(PlatformChannels.ActivateOrSetWorkspace, (event, path: string) => {
-    const validatedPath = nonEmptyStringSchema.parse(path);
-    const senderWin = BrowserWindow.fromWebContents(event.sender);
-    const activated = options.focusWorkspaceInExistingWindow(validatedPath, {
-      skipWindowId: senderWin?.id,
-    });
-    if (activated.activated) {
+    const workspacePath = nonEmptyStringSchema.parse(path);
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (options.focusWorkspaceInExistingWindow(workspacePath, { skipWindowId: win?.id }).activated)
       return { activated: true };
-    }
-
-    if (senderWin) {
-      let pathSet = options.windowWorkspaceMap.get(senderWin.id);
-      if (!pathSet) {
-        pathSet = new Set();
-        options.windowWorkspaceMap.set(senderWin.id, pathSet);
-        senderWin.on("closed", () => options.windowWorkspaceMap.delete(senderWin.id));
+    if (win) {
+      let paths = options.windowWorkspaceMap.get(win.id);
+      if (!paths) {
+        paths = new Set<string>();
+        options.windowWorkspaceMap.set(win.id, paths);
+        win.on("closed", () => options.windowWorkspaceMap.delete(win.id));
       }
-      pathSet.add(validatedPath);
-      options.syncTaskRealtimeWorkspaceKeys(senderWin.id, pathSet);
+      paths.add(workspacePath);
+      options.syncTaskRealtimeWorkspaceKeys(win.id, paths);
     }
     return { activated: false };
   });
-
   ipcMain.handle(PlatformChannels.GetResourceUsageSnapshot, (event) =>
     getResourceUsageSnapshot(event.sender.id),
   );
@@ -185,14 +154,11 @@ export function registerPlatformIpcHandlers(options: {
   ipcMain.on(PlatformChannels.OpenResourceManager, () => {
     openResourceManager();
   });
-
   ipcMain.handle(
     PlatformChannels.LoadMcpFromUserDirectory,
-    async (_event, payload?: LoadCliMcpFromUserDirectoryRequest) => {
-      return loadCliMcpFromUserDirectory(payload);
-    },
+    async (_event, payload?: LoadCliMcpFromUserDirectoryRequest) =>
+      loadCliMcpFromUserDirectory(payload),
   );
-
   ipcMain.handle(
     PlatformChannels.SaveMcpToUserDirectory,
     async (_event, payload: SaveCliMcpToUserDirectoryRequest) => {
@@ -206,29 +172,20 @@ export function registerPlatformIpcHandlers(options: {
       }
     },
   );
-
   ipcMain.handle(
     PlatformChannels.MigrateLegacyCommonMcp,
-    async (_event, payload?: MigrateLegacyCommonMcpRequest) => {
-      return migrateLegacyCommonMcp(payload);
-    },
+    async (_event, payload?: MigrateLegacyCommonMcpRequest) => migrateLegacyCommonMcp(payload),
   );
-
-  ipcMain.handle(PlatformChannels.SetTitleBarTheme, (event, theme: string) => {
-    const senderWindow = BrowserWindow.fromWebContents(event.sender);
-    if (!senderWindow) {
-      return;
-    }
-
+  ipcMain.handle(PlatformChannels.SetTitleBarTheme, (event, theme: unknown) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win) return;
     if (theme !== "light" && theme !== "dark" && theme !== "system") {
       options.logger.warn("[title-bar-theme] invalid theme:", theme);
       return;
     }
-
     nativeTheme.themeSource = theme;
-    applyWindowsTitleBarTheme(senderWindow, theme === "system" ? getWindowOverlayTheme() : theme);
+    applyWindowsTitleBarTheme(win, theme === "system" ? getWindowOverlayTheme() : theme);
   });
-
   ipcMain.handle(PlatformChannels.SetWindowGlass, (event, enabled: unknown) => {
     const win = BrowserWindow.fromWebContents(event.sender);
     if (
@@ -246,32 +203,26 @@ export function registerPlatformIpcHandlers(options: {
       return false;
     }
   });
-
   ipcMain.handle(PlatformChannels.SetApplicationLocale, (_event, locale: unknown) => {
-    const result = localeSchema.safeParse(locale);
-    if (!result.success) {
-      options.logger.warn("[application-locale] invalid locale:", formatZodError(result.error));
+    const parsed = localeSchema.safeParse(locale);
+    if (!parsed.success) {
+      options.logger.warn("[application-locale] invalid locale:", formatZodError(parsed.error));
       return;
     }
-
-    return options.applyApplicationLocale(result.data);
+    return options.applyApplicationLocale(parsed.data);
   });
-
   ipcMain.handle(PlatformChannels.GetSystemLocale, () => options.resolveSystemLocale());
-
-  ipcMain.on(PlatformChannels.SyncWindowTabs, (event, paths: string[]) => {
-    const result = stringArraySchema.safeParse(paths);
-    if (!result.success) {
-      options.logger.warn("[sync-window-tabs] invalid payload:", formatZodError(result.error));
+  ipcMain.on(PlatformChannels.SyncWindowTabs, (event, payload: unknown) => {
+    const parsed = stringArraySchema.safeParse(payload);
+    if (!parsed.success) {
+      options.logger.warn("[sync-window-tabs] invalid payload:", formatZodError(parsed.error));
       return;
     }
     const win = BrowserWindow.fromWebContents(event.sender);
-    if (win) {
-      options.windowWorkspaceMap.set(win.id, new Set(result.data));
-      options.syncTaskRealtimeWorkspaceKeys(win.id, result.data);
-    }
+    if (!win) return;
+    options.windowWorkspaceMap.set(win.id, new Set(parsed.data));
+    options.syncTaskRealtimeWorkspaceKeys(win.id, parsed.data);
   });
-
   ipcMain.on(PlatformChannels.SyncWindowUnreadCount, (event, payload: unknown) => {
     handleWindowUnreadCountSync(
       BrowserWindow.fromWebContents(event.sender),
@@ -287,33 +238,22 @@ export function registerPlatformIpcHandlers(options: {
   ipcMain.on(
     PlatformChannels.WindowControlsOverlayReady,
     (event, payload: WindowControlsOverlayReadyPayload) => {
-      const senderWindow = BrowserWindow.fromWebContents(event.sender);
-      if (!senderWindow || !Number.isFinite(payload.zoomLevel)) {
-        return;
-      }
-
-      // preload 早于 React 页面运行，用它同步到的 zoom 档位先调整 macOS 红绿灯，
-      // 避免等 RootStartupLoading 切到 App 页面后才重置位置。
-      syncWindowControlsOverlayForZoomLevel(senderWindow, payload.zoomLevel);
+      const win = BrowserWindow.fromWebContents(event.sender);
+      if (!win || !Number.isFinite(payload.zoomLevel)) return;
+      syncWindowControlsOverlayForZoomLevel(win, payload.zoomLevel);
     },
   );
-
   ipcMain.on(PlatformChannels.SyncAppSettings, (_event, payload: unknown) => {
-    const result = appSettingsPatchSchema.safeParse(payload);
-    if (!result.success) {
+    const parsed = appSettingsPatchSchema.safeParse(payload);
+    if (!parsed.success) {
       options.logger.warn(
         "[settings] invalid app settings sync payload:",
-        formatZodError(result.error),
+        formatZodError(parsed.error),
       );
       return;
     }
-
-    options.syncAppSettings(result.data);
+    options.syncAppSettings(parsed.data);
   });
-
-  // 快捷键录制态：renderer 设置页进入/退出录制时通知。macOS 系统菜单会先于 renderer
-  // 吃掉按键，录制 menu 通道命令必须先摘掉可配置 accelerator，否则按键直接触发原命令。
-  // 附带发起方 webContents id：录制中窗口销毁时 main 侧据此复位（见 index.ts）。
   ipcMain.on(PlatformChannels.SetShortcutRecordingActive, (event, payload: unknown) => {
     if (typeof payload !== "boolean") {
       options.logger.warn("[shortcuts] invalid recording-active payload:", payload);
@@ -321,59 +261,49 @@ export function registerPlatformIpcHandlers(options: {
     }
     options.setShortcutRecordingActive?.(payload, event.sender.id);
   });
-
   ipcMain.on(PlatformChannels.Log, (_event, payload: unknown) => {
-    const result = rendererLogPayloadSchema.safeParse(payload);
-    if (!result.success) {
-      options.logger.warn("[renderer-log] invalid payload:", formatZodError(result.error));
+    const parsed = rendererLogPayloadSchema.safeParse(payload);
+    if (!parsed.success) {
+      options.logger.warn("[renderer-log] invalid payload:", formatZodError(parsed.error));
       return;
     }
-    (
-      options.logger as unknown as { fromRenderer(level: string, args: unknown[]): void }
-    ).fromRenderer?.(result.data.level, result.data.args);
+    const logger = options.logger as typeof options.logger & {
+      fromRenderer?: (level: string, args: unknown[]) => void;
+    };
+    logger.fromRenderer?.(parsed.data.level, parsed.data.args);
   });
-
   ipcMain.handle(PlatformChannels.OpenInFileManager, async (_event, rawPath: string) =>
     openPathInFileManager(rawPath, options.logger),
   );
-
   registerCuaPermissionIpcHandlers({
     logger: options.logger,
     currentApplicationLocale: options.currentApplicationLocale,
   });
-
   ipcMain.handle(PlatformChannels.CanOpenCommunity, async (_event, locale: unknown) => {
-    const result = localeSchema.safeParse(locale);
-    if (!result.success) {
-      options.logger.warn("[community] invalid locale:", formatZodError(result.error));
+    const parsed = localeSchema.safeParse(locale);
+    if (!parsed.success) {
+      options.logger.warn("[community] invalid locale:", formatZodError(parsed.error));
       return false;
     }
-
-    const communityUrl = await resolveCommunityUrl({
-      locale: result.data,
+    const url = await resolveCommunityUrl({
+      locale: parsed.data,
       fetchRemoteConfig: options.fetchHelpConfig,
       logger: options.logger,
     });
-
-    return typeof communityUrl === "string" && communityUrl.length > 0;
+    return typeof url === "string" && url.length > 0;
   });
-
   ipcMain.handle(PlatformChannels.GetDesktopSessionActivity, () =>
     options.getDesktopSessionActivity(),
   );
   ipcMain.handle(PlatformChannels.GetDesktopZoomLevel, (event) => {
-    const senderWindow = BrowserWindow.fromWebContents(event.sender);
-    if (!senderWindow || senderWindow.isDestroyed()) {
-      return { zoomLevel: 0 };
-    }
-
-    return {
-      zoomLevel: resolveDesktopZoomLevelFromFactor(senderWindow.webContents.getZoomFactor()),
-    };
+    const win = BrowserWindow.fromWebContents(event.sender);
+    return !win || win.isDestroyed()
+      ? { zoomLevel: 0 }
+      : { zoomLevel: resolveDesktopZoomLevelFromFactor(win.webContents.getZoomFactor()) };
   });
   ipcMain.handle(PlatformChannels.GetDesktopWindowChromeState, (event) => {
-    const senderWindow = BrowserWindow.fromWebContents(event.sender);
-    return resolveDesktopWindowChromeState(senderWindow?.isMaximized() ?? false);
+    const win = BrowserWindow.fromWebContents(event.sender);
+    return resolveDesktopWindowChromeState(win?.isMaximized() ?? false);
   });
   ipcMain.handle(PlatformChannels.GetInstalledEditors, () => getInstalledEditors());
   ipcMain.handle(
@@ -394,25 +324,20 @@ export function registerPlatformIpcHandlers(options: {
       options.checkReleaseUpdate?.() ??
       Promise.resolve({ status: "failed", currentVersion: "unknown", reason: "settings" }),
   );
-  ipcMain.handle(PlatformChannels.CaptureWindowScreenshot, async (event) => {
-    const senderWindow = BrowserWindow.fromWebContents(event.sender);
-    return captureWindowScreenshot(senderWindow);
-  });
+  ipcMain.handle(PlatformChannels.CaptureWindowScreenshot, async (event) =>
+    captureWindowScreenshot(BrowserWindow.fromWebContents(event.sender)),
+  );
   ipcMain.handle(
     PlatformChannels.OpenInEditor,
     (_event, payload: { editorId: string; path: string; options?: OpenInEditorOptions }) =>
       openInEditor(payload.editorId, payload.path, payload.options),
   );
-
   ipcMain.handle(PlatformChannels.ExecuteDesktopCommand, async (event, command: string) => {
-    const senderWindow = BrowserWindow.fromWebContents(event.sender);
-    const isKnownCommand = (Object.values(DesktopCommandIds) as string[]).includes(command);
-    if (!isKnownCommand) {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!(Object.values(DesktopCommandIds) as string[]).includes(command)) {
       options.logger.warn("[desktop-command] invalid command:", command);
       return;
     }
-
-    // 返回值直通 renderer 的 executeDesktopCommand promise（GetCuaOsSupport 依赖此行为）。
-    return await options.executeDesktopCommand(command as DesktopCommandId, senderWindow);
+    return await options.executeDesktopCommand(command as DesktopCommandId, win);
   });
 }

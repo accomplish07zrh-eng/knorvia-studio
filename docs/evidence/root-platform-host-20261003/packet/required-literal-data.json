@@ -1,0 +1,754 @@
+{
+  "strings": [
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "@knorvia/services/node"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./editors.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./applicationIcons.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./exportLogs.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./localDiagnostics.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopCommandHandlers.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./openInEditor.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./resourceManagerWindow.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./resourceManagerStorage.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopWindowChrome.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopWindowButtonPosition.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopZoom.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopWindowChromeState.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopWindowLifecycle.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopMainIpcHelpers.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopCuaPermissionIpc.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopBrowserViewIpc.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./mcpUserDirectory/index.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./tempTextAttachment.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopSaveFile.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopPrintToPdf.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopWindowGlass.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "./desktopCuaPipIpc.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "closeToTrayOnWindows"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "keepAwakeWhileRunning"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "shortcutBindings"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "openDirectory"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "createDirectory"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "openFile"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "openFile"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "multiSelections"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "closed"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "boolean"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[mcp-user-directory] save failed"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "light"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "dark"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "system"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[title-bar-theme] invalid theme:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "system"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "boolean"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[window-glass] native material unavailable"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[application-locale] invalid locale:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[sync-window-tabs] invalid payload:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[settings] invalid app settings sync payload:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "boolean"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[shortcuts] invalid recording-active payload:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[renderer-log] invalid payload:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[community] invalid locale:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": ""
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "failed"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "unknown"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "settings"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "kind": "text",
+      "text": "[desktop-command] invalid command:"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./desktopResourceTelemetry.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./processResourceMcpTelemetrySource.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./databaseStartupRelay.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "node:crypto"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "node:path"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "electron"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./desktopLaunchMarks.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./broadcastHub.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./taskRealtimeBus.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./hostLogRelay.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./resourceManagerWindow.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./resourceManagerHostSampling.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./desktopRuntimeEnv.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./desktopNetworkTelemetry.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./processResourceCliSource.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./processResourceSelfHeapSource.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./exportLogs.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "./e2eCoverage.js"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "main"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "update-status"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "ELECTRON_RENDERER_URL"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "ELECTRON_RENDERER_URL"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "../renderer/index.html"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "transient"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "permanent"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "transient"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "permanent"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "desktop-continuous"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "web-remote-replayable"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "live"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "cached"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "--inspect-brk=",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "--no-warnings"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "darwin"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "1"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[spawnHostProcess] forked host process for (",
+      "spans": [
+        {
+          "placeholder": "VALUE_2",
+          "text": "), pid="
+        },
+        {
+          "placeholder": "VALUE_3",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[spawnHostProcess] host module path: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_4",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[spawnHostProcess] Knorvia agent binary path: ",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "<not found>"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "data"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "data"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "message"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "Local media preview path authorization is unavailable."
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "backend_unavailable"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "browser executor not ready"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "execution_error"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[app-quit] host running agent sessions updated (",
+      "spans": [
+        {
+          "placeholder": "VALUE_6",
+          "text": ") count="
+        },
+        {
+          "placeholder": "VALUE_7",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "exit"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[spawnHostProcess] host process (",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": ") exited with code "
+        },
+        {
+          "placeholder": "VALUE_9",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[disposeHostProcess] disposing host process (",
+      "spans": [
+        {
+          "placeholder": "VALUE_10",
+          "text": "), pid="
+        },
+        {
+          "placeholder": "VALUE_11",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "unknown"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[disposeHostProcess] failed to post dispose to (",
+      "spans": [
+        {
+          "placeholder": "VALUE_12",
+          "text": "):"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[disposeHostProcess] failed to kill host process (",
+      "spans": [
+        {
+          "placeholder": "VALUE_13",
+          "text": "):"
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "exit"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "exit"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "template",
+      "head": "[disposeHostProcessAndWait] host process exit wait timed out (",
+      "spans": [
+        {
+          "placeholder": "VALUE_14",
+          "text": "), pid="
+        },
+        {
+          "placeholder": "VALUE_15",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "kind": "text",
+      "text": "unknown"
+    }
+  ],
+  "regex": [],
+  "numericLiterals": [
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "1"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "1"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "300"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "30000"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "0"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "30000"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "2000"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "32000"
+    },
+    {
+      "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+      "text": "0"
+    }
+  ],
+  "qualification": "Exact required channel/protocol/log/error/env/path/format/numeric data and generic template fragments retained. VALUE placeholders omit predecessor private expression identities; no helper bodies or decomposition. Not a material grant."
+}
