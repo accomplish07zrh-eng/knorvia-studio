@@ -1,0 +1,131 @@
+{
+  "attempt": 1,
+  "cause": "Temporary wildcard path map did not include actual shared package exported subpath targets. Both baseline and candidate failed with the same ten TS2307 diagnostics.",
+  "resolution": "Read exact package.json exports into explicit source path mappings; no source or dependency type edits.",
+  "diagnostics": {
+    "corrected": [
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/hooks/workspace-hook-trust-store.ts",
+        "start": 474,
+        "message": "Cannot find module '@knorvia/shared/workspace-hook-trust-store-file' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/hooks/workspace-hook-trust-store.ts",
+        "start": 605,
+        "message": "Cannot find module '@knorvia/shared/workspace-hook-trust-store-file' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+        "start": 166,
+        "message": "Cannot find module '@knorvia/shared/browser-use' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+        "start": 1119,
+        "message": "Cannot find module '@knorvia/shared/browser-use' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+        "start": 1190,
+        "message": "Cannot find module '@knorvia/shared/browser-use/viewport-limits' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/dynamic-workflow-run.port.ts",
+        "start": 19762,
+        "message": "Cannot find module '@knorvia/shared/protocol-v4' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 218,
+        "message": "Cannot find module '@knorvia/shared/model-selection' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 316,
+        "message": "Cannot find module '@knorvia/shared/model-config' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 385,
+        "message": "Cannot find module '@knorvia/shared/model-selection' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 666,
+        "message": "Cannot find module '@knorvia/shared/model-config' or its corresponding type declarations."
+      }
+    ],
+    "v2": [
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/hooks/workspace-hook-trust-store.ts",
+        "start": 474,
+        "message": "Cannot find module '@knorvia/shared/workspace-hook-trust-store-file' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/hooks/workspace-hook-trust-store.ts",
+        "start": 605,
+        "message": "Cannot find module '@knorvia/shared/workspace-hook-trust-store-file' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+        "start": 166,
+        "message": "Cannot find module '@knorvia/shared/browser-use' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+        "start": 1119,
+        "message": "Cannot find module '@knorvia/shared/browser-use' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/browser-control.port.ts",
+        "start": 1190,
+        "message": "Cannot find module '@knorvia/shared/browser-use/viewport-limits' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/interfaces/dynamic-workflow-run.port.ts",
+        "start": 19762,
+        "message": "Cannot find module '@knorvia/shared/protocol-v4' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 218,
+        "message": "Cannot find module '@knorvia/shared/model-selection' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 316,
+        "message": "Cannot find module '@knorvia/shared/model-config' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 385,
+        "message": "Cannot find module '@knorvia/shared/model-selection' or its corresponding type declarations."
+      },
+      {
+        "code": 2307,
+        "file": "/tmp/knorvia-exact-type-review-20261002/source/apps/cli/packages/contracts/src/model/model.ts",
+        "start": 666,
+        "message": "Cannot find module '@knorvia/shared/model-config' or its corresponding type declarations."
+      }
+    ]
+  }
+}
