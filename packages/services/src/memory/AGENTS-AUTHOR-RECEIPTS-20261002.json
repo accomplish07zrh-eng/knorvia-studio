@@ -597,6 +597,712 @@
         "revisions": []
       },
       "verification": "Metadata only; no execution, tests, builds, dependency inspection, or repository discovery."
+    },
+    "service": {
+      "raw-first-ready": {
+        "phase": "raw-first-ready",
+        "frozenAtUtc": "2026-10-02T20:51:30.532149+00:00",
+        "author": "fresh complete API-only lifecycle author",
+        "actuallyReadInputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/service.md",
+            "sha256": "1afff0e9c9a21d63f6d751e66cfad7e13dc62d79a0e6f42bc83e00c80d4c32ff",
+            "bytes": 11259
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/service-api.ts",
+            "sha256": "5713674ac0734ad6d9823972d2c8ee7576943b0b474653a0ebcc32585a2315d9",
+            "bytes": 1142
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/subagents-api.ts",
+            "sha256": "11f7e503d0ada574f6fe0cf2399c08f4562fbfd2d454fc74cca29002e929c2ff",
+            "bytes": 1075
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/shared-api.ts",
+            "sha256": "98331d215750afc2fa69003665fc4437c23e9608c4f0872220004a0aff5f9bd5",
+            "bytes": 3508
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/sharedSelection-api.ts",
+            "sha256": "872dc8a9dedf6d9ba86242fb4eb1f712b53ed98564265e589c26f1d5108ba5d4",
+            "bytes": 594
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/selection-api.ts",
+            "sha256": "7fba852c72041e646073c843d681bfeb6982789e860a6b625c7d9ccea68bb79b",
+            "bytes": 116
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/storage-api.ts",
+            "sha256": "75d25fe5535c57a575e8117ecab0b5edd6d44739f3057f8a7cab0ac4e24c75b1",
+            "bytes": 693
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/markdown-api.ts",
+            "sha256": "3904de4725ee940e53936458feb6d936a1aeaa5458a65348337c050cd655a0c2",
+            "bytes": 376
+          },
+          {
+            "path": "/workspace/knorvia-studio/AGENTS.md",
+            "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+            "bytes": 10384
+          },
+          {
+            "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+            "bytes": 5026
+          }
+        ],
+        "outputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/files.ts",
+            "sha256": "ef28d6b7870033962e04dc359da652933c2b27f32e449ff28f18a22c819c6740",
+            "bytes": 3494
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/plugins.ts",
+            "sha256": "18182e288f8cc5726408495fcb4dfe18f38a260c1a0042b6b5ab39ce9a733800",
+            "bytes": 7839
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/service.ts",
+            "sha256": "c7395b3b54a969b632a4f61506835c37aa1ea3ec0dd0529f85a7965f9796c600",
+            "bytes": 9134
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/state.ts",
+            "sha256": "d3a0b898296d3f6e830be531de4a723b5459f5cdcf0ff3727f263e9ff63c4f6c",
+            "bytes": 2942
+          }
+        ],
+        "retainedLineage": "API, literals, and dependency ports retained; no MIT or blanket license claim",
+        "exposure": [
+          "Only designated body-free contract/API packets and root/architecture guidance read",
+          "No inherited implementation bodies, source searches, history, tests, user data, external systems or application IO inspected",
+          "Parent message with exact retained runtime filenames received immediately after initial authored files; raw snapshot preserves initial API filename assumptions"
+        ],
+        "limits": [
+          "No repository writes, tests or builds",
+          "Candidate not compiled or integrated",
+          "Raw first-ready frozen before self-review or filename/import corrections",
+          "Each TypeScript file under 400 nonblank lines; formatting revision may follow"
+        ]
+      },
+      "revision-1": {
+        "phase": "revision-1",
+        "frozenAtUtc": "2026-10-02T20:54:34.449565+00:00",
+        "author": "fresh complete API-only lifecycle author",
+        "actuallyReadInputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/service.md",
+            "sha256": "1afff0e9c9a21d63f6d751e66cfad7e13dc62d79a0e6f42bc83e00c80d4c32ff",
+            "bytes": 11259,
+            "nonblankLines": 13
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/service-api.ts",
+            "sha256": "5713674ac0734ad6d9823972d2c8ee7576943b0b474653a0ebcc32585a2315d9",
+            "bytes": 1142,
+            "nonblankLines": 33
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/subagents-api.ts",
+            "sha256": "11f7e503d0ada574f6fe0cf2399c08f4562fbfd2d454fc74cca29002e929c2ff",
+            "bytes": 1075,
+            "nonblankLines": 20
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/shared-api.ts",
+            "sha256": "98331d215750afc2fa69003665fc4437c23e9608c4f0872220004a0aff5f9bd5",
+            "bytes": 3508,
+            "nonblankLines": 117
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/sharedSelection-api.ts",
+            "sha256": "872dc8a9dedf6d9ba86242fb4eb1f712b53ed98564265e589c26f1d5108ba5d4",
+            "bytes": 594,
+            "nonblankLines": 6
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/selection-api.ts",
+            "sha256": "7fba852c72041e646073c843d681bfeb6982789e860a6b625c7d9ccea68bb79b",
+            "bytes": 116,
+            "nonblankLines": 1
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/storage-api.ts",
+            "sha256": "75d25fe5535c57a575e8117ecab0b5edd6d44739f3057f8a7cab0ac4e24c75b1",
+            "bytes": 693,
+            "nonblankLines": 10
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/markdown-api.ts",
+            "sha256": "3904de4725ee940e53936458feb6d936a1aeaa5458a65348337c050cd655a0c2",
+            "bytes": 376,
+            "nonblankLines": 11
+          },
+          {
+            "path": "/workspace/knorvia-studio/AGENTS.md",
+            "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+            "bytes": 10384,
+            "nonblankLines": 82
+          },
+          {
+            "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+            "bytes": 5026,
+            "nonblankLines": 36
+          }
+        ],
+        "ownRawInputsReviewed": [
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/files.ts",
+            "sha256": "ef28d6b7870033962e04dc359da652933c2b27f32e449ff28f18a22c819c6740",
+            "bytes": 3494,
+            "nonblankLines": 99
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/plugins.ts",
+            "sha256": "18182e288f8cc5726408495fcb4dfe18f38a260c1a0042b6b5ab39ce9a733800",
+            "bytes": 7839,
+            "nonblankLines": 206
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/service.ts",
+            "sha256": "c7395b3b54a969b632a4f61506835c37aa1ea3ec0dd0529f85a7965f9796c600",
+            "bytes": 9134,
+            "nonblankLines": 207
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/raw-first-ready/subagents/state.ts",
+            "sha256": "d3a0b898296d3f6e830be531de4a723b5459f5cdcf0ff3727f263e9ff63c4f6c",
+            "bytes": 2942,
+            "nonblankLines": 73
+          }
+        ],
+        "ownCandidateSelfReadSnapshots": [
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentsService.ts",
+            "snapshot": "initial self-review before later edits",
+            "sha256": "931104e168a2ea2fbfe105aadc3af959320e96c113f3d5709b0e7ceda711c5b3"
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServiceState.ts",
+            "snapshot": "initial self-review before later edits",
+            "sha256": "6626629cfebdcb1cf6740c9c293a26848de104fe2f62218f800afec0ec704a9c"
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServiceFiles.ts",
+            "snapshot": "initial self-review before later edits",
+            "sha256": "20b979ac1e4fbba79fa063189fc86da751fb7ce906164bdd1867635412165573"
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServicePlugins.ts",
+            "snapshot": "initial self-review before later edits",
+            "sha256": "36cf0c1ee2147cc468fa1fec47b72588d34185e0ed3a11c1b49c39670035867b"
+          }
+        ],
+        "outputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServiceFiles.ts",
+            "sha256": "1be1c7713b52c848e2685c21ad2c1fbc68839a8b44d88bced5ce6cffdaff627d",
+            "bytes": 3456,
+            "nonblankLines": 99
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServicePlugins.ts",
+            "sha256": "e7e2d7b7dff6da5ebfb0426f44f53e99a5fc15ed104474b9f3ec02e35bec0e38",
+            "bytes": 7993,
+            "nonblankLines": 213
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServiceState.ts",
+            "sha256": "ade4ada5bb952c1bc6b2e0b569ce3dabf2699d4b5025469ed059aacef5c0b8e6",
+            "bytes": 2984,
+            "nonblankLines": 74
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentsService.ts",
+            "sha256": "6cb1fa4718f0487ccdb62d41531fa0e6cb11a273ad9a581a3ddcc16cef130f02",
+            "bytes": 9824,
+            "nonblankLines": 241
+          }
+        ],
+        "retainedLineage": "API, literals, and dependency ports retained; no MIT or blanket license claim",
+        "exposure": [
+          "Only supplied body-free packets and root/architecture guidance read as external input",
+          "Self-review read only own raw/revision candidates",
+          "Parent supplied exact filenames and body-free timing/port clarifications through messages; not implementation bodies",
+          "No inherited bodies, history, source searches, tests, user data or application IO read"
+        ],
+        "limits": [
+          "No repository edits, tests, builds or compiler runs",
+          "Parent owns integration verification",
+          "Each TypeScript file remains below 400 nonblank lines",
+          "No diagnostic suppressions or blanket license grants"
+        ],
+        "selfReviewCorrections": [
+          "Correct retained runtime filenames and local ISubagentsService import",
+          "CLI official scan receives plugins root; config uses synchronous data-root resolution, top-level record gate and Object.fromEntries for boolean entries",
+          "Plugin manifest read preserves original installPath before resolving collector roots",
+          "List captures workspacePath before root awaits, resolves eligible roots before collection/read, preserves sequential user/workspace IO and sorts after discovered reads",
+          "CRUD scope captured; workspace branch remains synchronous; basename captured before mkdir; saved config/workspace and old path stay live at original later barriers",
+          "Built-in reader accepts truthy safeParse .data without success gate",
+          "Conventional formatting and explicit built-in callback return type; no non-null assertion"
+        ]
+      },
+      "revision-2": {
+        "phase": "revision-2",
+        "frozenAtUtc": "2026-10-02T20:55:25.229751+00:00",
+        "author": "fresh complete API-only lifecycle author",
+        "actuallyReadExternalInputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/service.md",
+            "sha256": "1afff0e9c9a21d63f6d751e66cfad7e13dc62d79a0e6f42bc83e00c80d4c32ff",
+            "bytes": 11259,
+            "nonblankLines": 13
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/service-api.ts",
+            "sha256": "5713674ac0734ad6d9823972d2c8ee7576943b0b474653a0ebcc32585a2315d9",
+            "bytes": 1142,
+            "nonblankLines": 33
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/subagents-api.ts",
+            "sha256": "11f7e503d0ada574f6fe0cf2399c08f4562fbfd2d454fc74cca29002e929c2ff",
+            "bytes": 1075,
+            "nonblankLines": 20
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/shared-api.ts",
+            "sha256": "98331d215750afc2fa69003665fc4437c23e9608c4f0872220004a0aff5f9bd5",
+            "bytes": 3508,
+            "nonblankLines": 117
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/sharedSelection-api.ts",
+            "sha256": "872dc8a9dedf6d9ba86242fb4eb1f712b53ed98564265e589c26f1d5108ba5d4",
+            "bytes": 594,
+            "nonblankLines": 6
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/selection-api.ts",
+            "sha256": "7fba852c72041e646073c843d681bfeb6982789e860a6b625c7d9ccea68bb79b",
+            "bytes": 116,
+            "nonblankLines": 1
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/storage-api.ts",
+            "sha256": "75d25fe5535c57a575e8117ecab0b5edd6d44739f3057f8a7cab0ac4e24c75b1",
+            "bytes": 693,
+            "nonblankLines": 10
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-contracts-20261002/markdown-api.ts",
+            "sha256": "3904de4725ee940e53936458feb6d936a1aeaa5458a65348337c050cd655a0c2",
+            "bytes": 376,
+            "nonblankLines": 11
+          },
+          {
+            "path": "/workspace/knorvia-studio/AGENTS.md",
+            "sha256": "313e4174484c71c6a4edd0d7d5cec996552b83023bb3859b5cb03d9dc5a7e6e5",
+            "bytes": 10384,
+            "nonblankLines": 82
+          },
+          {
+            "path": "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+            "sha256": "c24dcabd9722ce7b0be674cc44487bab7d6c3123f1093f14003d91bb11704c3a",
+            "bytes": 5026,
+            "nonblankLines": 36
+          }
+        ],
+        "ownPreviousRevisionInputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServiceFiles.ts",
+            "sha256": "1be1c7713b52c848e2685c21ad2c1fbc68839a8b44d88bced5ce6cffdaff627d",
+            "bytes": 3456,
+            "nonblankLines": 99
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServicePlugins.ts",
+            "sha256": "e7e2d7b7dff6da5ebfb0426f44f53e99a5fc15ed104474b9f3ec02e35bec0e38",
+            "bytes": 7993,
+            "nonblankLines": 213
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentServiceState.ts",
+            "sha256": "ade4ada5bb952c1bc6b2e0b569ce3dabf2699d4b5025469ed059aacef5c0b8e6",
+            "bytes": 2984,
+            "nonblankLines": 74
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-1/subagents/subagentsService.ts",
+            "sha256": "6cb1fa4718f0487ccdb62d41531fa0e6cb11a273ad9a581a3ddcc16cef130f02",
+            "bytes": 9824,
+            "nonblankLines": 241
+          }
+        ],
+        "outputs": [
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-2/subagents/subagentServiceFiles.ts",
+            "sha256": "1be1c7713b52c848e2685c21ad2c1fbc68839a8b44d88bced5ce6cffdaff627d",
+            "bytes": 3456,
+            "nonblankLines": 99
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-2/subagents/subagentServicePlugins.ts",
+            "sha256": "dfeded14079421301d7fde3214dbda6433e7fb04e81d500c141ad7dc9e47003b",
+            "bytes": 8029,
+            "nonblankLines": 214
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-2/subagents/subagentServiceState.ts",
+            "sha256": "ade4ada5bb952c1bc6b2e0b569ce3dabf2699d4b5025469ed059aacef5c0b8e6",
+            "bytes": 2984,
+            "nonblankLines": 74
+          },
+          {
+            "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-2/subagents/subagentsService.ts",
+            "sha256": "cbc4b14c22a73582da3adf002c62e11651c32f82b540ee70e92f220e9cd34190",
+            "bytes": 9820,
+            "nonblankLines": 241
+          }
+        ],
+        "retainedLineage": "API, literals, and dependency ports retained; no MIT or blanket license claim",
+        "exposure": [
+          "Bounded changes read only own previous candidate",
+          "Four additional timing/ordering instructions received in parent message",
+          "No inherited implementation bodies, history, tests, user data, application IO or external systems inspected"
+        ],
+        "limits": [
+          "No repository edits, compiler runs, tests or builds",
+          "Frozen before post-change self-review or parent copy",
+          "All previous raw and revision snapshots retained read-only",
+          "Each TypeScript source under 400 nonblank lines, no diagnostic suppressions"
+        ],
+        "corrections": [
+          "Queue helper synchronously returns admitted pending promise; public methods await it",
+          "Runtime plugin array interleaves each qualified profile then its alias before stable locale sort",
+          "List computes capability before reading mode getter",
+          "Prepare import queue callback returns migration promise directly after state-path await"
+        ]
+      },
+      "typeClarification": {
+        "phase": "revision-2-type-clarification",
+        "frozenAtUtc": "2026-10-02T20:55:55.894687+00:00",
+        "source": "Parent message in follow-up task; coordinator declaration-only verification",
+        "message": "Verified declaration ONLY as coordinator: actual migrateSubagentStateFile(path:string):Promise<void>. Earlier manual Promise<unknown> deliberately nonspecific was imprecise; revision-2 types can remain unchanged. No body read by author needed. Please append separately frozen type-clarification receipt referencing this message and report settled, no new code revision unless own review finds issue. Coordinator applying frozen revision2 now and scoped verification.",
+        "resolution": "Earlier contract-only queue callback type concern is settled: actual migration declaration Promise<void> matches synchronous queued(callback:()=>Promise<void>) helper and direct-return prepare callback. No source changes required.",
+        "unchangedOwner": {
+          "path": "/tmp/knorvia-memory-agents-candidates-20261002/service/revision-2/subagents/subagentsService.ts",
+          "sha256": "cbc4b14c22a73582da3adf002c62e11651c32f82b540ee70e92f220e9cd34190"
+        },
+        "exposure": [
+          "Author received declaration clarification as a parent message; read no dependency body or additional repository file"
+        ],
+        "limits": [
+          "No new code revision",
+          "No compiler, tests, builds or application IO performed by author",
+          "Prior frozen snapshots unchanged"
+        ]
+      }
     }
-  }
+  },
+  "eligibility": {
+    "licensing/current-files.json": {
+      "sha256": "2c38eb5fa2607f1157a1cae7a7a1dbbecacb448fb93099b674e378cbaa2a6aff",
+      "selectedRecords": [
+        {
+          "path": "packages/services/src/memory/memoryService.ts",
+          "kind": "file",
+          "sha256": "3a5799fe67138d56b27bdd775d39ce665801da94d0b918599eebbacff6c7e68f",
+          "normalizedSha256": "3a5799fe67138d56b27bdd775d39ce665801da94d0b918599eebbacff6c7e68f",
+          "encoding": "utf8-lf",
+          "bytes": 7976,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/services/src/memory/memoryService.ts",
+            "blob": "aae7dc90b6052f69ac5cb2ef3c3675d34b68c129",
+            "normalizedSha256": "7dcda54bcbd983331d84db6b634ec39e4c6980f29517f7872ca554aa319ecf7a",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        },
+        {
+          "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+          "kind": "file",
+          "sha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+          "normalizedSha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+          "encoding": "utf8-lf",
+          "bytes": 3570,
+          "classification": "upstream-unchanged",
+          "upstream": {
+            "relation": "unchanged",
+            "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+            "blob": "c9ef6fa4d2efc957ab3e7eeeddefc3f4b7ae5030",
+            "normalizedSha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+            "contentMatchedPaths": ["packages/services/src/memory/projectMemoryStableRead.ts"]
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        },
+        {
+          "path": "packages/services/src/subagents/subagentMarkdown.ts",
+          "kind": "file",
+          "sha256": "0dedb3bd3f4a95793954e20e28efe0cb3e26096448c97ad6084e01c33eee4850",
+          "normalizedSha256": "0dedb3bd3f4a95793954e20e28efe0cb3e26096448c97ad6084e01c33eee4850",
+          "encoding": "utf8-lf",
+          "bytes": 14353,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/services/src/subagents/subagentMarkdown.ts",
+            "blob": "2a94517067babfd856c7ff01fae38b43c69221ab",
+            "normalizedSha256": "53f5b5683eb3a90439f603b5f901d6c2bc396acabf330608c71d1b77f52b3813",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        },
+        {
+          "path": "packages/services/src/subagents/subagentStorage.ts",
+          "kind": "file",
+          "sha256": "911af4f7f56b55bf1bc4d38ac14b37777120272c7630c08d3d530c7233932186",
+          "normalizedSha256": "911af4f7f56b55bf1bc4d38ac14b37777120272c7630c08d3d530c7233932186",
+          "encoding": "utf8-lf",
+          "bytes": 2593,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/services/src/subagents/subagentStorage.ts",
+            "blob": "b735b16e1a0f7afb2ff0004a8a236099159ee27e",
+            "normalizedSha256": "87951e9d41dc92453e05eb6b950ce3779fda323e77b147472a70780904e2842a",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        },
+        {
+          "path": "packages/services/src/subagents/subagentsService.ts",
+          "kind": "file",
+          "sha256": "07eaff7de924274e2ae2ed5f6be516aef782b8b690285221ac7715fc120a3ed2",
+          "normalizedSha256": "07eaff7de924274e2ae2ed5f6be516aef782b8b690285221ac7715fc120a3ed2",
+          "encoding": "utf8-lf",
+          "bytes": 30514,
+          "classification": "upstream-modified",
+          "upstream": {
+            "relation": "modified",
+            "path": "packages/services/src/subagents/subagentsService.ts",
+            "blob": "78684169d514507d55fb26ef00a6348445718137",
+            "normalizedSha256": "61d85c28d0961fb660c3fa0343badc84ac4c192566cf11e8cf37979291ee103f",
+            "contentMatchedPaths": []
+          },
+          "license": "NOASSERTION",
+          "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+          "thirdParty": [],
+          "review": null
+        }
+      ],
+      "limits": "exact current path records only; no alias transfer or license acceptance"
+    },
+    "licensing/reviews.json": {
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d",
+      "selectedRecords": [],
+      "limits": "exact current path records only; no alias transfer or license acceptance"
+    },
+    "licensing/upstream-baseline.json": {
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb",
+      "selectedRecords": [
+        {
+          "path": "packages/services/src/memory/memoryService.ts",
+          "mode": "100644",
+          "blob": "aae7dc90b6052f69ac5cb2ef3c3675d34b68c129",
+          "kind": "file",
+          "sha256": "7dcda54bcbd983331d84db6b634ec39e4c6980f29517f7872ca554aa319ecf7a",
+          "normalizedSha256": "7dcda54bcbd983331d84db6b634ec39e4c6980f29517f7872ca554aa319ecf7a",
+          "encoding": "utf8-lf",
+          "bytes": 7972
+        },
+        {
+          "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+          "mode": "100644",
+          "blob": "c9ef6fa4d2efc957ab3e7eeeddefc3f4b7ae5030",
+          "kind": "file",
+          "sha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+          "normalizedSha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+          "encoding": "utf8-lf",
+          "bytes": 3570
+        },
+        {
+          "path": "packages/services/src/subagents/subagentMarkdown.ts",
+          "mode": "100644",
+          "blob": "2a94517067babfd856c7ff01fae38b43c69221ab",
+          "kind": "file",
+          "sha256": "53f5b5683eb3a90439f603b5f901d6c2bc396acabf330608c71d1b77f52b3813",
+          "normalizedSha256": "53f5b5683eb3a90439f603b5f901d6c2bc396acabf330608c71d1b77f52b3813",
+          "encoding": "utf8-lf",
+          "bytes": 14342
+        },
+        {
+          "path": "packages/services/src/subagents/subagentStorage.ts",
+          "mode": "100644",
+          "blob": "b735b16e1a0f7afb2ff0004a8a236099159ee27e",
+          "kind": "file",
+          "sha256": "87951e9d41dc92453e05eb6b950ce3779fda323e77b147472a70780904e2842a",
+          "normalizedSha256": "87951e9d41dc92453e05eb6b950ce3779fda323e77b147472a70780904e2842a",
+          "encoding": "utf8-lf",
+          "bytes": 2258
+        },
+        {
+          "path": "packages/services/src/subagents/subagentsService.ts",
+          "mode": "100644",
+          "blob": "78684169d514507d55fb26ef00a6348445718137",
+          "kind": "file",
+          "sha256": "61d85c28d0961fb660c3fa0343badc84ac4c192566cf11e8cf37979291ee103f",
+          "normalizedSha256": "61d85c28d0961fb660c3fa0343badc84ac4c192566cf11e8cf37979291ee103f",
+          "encoding": "utf8-lf",
+          "bytes": 30498
+        }
+      ],
+      "limits": "exact current path records only; no alias transfer or license acceptance"
+    },
+    "licensing/evidence/repository-migration-scope-20260930.json": {
+      "sha256": "8fe0751039d5e69e600984f506d04f9ad5a3949ae6f2def02b7a8c3db0d7b644",
+      "selectedRecords": [
+        {
+          "path": "packages/services/src/memory/memoryService.ts",
+          "sha256": "3a5799fe67138d56b27bdd775d39ce665801da94d0b918599eebbacff6c7e68f",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        },
+        {
+          "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+          "sha256": "2ade3a41788b4c6d4a08ddf600e8052d589987f242ee7143042d9a49da76fa52",
+          "classification": "upstream-unchanged",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        },
+        {
+          "path": "packages/services/src/subagents/subagentMarkdown.ts",
+          "sha256": "0dedb3bd3f4a95793954e20e28efe0cb3e26096448c97ad6084e01c33eee4850",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        },
+        {
+          "path": "packages/services/src/subagents/subagentStorage.ts",
+          "sha256": "911af4f7f56b55bf1bc4d38ac14b37777120272c7630c08d3d530c7233932186",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        },
+        {
+          "path": "packages/services/src/subagents/subagentsService.ts",
+          "sha256": "07eaff7de924274e2ae2ed5f6be516aef782b8b690285221ac7715fc120a3ed2",
+          "classification": "upstream-modified",
+          "nextDecision": "inherited-source-needs-behavior-and-expression-review",
+          "localDeclaredThirdParty": []
+        }
+      ],
+      "limits": "exact current path records only; no alias transfer or license acceptance"
+    }
+  },
+  "submitted": [
+    {
+      "path": "packages/services/src/memory/memoryService.ts",
+      "sha256": "aa4eb3ee68d1969f6b4962b9b1ff774e9c4e71aeb36f2820bcc0098c9ef32b0a",
+      "nonblankLines": 172
+    },
+    {
+      "path": "packages/services/src/memory/projectMemoryStableRead.ts",
+      "sha256": "e9038c8997dc41bd39d5c048b4632d8370d441e6a6610cc2500bb7207b002e50",
+      "nonblankLines": 81
+    },
+    {
+      "path": "packages/services/src/subagents/subagentMarkdown.ts",
+      "sha256": "6ebbb048088d53f7e22ac4a71794eaefa275b6e6199699b8211e219806f60203",
+      "nonblankLines": 324
+    },
+    {
+      "path": "packages/services/src/subagents/subagentStorage.ts",
+      "sha256": "8635578b7b54aed73ed8abaaf27c6b7d11d92dd8e2117443b25ce401afe820a8",
+      "nonblankLines": 59
+    },
+    {
+      "path": "packages/services/src/subagents/subagentsService.ts",
+      "sha256": "de9e8f27bf5d323f4e53423303e26b152fa9d51277a12680de2c1dcfe50e6e6e",
+      "nonblankLines": 246
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServiceFiles.ts",
+      "sha256": "324a2fc29362455c8c21317418a87b47106b890fde10f68c7caea1f8d2f80e66",
+      "nonblankLines": 99
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServicePlugins.ts",
+      "sha256": "c992591f52bb4c1bc17125b20971fc8024dd5e79eb9a51f8ad098f136779f416",
+      "nonblankLines": 217
+    },
+    {
+      "path": "packages/services/src/subagents/subagentServiceState.ts",
+      "sha256": "11273fe436ea5021a17697403112303e512ab16026a28bac832ac3ce336b79b6",
+      "nonblankLines": 74
+    }
+  ],
+  "retainedVerified": [
+    {
+      "path": "packages/services/src/memory/memory.ts",
+      "sha256": "e8bfa7c90778d8fe220ae0d5d42f8dee3f33c85104af05637ed8aab13377edf8",
+      "blob": "397ebc9100795dba77c40598fbb81911d1baa297"
+    },
+    {
+      "path": "packages/services/src/subagents/subagentModelSelection.ts",
+      "sha256": "12023979f3cdcd97890a71c35f26f16d252ee27871aaebd2402585f8ec16f82c",
+      "blob": "d16bab643c19bfd3e390ac35a17ea76de6bcdf4f"
+    },
+    {
+      "path": "packages/services/src/subagents/subagents.ts",
+      "sha256": "b13e98fcf764eab231a7299e728a8d6e3b03dc7ae3b3f0d1a8b38f79021ecd44",
+      "blob": "37a3fa7a78426f6b095b7ea942a48274976e6173"
+    },
+    {
+      "path": "packages/services/src/agent-session/importedClaudeSessionRepair.ts",
+      "sha256": "41a30bd04df8df05661a7f4cb62ec4f8198ab647c4ff4286d11d51828be0fb9e",
+      "blob": "1cdc56230db3a4ea08ae47a5409654705d40040a"
+    },
+    {
+      "path": "packages/services/src/agent-session/session.ts",
+      "sha256": "f08ed80e1d0e1e9ce310ae7c54c072eb681e83169eae0023344be550ec09dd6f",
+      "blob": "1db5de1a7c3de5d6e35bfada8d774e795f396c1b"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionApiRetry.ts",
+      "sha256": "c9da6a15fb2751a9354008bfdac727a3264572b9b3220f5d3bc7f63fd16e6b6d",
+      "blob": "4aa1bbbe49c383a4e35661956bf657768bd07ec6"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionDraftRegistry.ts",
+      "sha256": "5b775942315ec3d8b4b3ca058ab838bf48600777f27709e5243b540a989e2537",
+      "blob": "905a3a0bc871e146bf8c4ffe1626b4544756416d"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "sha256": "dbbd02c0aa1d5ceee811e36d32beb40c1a50b31ef75f7db8c1a1f0dfd3d16199",
+      "blob": "61db9dc9481ef85eb32bf05a70a0f9c3505367fc"
+    }
+  ]
 }

@@ -169,3 +169,90 @@ baseline: 0
 new: 0
 
 ```
+
+## Fifth complete owner collected
+
+subagentsService and three cohesive fresh private modules replace the entire inherited 849-nonblank-line owner (including prior max-lines suppression). Submitted source nonblank lines: owner246, files99, plugins217, state74. Sole factory state-write queue, complete built-in/file/plugin discovery, config/cache suppression/alias precedence, and validated profile create/update/delete all authored from body-free contract. Raw firstready had incorrect short packet import names and several timing interpretations; revision1/revision2 frozen independently before applying. Body-free clarifications cover synchronous root calls, pre-IO captures, live CRUD params, queue barrier, original manifest path and stable alias order; no inherited bodies provided to author. Supplied migrateState return type was imprecise Promise<unknown>; coordinator verified declaration-only Promise<void>, separately frozen clarification receipt; code unchanged. Source code copied from revision2 then formatter-only edits. Receipts preserve all actual inputs/access/outputs/review limits.
+
+Service original safety check1/1 passed before replacement. Final assertion update uses valid synthetic type/provider args and adds override-write authority assertions; checked original service again with all dependency ports mocked (other four replacements already staged, explicitly no complete-original dependency claim). Service replacement same1/1 pass; final changed source/private dependencies/five safety-test types pass; final exact-source/test lint0warnings/errors, architecture0/0/0, format and whitespace pass. Eight retained source hashes and historical commitMessageFileScope HOLD SHA reverified identical. Services node.ts direct public factory consumer is unchanged; broad entrypoint consumers/build/native platforms deferred, scoped public contract types retained. No whole-feature or provenance acceptance claimed.
+
+Formatter first failed on copied read-only new private files (raw freeze permissions propagated by cp): exact observed failure `thread '<unnamed>' (28244) panicked at apps/oxfmt/src/cli/service.rs:88:22`, `called Result::unwrap() on an Err value: Failed to write to '/workspace/knorvia-studio/packages/services/src/subagents/subagentServiceState.ts'`; shell line5 `28231 Aborted`. Fixed only writable permission on three submitted new workspace copies; raw freezes stay read-only. Format rerun succeeds. No environment or approval bypass.
+
+### knorvia-subagents-original-check-final-20261002.log
+
+SHA-256 `bb802e4d93979d8639129e17f3ba257a942efb094f8088868e974e42dbcc11c0`
+
+```text
+(node:28050) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28050) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ synthetic subagents owner preserves queued authority and profile failure order (27.438875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 209.603369
+
+```
+
+### knorvia-subagents-replacement-check-20261002.log
+
+SHA-256 `f1891603dabb9a56b5c96394069bfa3a6f531a620ac289ca04b5e24eaf7235af`
+
+```text
+(node:28285) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28285) DeprecationWarning: mock.module(): options.namedExports is deprecated. Use options.exports instead.
+✔ synthetic subagents owner preserves queued authority and profile failure order (62.421204ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 219.618635
+
+```
+
+### knorvia-memory-agents-final-types-20261002.log
+
+SHA-256 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+
+```text
+
+```
+
+### knorvia-memory-agents-final-lint-20261002.log
+
+SHA-256 `5af2943269979aba144dfbef78d3269321b4650eecb2fa21e3eb5d1079136f6a`
+
+```text
+Found 0 warnings and 0 errors.
+Finished in 19ms on 13 files with 94 rules using 4 threads.
+
+```
+
+### knorvia-subagents-final-format-20261002.log
+
+SHA-256 `2800a5aa560fa5aebf6bf9a8f173e2cba9383b371e3e1d001d86762f0c8286d2`
+
+```text
+Finished in 28ms on 4 files using 4 threads.
+
+```
+
+### knorvia-memory-agents-final-architecture-20261002.log
+
+SHA-256 `f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497`
+
+```text
+architecture: OK
+violations: 0
+baseline: 0
+new: 0
+
+```
