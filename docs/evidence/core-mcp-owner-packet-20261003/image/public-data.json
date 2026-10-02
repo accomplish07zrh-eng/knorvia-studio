@@ -1,0 +1,33 @@
+{
+  "exports": [
+    {
+      "name": "MCP_IMAGE_INLINE_BASE64_BYTES",
+      "expression": "200 * 1024"
+    },
+    {
+      "name": "MCP_IMAGE_INLINE_RAW_BYTES",
+      "expression": "Math.floor((MCP_IMAGE_INLINE_BASE64_BYTES * 3) / 4)"
+    },
+    {
+      "name": "HOST_NODE_REPL_IMAGE_MAX_DIMENSION",
+      "expression": "2048"
+    }
+  ],
+  "declarationQualifications": [
+    {
+      "name": "MCP_IMAGE_INLINE_RAW_BYTES",
+      "raw": "any with original isolated diagnostic",
+      "qualified": "number",
+      "basis": "Public Math.floor numeric expression; exact expression retained in public-data.json, not an inferred grant or standalone semantic claim."
+    },
+    {
+      "name": "MCP_IMAGE_INLINE_BASE64_BYTES",
+      "raw": "number with original isolated numeric expression diagnostic",
+      "qualified": "number unchanged",
+      "basis": "Explicit source number annotation; exact numeric expression preserved."
+    }
+  ],
+  "sharedOfficialNamespace": "plugin:computer-use:computer-use",
+  "browserScreenshotMetaKey": "knorvia/browserScreenshotContentIndices",
+  "qualification": "Exact exported initializer expressions/schema topology preserved; exported public identities and imported constant values only, no private decomposition. Image inline numeric expressions retained instead of hardcoded folded values. Native node:path/Buffer/Date APIs may be used, business effects only supplied ports; no target/dependency runtime executed."
+}

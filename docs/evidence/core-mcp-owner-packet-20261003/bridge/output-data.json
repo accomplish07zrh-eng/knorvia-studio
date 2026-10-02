@@ -1,0 +1,388 @@
+{
+  "strings": [
+    {
+      "kind": "text",
+      "text": "@knorvia/contracts"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/shared"
+    },
+    {
+      "kind": "text",
+      "text": "@knorvia/cua/frame-contract"
+    },
+    {
+      "kind": "text",
+      "text": "../tool/registry.js"
+    },
+    {
+      "kind": "text",
+      "text": "../tool/types.js"
+    },
+    {
+      "kind": "text",
+      "text": "../tool/tool-visibility.js"
+    },
+    {
+      "kind": "text",
+      "text": "./image-normalization.js"
+    },
+    {
+      "kind": "text",
+      "text": "./name.js"
+    },
+    {
+      "kind": "text",
+      "text": "./windows-computer-use.js"
+    },
+    {
+      "kind": "text",
+      "text": "./result-format.js"
+    },
+    {
+      "kind": "text",
+      "text": "./name.js"
+    },
+    {
+      "kind": "text",
+      "text": "./image-normalization.js"
+    },
+    {
+      "kind": "text",
+      "text": "official_cua"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "Required short user-facing title in the user's language that describes why the app interface is being read without implementation terms such as CUA, MCP, or get_app_state"
+    },
+    {
+      "kind": "text",
+      "text": "mcp__computer-use__"
+    },
+    {
+      "kind": "text",
+      "text": "mcp__computer_use__"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_1",
+          "text": ""
+        },
+        {
+          "placeholder": "VALUE_2",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "computer_request_access"
+    },
+    {
+      "kind": "text",
+      "text": "computer_list_windows"
+    },
+    {
+      "kind": "text",
+      "text": "computer_observe"
+    },
+    {
+      "kind": "text",
+      "text": "computer_action"
+    },
+    {
+      "kind": "text",
+      "text": "node_repl"
+    },
+    {
+      "kind": "text",
+      "text": "js"
+    },
+    {
+      "kind": "text",
+      "text": "system"
+    },
+    {
+      "kind": "text",
+      "text": "network"
+    },
+    {
+      "kind": "text",
+      "text": "high"
+    },
+    {
+      "kind": "text",
+      "text": "high"
+    },
+    {
+      "kind": "text",
+      "text": "low"
+    },
+    {
+      "kind": "text",
+      "text": "medium"
+    },
+    {
+      "kind": "text",
+      "text": "truncate"
+    },
+    {
+      "kind": "text",
+      "text": "head"
+    },
+    {
+      "kind": "text",
+      "text": "artifact"
+    },
+    {
+      "kind": "text",
+      "text": "tail"
+    },
+    {
+      "kind": "text",
+      "text": "session"
+    },
+    {
+      "kind": "text",
+      "text": "truncate"
+    },
+    {
+      "kind": "text",
+      "text": "head"
+    },
+    {
+      "kind": "text",
+      "text": "user"
+    },
+    {
+      "kind": "template",
+      "head": "MCP tool exposed by ",
+      "spans": [
+        {
+          "placeholder": "VALUE_3",
+          "text": ": "
+        },
+        {
+          "placeholder": "VALUE_4",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "computer_stop"
+    },
+    {
+      "kind": "text",
+      "text": "computer_list_windows"
+    },
+    {
+      "kind": "text",
+      "text": "mcp"
+    },
+    {
+      "kind": "template",
+      "head": "MCP tool ",
+      "spans": [
+        {
+          "placeholder": "VALUE_5",
+          "text": "/"
+        },
+        {
+          "placeholder": "VALUE_6",
+          "text": " executes through an external server"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "toolName"
+    },
+    {
+      "kind": "text",
+      "text": "input"
+    },
+    {
+      "kind": "text",
+      "text": "network"
+    },
+    {
+      "kind": "text",
+      "text": "beforeAsk"
+    },
+    {
+      "kind": "text",
+      "text": "proceed"
+    },
+    {
+      "kind": "text",
+      "text": "bestEffort"
+    },
+    {
+      "kind": "template",
+      "head": "MCP tool ",
+      "spans": [
+        {
+          "placeholder": "VALUE_7",
+          "text": " was cancelled"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "summary"
+    },
+    {
+      "kind": "text",
+      "text": "summary"
+    },
+    {
+      "kind": "text",
+      "text": "main"
+    },
+    {
+      "kind": "text",
+      "text": "desktop-continuous"
+    },
+    {
+      "kind": "text",
+      "text": "desktop-continuous"
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "placeholder": "VALUE_8",
+          "text": ""
+        },
+        {
+          "placeholder": "VALUE_9",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "content"
+    },
+    {
+      "kind": "text",
+      "text": "array"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "boolean"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "string"
+    },
+    {
+      "kind": "text",
+      "text": "title"
+    },
+    {
+      "kind": "text",
+      "text": "knorvia-cua"
+    },
+    {
+      "kind": "text",
+      "text": "zcode-cua"
+    },
+    {
+      "kind": "text",
+      "text": "serverName"
+    },
+    {
+      "kind": "text",
+      "text": "toolName"
+    },
+    {
+      "kind": "text",
+      "text": "_"
+    },
+    {
+      "kind": "text",
+      "text": "get_app_state"
+    },
+    {
+      "kind": "text",
+      "text": "-"
+    },
+    {
+      "kind": "text",
+      "text": "computer-use"
+    },
+    {
+      "kind": "text",
+      "text": "computer-use"
+    },
+    {
+      "kind": "text",
+      "text": "object"
+    },
+    {
+      "kind": "text",
+      "text": "title"
+    }
+  ],
+  "patterns": [
+    "/-/g",
+    "/_/g"
+  ],
+  "numericLiterals": [
+    "30000",
+    "1",
+    "120",
+    "256",
+    "1024",
+    "256",
+    "1024",
+    "1000000",
+    "64",
+    "1024",
+    "64",
+    "1024",
+    "100000",
+    "50000",
+    "0"
+  ],
+  "qualification": "Required original text/protocol/templates/pattern/numeric material, generic placeholders omit private expression/helper names. Native type-guard/import literals are not mandatory output data. Body-free source-derived material retained honestly; no novelty/grant assertion."
+}

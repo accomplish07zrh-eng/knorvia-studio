@@ -1,0 +1,48 @@
+{
+  "imports": [
+    {
+      "module": "@knorvia/contracts",
+      "clause": "{\n  type JsonSchema,\n  type McpPort,\n  type McpToolDescriptor,\n  type ModelToolSideEffectScope,\n  type PermissionCapabilityGroup,\n  type RiskLevel,\n}"
+    },
+    {
+      "module": "@knorvia/shared",
+      "clause": "{ KNORVIA_CUA_OFFICIAL_MCP_NAMESPACE_NAME as KNORVIA_CUA_OFFICIAL_MCP_SERVER_NAME }"
+    },
+    {
+      "module": "@knorvia/cua/frame-contract",
+      "clause": "{ OFFICIAL_CUA_FRAME_MODEL_CONTENT_PROTECTION }"
+    },
+    {
+      "module": "../tool/registry.js",
+      "clause": "type { ToolRegistry }"
+    },
+    {
+      "module": "../tool/types.js",
+      "clause": "type { ToolEntry }"
+    },
+    {
+      "module": "../tool/tool-visibility.js",
+      "clause": "{ createToolRuleNameSet }"
+    },
+    {
+      "module": "./image-normalization.js",
+      "clause": "{ normalizeMcpToolResultForModel }"
+    },
+    {
+      "module": "./name.js",
+      "clause": "{ toMcpToolName, toModelVisibleMcpNamePart }"
+    },
+    {
+      "module": "./windows-computer-use.js",
+      "clause": "{\n  isTrustedWindowsComputerUseTool,\n  preserveWindowsComputerUseFrames,\n}"
+    },
+    {
+      "module": "./result-format.js",
+      "clause": "{ formatMcpToolResult }"
+    }
+  ],
+  "reexports": [
+    "export { toMcpToolName } from \"./name.js\";",
+    "export { HOST_NODE_REPL_IMAGE_MAX_DIMENSION, MCP_IMAGE_INLINE_BASE64_BYTES, MCP_IMAGE_INLINE_RAW_BYTES, } from \"./image-normalization.js\";"
+  ]
+}
