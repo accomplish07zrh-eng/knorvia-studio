@@ -12,37 +12,43 @@ import {
   stringValue,
 } from "./json.js";
 
-export function parseWorkflowNodePromptUpdateSet(
-  response: string,
-): { nodes: WorkflowNodePromptUpdate[]; reasoning?: string } | null {
-  let raw: unknown;
+export function parseWorkflowNodePromptUpdateSet(response: string): {
+  nodes: WorkflowNodePromptUpdate[];
+  reasoning?: string;
+} | null {
+  let candidate: unknown;
   try {
-    raw = parsePlannerJson(response);
+    candidate = parsePlannerJson(response);
   } catch {
     return null;
   }
-  return normalizeWorkflowNodePromptUpdateSetCandidate(raw);
+  return normalizeUpdateSet(candidate);
 }
 
-function normalizeWorkflowNodePromptUpdateSetCandidate(
-  value: unknown,
-): { nodes: WorkflowNodePromptUpdate[]; reasoning?: string } | null {
+function normalizeUpdateSet(value: unknown): {
+  nodes: WorkflowNodePromptUpdate[];
+  reasoning?: string;
+} | null {
   if (Array.isArray(value)) {
-    return normalizeWorkflowNodePromptUpdateSetCandidate({ nodes: value });
+    return normalizeUpdateSet({ nodes: value });
+  }
+  if (!isRecord(value)) {
+    return null;
   }
 
-  if (!isRecord(value)) return null;
   const direct = WorkflowNodePromptUpdateSetSchema.safeParse(value);
-  if (direct.success && direct.data.nodes.length > 0) return direct.data;
+  if (direct.success && direct.data.nodes.length > 0) {
+    return direct.data;
+  }
 
-  const nodeCandidates = readLooseArray(value, [
+  const arrayCandidates = readLooseArray(value, [
     "nodes",
     "nodePrompts",
     "node_prompts",
     "nodeInstructions",
     "node_instructions",
   ]);
-  const keyedCandidates = normalizeWorkflowNodePromptUpdateMap(
+  const keyedCandidates = normalizeKeyedCandidates(
     readLooseValue(value, [
       "nodePrompts",
       "node_prompts",
@@ -51,39 +57,39 @@ function normalizeWorkflowNodePromptUpdateSetCandidate(
       "prompts",
     ]),
   );
-  const nodes = [...(nodeCandidates ?? []), ...keyedCandidates]
-    .map(normalizeWorkflowNodePromptUpdate)
+  const nodes = [...(arrayCandidates ?? []), ...keyedCandidates]
+    .map(normalizeNode)
     .filter((node): node is WorkflowNodePromptUpdate => node !== null);
-  const parsed = WorkflowNodePromptUpdateSetSchema.safeParse({
+  const result = WorkflowNodePromptUpdateSetSchema.safeParse({
     nodes,
     reasoning: stringValue(value.reasoning),
   });
-  return parsed.success ? parsed.data : null;
+  return result.success ? result.data : null;
 }
 
-function normalizeWorkflowNodePromptUpdateMap(value: unknown): unknown[] {
-  if (!isRecord(value) || Array.isArray(value)) return [];
-  return Object.entries(value).map(([id, entry]) =>
-    typeof entry === "string"
-      ? {
-          id,
-          prompt: entry,
-        }
-      : isRecord(entry)
-        ? {
-            id,
-            ...entry,
-          }
-        : {
-            id,
-          },
-  );
+function normalizeKeyedCandidates(value: unknown): unknown[] {
+  if (!isRecord(value)) {
+    return [];
+  }
+  return Object.entries(value).map(([key, entry]) => {
+    if (typeof entry === "string") {
+      return { id: key, prompt: entry };
+    }
+    if (isRecord(entry)) {
+      return { id: key, ...entry };
+    }
+    return { id: key };
+  });
 }
 
-function normalizeWorkflowNodePromptUpdate(value: unknown): WorkflowNodePromptUpdate | null {
-  if (!isRecord(value)) return null;
+function normalizeNode(value: unknown): WorkflowNodePromptUpdate | null {
+  if (!isRecord(value)) {
+    return null;
+  }
   const id = readLooseString(value, ["id", "name", "nodeId", "node_id", "nodeName", "node_name"]);
-  if (!id) return null;
+  if (id === undefined) {
+    return null;
+  }
   const prompt = readLooseString(value, [
     "prompt",
     "instructions",
@@ -96,11 +102,6 @@ function normalizeWorkflowNodePromptUpdate(value: unknown): WorkflowNodePromptUp
   ]);
   const description = readLooseString(value, ["description", "objective", "goal", "summary"]);
   const title = readLooseString(value, ["title"]);
-  const parsed = WorkflowNodePromptUpdateSchema.safeParse({
-    description,
-    id,
-    prompt,
-    title,
-  });
-  return parsed.success ? parsed.data : null;
+  const result = WorkflowNodePromptUpdateSchema.safeParse({ description, id, prompt, title });
+  return result.success ? result.data : null;
 }

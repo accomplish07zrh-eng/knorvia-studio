@@ -1,0 +1,21 @@
+{
+  "batch": "parser-normalization",
+  "diagnostics": 0,
+  "emitted": [
+    "apps/cli/packages/core/dist/workflow/expert/parsers/json.js",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/json.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/json.d.ts",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.js",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/graph-seed.d.ts",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.js",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/node-prompts.d.ts",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.js",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/planner-result.d.ts",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/critic.js",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/critic.d.ts.map",
+    "apps/cli/packages/core/dist/workflow/expert/parsers/critic.d.ts"
+  ]
+}

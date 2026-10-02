@@ -17,10 +17,13 @@ export function parseWorkflowPlannerResult(
 ): WorkflowGraphPlannerResult {
   const raw = parsePlannerJson(response);
   const direct = WorkflowGraphPlannerResultSchema.safeParse(raw);
-  if (direct.success) return direct.data;
+  if (direct.success) {
+    return direct.data;
+  }
   if (!isRecord(raw)) {
     throw new Error("Workflow planner did not return JSON graph expansion data");
   }
+
   const seed = normalizeWorkflowGraphSeedCandidate(raw, defaultPhase);
   const collectionNodeIds =
     readLooseStringArray(raw, [
@@ -29,13 +32,15 @@ export function parseWorkflowPlannerResult(
       "collectionUpdates",
       "collection_updates",
     ]) ?? seed?.collections.flatMap((collection) => collection.nodeIds);
-  const parsed = WorkflowGraphPlannerResultSchema.safeParse({
+  const result = WorkflowGraphPlannerResultSchema.safeParse({
     collectionNodeIds,
     edges: seed?.edges ?? [],
     exhausted: readLooseBoolean(raw, ["exhausted"]),
     nodes: seed?.nodes ?? [],
     reasoning: stringValue(raw.reasoning),
   });
-  if (parsed.success) return parsed.data;
+  if (result.success) {
+    return result.data;
+  }
   throw new Error("Workflow planner did not return JSON graph expansion data");
 }
