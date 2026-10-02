@@ -1,0 +1,10 @@
+# Complete result, file-change, image, attachment-reference and post-compact reminder owners
+
+Next E batch from published 25063685 selects runtime/helpers/tool-result.ts, turn-file-changes.ts, attachment-image.ts, attachment-path-reference.ts and compact-post-reminders.ts after bounded accepted-receipt search. No earlier accepted complete owner record found; dependency/boundary mentions are not acceptance. Preserve complete public API and functionality/UI/data, error/result classification, file-change recording and digest summaries, media preparation/identity/privacy, path/reference projection and post-compact read state boundaries. A runtime methods, conversation, streaming ledger/coordinator/recovery and protected permission/security remain excluded. No other-lane implementation imports.
+
+```text
+tool result / existing media data → single existing helper owner → unchanged caller projection
+existing turn map / read state → helper bookkeeping or reminder projection → same delegated event path
+```
+
+Reserve metadata before target body curation. Five complete body-free scoped inputs, fresh restricted authors, freeze full drafts/receipts and archive before source-exposed comparison. No curator source patches; preserve original failure and additive same-author correction evidence if necessary. Retain required static data/schema/prose/facade portions honestly without naming-only novelty or license grant. Every source under 400 lines. Shared-executor instruction-only restriction, prior curator context qualified, no OS isolation/access audit. Use saved Fast setting unchanged; interface cannot verify tier. Only scoped static API/import/input/output/receipt/boundary/data checks and minimum synthetic validation/identity/privacy/write/error gates. Ordinary suites/builds/project typechecks/lint and source-emitted matrices deferred; known unchanged architecture TypeScript failure not repeated. No actual user memory/files/provider/network/credentials/store/OS operations, cross-lane integration/main merge/global license edits/deployment/release. All 21 material obligations remain.
