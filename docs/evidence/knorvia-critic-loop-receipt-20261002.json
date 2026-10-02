@@ -1,0 +1,62 @@
+{
+  "formatVersion": 1,
+  "candidateCommit": "75a65e91d3fecdc8080350c60dbe6279da32911d",
+  "baselineCommit": "eea2279eb9502798aabbf24c8975108e0c42d374",
+  "scope": "Complete expert/critic-loop.ts. Manual retry-state is independent and byte-unchanged; no runtime/phase/scheduler/lifecycle/parser ownership changed.",
+  "authoring": {
+    "author": "/root/critic_loop_author",
+    "model": "Fresh fork_turns none GPT-6.1 Sol/high author; existing Fast setting retained, no settings mutation",
+    "draftCommit": "73c6cdb",
+    "draftBytes": 7320,
+    "draftSha256": "dddcd8f64d7e92751fd6dffc8ca94869b0ecc86e54ec1dc4ee5db3edb2c4a27c",
+    "inputs": "Only contract.md and api.d.ts read according to author report; curator copied and hashed both. Curator verified/saved draft before review. Shared-filesystem instruction boundary, not technical access isolation. Source-derived packet and exposed curator explicitly disclosed.",
+    "integration": "Formatting only; all parsed draft statements equal installed source. No post-review production correction."
+  },
+  "design": "One current snapshot cursor per call. Admission helper owns recoverable reopen rejection; graph publication retains separate native async settlement gate. Write/event failures stay outside rejection recovery. Accepted IDs retain proposal order; synchronous resets retain collection/edge/unchanged node and phase references. Live iteration bound and exhaustion payload read after awaits. No new retry policy, cancellation guard, queue or cache.",
+  "validation": {
+    "narrowTypeAPI": "TypeScript 6.0.2 selected-owner noEmit program, zero diagnostics; exported source signature parsed equal exact historical source. Installed draft parsed statement equality after formatting passed.",
+    "lint": "Owned temporary config retains all root 94 rules, removes only apps/cli ignore: one file, zero errors/warnings.",
+    "format": "One source file check passed.",
+    "architecture": "Changed check passed, zero violations; CLI unmanaged.",
+    "dataCheck": "No concrete data/publication defect identified in review, so no synthetic behavior test added or run. No source/emitted matrix or ordinary suite/build.",
+    "emittedState": "Current emitted JS/declaration were NOT generated. Existing dist JS/declaration are exact historical bytes, preserved and explicitly historical; not current candidate proof. No selector routes candidate checks to old code. Root must generate current artifacts for aggregate acceptance.",
+    "skipped": [
+      "behavioral and cancellation execution",
+      "actual-emitted candidate/consumer tests",
+      "ordinary/full suites",
+      "CLI/desktop builds",
+      "root-wide types/lint",
+      "native acceptance",
+      "manual retry-state behavior reruns"
+    ]
+  },
+  "expression": {
+    "status": "Source-exposed mixed candidate pending independent expression/rights review; no whole-file licence, independence or reconstruction-credit conclusion.",
+    "compatibility": "Fixed public APIs/statuses/prose, maxReopens=2, ordered fields/await gates and snapshot identity contracts are retained compatibility facts. map/spread/iteration/import glue is conventional. Pure phaseNodeId is computed once per reset in authored draft; actual supported definitions provide string phases.",
+    "discretionaryOverlap": "Admission try/catch and mapped result, graph-record construction, dual reset projections and sequential retry publication still closely resemble predecessor combinations. Author chose while iteration, helper placement, names and a single exhaustion-text local; these changes receive no originality credit by themselves. Complete packet authoring is process evidence, not proof all similar discretionary expression is clear. No algorithmic novelty was forced.",
+    "origin": "Inventory upstream-modified/unreviewed: publisher apps/zcode-cli/packages/core/src/workflow/expert/critic-loop.ts blob 0e7b4d0933e98c5a3d214a4797fda6d1c27e6a41 normalized SHA256 39daf98d292fd92c39b8985bdf2ebf52c4694db6d7410a4e01e10ff3f9bb4835. Inventory metadata only, no new publisher acquisition/verification claimed. Existing notices/obligations remain."
+  },
+  "nextGap": "Independent expression review and aggregate current-artifact validation of this candidate. Manual expert/retry-state.ts remains inherited/unreviewed but not inseparable from critic ownership; no production change made to it here.",
+  "files": {
+    "specs/knorvia-critic-loop-20261002.md": "32380400051d754161830e3c8733999a019fdd687427614e57b648185d896d58",
+    "docs/evidence/critic-loop-author-20261002/contract.md": "ca24b01acfa29e476efd06b3f76f1f96db068d57cf0d1d087a2770d9642a99ac",
+    "docs/evidence/critic-loop-author-20261002/api.d.ts": "9483739ada3b7a2e74efabd0e74e9e1578380f75ea67c72969cdc3e56eedda80",
+    "docs/evidence/critic-loop-author-20261002/draft-exact.json": "02ccfc5d8f23a90a9c7d6cad0f6257dd45efd8d127483ff2c76137a0eda30424",
+    "apps/cli/packages/core/test/workflow-critic-loop-baseline.json": "fa39ffb6fe3027454a0a9d3aa837df35da3d6d55b2b9a85358ef1ed33fc070a9",
+    "apps/cli/packages/core/src/workflow/expert/critic-loop.ts": "9bad65d06d2e7de38a7588a83523803c7ae2c572feda5ed44fdfae7424cb4df5"
+  },
+  "protectedFiles": {
+    "apps/cli/packages/core/src/workflow/expert/retry-state.ts": "2d9335dbeb4bacc032eddf51188f84785f7a8e23f434fe570cbd61bde04f76c0",
+    "apps/cli/packages/core/src/workflow/expert/runtime.ts": "bece27fb3ccfad3de3fc8fc7789cc3b1f188ad0db4755ad5b73420dc991e8f92",
+    "apps/cli/packages/core/src/workflow/expert/runtime-context.ts": "2ff3559457ab31336c6a9f29c342736a7f6df7ea8c97c10b668a350e23323cc7",
+    "apps/cli/packages/core/src/workflow/expert/run-loop.ts": "39182c7c05b39c72fda6df19ae4670cdf77773327f374100c1871ad511c06633",
+    "apps/cli/packages/core/src/workflow/expert/phase-runner.ts": "4c6613d8660d9b727e724a3ee61ded9ac09a5fa96498a28d92ae6c37bf9796b0",
+    "apps/cli/packages/core/src/workflow/expert/graph-artifacts.ts": "5db5c836b886020b03105d73d2e9ed4bacd52033af503c7097410ac9fecdd36f",
+    "apps/cli/packages/core/src/workflow/expert/scheduled-phase.ts": "c96bc3e6229aa6bc11517c58f5676970f6ee772e73dea45674573027249c29e7"
+  },
+  "historicalArtifacts": {
+    "compiledSha256": "77c416ed9e6e621446404837574b225f067832a40164d1d95dd344837986d543",
+    "declarationSha256": "831ce2ea4e2391b1c85faae2c4a2035c8354c135772650fbc47c27417470b7ac"
+  },
+  "reviewLog": "{\"typescript\":\"6.0.2\",\"diagnostics\":0,\"noEmit\":true,\"draft\":\"parsed statement equality after formatting\",\"publicAPI\":\"exact exported source signature equality\",\"behavior\":\"not executed\",\"build\":\"not executed\"}\n"
+}
