@@ -1,5 +1,7 @@
 # Complete scheduler event-log author handoff
 
+Current status: the exact frozen candidate was subsequently installed on E's branch; see the [integration binding and deferred acceptance](knorvia-event-log-integration-20261002.md). Uninstalled/uncompiled statements below describe the earlier freeze/review stage. No runtime acceptance is claimed.
+
 The [frozen behavior/API packet](evidence/event-log-author-packet-20261002/) covers the complete `WorkflowSchedulerEventLog` owner: construction/callback capture, synchronous timestamps, graph status/collection/expansion records, event publication and optional observer settlement. This batch produces an uninstalled author candidate, not accepted runtime integration.
 
 ## Contract and input freeze

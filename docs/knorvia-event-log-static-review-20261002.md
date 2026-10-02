@@ -1,5 +1,7 @@
 # Event-log candidate: static behavior and expression review
 
+Current status: the exact frozen candidate was subsequently installed on E's branch; see the [integration binding and deferred acceptance](knorvia-event-log-integration-20261002.md). Uninstalled/uncompiled statements below describe the earlier freeze/review stage. No runtime acceptance is claimed.
+
 The frozen candidate preserves the specified mutable-clock/read ordering on static inspection. The recorded input-limited author process supports a bounded contribution finding for this small port-wrapper owner: this review identifies **no concrete non-mandated copied expression** beyond the retained contract and ordinary TypeScript idioms. The body-match evidence remains accurate, but does not itself establish copying or justify rejecting the draft. This clarifies the earlier overly restrictive disposition; textual novelty or a new decomposition is not required. The candidate remains uninstalled because integration and runtime acceptance are separate pending work.
 
 ## Frozen evidence and comparison boundary
