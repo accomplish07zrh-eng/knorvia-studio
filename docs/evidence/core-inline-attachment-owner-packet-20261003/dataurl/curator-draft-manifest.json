@@ -1,0 +1,26 @@
+{
+  "scope": "dataurl",
+  "archivedBeforeCuratorBodyReview": true,
+  "archivedAtUtc": "2026-10-02T21:17:04.819200+00:00",
+  "files": [
+    {
+      "file": "attachment-data-url.ts.txt",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/dataurl/output/attachment-data-url.ts",
+      "bytes": 2218,
+      "sha256": "e8d9e6802e63480b93a591896feb007d1a93dcb759b312252e08062457f8e4c5",
+      "lines": 78,
+      "freezeMode": "0444",
+      "target": "apps/cli/packages/core/src/runtime/helpers/attachment-data-url.ts"
+    },
+    {
+      "file": "author-record.json",
+      "scratch": "/tmp/knorvia-inline-attachment-20261003/dataurl/output/author-record.json",
+      "bytes": 8760,
+      "sha256": "7d88f571a1cc77bb12a1dafd7606a139bbc3bbb191ea77d8d6375c9cbb0a5fb5",
+      "lines": 170,
+      "freezeMode": "0444"
+    }
+  ],
+  "authorReceiptSelfReported": true,
+  "noOsIsolationOrAccessAudit": true
+}
