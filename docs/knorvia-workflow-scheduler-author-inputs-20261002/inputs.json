@@ -1,0 +1,320 @@
+{
+  "formatVersion": 1,
+  "scope": "WorkflowGraphScheduler constructor/run in workflow/scheduler.ts only; existing dependencies unchanged",
+  "origin": "Plain data from bounded synthetic predecessor observations; no executable fixtures or oracle bodies",
+  "productionBindings": {
+    "reconcileWorkflowSnapshotForResume": "./lifecycle.js",
+    "checkCollectionPlanners": "./scheduler/collection-planner.js",
+    "WorkflowCollectionPlannerRuntime": "./scheduler/collection-runtime.js",
+    "WorkflowSchedulerEventLog": "./scheduler/events.js",
+    "areExecutableNodesComplete": "./scheduler/graph.js",
+    "blockedExecutableNodes": "./scheduler/graph.js",
+    "orderedReadyExecutableNodes": "./scheduler/graph.js",
+    "readyExecutableNodes": "./scheduler/graph.js",
+    "runWorkflowNode": "./scheduler/node-runner.js",
+    "WorkflowNodeRunnerRuntime": "./scheduler/node-runner.js",
+    "scheduler types": "./scheduler/types.js",
+    "deriveWorkflowRunSchedulerState/deriveWorkflowSchedulerState and supporting types": "@knorvia/contracts"
+  },
+  "newObservedCases": [
+    {
+      "name": "explicit-empty-scope/terminal-abort",
+      "nodes": [
+        {
+          "id": "excluded",
+          "status": "pending"
+        }
+      ],
+      "scope": [],
+      "queuedAbortAt": "executor_completed append",
+      "expected": {
+        "reason": "completed",
+        "status": "completed",
+        "snapshotIdentity": "same supplied object",
+        "writes": 0,
+        "runnerRequests": 0,
+        "events": ["frontier_changed", "executor_completed"]
+      }
+    },
+    {
+      "name": "pre-abort resume repair",
+      "nodes": [
+        {
+          "id": "a",
+          "status": "active",
+          "phase": "execute"
+        },
+        {
+          "id": "outside",
+          "status": "active"
+        }
+      ],
+      "scope": ["a", "a", "missing"],
+      "expected": {
+        "writesBeforeAbortRejection": 1,
+        "selectedNode": "pending",
+        "outsideNodeIdentity": "retained",
+        "activePhaseIdentity": "retained",
+        "selectedActivity": "cancelled",
+        "errorIdentity": "original owned Error",
+        "writeReceiver": "scheduler instance",
+        "events": []
+      }
+    },
+    {
+      "name": "blocked selected dependency",
+      "nodes": [
+        {
+          "id": "a",
+          "status": "pending",
+          "dependsOn": ["outside"]
+        },
+        {
+          "id": "outside",
+          "status": "pending"
+        }
+      ],
+      "scope": ["a"],
+      "expected": {
+        "reason": "deadlock",
+        "status": "paused",
+        "payload": {
+          "blockedNodes": [
+            {
+              "blockedBy": ["outside"],
+              "nodeId": "a"
+            }
+          ]
+        },
+        "message": "execute scheduler paused because pending nodes are blocked."
+      }
+    },
+    {
+      "name": "started gate and slot reuse",
+      "nodes": ["a", "b", "c"],
+      "maxConcurrentLoops": 2,
+      "controls": [
+        "hold a activation write",
+        "release startup",
+        "complete b",
+        "complete a",
+        "complete c"
+      ],
+      "expected": {
+        "runnerCallsBeforeActivationWrite": 0,
+        "dispatchOrder": ["a", "b", "c"],
+        "completionOrder": ["b", "a", "c"],
+        "result": "completed",
+        "snapshotIdentity": "last successful write object"
+      }
+    },
+    {
+      "name": "threshold drain",
+      "nodes": ["a", "b"],
+      "maxConcurrentLoops": 2,
+      "maxConsecutiveErrors": 1,
+      "controls": ["reject a", "hold b", "complete b"],
+      "expected": {
+        "pauseBeforeBSettlement": false,
+        "nodeStatuses": ["failed", "completed"],
+        "reason": "error_threshold",
+        "payload": {
+          "consecutiveErrors": 1
+        },
+        "message": "execute scheduler paused after 1 consecutive node error(s)."
+      }
+    },
+    {
+      "name": "successful outcome resets consecutive count",
+      "maxConsecutiveErrors": 2,
+      "controls": [
+        "reject a first attempt",
+        "admit retry a",
+        "complete b",
+        "reject a second attempt"
+      ],
+      "expected": {
+        "dispatchOrder": ["a", "b", "a"],
+        "aAttempts": 2,
+        "reason": "deadlock"
+      }
+    },
+    {
+      "name": "collection adds executable id",
+      "nodes": [],
+      "scope": [],
+      "collection": {
+        "collectionId": "owned-collection",
+        "explorable": true,
+        "phase": "execute",
+        "nodeIds": []
+      },
+      "plannerResult": {
+        "nodes": [
+          {
+            "id": "added",
+            "title": "Owned added node",
+            "dependsOn": [],
+            "kind": "task",
+            "phase": "execute"
+          }
+        ],
+        "edges": [],
+        "exhausted": true,
+        "response": "Owned planner response",
+        "sessionId": "owned-planner"
+      },
+      "expected": {
+        "plannerRequests": 1,
+        "dispatchOrder": ["added"],
+        "reason": "completed",
+        "firstEvents": [
+          "planner_started",
+          "planner_completed",
+          "graph_expanded",
+          "collection_exhausted",
+          "frontier_changed"
+        ],
+        "frontier": {
+          "activeNodeIds": [],
+          "blockedNodes": [],
+          "readyNodeIds": ["added"]
+        }
+      }
+    },
+    {
+      "name": "two runs on one instance",
+      "runIds": ["one", "two"],
+      "nodeIds": ["a"],
+      "expected": {
+        "firstAppendRunIds": ["one", "two"],
+        "firstPortTrace": [
+          "event:frontier_changed:",
+          "event:frontier_changed:",
+          "callback:frontier_changed:",
+          "callback:frontier_changed:"
+        ],
+        "callbackIdentity": "exact appended event at same observed ordinal",
+        "afterOneCompletes": "two remains active",
+        "separateResultRunIds": ["one", "two"]
+      }
+    },
+    {
+      "name": "frontier append rejection",
+      "expected": {
+        "errorIdentity": "original owned Error",
+        "events": ["frontier_changed"],
+        "callbacks": 0,
+        "writes": 0
+      }
+    },
+    {
+      "name": "abort while node race pending",
+      "controls": [
+        "wait until pending race",
+        "abort owned signal",
+        "owned port ignores signal",
+        "resolve owned node result"
+      ],
+      "expected": {
+        "beforePortSettlement": "run pending; node active",
+        "afterPortSettlement": "exact abort Error rejection; node completed",
+        "executorCompletedEvent": false
+      }
+    },
+    {
+      "name": "actual scheduled-phase consumer",
+      "phase": "execute",
+      "emptyGraph": true,
+      "expected": {
+        "callerTrace": [
+          "phase:active",
+          "event:phase_started",
+          "artifact:artifacts/execute.md",
+          "phase:completed",
+          "graph:completed",
+          "event:artifact_written",
+          "event:phase_completed"
+        ],
+        "summary": "# execute Scheduler Summary\n\nRun: owned-run\nStatus: running\nUpdated: seed\n\n## Nodes\n\n- No scheduled nodes.\n\n## Activities\n\n- No activities.\n",
+        "blockedCallerError": "Workflow execute scheduler paused: deadlock",
+        "blockedCallerTrace": ["phase:active", "event:phase_started"]
+      }
+    }
+  ],
+  "reusedHistoricalObservations": {
+    "checkpoint": "6888c2e40060dd0c6cad32cf97736c3e2e21b933",
+    "caseGroup": "actual scheduler consumer completion, error threshold and terminal abort",
+    "notRerunInThisPacketTurn": true,
+    "cases": [
+      {
+        "mode": "success",
+        "reason": "completed"
+      },
+      {
+        "mode": "failure",
+        "reason": "error_threshold"
+      },
+      {
+        "mode": "node-completion-abort",
+        "errorIdentity": "exact owned abort Error",
+        "lastNodeStatus": "completed",
+        "executorCompletedEvent": false
+      }
+    ]
+  },
+  "limits": "Representative native-promise ordinary-record graphs/ports; actual collection helper retained. No broad accessor, live/provider, native/platform or universal malformed-input proof.",
+  "baseSnapshot": {
+    "activities": [],
+    "artifacts": [],
+    "createdAt": "seed",
+    "cwd": "owned-workspace",
+    "graph": {
+      "nodes": [],
+      "edges": [],
+      "collections": []
+    },
+    "kind": "expert",
+    "phaseOrder": ["execute"],
+    "phases": [],
+    "recoveryActions": [],
+    "runId": "owned-run",
+    "schemaVersion": 1,
+    "sessionLinks": [],
+    "status": "running",
+    "task": "Owned synthetic task",
+    "updatedAt": "seed",
+    "strategy": {
+      "clarify": {
+        "confidenceThreshold": 0.8,
+        "minRounds": 1,
+        "maxRounds": 3
+      },
+      "executor": {
+        "drainingChangeHours": 1,
+        "frontierTarget": 1,
+        "maxConcurrentLoops": 2,
+        "maxConsecutiveErrors": 2,
+        "maxPlannerRuns": 2
+      },
+      "finalCritic": {
+        "maxIterations": 1
+      },
+      "reactLoop": {
+        "maxRounds": 1
+      }
+    }
+  },
+  "baseNode": {
+    "id": "case-specific",
+    "title": "Owned case-specific",
+    "dependsOn": [],
+    "kind": "task",
+    "status": "pending"
+  },
+  "callerOptions": {
+    "cwd": "owned-cwd",
+    "task": "Owned synthetic task",
+    "abortSignal": "owned AbortController signal"
+  }
+}
