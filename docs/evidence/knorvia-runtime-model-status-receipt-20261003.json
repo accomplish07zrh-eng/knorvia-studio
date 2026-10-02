@@ -1,0 +1,42 @@
+{
+  "baselineCommit": "e188428fa9f62df70650230190e3127e4ff118d9",
+  "freezeCommit": "afed3f4",
+  "draftCommit": "1f5d140",
+  "owner": "apps/cli/packages/core/src/runtime/methods/model-status.ts",
+  "helpers": [],
+  "packetAndDraftPins": {
+    "api.d.ts": "526d163f748098c9da2b26b7876a0983beb0c299de23cf4f9f24e69aa4b8bc7c",
+    "contract.md": "44aff76e0359634ad0396552e2454c08da2edbd890d59d4a33c0746128c58990",
+    "draft-01/access-journal.json": "b2b03df4a9fafe6b1855c891822ec9ccbebbad04bf3c540d060df83c4996c1b5",
+    "draft-01/model-status.ts": "09ec02297c290a3e83106ffc4a4712fe7bc602b550c17f224fac421ee163b300",
+    "draft-01/seal.sha256": "3b65806e2107a87e83004997f07e6663bbdff108af4f3e16c6050a4cb0a1681b",
+    "draft-02/access-journal.json": "be5a39a0910df8f360d14c02708296e34ef927972543470c851b9cdc56aab5f9",
+    "draft-02/model-status.ts": "1425fa8832ca9eca3d19267cc1c63a6da32c8aa4bd4c710a543da656dbc0ace3",
+    "draft-02/seal.sha256": "9a3309c9a0724c2809f34095599d6e498035e19365ce593dbeff5e3b03bf05dd",
+    "lineage.json": "cbbbbade5d95cb85abc31ab3e8626cbf63491b6bc0811a2ef38bf8109fb8378d"
+  },
+  "historicalOracle": {
+    "path": "apps/cli/packages/core/test/runtime-model-status-baseline-20261003.json",
+    "sha256": "1589939e9229f7261046fa473f5be51ac38efeeffabc772b07ff6f13ded691e8"
+  },
+  "finalPins": {
+    "src/runtime/methods/model-status.ts": "e8807b106d04065db738c382b1fbb03c1f067deeba5c5ce4d916bfc3d5492082",
+    "dist/runtime/methods/model-status.js": "24eb8220cad1aec7e949d8159b912d2bdacf0817749ec6381c41fd3593bc375b"
+  },
+  "design": "Seven fixed logging profiles select delayed ordered metadata projection and one optional receiver-bound logger effect. The native async sink preserves callback/log/create/await append/push. No duplicate publication owner or new runtime state.",
+  "postDraftCorrections": [
+    "Draft01 rejected as dispatcher reshuffling; draft02 sealed separately after source-derived curator design feedback.",
+    "Lint-only unnecessary this alias removed from lexical arrow; no lint weakening or async change."
+  ],
+  "authorship": "Fresh internal fork_turns=none authors, Sol/high, only own body-free API/contract/supporting facts and recorded clarifications. Journals report accesses; sealed drafts precede curator comparison. Curator source-exposed; packet and feedback source-derived. No absolute isolation/clean-room or whole-file rights claim.",
+  "retainedExpression": "Fixed APIs/type/protocol names, record fields and key order, runtime errors/log/prose labels, original dependency seams and native await/effect combinations retained. Conventional maps, object projections, spreads, predicates and loop glue may match. Authorship process and tests do not resolve licensing; attribution/notice obligations unchanged.",
+  "checks": "Shared scoped compiler:0 diagnostics,10 historical/current call signatures equal.5source lint94rules0;6format files pass;architecture0. One final coherent emitted safety pass3groups+1ID regression+1cancelled-log observation. Subsequent model-status-only lint correction rerun1overlapping group+1overlapping log observation; no extra distinct group credit.15 exact current artifacts.",
+  "limits": [
+    "Ordinary suites/builds/native/source-emitted duplicate matrices deliberately unrun per speed cadence.",
+    "Three synthetic groups do not cover all stop/usage/status branches; actual consumer call sites traced, not full runtime launched.",
+    "Transitive dependencies via tsx, not all-emitted.",
+    "Freshness fetch blocked configured proxy8080; no bypass or settings change.",
+    "Root independently reviews correctness/expression/licence; no header/inventory grant, integration or publication claim."
+  ],
+  "draft02Commit": "9036751"
+}
