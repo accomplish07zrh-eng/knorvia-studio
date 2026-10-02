@@ -1,0 +1,24 @@
+{
+  "scope": "media-v2",
+  "files": [
+    {
+      "file": "file-part-hydration.ts.txt",
+      "target": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "bytes": 5130,
+      "lines": 178,
+      "sha256": "3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35",
+      "scratch": "/tmp/knorvia-hydration-owner-20261003/media-v2/file-part-hydration.ts",
+      "frozenMode": "0o444"
+    },
+    {
+      "file": "author-record.json",
+      "target": null,
+      "bytes": 15089,
+      "lines": 264,
+      "sha256": "c2e1d9404ac735cb800e4622fc578de0a6e48a9ef7aff3ccfc682826dfe10811",
+      "scratch": "/tmp/knorvia-hydration-owner-20261003/media-v2/author-record.json",
+      "frozenMode": "0o444"
+    }
+  ],
+  "qualification": "New complete same-author source and full cumulative receipt archived before body review; original draft/receipt/failure retained; no curator source patch."
+}

@@ -94,6 +94,60 @@
           "sha256": "3a87e77a642ae1296e20c4f731c070816267ecb83660e9f60556081c67b54140"
         }
       ]
+    },
+    "media-v2": {
+      "source": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/agent/file-part-hydration.ts",
+        "bytes": 5921,
+        "lines": 181,
+        "sha256": "a90fe7f601a845ef1c603ce8a71552ffb458d71033cc1379420293e453b42cdc"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/contract.md",
+          "bytes": 5784,
+          "lines": 17,
+          "sha256": "a3afb63a9c49d4b8b8be4e92935ca79fc37c471fea21c96c6d8687f0b9cac9b2"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-api.d.ts",
+          "bytes": 410,
+          "lines": 3,
+          "sha256": "a888b012456316a4e4ce6462247dc49b328b19d78b874a4ba0dce42dcc80e094"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+          "bytes": 7517,
+          "lines": 235,
+          "sha256": "c403248f1397b746909343a2d5b054531618946fcd4b3144cd9e9f5160f1e5b4"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/dependency-api.d.ts",
+          "bytes": 249,
+          "lines": 3,
+          "sha256": "5919c4294a7b86cda7590417800a28e68fe8bd8887eb66ade08403350cc5ef48"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/imports.json",
+          "bytes": 236,
+          "lines": 10,
+          "sha256": "152fc3c7b1132aacaecd18fad3b805615d31457b691b1b36b2d3f49f4d083f13"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-packet-20261003/media/output-data.json",
+          "bytes": 3235,
+          "lines": 198,
+          "sha256": "e92749d68724bf01e550d416da2af5171e8ded78e49af2ae34bf52937cb6bd21"
+        },
+        {
+          "path": "docs/evidence/core-hydration-owner-review-20261003/media-layout-boundary-finding.md",
+          "bytes": 1419,
+          "lines": 5,
+          "sha256": "b346f01356ba91df60a4094452af72915b5f8dbda6d8c8b0222b78194f6a7bef"
+        }
+      ],
+      "archiveDirectory": "docs/evidence/core-hydration-owner-packet-20261003/media-v2"
     }
   },
   "qualification": "Six source-derived public/behavior/data inputs per fresh author. Source-exposed curator; full historical limitations retained. Full output drafts/receipts archived before source body review; no clean separation/rights assertion."
