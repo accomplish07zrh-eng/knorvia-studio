@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "phase": "frozen inputs before author creation",
+  "frozenAtUtc": "2026-10-02T13:41:59.375533+00:00",
+  "publishedBranch": "parallel/material-closure-fast-20261002",
+  "preparationHead": "43a7300f70a512905691e942d63dc633b5e68042",
+  "behaviorCheckpoint": "39cc7b5fa60c7337a4b1139e8bab8cc0d6a079ec",
+  "inheritedExpressionReviewCommit": "fd5e9e2e7f56253cf083aaa66364e3c9838d4dcd",
+  "authorInputs": {
+    "contract.md": {
+      "bytes": 16218,
+      "sha256": "8d30af0ee267ebd78cb21a1766bb44d12037dcac766b42e34fe4ffdfadee0338"
+    },
+    "public-api.d.ts": {
+      "bytes": 6801,
+      "sha256": "87b2aa349520f64feb3b9cf350886658fb316bca902485a859c3d58b55b7c4ed"
+    },
+    "public-data-shapes.md": {
+      "bytes": 3931,
+      "sha256": "6c24dc857739d0be6ca8edeaf2e98d7de020784147a72fc4f1457bbed83fd809"
+    }
+  },
+  "sourceEvidence": {
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts": {
+      "bytes": 12942,
+      "sha256": "2556b0d2495c08b82f22b8396abb87a0faea907611a45eab8d89bfd5a7e2d79b"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/collection-planner-admission.ts": {
+      "bytes": 3196,
+      "sha256": "aade31d58a478a21f9655c6f526ac40198cf962764c5084068ec0b70bf5edae9"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts": {
+      "bytes": 434,
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/types.ts": {
+      "bytes": 4401,
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/events.ts": {
+      "bytes": 3771,
+      "sha256": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/graph.ts": {
+      "bytes": 7567,
+      "sha256": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts": {
+      "bytes": 2458,
+      "sha256": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts": {
+      "bytes": 5543,
+      "sha256": "7344f1884044f6ca8a6106bee0db8ee57169826a8c7588d4d28676a1e6272e8c"
+    },
+    "apps/cli/packages/core/src/workflow/scheduler/prompts.ts": {
+      "bytes": 2932,
+      "sha256": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98"
+    },
+    "apps/cli/packages/contracts/src/workflow/index.ts": {
+      "bytes": 28035,
+      "sha256": "a8918a260154ddf41ad0ef085789233490ada8e053b6525afc15559611e00e62"
+    },
+    "apps/cli/packages/contracts/src/tracing/tracer.ts": {
+      "bytes": 7056,
+      "sha256": "289402aa914dcd545718f92ccd90aebfb78d2429c72829561c31685bd6bdb1a5"
+    }
+  },
+  "boundary": {
+    "curator": "Source-exposed: read corrected owner, admission, publisher and predecessor in prior review; this packet is a functional/API distillation, not evidence of curator non-exposure.",
+    "author": "Not yet created. Intended fresh native fork_turns none; read allowlist is only three copied inputs and own outputs. No implementation, tests, reviews or history supplied.",
+    "enforcement": "Instructions and author attestation, not filesystem isolation; shared executor remains technically readable.",
+    "model": "Requested gpt-6-astra/high. No separate Fast/service-tier control exposed by native spawn tool.",
+    "scope": "Evidence candidate only; production files, licenses and global inventory remain unchanged.",
+    "earlierFinding": "Corrected existing planner/admission remain source-exposed mixed expression under fd5e9e2; creating a packet does not clear them."
+  }
+}
