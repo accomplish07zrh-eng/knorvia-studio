@@ -1,0 +1,9 @@
+{
+  "algorithm": "SHA256",
+  "byteScope": "Exact file bytes, without normalization",
+  "files": {
+    "draft.ts": "e0fdf51e5c764e2361d47d555f7d622baf640ef1fe5b2980a2bdcd9d03af92fc",
+    "access.json": "76da9ad5445c35d7b1c30b1fd0688f17406a973918156b8bfaf29c0bbe8da157"
+  },
+  "validation": "Manual packet review only; compilation, tests, and candidate execution were prohibited and not performed."
+}

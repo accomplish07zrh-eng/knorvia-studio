@@ -1,0 +1,34 @@
+{
+  "task": "control-only-turn bounded packet author",
+  "inputReads": [
+    { "path": "/workspace/knorvia-studio/docs/evidence/runtime-control-only-turn-author-20261003/contract.md", "method": "exec_command cat", "scope": "entire file" },
+    { "path": "/workspace/knorvia-studio/docs/evidence/runtime-control-only-turn-author-20261003/api.d.ts", "method": "exec_command cat", "scope": "entire file" },
+    { "path": "/workspace/knorvia-studio/docs/evidence/runtime-control-only-turn-author-20261003/imports.d.ts", "method": "exec_command cat", "scope": "entire file" },
+    { "path": "/workspace/knorvia-studio/docs/evidence/runtime-control-only-turn-author-20261003/literals.json", "method": "exec_command cat", "scope": "entire file" },
+    { "path": "/workspace/knorvia-studio/docs/evidence/runtime-control-only-turn-author-20261003/supporting.d.ts", "method": "exec_command cat", "scope": "entire file" }
+  ],
+  "toolActivity": [
+    { "tool": "exec_command", "operation": "One cat command read exactly the five listed packet files." },
+    { "tool": "apply_patch", "operation": "Created draft.ts in the assigned temporary directory." },
+    { "tool": "apply_patch", "operation": "Created this access.json in the assigned temporary directory." },
+    { "tool": "exec_command", "operation": "sha256sum reads only draft.ts and access.json to seal their exact bytes." },
+    { "tool": "apply_patch", "operation": "Created seal.json containing the returned SHA256 digests." }
+  ],
+  "limits": {
+    "productionHistoryTestsOraclesLineageAndOtherPacketsRead": false,
+    "dependencyBodiesRead": false,
+    "teamStatusRead": false,
+    "checkoutChanged": false,
+    "compilationTestsOrCandidateExecution": false,
+    "realPortsModelsUserFilesProvidersNetworkOrProcessTasks": false,
+    "onlyShellTransport": "Exact packet reads and hashes of own deliverables; own writes used apply_patch.",
+    "verification": "Manual contract review only; no runtime or type validation performed."
+  },
+  "design": {
+    "owner": "Four exported native async functions, private option type aliases, and no auxiliary state or await wrappers.",
+    "organization": "Boundary publication first, caller adapters next, workflow message persistence last.",
+    "conventionalProtocolGlue": "Direct receiver-bound awaits and call adapters, optional property spreads, protocol record literals, and tool-name mapping.",
+    "mutableReads": "Only contract-required message ID, trace, canonical input, turn ID, and created timestamp are captured; remaining mutable reads stay at their contract evaluation points.",
+    "moduleLimit": "Single source module under 400 physical lines; no suppressions, added exports, policy, retry, queue, cache, or sidecar state."
+  }
+}

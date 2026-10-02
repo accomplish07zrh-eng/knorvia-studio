@@ -1,0 +1,18 @@
+{
+  "algorithm": "SHA256",
+  "artifacts": {
+    "draft.ts": {
+      "sha256": "4ed3bd95b511c1d5a41a8892968557b1dafc68f9c5be9704e1b8c605d16f631b",
+      "bytes": 8068,
+      "physical_lines": 215
+    },
+    "access.json": {
+      "sha256": "90bab57c8ffc3eee448a5dff73763c61010015f02c557c7d510c5fd5e09e14a9",
+      "bytes": 4067
+    }
+  },
+  "private_modules": [],
+  "candidate_run": false,
+  "candidate_compiled": false,
+  "candidate_tested": false
+}

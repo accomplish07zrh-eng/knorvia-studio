@@ -1,0 +1,5 @@
+# Public port-name clarification
+
+Curator source-derived API facts: root trace is runtime.rootTraceContext; sessionID record value is runtime.sessionId. Title config is runtime.config.titleGeneration, parentSessionId/taskType under runtime.config. Causation call is runtime.agentTelemetry.captureCausation(). All tracking and record methods are receiver-bound runtime.trackResidencyBlockingWork and runtime.recordTargetChanged. All trace spreads call traceContextToLogContext(exact named trace).
+
+Target identifier property is targetID (not id). Eligible generation is launched and its generation-failure catch attached before looking up trackResidencyBlockingWork. Only then is that caught promise tracked and the fallback-failure catch attached. Ineligible fallback is evaluated as the argument of receiver.trackResidencyBlockingWork, so the tracking callee is looked up before evaluating that fallback argument. Preserve this distinct callee/evaluation boundary; do not inline eligible generation into the tracking argument.

@@ -1,0 +1,33 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: absent optional metadata must remain absent from TurnStarted
++ actual - expected
+
+  [
+    'turnNumber',
+    'input',
+    'messageId',
+    'executionKind',
++   'workflowLaunch',
++   'intent'
+  ]
+
+    at <anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/runtime-control-turn-presence-proof-20261003.mjs:39:8) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'turnNumber',
+    'input',
+    'messageId',
+    'executionKind',
+    'workflowLaunch',
+    'intent'
+  ],
+  expected: [ 'turnNumber', 'input', 'messageId', 'executionKind' ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
