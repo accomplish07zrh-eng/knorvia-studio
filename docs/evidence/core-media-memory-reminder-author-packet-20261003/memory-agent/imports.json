@@ -1,0 +1,56 @@
+{
+  "source": "apps/cli/packages/core/src/runtime/helpers/project-memory-agent.ts",
+  "imports": [
+    {
+      "module": "../deps.js",
+      "clause": "type { Model, ModelInputMessage, ModelToolContract, TraceContext }",
+      "text": "import type { Model, ModelInputMessage, ModelToolContract, TraceContext } from \"../deps.js\";"
+    },
+    {
+      "module": "@knorvia/contracts",
+      "clause": "type { AgentTelemetryCausation, ModelApiOperation }",
+      "text": "import type { AgentTelemetryCausation, ModelApiOperation } from \"@knorvia/contracts\";"
+    },
+    {
+      "module": "../deps.js",
+      "clause": "{\n  PermissionService,\n  createDenyPermissionBroker,\n  createToolExecutor,\n  defaultPermissionConfig,\n  traceContextToLogContext,\n}",
+      "text": "import {\n  PermissionService,\n  createDenyPermissionBroker,\n  createToolExecutor,\n  defaultPermissionConfig,\n  traceContextToLogContext,\n} from \"../deps.js\";"
+    },
+    {
+      "module": "../../agent/message-history.js",
+      "clause": "type { RuntimeMessageEntry }",
+      "text": "import type { RuntimeMessageEntry } from \"../../agent/message-history.js\";"
+    },
+    {
+      "module": "../../tool/types.js",
+      "clause": "type { ReadFileStateMap }",
+      "text": "import type { ReadFileStateMap } from \"../../tool/types.js\";"
+    },
+    {
+      "module": "../internal.js",
+      "clause": "type { AgentRuntimeInternal }",
+      "text": "import type { AgentRuntimeInternal } from \"../internal.js\";"
+    },
+    {
+      "module": "../methods/session-shell-environment.js",
+      "clause": "{ getSessionShellSelectionFromConfig }",
+      "text": "import { getSessionShellSelectionFromConfig } from \"../methods/session-shell-environment.js\";"
+    },
+    {
+      "module": "./runtime-provider-request-messages.js",
+      "clause": "{ buildRuntimeProviderRequestMessages }",
+      "text": "import { buildRuntimeProviderRequestMessages } from \"./runtime-provider-request-messages.js\";"
+    },
+    {
+      "module": "../methods/model-runtime-headers.js",
+      "clause": "{ createRefreshRuntimeHeadersBeforeModelAttempt }",
+      "text": "import { createRefreshRuntimeHeadersBeforeModelAttempt } from \"../methods/model-runtime-headers.js\";"
+    },
+    {
+      "module": "../methods/runtime-model.js",
+      "clause": "{ createRuntimeModel, withModelInvocationContext }",
+      "text": "import { createRuntimeModel, withModelInvocationContext } from \"../methods/runtime-model.js\";"
+    }
+  ],
+  "reexports": []
+}

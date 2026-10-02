@@ -1,0 +1,54 @@
+{
+  "retainedExpression": "Required existing schemas/protocol/fields/prose/format/constants/evaluation/ordinary idioms; no new grant or novelty claim",
+  "metadataFields": [
+    "querySource",
+    "skipTranscript"
+  ],
+  "skipTranscript": true,
+  "modelRequestSessionType": "other",
+  "modelCallFields": [
+    "operation"
+  ],
+  "snapshotKeys": [
+    "causation",
+    "memoryRoot",
+    "providerEntries",
+    "midConversationSystem",
+    "model",
+    "operation",
+    "readFileState",
+    "tools",
+    "traceContext",
+    "workingDirectory",
+    "workspaceRoot"
+  ],
+  "executorKeys": [
+    "artifactStore",
+    "emitEvent",
+    "executionPort",
+    "fileSystemPort",
+    "getBashShellSelection",
+    "getMode",
+    "getMemoryRoot",
+    "getWorkingDirectory",
+    "getWorkspaceRoot",
+    "imageProcessorPort",
+    "pdfDocumentPort",
+    "maxConcurrency",
+    "model",
+    "permissionBroker",
+    "permissionService",
+    "readFileState",
+    "registry",
+    "runtimeScope",
+    "sessionId",
+    "sessionStore",
+    "skillPort",
+    "traceContext"
+  ],
+  "mode": "yolo",
+  "runtimeScope": "main",
+  "permissionBroker": "createDenyPermissionBroker() opaque original",
+  "permissionService": "new PermissionService(defaultPermissionConfig) opaque original",
+  "stateClone": "Map shallow values/entries preserved; history member snapshot immutablecallercontract"
+}

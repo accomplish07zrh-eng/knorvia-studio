@@ -1,0 +1,36 @@
+{
+  "retainedExpression": "Required existing schemas/protocol/fields/prose/format/constants/evaluation/ordinary idioms; no new grant or novelty claim",
+  "maxTurns": 5,
+  "drainTimeoutMs": 60000,
+  "operation": "project_memory_extract",
+  "executionKind": "background",
+  "targetKind": "project_memory",
+  "trigger": "scheduler",
+  "missingBoundary": "Extraction boundary is missing from the scheduled active branch",
+  "cancelReason": "abort_signal",
+  "failedStage": "execute",
+  "failedCategory": "internal",
+  "returns": [
+    "aborted",
+    "success",
+    "error"
+  ],
+  "sessionRequestKey": "sessionID",
+  "branchFields": [
+    "branchCutAfterMessageId",
+    "rewindCreatedMessageId",
+    "rewindKeptMessageIds",
+    "rewindTargetMessageId"
+  ],
+  "loopFields": [
+    "abortSignal",
+    "executeTool",
+    "maxTurns",
+    "messages",
+    "model",
+    "rootDir",
+    "tools",
+    "workingDirectory",
+    "workspaceRoot"
+  ]
+}
