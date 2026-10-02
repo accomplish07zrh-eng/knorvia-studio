@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "scripts/check-workspace-freshness.mjs"
+  ],
+  "stdout": "[freshness] 基线新鲜：recovery/server-lifecycle-20261002，相对 origin/main：ahead 238 / behind 0（阈值 50）\n",
+  "stderr": "[freshness] recovery/server-lifecycle-20261002 没有远端跟踪分支，跳过 behind-remote 检查（是否忘了 push -u？）\n",
+  "exitCode": 0
+}

@@ -1,0 +1,20 @@
+{
+  "files": [
+    {
+      "path": "apps/cli/packages/adapters/src/skills/index.ts",
+      "added": 284,
+      "deleted": 386,
+      "net": -102
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/skills/scan.ts",
+      "added": 73,
+      "deleted": 115,
+      "net": -42
+    }
+  ],
+  "added": 357,
+  "deleted": 501,
+  "net": -144,
+  "limit": "Source differences are not independent provenance."
+}

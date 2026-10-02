@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs",
+    "--baseline",
+    "--only=discovery"
+  ],
+  "stdout": "✖ discovery identity preserves canonical disable, plugin pending cache, folded data and path dedup (24.2866ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 27.922183\n\n✖ failing tests:\n\ntest at apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs:7:56\n✖ discovery identity preserves canonical disable, plugin pending cache, folded data and path dedup (24.2866ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n  + actual - expected\n  \n    [\n      'skill_invalid_frontmatter',\n  +   'skill_invalid_frontmatter'\n    ]\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/apps/cli/packages/adapters/test/skill-discovery-owner-compatibility/owners.test.mjs:89:10)\n      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: [Array],\n    expected: [Array],\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

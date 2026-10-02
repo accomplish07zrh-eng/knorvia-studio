@@ -1,19 +1,19 @@
-import { lstatSync, readdirSync, statSync } from "node:fs";
-import { lstat, readdir, stat } from "node:fs/promises";
-import { join } from "node:path";
-import { SKILL_FILE_NAME, shouldWalkSkillDirectoryEntry } from "@knorvia/shared";
+import { lstatSync, readdirSync, statSync } from 'node:fs';
+import { lstat, readdir, stat } from 'node:fs/promises';
+import { join } from 'node:path';
+import { SKILL_FILE_NAME, shouldWalkSkillDirectoryEntry } from '@knorvia/shared';
 
 interface ScanSkillFilesOptions {
   followSymbolicLinks?: boolean;
 }
 
-const MISSING_FILE_CODE = "ENOENT";
+const MISSING_FILE_CODE = 'ENOENT';
 
 function isMissing(error: unknown): boolean {
   return (
-    typeof error === "object" &&
+    typeof error === 'object' &&
     error !== null &&
-    "code" in error &&
+    'code' in error &&
     error.code === MISSING_FILE_CODE
   );
 }

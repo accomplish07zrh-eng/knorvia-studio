@@ -1,0 +1,11 @@
+{
+  "firstFailure": "Baseline discovery fixture expected ASCII-like ordering instead of localeCompare; corrected manual-first expected order and selected metadata positions.",
+  "secondFailure": "Same path parsed again before dedup emits parser diagnostic again; fixture corrected expected duplicate parser warning.",
+  "changes": "Fixture expectations only; no baseline or candidate source adjustment.",
+  "records": [
+    "baseline-synthetic.json",
+    "baseline-corrected-discovery-fixture.json",
+    "baseline-corrected-discovery-fixture-2.json"
+  ],
+  "finalBaselineDiscovery": "1/1 pass after corrections, other baseline cases not repeated."
+}

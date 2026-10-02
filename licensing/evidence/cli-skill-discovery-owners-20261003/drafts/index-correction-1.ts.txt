@@ -1,6 +1,6 @@
-import { realpathSync } from "node:fs";
-import { open, readFile, realpath, stat } from "node:fs/promises";
-import { basename, dirname, join, resolve } from "node:path";
+import { realpathSync } from 'node:fs';
+import { open, readFile, realpath, stat } from 'node:fs/promises';
+import { basename, dirname, join, resolve } from 'node:path';
 import type {
   SkillContent,
   SkillDiagnostic,
@@ -9,56 +9,52 @@ import type {
   SkillOperationOptions,
   SkillPort,
   SkillRoot,
-} from "@knorvia/contracts";
-import { resolveDefaultSkillRoots, type SkillRootResolutionOptions } from "./roots.js";
-import { scanSkillFilesUnderRoot } from "./scan.js";
+} from '@knorvia/contracts';
+import { resolveDefaultSkillRoots, type SkillRootResolutionOptions } from './roots.js';
+import { scanSkillFilesUnderRoot } from './scan.js';
 
 export interface NodeSkillAdapterOptions extends SkillRootResolutionOptions {
   disabledPaths?: Iterable<string>;
 }
 
-const SUPPORTED_FIELDS = ["name", "description", "when_to_use", "license", "metadata"];
+const SUPPORTED_FIELDS = ['name', 'description', 'when_to_use', 'license', 'metadata'];
 const MANIFEST_PATHS = [
-  ".knorvia-plugin/plugin.json",
-  ".claude-plugin/plugin.json",
-  ".codex-plugin/plugin.json",
-  ".cursor-plugin/plugin.json",
+  '.knorvia-plugin/plugin.json',
+  '.claude-plugin/plugin.json',
+  '.codex-plugin/plugin.json',
+  '.cursor-plugin/plugin.json',
 ];
 const DEFAULT_READ_LIMIT = 100000;
 const DESCRIPTION_LIMIT = 1024;
 const LAST_MANIFEST_DEPTH = 5;
-const DELIMITER = "---";
+const DELIMITER = '---';
 
 function checkCancellation(options?: SkillOperationOptions): void {
-  if (options?.signal?.aborted) throw new Error("Skill operation cancelled");
+  if (options?.signal?.aborted) throw new Error('Skill operation cancelled');
 }
 
 function missingFile(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    (error as { code?: unknown }).code === "ENOENT"
-  );
+  return typeof error === 'object' && error !== null && 'code' in error &&
+    (error as { code?: unknown }).code === 'ENOENT';
 }
 
 function frontmatterOf(text: string): string | null {
-  const normalized = text.replace(/^\uFEFF/, "");
+  const normalized = text.replace(/^\uFEFF/, '');
   if (!normalized.startsWith(DELIMITER)) return null;
   const lines = normalized.split(/\r?\n/);
   if (lines[0]?.trim() !== DELIMITER) return null;
   for (let index = 1; index < lines.length; index += 1) {
-    if (lines[index]?.trim() === DELIMITER) return lines.slice(1, index).join("\n");
+    if (lines[index]?.trim() === DELIMITER) return lines.slice(1, index).join('\n');
   }
   return null;
 }
 
 function bodyOf(text: string): string {
-  const normalized = text.replace(/^\uFEFF/, "");
+  const normalized = text.replace(/^\uFEFF/, '');
   if (!normalized.startsWith(DELIMITER)) return text;
   const lines = normalized.split(/\r?\n/);
   for (let index = 1; index < lines.length; index += 1) {
-    if (lines[index]?.trim() === DELIMITER) return lines.slice(index + 1).join("\n");
+    if (lines[index]?.trim() === DELIMITER) return lines.slice(index + 1).join('\n');
   }
   return text;
 }
@@ -67,10 +63,8 @@ function scalar(value: string | undefined): string | undefined {
   if (value === undefined) return undefined;
   const trimmed = value.trim();
   if (!trimmed) return undefined;
-  if (
-    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-    (trimmed.startsWith("'") && trimmed.endsWith("'"))
-  ) {
+  if ((trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+      (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
     return trimmed.slice(1, -1).trim();
   }
   return trimmed;
@@ -83,8 +77,8 @@ function blockText(lines: string[], folded: boolean): string {
     const width = /^\s*/.exec(line)?.[0].length ?? 0;
     indentation = indentation === undefined ? width : Math.min(indentation, width);
   }
-  const unindented = lines.map((line) => (line.trim() ? line.slice(indentation ?? 0) : ""));
-  if (!folded) return unindented.join("\n").trim();
+  const unindented = lines.map(line => line.trim() ? line.slice(indentation ?? 0) : '');
+  if (!folded) return unindented.join('\n').trim();
   const paragraphs: string[] = [];
   let words: string[] = [];
   for (const line of unindented) {
@@ -92,19 +86,15 @@ function blockText(lines: string[], folded: boolean): string {
     if (value) {
       words.push(value);
     } else if (words.length) {
-      paragraphs.push(words.join(" "));
+      paragraphs.push(words.join(' '));
       words = [];
     }
   }
-  if (words.length) paragraphs.push(words.join(" "));
-  return paragraphs.join("\n").trim();
+  if (words.length) paragraphs.push(words.join(' '));
+  return paragraphs.join('\n').trim();
 }
 
-function parseFields(
-  header: string,
-  path: string,
-  diagnostics: SkillDiagnostic[],
-): {
+function parseFields(header: string, path: string, diagnostics: SkillDiagnostic[]): {
   values: Record<string, string>;
   keys: string[];
 } {
@@ -112,15 +102,15 @@ function parseFields(
   const keys: string[] = [];
   const lines = header.split(/\r?\n/);
   for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index] ?? "";
+    const line = lines[index] ?? '';
     const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#") || /^\s/.test(line)) continue;
-    const colon = line.indexOf(":");
+    if (!trimmed || trimmed.startsWith('#') || /^\s/.test(line)) continue;
+    const colon = line.indexOf(':');
     if (colon <= 0) {
       diagnostics.push({
-        code: "skill_invalid_frontmatter",
-        severity: "warning",
-        message: "Invalid frontmatter line " + (index + 1) + " in " + basename(path),
+        code: 'skill_invalid_frontmatter',
+        severity: 'warning',
+        message: 'Invalid frontmatter line ' + (index + 1) + ' in ' + basename(path),
         path,
       });
       continue;
@@ -132,7 +122,7 @@ function parseFields(
     if (folded || /^\|[+-]?$/.test(value)) {
       const block: string[] = [];
       while (index + 1 < lines.length) {
-        const next = lines[index + 1] ?? "";
+        const next = lines[index + 1] ?? '';
         if (next.trim() && !/^\s/.test(next)) break;
         block.push(next);
         index += 1;
@@ -151,8 +141,8 @@ async function findPluginName(resolvedRoot: string): Promise<string | undefined>
     for (const relative of MANIFEST_PATHS) {
       const manifestPath = join(current, relative);
       try {
-        const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
-        if (typeof manifest.name === "string" && manifest.name.trim().length > 0) {
+        const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+        if (typeof manifest.name === 'string' && manifest.name.trim().length > 0) {
           return manifest.name.trim();
         }
       } catch {
@@ -187,15 +177,12 @@ export class NodeSkillAdapter implements SkillPort {
     }
   }
 
-  private async labels(
-    root: SkillRoot,
-    skillName: string,
-  ): Promise<{
+  private async labels(root: SkillRoot, skillName: string): Promise<{
     pluginId?: string;
     pluginName?: string;
     qualifiedName?: string;
   }> {
-    if (root.source !== "plugin") return {};
+    if (root.source !== 'plugin') return {};
     const resolvedRoot = resolve(root.path);
     let pending = this.pluginNames.get(resolvedRoot);
     if (pending === undefined) {
@@ -207,41 +194,34 @@ export class NodeSkillAdapter implements SkillPort {
     return {
       ...(root.pluginId ? { pluginId: root.pluginId } : {}),
       pluginName,
-      qualifiedName: pluginName + ":" + skillName,
+      qualifiedName: pluginName + ':' + skillName,
     };
   }
 
-  private async parse(
-    path: string,
-    root: SkillRoot,
-    diagnostics: SkillDiagnostic[],
-  ): Promise<SkillMetadata | null> {
+  private async parse(path: string, root: SkillRoot, diagnostics: SkillDiagnostic[]): Promise<SkillMetadata | null> {
     let text: string;
     try {
-      text = await readFile(path, "utf8");
+      text = await readFile(path, 'utf8');
     } catch (error) {
-      if (!missingFile(error))
-        diagnostics.push({
-          code: "skill_read_failed",
-          severity: "warning",
-          message: error instanceof Error ? error.message : "Failed to read skill: " + path,
-          path,
-        });
+      if (!missingFile(error)) diagnostics.push({
+        code: 'skill_read_failed',
+        severity: 'warning',
+        message: error instanceof Error ? error.message : 'Failed to read skill: ' + path,
+        path,
+      });
       return null;
     }
     const header = frontmatterOf(text);
-    const { values, keys } = header
-      ? parseFields(header, path, diagnostics)
-      : ({ values: {}, keys: [] } as {
-          values: Record<string, string>;
-          keys: string[];
-        });
+    const { values, keys } = header ? parseFields(header, path, diagnostics) : { values: {}, keys: [] } as {
+      values: Record<string, string>;
+      keys: string[];
+    };
     const name = scalar(values.name) ?? (header ? undefined : basename(dirname(path)));
     if (!name) {
       diagnostics.push({
-        code: "skill_missing_name",
-        severity: "error",
-        message: "Skill frontmatter must include a name: " + path,
+        code: 'skill_missing_name',
+        severity: 'error',
+        message: 'Skill frontmatter must include a name: ' + path,
         path,
       });
       return null;
@@ -249,20 +229,20 @@ export class NodeSkillAdapter implements SkillPort {
     const rawDescription = scalar(values.description);
     if (!rawDescription && header) {
       diagnostics.push({
-        code: "skill_missing_description",
-        severity: "error",
-        message: "Skill frontmatter must include a description: " + path,
+        code: 'skill_missing_description',
+        severity: 'error',
+        message: 'Skill frontmatter must include a description: ' + path,
         path,
         skillName: name,
       });
       return null;
     }
-    const description = rawDescription ?? "";
+    const description = rawDescription ?? '';
     if (description.length > DESCRIPTION_LIMIT) {
       diagnostics.push({
-        code: "skill_description_too_long",
-        severity: "error",
-        message: "Skill description is too long: " + name,
+        code: 'skill_description_too_long',
+        severity: 'error',
+        message: 'Skill description is too long: ' + name,
         path,
         skillName: name,
       });
@@ -279,19 +259,16 @@ export class NodeSkillAdapter implements SkillPort {
       rootPath: root.path,
       scope: root.scope,
       source: root.source,
-      safeToAutoLoad: keys.every((key) => SUPPORTED_FIELDS.includes(key)),
+      safeToAutoLoad: keys.every(key => SUPPORTED_FIELDS.includes(key)),
       frontmatterKeys: keys,
       policy: { allowImplicitInvocation: true },
     };
   }
 
-  async discoverSkills(
-    request: { workingDirectory: string; roots?: SkillRoot[] },
-    options?: SkillOperationOptions,
-  ): Promise<SkillLoadOutcome> {
+  async discoverSkills(request: { workingDirectory: string; roots?: SkillRoot[] }, options?: SkillOperationOptions): Promise<SkillLoadOutcome> {
     checkCancellation(options);
     const cwd = resolve(request.workingDirectory);
-    const roots = request.roots ?? (await resolveDefaultSkillRoots(cwd, this.factoryOptions));
+    const roots = request.roots ?? await resolveDefaultSkillRoots(cwd, this.factoryOptions);
     const orderedRoots = roots.toSorted((left, right) => left.priority - right.priority);
     const diagnostics: SkillDiagnostic[] = [];
     const selected = new Map<string, SkillMetadata>();
@@ -300,18 +277,14 @@ export class NodeSkillAdapter implements SkillPort {
       checkCancellation(options);
       let paths: string[];
       try {
-        paths = await scanSkillFilesUnderRoot(root.path, {
-          followSymbolicLinks: root.source !== "plugin",
-        });
+        paths = await scanSkillFilesUnderRoot(root.path, { followSymbolicLinks: root.source !== 'plugin' });
       } catch (error) {
-        if (!missingFile(error))
-          diagnostics.push({
-            code: "skill_scan_failed",
-            severity: "warning",
-            message:
-              error instanceof Error ? error.message : "Failed to scan skill root: " + root.path,
-            path: root.path,
-          });
+        if (!missingFile(error)) diagnostics.push({
+          code: 'skill_scan_failed',
+          severity: 'warning',
+          message: error instanceof Error ? error.message : 'Failed to scan skill root: ' + root.path,
+          path: root.path,
+        });
         paths = [];
       }
       for (const path of paths) {
@@ -326,31 +299,21 @@ export class NodeSkillAdapter implements SkillPort {
         if (!selected.has(metadata.path)) selected.set(metadata.path, metadata);
       }
     }
-    const skills = Array.from(selected.values()).toSorted((left, right) =>
-      left.name.localeCompare(right.name),
-    );
+    const skills = Array.from(selected.values()).toSorted((left, right) => left.name.localeCompare(right.name));
     return { skills, diagnostics, totalDiscovered };
   }
 
-  async loadSkill(
-    request: { name: string; workingDirectory: string; roots?: SkillRoot[]; maxBytes?: number },
-    options?: SkillOperationOptions,
-  ): Promise<SkillContent> {
+  async loadSkill(request: { name: string; workingDirectory: string; roots?: SkillRoot[]; maxBytes?: number }, options?: SkillOperationOptions): Promise<SkillContent> {
     checkCancellation(options);
-    const discovered = await this.discoverSkills(
-      { workingDirectory: request.workingDirectory, roots: request.roots },
-      options,
-    );
-    const metadata = discovered.skills.find(
-      (skill) => skill.name === request.name || skill.qualifiedName === request.name,
-    );
-    if (!metadata) throw new Error("Skill not found: " + request.name);
+    const discovered = await this.discoverSkills({ workingDirectory: request.workingDirectory, roots: request.roots }, options);
+    const metadata = discovered.skills.find(skill => skill.name === request.name || skill.qualifiedName === request.name);
+    if (!metadata) throw new Error('Skill not found: ' + request.name);
     const maxBytes = request.maxBytes ?? DEFAULT_READ_LIMIT;
     const info = await stat(metadata.path);
     const truncated = info.size > maxBytes;
     let buffer: Buffer;
     if (truncated) {
-      const handle = await open(metadata.path, "r");
+      const handle = await open(metadata.path, 'r');
       try {
         const allocated = Buffer.alloc(Math.max(0, maxBytes));
         const { bytesRead } = await handle.read(allocated, 0, allocated.byteLength, 0);
@@ -363,7 +326,7 @@ export class NodeSkillAdapter implements SkillPort {
     }
     return {
       metadata,
-      content: bodyOf(buffer.toString("utf8")).trim(),
+      content: bodyOf(buffer.toString('utf8')).trim(),
       baseDirectory: metadata.directory,
       bytesRead: buffer.byteLength,
       sizeBytes: info.size,
