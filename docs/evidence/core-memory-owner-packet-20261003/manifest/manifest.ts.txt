@@ -1,0 +1,101 @@
+import { basename, relative, sep } from "node:path";
+import type { FileSystemPort } from "@knorvia/contracts";
+import { parse as parseYaml } from "yaml";
+import { MEMORY_RECALL_TYPES, type MemoryManifestEntry, type MemoryRecallType } from "./types.js";
+
+function previewAttributes(content: string): Pick<MemoryManifestEntry, "description" | "type"> {
+  const lines = content.replace(/^\uFEFF/u, "").replace(/\r\n/gu, "\n").split("\n");
+  if (lines[0] !== "---") return {};
+  const end = lines.indexOf("---", 1);
+  if (end === -1) return {};
+
+  let parsed: unknown;
+  try {
+    parsed = parseYaml(lines.slice(1, end).join("\n"));
+  } catch {
+    return {};
+  }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+
+  const header = parsed as Record<string, unknown>;
+  const attributes: Pick<MemoryManifestEntry, "description" | "type"> = {};
+  if (typeof header.description === "string" && header.description) {
+    attributes.description = header.description;
+  }
+  const metadata = header.metadata;
+  const candidate = metadata !== null && typeof metadata === "object" && !Array.isArray(metadata)
+    ? (metadata as Record<string, unknown>).type ?? header.type
+    : header.type;
+  if (typeof candidate === "string" && MEMORY_RECALL_TYPES.includes(candidate as MemoryRecallType)) {
+    attributes.type = candidate as MemoryRecallType;
+  }
+  return attributes;
+}
+
+export async function scanMemoryManifest(input: {
+  fileSystem: FileSystemPort;
+  rootDir: string;
+  signal?: AbortSignal;
+}): Promise<MemoryManifestEntry[]> {
+  const { fileSystem, rootDir, signal } = input;
+  const paths: string[] = [];
+
+  const visit = async (directory: string): Promise<void> => {
+    const listing = await fileSystem.listDirectory({ path: directory }, { signal });
+    for (const entry of listing.entries) {
+      if (entry.kind === "directory") {
+        await visit(entry.path);
+        continue;
+      }
+      if (!entry.path.endsWith(".md") || basename(entry.path) === "MEMORY.md") continue;
+      if (entry.kind === "file") {
+        paths.push(entry.path);
+      } else if (entry.kind === "symlink") {
+        try {
+          const target = await fileSystem.stat({ path: entry.path }, { signal });
+          if (target.kind === "file") paths.push(entry.path);
+        } catch {
+          // A candidate link that cannot be resolved contributes no path.
+        }
+      }
+    }
+  };
+
+  try {
+    await visit(rootDir);
+  } catch {
+    return [];
+  }
+
+  const settled = await Promise.allSettled(paths.map(async (filePath): Promise<MemoryManifestEntry> => {
+    const [statusResult, previewResult] = await Promise.allSettled([
+      fileSystem.stat({ path: filePath }, { signal }),
+      fileSystem.readTextFileRange({ path: filePath, offsetLine: 0, limitLines: 30 }, { signal }),
+    ]);
+    if (statusResult.status === "rejected") throw statusResult.reason;
+    if (previewResult.status === "rejected") throw previewResult.reason;
+    const status = statusResult.value;
+    const preview = previewResult.value;
+    const attributes = previewAttributes(preview.content);
+    return {
+      ...(attributes.description ? { description: attributes.description } : {}),
+      filePath,
+      filename: relative(rootDir, filePath).split(sep).join("/"),
+      mtimeMs: status.mtimeMs ?? 0,
+      ...(attributes.type ? { type: attributes.type } : {}),
+    };
+  }));
+  const manifest: MemoryManifestEntry[] = [];
+  for (const result of settled) {
+    if (result.status === "fulfilled") manifest.push(result.value);
+  }
+  return manifest.sort((left, right) => right.mtimeMs - left.mtimeMs).slice(0, 200);
+}
+
+export function formatMemoryManifest(manifest: readonly MemoryManifestEntry[]): string {
+  return manifest.map((entry) => {
+    const type = entry.type ? `[${entry.type}] ` : "";
+    const row = `- ${type}${entry.filename} (${new Date(entry.mtimeMs).toISOString()})`;
+    return entry.description ? `${row}: ${entry.description}` : row;
+  }).join("\n");
+}
