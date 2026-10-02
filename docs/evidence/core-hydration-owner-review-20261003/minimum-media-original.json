@@ -1,0 +1,22 @@
+{
+  "bindings": {
+    "media": {
+      "path": "docs/evidence/core-hydration-owner-packet-20261003/media/file-part-hydration.ts.txt",
+      "bytes": 4739,
+      "sha256": "01c5a7b27cda2e2e1b56a874654847ae90d8430983fea7cc21258516bcb1200a"
+    }
+  },
+  "groups": [
+    {
+      "name": "media identity, read recovery and immutable write boundary",
+      "passed": true
+    },
+    {
+      "name": "persisted media layout ordering, object identity and all-or-nothing rejection",
+      "passed": false,
+      "error": "Error: attachment accessed before complete layout validation\n    at Array.get (/workspace/knorvia-studio/docs/evidence/core-hydration-owner-review-20261003/minimum-synthetic.cjs:85:107)\n    at Object.projectPersistedToolMediaContent (docs/evidence/core-hydration-owner-packet-20261003/media/file-part-hydration.ts.txt:135:48)\n    at /workspace/knorvia-studio/docs/evidence/core-hydration-owner-review-20261003/minimum-synthetic.cjs:86:24\n    at group (/workspace/knorvia-studio/docs/evidence/core-hydration-owner-review-20261003/minimum-synthetic.cjs:18:138)\n    at /workspace/knorvia-studio/docs/evidence/core-hydration-owner-review-20261003/minimum-synthetic.cjs:77:9"
+    }
+  ],
+  "passed": false,
+  "qualification": "At most six distinct minimum synthetic candidate-only groups; --media-only restricts the initial media boundary review to two. In-memory VM and explicit fake original ports only; isolated transpilation to execute synthetic cases, no semantic/project compilation or source-emitted matrix, real session/media/provider/network/user data, business writes or dependency body execution. Installed exact-byte static binding reuses these checks without repeating them."
+}
