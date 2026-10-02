@@ -1,0 +1,4 @@
+packages/server/src/remote/remoteAssetInstaller.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/remoteAssetPreflight.ts: 0 syntax/transpile diagnostics
+packages/server/src/remote/serverBundleDeployCheck.ts: 0 syntax/transpile diagnostics
+Syntax/transpile diagnostics only, no semantic typecheck or package build.
