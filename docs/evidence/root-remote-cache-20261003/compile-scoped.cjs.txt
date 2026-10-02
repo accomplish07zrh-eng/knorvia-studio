@@ -1,0 +1,7 @@
+const fs=require('fs'),path=require('path'),ts=require(process.cwd()+'/node_modules/typescript');
+const root=path.resolve('packages/server'),target=root+'/src/remote/remoteAssetCache.ts',candidate=process.argv[2]||'/tmp/knorvia-root-cache-author-20261003/draft-remoteAssetCache.ts';
+const options=ts.parseJsonConfigFileContent(ts.readConfigFile(root+'/tsconfig.json',ts.sys.readFile).config,ts.sys,root).options;
+options.types=['node'];options.typeRoots=[path.resolve('node_modules/@types')];options.composite=false;options.paths={...options.paths,'@knorvia/server/*':[path.resolve('packages/server/dist/*')]};
+const host=ts.createCompilerHost(options),read=host.readFile,get=host.getSourceFile,source=fs.readFileSync(candidate,'utf8');host.readFile=f=>f===target?source:read(f);host.getSourceFile=(f,l,e,n)=>f===target?ts.createSourceFile(f,source,l,true):get(f,l,e,n);
+const p=ts.createProgram([target],options,host),ds=ts.getPreEmitDiagnostics(p);if(ds.length){console.error(ts.formatDiagnosticsWithColorAndContext(ds,{getCanonicalFileName:f=>f,getCurrentDirectory:()=>process.cwd(),getNewLine:()=> '\n'}));process.exit(1)}
+const out='/tmp/knorvia-root-cache-author-20261003/emit';fs.mkdirSync(out,{recursive:true});p.emit(p.getSourceFile(target),(name,text)=>fs.writeFileSync(out+'/'+path.basename(name),text));console.log('Target source strict compiler: zero diagnostics');

@@ -1,0 +1,35 @@
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m210[0m:[93m57[0m - [91merror[0m[90m TS2454: [0mVariable 'task' is used before being assigned.
+
+[7m210[0m       if (result === null && manifestTasks.get(key) === task) manifestTasks.delete(key);
+[7m   [0m [91m                                                        ~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m213[0m:[93m38[0m - [91merror[0m[90m TS2454: [0mVariable 'task' is used before being assigned.
+
+[7m213[0m       if (manifestTasks.get(key) === task) manifestTasks.delete(key);
+[7m   [0m [91m                                     ~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m215[0m:[93m58[0m - [91merror[0m[90m TS2454: [0mVariable 'task' is used before being assigned.
+
+[7m215[0m     } finally { if (refresh && refreshTasks.get(key) === task) refreshTasks.delete(key); }
+[7m   [0m [91m                                                         ~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m345[0m:[93m37[0m - [91merror[0m[90m TS2365: [0mOperator '&' cannot be applied to types 'number | bigint' and 'number'.
+
+[7m345[0m     hash.update(`file:${relative}:${details.mode & 0o777}:${details.size}\n`);
+[7m   [0m [91m                                    ~~~~~~~~~~~~~~~~~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m422[0m:[93m9[0m - [91merror[0m[90m TS2322: [0mType 'string[]' is not assignable to type 'Dirent<NonSharedBuffer>[]'.
+  Type 'string' is not assignable to type 'Dirent<NonSharedBuffer>'.
+
+[7m422[0m   try { entries = await readdir(root); } catch { return false; }
+[7m   [0m [91m        ~~~~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m424[0m:[93m22[0m - [91merror[0m[90m TS2352: [0mConversion of type 'Dirent<NonSharedBuffer>[]' to type 'string[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type 'Dirent<NonSharedBuffer>' is not comparable to type 'string'.
+
+[7m424[0m   for (const name of entries as string[]) {
+[7m   [0m [91m                     ~~~~~~~~~~~~~~~~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m511[0m:[93m49[0m - [91merror[0m[90m TS2454: [0mVariable 'task' is used before being assigned.
+
+[7m511[0m       finally { if (componentTasks.get(key) === task) componentTasks.delete(key); }
+[7m   [0m [91m                                                ~~~~[0m
+[96mpackages/server/src/remote/remoteAssetCache.ts[0m:[93m605[0m:[93m47[0m - [91merror[0m[90m TS2454: [0mVariable 'task' is used before being assigned.
+
+[7m605[0m       finally { if (releaseTasks.get(key) === task) releaseTasks.delete(key); }
+[7m   [0m [91m                                              ~~~~[0m
+
