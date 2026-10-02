@@ -1,0 +1,827 @@
+// Original selected public ports/types only; opaque runtime owners, not standalone semantic closure. Private/protected class members omitted.
+// Original public port/type owner: packages/desktop/src/main/editors.ts
+import type { EditorInfo } from "@knorvia/shared";
+export declare function getInstalledEditors(): Promise<EditorInfo[]>;
+
+// Original public port/type owner: packages/desktop/src/main/applicationIcons.ts
+import type { ApplicationIconInfo, ApplicationIconRequest } from "@knorvia/shared";
+export declare function getApplicationIcon(request: string | ApplicationIconRequest): Promise<ApplicationIconInfo | null>;
+
+// Original public port/type owner: packages/desktop/src/main/exportLogs.ts
+export declare function exportLogs(dependencies?: ExportLogsDependencies): Promise<{
+    success: boolean;
+    path?: string;
+    error?: string;
+}>;
+interface ExportLogsDependencies {
+    now?: () => Date;
+    getKnorviaDataDir?: () => string;
+    getExportLogStageDir?: () => string;
+    getExportLogDir?: () => string;
+    createLogArchiveArtifacts?: (sourceDir: string, options?: CreateLogArchiveArtifactsOptions) => Promise<LogArchiveArtifacts>;
+    writeLogArchiveZip?: (outputPath: string, artifacts: LogArchiveArtifacts, options?: WriteLogArchiveZipOptions) => Promise<void>;
+    writeLogArchiveDirectory?: (outputPath: string, artifacts: LogArchiveArtifacts) => Promise<void>;
+    showItemInFolder?: (path: string) => Promise<void> | void;
+}
+interface CreateLogArchiveArtifactsOptions {
+    now?: () => Date;
+    lookbackDays?: number;
+}
+interface LogArchiveArtifacts {
+    files: LogArchiveFileEntry[];
+    aboutContent: string;
+}
+interface LogArchiveFileEntry {
+    absolutePath: string;
+    archivePath: string;
+}
+interface WriteLogArchiveZipOptions {
+    stageRootDir?: string;
+}
+
+// Original public port/type owner: packages/desktop/src/main/localDiagnostics.ts
+import { type LocalDiagnosticExportResult, type LocalDiagnosticPreview, type LocalDiagnosticRequest } from "@knorvia/shared";
+export declare function exportLocalDiagnostics(id: string, dependencies?: Dependencies): Promise<LocalDiagnosticExportResult>;
+interface Dependencies {
+    now?: () => Date;
+    sourceDir?: string;
+    stageRootDir?: string;
+    outputRootDir?: string;
+    showItemInFolder?: (path: string) => void | Promise<void>;
+}
+export declare function previewLocalDiagnostics(request: LocalDiagnosticRequest, dependencies?: Dependencies): Promise<LocalDiagnosticPreview>;
+
+// Original public port/type owner: packages/desktop/src/main/desktopCommandHandlers.ts
+export declare function resolveCommunityUrl(_options: unknown): Promise<string | undefined>;
+
+// Original public port/type owner: packages/desktop/src/main/openInEditor.ts
+import type { OpenInEditorOptions } from "@knorvia/shared";
+export declare function openInEditor(editorId: string, path: string, options?: OpenInEditorOptions): Promise<OpenInEditorResult>;
+interface OpenInEditorResult {
+    success: boolean;
+    error?: string;
+}
+
+// Original public port/type owner: packages/desktop/src/main/resourceManagerWindow.ts
+import { type ResourceUsageSnapshot } from "@knorvia/shared";
+export declare function openResourceManager(): void;
+export declare function getResourceUsageSnapshot(senderId: number): Promise<ResourceUsageSnapshot>;
+export declare function setResourceUsageSamplingActive(senderId: number, active: boolean): void;
+
+// Original public port/type owner: packages/desktop/src/main/resourceManagerStorage.ts
+export declare function registerResourceManagerStorageIpc(): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopWindowChrome.ts
+import { BrowserWindow } from "electron";
+import type { DesktopTitleBarTheme } from "@knorvia/shared";
+export declare function applyWindowsTitleBarTheme(targetWindow: BrowserWindow, theme: DesktopTitleBarTheme): void;
+export declare function getWindowOverlayTheme(): Exclude<DesktopTitleBarTheme, "system">;
+
+// Original public port/type owner: packages/desktop/src/main/desktopWindowButtonPosition.ts
+import { type BrowserWindow } from "electron";
+export declare function syncWindowControlsOverlayForZoomLevel(targetWindow: BrowserWindow | null | undefined, zoomLevel: number): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopZoom.ts
+export declare function resolveDesktopZoomLevelFromFactor(zoomFactor: number): number;
+
+// Original public port/type owner: packages/desktop/src/main/desktopWindowChromeState.ts
+import type { DesktopWindowChromeState } from "@knorvia/shared";
+export declare function resolveDesktopWindowChromeState(isMaximized: boolean, platform?: NodeJS.Platform, platformRelease?: string): DesktopWindowChromeState;
+
+// Original public port/type owner: packages/desktop/src/main/desktopWindowLifecycle.ts
+import { BrowserWindow } from "electron";
+export declare function handleWindowUnreadCountSync(win: BrowserWindow | null, payload: unknown, windowUnreadCountMap: Map<number, number>, logger: {
+    warn: (...args: unknown[]) => void;
+}): boolean;
+
+// Original public port/type owner: packages/desktop/src/main/desktopMainIpcHelpers.ts
+import type { BrowserWindow } from "electron";
+export declare function captureWindowScreenshot(senderWindow: BrowserWindow | null): unknown;
+export declare function openPathInFileManager(rawPath: string, logger: DesktopIpcLogger): Promise<{
+    success: boolean;
+    error?: string;
+}>;
+type DesktopIpcLogger = {
+    info?: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+};
+
+// Original public port/type owner: packages/desktop/src/main/desktopCuaPermissionIpc.ts
+import { type Locale } from "@knorvia/shared";
+export declare function registerCuaPermissionIpcHandlers(options: {
+    logger: {
+        info: (...args: unknown[]) => void;
+        warn: (...args: unknown[]) => void;
+    };
+    currentApplicationLocale: () => Locale;
+}): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopBrowserViewIpc.ts
+import { type BrowserViewCloseTabRequest, type BrowserGuestAttachResult, type BrowserViewResidencyReportPayload, type BrowserViewRestoredTabShell, type BrowserViewRestoreTabsRequest, type BrowserViewportSize, type BrowserViewScreenshotSurfaceReadyPayload } from "@knorvia/shared";
+export declare function registerDesktopBrowserIpcHandlers(attachBrowserGuest: AttachBrowserGuest | undefined, updateBrowserGuestViewport: UpdateBrowserGuestViewport | undefined, logger: {
+    info: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+}, reportBrowserScreenshotSurfaceReady?: ReportBrowserScreenshotSurfaceReady, residencyHandlers?: BrowserViewResidencyIpcHandlers): void;
+export type AttachBrowserGuest = (key: string, webContentsId: number, options?: {
+    active?: boolean;
+    windowId?: number;
+    workspaceKey?: string;
+    remoteSessionId?: string;
+    sessionId?: string;
+    residencyGeneration?: number;
+}) => BrowserGuestAttachResult | Promise<BrowserGuestAttachResult>;
+export type UpdateBrowserGuestViewport = (tabId: string, viewport: BrowserViewportSize | null, windowId: number, desktopZoomFactor: number) => Promise<void> | void;
+export type ReportBrowserScreenshotSurfaceReady = (windowId: number, senderWebContentsId: number, payload: BrowserViewScreenshotSurfaceReadyPayload) => void;
+export interface BrowserViewResidencyIpcHandlers {
+    detachBrowserGuest?(key: string, webContentsId: number, windowId: number): Promise<boolean> | boolean;
+    closeBrowserTab?(payload: BrowserViewCloseTabRequest & {
+        windowId: number;
+    }): Promise<void> | void;
+    reportBrowserTabResidency?(payload: BrowserViewResidencyReportPayload & {
+        windowId: number;
+    }): Promise<void> | void;
+    acknowledgeBrowserTabSuspend?(payload: {
+        tabId: string;
+        generation: number;
+        windowId: number;
+    }): Promise<void> | void;
+    ensureBrowserTabResident?(payload: BrowserViewCloseTabRequest & {
+        windowId: number;
+    }): Promise<void> | void;
+    restoreBrowserTabs?(payload: BrowserViewRestoreTabsRequest & {
+        windowId: number;
+    }): Promise<BrowserViewRestoredTabShell[]>;
+}
+
+// Original public port/type owner: packages/desktop/src/main/mcpUserDirectory/index.ts
+import type { LoadCliMcpFromUserDirectoryRequest, LoadCliMcpFromUserDirectoryResult, SaveCliMcpToUserDirectoryRequest } from "@knorvia/shared";
+export declare function loadCliMcpFromUserDirectory(request?: LoadCliMcpFromUserDirectoryRequest): Promise<LoadCliMcpFromUserDirectoryResult>;
+export declare function saveCliMcpToUserDirectory(payload: SaveCliMcpToUserDirectoryRequest): Promise<void>;
+// Original public port/type owner: packages/desktop/src/main/mcpUserDirectory/legacy.ts
+import type { MigrateLegacyCommonMcpRequest, MigrateLegacyCommonMcpResult } from "@knorvia/shared";
+export declare function migrateLegacyCommonMcp(request?: MigrateLegacyCommonMcpRequest): Promise<MigrateLegacyCommonMcpResult>;
+
+// Original public port/type owner: packages/desktop/src/main/tempTextAttachment.ts
+import type { CreateTempTextAttachmentRequest, CreateTempTextAttachmentResult } from "@knorvia/shared";
+export declare function createTempTextAttachment(payload: CreateTempTextAttachmentRequest): Promise<CreateTempTextAttachmentResult>;
+
+// Original public port/type owner: packages/desktop/src/main/desktopSaveFile.ts
+export declare function registerDesktopSaveFileIpcHandler(logger: {
+    warn: (...args: unknown[]) => void;
+}): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopPrintToPdf.ts
+export declare function registerDesktopPrintToPdfIpcHandler(logger: {
+    warn: (...args: unknown[]) => void;
+}): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopWindowGlass.ts
+import { type BrowserWindow } from "electron";
+export declare function applyDesktopWindowGlass(win: BrowserWindow, enabled: boolean): boolean;
+
+// Original public port/type owner: packages/desktop/src/main/desktopCuaPipIpc.ts
+export declare function registerCuaPipActiveSessionIpc(options: {
+    syncActiveTaskSession: (windowKey: number, sessionId: string | null) => void;
+    warn: (message: string) => void;
+}): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopResourceTelemetry.ts
+import { type ProcessResourceRuntimeSurface } from "@knorvia/shared";
+export declare function ingestToolExecResource(raw: unknown, runtimeSurface: ProcessResourceRuntimeSurface): void;
+
+// Original public port/type owner: packages/desktop/src/main/processResourceMcpTelemetrySource.ts
+import { type ProcessResourceRuntimeSurface } from "@knorvia/shared";
+export declare function ingestMcpResourceSamples(raw: unknown, runtimeSurface: ProcessResourceRuntimeSurface, environmentKey?: string): void;
+
+// Original public port/type owner: packages/desktop/src/main/databaseStartupRelay.ts
+import { type BrowserWindow, type UtilityProcess } from "electron";
+import { type DatabaseStartupState } from "@knorvia/shared";
+export declare function bindDatabaseStartupRelay(win: BrowserWindow, child: UtilityProcess, startupId?: any): {
+    receive: (state: DatabaseStartupState) => void;
+    startupId: any;
+};
+
+// Original public port/type owner: packages/desktop/src/main/desktopLaunchMarks.ts
+import type { LaunchMarks } from "@knorvia/shared";
+export declare function getMainLaunchPartialMarks(): Omit<LaunchMarks, "loadUrl">;
+
+// Original public port/type owner: packages/desktop/src/main/broadcastHub.ts
+import type { UtilityProcess as ElectronUtilityProcess } from "electron";
+export declare class BroadcastHub {
+    collectMemoryDiagnostics(): Record<string, number>;
+    register(windowId: number, child: ElectronUtilityProcess): void;
+    unregister(windowId: number): void;
+}
+
+// Original public port/type owner: packages/desktop/src/main/taskRealtimeBus.ts
+import type { UtilityProcess as ElectronUtilityProcess } from "electron";
+import { type TaskRealtimeHostDeliveryKind } from "@knorvia/shared";
+export declare class TaskRealtimeBus {
+    constructor(options?: TaskRealtimeBusOptions);
+    registerHost(params: {
+        hostId: string;
+        windowId: number;
+        child: ElectronUtilityProcess;
+        workspaceKeys: Iterable<string>;
+        deliveryKind?: TaskRealtimeHostDeliveryKind;
+    }): void;
+    unregisterHost(hostId: string): void;
+    updateHostWorkspaceKeys(hostId: string, workspaceKeys: Iterable<string>): void;
+    getHostDeliveryKindForTest(hostId: string): TaskRealtimeHostDeliveryKind | undefined;
+    collectMemoryDiagnostics(): Record<string, number>;
+}
+interface TaskRealtimeBusOptions {
+    logger?: TaskRealtimeBusLogger;
+    seenEventLimit?: number;
+}
+interface TaskRealtimeBusLogger {
+    info: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+}
+
+// Original public port/type owner: packages/desktop/src/main/hostLogRelay.ts
+export declare function createHostLogRelay(label: string, logger: HostLogger, emitStructuredLogToRenderer?: (entry: EmitStructuredLogEntry) => void): {
+    onStdout(message: string): void;
+    onStderr(message: string): void;
+    onStructuredLog(entry: HostStructuredLog): void;
+    flushRawLogs(): void;
+};
+interface HostLogger {
+    info: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+    error: (...args: unknown[]) => void;
+}
+interface EmitStructuredLogEntry extends HostStructuredLog {
+    timestamp: string;
+}
+interface HostStructuredLog {
+    level: HostStructuredLogLevel;
+    source: string;
+    message: string;
+}
+type HostStructuredLogLevel = "info" | "warn" | "error";
+
+// Original public port/type owner: packages/desktop/src/main/resourceManagerWindow.ts
+import type { UtilityProcess as ElectronUtilityProcess } from "electron";
+import { type KnorviaProvider } from "@knorvia/shared";
+export declare function registerHostAgentProcess(label: string, process: RegisteredAgentProcess): void;
+interface RegisteredAgentProcess {
+    pid: number;
+    provider: KnorviaProvider;
+    workspacePath: string;
+    command: string;
+    args: string[];
+    startedAt: number;
+}
+export declare function registerHostProcess(label: string, child: ElectronUtilityProcess): void;
+export declare function unregisterHostAgentProcess(label: string, pid: number): void;
+export declare function unregisterHostProcess(label: string): void;
+
+// Original public port/type owner: packages/desktop/src/main/resourceManagerHostSampling.ts
+import { type HostResourceUsageSnapshotResultResponse } from "@knorvia/shared";
+export declare function resolveHostResourceUsageResult(label: string, result: HostResourceUsageSnapshotResultResponse): void;
+
+// Original public port/type owner: packages/desktop/src/main/desktopRuntimeEnv.ts
+export declare function buildHostProcessEnv(hostProcessLocalEnv: Record<string, string>): { receive: (state: DatabaseStartupState) => void; startupId: string; };
+export declare const hostModulePath: string;
+export declare function resolveBundledAgentBinaryPath(): string | undefined;
+
+// Original public port/type owner: packages/desktop/src/main/desktopNetworkTelemetry.ts
+import type { NetworkObservation } from "@knorvia/rpc";
+export declare function ingestHostNetworkObservations(observations: NetworkObservation[]): void;
+
+// Original public port/type owner: packages/desktop/src/main/processResourceCliSource.ts
+import { type ProcessResourceRuntimeSurface } from "@knorvia/shared";
+export declare function ingestCliResourceSample(raw: unknown, runtimeSurface: ProcessResourceRuntimeSurface, environmentKey?: string): void;
+
+// Original public port/type owner: packages/desktop/src/main/processResourceSelfHeapSource.ts
+export declare function ingestHostSelfResourceSample(raw: unknown): void;
+
+// Original public port/type owner: packages/desktop/src/main/exportLogs.ts
+export declare function createFeedbackLogArchiveFromExportLogs(sourceDir: string, options?: CreateFeedbackLogArchiveFromExportLogsOptions): Promise<{
+    path: string;
+    size: number;
+}>;
+interface CreateFeedbackLogArchiveFromExportLogsOptions {
+    now?: () => Date;
+    outputRootDir?: string;
+    stageRootDir?: string;
+    onProgress?: (event: {
+        processedBytes: number;
+        totalBytes: number;
+    }) => void;
+}
+
+// Original public port/type owner: packages/desktop/src/main/e2eCoverage.ts
+export declare function buildHostE2ECoverageEnv(env?: NodeJS.ProcessEnv): Record<string, string>;
+
+// Original public port/type owner: packages/shared/src/platform.ts
+import type { DockerConnectOptions, SSHConnectOptions, WSLConnectOptions } from "./remoteTarget.js";
+export declare const DesktopCommandIds: {
+    readonly NewTask: "newTask";
+    readonly OpenWorkspace: "openWorkspace";
+    readonly CloseActiveContext: "closeActiveContext";
+    readonly CloseWindow: "closeWindow";
+    readonly MinimizeWindow: "minimizeWindow";
+    readonly ToggleMaximizeWindow: "toggleMaximizeWindow";
+    readonly ToggleFullScreen: "toggleFullScreen";
+    readonly ResetWindowSize: "resetWindowSize";
+    readonly ResetZoom: "resetZoom";
+    readonly ZoomIn: "zoomIn";
+    readonly ZoomOut: "zoomOut";
+    readonly ShowAbout: "showAbout";
+    readonly OpenChangelog: "openChangelog";
+    readonly CheckForUpdates: "checkForUpdates";
+    readonly RelaunchApp: "relaunchApp";
+    readonly OpenFeedback: "openFeedback";
+    readonly OpenCommunity: "openCommunity";
+    readonly ExportLogs: "exportLogs";
+    readonly ToggleDevTools: "toggleDevTools";
+    readonly OpenResourceManager: "openResourceManager";
+    readonly ToggleKnorviaStdioTapDevProxy: "toggleKnorviaStdioTapDevProxy";
+    readonly SetKnorviaEndpointProduction: "setKnorviaEndpointProduction";
+    readonly SetKnorviaEndpointTest: "setKnorviaEndpointTest";
+    readonly SetKnorviaEndpointCustom: "setKnorviaEndpointCustom";
+    readonly ResetKnorviaEndpoint: "resetKnorviaEndpoint";
+    readonly ClearAllData: "clearAllData";
+    readonly ClearCodingPlanWebviewStorage: "clearCodingPlanWebviewStorage";
+    readonly GetCuaOsSupport: "getCuaOsSupport";
+};
+export type DesktopCommandId = (typeof DesktopCommandIds)[keyof typeof DesktopCommandIds];
+export interface ApplicationIconRequest {
+    locators: ApplicationIconLocator[];
+}
+export type ApplicationIconLocator = {
+    kind: "darwin-bundle-id";
+    value: string;
+} | {
+    kind: "windows-executable-path";
+    value: string;
+} | {
+    kind: "windows-aumid";
+    value: string;
+};
+export interface OpenInEditorOptions {
+    remoteTarget?: OpenInEditorRemoteTarget;
+    workspaceIdentity?: string;
+    pathKind?: "file" | "directory";
+}
+export type OpenInEditorRemoteTarget = Pick<SSHConnectOptions, "kind" | "host" | "port" | "username" | "sshConfigAlias"> | Pick<WSLConnectOptions, "kind" | "distro" | "user"> | Pick<DockerConnectOptions, "kind" | "container">;
+export interface CreateTempTextAttachmentRequest {
+    text: string;
+    filename?: string;
+}
+export interface WindowControlsOverlayReadyPayload {
+    zoomLevel: number;
+    metrics: WindowControlsOverlayMetrics;
+}
+export interface WindowControlsOverlayMetrics {
+    leftPaddingPx?: number;
+    rightPaddingPx?: number;
+    titleBarHeightPx?: number;
+}
+
+// Original public port/type owner: packages/shared/src/protocol.ts
+import type { ProviderFamilyDomain } from "./model-provider-family.js";
+import type { ProviderFamilyConnectionSelectionSettings } from "./provider-family-connection-selection.js";
+import type { WorkspacePurpose } from "./workspacePurpose.js";
+import type { EmbeddedBrowserViewportPreference } from "./browser-use/command-metadata.js";
+export type Locale = "zh-CN" | "en-US";
+export interface AppSettings {
+    releaseInfoUrl?: string;
+    releaseChecksEnabled?: boolean;
+    startPlanRecommendationDismissed?: boolean;
+    recentProjects: string[];
+    locale: Locale;
+    shortcutBindings?: Record<string, string[]>;
+    localePreference?: LocalePreference;
+    terminalInheritSystemProfile?: boolean;
+    terminalFontFamily?: string;
+    integratedTerminalShell?: IntegratedTerminalShellSelection;
+    httpProxy?: string;
+    httpProxyNoProxy?: string;
+    httpProxyCaCertPath?: string;
+    embeddedBrowserAllowInsecureCertificates?: boolean;
+    embeddedBrowserViewportPreference?: EmbeddedBrowserViewportPreference;
+    computerUseComposerEntryHidden?: boolean;
+    taskAutoArchiveEnabled?: boolean;
+    taskAutoArchiveOlderThanDays?: number;
+    closeToTrayOnWindows?: boolean;
+    keepAwakeWhileRunning?: boolean;
+    closeToTrayOnWindowsMigrationInitialized?: boolean;
+    desktopZoomLevel?: number;
+    desktopWindowSize?: {
+        width: number;
+        height: number;
+        maximized: boolean;
+    };
+    desktopChromiumHardwareAccelerationEnabled?: boolean;
+    messageStreamShowReasoning?: boolean;
+    messageStreamShowReasoningMigrationInitialized?: boolean;
+    messageStreamShowTodos?: boolean;
+    toolGroupingExploreEnabled?: boolean;
+    toolGroupingTerminalEnabled?: boolean;
+    toolGroupingChangesEnabled?: boolean;
+    knorviaInteractionBehavior?: KnorviaInteractionBehavior;
+    askUserQuestionAutoResolutionEnabled?: boolean;
+    modelIoFullRetentionEnabled?: boolean;
+    providerFamilyConnectionSelections?: ProviderFamilyConnectionSelectionSettings;
+    providerFamilyDomain?: ProviderFamilyDomain;
+    providerFamilyDomainUpdatedAt?: number;
+    providerFamilyDomainMigrated?: boolean;
+    nativeSearchEnhancementsEnabled?: boolean;
+    memoryEnabled?: boolean;
+    onboardingOccupation?: "office" | "developer" | "independent" | "infrastructure" | "product" | "design" | "student" | "creator" | "operations" | "marketing" | "finance" | "accounting" | "legal" | "other" | null;
+    studioFirstRunGuideStatus?: "pending" | "deferred" | "complete" | "legacy";
+    proactiveSuggestionsEnabled?: boolean;
+    lastWorkspaceSession?: PersistedWorkspaceSessionEntry[];
+    lastActiveTabIndex?: number;
+    lastActiveTaskByWorkspace?: Record<string, string>;
+    dataBaseDir?: string;
+    pendingPostUpdateReleaseNotes?: {
+        version: string;
+        title: string;
+        markdown: string;
+        releaseDate?: string;
+        releaseNotesByLocale?: Partial<Record<Locale, {
+            title: string;
+            markdown: string;
+        }>>;
+    };
+    receivePreviewUpdates?: boolean;
+    autoDownloadAndInstallUpdates?: boolean;
+    skippedElectronUpdateVersions?: Partial<Record<ElectronReleaseChannel, string>>;
+    settingsSyncFirstRunPromptHandled?: boolean;
+    knorviaEndpointOrigin?: string;
+}
+export type LocalePreference = "system" | Locale;
+export type IntegratedTerminalShellSelection = {
+    mode: "auto";
+} | {
+    mode: "shell";
+    dialect: IntegratedTerminalShellDialect;
+    id: string;
+    label: string;
+    path: string;
+};
+export type IntegratedTerminalShellDialect = "cmd" | "git-bash";
+export type KnorviaInteractionBehavior = "queue" | "guide";
+export type PersistedWorkspaceSessionEntry = LocalWorkspaceSessionEntry | RemoteWorkspaceSessionEntry;
+export interface LocalWorkspaceSessionEntry {
+    kind: "local";
+    workspacePath: string;
+    workspacePurpose?: WorkspacePurpose;
+}
+export interface RemoteWorkspaceSessionEntry extends RemoteWorkspaceSessionSnapshot {
+    kind: "remote";
+}
+export type ElectronReleaseChannel = "stable" | "preview";
+
+// Original public port/type owner: packages/shared/src/releaseUpdate.ts
+export type ReleaseUpdateCheckResult = {
+    status: "unconfigured" | "disabled";
+    currentVersion: string;
+} | {
+    status: "up-to-date";
+    currentVersion: string;
+    latestVersion: string;
+} | {
+    status: "no-compatible-release";
+    currentVersion: string;
+} | {
+    status: "available";
+    currentVersion: string;
+    latestVersion: string;
+    releaseUrl?: string;
+} | {
+    status: "failed";
+    currentVersion: string;
+    reason: "settings" | "invalid-source" | "offline" | "timeout" | "http" | "invalid-response";
+    httpStatus?: number;
+};
+
+// Original public port/type owner: packages/shared/src/mcp.ts
+import type { SettingsDirectoryLocation } from "./settings-source.js";
+export interface LoadCliMcpFromUserDirectoryRequest {
+    workspacePath?: string;
+}
+export interface SaveCliMcpToUserDirectoryRequest {
+    action: "upsert" | "delete" | "set-enabled";
+    source: CliMcpSource;
+    name: string;
+    config?: McpServerConfig;
+    enabled?: boolean;
+    projectPath?: string;
+    location?: SettingsDirectoryLocation;
+}
+export type CliMcpSource = Exclude<McpSource, "mcp">;
+export type McpSource = "mcp" | "knorviaagentmcp";
+export interface McpServerConfig {
+    type?: string;
+    url?: string;
+    command?: string;
+    args?: string[];
+    env?: Record<string, string>;
+    headers?: Record<string, string>;
+    http_headers?: Record<string, string>;
+    oauth?: McpOAuthConfig;
+    apiKey?: string;
+    projectId?: string;
+    issueType?: string;
+    personalAccessToken?: string;
+    fileId?: string;
+    nodeId?: string;
+    organizationName?: string;
+    projectName?: string;
+    dsn?: string;
+    apiEndpoint?: string;
+    [key: string]: any;
+}
+export type McpOAuthConfig = McpAuthorizationCodeOAuthConfig | McpClientCredentialsOAuthConfig;
+export interface McpAuthorizationCodeOAuthConfig {
+    type: "authorization_code";
+    clientId?: string;
+    clientSecret?: string;
+    clientName?: string;
+    redirectPath?: string;
+    scope?: string;
+}
+export interface McpClientCredentialsOAuthConfig {
+    type: "client_credentials";
+    clientId: string;
+    clientSecret: string;
+    clientName?: string;
+    scope?: string;
+}
+export interface MigrateLegacyCommonMcpRequest {
+    legacyStorageDir?: string;
+}
+
+// Original public port/type owner: packages/shared/src/validation.ts
+import { z } from "zod";
+export declare function formatZodError(error: z.ZodError): string;
+export declare const nonEmptyStringSchema: any;
+export declare const stringArraySchema: any;
+export declare const rendererLogPayloadSchema: any;
+export declare const hostResponseMessageSchema: any;
+export type HostAgentProcessErrorResponse = z.infer<typeof hostAgentProcessErrorResponseSchema>;
+export declare const hostAgentProcessErrorResponseSchema: any;
+export type HostAgentProcessExceptionResponse = z.infer<typeof hostAgentProcessExceptionResponseSchema>;
+export declare const hostAgentProcessExceptionResponseSchema: any;
+export type HostAgentProcessExitedResponse = z.infer<typeof hostAgentProcessExitedResponseSchema>;
+export declare const hostAgentProcessExitedResponseSchema: any;
+export type HostAgentProcessReadyResponse = z.infer<typeof hostAgentProcessReadyResponseSchema>;
+export declare const hostAgentProcessReadyResponseSchema: any;
+export type HostAgentProcessSpawnedResponse = z.infer<typeof hostAgentProcessSpawnedResponseSchema>;
+export declare const hostAgentProcessSpawnedResponseSchema: any;
+export type HostCuaOperationStateResponse = z.infer<typeof hostCuaOperationStateResponseSchema>;
+export declare const hostCuaOperationStateResponseSchema: any;
+export type HostMcpTelemetryResponse = z.infer<typeof hostMcpTelemetryResponseSchema>;
+export declare const hostMcpTelemetryResponseSchema: any;
+export type HostSessionCreateTelemetryResponse = z.infer<typeof hostSessionCreateTelemetryResponseSchema>;
+export declare const hostSessionCreateTelemetryResponseSchema: any;
+
+// Original public port/type owner: packages/shared/src/validationAppSettings.ts
+export declare const localeSchema: any;
+export declare const appSettingsPatchSchema: any;
+
+// Original public port/type owner: packages/shared/src/channels.ts
+export declare const PlatformChannels: {
+    readonly SelectDirectory: "knorvia:select-directory";
+    readonly SelectFile: "knorvia:select-file";
+    readonly SelectFiles: "knorvia:select-files";
+    readonly CreateTempTextAttachment: "knorvia:create-temp-text-attachment";
+    readonly SaveFile: "knorvia:save-file";
+    readonly PrintToPdf: "knorvia:print-to-pdf";
+    readonly RemoteConnectionLog: "knorvia:remote-connection-log";
+    readonly RemoteSessionClosed: "knorvia:remote-session-closed";
+    readonly ActivateOrSetWorkspace: "knorvia:activate-or-set-workspace";
+    readonly ConnectRemote: "knorvia:connect-remote";
+    readonly CancelPendingRemoteConnection: "knorvia:cancel-pending-remote-connection";
+    readonly BindRemoteWorkspaceSessionContext: "knorvia:bind-remote-workspace-session-context";
+    readonly DisposeRemoteSession: "knorvia:dispose-remote-session";
+    readonly IsDockerAvailable: "knorvia:is-docker-available";
+    readonly ListWSLDistros: "knorvia:list-wsl-distros";
+    readonly ListDockerContainers: "knorvia:list-docker-containers";
+    readonly ListSSHConfigAliases: "knorvia:list-ssh-config-aliases";
+    readonly LoadMcpFromUserDirectory: "knorvia:load-mcp-from-user-directory";
+    readonly SaveMcpToUserDirectory: "knorvia:save-mcp-to-user-directory";
+    readonly Log: "knorvia:log";
+    readonly SyncWindowTabs: "knorvia:sync-window-tabs";
+    readonly SyncWindowUnreadCount: "knorvia:sync-window-unread-count";
+    readonly SyncActiveTaskSession: "knorvia:sync-active-task-session";
+    readonly SyncAppSettings: "knorvia:sync-app-settings";
+    readonly SetShortcutRecordingActive: "knorvia:set-shortcut-recording-active";
+    readonly FocusTab: "knorvia:focus-tab";
+    readonly NewTab: "knorvia:new-tab";
+    readonly CloseActiveContextRequest: "knorvia:close-active-context-request";
+    readonly OpenBrowserUrl: "knorvia:open-browser-url";
+    readonly BrowserViewReady: "knorvia:browser-view-ready";
+    readonly BrowserViewOperation: "knorvia:browser-view-operation";
+    readonly BrowserViewVisibility: "knorvia:browser-view-visibility";
+    readonly BrowserViewViewportChanged: "knorvia:browser-view-viewport-changed";
+    readonly BrowserViewScreenshotSurfacePrepare: "knorvia:browser-view-screenshot-surface-prepare";
+    readonly BrowserViewScreenshotSurfaceReady: "knorvia:browser-view-screenshot-surface-ready";
+    readonly BrowserViewScreenshotSurfaceRelease: "knorvia:browser-view-screenshot-surface-release";
+    readonly BrowserViewCloseTab: "knorvia:browser-view-close-tab";
+    readonly BrowserViewSuspend: "knorvia:browser-view-suspend";
+    readonly BrowserViewRestore: "knorvia:browser-view-restore";
+    readonly NewTask: "knorvia:new-task";
+    readonly OpenWorkspace: "knorvia:open-workspace";
+    readonly OpenWorkspacePath: "knorvia:open-workspace-path";
+    readonly OpenFeedbackDialog: "knorvia:open-feedback-dialog";
+    readonly OpenTicketsPanel: "knorvia:open-tickets-panel";
+    readonly WindowFullscreenChanged: "knorvia:window-fullscreen-changed";
+    readonly GetDesktopWindowChromeState: "knorvia:get-desktop-window-chrome-state";
+    readonly DesktopWindowChromeStateChanged: "knorvia:desktop-window-chrome-state-changed";
+    readonly WindowControlsOverlayChanged: "knorvia:window-controls-overlay-changed";
+    readonly WindowControlsOverlayReady: "knorvia:window-controls-overlay-ready";
+    readonly GetResourceUsageSnapshot: "knorvia:get-resource-usage-snapshot";
+    readonly SetResourceUsageSamplingActive: "knorvia:set-resource-usage-sampling-active";
+    readonly OpenResourceManager: "knorvia:open-resource-manager";
+    readonly StorageStartScan: "knorvia:storage-start-scan";
+    readonly StorageCancelScan: "knorvia:storage-cancel-scan";
+    readonly StorageGetSnapshot: "knorvia:storage-get-snapshot";
+    readonly StorageClean: "knorvia:storage-clean";
+    readonly StorageRevealPath: "knorvia:storage-reveal-path";
+    readonly StorageScanProgress: "knorvia:storage-scan-progress";
+    readonly OpenExternal: "knorvia:open-external";
+    readonly CanOpenCommunity: "knorvia:can-open-community";
+    readonly OpenInFileManager: "knorvia:open-in-file-manager";
+    readonly OpenExternalFile: "knorvia:open-external-file";
+    readonly OpenCuaPermissionOnboarding: "knorvia:open-cua-permission-onboarding";
+    readonly CancelCuaPermissionOnboarding: "knorvia:cancel-cua-permission-onboarding";
+    readonly PrepareCuaHelperPermissionDrag: "knorvia:prepare-cua-helper-permission-drag";
+    readonly StartCuaHelperPermissionDrag: "knorvia:start-cua-helper-permission-drag";
+    readonly NotifyCuaHelperPermissionDragEnded: "knorvia:notify-cua-helper-permission-drag-ended";
+    readonly RendererReady: "knorvia:renderer-ready";
+    readonly SyncTelemetryContext: "knorvia:sync-telemetry-context";
+    readonly ReportTelemetryEvent: "knorvia:report-telemetry-event";
+    readonly ReportArmsCustomEvent: "knorvia:report-arms-custom-event";
+    readonly GetRendererActionTraceConfig: "knorvia:get-renderer-action-trace-config";
+    readonly RendererActionTraceConfigChanged: "knorvia:renderer-action-trace-config-changed";
+    readonly ReportRendererActionTraceBatch: "knorvia:report-renderer-action-trace-batch";
+    readonly ReportRendererHeapSample: "knorvia:report-renderer-heap-sample";
+    readonly ReportLocalTtftBatch: "knorvia:report-local-ttft-batch";
+    readonly ReadFinalArmsCustomEventsE2E: "knorvia:e2e:read-final-arms-custom-events";
+    readonly ClearFinalArmsCustomEventsE2E: "knorvia:e2e:clear-final-arms-custom-events";
+    readonly ConfigureFinalArmsCustomEventsE2E: "knorvia:e2e:configure-final-arms-custom-events";
+    readonly ShowTaskNotification: "knorvia:show-task-notification";
+    readonly TaskNotificationSound: "knorvia:task-notification-sound";
+    readonly TaskNotificationClick: "knorvia:task-notification-click";
+    readonly ExportLogs: "knorvia:export-logs";
+    readonly PreviewLocalDiagnostics: "knorvia:preview-local-diagnostics";
+    readonly ExportLocalDiagnostics: "knorvia:export-local-diagnostics";
+    readonly CheckReleaseUpdate: "knorvia:check-release-update";
+    readonly CaptureWindowScreenshot: "knorvia:capture-window-screenshot";
+    readonly BrowserViewAttachGuest: "knorvia:browser-view-attach-guest";
+    readonly BrowserViewDetachGuest: "knorvia:browser-view-detach-guest";
+    readonly BrowserViewCloseTabFromRenderer: "knorvia:browser-view-close-tab-from-renderer";
+    readonly BrowserViewReportResidency: "knorvia:browser-view-report-residency";
+    readonly BrowserViewSuspendReady: "knorvia:browser-view-suspend-ready";
+    readonly BrowserViewEnsureResident: "knorvia:browser-view-ensure-resident";
+    readonly BrowserViewRestoreTabs: "knorvia:browser-view-restore-tabs";
+    readonly BrowserViewUpdateViewport: "knorvia:browser-view-update-viewport";
+    readonly EmbeddedBrowserJavaScriptDialog: "knorvia:embedded-browser-javascript-dialog";
+    readonly ImportChromeBrowserData: "knorvia:import-chrome-browser-data";
+    readonly ClearEmbeddedBrowserData: "knorvia:clear-embedded-browser-data";
+    readonly UpdateReady: "knorvia:update-ready";
+    readonly UpdateCheckResult: "knorvia:update-check-result";
+    readonly UpdateStateChanged: "knorvia:update-state-changed";
+    readonly GetUpdateState: "knorvia:get-update-state";
+    readonly DownloadUpdate: "knorvia:download-update";
+    readonly CancelUpdateDownload: "knorvia:cancel-update-download";
+    readonly OpenUpdateStatusWindow: "knorvia:open-update-status-window";
+    readonly GetAutoUpdatePreferences: "knorvia:get-auto-update-preferences";
+    readonly SetAutoDownloadAndInstallUpdates: "knorvia:set-auto-download-and-install-updates";
+    readonly GetDesktopSessionActivity: "knorvia:get-desktop-session-activity";
+    readonly GetDesktopZoomLevel: "knorvia:get-desktop-zoom-level";
+    readonly DesktopZoomLevelChanged: "knorvia:desktop-zoom-level-changed";
+    readonly GetKnorviaStdioTapDevState: "knorvia:get-stdio-tap-dev-state";
+    readonly SettingsChanged: "knorvia:settings-changed";
+    readonly ApplicationLocaleChanged: "knorvia:application-locale-changed";
+    readonly GetSystemLocale: "knorvia:get-system-locale";
+    readonly PostUpdateReleaseNotes: "knorvia:post-update-release-notes";
+    readonly AcknowledgePostUpdateReleaseNotes: "knorvia:ack-post-update-release-notes";
+    readonly SkipUpdateVersion: "knorvia:skip-update-version";
+    readonly QuitAndInstallUpdate: "knorvia:quit-and-install-update";
+    readonly GetInstalledEditors: "knorvia:get-installed-editors";
+    readonly GetApplicationIcon: "knorvia:get-application-icon";
+    readonly OpenInEditor: "knorvia:open-in-editor";
+    readonly ExecuteDesktopCommand: "knorvia:execute-desktop-command";
+    readonly SetApplicationLocale: "knorvia:set-application-locale";
+    readonly SetTitleBarTheme: "knorvia:set-title-bar-theme";
+    readonly SetWindowGlass: "knorvia:set-window-glass";
+    readonly MigrateLegacyCommonMcp: "knorvia:migrate-legacy-common-mcp";
+    readonly GetDeviceId: "knorvia:get-device-id";
+};
+export declare const InternalChannels: {
+    readonly DatabaseStartupState: "knorvia:database-startup-state";
+    readonly DatabaseStartupControl: "knorvia:database-startup-control";
+    readonly ServicePort: "knorvia:service-port";
+    readonly ScopedServicePort: "knorvia:scoped-service-port";
+    readonly ScopedServicePortReady: "knorvia:scoped-service-port-ready";
+    readonly TaskNotificationSound: "knorvia:task-notification-sound";
+};
+export declare const HostMessageTypes: {
+    readonly DatabaseStartupControl: "database-startup-control";
+    readonly InitLocal: "init-local";
+    readonly ConnectRemoteWorkspace: "connect-remote-workspace";
+    readonly CancelRemoteWorkspaceConnect: "cancel-remote-workspace-connect";
+    readonly BindRemoteWorkspaceContext: "bind-remote-workspace-context";
+    readonly DisposeRemoteWorkspaceSession: "dispose-remote-workspace-session";
+    readonly AttachServicePort: "attach-service-port";
+    readonly DetachServicePort: "detach-service-port";
+    readonly Dispose: "dispose";
+    readonly Broadcast: "broadcast";
+    readonly BroadcastClaimResult: "broadcast-claim-result";
+    readonly TaskRealtimeDeliver: "task-realtime-deliver";
+    readonly TaskRunLeaseResult: "task-run-lease-result";
+    readonly TaskOwnerCommandDeliver: "task-owner-command-deliver";
+    readonly TaskOwnerCommandResult: "task-owner-command-result";
+    readonly SessionMessageDeliver: "session-message-deliver";
+    readonly SessionMessageDeliveryResult: "session-message-delivery-result";
+    readonly FeedbackLogArchiveResult: "feedback-log-archive-result";
+    readonly CronRun: "cron-run";
+    readonly OffPeakRun: "off-peak-run";
+    readonly BrowserExecuteResult: "browser-execute-result";
+    readonly LocalMediaPreviewPathAuthorizeResult: "local-media-preview-path-authorize-result";
+    readonly CuaPipFocusChanged: "cua-pip-focus-changed";
+    readonly ResourceUsageSnapshotRequest: "resource-usage-snapshot-request";
+    readonly ResourceUsageSnapshotCancel: "resource-usage-snapshot-cancel";
+};
+export declare const HostResponseTypes: {
+    readonly DatabaseStartupState: "database-startup-state";
+    readonly RemoteWorkspaceConnectionLog: "remote-workspace-connection-log";
+    readonly RemoteWorkspaceConnected: "remote-workspace-connected";
+    readonly RemoteWorkspaceConnectFailed: "remote-workspace-connect-failed";
+    readonly RemoteWorkspaceClosed: "remote-workspace-closed";
+    readonly Log: "log";
+    readonly AgentProcessSpawned: "agent-process-spawned";
+    readonly AgentProcessReady: "agent-process-ready";
+    readonly AgentProcessExited: "agent-process-exited";
+    readonly AgentProcessError: "agent-process-error";
+    readonly AgentProcessException: "agent-process-exception";
+    readonly AgentResourceSample: "agent-resource-sample";
+    readonly HostResourceSample: "host-resource-sample";
+    readonly McpTelemetry: "mcp-telemetry";
+    readonly McpResourceSamples: "mcp-resource-samples";
+    readonly ToolExecResource: "tool-exec-resource";
+    readonly SessionCreateTelemetry: "session-create-telemetry";
+    readonly ResourceUsageSnapshotResult: "resource-usage-snapshot-result";
+    readonly AgentRunningTaskCountChanged: "agent-running-task-count-changed";
+    readonly WorkspaceRunningTaskCountChanged: "workspace-running-task-count-changed";
+    readonly CuaOperationState: "cua-operation-state";
+    readonly RemoteWorkspaceAcquired: "remote-workspace-acquired";
+    readonly Broadcast: "broadcast";
+    readonly BroadcastClaimRequest: "broadcast-claim-request";
+    readonly BroadcastClaimCommit: "broadcast-claim-commit";
+    readonly BroadcastClaimRelease: "broadcast-claim-release";
+    readonly TaskRealtimePublish: "task-realtime-publish";
+    readonly TaskStreamOpPublish: "task-stream-op-publish";
+    readonly TaskRunLeaseAcquire: "task-run-lease-acquire";
+    readonly TaskRunLeaseRelease: "task-run-lease-release";
+    readonly TaskOwnerCommandRequest: "task-owner-command-request";
+    readonly TaskOwnerCommandResult: "task-owner-command-result";
+    readonly SessionMessageSendRequested: "session-message-send-requested";
+    readonly SessionRouteAnnounce: "session-route-announce";
+    readonly SessionMessageDeliverResult: "session-message-deliver-result";
+    readonly FeedbackLogArchiveRequest: "feedback-log-archive-request";
+    readonly CronRunResult: "cron-run-result";
+    readonly OffPeakRunResult: "off-peak-run-result";
+    readonly CronSchedulerWakeRequest: "cron-scheduler-wake-request";
+    readonly OffPeakSchedulerWakeRequest: "off-peak-scheduler-wake-request";
+    readonly BrowserExecuteRequest: "browser-execute-request";
+    readonly LocalMediaPreviewPathAuthorizeRequest: "local-media-preview-path-authorize-request";
+    readonly NetworkTelemetryBatch: "network-telemetry-batch";
+};
+
+// Original public port/type owner: packages/shared/src/task-realtime.ts
+export type TaskRealtimeHostDeliveryKind = "desktop_window" | "relay_bridge";
+
+// Original public port/type owner: packages/shared/src/launchMarks.ts
+export declare const LAUNCH_MARKS_QUERY_KEY = "knorviaLaunchMarks";
+export declare function serializeLaunchMarks(marks: LaunchMarks): string;
+export interface LaunchMarks {
+    createdAt: number;
+    mainStart: number;
+    appReady: number;
+    loadUrl: number;
+}
+
+// Original public port/type owner: packages/shared/src/env.ts
+export declare const RUNTIME_KNORVIA_DEBUG: any;
+
+// Original public port/type owner: packages/shared/src/runtimeEnv.ts
+export declare const KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV = "KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED";
+
+// Original public port/type owner: packages/shared/src/workspacePurpose.ts
+export type WorkspacePurpose = "project" | "conversation";
+
+// Original public port/type owner: packages/shared/src/process-names.ts
+export declare function formatKnorviaHostProcessName(label?: string): string;
+
+// Original public port/type owner: packages/services/src/agent/stdioTapDevConfig.ts
+import type { KnorviaStdioTapDevState } from "@knorvia/shared";
+export declare function readKnorviaStdioTapDevState(): KnorviaStdioTapDevState;
+

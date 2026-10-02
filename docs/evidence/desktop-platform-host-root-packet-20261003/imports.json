@@ -1,0 +1,386 @@
+[
+  {
+    "owner": "packages/desktop/src/main/desktopMainIpcPlatform.ts",
+    "imports": [
+      {
+        "module": "electron",
+        "clause": "{ BrowserWindow, dialog, ipcMain, nativeTheme }",
+        "names": [
+          "BrowserWindow",
+          "dialog",
+          "ipcMain",
+          "nativeTheme"
+        ]
+      },
+      {
+        "module": "@knorvia/services/node",
+        "clause": "{ readKnorviaStdioTapDevState }",
+        "names": [
+          "readKnorviaStdioTapDevState"
+        ]
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "{\n  DesktopCommandIds,\n  appSettingsPatchSchema,\n  formatZodError,\n  localeSchema,\n  nonEmptyStringSchema,\n  PlatformChannels,\n  rendererLogPayloadSchema,\n  stringArraySchema,\n  type DesktopCommandId,\n  type AppSettings,\n  type ReleaseUpdateCheckResult,\n  type ApplicationIconRequest,\n  type Locale,\n  type LoadCliMcpFromUserDirectoryRequest,\n  type MigrateLegacyCommonMcpRequest,\n  type OpenInEditorOptions,\n  type SaveCliMcpToUserDirectoryRequest,\n  type CreateTempTextAttachmentRequest,\n  type WindowControlsOverlayReadyPayload,\n}",
+        "names": [
+          "DesktopCommandIds",
+          "appSettingsPatchSchema",
+          "formatZodError",
+          "localeSchema",
+          "nonEmptyStringSchema",
+          "PlatformChannels",
+          "rendererLogPayloadSchema",
+          "stringArraySchema",
+          "DesktopCommandId",
+          "AppSettings",
+          "ReleaseUpdateCheckResult",
+          "ApplicationIconRequest",
+          "Locale",
+          "LoadCliMcpFromUserDirectoryRequest",
+          "MigrateLegacyCommonMcpRequest",
+          "OpenInEditorOptions",
+          "SaveCliMcpToUserDirectoryRequest",
+          "CreateTempTextAttachmentRequest",
+          "WindowControlsOverlayReadyPayload"
+        ]
+      },
+      {
+        "module": "./editors.js",
+        "clause": "{ getInstalledEditors }",
+        "names": [
+          "getInstalledEditors"
+        ]
+      },
+      {
+        "module": "./applicationIcons.js",
+        "clause": "{ getApplicationIcon }",
+        "names": [
+          "getApplicationIcon"
+        ]
+      },
+      {
+        "module": "./exportLogs.js",
+        "clause": "{ exportLogs }",
+        "names": [
+          "exportLogs"
+        ]
+      },
+      {
+        "module": "./localDiagnostics.js",
+        "clause": "{ exportLocalDiagnostics, previewLocalDiagnostics }",
+        "names": [
+          "exportLocalDiagnostics",
+          "previewLocalDiagnostics"
+        ]
+      },
+      {
+        "module": "./desktopCommandHandlers.js",
+        "clause": "{ resolveCommunityUrl }",
+        "names": [
+          "resolveCommunityUrl"
+        ]
+      },
+      {
+        "module": "./openInEditor.js",
+        "clause": "{ openInEditor }",
+        "names": [
+          "openInEditor"
+        ]
+      },
+      {
+        "module": "./resourceManagerWindow.js",
+        "clause": "{\n  openResourceManager,\n  getResourceUsageSnapshot,\n  setResourceUsageSamplingActive,\n}",
+        "names": [
+          "openResourceManager",
+          "getResourceUsageSnapshot",
+          "setResourceUsageSamplingActive"
+        ]
+      },
+      {
+        "module": "./resourceManagerStorage.js",
+        "clause": "{ registerResourceManagerStorageIpc }",
+        "names": [
+          "registerResourceManagerStorageIpc"
+        ]
+      },
+      {
+        "module": "./desktopWindowChrome.js",
+        "clause": "{ applyWindowsTitleBarTheme, getWindowOverlayTheme }",
+        "names": [
+          "applyWindowsTitleBarTheme",
+          "getWindowOverlayTheme"
+        ]
+      },
+      {
+        "module": "./desktopWindowButtonPosition.js",
+        "clause": "{ syncWindowControlsOverlayForZoomLevel }",
+        "names": [
+          "syncWindowControlsOverlayForZoomLevel"
+        ]
+      },
+      {
+        "module": "./desktopZoom.js",
+        "clause": "{ resolveDesktopZoomLevelFromFactor }",
+        "names": [
+          "resolveDesktopZoomLevelFromFactor"
+        ]
+      },
+      {
+        "module": "./desktopWindowChromeState.js",
+        "clause": "{ resolveDesktopWindowChromeState }",
+        "names": [
+          "resolveDesktopWindowChromeState"
+        ]
+      },
+      {
+        "module": "./desktopWindowLifecycle.js",
+        "clause": "{ handleWindowUnreadCountSync }",
+        "names": [
+          "handleWindowUnreadCountSync"
+        ]
+      },
+      {
+        "module": "./desktopMainIpcHelpers.js",
+        "clause": "{ captureWindowScreenshot, openPathInFileManager }",
+        "names": [
+          "captureWindowScreenshot",
+          "openPathInFileManager"
+        ]
+      },
+      {
+        "module": "./desktopCuaPermissionIpc.js",
+        "clause": "{ registerCuaPermissionIpcHandlers }",
+        "names": [
+          "registerCuaPermissionIpcHandlers"
+        ]
+      },
+      {
+        "module": "./desktopBrowserViewIpc.js",
+        "clause": "{\n  registerDesktopBrowserIpcHandlers,\n  type AttachBrowserGuest,\n  type ReportBrowserScreenshotSurfaceReady,\n  type UpdateBrowserGuestViewport,\n  type BrowserViewResidencyIpcHandlers,\n}",
+        "names": [
+          "registerDesktopBrowserIpcHandlers",
+          "AttachBrowserGuest",
+          "ReportBrowserScreenshotSurfaceReady",
+          "UpdateBrowserGuestViewport",
+          "BrowserViewResidencyIpcHandlers"
+        ]
+      },
+      {
+        "module": "./mcpUserDirectory/index.js",
+        "clause": "{\n  loadCliMcpFromUserDirectory,\n  migrateLegacyCommonMcp,\n  saveCliMcpToUserDirectory,\n}",
+        "names": [
+          "loadCliMcpFromUserDirectory",
+          "migrateLegacyCommonMcp",
+          "saveCliMcpToUserDirectory"
+        ]
+      },
+      {
+        "module": "./tempTextAttachment.js",
+        "clause": "{ createTempTextAttachment }",
+        "names": [
+          "createTempTextAttachment"
+        ]
+      },
+      {
+        "module": "./desktopSaveFile.js",
+        "clause": "{ registerDesktopSaveFileIpcHandler }",
+        "names": [
+          "registerDesktopSaveFileIpcHandler"
+        ]
+      },
+      {
+        "module": "./desktopPrintToPdf.js",
+        "clause": "{ registerDesktopPrintToPdfIpcHandler }",
+        "names": [
+          "registerDesktopPrintToPdfIpcHandler"
+        ]
+      },
+      {
+        "module": "./desktopWindowGlass.js",
+        "clause": "{ applyDesktopWindowGlass }",
+        "names": [
+          "applyDesktopWindowGlass"
+        ]
+      },
+      {
+        "module": "./desktopCuaPipIpc.js",
+        "clause": "{ registerCuaPipActiveSessionIpc }",
+        "names": [
+          "registerCuaPipActiveSessionIpc"
+        ]
+      }
+    ]
+  },
+  {
+    "owner": "packages/desktop/src/main/desktopHostProcess.ts",
+    "imports": [
+      {
+        "module": "./desktopResourceTelemetry.js",
+        "clause": "{ ingestToolExecResource }",
+        "names": [
+          "ingestToolExecResource"
+        ]
+      },
+      {
+        "module": "./processResourceMcpTelemetrySource.js",
+        "clause": "{ ingestMcpResourceSamples }",
+        "names": [
+          "ingestMcpResourceSamples"
+        ]
+      },
+      {
+        "module": "./databaseStartupRelay.js",
+        "clause": "{ bindDatabaseStartupRelay }",
+        "names": [
+          "bindDatabaseStartupRelay"
+        ]
+      },
+      {
+        "module": "node:crypto",
+        "clause": "{ randomUUID }",
+        "names": [
+          "randomUUID"
+        ]
+      },
+      {
+        "module": "node:path",
+        "clause": "{ join }",
+        "names": [
+          "join"
+        ]
+      },
+      {
+        "module": "electron",
+        "clause": "{\n  app,\n  BrowserWindow,\n  MessageChannelMain,\n  utilityProcess as electronUtilityProcess,\n}",
+        "names": [
+          "app",
+          "BrowserWindow",
+          "MessageChannelMain",
+          "utilityProcess"
+        ]
+      },
+      {
+        "module": "electron",
+        "clause": "type { MessagePortMain, UtilityProcess as ElectronUtilityProcess }",
+        "names": [
+          "MessagePortMain",
+          "UtilityProcess"
+        ]
+      },
+      {
+        "module": "@knorvia/shared",
+        "clause": "{\n  type HostAgentProcessErrorResponse,\n  type HostAgentProcessExceptionResponse,\n  type HostAgentProcessExitedResponse,\n  type HostAgentProcessReadyResponse,\n  type HostAgentProcessSpawnedResponse,\n  type HostCuaOperationStateResponse,\n  type HostMcpTelemetryResponse,\n  type HostSessionCreateTelemetryResponse,\n  type TaskRealtimeHostDeliveryKind,\n  formatKnorviaHostProcessName,\n  HostMessageTypes,\n  HostResponseTypes,\n  hostResponseMessageSchema,\n  InternalChannels,\n  LAUNCH_MARKS_QUERY_KEY,\n  RUNTIME_KNORVIA_DEBUG,\n  serializeLaunchMarks,\n  type WorkspacePurpose,\n  KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV,\n}",
+        "names": [
+          "HostAgentProcessErrorResponse",
+          "HostAgentProcessExceptionResponse",
+          "HostAgentProcessExitedResponse",
+          "HostAgentProcessReadyResponse",
+          "HostAgentProcessSpawnedResponse",
+          "HostCuaOperationStateResponse",
+          "HostMcpTelemetryResponse",
+          "HostSessionCreateTelemetryResponse",
+          "TaskRealtimeHostDeliveryKind",
+          "formatKnorviaHostProcessName",
+          "HostMessageTypes",
+          "HostResponseTypes",
+          "hostResponseMessageSchema",
+          "InternalChannels",
+          "LAUNCH_MARKS_QUERY_KEY",
+          "RUNTIME_KNORVIA_DEBUG",
+          "serializeLaunchMarks",
+          "WorkspacePurpose",
+          "KNORVIA_DESKTOP_CONTEXT_PROMPT_ENABLED_ENV"
+        ]
+      },
+      {
+        "module": "./desktopLaunchMarks.js",
+        "clause": "{ getMainLaunchPartialMarks }",
+        "names": [
+          "getMainLaunchPartialMarks"
+        ]
+      },
+      {
+        "module": "./broadcastHub.js",
+        "clause": "{ BroadcastHub }",
+        "names": [
+          "BroadcastHub"
+        ]
+      },
+      {
+        "module": "./taskRealtimeBus.js",
+        "clause": "type { TaskRealtimeBus }",
+        "names": [
+          "TaskRealtimeBus"
+        ]
+      },
+      {
+        "module": "./hostLogRelay.js",
+        "clause": "{ createHostLogRelay }",
+        "names": [
+          "createHostLogRelay"
+        ]
+      },
+      {
+        "module": "./resourceManagerWindow.js",
+        "clause": "{\n  registerHostAgentProcess,\n  registerHostProcess,\n  unregisterHostAgentProcess,\n  unregisterHostProcess,\n}",
+        "names": [
+          "registerHostAgentProcess",
+          "registerHostProcess",
+          "unregisterHostAgentProcess",
+          "unregisterHostProcess"
+        ]
+      },
+      {
+        "module": "./resourceManagerHostSampling.js",
+        "clause": "{ resolveHostResourceUsageResult }",
+        "names": [
+          "resolveHostResourceUsageResult"
+        ]
+      },
+      {
+        "module": "./desktopRuntimeEnv.js",
+        "clause": "{\n  buildHostProcessEnv,\n  hostModulePath,\n  resolveBundledAgentBinaryPath,\n}",
+        "names": [
+          "buildHostProcessEnv",
+          "hostModulePath",
+          "resolveBundledAgentBinaryPath"
+        ]
+      },
+      {
+        "module": "./desktopNetworkTelemetry.js",
+        "clause": "{ ingestHostNetworkObservations }",
+        "names": [
+          "ingestHostNetworkObservations"
+        ]
+      },
+      {
+        "module": "./processResourceCliSource.js",
+        "clause": "{ ingestCliResourceSample }",
+        "names": [
+          "ingestCliResourceSample"
+        ]
+      },
+      {
+        "module": "./processResourceSelfHeapSource.js",
+        "clause": "{ ingestHostSelfResourceSample }",
+        "names": [
+          "ingestHostSelfResourceSample"
+        ]
+      },
+      {
+        "module": "./exportLogs.js",
+        "clause": "{ createFeedbackLogArchiveFromExportLogs }",
+        "names": [
+          "createFeedbackLogArchiveFromExportLogs"
+        ]
+      },
+      {
+        "module": "./e2eCoverage.js",
+        "clause": "{ buildHostE2ECoverageEnv }",
+        "names": [
+          "buildHostE2ECoverageEnv"
+        ]
+      }
+    ]
+  }
+]
