@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "baseline": "c235d0a670d143527018e6f46b8fac00aac2b9d7",
+  "files": {
+    "src/workflow/scheduler/events.ts": "4acf40908ead0d823de81c910c18928dc11a28cd87ca13da1c106a4e5947812d",
+    "dist/workflow/scheduler/events.js": "6fb054470ac2d391197db2acd8ab69932d06c9165dbfc916d09af62f54ed0d3d",
+    "dist/workflow/scheduler/events.d.ts": "5745e4a1748f0531f66b1aaebbe7382ebc18381611e2652479f6c0de60149f15",
+    "src/workflow/scheduler/graph.ts": "72f46031133cf707d53e30688a9e192b99cc29490af03aa9e852138e858b15e5",
+    "dist/workflow/scheduler/graph.js": "b2330aefde3b0808b6e9ef484da839eff8badfb5e07eae51952d2910600e13d9",
+    "dist/workflow/scheduler/graph.d.ts": "0c041833e2d9deab50587ad659ec7d300e4e8a6dd038fde483574f2f0f04a613",
+    "src/workflow/scheduler.ts": "33ef1cfdeb763fe4089ed6620d7775daa7a2d52aafb3d4f6f64ab7a6914c3330",
+    "dist/workflow/scheduler.js": "9b16ae76937465d729be7c050bd29d831cb45c7df70fdb2ba01fc4a7a0a424ba",
+    "dist/workflow/scheduler.d.ts": "7bd78b2d07f74aaaf538f0f4394175261490de86e4cc4026e7d71aad1ce0519e",
+    "src/workflow/scheduler/node-runner.ts": "a59ffa160e25854d8e9110185b0b6859aad76bd2f8b0ad3a249009d9a950a244",
+    "dist/workflow/scheduler/node-runner.js": "5afde3594a4a9cafbd7fde41a5526dc62a4f3700f7e6d637370cb029f9794be0",
+    "dist/workflow/scheduler/node-runner.d.ts": "614a8ef711229bf5c56a59c80f2d0aea589ad93b1971ac26643a438b9cf2abd1",
+    "src/workflow/scheduler/collection-planner.ts": "328f5fa6b3136e9c77589a638a91fc6e212fa443318b6e59e4010af2d697e797",
+    "dist/workflow/scheduler/collection-planner.js": "5c4edfca4583ee36008fa4a7508e82dc2d8b2b77388a9501d6f8914dd0b73dee",
+    "dist/workflow/scheduler/collection-planner.d.ts": "ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08"
+  }
+}
