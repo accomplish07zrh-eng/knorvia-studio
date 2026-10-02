@@ -7,8 +7,10 @@
   ],
   "modules": [
     "background",
+    "background-payload",
     "model-status",
-    "usage-observability"
+    "usage-observability",
+    "usage-observability-projection"
   ],
   "sourceExposure": "Curator source-exposed; three fresh body-free authors receive only curated source-derived functional/API declarations, drafts sealed before comparison. No clean-room/rights claim.",
   "protected": "E context/provider/workflow/compaction/history; accepted registry/admission/persistence and permission/full-access; existing background workflow adapter/dependencies unchanged.",

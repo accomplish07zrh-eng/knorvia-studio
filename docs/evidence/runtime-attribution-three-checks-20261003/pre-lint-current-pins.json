@@ -1,0 +1,20 @@
+{
+  "compiler": "TypeScript6.0.2 scoped actual emit",
+  "files": {
+    "src/runtime/methods/background.ts": "91ef000bfdaee2bc62ffd773fd820ecfba14eb9f4d488540488575f4e761b57e",
+    "dist/runtime/methods/background.js": "cd973321c116e624f6a4b45f46f3714df3ba0ab7e5afa53c83dd50be65d9f1c3",
+    "dist/runtime/methods/background.d.ts": "621e4b8ed6b78393a7b2a809e407d044b5f558663f041177f3db0435359a2721",
+    "src/runtime/methods/background-payload.ts": "b70eabb9f81b955909f0b3a4c4ec3b865d70900b23669f76b81b7868c87e3691",
+    "dist/runtime/methods/background-payload.js": "4c7a95d48461cc82a30b6929578d1c561aed8238fbdf8a18b50ca1b929b6ae3e",
+    "dist/runtime/methods/background-payload.d.ts": "aadcf235c72d642e4e00e38627d3fb9cb2f25cab438a6ea95a258430c2a623fd",
+    "src/runtime/methods/model-status.ts": "cbc6ac8164b16b024a235e529735e3dbc56bf84d75b0a2f01fd995d52d8f09ff",
+    "dist/runtime/methods/model-status.js": "13d22e3998ea5b2efe3959f4f759d448a1b00263bc48f09c6bd308b53820c82c",
+    "dist/runtime/methods/model-status.d.ts": "b8275635cdd37497d5b4c9fcee0afc47da1bab3207cd9c9de29226fafe7a39d4",
+    "src/runtime/methods/usage-observability.ts": "8711f5a9ae77a06397b180ba4279ff0c2d22df58b3697e4bd93e0aef11dcf604",
+    "dist/runtime/methods/usage-observability.js": "a7a9df6e685f64b2e20b51371fe44f0a4483f464a6c26994d947e45bacafbd98",
+    "dist/runtime/methods/usage-observability.d.ts": "d22c1ba1bbd2da7a4c7c70a4ac24a2115d8ca5ef2fdecb14d6e7f1d883b1ed1d",
+    "src/runtime/methods/usage-observability-projection.ts": "a09cc13474608ce27d00ffc0148d5a97e30fc2049215ce47b62e5e4f77d4ecf0",
+    "dist/runtime/methods/usage-observability-projection.js": "37940944f5ead3427fd482044de06c89cd9787e82d897ae92df3dd2069e123b7",
+    "dist/runtime/methods/usage-observability-projection.d.ts": "15f69748048a361a411ed44e16eda6e6eb5f07b14b129ed3425471fb0535f52e"
+  }
+}

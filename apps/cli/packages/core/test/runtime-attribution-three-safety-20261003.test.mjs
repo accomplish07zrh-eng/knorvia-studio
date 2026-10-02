@@ -24,7 +24,7 @@ for (const [n, pin] of Object.entries(baselines)) {
   for (const k of ["source", "compiled", "declaration"]) assert.equal(hash(f[k]), f[k + "Sha256"]);
   old[n] = await import(data(bind(f.compiled)));
 }
-async function observe(o) {
+async function observe(o, modelStatusOnly = false) {
   const deps = await import(new URL("dist/runtime/deps.js", core)),
     trace = { traceId: "caller-trace", turnId: "caller-turn" },
     facts = {};
@@ -39,7 +39,7 @@ async function observe(o) {
   };
   try {
     // A failed cancel must leave the accepted request event; it must not publish completion.
-    {
+    if (!modelStatusOnly) {
       const calls = [],
         failure = Error("Owned cancellation"),
         task = {
@@ -144,7 +144,7 @@ async function observe(o) {
       facts.modelStatus = order;
     }
     // Three fact writers retain IDs/raw references and swallow only owned write failures with warnings.
-    {
+    if (!modelStatusOnly) {
       const rows = [],
         warnings = [],
         failure = Error("Owned fact write"),
@@ -269,11 +269,105 @@ async function observe(o) {
     globalThis.Date = NativeDate;
   }
 }
+
+async function captureModelId(o) {
+  const clock = Date.now;
+  Date.now = () => 100;
+  try {
+    const rows = [],
+      store = {
+        async recordModelUsage(row) {
+          rows.push(row);
+        },
+        async upsertTurnUsage() {},
+        async upsertToolUsage() {},
+        async pruneUsage() {},
+      };
+    const input = {
+      assistantMessageId: "owned-before",
+      get querySource() {
+        this.assistantMessageId = "owned-after";
+        return "owned-query";
+      },
+      events: [],
+      model: { providerId: "owned", modelId: "owned", options: {} },
+      networkEventStartIndex: 0,
+      startedAt: 10,
+      status: "completed",
+      traceContext: { traceId: "owned" },
+    };
+    await o["usage-observability"].recordModelUsageFact(
+      { sessionId: "owned", sessionStore: store, config: {} },
+      input,
+    );
+    return { modelId: rows[0].id, logicalRequestId: rows[0].logicalRequestId };
+  } finally {
+    Date.now = clock;
+  }
+}
+function cancellationLog(o) {
+  const calls = [];
+  o["model-status"].logModelNetworkStatus.call(
+    {
+      logger: {
+        warn(label, fields) {
+          calls.push({ label, fields });
+        },
+      },
+    },
+    {
+      type: "model_request_failed",
+      attempt: 1,
+      providerId: "owned",
+      modelId: "owned",
+      reason: "cancelled",
+      retryable: false,
+      message: "Owned cancellation",
+      durationMs: 20,
+    },
+    { traceId: "owned" },
+  );
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].label, "Model network request failed");
+  assert.equal(calls[0].fields.status, "cancelled");
+  assert.equal(calls[0].fields.event, "model.network.failed");
+  return calls;
+}
+
+const currentText = await read("test/runtime-attribution-three-current-20261003.json");
+assert.equal(hash(currentText), "9c52d65292f6553eb1114882302d55bbf4255e7a4a4b3a5c9c5253582de5902a");
+const currentPins = JSON.parse(currentText).files;
+async function select(reader = read) {
+  for (const [p, h] of Object.entries(currentPins)) assert.equal(hash(await reader(p)), h, p);
+}
+await select();
+await assert.rejects(
+  select(async (p) => (p.endsWith("usage-observability-projection.js") ? "wrong" : read(p))),
+);
+await assert.rejects(
+  select(async (p) => {
+    if (p.endsWith("background-payload.d.ts")) throw Error("Owned missing");
+    return read(p);
+  }),
+);
+const now = {};
+for (const n of Object.keys(baselines))
+  now[n] = await import(new URL("dist/runtime/methods/" + n + ".js", core));
+const modelStatusOnly = process.argv.includes("--model-status-only");
+const current = await observe(now, modelStatusOnly),
+  historical = await observe(old, modelStatusOnly);
+assert.deepEqual(current, historical);
+if (!modelStatusOnly) assert.deepEqual(await captureModelId(now), await captureModelId(old));
+assert.deepEqual(cancellationLog(now), cancellationLog(old));
 console.log(
   JSON.stringify({
-    mode: "immutable predecessor actual compiler emitted",
-    syntheticWriteLifecycleGroups: 3,
-    usageRowsWithinGroup: 3,
-    observations: await observe(old),
+    mode: "strict current actual compiler emitted",
+    syntheticWriteLifecycleGroups: modelStatusOnly ? 1 : 3,
+    usageRowsWithinGroup: modelStatusOnly ? 0 : 3,
+    appendedIdentityRegression: modelStatusOnly ? 0 : 1,
+    appendedCancellationLogObservation: 1,
+    observations: current,
+    limits:
+      "Owned synthetic ports/clock only; transitive dependencies via tsx, not all-emitted. Ordinary suites/builds/native skipped.",
   }),
 );

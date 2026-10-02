@@ -1,0 +1,107 @@
+{
+  "typescript": "6.0.2",
+  "apiMode": "resolved immutable historical and current emitted declarations",
+  "diagnostics": [],
+  "api": [
+    {
+      "owner": "background",
+      "before": {
+        "buildBackgroundTaskPayload": [
+          "(this: AgentRuntimeInternal, taskId: string, existing: BackgroundTaskInfo | undefined, snapshot: BackgroundExecutionSnapshot | undefined, overrides?: { cancelRequestedAt?: Date | undefined; cancellable?: boolean | undefined; completedAt?: Date | undefined; status?: BackgroundTaskInfoStatus | undefined; } | undefined): BackgroundTaskInfo"
+        ],
+        "cancelBackgroundTask": [
+          "(this: AgentRuntimeInternal, taskId: string, options?: { traceContext?: TraceContext | undefined; } | undefined): Promise<BackgroundTaskCancelResult>"
+        ],
+        "cancelRunningRuntimeBackgroundTasks": [
+          "(this: AgentRuntimeInternal, input: { reason: \"subagent_cancelled\"; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ],
+        "hasRunningBackgroundTasks": [
+          "(this: AgentRuntimeInternal): boolean"
+        ],
+        "RuntimeBackgroundStopOptions": [],
+        "RuntimeBackgroundStopResult": [],
+        "stopBackgroundTask": [
+          "(this: AgentRuntimeInternal, taskId: string, options: RuntimeBackgroundStopOptions): Promise<RuntimeBackgroundStopResult>"
+        ]
+      },
+      "after": {
+        "buildBackgroundTaskPayload": [
+          "(this: AgentRuntimeInternal, taskId: string, existing: BackgroundTaskInfo | undefined, snapshot: BackgroundExecutionSnapshot | undefined, overrides?: { cancelRequestedAt?: Date | undefined; cancellable?: boolean | undefined; completedAt?: Date | undefined; status?: BackgroundTaskInfoStatus | undefined; } | undefined): BackgroundTaskInfo"
+        ],
+        "cancelBackgroundTask": [
+          "(this: AgentRuntimeInternal, taskId: string, options?: { traceContext?: TraceContext | undefined; } | undefined): Promise<BackgroundTaskCancelResult>"
+        ],
+        "cancelRunningRuntimeBackgroundTasks": [
+          "(this: AgentRuntimeInternal, input: { reason: \"subagent_cancelled\"; traceContext?: TraceContext | undefined; }): Promise<void>"
+        ],
+        "hasRunningBackgroundTasks": [
+          "(this: AgentRuntimeInternal): boolean"
+        ],
+        "RuntimeBackgroundStopOptions": [],
+        "RuntimeBackgroundStopResult": [],
+        "stopBackgroundTask": [
+          "(this: AgentRuntimeInternal, taskId: string, options: RuntimeBackgroundStopOptions): Promise<RuntimeBackgroundStopResult>"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "model-status",
+      "before": {
+        "createModelStatusSink": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext, events: SessionEvent[], options?: ModelStatusSinkOptions | undefined): ModelStatusSink"
+        ],
+        "logModelNetworkStatus": [
+          "(this: AgentRuntimeInternal, statusEvent: ModelNetworkStatusEvent, traceContext: TraceContext): void"
+        ]
+      },
+      "after": {
+        "createModelStatusSink": [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext, events: SessionEvent[], options?: ModelStatusSinkOptions | undefined): ModelStatusSink"
+        ],
+        "logModelNetworkStatus": [
+          "(this: AgentRuntimeInternal, statusEvent: ModelNetworkStatusEvent, traceContext: TraceContext): void"
+        ]
+      },
+      "equal": true
+    },
+    {
+      "owner": "usage-observability",
+      "before": {
+        "recordModelUsageFact": [
+          "(runtime: AgentRuntimeInternal, input: RecordModelUsageInput): Promise<void>"
+        ],
+        "recordToolUsageFromEvent": [
+          "(runtime: AgentRuntimeInternal, event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ],
+        "recordTurnUsageFact": [
+          "(runtime: AgentRuntimeInternal, input: RecordTurnUsageInput): Promise<void>"
+        ]
+      },
+      "after": {
+        "recordModelUsageFact": [
+          "(runtime: AgentRuntimeInternal, input: RecordModelUsageInput): Promise<void>"
+        ],
+        "recordToolUsageFromEvent": [
+          "(runtime: AgentRuntimeInternal, event: SessionEvent, traceContext: TraceContext): Promise<void>"
+        ],
+        "recordTurnUsageFact": [
+          "(runtime: AgentRuntimeInternal, input: RecordTurnUsageInput): Promise<void>"
+        ]
+      },
+      "equal": true
+    }
+  ],
+  "emitted": [
+    "dist/runtime/methods/background-payload.js",
+    "dist/runtime/methods/background-payload.d.ts",
+    "dist/runtime/methods/background.js",
+    "dist/runtime/methods/background.d.ts",
+    "dist/runtime/methods/model-status.js",
+    "dist/runtime/methods/model-status.d.ts",
+    "dist/runtime/methods/usage-observability-projection.js",
+    "dist/runtime/methods/usage-observability-projection.d.ts",
+    "dist/runtime/methods/usage-observability.js",
+    "dist/runtime/methods/usage-observability.d.ts"
+  ]
+}

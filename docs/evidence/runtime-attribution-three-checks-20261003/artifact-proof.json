@@ -1,0 +1,23 @@
+{
+  "currentArtifacts": 15,
+  "historicalOracles": 3,
+  "packetAndDraftFiles": 24,
+  "facts": [
+    {
+      "owner": "background",
+      "fixedDeclarationStatements": 1,
+      "equal": true
+    },
+    {
+      "owner": "model-status",
+      "fixedDeclarationStatements": 2,
+      "equal": true
+    },
+    {
+      "owner": "usage-observability",
+      "fixedDeclarationStatements": 4,
+      "equal": true
+    }
+  ],
+  "limitations": "Declaration facts exclude functions/imports; scoped compiler report proves call signatures. Not a behavior suite or licence proof."
+}
