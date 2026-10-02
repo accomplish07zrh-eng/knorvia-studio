@@ -1,0 +1,28 @@
+{
+  "archivedAtUtc": "2026-10-02T20:25:00.981610+00:00",
+  "bodyReviewedBeforeArchive": false,
+  "configuredModel": "gpt-6.1-sol",
+  "configuredEffort": "high",
+  "forkTurns": "none",
+  "fastTier": "Requested; no distinct exposed control",
+  "extraInputs": [
+    {
+      "path": "docs/evidence/core-attachment-plan-author-packet-20261003/paths/source-observation-qualification.md",
+      "bytes": 1325,
+      "sha256": "cfee6f475825f16c4b78f7e5353c778cfc90bdd38c52ada68d6ee2540443e199"
+    }
+  ],
+  "files": [
+    {
+      "file": "draft-media-attachment-path.ts.txt",
+      "bytes": 4250,
+      "sha256": "93b330a5441bda32b89e1d68a0b227d2466c5f0545541acc40f6c85ee0488d48",
+      "target": "apps/cli/packages/core/src/runtime/helpers/media-attachment-path.ts"
+    },
+    {
+      "file": "author-record.json",
+      "bytes": 9417,
+      "sha256": "c58af433c798bdfd02243a240effc7bf2738ff74c97c9385374769ca54249929"
+    }
+  ]
+}
