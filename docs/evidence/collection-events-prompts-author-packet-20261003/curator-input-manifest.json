@@ -1,0 +1,69 @@
+{
+  "frozenAtUtc": "2026-10-02T18:04:18.112426+00:00",
+  "baseline": "dfae259be47287be6642ab8469009b008a01bdb2",
+  "owners": [
+    "collection-events.ts",
+    "prompts.ts"
+  ],
+  "inputs": [
+    {
+      "path": "docs/evidence/collection-events-prompts-author-packet-20261003/contract.md",
+      "bytes": 9662,
+      "sha256": "51b7ca930573b16c7c2088c6733874b73db9e39a85a8133f0fc3eb98f09fb3b6"
+    },
+    {
+      "path": "docs/evidence/collection-events-prompts-author-packet-20261003/public-api.d.ts",
+      "bytes": 1235,
+      "sha256": "a65fee17c0e415cb381e0e082df89e5912ee566ac4094abc380423e36e22ba13"
+    },
+    {
+      "path": "docs/evidence/collection-events-prompts-author-packet-20261003/dependency-api.d.ts",
+      "bytes": 3100,
+      "sha256": "2cfd25133e6e9b4c163e6bd13279c032aa9a986a7913cffaced499068570633d"
+    },
+    {
+      "path": "docs/evidence/collection-events-prompts-author-packet-20261003/public-data-shapes.md",
+      "bytes": 2987,
+      "sha256": "bee4c49cfcbf2df68dac801b0aa8751af9bfca086f2b0ca5b23ea797d6b681c8"
+    },
+    {
+      "path": "docs/evidence/collection-events-prompts-author-packet-20261003/rendered-text.json",
+      "bytes": 2316,
+      "sha256": "57c2bde6d8e26b41fba9654670d2b8af6659c55712b0e7c11a9a306097f9d65f"
+    }
+  ],
+  "sources": [
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-events.ts",
+      "bytes": 2458,
+      "sha256": "950f23d0e55b1bd226ad6d51db5b1683573c76bf9e4f604db47a80d177dbf078",
+      "gitBlob": "ef4602ed2eec39c4adb315540896d4ce814ba9e0"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/prompts.ts",
+      "bytes": 2932,
+      "sha256": "9fcf53312a7de8c796254158c8cc77278300b711b0008c8531c0d23eb9f9ec98",
+      "gitBlob": "341cf0e7dc87b0f12fc49714acd5144591fe8102"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-runtime.ts",
+      "bytes": 434,
+      "sha256": "84cf0daef503c8c22b4016d4472a4efd32c2f43fb5f55ef01f3399e54c8d220d",
+      "gitBlob": "22acd336e7a4a3eee34419a7944d3f684a9ee326"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/types.ts",
+      "bytes": 4401,
+      "sha256": "c6a4056664f557d3e982d7d64d417a46e55db96191ca937b0e9f3734941a0106",
+      "gitBlob": "fee70a2c4712eb52b4a5c032f327483bac721f29"
+    }
+  ],
+  "curatorExposure": "Read current complete source owners and existing public collaborators; author receives only functional/public contract and exact rendered text, no implementation/test bodies.",
+  "retainedBoundaries": [
+    "Exact default prompt prose and example JSON are source-derived retained contract text, not newly authored prose",
+    "collection-runtime.ts and types.ts are pure declarations, not eligible implementation rewrites",
+    "graph.ts and graph-* remain exclusively A-owned"
+  ],
+  "publicDeclarationExtraction": "TypeScript6.0.2; no owner extraction diagnostics; not project typecheck",
+  "testsRun": false
+}
