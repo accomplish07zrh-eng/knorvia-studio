@@ -1,0 +1,15 @@
+{
+  "run": {
+    "mode": "baseline",
+    "groups": [
+      "submission selection identity/write failure/publication",
+      "plugin reminder history-before-write/recoverable publication failure",
+      "verifier terminal target write/event failure/telemetry"
+    ],
+    "count": 3,
+    "selection": "5strict actual compiler JS owners; imports rebound to unchanged source dependencies except explicitly synthetic plugin parser/builder,provider projection and usage-fact seams; native model wrapper/telemetry run with fake ports",
+    "limits": "3minimal concrete persistence/publication groups;turn-loop and shell ordinary behavioral checks deferred;no source duplication/full runtime/provider requests"
+  },
+  "fixtureSha256": "829c3974acd0a56049fd04cca99b0e5544476e99d1bf873d9512ae390f82aa9d",
+  "inputCorrection": "Complete owned SessionGoal record supplied after preserved incomplete-fixture failure; no contract assertion relaxed"
+}

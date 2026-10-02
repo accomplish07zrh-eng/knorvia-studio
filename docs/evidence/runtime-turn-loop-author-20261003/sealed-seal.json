@@ -1,0 +1,8 @@
+{
+  "draft": "/tmp/knorvia-turn-preparation-packet-author/draft.ts",
+  "algorithm": "SHA-256",
+  "sha256": "da4b7a348aacc25143853675a16b4d03f8908b9267958f44c6ee1c7f300dfdfc",
+  "physical_lines": 217,
+  "review_state": "Sealed before curator review",
+  "author_checks": "Own draft hash and physical line count only; no compile, tests, execution, source comparison, or runtime IO."
+}

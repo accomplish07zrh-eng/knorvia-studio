@@ -1,0 +1,65 @@
+{
+  "task": "Bounded complete plugin-reference turn-start notice owner",
+  "packet": "/workspace/knorvia-studio/docs/evidence/runtime-plugin-reference-author-20261003",
+  "context_received": [
+    "System assistant and response-format instructions",
+    "Developer tool descriptions, collaboration and autonomy instructions, filesystem permissions, skill catalog, and subagent-role instructions",
+    "User environment context: /workspace cwd, bash shell, 2026-10-02 current date, Etc/UTC timezone, restricted filesystem permissions",
+    "Parent NEW_TASK bounded-author instructions naming the five permitted packet files and three permitted output files"
+  ],
+  "file_reads": [
+    {
+      "operation": "Content read using one exact-path cat invocation",
+      "paths": [
+        "/workspace/knorvia-studio/docs/evidence/runtime-plugin-reference-author-20261003/contract.md",
+        "/workspace/knorvia-studio/docs/evidence/runtime-plugin-reference-author-20261003/api.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-plugin-reference-author-20261003/imports.d.ts",
+        "/workspace/knorvia-studio/docs/evidence/runtime-plugin-reference-author-20261003/literals.json",
+        "/workspace/knorvia-studio/docs/evidence/runtime-plugin-reference-author-20261003/supporting.d.ts"
+      ]
+    },
+    {
+      "operation": "SHA256 hash read using exact-path sha256sum invocation; draft physical-line count using exact-path wc invocation",
+      "paths": [
+        "/tmp/knorvia-plugin-notice-packet-author/draft.ts",
+        "/tmp/knorvia-plugin-notice-packet-author/access.json"
+      ],
+      "line_count_path": "/tmp/knorvia-plugin-notice-packet-author/draft.ts"
+    }
+  ],
+  "tools_used": [
+    {"sequence": 1, "tool": "functions.exec", "purpose": "Await tools.exec_command for the five exact packet content reads; text the result"},
+    {"sequence": 2, "tool": "tools.exec_command", "purpose": "Read the five permitted packet files with cat"},
+    {"sequence": 3, "tool": "functions.exec", "purpose": "Await tools.apply_patch for draft.ts and access.json; text the result"},
+    {"sequence": 4, "tool": "tools.apply_patch", "purpose": "Create only draft.ts and access.json in the permitted output directory"},
+    {"sequence": 5, "tool": "functions.exec", "purpose": "Await exact output-file hash and line-count shell reads; text results"},
+    {"sequence": 6, "tool": "tools.exec_command", "purpose": "Compute SHA256 of draft.ts and access.json"},
+    {"sequence": 7, "tool": "tools.exec_command", "purpose": "Count physical lines in draft.ts"},
+    {"sequence": 8, "tool": "functions.exec", "purpose": "Await tools.apply_patch for seal.json; text the result"},
+    {"sequence": 9, "tool": "tools.apply_patch", "purpose": "Create only seal.json containing the pre-comparison hashes and line count"}
+  ],
+  "writes": [
+    "/tmp/knorvia-plugin-notice-packet-author/draft.ts",
+    "/tmp/knorvia-plugin-notice-packet-author/access.json",
+    "/tmp/knorvia-plugin-notice-packet-author/seal.json"
+  ],
+  "design": [
+    "One exported native async owner and one narrowly named native async MCP collector",
+    "No-reference path returns before clock and runtime collection; extraction and initial clock remain outside try",
+    "Collector keeps its asynchronous no-port path and the prescribed initialization, status, startup, registration, disallowlist, count, and status-entry order",
+    "Live skill and profile collections occur after the collector await; all required object-field order and optional logger argument evaluation are preserved",
+    "History attachment precedes awaited session persistence; catch logs failures without rollback or fallback text"
+  ],
+  "retained_idioms": [
+    "Contractual import paths, names, runtime strings, field names, and explicit ordering",
+    "Conventional async/await, try/catch, optional chaining, nullish fallback, early return, loops, Set/Map, and Object.entries mapping",
+    "Strong correspondence between contract expressions and implementation; no contribution percentages or absolute clean-room claim"
+  ],
+  "limits": [
+    "No production, history, tests, oracle, lineage, dependency-body, other-packet, team-status, or other-file reads",
+    "No candidate execution, compilation, tests, live MCP/provider/model calls, OAuth, network, userdata, task or credential effects",
+    "No checkout edits; no policy, state, retry, framework, or connection changes",
+    "Types and runtime integration remain unverified because compilation and execution are forbidden",
+    "The source packet supplies no additional supporting type structure beyond its public declarations; tool.name and the named runtime persistence method follow the functional contract"
+  ]
+}
