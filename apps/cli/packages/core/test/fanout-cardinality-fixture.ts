@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { dynamic, sha } from "./causality-reduction-fixture.js";
+import { assertCardinalityDeclarationShape } from "./fanout-cardinality-documentation-proof.js";
 
 export { sha };
 const emitted = process.env.KNORVIA_WORKFLOW_RUN_SUMMARY_TEST_EMITTED === "1";
@@ -20,7 +21,10 @@ export async function loadCurrent(readArtifact = (url: URL) => readFile(url, "ut
     ["dist/analysis/fanout-cardinality.d.ts", pins.declarationSha256],
   ])
     assert.equal(sha(await readArtifact(new URL(p, root))), hash, p);
-  assert.equal(pins.declarationSha256, archive.declarationSha256);
+  await assertCardinalityDeclarationShape(
+    await readArtifact(new URL("dist/analysis/fanout-cardinality.d.ts", root)),
+    archive.declarationSha256,
+  );
   return dynamic("analysis/fanout-cardinality");
 }
 export const current = await loadCurrent();
