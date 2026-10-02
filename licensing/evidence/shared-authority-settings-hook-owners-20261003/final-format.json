@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/shared/src/official-mcp-auth.ts",
+    "packages/shared/src/runtimeEnv.ts",
+    "packages/shared/src/validationAppSettings.ts",
+    "packages/shared/src/workspace-hook-config.ts",
+    "packages/shared/src/workspace-hook-mutation.ts",
+    "packages/shared/test/shared-authority-fixture.mjs",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs",
+    "packages/shared/test/shared-hook-write-boundaries.test.mjs",
+    "licensing/evidence/shared-authority-settings-hook-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/shared-authority-settings-hook-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 55ms on 10 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

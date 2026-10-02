@@ -1,0 +1,52 @@
+[
+  {
+    "path": "packages/shared/src/official-mcp-auth.ts",
+    "selectedRaw": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/official-mcp-auth.ts",
+    "rawSha256": "c823244d067359e0ec3a075d8ec40129ae37e0c384402ce575cec640b5851953",
+    "formattedFrozen": "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/official-mcp-auth.ts",
+    "formattedSha256": "8163d7f717a7924c0cb3e890bd3d7d10dd9e3167b9f67059a9c8bb830e1388c5",
+    "installedSha256": "8163d7f717a7924c0cb3e890bd3d7d10dd9e3167b9f67059a9c8bb830e1388c5",
+    "baselineSha256": "3098a640719bafc8db5f2f96990e9353e57b75c2e113f6764ffff04bcab0e4dc",
+    "exactWholeFilePlusFormattingMatch": true
+  },
+  {
+    "path": "packages/shared/src/runtimeEnv.ts",
+    "selectedRaw": "/tmp/knorvia-shared-authority-settings-hook-freezes/initial-runtimeEnv.ts",
+    "rawSha256": "c31eec483070eaaf4863c632f83dacf4ff2a852642ed045e4a2efb81eba97f19",
+    "formattedFrozen": "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/runtimeEnv.ts",
+    "formattedSha256": "1726498b016f0c930a2e6a6ffd92548746ddcd68d6412975972794411ce563bd",
+    "installedSha256": "1726498b016f0c930a2e6a6ffd92548746ddcd68d6412975972794411ce563bd",
+    "baselineSha256": "9dce22428cc26c2a676e1f0a295d62f836780c5645477f6cd82bea7358622a84",
+    "exactWholeFilePlusFormattingMatch": true
+  },
+  {
+    "path": "packages/shared/src/validationAppSettings.ts",
+    "selectedRaw": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/validationAppSettings.ts",
+    "rawSha256": "e927c2e9fcb7979f10cb4266d8e7ef360df57417b95af7dc6fb4b35f95a8cba0",
+    "formattedFrozen": "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/validationAppSettings.ts",
+    "formattedSha256": "24312cbd6b7f3298882933e406a82e9b1c5829534749588505a42d92ecf884c5",
+    "installedSha256": "24312cbd6b7f3298882933e406a82e9b1c5829534749588505a42d92ecf884c5",
+    "baselineSha256": "0f31497b00bdf6877deb045037295c24fc36df4e25e4496cb6162b1113025df3",
+    "exactWholeFilePlusFormattingMatch": true
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-config.ts",
+    "selectedRaw": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/workspace-hook-config.ts",
+    "rawSha256": "25a323361601221f3ffc377360be994043e82ee6e8a763afa2ba042547c2dbca",
+    "formattedFrozen": "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/workspace-hook-config.ts",
+    "formattedSha256": "c220c80dbe5082dfc820a924400fe3b7d94fccf81830f772860408e2f1ca3458",
+    "installedSha256": "c220c80dbe5082dfc820a924400fe3b7d94fccf81830f772860408e2f1ca3458",
+    "baselineSha256": "c51ee2c57050f495d8cb72606b95240c2faa1130fcbef021fa5af22194b83044",
+    "exactWholeFilePlusFormattingMatch": true
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-mutation.ts",
+    "selectedRaw": "/tmp/knorvia-shared-authority-settings-hook-freezes/corrected/workspace-hook-mutation.ts",
+    "rawSha256": "0c37277d2ce9bdc821a2b2e724087c6b39d37a8a6ec0d757edb38c9ce14134ac",
+    "formattedFrozen": "/tmp/knorvia-shared-authority-settings-hook-freezes/formatted-selected/workspace-hook-mutation.ts",
+    "formattedSha256": "597eb187715a08b882f133a512a8608296ad9296f424f702b785af8534dd926d",
+    "installedSha256": "597eb187715a08b882f133a512a8608296ad9296f424f702b785af8534dd926d",
+    "baselineSha256": "d660748c673c1b33bce6a85c39fba7f7fabf2ef0a4c19604425e450c3af135c6",
+    "exactWholeFilePlusFormattingMatch": true
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "baselineCommit": "f1706e1d9ca4068077287bd7fbe7e5060104cf6d",
+  "selected": [
+    {
+      "path": "packages/shared/src/official-mcp-auth.ts",
+      "sha256": "3098a640719bafc8db5f2f96990e9353e57b75c2e113f6764ffff04bcab0e4dc",
+      "reviewRecord": null,
+      "parentAllocation": "Root reconciled identical hashes/no exact accepted review entries; source reconstruction only, separate from services",
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/runtimeEnv.ts",
+      "sha256": "9dce22428cc26c2a676e1f0a295d62f836780c5645477f6cd82bea7358622a84",
+      "reviewRecord": null,
+      "parentAllocation": "Root reconciled identical hashes/no exact accepted review entries; source reconstruction only, separate from services",
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/validationAppSettings.ts",
+      "sha256": "0f31497b00bdf6877deb045037295c24fc36df4e25e4496cb6162b1113025df3",
+      "reviewRecord": null,
+      "parentAllocation": "Root reconciled identical hashes/no exact accepted review entries; source reconstruction only, separate from services",
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-config.ts",
+      "sha256": "c51ee2c57050f495d8cb72606b95240c2faa1130fcbef021fa5af22194b83044",
+      "reviewRecord": null,
+      "parentAllocation": "Root reconciled identical hashes/no exact accepted review entries; source reconstruction only, separate from services",
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-mutation.ts",
+      "sha256": "d660748c673c1b33bce6a85c39fba7f7fabf2ef0a4c19604425e450c3af135c6",
+      "reviewRecord": null,
+      "parentAllocation": "Root reconciled identical hashes/no exact accepted review entries; source reconstruction only, separate from services",
+      "independentReplacementCredit": 0
+    }
+  ],
+  "retainedMetadataCount": 22,
+  "heldReducer": {
+    "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+    "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+    "state": "HOLD; body not read"
+  },
+  "previousFiveIndependentReplacementCredit": 0,
+  "scope": "Only five allocated shared owners and directly scoped spec/test/evidence. Root preview/merge/desktop exclusion and services boundaries unchanged. No licences/global provenance/manifest/integration actions."
+}

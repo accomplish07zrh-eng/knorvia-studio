@@ -1,0 +1,103 @@
+{
+  "files": {
+    "official-mcp-auth.ts": {
+      "retainedUncounted": [
+        "auth/header/meta/failure constants and reserved header map",
+        "types/interfaces and conventional header/string adapters"
+      ],
+      "requiredRecurrence": [
+        "URL credential rejection and loopback-only exception",
+        "fail-closed eager per-call resolver with preserved receiver",
+        "expected HTTPS origin equality and exact detail order"
+      ],
+      "limit": "Async trust registry normalized body identical. Header predicate identical, short adapters close. Complete candidate is zero accepted independent-replacement credit; no originality inference.",
+      "exactNormalizedBodyMatches": [
+        "isOfficialMcpReservedHeaderName",
+        "createOfficialMcpTrustedOriginRegistry"
+      ]
+    },
+    "runtimeEnv.ts": {
+      "retainedUncounted": [
+        "exact sanitized/non-tool lists, package manager regex, public flags/constants/types",
+        "private state declaration shapes and conventional flag/runtime/string adapters"
+      ],
+      "requiredRecurrence": [
+        "broker pair captured/frozen or partial cleared; no-input retains prior snapshot",
+        "telemetry merge before env stripping and defensive getters/resets",
+        "same forbidden passthrough policy including preserved legacy token exception",
+        "native key visitation and sorted serialized JSON"
+      ],
+      "limit": "Eleven named bodies identical after normalization, including substantive capture/sanitization owners. Entire file zero independent-replacement credit; no cosmetic novelty cycle or live capture/security claim.",
+      "exactNormalizedBodyMatches": [
+        "normalizeKnorviaRuntimeEnv",
+        "resolveKnorviaRuntimeEnv",
+        "captureKnorviaCuaBrokerCredentials",
+        "captureKnorviaAgentTelemetryEnv",
+        "getCapturedKnorviaAgentTelemetryEnv",
+        "resetCapturedKnorviaCuaBrokerCredentialsForTest",
+        "resetCapturedKnorviaAgentTelemetryEnvForTest",
+        "sanitizeKnorviaRuntimeEnv",
+        "buildKnorviaToolEnvPassthroughEnv",
+        "sanitizeKnorviaRuntimeEnvInPlace",
+        "isKnorviaAgentTelemetryEnvKey"
+      ]
+    },
+    "validationAppSettings.ts": {
+      "retainedUncounted": [
+        "all schema/default/enum/refinement declarations including release and SSH fields",
+        "schema callbacks and seven-stage preprocess pipeline exposed as fixed retained material",
+        "existing max-lines comment restored"
+      ],
+      "requiredRecurrence": [
+        "legacy schema validation after obsolete resource selection removal",
+        "native array history/session/tab visitation and duplicate preservation",
+        "initialized preferences and narrowly tolerant read fields versus strict patch schema"
+      ],
+      "limit": "Reasoning migration normalized body identical; other predicates/migration structures close. Schema material not authored independently, full file pending zero accepted independent credit. No release/SSH/settings operation.",
+      "exactNormalizedBodyMatches": [
+        "migrateMessageStreamShowReasoningDefault"
+      ]
+    },
+    "workspace-hook-config.ts": {
+      "retainedUncounted": [
+        "hook schema/events/defaults/types and conventional numeric/gate/error adapters"
+      ],
+      "requiredRecurrence": [
+        "nearest-worktree paths in first-occurrence canonical order",
+        "sequential exists/read and per-source error identity/index gaps",
+        "editable own config identity without explicit duplicate takeover",
+        "two live runtime-gate reads with short-circuit semantics"
+      ],
+      "limit": "Six helpers/guards normalized identical; discovery, source and reader structure close. No actual FS/hook authority/permissions validation or independent replacement acceptance.",
+      "exactNormalizedBodyMatches": [
+        "resolveWorkspaceHookMaxOutputBytes",
+        "resolveWorkspaceHookConfiguredGates",
+        "buildWorkspaceHookCandidatePaths",
+        "pathExists",
+        "isNodeError",
+        "isRecord"
+      ]
+    },
+    "workspace-hook-mutation.ts": {
+      "retainedUncounted": [
+        "error/API declarations, conventional mismatch/declaration/record helpers",
+        "existing modes/path/policy/error messages and review fields"
+      ],
+      "requiredRecurrence": [
+        "editable current project source admission before read",
+        "schema/structure/declaration digest guards using reviewed defaults",
+        "temp write/sync/close/beforeRename/rename and cleanup failure precedence"
+      ],
+      "limit": "Mismatch helper normalized identical; main mutation and atomic write close. Existing root-default drift gap preserved; no security redesign. Virtual dependency digest/schema and native runtime unverified; zero accepted independent credit.",
+      "exactNormalizedBodyMatches": [
+        "mismatch"
+      ]
+    }
+  },
+  "receipt": "retained-static-body-shapes.json/retained-shapes.mjs, lexical printer/comment/whitespace/numeric-separator normalization including string whitespace; not semantic equivalence or provenance proof",
+  "selectedFilesIndependentReplacementCredit": 0,
+  "previousTelemetryShortcutMigrationFiveIndependentReplacementCredit": 0,
+  "previousExactBodyReceipt": "../shared-telemetry-shortcut-migration-owners-20261003/retained-static-body-shapes.json",
+  "precedingLockCandidateIndependentReplacementCredit": 0,
+  "globalLimits": "Bounded internal fresh authorship reports, exposed retained schema callbacks and precise curator contracts/shared filesystem limits are disclosed. No licence/MIT or independent replacement acceptance. Global inventory/reviews remain unchanged."
+}

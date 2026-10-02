@@ -1,0 +1,196 @@
+{
+  "baselineCommit": "f1706e1d9ca4068077287bd7fbe7e5060104cf6d",
+  "remainingMetadataCount": 23,
+  "counts": {
+    "retained-contract-or-conventional-adapter": 22,
+    "historical-HOLD": 1
+  },
+  "files": [
+    {
+      "path": "packages/shared/src/conversation-share.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Wire contracts and short URL/decode/capability adapters; preserve schema and known vocabulary.",
+      "sha256": "d8305dad21e8d447480940e4ca0cfc81079c29867860bba749cb0ce0a4e1f6cd",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Startup schemas plus compact fixed classification/detail/retry predicates; retain, do not reproduce constrained bodies.",
+      "sha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Diagnostic schemas/constants with conventional clock formula/time facade; retain.",
+      "sha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/model-config.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Model schemas and option-map validation facade; retain.",
+      "sha256": "c25bbbfeee56d0eca660c7ee383296aab146c4456a9acaa2177d0cd497567b29",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/model-provider-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Builtin ID mapping and compact membership predicates; retain.",
+      "sha256": "7136b3e33dc7274e747e14f6c66cb4acf908dc6f2d8cf2b28adfc569bee218e8",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/node/nodeSelfResourceTelemetry.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Short conventional counter-difference sampler/rounding adapter; retain, no real sampling.",
+      "sha256": "cf8babd4c8459994f019ed5dca1d7106512118ec82be60844d2239cb00df2468",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/off-peak-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Declarations and three trivial predicates; retain.",
+      "sha256": "036c20ca841739950842ef698843754706bece4986b776da38b6f011d1a8951b",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Platform contracts with small preview/remote-target adapters; retain.",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol/index.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Large protocol schema/declaration surface with tiny envelope factory; retain.",
+      "sha256": "55974ca1690c48363f55d1c1d5726c5b0a42ed2a32ec4794d92236e1e98aa470",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-legacy-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Legacy schemas plus short text projection; retain.",
+      "sha256": "8ef4c7f4722da0381e78cb1c8c3c625813e6c082d2e3cf932a0749f650924633",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/command.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Command schemas with compact schema-version decoder/validation facade; retain.",
+      "sha256": "cd82b10c9d5b50e1081b66087f63733a6e664326f146a17c3478697be83284c7",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/controller.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Controller contracts/schema construction and compact membership/gap predicates; retain.",
+      "sha256": "080082083ca856acc0958befcb57f567318bc401fa24a85030e5efa33d8176a3",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/telemetry.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Telemetry schemas/contracts; retain.",
+      "sha256": "3c97cfe05eb30bef1134fc8c638797298588c2105606ae218422b0716cf51e09",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/transport.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Transport schemas/topic/capability/base64 validation adapters; retain.",
+      "sha256": "aab777faa85d5cb930da3185ef25a69b69ed0cbbf155d6103c11a26fd57a113c",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+      "category": "historical-HOLD",
+      "reason": "Body not read; historical parent reconciliation, not accepted/superseded.",
+      "sha256": "f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workspace-hook-review.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Hook review schemas and duplicate validation facade; retain.",
+      "sha256": "ff8b264a361862e5575145e635c0fa108a2ac7d82091764713e0a40b17a36ce7",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/remoteResourcePackages.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Static resource mapping and thin set/selection predicates; retain.",
+      "sha256": "941cd1d1e7333b072136fd3ffc66c3ddb5b4e03d283176896d9fb0e8dec33d4d",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/storage.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Storage contracts and conventional short map grouping adapter; retain.",
+      "sha256": "bb23cb4eafa1c85361709e6e1e11680b4aa634b4f9ccaf0f93a0474904a5dedb",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/subagents-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Declarations, ID constructors and schema admission facade; retain.",
+      "sha256": "5957bd4ef51fadea0daeea99ef9055a0b3417fcea3bf14a0b60d3a04f8ce61e4",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/task-realtime-core.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Schema surface and workspace-key nullish fallback; retain.",
+      "sha256": "3295d0b48101e4d9a8904684489d203cb5db15f3ca8aae418d4839b3de673b02",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/task-types.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Declarations, UUID facades and small flag predicates; retain.",
+      "sha256": "e6fc68bcf0667e7ad6c9d1602151b5a1682d34062d9bd6cb2f15fe71295cd97a",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/tool-identity.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Fixed tool mapping and short normalization/family predicates; retain.",
+      "sha256": "87e579fc34e9f0816a7a023a54e7243162d7784f3012b1e07babbfee61a08c44",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    },
+    {
+      "path": "packages/shared/src/workspace-hook-trust-store-file.ts",
+      "category": "retained-contract-or-conventional-adapter",
+      "reason": "Trust-store schema plus compact parser facade; retain without altering policy.",
+      "sha256": "131f05e01058acf4466af1bc654d28fb8c87955bcc5eee936420c78a84011ebf",
+      "reviewRecord": null,
+      "independentReplacementCredit": 0
+    }
+  ],
+  "unresolvedRoutingPaths": "Five previously unresolved routes allocated to this queue by parent; candidate pending classification, no accepted replacement credit",
+  "retentionLimit": "No eligible additional owner count or licence clearance asserted. Do not spend author cycles on constrained contracts/adapters or held reducer. Global classifications untouched."
+}

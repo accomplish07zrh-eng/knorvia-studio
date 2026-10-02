@@ -1,11 +1,17 @@
 import { existsSync, statSync } from "node:fs";
+
 import { access, readFile, stat } from "node:fs/promises";
+
 import { basename, dirname, join, resolve } from "node:path";
+
 import { z } from "zod";
 
 export const WORKSPACE_HOOK_DIGEST_SCHEMA_VERSION = 1 as const;
-export const DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS = 60_000;
-export const DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES = 32_768;
+
+export const DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS = 60000;
+
+export const DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES = 32768;
+
 export const WORKSPACE_HOOK_EVENT_NAMES = [
   "SessionStart",
   "UserPromptSubmit",
@@ -17,6 +23,7 @@ export const WORKSPACE_HOOK_EVENT_NAMES = [
 ] as const;
 
 export type WorkspaceHookEventName = (typeof WORKSPACE_HOOK_EVENT_NAMES)[number];
+
 export type WorkspaceHookConfigFileKind =
   | "knorvia.json"
   | ".knorvia-studio/config.json"
@@ -85,6 +92,7 @@ export const workspaceHooksConfigSchema = z
 export type WorkspaceHookDefinition =
   | z.infer<typeof workspaceHookCommandConfigSchema>
   | z.infer<typeof workspaceHookProcessConfigSchema>;
+
 export type WorkspaceHooksConfig = z.infer<typeof workspaceHooksConfigSchema>;
 
 export interface WorkspaceHookSourceInput {
@@ -114,22 +122,23 @@ export interface WorkspaceHookSourceReadError {
 }
 
 export function resolveWorkspaceHookTimeoutMs(
-  hook: Pick<WorkspaceHookDefinition, "type" | "timeoutMs"> & { timeout?: number },
+  hook: Pick<WorkspaceHookDefinition, "type" | "timeoutMs"> & {
+    timeout?: number;
+  },
   defaultTimeoutMs: number,
 ): number {
-  const timeoutMs =
+  const value =
     hook.timeoutMs ??
     (hook.type === "command" && hook.timeout !== undefined
       ? hook.timeout * 1000
       : defaultTimeoutMs);
-  return Math.max(1, Math.round(timeoutMs));
+  return Math.max(1, Math.round(value));
 }
 
 export function resolveWorkspaceHookMaxOutputBytes(maxOutputBytes: number): number {
   return Math.max(1, Math.round(maxOutputBytes));
 }
 
-/** Mirrors config-merger's hooks root semantics without materializing any callback. */
 export function resolveWorkspaceHookRuntimeRoot(
   roots: readonly (
     | Partial<Pick<WorkspaceHooksConfig, "enabled" | "timeoutMs" | "maxOutputBytes">>
@@ -139,14 +148,20 @@ export function resolveWorkspaceHookRuntimeRoot(
   let enabled = false;
   let timeoutMs = DEFAULT_WORKSPACE_HOOK_TIMEOUT_MS;
   let maxOutputBytes = DEFAULT_WORKSPACE_HOOK_MAX_OUTPUT_BYTES;
-
   for (const root of roots) {
-    if (!root) continue;
-    if (root.enabled === true) enabled = true;
-    if (root.timeoutMs !== undefined) timeoutMs = root.timeoutMs;
-    if (root.maxOutputBytes !== undefined) maxOutputBytes = root.maxOutputBytes;
+    if (!root) {
+      continue;
+    }
+    if (root.enabled === true) {
+      enabled = true;
+    }
+    if (root.timeoutMs !== undefined) {
+      timeoutMs = root.timeoutMs;
+    }
+    if (root.maxOutputBytes !== undefined) {
+      maxOutputBytes = root.maxOutputBytes;
+    }
   }
-
   return {
     enabled,
     timeoutMs: Math.max(1, Math.round(timeoutMs)),
@@ -169,11 +184,6 @@ export function resolveWorkspaceHookConfiguredGates(input: {
   };
 }
 
-/**
- * 从已发现的配置目录列表生成 workspace hook 候选文件路径。
- * 纯函数，sync/async discovery 共享，确保候选文件名与顺序规则只在此处维护一次
- * （sync/async 共享同一份 flatMap，避免候选路径的生成规则出现分歧）。
- */
 function buildWorkspaceHookCandidatePaths(directories: readonly string[]): string[] {
   return directories.flatMap((directory) => [
     join(directory, "knorvia.json"),
@@ -181,30 +191,20 @@ function buildWorkspaceHookCandidatePaths(directories: readonly string[]): strin
   ]);
 }
 
-/**
- * 对已发现的 config refs 按规范化路径去重，保留首次出现的条目。
- *
- * 当 explicit projectConfigPath 恰好指向 auto-discovery 已发现的文件时，
- * 同一文件会以不同 explicitProjectConfig 标记出现两次，进入 snapshot 后产生重复
- * sourceFile 与重复 declaration，导致 bundleDigest 分叉。
- *
- * 去重策略：保留首次出现者（auto-discovered 条目在前、explicit 在后），丢弃后续重复。
- * 不得改变剩余条目的相对顺序——discoveryOrder 和 explicitProjectConfig 均为 digest 输入，
- * 任何重排都会使既有 trust 记录失效（用户被重新提示全部 Hook）。对于无 explicit path
- * 的 workspace，auto-discovery 本身不会产生重复，此函数为 no-op，bundleDigest 不变。
- */
 function deduplicateWorkspaceHookConfigRefs(
   refs: readonly WorkspaceHookConfigPathRef[],
 ): WorkspaceHookConfigPathRef[] {
-  const seen = new Set<string>();
-  const result: WorkspaceHookConfigPathRef[] = [];
+  const knownPaths = new Set<string>();
+  const uniqueRefs: WorkspaceHookConfigPathRef[] = [];
   for (const ref of refs) {
-    const resolved = resolve(ref.path);
-    if (seen.has(resolved)) continue;
-    seen.add(resolved);
-    result.push(ref);
+    const key = resolve(ref.path);
+    if (knownPaths.has(key)) {
+      continue;
+    }
+    knownPaths.add(key);
+    uniqueRefs.push(ref);
   }
-  return result;
+  return uniqueRefs;
 }
 
 export function discoverWorkspaceHookConfigPaths(input: {
@@ -212,13 +212,15 @@ export function discoverWorkspaceHookConfigPaths(input: {
   explicitProjectConfigPath?: string;
 }): WorkspaceHookConfigPathRef[] {
   const start = resolve(input.workingDirectory);
-  const refs = buildWorkspaceHookCandidatePaths(getProjectConfigDirectories(start))
+  const directories = getProjectConfigDirectories(start);
+  const refs = buildWorkspaceHookCandidatePaths(directories)
     .filter((path) => existsSync(path))
     .map((path) => ({ path, explicitProjectConfig: false }));
-
   if (input.explicitProjectConfigPath) {
-    const explicitPath = resolve(input.explicitProjectConfigPath);
-    if (existsSync(explicitPath)) refs.push({ path: explicitPath, explicitProjectConfig: true });
+    const path = resolve(input.explicitProjectConfigPath);
+    if (existsSync(path)) {
+      refs.push({ path, explicitProjectConfig: true });
+    }
   }
   return deduplicateWorkspaceHookConfigRefs(refs);
 }
@@ -232,11 +234,11 @@ export function createWorkspaceHookSourceInput(input: {
 }): WorkspaceHookSourceInput {
   const canonicalPath = resolve(input.path);
   const explicitProjectConfig = input.explicitProjectConfig === true;
-  const configDirectory = dirname(canonicalPath);
+  const configDir = dirname(canonicalPath);
+  const baseDir = basename(configDir) === ".knorvia-studio" ? dirname(configDir) : configDir;
   return {
     canonicalPath,
-    baseDir:
-      basename(configDirectory) === ".knorvia-studio" ? dirname(configDirectory) : configDirectory,
+    baseDir,
     discoveryOrder: input.discoveryOrder,
     configFileKind: explicitProjectConfig
       ? "explicit"
@@ -254,20 +256,26 @@ export function createWorkspaceHookSourceInput(input: {
 export async function readWorkspaceHookProjectSources(input: {
   workingDirectory: string;
   explicitProjectConfigPath?: string;
-}): Promise<{ sources: WorkspaceHookSourceInput[]; errors: WorkspaceHookSourceReadError[] }> {
+}): Promise<{
+  sources: WorkspaceHookSourceInput[];
+  errors: WorkspaceHookSourceReadError[];
+}> {
   const refs = await discoverWorkspaceHookConfigPathsAsync(input);
   const sources: WorkspaceHookSourceInput[] = [];
   const errors: WorkspaceHookSourceReadError[] = [];
-
   for (const [discoveryOrder, ref] of refs.entries()) {
     try {
-      const value = JSON.parse(await readFile(ref.path, "utf8")) as unknown;
-      if (!isRecord(value) || value.hooks === undefined) continue;
+      const content = await readFile(ref.path, "utf8");
+      const value: unknown = JSON.parse(content);
+      if (!isRecord(value) || value.hooks === undefined) {
+        continue;
+      }
+      const hooks = workspaceHooksConfigSchema.parse(value.hooks);
       sources.push(
         createWorkspaceHookSourceInput({
           path: ref.path,
           workingDirectory: input.workingDirectory,
-          hooks: workspaceHooksConfigSchema.parse(value.hooks),
+          hooks,
           discoveryOrder,
           explicitProjectConfig: ref.explicitProjectConfig,
         }),
@@ -284,17 +292,17 @@ async function discoverWorkspaceHookConfigPathsAsync(input: {
   explicitProjectConfigPath?: string;
 }): Promise<WorkspaceHookConfigPathRef[]> {
   const start = resolve(input.workingDirectory);
-  const candidates = buildWorkspaceHookCandidatePaths(
-    await getProjectConfigDirectoriesAsync(start),
-  );
+  const directories = await getProjectConfigDirectoriesAsync(start);
   const refs: WorkspaceHookConfigPathRef[] = [];
-  for (const path of candidates) {
-    if (await pathExists(path)) refs.push({ path, explicitProjectConfig: false });
+  for (const path of buildWorkspaceHookCandidatePaths(directories)) {
+    if (await pathExists(path)) {
+      refs.push({ path, explicitProjectConfig: false });
+    }
   }
   if (input.explicitProjectConfigPath) {
-    const explicitPath = resolve(input.explicitProjectConfigPath);
-    if (await pathExists(explicitPath)) {
-      refs.push({ path: explicitPath, explicitProjectConfig: true });
+    const path = resolve(input.explicitProjectConfigPath);
+    if (await pathExists(path)) {
+      refs.push({ path, explicitProjectConfig: true });
     }
   }
   return deduplicateWorkspaceHookConfigRefs(refs);
@@ -303,11 +311,15 @@ async function discoverWorkspaceHookConfigPathsAsync(input: {
 async function getProjectConfigDirectoriesAsync(start: string): Promise<string[]> {
   const directories: string[] = [];
   let current = start;
-  while (true) {
+  for (;;) {
     directories.push(current);
-    if (await hasWorktreeMarkerAsync(current)) return directories.reverse();
+    if (await hasWorktreeMarkerAsync(current)) {
+      return directories.reverse();
+    }
     const parent = dirname(current);
-    if (parent === current) break;
+    if (parent === current) {
+      break;
+    }
     current = parent;
   }
   return [start];
@@ -318,7 +330,9 @@ async function hasWorktreeMarkerAsync(directory: string): Promise<boolean> {
     const stats = await stat(join(directory, ".git"));
     return stats.isDirectory() || stats.isFile();
   } catch (error) {
-    if (isNodeError(error, "ENOENT")) return false;
+    if (isNodeError(error, "ENOENT")) {
+      return false;
+    }
     return false;
   }
 }
@@ -339,20 +353,26 @@ function isNodeError(error: unknown, code: string): error is NodeJS.ErrnoExcepti
 function getProjectConfigDirectories(start: string): string[] {
   const directories: string[] = [];
   let current = start;
-  while (true) {
+  for (;;) {
     directories.push(current);
-    if (hasWorktreeMarker(current)) return directories.reverse();
+    if (hasWorktreeMarker(current)) {
+      return directories.reverse();
+    }
     const parent = dirname(current);
-    if (parent === current) break;
+    if (parent === current) {
+      break;
+    }
     current = parent;
   }
   return [start];
 }
 
 function hasWorktreeMarker(directory: string): boolean {
-  const marker = join(directory, ".git");
   try {
-    if (!existsSync(marker)) return false;
+    const marker = join(directory, ".git");
+    if (!existsSync(marker)) {
+      return false;
+    }
     const stats = statSync(marker);
     return stats.isDirectory() || stats.isFile();
   } catch {

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "packages/shared/src/official-mcp-auth.ts",
+    "packages/shared/src/runtimeEnv.ts",
+    "packages/shared/src/validationAppSettings.ts",
+    "packages/shared/src/workspace-hook-config.ts",
+    "packages/shared/src/workspace-hook-mutation.ts",
+    "packages/shared/test/shared-authority-fixture.mjs",
+    "packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs",
+    "packages/shared/test/shared-hook-write-boundaries.test.mjs",
+    "licensing/evidence/shared-authority-settings-hook-owners-20261003/public-api-shape.mjs",
+    "licensing/evidence/shared-authority-settings-hook-owners-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 29ms on 10 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

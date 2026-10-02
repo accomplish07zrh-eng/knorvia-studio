@@ -1,0 +1,8 @@
+[
+  {
+    "author": "/root/shared_origin_trust_owner_author",
+    "requestedMissingContract": "summary output key names",
+    "clarification": "identityHeaderNames, identityOrganizationPresent, identityProjectPresent, identityTeamPaired, then conditional truthy identityTargetType; exact lower Map key policy unchanged",
+    "sourceExposure": "Behavior-only key names/order; no function body"
+  }
+]

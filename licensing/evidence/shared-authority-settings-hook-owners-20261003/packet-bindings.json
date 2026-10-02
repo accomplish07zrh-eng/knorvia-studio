@@ -1,0 +1,32 @@
+[
+  {
+    "path": "packages/shared/src/official-mcp-auth.ts",
+    "packet": "/tmp/knorvia-authority-official-mcp-auth-packet.md",
+    "packetSha256": "d060be2c749a2e2449e6b81cbdcad9ad61a6e410be6b26e6adf10a22682ae1e6",
+    "output": "/tmp/knorvia-authority-official-mcp-auth-authored.ts"
+  },
+  {
+    "path": "packages/shared/src/runtimeEnv.ts",
+    "packet": "/tmp/knorvia-authority-runtimeEnv-packet.md",
+    "packetSha256": "b7d391997a3a7fcb9c42b419bbe7b555b9b58155032deae8668ed4364e7d94e5",
+    "output": "/tmp/knorvia-authority-runtimeEnv-authored.ts"
+  },
+  {
+    "path": "packages/shared/src/validationAppSettings.ts",
+    "packet": "/tmp/knorvia-authority-validationAppSettings-packet.md",
+    "packetSha256": "3019966956519a9f22cb259eb093382f2864c3a2166ee9901f8d0250ee56742a",
+    "output": "/tmp/knorvia-authority-validationAppSettings-authored.ts"
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-config.ts",
+    "packet": "/tmp/knorvia-authority-workspace-hook-config-packet.md",
+    "packetSha256": "34449180e99006112279107f9fc202d365e6d5a9957d9f043c257886f7c18134",
+    "output": "/tmp/knorvia-authority-workspace-hook-config-authored.ts"
+  },
+  {
+    "path": "packages/shared/src/workspace-hook-mutation.ts",
+    "packet": "/tmp/knorvia-authority-workspace-hook-mutation-packet.md",
+    "packetSha256": "b977d8ea477a15e60684151ed7becd763b4bbf58ee4a9c5cf31d1463bf5163cc",
+    "output": "/tmp/knorvia-authority-workspace-hook-mutation-authored.ts"
+  }
+]
