@@ -118,22 +118,20 @@ function claimAt(
   admit?: (step: string) => "issued" | "repetition" | undefined,
 ): OracleClaim {
   const occs = (map.get(at) ?? []).filter((occ) => state.realSteps.has(occ.site));
-  // Dedupe by site, OR-ing exactness the way the domain's own addOcc merges witnesses.
-  // `certainOk` is per-SITE: admission is a property of the site, not of an occurrence.
-  const bySite = new Map<string, { exact: boolean; certainOk: boolean }>();
+  // First admission owns eligibility; any admitted exact witness can establish exactness.
+  const eligible = new Map<string, boolean>();
+  const exact = new Set<string>();
   for (const occ of occs) {
     const how = admit === undefined ? "issued" : admit(occ.site);
-    if (how === undefined) continue; // temporally impossible at this point in the walk
-    const existing = bySite.get(occ.site);
-    if (existing === undefined)
-      bySite.set(occ.site, { certainOk: how === "issued", exact: occ.exact });
-    else existing.exact = existing.exact || occ.exact;
+    if (how === undefined) continue;
+    if (!eligible.has(occ.site)) eligible.set(occ.site, how === "issued");
+    if (!exact.has(occ.site) && occ.exact) exact.add(occ.site);
   }
-  const sites = [...bySite.keys()];
+  const sites = [...eligible.keys()];
   if (sites.length === 0) return NO_CLAIM;
   const only = sites[0] as string;
-  const solo = bySite.get(only) as { exact: boolean; certainOk: boolean };
-  if (sites.length === 1 && solo.exact && solo.certainOk) return { certain: [only], maybe: [] };
+  if (sites.length === 1 && exact.has(only) && eligible.get(only))
+    return { certain: [only], maybe: [] };
   return { certain: [], maybe: sites };
 }
 
@@ -177,59 +175,40 @@ export function barrier(
     regions.flatMap((region) => [
       ...(state.strands.find((record) => record.region === region)?.summary ?? []),
     ]);
-  // A joined strand contributes what IT awaited: syntactically joined certainly, lifted
-  // with the certainty of the claim that lifted it.
-  const allCertain = [...certain, ...summaryOf(joins.certain)];
-  const allMaybe = [...maybe, ...summaryOf(joins.maybe)];
+  const batches: [string[], string[]] = [
+    [...certain, ...summaryOf(joins.certain)],
+    [...maybe, ...summaryOf(joins.maybe)],
+  ];
+  const resolved = batches.some((steps) => steps.length > 0);
   const joined = [...joins.certain, ...joins.maybe];
-
   const frame = currentFrame(state);
-  const freshCertain: string[] = [];
-  for (const step of allCertain) {
-    if (!isVisiblySettled(state, step) && !freshCertain.includes(step)) freshCertain.push(step);
-  }
-  for (const step of freshCertain) frame.settled.add(step);
-  const freshMaybe: string[] = [];
-  for (const step of allMaybe) {
-    if (!isVisiblySettled(state, step) && !freshMaybe.includes(step)) freshMaybe.push(step);
-  }
-  for (const step of freshMaybe) frame.settled.add(step);
 
-  // `joins` rides the FIRST event this barrier emits: it is a property of the barrier, not
-  // of either certainty side, and the control-flow projection reads it as one set.
-  const withJoins = joined.length === 0 ? {} : { joins: joined };
-  if (freshCertain.length > 0) {
-    events.push({ at: "settle", maybe: false, regions: chain, steps: freshCertain, ...withJoins });
+  // Commit one side before reading the next; certain steps become visible to maybe.
+  for (const [index, requests] of batches.entries()) {
+    const fresh: string[] = [];
+    for (const step of requests) {
+      if (!isVisiblySettled(state, step) && !fresh.includes(step)) fresh.push(step);
+    }
+    for (const step of fresh) frame.settled.add(step);
+    batches[index] = fresh;
   }
-  if (freshMaybe.length > 0) {
-    events.push({
-      at: "settle",
-      maybe: true,
-      regions: chain,
-      steps: freshMaybe,
-      ...(freshCertain.length > 0 ? {} : withJoins),
-    });
+  if (batches[0].length === 0 && batches[1].length === 0 && !resolved) {
+    batches[1] = [...issued].filter((step) => !isVisiblySettled(state, step));
+    for (const step of batches[1]) frame.settled.add(step);
   }
-  if (freshCertain.length > 0 || freshMaybe.length > 0) return;
-  // Nothing fresh to settle, but a join is a control-flow fact of its own: it is where the
-  // strand's parked exits reconnect, so it is recorded even with no steps to its name.
-  const joinOnly = (): void => {
-    if (joined.length === 0) return;
-    events.push({ at: "settle", joins: joined, maybe: false, regions: chain, steps: [] });
-  };
-  if (allCertain.length > 0 || allMaybe.length > 0) {
-    joinOnly(); // already settled: adds no step
+
+  // Resolve all state changes before publishing; a join with no steps still has an event.
+  if (batches[0].length === 0 && batches[1].length === 0) {
+    if (joined.length > 0)
+      events.push({ at: "settle", joins: joined, maybe: false, regions: chain, steps: [] });
     return;
   }
-  // Widened barrier: neither half resolved anything, so assume everything in flight
-  // settled. Over-orders (understates parallelism), never invents concurrency.
-  const pending = [...issued].filter((step) => !isVisiblySettled(state, step));
-  if (pending.length === 0) {
-    joinOnly();
-    return;
+  let withJoins: { joins?: string[] } = joined.length === 0 ? {} : { joins: joined };
+  for (const [index, steps] of batches.entries()) {
+    if (steps.length === 0) continue;
+    events.push({ at: "settle", maybe: index === 1, regions: chain, steps, ...withJoins });
+    withJoins = {};
   }
-  for (const step of pending) frame.settled.add(step);
-  events.push({ at: "settle", maybe: true, regions: chain, steps: pending, ...withJoins });
 }
 
 export function bindSteps(state: TraceState, name: ts.BindingName, steps: readonly string[]): void {
