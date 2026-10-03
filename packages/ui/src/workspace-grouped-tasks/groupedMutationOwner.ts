@@ -1,15 +1,30 @@
 // SPDX-License-Identifier: Apache-2.0
 // Source-exposed operation owner; source review and verification pending.
 import type {
-  IKnorviaTaskService, KnorviaGroupedTaskView, KnorviaTaskGroup, KnorviaTaskGroupColor,
+  IKnorviaTaskService,
+  KnorviaGroupedTaskView,
+  KnorviaTaskGroup,
+  KnorviaTaskGroupColor,
 } from "@knorvia/services";
 import {
-  collectViewWorkspaceScopes, expandGroupedMembers, prependTaskGroupToView,
-  projectGroupedMetadata, viewToOrderInput,
+  collectViewWorkspaceScopes,
+  expandGroupedMembers,
+  prependTaskGroupToView,
+  projectGroupedMetadata,
+  viewToOrderInput,
 } from "./groupedMutationProjection.js";
 
-type Service = Pick<IKnorviaTaskService, "createTaskGroup" | "renameTaskGroup" | "updateTaskGroupColor" | "applyGroupedTaskViewOrder" | "deleteTaskGroup">;
-type ViewUpdate = KnorviaGroupedTaskView | ((current: KnorviaGroupedTaskView) => KnorviaGroupedTaskView);
+type Service = Pick<
+  IKnorviaTaskService,
+  | "createTaskGroup"
+  | "renameTaskGroup"
+  | "updateTaskGroupColor"
+  | "applyGroupedTaskViewOrder"
+  | "deleteTaskGroup"
+>;
+type ViewUpdate =
+  | KnorviaGroupedTaskView
+  | ((current: KnorviaGroupedTaskView) => KnorviaGroupedTaskView);
 type Operation = "create" | "rename" | "color" | "order" | "ungroup";
 const failures: Record<Operation, string> = {
   create: "[useGroupedTaskView] 创建 task group 失败",
@@ -36,10 +51,16 @@ export class GroupedTaskMutationOwner {
     const scope = {};
     this.scope = scope;
     this.ports.setSaving(false);
-    return () => { if (this.scope === scope) this.scope = null; };
+    return () => {
+      if (this.scope === scope) this.scope = null;
+    };
   }
 
-  private async save<T>(scope: object, operation: Operation, action: (accepts: () => boolean) => Promise<T>): Promise<T> {
+  private async save<T>(
+    scope: object,
+    operation: Operation,
+    action: (accepts: () => boolean) => Promise<T>,
+  ): Promise<T> {
     const accepts = () => this.scope === scope;
     this.ports.setSaving(true);
     try {
@@ -67,22 +88,32 @@ export class GroupedTaskMutationOwner {
   }
 
   async edit(
-    previous: KnorviaGroupedTaskView, groupId: string,
-    change: { title: string } | { color: KnorviaTaskGroupColor }, service: Service,
+    previous: KnorviaGroupedTaskView,
+    groupId: string,
+    change: { title: string } | { color: KnorviaTaskGroupColor },
+    service: Service,
   ): Promise<void> {
     const scope = this.scope;
-    const node = previous.nodes.find((candidate) => candidate.type === "group" && candidate.group.id === groupId);
+    const node = previous.nodes.find(
+      (candidate) => candidate.type === "group" && candidate.group.id === groupId,
+    );
     if (!scope || node?.type !== "group") return;
     const patch = "title" in change ? { title: change.title.trim() || node.group.title } : change;
-    if ("title" in patch ? node.group.title === patch.title : node.group.color === patch.color) return;
-    const optimistic = projectGroupedMetadata(previous, groupId, (group) => ({ ...group, ...patch, updatedAt: Date.now() }));
+    if ("title" in patch ? node.group.title === patch.title : node.group.color === patch.color)
+      return;
+    const optimistic = projectGroupedMetadata(previous, groupId, (group) => ({
+      ...group,
+      ...patch,
+      updatedAt: Date.now(),
+    }));
     this.ports.setView(optimistic);
     await this.save(scope, "title" in patch ? "rename" : "color", async (accepts) => {
       try {
         const workspaceScopes = collectViewWorkspaceScopes(optimistic);
-        const updated = "title" in patch
-          ? await service.renameTaskGroup({ groupId, title: patch.title, workspaceScopes })
-          : await service.updateTaskGroupColor({ groupId, color: patch.color, workspaceScopes });
+        const updated =
+          "title" in patch
+            ? await service.renameTaskGroup({ groupId, title: patch.title, workspaceScopes })
+            : await service.updateTaskGroupColor({ groupId, color: patch.color, workspaceScopes });
         if (accepts()) {
           this.ports.invalidate();
           this.ports.setView(projectGroupedMetadata(optimistic, groupId, () => updated));
@@ -94,13 +125,26 @@ export class GroupedTaskMutationOwner {
     });
   }
 
-  async order(previous: KnorviaGroupedTaskView, next: KnorviaGroupedTaskView, service: Service, refresh: (canPublish?: () => boolean) => Promise<void>, canPublish = () => true): Promise<void> {
+  async order(
+    previous: KnorviaGroupedTaskView,
+    next: KnorviaGroupedTaskView,
+    service: Service,
+    refresh: (canPublish?: () => boolean) => Promise<void>,
+    canPublish = () => true,
+  ): Promise<void> {
     const scope = this.scope;
     if (!scope) return;
     await this.applyOrder(scope, previous, next, service, refresh, canPublish);
   }
 
-  private async applyOrder(scope: object, previous: KnorviaGroupedTaskView, next: KnorviaGroupedTaskView, service: Service, refresh: (canPublish?: () => boolean) => Promise<void>, canPublish = () => true): Promise<void> {
+  private async applyOrder(
+    scope: object,
+    previous: KnorviaGroupedTaskView,
+    next: KnorviaGroupedTaskView,
+    service: Service,
+    refresh: (canPublish?: () => boolean) => Promise<void>,
+    canPublish = () => true,
+  ): Promise<void> {
     this.ports.setView(next);
     await this.save(scope, "order", async (accepts) => {
       try {
@@ -120,9 +164,18 @@ export class GroupedTaskMutationOwner {
     });
   }
 
-  async ungroup(previous: KnorviaGroupedTaskView, groupId: string, service: Service, refresh: () => Promise<void>): Promise<void> {
+  async ungroup(
+    previous: KnorviaGroupedTaskView,
+    groupId: string,
+    service: Service,
+    refresh: () => Promise<void>,
+  ): Promise<void> {
     const scope = this.scope;
-    if (!scope || !previous.nodes.some((node) => node.type === "group" && node.group.id === groupId)) return;
+    if (
+      !scope ||
+      !previous.nodes.some((node) => node.type === "group" && node.group.id === groupId)
+    )
+      return;
     const next = expandGroupedMembers(previous, groupId);
     await this.save(scope, "ungroup", async (accepts) => {
       await this.applyOrder(scope, previous, next, service, refresh);

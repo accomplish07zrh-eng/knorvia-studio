@@ -24,13 +24,18 @@ export class GroupedRemoteDataSingleFlight<T> {
     const epoch = this.epoch;
     // Reserve before calling user code, including code which synchronously throws/reenters.
     const reservation: Reservation<T> = {
-      epoch, demand,
-      result: Promise.resolve().then(fetchValue).then((value) => {
-        if (this.epoch === epoch && this.latestDemand === reservation.demand) this.accepted = { key, value };
-        return value;
-      }).finally(() => {
-        if (this.pending.get(key) === reservation) this.pending.delete(key);
-      }),
+      epoch,
+      demand,
+      result: Promise.resolve()
+        .then(fetchValue)
+        .then((value) => {
+          if (this.epoch === epoch && this.latestDemand === reservation.demand)
+            this.accepted = { key, value };
+          return value;
+        })
+        .finally(() => {
+          if (this.pending.get(key) === reservation) this.pending.delete(key);
+        }),
     };
     this.pending.set(key, reservation);
     return reservation.result;
@@ -72,4 +77,5 @@ export class GroupedViewCarryCache {
 
 const carriedViews = new GroupedViewCarryCache();
 export const readCachedGroupedView = (signature: string) => carriedViews.read(signature);
-export const writeCachedGroupedView = (signature: string, view: KnorviaGroupedTaskView) => carriedViews.write(signature, view);
+export const writeCachedGroupedView = (signature: string, view: KnorviaGroupedTaskView) =>
+  carriedViews.write(signature, view);

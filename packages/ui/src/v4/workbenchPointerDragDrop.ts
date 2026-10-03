@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 // Existing public pointer ports; implementation delegated to a contract candidate.
 import type { WorkbenchSessionDragPayload } from "@/v4/workbenchDragDrop.js";
-import { WorkbenchPointerDropRegistry, type WorkbenchPointerDropTargetController } from "./workbenchPointerDropRegistry.js";
+import {
+  WorkbenchPointerDropRegistry,
+  type WorkbenchPointerDropTargetController,
+} from "./workbenchPointerDropRegistry.js";
 
 const registry = new WorkbenchPointerDropRegistry();
 
@@ -12,11 +15,19 @@ export function registerWorkbenchPointerDropTarget(
   return registry.register(element, controller);
 }
 
-export function updateWorkbenchPointerDrag(payload: WorkbenchSessionDragPayload, clientX: number, clientY: number): boolean {
+export function updateWorkbenchPointerDrag(
+  payload: WorkbenchSessionDragPayload,
+  clientX: number,
+  clientY: number,
+): boolean {
   return registry.update(payload, clientX, clientY);
 }
 
-export function finishWorkbenchPointerDrag(payload: WorkbenchSessionDragPayload, clientX: number, clientY: number): boolean {
+export function finishWorkbenchPointerDrag(
+  payload: WorkbenchSessionDragPayload,
+  clientX: number,
+  clientY: number,
+): boolean {
   return registry.finish(payload, clientX, clientY);
 }
 

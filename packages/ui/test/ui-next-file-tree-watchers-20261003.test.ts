@@ -9,7 +9,10 @@ import { WorkspaceFileTreeWatcherRegistry } from "../src/workspace-file-tree/wat
 function deferred<T>() {
   let resolve!: (value: T) => void;
   let reject!: (reason: unknown) => void;
-  const promise = new Promise<T>((accept, fail) => { resolve = accept; reject = fail; });
+  const promise = new Promise<T>((accept, fail) => {
+    resolve = accept;
+    reject = fail;
+  });
   return { promise, resolve, reject };
 }
 
@@ -30,26 +33,44 @@ function watcherService() {
     onDynamicChange: (id) => (listener) => {
       if (subscribeFailure) throw subscribeFailure;
       listeners.set(id, listener);
-      return { dispose: () => {
-        disposed.push(id);
-        listeners.delete(id);
-        if (disposeFailure) throw disposeFailure;
-      } };
+      return {
+        dispose: () => {
+          disposed.push(id);
+          listeners.delete(id);
+          if (disposeFailure) throw disposeFailure;
+        },
+      };
     },
     unwatch: async ({ id }) => {
       unwatched.push(id);
       if (unwatchFailure) throw unwatchFailure;
     },
-    disposeAll: () => { throw new Error("Registry must release only its own watcher ids"); },
+    disposeAll: () => {
+      throw new Error("Registry must release only its own watcher ids");
+    },
   };
-  return { service, requests, unwatched, disposed, listeners,
-    failSubscribe: (error: unknown) => { subscribeFailure = error; },
-    failDispose: (error: unknown) => { disposeFailure = error; },
-    failUnwatch: (error: unknown) => { unwatchFailure = error; },
+  return {
+    service,
+    requests,
+    unwatched,
+    disposed,
+    listeners,
+    failSubscribe: (error: unknown) => {
+      subscribeFailure = error;
+    },
+    failDispose: (error: unknown) => {
+      disposeFailure = error;
+    },
+    failUnwatch: (error: unknown) => {
+      unwatchFailure = error;
+    },
   };
 }
 
-const settle = async () => { await Promise.resolve(); await Promise.resolve(); };
+const settle = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 test("stable wanted paths retain registrations and their originally captured event callback", async () => {
   const host = watcherService();
@@ -96,7 +117,8 @@ test("collapse then re-expand may adopt the same still-pending request in its or
 });
 
 test("old service replies cannot erase a newer same-path reservation", async () => {
-  const first = watcherService(), second = watcherService();
+  const first = watcherService(),
+    second = watcherService();
   const registry = new WorkspaceFileTreeWatcherRegistry(() => {});
   registry.reconcile(first.service, new Set(["/w"]), () => {});
   registry.reconcile(second.service, new Set(["/w"]), () => {});
@@ -134,15 +156,22 @@ test("watch/subscribe/unwatch failures are reported, and allocated ids are not l
   host.requests[0]!.reply.reject(rejected);
   await settle();
   assert.deepEqual(failures, [["watch", "/w", rejected]]);
-  const subscribeError = new Error("subscription failed"), unwatchError = new Error("release failed");
+  const subscribeError = new Error("subscription failed"),
+    unwatchError = new Error("release failed");
   host.failSubscribe(subscribeError);
   host.failUnwatch(unwatchError);
   registry.reconcile(host.service, new Set(["/w"]), () => {});
   host.requests[1]!.reply.resolve({ id: "allocated" });
   await settle();
   assert.deepEqual(host.unwatched, ["allocated"]);
-  assert.equal(failures.some(([operation, , error]) => operation === "watch" && error === subscribeError), true);
-  assert.equal(failures.some(([operation, , error]) => operation === "unwatch" && error === unwatchError), true);
+  assert.equal(
+    failures.some(([operation, , error]) => operation === "watch" && error === subscribeError),
+    true,
+  );
+  assert.equal(
+    failures.some(([operation, , error]) => operation === "unwatch" && error === unwatchError),
+    true,
+  );
 });
 
 test("dispose throws the original synchronous error after releasing every owned id", async () => {
@@ -154,7 +183,10 @@ test("dispose throws the original synchronous error after releasing every owned 
   await settle();
   const failure = new Error("dispose failed");
   host.failDispose(failure);
-  assert.throws(() => registry.dispose(), (error) => error === failure);
+  assert.throws(
+    () => registry.dispose(),
+    (error) => error === failure,
+  );
   assert.deepEqual(host.disposed, ["root", "child"]);
   assert.deepEqual(host.unwatched, ["root", "child"]);
   registry.dispose();

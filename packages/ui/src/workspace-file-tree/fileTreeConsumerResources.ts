@@ -9,14 +9,21 @@ const dragEndSignals = ["dragend", "drop", "blur"] as const;
 export function observeFileTreeDragEnd(target: Window, ended: () => void): () => void {
   const listeners: string[] = [];
   let active = true;
-  const receive = () => { if (active) ended(); };
+  const receive = () => {
+    if (active) ended();
+  };
   const release = () => {
     if (!active) return;
     active = false;
-    let failed = false, failure: unknown;
+    let failed = false,
+      failure: unknown;
     for (const type of listeners.splice(0)) {
-      try { target.removeEventListener(type, receive); }
-      catch (error) { if (!failed) failure = error; failed = true; }
+      try {
+        target.removeEventListener(type, receive);
+      } catch (error) {
+        if (!failed) failure = error;
+        failed = true;
+      }
     }
     if (failed) throw failure;
   };
@@ -27,7 +34,11 @@ export function observeFileTreeDragEnd(target: Window, ended: () => void): () =>
     }
   } catch (error) {
     // 安装中途抛错时 React 得不到 cleanup；先释放本 lease 已登记的监听再抛原错。
-    try { release(); } catch { /* preserve the installation failure */ }
+    try {
+      release();
+    } catch {
+      /* preserve the installation failure */
+    }
     throw error;
   }
   return release;
@@ -39,19 +50,27 @@ type EditorPlatform = { getInstalledEditors: () => Promise<EditorInfo[]> };
 export class InstalledFileTreeEditorRequests {
   private current: object | null = null;
 
-  constructor(private readonly ports: {
-    accept: (editors: EditorInfo[]) => void;
-    failed: (error: unknown) => void;
-  }) {}
+  constructor(
+    private readonly ports: {
+      accept: (editors: EditorInfo[]) => void;
+      failed: (error: unknown) => void;
+    },
+  ) {}
 
   begin(platform: EditorPlatform): () => void {
     const permission = {};
     this.current = permission;
-    const release = () => { if (this.current === permission) this.current = null; };
+    const release = () => {
+      if (this.current === permission) this.current = null;
+    };
     try {
-      void platform.getInstalledEditors().then((editors) => {
-        if (this.current === permission) this.ports.accept(sortInstalledEditorsForOpenWith(editors));
-      }).catch((error) => this.ports.failed(error));
+      void platform
+        .getInstalledEditors()
+        .then((editors) => {
+          if (this.current === permission)
+            this.ports.accept(sortInstalledEditorsForOpenWith(editors));
+        })
+        .catch((error) => this.ports.failed(error));
     } catch (error) {
       release();
       throw error;

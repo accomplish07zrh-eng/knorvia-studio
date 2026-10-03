@@ -15,7 +15,10 @@ export function cloneView(view: KnorviaGroupedTaskView): KnorviaGroupedTaskView 
   };
 }
 
-export function removeTaskFromGroupedView(view: KnorviaGroupedTaskView, targetTaskKey: string): KnorviaGroupedTaskView {
+export function removeTaskFromGroupedView(
+  view: KnorviaGroupedTaskView,
+  targetTaskKey: string,
+): KnorviaGroupedTaskView {
   const result = cloneView(view);
   const cursor = taskCursor(result, targetTaskKey, true) ?? taskCursor(result, targetTaskKey);
   if (!cursor) return result;
@@ -26,7 +29,8 @@ export function removeTaskFromGroupedView(view: KnorviaGroupedTaskView, targetTa
 }
 
 export function filterGroupedViewByTaskKeys(
-  view: KnorviaGroupedTaskView, hiddenTaskKeys: ReadonlySet<string>,
+  view: KnorviaGroupedTaskView,
+  hiddenTaskKeys: ReadonlySet<string>,
 ): KnorviaGroupedTaskView {
   if (hiddenTaskKeys.size === 0) return view;
   let changed = false;
@@ -45,17 +49,27 @@ export function filterGroupedViewByTaskKeys(
   return changed ? { nodes } : view;
 }
 
-export function findTaskInGroupedView(view: KnorviaGroupedTaskView, targetTaskKey: string): KnorviaTaskMeta | null {
+export function findTaskInGroupedView(
+  view: KnorviaGroupedTaskView,
+  targetTaskKey: string,
+): KnorviaTaskMeta | null {
   return taskCursor(view, targetTaskKey)?.task ?? null;
 }
 
-export function replaceTaskInGroupedView(view: KnorviaGroupedTaskView, nextTask: KnorviaTaskMeta): KnorviaGroupedTaskView {
+export function replaceTaskInGroupedView(
+  view: KnorviaGroupedTaskView,
+  nextTask: KnorviaTaskMeta,
+): KnorviaGroupedTaskView {
   const key = taskKey(nextTask);
-  const replace = (task: KnorviaTaskMeta) => taskKey(task) === key ? nextTask : task;
+  const replace = (task: KnorviaTaskMeta) => (taskKey(task) === key ? nextTask : task);
   return {
-    nodes: view.nodes.map((node) => node.type === "group"
-      ? { ...node, tasks: node.tasks.map(replace) }
-      : taskKey(node.task) === key ? { ...node, task: nextTask } : node),
+    nodes: view.nodes.map((node) =>
+      node.type === "group"
+        ? { ...node, tasks: node.tasks.map(replace) }
+        : taskKey(node.task) === key
+          ? { ...node, task: nextTask }
+          : node,
+    ),
   };
 }
 
@@ -65,13 +79,19 @@ export function getGroupedTaskGroupIds(view: KnorviaGroupedTaskView): string[] {
   return result;
 }
 
-export function areAllGroupedTaskGroupsExpanded(groupIds: readonly string[], collapsedGroupIds: ReadonlySet<string>): boolean {
+export function areAllGroupedTaskGroupsExpanded(
+  groupIds: readonly string[],
+  collapsedGroupIds: ReadonlySet<string>,
+): boolean {
   if (groupIds.length === 0) return false;
   for (const id of groupIds) if (collapsedGroupIds.has(id)) return false;
   return true;
 }
 
-export function pruneCollapsedGroupedTaskGroupIds(collapsedGroupIds: ReadonlySet<string>, groupIds: readonly string[]): Set<string> {
+export function pruneCollapsedGroupedTaskGroupIds(
+  collapsedGroupIds: ReadonlySet<string>,
+  groupIds: readonly string[],
+): Set<string> {
   const result = new Set<string>();
   const known = new Set(groupIds);
   for (const id of collapsedGroupIds) if (known.has(id)) result.add(id);
@@ -79,10 +99,12 @@ export function pruneCollapsedGroupedTaskGroupIds(collapsedGroupIds: ReadonlySet
 }
 
 export function resolveGroupedDraftTaskPlacementForTask(
-  view: KnorviaGroupedTaskView, targetTaskKey: string | null | undefined,
+  view: KnorviaGroupedTaskView,
+  targetTaskKey: string | null | undefined,
 ): GroupedDraftTaskPlacement {
   const cursor = targetTaskKey ? taskCursor(view, targetTaskKey) : null;
   const node = cursor ? view.nodes[cursor.node] : null;
   return cursor?.member != null && node?.type === "group"
-    ? { type: "group", groupId: node.group.id } : { type: "top" };
+    ? { type: "group", groupId: node.group.id }
+    : { type: "top" };
 }

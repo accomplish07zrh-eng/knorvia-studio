@@ -4,9 +4,14 @@ import { WORKSPACE_FILE_TREE_VIRTUAL_ROW_HEIGHT_PX as ROW_HEIGHT } from "./const
 import type { WorkspaceFileTreeRow } from "./model.js";
 import type { WorkspaceFileTreeStickyFolderItem } from "./types.js";
 
-export type StickyDirectoryIndex = ReadonlyMap<number, readonly WorkspaceFileTreeStickyFolderItem[]>;
+export type StickyDirectoryIndex = ReadonlyMap<
+  number,
+  readonly WorkspaceFileTreeStickyFolderItem[]
+>;
 
-export function indexWorkspaceStickyDirectories(rows: WorkspaceFileTreeRow[]): StickyDirectoryIndex {
+export function indexWorkspaceStickyDirectories(
+  rows: WorkspaceFileTreeRow[],
+): StickyDirectoryIndex {
   const byDepth = new Map<number, WorkspaceFileTreeStickyFolderItem[]>();
   for (let index = 0; index < rows.length; index += 1) {
     const row = rows[index];
@@ -24,7 +29,8 @@ function precedingDirectory(
   boundary: number,
 ): WorkspaceFileTreeStickyFolderItem | undefined {
   if (!items) return undefined;
-  let lower = 0, upper = items.length;
+  let lower = 0,
+    upper = items.length;
   while (lower < upper) {
     const middle = lower + Math.floor((upper - lower) / 2);
     if (items[middle]!.index <= boundary) lower = middle + 1;
@@ -34,7 +40,11 @@ function precedingDirectory(
 }
 
 export function projectWorkspaceStickyFolders({
-  rows, directories, virtualItemCount, scrollOffset, enabled,
+  rows,
+  directories,
+  virtualItemCount,
+  scrollOffset,
+  enabled,
 }: {
   rows: WorkspaceFileTreeRow[];
   directories: StickyDirectoryIndex;
@@ -60,8 +70,11 @@ export function projectWorkspaceStickyFolders({
       depth = item.row.depth - 1;
       boundary = item.index - 1;
     }
-    const next = ancestors.reverse().filter((item, offset) =>
-      item.index * ROW_HEIGHT <= scrollOffset + offset * ROW_HEIGHT + 0.5);
+    const next = ancestors
+      .reverse()
+      .filter(
+        (item, offset) => item.index * ROW_HEIGHT <= scrollOffset + offset * ROW_HEIGHT + 0.5,
+      );
     if (next.length === stack.length) return next;
     stack = next;
   }

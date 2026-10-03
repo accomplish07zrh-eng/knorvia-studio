@@ -2,8 +2,12 @@
 // Source-exposed contract implementation; no new accepted runtime state or MIT claim.
 import type { StudioKernelId, StudioTimeline } from "@knorvia/services";
 import {
-  collectGroupRunFacts, decodeGroupPlan, groupHostState, groupMemberState,
-  groupProgressPhase, groupTaskState,
+  collectGroupRunFacts,
+  decodeGroupPlan,
+  groupHostState,
+  groupMemberState,
+  groupProgressPhase,
+  groupTaskState,
 } from "./groupProgressFacts.js";
 import type { GroupProgress, GroupTaskProgress } from "./groupProgressTypes.js";
 
@@ -22,10 +26,14 @@ export function groupProgress(timeline?: StudioTimeline): GroupProgress | undefi
       const stepId = `group:round:${plan.round}:task:${task.id}`;
       const result = run.checkpoint.steps[stepId];
       let state = groupTaskState(run, facts, stepId);
-      if (state === "queued" && task.dependsOn?.some((id) => {
-        const dependency = run.checkpoint.steps[`group:round:${plan.round}:task:${id}`];
-        return dependency && dependency.status !== "succeeded";
-      })) state = "blocked";
+      if (
+        state === "queued" &&
+        task.dependsOn?.some((id) => {
+          const dependency = run.checkpoint.steps[`group:round:${plan.round}:task:${id}`];
+          return dependency && dependency.status !== "succeeded";
+        })
+      )
+        state = "blocked";
       const projected: GroupTaskProgress = {
         id: task.id,
         stepId,
@@ -33,7 +41,12 @@ export function groupProgress(timeline?: StudioTimeline): GroupProgress | undefi
         instruction: task.instruction,
         state,
         ...(result?.workspacePath || result?.changesSummary
-          ? { evidence: { workspacePath: result.workspacePath, changesSummary: result.changesSummary } }
+          ? {
+              evidence: {
+                workspacePath: result.workspacePath,
+                changesSummary: result.changesSummary,
+              },
+            }
           : {}),
       };
       const assigned = tasksByMember.get(task.member);

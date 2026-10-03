@@ -9,14 +9,23 @@ export class GroupedSectionMenuProjection {
   private ids: string[] = [];
 
   project(view: KnorviaGroupedTaskView): { menus: TaskGroupMenuItem[]; ids: string[] } {
-    const menus: TaskGroupMenuItem[] = [], ids: string[] = [];
-    let sameMenus = true, sameIds = true;
+    const menus: TaskGroupMenuItem[] = [],
+      ids: string[] = [];
+    let sameMenus = true,
+      sameIds = true;
     for (const node of view.nodes) {
       if (node.type !== "group") continue;
-      const ordinal = ids.length, group = node.group, previous = this.menus[ordinal];
+      const ordinal = ids.length,
+        group = node.group,
+        previous = this.menus[ordinal];
       const menu = { id: group.id, title: group.title, color: group.color };
       sameIds = sameIds && this.ids[ordinal] === menu.id;
-      sameMenus = sameMenus && previous !== undefined && previous.id === menu.id && previous.title === menu.title && previous.color === menu.color;
+      sameMenus =
+        sameMenus &&
+        previous !== undefined &&
+        previous.id === menu.id &&
+        previous.title === menu.title &&
+        previous.color === menu.color;
       ids.push(menu.id);
       menus.push(menu);
     }

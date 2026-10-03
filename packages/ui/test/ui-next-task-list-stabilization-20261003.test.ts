@@ -4,18 +4,35 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { KnorviaTaskMeta } from "@knorvia/shared";
 import {
-  areStabilizedValuesEquivalent, areTaskListItemsEquivalent,
-  buildTaskListItemIdentityKey, stabilizeTaskListItems,
+  areStabilizedValuesEquivalent,
+  areTaskListItemsEquivalent,
+  buildTaskListItemIdentityKey,
+  stabilizeTaskListItems,
 } from "../src/v4/taskListItemStabilization.js";
-import { attachTaskListRowActivity, mergeTaskListMembershipFields } from "../src/v4/taskListRowActivity.js";
+import {
+  attachTaskListRowActivity,
+  mergeTaskListMembershipFields,
+} from "../src/v4/taskListRowActivity.js";
 
 const task = (taskId: string, workspaceIdentity?: string): KnorviaTaskMeta => ({
-  taskId, traceId: `trace-${taskId}`, title: taskId, workspacePath: "/w", workspaceIdentity,
-  createdAt: 1, updatedAt: 2, mode: "build",
+  taskId,
+  traceId: `trace-${taskId}`,
+  title: taskId,
+  workspacePath: "/w",
+  workspaceIdentity,
+  createdAt: 1,
+  updatedAt: 2,
+  mode: "build",
 });
 
 test("structural comparison ignores object key order and absent/undefined but detects values", () => {
-  assert.equal(areStabilizedValuesEquivalent({ a: 1, b: [2, { c: 3 }], absent: undefined }, { b: [2, { c: 3 }], a: 1 }), true);
+  assert.equal(
+    areStabilizedValuesEquivalent(
+      { a: 1, b: [2, { c: 3 }], absent: undefined },
+      { b: [2, { c: 3 }], a: 1 },
+    ),
+    true,
+  );
   assert.equal(areStabilizedValuesEquivalent({ a: 1 }, { a: 2 }), false);
   assert.equal(areStabilizedValuesEquivalent({ a: 1 }, { b: 1 }), false);
   assert.equal(areStabilizedValuesEquivalent(NaN, NaN), false);
@@ -24,7 +41,8 @@ test("structural comparison ignores object key order and absent/undefined but de
 });
 
 test("array comparison preserves the left sparse-array rule and ignores extra properties", () => {
-  const sparse = new Array<unknown>(2);
+  const sparse: unknown[] = [];
+  sparse.length = 2;
   assert.equal(areStabilizedValuesEquivalent(sparse, ["left holes", "are skipped"]), true);
   assert.equal(areStabilizedValuesEquivalent([1], []), false);
   assert.equal(areStabilizedValuesEquivalent([1], { 0: 1, length: 1 }), false);
@@ -36,26 +54,49 @@ test("array comparison preserves the left sparse-array rule and ignores extra pr
 test("object comparison preserves enumerable key counts, inherited value reads and symbol exclusion", () => {
   const inherited = Object.assign(Object.create({ a: 1 }) as Record<string, unknown>, { b: 1 });
   assert.equal(areStabilizedValuesEquivalent({ a: 1 }, inherited), true);
-  assert.equal(areStabilizedValuesEquivalent({ [Symbol("left")]: 1 }, { [Symbol("right")]: 2 }), true);
+  assert.equal(
+    areStabilizedValuesEquivalent({ [Symbol("left")]: 1 }, { [Symbol("right")]: 2 }),
+    true,
+  );
   assert.equal(areStabilizedValuesEquivalent({ optional: undefined }, {}), true);
 });
 
 test("field getters follow enumeration then depth-first comparison and stop before later fields", () => {
   const reads: string[] = [];
   const left = {
-    get first() { reads.push("left:first"); return { value: 1 }; },
-    get second() { reads.push("left:second"); return 2; },
+    get first() {
+      reads.push("left:first");
+      return { value: 1 };
+    },
+    get second() {
+      reads.push("left:second");
+      return 2;
+    },
   };
   const right = {
-    get first() { reads.push("right:first"); return { value: 0 }; },
-    get second() { reads.push("right:second"); return 2; },
+    get first() {
+      reads.push("right:first");
+      return { value: 0 };
+    },
+    get second() {
+      reads.push("right:second");
+      return 2;
+    },
   };
   assert.equal(areStabilizedValuesEquivalent(left, right), false);
-  assert.deepEqual(reads, ["left:first", "left:second", "right:first", "right:second", "left:first", "right:first"]);
+  assert.deepEqual(reads, [
+    "left:first",
+    "left:second",
+    "right:first",
+    "right:second",
+    "left:first",
+    "right:first",
+  ]);
 });
 
 test("deep acyclic values compare without growing the JavaScript call stack", () => {
-  let left: unknown = "leaf", right: unknown = "leaf";
+  let left: unknown = "leaf",
+    right: unknown = "leaf";
   for (let depth = 0; depth < 12000; depth += 1) {
     left = { child: left };
     right = { child: right };
@@ -64,7 +105,8 @@ test("deep acyclic values compare without growing the JavaScript call stack", ()
 });
 
 test("independent cyclic values still reject while a shared reference compares equal", () => {
-  const left: { self?: unknown } = {}, right: { self?: unknown } = {};
+  const left: { self?: unknown } = {},
+    right: { self?: unknown } = {};
   left.self = left;
   right.self = right;
   assert.equal(areStabilizedValuesEquivalent(left, left), true);
@@ -72,19 +114,27 @@ test("independent cyclic values still reject while a shared reference compares e
 });
 
 test("shared subtrees are compared again after the preceding field completes", () => {
-  const leftChild = { value: 1 }, rightChild = { value: 1 };
-  assert.equal(areStabilizedValuesEquivalent({ a: leftChild, b: leftChild }, { a: rightChild, b: rightChild }), true);
+  const leftChild = { value: 1 },
+    rightChild = { value: 1 };
+  assert.equal(
+    areStabilizedValuesEquivalent({ a: leftChild, b: leftChild }, { a: rightChild, b: rightChild }),
+    true,
+  );
 });
 
 test("the identity key keeps trim identity/path fallback and the existing separator", () => {
   assert.equal(buildTaskListItemIdentityKey(task("a")), "/w::a");
   assert.equal(buildTaskListItemIdentityKey(task("a", "  host-one  ")), "host-one::a");
   assert.equal(buildTaskListItemIdentityKey(task("a", "  ")), "/w::a");
-  assert.notEqual(buildTaskListItemIdentityKey(task("a", "host-one")), buildTaskListItemIdentityKey(task("a", "host-two")));
+  assert.notEqual(
+    buildTaskListItemIdentityKey(task("a", "host-one")),
+    buildTaskListItemIdentityKey(task("a", "host-two")),
+  );
 });
 
 test("equivalent ordered metadata reuses the old item and entire array references", () => {
-  const a = task("a"), b = task("b");
+  const a = task("a"),
+    b = task("b");
   const previous = [a, b];
   const next = [{ ...a }, { ...b }];
   assert.equal(areTaskListItemsEquivalent(a, next[0]!), true);
@@ -93,7 +143,8 @@ test("equivalent ordered metadata reuses the old item and entire array reference
 });
 
 test("reordering reuses items but returns a new array; changed metadata stays new", () => {
-  const a = task("a"), b = task("b");
+  const a = task("a"),
+    b = task("b");
   const previous = [a, b];
   const reordered = stabilizeTaskListItems(previous, [{ ...b }, { ...a }]);
   assert.notEqual(reordered, previous);
@@ -107,7 +158,9 @@ test("reordering reuses items but returns a new array; changed metadata stays ne
 });
 
 test("duplicates use the final previous item and a same-path remote item stays isolated", () => {
-  const first = task("a"), last = { ...first }, remote = task("a", "remote-fixture");
+  const first = task("a"),
+    last = { ...first },
+    remote = task("a", "remote-fixture");
   const previous = [first, last, remote];
   const result = stabilizeTaskListItems(previous, [{ ...first }, { ...remote }]);
   assert.equal(result[0], last);
@@ -124,8 +177,16 @@ test("empty previous returns next and removing all tasks returns a new empty pro
 
 test("real activity/membership projection retains the original list reference when only membership timestamps differ", () => {
   const meta = task("a");
-  const active = attachTaskListRowActivity(meta, { phase: "running", lastActivityAt: meta.updatedAt, hasBackgroundWork: false });
+  const active = attachTaskListRowActivity(meta, {
+    phase: "running",
+    lastActivityAt: meta.updatedAt,
+    hasBackgroundWork: false,
+  });
   const previous = [active];
-  const merged = mergeTaskListMembershipFields(active, { ...meta, updatedAt: 900, status: "running" });
+  const merged = mergeTaskListMembershipFields(active, {
+    ...meta,
+    updatedAt: 900,
+    status: "running",
+  });
   assert.equal(stabilizeTaskListItems<KnorviaTaskMeta>(previous, [merged]), previous);
 });

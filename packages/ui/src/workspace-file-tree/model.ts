@@ -4,7 +4,9 @@ import { getPathLeaf } from "@/lib/path.js";
 import { inferImageMediaType, inferMediaPreview, type CodeViewerSource } from "@/lib/codeViewer.js";
 
 export type {
-  WorkspaceFileGitStatus, WorkspaceFileTreeNode, WorkspaceFileTreeRow,
+  WorkspaceFileGitStatus,
+  WorkspaceFileTreeNode,
+  WorkspaceFileTreeRow,
 } from "@/workspace-file-tree/treeProjectionTypes.js";
 export {
   areWorkspaceFilePathsEqual,

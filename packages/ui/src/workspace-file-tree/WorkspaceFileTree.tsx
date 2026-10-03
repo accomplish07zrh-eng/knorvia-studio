@@ -47,7 +47,10 @@ import { logger } from "@/logger.js";
 import { WORKSPACE_FILE_TREE_VIRTUAL_ROW_HEIGHT_PX } from "@/workspace-file-tree/constants.js";
 import { getFileManagerLabel } from "@/workspace-file-tree/helpers.js";
 import { useInstalledFileTreeEditors } from "@/workspace-file-tree/useInstalledFileTreeEditors.js";
-import { FileTreePanelInteractionOwner, type FileTreePanelPorts } from "./fileTreePanelInteractionOwner.js";
+import {
+  FileTreePanelInteractionOwner,
+  type FileTreePanelPorts,
+} from "./fileTreePanelInteractionOwner.js";
 import { observeFileTreeViewport } from "./fileTreeViewportLease.js";
 import { useWorkspaceOpenInEditorTarget } from "@/hooks/useWorkspaceOpenInEditorTarget.js";
 import {
@@ -65,9 +68,7 @@ import {
   WorkspaceFileTreeList,
 } from "@/workspace-file-tree/WorkspaceFileTreeList.js";
 import { WorkspaceFileTreeStickyFolders } from "@/workspace-file-tree/WorkspaceFileTreeStickyFolders.js";
-import {
-  createWorkspaceFileTreeRowsFromSearchEntries,
-} from "@/workspace-file-tree/searchRows.js";
+import { createWorkspaceFileTreeRowsFromSearchEntries } from "@/workspace-file-tree/searchRows.js";
 import type {
   WorkspaceFileTreeProps,
   WorkspaceFileTreeStickyFolderItem,
@@ -91,13 +92,21 @@ export function WorkspaceFileTree({
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
   const panelPortsRef = useRef<FileTreePanelPorts | null>(null);
-  const [panel] = useState(() => new FileTreePanelInteractionOwner(() => {
-    if (!panelPortsRef.current) throw new Error("File tree panel ports are inactive");
-    return panelPortsRef.current;
-  }));
-  const { selected: selectedPath, query: fileSearchQuery, changedOnly: showChangedOnly }
-    = useSyncExternalStore(panel.subscribe, panel.read, panel.read);
-  const setSelectedPath = panel.select, setFileSearchQuery = panel.search, setShowChangedOnly = panel.changed;
+  const [panel] = useState(
+    () =>
+      new FileTreePanelInteractionOwner(() => {
+        if (!panelPortsRef.current) throw new Error("File tree panel ports are inactive");
+        return panelPortsRef.current;
+      }),
+  );
+  const {
+    selected: selectedPath,
+    query: fileSearchQuery,
+    changedOnly: showChangedOnly,
+  } = useSyncExternalStore(panel.subscribe, panel.read, panel.read);
+  const setSelectedPath = panel.select,
+    setFileSearchQuery = panel.search,
+    setShowChangedOnly = panel.changed;
   const [showScrollBottomMask, setShowScrollBottomMask] = useState(false);
   const [hasScrollableFileTree, setHasScrollableFileTree] = useState(false);
   const handleListRef = useCallback((node: HTMLDivElement | null) => {
@@ -188,19 +197,35 @@ export function WorkspaceFileTree({
 
   useLayoutEffect(() => {
     panelPortsRef.current = {
-      workspacePath, loadDirectory: treeData.loadDirectory, setExpanded: treeData.setExpandedPaths,
-      gitStatus: treeData.gitStatusByPath, preview: onOpenPreview,
-      refreshDirectories: treeData.refreshLoadedDirectories, refreshSearch: refreshSearchIndex,
-      fileManager: canOpenInFileManager ? () => wslFileManagerEditor
-        ? platform.openInEditor(wslFileManagerEditor.id, workspacePath, { pathKind: "directory", remoteTarget, workspaceIdentity })
-        : platform.openInFileManager(workspacePath) : null,
-      clipboardAvailable: () => typeof navigator !== "undefined" && Boolean(navigator.clipboard?.writeText),
+      workspacePath,
+      loadDirectory: treeData.loadDirectory,
+      setExpanded: treeData.setExpandedPaths,
+      gitStatus: treeData.gitStatusByPath,
+      preview: onOpenPreview,
+      refreshDirectories: treeData.refreshLoadedDirectories,
+      refreshSearch: refreshSearchIndex,
+      fileManager: canOpenInFileManager
+        ? () =>
+            wslFileManagerEditor
+              ? platform.openInEditor(wslFileManagerEditor.id, workspacePath, {
+                  pathKind: "directory",
+                  remoteTarget,
+                  workspaceIdentity,
+                })
+              : platform.openInFileManager(workspacePath)
+        : null,
+      clipboardAvailable: () =>
+        typeof navigator !== "undefined" && Boolean(navigator.clipboard?.writeText),
       copyPath: () => navigator.clipboard.writeText(workspacePath),
-      notify: (id, suffix) => toast(`${intl.formatMessage({ id })}${suffix === undefined ? "" : `: ${suffix}`}`),
+      notify: (id, suffix) =>
+        toast(`${intl.formatMessage({ id })}${suffix === undefined ? "" : `: ${suffix}`}`),
       log: (level, message, details) => logger[level](message, details),
     };
   });
-  useLayoutEffect(() => panel.activate(), [panel, platform, workspaceIdentity, workspacePath, workspaceRemoteSessionId]);
+  useLayoutEffect(
+    () => panel.activate(),
+    [panel, platform, workspaceIdentity, workspacePath, workspaceRemoteSessionId],
+  );
   useEffect(() => panel.resetFilters(), [panel, workspaceIdentity, workspacePath]);
 
   useEffect(() => {
@@ -217,7 +242,10 @@ export function WorkspaceFileTree({
     rootError,
   });
   const showInitialLoading = !rootLoaded && !blockingRootError;
-  useEffect(() => panel.noticeRootError(rootLoaded, rootError), [intl, panel, rootError, rootLoaded]);
+  useEffect(
+    () => panel.noticeRootError(rootLoaded, rootError),
+    [intl, panel, rootError, rootLoaded],
+  );
   const gitStatusLabelByStatus = useMemo<Record<WorkspaceFileGitStatus, string>>(
     () => ({
       added: intl.formatMessage({ id: "git.kind.added" }),
@@ -271,31 +299,60 @@ export function WorkspaceFileTree({
     [scrollMaskStyle],
   );
 
-  useEffect(() => panel.revealPreview(activePreviewPath, revealPath), [
-    activePreviewPath, panel, revealPath, treeData.loadDirectory, treeData.setExpandedPaths, workspacePath,
-  ]);
-  useEffect(() => panel.revealVisiblePreview(visibleRows, activePreviewPath, revealPath,
-    (index) => rowVirtualizer.scrollToIndex(index, { align: "auto" })),
-  [activePreviewPath, panel, revealPath, rowVirtualizer, visibleRows, workspacePath]);
-  useEffect(() => panel.revealVisibleSearch(visibleRows, hasFileSearchQuery,
-    (index) => rowVirtualizer.scrollToIndex(index, { align: "center" })),
-  [hasFileSearchQuery, panel, rowVirtualizer, visibleRows]);
+  useEffect(
+    () => panel.revealPreview(activePreviewPath, revealPath),
+    [
+      activePreviewPath,
+      panel,
+      revealPath,
+      treeData.loadDirectory,
+      treeData.setExpandedPaths,
+      workspacePath,
+    ],
+  );
+  useEffect(
+    () =>
+      panel.revealVisiblePreview(visibleRows, activePreviewPath, revealPath, (index) =>
+        rowVirtualizer.scrollToIndex(index, { align: "auto" }),
+      ),
+    [activePreviewPath, panel, revealPath, rowVirtualizer, visibleRows, workspacePath],
+  );
+  useEffect(
+    () =>
+      panel.revealVisibleSearch(visibleRows, hasFileSearchQuery, (index) =>
+        rowVirtualizer.scrollToIndex(index, { align: "center" }),
+      ),
+    [hasFileSearchQuery, panel, rowVirtualizer, visibleRows],
+  );
   useEffect(() => {
     const scrollNode = scrollRef.current;
     if (!scrollNode) return;
     return observeFileTreeViewport({
-      scroll: scrollNode, content: scrollNode.firstElementChild instanceof HTMLElement ? scrollNode.firstElementChild : null, window,
+      scroll: scrollNode,
+      content:
+        scrollNode.firstElementChild instanceof HTMLElement ? scrollNode.firstElementChild : null,
+      window,
       // 原生 scroll 同帧更新 offset，不等待 virtualizer 的下一 React 帧。
-      offset: (value) => listRef.current?.style.setProperty(WORKSPACE_FILE_TREE_MASK_OFFSET_PROPERTY, value),
-      publish: ({ overflow, bottomMask }) => { setHasScrollableFileTree(overflow); setShowScrollBottomMask(bottomMask); },
+      offset: (value) =>
+        listRef.current?.style.setProperty(WORKSPACE_FILE_TREE_MASK_OFFSET_PROPERTY, value),
+      publish: ({ overflow, bottomMask }) => {
+        setHasScrollableFileTree(overflow);
+        setShowScrollBottomMask(bottomMask);
+      },
       resizeObserver: (callback) => new ResizeObserver(callback),
-      frame: (callback) => requestAnimationFrame(callback), cancelFrame: (id) => cancelAnimationFrame(id),
+      frame: (callback) => requestAnimationFrame(callback),
+      cancelFrame: (id) => cancelAnimationFrame(id),
     });
   }, [rootError, rootLoaded, rootLoading, visibleRows.length]);
-  const handleRefresh = panel.refresh, handleOpenInFileManager = panel.openFileManager, handleCopyPath = panel.copyPath;
-  const handleToggleDirectory = panel.toggle, handleDirectoryAction = panel.directory;
-  const handleOpenPreview = panel.preview, handleRowKeyDown = panel.keyDown;
-  const refreshInProgress = rootLoading || treeData.refreshingLoadedDirectories || searchIndexLoading;
+  const handleRefresh = panel.refresh,
+    handleOpenInFileManager = panel.openFileManager,
+    handleCopyPath = panel.copyPath;
+  const handleToggleDirectory = panel.toggle,
+    handleDirectoryAction = panel.directory;
+  const handleOpenPreview = panel.preview,
+    handleRowKeyDown = panel.keyDown;
+  const refreshInProgress =
+    rootLoading || treeData.refreshingLoadedDirectories || searchIndexLoading;
 
   const hasActiveFileTreeFilter = fileSearchQuery.trim().length > 0 || showChangedOnly;
   const virtualItems = rowVirtualizer.getVirtualItems();

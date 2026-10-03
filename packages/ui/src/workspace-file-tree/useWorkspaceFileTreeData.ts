@@ -8,7 +8,10 @@ import { useWorkspaceFileTreeWatchers } from "./useWorkspaceFileTreeWatchers.js"
 import { useWorkspaceFileTreeRows } from "./useWorkspaceFileTreeRows.js";
 
 export function useWorkspaceFileTreeData({
-  workspacePath, workspaceIdentity, workspaceRemoteSessionId, enableWorkspaceFeatures = true,
+  workspacePath,
+  workspaceIdentity,
+  workspaceRemoteSessionId,
+  enableWorkspaceFeatures = true,
 }: {
   workspacePath: string;
   workspaceIdentity?: string;
@@ -16,26 +19,44 @@ export function useWorkspaceFileTreeData({
   enableWorkspaceFeatures?: boolean;
 }) {
   const { fileService, fileWatcherService, gitService } = useWorkspaceServices(
-    workspacePath, workspaceRemoteSessionId, workspaceIdentity,
+    workspacePath,
+    workspaceRemoteSessionId,
+    workspaceIdentity,
   );
-  const owner = useMemo(() => new WorkspaceFileTreeDataOwner({
-    workspacePath, enableWorkspaceFeatures, fileService, gitService,
-    warn: (message, details) => logger.warn(message, details),
-  }), [enableWorkspaceFeatures, fileService, gitService, workspacePath]);
+  const owner = useMemo(
+    () =>
+      new WorkspaceFileTreeDataOwner({
+        workspacePath,
+        enableWorkspaceFeatures,
+        fileService,
+        gitService,
+        warn: (message, details) => logger.warn(message, details),
+      }),
+    [enableWorkspaceFeatures, fileService, gitService, workspacePath],
+  );
   const snapshot = useSyncExternalStore(owner.subscribe, owner.read, owner.read);
   const currentOwnerRef = useRef(owner);
-  const enqueueWatchRefresh = useCallback((path: string) => currentOwnerRef.current.enqueueWatchRefresh(path), []);
+  const enqueueWatchRefresh = useCallback(
+    (path: string) => currentOwnerRef.current.enqueueWatchRefresh(path),
+    [],
+  );
   useEffect(() => {
     currentOwnerRef.current = owner;
     return owner.start();
   }, [owner, workspaceIdentity, workspaceRemoteSessionId]);
 
   const rows = useWorkspaceFileTreeRows({ workspacePath, ...snapshot });
-  const watchedDirectoryPaths = useMemo(() => enableWorkspaceFeatures
-    ? new Set([workspacePath, ...snapshot.expandedPaths]) : new Set<string>(),
-  [enableWorkspaceFeatures, snapshot.expandedPaths, workspacePath]);
+  const watchedDirectoryPaths = useMemo(
+    () =>
+      enableWorkspaceFeatures
+        ? new Set([workspacePath, ...snapshot.expandedPaths])
+        : new Set<string>(),
+    [enableWorkspaceFeatures, snapshot.expandedPaths, workspacePath],
+  );
   useWorkspaceFileTreeWatchers({
-    fileWatcherService, watchedDirectoryPaths, onDirectoryChange: enqueueWatchRefresh,
+    fileWatcherService,
+    watchedDirectoryPaths,
+    onDirectoryChange: enqueueWatchRefresh,
   });
   return {
     rows,

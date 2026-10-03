@@ -11,7 +11,10 @@ export function groupIndex(view: KnorviaGroupedTaskView, id: string): number {
   return view.nodes.findIndex((node) => node.type === "group" && node.group.id === id);
 }
 
-export function* taskCursors(view: KnorviaGroupedTaskView, groupsOnly = false): Generator<TaskCursor> {
+export function* taskCursors(
+  view: KnorviaGroupedTaskView,
+  groupsOnly = false,
+): Generator<TaskCursor> {
   for (let index = 0; index < view.nodes.length; index += 1) {
     const node = view.nodes[index];
     if (!node) continue;
@@ -26,7 +29,11 @@ export function* taskCursors(view: KnorviaGroupedTaskView, groupsOnly = false): 
   }
 }
 
-export function taskCursor(view: KnorviaGroupedTaskView, key: string, groupsOnly = false): TaskCursor | null {
+export function taskCursor(
+  view: KnorviaGroupedTaskView,
+  key: string,
+  groupsOnly = false,
+): TaskCursor | null {
   for (const cursor of taskCursors(view, groupsOnly)) {
     if (taskKey(cursor.task) === key) return cursor;
   }
@@ -41,7 +48,9 @@ export function taskGroupId(view: KnorviaGroupedTaskView, key: string): string |
 }
 
 export function cursorDestination(
-  view: KnorviaGroupedTaskView, cursor: TaskCursor, after: boolean,
+  view: KnorviaGroupedTaskView,
+  cursor: TaskCursor,
+  after: boolean,
 ): TaskDestination {
   const delta = after ? 1 : 0;
   const node = view.nodes[cursor.node];

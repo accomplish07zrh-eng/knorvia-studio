@@ -9,13 +9,19 @@ import { viewToOrderInput } from "./groupedMutationProjection.js";
 type PromotionPlan = { settledRoots: KnorviaTaskMeta[]; groupTasks: KnorviaTaskMeta[] };
 
 /** First-occurrence indexes retain the original find semantics, including duplicate keys. */
-export function planGroupedPromotions({ view, displayedView, overlays, visibleMissing }: {
+export function planGroupedPromotions({
+  view,
+  displayedView,
+  overlays,
+  visibleMissing,
+}: {
   view: KnorviaGroupedTaskView;
   displayedView: KnorviaGroupedTaskView;
   overlays: Iterable<WorkspaceOptimisticTaskOverlay>;
   visibleMissing: ReadonlySet<string>;
 }): PromotionPlan {
-  const accepted = new Set<string>(), groupHeads = new Map<string, string | null>();
+  const accepted = new Set<string>(),
+    groupHeads = new Map<string, string | null>();
   const displayed = new Map<string, KnorviaTaskMeta>();
   for (const node of view.nodes) {
     const tasks = node.type === "group" ? node.tasks : [node.task];
@@ -34,13 +40,22 @@ export function planGroupedPromotions({ view, displayedView, overlays, visibleMi
   const rootHead = first?.type === "task" ? buildTaskEntityKey(first.task) : null;
   const plan: PromotionPlan = { settledRoots: [], groupTasks: [] };
   for (const overlay of overlays) {
-    for (const [taskId, promotion] of Object.entries(overlay.promotedGroupedDraftTaskByTaskId ?? {})) {
-      const key = buildTaskEntityKey({ taskId, workspacePath: promotion.workspacePath, workspaceIdentity: promotion.workspaceIdentity });
+    for (const [taskId, promotion] of Object.entries(
+      overlay.promotedGroupedDraftTaskByTaskId ?? {},
+    )) {
+      const key = buildTaskEntityKey({
+        taskId,
+        workspacePath: promotion.workspacePath,
+        workspaceIdentity: promotion.workspaceIdentity,
+      });
       const task = displayed.get(key);
       if (!task) continue;
       if (promotion.placement.type === "top") {
         if (key === rootHead) plan.settledRoots.push(task);
-      } else if ((accepted.has(key) || visibleMissing.has(key)) && groupHeads.get(promotion.placement.groupId) !== key) {
+      } else if (
+        (accepted.has(key) || visibleMissing.has(key)) &&
+        groupHeads.get(promotion.placement.groupId) !== key
+      ) {
         plan.groupTasks.push(task);
       }
     }
@@ -73,7 +88,11 @@ export class GroupedPromotionPersistenceOwner {
     };
   }
 
-  reconcile(plan: PromotionPlan, displayed: KnorviaGroupedTaskView, service: Pick<IKnorviaTaskService, "applyGroupedTaskViewOrder">): void {
+  reconcile(
+    plan: PromotionPlan,
+    displayed: KnorviaGroupedTaskView,
+    service: Pick<IKnorviaTaskService, "applyGroupedTaskViewOrder">,
+  ): void {
     const scope = this.scope;
     if (!scope) return;
     for (const task of plan.settledRoots) this.clear(task);
@@ -85,7 +104,13 @@ export class GroupedPromotionPersistenceOwner {
     void this.persist(signature, lease, plan.groupTasks, displayed, service);
   }
 
-  private async persist(signature: string, lease: Lease, tasks: KnorviaTaskMeta[], view: KnorviaGroupedTaskView, service: Pick<IKnorviaTaskService, "applyGroupedTaskViewOrder">): Promise<void> {
+  private async persist(
+    signature: string,
+    lease: Lease,
+    tasks: KnorviaTaskMeta[],
+    view: KnorviaGroupedTaskView,
+    service: Pick<IKnorviaTaskService, "applyGroupedTaskViewOrder">,
+  ): Promise<void> {
     const accepts = () => this.scope === lease.scope && this.signatures.get(signature) === lease;
     try {
       await service.applyGroupedTaskViewOrder(viewToOrderInput({ view }));

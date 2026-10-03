@@ -1,5 +1,13 @@
 /* eslint-disable max-lines -- 顶层 grouped task 容器仍集中维护远程 workspace service 解析、group 菜单、task 菜单和列表写回；子行与纯 helper 已拆到 workspace-grouped-tasks 目录。 */
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import {
   closestCenter,
@@ -9,10 +17,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import type {
-  CollisionDetection,
-  DropAnimation,
-} from "@dnd-kit/core";
+import type { CollisionDetection, DropAnimation } from "@dnd-kit/core";
 import type { KnorviaGroupedTaskView } from "@knorvia/services";
 import { OFF_PEAK_DEFAULT_GROUP_ID, type KnorviaTaskMeta } from "@knorvia/shared";
 import { createPortal } from "react-dom";
@@ -46,24 +51,33 @@ import {
   taskKey,
 } from "@/workspace-grouped-tasks/shared.js";
 import { acceptsGroupedDragCollision } from "@/workspace-grouped-tasks/groupedDragProjection.js";
-import { GroupedDragSessionOwner, type GroupedDragPorts } from "@/workspace-grouped-tasks/groupedDragSessionOwner.js";
-import { GroupedSectionInteractionOwner, type GroupedSectionInteractionPorts } from "@/workspace-grouped-tasks/groupedSectionInteractionOwner.js";
+import {
+  GroupedDragSessionOwner,
+  type GroupedDragPorts,
+} from "@/workspace-grouped-tasks/groupedDragSessionOwner.js";
+import {
+  GroupedSectionInteractionOwner,
+  type GroupedSectionInteractionPorts,
+} from "@/workspace-grouped-tasks/groupedSectionInteractionOwner.js";
 import { GroupedSectionMenuProjection } from "@/workspace-grouped-tasks/groupedSectionMenuProjection.js";
-import { GroupedSectionDomOwner, type GroupedSectionDomPorts } from "@/workspace-grouped-tasks/groupedSectionDomOwner.js";
+import {
+  GroupedSectionDomOwner,
+  type GroupedSectionDomPorts,
+} from "@/workspace-grouped-tasks/groupedSectionDomOwner.js";
 import {
   cancelWorkbenchPointerDrag,
   finishWorkbenchPointerDrag,
   updateWorkbenchPointerDrag,
 } from "@/v4/workbenchPointerDragDrop.js";
-import {
-  createWorkbenchPointerPositionTracker,
-} from "@/v4/workbenchPointerPositionTracker.js";
+import { createWorkbenchPointerPositionTracker } from "@/v4/workbenchPointerPositionTracker.js";
 
-const groupedTaskCollisionDetection: CollisionDetection = (args) => closestCenter({
-  ...args,
-  droppableContainers: args.droppableContainers.filter((container) =>
-    acceptsGroupedDragCollision(args.active.data.current, container.data.current)),
-});
+const groupedTaskCollisionDetection: CollisionDetection = (args) =>
+  closestCenter({
+    ...args,
+    droppableContainers: args.droppableContainers.filter((container) =>
+      acceptsGroupedDragCollision(args.active.data.current, container.data.current),
+    ),
+  });
 
 const GROUPED_TASK_DROP_ANIMATION: DropAnimation = {
   duration: 150,
@@ -164,12 +178,18 @@ export function WorkspaceGroupedTasksSection({
     workspaceTabs,
   });
   const sectionPortsRef = useRef<GroupedSectionInteractionPorts | null>(null);
-  const [section] = useState(() => new GroupedSectionInteractionOwner(() => {
-    if (!sectionPortsRef.current) throw new Error("Grouped section ports are inactive");
-    return sectionPortsRef.current;
-  }));
+  const [section] = useState(
+    () =>
+      new GroupedSectionInteractionOwner(() => {
+        if (!sectionPortsRef.current) throw new Error("Grouped section ports are inactive");
+        return sectionPortsRef.current;
+      }),
+  );
   const {
-    archiving: archivingTaskKeys, renamingTaskKey, renameDraft, newGroupSetupId,
+    archiving: archivingTaskKeys,
+    renamingTaskKey,
+    renameDraft,
+    newGroupSetupId,
   } = useSyncExternalStore(section.subscribe, section.read, section.read);
   const setRenameDraft = section.setRenameDraft;
   const view = useMemo(
@@ -182,10 +202,13 @@ export function WorkspaceGroupedTasksSection({
   }, [archivingTaskKeys.size, authoritativeView, section]);
   const groupedSectionRootRef = useRef<HTMLDivElement | null>(null);
   const domPortsRef = useRef<GroupedSectionDomPorts | null>(null);
-  const [dom] = useState(() => new GroupedSectionDomOwner(() => {
-    if (!domPortsRef.current) throw new Error("Grouped DOM ports are inactive");
-    return domPortsRef.current;
-  }));
+  const [dom] = useState(
+    () =>
+      new GroupedSectionDomOwner(() => {
+        if (!domPortsRef.current) throw new Error("Grouped DOM ports are inactive");
+        return domPortsRef.current;
+      }),
+  );
   // 已经画出过 grouped 列表：之后任何 loading/未初始化帧都不再回到空白门禁。
   // 挂载时若模块级缓存已种出非空 view，本帧就会画出列表，闩锁直接种 true——把「渲染期置位」
   // 的窗口收窄到只剩真正的首屏。
@@ -194,12 +217,16 @@ export function WorkspaceGroupedTasksSection({
   const [menuProjection] = useState(() => new GroupedSectionMenuProjection());
   const [stickyGroupId, setStickyGroupId] = useState<string | null>(null);
   const dragPortsRef = useRef<GroupedDragPorts | null>(null);
-  const [dragSession] = useState(() => new GroupedDragSessionOwner(() => {
-    if (!dragPortsRef.current) throw new Error("Grouped drag ports are inactive");
-    return dragPortsRef.current;
-  }));
+  const [dragSession] = useState(
+    () =>
+      new GroupedDragSessionOwner(() => {
+        if (!dragPortsRef.current) throw new Error("Grouped drag ports are inactive");
+        return dragPortsRef.current;
+      }),
+  );
   const {
-    activeTaskKey: activeDragTaskKey, activeGroupId: activeDragGroupId,
+    activeTaskKey: activeDragTaskKey,
+    activeGroupId: activeDragGroupId,
     width: activeDragOverlayWidth,
   } = useSyncExternalStore(dragSession.subscribe, dragSession.read, dragSession.read);
   const sensors = useSensors(
@@ -212,30 +239,64 @@ export function WorkspaceGroupedTasksSection({
   const isGroupedDraftActive = Boolean(groupedDraftTask && activeTaskId === null);
   useLayoutEffect(() => {
     sectionPortsRef.current = {
-      authoritative: () => authoritativeView, displayed: () => view,
-      draft: () => ({ activeTaskId, activeWorkspacePath, activeWorkspaceIdentity, placement: groupedDraftTask?.placement, view }),
-      taskService: (task) => workspaceServiceLookup.get(buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity))?.services.taskService,
+      authoritative: () => authoritativeView,
+      displayed: () => view,
+      draft: () => ({
+        activeTaskId,
+        activeWorkspacePath,
+        activeWorkspaceIdentity,
+        placement: groupedDraftTask?.placement,
+        view,
+      }),
+      taskService: (task) =>
+        workspaceServiceLookup.get(
+          buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity),
+        )?.services.taskService,
       setCollapsed: onCollapsedGroupIdsChange,
       createDraft: (placement) => onCreateTask({ groupedDraftPlacement: placement }),
-      closeDraft: clearGroupedDraftTask, createGroup, renameGroup,
-      colorGroup: updateGroupColor, ungroup: ungroupGroup,
+      closeDraft: clearGroupedDraftTask,
+      createGroup,
+      renameGroup,
+      colorGroup: updateGroupColor,
+      ungroup: ungroupGroup,
       order: (next, canPublish) => applyOrder(next, { canPublish }),
       commitMetadata: (kind, previous, next, canWriteView) => {
-        if (kind === "unread") setTaskUnreadIndicator(previous.workspacePath, previous.taskId, true, previous.workspaceIdentity);
-        if (canWriteView()) setView((current) => canWriteView() ? replaceTaskInGroupedView(current, next) : current);
+        if (kind === "unread")
+          setTaskUnreadIndicator(
+            previous.workspacePath,
+            previous.taskId,
+            true,
+            previous.workspaceIdentity,
+          );
+        if (canWriteView())
+          setView((current) =>
+            canWriteView() ? replaceTaskInGroupedView(current, next) : current,
+          );
         upsertOptimisticTaskListItem(previous.workspacePath, next, previous.workspaceIdentity);
-        applyTaskQueryCacheMutation({ previousTask: previous, nextTask: next,
-          previousState: { pinned: false, archived: false }, nextState: { pinned: false, archived: false } });
+        applyTaskQueryCacheMutation({
+          previousTask: previous,
+          nextTask: next,
+          previousState: { pinned: false, archived: false },
+          nextState: { pinned: false, archived: false },
+        });
       },
       commitArchive: (previous, next) => {
         bumpTaskListMembershipVersion();
         removeTaskState(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
         if (previous.workspaceIdentity) {
-          useRemoteTimelineTaskStore.getState().removeTask(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
-          useRemotePinnedTaskStore.getState().removeTask(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
+          useRemoteTimelineTaskStore
+            .getState()
+            .removeTask(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
+          useRemotePinnedTaskStore
+            .getState()
+            .removeTask(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
         }
-        applyTaskQueryCacheMutation({ previousTask: previous, nextTask: next,
-          previousState: { pinned: false, archived: false }, nextState: { pinned: false, archived: true } });
+        applyTaskQueryCacheMutation({
+          previousTask: previous,
+          nextTask: next,
+          previousState: { pinned: false, archived: false },
+          nextState: { pinned: false, archived: true },
+        });
       },
       notify: (id) => toast(intl.formatMessage({ id })),
     };
@@ -244,9 +305,12 @@ export function WorkspaceGroupedTasksSection({
   useLayoutEffect(() => section.activate(), [baseServices.taskService, scopeSignature, section]);
   useLayoutEffect(() => {
     domPortsRef.current = {
-      root: () => groupedSectionRootRef.current, window, setView,
+      root: () => groupedSectionRootRef.current,
+      window,
+      setView,
       escape: (value) => CSS.escape(value),
-      resizeObserver: (callback) => typeof ResizeObserver === "undefined" ? null : new ResizeObserver(callback),
+      resizeObserver: (callback) =>
+        typeof ResizeObserver === "undefined" ? null : new ResizeObserver(callback),
     };
   });
   useLayoutEffect(() => dom.activate(), [dom]);
@@ -273,7 +337,10 @@ export function WorkspaceGroupedTasksSection({
   useEffect(() => {
     if (groupedDraftTask?.placement.type === "top") return dom.scrollTopDraft();
   }, [dom, groupedDraftFocusVersion, groupedDraftTask]);
-  const { menus: groups, ids: groupIds } = useMemo(() => menuProjection.project(view), [menuProjection, view]);
+  const { menus: groups, ids: groupIds } = useMemo(
+    () => menuProjection.project(view),
+    [menuProjection, view],
+  );
   useEffect(() => {
     onGroupedTaskGroupIdsChange?.(groupIds);
   }, [groupIds, onGroupedTaskGroupIdsChange]);
@@ -283,7 +350,14 @@ export function WorkspaceGroupedTasksSection({
       return;
     }
     return dom.watchSticky(setStickyGroupId);
-  }, [activeDragGroupId, activeDragTaskKey, collapsedGroupIds, dom, groupedDraftTask?.placement, view.nodes]);
+  }, [
+    activeDragGroupId,
+    activeDragTaskKey,
+    collapsedGroupIds,
+    dom,
+    groupedDraftTask?.placement,
+    view.nodes,
+  ]);
   const workspaceTabByKey = useMemo(
     () =>
       new Map(
@@ -309,8 +383,14 @@ export function WorkspaceGroupedTasksSection({
     },
     [intl, workspaceTabByKey],
   );
-  const draftWorkspaceLabel = useMemo(() => getTaskWorkspaceLabel({ workspacePath: activeWorkspacePath, workspaceIdentity: activeWorkspaceIdentity }),
-    [activeWorkspaceIdentity, activeWorkspacePath, getTaskWorkspaceLabel]);
+  const draftWorkspaceLabel = useMemo(
+    () =>
+      getTaskWorkspaceLabel({
+        workspacePath: activeWorkspacePath,
+        workspaceIdentity: activeWorkspaceIdentity,
+      }),
+    [activeWorkspaceIdentity, activeWorkspacePath, getTaskWorkspaceLabel],
+  );
 
   const getTaskRemoteSessionId = useCallback(
     (task: KnorviaTaskMeta) =>
@@ -342,11 +422,16 @@ export function WorkspaceGroupedTasksSection({
     [collapsedGroupIds],
   );
 
-  const handleCancelRenameTask = section.cancelRename, handleStartRenameTask = section.startRename;
-  const handleMoveTaskToGroup = section.moveToGroup, handleMoveTaskToTop = section.moveToTop;
-  const handleSubmitRenameTask = section.submitRename, handleMarkTaskAsUnread = section.markUnread;
-  const handleCloseTask = section.archive, handleRenameGroup = section.renameGroup;
-  const handleUpdateGroupColor = section.colorGroup, handleUngroupGroup = section.ungroup;
+  const handleCancelRenameTask = section.cancelRename,
+    handleStartRenameTask = section.startRename;
+  const handleMoveTaskToGroup = section.moveToGroup,
+    handleMoveTaskToTop = section.moveToTop;
+  const handleSubmitRenameTask = section.submitRename,
+    handleMarkTaskAsUnread = section.markUnread;
+  const handleCloseTask = section.archive,
+    handleRenameGroup = section.renameGroup;
+  const handleUpdateGroupColor = section.colorGroup,
+    handleUngroupGroup = section.ungroup;
 
   const setViewWithGroupedTaskAnimation = dom.applyView;
 
@@ -372,11 +457,15 @@ export function WorkspaceGroupedTasksSection({
       setCollapsed: onCollapsedGroupIdsChange,
       payload: (key) => {
         const task = findTaskInGroupedView(view, key);
-        return task ? {
-          kind: "knorvia/session", workspacePath: task.workspacePath,
-          workspaceIdentity: task.workspaceIdentity,
-          remoteSessionId: getTaskRemoteSessionId(task), sessionId: task.taskId,
-        } : null;
+        return task
+          ? {
+              kind: "knorvia/session",
+              workspacePath: task.workspacePath,
+              workspaceIdentity: task.workspaceIdentity,
+              remoteSessionId: getTaskRemoteSessionId(task),
+              sessionId: task.taskId,
+            }
+          : null;
       },
       // 宽度只在 start 测一次，避免 preview 重排与 dnd-kit 测量形成同步更新循环。
       measure: dom.measure,
@@ -392,11 +481,17 @@ export function WorkspaceGroupedTasksSection({
       cancelWorkbench: cancelWorkbenchPointerDrag,
     };
   });
-  useLayoutEffect(() => dragSession.activate(), [baseServices.taskService, dragSession, scopeSignature]);
-  const handleGroupedTaskDragStart = useCallback((event: Parameters<typeof dragSession.start>[0]) => {
-    section.invalidateOrder();
-    dragSession.start(event);
-  }, [dragSession, section]);
+  useLayoutEffect(
+    () => dragSession.activate(),
+    [baseServices.taskService, dragSession, scopeSignature],
+  );
+  const handleGroupedTaskDragStart = useCallback(
+    (event: Parameters<typeof dragSession.start>[0]) => {
+      section.invalidateOrder();
+      dragSession.start(event);
+    },
+    [dragSession, section],
+  );
   const handleGroupedTaskDragMove = dragSession.move;
   const handleGroupedTaskDragOver = dragSession.over;
   const handleGroupedTaskDragCancel = dragSession.cancel;

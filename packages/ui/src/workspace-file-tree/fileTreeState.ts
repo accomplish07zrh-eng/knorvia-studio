@@ -17,22 +17,36 @@ export interface WorkspaceFileTreeSnapshot {
 
 export function emptyWorkspaceFileTree(): WorkspaceFileTreeSnapshot {
   return {
-    childrenByDirectory: new Map(), expandedPaths: new Set(), loadedDirectoryPaths: new Set(),
-    loadingDirectoryPaths: new Set(), errorByDirectory: new Map(), gitStatusByPath: new Map(),
-    gitStatusAvailable: false, ignoredPathSet: new Set(), refreshingLoadedDirectories: false,
+    childrenByDirectory: new Map(),
+    expandedPaths: new Set(),
+    loadedDirectoryPaths: new Set(),
+    loadingDirectoryPaths: new Set(),
+    errorByDirectory: new Map(),
+    gitStatusByPath: new Map(),
+    gitStatusAvailable: false,
+    ignoredPathSet: new Set(),
+    refreshingLoadedDirectories: false,
   };
 }
 
 export type FileTreeSetUpdate = Set<string> | ((current: Set<string>) => Set<string>);
 
-export function updateFileTreeSet(current: Set<string>, path: string, present: boolean): Set<string> {
+export function updateFileTreeSet(
+  current: Set<string>,
+  path: string,
+  present: boolean,
+): Set<string> {
   const next = new Set(current);
   if (present) next.add(path);
   else next.delete(path);
   return next;
 }
 
-export function updateFileTreeMap<T>(current: Map<string, T>, path: string, value?: T): Map<string, T> {
+export function updateFileTreeMap<T>(
+  current: Map<string, T>,
+  path: string,
+  value?: T,
+): Map<string, T> {
   const next = new Map(current);
   if (value === undefined) next.delete(path);
   else next.set(path, value);
@@ -45,7 +59,8 @@ export function removeFileTreeSubtree(
 ): Partial<WorkspaceFileTreeSnapshot> {
   const retainPath = (path: string) => !isWorkspaceFilePathInside(directoryPath, path);
   const retainSet = (set: Set<string>) => new Set([...set].filter(retainPath));
-  const retainMap = <T>(map: Map<string, T>) => new Map([...map].filter(([path]) => retainPath(path)));
+  const retainMap = <T>(map: Map<string, T>) =>
+    new Map([...map].filter(([path]) => retainPath(path)));
   return {
     childrenByDirectory: retainMap(snapshot.childrenByDirectory),
     errorByDirectory: retainMap(snapshot.errorByDirectory),
@@ -56,7 +71,9 @@ export function removeFileTreeSubtree(
 }
 
 export function replaceDirectoryIgnoredPaths(
-  current: Set<string>, entryPaths: string[], ignoredPaths: string[],
+  current: Set<string>,
+  entryPaths: string[],
+  ignoredPaths: string[],
 ): Set<string> {
   const next = new Set(current);
   for (const path of entryPaths) next.delete(path.replace(/\\/g, "/").replace(/\/+$/, ""));
