@@ -66,6 +66,27 @@
 - 旧运行时 overlay 可能没有 promoted 字段，仍以空对象兼容。返回 shape、引用、
   行排序、title 与 membership 权威、临时归档/pin 边界保持。
 
+## Mutation owner（后续批次先行契约）
+
+- React hook 继续拥有 view/saving；mutation owner 仅拥有 scope 接受权和操作计划。
+  public createGroup/renameGroup/updateGroupColor/applyOrder/ungroupGroup 形状不改。
+- create 成功先插顶，sortOrder=原最小值（含 0）-1000；已有同 id 不重复插入；
+  invalidation 后等 captured refresh，最后返回 host group。
+- rename trim 空值回退原标题，同值/不存在组 no-op；color 同值 no-op。
+  optimistic group 保留其它字段，updatedAt 仍 Date.now；所有同 id node 都投影。
+  成功用 host group 替换 optimistic group，失败恢复 captured previous view，记录
+  原日志并 rethrow 原错误。scope 接受权只防跨 scope/unmount 回写。
+- order 先展示 next view，序列化只发送 workspace scope/ref/order，不采信 host
+  返回 join view；成功 invalidate 后等 current refresh，失败 rollback 后 detached
+  captured refresh 并 log/rethrow。scope key 去重仍首位置/最后 scope 值。
+- ungroup 在原节点位置展开所有该 id 组成员；先 apply order，再 delete group，
+  再 invalidate/captured refresh；失败原日志/rethrow，不删除任务数据。
+- 保留本 scope 既有并发和 nested saving=true/false 时序，不新增队列/阻塞 UI。
+  多操作同 scope 的 captured rollback 语义继续保留，最终验收须覆盖重叠操作。
+- 显式修复：scope/service 替换与卸载后，已发出 host 写入仍按原 Promise 返回
+  成功或失败，但不向新 UI view/saving 写回；激活新 scope 将 saving 归零。
+  不宣称取消 host mutation，不新增共享协议/存储格式或消息文案。
+
 ## 未验证
 
 不执行 tests/lint/types/build/架构或全量审计。新增 owner 合同只写不跑；仅源码

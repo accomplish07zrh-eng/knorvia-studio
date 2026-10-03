@@ -1,0 +1,69 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped mutation and structural payload owner only",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Original mutation/serialization handlers, group/type/service signatures and direct consumers read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared mutation/payload scenarios do not validate actual React/RPC/database or cancellation",
+  "explicitCorrections": [
+    "Scope/service replacement or unmount prevents old view/saving writes; issued host operation still finishes its original Promise"
+  ],
+  "retainedBehavior": [
+    "Same-scope captured rollback and nested saving ordering",
+    "Host order view response ignored",
+    "Ungroup writes member order before deleting group; tasks are retained",
+    "Original identity/scopes/payload format"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "794afff2568b4bfb5ada9e584159d1275ae52391b7a6350883c45bf81185c38d",
+      "candidateBytes": 20521,
+      "candidateRole": "partial installation; remaining reference/initialization/promotion code unreviewed",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "c0551e5162299be3f68e7b944500dfb3549f9bfa126c25c8ddadd793e24739dd",
+      "candidateBytes": 5636,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedMutationProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "e390ef8367f94ba52df9f1ecd87bb40291c177db6ad732fcfd73d7ee6bcfef72",
+      "candidateBytes": 2905,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-mutation-owner-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "97e4f0479f2333aa4d83c1c62c3817bac0e3bf7dffac52e71124275279209160",
+      "candidateBytes": 6271,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

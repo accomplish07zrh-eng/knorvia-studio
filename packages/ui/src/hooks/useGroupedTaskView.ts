@@ -3,9 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { KnorviaTaskMeta } from "@knorvia/shared";
 import type {
   KnorviaGroupedTaskView,
-  KnorviaGroupedTaskViewOrderInput,
   KnorviaGroupedTaskViewStructure,
-  KnorviaGroupedTaskViewTopLevelNodeRef,
   KnorviaTaskGroup,
   KnorviaTaskGroupColor,
 } from "@knorvia/services";
@@ -32,6 +30,8 @@ import {
   isGroupedEntityFirst as isTaskFirstInGroup,
   mergeGroupedTaskViewWithOptimistic, reconcileGroupedOptimisticTaskKeys,
 } from "@/workspace-grouped-tasks/groupedOptimisticProjection.js";
+import { GroupedTaskMutationOwner } from "@/workspace-grouped-tasks/groupedMutationOwner.js";
+import { viewToOrderInput } from "@/workspace-grouped-tasks/groupedMutationProjection.js";
 
 function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]) {
   return workspaceTabs.map((tab) => ({
@@ -39,29 +39,6 @@ function buildWorkspaceScopes(workspaceTabs: WorkspaceTabState[]) {
     workspaceIdentity: tab.workspaceIdentity,
     workspacePurpose: tab.workspacePurpose,
   }));
-}
-
-function collectViewWorkspaceScopes(
-  view: KnorviaGroupedTaskView,
-): Array<{ workspacePath: string; workspaceIdentity?: string }> {
-  const workspaceScopes = new Map<string, { workspacePath: string; workspaceIdentity?: string }>();
-  const addTask = (task: KnorviaTaskMeta) => {
-    const workspaceKey = buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity);
-    workspaceScopes.set(workspaceKey, {
-      workspacePath: task.workspacePath,
-      workspaceIdentity: task.workspaceIdentity,
-    });
-  };
-
-  for (const node of view.nodes) {
-    if (node.type === "group") {
-      node.tasks.forEach(addTask);
-      continue;
-    }
-    addTask(node.task);
-  }
-
-  return [...workspaceScopes.values()];
 }
 
 export function shouldHideGroupedTaskContent(params: {
@@ -95,30 +72,6 @@ function isGroupedTaskViewInitialized(params: {
     return true;
   }
   return params.remoteDataInitialized && params.hydratingEndpointKeys.length === 0;
-}
-
-function prependTaskGroupToView(
-  view: KnorviaGroupedTaskView,
-  group: KnorviaTaskGroup,
-): KnorviaGroupedTaskView {
-  if (view.nodes.some((node) => node.type === "group" && node.group.id === group.id)) {
-    return view;
-  }
-  const minimumSortOrder = view.nodes.reduce(
-    (minimum, node) => Math.min(minimum, node.sortOrder ?? 0),
-    0,
-  );
-  return {
-    nodes: [
-      {
-        type: "group",
-        group,
-        tasks: [],
-        sortOrder: minimumSortOrder - 1000,
-      },
-      ...view.nodes,
-    ],
-  };
 }
 
 function groupedNodeIdentityKey(node: KnorviaGroupedTaskView["nodes"][number]): string {
@@ -177,41 +130,6 @@ function stabilizeGroupedView(
     return node;
   });
   return identical ? previous : { nodes };
-}
-
-function nodeToTopLevelRef(
-  node: KnorviaGroupedTaskView["nodes"][number],
-): KnorviaGroupedTaskViewTopLevelNodeRef {
-  if (node.type === "group") {
-    return { type: "group", groupId: node.group.id };
-  }
-  return {
-    type: "task",
-    task: {
-      workspacePath: node.task.workspacePath,
-      workspaceIdentity: node.task.workspaceIdentity,
-      taskId: node.task.taskId,
-    },
-  };
-}
-
-function viewToOrderInput(params: {
-  view: KnorviaGroupedTaskView;
-}): KnorviaGroupedTaskViewOrderInput {
-  return {
-    workspaceScopes: collectViewWorkspaceScopes(params.view),
-    topLevelNodes: params.view.nodes.map(nodeToTopLevelRef),
-    groups: params.view.nodes
-      .filter((node) => node.type === "group")
-      .map((node) => ({
-        groupId: node.group.id,
-        taskRefs: node.tasks.map((task) => ({
-          workspacePath: task.workspacePath,
-          workspaceIdentity: task.workspaceIdentity,
-          taskId: task.taskId,
-        })),
-      })),
-  };
 }
 
 export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] }) {
@@ -391,13 +309,21 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
   const refreshRef = useRef(refresh);
   refreshRef.current = refresh;
 
+  const [mutationOwner] = useState(() => new GroupedTaskMutationOwner({
+    setView, setSaving, invalidate: () => remoteDataLoader.invalidate(),
+    refreshCurrent: () => refreshRef.current(),
+    log: (message, error) => logger.error(message, error),
+  }));
+
   useEffect(() => {
     const deactivate = refreshOwner.activate();
+    const deactivateMutation = mutationOwner.activate();
     return () => {
+      deactivateMutation();
       deactivate();
       remoteDataLoader.invalidate();
     };
-  }, [localWorkspaceScopeSignature, refreshOwner, remoteDataLoader, services.taskService]);
+  }, [localWorkspaceScopeSignature, mutationOwner, refreshOwner, remoteDataLoader, services.taskService]);
 
   useEffect(() => {
     const authoritativeTaskKeys = collectGroupedViewTaskKeys(view);
@@ -486,190 +412,16 @@ export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] 
     void refresh();
   }, [refresh, sessionsIndexItems]);
 
-  const createGroup = useCallback(async (): Promise<KnorviaTaskGroup> => {
-    setSaving(true);
-    try {
-      const group = await services.taskService.createTaskGroup();
-      // 新 group 的 SQLite 顺序已经置顶，但等待异步 refresh 才展示会短暂沿用旧树并
-      // 落到缺序节点末尾；先按同一 sort_order 语义乐观插顶，refresh 再以 SQLite 收敛。
-      setView((current) => prependTaskGroupToView(current, group));
-      // 分组结构已变，失效远端数据缓存再重建（membershipVersion bump 可能晚于本地 refresh）。
-      invalidateRemoteData();
-      await refresh();
-      return group;
-    } catch (error) {
-      logger.error("[useGroupedTaskView] 创建 task group 失败", error);
-      throw error;
-    } finally {
-      setSaving(false);
-    }
-  }, [invalidateRemoteData, refresh, services.taskService]);
-
-  const renameGroup = useCallback(
-    async (groupId: string, title: string) => {
-      const previousView = view;
-      const groupNode = view.nodes.find(
-        (node) => node.type === "group" && node.group.id === groupId,
-      );
-      const nextTitle = title.trim() || (groupNode?.type === "group" ? groupNode.group.title : "");
-      if (!groupNode || groupNode.type !== "group" || groupNode.group.title === nextTitle) {
-        return;
-      }
-
-      const optimisticView: KnorviaGroupedTaskView = {
-        nodes: view.nodes.map((node) =>
-          node.type === "group" && node.group.id === groupId
-            ? {
-                ...node,
-                group: {
-                  ...node.group,
-                  title: nextTitle,
-                  updatedAt: Date.now(),
-                },
-              }
-            : node,
-        ),
-      };
-      setView(optimisticView);
-      setSaving(true);
-      try {
-        const renamedGroup = await services.taskService.renameTaskGroup({
-          groupId,
-          title: nextTitle,
-          workspaceScopes: collectViewWorkspaceScopes(optimisticView),
-        });
-        invalidateRemoteData();
-        setView({
-          nodes: optimisticView.nodes.map((node) =>
-            node.type === "group" && node.group.id === groupId
-              ? { ...node, group: renamedGroup }
-              : node,
-          ),
-        });
-      } catch (error) {
-        setView(previousView);
-        logger.error("[useGroupedTaskView] 重命名 task group 失败", error);
-        throw error;
-      } finally {
-        setSaving(false);
-      }
-    },
-    [invalidateRemoteData, scopes, services.taskService, view],
-  );
-
-  const updateGroupColor = useCallback(
-    async (groupId: string, color: KnorviaTaskGroupColor) => {
-      const previousView = view;
-      const groupNode = view.nodes.find(
-        (node) => node.type === "group" && node.group.id === groupId,
-      );
-      if (!groupNode || groupNode.type !== "group" || groupNode.group.color === color) {
-        return;
-      }
-
-      const optimisticView: KnorviaGroupedTaskView = {
-        nodes: view.nodes.map((node) =>
-          node.type === "group" && node.group.id === groupId
-            ? {
-                ...node,
-                group: {
-                  ...node.group,
-                  color,
-                  updatedAt: Date.now(),
-                },
-              }
-            : node,
-        ),
-      };
-      setView(optimisticView);
-      setSaving(true);
-      try {
-        const updatedGroup = await services.taskService.updateTaskGroupColor({
-          groupId,
-          color,
-          workspaceScopes: collectViewWorkspaceScopes(optimisticView),
-        });
-        invalidateRemoteData();
-        setView({
-          nodes: optimisticView.nodes.map((node) =>
-            node.type === "group" && node.group.id === groupId
-              ? { ...node, group: updatedGroup }
-              : node,
-          ),
-        });
-      } catch (error) {
-        setView(previousView);
-        logger.error("[useGroupedTaskView] 更新 task group 颜色失败", error);
-        throw error;
-      } finally {
-        setSaving(false);
-      }
-    },
-    [invalidateRemoteData, scopes, services.taskService, view],
-  );
-
-  const applyOrder = useCallback(
-    async (nextView: KnorviaGroupedTaskView) => {
-      const previousView = view;
-      setView(nextView);
-      setSaving(true);
-      try {
-        // apply 回包的视图仍由 tasks 表 join（旧数据源），不再采信；
-        // 持久化成功后以「结构 + sessions-index」重建收敛（refresh）。
-        await services.taskService.applyGroupedTaskViewOrder(
-          viewToOrderInput({
-            view: nextView,
-          }),
-        );
-        invalidateRemoteData();
-        await refreshRef.current();
-      } catch (error) {
-        // grouped 视图写入失败时回滚本地乐观视图，再触发一次刷新收敛到 sqlite 真相源。
-        setView(previousView);
-        void refresh();
-        logger.error("[useGroupedTaskView] 保存 grouped task 顺序失败", error);
-        throw error;
-      } finally {
-        setSaving(false);
-      }
-    },
-    [invalidateRemoteData, refresh, services.taskService, view],
-  );
-
-  const ungroupGroup = useCallback(
-    async (groupId: string) => {
-      const groupNode = view.nodes.find(
-        (node) => node.type === "group" && node.group.id === groupId,
-      );
-      if (!groupNode || groupNode.type !== "group") {
-        return;
-      }
-      const nextView: KnorviaGroupedTaskView = {
-        nodes: view.nodes.flatMap((node) =>
-          node.type === "group" && node.group.id === groupId
-            ? node.tasks.map((task) => ({ type: "task" as const, task }))
-            : [node],
-        ),
-      };
-
-      setSaving(true);
-      try {
-        await applyOrder(nextView);
-        await services.taskService.deleteTaskGroup({
-          groupId,
-          workspaceScopes: collectViewWorkspaceScopes(nextView),
-        });
-        invalidateRemoteData();
-        await refresh();
-      } catch (error) {
-        logger.error("[useGroupedTaskView] 取消 task group 分组失败", error);
-        throw error;
-      } finally {
-        setSaving(false);
-      }
-    },
-    [applyOrder, invalidateRemoteData, refresh, scopes, services.taskService, view],
-  );
+  const createGroup = useCallback((): Promise<KnorviaTaskGroup> =>
+    mutationOwner.create(services.taskService, refresh), [mutationOwner, refresh, services.taskService]);
+  const renameGroup = useCallback((groupId: string, title: string) =>
+    mutationOwner.edit(view, groupId, { title }, services.taskService), [mutationOwner, services.taskService, view]);
+  const updateGroupColor = useCallback((groupId: string, color: KnorviaTaskGroupColor) =>
+    mutationOwner.edit(view, groupId, { color }, services.taskService), [mutationOwner, services.taskService, view]);
+  const applyOrder = useCallback((nextView: KnorviaGroupedTaskView) =>
+    mutationOwner.order(view, nextView, services.taskService, refresh), [mutationOwner, refresh, services.taskService, view]);
+  const ungroupGroup = useCallback((groupId: string) =>
+    mutationOwner.ungroup(view, groupId, services.taskService, refresh), [mutationOwner, refresh, services.taskService, view]);
 
   return {
     view: displayedView,
