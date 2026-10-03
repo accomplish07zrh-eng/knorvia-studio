@@ -1,97 +1,69 @@
-import { ModelOptionMapError, type JsonObject, type JsonValue } from "./types.js";
+import { PatchPathClaims } from "./patch-path-claims.js";
+import type { JsonObject, JsonValue } from "./types.js";
 
 export interface NamedJsonMergePatch {
   readonly option: string;
   readonly patch: JsonObject;
 }
 
-interface OwnedPath {
-  readonly option: string;
-  readonly path: readonly string[];
+function jsonObject(value: JsonValue | undefined): value is JsonObject {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-export function applyOrderedJsonMergePatches(
-  body: JsonObject,
-  patches: readonly NamedJsonMergePatch[],
-): JsonObject {
-  const ownedPaths: OwnedPath[] = [];
-  let result = cloneJson(body) as JsonObject;
-  for (const namedPatch of patches) {
-    const paths = collectWrittenPaths(namedPatch.patch);
-    for (const path of paths) {
-      const conflict = ownedPaths.find((owned) => pathsOverlap(owned.path, path));
-      if (conflict) {
-        throw new ModelOptionMapError(
-          `Model option maps write conflicting JSON path ${formatPath(path)}: ${conflict.option} and ${namedPatch.option}`,
-        );
-      }
-      ownedPaths.push({ option: namedPatch.option, path });
-    }
-    result = mergeObject(result, namedPatch.patch);
+function clone(value: JsonValue): JsonValue {
+  if (Array.isArray(value)) return value.map(clone);
+  if (!jsonObject(value)) return value;
+  const copy = Object.create(null) as Record<string, JsonValue>;
+  for (const [key, child] of Object.entries(value)) {
+    Object.defineProperty(copy, key, { value: clone(child), enumerable: true, configurable: true, writable: true });
   }
-  return result;
+  return copy;
 }
 
-function collectWrittenPaths(
-  patch: JsonObject,
-  prefix: readonly string[] = [],
-): readonly string[][] {
+function writtenPaths(patch: JsonObject): string[][] {
   const paths: string[][] = [];
-  for (const [key, value] of Object.entries(patch)) {
-    const path = [...prefix, key];
-    if (isJsonObject(value) && Object.keys(value).length > 0) {
-      paths.push(...collectWrittenPaths(value, path));
-    } else {
-      paths.push(path);
+  const work: (() => void)[] = [];
+  function descend(object: JsonObject, prefix: readonly string[]): void {
+    const entries = Object.entries(object);
+    for (let index = entries.length - 1; index >= 0; index -= 1) {
+      const [key, value] = entries[index]!;
+      const path = [...prefix, key];
+      work.push(() => {
+        if (jsonObject(value) && Object.keys(value).length) descend(value, path);
+        else paths.push(path);
+      });
     }
   }
+  descend(patch, []);
+  while (work.length) work.pop()!();
   return paths;
 }
 
-function pathsOverlap(left: readonly string[], right: readonly string[]): boolean {
-  const sharedLength = Math.min(left.length, right.length);
-  for (let index = 0; index < sharedLength; index += 1) {
-    if (left[index] !== right[index]) return false;
+function mergeInto(result: Record<string, JsonValue>, patch: JsonObject): void {
+  const work: (() => void)[] = [];
+  function descend(target: Record<string, JsonValue>, object: JsonObject): void {
+    const entries = Object.entries(object);
+    for (let index = entries.length - 1; index >= 0; index -= 1) {
+      const [key, value] = entries[index]!;
+      work.push(() => {
+        if (value === null) { delete target[key]; return; }
+        if (!jsonObject(value)) { target[key] = clone(value); return; }
+        if (!jsonObject(target[key])) target[key] = Object.create(null) as Record<string, JsonValue>;
+        descend(target[key] as Record<string, JsonValue>, value);
+      });
+    }
   }
-  return true;
+  descend(result, patch);
+  while (work.length) work.pop()!();
 }
 
-function formatPath(path: readonly string[]): string {
-  return path.length === 0 ? "$" : `$.${path.join(".")}`;
-}
-
-function mergeObject(target: JsonObject, patch: JsonObject): JsonObject {
-  const result = cloneJson(target) as Record<string, JsonValue>;
-  for (const [key, patchValue] of Object.entries(patch)) {
-    if (patchValue === null) {
-      delete result[key];
-      continue;
-    }
-    if (isJsonObject(patchValue)) {
-      const targetValue = result[key];
-      result[key] = mergeObject(isJsonObject(targetValue) ? targetValue : {}, patchValue);
-      continue;
-    }
-    result[key] = cloneJson(patchValue);
+export function applyOrderedJsonMergePatches(body: JsonObject, patches: readonly NamedJsonMergePatch[]): JsonObject {
+  const claims = new PatchPathClaims();
+  const result = clone(body) as Record<string, JsonValue>;
+  for (const { option, patch } of patches) {
+    const paths = writtenPaths(patch);
+    for (const path of paths) claims.write(option, path);
+    mergeInto(result, patch);
   }
   return result;
-}
-
-function cloneJson(value: JsonValue): JsonValue {
-  if (Array.isArray(value)) return value.map(cloneJson);
-  if (!isJsonObject(value)) return value;
-  const result: Record<string, JsonValue> = Object.create(null) as Record<string, JsonValue>;
-  for (const [key, entry] of Object.entries(value)) {
-    Object.defineProperty(result, key, {
-      configurable: true,
-      enumerable: true,
-      value: cloneJson(entry),
-      writable: true,
-    });
-  }
-  return result;
-}
-
-function isJsonObject(value: JsonValue | undefined): value is JsonObject {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
