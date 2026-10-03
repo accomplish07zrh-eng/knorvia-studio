@@ -33,6 +33,32 @@ WorkspaceGroupedTasksSection、taskListRowActivity 及其专用候选模块/记�
 accepted tree/grouped view、草稿/store/持久化 key 与 host 请求 payload 不迁移。
 下一源码批次分别在本规格细化其动作、reveal、DOM、菜单与归档许可后实现。
 
+## WorkspaceFileTree 动作与恢复（本批先行）
+
+- 单一 panel owner 只持有 selected/query/changed 与 pending preview/search reveal，
+  tree/expanded/Git/loading 不复制。路径或 identity 变化按原 effect 清选择/过滤，
+  remote-only 不额外清 UI；scope cleanup 撤销异步加载序列并清 pending reveal。
+- 外部 reveal 优先于 activePreview，trim 后只接受 workspace 内路径；原 ancestors
+  顺序与显式 reveal 追加目标保留，逐级 load 深度为 index+1。input/effect 替代
+  终止旧序列后续调用，已发出的 load 不 abort。可见后按原 normalized equality
+  auto 滚动；search 目录恢复在退出搜索且行存在后 center 滚动。
+- toggle 的 Set 副本按当前 expanded membership 决定折叠，移除全部 compacted
+  paths；load 是否调用仍看 row.expanded，使用物理 path depth。search 目录先
+  扩 ancestors/目标并选中、清 query，再按物理深度逐级加载；同 scope 操作保持
+  原独立序列，卸载后不再发后续 load。
+- Enter 总是 preventDefault 后 preview/目录动作；Right 对目录总 prevent，只有
+  未 expanded 或搜索中才动作；Left 仅 expanded 目录 prevent+toggle，保留搜索
+  情况边界。deleted 文件禁止 preview；code-viewer source、sticky start 对齐不改。
+- refresh 仍先 loaded directories，再在搜索中刷新 index；文件管理器保留 WSL
+  editor 路由/remoteTarget/identity 与原 fallback，失败 warn/toast 文案不变。
+  clipboard 保留能力判断、原路径、成功 info 和异常 warn；不新增用户数据写入。
+- viewport 的 native scroll 同帧写原 CSS offset，overflow/bottom 阈值仍为 1px；
+  resize/observer 共用一帧 coalescing。初测、scroll passive、window resize、
+  scroll/content observer 与 cleanup 顺序保留，异常尽量释放全部 owned 资源且
+  首错仍可见。旧 callback/frame 在 cleanup 后不得写 UI。
+- loading/error gate、32px mask、虚拟 count/28px/overscan12、JSX 与 labels 为
+  保留呈现契约；非阻塞 root error 同 message 去重，成功/无错会重置去重许可。
+
 ```mermaid
 flowchart LR
   React[原 React accepted 状态] --> Effects[原 effect / handler]
