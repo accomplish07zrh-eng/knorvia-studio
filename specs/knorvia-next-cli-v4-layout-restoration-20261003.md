@@ -24,7 +24,7 @@
 
 ## 有界生命周期缺口
 
-在契约内补回实际源码缺口：新 divider gesture 或 split/container/direction 变化撤销旧 rAF 写入权，end 在外部 commit 前释放旧票据以允许同步重入；group storage hydrate 在返回后重读 client-mode/configuration 接受权，防止 getItem 同步切换 remote 后回填旧 group；last-session 的明确 draftFocusVersion 变更撤销 pending restore，避免永远把用户 null 当作等待恢复。存储/选择等已发出的同步端口不假装 abort，也不增加 timeout/retry。必要 cleanup 在外部 callback 前撤销本地许可。
+在契约内补回实际源码缺口：新 divider gesture 或 split/container/direction 变化撤销旧 rAF 写入权，end 在外部 commit 前释放旧票据以允许同步重入；group storage hydrate 在返回后重读 client-mode/configuration 接受权，防止 getItem 同步切换 remote 或显式 reset 后回填旧 group；last-session 的明确 draftFocusVersion 变更撤销 pending restore，避免永远把用户 null 当作等待恢复。重复同一 desktop mode 仍属 no-op，不撤销在途 hydration；remote 切换和明确 reset 才失效旧票据。存储/选择等已发出的同步端口不假装 abort，也不增加 timeout/retry。必要 cleanup 在外部 callback 前撤销本地许可。
 
 ```mermaid
 sequenceDiagram
