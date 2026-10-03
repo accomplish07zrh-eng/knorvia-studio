@@ -16,6 +16,7 @@ export const desktopProfile = resolveDesktopProfile({
   executable: process.execPath,
   packaged: app.isPackaged,
   portableMarker: existsSync(join(process.resourcesPath, KNORVIA_PORTABLE_MARKER)),
+  platform: process.platform,
 });
 app.setName(desktopProfile.applicationName);
 for (const path of [

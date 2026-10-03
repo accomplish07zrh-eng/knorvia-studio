@@ -11,6 +11,7 @@ export function resolveDesktopProfile(input: {
   executable: string;
   packaged: boolean;
   portableMarker: boolean;
+  platform?: string;
 }) {
   const explicitPortableDir = input.env.KNORVIA_PORTABLE_DIR?.trim();
   const portable = Boolean(explicitPortableDir || input.portableMarker);
@@ -18,8 +19,23 @@ export function resolveDesktopProfile(input: {
   for (const path of [explicitPortableDir, explicitBase]) {
     if (path && !isAbsolute(path)) throw new Error("Knorvia data directory must be absolute");
   }
+  let portableDir = explicitPortableDir || dirname(input.executable);
+  if (portable && !explicitPortableDir) {
+    const platform = input.platform ?? process.platform;
+    const launcherPath =
+      platform === "win32"
+        ? input.env.PORTABLE_EXECUTABLE_DIR?.trim()
+        : platform === "linux"
+          ? input.env.APPIMAGE?.trim()
+          : undefined;
+    // NSIS 临时解压和 AppImage 挂载目录会在退出时消失或只读，数据必须留在原便携文件旁。
+    if (launcherPath && !isAbsolute(launcherPath)) {
+      throw new Error("Portable launcher path must be absolute");
+    }
+    if (launcherPath) portableDir = platform === "linux" ? dirname(launcherPath) : launcherPath;
+  }
   const base = portable
-    ? join(explicitPortableDir || dirname(input.executable), "data")
+    ? join(portableDir, "data")
     : explicitBase ||
       join(
         input.appData,

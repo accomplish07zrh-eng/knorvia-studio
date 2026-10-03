@@ -1,6 +1,7 @@
 !include nsDialogs.nsh
 !include FileFunc.nsh
 !include "${BUILD_RESOURCES_DIR}\installer-branding.nsh"
+!include "${BUILD_RESOURCES_DIR}\installer-shortcuts.nsh"
 
 !ifndef KNORVIA_INSTALLER_DEFAULT_LOG_PATH
   !define KNORVIA_INSTALLER_DEFAULT_LOG_PATH "$TEMP\Knorvia-Studio-installer.log"
@@ -234,6 +235,7 @@
   !macroend
 
   !macro customInit
+    !insertmacro KnorviaInitializeShortcutOptions
     IfSilent knorviaInstallerInitSilent knorviaInstallerInitInteractive
     knorviaInstallerInitSilent:
       !insertmacro KnorviaReportInstallerStage "installer-initialized mode=silent"
@@ -568,4 +570,8 @@
   FunctionEnd
 
   Page custom KnorviaBlockInstallDirContainsData KnorviaBlockInstallDirContainsDataLeave
+  !insertmacro KnorviaShortcutOptionsPage
+  ; 紧接该 hook 的 stock MUI_PAGE_INSTFILES 消费这两个页眉值；真实进度/文件详情仍由 NSIS 提供。
+  !define MUI_PAGE_HEADER_TEXT "Knorvia Studio"
+  !define MUI_PAGE_HEADER_SUBTEXT "$(KnorviaInstallingSubtitle)"
 !macroend

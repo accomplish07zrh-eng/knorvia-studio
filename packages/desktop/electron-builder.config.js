@@ -20,6 +20,11 @@ import {
   resolveDesktopArtifactSuffix,
   resolveDesktopProductIdentity,
 } from "./scripts/desktop-product-identity.mjs";
+import {
+  assertDesktopPackageTargets,
+  resolveDesktopPackageVariant,
+  stageDesktopPackageVariant,
+} from "./scripts/desktop-package-variant.mjs";
 
 const ELECTRON_BUILDER_ARCH = {
   1: "x64",
@@ -71,6 +76,7 @@ import {
 
 const buildMetadata = getBuildMetadata();
 const targetPlatform = getTargetPlatform();
+const desktopPackageVariant = resolveDesktopPackageVariant(process.env, targetPlatform.os);
 const builtinProviderConfig = await loadBuiltinProviderConfig();
 const desktopProductIdentity = resolveDesktopProductIdentity({
   ...process.env,
@@ -233,9 +239,9 @@ const PACKAGING_PRUNE_PATTERNS = [
   "!**/SECURITY*",
 ];
 
-function buildDesktopArtifactName(platformName, extension = "${ext}") {
+function buildDesktopArtifactName(platformName, extension = "${ext}", variant = "") {
   // 测试环境产物必须和正式安装包文件名区分，避免上传、下载或人工验收时混用。
-  return `\${productName}-\${version}-${platformName}-\${arch}${desktopArtifactEnvSuffix}.${extension}`;
+  return `\${productName}-\${version}-${platformName}-\${arch}${desktopArtifactEnvSuffix}${variant}.${extension}`;
 }
 
 function runAsarCommand(args) {
@@ -502,10 +508,19 @@ export default {
     `node_modules/node-pty/prebuilds/${targetPlatform.key}/**`,
   ],
   beforePack: async (context) => {
+    assertDesktopPackageTargets({
+      portable: desktopPackageVariant.portable,
+      platform: context.electronPlatformName,
+      targets: context.targets.map((target) => target.name),
+    });
     runTimedSync("beforePack:restoreTargetNodePtyPrebuild", () =>
       restoreTargetNodePtyPrebuild({ desktopPackageRoot, targetPlatform }),
     );
-    if (context.electronPlatformName !== "win32" || nsisInstallSectionPatched) {
+    if (
+      context.electronPlatformName !== "win32" ||
+      nsisInstallSectionPatched ||
+      !context.targets.some((target) => target.name === "nsis" || target.name === "nsis-web")
+    ) {
       return;
     }
 
@@ -561,6 +576,9 @@ export default {
     runTimedSync("afterPack:assertPackagedNodePtyPrebuild", () =>
       assertPackagedNodePtyPrebuild(context),
     );
+    await runTimedAsync("afterPack:stageDesktopPackageVariant", () =>
+      stageDesktopPackageVariant(resolvePackagedResourcesDir(context), desktopPackageVariant),
+    );
     if (actualWindowsTarget) {
       await refreshWindowsAsarIntegrity(
         resolve(context.appOutDir, "Knorvia Studio.exe"),
@@ -569,17 +587,6 @@ export default {
       await runTimedAsync("afterPack:writeWindowsInstallManifest", () =>
         writeWindowsInstallManifest(context),
       );
-      if (process.env.KNORVIA_PORTABLE_BUILD === "1") {
-        await writeFile(
-          resolve(context.appOutDir, "resources", "knorvia-portable.json"),
-          JSON.stringify(
-            { product: "Knorvia Studio", version: 1, dataDirectory: "data" },
-            null,
-            2,
-          ) + "\n",
-          "utf8",
-        );
-      }
     }
   },
   extraResources: [
@@ -714,12 +721,20 @@ export default {
     ],
   },
   win: {
-    target: ["nsis"],
-    artifactName: buildDesktopArtifactName("win"),
+    target: desktopPackageVariant.windowsTargets,
+    artifactName: buildDesktopArtifactName(
+      "win",
+      "${ext}",
+      desktopPackageVariant.portable ? "-portable" : "",
+    ),
   },
   linux: {
-    target: ["AppImage", "deb", "rpm", "pacman"],
-    artifactName: buildDesktopArtifactName("linux"),
+    target: desktopPackageVariant.linuxTargets,
+    artifactName: buildDesktopArtifactName(
+      "linux",
+      "${ext}",
+      desktopPackageVariant.portable ? "-portable" : "",
+    ),
     // desktop 包名是 scoped package（@knorvia/desktop），electron-builder 默认会把
     // Linux executable/Icon 推成 @knorviadesktop。部分桌面环境无法按这个 icon name 命中
     // hicolor 图标，最终回退成系统齿轮。这里固定成稳定的小写名称，让 Icon=knorvia
@@ -776,15 +791,22 @@ export default {
     allowToChangeInstallationDirectory: true,
     createDesktopShortcut: true,
     createStartMenuShortcut: true,
+    deleteAppDataOnUninstall: false,
+    runAfterFinish: true,
     shortcutName: "Knorvia Studio",
     installerLanguages: ["en_US", "zh_CN"],
-    installerHeader: "build/installerHeader.bmp",
-    installerSidebar: "build/installerSidebar.bmp",
-    uninstallerSidebar: "build/installerSidebar.bmp",
+    // UI PR28 提供的位图槽位；资源提交由整合者合入，native 不复写图片或其来源记录。
+    installerHeader: "build/installer-branding-20261003/installerHeader.bmp",
+    installerSidebar: "build/installer-branding-20261003/installerSidebar.bmp",
+    uninstallerSidebar: "build/installer-branding-20261003/installerSidebar.bmp",
     // Windows 安装流程使用独立安装图标，和应用运行时图标解耦。
     installerIcon: "build/icon_installer.ico",
     uninstallerIcon: "build/icon_installer.ico",
     installerHeaderIcon: "build/icon_installer.ico",
+  },
+  portable: {
+    artifactName: buildDesktopArtifactName("win", "${ext}", "-portable"),
+    requestExecutionLevel: "user",
   },
   detectUpdateChannel: false,
   publish: null,
