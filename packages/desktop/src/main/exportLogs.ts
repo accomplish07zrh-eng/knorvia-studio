@@ -219,7 +219,7 @@ function starPattern(pattern: string): RegExp {
 const ZIP_EXCLUDE_REGEXES = ZIP_EXCLUDE_PATTERNS.map(starPattern);
 
 class ArchivePathPolicy {
-  public excludes(path: string): boolean {
+  public excludes(path: string, allowDirectoryAncestors = false): boolean {
     const normalized = portablePath(path);
     const lower = normalized.toLowerCase();
     const segments = lower.split("/");
@@ -240,7 +240,10 @@ class ArchivePathPolicy {
     return (
       lower !== "about.txt" &&
       !["logs", ".knorvia-studio/cli/log", ".knorvia-studio/computer-use/run"].some(
-        (root) => lower === root || lower.startsWith(`${root}/`),
+        (root) =>
+          lower === root ||
+          lower.startsWith(`${root}/`) ||
+          (allowDirectoryAncestors && root.startsWith(`${lower}/`)),
       )
     );
   }
@@ -280,7 +283,7 @@ class ArchiveSelection {
     return { directory, prefix, entries: entries[Symbol.iterator]() };
   }
 
-  public async directory(directory: string, prefix: string): Promise<void> {
+  public async directory(directory: string, prefix: string, stagedArchive = false): Promise<void> {
     const metadata = await stat(directory).catch(() => null);
     if (!metadata?.isDirectory()) return;
     const root = await this.enter(directory, prefix);
@@ -295,7 +298,8 @@ class ArchiveSelection {
       }
       const entry = next.value;
       const archivePath = frame.prefix ? posix.join(frame.prefix, entry.name) : entry.name;
-      if (archivePolicy.excludes(archivePath)) continue;
+      // ZIP stage 的诊断前缀有中间目录；只允许遍历真实祖先目录，叶子仍用原白名单。
+      if (archivePolicy.excludes(archivePath, stagedArchive && entry.isDirectory())) continue;
       const absolutePath = join(frame.directory, entry.name);
       if (entry.isDirectory()) {
         const child = await this.enter(absolutePath, archivePath);
@@ -718,7 +722,7 @@ class StagedDiagnosticZip {
       await writeArchiveDirectory(stage, this.artifacts);
       const zip = new ZipFile();
       const selection = new ArchiveSelection();
-      await selection.directory(stage, "");
+      await selection.directory(stage, "", true);
       const files = orderFiles(selection.files);
       const output = createWriteStream(this.output);
       zip.once("error", (error) => {
