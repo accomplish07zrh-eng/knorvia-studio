@@ -1,0 +1,136 @@
+{
+  "scope": "Protocol keys, discriminators, defaults and observable diagnostics retained for complete resolver behavior; no credentials/user data or implementation body",
+  "defaultValidationPaths": {
+    "provider": [
+      "provider"
+    ],
+    "model": [
+      "model"
+    ]
+  },
+  "resolutionPathSegments": [
+    "providers",
+    "models",
+    "templateId"
+  ],
+  "familyGroups": [
+    "zai-family",
+    "bigmodel-family"
+  ],
+  "accountAccessDiscriminator": "zhipu-account",
+  "hiddenVisibility": "hidden",
+  "candidateKind": "candidate",
+  "candidateSources": [
+    "builtin",
+    "personal"
+  ],
+  "issues": {
+    "missingTemplate": {
+      "code": "missing-template",
+      "pathSuffix": "templateId",
+      "messageTemplate": "Provider Template 不存在: ${templateId}"
+    },
+    "inconsistentRegistryModel": {
+      "errorClass": "Error",
+      "messageTemplate": "Registry Model 完整性结果不一致: ${providerId}/${modelId}"
+    }
+  },
+  "providerSerializedKeys": {
+    "always": [
+      "group",
+      "access",
+      "api"
+    ],
+    "ifNotUndefined": [
+      "logo",
+      "visibility"
+    ],
+    "ifNotNullishCloneArray": [
+      "builtinModelIds",
+      "personalModelIds",
+      "modelOrder"
+    ],
+    "apiAlways": [
+      "type",
+      "baseUrl"
+    ],
+    "apiHeadersIfNotNullish": [
+      "headers"
+    ],
+    "ordinaryAccessAlways": [
+      "type",
+      "apiKey"
+    ],
+    "ordinaryAccessIfNotUndefined": [
+      "apiKeyManagementUrl"
+    ],
+    "accountAccessAlways": [
+      "type",
+      "accountType",
+      "mode",
+      "entitled"
+    ]
+  },
+  "modelSerializedKeys": {
+    "always": [
+      "enabled",
+      "properties",
+      "optionSpecs"
+    ],
+    "properties": [
+      "requiresMfjsToolSchema",
+      "contextWindow",
+      "inputFormat",
+      "outputFormat",
+      "supportsToolCall",
+      "supportsJsonSchemaOutput",
+      "supportsNativeWebSearch",
+      "supportsMidConversationSystem"
+    ],
+    "inputFormat": [
+      "supportsText",
+      "supportsImage",
+      "supportsVideo",
+      "supportsAudio",
+      "supportsPdf"
+    ],
+    "outputFormat": [
+      "supportsText"
+    ],
+    "optionSpecs": [
+      "reasoningLevel",
+      "maxOutputTokens"
+    ]
+  },
+  "retainedCanonicalEnums": {
+    "providerApiTypes": [
+      "anthropic-messages",
+      "openai-chat-completions",
+      "openai-responses"
+    ],
+    "providerGroups": [
+      "standard-personal",
+      "zai-family",
+      "bigmodel-family"
+    ],
+    "accountModes": [
+      "start-plan",
+      "individual-coding-plan",
+      "team-coding-plan",
+      "off-peak"
+    ],
+    "visibility": [
+      "visible",
+      "hidden"
+    ],
+    "ordinaryAccess": [
+      "api-key",
+      "zhipu-coding-plan-api-key"
+    ],
+    "accountTypes": [
+      "zai",
+      "bigmodel"
+    ]
+  },
+  "qualification": "These fixed schema/serialization identities and original diagnostics remain retained source-derived data. No reauthoring, new grant or global license change."
+}

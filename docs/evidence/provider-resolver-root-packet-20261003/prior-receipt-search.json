@@ -1,0 +1,43 @@
+{
+  "target": {
+    "path": "packages/provider/src/resolver.ts",
+    "bytes": 14919,
+    "sha256": "89332f5db90101f88fe40176e75bd2c1991a940cbe827939f5e3284486fd505e",
+    "gitBlob": "e79fb0a691920cf500366dfc678569ba7c08a2e8"
+  },
+  "boundPublicBaseline": "cd754c7909a735545051fdfd68a5668d6f65feba",
+  "exactSearches": [
+    {
+      "path": "licensing/reviews.json",
+      "exactPathHits": 0,
+      "interpretation": "No local exact accepted review record"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "exactPathHits": 1,
+      "classification": "upstream-modified",
+      "license": "NOASSERTION",
+      "review": null
+    },
+    {
+      "scope": "docs/evidence receipt/review/reservation/accepted/candidate/ledger/screen JSON filename patterns",
+      "query": "rg -l --fixed-strings packages/provider/src/resolver.ts",
+      "exitCode": 1,
+      "hits": 0,
+      "interpretation": "Normal no-match; bounded named public/local records only"
+    },
+    {
+      "scope": "git log -6 target only",
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "subject": "chore: publish Knorvia Studio latest preview snapshot",
+      "interpretation": "Published snapshot history; no accepted implementation receipt discovered"
+    }
+  ],
+  "decision": "Prepare root-only complete body-free packet; no real accepted exact receipt found within available scope. Any genuine accepted root historical/current hash stops reauthoring and enters HOLD.",
+  "qualification": "No private/unpublished/root historical coverage proof; no private backup recovery, credentials, alternate extraction or Library403 bypass",
+  "nonDecisiveSearchFailure": {
+    "path": "apps/cli/packages/provider",
+    "exitCode": 2,
+    "reason": "Nonexistent guessed alternate CLI package path; actual allocated packages/provider path used. No retry or conclusion from missing path"
+  }
+}
