@@ -44,15 +44,54 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 
 ## 接收与旧 PR 漂移
 
-旧 PR #7–12 的已收完整 heads 继续按 [第一阶段记录](knorvia-backlog-integration-20261003.md) 保存。本轮复读仍为同一组 heads。旧 PR 后续有更新只追加记录新 SHA、时间和范围，**不自动合入、不追赶、不覆盖四路固定任务的活动源码**。
+旧 PR #7–12 的已收完整 heads 继续按 [第一阶段记录](knorvia-backlog-integration-20261003.md) 保存。2026-10-03 05:03 UTC 的 GitHub API 复读仍为同一组 heads。旧 PR 后续有更新只追加记录新 SHA、时间和范围，**不自动合入、不追赶、不覆盖四路固定任务的活动源码**。
 
 新的四路 PR 在各自批次完成后由父任务通知统一接收。来源分支固定，完整 head 必须记录。接收时继续维护 integration/backlog-20261003，用 merge 保留历史，不 cherry-pick 已收提交、force-push 或重建分支。被拒绝/未安装的候选、原错误与未运行验证不改写成通过。
+
+同次只读取得四路活动 PR：以下均为 open/draft、base `integration/backlog-20261003`，尚未接入整合分支，也不把 PR 存在当作批次完成通知。
+
+| 固定模块 | PR / 固定分支 | 05:03 UTC 观察到的完整 head |
+| --- | --- | --- |
+| CLI | [#14](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/14) / lane/cli-rewrite-20261003 | 8ab8d719bea0dc7e3e2f7de522db57dac374e048 |
+| UI | [#15](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/15) / rewrite/ui-20261003 | 4740068ed5704f0e01e1d4d0d7ae3750de0deb24 |
+| services | [#16](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/16) / lane/services-20261003 | 146c13ab52958846e2e7209d65bfb7fe7269ecbc |
+| native | [#17](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17) / rewrite/native-20261003 | cdc80cb1e6d3c731c1ea41d2c9663d83b2fd532d |
 
 ## 整合者范围的实现筛选
 
 已阅读的 shared assembly/projection 当前源码由 #9 的 `7caec377c3b6aace6f9a08344d77497726459eb2` 后续完整候选更新；虽然 saved inventory 仍标原 upstream-unchanged，当前 digest 已不同且完整 packet/receipt 已在基线。保留 wire-assembler、workflow-runs-artifacts、conversation-message-projection-policy、session-visible-content、tool-plan-adapter；不据陈旧 inventory 再重写一遍。
 
 coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立计数的运行时 owner，保留原 API 和来源，不为独立数量重排字段。workflow-runs-reducer.ts 当前 `f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6` 仍有历史 WIP/accepted-binding HOLD；先保留精确事实，不能冒充恢复旧 accepted artifact。其他候选需读当前 contract、调用方与完整历史记录，先写 spec，再以新实现替换真正待完成的 owner；全局许可决定与最终核验留在后续阶段。
+
+## 去重模块进度（实现候选与来源决定分开）
+
+这是当前接收范围的轻量记录，不是全仓库分母、文件计数或新的审计包。同一模块的辅助文件、wrapper、spec 不另算一个完成模块；源码提交之后只追加实际 SHA 与明确状态。
+
+| 模块 / 源码所有者 | 当前绑定 | 工程状态 | 来源与验收状态 |
+| --- | --- | --- | --- |
+| 历史 main 的认证、model adapter、插件 source/storage、命令执行/discovery、MCP client lifecycle | main checkpoint bd0bb014c0974334557fa51814709d0b78f35f1d；下文列原提交 | 历史替换候选已在基线，纳入累计工程估计 | 沿用原提交记录与来源义务；本轮没有重新核验或全量 MIT 结论 |
+| 积压 #7–12 的完整 runtime / workflow / transport / service / shell 等候选 | 首轮基线 3b1ff0f715a43cbc51c576fd524479a08e58e203；逐输入、冲突与路径绑定见第一阶段记录 | 已安装，保持全部 ancestry；按实际模块去重，不按 PR 数计完成率 | 原失败、source exposure、accepted-hash / 权利 HOLD 保留；组合未验证 |
+| shared packet assembly 与 projection policy | 7caec377c3b6aace6f9a08344d77497726459eb2；保留当前完整 owners | 已安装候选，未因陈旧 inventory 重复重写 | 保存已有证据；本轮无新接受决定 |
+| contracts session-event residence / turn retention | spec d91db4dbfcdbf467a53943dcb68f54cef5732e22；实现 ac5515ad37b88d32b07dee5eafbf96fad9978e27 | 完整替换候选已提交，3 个 source 文件算一个模块 | source-exposed authoring；运行验证、表达独立性与贡献权利仍待核验 |
+| contracts event-reducer / event-reducer-helpers / tracing tracer | 源码保留自 3b1ff0f715a43cbc51c576fd524479a08e58e203 | 仍待完整行为合同与实现，不从 store 的完成推定 reducer 完成 | 原来源保留，未接受原创决定 |
+| shared workflow-runs-reducer | 当前源码 SHA-256 f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6，保留自同一基线 | 仍待实现/accepted artifact 对账，保留历史 HOLD | 不恢复被放弃的旧实现，不把旧 accepted receipt 绑定新源码 |
+| 四路固定任务当前新增候选 | 上表 #14–17 的观察 heads | 待父任务批次完成通知和统一接收；未计入安装完成估计 | 来源、消费者与产品验收待统一阶段 |
+
+contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts`、`session-event-journal.ts`、`session-event-retention.ts`。事件由每 session 的一个 journal 持有，retention 的索引只引用同一 sealed 链节点；保持公开 port、schema、barrel、工厂和参数、Promise 边界、序号规则、存入对象身份、replay 顺序、策略/时钟错误后的既有已驻留状态与 receiver、120 秒 grace、delete/recreate 与瞬态类别。没有改 UI、持久用户数据或其他 lane 的源码和记录。细则与以后统一验收场景见 [先行 spec](../specs/knorvia-next-integration-event-residence-20261003.md)。代码作者已读旧实现；标准/API/固定策略保留，不以新链结构宣称 clean room 或权利已接受。
+
+## 用户要求的累计工程主观估计
+
+按第一阶段安装基线 `3b1ff0f715a43cbc51c576fd524479a08e58e203` 及此前 main 的实际大项，累计工程替换的主观区间为 **约 55%–70%，误差约 ±10 个百分点**。本轮一个 event-residence 模块不足以收窄该区间；尚未接入的四路新增 PR 不计入。此数字回答累计工程工作量，不是本轮 review 覆盖率、验证通过率、源码原创率、MIT 权利清理率或发布完成率。未为统计运行扫描或检查，也不以文件/行数、PR 个数、迁移标签作分母。
+
+| 工作量权重（主观） | 权重 | 判断依据 |
+| --- | --- | --- |
+| CLI / 内核 / 工具 / workflow | 35% | main 历史与 #7、#8、#11 的大项已进入基线；运行时 reducer 等仍待完成 |
+| native / desktop / transport | 25% | #9、#12 与旧 host/remote 候选已安装；跨端结合、真实 native/UI 路径仍待后期验收 |
+| services / provider | 15% | 历史 model/auth/storage 与 #10 已安装；sessionService/taskIndexSyncer 权利与完整 owner 对账尚未接受 |
+| UI / web / renderer | 20% | 已有组件/启动/远程桥接成果；大量继承 UI 和所有候选的实际 cutover 是最大估计不确定性 |
+| shared / root build / release | 5% | 已安装 shared assembly/projection 与本轮 contracts 候选；reducer、根来源/发行事项仍在队列 |
+
+纳入判断的历史 main 提交为：auth `dac92ce60465f68c996e9e620b9d871369f971b6`、model `c60390b02ee8b377d830d8361b8c9394c4d4c345`、plugins source/storage `780d847c9a8d6eb7d4b01d22646e1cb1ecf28679`、command/discovery `c439b5d991e9e52f8da3e46ebda9cf869911ff74`、MCP `822cfeecd7add20499bff86d220bebb18ea57c5b`。这里引用其实际历史提交而不是用提交标题自行确认“独立”：既有来源资格、许可与不确定性继续照原记录保留。
 
 ## 本轮未执行项
 
