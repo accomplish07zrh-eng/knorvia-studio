@@ -1,0 +1,658 @@
+{
+  "observationUtc": "2026-10-03T04:48:20.076775+00:00",
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "branch": "integration/backlog-20261003",
+  "sourceIntegrationCommit": "e2fa9bc6b7e4006d583837539a81f73b3806378e",
+  "mainAtCollection": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+  "initialPrHeads": [
+    {
+      "number": 7,
+      "head": "f25b931164ee6287167e965e9da7a7586131b264",
+      "branch": "recovery/independent-logging-20260930-0456"
+    },
+    {
+      "number": 8,
+      "head": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "branch": "parallel/material-closure-fast-20261002"
+    },
+    {
+      "number": 9,
+      "head": "2458655c2644c487bb66967800e000943b9678cf",
+      "branch": "recovery/server-lifecycle-20261002"
+    },
+    {
+      "number": 10,
+      "head": "ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e",
+      "branch": "independent/settings-lifecycle-20261002"
+    },
+    {
+      "number": 11,
+      "head": "e884311ee74df690cfe36e38d9bbe0eae86c791d",
+      "branch": "parallel/cli-tools-fast-20261001"
+    },
+    {
+      "number": 12,
+      "head": "b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8",
+      "branch": "independent/root-remote-cache-20261003"
+    }
+  ],
+  "remotePrHeadsAfterSourceIntegration": [
+    {
+      "baseRefName": "recovery/independent-logging-20260930-0456",
+      "headRefName": "independent/root-remote-cache-20261003",
+      "headRefOid": "b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8",
+      "isDraft": true,
+      "number": 12,
+      "updatedAt": "2026-10-03T04:03:50Z",
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/12"
+    },
+    {
+      "baseRefName": "recovery/independent-logging-20260930-0456",
+      "headRefName": "parallel/cli-tools-fast-20261001",
+      "headRefOid": "e884311ee74df690cfe36e38d9bbe0eae86c791d",
+      "isDraft": true,
+      "number": 11,
+      "updatedAt": "2026-10-03T04:27:21Z",
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/11"
+    },
+    {
+      "baseRefName": "recovery/independent-logging-20260930-0456",
+      "headRefName": "independent/settings-lifecycle-20261002",
+      "headRefOid": "ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e",
+      "isDraft": true,
+      "number": 10,
+      "updatedAt": "2026-10-03T04:23:49Z",
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/10"
+    },
+    {
+      "baseRefName": "recovery/independent-logging-20260930-0456",
+      "headRefName": "recovery/server-lifecycle-20261002",
+      "headRefOid": "2458655c2644c487bb66967800e000943b9678cf",
+      "isDraft": true,
+      "number": 9,
+      "updatedAt": "2026-10-03T04:28:40Z",
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9"
+    },
+    {
+      "baseRefName": "recovery/independent-logging-20260930-0456",
+      "headRefName": "parallel/material-closure-fast-20261002",
+      "headRefOid": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "isDraft": true,
+      "number": 8,
+      "updatedAt": "2026-10-03T04:19:27Z",
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/8"
+    },
+    {
+      "baseRefName": "main",
+      "headRefName": "recovery/independent-logging-20260930-0456",
+      "headRefOid": "f25b931164ee6287167e965e9da7a7586131b264",
+      "isDraft": true,
+      "number": 7,
+      "updatedAt": "2026-10-01T16:05:51Z",
+      "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/7"
+    }
+  ],
+  "integrationCommitsNewestFirst": [
+    {
+      "sha": "e2fa9bc6b7e4006d583837539a81f73b3806378e",
+      "parents": [
+        "abe5974ec1f0aa29025b5592109f7570cd4e6bb3",
+        "da2aae2e86e83f62ac9b8edd3496b408fcda2139"
+      ],
+      "subject": "Merge PR #8 complete scheduler and session context owners with preserved source evidence"
+    },
+    {
+      "sha": "abe5974ec1f0aa29025b5592109f7570cd4e6bb3",
+      "parents": [
+        "0ee78c1368903bce38b745b56753f771bc8870e8",
+        "e884311ee74df690cfe36e38d9bbe0eae86c791d"
+      ],
+      "subject": "Merge PR #11 and retain accepted Read timing and PDF fixture corrections"
+    },
+    {
+      "sha": "0ee78c1368903bce38b745b56753f771bc8870e8",
+      "parents": [
+        "92e59d9483de34bbef2b95d3575040bf8397a3bc",
+        "b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8"
+      ],
+      "subject": "Merge PR #12 pinned backlog head b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8"
+    },
+    {
+      "sha": "92e59d9483de34bbef2b95d3575040bf8397a3bc",
+      "parents": [
+        "802c21320ee9d596911f57fc4751a66b72fc91c1",
+        "ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e"
+      ],
+      "subject": "Merge PR #10 pinned backlog head ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e"
+    },
+    {
+      "sha": "802c21320ee9d596911f57fc4751a66b72fc91c1",
+      "parents": [
+        "af33d0a6ebdf11004b823176d9f6552b9a9594e7",
+        "2458655c2644c487bb66967800e000943b9678cf"
+      ],
+      "subject": "Merge PR #9 pinned backlog head 2458655c2644c487bb66967800e000943b9678cf"
+    },
+    {
+      "sha": "af33d0a6ebdf11004b823176d9f6552b9a9594e7",
+      "parents": [
+        "f25b931164ee6287167e965e9da7a7586131b264"
+      ],
+      "subject": "docs: define backlog integration ownership and deferred acceptance"
+    }
+  ],
+  "conflictSelections": [
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+      "chosenPr": 7,
+      "chosenInputHead": "f25b931164ee6287167e965e9da7a7586131b264",
+      "selectedGitBlob": "5fc443e4fa712d1c256739481ee853491244e9bf",
+      "bytes": 3460,
+      "sha256": "fba545e81ba251a3dcc321c8449a03d705b7c2a5a1f6f61b710660447b77042d",
+      "sourceFileLastCommit": "aa27c4a673752d231ac6d514d05a8c15e649c0b6",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/src/tool/handlers/read.ts",
+      "chosenPr": 7,
+      "chosenInputHead": "f25b931164ee6287167e965e9da7a7586131b264",
+      "selectedGitBlob": "2bb19e726e47c6b82948a34bdf0f208e8d8f664b",
+      "bytes": 12454,
+      "sha256": "cebca924ef91c06422888c17dd4472db7bd7a74c4cfd86e416a341b6ba1e378f",
+      "sourceFileLastCommit": "aa27c4a673752d231ac6d514d05a8c15e649c0b6",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+      "chosenPr": 7,
+      "chosenInputHead": "f25b931164ee6287167e965e9da7a7586131b264",
+      "selectedGitBlob": "287bc618fea797a2139853e5b056a20f8ba03555",
+      "bytes": 7384,
+      "sha256": "c838a54aa60e0a4873bbdf680b7e9419394abb7b56f869d6dac792781ac27987",
+      "sourceFileLastCommit": "09b795b7fe11748f84941377c3eb5c3724b6002a",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+      "chosenPr": 7,
+      "chosenInputHead": "f25b931164ee6287167e965e9da7a7586131b264",
+      "selectedGitBlob": "e403e81b0dec164487b099bc203fc0dc8aaf7f97",
+      "bytes": 14421,
+      "sha256": "bb1b1abab408dc9fa0f5087b7b03ac7e51e20312f070df3e5d9bc4de1e9da90c",
+      "sourceFileLastCommit": "5dea353bf87392387a9efeb8df1b99e2f630b54d",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "specs/knorvia-read-orchestration.md",
+      "chosenPr": 7,
+      "chosenInputHead": "f25b931164ee6287167e965e9da7a7586131b264",
+      "selectedGitBlob": "6cc1141c7b08c9eeb4b0d3892291effdd6a9b285",
+      "bytes": 12153,
+      "sha256": "5ae27c5461ff8f5f52d495a83741f87f3d31252c64dcf8fc7e5ea65ad3ce40c6",
+      "sourceFileLastCommit": "09b795b7fe11748f84941377c3eb5c3724b6002a",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+      "chosenPr": 8,
+      "chosenInputHead": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "selectedGitBlob": "a6211db6991fc82f97e62cc67a47f499f9405288",
+      "bytes": 11883,
+      "sha256": "32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af",
+      "sourceFileLastCommit": "cf75d15f534f1d9855356fb9cb3a11b06a7c648d",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+      "chosenPr": 8,
+      "chosenInputHead": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "selectedGitBlob": "917b25ccda3614cad553961e050fd82ea7a89a6b",
+      "bytes": 12352,
+      "sha256": "61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27",
+      "sourceFileLastCommit": "dfae259be47287be6642ab8469009b008a01bdb2",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+      "chosenPr": 8,
+      "chosenInputHead": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "selectedGitBlob": "c2243ba5a4df70c90771860b492f94a50135e000",
+      "bytes": 5249,
+      "sha256": "fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73",
+      "sourceFileLastCommit": "cf75d15f534f1d9855356fb9cb3a11b06a7c648d",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    },
+    {
+      "path": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+      "chosenPr": 8,
+      "chosenInputHead": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "selectedGitBlob": "c904e531ff3ef0464affd0ee4139b5e48896e416",
+      "bytes": 11537,
+      "sha256": "a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca",
+      "sourceFileLastCommit": "b5152875cb5aa236e920af07779b05fe2b8b8752",
+      "selectionKind": "whole-file source-head selection; no integration body edits",
+      "verification": "not-run"
+    }
+  ],
+  "siblingRemoteObservations": [
+    {
+      "branch": "parallel/ui-components-fast-20261001",
+      "head": "578732fa4686bb915397f8be93d1c975567a48c7",
+      "finding": "Eight published production path blobs already preserved in PR7; no replay.",
+      "bindings": [
+        {
+          "path": "packages/ui/src/components/ui/flip-metric-preference.ts",
+          "branchBlob": "1275e5128142b1bb6a65e2ac6931adc5ade56dc1",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/flip-metric-value.tsx",
+          "branchBlob": "dc98130360013e99b16ccfdaaa9851ae5fbb047c",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/scroll-fade-controller.ts",
+          "branchBlob": "3730bd4334f92ea13136300a0f0b2c71f13e20d2",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/scroll-fade-viewport.tsx",
+          "branchBlob": "7f5522365deda0711aa2785786e2363134c89467",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/toast-admission.ts",
+          "branchBlob": "e42cea90d75b33b024f69ab31f126e3e98de6acc",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/toast-anchor-position.ts",
+          "branchBlob": "7d77aba8361c70671904f1dcf95491c8a61bacd5",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/toast-presentation.tsx",
+          "branchBlob": "c702db90b10d3b11acb8018b18485e2bcf3cebe6",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/ui/src/components/ui/toast.tsx",
+          "branchBlob": "84093ce68715b52e524192ea8646e920bb4045ce",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "branch": "parallel/file-watcher-fast-20261001",
+      "head": "1d1b8307399d1076cc2be8f50db71022f0840def",
+      "finding": "Historical Git branch; 23 bounded production paths match pinned PR heads, 11 differ from later chosen sources. No old branch imported over later PR10 owner/HASH holds.",
+      "bindings": [
+        {
+          "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+          "branchBlob": "85e48f02136292faaea29129c32657c8a1a4f56d",
+          "matchingPrs": [
+            7,
+            9,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/feedback/feedbackArchivePolicy.ts",
+          "branchBlob": "2157d7423317bf4b8d854147a7f00df26d7b9623",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+          "branchBlob": "8d8e03f627bc9a31c481ac6dc68f8aa0849c593b",
+          "matchingPrs": [
+            7,
+            9,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+          "branchBlob": "43094816005233b4f70ea3da89d332c4a1532aaf",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/fileWatcher/fileWatcherBatch.ts",
+          "branchBlob": "e119d15f891f5318c855b7d30351972033e19b58",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/fileWatcher/fileWatcherRuntime.ts",
+          "branchBlob": "88d14acbb813836505b4d5afd28dfbd67d4f9cad",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/fileWatcher/fileWatcherService.ts",
+          "branchBlob": "33ae8f53f440f57cab10b8d77642ee8b2ff8ebbb",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/commitMessageFileScope.ts",
+          "branchBlob": "0d391424ce0e617e59058bacfeb6ce446323f0e9",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/gitCommitMessageGenerator.ts",
+          "branchBlob": "ab31c5d50a361601f4a01ccc438e226008e17e10",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/gitCommitMessageInvocationPlan.ts",
+          "branchBlob": "47f8ae07be6da16325911fdbce8b1387c7ce12a9",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/gitCommitMessagePromptPlan.ts",
+          "branchBlob": "97044527aba83ebb95a887659f02972406fa2dab",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/gitCommitMessageResponsePlan.ts",
+          "branchBlob": "3d9d23dc09c4a56d028ba8db79b30a3ffd332150",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/gitService.ts",
+          "branchBlob": "34c05531dde8bd285f587e1f408968f52f926ac3",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/gitServiceReadProjection.ts",
+          "branchBlob": "ff44842bb9aac27d72ea24707bd6407d008da271",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/repo/gitBranchComparisonReadPlan.ts",
+          "branchBlob": "165f0a61c86653ee1a461e21bbf50cab4efe7b84",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitCheckpointRepo.ts",
+          "branchBlob": "03865f18ef0884dc5d2b258a0f212db6e319a1d1",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+          "branchBlob": "d70f364a79011d3c0e5daac75c6192e15c08e720",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitCliRepo.ts",
+          "branchBlob": "367588d4b69940f3939024da3deac5ff5b912329",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitCommitGraphPlan.ts",
+          "branchBlob": "1bc3ee14ffb7c3bc1d15e17e95fb45db0e363c0c",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/git/repo/gitDiffReadPlan.ts",
+          "branchBlob": "f76bdcf8d84b9c2e393170afa762fa3fe43e089d",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitIdentityRead.ts",
+          "branchBlob": "e9901c31cb1bf4be8a7a5f6cedde4aed3137f1ee",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitIgnoredPathReadPlan.ts",
+          "branchBlob": "3c7da4ca89a208bfd2d2b3a78ab407bec303c355",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitLocalBranchReadPlan.ts",
+          "branchBlob": "b6c2b24807f3b070f4f453a32b3072b4a2e252ac",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/git/repo/gitRepositoryReadPlan.ts",
+          "branchBlob": "27778bf64205012f22f2e1d7f0769796571e05fd",
+          "matchingPrs": []
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfile.ts",
+          "branchBlob": "d923a44170c2c96e619cc2ac396a7fad55b69239",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfileMacOs.ts",
+          "branchBlob": "3e46c5a3fdab6516e91a453ba460c2bb1b510c34",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfileMacOsDecode.ts",
+          "branchBlob": "95dfa550926937d9a9452c4704e2781e53dd02c8",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfileMacOsPlist.ts",
+          "branchBlob": "38c9344b9e3b010cea2894d285819ec11e2c3ea9",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfilePortableFormats.ts",
+          "branchBlob": "ac8fc7171dad55b05f0e7d5e85334db673f5b95f",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfilePortablePlan.ts",
+          "branchBlob": "19f03959506f06179e11c5f943be57a0340630b7",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalProfilePortableRead.ts",
+          "branchBlob": "3628ac0652a0b70e1e8495e38ef56b6d2eab69dc",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalService.ts",
+          "branchBlob": "a403702908e4fe11e6ac17ea3125ab9c9f0bac95",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalServiceInstanceOwner.ts",
+          "branchBlob": "b07b3954d48078abe1c0b5412e935c866ea44dff",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        },
+        {
+          "path": "packages/services/src/terminal/terminalServiceLaunchPlan.ts",
+          "branchBlob": "02bed45873a6bb9058ef59fd7c61aa3377ac3dc2",
+          "matchingPrs": [
+            7,
+            9,
+            10,
+            12
+          ]
+        }
+      ]
+    }
+  ],
+  "readOnlyHistoricalCi": [
+    {
+      "pr": 9,
+      "head": "2458655c2644c487bb66967800e000943b9678cf",
+      "runId": 37096643153
+    },
+    {
+      "pr": 10,
+      "head": "ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e",
+      "runId": 37096385450
+    },
+    {
+      "pr": 12,
+      "head": "b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8",
+      "runId": 37095110127
+    }
+  ],
+  "historicalCiObservation": "Both Linux/Windows fail file provenance inventory; install and product checks skipped. Results were read, never rerun or asserted as this baseline acceptance.",
+  "executedProductValidation": [],
+  "notRun": [
+    "tests",
+    "lint",
+    "typecheck",
+    "format-check",
+    "architecture-check",
+    "builds",
+    "full-provenance-audit",
+    "source/emitted/consumer selectors",
+    "native/UI/platform acceptance"
+  ],
+  "priorVerificationReceipts": "Historical only; preserve prior source binding, access limits and failures. No reinterpretation as current integration pass.",
+  "globalLicensing": "Root LICENSE/NOTICE retained; reviews/current-files not refreshed; no wholesale MIT or rights-closure decision.",
+  "sourcePullRequestDisposition": "Keep #7-12 open/draft on existing branches/bases; no remote metadata edits, closure, branch deletion or force push; future final closure by parent after acceptance.",
+  "ongoingTaskPolicy": "Reuse this integrator and the fixed future tasks chosen by parent; do not create extra cloud tasks."
+}

@@ -1,0 +1,206 @@
+{
+  "observationUtc": "2026-10-03T04:46:04.915525+00:00",
+  "sourceIntegrationCommit": "e2fa9bc6b7e4006d583837539a81f73b3806378e",
+  "lanes": [
+    {
+      "pr": 7,
+      "head": "f25b931164ee6287167e965e9da7a7586131b264",
+      "mergeBase": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+      "sourceHeadPresentInIntegrationAncestry": true,
+      "branchChangedPaths": 731,
+      "identicalSelectedPaths": 726,
+      "differentSelectedPaths": [
+        {
+          "path": "apps/cli/packages/core/src/session-context/read-session-context.ts",
+          "sourceBinding": [
+            "100644",
+            "9dc54b6006dc32e1604ff5c95ee0300f535e7e2c"
+          ],
+          "selectedBinding": [
+            "100644",
+            "c904e531ff3ef0464affd0ee4139b5e48896e416"
+          ]
+        },
+        {
+          "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+          "sourceBinding": [
+            "100644",
+            "85e48f02136292faaea29129c32657c8a1a4f56d"
+          ],
+          "selectedBinding": [
+            "100644",
+            "df6ea11447a014fe93f9e18bcc1c54bda0bf2bda"
+          ]
+        },
+        {
+          "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+          "sourceBinding": [
+            "100644",
+            "8d8e03f627bc9a31c481ac6dc68f8aa0849c593b"
+          ],
+          "selectedBinding": [
+            "100644",
+            "c7104f5f92e061a6928a02aa61392c8548d745d8"
+          ]
+        },
+        {
+          "path": "packages/services/src/git/repo/gitCliRepo.ts",
+          "sourceBinding": [
+            "100644",
+            "580fb10add03a0227006b7eaa9b4d60d997941d1"
+          ],
+          "selectedBinding": [
+            "100644",
+            "e9142372d1e421d67816967a983f2fbd3ec7c3f8"
+          ]
+        },
+        {
+          "path": "packages/services/src/session/claude-native/claudeNativeSessionHeadParser.ts",
+          "sourceBinding": [
+            "100644",
+            "ba1f8d5e9d29d6dcc875961317f814449f50f9e5"
+          ],
+          "selectedBinding": [
+            "100644",
+            "b21911fe17b95331ec61600a1d768511cfd75abc"
+          ]
+        }
+      ]
+    },
+    {
+      "pr": 8,
+      "head": "da2aae2e86e83f62ac9b8edd3496b408fcda2139",
+      "mergeBase": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+      "sourceHeadPresentInIntegrationAncestry": true,
+      "branchChangedPaths": 1721,
+      "identicalSelectedPaths": 1721,
+      "differentSelectedPaths": []
+    },
+    {
+      "pr": 9,
+      "head": "2458655c2644c487bb66967800e000943b9678cf",
+      "mergeBase": "f25b931164ee6287167e965e9da7a7586131b264",
+      "sourceHeadPresentInIntegrationAncestry": true,
+      "branchChangedPaths": 2068,
+      "identicalSelectedPaths": 2068,
+      "differentSelectedPaths": []
+    },
+    {
+      "pr": 10,
+      "head": "ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e",
+      "mergeBase": "f25b931164ee6287167e965e9da7a7586131b264",
+      "sourceHeadPresentInIntegrationAncestry": true,
+      "branchChangedPaths": 453,
+      "identicalSelectedPaths": 453,
+      "differentSelectedPaths": []
+    },
+    {
+      "pr": 11,
+      "head": "e884311ee74df690cfe36e38d9bbe0eae86c791d",
+      "mergeBase": "0d80f9ca37b1daef162ecc69bd18f6e8fc30a146",
+      "sourceHeadPresentInIntegrationAncestry": true,
+      "branchChangedPaths": 2221,
+      "identicalSelectedPaths": 2213,
+      "differentSelectedPaths": [
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read-text-orchestration.ts",
+          "sourceBinding": [
+            "100644",
+            "972fcde5ef5922a43808862b419aa0cf0d76e27b"
+          ],
+          "selectedBinding": [
+            "100644",
+            "5fc443e4fa712d1c256739481ee853491244e9bf"
+          ]
+        },
+        {
+          "path": "apps/cli/packages/core/src/tool/handlers/read.ts",
+          "sourceBinding": [
+            "100644",
+            "633aa9b5656a420d14971f3ed847c461fbcb8f50"
+          ],
+          "selectedBinding": [
+            "100644",
+            "2bb19e726e47c6b82948a34bdf0f208e8d8f664b"
+          ]
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/scheduler/collection-planner.ts",
+          "sourceBinding": [
+            "100644",
+            "3d32f332462b3aac0a3037161c19340e2b6928fd"
+          ],
+          "selectedBinding": [
+            "100644",
+            "a6211db6991fc82f97e62cc67a47f499f9405288"
+          ]
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/scheduler/node-runner.ts",
+          "sourceBinding": [
+            "100644",
+            "18523fd43ef142e2fad73f5869dc1f6ea312b673"
+          ],
+          "selectedBinding": [
+            "100644",
+            "917b25ccda3614cad553961e050fd82ea7a89a6b"
+          ]
+        },
+        {
+          "path": "apps/cli/packages/core/src/workflow/scheduler/planner-expansion.ts",
+          "sourceBinding": [
+            "100644",
+            "6303688f0a2ff55f6e6c2f13737bd85c3c49cc32"
+          ],
+          "selectedBinding": [
+            "100644",
+            "c2243ba5a4df70c90771860b492f94a50135e000"
+          ]
+        },
+        {
+          "path": "apps/cli/packages/core/test/read-orchestration-consumer-fixture.ts",
+          "sourceBinding": [
+            "100644",
+            "243eed8df4cfb557b37448b82d296be312eef25b"
+          ],
+          "selectedBinding": [
+            "100644",
+            "287bc618fea797a2139853e5b056a20f8ba03555"
+          ]
+        },
+        {
+          "path": "apps/cli/packages/core/test/read-orchestration-consumers.test.ts",
+          "sourceBinding": [
+            "100644",
+            "93f4f026bf1bcbb5f1f7d5aa5f691e9c3afff263"
+          ],
+          "selectedBinding": [
+            "100644",
+            "e403e81b0dec164487b099bc203fc0dc8aaf7f97"
+          ]
+        },
+        {
+          "path": "specs/knorvia-read-orchestration.md",
+          "sourceBinding": [
+            "100644",
+            "ef8efa3f5343a5908c20fea4fce0f3635a19ec69"
+          ],
+          "selectedBinding": [
+            "100644",
+            "6cc1141c7b08c9eeb4b0d3892291effdd6a9b285"
+          ]
+        }
+      ]
+    },
+    {
+      "pr": 12,
+      "head": "b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8",
+      "mergeBase": "f25b931164ee6287167e965e9da7a7586131b264",
+      "sourceHeadPresentInIntegrationAncestry": true,
+      "branchChangedPaths": 555,
+      "identicalSelectedPaths": 555,
+      "differentSelectedPaths": []
+    }
+  ],
+  "qualification": "Git ancestry/tree metadata for integration accounting only. No product validation, provenance audit or rights decision was run."
+}
