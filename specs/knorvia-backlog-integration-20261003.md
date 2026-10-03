@@ -125,3 +125,9 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 native只修真实ZIP stage诊断白名单祖先目录的遍历，叶子排除规则/原测试/共享fixture不改，恢复原约定5成员；UI只修把组内首项置顶no-op误当顶层移动的局部夹具，保留原六断言并补no-op/成员顺序断言，生产controller/UI/golden不改；services扫描夹具通过真实homedir/HOME/data-base-dir端口绑定临时根，保留排序/过滤/dirty-tail断言，Git生产helper恢复timeout budget在details前的原getter顺序，不删读取次序断言。
 
 普通merge保留三路完整ancestry与原失败，逐项核对7份新原路证据并人工加入冻结清单。刷新当前exporter/Git helper来源摘要仅记录当前候选，不授予独立性或MIT。发布组合checkpoint后用本环境Node24.14.0/相同规则，仅重跑原4个失败case，必要的改动文件格式检查保留其真实匹配scope；UI原任务使用24.19.0的结果不得改称统一24.14结果。不重复777文件全量、build、root types/lint或完整来源审计，不把4个定向结果扣减成未经运行的完整回归新统计。CLI原17个加载pin和1个NaN历史golden仍待其冻结修复，main继续暂缓。
+
+### Linux/Windows 后续验收的确切树边界
+
+父任务发现旧CI `37110107123` 的实际受检树为 synthetic merge `d03df27e30768649c77d004092d7508fa8b9afbc`，合并7bfb867到固定main。只读原job日志确认旧Linux8034/8004/22/8、Windows8031/7990/40/1；不能当作本次三路修复后的失败或与本地f5统计相加。新增Windows18文件由父任务追加原CLI2/native4/services12，整合者不重复修改或新派。
+
+本地c576b3fa的原4case通过只证明Linux Node24.14定向结果。等原任务的Windows兼容修复及CLI绑定/NaN冻结SHA接收后，必须统一验收真正最终树的Linux与Windows CI。旧failed、cancelled、skipped与尚在执行的步骤均保留实际状态；CI synthetic树与branch source各用完整SHA/URL，不只报告PR名称。根CI已有cancel-in-progress并发策略，普通新推送可能取代中间run；不能以取消或未开始的job声称两平台通过。没有另行重跑旧CI、降低规则或删测试。

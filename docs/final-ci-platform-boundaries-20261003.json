@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "observationScope": "Read-only existing CI job metadata and original-log excerpts; no rerun triggered manually. Do not apply old failure statistics to new repair heads.",
+  "currentThreeLaneSourceCheckpoint": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+  "currentLinuxOnlyDirectedRun": {
+    "tests": 4,
+    "pass": 4,
+    "fail": 0,
+    "skipped": 0,
+    "nodeVersion": "24.14.0",
+    "notWindowsAcceptance": true,
+    "record": "docs/final-three-failure-combined-20261003.json"
+  },
+  "oldCiRun": {
+    "id": 37110107123,
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123",
+    "actualCheckedSyntheticSha": "d03df27e30768649c77d004092d7508fa8b9afbc",
+    "integrationBranchInput": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+    "mainMergeInput": "bd0bb014c0974334557fa51814709d0b78f35f1d",
+    "linux": {
+      "jobId": 111166240626,
+      "conclusion": "failure",
+      "tests": 8034,
+      "pass": 8004,
+      "fail": 22,
+      "skipped": 8,
+      "cancelled": 0,
+      "durationMs": 554163.00884
+    },
+    "windows": {
+      "jobId": 111166240728,
+      "conclusion": "failure",
+      "tests": 8031,
+      "pass": 7990,
+      "fail": 40,
+      "skipped": 1,
+      "cancelled": 0,
+      "durationMs": 824081.3432
+    },
+    "originalTwoPlatformLogExcerpts": "docs/evidence/final-ci-platform-observation-20261003",
+    "notLatestThreeLaneFailureCounts": true
+  },
+  "materialOnlyRun": {
+    "id": 37111228357,
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37111228357",
+    "branchHead": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+    "linuxConclusion": "cancelled",
+    "windowsConclusion": "cancelled",
+    "linuxOfflineStep": "cancelled",
+    "windowsOfflineStep": "skipped",
+    "notWholeCheckPassing": true,
+    "reasonBasis": "PR workflow cancel-in-progress is true; later PR13 pushes started a new run. Cancelled jobs are not reclassified as failures of the current repair tree or as passing."
+  },
+  "threeLaneRunAtObservation": {
+    "id": 37111434878,
+    "url": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37111434878",
+    "branchHead": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+    "linuxStatus": "in_progress",
+    "windowsStatus": "in_progress",
+    "wholeTwoPlatformAcceptance": false
+  },
+  "parentProvidedAdditionalWindowsFiles": {
+    "cli": 2,
+    "native": 4,
+    "services": 12,
+    "total": 18,
+    "source": "Explicit parent steering, original lanes continue; no extra tasks or file reallocation by integrator."
+  },
+  "nextCentralAcceptance": "Receive exact frozen original-lane Windows compatibility and CLI selector/NaN repair heads, preserve historical logs/goldens, then complete current Linux and Windows CI on the final actual checked tree. No manual old-tree CI rerun here.",
+  "preservation": {
+    "originalLocalF5Linux8034_22_8RecordUnchanged": true,
+    "oldCiRunAndSyntheticIdentityPreserved": true,
+    "original26MaterialsAndFirstPartyHoldsUnchanged": true,
+    "mainMerged": false,
+    "oldFrozenEvidenceRowsPreserved": 5614,
+    "newFrozenCiRecords": 3,
+    "frozenEvidenceFiles": 5617
+  }
+}

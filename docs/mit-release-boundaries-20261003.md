@@ -73,4 +73,6 @@ Registry、DB startup、commit scope、creation reference的历史请求receipt�
 
 可执行的闭合顺序是：原材料供应者/原模块维护者提供逐条指定原件与绑定，整合者保留许可证/NOTICE并核对实际发布内容，原作者为当前完整owner提供可复核表达与贡献权利记录，最后才作限定范围的MIT/混合第三方发布决定。本次没有替用户接受缺证风险，也没有改根许可。技术测试成功、来源清单新鲜或raw完整性通过均不替代这些步骤。
 
-原8034测试/22失败、8skipped及历史失败/skip记录未改写。本材料任务不重复全量测试、lint、types、build或独立性审计；仅资料读取、原字节和精确发布范围核对。原四路独占已分配失败修复，native7096de3…和UId6274d6…冻结输入另行集中接收；main仍未合并。
+后续又实际读取10个确切source tree：8个npm记录的固定Git版本与React skill树共9个均HTTP200、未截断，按完整返回路径未找到LICENSE/LICENCE/COPYING/COPYRIGHT/NOTICE命名文件；不是只因root LICENSE 404就断言所有路径不存在。Rust记录revision的tree API实际HTTP422，无法解析commit/tree，不能补以另一版本。新增11份原始响应/索引与 [独立补充记录](mit-release-source-availability-20261003.json) 保留；这是文件名/树可用性读取，未审计每个source header，不关闭原26项。
+
+原8034测试/22失败、8skipped及历史失败/skip记录未改写。本材料任务不重复全量测试、lint、types、build或独立性审计；仅资料读取、原字节和精确发布范围核对。原四路独占已分配失败修复；上述等待接收状态是本矩阵产生时的checkpoint，后续三路已接收并在Linux Node24.14确认原4项，见 [独立组合记录](final-three-failure-combined-20261003.json)。这不声称Windows或全量接受，main仍未合并。

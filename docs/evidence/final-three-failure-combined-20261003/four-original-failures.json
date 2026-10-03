@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+  "command": [
+    "/tmp/knorvia-validation-tools/node-v24.14.0-linux-x64/bin/node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=2",
+    "--test-timeout=120000",
+    "--test-name-pattern",
+    "^(complete\\ default\\ exporter\\ selects\\ diagnostic\\ roots,\\ sanitizes\\ chunked\\ encodings,\\ stages\\ ZIP\\ and\\ retires\\ the\\ stage|menu\\ order\\ retains\\ hidden\\ archive\\ members\\ and\\ the\\ shared\\ bridge\\ permission\\ revokes\\ old\\ order\\ callbacks|real\\ import\\ repository\\ scan\\ preserves\\ sort/filter/ignored\\ directories\\ and\\ dirty\\ tails|failed\\ command\\ reads\\ unborn\\ stderr\\ before\\ timeout\\ validation\\ and\\ never\\ stdout)$",
+    "packages/desktop/test/native-export-log-owner-contract.test.mjs",
+    "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+    "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+    "packages/services/test/git-graph-query-contract-fast-20261001.test.ts"
+  ],
+  "cwd": "/workspace/knorvia-studio",
+  "startedAtUtc": "2026-10-03T08:57:35.826642+00:00",
+  "elapsedSeconds": 1.427,
+  "actualExitCode": 0,
+  "nodeVersion": "v24.14.0",
+  "pnpmVersion": "10.33.2 (unchanged pinned environment; no pnpm used by this test subprocess)",
+  "typescriptVersion": "6.0.2 (existing root environment)",
+  "environment": "Same root test isolation/secret filtering, UI tsconfig alias and timeout/concurrency; temporary KNORVIA data roots removed after completion, no real user data",
+  "selectedFiles": [
+    "packages/desktop/test/native-export-log-owner-contract.test.mjs",
+    "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+    "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+    "packages/services/test/git-graph-query-contract-fast-20261001.test.ts"
+  ],
+  "selectedCases": [
+    "complete default exporter selects diagnostic roots, sanitizes chunked encodings, stages ZIP and retires the stage",
+    "menu order retains hidden archive members and the shared bridge permission revokes old order callbacks",
+    "real import repository scan preserves sort/filter/ignored directories and dirty tails",
+    "failed command reads unborn stderr before timeout validation and never stdout"
+  ],
+  "observedNodeSummary": {
+    "tests": 4,
+    "suites": 0,
+    "pass": 4,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "logSha256": "aa97749937c22e71b207d617646e35b748090ac6922c783f0906b0e89435c9cf",
+  "logBytes": 6908,
+  "scope": "Only four originally failing cases on received three-lane combination; not a full test:studio run or source/right acceptance. Original f5 8034/22/8 record remains unchanged.",
+  "summaryParsing": {
+    "rawReporter": "Node default spec (ℹ summary)",
+    "initialTapOnlyParserLeftCountsNull": {
+      "tests": null,
+      "suites": null,
+      "pass": null,
+      "fail": null,
+      "cancelled": null,
+      "skipped": null,
+      "todo": null
+    },
+    "correction": "Reparsed the same original raw log, no test rerun and no raw-byte change; four named successful cases and one actual final summary verified."
+  }
+}

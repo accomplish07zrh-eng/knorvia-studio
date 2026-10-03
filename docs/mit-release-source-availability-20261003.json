@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+  "supplements": "docs/mit-release-boundaries-20261003.json",
+  "scope": "Pinned source-tree availability and notice filename lookup only, not full source/header/rights audit. Additional original materials were actually read but no obligation is closed.",
+  "actualObservations": {
+    "successfulNonTruncatedSourceTrees": 9,
+    "completeTreeMemberCounts": [832, 31, 13, 24, 14, 9, 31, 25, 481],
+    "noticeNamedFilesInReturnedTrees": 0,
+    "missingRustTreeStatus": 422,
+    "missingRustTreeResponse": "Invalid object requested. SHA must identify a commit or a tree.",
+    "qualification": "The recorded Rust compiler source path still exists in both tracked Windows rg.exe members; an unresolved public API tree is not absence of a license, proof of invalid binary, permission to use another version notice, or evidence that every platform lacks rights."
+  },
+  "rawObservation": "docs/evidence/mit-release-source-availability-20261003/source-tree-attempts.json",
+  "obligationsBefore": 26,
+  "obligationsClosed": 0,
+  "firstPartyMitAccepted": false,
+  "completeCurrentGitPublicationAccepted": false,
+  "originalRecordsAndNoticesUnchanged": true
+}

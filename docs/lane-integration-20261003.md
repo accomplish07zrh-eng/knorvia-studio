@@ -245,3 +245,19 @@ phase-fold case16的只读诊断中，old/current均为空结果且digest相同�
 native生产修复ZIP stage遍历在叶子白名单前排除了诊断祖先目录；UI仅更正组内首项置顶no-op的局部场景，保留并加强原断言；services通过真实端口修正原目录夹具，Git helper恢复原timeout getters顺序。原native test/fixture、UI controller/golden、Claude排序/过滤/dirty-tail及Git次序断言保持。接收后的真实源码/7个原路新raw记录逐项与完整交付head一致，显式冻结；旧5594记录/字节保留，现5601文件。
 
 完整输入、路径原字节及普通merge见 [接收JSON](final-three-failure-intake-20261003.json)。此接收记录尚未运行统一4个失败case；原native1/1、UI1/1、services2/2是交付结果，UI原Node24.19差异保留。组合checkpoint发布后使用本环境Node24.14，仅确认原4项，不重复777文件全量。CLI17个加载pin及NaN历史基线仍由原路处理，旧8034/22/8统计不变，不宣称新的完整通过。来源清单只刷新实际exporter/Git helper/夹具等候选身份，26材料及整文件权利HOLD不解除，main未合并。
+
+### 三路组合的实际4项确认
+
+已发布组合 `c576b3fa11fff052ae75c2e3b35119badf6be209` 上，使用官方Node24.14.0、原root tsx/module-mock/并发2/120s规则与隔离临时数据根，仅选原native/UI/services四个失败case。实际退出0：4 tests、4 pass、0 fail、0 skipped。native原测试assert仍检查5个ZIP成员；UI在此统一runtime确认局部夹具结果；services原扫描排序/过滤/脏尾和Git原getter顺序断言保留。source/fixture/golden未为结果再改动。
+
+完整命令、原stdout/实际退出、当前源码原字节、原三head接收指针见 [定向组合JSON](final-three-failure-combined-20261003.json)，原日志与命令receipt新增2份冻结原件，旧5601份保持。Node输出为spec reporter，初始TAP-only统计解析留null；只对同一原log重新解析得4/4，没有重跑或变更原log。日志中的Claude坏JSON错误是原负向筛选场景，不是未记录的Node失败。
+
+该4/4不能改写f5的完整8034/8004/22/8，CLI17个加载pin和1个NaN历史基线尚待原任务。没有重复全量或构建/全局types/lint/source-expression审计，只有已接收14路径format检查退出0与实际来源清单更新。26材料/自有整文件权利HOLD、许可/NOTICE、历史receipt/golden均保持，main未合并。
+
+## 实际两平台 CI 与后续兼容修复边界
+
+只读job API与原日志确认run `37110107123` 实际受检synthetic为 `d03df27e30768649c77d004092d7508fa8b9afbc`（7bfb867合入bd0bb01）：Linux8034 tests/8004 pass/22 fail/8 skipped，Windows8031/7990/40/1，两job均实际failure。此Windows40不能替代原f5 Linux22记录，也不能标为三路新组合的未修结论。
+
+材料head73e0687的run `37111228357` 两job已cancelled；Linux在offline取消，Windows在lint取消、offline skipped。新组合c576b3fa的run `37111434878` 在本观察时两jobin-progress，Linux在offline、Windows在format。现有PR工作流并发cancel-in-progress策略可由后续推送替代中间run；取消/跳过都不是通过。完整源树/原job日志摘录/步骤snapshot与后续要求见 [两平台边界JSON](final-ci-platform-boundaries-20261003.json)，新增3原观察人工冻结。
+
+父任务已把额外Windows18文件续派原CLI2/native4/services12，整合者只维护整合分支/根材料与接收记录，不编辑这些原路文件。等待CLI current input/NaN及兼容修复的完整head再统一Linux/Windows；当前4/4是Linux Node24.14定向检查，不能当Windows或全量通过。没有手动重跑旧CI或删除测试，根许可/26材料/当前候选表达与权利HOLD、旧原始证据保持，main继续暂缓。

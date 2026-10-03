@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+  "intakeRecord": "docs/final-three-failure-intake-20261003.json",
+  "actualRuntimeResult": {
+    "commandReceipt": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.json",
+    "rawLog": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.log",
+    "actualExitCode": 0,
+    "nodeVersion": "v24.14.0",
+    "observedNodeSummary": {
+      "tests": 4,
+      "suites": 0,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "selectedFiles": [
+      "packages/desktop/test/native-export-log-owner-contract.test.mjs",
+      "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+      "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+      "packages/services/test/git-graph-query-contract-fast-20261001.test.ts"
+    ],
+    "selectedCases": [
+      "complete default exporter selects diagnostic roots, sanitizes chunked encodings, stages ZIP and retires the stage",
+      "menu order retains hidden archive members and the shared bridge permission revokes old order callbacks",
+      "real import repository scan preserves sort/filter/ignored directories and dirty tails",
+      "failed command reads unborn stderr before timeout validation and never stdout"
+    ]
+  },
+  "sourceBindings": [
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "sha256": "549dfee06807f7073789b9917cbfe45520bfc60f4717b410ec674e083ea17308",
+      "bytes": 32518,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    },
+    {
+      "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+      "sha256": "c3377ef014ced0296796fadf1c1613db22b2a8d6aafea2fbcfd123a6a4cd60d9",
+      "bytes": 11448,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    },
+    {
+      "path": "packages/services/test/claude-leaf-contract-fast-2057.test.ts",
+      "sha256": "4baf7dabd47257e730ed64b2db0355c85315c799cacc6866367828c2359719d9",
+      "bytes": 26469,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+      "sha256": "871c131333301420e37b2ea4be6977b65860aa7f4e493a9e8797f73d75c0ff62",
+      "bytes": 12846,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    },
+    {
+      "path": "packages/desktop/test/native-export-log-owner-contract.test.mjs",
+      "sha256": "80040f9337f0ef5d884d824488742bb22ea271543904f4b9fa63cb75f785b563",
+      "bytes": 11203,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    },
+    {
+      "path": "packages/desktop/test/native-owner-fixture.mjs",
+      "sha256": "417842a1688795b8bcd4726478322677d19774fc2f7b3c33ed072a64659dc253",
+      "bytes": 2203,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    },
+    {
+      "path": "packages/services/test/git-graph-query-contract-fast-20261001.test.ts",
+      "sha256": "37934463b36edf9aee829b5bcdadb76bf5b77913a59d2e523b2375af813f722c",
+      "bytes": 11759,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209"
+    }
+  ],
+  "passedScope": "Only four originally failed cases, same root tsx/mock/concurrency/timeout, isolated temporary data roots; real current source owners on received native/UI/services heads. No full suite statistics recomputed.",
+  "originalAssertionsAndGoldensPreserved": true,
+  "nativeZipMembers": 5,
+  "uiUniformRuntimeDifferenceResolvedForThisCase": {
+    "laneRecordedNode": "24.19.0",
+    "actualCombinedNode": "24.14.0",
+    "casePassed": true
+  },
+  "priorFullSuiteRecord": {
+    "source": "f5deb08595725c91d74ca96e09bba338fba1119d",
+    "actualExitCode": 1,
+    "tests": 8034,
+    "pass": 8004,
+    "fail": 22,
+    "skipped": 8,
+    "recordUnchanged": true
+  },
+  "pendingAssignedCliCases": {
+    "currentInputDistSelectors": 17,
+    "historicalNaNPhaseFold": 1,
+    "originalOwnerRemains": "lane/cli-rewrite-20261003",
+    "notRerunHere": true,
+    "noFreshFullSuitePassClaim": true
+  },
+  "original26MaterialObligationsAndFirstPartyHoldsRemain": true,
+  "wholeTreeMitReady": false,
+  "mainMerged": false,
+  "newFrozenRawRecords": [
+    {
+      "path": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.log",
+      "sha256": "aa97749937c22e71b207d617646e35b748090ac6922c783f0906b0e89435c9cf",
+      "bytes": 6908,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+      "observation": "Actual scoped four-original-failure run on received three-lane combination, pinned Node24.14.0. Not a fresh full-suite or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.json",
+      "sha256": "4418d78dad60fd5524683958e4b3bc0ae6678e78b410fb3b4479b6532c76a5db",
+      "bytes": 3258,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+      "observation": "Actual scoped four-original-failure run on received three-lane combination, pinned Node24.14.0. Not a fresh full-suite or rights acceptance."
+    }
+  ],
+  "oldFrozenEvidenceRowsPreserved": 5601,
+  "frozenEvidenceFiles": 5603,
+  "documentationAndSourceScopedFormatting": {
+    "actualExitCode": 0,
+    "matchedFiles": 14,
+    "scope": "Only the modified non-evidence paths checked before this checkpoint; no root full fmt rerun."
+  },
+  "notRun": [
+    "full777file regression",
+    "root full types/lint/fmt/architecture",
+    "CLI/Web/desktop builds",
+    "Windows/native UI/installers",
+    "complete source-expression/rights audit"
+  ]
+}

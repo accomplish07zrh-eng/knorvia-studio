@@ -7876,6 +7876,27 @@
       "sourceBlob": "0089f08448f451d25670c1d4d8427c78ee014938"
     },
     {
+      "path": "docs/evidence/final-ci-platform-observation-20261003/api-observation.json",
+      "sha256": "a01209603e97c05becc2d799c2b58efdcddfba06884ae6529b1b6faedc413915",
+      "bytes": 22593,
+      "sourceCommit": "d03df27e30768649c77d004092d7508fa8b9afbc",
+      "observation": "Read-only old CI platform log excerpt/API snapshot tied to the old synthetic merge; generated after the run, not a file in that source tree. Newer run status is explicitly separate, not a new passing check."
+    },
+    {
+      "path": "docs/evidence/final-ci-platform-observation-20261003/old-linux-excerpt.log",
+      "sha256": "da9a5f813c0d75d671c36545186c3e2e6b16e81db66694a9232fc22689919996",
+      "bytes": 602,
+      "sourceCommit": "d03df27e30768649c77d004092d7508fa8b9afbc",
+      "observation": "Read-only old CI platform log excerpt/API snapshot tied to the old synthetic merge; generated after the run, not a file in that source tree. Newer run status is explicitly separate, not a new passing check."
+    },
+    {
+      "path": "docs/evidence/final-ci-platform-observation-20261003/old-windows-excerpt.log",
+      "sha256": "cf4c458e64bc2a0ad2a4d4729c2f23bcf453c11d83ac2e60c1b96ea14251e9b7",
+      "bytes": 601,
+      "sourceCommit": "d03df27e30768649c77d004092d7508fa8b9afbc",
+      "observation": "Read-only old CI platform log excerpt/API snapshot tied to the old synthetic merge; generated after the run, not a file in that source tree. Newer run status is explicitly separate, not a new passing check."
+    },
+    {
       "path": "docs/evidence/final-combined-checks-20261003/architecture.json",
       "sha256": "87449befb15fd21bb057817d43553526f5d2d0e34c96098287775b3db9be0a76",
       "bytes": 294,
@@ -8133,6 +8154,20 @@
       "path": "docs/evidence/final-integration-risk-order-20261003/verify-metadata.py",
       "sha256": "2fea66e237d6c6eae053798f258baba7a5d723b9ae6f247f916b525a80769342",
       "bytes": 2683
+    },
+    {
+      "path": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.json",
+      "sha256": "4418d78dad60fd5524683958e4b3bc0ae6678e78b410fb3b4479b6532c76a5db",
+      "bytes": 3258,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+      "observation": "Actual scoped four-original-failure run on received three-lane combination, pinned Node24.14.0. Not a fresh full-suite or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/final-three-failure-combined-20261003/four-original-failures.log",
+      "sha256": "aa97749937c22e71b207d617646e35b748090ac6922c783f0906b0e89435c9cf",
+      "bytes": 6908,
+      "sourceCommit": "c576b3fa11fff052ae75c2e3b35119badf6be209",
+      "observation": "Actual scoped four-original-failure run on received three-lane combination, pinned Node24.14.0. Not a fresh full-suite or rights acceptance."
     },
     {
       "path": "docs/evidence/graph-artifacts-author-20261002/api.d.ts",
@@ -9928,6 +9963,83 @@
       "bytes": 30295,
       "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
       "observation": "Targeted release-material read/scope observation generated after this source checkpoint; not a source blob in that commit or rights acceptance."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/345e92687359c15628d5a74e15f7ac2aa0d6d5fecdb971ff588a141fb9cb971c.json",
+      "sha256": "345e92687359c15628d5a74e15f7ac2aa0d6d5fecdb971ff588a141fb9cb971c",
+      "bytes": 5600,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/47b3e65186eecf4623a0662f05f62325a8fba0294dadb748542496e6d131eb2b.json",
+      "sha256": "47b3e65186eecf4623a0662f05f62325a8fba0294dadb748542496e6d131eb2b",
+      "bytes": 5960,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/574237f69c7e007a55a16b7858b220b438a5ee2598aee6ce96e2882f152e06b7.json",
+      "sha256": "574237f69c7e007a55a16b7858b220b438a5ee2598aee6ce96e2882f152e06b7",
+      "bytes": 3085,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/64fb3675a59d764501b8764cb6e8bb1516d2c5cabe395d9cebc46b0a0620b787.json",
+      "sha256": "64fb3675a59d764501b8764cb6e8bb1516d2c5cabe395d9cebc46b0a0620b787",
+      "bytes": 202172,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/6940f5342f761866ee56cb21436dcbb48a617ec9ec596234c36fb3528ac3a654.json",
+      "sha256": "6940f5342f761866ee56cb21436dcbb48a617ec9ec596234c36fb3528ac3a654",
+      "bytes": 3230,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/9aa3b16b4ac72e8416868eea03fb74481e7c94aed7a4fd383044e5ab58c79d77.json",
+      "sha256": "9aa3b16b4ac72e8416868eea03fb74481e7c94aed7a4fd383044e5ab58c79d77",
+      "bytes": 164,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/a21972f74736082f776342ceee3da145e897649d4238a82ce633a23d254b8457.json",
+      "sha256": "a21972f74736082f776342ceee3da145e897649d4238a82ce633a23d254b8457",
+      "bytes": 7524,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/c1b9459f507ec6aeac020333afb92fef0fc8e29ab6e22a6fb0fdab0cd37c3f39.json",
+      "sha256": "c1b9459f507ec6aeac020333afb92fef0fc8e29ab6e22a6fb0fdab0cd37c3f39",
+      "bytes": 7603,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/e2177b3b1fe9f05d499cbab6915bdd93f00fde455faf43a941380ff5e1468e70.json",
+      "sha256": "e2177b3b1fe9f05d499cbab6915bdd93f00fde455faf43a941380ff5e1468e70",
+      "bytes": 131839,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/responses/fc0caee23ca60c82f432ae18ff111230e707a42306ae11d9af725a0c3e11ee9b.json",
+      "sha256": "fc0caee23ca60c82f432ae18ff111230e707a42306ae11d9af725a0c3e11ee9b",
+      "bytes": 2136,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
+    },
+    {
+      "path": "docs/evidence/mit-release-source-availability-20261003/source-tree-attempts.json",
+      "sha256": "9ecc4faada3a56491139e8b0a8e25e90c7d89d9c6563fe101ae61dee3a2e8dc7",
+      "bytes": 6307,
+      "sourceCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+      "observation": "Additional exact pinned source-tree availability reads after this material-source checkpoint; generated response, not original source bytes in that commit. No right/obligation closure."
     },
     {
       "path": "docs/evidence/node-runner-author-packet-20261003/author-invocation.txt",
