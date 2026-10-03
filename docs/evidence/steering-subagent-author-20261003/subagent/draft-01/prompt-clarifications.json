@@ -1,0 +1,18 @@
+[
+  {
+    "source": "parent message",
+    "text": "Every unqualified profile in the contract is request.profile. runExploreAgent is the callback field of the options argument to imported createExploreSubagentPort; derive its type from Parameters<typeof createExploreSubagentPort>[0][\"runExploreAgent\"] or use the imported ExploreSubagentRuntimeRequest and SubagentRunOptions. No imports implementation/type files may be read."
+  },
+  {
+    "source": "parent message",
+    "text": "resolveSubagentSelection returns { selection: ModelSelection, hasConcreteModel: boolean }; getSessionShellEnvironment returns undefined or { selection: shell-selection value, promptShell: string, ...other fields irrelevant here }. Preserve selection and promptShell read order."
+  },
+  {
+    "source": "parent message",
+    "text": "Literal MCP prefix is mcp__ (two underscores); server wildcard suffix is __* (two underscores then ASCII asterisk); general wildcard is * (ASCII asterisk). Selector exactly mcp OR a name starting mcp__ and ending __*. Concrete MCP tool starts mcp__ and is not a selector. Borrow and inheritance include exact allowedTools entry *. Markdown formatting altered unquoted punctuation in packet."
+  },
+  {
+    "source": "parent message",
+    "text": "Use the value returned by restrictBorrowedWindowsComputerUse as the restricted access. Read its .port/.snapshot for child access; parentSnapshot remains original startup snapshot."
+  }
+]

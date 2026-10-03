@@ -1,0 +1,9 @@
+preserved red reservation-owner
+preserved red pending-id-bytes
+preserved red drain-read-phase-and-field-presence
+preserved red optional-logger
+preserved red advisory-discovery-catch
+preserved red child-link-undefined-field
+{"mode":"rejectedDraft","concreteBoundaryProbes":6,"preservedRed":true,"realOperations":0}
+(node:207573) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,32 @@
+{
+  "sourceExposed": true,
+  "initialAuthorSetsPreserved": true,
+  "strictCompilerInitialDiagnostics": 15,
+  "intermediateCorrectionDiagnostics": 6,
+  "runtimeRed": [
+    "existing activeTurnStartReservation ignored",
+    "pending ID underscore bytes changed to asterisks by formatted packet",
+    "drain metadata capture/field presence crossed attachment await",
+    "optional logger mandatory",
+    "advisory discovery predicate escaped existing catch",
+    "parentToolCallId undefined field omitted",
+    "detached skill method gained acceptance"
+  ],
+  "typeAndProtocolCorrections": [
+    "Use actual existing activeTurnStartReservation field; fixed pending ID delimiter.",
+    "Keep QueryId/TurnId brand casts as erased standard type glue; use SessionModeChanged enum.",
+    "Inline public drain options matches old declaration; private alias retained.",
+    "Readonly allowlist types match imported helper API."
+  ],
+  "boundedSourceCorrections": [
+    "Preserve live phase reads instead of eager rejection/profile caches; preserve pending object input after push.",
+    "Capture drain previews/size/duration/delivery before attachment await; conditionally omit toolDisallowlist.",
+    "Keep projection record references across durable settlement before final id projection.",
+    "Optional logger, complete advisory catch and always-present parentToolCallId.",
+    "Keep permission filtering phases and captured parent allowlist; match original model-factory branch behavior.",
+    "Retain skill wrapper native method receiver/state with class; no async wrapper added."
+  ],
+  "authorInputLimit": "Packets were formatted before authors read. Markdown changed unquoted punctuation; subagent author received literal clarifications and recorded them. Steering ID delimiter was corrected by source-exposed curator; raw packet forms retained.",
+  "productionPolicyChange": false,
+  "independentExpressionDecision": "Unresolved: complete restricted-input drafts and actual source-exposed corrections, but many admission/event/permission/helper combinations correspond strongly. No file/MIT or count claim."
+}

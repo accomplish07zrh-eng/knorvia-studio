@@ -1,0 +1,34 @@
+{
+  "scope": "Source-only complete default subagent runtime draft from the three packet files and listed body-free parent clarifications.",
+  "assumptions": [
+    "Imported policy and runtime helper implementations remain unchanged and own their existing behavior.",
+    "Imported APIs and runtime member types were not inspected; TypeScript compatibility remains for curator review."
+  ],
+  "ambiguities_resolved": [
+    "request.profile source",
+    "model-selection and shell-environment result fields",
+    "MCP selector and wildcard literals",
+    "restriction helper returned-access semantics"
+  ],
+  "unverified": [
+    "Compilation",
+    "Lint",
+    "Unit tests",
+    "Runtime behavior"
+  ],
+  "executed": [
+    "Read authorized packet files",
+    "Wrote and read owned draft files",
+    "Copied entire first draft set to initial before formatting/corrections",
+    "Ran authorized absolute oxfmt executable on final draft files only",
+    "Computed SHA-256 hashes"
+  ],
+  "not_executed": [
+    "Runtime agents",
+    "Model or provider calls",
+    "Storage/client port calls",
+    "Network operations",
+    "Repository mutations"
+  ],
+  "provenance": "No clean-room or licence claim is made."
+}

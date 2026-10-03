@@ -1,0 +1,211 @@
+{
+  "typescript": "6.0.2",
+  "diagnostics": [
+    {
+      "code": 2552,
+      "file": "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts",
+      "message": "Cannot find name 'request'. Did you mean 'Request'?"
+    },
+    {
+      "code": 2552,
+      "file": "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts",
+      "message": "Cannot find name 'request'. Did you mean 'Request'?"
+    },
+    {
+      "code": 2345,
+      "file": "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts",
+      "message": "Argument of type 'Set<unknown> | undefined' is not assignable to parameter of type 'Set<string> | undefined'.\n  Type 'Set<unknown>' is not assignable to type 'Set<string>'.\n    Type 'unknown' is not assignable to type 'string'."
+    },
+    {
+      "code": 2339,
+      "file": "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts",
+      "message": "Property 'request' does not exist on type 'ExploreSubagentRuntimeRequest'."
+    },
+    {
+      "code": 7006,
+      "file": "apps/cli/packages/core/src/runtime/methods/subagent-skills.ts",
+      "message": "Parameter 'name' implicitly has an 'any' type."
+    },
+    {
+      "code": 2307,
+      "file": "apps/cli/packages/core/src/runtime/methods/subagent.ts",
+      "message": "Cannot find module '../../subagent/request.profile.js' or its corresponding type declarations."
+    }
+  ],
+  "apiEqual": true,
+  "api": {
+    "steering.ts": [
+      [
+        "beginActiveTurn",
+        [
+          "(this: AgentRuntimeInternal, turnId: TurnId, traceContext: TraceContext, kind: ActiveTurnKind, steerable: boolean, options?: { inputId?: string | undefined; } | undefined): ActiveTurnSteeringState"
+        ]
+      ],
+      [
+        "clearAllPendingInputs",
+        [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<number>"
+        ]
+      ],
+      [
+        "completeExternalQueueDrain",
+        [
+          "(this: AgentRuntimeInternal): void"
+        ]
+      ],
+      [
+        "createPendingInputId",
+        [
+          "(this: AgentRuntimeInternal, turnId: TurnId): string"
+        ]
+      ],
+      [
+        "discardHeldPendingInputById",
+        [
+          "(this: AgentRuntimeInternal, pendingInputId: string, traceContext: TraceContext, reservationId?: string | undefined, reason?: \"user_removed\" | \"promoted\"): Promise<boolean>"
+        ]
+      ],
+      [
+        "discardPendingInput",
+        [
+          "(this: AgentRuntimeInternal, options: { activeTurn: ActiveTurnSteeringState; events?: SessionEvent[] | undefined; reason: \"turn_cancelled\" | \"session_resumed\" | \"turn_failed\"; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "discardPersistedPendingSteerInputs",
+        [
+          "(this: AgentRuntimeInternal, traceContext: TraceContext): Promise<number>"
+        ]
+      ],
+      [
+        "drainPendingInput",
+        [
+          "(this: AgentRuntimeInternal, options: { activeTurn: ActiveTurnSteeringState; events: SessionEvent[]; traceContext: TraceContext; }): Promise<DrainedPendingInputDiagnostics | undefined>"
+        ]
+      ],
+      [
+        "editPendingInputById",
+        [
+          "(this: AgentRuntimeInternal, options: { pendingInputId: string; newText: string; traceContext: TraceContext; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "emitModeChanged",
+        [
+          "(this: AgentRuntimeInternal, options: { mode: CollaborationMode; previousMode: CollaborationMode; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "emitModelSelected",
+        [
+          "(this: AgentRuntimeInternal, options: { modelSelection: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; }; model?: Model | undefined; effectiveReasoningLevel?: string | undefined; previousModelSelection?: { providerId: string; modelId: string; options?: { reasoningLevel?: string | undefined; } | undefined; } | null | undefined; origin?: \"registryFallback\" | undefined; supportedThoughtLevels?: readonly string[] | undefined; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "enqueueDeferredInput",
+        [
+          "(this: AgentRuntimeInternal, input: string | TurnSteerInput): Promise<TurnSteerResult>"
+        ]
+      ],
+      [
+        "fallbackPendingGuidesToQueue",
+        [
+          "(this: AgentRuntimeInternal, options: { activeTurn: ActiveTurnSteeringState; events?: SessionEvent[] | undefined; reasonCode: \"guide.noToolBoundary\" | \"guide.turnInterrupted\"; traceContext: TraceContext; }): Promise<number>"
+        ]
+      ],
+      [
+        "finishActiveTurn",
+        [
+          "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState | undefined): void"
+        ]
+      ],
+      [
+        "hasInlineGuidePendingInput",
+        [
+          "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState): boolean"
+        ]
+      ],
+      [
+        "hasPendingInput",
+        [
+          "(this: AgentRuntimeInternal, activeTurn: ActiveTurnSteeringState): boolean"
+        ]
+      ],
+      [
+        "markPendingInputPromoting",
+        [
+          "(this: AgentRuntimeInternal, options: { pendingInputId: string; reservationId: string; traceContext: TraceContext; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "rejectTurnSteer",
+        [
+          "(this: AgentRuntimeInternal, reason: TurnSteerRejectReason, options: { activeTurn?: ActiveTurnSteeringState | undefined; expectedTurnId?: TurnId | undefined; inputPreview?: string | undefined; inputSize?: number | undefined; traceContext?: TraceContext | undefined; }): Promise<TurnSteerResult>"
+        ]
+      ],
+      [
+        "releasePendingInputReservation",
+        [
+          "(this: AgentRuntimeInternal, options: { pendingInputId: string; reservationId: string; traceContext: TraceContext; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "releaseTurnStart",
+        [
+          "(this: AgentRuntimeInternal, turnId: TurnId): void"
+        ]
+      ],
+      [
+        "removePendingInputById",
+        [
+          "(this: AgentRuntimeInternal, options: { pendingInputId: string; reason: \"user_removed\" | \"promoted\"; reservationId?: string | undefined; traceContext: TraceContext; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "reorderPendingInput",
+        [
+          "(this: AgentRuntimeInternal, options: { pendingInputId: string; beforePendingInputId: string | null; traceContext: TraceContext; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "reservePendingInputById",
+        [
+          "(this: AgentRuntimeInternal, options: { pendingInputId: string; reservationId: string; traceContext: TraceContext; }): Promise<boolean>"
+        ]
+      ],
+      [
+        "reserveTurnStart",
+        [
+          "(this: AgentRuntimeInternal, turnId: TurnId, traceContext: TraceContext, kind: ActiveTurnKind): void"
+        ]
+      ],
+      [
+        "setFollowupMode",
+        [
+          "(this: AgentRuntimeInternal, options: { mode: \"queue\" | \"guide\"; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "setQueueAutoDrain",
+        [
+          "(this: AgentRuntimeInternal, options: { autoDrain: boolean; traceContext: TraceContext; }): Promise<void>"
+        ]
+      ],
+      [
+        "steerTurn",
+        [
+          "(this: AgentRuntimeInternal, input: string | TurnSteerInput): Promise<TurnSteerResult>"
+        ]
+      ]
+    ],
+    "subagent.ts": [
+      [
+        "createDefaultSubagentPort",
+        [
+          "(this: AgentRuntimeInternal, deps: AgentRuntimeDeps): SubagentPort | undefined"
+        ]
+      ]
+    ]
+  },
+  "files": {}
+}
