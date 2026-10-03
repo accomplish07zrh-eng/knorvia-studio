@@ -57,6 +57,8 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 | services | [#16](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/16) / lane/services-20261003 | 146c13ab52958846e2e7209d65bfb7fe7269ecbc |
 | native | [#17](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17) / rewrite/native-20261003 | cdc80cb1e6d3c731c1ea41d2c9663d83b2fd532d |
 
+父任务随后报告 native 第一轮完成于 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`，GitHub API 已确认 #17 的同一 head；包含控制 client/server、JSONL decoder、状态持久化与停止确认两批源码。父任务已在原固定线程派下一批，故这是已完成批次的冻结输入，不把活动 PR 自动当作全路完成，也暂不合入或提前合 main。实际 desktop 路径一直按 `packages/desktop` 登记，renderer 全部归 UI，其余归 native；不得按旧别名遗漏根 renderer 文件。
+
 ## 整合者范围的实现筛选
 
 已阅读的 shared assembly/projection 当前源码由 #9 的 `7caec377c3b6aace6f9a08344d77497726459eb2` 后续完整候选更新；虽然 saved inventory 仍标原 upstream-unchanged，当前 digest 已不同且完整 packet/receipt 已在基线。保留 wire-assembler、workflow-runs-artifacts、conversation-message-projection-policy、session-visible-content、tool-plan-adapter；不据陈旧 inventory 再重写一遍。
@@ -73,15 +75,26 @@ coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立
 | 积压 #7–12 的完整 runtime / workflow / transport / service / shell 等候选 | 首轮基线 3b1ff0f715a43cbc51c576fd524479a08e58e203；逐输入、冲突与路径绑定见第一阶段记录 | 已安装，保持全部 ancestry；按实际模块去重，不按 PR 数计完成率 | 原失败、source exposure、accepted-hash / 权利 HOLD 保留；组合未验证 |
 | shared packet assembly 与 projection policy | 7caec377c3b6aace6f9a08344d77497726459eb2；保留当前完整 owners | 已安装候选，未因陈旧 inventory 重复重写 | 保存已有证据；本轮无新接受决定 |
 | contracts session-event residence / turn retention | spec d91db4dbfcdbf467a53943dcb68f54cef5732e22；实现 ac5515ad37b88d32b07dee5eafbf96fad9978e27 | 完整替换候选已提交，3 个 source 文件算一个模块 | source-exposed authoring；运行验证、表达独立性与贡献权利仍待核验 |
-| contracts event-reducer / event-reducer-helpers / tracing tracer | 源码保留自 3b1ff0f715a43cbc51c576fd524479a08e58e203 | 仍待完整行为合同与实现，不从 store 的完成推定 reducer 完成 | 原来源保留，未接受原创决定 |
+| contracts session-event projection（reducer / helpers / queue / ledger transitions） | spec 9dad1581c9dc1bc851170be8655fd8f26ffbd231；实现 1d99b03715822caac58d5d4c5b776692375353b8 | 完整替换候选已提交，5 个 source 文件算一个模块；原公开 runtime 入口接入新转换 | source-exposed authoring；初始 template/标准数值 helper/字段策略保留原来源；尚未运行验证或接受表达/权利 |
+| contracts tracing/tracer | 源码保留自 3b1ff0f715a43cbc51c576fd524479a08e58e203 | 仍待完整行为合同与实现，不因 event store/reducer 完成推定整个 contracts 完成 | 原来源保留，未接受原创决定 |
 | shared workflow-runs-reducer | 当前源码 SHA-256 f07e531f2dc425d701ce538f0a74c865f6658a99acc9c22ff68d67a6cfef11e6，保留自同一基线 | 仍待实现/accepted artifact 对账，保留历史 HOLD | 不恢复被放弃的旧实现，不把旧 accepted receipt 绑定新源码 |
 | 四路固定任务当前新增候选 | 上表 #14–17 的观察 heads | 待父任务批次完成通知和统一接收；未计入安装完成估计 | 来源、消费者与产品验收待统一阶段 |
 
 contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts`、`session-event-journal.ts`、`session-event-retention.ts`。事件由每 session 的一个 journal 持有，retention 的索引只引用同一 sealed 链节点；保持公开 port、schema、barrel、工厂和参数、Promise 边界、序号规则、存入对象身份、replay 顺序、策略/时钟错误后的既有已驻留状态与 receiver、120 秒 grace、delete/recreate 与瞬态类别。没有改 UI、持久用户数据或其他 lane 的源码和记录。细则与以后统一验收场景见 [先行 spec](../specs/knorvia-next-integration-event-residence-20261003.md)。代码作者已读旧实现；标准/API/固定策略保留，不以新链结构宣称 clean room 或权利已接受。
 
+projection 的新增实际 owner 为 `events/session-projection-transition.ts`、`session-projection-ledgers.ts`、`session-projection-queue.ts`；`event-reducer.ts` 和 `event-reducer-helpers.ts` 保留原导出并接入唯一 commit。保留队列原位编辑/重排、工具与权限、后台任务多项合并、目标校验身份与失败摘要、主会话 context usage、压缩/checkpoint/rewind 与 streaming 恢复投影；standard/API 默认 template 和 numeric helper 不计为原创。没有编辑 runtime 调用方、公共 schemas、shared workflow reducer 或其他 lane。完整保留项与统一验收场景见 [先行 projection spec](../specs/knorvia-next-integration-session-projection-20261003.md)。
+
+## 最终统一执行队列：native 第一轮新增测试
+
+输入冻结在 #17 的 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`。仅通过 GitHub API 阅读文件和既有根 runner，**没有执行**。纳入最终统一验收的确切测试为 `packages/server-cli/test/control-transport-contract.test.mjs` 与 `packages/server-cli/test/status-persistence-contract.test.mjs`，各自同目录依赖 `control-transport-fixture.mjs` / `status-persistence-fixture.mjs`。控制用例覆盖 JSONL、连接隔离、请求/响应/error、客户端关联与关闭；持久化用例覆盖 phase/error identity、串行 write/rename、错误回调、lock release/strict freshness 与停止确认。
+
+当前 `scripts/test-studio.mjs` 的 testDirectories **不含 packages/server-cli/test**。原固定 native 批次全部接收后，整合者在唯一根文件把该目录纳入统一发现；现在不能先登记尚未合入的缺失目录，因为 runner 无缺失目录跳过逻辑。按已读测试的 node:test 入口，也可在最终阶段明确执行 `node --test packages/server-cli/test/control-transport-contract.test.mjs packages/server-cli/test/status-persistence-contract.test.mjs`；这是未来命令规划，不是已运行记录。统一 root runner 的实际执行仍遵守最终阶段 CLI 构建/依赖前置条件，Linux/Windows 和真实 schema/OS transport/文件路径验收不能由这两个 fake-port fixture 代替。
+
 ## 用户要求的累计工程主观估计
 
-按第一阶段安装基线 `3b1ff0f715a43cbc51c576fd524479a08e58e203` 及此前 main 的实际大项，累计工程替换的主观区间为 **约 55%–70%，误差约 ±10 个百分点**。本轮一个 event-residence 模块不足以收窄该区间；尚未接入的四路新增 PR 不计入。此数字回答累计工程工作量，不是本轮 review 覆盖率、验证通过率、源码原创率、MIT 权利清理率或发布完成率。未为统计运行扫描或检查，也不以文件/行数、PR 个数、迁移标签作分母。
+现行口径采用父任务根据历史源码记录给出的 **约 75%（粗略区间 65%–80%）**，不是验收率；本整合者停止另外统计。以下保留先前较保守的整合者估计和所用权重，作为历史主观判断，不把两个不同历史范围的估计相加或视为新的审计结果。
+
+先前按第一阶段安装基线 `3b1ff0f715a43cbc51c576fd524479a08e58e203` 及此前 main 的实际大项，整合者主观区间为 **约 55%–70%，误差约 ±10 个百分点**；当时未接入的四路新增 PR 没有计入。两个百分比都回答累计工程工作量，不是本轮 review 覆盖率、验证通过率、源码原创率、MIT 权利清理率或发布完成率。未为统计运行扫描或检查，也不以文件/行数、PR 个数、迁移标签作分母。
 
 | 工作量权重（主观） | 权重 | 判断依据 |
 | --- | --- | --- |
