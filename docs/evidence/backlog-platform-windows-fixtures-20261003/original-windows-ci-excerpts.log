@@ -1,0 +1,158 @@
+Source: https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728
+Read through authorized GitHub job-log connector. Bounded verbatim log lines only; CRLF converted to LF. This is the original Windows failure, not current-tree acceptance.
+
+2026-10-03T08:33:58.1306070Z Uses: accomplish07zrh-eng/knorvia-studio/.github/workflows/studio-quality.yml@refs/pull/13/merge (d03df27e30768649c77d004092d7508fa8b9afbc)
+2026-10-03T08:33:58.2850180Z   ref: d03df27e30768649c77d004092d7508fa8b9afbc
+2026-10-03T08:34:08.0529472Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin d03df27e30768649c77d004092d7508fa8b9afbc
+2026-10-03T08:34:13.5956946Z HEAD is now at d03df27e Merge 7bfb867162cc11adbc237e1c39bf2d61b5c0f81e into bd0bb014c0974334557fa51814709d0b78f35f1d
+
+Excerpt for electronBrowserWebmRecorder.test.mjs; original log lines 10075-10093
+2026-10-03T08:53:19.2614462Z test at packages\desktop\src\main\browserView\electronBrowserWebmRecorder.test.mjs:11:1
+2026-10-03T08:53:19.2615638Z ✖ WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (156.8162ms)
+2026-10-03T08:53:19.2616250Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-03T08:53:19.2616744Z   + actual - expected
+2026-10-03T08:53:19.2616961Z   
+2026-10-03T08:53:19.2617284Z   + '\\synthetic\\after-await\\.synthetic-id-browser-video-recorder.html'
+2026-10-03T08:53:19.2617806Z   - '/synthetic/after-await/.synthetic-id-browser-video-recorder.html'
+2026-10-03T08:53:19.2618169Z   
+2026-10-03T08:53:19.2618851Z       at TestContext.<anonymous> (file:///D:/a/knorvia-studio/knorvia-studio/packages/desktop/src/main/browserView/electronBrowserWebmRecorder.test.mjs:161:10)
+2026-10-03T08:53:19.2619650Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2620162Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2620617Z     generatedMessage: true,
+2026-10-03T08:53:19.2620869Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2621281Z     actual: '\\synthetic\\after-await\\.synthetic-id-browser-video-recorder.html',
+2026-10-03T08:53:19.2621862Z     expected: '/synthetic/after-await/.synthetic-id-browser-video-recorder.html',
+2026-10-03T08:53:19.2622276Z     operator: 'strictEqual',
+2026-10-03T08:53:19.2622511Z     diff: 'simple'
+2026-10-03T08:53:19.2622694Z   }
+2026-10-03T08:53:19.2622789Z 
+
+Excerpt for recordingOwners.test.mjs; original log lines 10094-10120
+2026-10-03T08:53:19.2623060Z test at packages\desktop\src\main\browserView\recordingOwners.test.mjs:5:1
+2026-10-03T08:53:19.2623772Z ✖ video transaction retains phase order, live dimensions and failure identity (184.6632ms)
+2026-10-03T08:53:19.2624365Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2624749Z   + actual - expected
+2026-10-03T08:53:19.2624945Z   
+2026-10-03T08:53:19.2625096Z     {
+2026-10-03T08:53:19.2625270Z       durationMs: 1000,
+2026-10-03T08:53:19.2625480Z       fps: 25,
+2026-10-03T08:53:19.2625660Z       frameCount: 25,
+2026-10-03T08:53:19.2625852Z       height: 480,
+2026-10-03T08:53:19.2626049Z       mimeType: 'video/webm',
+2026-10-03T08:53:19.2626308Z   +   path: '\\synthetic\\capture.webm',
+2026-10-03T08:53:19.2626609Z   -   path: '/synthetic/capture.webm',
+2026-10-03T08:53:19.2626851Z       width: 700
+2026-10-03T08:53:19.2627020Z     }
+2026-10-03T08:53:19.2627174Z   
+2026-10-03T08:53:19.2627774Z       at TestContext.<anonymous> (file:///D:/a/knorvia-studio/knorvia-studio/packages/desktop/src/main/browserView/recordingOwners.test.mjs:62:10)
+2026-10-03T08:53:19.2628497Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2628998Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2629407Z     generatedMessage: true,
+2026-10-03T08:53:19.2629633Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2630227Z     actual: { path: '\\synthetic\\capture.webm', mimeType: 'video/webm', width: 700, height: 480, fps: 25, durationMs: 1000, frameCount: 25 },
+2026-10-03T08:53:19.2631268Z     expected: { path: '/synthetic/capture.webm', mimeType: 'video/webm', width: 700, height: 480, fps: 25, durationMs: 1000, frameCount: 25 },
+2026-10-03T08:53:19.2631871Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2632234Z     diff: 'simple'
+2026-10-03T08:53:19.2633181Z   }
+2026-10-03T08:53:19.2633903Z 
+
+Excerpt for local-tar-normalized-link-safety.test.mjs; original log lines 10146-10173
+2026-10-03T08:53:19.2646419Z test at packages\server\test\local-tar-normalized-link-safety.test.mjs:47:1
+2026-10-03T08:53:19.2647244Z ✖ normalized drive-like link targets are rejected before archive publication or link replacement (41.8926ms)
+2026-10-03T08:53:19.2647922Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2648305Z   + actual - expected
+2026-10-03T08:53:19.2648499Z   
+2026-10-03T08:53:19.2648648Z     [
+2026-10-03T08:53:19.2648804Z       [
+2026-10-03T08:53:19.2648961Z         'mkdir',
+2026-10-03T08:53:19.2649181Z   +     'D:\\synthetic\\target',
+2026-10-03T08:53:19.2649424Z   -     '/synthetic/target',
+2026-10-03T08:53:19.2649656Z         {
+2026-10-03T08:53:19.2650011Z           recursive: true
+2026-10-03T08:53:19.2651010Z         }
+2026-10-03T08:53:19.2651342Z       ]
+2026-10-03T08:53:19.2651598Z     ]
+2026-10-03T08:53:19.2651856Z   
+2026-10-03T08:53:19.2652882Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\server\test\local-tar-normalized-link-safety.test.mjs:71:12)
+2026-10-03T08:53:19.2654304Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-03T08:53:19.2655503Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2656379Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2657108Z     generatedMessage: true,
+2026-10-03T08:53:19.2657493Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2658002Z     actual: [ [ 'mkdir', 'D:\\synthetic\\target', [Object] ] ],
+2026-10-03T08:53:19.2658662Z     expected: [ [ 'mkdir', '/synthetic/target', [Object] ] ],
+2026-10-03T08:53:19.2659498Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2659889Z     diff: 'simple'
+2026-10-03T08:53:19.2660180Z   }
+2026-10-03T08:53:19.2660329Z 
+
+Excerpt for remote-header-proxy-contract.test.mjs; original log lines 10174-10241
+2026-10-03T08:53:19.2660783Z test at packages\server\test\remote-header-proxy-contract.test.mjs:52:1
+2026-10-03T08:53:19.2662100Z ✖ tar full headers preserve NUL and ASCII regular flags while short headers stay unread (44.9591ms)
+2026-10-03T08:53:19.2663147Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2663836Z   + actual - expected
+2026-10-03T08:53:19.2664142Z   
+2026-10-03T08:53:19.2664391Z     [
+2026-10-03T08:53:19.2664657Z       [
+2026-10-03T08:53:19.2664917Z         'mkdir',
+2026-10-03T08:53:19.2665247Z   +     'D:\\synthetic\\target',
+2026-10-03T08:53:19.2665658Z   -     '/synthetic/target',
+2026-10-03T08:53:19.2666050Z         {
+2026-10-03T08:53:19.2666349Z           recursive: true
+2026-10-03T08:53:19.2666697Z         }
+2026-10-03T08:53:19.2666967Z       ],
+2026-10-03T08:53:19.2667208Z       [
+2026-10-03T08:53:19.2667432Z         'mkdir',
+2026-10-03T08:53:19.2667778Z   +     'D:\\synthetic\\target',
+2026-10-03T08:53:19.2668132Z   -     '/synthetic/target',
+2026-10-03T08:53:19.2668480Z         {
+2026-10-03T08:53:19.2668787Z           recursive: true
+2026-10-03T08:53:19.2669374Z         }
+2026-10-03T08:53:19.2669662Z       ],
+2026-10-03T08:53:19.2669932Z       [
+2026-10-03T08:53:19.2670232Z         'write',
+2026-10-03T08:53:19.2670904Z   +     'D:\\synthetic\\target\\nul.txt',
+2026-10-03T08:53:19.2671421Z   -     '/synthetic/target/nul.txt',
+2026-10-03T08:53:19.2671824Z         'N'
+2026-10-03T08:53:19.2672194Z       ],
+2026-10-03T08:53:19.2672462Z       [
+2026-10-03T08:53:19.2672749Z         'chmod',
+2026-10-03T08:53:19.2673134Z   +     'D:\\synthetic\\target\\nul.txt',
+2026-10-03T08:53:19.2673628Z   -     '/synthetic/target/nul.txt',
+2026-10-03T08:53:19.2674039Z         384
+2026-10-03T08:53:19.2674315Z       ],
+2026-10-03T08:53:19.2674592Z       [
+2026-10-03T08:53:19.2674855Z         'mkdir',
+2026-10-03T08:53:19.2675516Z   +     'D:\\synthetic\\target',
+2026-10-03T08:53:19.2675924Z   -     '/synthetic/target',
+2026-10-03T08:53:19.2676282Z         {
+2026-10-03T08:53:19.2676582Z           recursive: true
+2026-10-03T08:53:19.2676934Z         }
+2026-10-03T08:53:19.2677198Z       ],
+2026-10-03T08:53:19.2677457Z       [
+2026-10-03T08:53:19.2677732Z         'write',
+2026-10-03T08:53:19.2678112Z   +     'D:\\synthetic\\target\\ascii.txt',
+2026-10-03T08:53:19.2678633Z   -     '/synthetic/target/ascii.txt',
+2026-10-03T08:53:19.2679083Z         'A'
+2026-10-03T08:53:19.2679361Z       ],
+2026-10-03T08:53:19.2679632Z       [
+2026-10-03T08:53:19.2679919Z         'chmod',
+2026-10-03T08:53:19.2680289Z   +     'D:\\synthetic\\target\\ascii.txt',
+2026-10-03T08:53:19.2680777Z   -     '/synthetic/target/ascii.txt',
+2026-10-03T08:53:19.2681181Z         384
+2026-10-03T08:53:19.2681443Z       ]
+2026-10-03T08:53:19.2681679Z     ]
+2026-10-03T08:53:19.2681939Z   
+2026-10-03T08:53:19.2682908Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\server\test\remote-header-proxy-contract.test.mjs:68:10)
+2026-10-03T08:53:19.2684325Z       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-10-03T08:53:19.2685238Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2686144Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2686891Z     generatedMessage: true,
+2026-10-03T08:53:19.2687282Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2689534Z     actual: [ [ 'mkdir', 'D:\\synthetic\\target', [Object] ], [ 'mkdir', 'D:\\synthetic\\target', [Object] ], [ 'write', 'D:\\synthetic\\target\\nul.txt', 'N' ], [ 'chmod', 'D:\\synthetic\\target\\nul.txt', 384 ], [ 'mkdir', 'D:\\synthetic\\target', [Object] ], [ 'write', 'D:\\synthetic\\target\\ascii.txt', 'A' ], [ 'chmod', 'D:\\synthetic\\target\\ascii.txt', 384 ] ],
+2026-10-03T08:53:19.2693685Z     expected: [ [ 'mkdir', '/synthetic/target', [Object] ], [ 'mkdir', '/synthetic/target', [Object] ], [ 'write', '/synthetic/target/nul.txt', 'N' ], [ 'chmod', '/synthetic/target/nul.txt', 384 ], [ 'mkdir', '/synthetic/target', [Object] ], [ 'write', '/synthetic/target/ascii.txt', 'A' ], [ 'chmod', '/synthetic/target/ascii.txt', 384 ] ],
+2026-10-03T08:53:19.2696070Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2696468Z     diff: 'simple'
+2026-10-03T08:53:19.2696779Z   }
+2026-10-03T08:53:19.2696941Z 
+

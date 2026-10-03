@@ -1,0 +1,20 @@
+{
+  "lookedUpCommit": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+  "tool": "github_fetch_commit_workflow_runs",
+  "queryScope": "First page of pull-request-triggered runs only",
+  "result": {
+    "workflow_runs": [
+      {
+        "id": 37111228357,
+        "name": "Studio offline checks",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "run_number": 524,
+        "jobs_url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/actions/runs/37111228357/jobs",
+        "logs_url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/actions/runs/37111228357/logs",
+        "workflow_id": 366158352
+      }
+    ]
+  },
+  "qualification": "Reported run is cancelled. No Windows success claimed. Final branch-head status will be checked after push; no workflow is dispatched or rerun."
+}

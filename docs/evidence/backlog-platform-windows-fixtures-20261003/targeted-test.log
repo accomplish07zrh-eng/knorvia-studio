@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded
+ok 1 - WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded
+  ---
+  duration_ms: 87.686965
+  type: 'test'
+  ...
+# Subtest: WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (POSIX paths)
+ok 2 - WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (POSIX paths)
+  ---
+  duration_ms: 35.889163
+  type: 'test'
+  ...
+# Subtest: WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (Win32 paths)
+ok 3 - WebM fake authority gate, FIFO backpressure and cancellation lifetime remain bounded (Win32 paths)
+  ---
+  duration_ms: 16.123429
+  type: 'test'
+  ...
+# Subtest: video transaction retains phase order, live dimensions and failure identity
+ok 4 - video transaction retains phase order, live dimensions and failure identity
+  ---
+  duration_ms: 73.261658
+  type: 'test'
+  ...
+# Subtest: video transaction retains phase order, live dimensions and failure identity (POSIX paths)
+ok 5 - video transaction retains phase order, live dimensions and failure identity (POSIX paths)
+  ---
+  duration_ms: 22.1901
+  type: 'test'
+  ...
+# Subtest: video transaction retains phase order, live dimensions and failure identity (Win32 paths)
+ok 6 - video transaction retains phase order, live dimensions and failure identity (Win32 paths)
+  ---
+  duration_ms: 10.588692
+  type: 'test'
+  ...
+# Subtest: normalized drive-like link targets are rejected before archive publication or link replacement
+ok 7 - normalized drive-like link targets are rejected before archive publication or link replacement
+  ---
+  duration_ms: 26.88443
+  type: 'test'
+  ...
+# Subtest: normalized drive-like link targets are rejected before archive publication or link replacement (POSIX paths)
+ok 8 - normalized drive-like link targets are rejected before archive publication or link replacement (POSIX paths)
+  ---
+  duration_ms: 9.816696
+  type: 'test'
+  ...
+# Subtest: normalized drive-like link targets are rejected before archive publication or link replacement (Win32 paths)
+ok 9 - normalized drive-like link targets are rejected before archive publication or link replacement (Win32 paths)
+  ---
+  duration_ms: 8.682967
+  type: 'test'
+  ...
+# Subtest: tar full headers preserve NUL and ASCII regular flags while short headers stay unread
+ok 10 - tar full headers preserve NUL and ASCII regular flags while short headers stay unread
+  ---
+  duration_ms: 20.098024
+  type: 'test'
+  ...
+# Subtest: tar full headers preserve NUL and ASCII regular flags while short headers stay unread (POSIX paths)
+ok 11 - tar full headers preserve NUL and ASCII regular flags while short headers stay unread (POSIX paths)
+  ---
+  duration_ms: 9.403653
+  type: 'test'
+  ...
+# Subtest: tar full headers preserve NUL and ASCII regular flags while short headers stay unread (Win32 paths)
+ok 12 - tar full headers preserve NUL and ASCII regular flags while short headers stay unread (Win32 paths)
+  ---
+  duration_ms: 9.306056
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 504.440081
