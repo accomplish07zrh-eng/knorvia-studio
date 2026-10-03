@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { build } from "esbuild";
 import test from "node:test";
 
-// Authored and unrun. No actual lock/file, process.kill, UUID or native timer is
+// No actual lock/file, process.kill, UUID or native timer is
 // used; a bounded in-memory path map supplies every IO/process/clock boundary.
 let fixtureId = 0;
 function ports() {
@@ -32,13 +32,15 @@ function ports() {
 async function load(state) {
   const key = `knorvia.native.lock.deferred.${++fixtureId}`; globalThis[Symbol.for(key)] = state;
   const binding = `const port=globalThis[Symbol.for(${JSON.stringify(key)})];`;
+  // banner 不参与 esbuild 的符号重命名；避免与虚拟模块打包后的 var port 重复声明。
+  const bannerBinding = `const lockFixtureContext=globalThis[Symbol.for(${JSON.stringify(key)})];`;
   const replacement = {
     "node:crypto": `${binding} export const randomUUID=port.uuid;`,
     "node:fs/promises": `${binding} export const mkdir=port.mkdir,open=port.open,readFile=port.readFile,rename=port.rename,rm=port.rm;`,
   };
   try {
     const result = await build({ entryPoints: [fileURLToPath(new URL("../src/runtime/lock.ts", import.meta.url))], bundle: true, write: false,
-      platform: "node", format: "esm", logLevel: "silent", banner: { js: `${binding} const process=port.process,Date={now:port.now},setTimeout=port.timer;` },
+      platform: "node", format: "esm", logLevel: "silent", banner: { js: `${bannerBinding} const process=lockFixtureContext.process,Date={now:lockFixtureContext.now},setTimeout=lockFixtureContext.timer;` },
       plugins: [{ name: "deferred-lock-ports", setup(plugin) {
         plugin.onResolve({ filter: /^node:/ }, ({ path }) => { if (path === "node:path") return { path, external: true };
           assert.ok(Object.hasOwn(replacement, path), `unsupplied native boundary ${path}`); return { path, namespace: "lock-port" }; });

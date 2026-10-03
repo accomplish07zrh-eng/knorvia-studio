@@ -453,3 +453,33 @@ No new tests were added and no tests/lint/types/build/other validation was run.
 The prior44 scenarios remain unrun. Actual declaration/consumer/type acceptance,
 source/rights reconciliation and server-cli runner integration remain deferred.
 Continue to freeze on the same branch/draft PR after commit/push/remote metadata.
+
+## Final-stage lock fixture repair
+
+Parent has started final concentrated acceptance. Read the current integration
+record at `19f6ccf74ba1064ca81d93194b4f25a36030e361`: native-selected ran14
+supplied-port scenarios,12 passed and the two lock cases failed at module load
+because port was declared twice. The root runner already admits server-cli/test.
+Its published failure record/log digest is bound in the
+[affected-only result](evidence/backlog-platform-lock-fixture-repair-20261003/result.json);
+raw native log contents were not present in the published tree. Lock/test baseline
+bytes match this lane's previous `f7ad7efa3e5e1bec72eaba818db6bce43fa33d97`.
+
+The raw esbuild banner declared const port outside the bundler's renaming scope,
+colliding with var port emitted for a virtual module. Only that banner binding now
+uses lockFixtureContext. The supplied IO/process/UUID/clock ports, both test bodies
+and every assertion remain. Production lock.ts is byte-identical; no production,
+protocol, root test entry/configuration, UI or data change.
+
+Exactly the two affected tests were executed once after the repair under pinned
+Node24.14.0 on Linux x64, esbuild0.27.7 and tsx4.21.0, using temporary minimal test
+tools with installation scripts disabled. Result: **2 passed,0 failed,0 skipped**,
+exit0. Exact command/tool/source bindings and
+[captured test-runner output](evidence/backlog-platform-lock-fixture-repair-20261003/targeted-test.log)
+are recorded. No other suites, lint, types, product build, full audit or actual
+native/user-data operation. The earlier implementation-phase unrun records remain
+historical; these two supplied-port passes are not whole-native/platform/rights/MIT
+acceptance and add no independent-source credit.
+
+PR17 is already merged/closed; continue on the same branch without reopening or
+creating a PR. Deliver this new complete SHA to the parent for PR13 integration.

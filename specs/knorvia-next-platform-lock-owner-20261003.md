@@ -121,3 +121,27 @@ or local-computer operation. No tests, lint, types, build, format/architecture/f
 audit. Freeze full draft, exact selected current/upstream records and retained
 facade/callers before source diff. Global source/license records stay untouched;
 final integration owns consumer/platform and expression/rights acceptance.
+
+## Authorized final-stage fixture repair
+
+Read the final native-selected failure record at integration commit
+19f6ccf74ba1064ca81d93194b4f25a36030e361: fourteen supplied-port scenarios,
+twelve passed and two lock fixtures failed to load (duplicate port declaration),
+log SHA2568bdb3c3bf13a1195ff0069344dc50fa6faadf66586d8d7aef9a9cd3daddec00a.
+The current root runner admits packages/server-cli/test through its ordinary
+discovery; do not change that integrator-owned entry or run the complete runner.
+Selected lock/test bytes match this lane at f7ad7efa3e5e1bec72eaba818db6bce43fa33d97.
+
+esbuild treats banner as raw output text, outside its symbol renaming. The
+inherited fixture banner declares const port, while bundled virtual modules emit
+var port in the same final ESM scope. Give only the banner's supplied-state binding
+a unique fixture identifier. Keep virtual imports, fake IO/process/clock/UUID,
+both scenarios and all assertions exact; production lock/contracts are unchanged.
+
+Parent has entered final concentrated acceptance and now explicitly authorizes
+only the two affected lock scenarios. Run their single file under pinned Node
+24.14.0 with isolated temporary test tools; record actual command, versions,
+source digests and actual test-runner output. No full suites, lint, types, product builds or
+global provenance audit in this lane. Passing these supplied-port scenarios
+does not establish real filesystem/process/platform, whole-tree or MIT acceptance.
+Deliver a new commit on the same branch for integration PR13; PR17 stays closed.
