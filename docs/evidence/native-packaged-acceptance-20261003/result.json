@@ -1,0 +1,171 @@
+{
+  "stage": "native-packaging-cloud-acceptance",
+  "date": "2026-10-03",
+  "branch": "rewrite/native-20261003",
+  "mainBaseline": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "runtimeSourceInput": "ede8382435ed91e9d62300599e925f6fb90532c0",
+  "runtimeSourceQualification": "The package runtime was built from this committed input. The later bundler-only retry correction and acceptance records are not a newer runtime build and do not change the baked buildCommitId ede83824.",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "distribution": "Debian 13 (trixie)",
+    "kernel": "6.18.44",
+    "buildNode": "24.14.0",
+    "pnpm": "10.33.2",
+    "electron": "41.0.3",
+    "electronNode": "24.14.0",
+    "electronBuilder": "26.8.1",
+    "temporaryRoot": "/tmp/knorvia-native-package-acceptance-20261003",
+    "guiDisplay": false,
+    "windowsRuntime": false
+  },
+  "completed": [
+    {
+      "check": "frozen dependency installation without lifecycle hooks",
+      "exitCode": 0,
+      "evidence": "frozen-install-no-hooks.log",
+      "qualification": "Default install was attempted and failed in electron-rebuild because /home/agent/.electron-gyp is unavailable. This successful fallback does not claim default postinstall acceptance. Existing beforePack restores the pinned @lydell/node-pty-linux-x64 prebuild; the final artifact's PTY was executed successfully."
+    },
+    {
+      "check": "source desktop runtime preparation",
+      "exitCode": 0,
+      "evidence": "linux-prepare.log",
+      "qualification": "KNORVIA_SKIP_REMOTE_ASSETS=1 matches the current release workflow policy; local repository native archives and official plugins were staged."
+    },
+    {
+      "check": "production desktop source build",
+      "exitCode": 0,
+      "evidence": "linux-desktop-build.log"
+    },
+    {
+      "check": "configured AppImage target from the fresh production payload",
+      "exitCode": 0,
+      "evidence": "appimage-target.log",
+      "qualification": "Single-target electron-builder invocation reused linux-unpacked emitted by the source-to-package job. It did not rebuild the payload twice from clean checkouts. publish=never; no release was published."
+    },
+    {
+      "check": "real AppImage extraction",
+      "exitCode": 0,
+      "evidence": "appimage-extract.log",
+      "qualification": "Extraction staging and native component execution are covered; no desktop launcher integration, GUI first-run or OS installer acceptance is claimed."
+    },
+    {
+      "check": "real extracted-artifact native integration probe",
+      "exitCode": 0,
+      "groupsPassed": 6,
+      "groupsFailed": 0,
+      "evidence": "artifact-native-probe.json",
+      "checks": [
+        "Canonical physical package identity outside repository, measured by the existing packagedRuntimeEvidence owner",
+        "Existing native ASAR policy, required main/host/scheduler/preload entries, no maps and unpacked target PTY",
+        "Packaged CLI version 0.16.9 executes under artifact Electron Node; expected version belongs to apps/cli/package.json",
+        "Actual packaged node-pty opens a real PTY and exits zero; artifact Electron SQLite writes a synthetic sentinel",
+        "Actual CLI storage-path acknowledgement and preparation succeed twice on the same isolated database with sentinel retained and normal process exit",
+        "Packaged ripgrep, ugrep and bfs handle a synthetic Chinese filename with spaces; retained NOTICE and SOURCES files are present and measured"
+      ],
+      "fixtureRemoved": true
+    },
+    {
+      "check": "bundler retry regression tests",
+      "before": {
+        "exitCode": 1,
+        "passed": 2,
+        "failed": 2,
+        "skipped": 0,
+        "evidence": "retry-before.log",
+        "qualification": "Existing classifier exported solely for observation; the two newly specified deterministic-failure contracts reproduce the old false retries."
+      },
+      "after": {
+        "exitCode": 0,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "evidence": "retry-after.log"
+      }
+    },
+    {
+      "check": "architecture changed-file checks before and after the source correction",
+      "exitCode": 0,
+      "violations": 0,
+      "evidence": ["architecture-before.log", "architecture-after.log", "desktop-context.md"]
+    },
+    {
+      "check": "root typecheck",
+      "exitCode": 0,
+      "evidence": "typecheck.log"
+    },
+    {
+      "check": "oxlint on the two changed native source/test files",
+      "exitCode": 0,
+      "warnings": 0,
+      "errors": 0,
+      "evidence": "changed-lint.log",
+      "qualification": "This focused check is not a passed root lint or an evidence-gate bypass."
+    }
+  ],
+  "blockedOrFailed": [
+    {
+      "check": "default frozen-install postinstall",
+      "exitCode": 1,
+      "evidence": "frozen-install-native-hook-failure.log",
+      "reason": "electron-rebuild/node-gyp attempts mkdir /home/agent/.electron-gyp in this restricted environment. No HOME repurposing or dependency/source rewrite was used."
+    },
+    {
+      "check": "initial runtime preparation before workspace dependency repair",
+      "exitCode": 1,
+      "evidence": "linux-prepare-before-dependencies.log",
+      "reason": "Missing @knorvia/shared workspace resolution. The frozen install repaired the links and the same source entrypoint subsequently passed."
+    },
+    {
+      "check": "all configured Linux targets through bundle.mjs",
+      "exitCode": 1,
+      "evidence": "linux-configured-targets-failure.log",
+      "reason": "FPM refuses .deb creation without project homepage and author email/maintainer metadata. AppImage was generated, but .deb/.rpm/.pacman were not accepted. The native retry-classifier false retry in this log is repaired by this batch; the release metadata requirement remains."
+    },
+    {
+      "check": "independent TUI/Web/server distribution build",
+      "exitCode": 1,
+      "evidence": "distribution-build-failure.log",
+      "reason": "CLI-owned SEA asset collector assumes @knorvia/cua dist/index.js, whereas the current package exports root JS and has no dist build script. CLI/server/Web source stages completed, but no complete distribution archive/installer exists for distribution-smoke."
+    },
+    {
+      "check": "root lint",
+      "exitCode": 1,
+      "evidence": "root-lint-frozen-evidence-failure.log",
+      "reason": "The integrity prerequisite rejected 24 previously committed native-source-notices evidence files not registered in licensing/frozen-evidence.json. This observation preceded adding the present acceptance evidence; both sets require integrator-owned registration. The root lint stage did not run."
+    }
+  ],
+  "notExecuted": [
+    "Windows x64 NSIS installation, portable layout/execution, Windows CUA runtime and existing .exe packaged smoke",
+    "macOS package/install/runtime acceptance",
+    "GUI launch, first-run/provider/media/workspace flows (UI-lane owned)",
+    "Complete distribution-smoke (complete archive blocked before collection)",
+    "Complete legacy-data migration compatibility acceptance",
+    "Whole repository test suite or full provenance audit",
+    "Two clean source builds proving byte-identical release reproducibility"
+  ],
+  "coordination": [
+    {
+      "owner": "integrator / release maintainer",
+      "requirement": "Supply factual public Linux release homepage and maintainer email/metadata, then build and validate the remaining configured package targets. No email was invented."
+    },
+    {
+      "owner": "CLI lane / integrator",
+      "requirement": "Make apps/cli/packages/cli/scripts/sea-runtime-package-resolution.mjs and the SEA collector consume the current explicit @knorvia/cua root exports instead of assuming dist/index.js. Preserve CUA public layout and complete TUI/Web payload."
+    },
+    {
+      "owner": "integrator",
+      "requirement": "Register the retained source-notice and new native packaged acceptance evidence in the shared licensing/frozen-evidence.json, reconcile shared source inventory/notices and rerun the whole quality gate. Native lane does not edit that registry."
+    },
+    {
+      "owner": "supported-platform runners / UI lane",
+      "requirement": "Obtain matching real Windows installer/portable/CUA and packaged GUI results; current Linux native results do not substitute for those stages."
+    }
+  ],
+  "artifacts": {
+    "appImage": "artifact-bindings.json#/appImage",
+    "nativeRuntime": "artifact-native-probe.json",
+    "qualification": "Artifacts stay in the task's /tmp output. The committed evidence binds physical artifact, staged CLI and pinned PTY bytes. AppImage repeat invocations differ in bytes and reuse the same payload; no whole-release byte identity claim."
+  },
+  "scopeQualification": "The only product tooling correction is the desktop bundle retry classifier. No application UI, shared protocol, data schema or existing user data was changed. Inherited main baseline is not independent-rewrite credit. Apache application choice and original third-party notices remain; unmatched SVG authorship is not asserted."
+}

@@ -1,0 +1,82 @@
+
+> @knorvia/desktop@ prepare:runtime-assets /workspace/knorvia-studio/packages/desktop
+> node scripts/prepare-runtime-assets.mjs
+
+[prepare:runtime-assets] skip prepare:remote-assets (KNORVIA_SKIP_REMOTE_ASSETS=1)
+[ci][timer] prepare-runtime-assets:prepare:agent-bundle start
+
+> @knorvia/desktop@ prepare:agent-bundle /workspace/knorvia-studio/packages/desktop
+> node scripts/prepare-agent-node-bundle.mjs
+
+[prepare:agent-bundle] building cli app-server bundle ...
+
+> @knorvia/shared-types@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/shared-types
+> tsc
+
+
+> @knorvia/contracts@0.1.0 build /workspace/knorvia-studio/apps/cli/packages/contracts
+> tsc
+
+src/hooks/workspace-hook-trust-store.ts(14,8): error TS2307: Cannot find module '@knorvia/shared/workspace-hook-trust-store-file' or its corresponding type declarations.
+src/hooks/workspace-hook-trust-store.ts(18,8): error TS2307: Cannot find module '@knorvia/shared/workspace-hook-trust-store-file' or its corresponding type declarations.
+src/index.ts(102,8): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/index.ts(105,38): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/interfaces/browser-control.port.ts(7,8): error TS2307: Cannot find module '@knorvia/shared/browser-use' or its corresponding type declarations.
+src/interfaces/browser-control.port.ts(43,8): error TS2307: Cannot find module '@knorvia/shared/browser-use' or its corresponding type declarations.
+src/interfaces/browser-control.port.ts(44,41): error TS2307: Cannot find module '@knorvia/shared/browser-use/viewport-limits' or its corresponding type declarations.
+src/interfaces/dynamic-workflow-run.port.ts(590,43): error TS2307: Cannot find module '@knorvia/shared/protocol-v4' or its corresponding type declarations.
+src/interfaces/execution.port.ts(1,49): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/interfaces/mcp.port.ts(5,77): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/model/invocation-context.ts(2,51): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/model/model.ts(10,59): error TS2307: Cannot find module '@knorvia/shared/model-selection' or its corresponding type declarations.
+src/model/model.ts(11,64): error TS2307: Cannot find module '@knorvia/shared/model-config' or its corresponding type declarations.
+src/model/model.ts(13,37): error TS2307: Cannot find module '@knorvia/shared/model-selection' or its corresponding type declarations.
+src/model/model.ts(21,8): error TS2307: Cannot find module '@knorvia/shared/model-config' or its corresponding type declarations.
+src/tools/read.ts(7,39): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/tools/tool-result-metadata.ts(2,47): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+src/tracing/local-turn-preparation.ts(1,76): error TS2307: Cannot find module '@knorvia/shared' or its corresponding type declarations.
+/workspace/knorvia-studio/apps/cli/packages/contracts:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @knorvia/contracts@0.1.0 build: `tsc`
+Exit status 2
+file:///workspace/knorvia-studio/scripts/spawn-command.mjs:45
+    throw new Error(`${command} ${args.join(" ")} failed with code ${result.status}`);
+          ^
+
+Error: pnpm --filter @knorvia/contracts build failed with code 2
+    at runCommand (file:///workspace/knorvia-studio/scripts/spawn-command.mjs:45:11)
+    at file:///workspace/knorvia-studio/scripts/build-desktop-agent-cli.mjs:182:5
+
+Node.js v24.14.0
+file:///workspace/knorvia-studio/scripts/spawn-command.mjs:45
+    throw new Error(`${command} ${args.join(" ")} failed with code ${result.status}`);
+          ^
+
+Error: /tmp/knorvia-native-lock-test-deps-20261003/runtime/node-v24.14.0-linux-x64/bin/node /workspace/knorvia-studio/scripts/build-desktop-agent-cli.mjs failed with code 1
+    at runCommand (file:///workspace/knorvia-studio/scripts/spawn-command.mjs:45:11)
+    at buildCliBundle (file:///workspace/knorvia-studio/packages/desktop/scripts/prepare-agent-node-bundle.mjs:83:3)
+    at file:///workspace/knorvia-studio/packages/desktop/scripts/prepare-agent-node-bundle.mjs:106:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.14.0
+ ELIFECYCLE  Command failed with exit code 1.
+[ci][timer] prepare-runtime-assets:prepare:agent-bundle end duration_ms=5807
+file:///workspace/knorvia-studio/scripts/spawn-command.mjs:45
+    throw new Error(`${command} ${args.join(" ")} failed with code ${result.status}`);
+          ^
+
+Error: pnpm prepare:agent-bundle failed with code 1
+    at runCommand (file:///workspace/knorvia-studio/scripts/spawn-command.mjs:45:11)
+    at runTimedPnpmScript (file:///workspace/knorvia-studio/packages/desktop/scripts/prepare-runtime-assets.mjs:40:5)
+    at file:///workspace/knorvia-studio/packages/desktop/scripts/prepare-runtime-assets.mjs:63:3
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.14.0
+/workspace/knorvia-studio/packages/desktop:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @knorvia/desktop@ prepare:runtime-assets: `node scripts/prepare-runtime-assets.mjs`
+Exit status 1

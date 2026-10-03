@@ -656,3 +656,69 @@ possible future candidate remain exploratory; no full rebuild recipe or replacem
 was completed. Protect this work by commit/push on the same branch, then stop the
 MIT-specific task. No new PR/workflow dispatch, third-party contact or local-user
 machine request is needed for this preserved handoff.
+
+## Cloud package and native integration acceptance
+
+The later delegated request authorizes package builds and relevant acceptance
+checks from merged main `59517d9699519b0a7a44980da27df29d45f0e91e` on this same
+native branch. The actual runtime input is
+`ede8382435ed91e9d62300599e925f6fb90532c0`; the new bundler-only retry correction
+does not claim a newer payload or independent-rewrite credit for inherited main.
+The application remains Apache-2.0. After viewing the original preview, the user's
+“这种不是我们的” clarification supersedes the unmatched creator statement for
+those four SVGs; source handling stays with the integrator and no image/UI changed.
+
+With pinned Node24.14.0/pnpm10.33.2 on Linux x64, frozen dependency repair, official
+runtime preparation and production Desktop build passed. Default dependency
+postinstall failed because electron-rebuild cannot create `/home/agent/.electron-gyp`;
+the frozen `--ignore-scripts` fallback passed. Existing beforePack restores the
+pinned PTY prebuild; the actual packaged native module was subsequently executed.
+The complete configured Linux bundle produced its fresh unpacked payload/AppImage
+but failed FPM release metadata validation. A separate configured AppImage target
+using that payload passed, with `--publish never`. The final188,666,830-byte image
+has SHA256 `1b174f98586d09ca09e61ebd63457c38565cdef7606b3af6d09060ac1bb2cd78`.
+Both image invocations reused the same payload and have different image bytes;
+there is no two-clean-build or whole-release byte reproducibility claim.
+
+Extraction of that real image passed. Its physically separate artifact passed
+**six native check groups**: canonical identity using the existing evidence owner;
+ASAR/native layout and main/host/scheduler/preload entries; packaged CLI0.16.9 in
+Electron41.0.3/Node24.14.0; real PTY output/exit plus SQLite sentinel; two normal
+storage-path handshake/preparation runs preserving that synthetic database row;
+and packaged rg/ugrep/bfs with Chinese/space-containing paths and retained source
+notices. ASAR equals the built ASAR, CLI equals the staged CLI, and PTY equals the
+pinned target prebuild by SHA256. Fixtures were removed; no GUI, model, credentials,
+user computer or real user data was involved. This is bounded native/extraction
+acceptance, not complete legacy migration, GUI first-run or OS install acceptance.
+
+The source fix makes bundle retries require explicit transport-failure signals.
+A successful builder download URL or a generic helper/NSIS resource name no longer
+replays packaging after deterministic missing-metadata/tool errors. Retry limit,
+mirror fallback and target order remain. The four focused regressions reproduced
+**2 passed/2 failed** before the change and then **4 passed/0 failed/0 skipped**.
+Root typecheck, changed-file architecture checks and direct changed-file oxlint
+passed. Root lint failed its frozen-evidence prerequisite for24 prior unregistered
+source-notice snapshots; the actual lint stage did not run. New acceptance snapshots
+also need the integrator's shared-registry registration; no gate was bypassed.
+
+The [result](evidence/native-packaged-acceptance-20261003/result.json),
+[commands](evidence/native-packaged-acceptance-20261003/commands.json),
+[artifact bindings](evidence/native-packaged-acceptance-20261003/artifact-bindings.json)
+and original logs/probes retain actual passes and failures. The remaining handoff:
+
+- Supply factual Linux homepage/release-maintainer email metadata before accepting
+  .deb/.rpm/.pacman; none was invented.
+- The CLI-owned SEA collector assumes CUA `dist/index.js` despite its explicit
+  package-root JS exports. The independent distribution build fails there after
+  CLI/server/Web source stages; no complete archive exists for distribution-smoke.
+  Its owner must adapt collection without removing TUI/Web or changing CUA layout.
+- Register retained native source/acceptance snapshots in shared
+  `licensing/frozen-evidence.json`, then rerun root quality gates.
+- Obtain real Windows NSIS/portable/CUA and existing .exe packaged results, with
+  GUI flows owned by the UI lane. Linux cannot close those stages; macOS was not run.
+
+The original requested PR base remains `integration/backlog-20261003`; it is166
+commits behind merged main at observation time. A draft against that base therefore
+contains already merged baseline changes. Review this batch through its own commit
+and the exact main595 comparison; those inherited changes are not native lane work.
+Retargeting the PR or moving the integration base belongs to the integrator.
