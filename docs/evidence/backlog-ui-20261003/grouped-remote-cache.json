@@ -1,0 +1,61 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped hook remote/carry cache owner and direct installation only; not the entire hook",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Original embedded cache and direct refresh/initialization callers read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared cache scenarios do not validate React/mutations or actual service execution",
+  "retainedBehavior": [
+    "Same-key single flight returns the original Promise",
+    "Last demand across keys, including completed hits, owns cache acceptance",
+    "Invalidated results resolve for old callers without installing or deleting newer work",
+    "8 historical view snapshots; reads do not update eviction order"
+  ],
+  "remaining": [
+    "Refresh scope/unmount acceptance",
+    "Optimistic merge and promotion persistence",
+    "Mutations/order serialization and consumer drag lifecycle"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "96de0a22cc42ef7f193c75505a4a821b130e42e0d64e45e4fa5d24bc3bc3837b",
+      "candidateBytes": 38578,
+      "candidateRole": "partial cache installation; remaining hook body retained and unreviewed",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedRemoteDataCache.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "9ebfb3826e9848fe2ea4bafdfdf16590292c8a77918c3069250eb2defb44a4d9",
+      "candidateBytes": 2720,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-remote-cache-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "ffff53ffc8c2a8625b4fb5aa1dfdee7ab3ee28e95b0a2dfa18d6bfd33c4d3034",
+      "candidateBytes": 4707,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

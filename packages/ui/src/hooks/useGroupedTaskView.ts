@@ -28,6 +28,9 @@ import {
 import { moveTaskToGroupStart } from "@/workspace-grouped-tasks/view.js";
 import { areStabilizedValuesEquivalent } from "@/v4/taskListItemStabilization.js";
 import { taskKey as groupedTaskKey } from "@/workspace-grouped-tasks/ids.js";
+import {
+  GroupedRemoteDataSingleFlight, readCachedGroupedView, writeCachedGroupedView,
+} from "@/workspace-grouped-tasks/groupedRemoteDataCache.js";
 
 function applyPromotedGroupPlacements(
   view: KnorviaGroupedTaskView,
@@ -338,77 +341,6 @@ function isGroupedTaskViewInitialized(params: {
   return params.remoteDataInitialized && params.hydratingEndpointKeys.length === 0;
 }
 
-/**
- * grouped structure/membership 的按 key 单飞缓存。
- *
- * 切换到分组视图时，hook 挂载和 sessions-index 首帧会并发 refresh；旧缓存只保存
- * 已完成结果，所有 cache miss 都各自请求一遍全部 workspace，导致 RPC 风暴并让 loading 不断换代。
- * 这里同时保存进行中的 Promise，并用 generation/sequence 阻止失效或旧 key 的迟到结果回填缓存。
- */
-class GroupedRemoteDataSingleFlight<T> {
-  private generation = 0;
-  private requestSequence = 0;
-  private completed: { key: string; value: T } | null = null;
-  private readonly inFlightByKey = new Map<
-    string,
-    {
-      generation: number;
-      latestRequestSequence: number;
-      promise: Promise<T> | null;
-    }
-  >();
-
-  load(key: string, fetchValue: () => Promise<T>): Promise<T> {
-    const requestSequence = this.requestSequence + 1;
-    this.requestSequence = requestSequence;
-    if (this.completed?.key === key) {
-      return Promise.resolve(this.completed.value);
-    }
-
-    const generation = this.generation;
-    const existing = this.inFlightByKey.get(key);
-    if (existing?.generation === generation && existing.promise) {
-      existing.latestRequestSequence = requestSequence;
-      return existing.promise;
-    }
-
-    const inFlight = {
-      generation,
-      latestRequestSequence: requestSequence,
-      promise: null as Promise<T> | null,
-    };
-    const promise = Promise.resolve()
-      .then(fetchValue)
-      .then((value) => {
-        if (
-          this.generation === generation &&
-          this.requestSequence === inFlight.latestRequestSequence
-        ) {
-          this.completed = { key, value };
-        }
-        return value;
-      })
-      .finally(() => {
-        if (this.inFlightByKey.get(key)?.promise === promise) {
-          this.inFlightByKey.delete(key);
-        }
-      });
-    inFlight.promise = promise;
-    this.inFlightByKey.set(key, inFlight);
-    return promise;
-  }
-
-  isCurrent(key: string, value: T): boolean {
-    return this.completed?.key === key && this.completed.value === value;
-  }
-
-  invalidate(): void {
-    this.generation += 1;
-    this.completed = null;
-    this.inFlightByKey.clear();
-  }
-}
-
 function prependTaskGroupToView(
   view: KnorviaGroupedTaskView,
   group: KnorviaTaskGroup,
@@ -553,36 +485,6 @@ function viewToOrderInput(params: {
         })),
       })),
   };
-}
-
-/**
- * 跨挂载的 grouped 视图缓存（按 scope 签名分桶）。
- *
- * grouped 是唯一把整份列表放在组件实例 useState 里的侧栏视图，timeline/pinned
- * 都从模块级 query cache 渲染。一旦 section 因祖先重挂载 / HMR 重新挂载，grouped 会退回
- * 「空视图 + 首屏门禁关门」，直到两个 RPC 回来——表现为分组列表整块闪一下。这里把最后一份
- * 权威视图留在模块级，重挂载可以立即接着画，RPC 只负责收敛。
- *
- * 脏读窗口（显式契约，不是缺陷）：缓存只在 refresh 成功时写入，没有主动失效。组件卸载期间
- * 发生的删除 / 归档 / 分组变更不会淘汰缓存，重挂载后这些旧行会立即可见且可点击，直到挂载
- * effect 触发的 refresh 返回——窗口上界就是一次 RPC 往返。这是「旧数据优于空白」的既定折衷；
- * 若后续收到点击脏行的反馈，再考虑给缓存条目加 TTL 或降级为占位，而不是扩大这个窗口。
- */
-const GROUPED_VIEW_CACHE_MAX_KEYS = 8;
-const groupedViewCacheBySignature = new Map<string, KnorviaGroupedTaskView>();
-
-function readCachedGroupedView(signature: string): KnorviaGroupedTaskView | undefined {
-  return groupedViewCacheBySignature.get(signature);
-}
-
-function writeCachedGroupedView(signature: string, view: KnorviaGroupedTaskView): void {
-  groupedViewCacheBySignature.delete(signature);
-  groupedViewCacheBySignature.set(signature, view);
-  while (groupedViewCacheBySignature.size > GROUPED_VIEW_CACHE_MAX_KEYS) {
-    const oldestKey = groupedViewCacheBySignature.keys().next().value;
-    if (oldestKey === undefined) break;
-    groupedViewCacheBySignature.delete(oldestKey);
-  }
 }
 
 export function useGroupedTaskView(params: { workspaceTabs: WorkspaceTabState[] }) {
