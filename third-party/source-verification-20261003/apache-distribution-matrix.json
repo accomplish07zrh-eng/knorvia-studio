@@ -1,0 +1,630 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "currentProjectDefault": "Apache-2.0",
+  "mitMigrationActive": false,
+  "thirdPartyRemovalScopePending": false,
+  "existingExplicitFileAndComponentLicensesPreserved": true,
+  "historicalMaterialItems": 26,
+  "historicalMaterialRecordsRemoved": 0,
+  "newGenericIndependentAuthorshipAuditRequiredForMit": false,
+  "actualGuiAndInstallersExecuted": false,
+  "items": [
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "ISC",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "c931065b3ca66a504fde9fb00cab1100cd771da95226cc67011247a48c0eb377",
+      "membersRead": 91,
+      "staticProductionAndOptionalClosures": [],
+      "declaredPackageReferenceInRootLock": false,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Absent from current lock and three production closures. Preserve historical notices; no current runtime redistribution requirement inferred without evidence of actual inclusion."
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "ISC",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "9ea195bb1504209879359247a39c8ca2cb46b832e9e5f00932c0c0661d3a083f",
+      "membersRead": 96,
+      "staticProductionAndOptionalClosures": [],
+      "declaredPackageReferenceInRootLock": false,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Absent from current lock and three production closures. Preserve historical notices; no current runtime redistribution requirement inferred without evidence of actual inclusion."
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "05aa61fd5b6bc4778e9f1f96053dfd5fc1f4e6994576bfe72273d6bd80ee8ff7",
+      "membersRead": 9,
+      "staticProductionAndOptionalClosures": [],
+      "declaredPackageReferenceInRootLock": false,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Absent from current lock and three production closures. Preserve historical notices; no current runtime redistribution requirement inferred without evidence of actual inclusion."
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "48b94f87b85ca84428491d7275f0fad16450254bd49d9b2b4f621539fda8a2af",
+      "membersRead": 10,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "packages/desktop",
+          "reference": "1.3.0(@hono/node-server@1.19.14(hono@4.12.12))(hono@4.12.12)",
+          "chain": [
+            "packages/desktop",
+            "@knorvia/server@link:../server",
+            "@hono/node-ws@1.3.0(@hono/node-server@1.19.14(hono@4.12.12))(hono@4.12.12)"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "57f8d0cf303951c66dcdab2a10c2fe57194ad4cbb851880c604d4c3e521def2b",
+      "membersRead": 8,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "packages/desktop",
+          "reference": "2.2.0",
+          "chain": [
+            "packages/desktop",
+            "@knorvia/ui@link:../ui",
+            "shadcn@4.1.1(@types/node@25.6.0)(typescript@6.0.2)",
+            "msw@2.13.3(@types/node@25.6.0)(typescript@6.0.2)",
+            "@open-draft/deferred-promise@2.2.0"
+          ]
+        },
+        {
+          "product": "packages/web",
+          "reference": "2.2.0",
+          "chain": [
+            "packages/web",
+            "@knorvia/ui@link:../ui",
+            "shadcn@4.1.1(@types/node@25.6.0)(typescript@6.0.2)",
+            "msw@2.13.3(@types/node@25.6.0)(typescript@6.0.2)",
+            "@open-draft/deferred-promise@2.2.0"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "BSD-3-Clause",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655",
+      "membersRead": 4,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "packages/desktop",
+          "reference": "6.2.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)",
+          "chain": [
+            "packages/desktop",
+            "@knorvia/ui@link:../ui",
+            "ansi-to-react@6.2.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)"
+          ]
+        },
+        {
+          "product": "packages/web",
+          "reference": "6.2.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)",
+          "chain": [
+            "packages/web",
+            "@knorvia/ui@link:../ui",
+            "ansi-to-react@6.2.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "ISC",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "69628ff8092c5ff940ea4a0f29da98d520615bae138755c9e059033606c6caa8",
+      "membersRead": 3,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "apps/cli/packages/cli",
+          "reference": "1.0.0",
+          "chain": [
+            "apps/cli/packages/cli",
+            "@knorvia/adapters@link:../adapters",
+            "cheerio@1.2.0",
+            "cheerio-select@2.1.0",
+            "boolbase@1.0.0"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba",
+      "membersRead": 7,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "packages/desktop",
+          "reference": "1.2.0",
+          "chain": [
+            "packages/desktop",
+            "@knorvia/ui@link:../ui",
+            "shadcn@4.1.1(@types/node@25.6.0)(typescript@6.0.2)",
+            "msw@2.13.3(@types/node@25.6.0)(typescript@6.0.2)",
+            "is-node-process@1.2.0"
+          ]
+        },
+        {
+          "product": "packages/web",
+          "reference": "1.2.0",
+          "chain": [
+            "packages/web",
+            "@knorvia/ui@link:../ui",
+            "shadcn@4.1.1(@types/node@25.6.0)(typescript@6.0.2)",
+            "msw@2.13.3(@types/node@25.6.0)(typescript@6.0.2)",
+            "is-node-process@1.2.0"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372",
+      "membersRead": 5,
+      "staticProductionAndOptionalClosures": [],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Outside the three declared production/optional closures. Preserve prior evidence and notices; apply new-product redistribution requirements only if the actual package inventory includes this build/tool component."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/docx.svg",
+        "gitBlob": "650a62a706fec2b397c1fd4c188d7765661fde03",
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/folder.svg",
+        "gitBlob": "ebd721c1ad5d74e142d8ae91c385abc84bb02eb8",
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/pptx.svg",
+        "gitBlob": "0848ab4d3e31ad056afdab02ce5e5982e2694791",
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/xlsx.svg",
+        "gitBlob": "f5e45fdd599af9f818b3daf95c14d9963325d667",
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/web/public/material-icons/docx.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/web/public/material-icons/docx.svg",
+      "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/docx.svg",
+        "gitBlob": "650a62a706fec2b397c1fd4c188d7765661fde03",
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/web/public/material-icons/folder.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/web/public/material-icons/folder.svg",
+      "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/folder.svg",
+        "gitBlob": "ebd721c1ad5d74e142d8ae91c385abc84bb02eb8",
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/web/public/material-icons/pptx.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/web/public/material-icons/pptx.svg",
+      "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/pptx.svg",
+        "gitBlob": "0848ab4d3e31ad056afdab02ce5e5982e2694791",
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "packages/web/public/material-icons/xlsx.svg",
+      "originalRegister": "licensing/evidence/material-icon-theme.json",
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "svg-asset",
+      "path": "packages/web/public/material-icons/xlsx.svg",
+      "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "coverageClarification": "User rejected these exact preview assets as their own. Earlier broad Claude authorship statement is not mapped to these bytes.",
+      "classification": "Retained original-project SVG bytes; exact original applicable asset source/license still unresolved, no user-authorship claim.",
+      "distributionAction": "Preserve current UI and original records. Verify actual upstream/source license; if unresolved, prepare compatibility-preserving independent asset candidates without replacing current UI automatically.",
+      "earlierOriginDeclaration": "svg？我的Claude自绘的",
+      "userLatestRecognition": "这种不是我们的",
+      "previewLibraryFileId": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+      "exactOriginalProjectBinding": {
+        "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sourcePath": "packages/web/public/material-icons/xlsx.svg",
+        "gitBlob": "f5e45fdd599af9f818b3daf95c14d9963325d667",
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "fullBytesSame": true,
+        "evidence": "bounded-svg-source-facts.json",
+        "qualification": "Web original bytes were read; Desktop has the same paired bytes. This binds original-project inheritance, not complete creator/asset-license rights."
+      }
+    },
+    {
+      "id": "QuickJS-NG",
+      "originalRegister": "third-party/embedded-components.json",
+      "recordedLicense": "MIT engine plus separately licensed WASI/libc/LLVM/crypto/URL extensions",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "embedded-engine",
+      "actualPublishedWasmRead": 7,
+      "mainWasmSha256": "b92a9f3d9cd20c7a0b0163269437115314c96712e3248d2da1b631ca1c8b008e",
+      "producerLlvmRevision": "4434dabb69916856b824f68a64b029c67175e532",
+      "sdkTreeSha": "249054e5427023344c1906afde0e9073714d1930",
+      "existingNoticesRetained": 16,
+      "distributionAction": "CLI proxy/PAC chain includes this package. Desktop carries a separate CLI agent resource, so the host-only graph does not prove Desktop absence. Inspect real agent resources for all seven binaries and link/component notices; producer/SDK correspondence is not a complete link manifest."
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1",
+      "membersRead": 49,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "apps/cli/packages/cli",
+          "reference": "2.2.0",
+          "chain": [
+            "apps/cli/packages/cli",
+            "@knorvia/adapters@link:../adapters",
+            "proxy-agent@8.0.1",
+            "pac-proxy-agent@9.0.1",
+            "quickjs-wasi@2.2.0"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "React Best Practices skill",
+      "originalRegister": "third-party/copied-components.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "vendored-skill",
+      "path": ".agents/skills/react-best-practices",
+      "reference": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "currentFiles": 76,
+      "sameFirstRepositorySnapshotFiles": 76,
+      "exactReferenceFiles": 4,
+      "sameAfterCurrentFormatterFiles": 74,
+      "adaptedFiles": ["AGENTS.md", "README.md"],
+      "actualImportRevision": null,
+      "scopeOfMissingMaterial": "Complete publisher original notice remains absent at the pinned reference. Unmerged upstream license proposal is not substituted.",
+      "distributionAction": "Preserve MIT declarations and Shu Ding/Vercel attribution. Use exact skill identification for user recognition, retain original/adaptation binding; no MIT-independent-rewrite requirement for this legitimate third-party declaration."
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "ccc872d7a2dc007cbf9d755f30d56b8d80eabdbe22c44c95a709129bfdc46f01",
+      "membersRead": 27,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "packages/desktop",
+          "reference": "2.3.8(@types/react@19.2.14)(react@19.2.7)",
+          "chain": [
+            "packages/desktop",
+            "@knorvia/ui@link:../ui",
+            "cmdk@1.1.1(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)",
+            "@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)",
+            "react-remove-scroll@2.7.2(@types/react@19.2.14)(react@19.2.7)",
+            "react-remove-scroll-bar@2.3.8(@types/react@19.2.14)(react@19.2.7)"
+          ]
+        },
+        {
+          "product": "packages/web",
+          "reference": "2.3.8(@types/react@19.2.14)(react@19.2.7)",
+          "chain": [
+            "packages/web",
+            "@knorvia/ui@link:../ui",
+            "cmdk@1.1.1(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)",
+            "@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)",
+            "react-remove-scroll@2.7.2(@types/react@19.2.14)(react@19.2.7)",
+            "react-remove-scroll-bar@2.3.8(@types/react@19.2.14)(react@19.2.7)"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "originalRegister": "third-party/native-search/sources.json",
+      "recordedLicense": "Rust standard library license scope pending exact recorded toolchain binding; other retained Rust notices cannot be substituted for this missing record.",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "native-search-material",
+      "ownership": "native original task; accepted exact facts head ede8382435ed91e9d62300599e925f6fb90532c0; not re-audited here",
+      "distributionAction": "Retain exact published archives and executable bindings. Original private toolchain/std material remains unrecovered; preserve actual helper MIT notice separately, without substituting the official Rust 1.88 or helper notice for private toolchain/Spectre material.",
+      "configuredToolchainFamily": "ms-1.88",
+      "sourceReferenceVerified": false,
+      "evidence": "../../docs/evidence/native-source-notices-20261003/native-input-source-facts.json"
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2",
+      "membersRead": 7,
+      "staticProductionAndOptionalClosures": [],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Outside the three declared production/optional closures. Preserve prior evidence and notices; apply new-product redistribution requirements only if the actual package inventory includes this build/tool component."
+    },
+    {
+      "id": "Skia",
+      "originalRegister": "third-party/embedded-components.json",
+      "recordedLicense": "BSD-3-Clause core plus separately licensed linked libraries",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "embedded-engine",
+      "actualPublishedPlatformBindingsRead": 8,
+      "wrapperLicense": "MIT",
+      "existingCoreAndLinkedNoticesRetained": 18,
+      "staticConsumer": "PDF.js optional Canvas dependency in Desktop/Web; absent from CLI production closure.",
+      "desktopPackagePolicy": "Canvas wrapper/platform native packages are explicitly pruned; actual final app.asar not inspected.",
+      "distributionAction": "For an actual Canvas-containing artifact, bind its native SHA, platform/compiler/link closure and required original notices. Do not assign Skia to packages proven to exclude it."
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab",
+      "membersRead": 7,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "packages/desktop",
+          "reference": "0.5.1",
+          "chain": [
+            "packages/desktop",
+            "@knorvia/ui@link:../ui",
+            "shadcn@4.1.1(@types/node@25.6.0)(typescript@6.0.2)",
+            "msw@2.13.3(@types/node@25.6.0)(typescript@6.0.2)",
+            "strict-event-emitter@0.5.1"
+          ]
+        },
+        {
+          "product": "packages/web",
+          "reference": "0.5.1",
+          "chain": [
+            "packages/web",
+            "@knorvia/ui@link:../ui",
+            "shadcn@4.1.1(@types/node@25.6.0)(typescript@6.0.2)",
+            "msw@2.13.3(@types/node@25.6.0)(typescript@6.0.2)",
+            "strict-event-emitter@0.5.1"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "originalRegister": "third-party/npm-overrides.json",
+      "recordedLicense": "MIT",
+      "historicalRecordPreserved": true,
+      "treatment": "Preserve the applicable component license and attribution; do not relabel as all-Apache or Knorvia authorship.",
+      "kind": "npm-package",
+      "archiveSha256": "9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446",
+      "membersRead": 15,
+      "staticProductionAndOptionalClosures": [
+        {
+          "product": "apps/cli/packages/cli",
+          "reference": "0.2.0",
+          "chain": [
+            "apps/cli/packages/cli",
+            "@knorvia/tui@link:../tui",
+            "@mbears/opentui-core@0.2.15(typescript@6.0.2)(web-tree-sitter@0.25.10)",
+            "unsafe-pointer@0.2.0"
+          ]
+        }
+      ],
+      "declaredPackageReferenceInRootLock": true,
+      "scopeOfMissingMaterial": "Complete original publisher copyright/license notice for the exact included package; package identifier/README declarations preserved. Full member and pinned-source reads have not recovered it.",
+      "distributionAction": "Bind actual bundled package inventory to the exact archive version, preserve original declarations and embedded headers, supplement complete notices for included components."
+    }
+  ],
+  "qualification": "This matrix records actual reads and conditional distribution applicability. It does not declare all 26 historical items blockers for every Apache source subset or artifact, infer infringement from a source match/missing receipt, or invent component rights.",
+  "ordinaryThirdPartyDependenciesRetained": true,
+  "originalProjectImplementationReplacementActive": true
+}

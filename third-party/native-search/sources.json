@@ -184,7 +184,29 @@
       "archive": "ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
       "sha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
       "pcre2VersionStrings": ["10.43 2024-02-16"],
-      "compilerVersionStrings": []
+      "compilerVersionStrings": [],
+      "publisherEvidence": {
+        "releaseCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+        "releaseURL": "https://github.com/microsoft/ripgrep-prebuilt/releases/tag/v14.1.1-1",
+        "releaseMetadataURL": "https://api.github.com/repos/microsoft/ripgrep-prebuilt/releases/tags/v14.1.1-1",
+        "assetId": 297624667,
+        "publisherDigest": "sha256:88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+        "publisherSize": 1868214,
+        "evidence": "docs/evidence/native-source-notices-20261003/native-input-source-facts.json"
+      },
+      "executable": {
+        "member": "rg.exe",
+        "sha256": "6545d832a57164e54405f019cf6861c397920aa1d6cc4569bfd85441f79ea043",
+        "bytes": 4840960
+      },
+      "rustToolchainEvidence": {
+        "configuredFamily": "ms-1.88",
+        "buildSource": "https://github.com/microsoft/ripgrep-prebuilt/blob/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/build/windows.yml",
+        "embeddedSourceRevisions": ["6a6eaca656978778f7c1c750ee0c3db87f8bffb2"],
+        "exactToolchainPackageVersion": null,
+        "exactStandardLibraryNoticeStatus": "unrecovered",
+        "qualification": "The configured Microsoft family is not the official Rust1.88.0 release; embedded source strings corroborate this revision but do not identify a publicly recoverable source/package or license."
+      }
     },
     {
       "toolId": "ugrep",
@@ -204,7 +226,29 @@
       "archive": "ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
       "sha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
       "pcre2VersionStrings": ["10.43 2024-02-16"],
-      "compilerVersionStrings": []
+      "compilerVersionStrings": [],
+      "publisherEvidence": {
+        "releaseCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+        "releaseURL": "https://github.com/microsoft/ripgrep-prebuilt/releases/tag/v14.1.1-1",
+        "releaseMetadataURL": "https://api.github.com/repos/microsoft/ripgrep-prebuilt/releases/tags/v14.1.1-1",
+        "assetId": 297624693,
+        "publisherDigest": "sha256:ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+        "publisherSize": 2008214,
+        "evidence": "docs/evidence/native-source-notices-20261003/native-input-source-facts.json"
+      },
+      "executable": {
+        "member": "rg.exe",
+        "sha256": "57aec5102a212204920d089562d9dbcaa438e9f2222d9a370d439622441b64f0",
+        "bytes": 5388800
+      },
+      "rustToolchainEvidence": {
+        "configuredFamily": "ms-1.88",
+        "buildSource": "https://github.com/microsoft/ripgrep-prebuilt/blob/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/build/windows.yml",
+        "embeddedSourceRevisions": ["6a6eaca656978778f7c1c750ee0c3db87f8bffb2"],
+        "exactToolchainPackageVersion": null,
+        "exactStandardLibraryNoticeStatus": "unrecovered",
+        "qualification": "The configured Microsoft family is not the official Rust1.88.0 release; embedded source strings corroborate this revision but do not identify a publicly recoverable source/package or license."
+      }
     }
   ],
   "components": [
@@ -3158,7 +3202,18 @@
       "id": "rust-standard-library",
       "version": "6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
       "url": "https://github.com/rust-lang/rust/tree/6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
-      "notices": []
+      "notices": [],
+      "versionKind": "embedded-rust-source-prefix; exact source revision not independently recovered",
+      "sourceRecovery": {
+        "configuredToolchainFamily": "ms-1.88",
+        "feed": "https://pkgs.dev.azure.com/monacotools/Monaco/_packaging/RustTools/nuget/v3/index.json",
+        "anonymousFeedHTTPStatus": 401,
+        "rustLangCommitAPIHTTPStatus": 422,
+        "rustLangCopyrightHTTPStatus": 404,
+        "sourceReferenceVerified": false,
+        "evidence": "docs/evidence/native-source-notices-20261003/native-input-source-facts.json",
+        "qualification": "The existing rust-lang source URL remains an unverified historical pointer. No substitute standard-library notice or rights decision is supplied. These access/source gaps do not establish infringement or absence of permission."
+      }
     },
     {
       "id": "rust-standard-library",
@@ -3201,6 +3256,30 @@
           "member": "https://raw.githubusercontent.com/rust-lang/rust/fc594f15669680fa70d255faec3ca3fb507c3405/COPYRIGHT",
           "file": "third-party/native-search/licenses/bd0581fef622b3d8b25836cf70feb7e1a7a6171ea9e440b46dfda74c46a0ed0d.txt",
           "sha256": "bd0581fef622b3d8b25836cf70feb7e1a7a6171ea9e440b46dfda74c46a0ed0d"
+        }
+      ]
+    },
+    {
+      "id": "msvc_spectre_libs",
+      "version": "0.1.3",
+      "url": "https://static.crates.io/crates/msvc_spectre_libs/msvc_spectre_libs-0.1.3.crate",
+      "sha256": "29e871a9861f3664f18b7e04e9301d4edd55090c2dadb4b1c602e26ab32b1f5b",
+      "license": "MIT",
+      "licenseQualification": "Select the original package MIT LICENSE; Cargo metadata also says MIT OR Apache-2.0. This build-helper notice does not cover Visual Studio/Spectre libraries, Microsoft Rust standard-library/toolchain modifications, or the application.",
+      "sourceCommit": "ba10bb6445cd033defab3c573d554de3a8fe10fd",
+      "inclusionEvidence": {
+        "publisherBuildCommit": "7ea8b7eb6c0de96fe4275bba5e88cb49297af42e",
+        "patch": "patches/0001-resolve-binskim-issues.patch",
+        "patchURL": "https://github.com/microsoft/ripgrep-prebuilt/blob/7ea8b7eb6c0de96fe4275bba5e88cb49297af42e/patches/0001-resolve-binskim-issues.patch",
+        "scope": "Windows target dependency with error feature and exact Cargo.lock checksum; conservative patched-build input record, not proof of retained runtime machine code.",
+        "targets": ["aarch64-pc-windows-msvc", "x86_64-pc-windows-msvc"],
+        "evidence": "docs/evidence/native-source-notices-20261003/msvc-spectre-notice-basis.json"
+      },
+      "notices": [
+        {
+          "member": "msvc_spectre_libs-0.1.3/LICENSE",
+          "file": "third-party/native-search/licenses/c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383.txt",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
         }
       ]
     }

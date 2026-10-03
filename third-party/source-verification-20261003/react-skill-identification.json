@@ -1,0 +1,1475 @@
+{
+  "name": "Vercel React Best Practices",
+  "directory": ".agents/skills/react-best-practices",
+  "registeredSkillName": "vercel-react-best-practices",
+  "firstRepositoryCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+  "firstRepositoryCommitDate": "2026-09-24T22:50:46+08:00",
+  "upstreamReferenceCommit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+  "upstreamSource": "https://codeload.github.com/vercel-labs/agent-skills/tar.gz/063bee94c3f4df8453406c830b0a7df0f2860278",
+  "declaredAuthor": "vercel",
+  "localReadmeAttribution": "Shu Ding at Vercel",
+  "trackedFileCount": 76,
+  "currentFiles": [
+    {
+      "path": ".agents/skills/react-best-practices/AGENTS.md",
+      "sha256": "9d0d1c4f1922a65ddead8b869b4f2653bf3c10c84b1c8c9dd2507e0a4a4c82cb",
+      "bytes": 108439,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/README.md",
+      "sha256": "e49f5e0088d47dab6687a7d501e9f3b23ce8ce7e8a8e428a2fd590e582f966da",
+      "bytes": 801,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/SKILL.md",
+      "sha256": "b7d246acb440bee224ab33614979a5b8debe5fdb13d0304967aa19358eb69d9f",
+      "bytes": 7443,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/metadata.json",
+      "sha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354",
+      "bytes": 921,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/_sections.md",
+      "sha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115",
+      "bytes": 1554,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/_template.md",
+      "sha256": "fee4f1bc27a105bd82662c259018e6a2d115b01d355ca04b8ee72ccaf6c7e434",
+      "bytes": 633,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-effect-event-deps.md",
+      "sha256": "b5d8d13942539c7545cf881d4faab8e868dcf0cc8e75fa3e6fb33ff4844f271f",
+      "bytes": 1810,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-event-handler-refs.md",
+      "sha256": "775e3c2edc803270fb91b5e5b0b111c38d4d1146a7ae0201ccc22c22c3c4c68d",
+      "bytes": 1498,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-init-once.md",
+      "sha256": "9e41179610d597081728d4f8102506e7ccee06a9c027caf1552d4ab5b3ed042f",
+      "bytes": 967,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-use-latest.md",
+      "sha256": "5cd66168e6bec629ee882e969b0d53d52610f7cb4e065846ed1d0793a1dec1bf",
+      "bytes": 1081,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-api-routes.md",
+      "sha256": "242c9d7a00ba5083c12c233a64108755f7c6ef59925a7c50dcb436f0b1edd3f8",
+      "bytes": 1122,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+      "sha256": "bced8ccf27a344e78f1334c8ce3e6a8ce9ffbffe26a9d65f65fd280c6d8dabdb",
+      "bytes": 1222,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-defer-await.md",
+      "sha256": "ce8a6727ed3f20e29d2a9272943a7d4f10ea6001a094e88909d881724270c8ea",
+      "bytes": 2204,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-dependencies.md",
+      "sha256": "3f03ca575c1d9be6e1d9dbe7caf3c1e7d8546133a47783d94293ddde213f03f8",
+      "bytes": 1304,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-parallel.md",
+      "sha256": "7faedef899d93d30cb03c0508bfa15190edbed7855c6bf88c1b1400e236a728c",
+      "bytes": 650,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-suspense-boundaries.md",
+      "sha256": "6fae5c16cc3f84e96ed7a20c063d7561ad5368feebca758f2b70600dbd9076d4",
+      "bytes": 2517,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-analyzable-paths.md",
+      "sha256": "5d8d29ba3f68f8da57bdf0ee50ef84b4556eba95a207c9eb4959520a9d342bf5",
+      "bytes": 2389,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-barrel-imports.md",
+      "sha256": "512aa4277d3f29ce6d7612cb0744d8c049ccafdeb3a72fd2843ae8ce0be2f64d",
+      "bytes": 2803,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-conditional.md",
+      "sha256": "f8e927725c448703fa3f1fb31bd45218e9259d544000f83eb95444fee7def7f6",
+      "bytes": 966,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-defer-third-party.md",
+      "sha256": "0c3575198a55115cd278e64bc328ec348a06d6ae9e3076d9eb14a15d050b46cb",
+      "bytes": 924,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-dynamic-imports.md",
+      "sha256": "3d13ee1e2ed4596c7ddd034607719b70ebc9346c65eeaff79cf2c2417d8f4104",
+      "bytes": 795,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-preload.md",
+      "sha256": "7e632ae1cb8b914243ff6f5103e30009514e292c3321c265911661d5e458b356",
+      "bytes": 1126,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-event-listeners.md",
+      "sha256": "dcdfd4e5f57c36b8a206a31e321f7227b6427b430ee1182cee1e1abd77764635",
+      "bytes": 2003,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-localstorage-schema.md",
+      "sha256": "6e21253d070ebe50b6c222186ed756814dfae674d458b475727c9d4ef6c23c9a",
+      "bytes": 1988,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-passive-event-listeners.md",
+      "sha256": "72894ea2eef53bf8efe0c597ca4e4ef2b47d48e1c9d3f2e5ea7cf50feeb0bac8",
+      "bytes": 1652,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-swr-dedup.md",
+      "sha256": "6be13ae14595b48908310672ca8b1bb6720e9dd906f68566fc48778da2dc8cd3",
+      "bytes": 1171,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-batch-dom-css.md",
+      "sha256": "d00ff06d829a4a367dcf3d3919812733b6542c4dde8a40722b044823e66cd402",
+      "bytes": 3266,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-cache-function-results.md",
+      "sha256": "3005995cfe8eba0538279f73b3423400bc1f0d410130b7f09c4c6fc938c9c2d7",
+      "bytes": 1936,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-cache-property-access.md",
+      "sha256": "7bdf71639e95132223ebf4309580a4a8979e2a9c6d0551409843d0eea81f8117",
+      "bytes": 536,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-cache-storage.md",
+      "sha256": "b428b53c40e8e45edd72d3f5de600cc07009c1d7dd68991b04ae141c4b07d441",
+      "bytes": 1653,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-combine-iterations.md",
+      "sha256": "8f054989560a25f72d53f202443d5fc2ff79375aaff881f7966fd4d9fa223ecb",
+      "bytes": 768,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-early-exit.md",
+      "sha256": "8a31c105d95c20d774e69f0dc4f14ac869276745dc97f4b3f604dba2c5b04603",
+      "bytes": 1139,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-flatmap-filter.md",
+      "sha256": "046a287a88aeeadb002fbc590d459c8f12920ccc0c2d335228ea469bd9cc4b5f",
+      "bytes": 1418,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-hoist-regexp.md",
+      "sha256": "3381777595af13ab14d9d7c2c6f30c8fbde0a7dba69d12aa4c2f32947ec4e99e",
+      "bytes": 1029,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-index-maps.md",
+      "sha256": "a0bdf99ff9d954b63eea790fd81768d8ce141f6df1e87c25840e9c88fdcc4d45",
+      "bytes": 850,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-length-check-first.md",
+      "sha256": "e5efeb8ff1ddad9286e4ae842ef42a517925ee03edb46e9c2a5a794d9e077ea9",
+      "bytes": 1754,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-min-max-loop.md",
+      "sha256": "beb6df30fab6d299169d27693da43201d1999010b778fe743679860ae8a03af5",
+      "bytes": 2298,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-request-idle-callback.md",
+      "sha256": "219c5bdbb779a44c63262a5ca4e747aa484a0c6b81938a888d80f0c238a69e9e",
+      "bytes": 2665,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-set-map-lookups.md",
+      "sha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b",
+      "bytes": 532,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-tosorted-immutable.md",
+      "sha256": "62dc2921621cfe50b377979b0cf0118d9284fc73f92d88e89baccf8fecd76692",
+      "bytes": 1783,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-activity.md",
+      "sha256": "535312cadf0312834e749a14897123f7eb98ec6daadae35f7cbb9d2e36f6d545",
+      "bytes": 566,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "sha256": "369976cd613a7d5aee5350eb55ceb62184ace4d75a9a57c2e4cd579157a2f54a",
+      "bytes": 1121,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-conditional-render.md",
+      "sha256": "81ef33223568f03038a2189a9d97db05e447168430a2ad7c7258208b14c82684",
+      "bytes": 938,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-content-visibility.md",
+      "sha256": "473ba911f62559ab463a7b01d4167010548a15e92d08a3e2e0306d6709999d16",
+      "bytes": 818,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-hoist-jsx.md",
+      "sha256": "4cede4559302c8577ec0e1a9b761804090783b8d9da8134ca9af551b54cd5157",
+      "bytes": 993,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "sha256": "79ffe8f33ec4c4b0838e1dfd91d679b19c429847b58259baa6968485ed3a5005",
+      "bytes": 2250,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "sha256": "f2ca794aa650534f31f4c94ef75ff0002edaee56207950297743300a568072f9",
+      "bytes": 852,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-resource-hints.md",
+      "sha256": "424aa829393482e7784e2296eb5026512bff426405f97e63ee1e85a0cd1d19f7",
+      "bytes": 2689,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-script-defer-async.md",
+      "sha256": "1d7754ca787a16517b1e8de16ae203789c0ceadf9f76d564e16a4f8c6fa31359",
+      "bytes": 1872,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-svg-precision.md",
+      "sha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb",
+      "bytes": 588,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-usetransition-loading.md",
+      "sha256": "e14f4eb969c7c86c8fd057ce83d8146279e45cac5ccc4c50c8aca32212b07d14",
+      "bytes": 2090,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-defer-reads.md",
+      "sha256": "2faba85e83c16aebf48168f9b1b261e2c9922a69d0e1f36f767250eeefb746bd",
+      "bytes": 983,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-dependencies.md",
+      "sha256": "25aa43d6aaf40cb1edb97d36eb8684678c929560934c9731d50ac602284fe93a",
+      "bytes": 833,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "sha256": "3f5b04e50ed1be24e203f1f5bd645df422e720f784e9604676652f161ac43635",
+      "bytes": 1211,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-derived-state.md",
+      "sha256": "8f1d225c76d11ed7705110898ba21ecb7a9d9b81eb688b678b6ca152e5d7851d",
+      "bytes": 732,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-functional-setstate.md",
+      "sha256": "87fd1a19792955f50bac69ed46e3576d55f35138928a660867a9e99cd71f68af",
+      "bytes": 2989,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-lazy-state-init.md",
+      "sha256": "f0c25cbab4981d113663fea1508ce0b07e59e992121743bed5e7a107dc669d03",
+      "bytes": 2012,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-memo-with-default-value.md",
+      "sha256": "97044a6c30973672df6be20cbcd7e1e3582ca7550a46b661021c3ade93759354",
+      "bytes": 1171,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-memo.md",
+      "sha256": "bd1f0d21b55e68685468d883d8e6d385a6f8feb8fcd9628066ac4144d7087ba6",
+      "bytes": 1158,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-move-effect-to-event.md",
+      "sha256": "05e13a75e5237d8491a49dcd7d724e93522b65126f11d5782b6f0408b60afbfe",
+      "bytes": 1278,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-no-inline-components.md",
+      "sha256": "ce5cf1319267e3184b7e79d08d555cc51dc6a664ddff24d4557b01d16e954a94",
+      "bytes": 2100,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "sha256": "147dfd4acab2c64f20ab9f0476e966d9445abebbcc400eb51dd407037e1bc998",
+      "bytes": 1023,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-split-combined-hooks.md",
+      "sha256": "4124d594029220f6cedbdff5dc2bbacc5c16289d5aeb53fff6ef6d7341a2d2ea",
+      "bytes": 1861,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-transitions.md",
+      "sha256": "698267bd65c8a0bf3350b7386d7b619da02fd1fac97930d9a3098346c6853761",
+      "bytes": 1067,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-use-deferred-value.md",
+      "sha256": "84c8bec6c8d525e8e712376c4d37d1133fe74d2550a0943232dd139147b87c24",
+      "bytes": 1863,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "sha256": "adc30b14f13ea2b020bf8eaa2b3fd8410050421c5753de0c8ff03bd10b9e5576",
+      "bytes": 1758,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-after-nonblocking.md",
+      "sha256": "13d34ead58d626015c300d9d737808ae23a0a53976b8497247cd9323ff90aeda",
+      "bytes": 2016,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-auth-actions.md",
+      "sha256": "7961af203b51ef5c2a975e0e5d05e91955a4b214a15d1970a4b8ea7150722d40",
+      "bytes": 2659,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-cache-lru.md",
+      "sha256": "bb33aab8bb6f81bbaa441cf6e254cf79f73a8a15b610f81fd2de6567440f232f",
+      "bytes": 1360,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-cache-react.md",
+      "sha256": "6a67163afb9b98bae45b129d48cc26b00d13e2b5a38b36d19b05f1444537aefa",
+      "bytes": 2241,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-dedup-props.md",
+      "sha256": "833b59dc0d9a6f5473bc57fef70f4c9e928513bb0bdd9e3361f0520ecb529626",
+      "bytes": 2065,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-hoist-static-io.md",
+      "sha256": "2a4d6f78430661ec065a6649c1859655039d3ec2d23e35797d95ac730cf017eb",
+      "bytes": 4405,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-no-shared-module-state.md",
+      "sha256": "74f529c7e2bf6f5ed0552580c1ccc6d35f9ce48c3de008f3a98c7d876a26fd1f",
+      "bytes": 1773,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-parallel-fetching.md",
+      "sha256": "cd68caf2eb3946f12bd236c5a4e668e03dd3e7a54acf8d84bd54a199126d6018",
+      "bytes": 1569,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-parallel-nested-fetching.md",
+      "sha256": "4d9c44e579e1286013acf5cb5f65b04297d2b68909f44f8163804656514a78ff",
+      "bytes": 996,
+      "sameBytesAsFirstRepositorySnapshot": true
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-serialization.md",
+      "sha256": "4d025c42043c56e6355196a2e885d168cdb15248d0797146c9db838a57b34946",
+      "bytes": 1006,
+      "sameBytesAsFirstRepositorySnapshot": true
+    }
+  ],
+  "comparison": [
+    {
+      "sourcePath": "skills/react-best-practices/AGENTS.md",
+      "relativePath": "AGENTS.md",
+      "sourceSha256": "fc93e7421177bbf869cce892bc60a6c83a4517d974bc3bf65c4e2c1e58a6ccf6",
+      "localPath": ".agents/skills/react-best-practices/AGENTS.md",
+      "localExists": true,
+      "localSha256": "9d0d1c4f1922a65ddead8b869b4f2653bf3c10c84b1c8c9dd2507e0a4a4c82cb",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": false,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "11a9a8c9c5eb0c94052a9b67623d49f505a677f376fbeec41791a975b17b2b56"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/README.md",
+      "relativePath": "README.md",
+      "sourceSha256": "9eafb2123d3b8b2aef41fba0db2648a3f4f49996f8c7c8bb2c86263befd8b48a",
+      "localPath": ".agents/skills/react-best-practices/README.md",
+      "localExists": true,
+      "localSha256": "e49f5e0088d47dab6687a7d501e9f3b23ce8ce7e8a8e428a2fd590e582f966da",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": false,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "3e655903c32e4b0d0f65d0124d594d992ad1447e3b3fe6df6c149a979c54f97e"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/SKILL.md",
+      "relativePath": "SKILL.md",
+      "sourceSha256": "71ed7794962fa6e803ee83030517b5b93a9f70fbfeb431ec4535c5480a8d8355",
+      "localPath": ".agents/skills/react-best-practices/SKILL.md",
+      "localExists": true,
+      "localSha256": "b7d246acb440bee224ab33614979a5b8debe5fdb13d0304967aa19358eb69d9f",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "b7d246acb440bee224ab33614979a5b8debe5fdb13d0304967aa19358eb69d9f"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/metadata.json",
+      "relativePath": "metadata.json",
+      "sourceSha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354",
+      "localPath": ".agents/skills/react-best-practices/metadata.json",
+      "localExists": true,
+      "localSha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354",
+      "sameBytes": true,
+      "sameLfNormalizedBytes": true,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/_sections.md",
+      "relativePath": "rules/_sections.md",
+      "sourceSha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115",
+      "localPath": ".agents/skills/react-best-practices/rules/_sections.md",
+      "localExists": true,
+      "localSha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115",
+      "sameBytes": true,
+      "sameLfNormalizedBytes": true,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/_template.md",
+      "relativePath": "rules/_template.md",
+      "sourceSha256": "99df2a3ea088c6c22de2484ddc7e964d0e9923846f44c63380343ecc64455442",
+      "localPath": ".agents/skills/react-best-practices/rules/_template.md",
+      "localExists": true,
+      "localSha256": "fee4f1bc27a105bd82662c259018e6a2d115b01d355ca04b8ee72ccaf6c7e434",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "fee4f1bc27a105bd82662c259018e6a2d115b01d355ca04b8ee72ccaf6c7e434"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/advanced-effect-event-deps.md",
+      "relativePath": "rules/advanced-effect-event-deps.md",
+      "sourceSha256": "55ed8f9f27a1bff803d6fa55828176207714b02123cbb97ddb8a90d88024a723",
+      "localPath": ".agents/skills/react-best-practices/rules/advanced-effect-event-deps.md",
+      "localExists": true,
+      "localSha256": "b5d8d13942539c7545cf881d4faab8e868dcf0cc8e75fa3e6fb33ff4844f271f",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "b5d8d13942539c7545cf881d4faab8e868dcf0cc8e75fa3e6fb33ff4844f271f"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/advanced-event-handler-refs.md",
+      "relativePath": "rules/advanced-event-handler-refs.md",
+      "sourceSha256": "a3097edeecfb2ff6851cd66ed8cdf0617c3c88180504bee824aa6e75a215bbbc",
+      "localPath": ".agents/skills/react-best-practices/rules/advanced-event-handler-refs.md",
+      "localExists": true,
+      "localSha256": "775e3c2edc803270fb91b5e5b0b111c38d4d1146a7ae0201ccc22c22c3c4c68d",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "775e3c2edc803270fb91b5e5b0b111c38d4d1146a7ae0201ccc22c22c3c4c68d"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/advanced-init-once.md",
+      "relativePath": "rules/advanced-init-once.md",
+      "sourceSha256": "3e4dc22173eb0e2b6dcf583e3babd862b8696328f8f59aee7c4d746c5bc05f6c",
+      "localPath": ".agents/skills/react-best-practices/rules/advanced-init-once.md",
+      "localExists": true,
+      "localSha256": "9e41179610d597081728d4f8102506e7ccee06a9c027caf1552d4ab5b3ed042f",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "9e41179610d597081728d4f8102506e7ccee06a9c027caf1552d4ab5b3ed042f"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/advanced-use-latest.md",
+      "relativePath": "rules/advanced-use-latest.md",
+      "sourceSha256": "8a3f64dfe5a77d1564248faf17fe662ae75b55d497a243cb30b38eb07ccbbf9a",
+      "localPath": ".agents/skills/react-best-practices/rules/advanced-use-latest.md",
+      "localExists": true,
+      "localSha256": "5cd66168e6bec629ee882e969b0d53d52610f7cb4e065846ed1d0793a1dec1bf",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "5cd66168e6bec629ee882e969b0d53d52610f7cb4e065846ed1d0793a1dec1bf"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/async-api-routes.md",
+      "relativePath": "rules/async-api-routes.md",
+      "sourceSha256": "523338540d73427dc14c0cbb19f2741ebccdf8b105a7b2c1b33d2905cf237a42",
+      "localPath": ".agents/skills/react-best-practices/rules/async-api-routes.md",
+      "localExists": true,
+      "localSha256": "242c9d7a00ba5083c12c233a64108755f7c6ef59925a7c50dcb436f0b1edd3f8",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "242c9d7a00ba5083c12c233a64108755f7c6ef59925a7c50dcb436f0b1edd3f8"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+      "relativePath": "rules/async-cheap-condition-before-await.md",
+      "sourceSha256": "03107c1f70a293cd58a8abc5474c5548e20ea4efdf01b6d45aae7ad0ac1cb32c",
+      "localPath": ".agents/skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+      "localExists": true,
+      "localSha256": "bced8ccf27a344e78f1334c8ce3e6a8ce9ffbffe26a9d65f65fd280c6d8dabdb",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "bced8ccf27a344e78f1334c8ce3e6a8ce9ffbffe26a9d65f65fd280c6d8dabdb"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/async-defer-await.md",
+      "relativePath": "rules/async-defer-await.md",
+      "sourceSha256": "f3c142d090615abdcc99d31c123be37b31f0f1ed8d9ec9f7789a3bc6883ae0fb",
+      "localPath": ".agents/skills/react-best-practices/rules/async-defer-await.md",
+      "localExists": true,
+      "localSha256": "ce8a6727ed3f20e29d2a9272943a7d4f10ea6001a094e88909d881724270c8ea",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "ce8a6727ed3f20e29d2a9272943a7d4f10ea6001a094e88909d881724270c8ea"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/async-dependencies.md",
+      "relativePath": "rules/async-dependencies.md",
+      "sourceSha256": "16ef469f877e30c6b8e1e1b4bc3e527312fa3c6318cb785a4eca186ea236131a",
+      "localPath": ".agents/skills/react-best-practices/rules/async-dependencies.md",
+      "localExists": true,
+      "localSha256": "3f03ca575c1d9be6e1d9dbe7caf3c1e7d8546133a47783d94293ddde213f03f8",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "3f03ca575c1d9be6e1d9dbe7caf3c1e7d8546133a47783d94293ddde213f03f8"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/async-parallel.md",
+      "relativePath": "rules/async-parallel.md",
+      "sourceSha256": "6d2f841896279e976dfcdc1ac89e70771ac188baadfd43c096b5706cb838b961",
+      "localPath": ".agents/skills/react-best-practices/rules/async-parallel.md",
+      "localExists": true,
+      "localSha256": "7faedef899d93d30cb03c0508bfa15190edbed7855c6bf88c1b1400e236a728c",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "7faedef899d93d30cb03c0508bfa15190edbed7855c6bf88c1b1400e236a728c"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/async-suspense-boundaries.md",
+      "relativePath": "rules/async-suspense-boundaries.md",
+      "sourceSha256": "de05fedac2eb7ae563b887b5a424464ec3dfaf84e5b7797467ebe2a796ac8afc",
+      "localPath": ".agents/skills/react-best-practices/rules/async-suspense-boundaries.md",
+      "localExists": true,
+      "localSha256": "6fae5c16cc3f84e96ed7a20c063d7561ad5368feebca758f2b70600dbd9076d4",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "6fae5c16cc3f84e96ed7a20c063d7561ad5368feebca758f2b70600dbd9076d4"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/bundle-analyzable-paths.md",
+      "relativePath": "rules/bundle-analyzable-paths.md",
+      "sourceSha256": "62090b5c815fd71bf1133dce754f51abc16a9456d0ccd025fd627de27726e92a",
+      "localPath": ".agents/skills/react-best-practices/rules/bundle-analyzable-paths.md",
+      "localExists": true,
+      "localSha256": "5d8d29ba3f68f8da57bdf0ee50ef84b4556eba95a207c9eb4959520a9d342bf5",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "5d8d29ba3f68f8da57bdf0ee50ef84b4556eba95a207c9eb4959520a9d342bf5"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/bundle-barrel-imports.md",
+      "relativePath": "rules/bundle-barrel-imports.md",
+      "sourceSha256": "e648f6d54525f07a691357040ca5bff6ea3424788a91ff63812adb29622a671b",
+      "localPath": ".agents/skills/react-best-practices/rules/bundle-barrel-imports.md",
+      "localExists": true,
+      "localSha256": "512aa4277d3f29ce6d7612cb0744d8c049ccafdeb3a72fd2843ae8ce0be2f64d",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "512aa4277d3f29ce6d7612cb0744d8c049ccafdeb3a72fd2843ae8ce0be2f64d"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/bundle-conditional.md",
+      "relativePath": "rules/bundle-conditional.md",
+      "sourceSha256": "09c8259c3efb04fc0abb8e412ccbda217c222ae8118516283e571c995fe3a7d4",
+      "localPath": ".agents/skills/react-best-practices/rules/bundle-conditional.md",
+      "localExists": true,
+      "localSha256": "f8e927725c448703fa3f1fb31bd45218e9259d544000f83eb95444fee7def7f6",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "f8e927725c448703fa3f1fb31bd45218e9259d544000f83eb95444fee7def7f6"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/bundle-defer-third-party.md",
+      "relativePath": "rules/bundle-defer-third-party.md",
+      "sourceSha256": "3719fb47b191e8db4fe22686ec88448ad5af9e6838585425abbe103d0b642e37",
+      "localPath": ".agents/skills/react-best-practices/rules/bundle-defer-third-party.md",
+      "localExists": true,
+      "localSha256": "0c3575198a55115cd278e64bc328ec348a06d6ae9e3076d9eb14a15d050b46cb",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "0c3575198a55115cd278e64bc328ec348a06d6ae9e3076d9eb14a15d050b46cb"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/bundle-dynamic-imports.md",
+      "relativePath": "rules/bundle-dynamic-imports.md",
+      "sourceSha256": "401817a7369f315fc5a68a1095742ff7d53d0461906880dc9d64a41495ee1986",
+      "localPath": ".agents/skills/react-best-practices/rules/bundle-dynamic-imports.md",
+      "localExists": true,
+      "localSha256": "3d13ee1e2ed4596c7ddd034607719b70ebc9346c65eeaff79cf2c2417d8f4104",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "3d13ee1e2ed4596c7ddd034607719b70ebc9346c65eeaff79cf2c2417d8f4104"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/bundle-preload.md",
+      "relativePath": "rules/bundle-preload.md",
+      "sourceSha256": "d1f7cc28da7cd5ab249acd287edc5b761afcfb194e9cb62cd44c5f3543db2de2",
+      "localPath": ".agents/skills/react-best-practices/rules/bundle-preload.md",
+      "localExists": true,
+      "localSha256": "7e632ae1cb8b914243ff6f5103e30009514e292c3321c265911661d5e458b356",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "7e632ae1cb8b914243ff6f5103e30009514e292c3321c265911661d5e458b356"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/client-event-listeners.md",
+      "relativePath": "rules/client-event-listeners.md",
+      "sourceSha256": "242a873349febc1ce685e85617994784dbab92c2eaa68aed7fed5a83e7680e93",
+      "localPath": ".agents/skills/react-best-practices/rules/client-event-listeners.md",
+      "localExists": true,
+      "localSha256": "dcdfd4e5f57c36b8a206a31e321f7227b6427b430ee1182cee1e1abd77764635",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "dcdfd4e5f57c36b8a206a31e321f7227b6427b430ee1182cee1e1abd77764635"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/client-localstorage-schema.md",
+      "relativePath": "rules/client-localstorage-schema.md",
+      "sourceSha256": "0fb7cdf9dc93fdf22f87e3669f953fb9d4ac9b0be42eec4a29fe9a2560610b88",
+      "localPath": ".agents/skills/react-best-practices/rules/client-localstorage-schema.md",
+      "localExists": true,
+      "localSha256": "6e21253d070ebe50b6c222186ed756814dfae674d458b475727c9d4ef6c23c9a",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "6e21253d070ebe50b6c222186ed756814dfae674d458b475727c9d4ef6c23c9a"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/client-passive-event-listeners.md",
+      "relativePath": "rules/client-passive-event-listeners.md",
+      "sourceSha256": "1f35016f9053de69e884ee9be00654e37979c2ca85f5e57764dc2626ff7acb4b",
+      "localPath": ".agents/skills/react-best-practices/rules/client-passive-event-listeners.md",
+      "localExists": true,
+      "localSha256": "72894ea2eef53bf8efe0c597ca4e4ef2b47d48e1c9d3f2e5ea7cf50feeb0bac8",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "72894ea2eef53bf8efe0c597ca4e4ef2b47d48e1c9d3f2e5ea7cf50feeb0bac8"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/client-swr-dedup.md",
+      "relativePath": "rules/client-swr-dedup.md",
+      "sourceSha256": "644652c39c6cc00de8d1c77a7273612e868dc3f7edda30764164c12ec0f764a3",
+      "localPath": ".agents/skills/react-best-practices/rules/client-swr-dedup.md",
+      "localExists": true,
+      "localSha256": "6be13ae14595b48908310672ca8b1bb6720e9dd906f68566fc48778da2dc8cd3",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "6be13ae14595b48908310672ca8b1bb6720e9dd906f68566fc48778da2dc8cd3"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-batch-dom-css.md",
+      "relativePath": "rules/js-batch-dom-css.md",
+      "sourceSha256": "480b891b9eaf96e929dc1e964274a4828e3a78009b7d00ccd965a0d425215959",
+      "localPath": ".agents/skills/react-best-practices/rules/js-batch-dom-css.md",
+      "localExists": true,
+      "localSha256": "d00ff06d829a4a367dcf3d3919812733b6542c4dde8a40722b044823e66cd402",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "d00ff06d829a4a367dcf3d3919812733b6542c4dde8a40722b044823e66cd402"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-cache-function-results.md",
+      "relativePath": "rules/js-cache-function-results.md",
+      "sourceSha256": "3daaa11d24f4295cb6be8bc6f407f2ce83cc7b5bd1f0e68891ea8ab835721dc7",
+      "localPath": ".agents/skills/react-best-practices/rules/js-cache-function-results.md",
+      "localExists": true,
+      "localSha256": "3005995cfe8eba0538279f73b3423400bc1f0d410130b7f09c4c6fc938c9c2d7",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "3005995cfe8eba0538279f73b3423400bc1f0d410130b7f09c4c6fc938c9c2d7"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-cache-property-access.md",
+      "relativePath": "rules/js-cache-property-access.md",
+      "sourceSha256": "73e47431e74878a927061bf0ddc7cd91a7556cb35d2573f3421e82300d9ae311",
+      "localPath": ".agents/skills/react-best-practices/rules/js-cache-property-access.md",
+      "localExists": true,
+      "localSha256": "7bdf71639e95132223ebf4309580a4a8979e2a9c6d0551409843d0eea81f8117",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "7bdf71639e95132223ebf4309580a4a8979e2a9c6d0551409843d0eea81f8117"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-cache-storage.md",
+      "relativePath": "rules/js-cache-storage.md",
+      "sourceSha256": "11b826b0433898c1ece2d3547010d8e77db9fb240185748c45db91493de9b6cc",
+      "localPath": ".agents/skills/react-best-practices/rules/js-cache-storage.md",
+      "localExists": true,
+      "localSha256": "b428b53c40e8e45edd72d3f5de600cc07009c1d7dd68991b04ae141c4b07d441",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "b428b53c40e8e45edd72d3f5de600cc07009c1d7dd68991b04ae141c4b07d441"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-combine-iterations.md",
+      "relativePath": "rules/js-combine-iterations.md",
+      "sourceSha256": "71add08aeeb43091d4ff4c0b2842cce8b4bdef8ad3e732cc034bb5a84827e746",
+      "localPath": ".agents/skills/react-best-practices/rules/js-combine-iterations.md",
+      "localExists": true,
+      "localSha256": "8f054989560a25f72d53f202443d5fc2ff79375aaff881f7966fd4d9fa223ecb",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "8f054989560a25f72d53f202443d5fc2ff79375aaff881f7966fd4d9fa223ecb"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-early-exit.md",
+      "relativePath": "rules/js-early-exit.md",
+      "sourceSha256": "925ce5ce87f3347186ca62212f29cc6baa2b8c85a96d2720ad07c3d0abf781c0",
+      "localPath": ".agents/skills/react-best-practices/rules/js-early-exit.md",
+      "localExists": true,
+      "localSha256": "8a31c105d95c20d774e69f0dc4f14ac869276745dc97f4b3f604dba2c5b04603",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "8a31c105d95c20d774e69f0dc4f14ac869276745dc97f4b3f604dba2c5b04603"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-flatmap-filter.md",
+      "relativePath": "rules/js-flatmap-filter.md",
+      "sourceSha256": "9e5b166a41914d975bef7635467f8fb32cd98b5c3126c0bc6f163490812fb5f0",
+      "localPath": ".agents/skills/react-best-practices/rules/js-flatmap-filter.md",
+      "localExists": true,
+      "localSha256": "046a287a88aeeadb002fbc590d459c8f12920ccc0c2d335228ea469bd9cc4b5f",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "046a287a88aeeadb002fbc590d459c8f12920ccc0c2d335228ea469bd9cc4b5f"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-hoist-regexp.md",
+      "relativePath": "rules/js-hoist-regexp.md",
+      "sourceSha256": "f9e9aef2f7c2307dd7310f283df85dcada45fc43e9bb941b0c3aa414dec21ec4",
+      "localPath": ".agents/skills/react-best-practices/rules/js-hoist-regexp.md",
+      "localExists": true,
+      "localSha256": "3381777595af13ab14d9d7c2c6f30c8fbde0a7dba69d12aa4c2f32947ec4e99e",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "3381777595af13ab14d9d7c2c6f30c8fbde0a7dba69d12aa4c2f32947ec4e99e"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-index-maps.md",
+      "relativePath": "rules/js-index-maps.md",
+      "sourceSha256": "5df1bdc2cfabb2c98abd55d26762e5c18189535c2e686184f426082e62920391",
+      "localPath": ".agents/skills/react-best-practices/rules/js-index-maps.md",
+      "localExists": true,
+      "localSha256": "a0bdf99ff9d954b63eea790fd81768d8ce141f6df1e87c25840e9c88fdcc4d45",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "a0bdf99ff9d954b63eea790fd81768d8ce141f6df1e87c25840e9c88fdcc4d45"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-length-check-first.md",
+      "relativePath": "rules/js-length-check-first.md",
+      "sourceSha256": "8b54a311c826b299272f29187fc58bc55772a04c4a72eeb29456ee96dc9fc624",
+      "localPath": ".agents/skills/react-best-practices/rules/js-length-check-first.md",
+      "localExists": true,
+      "localSha256": "e5efeb8ff1ddad9286e4ae842ef42a517925ee03edb46e9c2a5a794d9e077ea9",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "e5efeb8ff1ddad9286e4ae842ef42a517925ee03edb46e9c2a5a794d9e077ea9"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-min-max-loop.md",
+      "relativePath": "rules/js-min-max-loop.md",
+      "sourceSha256": "87dfb67e2f39df6ad8bcfb5b78c5fb364d3c07554ad188a202408d99f3763421",
+      "localPath": ".agents/skills/react-best-practices/rules/js-min-max-loop.md",
+      "localExists": true,
+      "localSha256": "beb6df30fab6d299169d27693da43201d1999010b778fe743679860ae8a03af5",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "beb6df30fab6d299169d27693da43201d1999010b778fe743679860ae8a03af5"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-request-idle-callback.md",
+      "relativePath": "rules/js-request-idle-callback.md",
+      "sourceSha256": "ee08f83905b4011abbc33d594033157d77561b5bbd9b36b04f0f409581ffec32",
+      "localPath": ".agents/skills/react-best-practices/rules/js-request-idle-callback.md",
+      "localExists": true,
+      "localSha256": "219c5bdbb779a44c63262a5ca4e747aa484a0c6b81938a888d80f0c238a69e9e",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "219c5bdbb779a44c63262a5ca4e747aa484a0c6b81938a888d80f0c238a69e9e"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-set-map-lookups.md",
+      "relativePath": "rules/js-set-map-lookups.md",
+      "sourceSha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b",
+      "localPath": ".agents/skills/react-best-practices/rules/js-set-map-lookups.md",
+      "localExists": true,
+      "localSha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b",
+      "sameBytes": true,
+      "sameLfNormalizedBytes": true,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/js-tosorted-immutable.md",
+      "relativePath": "rules/js-tosorted-immutable.md",
+      "sourceSha256": "d0a5e1b0fec48a0a81397957e2f068e224329f7c42cb5feeed8aae6fa64025e8",
+      "localPath": ".agents/skills/react-best-practices/rules/js-tosorted-immutable.md",
+      "localExists": true,
+      "localSha256": "62dc2921621cfe50b377979b0cf0118d9284fc73f92d88e89baccf8fecd76692",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "62dc2921621cfe50b377979b0cf0118d9284fc73f92d88e89baccf8fecd76692"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-activity.md",
+      "relativePath": "rules/rendering-activity.md",
+      "sourceSha256": "1e5e7eaf3555e61d6a2e900089c676527d26259501db5594f59544b6c664f85a",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-activity.md",
+      "localExists": true,
+      "localSha256": "535312cadf0312834e749a14897123f7eb98ec6daadae35f7cbb9d2e36f6d545",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "535312cadf0312834e749a14897123f7eb98ec6daadae35f7cbb9d2e36f6d545"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "relativePath": "rules/rendering-animate-svg-wrapper.md",
+      "sourceSha256": "9c6ae0ca7a51434e803887c64cded760956579a1452ccb80a461a03f9c937c77",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "localExists": true,
+      "localSha256": "369976cd613a7d5aee5350eb55ceb62184ace4d75a9a57c2e4cd579157a2f54a",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "369976cd613a7d5aee5350eb55ceb62184ace4d75a9a57c2e4cd579157a2f54a"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-conditional-render.md",
+      "relativePath": "rules/rendering-conditional-render.md",
+      "sourceSha256": "2ec2fa23c4148285144687050c52369adba3da2fbe3d486f8d3e0aad8f06f2bc",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-conditional-render.md",
+      "localExists": true,
+      "localSha256": "81ef33223568f03038a2189a9d97db05e447168430a2ad7c7258208b14c82684",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "81ef33223568f03038a2189a9d97db05e447168430a2ad7c7258208b14c82684"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-content-visibility.md",
+      "relativePath": "rules/rendering-content-visibility.md",
+      "sourceSha256": "64eee6d5b916fe74df33363994b27fc7f71bea3bcedc7ee04bda23107ca3e6e4",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-content-visibility.md",
+      "localExists": true,
+      "localSha256": "473ba911f62559ab463a7b01d4167010548a15e92d08a3e2e0306d6709999d16",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "473ba911f62559ab463a7b01d4167010548a15e92d08a3e2e0306d6709999d16"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-hoist-jsx.md",
+      "relativePath": "rules/rendering-hoist-jsx.md",
+      "sourceSha256": "93b229560fae92005ed9a2a829064607b39b2e984e92d221d05b2d41df2b7c0e",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-hoist-jsx.md",
+      "localExists": true,
+      "localSha256": "4cede4559302c8577ec0e1a9b761804090783b8d9da8134ca9af551b54cd5157",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "4cede4559302c8577ec0e1a9b761804090783b8d9da8134ca9af551b54cd5157"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "relativePath": "rules/rendering-hydration-no-flicker.md",
+      "sourceSha256": "dc7ab358c67c177bca6e6f360fbc935ebe4efa928c0ba3ebd3f9f3d9e2000ca3",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "localExists": true,
+      "localSha256": "79ffe8f33ec4c4b0838e1dfd91d679b19c429847b58259baa6968485ed3a5005",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "79ffe8f33ec4c4b0838e1dfd91d679b19c429847b58259baa6968485ed3a5005"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "relativePath": "rules/rendering-hydration-suppress-warning.md",
+      "sourceSha256": "915bacb934e2927d84b37a3f3d225a47b309ac8f9e494ed2bcb66ce07c5676a2",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "localExists": true,
+      "localSha256": "f2ca794aa650534f31f4c94ef75ff0002edaee56207950297743300a568072f9",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "f2ca794aa650534f31f4c94ef75ff0002edaee56207950297743300a568072f9"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-resource-hints.md",
+      "relativePath": "rules/rendering-resource-hints.md",
+      "sourceSha256": "351b1095d641717b930f1b2253282b7120af3023bc74e06c17675168d4286864",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-resource-hints.md",
+      "localExists": true,
+      "localSha256": "424aa829393482e7784e2296eb5026512bff426405f97e63ee1e85a0cd1d19f7",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "424aa829393482e7784e2296eb5026512bff426405f97e63ee1e85a0cd1d19f7"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-script-defer-async.md",
+      "relativePath": "rules/rendering-script-defer-async.md",
+      "sourceSha256": "4cea07b7875ba7fc2c7465ff23b63a2bb334f90aaf2d9293d38d67b05fdb32ab",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-script-defer-async.md",
+      "localExists": true,
+      "localSha256": "1d7754ca787a16517b1e8de16ae203789c0ceadf9f76d564e16a4f8c6fa31359",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "1d7754ca787a16517b1e8de16ae203789c0ceadf9f76d564e16a4f8c6fa31359"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-svg-precision.md",
+      "relativePath": "rules/rendering-svg-precision.md",
+      "sourceSha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-svg-precision.md",
+      "localExists": true,
+      "localSha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb",
+      "sameBytes": true,
+      "sameLfNormalizedBytes": true,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rendering-usetransition-loading.md",
+      "relativePath": "rules/rendering-usetransition-loading.md",
+      "sourceSha256": "3a1249c3f13026b6f54ab5712c388df219d6af01b12aa542749acd99a46f4bc1",
+      "localPath": ".agents/skills/react-best-practices/rules/rendering-usetransition-loading.md",
+      "localExists": true,
+      "localSha256": "e14f4eb969c7c86c8fd057ce83d8146279e45cac5ccc4c50c8aca32212b07d14",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "e14f4eb969c7c86c8fd057ce83d8146279e45cac5ccc4c50c8aca32212b07d14"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-defer-reads.md",
+      "relativePath": "rules/rerender-defer-reads.md",
+      "sourceSha256": "234050a77faf50cb306be10a9e15bd4421134ab5907e75f13e6d78e2bd262dc9",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-defer-reads.md",
+      "localExists": true,
+      "localSha256": "2faba85e83c16aebf48168f9b1b261e2c9922a69d0e1f36f767250eeefb746bd",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "2faba85e83c16aebf48168f9b1b261e2c9922a69d0e1f36f767250eeefb746bd"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-dependencies.md",
+      "relativePath": "rules/rerender-dependencies.md",
+      "sourceSha256": "17eb5830956fb56486fd3cfc7431f5849d39751730c05ad9e77dd4f0c27169c5",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-dependencies.md",
+      "localExists": true,
+      "localSha256": "25aa43d6aaf40cb1edb97d36eb8684678c929560934c9731d50ac602284fe93a",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "25aa43d6aaf40cb1edb97d36eb8684678c929560934c9731d50ac602284fe93a"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "relativePath": "rules/rerender-derived-state-no-effect.md",
+      "sourceSha256": "cb11ec76f50aa7b6847269f02d79b120c889a30d9ecd2c1d578f75144419c77a",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "localExists": true,
+      "localSha256": "3f5b04e50ed1be24e203f1f5bd645df422e720f784e9604676652f161ac43635",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "3f5b04e50ed1be24e203f1f5bd645df422e720f784e9604676652f161ac43635"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-derived-state.md",
+      "relativePath": "rules/rerender-derived-state.md",
+      "sourceSha256": "1c326bb67b01fb084eb00c8911b0a7cff54681c2315b629f88e49b64eaa6481d",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-derived-state.md",
+      "localExists": true,
+      "localSha256": "8f1d225c76d11ed7705110898ba21ecb7a9d9b81eb688b678b6ca152e5d7851d",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "8f1d225c76d11ed7705110898ba21ecb7a9d9b81eb688b678b6ca152e5d7851d"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-functional-setstate.md",
+      "relativePath": "rules/rerender-functional-setstate.md",
+      "sourceSha256": "5e68df6b2ae8058e67f476ff1ac67bde159f5a9d18df439e46eabcdeb7b52e58",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-functional-setstate.md",
+      "localExists": true,
+      "localSha256": "87fd1a19792955f50bac69ed46e3576d55f35138928a660867a9e99cd71f68af",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "87fd1a19792955f50bac69ed46e3576d55f35138928a660867a9e99cd71f68af"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-lazy-state-init.md",
+      "relativePath": "rules/rerender-lazy-state-init.md",
+      "sourceSha256": "4ae844740f266fc8cbf050701230286624a2440ec5be67b9a63d9edc3c580573",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-lazy-state-init.md",
+      "localExists": true,
+      "localSha256": "f0c25cbab4981d113663fea1508ce0b07e59e992121743bed5e7a107dc669d03",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "f0c25cbab4981d113663fea1508ce0b07e59e992121743bed5e7a107dc669d03"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-memo-with-default-value.md",
+      "relativePath": "rules/rerender-memo-with-default-value.md",
+      "sourceSha256": "81c47476564ad8a79fc68fc442734255ca7d6829424359464503fda0a9f9a0dd",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-memo-with-default-value.md",
+      "localExists": true,
+      "localSha256": "97044a6c30973672df6be20cbcd7e1e3582ca7550a46b661021c3ade93759354",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "97044a6c30973672df6be20cbcd7e1e3582ca7550a46b661021c3ade93759354"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-memo.md",
+      "relativePath": "rules/rerender-memo.md",
+      "sourceSha256": "1f258990c2f27ff6256b3cc5c43300631bb3f0d81f749aed08d07fcdcc131dd1",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-memo.md",
+      "localExists": true,
+      "localSha256": "bd1f0d21b55e68685468d883d8e6d385a6f8feb8fcd9628066ac4144d7087ba6",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "bd1f0d21b55e68685468d883d8e6d385a6f8feb8fcd9628066ac4144d7087ba6"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-move-effect-to-event.md",
+      "relativePath": "rules/rerender-move-effect-to-event.md",
+      "sourceSha256": "abc2cbf167bee056743023351e96806a411d3398da8802093620aecf0721f029",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-move-effect-to-event.md",
+      "localExists": true,
+      "localSha256": "05e13a75e5237d8491a49dcd7d724e93522b65126f11d5782b6f0408b60afbfe",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "05e13a75e5237d8491a49dcd7d724e93522b65126f11d5782b6f0408b60afbfe"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-no-inline-components.md",
+      "relativePath": "rules/rerender-no-inline-components.md",
+      "sourceSha256": "1cc32907a770272524ba682eef9e7efdd8ad4533b6f89b718a1fcd7d1d0eb6a3",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-no-inline-components.md",
+      "localExists": true,
+      "localSha256": "ce5cf1319267e3184b7e79d08d555cc51dc6a664ddff24d4557b01d16e954a94",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "ce5cf1319267e3184b7e79d08d555cc51dc6a664ddff24d4557b01d16e954a94"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "relativePath": "rules/rerender-simple-expression-in-memo.md",
+      "sourceSha256": "5bdcf2d1558ba5204e643c887b7b4060f89630969425651eb68e96427d97f800",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "localExists": true,
+      "localSha256": "147dfd4acab2c64f20ab9f0476e966d9445abebbcc400eb51dd407037e1bc998",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "147dfd4acab2c64f20ab9f0476e966d9445abebbcc400eb51dd407037e1bc998"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-split-combined-hooks.md",
+      "relativePath": "rules/rerender-split-combined-hooks.md",
+      "sourceSha256": "6f45d703343484ef9acef9388397f3642966ae6a5a258899a0cf1f9977cfbf6c",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-split-combined-hooks.md",
+      "localExists": true,
+      "localSha256": "4124d594029220f6cedbdff5dc2bbacc5c16289d5aeb53fff6ef6d7341a2d2ea",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "4124d594029220f6cedbdff5dc2bbacc5c16289d5aeb53fff6ef6d7341a2d2ea"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-transitions.md",
+      "relativePath": "rules/rerender-transitions.md",
+      "sourceSha256": "60f4033909a62df5e5b8c601494f9e50a562e2f8c1c2d81eac24f38142265f1c",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-transitions.md",
+      "localExists": true,
+      "localSha256": "698267bd65c8a0bf3350b7386d7b619da02fd1fac97930d9a3098346c6853761",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "698267bd65c8a0bf3350b7386d7b619da02fd1fac97930d9a3098346c6853761"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-use-deferred-value.md",
+      "relativePath": "rules/rerender-use-deferred-value.md",
+      "sourceSha256": "8c3579576a61a949884167745dcfaf1d5426ba305cc61fd0a79602d70fda4909",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-use-deferred-value.md",
+      "localExists": true,
+      "localSha256": "84c8bec6c8d525e8e712376c4d37d1133fe74d2550a0943232dd139147b87c24",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "84c8bec6c8d525e8e712376c4d37d1133fe74d2550a0943232dd139147b87c24"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "relativePath": "rules/rerender-use-ref-transient-values.md",
+      "sourceSha256": "f1a649af9d1d0b5c762f6c9c4c1c70c90d7df82aa10296ee87aadb78c1b76c54",
+      "localPath": ".agents/skills/react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "localExists": true,
+      "localSha256": "adc30b14f13ea2b020bf8eaa2b3fd8410050421c5753de0c8ff03bd10b9e5576",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "adc30b14f13ea2b020bf8eaa2b3fd8410050421c5753de0c8ff03bd10b9e5576"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-after-nonblocking.md",
+      "relativePath": "rules/server-after-nonblocking.md",
+      "sourceSha256": "d0b8d24a3db9f0f65f9e2bddbf230b0e03a5f60e1229d93a4a18f5e7a991c7c2",
+      "localPath": ".agents/skills/react-best-practices/rules/server-after-nonblocking.md",
+      "localExists": true,
+      "localSha256": "13d34ead58d626015c300d9d737808ae23a0a53976b8497247cd9323ff90aeda",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "13d34ead58d626015c300d9d737808ae23a0a53976b8497247cd9323ff90aeda"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-auth-actions.md",
+      "relativePath": "rules/server-auth-actions.md",
+      "sourceSha256": "a2ca8aa102839251c7971ec784560fab943c20b36fe6f80365d4110c13260c23",
+      "localPath": ".agents/skills/react-best-practices/rules/server-auth-actions.md",
+      "localExists": true,
+      "localSha256": "7961af203b51ef5c2a975e0e5d05e91955a4b214a15d1970a4b8ea7150722d40",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "7961af203b51ef5c2a975e0e5d05e91955a4b214a15d1970a4b8ea7150722d40"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-cache-lru.md",
+      "relativePath": "rules/server-cache-lru.md",
+      "sourceSha256": "1924b64561841923b88a657085097a0aeba3e0ba2d5470b9f5c15cc10d6ae70f",
+      "localPath": ".agents/skills/react-best-practices/rules/server-cache-lru.md",
+      "localExists": true,
+      "localSha256": "bb33aab8bb6f81bbaa441cf6e254cf79f73a8a15b610f81fd2de6567440f232f",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "bb33aab8bb6f81bbaa441cf6e254cf79f73a8a15b610f81fd2de6567440f232f"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-cache-react.md",
+      "relativePath": "rules/server-cache-react.md",
+      "sourceSha256": "fddeea6c870bb3da4134b61d54b7d09b83d2603f929b7547cd3dc1dc269edd5c",
+      "localPath": ".agents/skills/react-best-practices/rules/server-cache-react.md",
+      "localExists": true,
+      "localSha256": "6a67163afb9b98bae45b129d48cc26b00d13e2b5a38b36d19b05f1444537aefa",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "6a67163afb9b98bae45b129d48cc26b00d13e2b5a38b36d19b05f1444537aefa"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-dedup-props.md",
+      "relativePath": "rules/server-dedup-props.md",
+      "sourceSha256": "c2747424cdac46be62f835f245a0aa887b0090b416d28e2ac8676702645eeb37",
+      "localPath": ".agents/skills/react-best-practices/rules/server-dedup-props.md",
+      "localExists": true,
+      "localSha256": "833b59dc0d9a6f5473bc57fef70f4c9e928513bb0bdd9e3361f0520ecb529626",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "833b59dc0d9a6f5473bc57fef70f4c9e928513bb0bdd9e3361f0520ecb529626"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-hoist-static-io.md",
+      "relativePath": "rules/server-hoist-static-io.md",
+      "sourceSha256": "5abea4dd882b13661bd5f7dfb93f9e547d5f08176c61c448ade91b210ed5d49f",
+      "localPath": ".agents/skills/react-best-practices/rules/server-hoist-static-io.md",
+      "localExists": true,
+      "localSha256": "2a4d6f78430661ec065a6649c1859655039d3ec2d23e35797d95ac730cf017eb",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "2a4d6f78430661ec065a6649c1859655039d3ec2d23e35797d95ac730cf017eb"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-no-shared-module-state.md",
+      "relativePath": "rules/server-no-shared-module-state.md",
+      "sourceSha256": "4d869bf1cd2f1632e5ca4c0e64b1cf0e71c5f5a0f940bc8a22174d205e735ed7",
+      "localPath": ".agents/skills/react-best-practices/rules/server-no-shared-module-state.md",
+      "localExists": true,
+      "localSha256": "74f529c7e2bf6f5ed0552580c1ccc6d35f9ce48c3de008f3a98c7d876a26fd1f",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "74f529c7e2bf6f5ed0552580c1ccc6d35f9ce48c3de008f3a98c7d876a26fd1f"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-parallel-fetching.md",
+      "relativePath": "rules/server-parallel-fetching.md",
+      "sourceSha256": "569a2e9fc04f9606686cd75c5894ef8781b502786a7fffe241396846c7733472",
+      "localPath": ".agents/skills/react-best-practices/rules/server-parallel-fetching.md",
+      "localExists": true,
+      "localSha256": "cd68caf2eb3946f12bd236c5a4e668e03dd3e7a54acf8d84bd54a199126d6018",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "cd68caf2eb3946f12bd236c5a4e668e03dd3e7a54acf8d84bd54a199126d6018"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-parallel-nested-fetching.md",
+      "relativePath": "rules/server-parallel-nested-fetching.md",
+      "sourceSha256": "ad5d9656984d4a959997a2367bf59cc6632297b4634a1dd13a087939d83f30b3",
+      "localPath": ".agents/skills/react-best-practices/rules/server-parallel-nested-fetching.md",
+      "localExists": true,
+      "localSha256": "4d9c44e579e1286013acf5cb5f65b04297d2b68909f44f8163804656514a78ff",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "4d9c44e579e1286013acf5cb5f65b04297d2b68909f44f8163804656514a78ff"
+    },
+    {
+      "sourcePath": "skills/react-best-practices/rules/server-serialization.md",
+      "relativePath": "rules/server-serialization.md",
+      "sourceSha256": "f4c7d68b29c82381baad059c4a7f09e868e71ec9c3115a26ad3ae7d24c0dfe1f",
+      "localPath": ".agents/skills/react-best-practices/rules/server-serialization.md",
+      "localExists": true,
+      "localSha256": "4d025c42043c56e6355196a2e885d168cdb15248d0797146c9db838a57b34946",
+      "sameBytes": false,
+      "sameLfNormalizedBytes": false,
+      "sameAfterCurrentFormatter": true,
+      "formatterDiagnosticCount": 0,
+      "formattedReferenceSha256": "4d025c42043c56e6355196a2e885d168cdb15248d0797146c9db838a57b34946"
+    }
+  ],
+  "localFilesWithoutReferencePath": [],
+  "actualImportRevision": null,
+  "userStatement": "skill好像也是自己的",
+  "userStatementQualification": "User is uncertain; not confirmation of authorship or a license grant.",
+  "sameFirstSnapshotCount": 76,
+  "referenceExactByteCount": 4,
+  "referencePathCount": 76,
+  "comparisonQualification": "Exact pinned reference comparison plus formatter-only transformation of source text in memory. It is not proof of the original import operation, independent authorship, license completeness or accepted rights.",
+  "sameAfterCurrentFormatterCount": 74,
+  "currentFormatter": {
+    "package": "oxfmt",
+    "version": "0.41.0",
+    "options": {},
+    "scope": "Transform upstream reference text in memory, no local files changed; not a lint/format gate run."
+  }
+}

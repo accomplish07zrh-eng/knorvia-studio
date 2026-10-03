@@ -1,6 +1,8 @@
 # 文件来源与许可范围
 
-当前版本的根许可证仍为 [Apache-2.0](../LICENSE)。本目录记录向独立 Knorvia 实现迁移的证据，不把尚未替换的实现改称 MIT。第三方声明继续见 [THIRD-PARTY-NOTICES.md](../THIRD-PARTY-NOTICES.md)；已单独声明 MIT 的插件仍以包内正文为准。
+当前版本继续使用根 [Apache-2.0](../LICENSE)。2026-10-03 用户取消全项目 MIT 迁移；本目录保留真实来源、已有逐文件许可与历史实施证据。第三方声明继续见 [THIRD-PARTY-NOTICES.md](../THIRD-PARTY-NOTICES.md)；已经单独声明的 MIT 等许可按原范围保留。现有声明不把全部第三方组件统一改称 Apache-2.0。
+
+实际分发的材料与包含范围见 [Apache 分发补充记录](../third-party/source-verification-20261003/README.md)。历史 MIT 独立性/整文件验收记录保留，以 MIT 为目标的专项审查已经停止；材料缺口按实际包含内容处理。
 
 `upstream-baseline.json` 固定最初使用的上游提交及逐文件摘要；`current-files.json` 覆盖当前工作区文件；`reviews.json` 保存绑定文件摘要的复核决定。工具说明和完成标准见 [独立实现规格](../specs/knorvia-independent-implementation.md)。没有匹配上游文件只代表需要审查，不代表原创。目录级第三方声明可能仅覆盖文件中的部分内容。
 

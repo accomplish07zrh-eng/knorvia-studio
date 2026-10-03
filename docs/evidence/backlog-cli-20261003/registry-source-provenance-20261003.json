@@ -1,0 +1,1180 @@
+{
+  "schemaVersion": 1,
+  "reviewKind": "bounded-current-whole-file-source-expression-and-provenance-review",
+  "recordedAtUtc": "2026-10-03T10:46:04Z",
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "branch": "lane/cli-rewrite-20261003",
+  "reviewedTree": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "scope": {
+    "target": {
+      "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 6412,
+      "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+      "gitBlob": "e6e3a06726a01b64d12220fa0b13c5f665969152"
+    },
+    "targetLines": 202,
+    "implementationDependencyOnly": {
+      "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "path": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+      "bytes": 3211,
+      "sha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe",
+      "gitBlob": "98f6206bb61696f3bc5a9062cbf1c302a268ac00"
+    },
+    "excluded": [
+      "apps/cli/contracts/**",
+      "other modules",
+      "global licensing inventory/reviews mutations",
+      "root license/notice changes",
+      "runtime acceptance re-execution"
+    ]
+  },
+  "existingFileEntryUnchanged": {
+    "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+    "kind": "file",
+    "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+    "normalizedSha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+    "encoding": "utf8-lf",
+    "bytes": 6412,
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+      "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+      "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+      "contentMatchedPaths": []
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "publisherOriginals": {
+    "repository": "zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "retrieval": "Public GitHub contents API at the exact commit; base64 decoded; raw SHA256 and Git blob SHA1 independently recomputed and matched existing inventory.",
+    "bindings": [
+      {
+        "name": "registry.ts",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "sha": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+        "size": 9147,
+        "html_url": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "download_url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "retrievedByteSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+        "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+        "gitObjectVerified": true
+      },
+      {
+        "path": "LICENSE",
+        "sha": "550d8df4cfc74878663a511caa97852f15fd9592",
+        "size": 11344,
+        "html_url": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/LICENSE",
+        "download_url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/LICENSE",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b",
+        "gitObjectVerified": true
+      },
+      {
+        "path": "NOTICE.md",
+        "sha": "03eb41e08227d51dfcc5f2020406cb9165599aea",
+        "size": 27721,
+        "html_url": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/NOTICE.md",
+        "download_url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/NOTICE.md",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sha256": "cca8e323ad7f3b12167b58fba7d14faf18a2cdc4fa890818058872f6215912bf",
+        "gitObjectVerified": true
+      },
+      {
+        "path": "apps/zcode-cli/packages/core/package.json",
+        "sha": "6ea21f876843b7d78c1cb0f774d210610440a7bb",
+        "size": 1366,
+        "html_url": "https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521/apps/zcode-cli/packages/core/package.json",
+        "download_url": "https://raw.githubusercontent.com/zai-org/ZCode/872ad960de7ec172591f7e1952f7849229f94521/apps/zcode-cli/packages/core/package.json",
+        "commit": "872ad960de7ec172591f7e1952f7849229f94521",
+        "sha256": "abf5a6c8715fe87ea4b5ef3a48b225f94980dc386fe2ccfe98844347aa16bcd8",
+        "gitObjectVerified": true
+      }
+    ],
+    "sourcePathHistoryObservation": {
+      "apiUrl": "https://api.github.com/repos/zai-org/ZCode/commits?path=apps/zcode-cli/packages/core/src/runtime-task/registry.ts&sha=872ad960de7ec172591f7e1952f7849229f94521&per_page=100",
+      "returnedCount": 1,
+      "sha": "872ad960de7ec172591f7e1952f7849229f94521",
+      "parent": "77432b6dbf9f70176ced3f4dcdc25f851c3acb2d",
+      "authorName": "wuweiqi",
+      "authorLogin": "MBearo",
+      "committerName": "wuweiqi",
+      "committerLogin": "MBearo",
+      "authoredAt": "2026-09-20T21:14:32Z",
+      "subject": "feat: open source",
+      "verified": false,
+      "verificationReason": "unsigned",
+      "limit": "Path-specific API history does not follow prior renamed paths or prove authorship before the published snapshot."
+    },
+    "runtimeTaskDirectoryTreeObservation": {
+      "apiUrl": "https://api.github.com/repos/zai-org/ZCode/git/trees/872ad960de7ec172591f7e1952f7849229f94521:apps/zcode-cli/packages/core/src/runtime-task",
+      "tree": "27d7965cd020f9ff27fd5908397b693f2d9a46a0",
+      "truncated": false,
+      "paths": [
+        "index.ts",
+        "notification-policy.ts",
+        "notification.ts",
+        "registry.ts",
+        "workflow-notification-copy.ts"
+      ],
+      "licenseNamedFilePresent": false
+    },
+    "licenseFindings": {
+      "rootLicense": "Apache-2.0",
+      "appendixCopyright": "Copyright 2026 Z.AI Co., Ltd",
+      "noticeSection": "Section IV explicitly assigns root Apache-2.0 to first-party code, retaining independent third-party terms.",
+      "registryHasIndividualLicenseOrCopyrightHeader": false,
+      "corePackageHasLicenseField": false,
+      "ancestorLicensePathsInPinnedInventory": [
+        "LICENSE",
+        "NOTICE.md"
+      ],
+      "currentRootLicenseRawEqualsPinnedPublisherLicense": true,
+      "limit": "Publisher declaration and exact bytes are verified; individual authorship, ownership, all third-party compliance and sublicensing scope are not thereby certified."
+    }
+  },
+  "sourceChronology": [
+    {
+      "sha": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "role": "imported repository root snapshot",
+      "authorName": "Knorvia",
+      "authoredAt": "2026-09-24T22:50:46+08:00",
+      "committerName": "Knorvia",
+      "committedAt": "2026-09-24T22:50:46+08:00",
+      "subject": "chore: publish Knorvia Studio latest preview snapshot",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/7619e41b950bd52073ebf36754146cf25659d9fa",
+      "githubMetadataObservation": {
+        "authorLogin": "accomplish07zrh-eng",
+        "committerLogin": "accomplish07zrh-eng",
+        "verified": false,
+        "verificationReason": "unsigned"
+      }
+    },
+    {
+      "sha": "88001f027b04324f816176ff5f08b5d1a236f27f",
+      "role": "formatting; parsed file syntax unchanged",
+      "authorName": "Claude",
+      "authoredAt": "2026-09-25T03:49:32Z",
+      "committerName": "Claude",
+      "committedAt": "2026-09-25T04:08:13Z",
+      "subject": "style: format the repository with oxfmt and enforce fmt:check in CI",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/88001f027b04324f816176ff5f08b5d1a236f27f",
+      "githubMetadataObservation": {
+        "authorLogin": "claude",
+        "committerLogin": "claude",
+        "verified": true,
+        "verificationReason": "valid"
+      }
+    },
+    {
+      "sha": "f17024263f787db1d017ac6d5060a10b9305bec1",
+      "role": "source-derived behavior/declaration author packet",
+      "authorName": "RenHui Zhang",
+      "authoredAt": "2026-10-02T05:50:36Z",
+      "committerName": "RenHui Zhang",
+      "committedAt": "2026-10-02T05:50:36Z",
+      "subject": "docs(cli): prepare restricted task registry lifecycle handoff",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/f17024263f787db1d017ac6d5060a10b9305bec1"
+    },
+    {
+      "sha": "8a59000746080512fd5d10c8fa09895a403122b8",
+      "role": "id-scoped linked FIFO specification before implementation",
+      "authorName": "RenHui Zhang",
+      "authoredAt": "2026-10-03T04:54:04Z",
+      "committerName": "RenHui Zhang",
+      "committedAt": "2026-10-03T04:54:04Z",
+      "subject": "docs(cli): freeze task registry behavior and lane boundaries",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/8a59000746080512fd5d10c8fa09895a403122b8"
+    },
+    {
+      "sha": "8ab8d719bea0dc7e3e2f7de522db57dac374e048",
+      "role": "first complete lane candidate",
+      "authorName": "RenHui Zhang",
+      "authoredAt": "2026-10-03T04:58:27Z",
+      "committerName": "RenHui Zhang",
+      "committedAt": "2026-10-03T04:58:27Z",
+      "subject": "refactor(cli): implement task registry with id-scoped FIFO subscriptions",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/8ab8d719bea0dc7e3e2f7de522db57dac374e048",
+      "githubMetadataObservation": {
+        "authorLogin": "accomplish07zrh-eng",
+        "committerLogin": "accomplish07zrh-eng",
+        "verified": false,
+        "verificationReason": "unsigned"
+      }
+    },
+    {
+      "sha": "db54c1eb42732f6a9ba15977a4668f31fcab9191",
+      "role": "restore imported owner; archive exact first candidate for historical HOLD",
+      "authorName": "RenHui Zhang",
+      "authoredAt": "2026-10-03T05:05:33Z",
+      "committerName": "RenHui Zhang",
+      "committedAt": "2026-10-03T05:05:33Z",
+      "subject": "fix(cli): preserve reported registry accepted-byte hold and archive candidate",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/db54c1eb42732f6a9ba15977a4668f31fcab9191"
+    },
+    {
+      "sha": "7f0e45b3d2a75f284c84e3cae18dd743d91ece15",
+      "role": "explicit new-candidate production admission specification",
+      "authorName": "RenHui Zhang",
+      "authoredAt": "2026-10-03T05:58:08Z",
+      "committerName": "RenHui Zhang",
+      "committedAt": "2026-10-03T05:58:08Z",
+      "subject": "docs(cli): freeze authorized registry candidate admission",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/7f0e45b3d2a75f284c84e3cae18dd743d91ece15"
+    },
+    {
+      "sha": "105b1318464199e5492126984a0293599269f48d",
+      "role": "admit candidate with four new main-file comments",
+      "authorName": "RenHui Zhang",
+      "authoredAt": "2026-10-03T06:00:10Z",
+      "committerName": "RenHui Zhang",
+      "committedAt": "2026-10-03T06:00:10Z",
+      "subject": "feat(cli): admit contract-authored task registry candidate",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/105b1318464199e5492126984a0293599269f48d",
+      "githubMetadataObservation": {
+        "authorLogin": "accomplish07zrh-eng",
+        "committerLogin": "accomplish07zrh-eng",
+        "verified": false,
+        "verificationReason": "unsigned"
+      }
+    },
+    {
+      "sha": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "role": "main after completed technical integration",
+      "authorName": "accomplish07zrh-eng",
+      "authoredAt": "2026-10-03T18:26:58+08:00",
+      "committerName": "GitHub",
+      "committedAt": "2026-10-03T18:26:58+08:00",
+      "subject": "Merge pull request #13 from accomplish07zrh-eng/integration/backlog-20261003",
+      "htmlUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/commit/59517d9699519b0a7a44980da27df29d45f0e91e"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "commit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 9151,
+      "sha256": "7eb979b4dc0394df2ad7b0012b2dff42e1f34b58915a65e4d0e37879dd546c23",
+      "gitBlob": "8b5699f61e9d00a6667c007c5841acad5862024f"
+    },
+    {
+      "commit": "88001f027b04324f816176ff5f08b5d1a236f27f",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 9112,
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "gitBlob": "216de9b52db4e331ba05e066a4c217dd40287c59"
+    },
+    {
+      "commit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 9112,
+      "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e",
+      "gitBlob": "216de9b52db4e331ba05e066a4c217dd40287c59"
+    },
+    {
+      "commit": "8ab8d719bea0dc7e3e2f7de522db57dac374e048",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 6081,
+      "sha256": "42351bef2f13c7e77189e4a5ce9cbb57d9332940d7d839cb8ab6ac0ca2ffa34c",
+      "gitBlob": "0e48dba044c14371ccc7a065fb8ffa817802b71b"
+    },
+    {
+      "commit": "105b1318464199e5492126984a0293599269f48d",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 6412,
+      "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+      "gitBlob": "e6e3a06726a01b64d12220fa0b13c5f665969152"
+    },
+    {
+      "commit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "bytes": 6412,
+      "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+      "gitBlob": "e6e3a06726a01b64d12220fa0b13c5f665969152"
+    }
+  ],
+  "behaviorAndDeclarationInputs": [
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/behavior.md",
+      "bytes": 11965,
+      "sha256": "918777ef3172833d9c43402a285a507243da6fe2c88dac27a8840cfe45ff7de2"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/api.d.ts",
+      "bytes": 3260,
+      "sha256": "85ed2e4107308299028ab7e04fd78a1a608f55eba0657ba27d293be226688b2e"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/supporting-types.d.ts",
+      "bytes": 2164,
+      "sha256": "a0ce162223ca6a22c3d91b0a1123c82f44f231ecd5656c6ed967f826f6b30035"
+    },
+    {
+      "path": "docs/knorvia-task-registry-author-inputs-20261002/inputs.json",
+      "bytes": 1072,
+      "sha256": "894bec72002c7d1b1f19500690b76dac3826edb9163d5dd60fc14e5161519d5a"
+    }
+  ],
+  "sourceExposure": {
+    "packetCuratorReadPredecessor": true,
+    "nativeRestrictedAuthorStartedSuccessfully": false,
+    "nativeRestrictedAuthorProducedCandidate": false,
+    "laneImplementation": "Authorized source-exposed contract-authored candidate; historical explanatory material was already exposed.",
+    "specPrecedesFirstCandidateSeconds": 263,
+    "firstDraftBeforeBodyRead": "Previously reported in lane tool record; Git cannot independently attest temporary draft/read-access ordering.",
+    "cleanRoomClaim": false,
+    "reviewerReadFullPublisherAndCurrentRegistry": true
+  },
+  "staticExpressionComparison": {
+    "script": {
+      "path": "docs/evidence/backlog-cli-20261003/registry-expression-static-20261003.cjs",
+      "bytes": 8235,
+      "sha256": "9c0bd2ea1231248c46e53e1c04f22f77e4e823213f1c4ff7ca268aa748e17b71"
+    },
+    "facts": {
+      "reviewedHead": "59517d9699519b0a7a44980da27df29d45f0e91e",
+      "parserVersion": "6.0.2",
+      "operation": "parse source syntax and compare selected expressions; no checker or emit",
+      "sources": {
+        "upstream": {
+          "bytes": 9147,
+          "sha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9"
+        },
+        "imported": {
+          "bytes": 9151,
+          "sha256": "7eb979b4dc0394df2ad7b0012b2dff42e1f34b58915a65e4d0e37879dd546c23"
+        },
+        "formatted": {
+          "bytes": 9112,
+          "sha256": "ac09ec1b664e45226a7a1c7a3ce31f8ac977c43e261dbecd42bbba8da04d2f2e"
+        },
+        "firstCandidate": {
+          "bytes": 6081,
+          "sha256": "42351bef2f13c7e77189e4a5ce9cbb57d9332940d7d839cb8ab6ac0ca2ffa34c"
+        },
+        "archive": {
+          "bytes": 6081,
+          "sha256": "42351bef2f13c7e77189e4a5ce9cbb57d9332940d7d839cb8ab6ac0ca2ffa34c"
+        },
+        "current": {
+          "bytes": 6412,
+          "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84"
+        }
+      },
+      "importEqualsUpstreamAfterOnlyContractNamespaceReplacement": true,
+      "formattingCommitPreservesParsedSyntax": true,
+      "firstCandidateAndArchiveRawEqual": true,
+      "currentAndArchiveRawEqual": false,
+      "currentAndArchiveParsedSyntaxEqual": true,
+      "packetPublicDeclarations": [
+        {
+          "name": "RuntimeTaskType",
+          "sameSelectedSyntax": true
+        },
+        {
+          "name": "RuntimeTaskUsageSnapshot",
+          "sameSelectedSyntax": true
+        },
+        {
+          "name": "RuntimeTaskPendingMessage",
+          "sameSelectedSyntax": true
+        },
+        {
+          "name": "RuntimeTaskMessageSink",
+          "sameSelectedSyntax": true
+        },
+        {
+          "name": "RuntimeTaskSnapshot",
+          "sameSelectedSyntax": true
+        },
+        {
+          "name": "RuntimeTaskRegistry",
+          "sameSelectedSyntax": true
+        }
+      ],
+      "comparisons": [
+        {
+          "label": "RuntimeTaskType",
+          "upstreamLines": [
+            [
+              12,
+              17
+            ]
+          ],
+          "currentLines": [
+            [
+              12,
+              17
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "cabe8c3e6a73269af37fbf956d3f229660f5f66fb483362f70b9fb50a27d2779",
+          "currentSelectedSyntaxSha256": "cabe8c3e6a73269af37fbf956d3f229660f5f66fb483362f70b9fb50a27d2779"
+        },
+        {
+          "label": "RuntimeTaskUsageSnapshot",
+          "upstreamLines": [
+            [
+              19,
+              24
+            ]
+          ],
+          "currentLines": [
+            [
+              19,
+              24
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "98935008c111397e6e63da7037dd5ff4af3fad1b6d1f68349265d84e895ac0d9",
+          "currentSelectedSyntaxSha256": "98935008c111397e6e63da7037dd5ff4af3fad1b6d1f68349265d84e895ac0d9"
+        },
+        {
+          "label": "RuntimeTaskPendingMessage",
+          "upstreamLines": [
+            [
+              26,
+              37
+            ]
+          ],
+          "currentLines": [
+            [
+              26,
+              34
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "852237f281be40f7ac903131e2f525cce9c1d8b547e7715310440e84d46bc1cf",
+          "currentSelectedSyntaxSha256": "852237f281be40f7ac903131e2f525cce9c1d8b547e7715310440e84d46bc1cf"
+        },
+        {
+          "label": "RuntimeTaskMessageSink",
+          "upstreamLines": [
+            [
+              39,
+              41
+            ]
+          ],
+          "currentLines": [
+            [
+              36,
+              38
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "ebcca906da6ac26750d4a3f73c91d9b4d04f29fac4156fd459fc03c0b2396adb",
+          "currentSelectedSyntaxSha256": "ebcca906da6ac26750d4a3f73c91d9b4d04f29fac4156fd459fc03c0b2396adb"
+        },
+        {
+          "label": "RuntimeTaskSnapshot",
+          "upstreamLines": [
+            [
+              43,
+              68
+            ]
+          ],
+          "currentLines": [
+            [
+              40,
+              59
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "35d0bce307fbf1dd53e318852ae49771b5460385014c144c3daebf626e5cf5cc",
+          "currentSelectedSyntaxSha256": "35d0bce307fbf1dd53e318852ae49771b5460385014c144c3daebf626e5cf5cc"
+        },
+        {
+          "label": "RuntimeTaskRegistry",
+          "upstreamLines": [
+            [
+              70,
+              94
+            ]
+          ],
+          "currentLines": [
+            [
+              61,
+              82
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "d3f4b6e050a8345af5c23a04ad5aeadb45d8e795271b3d07829a8937fbee40e5",
+          "currentSelectedSyntaxSha256": "d3f4b6e050a8345af5c23a04ad5aeadb45d8e795271b3d07829a8937fbee40e5"
+        },
+        {
+          "label": "setActiveBranchGeneration: complete body",
+          "upstreamLines": [
+            [
+              129,
+              129
+            ]
+          ],
+          "currentLines": [
+            [
+              109,
+              109
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "99142e51a5c6236eb99d37a2df2e3c6f2c659ad123e893197f821f942514a835",
+          "currentSelectedSyntaxSha256": "99142e51a5c6236eb99d37a2df2e3c6f2c659ad123e893197f821f942514a835"
+        },
+        {
+          "label": "queueMessage: complete body",
+          "upstreamLines": [
+            [
+              172,
+              175
+            ]
+          ],
+          "currentLines": [
+            [
+              148,
+              151
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "1cf0d94ff0dcf6e897c435398d6ab2c373cf452ea36afe1e8e559230520fd269",
+          "currentSelectedSyntaxSha256": "1cf0d94ff0dcf6e897c435398d6ab2c373cf452ea36afe1e8e559230520fd269"
+        },
+        {
+          "label": "get: complete body",
+          "upstreamLines": [
+            [
+              161,
+              161
+            ]
+          ],
+          "currentLines": [
+            [
+              140,
+              140
+            ]
+          ],
+          "identifierRenames": {
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "1a98becb2eb5e532f1cb11bbff0dde7d208a3cc972801ee984c01c4bdf9224fb",
+          "currentSelectedSyntaxSha256": "1a98becb2eb5e532f1cb11bbff0dde7d208a3cc972801ee984c01c4bdf9224fb"
+        },
+        {
+          "label": "all: complete body",
+          "upstreamLines": [
+            [
+              165,
+              165
+            ]
+          ],
+          "currentLines": [
+            [
+              144,
+              144
+            ]
+          ],
+          "identifierRenames": {
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "cb8ee6a6d190d32b1cccb98e1950bbf77d47c0abeda3faee52e7e69b50409c14",
+          "currentSelectedSyntaxSha256": "cb8ee6a6d190d32b1cccb98e1950bbf77d47c0abeda3faee52e7e69b50409c14"
+        },
+        {
+          "label": "drainMessages: complete body",
+          "upstreamLines": [
+            [
+              179,
+              179
+            ],
+            [
+              180,
+              180
+            ],
+            [
+              181,
+              181
+            ],
+            [
+              182,
+              182
+            ],
+            [
+              183,
+              183
+            ]
+          ],
+          "currentLines": [
+            [
+              155,
+              155
+            ],
+            [
+              156,
+              156
+            ],
+            [
+              157,
+              157
+            ],
+            [
+              158,
+              158
+            ],
+            [
+              159,
+              159
+            ]
+          ],
+          "identifierRenames": {
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "66d83bea29ce03df15c37272f8317141aa54ca8ee3855e1f735e7f1978f3dddb",
+          "currentSelectedSyntaxSha256": "66d83bea29ce03df15c37272f8317141aa54ca8ee3855e1f735e7f1978f3dddb"
+        },
+        {
+          "label": "register: copy/stamp and Map commit",
+          "upstreamLines": [
+            [
+              119,
+              122
+            ],
+            [
+              123,
+              123
+            ]
+          ],
+          "currentLines": [
+            [
+              100,
+              103
+            ],
+            [
+              104,
+              104
+            ]
+          ],
+          "identifierRenames": {
+            "stamped": "stored",
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "dd1c7709ebb667f7b1ab4d9c456cac27410dfbbc0573be5a87abf659f0cceeb7",
+          "currentSelectedSyntaxSha256": "dd1c7709ebb667f7b1ab4d9c456cac27410dfbbc0573be5a87abf659f0cceeb7"
+        },
+        {
+          "label": "update: lookup/guard/patch/commit and returned identity",
+          "upstreamLines": [
+            [
+              136,
+              136
+            ],
+            [
+              137,
+              137
+            ],
+            [
+              138,
+              138
+            ],
+            [
+              139,
+              139
+            ],
+            [
+              142,
+              142
+            ]
+          ],
+          "currentLines": [
+            [
+              116,
+              116
+            ],
+            [
+              117,
+              117
+            ],
+            [
+              118,
+              118
+            ],
+            [
+              119,
+              119
+            ],
+            [
+              121,
+              121
+            ]
+          ],
+          "identifierRenames": {
+            "current": "previous",
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "abe9b4a9a77cb4db03d3286a942130d241e602372c218b80892e3c8bf415fb7a",
+          "currentSelectedSyntaxSha256": "abe9b4a9a77cb4db03d3286a942130d241e602372c218b80892e3c8bf415fb7a"
+        },
+        {
+          "label": "requestBackground: lookup, guard and Map commit",
+          "upstreamLines": [
+            [
+              146,
+              146
+            ],
+            [
+              147,
+              147
+            ],
+            [
+              149,
+              149
+            ]
+          ],
+          "currentLines": [
+            [
+              125,
+              125
+            ],
+            [
+              126,
+              126
+            ],
+            [
+              128,
+              128
+            ]
+          ],
+          "identifierRenames": {
+            "task": "previous",
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "f0bead89a85f8b7665165eb9eb127142980b6ad4340f174c7cc806fa1b94d09e",
+          "currentSelectedSyntaxSha256": "f0bead89a85f8b7665165eb9eb127142980b6ad4340f174c7cc806fa1b94d09e"
+        },
+        {
+          "label": "remove: Map deletion",
+          "upstreamLines": [
+            [
+              155,
+              155
+            ]
+          ],
+          "currentLines": [
+            [
+              134,
+              134
+            ]
+          ],
+          "identifierRenames": {
+            "tasks": "snapshots"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "2a7163a3a0c491622d71f19b520fbd9297e0a71a64bfa3405153b69a2c7dc532",
+          "currentSelectedSyntaxSha256": "2a7163a3a0c491622d71f19b520fbd9297e0a71a64bfa3405153b69a2c7dc532"
+        },
+        {
+          "label": "waitForTerminal: lookup and immediate return",
+          "upstreamLines": [
+            [
+              201,
+              201
+            ],
+            [
+              202,
+              202
+            ]
+          ],
+          "currentLines": [
+            [
+              178,
+              178
+            ],
+            [
+              179,
+              179
+            ]
+          ],
+          "identifierRenames": {
+            "tasks": "snapshots",
+            "current": "task"
+          },
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "52c774293753f6830dce3045a530b46fedd52781c5cbc3f3642f97ca7a2793dd",
+          "currentSelectedSyntaxSha256": "52c774293753f6830dce3045a530b46fedd52781c5cbc3f3642f97ca7a2793dd"
+        },
+        {
+          "label": "isTerminalRuntimeTask: complete function",
+          "upstreamLines": [
+            [
+              284,
+              286
+            ]
+          ],
+          "currentLines": [
+            [
+              192,
+              194
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "5586e2c3eb8cd709e613cd61c9cc8b0f7e580065774dfc0248f2bdf6273c14ef",
+          "currentSelectedSyntaxSha256": "5586e2c3eb8cd709e613cd61c9cc8b0f7e580065774dfc0248f2bdf6273c14ef"
+        },
+        {
+          "label": "hasRunningBackgroundRuntimeTask: predicate",
+          "upstreamLines": [
+            [
+              290,
+              290
+            ]
+          ],
+          "currentLines": [
+            [
+              199,
+              199
+            ]
+          ],
+          "identifierRenames": {},
+          "sameSelectedSyntax": true,
+          "upstreamSelectedSyntaxSha256": "182886fcad50d85cb52c112903d3643ac7965d9a8e5dad206a960c7a3a3a1cb0",
+          "currentSelectedSyntaxSha256": "182886fcad50d85cb52c112903d3643ac7965d9a8e5dad206a960c7a3a3a1cb0"
+        }
+      ],
+      "comments": {
+        "upstream": [
+          {
+            "sha256": "168736dbfbe805be31961e85f87b0930147cca17df449ce550698dd8bfb814ce",
+            "line": 10
+          },
+          {
+            "sha256": "1bfdaa338099a94f903db1eda3d6ba0d2f997ba2af4e1fba6aa27aa8b71573f2",
+            "line": 11
+          },
+          {
+            "sha256": "32e4eeac81eb3f8f36812c452b5a90892f5218bd33e3c3665fc44741a5eb01ae",
+            "line": 44
+          },
+          {
+            "sha256": "0d16f5ff03b5016cedabb5e346ad91df1845c5df8bfd38d92c638b8974c93f42",
+            "line": 54
+          },
+          {
+            "sha256": "b6ecfbd32c98ee81aad53bfa42dabf9773863f675e6a8dc187b817efb175332b",
+            "line": 59
+          }
+        ],
+        "current": [
+          {
+            "sha256": "b843a9159ac609a0b6ab48d5bd3114b8ccdbadcbd34aa30b396518485d8beca6",
+            "line": 11
+          },
+          {
+            "sha256": "30561ef69665e2caeb775e17f414318e052965bf4d2d5584021d3b722f1c4832",
+            "line": 41
+          },
+          {
+            "sha256": "c738458f569b0545a2dc0472e7215322301a3f7e8752d4bdccc79cec039e6704",
+            "line": 51
+          },
+          {
+            "sha256": "2b69c913f7f647026422f7de37d75d52917c13bb95636bd3e0885610d5ac7d29",
+            "line": 53
+          }
+        ],
+        "exactSharedComments": []
+      },
+      "limits": [
+        "Selected syntax identity is neither semantic equivalence nor a copyrightability decision.",
+        "Identifier substitutions are disclosed textual comparisons, not binding or authorship proofs.",
+        "Git chronology and source comparisons do not establish contributor ownership or a MIT grant."
+      ]
+    }
+  },
+  "manualWholeFileCoverage": [
+    {
+      "currentLines": [
+        1,
+        9
+      ],
+      "region": "imports",
+      "finding": "retained external contract types; combined imports and changed namespace; added subscription dependency"
+    },
+    {
+      "currentLines": [
+        11,
+        82
+      ],
+      "region": "public declarations and comments",
+      "finding": "all six type/interface syntax trees equal upstream and packet; four new comments have no exact upstream comment match"
+    },
+    {
+      "currentLines": [
+        84,
+        92
+      ],
+      "region": "constants",
+      "finding": "initial generation extracted to constant; six terminal words/order retained; Set type annotation changed"
+    },
+    {
+      "currentLines": [
+        94,
+        97
+      ],
+      "region": "class/state",
+      "finding": "snapshot Map retained; one TaskWaitSubscriptions replaces two waiter Map/Set indexes"
+    },
+    {
+      "currentLines": [
+        99,
+        106
+      ],
+      "region": "register",
+      "finding": "shallow stamping and commit match after local name substitutions; publication consolidated"
+    },
+    {
+      "currentLines": [
+        108,
+        110
+      ],
+      "region": "setActiveBranchGeneration",
+      "finding": "complete body syntax identical"
+    },
+    {
+      "currentLines": [
+        112,
+        122
+      ],
+      "region": "update",
+      "finding": "lookup/guard/patch/commit/return match after local substitutions; publication consolidated"
+    },
+    {
+      "currentLines": [
+        124,
+        131
+      ],
+      "region": "requestBackground",
+      "finding": "lookup/guard/commit match after local substitutions; copy initializer retains shape with type annotation removed; new publication owner"
+    },
+    {
+      "currentLines": [
+        133,
+        137
+      ],
+      "region": "remove",
+      "finding": "Map deletion and terminal-before-background effect order retained; new owner performs publication"
+    },
+    {
+      "currentLines": [
+        139,
+        145
+      ],
+      "region": "get/all",
+      "finding": "complete bodies match after tasks-to-snapshots field substitution"
+    },
+    {
+      "currentLines": [
+        147,
+        152
+      ],
+      "region": "queueMessage",
+      "finding": "complete body syntax identical; public update and spread/append specified by packet"
+    },
+    {
+      "currentLines": [
+        154,
+        160
+      ],
+      "region": "drainMessages",
+      "finding": "complete body matches after field substitution; packet requires presence/length/identity/copy reads"
+    },
+    {
+      "currentLines": [
+        162,
+        181
+      ],
+      "region": "waits",
+      "finding": "inherited immediate/synchronous signal boundaries; missing-background guard separated; terminal immediate syntax matches after substitutions; pending subscription delegated"
+    },
+    {
+      "currentLines": [
+        183,
+        190
+      ],
+      "region": "publish",
+      "finding": "combines old classifiers; inherited terminal then background-undefined then reread flag effects; changed subscription representation"
+    },
+    {
+      "currentLines": [
+        192,
+        194
+      ],
+      "region": "isTerminalRuntimeTask",
+      "finding": "complete function syntax identical"
+    },
+    {
+      "currentLines": [
+        196,
+        202
+      ],
+      "region": "hasRunningBackgroundRuntimeTask",
+      "finding": "materialized values and for-loop replace some; inherited predicate syntax identical"
+    }
+  ],
+  "subscriptionStructureObservation": {
+    "dependencyOnly": true,
+    "newRepresentation": "One per-id book containing terminal/background doubly linked FIFO cohorts, ticket cohort identity and cleanup closure, detach-before-cleanup and eligible abort unlinking.",
+    "predecessorRepresentation": "Separate terminal/background Map indexes of Set<RuntimeTaskWaiter> records with stored resolve/reject/signal/listener.",
+    "traceableSpecification": "8a59000746080512fd5d10c8fa09895a403122b8",
+    "retainedBehaviorAndIdioms": [
+      "native Promise and abort event",
+      "once listener installation before admission",
+      "FIFO detach/cleanup/resolve",
+      "synchronous failure and partial effects",
+      "fixed abort text and nullish reason fallback"
+    ],
+    "conclusion": "New structured ownership is supported by actual source and pre-implementation specification; not merely renaming/formatting, not a whole-file originality or licence grant."
+  },
+  "historicalMissingArtifact": {
+    "reportedWholeFileSha256": "12a18abdd47a1639a86726a92f7b9bf55227c8918109c3934b33925b066603e2",
+    "reportedReceipt": "licensing/evidence/contract-authored-task-registry-expression-20261002.json",
+    "receiptExistsInReviewedTree": false,
+    "wholeFileRecovered": false,
+    "runtimeFragmentReviewCommit": "e972ca88b458787d59b31b914a73f32d0297f567",
+    "runtimeFragmentSha256": "3f0420e83be7796d7c767112cc5f10ac3aa66d92e8fd6b91d08847502257eac4",
+    "runtimeFragmentBytes": 6097,
+    "runtimeFragmentReviewIsWholeFileRightsAcceptance": false,
+    "currentRuntimeDependsOnMissingArtifact": false,
+    "historicalHoldClosed": false
+  },
+  "boundedConclusion": {
+    "currentSourceComparisonCompleted": true,
+    "exactPublisherSourceAndLicenseGapResolved": true,
+    "currentFileContainsRetainedSyntaxAndContractMaterial": true,
+    "currentFileHasTraceableNewSubscriptionOrganization": true,
+    "confirmedMandatoryRewriteRegions": [],
+    "wholeFileNewIndependentExpressionAccepted": false,
+    "wholeFileMITAccepted": false,
+    "automaticInfringementFinding": false,
+    "preserveExistingClassification": "upstream-modified; no mutation of global inventory/reviews acceptance state",
+    "publicationRoute": "Continue the project under Apache-2.0. Retain applicable third-party licences, attribution, NOTICE and actual source evidence; this decision does not certify full originality or automatically close third-party obligations.",
+    "primaryLicenseSource": "https://www.apache.org/licenses/LICENSE-2.0"
+  },
+  "verificationBoundary": {
+    "testsRun": false,
+    "lintRun": false,
+    "typecheckRun": false,
+    "buildRun": false,
+    "formatCheckRun": false,
+    "fullAuditRun": false,
+    "compilerProgramCheckerOrEmitUsed": false,
+    "applicationCodeExecuted": false,
+    "operationsPerformed": [
+      "bounded source/contract/history reading",
+      "exact public original retrieval",
+      "raw and Git object digest binding",
+      "selected parsed-expression comparisons",
+      "review of changed file diffs",
+      "commit and remote ref confirmation after this record"
+    ],
+    "runtimeStatus": "UNVERIFIED in this review; previous integration CI is not authorship/rights evidence."
+  },
+  "protectedRecordBindings": [
+    {
+      "path": "LICENSE",
+      "bytes": 11344,
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 6125,
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "THIRD-PARTY-NOTICES.md",
+      "bytes": 1977089,
+      "sha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc"
+    },
+    {
+      "path": "licensing/current-files.json",
+      "bytes": 12839114,
+      "sha256": "517f3b267f8958de884fd70269c808056c363e1e87c1fe76ffad3437738b761e"
+    },
+    {
+      "path": "licensing/upstream-baseline.json",
+      "bytes": 2437673,
+      "sha256": "8289726bc2b68e44bf675463610b93c22d32af6f6b319aa1c127a1d8b2041aeb"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "bytes": 3446188,
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+    },
+    {
+      "path": "specs/knorvia-next-cli-task-registry-20261003.md",
+      "bytes": 9379,
+      "sha256": "920ec0322274871a302aee4368e24ec8769bd764882dc9b4233c45269f90cd6e"
+    },
+    {
+      "path": "specs/knorvia-task-registry-observations-20261002.md",
+      "bytes": 1971,
+      "sha256": "721093bae9249c327d03681af58b47b1c6641e7cdb4c002c9a7e61c473ebcc9c"
+    },
+    {
+      "path": "docs/knorvia-task-registry-restricted-author-handoff-20261002.md",
+      "bytes": 5950,
+      "sha256": "d9ad7242b7faf720eb6f088b9d653d6ab5e097aa87f404a3a686cc3aa0389883"
+    },
+    {
+      "path": "docs/knorvia-task-registry-root-review-20261002.md",
+      "bytes": 6811,
+      "sha256": "2ae2e5e09dbcb8fb2ef8cdbb681af97e52f242e80041514fbc7c0823d0f506ba"
+    },
+    {
+      "path": "docs/evidence/knorvia-task-registry-root-review-20261002.json",
+      "bytes": 13202,
+      "sha256": "573ef04c2ec7e62840db26a602bb91810d67937f727859cc62101b40f780e650"
+    },
+    {
+      "path": "docs/mit-release-boundaries-20261003.md",
+      "bytes": 15735,
+      "sha256": "e16461f228c3c1c0aed3c3f0280929637d80dcb8428218b9cd8153ce73aba3d3"
+    }
+  ],
+  "userDecision": {
+    "directive": "声明还是用apache2吧",
+    "sourceThreadId": "01a1000c-fd38-7421-a2e4-4728cb2a10fb",
+    "projectLicense": "Apache-2.0",
+    "MITSpecialWork": "STOPPED",
+    "furtherRewriteForMIT": false,
+    "furtherContributorRightsAcceptance": false,
+    "furtherMaterialClosure": false,
+    "additionalBroadAudit": false,
+    "preserve": "Already obtained exact source, licence and expression facts; third-party licenses/notices and historical gaps remain.",
+    "rootLicenseAndReadmeOwner": "integration"
+  },
+  "publicationFactsRetained": {
+    "currentCommentsExplainBehaviorRatherThanExplicitModificationFromZCode": true,
+    "proposedSingleFileModificationNotice": "Recorded in the report before the stop instruction; not applied to production.",
+    "thirdPartyAndNoticeObligationsClosed": false,
+    "additionalMITAcceptanceWorkPlanned": false,
+    "contactedThirdParties": false
+  }
+}

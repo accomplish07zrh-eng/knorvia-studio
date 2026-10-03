@@ -1,5 +1,13 @@
 # Knorvia Studio 同提交发布门禁与版本不可变
 
+## Linux 公共发布 metadata（2026-10-03）
+
+当前公开的中英文 README 将 `https://knorvia.xyz` 列为官网；该地址实际返回 Knorvia
+Studio 页面并链接本仓库及既有发布。Desktop 打包的 `extraMetadata.homepage` 复用此
+地址。已有作者名称 `Knorvia Studio` 保留，不据 Git 作者邮箱推定公共维护地址。
+deb/rpm/pacman 所需维护邮箱必须由用户提供明确可公开的值；未提供前如实保留为
+打包阻塞，不造邮箱、不减少目标、不把已有 AppImage 检查写成全部 Linux 包通过。
+
 2026-09-25。依据《Knorvia Studio 开发任务书与迭代路线》T01 编写；本规格先于实现。当前仓库为 `0.8.0-preview.2`，基线 `bcc63b6`。
 
 ## 背景与现状（已核对源码）

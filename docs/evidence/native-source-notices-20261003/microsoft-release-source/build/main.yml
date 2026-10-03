@@ -1,0 +1,187 @@
+trigger:
+  branches:
+    include:
+    - main
+  tags:
+    include:
+    - v*
+
+resources:
+  repositories:
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    sdl:
+      sourceAnalysisPool: 1es-windows-2022-x64
+      binskim:
+        analyzeTargetGlob: '$(Build.SourcesDirectory)/ripgrep/target/**/release/rg.exe'
+      tsa:
+        enabled: true
+
+    stages:
+      - stage: Build
+        jobs:
+        - job: linux_64
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: x86_64-unknown-linux-musl
+        - job: linux_32
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: i686-unknown-linux-musl
+        - job: linux_arm
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: arm-unknown-linux-gnueabihf
+        - job: linux_aarch64
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: aarch64-unknown-linux-gnu
+        - job: linux_aarch64_musl
+          pool:
+            name: 1es-mariner-2.0-arm64
+            os: linux
+            hostArchitecture: Arm64
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: aarch64-unknown-linux-musl
+                use_mariner: true
+        - job: macOS
+          pool:
+            name: Azure Pipelines
+            vmImage: macOS-latest
+            os: macOS
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: x86_64-apple-darwin
+        - job: macOS_arm64
+          pool:
+            name: Azure Pipelines
+            vmImage: macOS-latest
+            os: macOS
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: aarch64-apple-darwin
+        - job: win_64
+          pool:
+            name: 1es-windows-2022-x64
+          steps:
+            - template: build/windows.yml@self
+              parameters:
+                target: x86_64-pc-windows-msvc
+        - job: win_32
+          pool:
+            name: 1es-windows-2022-x64
+          steps:
+            - template: build/windows.yml@self
+              parameters:
+                target: i686-pc-windows-msvc
+        - job: win_arm64
+          pool:
+            name: 1es-windows-2022-x64
+          steps:
+            - template: build/windows.yml@self
+              parameters:
+                target: aarch64-pc-windows-msvc
+        - job: ppc64le
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: powerpc64le-unknown-linux-gnu
+        - job: riscv64
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: riscv64gc-unknown-linux-gnu
+        - job: s390x
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          steps:
+            - template: build/linux.yml@self
+              parameters:
+                target: s390x-unknown-linux-gnu
+
+      - stage: Publish
+        dependsOn: Build
+        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
+        jobs:
+        - job: publish
+          pool:
+            name: 1es-ubuntu-22.04-x64
+            os: linux
+          templateContext:
+            type: releaseJob
+            isProduction: true
+            inputs:
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-aarch64-apple-darwin.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-aarch64-apple-darwin.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-aarch64-pc-windows-msvc.zip
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-aarch64-pc-windows-msvc.zip
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-aarch64-unknown-linux-gnu.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-aarch64-unknown-linux-gnu.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-aarch64-unknown-linux-musl.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-aarch64-unknown-linux-musl.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-arm-unknown-linux-gnueabihf.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-arm-unknown-linux-gnueabihf.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-i686-pc-windows-msvc.zip
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-i686-pc-windows-msvc.zip
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-i686-unknown-linux-musl.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-i686-unknown-linux-musl.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-powerpc64le-unknown-linux-gnu.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-powerpc64le-unknown-linux-gnu.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-riscv64gc-unknown-linux-gnu.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-riscv64gc-unknown-linux-gnu.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-s390x-unknown-linux-gnu.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-s390x-unknown-linux-gnu.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-x86_64-apple-darwin.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-x86_64-apple-darwin.tar.gz
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-x86_64-pc-windows-msvc.zip
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-x86_64-pc-windows-msvc.zip
+            - input: pipelineArtifact
+              artifactName: ripgrep-$(Build.SourceBranchName)-x86_64-unknown-linux-musl.tar.gz
+              targetPath: $(Build.ArtifactStagingDirectory)/ripgrep-$(Build.SourceBranchName)-x86_64-unknown-linux-musl.tar.gz
+          steps:
+            - template: build/publish.yml@self

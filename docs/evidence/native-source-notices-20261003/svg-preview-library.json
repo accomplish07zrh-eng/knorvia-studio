@@ -1,0 +1,20 @@
+{
+  "operation": "create_library_file",
+  "status": "succeeded",
+  "path": "/knorvia-native-four-svg-originals-20261003.png",
+  "file_id": "file_00000000e030820696e38f1a93361646",
+  "library_file_id": "libfile_077e3f20f0848191a63e8bb15bfd1048",
+  "file_name": "knorvia-native-four-svg-originals-20261003.png",
+  "current_version_number": 0,
+  "restored_from_version_number": null,
+  "directory_id": "libdir_a5c5bfaa18cc819187ba9b5872395410",
+  "mime_type": "image/png",
+  "library_artifact_type": "image",
+  "file_size_bytes": 31611,
+  "external_connectors_accessed": false,
+  "localPath": "/tmp/knorvia-native-four-svg-originals-20261003.png",
+  "sourceCommit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "method": "Inkscape proportional rendering of original Desktop SVG bytes; Pillow adds preview labels and white canvas. No SVG/UI/Web asset byte changes or generated substitute.",
+  "userStatement": "我的Claude自绘的",
+  "coverage": "Unmatched: user subsequently said they cannot identify which files. Parent will use this preview for informed recognition. No third-party authorization presumed missing and no wholesale license decision."
+}

@@ -452,9 +452,10 @@ function assertPackagedNodePtyPrebuild(context) {
 export default {
   appId: desktopProductIdentity.appId,
   // Linux deb 打包（fpm）会校验 package metadata 中的 homepage、author.email、maintainer。
-  // CI 环境下若这些字段缺失会在产物阶段直接失败。这里统一在构建配置补齐，避免依赖外部注入。
+  // homepage 复用 README 已公开的官网；维护邮箱仅使用用户明确允许公开的值。
   extraMetadata: {
     version: buildMetadata.appVersion,
+    homepage: "https://knorvia.xyz",
     knorviaProductFlavor: desktopProductIdentity.flavor,
     author: {
       name: "Knorvia Studio",

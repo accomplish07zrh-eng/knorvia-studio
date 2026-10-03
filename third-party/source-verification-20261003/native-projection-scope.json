@@ -1,0 +1,19 @@
+{
+  "method": "Re-rendered only the bounded native notice section using the existing narrow renderer; preserved every preceding and following section byte-for-byte, including the appended keyv notice. Reconciled only the changed native register input and root notices SHA. Original review projection retained, no complete distribution audit.",
+  "sourceHead": "ede8382435ed91e9d62300599e925f6fb90532c0",
+  "oldNativeInput": "f8fa8858a4c88d92df6243398886f6167ba2d68823d260de76dab048f40bde88",
+  "newNativeInput": "2945580d9da090d7572972f3602b508e9cb0ac6746bd8d64ea36005765a2614f",
+  "preservedNoticePrefix": {
+    "bytes": 1682730,
+    "sha256": "572a4331e7d5c882cf146dbec8bd2d407d327fc87776052bf57929e978b86a89"
+  },
+  "oldNoticesSha256": "5bdd8ba7b54bbb098ee56b4876d9752d08ab36f2c8df8d9c3acd9b1e9a5595cc",
+  "newNoticesSha256": "1bd1a873fec4981f46aa0f41b22b6704638a8d04cb5789097cef00acd6ddadfd",
+  "materialReviewsRetained": 26,
+  "nativeNoticeBodiesVerified": true,
+  "fullAuditExecuted": false,
+  "preservedNoticeSuffix": {
+    "bytes": 1316,
+    "sha256": "c88904b0f29c78ec30a96ed7ec0eef686b6e94bfb8c918e8ee49622d0e3e2ee0"
+  }
+}

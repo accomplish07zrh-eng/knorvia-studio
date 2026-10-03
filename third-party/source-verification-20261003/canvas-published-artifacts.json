@@ -1,0 +1,583 @@
+{
+  "observedAt": "2026-10-03T10:40:50.600821+00:00",
+  "items": [
+    {
+      "id": "@napi-rs/canvas@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas/0.1.100",
+      "metadataSha256": "c422202b63205c82b8970aaf08a88b411feab3305c85c0354d81d9c813d9cccf",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas/-/canvas-0.1.100.tgz",
+      "archiveSha256": "ec7dc504d4ade7fd36846d16643e50eed5c914335f3a86b6a2a8d632391e5bfa",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": null,
+      "cpu": null,
+      "libc": null,
+      "members": [
+        {
+          "path": "package/LICENSE",
+          "bytes": 1075,
+          "sha256": "8802fecf9da4367bc23bcf20b21cc143785fc6c92b152f3fa7fbe6ce08d344d6"
+        },
+        {
+          "path": "package/geometry.js",
+          "bytes": 19312,
+          "sha256": "2e0ae365059fdb0424ddd2da8401e240a250c52b7efca68680996a99e804c1a1"
+        },
+        {
+          "path": "package/index.js",
+          "bytes": 5808,
+          "sha256": "bbdad32cab670261983ea56d4625fc7d07b1382f8bb7d6d31232bb2834861597"
+        },
+        {
+          "path": "package/js-binding.js",
+          "bytes": 12799,
+          "sha256": "be59c8d4888630cf88656f65b63dd150e60bdb1d5eab0ba5b47c0a6cb389533e"
+        },
+        {
+          "path": "package/load-image.js",
+          "bytes": 5736,
+          "sha256": "b4527335ec1d0505daf51be5ef919a8f951fc8296d88f4c5016e6ce772971570"
+        },
+        {
+          "path": "package/node-canvas.js",
+          "bytes": 11906,
+          "sha256": "8e43a89cf0a01572b015a6746e8a287f0bc2f6c48a73abd67cf0e2a0934f2be6"
+        },
+        {
+          "path": "package/package.json",
+          "bytes": 4651,
+          "sha256": "8379e15beeaecdedc863f8ff0e2548935eed4fb7505b93a207600a212d7bc2c5"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 20941,
+          "sha256": "1dbae59ae1d0c9895e3609e19c553b9c64e5f90c299f6656ab4e6cc761efd272"
+        },
+        {
+          "path": "package/index.d.ts",
+          "bytes": 34280,
+          "sha256": "0f04ed30163f6501da3a7e0832e987a9396b5223674849974fbd6594a8112556"
+        },
+        {
+          "path": "package/node-canvas.d.ts",
+          "bytes": 8863,
+          "sha256": "9bafd71a8907c9597f3548e97c68a70915844ccbdb00fa7a8e36f75001c497fb"
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-darwin-arm64@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-darwin-arm64/0.1.100",
+      "metadataSha256": "74be872c71280d454ef836153a660097701e1d72c4e91f1ff9fd12e9ce5bc99f",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-darwin-arm64/-/canvas-darwin-arm64-0.1.100.tgz",
+      "archiveSha256": "c7c8dcb69aae6ddb58fe23e5f20d1c772a8065b077560f5a18336307779add91",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["darwin"],
+      "cpu": ["arm64"],
+      "libc": null,
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 791,
+          "sha256": "612e133d91d7367657657ff68f4bd011e6ce8b167093442e0fe2b5733da74814"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 100,
+          "sha256": "5aa2bd4b03c0dca62788c5e83af36ec2cd8f937ca34a4e61e37733b5be4d09a0"
+        },
+        {
+          "path": "package/skia.darwin-arm64.node",
+          "bytes": 26297696,
+          "sha256": "a9c429727b4a133e34e60c5ffa7f701541ffe941afa9574abe6273a1648c342d",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            ",rN&.pNG",
+            "kFNf+PNgkPN",
+            "extenderhexdigitkEH_DesckEH_IFAOkehjseshocommentxidstartebasegazarmenianArmenianBalinesebalinesebassavahBopomofobopomofoBuginesebugineseCherokeecherokeecyrillicCyrillicDuployanduployanEthiopicethiopicGeorgiangeorgiangujaratiGujaratigurmukhiGurmukhiHi",
+            "_fillStyle_strokeStylecanvasGet png data from surface failedultra-condensedextra-condensedcondensedsemi-condensednormalsemi-expandedextra-expandedultra-expandeditalicobliqueweightstylefamilystyles",
+            "Failed to convert URL to CStringFailed to convert name to CStringconstructorgetContentgetContextbeginPageendPageconvertToBlobencodeencodeStreamencodeSyncsavePngtoBlobtoDataURLtoDataURLAsyncGet jpeg data from surface failedGet avif data from surface f",
+            "addPathasWindingcomputeTightBoundsequalsgetBoundsgetFillTypegetFillTypeStringopsetFillTypetoSVGStringCreate path from provided path string failed.Failed to create string from SkiaString",
+            "Invalid CFB file (wrong magic number)Root EntryMalformed directory entry (name not valid UTF-16)Malformed directory (root entry is missing)Malformed directory (loop in tree)failed to fill whole bufferapplication/x-executableelfapplication/vnd.microso",
+            "timedownlifeleftbackcodedatashowonlysitecityopenjustlikefreeworktextyearoverbodyloveformbookplaylivelinehelphomesidemorewordlongthemviewfindpagedaysfullheadtermeachareafromtruemarkableuponhighdatelandnewsevennextcasebothpostusedmadehandherewhatnameLi",
+            "o-cacfirmstours,000 asiani++){adobe')[0]id=10both;menu .2.mi.png\"kevincoachChildbruce2.jpgURL)+.jpg|suitesliceharry120\" sweettr>",
+            ".gif\" onloadloaderOxfordsistersurvivlistenfemaleDesignsize=\"appealtext\">levelsthankshigherforcedanimalanyoneAfricaagreedrecentPeople<br />wonderpricesturned|| {};main\">inlinesundaywrap\">failedcensusminutebeaconquotes150px|estateremoteemail\"linkedrigh",
+            "coveragechairman.png\" />subjectsRichard whateverprobablyrecoverybaseballjudgmentconnect..css\" /> websitereporteddefault\"/></a>",
+            "article <sectionfindingsrole in popular  Octoberwebsite exposureused to  changesoperatedclickingenteringcommandsinformed numbers  </div>creatingonSubmitmarylandcollegesanalyticlistingscontact.loggedInadvisorysiblingscontent\"s&quot;)s. This packagesch",
+            "sponsoreddocument.or &quot;there arethose whomovementsprocessesdifficultsubmittedrecommendconvincedpromoting\" width=\".replace(classicalcoalitionhis firstdecisionsassistantindicatedevolution-wrapper\"enough toalong thedelivered-->",
+            "Copyright javascriptconditionseverything<p class=\"technologybackground<a class=\"management&copy; 201javaScriptcharactersbreadcrumbthemselveshorizontalgovernmentCaliforniaactivitiesdiscoveredNavigationtransitionconnectionnavigationappearance</title><m",
+            "</style>evaluationemphasizedaccessible</section>successionalong withMeanwhile,industries</a><br />has becomeaspects ofTelevisionsufficientbasketballboth sidescontinuingan article<img alt=\"adventureshis mothermanchesterprinciplesparticularcommentaryef",
+            "sByTagName(.jpg\" alt=\"1px solid #.gif\" alt=\"transparentinformationapplication\" onclick=\"establishedadvertising.png\" alt=\"environmentperformanceappropriate&amp;mdash;immediately</strong></rather thantemperaturedevelopmentcompetitionplaceholdervisibili",
+            "<td class=\"undergroundparallel todoctrine ofoccupied byterminologyRenaissancea number ofsupport forexplorationrecognitionpredecessor<img src=\"/<h1 class=\"publicationmay also bespecialized</fieldset>progressivemillions ofstates thatenforcementaround t",
+            "<div id=\"incorporate;</script><attachEventbecame the \" target=\"_carried outSome of thescience andthe time ofContainer\">maintainingChristopherMuch of thewritings of\" height=\"2size of theversion of mixture of between theExamples ofeducationalcompetitiv",
+            "question ofwas electedto become abecause of some peopleinspired bysuccessful a time whenmore commonamongst thean officialwidth:100%;technology,was adoptedto keep thesettlementslive birthsindex.html\"Connecticutassigned to&amp;times;account foralign=ri",
+            "<htgeographicalConstitution', function(supported byagriculturalconstructionpublicationsfont-size: 1a variety of<div style=\"Encyclopediaiframe src=\"demonstratedaccomplisheduniversitiesDemographics);</script><dedicated toknowledge ofsatisfactionparticu",
+            "such as the influence ofa particularsrc='http://navigation\" half of the substantial &nbsp;</div>advantage ofdiscovery offundamental metropolitanthe opposite\" xml:lang=\"deliberatelyalign=centerevolution ofpreservationimprovementsbeginning inJesus Chri",
+            "nparticularessubcategoria",
+            "entertainmentunderstanding = function().jpg\" width=\"configuration.png\" width=\"<body class=\"Math.random()contemporary United Statescircumstances.appendChild(organizations<span class=\"\"><img src=\"/distinguishedthousands of communicationclear\"></div>inv",
+            "<body starting withincreasingly the fact thatdiscussion ofmiddle of thean individualdifficult to point of viewhomosexualityacceptance of</span></div>manufacturersorigin of thecommonly usedimportance ofdenominationsbackground: #length of thedeterminat",
+            "<div class=\"more commonlyorganisationsfunctionalitywas completed &amp;mdash; participationthe characteran additionalappears to befact that thean example ofsignificantlyonmouseover=\"because they async = true;problems withseems to havethe result of src",
+            "</div>large part ofInstitute forthe so-called against the In this case,was appointedclaimed to beHowever, thisDepartment ofthe remainingeffect on theparticularly deal with the",
+            "<table class=\"accompanied byaccount of the<script src=\"/nature of the the people in in addition tos); js.id = id\" width=\"100%\"regarding the Roman Catholican independentfollowing the .gif\" width=\"1the following discriminationarchaeologicalprime minist",
+            "<body aspects of thehas since beenEuropean Unionreminiscent ofmore difficultVice Presidentcomposition ofpassed throughmore importantfont-size:11pxexplanation ofthe concept ofwritten in the",
+            "<div class=\"the scientificrepresented bymathematicianselected by thethat have been><div class=\"cdiv id=\"headerin particular,converted into);",
+            "ul></div></div>after the deathwith respect tostyle=\"padding:is particularlydisplay:inline; type=\"submit\" is divided into"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-darwin-x64@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-darwin-x64/0.1.100",
+      "metadataSha256": "94b753695c80a556ffb8d3f2031558cfe0471f64587e00eaf8fc5bfde1478343",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-darwin-x64/-/canvas-darwin-x64-0.1.100.tgz",
+      "archiveSha256": "ffc0979d3cca5b87678371cb5feefeb1b5730939d702c3ce55541d5471d5b024",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["darwin"],
+      "cpu": ["x64"],
+      "libc": null,
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 783,
+          "sha256": "0a5b8833229e309e66541f0731217821cbc805a15912ef891203e86341940f42"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 97,
+          "sha256": "2bf84d8a18ad3efbbdb76c59b639c2faae4667cbcab7c1b8c846b1c3761c4296"
+        },
+        {
+          "path": "package/skia.darwin-x64.node",
+          "bytes": 31530340,
+          "sha256": "acf5855324808f5ab6461b91b09b193b29a2516004035d7139a17eab211dc743",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "Get png M",
+            "Get png M",
+            "Get jpegM",
+            "skiapictH9E",
+            "skiapictH",
+            "skiapictH",
+            "= DICu)H",
+            "org.skiaH",
+            "IcM0IcU4H",
+            "extenderhexdigitkEH_DesckEH_IFAOkehjseshocommentxidstartebasegazarmenianArmenianBalinesebalinesebassavahBopomofobopomofoBuginesebugineseCherokeecherokeecyrillicCyrillicDuployanduployanEthiopicethiopicGeorgiangeorgiangujaratiGujaratigurmukhiGurmukhiHi",
+            "Failed to convert URL to CStringFailed to convert name to CStringconstructorgetContentgetContextbeginPageendPageconvertToBlobencodeencodeStreamencodeSyncsavePngtoBlobtoDataURLtoDataURLAsync",
+            "failed to fill whole bufferapplication/x-executableelfapplication/vnd.microsoft.portable-executableexedllclassapplication/x-llvmapplication/x-mach-binaryapplication/vnd.android.dexdexapplication/vnd.android.deydeyapplication/x-x509-ca-certderobjpemap",
+            "timedownlifeleftbackcodedatashowonlysitecityopenjustlikefreeworktextyearoverbodyloveformbookplaylivelinehelphomesidemorewordlongthemviewfindpagedaysfullheadtermeachareafromtruemarkableuponhighdatelandnewsevennextcasebothpostusedmadehandherewhatnameLi",
+            "o-cacfirmstours,000 asiani++){adobe')[0]id=10both;menu .2.mi.png\"kevincoachChildbruce2.jpgURL)+.jpg|suitesliceharry120\" sweettr>",
+            ".gif\" onloadloaderOxfordsistersurvivlistenfemaleDesignsize=\"appealtext\">levelsthankshigherforcedanimalanyoneAfricaagreedrecentPeople<br />wonderpricesturned|| {};main\">inlinesundaywrap\">failedcensusminutebeaconquotes150px|estateremoteemail\"linkedrigh",
+            "coveragechairman.png\" />subjectsRichard whateverprobablyrecoverybaseballjudgmentconnect..css\" /> websitereporteddefault\"/></a>",
+            "article <sectionfindingsrole in popular  Octoberwebsite exposureused to  changesoperatedclickingenteringcommandsinformed numbers  </div>creatingonSubmitmarylandcollegesanalyticlistingscontact.loggedInadvisorysiblingscontent\"s&quot;)s. This packagesch",
+            "sponsoreddocument.or &quot;there arethose whomovementsprocessesdifficultsubmittedrecommendconvincedpromoting\" width=\".replace(classicalcoalitionhis firstdecisionsassistantindicatedevolution-wrapper\"enough toalong thedelivered-->",
+            "Copyright javascriptconditionseverything<p class=\"technologybackground<a class=\"management&copy; 201javaScriptcharactersbreadcrumbthemselveshorizontalgovernmentCaliforniaactivitiesdiscoveredNavigationtransitionconnectionnavigationappearance</title><m",
+            "</style>evaluationemphasizedaccessible</section>successionalong withMeanwhile,industries</a><br />has becomeaspects ofTelevisionsufficientbasketballboth sidescontinuingan article<img alt=\"adventureshis mothermanchesterprinciplesparticularcommentaryef",
+            "sByTagName(.jpg\" alt=\"1px solid #.gif\" alt=\"transparentinformationapplication\" onclick=\"establishedadvertising.png\" alt=\"environmentperformanceappropriate&amp;mdash;immediately</strong></rather thantemperaturedevelopmentcompetitionplaceholdervisibili",
+            "<td class=\"undergroundparallel todoctrine ofoccupied byterminologyRenaissancea number ofsupport forexplorationrecognitionpredecessor<img src=\"/<h1 class=\"publicationmay also bespecialized</fieldset>progressivemillions ofstates thatenforcementaround t",
+            "<div id=\"incorporate;</script><attachEventbecame the \" target=\"_carried outSome of thescience andthe time ofContainer\">maintainingChristopherMuch of thewritings of\" height=\"2size of theversion of mixture of between theExamples ofeducationalcompetitiv",
+            "question ofwas electedto become abecause of some peopleinspired bysuccessful a time whenmore commonamongst thean officialwidth:100%;technology,was adoptedto keep thesettlementslive birthsindex.html\"Connecticutassigned to&amp;times;account foralign=ri",
+            "<htgeographicalConstitution', function(supported byagriculturalconstructionpublicationsfont-size: 1a variety of<div style=\"Encyclopediaiframe src=\"demonstratedaccomplisheduniversitiesDemographics);</script><dedicated toknowledge ofsatisfactionparticu",
+            "such as the influence ofa particularsrc='http://navigation\" half of the substantial &nbsp;</div>advantage ofdiscovery offundamental metropolitanthe opposite\" xml:lang=\"deliberatelyalign=centerevolution ofpreservationimprovementsbeginning inJesus Chri",
+            "nparticularessubcategoria",
+            "entertainmentunderstanding = function().jpg\" width=\"configuration.png\" width=\"<body class=\"Math.random()contemporary United Statescircumstances.appendChild(organizations<span class=\"\"><img src=\"/distinguishedthousands of communicationclear\"></div>inv",
+            "<body starting withincreasingly the fact thatdiscussion ofmiddle of thean individualdifficult to point of viewhomosexualityacceptance of</span></div>manufacturersorigin of thecommonly usedimportance ofdenominationsbackground: #length of thedeterminat",
+            "<div class=\"more commonlyorganisationsfunctionalitywas completed &amp;mdash; participationthe characteran additionalappears to befact that thean example ofsignificantlyonmouseover=\"because they async = true;problems withseems to havethe result of src"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-linux-arm64-gnu@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-linux-arm64-gnu/0.1.100",
+      "metadataSha256": "c80f78b9827f3b842f7ca7190a5be195a6a569038ef89fa57c4eeec227f12af7",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-gnu/-/canvas-linux-arm64-gnu-0.1.100.tgz",
+      "archiveSha256": "a2e623648a0abac073f0b488770a650f889fa8be10f2a05adc0712087371264c",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["linux"],
+      "cpu": ["arm64"],
+      "libc": ["glibc"],
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 828,
+          "sha256": "045190c3c2721ea258d47a9a2ceaba79e51e9562ea8f8270b62a2a7f990a7131"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 108,
+          "sha256": "77f96bce7d029d326759ff665cca6503e8c6a25344910071d539fccf75106057"
+        },
+        {
+          "path": "package/skia.linux-arm64-gnu.node",
+          "bytes": 27711392,
+          "sha256": "03e173f76f574969cc8cc945bfbb9ddb050a961350564467136045465827628f",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "OC*PNFjPNg*DNdjDN",
+            "extenderhexdigitkEH_DesckEH_IFAOkehjseshocommentxidstartebasegazarmenianArmenianBalinesebalinesebassavahBopomofobopomofoBuginesebugineseCherokeecherokeecyrillicCyrillicDuployanduployanEthiopicethiopicGeorgiangeorgiangujaratiGujaratigurmukhiGurmukhiHi",
+            "Failed to detect napi value typecanvas::gradient::CanvasGradientBorrowed data should not be nullCall the PromiseRaw::then failedFailed to create cancel functionConvert String to CString failedGet png data from surface failedFailed to convert URL to C",
+            "pulltypeCodejpegdatahighclipfillfontlangrectsavebold100%125%150%200%trimrgb(seekPathpdfajoinmimeMaskSlim    sizesrgbnavylimegoldtealplumsnowgreygrayperublueaquapinkcyangradturnrgbahslaunitlineispeirot",
+            "_fillStyle_strokeStylecanvasultra-condensedextra-condensedcondensedsemi-condensednormalsemi-expandedexpandedextra-expandedultra-expandeditalicobliqueweightstylefamilystylesFailed to convert name to CStringconstructorgetContentgetContextbeginPageendPa",
+            "  addPathasWindingcomputeTightBoundsequalsgetBoundsgetFillTypegetFillTypeStringopsetFillTypetoSVGStringCreate path from provided path string failed.Failed to create string from SkiaStringaltcurrentSrcdecodenaturalHeightnaturalWidthsrconerrorInvalid S",
+            "Invalid CFB file (wrong magic number)Root EntryMalformed directory entry (name not valid UTF-16)Malformed directory (root entry is missing)Malformed directory (loop in tree)application/x-executableelfapplication/vnd.microsoft.portable-executableexedl",
+            "skia/sk_resource_cache/%s_%p",
+            "../../src/codec/SkPngCodecBase.cpp",
+            "Too many bytes for PNG signature",
+            "Application built with libpng-",
+            "Unknown freer parameter in png_data_freer",
+            "libpng version 1.6.56",
+            " libpng version 1.6.56",
+            "unexpected zlib return code",
+            "zlib IO error",
+            "bad parameters to zlib",
+            "unsupported zlib version",
+            "unexpected zlib return",
+            "RGB color space not permitted on grayscale PNG",
+            "Gray color space not permitted on RGB PNG",
+            "MNG features are not allowed in a PNG datastream",
+            "Libpng jmp_buf still allocated",
+            "libpng error: %s",
+            "libpng warning: %s",
+            "png_process_data_skip is not implemented in any current version of libpng",
+            "Not a PNG file",
+            "PNG file corrupted by ASCII conversion",
+            "png_read_update_info/png_start_read_image: duplicate call",
+            "png_start_read_image/png_read_update_info: duplicate call"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-linux-arm64-musl@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-linux-arm64-musl/0.1.100",
+      "metadataSha256": "a285fff160cf5cb32fc8b7b044df337bf5fdf44de510ff6b7e0e209717be32c4",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-musl/-/canvas-linux-arm64-musl-0.1.100.tgz",
+      "archiveSha256": "2536891a79b54a0eaeea6d85517af2fcc4df834a216e74a7a7f460ff242d84b9",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["linux"],
+      "cpu": ["arm64"],
+      "libc": ["musl"],
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 830,
+          "sha256": "2e0ab52e1b72f6f5dc80f8dbf7aafb4792bcf61a7258502af414abd9792ef9e2"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 110,
+          "sha256": "8ab0ebda84dace55d15f5298905a2683d9f84129799d8b368da687705c98299c"
+        },
+        {
+          "path": "package/skia.linux-arm64-musl.node",
+          "bytes": 25619728,
+          "sha256": "e76d9425c6cd74ae27bb639fa3950cb1c0a5a03ab337f0074f3f8de448f4f99d",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "bad parameters to zlib",
+            "libpng warning: %s",
+            "length exceeds libpng limit",
+            "Wrong JPEG library version: library is %d, caller expects %d",
+            "zlib IO error",
+            "cLLI light level exceeds PNG limit",
+            "icudt74l-region",
+            "atomicUint",
+            "Libpng jmp_buf still allocated",
+            "png_set_sPLT: invalid sPLT",
+            "Read failure in png_handle_zTXt",
+            "png_do_rgb_to_gray found nongray pixel",
+            "data:image/png;base64,",
+            "Invalid JPEG file structure: two SOI markers",
+            "unexpected zlib return code",
+            "RGB color space not permitted on grayscale PNG",
+            "ICU_TIMEZONE_FILES_DIR",
+            "Premature end of JPEG file",
+            "%s:%d: fatal error: \"Must set both a jpegDecoder and jpegEncoder to create PDFs\"",
+            "png_read_update_info/png_start_read_image: duplicate call",
+            "icudt74l-",
+            "icudt74l",
+            "Google/Skia/",
+            "Unsupported JPEG data precision %d",
+            "Not a PNG file",
+            "data:image/jpeg;base64,",
+            "../../src/encode/SkJPEGWriteUtility.cpp",
+            "Not a JPEG file: starts with 0x%02x 0x%02x",
+            "harfbuzz ",
+            "png_start_read_image/png_read_update_info: duplicate call"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-linux-x64-gnu@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-linux-x64-gnu/0.1.100",
+      "metadataSha256": "aaf9b0782a9a7cc4d79360cdb5da33cad725d869e9c5a51b6c4aca4b693936aa",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-gnu/-/canvas-linux-x64-gnu-0.1.100.tgz",
+      "archiveSha256": "fbb244fcf0e38fed930914fc732a84369eada961e6cd1c034a7ce2f1ca55c7ef",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["linux"],
+      "cpu": ["x64"],
+      "libc": ["glibc"],
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 820,
+          "sha256": "55eb689b9e7bf948154b49e2b763364bca65305d5112fa93ac8a0068703f5073"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 105,
+          "sha256": "4183a65ac5cbd8df6d3ee4f21dd26d0ae64686cf952fea98a695ef3cbbb863a1"
+        },
+        {
+          "path": "package/skia.linux-x64-gnu.node",
+          "bytes": 33393024,
+          "sha256": "059a0873c1114a8a59195f6c4bc76eab9c4e928251003cd501b59bc8aaaf3fa0",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "skiapictH9",
+            "skiapictH",
+            "skiapictH",
+            "\\$4t^IcU",
+            "D$hIcu8H",
+            "org.skiaH",
+            "CpulltypeCodecopybuttleftjpegdataautononehighclipfillfontlangrectsavebold100%125%150%200%trimrgb(seekPathpdfajoinmimeMaskSlim    sizesrgbnavylimegoldtealplumsnowgreygrayperublueaquapinkcyangradturnrgbahslaunitlineispeirot",
+            "extenderhexdigitkEH_DesckEH_IFAOkehjseshocommentxidstartebasegazarmenianArmenianBalinesebalinesebassavahBopomofobopomofoBuginesebugineseCherokeecherokeecyrillicCyrillicDuployanduployanEthiopicethiopicGeorgiangeorgiangujaratiGujaratigurmukhiGurmukhiHi",
+            "Failed to detect napi value typecanvas::gradient::CanvasGradientBorrowed data should not be nullCall the PromiseRaw::then failedFailed to create cancel functionConvert String to CString failedGet png data from surface failedFailed to convert URL to C",
+            "_fillStyle_strokeStylecanvasultra-condensedextra-condensedcondensedsemi-condensednormalsemi-expandedextra-expandedultra-expandeditalicobliqueweightstylefamilystylesFailed to convert name to CStringconstructorgetContentgetContextbeginPageendPageconver",
+            "  addPathasWindingcomputeTightBoundsequalsgetBoundsgetFillTypegetFillTypeStringopsetFillTypetoSVGStringCreate path from provided path string failed.Failed to create string from SkiaStringaltcurrentSrcdecodenaturalHeightnaturalWidthsrconerrorInvalid S",
+            "Invalid CFB file (wrong magic number)Malformed directory entry (name not valid UTF-16)Malformed directory (root entry is missing)Malformed directory (loop in tree)application/x-executableelfapplication/vnd.microsoft.portable-executableexedllclassappl",
+            "skia/sk_resource_cache/%s_%p",
+            "../../src/codec/SkPngCodecBase.cpp",
+            "Too many bytes for PNG signature",
+            "Application built with libpng-",
+            "Unknown freer parameter in png_data_freer",
+            "libpng version 1.6.56",
+            " libpng version 1.6.56",
+            "unexpected zlib return code",
+            "zlib IO error",
+            "bad parameters to zlib",
+            "unsupported zlib version",
+            "unexpected zlib return",
+            "RGB color space not permitted on grayscale PNG",
+            "Gray color space not permitted on RGB PNG",
+            "MNG features are not allowed in a PNG datastream",
+            "Libpng jmp_buf still allocated",
+            "libpng error: %s",
+            "libpng warning: %s"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-linux-x64-musl@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-linux-x64-musl/0.1.100",
+      "metadataSha256": "e2930ce74b0bbdbe3f2dd32ce35bfd4a4d163a0d96af97629c5ed106d1fc06ea",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-musl/-/canvas-linux-x64-musl-0.1.100.tgz",
+      "archiveSha256": "d00792d0d7c6cf0c2807eca935aefc0f293b43f3e175d331caec4a288d4dcf23",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["linux"],
+      "cpu": ["x64"],
+      "libc": ["musl"],
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 822,
+          "sha256": "5199c41a525ec15defe339789e6f7d5291911fe25041debccc829f4e46a889f1"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 107,
+          "sha256": "35e1248e7defd8cdfa18464965d12e6ac626667b9f6d5ad096a232818e1be0da"
+        },
+        {
+          "path": "package/skia.linux-x64-musl.node",
+          "bytes": 29754136,
+          "sha256": "0396e3f0d1cec95684ace216b2fe397532901ed628ab5572f511a1786cbe361c",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "Get png data from surface failed",
+            "bad parameters to zlib",
+            "libpng warning: %s",
+            "length exceeds libpng limit",
+            "Wrong JPEG library version: library is %d, caller expects %d",
+            "zlib IO error",
+            "cLLI light level exceeds PNG limit",
+            "icudt74l-region",
+            "atomicUint",
+            "Libpng jmp_buf still allocated",
+            "png_set_sPLT: invalid sPLT",
+            "Read failure in png_handle_zTXt",
+            "png_do_rgb_to_gray found nongray pixel",
+            "Invalid JPEG file structure: two SOI markers",
+            "unexpected zlib return code",
+            "RGB color space not permitted on grayscale PNG",
+            "ICU_TIMEZONE_FILES_DIR",
+            "Premature end of JPEG file",
+            "%s:%d: fatal error: \"Must set both a jpegDecoder and jpegEncoder to create PDFs\"",
+            "png_read_update_info/png_start_read_image: duplicate call",
+            "icudt74l-",
+            "icudt74l",
+            "Unsupported JPEG data precision %d",
+            "Not a PNG file",
+            "../../src/encode/SkJPEGWriteUtility.cpp",
+            "Not a JPEG file: starts with 0x%02x 0x%02x",
+            "harfbuzz ",
+            "png_start_read_image/png_read_update_info: duplicate call",
+            "Corrupt JPEG data: %u extraneous bytes before marker 0x%02x",
+            "JPEGData"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-win32-arm64-msvc@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-win32-arm64-msvc/0.1.100",
+      "metadataSha256": "c40ee2ba1e839930474a9ac687cfdc7a22ee85b9006c218e16ea79bb01bde480",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-win32-arm64-msvc/-/canvas-win32-arm64-msvc-0.1.100.tgz",
+      "archiveSha256": "3dc8c824d3c9096bf3769c1c0cb1c24b280cecd117baccd535aaa87e2433a1d2",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["win32"],
+      "cpu": ["arm64"],
+      "libc": null,
+      "members": [
+        {
+          "path": "package/package.json",
+          "bytes": 820,
+          "sha256": "2842c0ad3c328a1b5a09a2957302c83d91791083b82d5af25aa7e489835a75df"
+        },
+        {
+          "path": "package/skia.win32-arm64-msvc.node",
+          "bytes": 20029440,
+          "sha256": "7a5d6d46e3e8be87c998dc7dfd4a840ef42eee16872a0504a877bff8584e5e46",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "_fillStyle_strokeStylecanvasGet png data from surface failed",
+            "convertToBlobdataencodeencodeStreamencodeSyncsavePngtoBlobtoBuffertoDataURLtoDataURLAsyncclearAllCache",
+            "Get webp data from surface failedGet avif data from surface failedGet jpeg data from surface failedC:\\Users\\runneradmin\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\regex-1.12.3\\src\\regex\\string.rs",
+            "Create skia surface failed",
+            "Create skia svg surface failed",
+            "Create path from provided path string failed.Failed to create string from SkiaStringsrc\\image.rs",
+            "application/wasmwasmapplication/x-executableelfapplication/vnd.microsoft.portable-executableexedllapplication/javaclassapplication/x-llvmapplication/x-mach-binarymachapplication/vnd.android.dexdexapplication/vnd.android.deydeyapplication/x-x509-ca-ce",
+            "adlamAdlamadlmaghbCaucasian_AlbanianahomAhomanatolianhieroglyphsAnatolian_HieroglyphsarabArabicarabicarmenianArmenianarmiImperial_AramaicarmnavestanAvestanavstbaliBalinesebalinesebamuBamumbamumbassBassa_VahbassavahbatakBatakbatkbengBengalibengalibhai",
+            "./skia\\include/core/SkRefCnt.h",
+            "./skia\\include/private/base/SkTo.h",
+            "./skia\\modules/skparagraph/src/ParagraphImpl.h",
+            "./skia\\include/private/base/SkAssert.h",
+            "./skia\\include/private/base/SkTArray.h",
+            "./skia\\include/private/base/SkSpan_impl.h",
+            "./skia\\include/core/SkMatrix.h",
+            "./skia\\include/effects/SkGradient.h",
+            "./skia\\include/codec/SkEncodedOrigin.h",
+            "Skia/PDF m148",
+            "libpng encode error: %s",
+            "skia/sk_glyph_cache",
+            "MNG features are not allowed in a PNG datastream",
+            "png_write_info was never called before png_write_row",
+            "png_set_filter: UP/AVG/PAETH cannot be added after start",
+            "Application built with libpng-",
+            "unexpected zlib return code",
+            "zlib IO error",
+            "bad parameters to zlib",
+            "unsupported zlib version",
+            "unexpected zlib return",
+            "RGB color space not permitted on grayscale PNG"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    },
+    {
+      "id": "@napi-rs/canvas-win32-x64-msvc@0.1.100",
+      "metadataUrl": "https://registry.npmjs.org/@napi-rs%2Fcanvas-win32-x64-msvc/0.1.100",
+      "metadataSha256": "a6998e9a5ad4eb651ffa152c1a19e59e6ea9f72fd929ade2ed49c937c26273de",
+      "archiveUrl": "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.100.tgz",
+      "archiveSha256": "a918366995d85d6989bd85c1c82f21eae90479cb1df40c2d6867ccb00338595b",
+      "publisherSha1Matches": true,
+      "publisherGitHead": "db337893b9b53483050ca7b24c6d306e4da06741",
+      "publisherLicense": "MIT",
+      "os": ["win32"],
+      "cpu": ["x64"],
+      "libc": null,
+      "members": [
+        {
+          "path": "package/icudtl.dat",
+          "bytes": 10468208,
+          "sha256": "9ae98c06cbb0ea43c5cd6b5725310c008c65e46072421a1118cb88e1de9a8b92"
+        },
+        {
+          "path": "package/package.json",
+          "bytes": 812,
+          "sha256": "59e9517011b1bc19b7a001e04d5523437f2d9e4167c08c1f1df8eaf971229185"
+        },
+        {
+          "path": "package/README.md",
+          "bytes": 104,
+          "sha256": "852850d7f55f076f7b710882592132c6f75943875c81832eae136523a7801b59"
+        },
+        {
+          "path": "package/skia.win32-x64-msvc.node",
+          "bytes": 27294720,
+          "sha256": "0f76fb0648fbff832856f6ce202059fc3fa38be7ad925300e96935906ea11132",
+          "artifactKind": "native-node-binding",
+          "bindingStrings": [
+            "skiapictH9D$X",
+            "skiapictH",
+            "skiapictH",
+            "org.skiaH",
+            "_fillStyle_strokeStylecanvasGet png data from surface failed",
+            "convertToBlobdataencodeencodeStreamencodeSyncsavePngtoBlobtoBuffertoDataURLtoDataURLAsyncclearAllCache",
+            "Get avif data from surface failedGet jpeg data from surface failedGet webp data from surface failedC:\\Users\\runneradmin\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\regex-1.12.3\\src\\regex\\string.rs",
+            "Create skia surface failed",
+            "Create skia svg surface failed",
+            "Create path from provided path string failed.Failed to create string from SkiaStringsrc\\image.rs",
+            "application/wasmwasmapplication/x-executableelfapplication/vnd.microsoft.portable-executableexedllapplication/javaclassapplication/x-llvmapplication/x-mach-binarymachapplication/vnd.android.dexdexapplication/vnd.android.deydeyapplication/x-x509-ca-ce",
+            "adlamAdlamadlmaghbCaucasian_AlbanianahomAhomanatolianhieroglyphsAnatolian_HieroglyphsarabArabicarabicarmenianArmenianarmiImperial_AramaicarmnavestanAvestanavstbaliBalinesebalinesebamuBamumbamumbassBassa_VahbassavahbatakBatakbatkbengBengalibengalibhai",
+            "./skia\\include/core/SkRefCnt.h",
+            "./skia\\include/private/base/SkTo.h",
+            "./skia\\modules/skparagraph/src/ParagraphImpl.h",
+            "./skia\\include/private/base/SkAssert.h",
+            "./skia\\include/private/base/SkTArray.h",
+            "./skia\\include/private/base/SkSpan_impl.h",
+            "./skia\\include/core/SkMatrix.h",
+            "./skia\\include/effects/SkGradient.h",
+            "./skia\\include/codec/SkEncodedOrigin.h",
+            "Skia/PDF m148",
+            "libpng encode error: %s",
+            "skia/sk_glyph_cache",
+            "MNG features are not allowed in a PNG datastream",
+            "png_write_info was never called before png_write_row",
+            "png_set_filter: UP/AVG/PAETH cannot be added after start",
+            "Application built with libpng-",
+            "unexpected zlib return code",
+            "zlib IO error"
+          ]
+        }
+      ],
+      "qualification": "Published artifact bytes read, not executed. GitHead is a publisher assertion, not an independently recovered native compiler/link manifest. String matches do not prove the complete link closure."
+    }
+  ]
+}

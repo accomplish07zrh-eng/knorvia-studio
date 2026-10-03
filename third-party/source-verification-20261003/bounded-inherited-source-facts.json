@@ -1,0 +1,1252 @@
+{
+  "observedAt": "2026-10-03T10:57:37.089855+00:00",
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "scope": "14 explicitly selected source modules only, chosen from the already-existing identity inventory. No full code/rights audit or runtime execution.",
+  "files": [
+    {
+      "path": "packages/services/src/agent/automationToolPolicy.ts",
+      "sourcePath": "packages/services/src/zcode-agent/automationToolPolicy.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/services/src/zcode-agent/automationToolPolicy.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "0f7f75bf61415777ea082de93dd1888c6d5803f2d849d744fbccef59cfeaa9ed",
+      "currentSha256": "1586e08c94bc7ff4d8e23bd1703ef21bdd9f5c7da786991e15f1226a550e66c0",
+      "currentBytes": 994,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "1586e08c94bc7ff4d8e23bd1703ef21bdd9f5c7da786991e15f1226a550e66c0",
+      "sourceGitBlob": "41fecf4315d43e95d5bc6ab1e2e3aed2671deb8a",
+      "apiGitBlob": "41fecf4315d43e95d5bc6ab1e2e3aed2671deb8a",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "mergeAutomationMutationToolDenylist",
+          "line": 3,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "mergeOffPeakMutationToolDenylist",
+          "line": 18,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "services"
+    },
+    {
+      "path": "packages/services/src/plugin-sync/pluginSyncPath.ts",
+      "sourcePath": "packages/services/src/plugin-sync/pluginSyncPath.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/services/src/plugin-sync/pluginSyncPath.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "f2bda26eb1ab4576a1f39b43c2d8625e9261aacb614d688aca30f8401672739c",
+      "currentSha256": "7a15368e05537d694aab13192ca079cbf41f3a3621d6ced110c998ca93207c17",
+      "currentBytes": 1334,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "7a15368e05537d694aab13192ca079cbf41f3a3621d6ced110c998ca93207c17",
+      "sourceGitBlob": "4a456237a367d056b3d7f738e885d6c15a6eac17",
+      "apiGitBlob": "4a456237a367d056b3d7f738e885d6c15a6eac17",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "normalizePluginSyncRelativePath",
+          "line": 7,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 18,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "resolvePluginSyncPathWithin",
+          "line": 25,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "services"
+    },
+    {
+      "path": "packages/desktop/src/main/chromeProfileDiscovery.ts",
+      "sourcePath": "packages/desktop/src/main/chromeProfileDiscovery.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/desktop/src/main/chromeProfileDiscovery.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "90b18a6e3244d438e6c53bdbaba8edf48008164f474be1237ba7da6838a790a2",
+      "currentSha256": "7926537aa509dcdada87b3dca9001b042ca69edee161da64c870ab3d0f1d11c2",
+      "currentBytes": 9561,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "7926537aa509dcdada87b3dca9001b042ca69edee161da64c870ab3d0f1d11c2",
+      "sourceGitBlob": "cdcffd8d610a56fc98c5e715f559bf93386d4f61",
+      "apiGitBlob": "cdcffd8d610a56fc98c5e715f559bf93386d4f61",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "pathExists",
+          "line": 51,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 53,
+          "bodyKind": "TrueKeyword"
+        },
+        {
+          "name": "anonymous",
+          "line": 54,
+          "bodyKind": "FalseKeyword"
+        },
+        {
+          "name": "execFileText",
+          "line": 58,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 59,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 69,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "uniquePaths",
+          "line": 80,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "expandWindowsPolicyPath",
+          "line": 92,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 101,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 102,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "readWindowsPolicyUserDataDirs",
+          "line": 105,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "resolveFirstExistingPath",
+          "line": 125,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "readProfileDirectoryCandidates",
+          "line": 132,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 160,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "hasImportableProfileData",
+          "line": 164,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "filterImportableProfiles",
+          "line": 176,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 181,
+          "bodyKind": "ParenthesizedExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 186,
+          "bodyKind": "Identifier"
+        },
+        {
+          "name": "anonymous",
+          "line": 186,
+          "bodyKind": "Identifier"
+        },
+        {
+          "name": "selectProfileDirectory",
+          "line": 189,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "dedupeInstallations",
+          "line": 205,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "discoverChromeProfile",
+          "line": 219,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 244,
+          "bodyKind": "ParenthesizedExpression"
+        }
+      ],
+      "owner": "native"
+    },
+    {
+      "path": "packages/desktop/src/main/crashDumpAnnotations.ts",
+      "sourcePath": "packages/desktop/src/main/crashDumpAnnotations.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/desktop/src/main/crashDumpAnnotations.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "d41890af127e94a27d9ca9e74883b4a2575d026257cfec4134dc998bd8f3a34b",
+      "currentSha256": "7c358f4bf51c4b2338ed7cc25c892ea45c49ab804dd4aecb9cf226153eb021dd",
+      "currentBytes": 9733,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "7c358f4bf51c4b2338ed7cc25c892ea45c49ab804dd4aecb9cf226153eb021dd",
+      "sourceGitBlob": "2399fac33641a883513fa3cc8006aba72dff4eef",
+      "apiGitBlob": "2399fac33641a883513fa3cc8006aba72dff4eef",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "isPrintableAscii",
+          "line": 63,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "alignUp4",
+          "line": 67,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isReadableText",
+          "line": 71,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "readAnnotationAt",
+          "line": 81,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "extractCrashDumpAnnotations",
+          "line": 125,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "readCrashDumpAnnotationsFromFile",
+          "line": 152,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseV8SizeAnnotation",
+          "line": 167,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseIntegerAnnotation",
+          "line": 183,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseBooleanAnnotation",
+          "line": 191,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "truncate",
+          "line": 201,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "resolveOomKind",
+          "line": 205,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "summarizeCrashDumpAnnotations",
+          "line": 230,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 244,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 245,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 248,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 249,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 278,
+          "bodyKind": "CallExpression"
+        }
+      ],
+      "owner": "native"
+    },
+    {
+      "path": "packages/desktop/src/main/chromeExecutableDiscovery.ts",
+      "sourcePath": "packages/desktop/src/main/chromeExecutableDiscovery.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/desktop/src/main/chromeExecutableDiscovery.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "c405266522edc940b96dfa12a129c6553a9e7226f0fb6731bdd7a123c794da4b",
+      "currentSha256": "7947d5050ee9213ab98b8a93151217563813ed07a1f30564aba28c843e8a0887",
+      "currentBytes": 8951,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "7947d5050ee9213ab98b8a93151217563813ed07a1f30564aba28c843e8a0887",
+      "sourceGitBlob": "f44a2819c4b8f01f950528ae62a3a47c58556ce8",
+      "apiGitBlob": "f44a2819c4b8f01f950528ae62a3a47c58556ce8",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "execFileText",
+          "line": 24,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 25,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 35,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "uniquePaths",
+          "line": 46,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "readRunningChromeProcessCommandLines",
+          "line": 58,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 74,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "isExecutableFile",
+          "line": 81,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "resolveFirstExecutable",
+          "line": 92,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "stripMatchingQuotes",
+          "line": 103,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "desktopExecutableToken",
+          "line": 114,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 116,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 119,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "resolvePathCommand",
+          "line": 122,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 128,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "readMacRegisteredChromeExecutablePaths",
+          "line": 131,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 142,
+          "bodyKind": "TemplateExpression"
+        },
+        {
+          "name": "readLinuxDesktopChromeExecutablePaths",
+          "line": 166,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "buildLinuxPathChromeExecutablePaths",
+          "line": 202,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 215,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "readRegisteredChromeExecutablePaths",
+          "line": 218,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "resolveChromeExecutablePath",
+          "line": 228,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 256,
+          "bodyKind": "ArrayLiteralExpression"
+        }
+      ],
+      "owner": "native"
+    },
+    {
+      "path": "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "sourcePath": "packages/desktop/src/main/chromeInstallationCandidates.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/desktop/src/main/chromeInstallationCandidates.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "e76650af893cc48ca7e0711205c61c117f73946a71c7afdd9795508fbbb1ee00",
+      "currentSha256": "37eb7f9da193140d11f7a9a8ae0914258903b2023e2e2f7cc29f1c0fc694020d",
+      "currentBytes": 11461,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "37eb7f9da193140d11f7a9a8ae0914258903b2023e2e2f7cc29f1c0fc694020d",
+      "sourceGitBlob": "e0d5e2906de528042fcf470c8bd70ededea5ed91",
+      "apiGitBlob": "e0d5e2906de528042fcf470c8bd70ededea5ed91",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "uniquePaths",
+          "line": 48,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "windowsProductPath",
+          "line": 60,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "macProductDirectory",
+          "line": 77,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "macApplicationName",
+          "line": 94,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "linuxProductDirectory",
+          "line": 111,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "linuxExecutablePaths",
+          "line": 128,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "buildStandardChromeInstallations",
+          "line": 163,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 179,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 212,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 217,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 225,
+          "bodyKind": "ParenthesizedExpression"
+        },
+        {
+          "name": "parseExecutablePath",
+          "line": 258,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isChromeBrowserExecutable",
+          "line": 268,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseRunningChromeExecutablePaths",
+          "line": 275,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseLinuxChromePasswordStore",
+          "line": 289,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "pathsMatch",
+          "line": 297,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isChromeMainProcessCommandLine",
+          "line": 301,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseRunningChromeInstallations",
+          "line": 305,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 329,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 330,
+          "bodyKind": "CallExpression"
+        }
+      ],
+      "owner": "native"
+    },
+    {
+      "path": "packages/ui/src/lib/assistantDirectiveParser.ts",
+      "sourcePath": "packages/ui/src/lib/assistantDirectiveParser.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/lib/assistantDirectiveParser.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "a08b4d7a97d8bec5d4905d6ae00830d38d6aad68cc6cf806e83d05b1d87c1960",
+      "currentSha256": "21f17b684efaf977c7c6969c3c9590929d6b959d2e0a84e978345f9f42ce1e94",
+      "currentBytes": 12601,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "21f17b684efaf977c7c6969c3c9590929d6b959d2e0a84e978345f9f42ce1e94",
+      "sourceGitBlob": "4cfbccfc5dce4a8c39ea0dfd958595c2e17228b0",
+      "apiGitBlob": "4cfbccfc5dce4a8c39ea0dfd958595c2e17228b0",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "escapeRegExp",
+          "line": 23,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "createDirectiveStartPattern",
+          "line": 27,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "getDirectiveQuoteState",
+          "line": 44,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "findDirectiveClosingBrace",
+          "line": 59,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseQuotedValue",
+          "line": 91,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "parseDirectiveParameters",
+          "line": 122,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "extractAssistantDirectives",
+          "line": 165,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "mergeRanges",
+          "line": 200,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 201,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "findMarkdownCodeRanges",
+          "line": 214,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isFenced",
+          "line": 247,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 248,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "overlapsAssistantTextRanges",
+          "line": 266,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 271,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "findUnclosedAssistantDirectiveStart",
+          "line": 274,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "findAssistantDirectivePrefixStart",
+          "line": 320,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 336,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "UI"
+    },
+    {
+      "path": "packages/ui/src/lib/toolDiffPreview.ts",
+      "sourcePath": "packages/ui/src/lib/toolDiffPreview.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/lib/toolDiffPreview.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "14d3e56519bd5ceeb5f6fbe086854ab51e192d51405b7664505a479c7923c2b9",
+      "currentSha256": "f2bada72ba6badae5dda0d74e3fa4780e664d225375e4c790cea9033906fd497",
+      "currentBytes": 13577,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "f2bada72ba6badae5dda0d74e3fa4780e664d225375e4c790cea9033906fd497",
+      "sourceGitBlob": "b22f461072cbf286be09c9eb09e1ff8ba5343b4b",
+      "apiGitBlob": "b22f461072cbf286be09c9eb09e1ff8ba5343b4b",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "isRecord",
+          "line": 10,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "findStringField",
+          "line": 14,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "extractBeforeAfter",
+          "line": 29,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "extractStructuredDiffBlock",
+          "line": 43,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "extractStructuredDiff",
+          "line": 62,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "splitLines",
+          "line": 84,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatDiffRange",
+          "line": 88,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatDiffRangeFromSliceStart",
+          "line": 92,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "countSharedPrefix",
+          "line": 100,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "countSharedSuffix",
+          "line": 109,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "appendLinesWithPrefix",
+          "line": 125,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 130,
+          "bodyKind": "TemplateExpression"
+        },
+        {
+          "name": "collectUniqueLineMatches",
+          "line": 133,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 172,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "findIncreasingAnchorMatches",
+          "line": 176,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "appendDiffBodyWithLargeSegmentFallback",
+          "line": 215,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "appendDiffBodyWithLcs",
+          "line": 252,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 272,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "appendDiffBody",
+          "line": 329,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "buildUnifiedDiff",
+          "line": 337,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 392,
+          "bodyKind": "TemplateExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 402,
+          "bodyKind": "TemplateExpression"
+        }
+      ],
+      "owner": "UI"
+    },
+    {
+      "path": "packages/ui/src/v4/timelineScrollAnchor.ts",
+      "sourcePath": "packages/ui/src/v4/timelineScrollAnchor.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/v4/timelineScrollAnchor.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "00fb90aadb9339648d50346fc3eb919372f4b8188930bcd37d841a3a97aac9fc",
+      "currentSha256": "89a067d2693b27edb57d8ace7647c0dcb00d7ce503fc141f03565ca64ef53083",
+      "currentBytes": 11052,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "89a067d2693b27edb57d8ace7647c0dcb00d7ce503fc141f03565ca64ef53083",
+      "sourceGitBlob": "b23d7542d974cd6d8ba33b37af5f93f224c17998",
+      "apiGitBlob": "b23d7542d974cd6d8ba33b37af5f93f224c17998",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "distanceToBottom",
+          "line": 25,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isAtBottom",
+          "line": 29,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "nextFollowingAfterScroll",
+          "line": 41,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "resolveFollowingAfterScroll",
+          "line": 54,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anchorActionAfterContentChange",
+          "line": 68,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "shouldAdjustVirtualizerForItemSizeChange",
+          "line": 79,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "timelineWheelScrollIntent",
+          "line": 98,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "timelineTouchScrollIntent",
+          "line": 105,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "timelineKeyboardScrollIntent",
+          "line": 115,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "reconcileFollowingForContentAnchor",
+          "line": 148,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "shouldShowBackToBottom",
+          "line": 176,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "initialFollowing",
+          "line": 181,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "prependVirtualAnchorAdjustment",
+          "line": 209,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "prependScrollAdjustment",
+          "line": 240,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "historyPrefetchTriggerPx",
+          "line": 255,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "shouldTriggerLoadOlder",
+          "line": 263,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "UI"
+    },
+    {
+      "path": "packages/ui/src/settings/automationFormat.ts",
+      "sourcePath": "packages/ui/src/settings/automationFormat.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/ui/src/settings/automationFormat.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "51a4a238a6e4a8ee980c1f1dd45ab7e4e7107e40db31bd4a2610154c23f0c5a7",
+      "currentSha256": "f35b5d262920543074acb8802cd4af03f53f66edad7ca80c2fb7b282006160bd",
+      "currentBytes": 17850,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "f35b5d262920543074acb8802cd4af03f53f66edad7ca80c2fb7b282006160bd",
+      "sourceGitBlob": "4681ab842f19946db0274ae37c3edc5584467e11",
+      "apiGitBlob": "4681ab842f19946db0274ae37c3edc5584467e11",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "hasAutomationFailureState",
+          "line": 25,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "resolveAutomationStatusKind",
+          "line": 34,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "pad2",
+          "line": 71,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "isSessionCreatedAutomation",
+          "line": 74,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "buildCronExpr",
+          "line": 81,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 92,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "parseCronToBuilder",
+          "line": 138,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isNum",
+          "line": 162,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 212,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 213,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "weekdayLabel",
+          "line": 246,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "describeCronBuilder",
+          "line": 251,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 265,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 266,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 295,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "describeCron",
+          "line": 350,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "canVisualizeCronInAutomationEditor",
+          "line": 379,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatGmtOffset",
+          "line": 388,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatDateTime",
+          "line": 398,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatRelativeToNow",
+          "line": 405,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatAutomationCardNextRun",
+          "line": 439,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatDuration",
+          "line": 451,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "UI"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-resident-pool.ts",
+      "sourcePath": "apps/zcode-cli/packages/bootstrap/src/zcode-protocol/session-resident-pool.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/apps/zcode-cli/packages/bootstrap/src/zcode-protocol/session-resident-pool.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "0f948db73a4c2120040b179a481a01e03b06bdbed68b00069d8ab1a70c5e277c",
+      "currentSha256": "21e971486c25ec85c29757a64941b7e051c1bb366211ddd1930fb86f6f731430",
+      "currentBytes": 11715,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "21e971486c25ec85c29757a64941b7e051c1bb366211ddd1930fb86f6f731430",
+      "sourceGitBlob": "35091791c3748771ad9c309f3a17ee3835b27ed4",
+      "apiGitBlob": "35091791c3748771ad9c309f3a17ee3835b27ed4",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "constructor",
+          "line": 69,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "acquireOperation",
+          "line": 97,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 101,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "release",
+          "line": 111,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "touch",
+          "line": 136,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "rebalance",
+          "line": 148,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 157,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 159,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 194,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "waitForDeactivation",
+          "line": 222,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "isEligible",
+          "line": 226,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "readCandidates",
+          "line": 239,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "createDecision",
+          "line": 264,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "executeDeactivation",
+          "line": 279,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 289,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 290,
+          "bodyKind": "CallExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 291,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "pruneMetadata",
+          "line": 302,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "CLI"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/script-workflow-child-source.ts",
+      "sourcePath": "apps/zcode-cli/packages/bootstrap/src/app/script-workflow-child-source.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/apps/zcode-cli/packages/bootstrap/src/app/script-workflow-child-source.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "1458ab4209fd30acb288b0db0ddcaf3a13d7d3c0dc4c79486a61ce6491ebdbb2",
+      "currentSha256": "4eff40a50e10b4df568406f4ab821a491438f776d21beeb5d2cd332beb4d4b81",
+      "currentBytes": 5591,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "4eff40a50e10b4df568406f4ab821a491438f776d21beeb5d2cd332beb4d4b81",
+      "sourceGitBlob": "fb25785ea584416fcd6057da4f825bf0a0df6872",
+      "apiGitBlob": "fb25785ea584416fcd6057da4f825bf0a0df6872",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [],
+      "owner": "CLI"
+    },
+    {
+      "path": "apps/cli/packages/cli/src/custom-command-expand.ts",
+      "sourcePath": "apps/zcode-cli/packages/cli/src/custom-command-expand.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/apps/zcode-cli/packages/cli/src/custom-command-expand.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "b4b4debbbdd1eb9e120843de57edb1d26084d95219cfd32ba477657bcffbe1db",
+      "currentSha256": "25485f1dbd4f33a3e8b2c8c1db25176c7c3ea6b6e1bf8e49c7370ed0ea6d8cd1",
+      "currentBytes": 3016,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "25485f1dbd4f33a3e8b2c8c1db25176c7c3ea6b6e1bf8e49c7370ed0ea6d8cd1",
+      "sourceGitBlob": "e0d946562ece2509e979e02b523309effe6af27b",
+      "apiGitBlob": "e0d946562ece2509e979e02b523309effe6af27b",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "expandCliCustomCommandPrompt",
+          "line": 22,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 36,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "formatCommandSkillInstructions",
+          "line": 58,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 60,
+          "bodyKind": "TemplateExpression"
+        },
+        {
+          "name": "splitCliCustomCommandArguments",
+          "line": 67,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "usesUnsupportedDynamicShell",
+          "line": 107,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "CLI"
+    },
+    {
+      "path": "packages/shared/src/localTtft.ts",
+      "sourcePath": "packages/shared/src/localTtft.ts",
+      "sourceCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "url": "https://api.github.com/repos/zai-org/ZCode/contents/packages/shared/src/localTtft.ts?ref=872ad960de7ec172591f7e1952f7849229f94521",
+      "httpStatus": 200,
+      "responseSha256": "b2f1e8567bdc674beb3cc06965707af8481a4fb2cf94d8f388348e3bf1700486",
+      "currentSha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "currentBytes": 6819,
+      "matchesExistingCurrentInventory": true,
+      "sourceSha256": "b6f6963535fddb455bf6adcf1c82e08dd609fb2f8bf7b6398c16cd164b3b3597",
+      "sourceGitBlob": "27d70653a1c56fe28e00ed0987ce826f8fd440f3",
+      "apiGitBlob": "27d70653a1c56fe28e00ed0987ce826f8fd440f3",
+      "blobMatchesExistingBaseline": true,
+      "exactBytesSame": true,
+      "lfNormalizedBytesSame": true,
+      "functionBodies": [
+        {
+          "name": "anonymous",
+          "line": 38,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "calibrateLocalTtftClock",
+          "line": 60,
+          "bodyKind": "Block"
+        },
+        {
+          "name": "anonymous",
+          "line": 121,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "anonymous",
+          "line": 178,
+          "bodyKind": "BinaryExpression"
+        },
+        {
+          "name": "localTtftNow",
+          "line": 190,
+          "bodyKind": "Block"
+        }
+      ],
+      "owner": "integrator/shared"
+    }
+  ],
+  "qualification": "All fourteen selected complete files match exact publisher source and baseline blobs; thirteen contain function bodies and one contains embedded child-process program text. This is retained-source evidence, not a copyrightability/infringement decision, production liveness proof, or complete remaining inventory. Standard vocabulary/interfaces and ordinary third-party code are not automatically replacement targets."
+}

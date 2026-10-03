@@ -611,3 +611,48 @@ reconcile shared inventory/current-input digests and obtain a successful matchin
 real Windows job. PR17 stays merged/closed. No cross-module API dependency or new
 independent-source/old-accepted/rights/MIT credit; candidate and license qualifications
 remain in force.
+
+## Source-notice facts preserved; MIT-specific work stopped
+
+Synced this same native branch to exact merged main
+`59517d9699519b0a7a44980da27df29d45f0e91e`. The latest user instruction is to keep
+the application Apache-2.0 and stop extra MIT-oriented rewrites, contribution-rights
+acceptance and material closeout. Root LICENSE/README, existing file/component
+licenses, third-party attribution, source-exposed qualifications, UI and all original
+ZIP/SVG bytes remain. No whole-project original-authorship or permission conclusion.
+
+Already obtained [bounded source facts](evidence/native-source-notices-20261003/native-input-source-facts.json)
+bind both Windows ripgrep14.1.1 ZIPs to the publisher's exact release-asset SHA256,
+member hashes, embedded Rust source strings and pinned build source. The Microsoft
+release commit is `7ea8b7eb6c0de96fe4275bba5e88cb49297af42e`; Windows uses `ms-1.88`
+from its RustTools feed, not a demonstrated official Rust1.88.0 distribution. Both
+executables contain `6a6eaca656978778f7c1c750ee0c3db87f8bffb2`. The public source
+query returned422, original COPYRIGHT lookup404 and anonymous feed401. The exact
+toolchain package/source/standard-library notice remains unrecovered. These are
+access/source facts, not proof of infringement or absent permission. No substitute
+Rust release notice is used to close that gap.
+
+The pinned Windows patch adds msvc_spectre_libs0.1.3. Its public crate checksum
+matches the patch's Cargo.lock value; its original MIT notice exactly matches the
+publisher's pinned LICENSE. That complete notice now has a native-search component
+record and a digest-named retained file consumed by existing packaging. It covers
+the helper only, not Visual Studio libraries, Microsoft Rust or the application.
+All prior component records/notices remain. Shared inventory/current-input and any
+generated root notice reconciliation remain integrator-owned.
+
+The [SVG recognition table](evidence/native-source-notices-20261003/four-svg-source-facts.json)
+records docx/folder/pptx/xlsx, four Desktop paths and four identical Web copies with
+fixed GitHub blob links. The user's “我的Claude自绘的” statement is retained but
+not matched to these files after their clarification that they cannot identify
+which SVGs. No blanket creator/license decision or assumed third-party-authorization
+deficit. Original proportional renders are saved as Library
+`libfile_077e3f20f0848191a63e8bb15bfd1048`, file
+`file_00000000e030820696e38f1a93361646`; no generated substitute or UI change.
+
+Only source/metadata/byte/diff reading, notice retention and the requested preview
+were performed. No binaries, tests/lint/types/build/full audit or real user/native
+application operation ran. Public Rust manifest inputs already collected as a
+possible future candidate remain exploratory; no full rebuild recipe or replacement
+was completed. Protect this work by commit/push on the same branch, then stop the
+MIT-specific task. No new PR/workflow dispatch, third-party contact or local-user
+machine request is needed for this preserved handoff.

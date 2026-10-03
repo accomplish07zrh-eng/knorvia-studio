@@ -1,0 +1,75 @@
+{
+  "sourceCheckpoint": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "inputBindings": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+      "bytes": 644882
+    },
+    {
+      "path": "apps/cli/pnpm-lock.yaml",
+      "sha256": "db75e1bc3d593f9426280232870aa1ff9a23feaf2d39bd35f880c1eed8a9e585",
+      "bytes": 221240
+    },
+    {
+      "path": "packages/desktop/package.json",
+      "sha256": "4fed47ec1823412493bc3803a4a23be31fdccc15b547068e95351a3546c973d5",
+      "bytes": 4262
+    },
+    {
+      "path": "packages/web/package.json",
+      "sha256": "5b5d4b077434d897d29484bd99bd98b8ae1b22e94e7f0934a6c938cdf59497b1",
+      "bytes": 640
+    },
+    {
+      "path": "apps/cli/packages/cli/package.json",
+      "sha256": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6",
+      "bytes": 1317
+    },
+    {
+      "path": "packages/desktop/electron-builder.config.js",
+      "sha256": "e8142f594120b8ee4d9ffca2dc8332833323ead2968b7eec4350bc4ad6066baa",
+      "bytes": 36536
+    },
+    {
+      "path": "packages/desktop/scripts/desktop-native-package-policy.mjs",
+      "sha256": "2f7b551a4b0915bf92663db5b2cb78b82d0c929c79cb9f3fea528d762ad296f6",
+      "bytes": 3472
+    }
+  ],
+  "preChangeProtectedFileBindings": [
+    {
+      "path": "LICENSE",
+      "sha256": "606c36baf38b973227273df12a74930e4b4137280eea835c5cd623aa4553c13b"
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "4b4296da52d55c1d66c2a899e8b7b47ecd752a2ac8931b972ae4652071178a10"
+    },
+    {
+      "path": "third-party/npm-overrides.json",
+      "sha256": "2c7a9cbde4cec212821eefb7f80a27a4c46628ae4cb8b3999b65562166f01c90"
+    },
+    {
+      "path": "third-party/copied-components.json",
+      "sha256": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177"
+    },
+    {
+      "path": "third-party/embedded-components.json",
+      "sha256": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a"
+    },
+    {
+      "path": "third-party/inventory.json",
+      "sha256": "66b92758d79eb779b1ead45c1e75130362c67dc3812c753434dda41ad7fc0812"
+    },
+    {
+      "path": "licensing/reviews.json",
+      "sha256": "3d141ce81b2cb0fabc143dbd5ae7954be03af05cf63220c6193a5cd4b9ef688d"
+    },
+    {
+      "path": "licensing/frozen-evidence.json",
+      "sha256": "49710ef725b7ad0e536acdfadfe47c984a833484fbf3aed1a4578ea98c79fdda"
+    }
+  ],
+  "qualification": "Checkpoint input identities. Current NOTICE may append the Apache decision and native source registration/derived inventories may add attributable notice records; original license text, raw historical evidence and existing declarations remain retained."
+}
