@@ -8746,6 +8746,24 @@
       "bytes": 6851
     },
     {
+      "path": "docs/evidence/integration-http-fixture-20261003/README.md",
+      "sha256": "dbdbc5d010560609b5f54ced574ebe22f3e7878285502436aac08a06cb497084",
+      "bytes": 2127,
+      "sourceCommit": "87683f154ea910c5ecb5a24d15fe59e4d87f74fd"
+    },
+    {
+      "path": "docs/evidence/integration-http-fixture-20261003/http-fixture-and-controller.tap",
+      "sha256": "1d9616918621a12eabe3d08ceebe899013053fc2a2e9eba5cd87f36cf902107b",
+      "bytes": 4807,
+      "sourceCommit": "87683f154ea910c5ecb5a24d15fe59e4d87f74fd"
+    },
+    {
+      "path": "docs/evidence/integration-http-fixture-20261003/validation.json",
+      "sha256": "4381df050a1aca1545ec1f02242abf0754dd8ffb57aadf73bab344cbbe1eb4a2",
+      "bytes": 4297,
+      "sourceCommit": "87683f154ea910c5ecb5a24d15fe59e4d87f74fd"
+    },
+    {
       "path": "docs/evidence/knorvia-agent-runtime-current-20261003.json",
       "sha256": "98c565b37e40e409b6ed3e0d67bef6192a5711d3c8cc12604006633d8bd5a9b2",
       "bytes": 1290

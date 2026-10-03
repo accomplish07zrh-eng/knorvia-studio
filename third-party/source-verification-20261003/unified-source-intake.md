@@ -89,3 +89,23 @@ Linux waiter 读取当前 proc state，将实际 Z 从 remaining 中排除，仍
 Host 退出及组合 controller、交给 native 重建最终 AppImage/归档。旧
 `ad712690b3eb1501574c1d29361dc801c1414373` 的检查不转记为新修复的通过。
 main 继续保持稳定基线。Linux 全目标的公开邮箱及真实 Windows/macOS 环境缺口照实保留。
+
+## HTTP retained fixture 修正
+
+fixture/spec 修复 `bf86b79ac819ac7f53e0afa36ec18cf9e7c1c9ac` 补齐 VM 的
+`./httpWindowController.js` 装配端口与 server close 事件；生产 HTTP/controller 源码
+不变。原 46 条 assert、六个用例与未知依赖报错策略完全保留，新增两项参数检查。
+agent-only 夹具没有 task service，注入明确的无 controller 结果；真实装配另由生产
+HTTP/WebSocket/RPC 的三项合同执行，不以注入替代其契约。
+
+固定 Node24.14.0、隔离临时数据下，原 lifecycle 六项加真实 controller 三项实际为
+**9 tests / 9 pass / 0 fail / 0 skip**。先前定向复现为 5 pass/1 fail、缺装配端口，
+不是生产 controller 断言失败；原始 CI 仍保留。未知 source 的 mutation 拒绝会按
+原行为写 RPC FAIL 日志且被断言拒绝，不宣称 console-clean。scoped lint/format 与
+改动架构检查实际通过；本轮未重复 root typecheck/build/完整离线回归。
+
+原始结果见 `docs/evidence/integration-http-fixture-20261003/README.md`，三份原材料
+绑定提交 `87683f15`（完整提交由 frozen evidence sourceCommit 登记）。旧 5805 行
+不变，当前 **5808 文件 / 65998810 字节**，相对稳定 main 累计新增 **92** 份，
+全部实际 hash/bytes 与目录覆盖已核对。Windows Chrome policy 另两项由原 native
+任务修复；收到确切提交后继续普通 merge，不降低断言，不把旧 CI 失败改为通过。
