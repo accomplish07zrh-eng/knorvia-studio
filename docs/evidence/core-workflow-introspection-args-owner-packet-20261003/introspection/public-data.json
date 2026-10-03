@@ -1,0 +1,5 @@
+{
+  "failureType": "export interface ToolHandlerFailure {\n    result: false;\n    errorCode: number;\n    message: string;\n}",
+  "escapePort": "export declare function escapeXml(value: string): string;",
+  "qualification": "Body-free public imported type/function signature; original modules authoritative. Native Math/Number/String/Date/regex semantics are presentation ports only, no Date.now/locale/runtime IO."
+}

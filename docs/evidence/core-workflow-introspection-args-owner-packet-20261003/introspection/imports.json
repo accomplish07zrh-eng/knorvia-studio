@@ -1,0 +1,10 @@
+[
+  {
+    "module": "../../runtime-task/notification.js",
+    "clause": "{ escapeXml }"
+  },
+  {
+    "module": "../types.js",
+    "clause": "type { ToolHandlerFailure }"
+  }
+]

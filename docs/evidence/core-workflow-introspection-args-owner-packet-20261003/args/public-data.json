@@ -1,0 +1,24 @@
+{
+  "schemas": {
+    "SAVED_WORKFLOW_ARG_TYPES": "[\"string\", \"number\", \"boolean\", \"json\"] as const",
+    "SavedWorkflowArgTypeSchema": "z.enum(SAVED_WORKFLOW_ARG_TYPES)",
+    "SavedWorkflowArgType": "export type SavedWorkflowArgType = z.infer<typeof SavedWorkflowArgTypeSchema>;",
+    "SavedWorkflowArgDeclarationSchema": "z\n  .object({\n    type: SavedWorkflowArgTypeSchema.describe(\n      'Value type. \"json\" accepts any JSON value without further checking.',\n    ),\n    description: z\n      .string()\n      .optional()\n      .describe(\"What this argument means, for whoever calls the workflow later.\"),\n    required: z\n      .boolean()\n      .optional()\n      .describe(\"When true the workflow cannot run without this argument.\"),\n    // `default` 刻意是 unknown 而不是按 `type` 判别的联合：默认值的类型正确性由\n    // validateWorkflowArgs 在**应用默认值之后**与传入值走同一条校验，一处规则而不是两处。\n    default: z.unknown().optional().describe(\"Value used when the caller omits this argument.\"),\n  })\n  .strict()",
+    "SavedWorkflowArgDeclaration": "export type SavedWorkflowArgDeclaration = z.infer<typeof SavedWorkflowArgDeclarationSchema>;",
+    "SavedWorkflowArgsDeclarationSchema": "z.record(SavedWorkflowArgDeclarationSchema)",
+    "SavedWorkflowArgsDeclaration": "export type SavedWorkflowArgsDeclaration = z.infer<typeof SavedWorkflowArgsDeclarationSchema>;"
+  },
+  "qualifiedStructuralFacts": {
+    "type": [
+      "string",
+      "number",
+      "boolean",
+      "json"
+    ],
+    "description": "optional string",
+    "required": "optional boolean",
+    "default": "optional unknown",
+    "declaration": "record of strict argument declarations"
+  },
+  "qualification": "Actual source-derived public schema expressions/type facts retained honestly, not new schema construction or validation-grant credit. Raw inferred schema declarations may have any/diagnostics; original z.infer/public types remain authoritative, not standalone semantic closure."
+}

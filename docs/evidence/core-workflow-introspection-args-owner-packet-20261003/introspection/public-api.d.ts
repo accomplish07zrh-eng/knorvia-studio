@@ -1,0 +1,12 @@
+import { escapeXml } from "../../runtime-task/notification.js";
+import type { ToolHandlerFailure } from "../types.js";
+export declare function workflowIntrospectionUnavailableFailure(): ToolHandlerFailure;
+export declare function workflowRunNotFoundFailure(runId: string): ToolHandlerFailure;
+export declare const WORKFLOW_RUN_INTROSPECTION_STEERING: string;
+export declare function formatWorkflowRunTimestamp(epochMs: number): string;
+export declare function formatWorkflowRunDuration(ms: number): string;
+export declare function formatRelativeAge(now: number, at: number | undefined): string | undefined;
+export declare function formatWorkflowRunInstant(now: number, at: number): string;
+export declare function formatWorkflowRunCount(value: number): string;
+export declare function workflowRunAttribute(name: string, value: string | number | boolean): string;
+export { escapeXml as escapeWorkflowRunText };

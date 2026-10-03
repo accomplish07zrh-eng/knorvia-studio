@@ -1,0 +1,32 @@
+{
+  "baseline": "02ad30c7539e8f0967dde9349e6fd676292dc0b1",
+  "branch": "parallel/material-closure-fast-20261002",
+  "targets": {
+    "introspection": {
+      "path": "apps/cli/packages/core/src/tool/handlers/workflow-run-introspection.ts",
+      "bytes": 7348,
+      "sha256": "0d73d904e00013759f15d921cee8aba2f212767d223b4fc99297783b73311d67",
+      "lines": 152
+    },
+    "args": {
+      "path": "apps/cli/packages/core/src/tool/handlers/saved-workflows/args.ts",
+      "bytes": 4043,
+      "sha256": "0206bf54ca7fd0786ebb9dca4b800a40c59c49ca1f6e2574b5f614d1da4bc16e",
+      "lines": 101
+    }
+  },
+  "parentAllocation": "Only introspection and saved workflow args, exact SHA matches; no accepted reviews. Parent CLI-workflow-introspection review says retained upstream/newProductionExpression empty, not independent replacement.",
+  "hold": {
+    "graphFold": {
+      "local": "ed9f00051bdea60751f2f86191c4c83076f02c7d52d96c6ae8485ca2b9726487",
+      "root": "89d83bcce02667f800f3b409475f7812a1b8b9d495878af4da74362e17adfdd4"
+    },
+    "graphBounds": {
+      "local": "7c5da335dd06647654013e8950c1b1644ccfc1039d8221cbdb6107c4b411a8df",
+      "root": "df3076e726eddd682e529c9907eb699476176d60092c37a0765bc4fbde7606bd",
+      "evidence": "graph-display-expression-20261002.json"
+    }
+  },
+  "excludedExpertParsers": "All four A PR11 current candidate owners; local no-receipt result was not permission. No reauthor/import.",
+  "qualification": "Parent accepted technical reports only; local graph HOLD, no whole-file MIT acceptance. Other summary/roster/registry/read-state/A/G/root reservations unchanged. All21 materialsOPEN."
+}

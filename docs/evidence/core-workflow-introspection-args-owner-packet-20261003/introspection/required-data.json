@@ -1,0 +1,181 @@
+{
+  "strings": [
+    {
+      "kind": "literal",
+      "text": "../../runtime-task/notification.js"
+    },
+    {
+      "kind": "literal",
+      "text": "../types.js"
+    },
+    {
+      "kind": "literal",
+      "text": "workflow_introspection_unavailable: this session cannot read workflow runs — workflow execution is not available here, so no run history is reachable. This is a capability gap, not an empty project."
+    },
+    {
+      "kind": "template",
+      "head": "run_not_found: no workflow run with ID ",
+      "spans": [
+        {
+          "slot": 0,
+          "text": " exists for this project. Use ListWorkflowRuns to see the runs that do."
+        }
+      ]
+    },
+    {
+      "kind": "literal",
+      "text": "Runs this session starts settle on their own: you receive a completion notification carrying the final output. Do NOT poll this tool while waiting for one — continue with other work."
+    },
+    {
+      "kind": "literal",
+      "text": "Reach for it when: (a) the user asks how a workflow is going, (b) you want to review this project's earlier runs, including ones other sessions started, (c) a completion notification was truncated and you need the run's full record by ID."
+    },
+    {
+      "kind": "literal",
+      "text": "\n"
+    },
+    {
+      "kind": "template",
+      "head": "0",
+      "spans": [
+        {
+          "slot": 0,
+          "text": ""
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "s"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "m "
+        },
+        {
+          "slot": 1,
+          "text": "s"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "h "
+        },
+        {
+          "slot": 1,
+          "text": "m"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "d "
+        },
+        {
+          "slot": 1,
+          "text": "h"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": " ago"
+        }
+      ]
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": " ("
+        },
+        {
+          "slot": 1,
+          "text": ")"
+        }
+      ]
+    },
+    {
+      "kind": "literal",
+      "text": "-"
+    },
+    {
+      "kind": "literal",
+      "text": ""
+    },
+    {
+      "kind": "literal",
+      "text": ","
+    },
+    {
+      "kind": "literal",
+      "text": "string"
+    },
+    {
+      "kind": "literal",
+      "text": " "
+    },
+    {
+      "kind": "template",
+      "head": "",
+      "spans": [
+        {
+          "slot": 0,
+          "text": "=\""
+        },
+        {
+          "slot": 1,
+          "text": "\""
+        }
+      ]
+    }
+  ],
+  "regex": [
+    "/\\B(?=(\\d{3})+(?!\\d))/gu",
+    "/\\s+/gu"
+  ],
+  "numbers": [
+    "1",
+    "2",
+    "1000",
+    "60000",
+    "3600000",
+    "86400000",
+    "10",
+    "0",
+    "0",
+    "0"
+  ],
+  "publicExpressions": [
+    {
+      "name": "WORKFLOW_RUN_INTROSPECTION_STEERING",
+      "initializer": "[\n  \"Runs this session starts settle on their own: you receive a completion notification carrying the final output. Do NOT poll this tool while waiting for one — continue with other work.\",\n  \"Reach for it when: (a) the user asks how a workflow is going, (b) you want to review this project's earlier runs, including ones other sessions started, (c) a completion notification was truncated and you need the run's full record by ID.\",\n].join(\"\\n\")",
+      "qualification": "Retained public constant initializer expression/static data, no authored production-expression novelty claim."
+    }
+  ]
+}
