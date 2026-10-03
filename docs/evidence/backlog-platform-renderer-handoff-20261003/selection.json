@@ -1,0 +1,419 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-renderer-handoff-20261003.md",
+  "handoffCommit": "662b64276a7271324efcbc6de36497058250d521",
+  "handoffLaneRecord": "docs/lane-ui-20261003.md",
+  "handoffLaneRecordSha256": "4e76cb1bdc092b220f8b82f6e8597b890b8d5fa6db79e7ec23d0813dfff9b8e6",
+  "scope": "parent explicitly reassigned all desktop renderer; only thirteen selected files screened; packages/ui/web excluded",
+  "acceptedExistingRendererCandidatesFound": 0,
+  "files": [
+    {
+      "path": "packages/desktop/src/renderer/src/main.tsx",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "933da551dcb58278b3fa7990cab9779bbdff96d0",
+      "sha256": "18c7eb716e12cc7cd33c2cc2bf20a3b888af574f3c7a7b17c6edeac0ebba530b",
+      "bytes": 12777,
+      "handoffBlob": "933da551dcb58278b3fa7990cab9779bbdff96d0",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/main.tsx",
+        "kind": "file",
+        "sha256": "18c7eb716e12cc7cd33c2cc2bf20a3b888af574f3c7a7b17c6edeac0ebba530b",
+        "normalizedSha256": "18c7eb716e12cc7cd33c2cc2bf20a3b888af574f3c7a7b17c6edeac0ebba530b",
+        "encoding": "utf8-lf",
+        "bytes": 12777,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/main.tsx",
+          "blob": "37e415d79d63b077f1048a961ac139df8117f0e1",
+          "normalizedSha256": "7f184880d0d77cad3c9bafb1b19dc2594821513eb62357d097e4fbf336870c87",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/databaseStartupAdmission.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "db575b46a48371c3914eb2d1adecb6b697e6a212",
+      "sha256": "70f2a7e304f53bc7ead8d022f4a00b2eee80385de46643d50f7021af6ee0517c",
+      "bytes": 1117,
+      "handoffBlob": "db575b46a48371c3914eb2d1adecb6b697e6a212",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/databaseStartupAdmission.ts",
+        "kind": "file",
+        "sha256": "70f2a7e304f53bc7ead8d022f4a00b2eee80385de46643d50f7021af6ee0517c",
+        "normalizedSha256": "70f2a7e304f53bc7ead8d022f4a00b2eee80385de46643d50f7021af6ee0517c",
+        "encoding": "utf8-lf",
+        "bytes": 1117,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/databaseStartupAdmission.ts",
+          "blob": "58e645e7b35d60582056ed36b5c9e9993b327594",
+          "normalizedSha256": "885eaca8932245c53ea5e31f17ab6608731762cf54ed78eac22b7498ec09ab0e",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/performanceTimelineCleanup.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "51a4b0e14052449a994deecedda77c8e727bd93c",
+      "sha256": "ffdc5c127135ee24e99e29adeb4140d5c14dc45be62f60a3279a249995be4cca",
+      "bytes": 722,
+      "handoffBlob": "51a4b0e14052449a994deecedda77c8e727bd93c",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/performanceTimelineCleanup.ts",
+        "kind": "file",
+        "sha256": "ffdc5c127135ee24e99e29adeb4140d5c14dc45be62f60a3279a249995be4cca",
+        "normalizedSha256": "ffdc5c127135ee24e99e29adeb4140d5c14dc45be62f60a3279a249995be4cca",
+        "encoding": "utf8-lf",
+        "bytes": 722,
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/desktop/src/renderer/src/performanceTimelineCleanup.ts",
+          "blob": "51a4b0e14052449a994deecedda77c8e727bd93c",
+          "normalizedSha256": "ffdc5c127135ee24e99e29adeb4140d5c14dc45be62f60a3279a249995be4cca",
+          "contentMatchedPaths": [
+            "packages/desktop/src/renderer/src/performanceTimelineCleanup.ts"
+          ]
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "retain exact; zero new reconstruction credit: DEV native timeline maintenance glue"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/userActionTraceBootstrap.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "9dbea3863ed3b85892852a0a968592dc2ddcdc72",
+      "sha256": "b27bc04f04b7e8926790b52d77f0cb1ae9afff89c28285e09ad324235e21aaf5",
+      "bytes": 1815,
+      "handoffBlob": "9dbea3863ed3b85892852a0a968592dc2ddcdc72",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/userActionTraceBootstrap.ts",
+        "kind": "file",
+        "sha256": "b27bc04f04b7e8926790b52d77f0cb1ae9afff89c28285e09ad324235e21aaf5",
+        "normalizedSha256": "b27bc04f04b7e8926790b52d77f0cb1ae9afff89c28285e09ad324235e21aaf5",
+        "encoding": "utf8-lf",
+        "bytes": 1815,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/userActionTraceBootstrap.ts",
+          "blob": "aa84d8433800a431821d1c839245f0544eb9f38e",
+          "normalizedSha256": "fd76996beaa1fba64f57fc2e0efe689e01c5fefa8eab4de91606d90132f3f76a",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/localTtftBootstrap.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "9955bdebb72182c7b00e546930cff6ad9c570cb7",
+      "sha256": "5fc109041eaf54ddafbe3f711a34401709d7b4c197a7fcb0fd746b13416d6006",
+      "bytes": 2470,
+      "handoffBlob": "9955bdebb72182c7b00e546930cff6ad9c570cb7",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/localTtftBootstrap.ts",
+        "kind": "file",
+        "sha256": "5fc109041eaf54ddafbe3f711a34401709d7b4c197a7fcb0fd746b13416d6006",
+        "normalizedSha256": "5fc109041eaf54ddafbe3f711a34401709d7b4c197a7fcb0fd746b13416d6006",
+        "encoding": "utf8-lf",
+        "bytes": 2470,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/localTtftBootstrap.ts",
+          "blob": "e9c1e15903118ba7512fb52f7dd017ddaa044e50",
+          "normalizedSha256": "627e518e650f5c3c8adf3f5c205338bdb2651afd5f2f85ffab54e6658e622b45",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "a7fe049461043efd3a107e1287b5260324b5d777",
+      "sha256": "1c75e86b4c78c4e2cc76fd00ebf39b94e00bbb7b3ac391777929ce02b0f3913e",
+      "bytes": 10632,
+      "handoffBlob": "a7fe049461043efd3a107e1287b5260324b5d777",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+        "kind": "file",
+        "sha256": "1c75e86b4c78c4e2cc76fd00ebf39b94e00bbb7b3ac391777929ce02b0f3913e",
+        "normalizedSha256": "1c75e86b4c78c4e2cc76fd00ebf39b94e00bbb7b3ac391777929ce02b0f3913e",
+        "encoding": "utf8-lf",
+        "bytes": 10632,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+          "blob": "0b40541ef1a4e6f09fd820194328f3b2fdaeb9b8",
+          "normalizedSha256": "681a5900c0457408c607fd8b24023f4ac010c40d8a72eed08db9014de1816a61",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "67dd6782026801cbe9d12d1b88350db7282ec656",
+      "sha256": "cc9e90bfd5513e4cf8eaae5475efcad178d01919079a0bd1d22a60e7cf829e34",
+      "bytes": 3729,
+      "handoffBlob": "67dd6782026801cbe9d12d1b88350db7282ec656",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+        "kind": "file",
+        "sha256": "cc9e90bfd5513e4cf8eaae5475efcad178d01919079a0bd1d22a60e7cf829e34",
+        "normalizedSha256": "cc9e90bfd5513e4cf8eaae5475efcad178d01919079a0bd1d22a60e7cf829e34",
+        "encoding": "utf8-lf",
+        "bytes": 3729,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+          "blob": "e2aaac3992e3c2e5a2cae1b0838e0a7b444fc3f8",
+          "normalizedSha256": "31fc1a4297a4020d420f93aa258436c372f9b0ed5a06cac191e7b2c7b121d6a2",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/remoteWorkspaceSessionServices.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "7cda352a16f931e4192e06ecabb214d65ff07d72",
+      "sha256": "51e2e2c9750df7b57102ab8e49d446e80482c2971b94fe61ca0fd6616cb70d3e",
+      "bytes": 3312,
+      "handoffBlob": "7cda352a16f931e4192e06ecabb214d65ff07d72",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/remoteWorkspaceSessionServices.ts",
+        "kind": "file",
+        "sha256": "51e2e2c9750df7b57102ab8e49d446e80482c2971b94fe61ca0fd6616cb70d3e",
+        "normalizedSha256": "51e2e2c9750df7b57102ab8e49d446e80482c2971b94fe61ca0fd6616cb70d3e",
+        "encoding": "utf8-lf",
+        "bytes": 3312,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/remoteWorkspaceSessionServices.ts",
+          "blob": "98cf238b622bc1afea3a5ac40ae45bb330cbbc04",
+          "normalizedSha256": "db25e628e381929cee1eb0a9ffc5cd0038a697bce60e7012923b40fe249332e5",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "retain exact; zero new reconstruction credit: fixed remote service selection table; existing RPC/service owners"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/remoteWorkspaceServicePortBridge.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "ce0ca5582a87e8c86f614386eff98458703255c9",
+      "sha256": "4428cdf35988092d00b7ffbf8f9ecab60c68b0dde3880f5e7a72000ac055898b",
+      "bytes": 1408,
+      "handoffBlob": "ce0ca5582a87e8c86f614386eff98458703255c9",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/remoteWorkspaceServicePortBridge.ts",
+        "kind": "file",
+        "sha256": "4428cdf35988092d00b7ffbf8f9ecab60c68b0dde3880f5e7a72000ac055898b",
+        "normalizedSha256": "4428cdf35988092d00b7ffbf8f9ecab60c68b0dde3880f5e7a72000ac055898b",
+        "encoding": "utf8-lf",
+        "bytes": 1408,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/remoteWorkspaceServicePortBridge.ts",
+          "blob": "5590ba4d0cfbd12115017e02c241d3ea4b2295ff",
+          "normalizedSha256": "1fac861f9c163ba3ff09a51cd215832b78248ccef0811fb9f506dcb6ac278423",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "retain exact; zero new reconstruction credit: thin wire envelope admission and ready serializer"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/resource-manager.tsx",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "9bea83627a258387850637ea0ffa40e9395c8535",
+      "sha256": "6d6cb8b9915de0984c32ab1b9688bfab02c8302c1fc5584eeb53b6f3a563c790",
+      "bytes": 2521,
+      "handoffBlob": "9bea83627a258387850637ea0ffa40e9395c8535",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/resource-manager.tsx",
+        "kind": "file",
+        "sha256": "6d6cb8b9915de0984c32ab1b9688bfab02c8302c1fc5584eeb53b6f3a563c790",
+        "normalizedSha256": "6d6cb8b9915de0984c32ab1b9688bfab02c8302c1fc5584eeb53b6f3a563c790",
+        "encoding": "utf8-lf",
+        "bytes": 2521,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/resource-manager.tsx",
+          "blob": "7c0dabc2c9216d7ef2d5444157217d245dded1f4",
+          "normalizedSha256": "0d9c26f2591701e09ce7c031479fa30d66dadf4059add8f1763e5a16dcde5b52",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "89d5f4c7a415372b0c294e68c5ddf7568adf4fb6",
+      "sha256": "84ceb153b6405637cf1ec9c7eef20374ad0d39f06030f90f8e8990174dd9ee59",
+      "bytes": 3584,
+      "handoffBlob": "89d5f4c7a415372b0c294e68c5ddf7568adf4fb6",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+        "kind": "file",
+        "sha256": "84ceb153b6405637cf1ec9c7eef20374ad0d39f06030f90f8e8990174dd9ee59",
+        "normalizedSha256": "84ceb153b6405637cf1ec9c7eef20374ad0d39f06030f90f8e8990174dd9ee59",
+        "encoding": "utf8-lf",
+        "bytes": 3584,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+          "blob": "a679f49f8a00610bf7b8fa51bf26880dee199056",
+          "normalizedSha256": "39b30940c7282a8cc2dc17fc507190ba618c13991aa5cef2084a35d0fea67e73",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "reconstruct substantive owner; fixed UI/wire/ordinary expressions remain qualified"
+    },
+    {
+      "path": "packages/desktop/src/renderer/cuaPermissionPanelMessages.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "8d9d8152eb3d49826c76194926d0707c2e2c5840",
+      "sha256": "50f0365d74cee46900b8b78baf8a2aac06c657422cd1fa6c4e52839eda5d4897",
+      "bytes": 1517,
+      "handoffBlob": "8d9d8152eb3d49826c76194926d0707c2e2c5840",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/cuaPermissionPanelMessages.ts",
+        "kind": "file",
+        "sha256": "50f0365d74cee46900b8b78baf8a2aac06c657422cd1fa6c4e52839eda5d4897",
+        "normalizedSha256": "50f0365d74cee46900b8b78baf8a2aac06c657422cd1fa6c4e52839eda5d4897",
+        "encoding": "utf8-lf",
+        "bytes": 1517,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/cuaPermissionPanelMessages.ts",
+          "blob": "fc89b96ce7ffd2920ce229885fc6e9eb12583f51",
+          "normalizedSha256": "ed5857d23f5bf79baeec45e64cb3b8ea3abed40572fe7b035355ddb65fd165fd",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "retain exact; zero new reconstruction credit: fixed bilingual UI copy and permission lookup"
+    },
+    {
+      "path": "packages/desktop/src/renderer/appTelemetryBridge.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "08c043933ecaf9527736b7b9f3b4109bb2e7c76e",
+      "sha256": "548f6a985979895e4d8ad2a51e01045a778035fa689e3a38d469f72c295bef89",
+      "bytes": 476,
+      "handoffBlob": "08c043933ecaf9527736b7b9f3b4109bb2e7c76e",
+      "matchesHandoff": true,
+      "matchesExistingInventory": true,
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/appTelemetryBridge.ts",
+        "kind": "file",
+        "sha256": "548f6a985979895e4d8ad2a51e01045a778035fa689e3a38d469f72c295bef89",
+        "normalizedSha256": "548f6a985979895e4d8ad2a51e01045a778035fa689e3a38d469f72c295bef89",
+        "encoding": "utf8-lf",
+        "bytes": 476,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/appTelemetryBridge.ts",
+          "blob": "71c5c120d18d05b263608c67cf45b4ad31bd6faa",
+          "normalizedSha256": "307c50011ecfbee24e4828332859985a0f72ad1d18c303a023edf151132d1b35",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "disposition": "retain exact; zero new reconstruction credit: thin factory-to-supplied-bridge delegate"
+    }
+  ],
+  "exposure": "Same source-exposed agent curated all selected bodies. No isolated author, clean-room, full origin audit or MIT grant. Retained surfaces require integration expression/rights disposition.",
+  "checksRun": []
+}

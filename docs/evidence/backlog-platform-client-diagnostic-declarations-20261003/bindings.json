@@ -1,0 +1,63 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-renderer-routing-20261003.md#authorized-client-declaration-follow-up",
+  "scope": "explicitly authorized client declaration omission follow-up; only three existing Required<Pick<IPlatformService>> keys",
+  "path": "packages/client/src/globals.d.ts",
+  "baselineCommit": "124ed9e32715e6e0fb2caf1b1aa5bd8eac2de83e",
+  "baselineBlob": "4ceb7656583aeaa6f108cda0aed21b6d60c85e27",
+  "baselineSha256": "1bfee01c542523ac600a4a0eb04d1e0e3b8acd1c4ce03a9e3f9b11e9d881b239",
+  "recordedSource": {
+    "path": "packages/client/src/globals.d.ts",
+    "kind": "file",
+    "sha256": "1bfee01c542523ac600a4a0eb04d1e0e3b8acd1c4ce03a9e3f9b11e9d881b239",
+    "normalizedSha256": "1bfee01c542523ac600a4a0eb04d1e0e3b8acd1c4ce03a9e3f9b11e9d881b239",
+    "encoding": "utf8-lf",
+    "bytes": 16136,
+    "classification": "upstream-modified",
+    "upstream": {
+      "relation": "modified",
+      "path": "packages/client/src/globals.d.ts",
+      "blob": "7f8f672a5fdc0bc1a54fb1f0a079fd9452048d77",
+      "normalizedSha256": "0b1b9d48b3a19cdc816f66621a9ba1884b82e68d33432521e6354c5f6ff9cee6",
+      "contentMatchedPaths": []
+    },
+    "license": "NOASSERTION",
+    "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+    "thirdParty": [],
+    "review": null
+  },
+  "frozenCandidateSha256": "6886420c173011b2a11532eb0c06144c27212ff30cc71de9a9461214471dd7c0",
+  "frozenCandidateBytes": 16238,
+  "draftFreezeBeforeSourceDiff": true,
+  "retainedDependencies": [
+    {
+      "path": "packages/desktop/src/preload/index.ts",
+      "sha256": "3f05bcb37e21f198fa62779318bb99a03041d116be2b8724c402579e80fda002",
+      "gitBlob": "0b332f462699ca21218ec42fff1627726042c601",
+      "disposition": "retained exact runtime/signature/consumer dependency; no new credit"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "gitBlob": "cec12ad55d05baa244d2b16f57370229337c5142",
+      "disposition": "retained exact runtime/signature/consumer dependency; no new credit"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "93ea5812027c5b211b793b33c0b280af18312735cfdb1c0e057fb200555f87e3",
+      "gitBlob": "ce59b4686c92643ba242fa86a38d36cb58687a2c",
+      "disposition": "retained exact runtime/signature/consumer dependency; no new credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/env.d.ts",
+      "sha256": "21c55ed4a9a3c0e109ead1ee88d51c27ebb2aeab86bb50d1e16ec624042b2ad2",
+      "gitBlob": "e32d0499faf1f112fb36a5897b5905da82169ab6",
+      "disposition": "retained exact runtime/signature/consumer dependency; no new credit"
+    }
+  ],
+  "exposure": "Same source-exposed agent; required existing type/signature declarations only, no new owner/reconstruction or original/MIT credit. Global source/license decisions unchanged.",
+  "checksRun": [],
+  "testsStatus": "none added or executed for this declaration-only follow-up; all prior scenarios remain unrun",
+  "globalLicenseDecisionChanged": false
+}

@@ -1,0 +1,112 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-export-logs-20261003.md",
+  "files": [
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "baselineCommit": "642cf17e2501288bfee834daba54c1db64a4c1aa",
+      "baselineBlob": "d398b761fc07111d093d28510ecb2026e9258d10",
+      "baselineSha256": "709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77",
+      "recordedSource": {
+        "path": "packages/desktop/src/main/exportLogs.ts",
+        "kind": "file",
+        "sha256": "709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77",
+        "normalizedSha256": "709db7c977ce2998b7ac9ef558b2f3a80912474d54c06957a5c104bef2016e77",
+        "encoding": "utf8-lf",
+        "bytes": 45656,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/main/exportLogs.ts",
+          "blob": "ad47f9c39c0bb2290eb0c3a6614f5e3f77164382",
+          "normalizedSha256": "8f3dca09772cea0b95ce9fa6bde111fff154ffbd195bb8e5670311d16deb7465",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "f44c0a002c42b4c7e9c82723f847b7900103f2398bb5a6a697d53860a2b69481",
+      "frozenCandidateBytes": 31144,
+      "retainedCompatibilityBlocks": [
+        {
+          "name": "public-and-dependency-shapes",
+          "sha256": "b5865dfc431fecb5bdd0e96203ea9157f5ca7f99464e720df7c8837d92d8369e",
+          "bytes": 1266,
+          "disposition": "retained compatibility types/policy data and accompanying original explanations; no independent-expression credit"
+        },
+        {
+          "name": "path-and-key-policy-data",
+          "sha256": "206edbeed8f940b3d1c3de60c86a7ad7422ddc60e4d7a340434a6bae20ca911b",
+          "bytes": 2418,
+          "disposition": "retained compatibility types/policy data and accompanying original explanations; no independent-expression credit",
+          "omittedDerivedDefinition": "original ZIP_EXCLUDE_REGEXES mapping; reconstructed against the new star-pattern compiler"
+        },
+        {
+          "name": "redaction-and-detection-data",
+          "sha256": "792fd8ca366479e1493a3392d336f3a1db8f9080c37b7eb44d88e516e7b543f2",
+          "bytes": 1499,
+          "disposition": "retained compatibility types/policy data and accompanying original explanations; no independent-expression credit"
+        }
+      ]
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/services/src/feedback/feedbackLogArchive.ts",
+      "sha256": "a056f81444db856597f7872a01b98014523488c3ac90ec79c984b9fc69a4d34a",
+      "gitBlob": "43094816005233b4f70ea3da89d332c4a1532aaf",
+      "disposition": "retained public dependency/current owner; historical receipts are not re-run acceptance"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveCandidates.ts",
+      "sha256": "d3b2b71a9c1e3eb27b3e5d7f92ecee0564b260ad47302bfb4cd116bd2d1b0b26",
+      "gitBlob": "df6ea11447a014fe93f9e18bcc1c54bda0bf2bda",
+      "disposition": "retained public dependency/current owner; historical receipts are not re-run acceptance"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchiveSnapshot.ts",
+      "sha256": "2f498dbbccef4149863487342bb816c13f71d0b00fdd0f18ef69a7a527276bb7",
+      "gitBlob": "c7104f5f92e061a6928a02aa61392c8548d745d8",
+      "disposition": "retained public dependency/current owner; historical receipts are not re-run acceptance"
+    },
+    {
+      "path": "packages/services/src/feedback/feedbackArchivePolicy.ts",
+      "sha256": "7b8a7a6e0fea314c37a20702d306b416072aaa5d9a28971b7b263b580fa7c509",
+      "gitBlob": "2157d7423317bf4b8d854147a7f00df26d7b9623",
+      "disposition": "retained public dependency/current owner; historical receipts are not re-run acceptance"
+    },
+    {
+      "path": "packages/desktop/src/main/about.ts",
+      "sha256": "de0bb771fec9b0b370087375b680be968b82089bafb88af85c5a3453f03bb79d",
+      "gitBlob": "871071c6294c58cc4f2e5d885783550e02e3c4cf",
+      "disposition": "retained public dependency/current owner; historical receipts are not re-run acceptance"
+    },
+    {
+      "path": "packages/services/src/node.ts",
+      "sha256": "4dd39f2bd4e738aa121075256cb2c7163e44ed453aa87d37a203d94baf9da743",
+      "gitBlob": "6d37d08100c0fce72f99e18e49d5cf64358f83b9",
+      "disposition": "retained current public boundary/owner; no verification or rights decision"
+    },
+    {
+      "path": "packages/services/src/paths.ts",
+      "sha256": "6b747645b8b4cdeb19a36d12889ccc6d83b54e7b2ab86b1828531c1931dbca61",
+      "gitBlob": "d22c88ba3766a4c7e247f9d456e67b02b4a97961",
+      "disposition": "retained current public boundary/owner; no verification or rights decision"
+    },
+    {
+      "path": "packages/desktop/src/main/logger.ts",
+      "sha256": "00f2f4e4ffc5824c1bd4a4a144e45ff3731320d2fe5368b012afdd9e2af818f7",
+      "gitBlob": "61d4024a3030bf598d668c8a566a2e2ff02cfadd",
+      "disposition": "retained current public boundary/owner; no verification or rights decision"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent read all 1271 baseline lines, existing security test and services feedback handoff before curating and authoring the whole selection/codec/stream/copy/staged-ZIP/export candidate. Exact public shapes, path/key/encoding/regex policy data, prose and conventional native idioms remain qualified/retained. No isolated author, clean-room, independent-expression/rights acceptance or MIT decision.",
+  "checksRun": [],
+  "testsStatus": "two focused supplied-port scenarios authored, not executed; existing security/services cases kept exact and unrun",
+  "globalLicenseDecisionChanged": false,
+  "historicalFeedbackQualification": "Current feedback entry and policy match the prior handoff digests. Current candidates/snapshot helpers have later digests, explicitly bound above; do not reuse that historical receipt as current combined acceptance."
+}

@@ -69,6 +69,9 @@ declare global {
         | "getWindowControlsOverlayMetrics"
         | "onWindowControlsOverlayChanged"
         | "getKnorviaStdioTapDevState"
+        | "previewLocalDiagnostics"
+        | "exportLocalDiagnostics"
+        | "checkReleaseUpdate"
       >
     > & {
       connectRemote(

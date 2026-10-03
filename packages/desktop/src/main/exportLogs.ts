@@ -1,56 +1,18 @@
-/* eslint-disable max-lines -- 导出日志流程涉及文件收集、脱敏与打包，集中维护便于排查与一致性 */
-import { constants, createReadStream, createWriteStream } from "node:fs";
-import {
-  access,
-  mkdir,
-  mkdtemp,
-  open,
-  readdir,
-  realpath,
-  rm,
-  stat,
-  writeFile,
-} from "node:fs/promises";
-
+/* eslint-disable max-lines -- Native export selection, stream sanitization and archive lifetimes share one contract. */
+import { constants, createReadStream, createWriteStream, type Dirent } from "node:fs";
+import { access, mkdir, mkdtemp, open, readdir, realpath, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, join, posix } from "node:path";
 import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { ZipFile } from "yazl";
-
 import {
-  createFeedbackDiagnosticArchive,
-  getAppConfigDir,
+  createFeedbackDiagnosticArchive, getAppConfigDir,
   getExportLogDir as getDefaultExportLogDir,
   getExportLogStageDir as getDefaultExportLogStageDir,
   getFeedbackLogArchiveDir as getDefaultFeedbackLogArchiveDir,
 } from "@knorvia/services/node";
 import { createAboutSnapshot, formatAboutDetail, readBuildMetadata } from "./about.js";
 import { logger } from "./logger.js";
-
-function getKnorviaDataDir() {
-  return getAppConfigDir();
-}
-
-function getKnorviaCliDir() {
-  return join(dirname(getAppConfigDir()), "cli");
-}
-
-function getKnorviaCliLogDir() {
-  return join(getKnorviaCliDir(), "log");
-}
-
-/**
- * Computer Use Helper 的运行目录。macOS 上 Helper 由 LaunchServices 启动，stderr 被系统丢弃，
- * 所以它把生命周期与后台输入诊断 tee 到 `<socket>.exit.log`（见 cua
- * helperExitLogPathFor）。同目录下还有 `.tokens` broker 凭据，收集时必须按文件名白名单。
- */
-function getCuaHelperRunDir() {
-  return join(dirname(getAppConfigDir()), "computer-use", "run");
-}
-
-function isCuaHelperDiagnosticFileName(fileName: string): boolean {
-  return fileName.endsWith(".exit.log");
-}
 
 interface LogArchiveFileEntry {
   absolutePath: string;
@@ -102,31 +64,8 @@ interface CreateFeedbackLogArchiveFromExportLogsOptions {
   onProgress?: (event: { processedBytes: number; totalBytes: number }) => void;
 }
 
-function formatTimestamp(now: Date = new Date()): string {
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-}
-
-function normalizeArchivePath(path: string): string {
-  return path.replaceAll("\\", "/");
-}
-
-function escapeRegExp(path: string): string {
-  return path.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
-}
-
-function globPatternToRegExp(pattern: string): RegExp {
-  const normalizedPattern = normalizeArchivePath(pattern);
-  return new RegExp(`^${normalizedPattern.split("*").map(escapeRegExp).join(".*")}$`);
-}
-
-/**
- * Glob patterns to exclude from the exported log archive.
- * Each pattern is relative to the source directory being archived.
- */
 const ZIP_EXCLUDE_PATTERNS: string[] = [];
 
-const ZIP_EXCLUDE_REGEXES = ZIP_EXCLUDE_PATTERNS.map(globPatternToRegExp);
 const RETIRED_ACP_RUNTIME_ARCHIVE_PATHS = [
   "acp-auth",
   "acp-config",
@@ -181,15 +120,6 @@ const SENSITIVE_KEY_NAME_REGEX = new RegExp(`(?:${SENSITIVE_KEY_SUBSTRING_PATTER
 const NON_SENSITIVE_KEY_NAME_ALLOWLIST_REGEX =
   /^(?:public(?:_|-)?key|keywords?|tokenizer|token(?:_|-)?count|(?:prompt|completion|total|input|output|cached|reasoning|max|budget|accepted(?:_|-)?prediction|rejected(?:_|-)?prediction|tool(?:_|-)?use(?:_|-)?prompt)(?:_|-)?tokens|author(?:s|ity|ed)?)$/i;
 
-function isSensitiveKeyName(keyName: string): boolean {
-  if (NON_SENSITIVE_KEY_NAME_ALLOWLIST_REGEX.test(keyName)) {
-    return false;
-  }
-  return SENSITIVE_KEY_NAME_REGEX.test(keyName);
-}
-
-// 以下正则先宽松捕获“键名 + 值”，再由 isSensitiveKeyName 决定是否脱敏，
-// 这样键名黑名单不再是硬编码列表，而是“敏感族 + 通配 + 白名单例外”。
 const JSON_STYLE_SENSITIVE_VALUE_REGEX =
   /(["'])([A-Za-z0-9_.-]+)\1(\s*:\s*)("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^,\r\n}\]]+)/g;
 const ASSIGNMENT_STYLE_SENSITIVE_VALUE_REGEX =
@@ -221,1050 +151,512 @@ interface TextDecodingScore {
   invalidCharRatio: number;
 }
 
-function redactValue(rawValue: string): string {
-  const leadingSpaces = rawValue.match(/^\s*/)?.[0] ?? "";
-  const trailingSpaces = rawValue.match(/\s*$/)?.[0] ?? "";
-  const core = rawValue.trim();
-  const quote =
-    core.startsWith('"') && core.endsWith('"')
-      ? '"'
-      : core.startsWith("'") && core.endsWith("'")
-        ? "'"
-        : "";
-  const redacted = quote ? `${quote}${REDACTED_PLACEHOLDER}${quote}` : REDACTED_PLACEHOLDER;
-  return `${leadingSpaces}${redacted}${trailingSpaces}`;
+const UTF16_CODECS = ["utf-16le", "utf-16be"] as const;
+const PREFERRED_TEXT_RANGES = [
+  [0x20, 0x7e], [0x4e00, 0x9fff], [0x3400, 0x4dbf], [0x3000, 0x303f],
+  [0xff00, 0xffef], [0x3040, 0x30ff], [0xac00, 0xd7af],
+] as const;
+const PRIVATE_KEY_LINE = /[^\r\n]*(?:\r?\n|$)/g;
+const PRIVATE_KEY_BEGIN = /-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----/;
+const PRIVATE_KEY_END = /-----END (?:[A-Z0-9]+ )*PRIVATE KEY-----/;
+
+function diagnosticError(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }
 
-function redactHeaderValue(rawValue: string): string {
-  const trimmed = rawValue.trim();
-  if (/^bearer\s+/i.test(trimmed)) {
-    return trimmed.replace(/^bearer\s+.+$/i, `Bearer ${REDACTED_PLACEHOLDER}`);
+function dataRoot(): string { return getAppConfigDir(); }
+function cliLogsRoot(): string { return join(join(dirname(getAppConfigDir()), "cli"), "log"); }
+function helperLogsRoot(): string { return join(dirname(getAppConfigDir()), "computer-use", "run"); }
+function portablePath(path: string): string { return path.replaceAll("\\", "/"); }
+
+function localTimestamp(date: Date): string {
+  const calendar = [date.getFullYear(), date.getMonth() + 1, date.getDate(),
+    date.getHours(), date.getMinutes(), date.getSeconds()];
+  const fields = calendar.map((part, index) => index === 0 ? String(part) : String(part).padStart(2, "0"));
+  return fields.slice(0, 3).join("") + "-" + fields.slice(3).join("");
+}
+
+function starPattern(pattern: string): RegExp {
+  let expression = "^";
+  for (const character of portablePath(pattern)) {
+    expression += character === "*" ? ".*" : character.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
   }
-  return REDACTED_PLACEHOLDER;
+  return new RegExp(expression + "$");
 }
 
-function redactConnectionStringCredentials(rawContent: string): string {
-  // postgres://admin:secret@host → postgres://***REDACTED***:***REDACTED***@host
-  return rawContent.replace(
-    CONNECTION_STRING_CREDENTIALS_REGEX,
-    (_match, scheme: string) => `${scheme}${REDACTED_PLACEHOLDER}:${REDACTED_PLACEHOLDER}@`,
-  );
+const ZIP_EXCLUDE_REGEXES = ZIP_EXCLUDE_PATTERNS.map(starPattern);
+
+class ArchivePathPolicy {
+  public excludes(path: string): boolean {
+    const normalized = portablePath(path);
+    const lower = normalized.toLowerCase();
+    const segments = lower.split("/");
+    if (SENSITIVE_CREDENTIAL_ARCHIVE_FILE_NAMES.has(segments.at(-1) ?? "")) return true;
+    if (segments.some((segment) => EXCLUDED_ARCHIVE_DIRECTORY_NAMES.has(segment))) return true;
+    if (NON_LOG_STATE_ARCHIVE_PATHS.some((prefix) => normalized.startsWith(prefix))) return true;
+    const descendantOf = (root: string) => normalized === root || normalized.startsWith(`${root}/`);
+    if (HIGH_VOLUME_RUNTIME_ARCHIVE_PATHS.some(descendantOf)) return true;
+    const first = normalized.split("/")[0] ?? "";
+    if (DOCSHOT_ARCHIVE_PATHS.some((root) => root === first) ||
+      DOCSHOT_ARCHIVE_PATH_PREFIXES.some((prefix) => first.startsWith(prefix))) return true;
+    if (RETIRED_ACP_RUNTIME_ARCHIVE_PATHS.some(descendantOf) || descendantOf("Library/Caches")) return true;
+    if (ZIP_EXCLUDE_REGEXES.some((rule) => rule.test(normalized))) return true;
+    return lower !== "about.txt" && !["logs", ".knorvia-studio/cli/log", ".knorvia-studio/computer-use/run"]
+      .some((root) => lower === root || lower.startsWith(`${root}/`));
+  }
+
+  public diagnostic(path: string): boolean { return DIAGNOSTIC_TEXT_EXTENSIONS.test(path); }
+
+  public aged(path: string): boolean {
+    const normalized = portablePath(path);
+    return normalized.startsWith("logs/") || normalized.startsWith(".knorvia-studio/cli/log/");
+  }
 }
 
-function sanitizeSensitiveLogContent(rawContent: string): string {
-  // 导出日志不能按文件原样拷贝：会把用户配置和协议日志里的 token/apiKey 一并带出。
-  // 线上排障需要“保留文件结构和上下文”，但不应该泄露密钥本体；
-  // 这里在导出阶段统一对常见敏感值做脱敏，字段和日志行仍完整保留，支持继续定位问题。
-  // 键名不再是硬编码黑名单，而是“敏感键名族 + 子串通配 + 白名单例外”（isSensitiveKeyName），
-  // 并叠加按值形态的连接串脱敏，以覆盖数据库连接串等自定义命名的敏感信息。
-  return redactConnectionStringCredentials(rawContent)
-    .replace(
-      JSON_STYLE_SENSITIVE_VALUE_REGEX,
-      (match, quote: string, keyName: string, separator: string, rawValue: string) =>
-        isSensitiveKeyName(keyName)
-          ? `${quote}${keyName}${quote}${separator}${redactValue(rawValue)}`
-          : match,
-    )
-    .replace(
-      ASSIGNMENT_STYLE_SENSITIVE_VALUE_REGEX,
-      (match, prefix: string, keyName: string, separator: string, rawValue: string) =>
-        isSensitiveKeyName(keyName)
-          ? `${prefix}${keyName}${separator}${redactValue(rawValue)}`
-          : match,
-    )
-    .replace(
-      HEADER_STYLE_SENSITIVE_VALUE_REGEX,
-      (match, prefix: string, headerName: string, separator: string, rawValue: string) =>
-        isSensitiveKeyName(headerName)
-          ? `${prefix}${headerName}${separator}${redactHeaderValue(rawValue)}`
-          : match,
-    )
-    .replace(BEARER_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
+const archivePolicy = new ArchivePathPolicy();
+
+type ScanFrame = { directory: string; prefix: string; entries: IterableIterator<Dirent> };
+
+class ArchiveSelection {
+  private readonly visited = new Set<string>();
+  public readonly files: LogArchiveFileEntry[] = [];
+
+  private async enter(directory: string, prefix: string): Promise<ScanFrame | undefined> {
+    const identity = await realpath(directory).catch(() => directory);
+    if (this.visited.has(identity)) return undefined;
+    this.visited.add(identity);
+    const entries = await readdir(directory, { withFileTypes: true }).catch((error: unknown) => {
+      logger.warn("[export-logs] 日志目录不可读，已在导出时自动跳过", {
+        absolutePath: directory, archivePath: prefix, error: diagnosticError(error),
+      });
+      return null;
+    });
+    if (!entries) return undefined;
+    entries.sort((left, right) => left.name.localeCompare(right.name));
+    return { directory, prefix, entries: entries[Symbol.iterator]() };
+  }
+
+  public async directory(directory: string, prefix: string): Promise<void> {
+    const metadata = await stat(directory).catch(() => null);
+    if (!metadata?.isDirectory()) return;
+    const root = await this.enter(directory, prefix);
+    if (!root) return;
+    const frames: ScanFrame[] = [root];
+    while (frames.length > 0) {
+      const frame = frames[frames.length - 1]!;
+      const next = frame.entries.next();
+      if (next.done) { frames.pop(); continue; }
+      const entry = next.value;
+      const archivePath = frame.prefix ? posix.join(frame.prefix, entry.name) : entry.name;
+      if (archivePolicy.excludes(archivePath)) continue;
+      const absolutePath = join(frame.directory, entry.name);
+      if (entry.isDirectory()) {
+        const child = await this.enter(absolutePath, archivePath);
+        if (child) frames.push(child);
+      } else if (entry.isFile()) {
+        if (archivePolicy.diagnostic(entry.name)) this.files.push({ absolutePath, archivePath });
+      } else if (entry.isSymbolicLink()) {
+        const target = await stat(absolutePath).catch(() => null);
+        if (!target) continue;
+        if (target.isDirectory()) {
+          const child = await this.enter(absolutePath, archivePath);
+          if (child) frames.push(child);
+        } else if (target.isFile() && archivePolicy.diagnostic(entry.name)) {
+          this.files.push({ absolutePath, archivePath });
+        }
+      }
+    }
+  }
+
+  public async helperDirectory(directory: string, prefix: string): Promise<void> {
+    const entries = await readdir(directory, { withFileTypes: true }).catch(() => null);
+    if (!entries) return;
+    entries.sort((left, right) => left.name.localeCompare(right.name));
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith(".exit.log")) continue;
+      const absolutePath = join(directory, entry.name);
+      const archivePath = posix.join(prefix, entry.name);
+      if (archivePolicy.excludes(archivePath) || !archivePolicy.diagnostic(archivePath)) continue;
+      const metadata = await stat(absolutePath).catch(() => null);
+      if (metadata?.isFile()) this.files.push({ absolutePath, archivePath });
+    }
+  }
+}
+
+function orderFiles(files: LogArchiveFileEntry[]): LogArchiveFileEntry[] {
+  return files.sort((left, right) => left.archivePath.localeCompare(right.archivePath));
+}
+
+async function recentSelection(files: LogArchiveFileEntry[], options: CreateLogArchiveArtifactsOptions): Promise<LogArchiveFileEntry[]> {
+  const days = options.lookbackDays ?? DEFAULT_LOG_EXPORT_LOOKBACK_DAYS;
+  if (days <= 0) return files;
+  const now = options.now ?? (() => new Date());
+  const cutoff = now().getTime() - days * MILLISECONDS_PER_DAY;
+  const accepted: LogArchiveFileEntry[] = [];
+  for (const file of files) {
+    if (!archivePolicy.aged(file.archivePath)) { accepted.push(file); continue; }
+    const metadata = await stat(file.absolutePath).catch(() => null);
+    if (metadata?.isFile() && metadata.mtimeMs >= cutoff) accepted.push(file);
+  }
+  return accepted;
+}
+
+async function buildLogArtifacts(sourceDir: string, options: CreateLogArchiveArtifactsOptions = {}): Promise<LogArchiveArtifacts> {
+  const selection = new ArchiveSelection();
+  await selection.directory(sourceDir, "");
+  const cliRoot = cliLogsRoot();
+  await selection.directory(cliRoot, posix.join(".knorvia-studio", "cli", "log"));
+  await selection.helperDirectory(helperLogsRoot(), posix.join(".knorvia-studio", "computer-use", "run"));
+  const files = orderFiles(await recentSelection(selection.files, options));
+  const snapshot = createAboutSnapshot({ buildMetadata: readBuildMetadata() });
+  return { files, aboutContent: formatAboutDetail(snapshot) };
+}
+
+class EncodingEvidence {
+  public constructor(private readonly sample: Buffer) {}
+
+  private nullParity(): SupportedTextEncoding | null {
+    if (this.sample.length < 4) return null;
+    const counts: [number, number] = [0, 0];
+    const zeros: [number, number] = [0, 0];
+    for (let index = 0; index < this.sample.length; index++) {
+      const parity = (index % 2) as 0 | 1;
+      counts[parity]++;
+      if (this.sample[index] === 0) zeros[parity]++;
+    }
+    const even = zeros[0] / Math.max(counts[0], 1);
+    const odd = zeros[1] / Math.max(counts[1], 1);
+    if (odd >= 0.3 && even <= 0.1) return "utf-16le";
+    if (even >= 0.3 && odd <= 0.1) return "utf-16be";
+    return null;
+  }
+
+  private asciiRuns(): SupportedTextEncoding | null {
+    if (this.sample.length < 4) return null;
+    const runs = { "utf-16le": { length: 0, score: 0 }, "utf-16be": { length: 0, score: 0 } };
+    const endRun = (codec: typeof UTF16_CODECS[number]) => {
+      const run = runs[codec];
+      if (run.length >= 3) run.score += run.length;
+      run.length = 0;
+    };
+    const ascii = (byte: number) => byte === 9 || byte === 10 || byte === 13 || (byte >= 0x20 && byte <= 0x7e);
+    for (let index = 0; index + 1 < this.sample.length; index += 2) {
+      const left = this.sample[index] ?? 0;
+      const right = this.sample[index + 1] ?? 0;
+      const direction = right === 0 && ascii(left) ? "utf-16le" : left === 0 && ascii(right) ? "utf-16be" : null;
+      for (const codec of UTF16_CODECS) {
+        if (codec === direction) runs[codec].length++;
+        else endRun(codec);
+      }
+    }
+    for (const codec of UTF16_CODECS) endRun(codec);
+    if (runs["utf-16le"].score >= 6 && runs["utf-16le"].score >= runs["utf-16be"].score * 1.5) return "utf-16le";
+    if (runs["utf-16be"].score >= 6 && runs["utf-16be"].score >= runs["utf-16le"].score * 1.5) return "utf-16be";
+    return null;
+  }
+
+  private decodedScore(codec: typeof UTF16_CODECS[number], bytes: Buffer): TextDecodingScore {
+    let count = 0; let preferred = 0; let invalid = 0;
+    for (const character of new TextDecoder(codec).decode(bytes)) {
+      count++;
+      const code = character.codePointAt(0) ?? 0;
+      if (code === 0xfffd || code === 0 || code === 0x7f || (code >= 0xd800 && code <= 0xdfff) ||
+        (code <= 0x1f && code !== 9 && code !== 10 && code !== 13)) invalid++;
+      else if (code === 9 || code === 10 || code === 13 ||
+        PREFERRED_TEXT_RANGES.some(([first, last]) => code >= first && code <= last)) preferred++;
+    }
+    return { preferredCharRatio: preferred / Math.max(count, 1), invalidCharRatio: invalid / Math.max(count, 1) };
+  }
+
+  private decodedHint(): SupportedTextEncoding | null {
+    const length = this.sample.length - this.sample.length % 2;
+    if (length < 4) return null;
+    const bytes = this.sample.subarray(0, length);
+    const le = this.decodedScore("utf-16le", bytes);
+    const be = this.decodedScore("utf-16be", bytes);
+    const qualified = (score: TextDecodingScore) => score.preferredCharRatio >= 0.55 && score.invalidCharRatio <= 0.2;
+    if (qualified(le) !== qualified(be)) return qualified(le) ? "utf-16le" : "utf-16be";
+    if (!qualified(le)) return null;
+    if (Math.abs(le.preferredCharRatio - be.preferredCharRatio) >= 0.08) {
+      return le.preferredCharRatio > be.preferredCharRatio ? "utf-16le" : "utf-16be";
+    }
+    return le.invalidCharRatio <= be.invalidCharRatio ? "utf-16le" : "utf-16be";
+  }
+
+  private utf8Valid(): boolean {
+    try { new TextDecoder("utf-8", { fatal: true }).decode(this.sample); return true; }
+    catch { return false; }
+  }
+
+  public choose(): TextFileEncodingInfo | null {
+    if (this.sample.length === 0) return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
+    const bom = [
+      { codec: "utf-8" as const, bytes: [0xef, 0xbb, 0xbf] },
+      { codec: "utf-16le" as const, bytes: [0xff, 0xfe] },
+      { codec: "utf-16be" as const, bytes: [0xfe, 0xff] },
+    ].find(({ bytes }) => this.sample.length >= bytes.length && bytes.every((byte, index) => this.sample[index] === byte));
+    if (bom) return { encoding: bom.codec, bomLength: bom.bytes.length, bomBytes: Buffer.from(bom.bytes) };
+    // 沿用既有二进制门槛：含 NUL 却不具备明确字节序证据时不能进入评分兜底。
+    if (this.sample.includes(0) && !this.nullParity()) return null;
+    if (!this.sample.includes(0) && this.utf8Valid()) return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
+    const codec = this.asciiRuns() ?? this.nullParity() ?? this.decodedHint();
+    if (codec) return { encoding: codec, bomLength: 0, bomBytes: EMPTY_BOM };
+    return this.utf8Valid() ? { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM } : null;
+  }
+}
+
+function maskScalar(raw: string): string {
+  const leading = raw.match(/^\s*/)?.[0] ?? "";
+  const trailing = raw.match(/\s*$/)?.[0] ?? "";
+  const trimmed = raw.trim();
+  const quote = trimmed.startsWith('"') && trimmed.endsWith('"') ? '"' :
+    trimmed.startsWith("'") && trimmed.endsWith("'") ? "'" : "";
+  return `${leading}${quote}${REDACTED_PLACEHOLDER}${quote}${trailing}`;
+}
+
+function sensitiveKey(key: string): boolean {
+  return !NON_SENSITIVE_KEY_NAME_ALLOWLIST_REGEX.test(key) && SENSITIVE_KEY_NAME_REGEX.test(key);
+}
+
+function maskDiagnosticText(content: string): string {
+  const keyed = (match: string, prefix: string, key: string, separator: string, value: string) =>
+    sensitiveKey(key) ? `${prefix}${key}${separator}${maskScalar(value)}` : match;
+  const connections = content.replace(CONNECTION_STRING_CREDENTIALS_REGEX,
+    (_match, scheme: string) => `${scheme}${REDACTED_PLACEHOLDER}:${REDACTED_PLACEHOLDER}@`);
+  const json = connections.replace(JSON_STYLE_SENSITIVE_VALUE_REGEX,
+    (match, quote: string, key: string, separator: string, value: string) =>
+      sensitiveKey(key) ? `${quote}${key}${quote}${separator}${maskScalar(value)}` : match);
+  const assignments = json.replace(ASSIGNMENT_STYLE_SENSITIVE_VALUE_REGEX, keyed);
+  const headers = assignments.replace(HEADER_STYLE_SENSITIVE_VALUE_REGEX,
+    (match, prefix: string, key: string, separator: string, value: string) => {
+      if (!sensitiveKey(key)) return match;
+      const trimmed = value.trim();
+      const masked = /^bearer\s+/i.test(trimmed) ? trimmed.replace(/^bearer\s+.+$/i, `Bearer ${REDACTED_PLACEHOLDER}`) : REDACTED_PLACEHOLDER;
+      return `${prefix}${key}${separator}${masked}`;
+    });
+  return headers.replace(BEARER_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
     .replace(QUERY_TOKEN_REGEX, `$1${REDACTED_PLACEHOLDER}`)
     .replace(/\b(?:sk|rk|pk)-[A-Za-z0-9_-]{12,}\b/gi, REDACTED_PLACEHOLDER)
     .replace(/\bgh[pousr]_[A-Za-z0-9]{20,}\b/g, REDACTED_PLACEHOLDER);
 }
 
-function detectUtf16EncodingByNullPattern(sample: Buffer): SupportedTextEncoding | null {
-  if (sample.length < 4) {
-    return null;
-  }
-
-  let evenByteCount = 0;
-  let oddByteCount = 0;
-  let evenNullCount = 0;
-  let oddNullCount = 0;
-
-  for (let index = 0; index < sample.length; index += 1) {
-    if (index % 2 === 0) {
-      evenByteCount += 1;
-      if (sample[index] === 0) {
-        evenNullCount += 1;
-      }
-      continue;
-    }
-
-    oddByteCount += 1;
-    if (sample[index] === 0) {
-      oddNullCount += 1;
-    }
-  }
-
-  const evenNullRatio = evenNullCount / Math.max(evenByteCount, 1);
-  const oddNullRatio = oddNullCount / Math.max(oddByteCount, 1);
-  const likelyUtf16Ratio = 0.3;
-  const noiseThreshold = 0.1;
-  if (oddNullRatio >= likelyUtf16Ratio && evenNullRatio <= noiseThreshold) {
-    return "utf-16le";
-  }
-  if (evenNullRatio >= likelyUtf16Ratio && oddNullRatio <= noiseThreshold) {
-    return "utf-16be";
-  }
-  return null;
+function encodeDiagnosticText(text: string, codec: SupportedTextEncoding): Buffer {
+  if (codec === "utf-8") return Buffer.from(text, "utf-8");
+  const bytes = Buffer.from(text, "utf16le");
+  return codec === "utf-16be" ? bytes.swap16() : bytes;
 }
 
-function isLikelyAsciiTextByte(byteValue: number): boolean {
-  return (
-    byteValue === 0x09 ||
-    byteValue === 0x0a ||
-    byteValue === 0x0d ||
-    (byteValue >= 0x20 && byteValue <= 0x7e)
-  );
-}
+class SanitizerStreamState {
+  private readonly decoder: TextDecoder;
+  private pending = "";
+  private privateKey = false;
 
-function isPreferredTextCodePoint(codePoint: number): boolean {
-  if (codePoint === 0x09 || codePoint === 0x0a || codePoint === 0x0d || codePoint === 0x20) {
-    return true;
-  }
-  if (codePoint >= 0x20 && codePoint <= 0x7e) {
-    return true;
-  }
-  if (codePoint >= 0x4e00 && codePoint <= 0x9fff) {
-    return true;
-  }
-  if (codePoint >= 0x3400 && codePoint <= 0x4dbf) {
-    return true;
-  }
-  if (codePoint >= 0x3000 && codePoint <= 0x303f) {
-    return true;
-  }
-  if (codePoint >= 0xff00 && codePoint <= 0xffef) {
-    return true;
-  }
-  if (codePoint >= 0x3040 && codePoint <= 0x30ff) {
-    return true;
-  }
-  if (codePoint >= 0xac00 && codePoint <= 0xd7af) {
-    return true;
-  }
-  return false;
-}
+  public constructor(private readonly codec: SupportedTextEncoding) { this.decoder = new TextDecoder(codec); }
 
-function scoreDecodedTextForEncodingDetection(decodedText: string): TextDecodingScore {
-  let totalCodePointCount = 0;
-  let preferredCodePointCount = 0;
-  let invalidCodePointCount = 0;
-
-  for (const character of decodedText) {
-    totalCodePointCount += 1;
-    const codePoint = character.codePointAt(0) ?? 0;
-
-    if (
-      codePoint === 0xfffd ||
-      codePoint === 0 ||
-      codePoint === 0x7f ||
-      (codePoint >= 0xd800 && codePoint <= 0xdfff) ||
-      (codePoint <= 0x1f && codePoint !== 0x09 && codePoint !== 0x0a && codePoint !== 0x0d)
-    ) {
-      invalidCodePointCount += 1;
-      continue;
-    }
-    if (isPreferredTextCodePoint(codePoint)) {
-      preferredCodePointCount += 1;
-    }
-  }
-
-  const denominator = Math.max(totalCodePointCount, 1);
-  return {
-    preferredCharRatio: preferredCodePointCount / denominator,
-    invalidCharRatio: invalidCodePointCount / denominator,
-  };
-}
-
-function detectUtf16EncodingByDecodedTextScore(sample: Buffer): SupportedTextEncoding | null {
-  if (sample.length < 4) {
-    return null;
-  }
-
-  const normalizedSampleLength = sample.length - (sample.length % 2);
-  if (normalizedSampleLength < 4) {
-    return null;
-  }
-  const normalizedSample = sample.subarray(0, normalizedSampleLength);
-
-  const utf16LeScore = scoreDecodedTextForEncodingDetection(
-    new TextDecoder("utf-16le").decode(normalizedSample),
-  );
-  const utf16BeScore = scoreDecodedTextForEncodingDetection(
-    new TextDecoder("utf-16be").decode(normalizedSample),
-  );
-
-  const minimumPreferredCharRatio = 0.55;
-  const maximumInvalidCharRatio = 0.2;
-  const minimumPreferredCharRatioGap = 0.08;
-
-  const utf16LeQualified =
-    utf16LeScore.preferredCharRatio >= minimumPreferredCharRatio &&
-    utf16LeScore.invalidCharRatio <= maximumInvalidCharRatio;
-  const utf16BeQualified =
-    utf16BeScore.preferredCharRatio >= minimumPreferredCharRatio &&
-    utf16BeScore.invalidCharRatio <= maximumInvalidCharRatio;
-
-  if (utf16LeQualified && !utf16BeQualified) {
-    return "utf-16le";
-  }
-  if (utf16BeQualified && !utf16LeQualified) {
-    return "utf-16be";
-  }
-  if (!utf16LeQualified && !utf16BeQualified) {
-    return null;
-  }
-
-  const preferredRatioGap = Math.abs(
-    utf16LeScore.preferredCharRatio - utf16BeScore.preferredCharRatio,
-  );
-  if (preferredRatioGap >= minimumPreferredCharRatioGap) {
-    return utf16LeScore.preferredCharRatio > utf16BeScore.preferredCharRatio
-      ? "utf-16le"
-      : "utf-16be";
-  }
-
-  return utf16LeScore.invalidCharRatio <= utf16BeScore.invalidCharRatio ? "utf-16le" : "utf-16be";
-}
-
-function isValidUtf8Sample(sample: Buffer): boolean {
-  try {
-    new TextDecoder("utf-8", { fatal: true }).decode(sample);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function detectUtf16EncodingByAsciiPairPattern(sample: Buffer): SupportedTextEncoding | null {
-  if (sample.length < 4) {
-    return null;
-  }
-
-  let utf16LeRunLength = 0;
-  let utf16BeRunLength = 0;
-  let utf16LeAsciiRunScore = 0;
-  let utf16BeAsciiRunScore = 0;
-
-  // CJK 文本里会出现“单个码元低字节刚好是 0”的情况（如 U+4E00），
-  // 直接统计 `0x00 + ASCII` 配对会把这些离散噪声误判成另一端字节序。
-  // 这里改为统计“连续 ASCII-零字节 run”，只把成段英文 token（api key/header）作为有效信号。
-  const flushRunScore = (runLength: number): number => (runLength >= 3 ? runLength : 0);
-
-  for (let index = 0; index + 1 < sample.length; index += 2) {
-    const leftByte = sample[index] ?? 0;
-    const rightByte = sample[index + 1] ?? 0;
-
-    if (rightByte === 0 && isLikelyAsciiTextByte(leftByte)) {
-      utf16LeRunLength += 1;
-      utf16BeAsciiRunScore += flushRunScore(utf16BeRunLength);
-      utf16BeRunLength = 0;
-      continue;
-    }
-    if (leftByte === 0 && isLikelyAsciiTextByte(rightByte)) {
-      utf16BeRunLength += 1;
-      utf16LeAsciiRunScore += flushRunScore(utf16LeRunLength);
-      utf16LeRunLength = 0;
-      continue;
-    }
-
-    utf16LeAsciiRunScore += flushRunScore(utf16LeRunLength);
-    utf16BeAsciiRunScore += flushRunScore(utf16BeRunLength);
-    utf16LeRunLength = 0;
-    utf16BeRunLength = 0;
-  }
-
-  utf16LeAsciiRunScore += flushRunScore(utf16LeRunLength);
-  utf16BeAsciiRunScore += flushRunScore(utf16BeRunLength);
-
-  const minimumAsciiRunScore = 6;
-  const dominanceRatio = 1.5;
-  if (
-    utf16LeAsciiRunScore >= minimumAsciiRunScore &&
-    utf16LeAsciiRunScore >= utf16BeAsciiRunScore * dominanceRatio
-  ) {
-    return "utf-16le";
-  }
-  if (
-    utf16BeAsciiRunScore >= minimumAsciiRunScore &&
-    utf16BeAsciiRunScore >= utf16LeAsciiRunScore * dominanceRatio
-  ) {
-    return "utf-16be";
-  }
-  return null;
-}
-
-function detectTextFileEncoding(sample: Buffer): TextFileEncodingInfo | null {
-  if (sample.length === 0) {
-    return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
-  }
-
-  if (sample.length >= 3 && sample[0] === 0xef && sample[1] === 0xbb && sample[2] === 0xbf) {
-    return {
-      encoding: "utf-8",
-      bomLength: 3,
-      bomBytes: Buffer.from([0xef, 0xbb, 0xbf]),
-    };
-  }
-
-  if (sample.length >= 2 && sample[0] === 0xff && sample[1] === 0xfe) {
-    return {
-      encoding: "utf-16le",
-      bomLength: 2,
-      bomBytes: Buffer.from([0xff, 0xfe]),
-    };
-  }
-  if (sample.length >= 2 && sample[0] === 0xfe && sample[1] === 0xff) {
-    return {
-      encoding: "utf-16be",
-      bomLength: 2,
-      bomBytes: Buffer.from([0xfe, 0xff]),
-    };
-  }
-
-  // 修复原因：含少量 NUL 的二进制内存片段可能被 UTF-16 评分误判成文本，绕过安全导出边界。
-  if (sample.includes(0) && !detectUtf16EncodingByNullPattern(sample)) return null;
-
-  if (!sample.includes(0) && isValidUtf8Sample(sample)) {
-    return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
-  }
-
-  // CJK 占比高的 UTF-16 无 BOM 文本，空字节比例可能很低，
-  // 仅靠 null-ratio 会被误判为“非文本”并走原样复制，导致敏感字段漏脱敏。
-  // 这里增加“ASCII-零字节对”兜底检测（例如 `OPENAI_API_KEY=\r\n`），覆盖真实日志中的混合文本场景。
-  const utf16Encoding =
-    detectUtf16EncodingByAsciiPairPattern(sample) ??
-    detectUtf16EncodingByNullPattern(sample) ??
-    detectUtf16EncodingByDecodedTextScore(sample);
-  if (!utf16Encoding) {
-    // 无 BOM 且不含空字节的 UTF-16 文本，在纯 CJK 内容里经常出现。
-    // 这类样本 UTF-8 fatal decode 会失败；此时按 UTF-8 处理会产生乱码并漏掉敏感字段匹配。
-    // 兜底策略：UTF-8 合法则按 UTF-8，非法且无法识别成 UTF-16 时才视为二进制。
-    if (isValidUtf8Sample(sample)) {
-      return { encoding: "utf-8", bomLength: 0, bomBytes: EMPTY_BOM };
-    }
-    return null;
-  }
-  return { encoding: utf16Encoding, bomLength: 0, bomBytes: EMPTY_BOM };
-}
-
-async function readFileSample(
-  absolutePath: string,
-  sampleBytes = TEXT_DETECTION_SAMPLE_BYTES,
-): Promise<Buffer> {
-  const fileHandle = await open(absolutePath, "r");
-  try {
-    const buffer = Buffer.alloc(sampleBytes);
-    const { bytesRead } = await fileHandle.read(buffer, 0, sampleBytes, 0);
-    return buffer.subarray(0, bytesRead);
-  } finally {
-    await fileHandle.close();
-  }
-}
-
-function encodeTextWithEncoding(text: string, encoding: SupportedTextEncoding): Buffer {
-  if (encoding === "utf-8") {
-    return Buffer.from(text, "utf-8");
-  }
-  if (encoding === "utf-16le") {
-    return Buffer.from(text, "utf16le");
-  }
-  const encodedBuffer = Buffer.from(text, "utf16le");
-  encodedBuffer.swap16();
-  return encodedBuffer;
-}
-
-function splitByCompleteLine(content: string): {
-  completeChunk: string;
-  pendingChunk: string;
-} {
-  const lastLineFeedIndex = content.lastIndexOf("\n");
-  if (lastLineFeedIndex >= 0) {
-    return {
-      completeChunk: content.slice(0, lastLineFeedIndex + 1),
-      pendingChunk: content.slice(lastLineFeedIndex + 1),
-    };
-  }
-
-  const lastCarriageReturnIndex = content.lastIndexOf("\r");
-  if (lastCarriageReturnIndex >= 0 && lastCarriageReturnIndex < content.length - 1) {
-    return {
-      completeChunk: content.slice(0, lastCarriageReturnIndex + 1),
-      pendingChunk: content.slice(lastCarriageReturnIndex + 1),
-    };
-  }
-
-  return { completeChunk: "", pendingChunk: content };
-}
-
-function createSensitiveContentSanitizerTransform(encoding: SupportedTextEncoding): Transform {
-  const decoder = new TextDecoder(encoding);
-  let pendingChunk = "";
-  let insidePrivateKey = false;
-  const redactPrivateKeyLines = (content: string): string =>
-    content.replace(/[^\r\n]*(?:\r?\n|$)/g, (line) => {
+  private output(text: string): Buffer {
+    const publicLines = text.replace(PRIVATE_KEY_LINE, (line) => {
       if (!line) return "";
-      if (/-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----/.test(line)) {
-        insidePrivateKey = true;
-        return `${REDACTED_PLACEHOLDER}\n`;
-      }
-      if (insidePrivateKey) {
-        if (/-----END (?:[A-Z0-9]+ )*PRIVATE KEY-----/.test(line)) insidePrivateKey = false;
-        return "";
-      }
-      return line;
+      if (PRIVATE_KEY_BEGIN.test(line)) { this.privateKey = true; return `${REDACTED_PLACEHOLDER}\n`; }
+      if (!this.privateKey) return line;
+      if (PRIVATE_KEY_END.test(line)) this.privateKey = false;
+      return "";
     });
+    return encodeDiagnosticText(maskDiagnosticText(publicLines), this.codec);
+  }
 
+  public receive(chunk: Buffer | string): Buffer | undefined {
+    const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    const merged = this.pending + this.decoder.decode(bytes, { stream: true });
+    const lf = merged.lastIndexOf("\n");
+    let boundary = lf + 1;
+    if (lf < 0) {
+      const cr = merged.lastIndexOf("\r");
+      boundary = cr >= 0 && cr < merged.length - 1 ? cr + 1 : 0;
+    }
+    this.pending = merged.slice(boundary);
+    return boundary === 0 ? undefined : this.output(merged.slice(0, boundary));
+  }
+
+  public finish(): Buffer | undefined {
+    const text = this.pending + this.decoder.decode();
+    return text.length === 0 ? undefined : this.output(text);
+  }
+}
+
+function sanitizerTransform(codec: SupportedTextEncoding): Transform {
+  const owner = new SanitizerStreamState(codec);
   return new Transform({
-    transform(chunk, _chunkEncoding, callback) {
+    transform(chunk, _encoding, callback) {
       try {
-        const rawChunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-        const decodedChunk = decoder.decode(rawChunk, { stream: true });
-        const mergedChunk = `${pendingChunk}${decodedChunk}`;
-        const { completeChunk, pendingChunk: nextPendingChunk } = splitByCompleteLine(mergedChunk);
-        pendingChunk = nextPendingChunk;
-
-        if (completeChunk.length === 0) {
-          callback();
-          return;
-        }
-        const sanitizedChunk = sanitizeSensitiveLogContent(redactPrivateKeyLines(completeChunk));
-        callback(null, encodeTextWithEncoding(sanitizedChunk, encoding));
-      } catch (error) {
-        callback(error as Error);
-      }
+        const result = owner.receive(chunk);
+        if (result === undefined) callback(); else callback(null, result);
+      } catch (error) { callback(error as Error); }
     },
     flush(callback) {
       try {
-        const remainingContent = `${pendingChunk}${decoder.decode()}`;
-        if (remainingContent.length === 0) {
-          callback();
-          return;
-        }
-        const sanitizedChunk = sanitizeSensitiveLogContent(redactPrivateKeyLines(remainingContent));
-        callback(null, encodeTextWithEncoding(sanitizedChunk, encoding));
-      } catch (error) {
-        callback(error as Error);
-      }
+        const result = owner.finish();
+        if (result === undefined) callback(); else callback(null, result);
+      } catch (error) { callback(error as Error); }
     },
   });
 }
 
-async function sanitizeTextLogFileToDestination(
-  sourcePath: string,
-  destinationPath: string,
-  encodingInfo: TextFileEncodingInfo,
-): Promise<void> {
-  const readStream = createReadStream(sourcePath, {
-    start: encodingInfo.bomLength,
-  });
-  const writeStream = createWriteStream(destinationPath);
-
-  if (encodingInfo.bomLength > 0) {
-    writeStream.write(encodingInfo.bomBytes);
-  }
-
-  await pipeline(
-    readStream,
-    createSensitiveContentSanitizerTransform(encodingInfo.encoding),
-    writeStream,
-  );
-}
-
-function isExcludedCachePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath);
-  return (
-    normalizedRelativePath === "Library/Caches" ||
-    normalizedRelativePath.startsWith("Library/Caches/")
-  );
-}
-
-function isRetiredAcpRuntimePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath);
-  return RETIRED_ACP_RUNTIME_ARCHIVE_PATHS.some(
-    (archivePath) =>
-      normalizedRelativePath === archivePath ||
-      normalizedRelativePath.startsWith(`${archivePath}/`),
-  );
-}
-
-function isHighVolumeRuntimeArchivePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath);
-  return HIGH_VOLUME_RUNTIME_ARCHIVE_PATHS.some(
-    (archivePath) =>
-      normalizedRelativePath === archivePath ||
-      normalizedRelativePath.startsWith(`${archivePath}/`),
-  );
-}
-
-function isDocshotArchivePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath);
-  const firstSegment = normalizedRelativePath.split("/")[0] ?? "";
-  if (DOCSHOT_ARCHIVE_PATHS.includes(firstSegment as (typeof DOCSHOT_ARCHIVE_PATHS)[number])) {
-    return true;
-  }
-  return DOCSHOT_ARCHIVE_PATH_PREFIXES.some((prefix) => firstSegment.startsWith(prefix));
-}
-
-function isNonLogStateArchivePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath);
-  return NON_LOG_STATE_ARCHIVE_PATHS.some((archivePath) =>
-    normalizedRelativePath.startsWith(archivePath),
-  );
-}
-
-function isSensitiveCredentialArchivePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath).toLowerCase();
-  const fileName = normalizedRelativePath.split("/").at(-1) ?? "";
-  return SENSITIVE_CREDENTIAL_ARCHIVE_FILE_NAMES.has(fileName);
-}
-
-function isExcludedDirectoryArchivePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath).toLowerCase();
-  return normalizedRelativePath
-    .split("/")
-    .some((segment) => EXCLUDED_ARCHIVE_DIRECTORY_NAMES.has(segment));
-}
-
-function isExcludedRelativePath(relativePath: string): boolean {
-  const normalizedRelativePath = normalizeArchivePath(relativePath);
-  // 完整日志导出过去只做内容脱敏，仍会把 credentials.json 文件本身放进包。
-  // 凭据存储文件不是排障日志，且不同提供商可能复用同名文件；因此在收集清单阶段按文件名跳过。
-  if (isSensitiveCredentialArchivePath(normalizedRelativePath)) {
-    return true;
-  }
-  // debug 目录通常是模型/运行时高频轨迹，不是用户要交付的日志包材料。
-  // 过去显式收集 ~/.knorvia-studio/cli/debug 会把这类上下文带进手动导出和反馈完整日志，这里按目录段统一跳过。
-  if (isExcludedDirectoryArchivePath(normalizedRelativePath)) {
-    return true;
-  }
-  if (isNonLogStateArchivePath(normalizedRelativePath)) {
-    return true;
-  }
-  // ~/.knorvia-studio/v2/dev 保存 stdio-traffic 等高频协议流，真实机器上会累计到 GB 级。
-  // 远超反馈附件的大小上限，不应随诊断包带出。
-  if (isHighVolumeRuntimeArchivePath(normalizedRelativePath)) {
-    return true;
-  }
-  // docshot 历史备份和素材目录体积可达 GB 级，
-  // 且不属于用户反馈所需的诊断日志。
-  if (isDocshotArchivePath(normalizedRelativePath)) {
-    return true;
-  }
-  // ACP runtime 目录已退役，老用户数据里仍可能残留数百 MB 抓包和旧鉴权文件。
-  // 当前运行态配置已经迁到 agent-config；继续导出这些旧目录会让导出长时间无反馈，还可能带出旧代理证书私钥。
-  if (isRetiredAcpRuntimePath(normalizedRelativePath)) {
-    return true;
-  }
-  // Library/Caches 是运行时缓存，不是排障所需日志；导出它只会放大日志包。
-  if (isExcludedCachePath(normalizedRelativePath)) {
-    return true;
-  }
-
-  if (ZIP_EXCLUDE_REGEXES.some((pattern) => pattern.test(normalizedRelativePath))) return true;
-  const normalized = normalizedRelativePath.toLowerCase();
-  const approvedRoot =
-    normalized === "about.txt" ||
-    normalized === "logs" ||
-    normalized.startsWith("logs/") ||
-    normalized === ".knorvia-studio/cli/log" ||
-    normalized.startsWith(".knorvia-studio/cli/log/") ||
-    normalized === ".knorvia-studio/computer-use/run" ||
-    normalized.startsWith(".knorvia-studio/computer-use/run/");
-  // 日志包只收集诊断文本；新数据目录默认不导出，避免未来新增状态文件后自动泄露。
-  return !approvedRoot;
-}
-
-function shouldApplyLogExportRetention(archivePath: string): boolean {
-  const normalizedArchivePath = normalizeArchivePath(archivePath);
-  if (
-    normalizedArchivePath.startsWith("logs/") ||
-    normalizedArchivePath.startsWith(".knorvia-studio/cli/log/")
-  ) {
-    return true;
-  }
-
-  return false;
-}
-
-async function filterRecentLogArchiveFiles(
-  files: LogArchiveFileEntry[],
-  options: CreateLogArchiveArtifactsOptions = {},
-): Promise<LogArchiveFileEntry[]> {
-  const lookbackDays = options.lookbackDays ?? DEFAULT_LOG_EXPORT_LOOKBACK_DAYS;
-  if (lookbackDays <= 0) {
-    return files;
-  }
-
-  const now = options.now ?? (() => new Date());
-  const cutoffMs = now().getTime() - lookbackDays * MILLISECONDS_PER_DAY;
-  const recentFiles: LogArchiveFileEntry[] = [];
-
-  for (const file of files) {
-    if (!shouldApplyLogExportRetention(file.archivePath)) {
-      recentFiles.push(file);
-      continue;
-    }
-
-    const fileStats = await stat(file.absolutePath).catch(() => null);
-    // 导出日志过去按目录全量打包，长时间运行后旧 diagnostics 会把日志包放大到数百 MB。
-    // 这里仅对“可由时间窗口复现现场”的日志类文件按 mtime 保留近 3 天；
-    // settings 等排障配置不参与过滤，避免久未修改但仍影响当前行为的配置丢失。
-    if (fileStats?.isFile() && fileStats.mtimeMs >= cutoffMs) {
-      recentFiles.push(file);
-    }
-  }
-
-  return recentFiles;
-}
-
-function createAboutContent(): string {
-  const snapshot = createAboutSnapshot({ buildMetadata: readBuildMetadata() });
-  return formatAboutDetail(snapshot);
-}
-
-function formatErrorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
-}
-
-function logSkippedLogArchiveDirectory(
-  absolutePath: string,
-  archivePath: string,
-  error: unknown,
-): void {
-  logger.warn("[export-logs] 日志目录不可读，已在导出时自动跳过", {
-    absolutePath,
-    archivePath,
-    error: formatErrorMessage(error),
-  });
-}
-
-async function walkLogArchiveDirectory(
-  absoluteDir: string,
-  relativeDir: string,
-  visitedDirs: Set<string>,
-  files: LogArchiveFileEntry[],
-): Promise<void> {
-  const resolvedDir = await realpath(absoluteDir).catch(() => absoluteDir);
-  if (visitedDirs.has(resolvedDir)) {
-    return;
-  }
-  visitedDirs.add(resolvedDir);
-
-  const dirents = await readdir(absoluteDir, { withFileTypes: true }).catch((error: unknown) => {
-    // 用户目录下的日志来源可能包含被系统或第三方 CLI 限制权限的子目录。
-    // 单个目录 scandir 失败时跳过该目录，避免一次 EACCES 把整个日志包导出中断。
-    logSkippedLogArchiveDirectory(absoluteDir, relativeDir, error);
-    return null;
-  });
-  if (!dirents) {
-    return;
-  }
-  dirents.sort((left, right) => left.name.localeCompare(right.name));
-
-  for (const dirent of dirents) {
-    const archivePath = relativeDir ? posix.join(relativeDir, dirent.name) : dirent.name;
-    if (isExcludedRelativePath(archivePath)) {
-      continue;
-    }
-
-    const absolutePath = join(absoluteDir, dirent.name);
-    if (dirent.isDirectory()) {
-      await walkLogArchiveDirectory(absolutePath, archivePath, visitedDirs, files);
-      continue;
-    }
-
-    if (dirent.isFile()) {
-      if (!DIAGNOSTIC_TEXT_EXTENSIONS.test(dirent.name)) continue;
-      files.push({ absolutePath, archivePath });
-      continue;
-    }
-
-    if (!dirent.isSymbolicLink()) {
-      continue;
-    }
-
-    const targetStats = await stat(absolutePath).catch(() => null);
-    if (!targetStats) {
-      continue;
-    }
-
-    // 日志目录里存在 provider 共享资源的软链入口。
-    // 这里按目标类型处理并配合 realpath 去重，避免递归跟随时把同一份内容重复打进包，甚至形成循环遍历。
-    if (targetStats.isDirectory()) {
-      await walkLogArchiveDirectory(absolutePath, archivePath, visitedDirs, files);
-      continue;
-    }
-
-    if (targetStats.isFile()) {
-      if (!DIAGNOSTIC_TEXT_EXTENSIONS.test(dirent.name)) continue;
-      files.push({ absolutePath, archivePath });
-    }
-  }
-}
-
-async function collectLogArchiveFilesFromDirectory(
-  absoluteDir: string,
-  relativeDir: string,
-  visitedDirs: Set<string>,
-  files: LogArchiveFileEntry[],
-): Promise<void> {
-  const directoryStats = await stat(absoluteDir).catch(() => null);
-  if (!directoryStats?.isDirectory()) {
-    return;
-  }
-
-  await walkLogArchiveDirectory(absoluteDir, relativeDir, visitedDirs, files);
-}
-
-/**
- * 按文件名白名单收集单层目录，不递归。用于运行目录这类"诊断文件与凭据同放"的场景：
- * 递归收集会把 .tokens 之类的机密带进用户会转发出去的日志包，而 EXCLUDED 名单是
- * 事后补救、天然滞后。白名单则默认拒绝——目录里以后多出什么都不会跟着漏出去。
- */
-async function collectLogArchiveFilesByName(
-  absoluteDir: string,
-  relativeDir: string,
-  isCollectableFileName: (fileName: string) => boolean,
-  files: LogArchiveFileEntry[],
-): Promise<void> {
-  const dirents = await readdir(absoluteDir, { withFileTypes: true }).catch(() => null);
-  if (!dirents) {
-    return;
-  }
-  dirents.sort((left, right) => left.name.localeCompare(right.name));
-  for (const dirent of dirents) {
-    if (!dirent.isFile() || !isCollectableFileName(dirent.name)) {
-      continue;
-    }
-    await collectLogArchiveFile(
-      join(absoluteDir, dirent.name),
-      posix.join(relativeDir, dirent.name),
-      files,
-    );
-  }
-}
-
-async function collectLogArchiveFile(
-  absolutePath: string,
-  archivePath: string,
-  files: LogArchiveFileEntry[],
-): Promise<void> {
-  if (isExcludedRelativePath(archivePath)) {
-    return;
-  }
-  if (!DIAGNOSTIC_TEXT_EXTENSIONS.test(archivePath)) return;
-  const fileStats = await stat(absolutePath).catch(() => null);
-  if (!fileStats?.isFile()) {
-    return;
-  }
-  files.push({ absolutePath, archivePath });
-}
-
-async function collectLogArchiveFiles(sourceDir: string): Promise<LogArchiveFileEntry[]> {
-  const files: LogArchiveFileEntry[] = [];
-  const visitedDirs = new Set<string>();
-  await collectLogArchiveFilesFromDirectory(sourceDir, "", visitedDirs, files);
-  files.sort((left, right) => left.archivePath.localeCompare(right.archivePath));
-  return files;
-}
-
-async function createLogArchiveArtifacts(
-  sourceDir: string,
-  options: CreateLogArchiveArtifactsOptions = {},
-): Promise<LogArchiveArtifacts> {
-  const files: LogArchiveFileEntry[] = [];
-  const visitedDirs = new Set<string>();
-
-  await collectLogArchiveFilesFromDirectory(sourceDir, "", visitedDirs, files);
-
-  const knorviaCliLogDir = getKnorviaCliLogDir();
-  // Knorvia Agent / cli 的运行日志写在 ~/.knorvia-studio/cli/log，不在应用主数据目录 ~/.knorvia-studio/v2 下。
-  // 如果导出日志只扫描 v2，定位 agent CLI 启动、协议或崩溃问题时会缺少最关键的原生侧日志。
-  await collectLogArchiveFilesFromDirectory(
-    knorviaCliLogDir,
-    posix.join(".knorvia-studio", "cli", "log"),
-    visitedDirs,
-    files,
-  );
-
-  // CLI 配置和模型 IO 轨迹不是日志，可能带有凭据或私有对话内容，故只收集 log 目录。
-
-  // Computer Use Helper 的结构化诊断必须进日志包：否则反馈包里
-  // grep "background keyboard begin rejected" 命中 0，
-  // 因为 Helper 由 LaunchServices 启动、stderr 被系统丢弃，它把诊断 tee 到
-  // ~/.knorvia-studio/computer-use/run/<socket>.exit.log，既不在 app data 也不在 ~/.knorvia-studio/cli 下。
-  // 同目录下有 .tokens broker 凭据，因此按文件名白名单只收 *.exit.log，不递归该目录。
-  await collectLogArchiveFilesByName(
-    getCuaHelperRunDir(),
-    posix.join(".knorvia-studio", "computer-use", "run"),
-    isCuaHelperDiagnosticFileName,
-    files,
-  );
-
-  const recentFiles = await filterRecentLogArchiveFiles(files, options);
-  recentFiles.sort((left, right) => left.archivePath.localeCompare(right.archivePath));
-
-  return {
-    files: recentFiles,
-    aboutContent: createAboutContent(),
-  };
-}
-
-async function copyLogArchiveFilesToDirectory(
-  outputPath: string,
-  files: LogArchiveFileEntry[],
-): Promise<LogArchiveSkippedFileEntry[]> {
-  const skippedFiles: LogArchiveSkippedFileEntry[] = [];
-
-  for (const file of files) {
-    const destinationPath = join(outputPath, ...file.archivePath.split("/"));
-    await mkdir(dirname(destinationPath), { recursive: true });
-
-    const sourceStats = await stat(file.absolutePath).catch((error: unknown) => {
-      skippedFiles.push({
-        absolutePath: file.absolutePath,
-        archivePath: file.archivePath,
-        error: formatErrorMessage(error),
-      });
-      return null;
-    });
-    if (!sourceStats?.isFile()) {
-      continue;
-    }
-
-    const sourceReadable = await access(file.absolutePath, constants.R_OK)
-      .then(() => true)
-      .catch((error: unknown) => {
-        skippedFiles.push({
-          absolutePath: file.absolutePath,
-          archivePath: file.archivePath,
-          error: formatErrorMessage(error),
-        });
-        return false;
-      });
-    if (!sourceReadable) {
-      continue;
-    }
-
-    try {
-      // 这里改为“采样识别编码 + 流式脱敏”，避免全量 readFile 带来的大文件内存峰值。
-      // 同时显式支持 UTF-16 文本（含 BOM/无 BOM 常见形态），防止被误判成二进制后原样泄露敏感字段。
-      const sourceSample = await readFileSample(file.absolutePath);
-      const textEncodingInfo = detectTextFileEncoding(sourceSample);
-      if (!textEncodingInfo) {
-        // 修复原因：未知二进制可能是崩溃内存或密钥文件，原样拷贝会绕过文本脱敏。
-        skippedFiles.push({
-          absolutePath: file.absolutePath,
-          archivePath: file.archivePath,
-          error: "unsupported binary diagnostic",
-        });
-        continue;
-      } else {
-        await sanitizeTextLogFileToDestination(
-          file.absolutePath,
-          destinationPath,
-          textEncodingInfo,
-        );
-      }
-    } catch (error) {
-      const sourceStatsAfterFailure = await stat(file.absolutePath).catch(() => null);
-      const sourceReadableAfterFailure = sourceStatsAfterFailure?.isFile()
-        ? await access(file.absolutePath, constants.R_OK)
-            .then(() => true)
-            .catch(() => false)
-        : false;
-      // telemetry/agent 日志文件可能在“扫描完待导出列表”之后被后台轮转、删除或改权限，
-      // 软链目标也可能在这段窗口里失效。复制失败后再核一次源文件可读性；
-      // 如果源头已经不可读，就把它当成坏文件跳过，避免单个 ENOENT/EACCES 让导出整体失败。
-      if (!sourceReadableAfterFailure) {
-        skippedFiles.push({
-          absolutePath: file.absolutePath,
-          archivePath: file.archivePath,
-          error: formatErrorMessage(error),
-        });
-        continue;
-      }
-      throw error;
-    }
-  }
-
-  return skippedFiles;
-}
-
-function logSkippedLogArchiveFiles(skippedFiles: LogArchiveSkippedFileEntry[]): void {
-  if (skippedFiles.length === 0) {
-    return;
-  }
-
-  logger.warn("[export-logs] 检测到不可读日志文件，已在导出时自动跳过", {
-    skippedCount: skippedFiles.length,
-    skippedFiles: skippedFiles.slice(0, 10),
-  });
-}
-
-async function writeLogArchiveZip(
-  outputPath: string,
-  artifacts: LogArchiveArtifacts,
-  options: WriteLogArchiveZipOptions = {},
-): Promise<void> {
-  const stageRootDir = options.stageRootDir ?? getDefaultExportLogStageDir();
-  await mkdir(stageRootDir, { recursive: true });
-  const stagingDir = await mkdtemp(join(stageRootDir, "stage-"));
+async function sampleFile(path: string): Promise<Buffer> {
+  const handle = await open(path, "r");
   try {
-    // yazl.addFile 内部会再次对源路径执行 fs.stat/createReadStream。
-    // 对于软链目标或正在被轮转的 telemetry 文件，这一步仍然可能异步抛错并触发未监听的 error 事件。
-    // 这里先把可读文件稳定复制到临时目录，再从临时目录压缩，保证 zip 阶段只面对我们自己控制的常规文件。
-    await writeLogArchiveDirectory(stagingDir, artifacts);
+    const sample = Buffer.alloc(TEXT_DETECTION_SAMPLE_BYTES);
+    const result = await handle.read(sample, 0, TEXT_DETECTION_SAMPLE_BYTES, 0);
+    return sample.subarray(0, result.bytesRead);
+  } finally { await handle.close(); }
+}
 
-    const zipFile = new ZipFile();
-    const stageFiles = await collectLogArchiveFiles(stagingDir);
-    const outputStream = createWriteStream(outputPath);
-    zipFile.once("error", (error) => {
-      outputStream.destroy(error instanceof Error ? error : new Error(String(error)));
-    });
+async function writeSanitizedFile(source: string, destination: string, info: TextFileEncodingInfo): Promise<void> {
+  const input = createReadStream(source, { start: info.bomLength });
+  const output = createWriteStream(destination);
+  if (info.bomLength > 0) output.write(info.bomBytes);
+  await pipeline(input, sanitizerTransform(info.encoding), output);
+}
 
-    for (const file of stageFiles) {
-      zipFile.addFile(file.absolutePath, file.archivePath);
+class DiagnosticCopy {
+  private readonly skipped: LogArchiveSkippedFileEntry[] = [];
+
+  private record(file: LogArchiveFileEntry, error: unknown): void {
+    this.skipped.push({ absolutePath: file.absolutePath, archivePath: file.archivePath, error: diagnosticError(error) });
+  }
+
+  public async execute(output: string, files: LogArchiveFileEntry[]): Promise<LogArchiveSkippedFileEntry[]> {
+    for (const file of files) {
+      const destination = join(output, ...file.archivePath.split("/"));
+      await mkdir(dirname(destination), { recursive: true });
+      const metadata = await stat(file.absolutePath).catch((error: unknown) => { this.record(file, error); return null; });
+      if (!metadata?.isFile()) continue;
+      const readable = await access(file.absolutePath, constants.R_OK).then(() => true)
+        .catch((error: unknown) => { this.record(file, error); return false; });
+      if (!readable) continue;
+      try {
+        const info = new EncodingEvidence(await sampleFile(file.absolutePath)).choose();
+        if (info === null) { this.record(file, "unsupported binary diagnostic"); continue; }
+        await writeSanitizedFile(file.absolutePath, destination, info);
+      } catch (error) {
+        const current = await stat(file.absolutePath).catch(() => null);
+        const stillReadable = current?.isFile() ? await access(file.absolutePath, constants.R_OK)
+          .then(() => true).catch(() => false) : false;
+        // 保留轮转/权限竞态边界：源头已不可读才跳过；可读源的真正处理错误仍然失败。
+        if (!stillReadable) this.record(file, error); else throw error;
+      }
     }
-
-    const writePromise = pipeline(zipFile.outputStream, outputStream);
-    zipFile.end();
-    await writePromise;
-  } finally {
-    await rm(stagingDir, { recursive: true, force: true }).catch(() => {});
+    return this.skipped;
   }
 }
 
-async function writeLogArchiveDirectory(
-  outputPath: string,
-  artifacts: LogArchiveArtifacts,
-): Promise<void> {
-  await mkdir(outputPath, { recursive: true });
-  const skippedFiles = await copyLogArchiveFilesToDirectory(outputPath, artifacts.files);
-  logSkippedLogArchiveFiles(skippedFiles);
-
-  await writeFile(join(outputPath, "about.txt"), artifacts.aboutContent, "utf-8");
+async function writeArchiveDirectory(output: string, artifacts: LogArchiveArtifacts): Promise<void> {
+  await mkdir(output, { recursive: true });
+  const skipped = await new DiagnosticCopy().execute(output, artifacts.files);
+  if (skipped.length > 0) logger.warn("[export-logs] 检测到不可读日志文件，已在导出时自动跳过", {
+    skippedCount: skipped.length, skippedFiles: skipped.slice(0, 10),
+  });
+  await writeFile(join(output, "about.txt"), artifacts.aboutContent, "utf-8");
 }
 
-export async function createFeedbackLogArchiveFromExportLogs(
-  sourceDir: string,
-  options: CreateFeedbackLogArchiveFromExportLogsOptions = {},
-): Promise<{ path: string; size: number }> {
+class StagedDiagnosticZip {
+  public constructor(private readonly output: string, private readonly artifacts: LogArchiveArtifacts) {}
+
+  public async execute(options: WriteLogArchiveZipOptions): Promise<void> {
+    const root = options.stageRootDir ?? getDefaultExportLogStageDir();
+    await mkdir(root, { recursive: true });
+    const stage = await mkdtemp(join(root, "stage-"));
+    try {
+      await writeArchiveDirectory(stage, this.artifacts);
+      const zip = new ZipFile();
+      const selection = new ArchiveSelection();
+      await selection.directory(stage, "");
+      const files = orderFiles(selection.files);
+      const output = createWriteStream(this.output);
+      zip.once("error", (error) => { output.destroy(error instanceof Error ? error : new Error(String(error))); });
+      for (const file of files) zip.addFile(file.absolutePath, file.archivePath);
+      const completed = pipeline(zip.outputStream, output);
+      zip.end();
+      await completed;
+    } finally { await rm(stage, { recursive: true, force: true }).catch(() => {}); }
+  }
+}
+
+async function writeArchiveZip(output: string, artifacts: LogArchiveArtifacts, options: WriteLogArchiveZipOptions = {}): Promise<void> {
+  await new StagedDiagnosticZip(output, artifacts).execute(options);
+}
+
+class DiagnosticExport {
+  private readonly ports: Required<ExportLogsDependencies>;
+
+  public constructor(dependencies: ExportLogsDependencies) {
+    const now = dependencies.now ?? (() => new Date());
+    const getKnorviaDataDir = dependencies.getKnorviaDataDir ?? dataRoot;
+    const createLogArchiveArtifacts = dependencies.createLogArchiveArtifacts ?? buildLogArtifacts;
+    const writeLogArchiveZip = dependencies.writeLogArchiveZip ?? writeArchiveZip;
+    const writeLogArchiveDirectory = dependencies.writeLogArchiveDirectory ?? writeArchiveDirectory;
+    const showItemInFolder = dependencies.showItemInFolder ?? (async (path: string) => {
+      const { shell } = await import("electron");
+      shell.showItemInFolder(path);
+    });
+    const getExportLogStageDir = dependencies.getExportLogStageDir ?? getDefaultExportLogStageDir;
+    const getExportLogDir = dependencies.getExportLogDir ?? getDefaultExportLogDir;
+    this.ports = { now, getKnorviaDataDir, createLogArchiveArtifacts, writeLogArchiveZip,
+      writeLogArchiveDirectory, showItemInFolder, getExportLogStageDir, getExportLogDir };
+  }
+
+  public async execute(): Promise<{ success: boolean; path?: string; error?: string }> {
+    const { now, getKnorviaDataDir, createLogArchiveArtifacts, writeLogArchiveZip,
+      writeLogArchiveDirectory, showItemInFolder, getExportLogStageDir, getExportLogDir } = this.ports;
+    const source = getKnorviaDataDir();
+    const name = `knorvia-logs-${localTimestamp(now())}`;
+    const root = getExportLogDir();
+    await mkdir(root, { recursive: true });
+    const directory = await mkdtemp(join(root, `${name}-`));
+    const zip = join(directory, `${name}.zip`);
+    const fallback = join(directory, name);
+    logger.info("[export-logs] 开始打包日志", { source, zipDest: zip, directoryDest: fallback });
+    const artifacts = await createLogArchiveArtifacts(source, { now });
+    try {
+      await writeLogArchiveZip(zip, artifacts, { stageRootDir: getExportLogStageDir() });
+      await showItemInFolder(zip);
+      logger.info("[export-logs] 日志导出完成", { path: zip, format: "zip" });
+      return { success: true, path: zip };
+    } catch (error) {
+      const zipFailure = diagnosticError(error);
+      logger.warn("[export-logs] zip 导出失败，回退到目录导出", { error: zipFailure, zipPath: zip, fallbackPath: fallback });
+      await rm(zip, { force: true }).catch(() => {});
+      try { await writeLogArchiveDirectory(fallback, artifacts); }
+      catch (directoryError) { throw new Error(`zip 导出失败：${zipFailure}；目录导出失败：${diagnosticError(directoryError)}`); }
+      await showItemInFolder(fallback);
+      logger.info("[export-logs] 日志导出完成", { path: fallback, format: "directory" });
+      return { success: true, path: fallback };
+    }
+  }
+}
+
+export async function createFeedbackLogArchiveFromExportLogs(sourceDir: string,
+  options: CreateFeedbackLogArchiveFromExportLogsOptions = {}): Promise<{ path: string; size: number }> {
   return createFeedbackDiagnosticArchive({
     sources: [
       { directory: join(sourceDir, "logs"), archivePrefix: "logs" },
-      { directory: getKnorviaCliLogDir(), archivePrefix: ".knorvia-studio/cli/log" },
-      {
-        directory: getCuaHelperRunDir(),
-        archivePrefix: ".knorvia-studio/computer-use/run",
-        exitLogsOnly: true,
-      },
+      { directory: cliLogsRoot(), archivePrefix: ".knorvia-studio/cli/log" },
+      { directory: helperLogsRoot(), archivePrefix: ".knorvia-studio/computer-use/run", exitLogsOnly: true },
     ],
     outputRootDir: options.outputRootDir ?? getDefaultFeedbackLogArchiveDir(),
-    now: options.now,
-    onProgress: options.onProgress,
+    now: options.now, onProgress: options.onProgress,
   });
 }
 
-/** Freeze the same allowlisted, redacted log view used by manual log export. */
-export async function writeSanitizedDiagnosticLogSnapshot(
-  outputDir: string,
-  options: { sourceDir?: string; now?: () => Date } = {},
-): Promise<void> {
-  const artifacts = await createLogArchiveArtifacts(options.sourceDir ?? getKnorviaDataDir(), {
-    now: options.now,
-  });
-  await writeLogArchiveDirectory(outputDir, artifacts);
+export async function writeSanitizedDiagnosticLogSnapshot(outputDir: string,
+  options: { sourceDir?: string; now?: () => Date } = {}): Promise<void> {
+  const artifacts = await buildLogArtifacts(options.sourceDir ?? dataRoot(), { now: options.now });
+  await writeArchiveDirectory(outputDir, artifacts);
 }
 
-export async function exportLogs(
-  dependencies: ExportLogsDependencies = {},
-): Promise<{ success: boolean; path?: string; error?: string }> {
-  try {
-    const now = dependencies.now ?? (() => new Date());
-    const getSourceDir = dependencies.getKnorviaDataDir ?? getKnorviaDataDir;
-    const buildArtifacts = dependencies.createLogArchiveArtifacts ?? createLogArchiveArtifacts;
-    const writeZip = dependencies.writeLogArchiveZip ?? writeLogArchiveZip;
-    const writeDirectory = dependencies.writeLogArchiveDirectory ?? writeLogArchiveDirectory;
-    const showItemInFolder =
-      dependencies.showItemInFolder ??
-      (async (path: string) => {
-        const { shell } = await import("electron");
-        shell.showItemInFolder(path);
-      });
-    const getStageRootDir = dependencies.getExportLogStageDir ?? getDefaultExportLogStageDir;
-    const getOutputRootDir = dependencies.getExportLogDir ?? getDefaultExportLogDir;
-
-    const sourceDir = getSourceDir();
-    const timestamp = formatTimestamp(now());
-    const exportBaseName = `knorvia-logs-${timestamp}`;
-    const outputRootDir = getOutputRootDir();
-    await mkdir(outputRootDir, { recursive: true });
-    const outputDir = await mkdtemp(join(outputRootDir, `${exportBaseName}-`));
-    const zipPath = join(outputDir, `${exportBaseName}.zip`);
-    const directoryPath = join(outputDir, exportBaseName);
-
-    logger.info("[export-logs] 开始打包日志", {
-      source: sourceDir,
-      zipDest: zipPath,
-      directoryDest: directoryPath,
-    });
-    const artifacts = await buildArtifacts(sourceDir, { now });
-
-    try {
-      await writeZip(zipPath, artifacts, { stageRootDir: getStageRootDir() });
-      await showItemInFolder(zipPath);
-
-      logger.info("[export-logs] 日志导出完成", {
-        path: zipPath,
-        format: "zip",
-      });
-      return { success: true, path: zipPath };
-    } catch (zipError) {
-      const zipErrorMessage = zipError instanceof Error ? zipError.message : String(zipError);
-
-      // Windows 的压缩能力不再依赖 PowerShell/.NET，但归档写入仍可能被杀软、磁盘策略等外部因素打断。
-      // 这里回退为目录导出，保证用户至少能稳定拿到原始日志，而不是直接报错。
-      logger.warn("[export-logs] zip 导出失败，回退到目录导出", {
-        error: zipErrorMessage,
-        zipPath,
-        fallbackPath: directoryPath,
-      });
-      await rm(zipPath, { force: true }).catch(() => {});
-
-      try {
-        await writeDirectory(directoryPath, artifacts);
-      } catch (directoryError) {
-        const directoryErrorMessage =
-          directoryError instanceof Error ? directoryError.message : String(directoryError);
-        throw new Error(`zip 导出失败：${zipErrorMessage}；目录导出失败：${directoryErrorMessage}`);
-      }
-
-      await showItemInFolder(directoryPath);
-      logger.info("[export-logs] 日志导出完成", {
-        path: directoryPath,
-        format: "directory",
-      });
-      return { success: true, path: directoryPath };
-    }
-  } catch (err) {
-    const message = formatErrorMessage(err);
+export async function exportLogs(dependencies: ExportLogsDependencies = {}): Promise<{ success: boolean; path?: string; error?: string }> {
+  try { return await new DiagnosticExport(dependencies).execute(); }
+  catch (error) {
+    const message = diagnosticError(error);
     logger.error("[export-logs] 日志导出失败", { error: message });
     return { success: false, error: message };
   }

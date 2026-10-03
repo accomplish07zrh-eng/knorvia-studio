@@ -1,0 +1,151 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-renderer-handoff-20261003.md",
+  "selection": "../backlog-platform-renderer-handoff-20261003/selection.json",
+  "files": [
+    {
+      "path": "packages/desktop/src/renderer/src/main.tsx",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "933da551dcb58278b3fa7990cab9779bbdff96d0",
+      "baselineSha256": "18c7eb716e12cc7cd33c2cc2bf20a3b888af574f3c7a7b17c6edeac0ebba530b",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/main.tsx",
+        "kind": "file",
+        "sha256": "18c7eb716e12cc7cd33c2cc2bf20a3b888af574f3c7a7b17c6edeac0ebba530b",
+        "normalizedSha256": "18c7eb716e12cc7cd33c2cc2bf20a3b888af574f3c7a7b17c6edeac0ebba530b",
+        "encoding": "utf8-lf",
+        "bytes": 12777,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/main.tsx",
+          "blob": "37e415d79d63b077f1048a961ac139df8117f0e1",
+          "normalizedSha256": "7f184880d0d77cad3c9bafb1b19dc2594821513eb62357d097e4fbf336870c87",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "99c1c522dbccee2fbc0f18beea51ec2ceef6fe25894c416061d5e4abf736043f",
+      "frozenCandidateBytes": 10634
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/databaseStartupAdmission.ts",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "db575b46a48371c3914eb2d1adecb6b697e6a212",
+      "baselineSha256": "70f2a7e304f53bc7ead8d022f4a00b2eee80385de46643d50f7021af6ee0517c",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/databaseStartupAdmission.ts",
+        "kind": "file",
+        "sha256": "70f2a7e304f53bc7ead8d022f4a00b2eee80385de46643d50f7021af6ee0517c",
+        "normalizedSha256": "70f2a7e304f53bc7ead8d022f4a00b2eee80385de46643d50f7021af6ee0517c",
+        "encoding": "utf8-lf",
+        "bytes": 1117,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/databaseStartupAdmission.ts",
+          "blob": "58e645e7b35d60582056ed36b5c9e9993b327594",
+          "normalizedSha256": "885eaca8932245c53ea5e31f17ab6608731762cf54ed78eac22b7498ec09ab0e",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "b39d1a2b86335ec48fc5fd0584c6df74bbc052ce5a45ef9ca5b1b2e5f3144f33",
+      "frozenCandidateBytes": 1661
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/resource-manager.tsx",
+      "baselineCommit": "f25bb5b53f152666f61133f8821f6e104c28b9bb",
+      "baselineBlob": "9bea83627a258387850637ea0ffa40e9395c8535",
+      "baselineSha256": "6d6cb8b9915de0984c32ab1b9688bfab02c8302c1fc5584eeb53b6f3a563c790",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/resource-manager.tsx",
+        "kind": "file",
+        "sha256": "6d6cb8b9915de0984c32ab1b9688bfab02c8302c1fc5584eeb53b6f3a563c790",
+        "normalizedSha256": "6d6cb8b9915de0984c32ab1b9688bfab02c8302c1fc5584eeb53b6f3a563c790",
+        "encoding": "utf8-lf",
+        "bytes": 2521,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/resource-manager.tsx",
+          "blob": "7c0dabc2c9216d7ef2d5444157217d245dded1f4",
+          "normalizedSha256": "0d9c26f2591701e09ce7c031479fa30d66dadf4059add8f1763e5a16dcde5b52",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "37ea9e4b73782edfb819ed443319efc0395a61ae9aae8f02402b860b5990e591",
+      "frozenCandidateBytes": 1774
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/rendererAppearance.ts",
+      "baselineCommit": null,
+      "baselineBlob": null,
+      "baselineSha256": null,
+      "recordedSource": null,
+      "frozenCandidateSha256": "9a0eb1179e72ce21dd49eecb17bb1ab01273b891ec4e19a47a45a4a545e5ea80",
+      "frozenCandidateBytes": 695
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/desktop/src/renderer/src/remoteWorkspaceSessionServices.ts",
+      "sha256": "51e2e2c9750df7b57102ab8e49d446e80482c2971b94fe61ca0fd6616cb70d3e",
+      "gitBlob": "7cda352a16f931e4192e06ecabb214d65ff07d72",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/remoteWorkspaceServicePortBridge.ts",
+      "sha256": "4428cdf35988092d00b7ffbf8f9ecab60c68b0dde3880f5e7a72000ac055898b",
+      "gitBlob": "ce0ca5582a87e8c86f614386eff98458703255c9",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/performanceTimelineCleanup.ts",
+      "sha256": "ffdc5c127135ee24e99e29adeb4140d5c14dc45be62f60a3279a249995be4cca",
+      "gitBlob": "51a4b0e14052449a994deecedda77c8e727bd93c",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    },
+    {
+      "path": "packages/desktop/src/preload/index.ts",
+      "sha256": "3f05bcb37e21f198fa62779318bb99a03041d116be2b8724c402579e80fda002",
+      "gitBlob": "0b332f462699ca21218ec42fff1627726042c601",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/index.html",
+      "sha256": "91d84c8761fa16f43db4d491edb9303a17a0055730a0cf4a302867139d1c598e",
+      "gitBlob": "3421a01ecaea74068235f088c04e83cc919b85ce",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/resource-manager.html",
+      "sha256": "d4ddba7fbcb5727795a0dab4b723759317133a423313375dcbdaf863197faa00",
+      "gitBlob": "e327ebc4c20b8c154df3b0b3c18aa1dc56a14e2b",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "gitBlob": "cec12ad55d05baa244d2b16f57370229337c5142",
+      "disposition": "retained dependency/compatibility data; no new source or rights credit"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated all selected bodies. No isolated author, clean-room, full origin audit or MIT grant. Retained surfaces require integration expression/rights disposition.",
+  "retainedExpression": "Both main JSX trees and resource manager JSX remain the original UI shell, with only startup owner receiver binding. Public shapes, query/launch/chrome/theme tokens, timeout failure data and existing ports remain qualified. Full source candidate is not a whole-expression/MIT acceptance.",
+  "checksRun": [],
+  "testsStatus": "two focused supplied-port cases authored, unrun; deferred fixture itself unrun",
+  "globalLicenseDecisionChanged": false
+}

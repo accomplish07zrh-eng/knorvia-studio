@@ -1,0 +1,164 @@
+{
+  "branch": "rewrite/native-20261003",
+  "pr": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17",
+  "spec": "specs/knorvia-next-platform-renderer-routing-20261003.md",
+  "selection": "../backlog-platform-renderer-handoff-20261003/selection.json",
+  "files": [
+    {
+      "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+      "baselineCommit": "cd0c79cc1629cb62dfe00a4c406d52f198cb8f7d",
+      "baselineBlob": "a7fe049461043efd3a107e1287b5260324b5d777",
+      "baselineSha256": "1c75e86b4c78c4e2cc76fd00ebf39b94e00bbb7b3ac391777929ce02b0f3913e",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+        "kind": "file",
+        "sha256": "1c75e86b4c78c4e2cc76fd00ebf39b94e00bbb7b3ac391777929ce02b0f3913e",
+        "normalizedSha256": "1c75e86b4c78c4e2cc76fd00ebf39b94e00bbb7b3ac391777929ce02b0f3913e",
+        "encoding": "utf8-lf",
+        "bytes": 10632,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/desktopPlatform.ts",
+          "blob": "0b40541ef1a4e6f09fd820194328f3b2fdaeb9b8",
+          "normalizedSha256": "681a5900c0457408c607fd8b24023f4ac010c40d8a72eed08db9014de1816a61",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "0d78007f7cf4c8c1ac5a28c193609bb994d5f0639ebeb9643a2e0946543cf502",
+      "frozenCandidateBytes": 9111
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+      "baselineCommit": "cd0c79cc1629cb62dfe00a4c406d52f198cb8f7d",
+      "baselineBlob": "67dd6782026801cbe9d12d1b88350db7282ec656",
+      "baselineSha256": "cc9e90bfd5513e4cf8eaae5475efcad178d01919079a0bd1d22a60e7cf829e34",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+        "kind": "file",
+        "sha256": "cc9e90bfd5513e4cf8eaae5475efcad178d01919079a0bd1d22a60e7cf829e34",
+        "normalizedSha256": "cc9e90bfd5513e4cf8eaae5475efcad178d01919079a0bd1d22a60e7cf829e34",
+        "encoding": "utf8-lf",
+        "bytes": 3729,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/src/desktopBrowserPlatformBridge.ts",
+          "blob": "e2aaac3992e3c2e5a2cae1b0838e0a7b444fc3f8",
+          "normalizedSha256": "31fc1a4297a4020d420f93aa258436c372f9b0ed5a06cac191e7b2c7b121d6a2",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "64617045432ed0d17c753b139dc85ec38b8b419df2b6cc32815483c76d5e1c27",
+      "frozenCandidateBytes": 3295
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/rendererPreloadCalls.ts",
+      "baselineCommit": null,
+      "baselineBlob": null,
+      "baselineSha256": null,
+      "recordedSource": null,
+      "frozenCandidateSha256": "03a72c6ad3fbe557a05af7f0d62cb31518086f608b3e068add2b9f93b45d2780",
+      "frozenCandidateBytes": 2143
+    },
+    {
+      "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+      "baselineCommit": "cd0c79cc1629cb62dfe00a4c406d52f198cb8f7d",
+      "baselineBlob": "89d5f4c7a415372b0c294e68c5ddf7568adf4fb6",
+      "baselineSha256": "84ceb153b6405637cf1ec9c7eef20374ad0d39f06030f90f8e8990174dd9ee59",
+      "recordedSource": {
+        "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+        "kind": "file",
+        "sha256": "84ceb153b6405637cf1ec9c7eef20374ad0d39f06030f90f8e8990174dd9ee59",
+        "normalizedSha256": "84ceb153b6405637cf1ec9c7eef20374ad0d39f06030f90f8e8990174dd9ee59",
+        "encoding": "utf8-lf",
+        "bytes": 3584,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/renderer/cuaPermissionPanel.ts",
+          "blob": "a679f49f8a00610bf7b8fa51bf26880dee199056",
+          "normalizedSha256": "39b30940c7282a8cc2dc17fc507190ba618c13991aa5cef2084a35d0fea67e73",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "frozenCandidateSha256": "16993876ff4cdffd780806eacce5bc02446fe9ed1fd3fefdc5e5a7149d4acd67",
+      "frozenCandidateBytes": 3004
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/desktop/src/renderer/cuaPermissionPanelMessages.ts",
+      "sha256": "50f0365d74cee46900b8b78baf8a2aac06c657422cd1fa6c4e52839eda5d4897",
+      "gitBlob": "8d9d8152eb3d49826c76194926d0707c2e2c5840",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/appTelemetryBridge.ts",
+      "sha256": "548f6a985979895e4d8ad2a51e01045a778035fa689e3a38d469f72c295bef89",
+      "gitBlob": "08c043933ecaf9527736b7b9f3b4109bb2e7c76e",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/cua-permission-panel.html",
+      "sha256": "e1ce6682478f558d1187fea75d40d163eb8b60c7789786bd12ee3a6d3517e66a",
+      "gitBlob": "1e148f3ac62e3a69a65a377976a2b55d846988fa",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/desktop/src/renderer/src/env.d.ts",
+      "sha256": "21c55ed4a9a3c0e109ead1ee88d51c27ebb2aeab86bb50d1e16ec624042b2ad2",
+      "gitBlob": "e32d0499faf1f112fb36a5897b5905da82169ab6",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/desktop/src/preload/index.ts",
+      "sha256": "3f05bcb37e21f198fa62779318bb99a03041d116be2b8724c402579e80fda002",
+      "gitBlob": "0b332f462699ca21218ec42fff1627726042c601",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/desktop/src/preload/cuaPermissionPanel.ts",
+      "sha256": "8c3da4ae7e9443f004a02b2badbe393d2cde3d3fb8b01a21e1c73870b01facb2",
+      "gitBlob": "14d7a604071c01ad92f9a9872029f08423bdfd0e",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/shared/src/platform.ts",
+      "sha256": "bc8a78c39920a6f7c47f1ccf8e5eeb105b50f41e83a17090bcd2b4032bbf158a",
+      "gitBlob": "cec12ad55d05baa244d2b16f57370229337c5142",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/client/src/globals.d.ts",
+      "sha256": "1bfee01c542523ac600a4a0eb04d1e0e3b8acd1c4ce03a9e3f9b11e9d881b239",
+      "gitBlob": "4ceb7656583aeaa6f108cda0aed21b6d60c85e27",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    },
+    {
+      "path": "packages/shared/src/database-startup.ts",
+      "sha256": "6220865e2bb103bc13647117b714158744d7a41d9c244d4cd5ef9258fc4a3ac7",
+      "gitBlob": "4e520dd798123d14cce3a7a5d2b6aef3eed58061",
+      "disposition": "retained public/native/copy/visual compatibility dependency; zero new credit"
+    }
+  ],
+  "draftFreezeBeforeSourceDiff": true,
+  "exposure": "Same source-exposed agent curated all selected bodies. No isolated author, clean-room, full origin audit or MIT grant. Retained surfaces require integration expression/rights disposition.",
+  "retainedExpression": "Existing route/property/arity/capability/fallback data, public shapes, DOM ids and exact bilingual copy/style values stay required compatibility material. Native authority remains in unchanged preload/Host/service owners. Full candidate is not complete expression/rights/MIT acceptance.",
+  "knownDeclarationDependency": "globals.d.ts omits existing actual preload previewLocalDiagnostics/exportLocalDiagnostics/checkReleaseUpdate methods; routes kept via the IPlatformService-local callable projection. Final declaration/consumer reconciliation deferred.",
+  "checksRun": [],
+  "testsStatus": "two supplied-preload/File/DOM/gesture scenarios authored, unrun",
+  "globalLicenseDecisionChanged": false
+}
