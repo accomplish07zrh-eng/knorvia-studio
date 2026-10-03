@@ -1,0 +1,248 @@
+(node:9119) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ fake atomic write preserves targets, retries only admitted errors and cleans/release on failure (8.510984ms)
+(node:9120) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ synthetic traversal never follows links or opens beyond retained scan authority (39.109125ms)
+(node:9158) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ fake file service writes only selected workspace targets and refuses invalid names/oversize reads (2.854624ms)
+(node:9164) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake checkpoint paths/parsers keep quoting vocabulary and deletion failure identity (18.369524ms)
+(node:9196) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake checkpoint repository keeps temporary index and conflict/permission admission (30.303067ms)
+(node:9203) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ synthetic CLI parsing, repository paths and permission-limited file reads (14.08617ms)
+(node:9228) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ synthetic CLI writes preserve argv, private-index scope and permission failures (48.711781ms)
+(node:9229) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ synthetic archive preserves source order/modes and contains all extraction writes (14.90325ms)
+(node:9260) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ fake executable permission rejects override before selecting runtime candidate without mutating environment (3.779876ms)
+(node:9267) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ synthetic SSH ports preserve includes, explicit key authority, stable workers, cloned cache and native failures (6.724547ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13.106818
+
+✖ failing tests:
+
+test at packages/services/test/ssh-alias-fake-authority-20261002.test.ts:5:263
+✖ synthetic SSH ports preserve includes, explicit key authority, stable workers, cloned cache and native failures (6.724547ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(path.startsWith("/synthetic/"))
+  
+      at existsSync (/workspace/knorvia-studio/packages/services/test/ssh-alias-fake-authority-20261002.test.ts:33:14)
+      at listSSHConfigAliasesFromLocalConfig (/workspace/knorvia-studio/packages/services/src/system/sshConfigAlias.ts:17:8)
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/ssh-alias-fake-authority-20261002.test.ts:103:27)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+✖ packages/services/test/ssh-alias-fake-authority-20261002.test.ts (204.477436ms)
+(node:9299) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ fake cleaner deletes admitted target, rejects outside path and preserves category directory (4.241331ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 2
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1182.491251
+
+✖ failing tests:
+
+test at packages/services/test/atomic-write-fake-safety-20261002.test.ts:1:1816
+✖ fake atomic write preserves targets, retries only admitted errors and cleans/release on failure (8.510984ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(actions.includes("rm:/synthetic/config.json.stale.tmp"))
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/atomic-write-fake-safety-20261002.test.ts:77:12)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at packages/services/test/feedback-traversal-fake-authority-20261002.test.ts:1:187
+✖ synthetic traversal never follows links or opens beyond retained scan authority (39.109125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+  -     name: 'logs/a/child.log',
+  -     path: '/synthetic/root/a/child.log'
+  -   },
+  -   {
+  -     name: 'logs/a/deep/d3/d4/allowed.log',
+  -     path: '/synthetic/root/a/deep/d3/d4/allowed.log'
+  -   },
+  -   {
+        name: 'logs/z.log',
+  +     path: '\\synthetic\\root\\z.log'
+  -     path: '/synthetic/root/z.log'
+      },
+      {
+        name: 'exit/yes.exit.log',
+  +     path: '\\synthetic\\exit\\yes.exit.log'
+  -     path: '/synthetic/exit/yes.exit.log'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/feedback-traversal-fake-authority-20261002.test.ts:60:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { path: '\\synthetic\\root\\z.log', name: 'logs/z.log' }, { path: '\\synthetic\\exit\\yes.exit.log', name: 'exit/yes.exit.log' } ],
+    expected: [ { path: '/synthetic/root/a/child.log', name: 'logs/a/child.log' }, { path: '/synthetic/root/a/deep/d3/d4/allowed.log', name: 'logs/a/deep/d3/d4/allowed.log' }, { path: '/synthetic/root/z.log', name: 'logs/z.log' }, { path: '/synthetic/exit/yes.exit.log', name: 'exit/yes.exit.log' } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at packages/services/test/file-service-fake-write-safety-20261002.test.ts:1:3480
+✖ fake file service writes only selected workspace targets and refuses invalid names/oversize reads (2.854624ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '\\synthetic\\data\\workspace\\projects\\synthetic-project'
+  - '/synthetic/data/workspace/projects/synthetic-project'
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/file-service-fake-write-safety-20261002.test.ts:94:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '\\synthetic\\data\\workspace\\projects\\synthetic-project',
+    expected: '/synthetic/data/workspace/projects/synthetic-project',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts:1:187
+✖ synthetic CLI parsing, repository paths and permission-limited file reads (14.08617ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts:78:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /outside repository scope/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at packages/services/test/git-cli-repo-fake-safety-20261002.test.ts:1:187
+✖ synthetic CLI writes preserve argv, private-index scope and permission failures (48.711781ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/git-cli-repo-fake-safety-20261002.test.ts:169:3)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /outside repository scope/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at packages/services/test/plugin-archive-fake-containment-20261002.test.ts:1:2115
+✖ synthetic archive preserves source order/modes and contains all extraction writes (14.90325ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(path.startsWith("/synthetic/source"))
+  
+      at lstat (/workspace/knorvia-studio/packages/services/test/plugin-archive-fake-containment-20261002.test.ts:15:14)
+      at visitSource (/workspace/knorvia-studio/packages/services/src/plugin-sync/pluginSyncArchive.ts:94:25)
+      at visitSource (/workspace/knorvia-studio/packages/services/src/plugin-sync/pluginSyncArchive.ts:106:15)
+      at async Module.createPluginSyncArchive (/workspace/knorvia-studio/packages/services/src/plugin-sync/pluginSyncArchive.ts:121:7)
+      at async TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/plugin-archive-fake-containment-20261002.test.ts:68:24)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at packages/services/test/runtime-tool-fake-permission-20261002.test.ts:1:962
+✖ fake executable permission rejects override before selecting runtime candidate without mutating environment (3.779876ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + {}
+  - {
+  -   PATH: '/synthetic/bin;/synthetic/runtime/tools/fake',
+  -   SYNTHETIC_BINARY: '/synthetic/runtime/tools/fake/rg'
+  - }
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/runtime-tool-fake-permission-20261002.test.ts:33:10)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: {},
+    expected: { SYNTHETIC_BINARY: '/synthetic/runtime/tools/fake/rg', PATH: '/synthetic/bin;/synthetic/runtime/tools/fake' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at packages/services/test/ssh-alias-fake-authority-20261002.test.ts:1:1
+✖ packages/services/test/ssh-alias-fake-authority-20261002.test.ts (204.477436ms)
+  'test failed'
+
+test at packages/services/test/storage-cleaner-fake-safety-20261002.test.ts:1:1212
+✖ fake cleaner deletes admitted target, rejects outside path and preserves category directory (4.241331ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   '\\synthetic\\root\\logs\\nested\\ok.log',
+  +   '\\synthetic\\root\\logs\\blocked.log'
+  -   '/synthetic/root/logs/nested/ok.log',
+  -   '/synthetic/root/logs/blocked.log'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/storage-cleaner-fake-safety-20261002.test.ts:54:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '\\synthetic\\root\\logs\\nested\\ok.log', '\\synthetic\\root\\logs\\blocked.log' ],
+    expected: [ '/synthetic/root/logs/nested/ok.log', '/synthetic/root/logs/blocked.log' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,4 @@
+2026-10-03T08:53:19.2909821Z test at packages\services\test\ssh-alias-fake-authority-20261002.test.ts:1:1
+2026-10-03T08:53:19.2912501Z ✖ packages\services\test\ssh-alias-fake-authority-20261002.test.ts (401.0896ms)
+2026-10-03T08:53:19.2913301Z   'test failed'
+2026-10-03T08:53:19.2913815Z 

@@ -456,3 +456,58 @@ other tests, strict historical emitted targets, Windows/native/GUI and whole-pro
 acceptance are not established by this two-case run. Existing golden/history/
 accepted receipts, source-exposure disclosures and HOLDs remain; the new repair
 is not substituted for an old accepted source. No MIT/main-readiness claim.
+
+## Batch 9 — allocated Windows safety-fixture portability
+
+Continue the same task and `lane/services-20261003`; fetch both refs and ordinarily
+merge only the parent-selected `73e0687a78cc7354dfad0589a9e2ebedac159013`, retaining
+the prior delivered `f71dae4693f7886ef1fdddef7a0e94e5c8d1f532`. Merge checkpoint:
+`fba71c5486ce80b783bb54b7927eda20fc2a151d`. The original PR16 remains merged/closed;
+this batch delivers its descendant SHA without creating another PR/task.
+
+Source/fixture commit: `80b5308132b9802555114269920fa6bb5bf81bcb`.
+The [bounded fixture contract](../specs/knorvia-next-services-windows-fixtures-20261003.md)
+was written before edits. Read-only GitHub logs and job/step summaries confirm the
+[historical Windows failure](https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728)
+checked synthetic `d03df27e30768649c77d004092d7508fa8b9afbc` from trigger head
+`7bfb867162cc11adbc237e1c39bf2d61b5c0f81e`; it did not contain this new batch or
+the previous Claude/Git getter fixes. Those delivered files remain byte-identical.
+
+Repair only the 12 allocated fixtures. One test-only native fake-path helper makes
+seeds, ports and assertions fully qualified, including a fixed fake Windows drive.
+Git's zero-line count came from a native resolved path missing the fake buffer map;
+the two-line assertion remains. Runtime's empty patch came from native candidate
+paths missing fake executable authority; denial and both probes remain. Skills uses
+canonical discovery identity; canonicalize the temporary root before fixture seeds.
+An owned alias reproduces the missing disabled key before and passes after. The
+historical Windows alias spelling was not logged, so its short-name cause remains
+an inference requiring true Windows confirmation. SSH retains native executable
+suffixes and the existing literal `%d` text-expansion quirk. No production source,
+public API, schema, user-data semantics or UI change was needed.
+
+**Targeted checks passed on Linux/Node 24.14.0:** all 12 native cases; 11 fully
+fake-IO cases with injected Node win32 path APIs; and the isolated skills alias
+diagnostic. Before injection recorded 9 failures/2 passes; before alias recorded
+the same missing disabled-map assertion. After runs had zero failures/skips/
+cancellations. Scoped lint of 13 fixture/helper files reported 0 warnings/errors;
+changed-only architecture reported 0 violations/baseline/new. All byte/count/mode/
+order/scope/permission contracts remain; no new platform skip was introduced.
+
+Exact per-file diagnoses, commands, before/after logs, timestamped raw CI failure
+selections, predecessor/new file hashes and actual old CI state are in the
+[batch receipt](evidence/backlog-services-windows-fixtures-20261003/README.md) and
+[validation.json](evidence/backlog-services-windows-fixtures-20261003/validation.json).
+No full regression, typecheck, build, audit or CI rerun occurred.
+
+**UNVERIFIED:** actual Windows execution/acceptance of the new source and whole
+product/unified acceptance. Win32 path injection leaves process.platform as Linux
+and cannot verify native Windows drive cwd, executable selection, filesystem,
+junction/case/permission behavior. The old Windows job still reports offline
+regression failure; its passed earlier quality steps apply only to the old SHA.
+
+No shared interface request is needed. The integrator must add the new test helper
+to global provenance, reconcile changed current fixture bindings and bind a new
+actual Windows checked SHA/result. Other lanes' failures remain outside this
+allocation. Existing accepted/golden/history evidence, licenses, source-exposure
+disclosures and session/task-index HOLD decisions remain unchanged. No MIT/main
+readiness or historical emitted-target acceptance is asserted by these repairs.

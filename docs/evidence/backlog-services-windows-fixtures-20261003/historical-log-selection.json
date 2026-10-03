@@ -1,0 +1,118 @@
+{
+  "source": "exact byte selections from GitHub connector decoded UTF-8 Windows job log",
+  "fullDecodedLogBytes": 1111463,
+  "fullDecodedLogSha256": "8ab114b31e478cc83a29267aaee4371212c075ebcac608ff9125415f4a950ccf",
+  "fullLogUrl": "https://github.com/accomplish07zrh-eng/knorvia-studio/actions/runs/37110107123/job/111166240728",
+  "fullLogCommitted": false,
+  "reason": "retain allocated failures and exact checkout lines without duplicating other lanes regression logs",
+  "checkoutSelection": {
+    "file": "historical-checkout-lines.log",
+    "rawLines": [
+      16,
+      34,
+      44,
+      129,
+      130,
+      132,
+      139,
+      224,
+      241,
+      244,
+      10572
+    ],
+    "sha256": "75cbbce1d3487ff8ed3cf400b75a950287b764bc1404118ca8d5115da2cbd0e7"
+  },
+  "failures": [
+    {
+      "fixture": "ssh-alias-fake-authority-20261002.test.ts",
+      "file": "historical-failure-ssh-alias-fake-authority-20261002.test.ts-7364.log",
+      "firstRawLine": 7364,
+      "lastRawLine": 7383,
+      "sha256": "73154b3c7d55b31f3fa794f043039238b9f0e03cdf4f417694c79e6e63701fef"
+    },
+    {
+      "fixture": "atomic-write-fake-safety-20261002.test.ts",
+      "file": "historical-failure-atomic-write-fake-safety-20261002.test.ts-10242.log",
+      "firstRawLine": 10242,
+      "lastRawLine": 10257,
+      "sha256": "4ec5e609f24733f8837005c75c35a89f23c8a48587a556aa299b9bf957b35df6"
+    },
+    {
+      "fixture": "feedback-traversal-fake-authority-20261002.test.ts",
+      "file": "historical-failure-feedback-traversal-fake-authority-20261002.test.ts-10289.log",
+      "firstRawLine": 10289,
+      "lastRawLine": 10324,
+      "sha256": "58e6283865ee84f5e6fc118ffc8c3e33f2cab226e8194b1147f7c31e4426fe0b"
+    },
+    {
+      "fixture": "file-service-fake-write-safety-20261002.test.ts",
+      "file": "historical-failure-file-service-fake-write-safety-20261002.test.ts-10326.log",
+      "firstRawLine": 10326,
+      "lastRawLine": 10343,
+      "sha256": "9f7d0713b69dddd10aea5b3a607b2ab6c82f673305f274003e022a16207af65c"
+    },
+    {
+      "fixture": "git-checkpoint-helpers-fake-safety-20261002.test.ts",
+      "file": "historical-failure-git-checkpoint-helpers-fake-safety-20261002.test.ts-10345.log",
+      "firstRawLine": 10345,
+      "lastRawLine": 10362,
+      "sha256": "8417fd978f34b9c35c57ed9845e8d462c231e299607ee55d5dd85e6416044a6e"
+    },
+    {
+      "fixture": "git-checkpoint-repo-fake-safety-20261002.test.ts",
+      "file": "historical-failure-git-checkpoint-repo-fake-safety-20261002.test.ts-10364.log",
+      "firstRawLine": 10364,
+      "lastRawLine": 10387,
+      "sha256": "bca6d0452db2855b6dc225b58ff598cb418977da1fcc4fef66b688a9b6ad47b9"
+    },
+    {
+      "fixture": "git-cli-helpers-fake-safety-20261002.test.ts",
+      "file": "historical-failure-git-cli-helpers-fake-safety-20261002.test.ts-10389.log",
+      "firstRawLine": 10389,
+      "lastRawLine": 10409,
+      "sha256": "63193ca660a39d11966427df1df649a2b5d01b8ffa4448df10a5effb7ccf6a2c"
+    },
+    {
+      "fixture": "git-cli-repo-fake-safety-20261002.test.ts",
+      "file": "historical-failure-git-cli-repo-fake-safety-20261002.test.ts-10411.log",
+      "firstRawLine": 10411,
+      "lastRawLine": 10430,
+      "sha256": "3c0139fa919379595acf1fc66964efa53f322f823499373a795ab8ae7f5aa13b"
+    },
+    {
+      "fixture": "plugin-archive-fake-containment-20261002.test.ts",
+      "file": "historical-failure-plugin-archive-fake-containment-20261002.test.ts-10464.log",
+      "firstRawLine": 10464,
+      "lastRawLine": 10483,
+      "sha256": "d7031c29f4f5f5a116d644956a8deb9fb2e2731bfe34f013f2abf49150b3b038"
+    },
+    {
+      "fixture": "runtime-tool-fake-permission-20261002.test.ts",
+      "file": "historical-failure-runtime-tool-fake-permission-20261002.test.ts-10485.log",
+      "firstRawLine": 10485,
+      "lastRawLine": 10507,
+      "sha256": "e8c394a302485ed6605da8778a9979d035d0a52a4c81c2b692143e69951f7280"
+    },
+    {
+      "fixture": "skills-write-permission-safety-20261002.test.ts",
+      "file": "historical-failure-skills-write-permission-safety-20261002.test.ts-10509.log",
+      "firstRawLine": 10509,
+      "lastRawLine": 10528,
+      "sha256": "c5d2735d286e281cc77fd5ec90015b73f2bb59d8c74c1aabd589b57d35950a30"
+    },
+    {
+      "fixture": "ssh-alias-fake-authority-20261002.test.ts",
+      "file": "historical-failure-ssh-alias-fake-authority-20261002.test.ts-10530.log",
+      "firstRawLine": 10530,
+      "lastRawLine": 10533,
+      "sha256": "c64d52f9562a9bc3a99fbb652e9b3f28285d6a42498ba6391531a4228c91df08"
+    },
+    {
+      "fixture": "storage-cleaner-fake-safety-20261002.test.ts",
+      "file": "historical-failure-storage-cleaner-fake-safety-20261002.test.ts-10534.log",
+      "firstRawLine": 10534,
+      "lastRawLine": 10555,
+      "sha256": "20b6a894d3f87313af454366d37a8c71171e2a72a3a12ef466a9bb961b8f7493"
+    }
+  ]
+}

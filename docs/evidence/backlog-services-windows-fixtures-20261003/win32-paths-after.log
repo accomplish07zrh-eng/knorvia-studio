@@ -1,0 +1,50 @@
+(node:9688) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake atomic write preserves targets, retries only admitted errors and cleans/release on failure (3.263786ms)
+(node:9689) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic traversal never follows links or opens beyond retained scan authority (94.263927ms)
+(node:9777) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake file service writes only selected workspace targets and refuses invalid names/oversize reads (11.957302ms)
+(node:9784) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake checkpoint paths/parsers keep quoting vocabulary and deletion failure identity (54.662098ms)
+(node:9853) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake checkpoint repository keeps temporary index and conflict/permission admission (88.273208ms)
+(node:9865) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic CLI parsing, repository paths and permission-limited file reads (37.556739ms)
+(node:9934) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic CLI writes preserve argv, private-index scope and permission failures (108.617656ms)
+(node:9935) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic archive preserves source order/modes and contains all extraction writes (39.555783ms)
+(node:10003) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake executable permission rejects override before selecting runtime candidate without mutating environment (1.704842ms)
+(node:10024) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ synthetic SSH ports preserve includes, explicit key authority, stable workers, cloned cache and native failures (6.066218ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.26453
+✔ packages/services/test/ssh-alias-fake-authority-20261002.test.ts (266.299149ms)
+(node:10072) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fake cleaner deletes admitted target, rejects outside path and preserves category directory (1.961388ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1932.60643

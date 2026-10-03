@@ -1,0 +1,20 @@
+2026-10-03T08:53:19.2867543Z test at packages\services\test\skills-write-permission-safety-20261002.test.ts:1:325
+2026-10-03T08:53:19.2871159Z ✖ synthetic skill writes preserve config and deletion boundaries (948.4748ms)
+2026-10-03T08:53:19.2872768Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+2026-10-03T08:53:19.2873793Z   + actual - expected
+2026-10-03T08:53:19.2875311Z   
+2026-10-03T08:53:19.2876287Z   + undefined
+2026-10-03T08:53:19.2876932Z   - {
+2026-10-03T08:53:19.2877213Z   -   enable: false
+2026-10-03T08:53:19.2878071Z   - }
+2026-10-03T08:53:19.2878329Z   
+2026-10-03T08:53:19.2881451Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\skills-write-permission-safety-20261002.test.ts:50:12)
+2026-10-03T08:53:19.2883981Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2884990Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2885701Z     generatedMessage: true,
+2026-10-03T08:53:19.2886074Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2904405Z     actual: undefined,
+2026-10-03T08:53:19.2904943Z     expected: { enable: false },
+2026-10-03T08:53:19.2907316Z     operator: 'deepStrictEqual',
+2026-10-03T08:53:19.2907829Z     diff: 'simple'
+2026-10-03T08:53:19.2908180Z   }

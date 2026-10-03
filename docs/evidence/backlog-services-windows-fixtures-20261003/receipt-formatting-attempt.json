@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+    "--write",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/historical-ci-snapshot.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/historical-log-selection.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-after.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/skills-alias-before.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/source-bindings.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/validation.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-after.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/win32-paths-before.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/windows-architecture.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/windows-fixtures-native-after.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/windows-format.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/windows-lint.json",
+    "docs/evidence/backlog-services-windows-fixtures-20261003/README.md"
+  ],
+  "observedExitCode": 2,
+  "output": "Expected at least one target file\n",
+  "reason": ".oxfmtrc.json ignorePatterns explicitly excludes docs/evidence/**; all requested receipt paths were ignored",
+  "configChanged": false,
+  "receiptFormattingPerformed": false,
+  "sourceFormattingReceipt": "windows-format.json"
+}

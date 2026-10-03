@@ -1,0 +1,18 @@
+2026-10-03T08:53:19.2742865Z test at packages\services\test\git-checkpoint-helpers-fake-safety-20261002.test.ts:1:210
+2026-10-03T08:53:19.2743655Z ✖ fake checkpoint paths/parsers keep quoting vocabulary and deletion failure identity (18.0127ms)
+2026-10-03T08:53:19.2744392Z   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+2026-10-03T08:53:19.2744756Z   + actual - expected
+2026-10-03T08:53:19.2744944Z   
+2026-10-03T08:53:19.2745156Z   + 'D:\\synthetic\\repo\\workspace\\old name'
+2026-10-03T08:53:19.2745482Z   - '\\synthetic\\repo\\workspace\\old name'
+2026-10-03T08:53:19.2745730Z   
+2026-10-03T08:53:19.2746350Z       at TestContext.<anonymous> (D:\a\knorvia-studio\knorvia-studio\packages\services\test\git-checkpoint-helpers-fake-safety-20261002.test.ts:44:10)
+2026-10-03T08:53:19.2747285Z       at async Test.run (node:internal/test_runner/test:1125:7)
+2026-10-03T08:53:19.2748152Z       at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+2026-10-03T08:53:19.2748697Z     generatedMessage: true,
+2026-10-03T08:53:19.2748928Z     code: 'ERR_ASSERTION',
+2026-10-03T08:53:19.2749217Z     actual: 'D:\\synthetic\\repo\\workspace\\old name',
+2026-10-03T08:53:19.2749579Z     expected: '\\synthetic\\repo\\workspace\\old name',
+2026-10-03T08:53:19.2749878Z     operator: 'strictEqual',
+2026-10-03T08:53:19.2750096Z     diff: 'simple'
+2026-10-03T08:53:19.2750267Z   }

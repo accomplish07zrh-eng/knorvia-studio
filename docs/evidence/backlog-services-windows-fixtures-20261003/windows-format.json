@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+    "--write",
+    "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+    "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+    "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+    "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+    "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+    "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+    "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+    "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+    "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+    "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+    "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts",
+    "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+    "packages/services/test/fake-native-paths-20261003.ts",
+    "specs/knorvia-next-services-windows-fixtures-20261003.md"
+  ],
+  "observedExitCode": 0
+}

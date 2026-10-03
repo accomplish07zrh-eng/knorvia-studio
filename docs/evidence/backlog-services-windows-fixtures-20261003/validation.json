@@ -1,0 +1,340 @@
+{
+  "repository": "accomplish07zrh-eng/knorvia-studio",
+  "branch": "lane/services-20261003",
+  "parentSelectedIntegrationSha": "73e0687a78cc7354dfad0589a9e2ebedac159013",
+  "ordinaryMergeSha": "fba71c5486ce80b783bb54b7927eda20fc2a151d",
+  "ordinaryMergeParents": [
+    "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532",
+    "73e0687a78cc7354dfad0589a9e2ebedac159013"
+  ],
+  "priorDeliveredHead": "f71dae4693f7886ef1fdddef7a0e94e5c8d1f532",
+  "sourceCommit": "80b5308132b9802555114269920fa6bb5bf81bcb",
+  "sourceBindingReceipt": "source-bindings.json",
+  "historicalWindowsCiReceipt": "historical-ci-snapshot.json",
+  "historicalWindowsCheckedSyntheticSha": "d03df27e30768649c77d004092d7508fa8b9afbc",
+  "historicalAllocatedFailures": "historical-log-selection.json",
+  "host": "Linux x64; process.platform remains linux in all runs",
+  "environment": {
+    "node": "24.14.0",
+    "tsx": "4.21.0",
+    "oxlint": "1.60.0",
+    "oxfmt": "0.41.0",
+    "dependencyPolicy": "existing frozen dependencies; no config or install change in this batch"
+  },
+  "checks": [
+    {
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--import",
+        "/tmp/knorvia-services-win32-paths-preload.mjs",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=30000",
+        "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+        "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+        "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+        "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+        "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts"
+      ],
+      "observedExitCode": 1,
+      "host": "linux-x64",
+      "pathApis": "Node win32 injected; process.platform unchanged",
+      "receiptFile": "win32-paths-before.json",
+      "retainedLogFile": "win32-paths-before.log",
+      "retainedLogSha256": "72d93ead588b68b5fb7d41af167859dcec2a94be0bcd8977c1a06b8f9085ee9c"
+    },
+    {
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=30000",
+        "packages/services/test/skills-write-permission-safety-20261002.test.ts"
+      ],
+      "observedExitCode": 1,
+      "host": "linux-x64",
+      "nodeVersion": "v24.14.0",
+      "mode": "skills-alias",
+      "processPlatform": "linux (unchanged)",
+      "windowsExecution": false,
+      "testFiles": [
+        "skills-write-permission-safety-20261002.test.ts"
+      ],
+      "logFile": "/tmp/knorvia-services-skills-alias-before.log",
+      "logSha256": "6884c7487f5298170b88c9a6c6f7ff6ceef7a8cb8d2748ac0fdd4e2fc6eb9848",
+      "aliasRootCreated": true,
+      "receiptFile": "skills-alias-before.json",
+      "retainedLogFile": "skills-alias-before.log",
+      "retainedLogSha256": "6884c7487f5298170b88c9a6c6f7ff6ceef7a8cb8d2748ac0fdd4e2fc6eb9848"
+    },
+    {
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=30000",
+        "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+        "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+        "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+        "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+        "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+        "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts"
+      ],
+      "observedExitCode": 0,
+      "host": "linux-x64",
+      "nodeVersion": "v24.14.0",
+      "mode": "native",
+      "processPlatform": "linux (unchanged)",
+      "windowsExecution": false,
+      "testFiles": [
+        "atomic-write-fake-safety-20261002.test.ts",
+        "feedback-traversal-fake-authority-20261002.test.ts",
+        "file-service-fake-write-safety-20261002.test.ts",
+        "git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "git-cli-helpers-fake-safety-20261002.test.ts",
+        "git-cli-repo-fake-safety-20261002.test.ts",
+        "plugin-archive-fake-containment-20261002.test.ts",
+        "runtime-tool-fake-permission-20261002.test.ts",
+        "skills-write-permission-safety-20261002.test.ts",
+        "ssh-alias-fake-authority-20261002.test.ts",
+        "storage-cleaner-fake-safety-20261002.test.ts"
+      ],
+      "logFile": "/tmp/knorvia-services-windows-fixtures-native-after.log",
+      "logSha256": "88cc5ebb804f75d675114b864d4d4108c1afad5873a1841bba6d1b0be21adae1",
+      "aliasRootCreated": false,
+      "receiptFile": "windows-fixtures-native-after.json",
+      "retainedLogFile": "windows-fixtures-native-after.log",
+      "retainedLogSha256": "88cc5ebb804f75d675114b864d4d4108c1afad5873a1841bba6d1b0be21adae1"
+    },
+    {
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--import",
+        "/tmp/knorvia-services-win32-paths-preload.mjs",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=30000",
+        "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+        "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+        "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+        "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+        "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts"
+      ],
+      "observedExitCode": 0,
+      "host": "linux-x64",
+      "nodeVersion": "v24.14.0",
+      "mode": "win32-paths",
+      "processPlatform": "linux (unchanged)",
+      "windowsExecution": false,
+      "testFiles": [
+        "atomic-write-fake-safety-20261002.test.ts",
+        "feedback-traversal-fake-authority-20261002.test.ts",
+        "file-service-fake-write-safety-20261002.test.ts",
+        "git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "git-cli-helpers-fake-safety-20261002.test.ts",
+        "git-cli-repo-fake-safety-20261002.test.ts",
+        "plugin-archive-fake-containment-20261002.test.ts",
+        "runtime-tool-fake-permission-20261002.test.ts",
+        "ssh-alias-fake-authority-20261002.test.ts",
+        "storage-cleaner-fake-safety-20261002.test.ts"
+      ],
+      "logFile": "/tmp/knorvia-services-win32-paths-after.log",
+      "logSha256": "2d6027efd6e068728271b156b3503e68efed1d5953899f8a67dce293e5bc5338",
+      "aliasRootCreated": false,
+      "receiptFile": "win32-paths-after.json",
+      "retainedLogFile": "win32-paths-after.log",
+      "retainedLogSha256": "2d6027efd6e068728271b156b3503e68efed1d5953899f8a67dce293e5bc5338"
+    },
+    {
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "--experimental-test-module-mocks",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-concurrency=2",
+        "--test-timeout=30000",
+        "packages/services/test/skills-write-permission-safety-20261002.test.ts"
+      ],
+      "observedExitCode": 0,
+      "host": "linux-x64",
+      "nodeVersion": "v24.14.0",
+      "mode": "skills-alias",
+      "processPlatform": "linux (unchanged)",
+      "windowsExecution": false,
+      "testFiles": [
+        "skills-write-permission-safety-20261002.test.ts"
+      ],
+      "logFile": "/tmp/knorvia-services-skills-alias-after.log",
+      "logSha256": "a4752f1ad0a7997959a2feed6bc15865f56d73da934b5e30a360656b63274fa0",
+      "aliasRootCreated": true,
+      "receiptFile": "skills-alias-after.json",
+      "retainedLogFile": "skills-alias-after.log",
+      "retainedLogSha256": "a4752f1ad0a7997959a2feed6bc15865f56d73da934b5e30a360656b63274fa0"
+    },
+    {
+      "command": [
+        "/workspace/knorvia-studio/node_modules/.bin/oxfmt",
+        "--write",
+        "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+        "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+        "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+        "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+        "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts",
+        "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+        "packages/services/test/fake-native-paths-20261003.ts",
+        "specs/knorvia-next-services-windows-fixtures-20261003.md"
+      ],
+      "observedExitCode": 0,
+      "receiptFile": "windows-format.json",
+      "retainedLogFile": "windows-format.log",
+      "retainedLogSha256": "0ddc0ee92685f5e4cc88ed3f12b2a8b670fba929b6019feab5eeb5ea1bf36f83"
+    },
+    {
+      "command": [
+        "/workspace/knorvia-studio/node_modules/.bin/oxlint",
+        "packages/services/test/atomic-write-fake-safety-20261002.test.ts",
+        "packages/services/test/feedback-traversal-fake-authority-20261002.test.ts",
+        "packages/services/test/file-service-fake-write-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-checkpoint-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts",
+        "packages/services/test/git-cli-repo-fake-safety-20261002.test.ts",
+        "packages/services/test/plugin-archive-fake-containment-20261002.test.ts",
+        "packages/services/test/runtime-tool-fake-permission-20261002.test.ts",
+        "packages/services/test/skills-write-permission-safety-20261002.test.ts",
+        "packages/services/test/ssh-alias-fake-authority-20261002.test.ts",
+        "packages/services/test/storage-cleaner-fake-safety-20261002.test.ts",
+        "packages/services/test/fake-native-paths-20261003.ts"
+      ],
+      "observedExitCode": 0,
+      "host": "linux-x64",
+      "nodeVersion": "v24.14.0",
+      "receiptFile": "windows-lint.json",
+      "retainedLogFile": "windows-lint.log",
+      "retainedLogSha256": "a757145084134945d40e4a6548a4931d7cea3b987e486922aff5add7f91d7d33"
+    },
+    {
+      "command": [
+        "/tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node",
+        "scripts/architecture/architecture-check.mjs",
+        "check",
+        "--changed"
+      ],
+      "observedExitCode": 0,
+      "scope": "changed only",
+      "receiptFile": "windows-architecture.json",
+      "retainedLogFile": "windows-architecture.log",
+      "retainedLogSha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497"
+    }
+  ],
+  "observedResults": {
+    "win32PathInjectionBefore": {
+      "tests": 11,
+      "pass": 2,
+      "fail": 9,
+      "exit": 1
+    },
+    "skillsAliasBefore": {
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "exit": 1
+    },
+    "nativeAfter": {
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit": 0
+    },
+    "win32PathInjectionAfter": {
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit": 0
+    },
+    "skillsAliasAfter": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "exit": 0
+    },
+    "lint": {
+      "files": 13,
+      "warnings": 0,
+      "errors": 0,
+      "exit": 0
+    },
+    "architectureChangedOnly": {
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "exit": 0
+    }
+  },
+  "scopeLimits": {
+    "actualWindowsExecution": false,
+    "newSourceWindowsAcceptance": "UNVERIFIED",
+    "pathInjectionLimit": "does not reproduce Windows OS, drive cwd, executable branches, native FS, junctions, case or permissions",
+    "skillsAliasLimit": "owned Linux symlink alias reproduces a spelling/canonical-identity mismatch; Windows short-name cause is inferred from source, not traced in CI",
+    "unchangedProductionBehavior": "no production source change; no schema/user-data migration",
+    "fullRegressionTypecheckBuildAuditCiRerun": false,
+    "newPlatformSkipsOrCountModeOrderPermissionRelaxation": false,
+    "historicalGoldenAcceptedRecordsRewritten": false,
+    "rightsOrHoldDecisionChanged": false,
+    "mitAcceptanceClaimed": false,
+    "newTaskPrOrMainMerge": false
+  },
+  "coordination": [
+    "Integrator must reconcile the 12 current fixture bindings and inventory the new test-only helper; shared/global provenance stays integrator-owned.",
+    "Integrator must include the source descendant in a new actual Windows checkout/run and bind its exact checked SHA before Windows acceptance.",
+    "Historical CI includes other lanes failures; this allocation does not fix or classify them.",
+    "No shared public API/schema/contract change is requested; existing session/task-index rights HOLDs and release decisions remain unchanged."
+  ],
+  "receiptFormattingAttempt": "receipt-formatting-attempt.json",
+  "sourceFormattingObservedExitCode": 0
+}
