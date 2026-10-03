@@ -21,23 +21,23 @@ export type ApplyKnorviaBuiltinReleaseResult = "updated" | "unchanged" | "stale"
 
 /** Bundled、Active/LKG 与 Remote 共用同一 Release，并最终发布为现有 Config Snapshot。 */
 export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<ProviderConfigLayerSnapshot> {
-  readonly #bundledFilePath: string;
-  readonly #activeFilePath: string;
-  readonly #sourceKey: string;
-  readonly #watchEnabled: boolean;
-  readonly #listeners = new Set<(reason: string) => void>();
+  #bundledFilePath: string;
+  #activeFilePath: string;
+  #sourceKey: string;
+  #watchEnabled: boolean;
+  #listeners = new Set<(reason: string) => void>();
   #watcher: FSWatcher | null = null;
   #observedSignature: string | null = null;
-  #watchRefresh = Promise.resolve();
+  #watchTail: Promise<void> = Promise.resolve();
   #disposed = false;
 
   constructor(options: NodeKnorviaBuiltinProviderConfigSourceOptions) {
     const bundledFilePath = options.bundledFilePath.trim();
-    if (!bundledFilePath) throw new Error("Knorvia Studio Built-in bundledFilePath 不能为空");
+    if (!bundledFilePath) {
+      throw new Error("Knorvia Studio Built-in bundledFilePath 不能为空");
+    }
     this.#bundledFilePath = bundledFilePath;
     this.#activeFilePath = options.activeFilePath?.trim() || bundledFilePath;
-    // 旧标识只有发布序号，不同 Endpoint 同序号会让 Registry 误复用上一来源。
-    // Active 路径已含规范化 Endpoint 隔离范围；Worker 收到同一路径，不另拼账号事实。
     this.#sourceKey = createHash("sha256").update(resolve(this.#activeFilePath)).digest("hex");
     this.#watchEnabled = options.watch !== false;
   }
@@ -53,12 +53,11 @@ export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<Pr
       await this.#ensureWatcher();
       release = await withFileLock(this.#activeFilePath, () => this.#readAndMaterializeLocked());
     } catch {
-      // Active 只是可丢弃缓存，目录锁、监听或原子物化失败不能阻断
-      // Bundled 基线。缓存边界不可用时绕过 Active；Bundled 自身无效仍会在这里抛错。
-      release = selectReleaseCandidate(await readReleaseCandidate(this.#bundledFilePath), null);
+      const bundled = await readReleaseCandidate(this.#bundledFilePath);
+      release = selectReleaseCandidate(bundled, null);
     }
-    this.#observedSignature ??= signatureOf(release);
-    return snapshotFromRelease(release, this.#sourceKey);
+    this.#observedSignature ??= releaseSignature(release);
+    return createLayerSnapshot(release, this.#sourceKey);
   }
 
   async applyRemoteRelease(
@@ -66,22 +65,29 @@ export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<Pr
   ): Promise<ApplyKnorviaBuiltinReleaseResult> {
     this.#assertNotDisposed();
     await this.#ensureWatcher();
-    const result = await withFileLock(this.#activeFilePath, async () => {
-      this.#assertNotDisposed();
-      const current = await this.#readAndMaterializeLocked();
-      this.#assertNotDisposed();
-      if (release.revision < current.revision) return "stale" as const;
-      if (release.revision === current.revision) {
-        if (serializeKnorviaBuiltinRelease(release) === serializeKnorviaBuiltinRelease(current)) {
-          return "unchanged" as const;
+    const result = await withFileLock(
+      this.#activeFilePath,
+      async (): Promise<ApplyKnorviaBuiltinReleaseResult> => {
+        this.#assertNotDisposed();
+        const current = await this.#readAndMaterializeLocked();
+        this.#assertNotDisposed();
+        if (release.revision < current.revision) {
+          return "stale";
         }
-        throw new Error(`Knorvia Studio Built-in 相同 revision ${release.revision} 对应不同内容`);
-      }
-      await this.#writeActiveLocked(release);
-      this.#observedSignature = signatureOf(release);
-      return "updated" as const;
-    });
-    if (result === "updated" && !this.#disposed) this.#emit("remote-updated");
+        if (release.revision === current.revision) {
+          if (serializeKnorviaBuiltinRelease(release) === serializeKnorviaBuiltinRelease(current)) {
+            return "unchanged";
+          }
+          throw new Error(`Knorvia Studio Built-in 相同 revision ${release.revision} 对应不同内容`);
+        }
+        await this.#writeActiveLocked(release);
+        this.#observedSignature = releaseSignature(release);
+        return "updated";
+      },
+    );
+    if (result === "updated" && !this.#disposed) {
+      this.#emit("remote-updated");
+    }
     return result;
   }
 
@@ -92,11 +98,54 @@ export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<Pr
   }
 
   dispose(): void {
-    if (this.#disposed) return;
+    if (this.#disposed) {
+      return;
+    }
     this.#disposed = true;
     this.#watcher?.close();
     this.#watcher = null;
     this.#listeners.clear();
+  }
+
+  #assertNotDisposed(): void {
+    if (this.#disposed) {
+      throw new Error("NodeKnorviaBuiltinProviderConfigSource 已 dispose");
+    }
+  }
+
+  async #ensureWatcher(): Promise<void> {
+    await mkdir(dirname(this.#activeFilePath), { recursive: true });
+    if (!this.#watchEnabled || this.#watcher || this.#disposed) {
+      return;
+    }
+    const target = basename(this.#activeFilePath);
+    this.#watcher = watch(dirname(this.#activeFilePath), (_eventType, fileName) => {
+      if (fileName === null || fileName.toString() === target) {
+        this.#scheduleWatchRead();
+      }
+    });
+    this.#watcher.on("error", () => this.#emit("watch-error"));
+  }
+
+  #scheduleWatchRead(): void {
+    this.#watchTail = this.#watchTail.then(async () => {
+      if (this.#disposed) {
+        return;
+      }
+      try {
+        const release = await withFileLock(this.#activeFilePath, () =>
+          this.#readAndMaterializeLocked(),
+        );
+        const signature = releaseSignature(release);
+        if (this.#disposed || signature === this.#observedSignature) {
+          return;
+        }
+        this.#observedSignature = signature;
+        this.#emit("file-changed");
+      } catch {
+        this.#emit("watch-error");
+      }
+    });
   }
 
   async #readAndMaterializeLocked(): Promise<KnorviaBuiltinRelease> {
@@ -108,8 +157,10 @@ export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<Pr
     ]);
     const selected = selectReleaseCandidate(bundled, active);
     if (this.#activeFilePath !== this.#bundledFilePath) {
-      const activeSignature = active?.release ? signatureOf(active.release) : null;
-      if (activeSignature !== signatureOf(selected)) await this.#writeActiveLocked(selected);
+      const activeSignature = active?.release ? releaseSignature(active.release) : null;
+      if (activeSignature !== releaseSignature(selected)) {
+        await this.#writeActiveLocked(selected);
+      }
     }
     return selected;
   }
@@ -122,40 +173,13 @@ export class NodeKnorviaBuiltinProviderConfigSource implements ProviderSource<Pr
     );
   }
 
-  async #ensureWatcher(): Promise<void> {
-    await mkdir(dirname(this.#activeFilePath), { recursive: true });
-    if (!this.#watchEnabled || this.#watcher || this.#disposed) return;
-    const target = basename(this.#activeFilePath);
-    this.#watcher = watch(dirname(this.#activeFilePath), (_eventType, fileName) => {
-      if (fileName === null || fileName.toString() === target) this.#scheduleWatchRefresh();
-    });
-    this.#watcher.on("error", () => this.#emit("watch-error"));
-  }
-
-  #scheduleWatchRefresh(): void {
-    this.#watchRefresh = this.#watchRefresh.then(async () => {
-      if (this.#disposed) return;
-      try {
-        const release = await withFileLock(this.#activeFilePath, () =>
-          this.#readAndMaterializeLocked(),
-        );
-        const signature = signatureOf(release);
-        if (this.#disposed || signature === this.#observedSignature) return;
-        this.#observedSignature = signature;
-        this.#emit("file-changed");
-      } catch {
-        this.#emit("watch-error");
-      }
-    });
-  }
-
   #emit(reason: string): void {
-    if (this.#disposed) return;
-    for (const listener of this.#listeners) listener(reason);
-  }
-
-  #assertNotDisposed(): void {
-    if (this.#disposed) throw new Error("NodeKnorviaBuiltinProviderConfigSource 已 dispose");
+    if (this.#disposed) {
+      return;
+    }
+    for (const listener of this.#listeners) {
+      listener(reason);
+    }
   }
 }
 
@@ -165,23 +189,26 @@ export function createNodeKnorviaBuiltinProviderConfigSource(
   return new NodeKnorviaBuiltinProviderConfigSource(options);
 }
 
-interface ReleaseCandidate {
-  readonly release?: KnorviaBuiltinRelease;
-  readonly error?: unknown;
-}
+type ReleaseCandidate = {
+  release?: KnorviaBuiltinRelease;
+  error?: unknown;
+} | null;
 
-async function readReleaseCandidate(filePath: string): Promise<ReleaseCandidate | null> {
+async function readReleaseCandidate(filePath: string): Promise<ReleaseCandidate> {
   try {
-    return { release: decodeKnorviaBuiltinRelease(JSON.parse(await readFile(filePath, "utf8"))) };
+    const text = await readFile(filePath, "utf8");
+    return { release: decodeKnorviaBuiltinRelease(JSON.parse(text)) };
   } catch (error) {
-    if (isFileNotFound(error)) return null;
+    if (typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT") {
+      return null;
+    }
     return { error };
   }
 }
 
 function selectReleaseCandidate(
-  bundled: ReleaseCandidate | null,
-  active: ReleaseCandidate | null,
+  bundled: ReleaseCandidate,
+  active: ReleaseCandidate,
 ): KnorviaBuiltinRelease {
   if (
     bundled?.release &&
@@ -190,25 +217,32 @@ function selectReleaseCandidate(
     serializeKnorviaBuiltinRelease(bundled.release) !==
       serializeKnorviaBuiltinRelease(active.release)
   ) {
-    // 同 revision 冲突属于 Active 缓存失效，不能反向使可信 Bundled 无法启动。
-    // 返回 Bundled 后调用方会在能够写入时原子替换 Active。
     return bundled.release;
   }
-  const valid = [bundled?.release, active?.release].filter(
-    (candidate): candidate is KnorviaBuiltinRelease => candidate !== undefined,
+  const releases = [bundled?.release, active?.release].filter(
+    (release): release is KnorviaBuiltinRelease => release !== undefined,
   );
-  if (valid.length === 0) {
+  const first = releases[0];
+  if (first === undefined) {
     throw new AggregateError(
       [bundled?.error, active?.error].filter((error) => error !== undefined),
       "Bundled 与 Active Knorvia Studio Built-in Release 均不可用",
     );
   }
-  return valid.reduce((newest, candidate) =>
-    candidate.revision > newest.revision ? candidate : newest,
-  );
+  let selected = first;
+  for (const release of releases.slice(1)) {
+    if (release.revision > selected.revision) {
+      selected = release;
+    }
+  }
+  return selected;
 }
 
-function snapshotFromRelease(
+function releaseSignature(release: KnorviaBuiltinRelease): string {
+  return `${release.revision}:${serializeKnorviaBuiltinRelease(release)}`;
+}
+
+function createLayerSnapshot(
   release: KnorviaBuiltinRelease,
   sourceKey: string,
 ): ProviderConfigLayerSnapshot {
@@ -218,17 +252,4 @@ function snapshotFromRelease(
     providerTemplates: release.config.providerTemplates,
     models: release.config.modelConfigRules,
   });
-}
-
-function signatureOf(release: KnorviaBuiltinRelease): string {
-  return `${release.revision}:${serializeKnorviaBuiltinRelease(release)}`;
-}
-
-function isFileNotFound(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    (error as { code?: unknown }).code === "ENOENT"
-  );
 }
