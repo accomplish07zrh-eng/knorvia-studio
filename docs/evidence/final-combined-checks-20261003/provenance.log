@@ -1,0 +1,20 @@
+{
+  "total": 15679,
+  "classifications": {
+    "upstream-unchanged": 1503,
+    "upstream-modified": 2397,
+    "unreviewed": 8328,
+    "original": 703,
+    "independent-replacement": 439,
+    "reviewed-retained": 8,
+    "third-party": 2300,
+    "generated-report": 1
+  },
+  "reviewedNatures": {
+    "standard-license-text": 2,
+    "functional-configuration": 9
+  },
+  "reviewProblems": 0,
+  "missingReviews": []
+}
+Unresolved third-party material obligations: 26

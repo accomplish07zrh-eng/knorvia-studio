@@ -1,0 +1,13 @@
+{
+  "name": "cli-build",
+  "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "command": [
+    "pnpm",
+    "build:cli-packages"
+  ],
+  "actualChildExitCode": 2,
+  "seconds": 42.496,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-cli-build.log"
+}

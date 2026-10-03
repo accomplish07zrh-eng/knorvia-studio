@@ -1,0 +1,45 @@
+(node:42406) ExperimentalWarning: Module mocking is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ failed command reads unborn stderr before timeout validation and never stdout (11.455552ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 752.701767
+
+✖ failing tests:
+
+test at packages/services/test/git-graph-query-contract-fast-20261001.test.ts:5:1498
+✖ failed command reads unborn stderr before timeout validation and never stdout (11.455552ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'then',
+      'exitCode',
+      'stderr',
+      'timedOut',
+  -   'timeoutMs',
+      'durationMs',
+  -   'durationMs',
+      'timeoutElapsedMs',
+      'timeoutCloseDelayMs',
+      'forceKillAttempted',
+      'orphaned',
+  +   'timeoutMs',
+  +   'durationMs'
+    ]
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/services/test/git-graph-query-contract-fast-20261001.test.ts:323:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'then', 'exitCode', 'stderr', 'timedOut', 'durationMs', 'timeoutElapsedMs', 'timeoutCloseDelayMs', 'forceKillAttempted', 'orphaned', 'timeoutMs', 'durationMs' ],
+    expected: [ 'then', 'exitCode', 'stderr', 'timedOut', 'timeoutMs', 'durationMs', 'durationMs', 'timeoutElapsedMs', 'timeoutCloseDelayMs', 'forceKillAttempted', 'orphaned' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,32 @@
+✖ phase components preserve frozen pairs, cycles, malformed input, getter/coercion order and ownership (5.730743ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2397.067284
+
+✖ failing tests:
+
+test at apps/cli/packages/core/test/create-workflow-graph-fold.test.ts:1:1225
+✖ phase components preserve frozen pairs, cycles, malformed input, getter/coercion order and ownership (5.730743ms)
+  AssertionError [ERR_ASSERTION]: baseline:16
+  + actual - expected
+  
+  + '30a15f317e809bfede0ec9375c1e4b5350db05cd375c6e61353265bb0e24c8e7'
+  - '5bb3d27e42b3f75b9c14a50f6ef72d549f6c085680990c141e591c0fe7ca9e2b'
+  
+      at TestContext.<anonymous> (/workspace/knorvia-studio/apps/cli/packages/core/test/create-workflow-graph-fold.test.ts:50:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '30a15f317e809bfede0ec9375c1e4b5350db05cd375c6e61353265bb0e24c8e7',
+    expected: '5bb3d27e42b3f75b9c14a50f6ef72d549f6c085680990c141e591c0fe7ca9e2b',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

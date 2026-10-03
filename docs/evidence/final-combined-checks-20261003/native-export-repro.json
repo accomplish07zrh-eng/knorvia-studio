@@ -1,0 +1,20 @@
+{
+  "name": "native-export-repro",
+  "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "command": [
+    "node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern",
+    "complete default exporter",
+    "packages/desktop/test/native-export-log-owner-contract.test.mjs"
+  ],
+  "workingDirectory": "/workspace/knorvia-studio",
+  "actualChildExitCode": 1,
+  "seconds": 0.279,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-native-export-repro.log"
+}

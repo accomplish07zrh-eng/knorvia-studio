@@ -91,3 +91,11 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 `d826add56755be673efd924b92cf24756af43d6d` 的标准根 types、lint、architecture、provenance 检查退出0；fmt剩余116个路径。四路已冻结，父任务授权整合者集中处理这些纯格式改动，避免各路重复安装/同步；不改变业务、接口、状态、UI取值、测试断言或许可事实。对源码比较格式前后语法结构，对JSON比较完整解析值，逐项绑定原提交、原blob与前后原字节SHA；这种静态等价核对不替代完整回归。
 
 其中12份历史JSON原记录先按原字节复制至 `docs/evidence/final-central-format-20261003/originals/` 并显式加入冻结清单，保留原路径及完整原提交指针。已有5524份冻结载荷不改写；格式工具继续先检查原字节完整性。原路径的JSON只允许空白、排版和等价转义变化，不能更新历史快照中的断言、hash、结果或来源判定。来源/版权 HOLD、原通知和26项材料义务保持原有边界，不能以格式或门禁通过推断MIT可发布。
+
+## 最终组合检查结果与失败归属
+
+`f5deb08595725c91d74ca96e09bba338fba1119d` 的完整根回归实际结束，Node 统计8034 tests、8004 pass、22 fail、8 skipped，退出1。17个CLI core套件被旧当前输入/产物绑定挡在加载前；另外CLI phase-fold历史NaN基线1个、native导出1个、services扫描及Git顺序2个、UI菜单1个。不能将加载失败、跳过或补充定向复现加为完整回归通过数。完整原日志/实际子进程退出码与源码SHA需冻结发布。
+
+根types/lint/fmt/architecture/provenance与Web、desktop源码构建退出0；实际CLI构建退出2，完整CLI工作区no-bail types退出1，均报bootstrap5文件同一18条TS2322。直接在根cwd发出的早期CLI过滤命令未选中项目，虽退出0也不接纳为通过。原CLI任务按父任务指示独占这5个projection文件；其他真实断言须按精确测试/来源路径交原native、services、UI任务修复，不降低规则、删除场景或盲目改golden。
+
+当前源码/标准构建产物绑定的失配需要区分格式变化、已经授权的新候选、编译器/配置变化与真实行为差异。原历史source/compiled/declaration/golden及其hash不能因当前绑定过期被覆盖；若对账当前输入，须保存旧绑定原字节、记录实际源码提交/配置/完整来源链，只更新证明属于当前输入的字段，并继续执行真实消费者与旧基线断言。技术结果不授予独立性/贡献者权利，不清除原accepted-hash/权利HOLD或26项材料义务。

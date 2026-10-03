@@ -1,0 +1,13 @@
+{
+  "name": "format",
+  "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "command": [
+    "pnpm",
+    "fmt:check"
+  ],
+  "actualChildExitCode": 0,
+  "seconds": 21.65,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-format.log"
+}

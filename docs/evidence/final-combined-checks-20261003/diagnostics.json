@@ -1,0 +1,387 @@
+{
+  "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "cliBuildActualExit": 2,
+  "diagnostics": [
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "line": 19,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"role\", () => string]' is not assignable to type 'readonly [\"metadata\", (source: UserMessageInfo) => Record<string, unknown> | undefined] | readonly [\"sessionId\", (source: UserMessageInfo) => string] | ... 10 more ... | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "line": 50,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"role\", () => string]' is not assignable to type 'readonly [\"error\", (source: AssistantMessageInfo) => Record<string, unknown> | undefined] | readonly [\"path\", (source: AssistantMessageInfo) => { ...; }] | ... 11 more ... | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 36,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TextPart) => \"text\"] | readonly [\"metadata\", (source: TextPart) => Record<string, unknown> | undefined] | readonly [\"text\", (source: TextPart) => string] | readonly [...] | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 44,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ReasoningPart) => \"reasoning\"] | readonly [\"metadata\", (source: ReasoningPart) => Record<string, unknown> | undefined] | readonly [\"text\", (source: ReasoningPart) => string]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 53,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: FilePart) => \"file\"] | readonly [\"metadata\", (source: FilePart) => Record<string, unknown> | undefined] | readonly [\"url\", (source: FilePart) => string] | readonly [...] | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 64,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ToolPart) => \"tool\"] | readonly [\"metadata\", (source: ToolPart) => Record<string, unknown> | undefined] | readonly [\"state\", (source: ToolPart) => { ...; } | ... 2 more ... | { ...; }] | readonly [...] | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 71,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepStartPart) => \"step-start\"] | readonly [\"snapshot\", (source: StepStartPart) => string | undefined]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 81,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepFinishPart) => \"step-finish\"] | readonly [\"snapshot\", (source: StepFinishPart) => string | undefined] | readonly [\"tokens\", (source: StepFinishPart) => { ...; }] | readonly [...] | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 88,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SnapshotPart) => \"snapshot\"] | readonly [\"snapshot\", (source: SnapshotPart) => string]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 96,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: PatchPart) => \"patch\"] | readonly [\"files\", (source: PatchPart) => string[]] | readonly [\"hash\", (source: PatchPart) => string]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 106,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: CompactionPart) => \"compaction\"] | readonly [\"metadata\", (source: CompactionPart) => Record<string, unknown> | undefined] | readonly [...] | readonly [...] | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 118,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SubtaskPart) => \"subagent\"] | readonly [\"description\", (source: SubtaskPart) => string] | readonly [\"agent\", (source: SubtaskPart) => string] | readonly [...] | readonly [...] | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "line": 125,
+      "column": 7,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"name\", (source: AgentPart) => string] | readonly [\"type\", (source: AgentPart) => \"agent\"]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+      "line": 105,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StoredTimeline) => \"timeline\"] | readonly [\"trigger\", (source: StoredTimeline) => \"auto\" | \"partial\" | \"manual\" | \"reactive\" | \"session_memory\" | undefined] | ... 26 more ... | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts",
+      "line": 191,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"type\", (input: Envelope) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"]' is not assignable to type 'readonly [\"type\", (source: Envelope) => \"session.created\"] | readonly [\"type\", (source: Envelope) => \"session.resumed\"] | readonly [\"type\", (source: Envelope) => \"session.updated\"] | ... 221 more ... | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "line": 118,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"kind\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "line": 119,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'."
+    },
+    {
+      "owner": "cli",
+      "package": "bootstrap",
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "line": 120,
+      "column": 3,
+      "code": "TS2322",
+      "message": "Type '[\"display\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'."
+    }
+  ],
+  "distinctFiles": {
+    "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts": 2,
+    "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts": 11,
+    "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts": 1,
+    "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts": 1,
+    "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts": 3
+  },
+  "compilerScope": "Actual CLI build, unchanged CLI tsconfig; original CLI lane ownership",
+  "unchangedSinceFrozenCliHead": {
+    "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts": true,
+    "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts": true,
+    "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts": true,
+    "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts": true,
+    "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts": true
+  },
+  "fullCliTypecheck": {
+    "actualExitCode": 1,
+    "cwd": "apps/cli",
+    "command": [
+      "pnpm",
+      "-r",
+      "--no-bail",
+      "--filter",
+      "./packages/*",
+      "typecheck"
+    ],
+    "packageSummary": {
+      "passes": 14,
+      "fails": 1
+    },
+    "diagnostics": [
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+        "line": 19,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"role\", () => string]' is not assignable to type 'readonly [\"metadata\", (source: UserMessageInfo) => Record<string, unknown> | undefined] | readonly [\"sessionId\", (source: UserMessageInfo) => string] | ... 10 more ... | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+        "line": 50,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"role\", () => string]' is not assignable to type 'readonly [\"error\", (source: AssistantMessageInfo) => Record<string, unknown> | undefined] | readonly [\"path\", (source: AssistantMessageInfo) => { ...; }] | ... 11 more ... | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 36,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TextPart) => \"text\"] | readonly [\"metadata\", (source: TextPart) => Record<string, unknown> | undefined] | readonly [\"text\", (source: TextPart) => string] | readonly [...] | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 44,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ReasoningPart) => \"reasoning\"] | readonly [\"metadata\", (source: ReasoningPart) => Record<string, unknown> | undefined] | readonly [\"text\", (source: ReasoningPart) => string]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 53,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: FilePart) => \"file\"] | readonly [\"metadata\", (source: FilePart) => Record<string, unknown> | undefined] | readonly [\"url\", (source: FilePart) => string] | readonly [...] | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 64,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: ToolPart) => \"tool\"] | readonly [\"metadata\", (source: ToolPart) => Record<string, unknown> | undefined] | readonly [\"state\", (source: ToolPart) => { ...; } | ... 2 more ... | { ...; }] | readonly [...] | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 71,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepStartPart) => \"step-start\"] | readonly [\"snapshot\", (source: StepStartPart) => string | undefined]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 81,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StepFinishPart) => \"step-finish\"] | readonly [\"snapshot\", (source: StepFinishPart) => string | undefined] | readonly [\"tokens\", (source: StepFinishPart) => { ...; }] | readonly [...] | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 88,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SnapshotPart) => \"snapshot\"] | readonly [\"snapshot\", (source: SnapshotPart) => string]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 96,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: PatchPart) => \"patch\"] | readonly [\"files\", (source: PatchPart) => string[]] | readonly [\"hash\", (source: PatchPart) => string]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 106,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: CompactionPart) => \"compaction\"] | readonly [\"metadata\", (source: CompactionPart) => Record<string, unknown> | undefined] | readonly [...] | readonly [...] | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 118,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: SubtaskPart) => \"subagent\"] | readonly [\"description\", (source: SubtaskPart) => string] | readonly [\"agent\", (source: SubtaskPart) => string] | readonly [...] | readonly [...] | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+        "line": 125,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"name\", (source: AgentPart) => string] | readonly [\"type\", (source: AgentPart) => \"agent\"]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+        "line": 105,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: StoredTimeline) => \"timeline\"] | readonly [\"trigger\", (source: StoredTimeline) => \"auto\" | \"partial\" | \"manual\" | \"reactive\" | \"session_memory\" | undefined] | ... 26 more ... | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts",
+        "line": 191,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"type\", (input: Envelope) => \"session.created\" | \"session.resumed\" | \"session.updated\" | \"session.titleUpdated\" | \"session.closed\" | \"turn.started\" | \"turn.steerQueued\" | ... 17 more ... | \"streamRecovery.updated\"]' is not assignable to type 'readonly [\"type\", (source: Envelope) => \"session.created\"] | readonly [\"type\", (source: Envelope) => \"session.resumed\"] | readonly [\"type\", (source: Envelope) => \"session.updated\"] | ... 221 more ... | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+        "line": 118,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"kind\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+        "line": 119,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"type\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'."
+      },
+      {
+        "owner": "cli",
+        "package": "bootstrap",
+        "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+        "line": 120,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '[\"display\", () => string]' is not assignable to type 'readonly [\"type\", (source: TargetCompletionVerificationProjectionInfo) => \"goal_verification\"] | readonly [\"kind\", (source: TargetCompletionVerificationProjectionInfo) => \"synthetic\"] | ... 4 more ... | readonly [...]'."
+      }
+    ],
+    "sameFrontierAsBuild": true
+  },
+  "excludedEmptyFilterAttempt": {
+    "command": [
+      "pnpm",
+      "--dir",
+      "apps/cli",
+      "-r",
+      "--no-bail",
+      "--filter",
+      "./packages/*",
+      "typecheck"
+    ],
+    "actualExitCode": 0,
+    "selectedProjects": 0,
+    "typecheckPassed": false,
+    "correction": "Run recursive filter in actual CLI cwd; full corrected run failed bootstrap and passed 14 other packages."
+  },
+  "buildWarnings": {
+    "turboVersion": "2.9.14",
+    "rootInstalledPackageExists": true,
+    "cliLocalPackageAbsent": true,
+    "cliLauncherWarning": "No locally installed turbo found; CLI nested runner reports global 2.9.14, the same version as the actual installed root package. Preserved warning; not install acceptance.",
+    "lockClosure": "CLI-local pnpm-lock lacks packages/dynamic-workflow-runtime importer; root lock contains it. Preserved closure warning; no lockfile or notice changes for gate."
+  }
+}

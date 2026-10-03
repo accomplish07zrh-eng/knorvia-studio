@@ -1,0 +1,20 @@
+{
+  "name": "phase-fold-repro",
+  "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "command": [
+    "node",
+    "--experimental-test-module-mocks",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern",
+    "phase components preserve frozen pairs",
+    "apps/cli/packages/core/test/create-workflow-graph-fold.test.ts"
+  ],
+  "workingDirectory": "/workspace/knorvia-studio",
+  "actualChildExitCode": 1,
+  "seconds": 2.434,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-phase-fold-repro.log"
+}

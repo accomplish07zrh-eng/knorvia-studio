@@ -1,0 +1,19 @@
+{
+  "name": "cli-types",
+  "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+  "command": [
+    "pnpm",
+    "--dir",
+    "apps/cli",
+    "-r",
+    "--no-bail",
+    "--filter",
+    "./packages/*",
+    "typecheck"
+  ],
+  "actualChildExitCode": 0,
+  "seconds": 0.276,
+  "node": "24.14.0",
+  "pnpm": "10.33.2",
+  "log": "/tmp/knorvia-final-unified-cli-types.log"
+}

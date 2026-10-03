@@ -7787,6 +7787,230 @@
       "sourceBlob": "0089f08448f451d25670c1d4d8427c78ee014938"
     },
     {
+      "path": "docs/evidence/final-combined-checks-20261003/architecture.json",
+      "sha256": "87449befb15fd21bb057817d43553526f5d2d0e34c96098287775b3db9be0a76",
+      "bytes": 294,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/architecture.log",
+      "sha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba",
+      "bytes": 187,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/cli-build.json",
+      "sha256": "e2003bf80dc971b71d815e6ff8d9a2565f78cbdac2aa672ed89c64f77686eeac",
+      "bytes": 289,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/cli-build.log",
+      "sha256": "20e432c95b346e11d3f2872631833fe400c1f7ab7ca93a4a530db4882fe731a8",
+      "bytes": 21441,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/cli-types-full.json",
+      "sha256": "a26c47ef06aceaddb23cc6d17c97312555c91a0f1c2175a0f65a175905096275",
+      "bytes": 413,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/cli-types-full.log",
+      "sha256": "02db5f81337cba5f9b92c85a572e0f58a4692fa69f124899dbedae92e77ff4a9",
+      "bytes": 15812,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/cli-types.json",
+      "sha256": "1db33059a193aff532909d6096c9d84d5f37d679d0efb4047d95dc6c20a62c67",
+      "bytes": 371,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/cli-types.log",
+      "sha256": "4ff192834f87b4dc4f124d7d0ac4d1c2b01be8e49181fcce776b0f76dcc87f55",
+      "bytes": 72,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/current-selector-mismatches.json",
+      "sha256": "ab89ee3c6a99914a745acb5b0e714a805c5899d18e57db7e01e39d01593cbcae",
+      "bytes": 55983,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual diagnostic/current-input discrepancy; not rights acceptance"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/desktop-build.json",
+      "sha256": "5f90299574e4c885ac0fc24db76d19745784d7592e361244385d393aca4c803b",
+      "bytes": 393,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/desktop-build.log",
+      "sha256": "35f32ccbfd99ead292e0aeb11baf3f2e057c386492ed2b02391ea5e37b52b30e",
+      "bytes": 121007,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/diagnostics.json",
+      "sha256": "268c7bd5908fa28e8ff219f332189e269b631fa31ff2e145b5c521497dc7818e",
+      "bytes": 20841,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual diagnostic/current-input discrepancy; not rights acceptance"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/format.json",
+      "sha256": "80f22629eb26700c31c6f89eec2df8cb40c8ea8ef6360f1078d144e5ddbe1038",
+      "bytes": 273,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/format.log",
+      "sha256": "96a837e6e86786424a9038625fbee19a73e3f54e03977842f62113ccc9c59eb7",
+      "bytes": 291,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/lint.json",
+      "sha256": "788a9d5940dedb5af597529e2083f43a7b0f4c12fe051ca6c93e2a6a0624e18e",
+      "bytes": 264,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/lint.log",
+      "sha256": "2ab2193e21a68d704c0587f2a10fc388f05f9ef658318f7de58fd6c5045e27ff",
+      "bytes": 796,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/native-export-repro.json",
+      "sha256": "51478e671103d9558c76c011e95b0567b4303a38aeae2c448a4126285b7327a2",
+      "bytes": 545,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/native-export-repro.log",
+      "sha256": "e2dd37e5f85913ef8a9964b3aa3a454755b5f60f1a8ab2989bc37c0a6178f09b",
+      "bytes": 1470,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/phase-fold-repro.json",
+      "sha256": "665345c39bac7380ad1ea85c918b04c5f1e1e7d2f1e4c5388cbb88fb917c1ef9",
+      "bytes": 551,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/phase-fold-repro.log",
+      "sha256": "f113cc5c2d09f0c4d3dd61c3464166cda20d39160e38a79696ab50bceff19417",
+      "bytes": 1324,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/provenance.json",
+      "sha256": "7f68aa9af64f8fad0f7065a8660afa41766034d33b60fe425878cd97008ff6b2",
+      "bytes": 314,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/provenance.log",
+      "sha256": "8a4ab35860950036e151ceacd4e6b942d274f3d18872912238d612e10a64cca2",
+      "bytes": 461,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/regression.json",
+      "sha256": "53106fa8ef796dc32ad694e519111218fcfd120ebcba647d8f83a5d4895ffbfe",
+      "bytes": 285,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/regression.log",
+      "sha256": "78dcc8fc47d56caf12e61553aa1036a4b2b3e20ec968d0242792045e57ceef4a",
+      "bytes": 747014,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/services-git-repro.json",
+      "sha256": "3ce7bfed32a3d3ae7c57719587ec3eb32180cb1bb8a9632d5de0baaeaffb73a5",
+      "bytes": 558,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/services-git-repro.log",
+      "sha256": "b1b6132621647ecb56b28d8753d7e4cd701c1d1a687dad62f1d685d417478b08",
+      "bytes": 1724,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/services-import-repro.json",
+      "sha256": "bf1382b3be12662a238106dfad14884573736d9d050fc96c9a34fb538419df21",
+      "bytes": 564,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/services-import-repro.log",
+      "sha256": "d08b8359a47447f82cd35dee6d4dade943a9cce3b8db6c5306d21bce51049ef5",
+      "bytes": 1342,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/types.json",
+      "sha256": "b8a248d68121e1771e8d9c9184914d9e67ff1ef92956260fd098772409d22dff",
+      "bytes": 272,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/types.log",
+      "sha256": "d70a4a38caffd866ea8a9bce31987fcf84a9825ce361cdda40a6b746fe867786",
+      "bytes": 523,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/web-build.json",
+      "sha256": "419adf341f63678a2add6fa8d32141a6763c7fc3a683a128b9eafc19c8a83510",
+      "bytes": 363,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
+      "path": "docs/evidence/final-combined-checks-20261003/web-build.log",
+      "sha256": "c8adab45198b7f375aa64d2bb16edffabe8e906ca649d1c57e1e4b7c6a2226e7",
+      "bytes": 107240,
+      "sourceCommit": "f5deb08595725c91d74ca96e09bba338fba1119d",
+      "observation": "Actual command/log on unchanged product source; not a file at sourceCommit"
+    },
+    {
       "path": "docs/evidence/final-integration-risk-order-20261003/README.md",
       "sha256": "2b097fb22e4bcf12a9ac9b3fc2cf8171cd1264ac5f96eae57a22e508d4909bd1",
       "bytes": 12770

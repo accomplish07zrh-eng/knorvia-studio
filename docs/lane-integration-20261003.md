@@ -209,3 +209,13 @@ RPC 当前 input 对齐后，`pnpm provenance:report` 实际返回 0：当前清
 根 package current input 只因质量命令修改作精确摘要对齐，所有 dependencies/engine/packageManager/license 与其他字段完全不变。source registers、26 项材料、review、LICENSE/NOTICE 均不改；current-files 在这些新源/说明/receipt 确定后按真实模型生成。
 
 [26项材料行动分类](material-obligation-actions-20261003.md)和[逐项 JSON](material-obligation-actions-20261003.json)绑定旧完整来源 checkpoint：15项需要原版本出版者版权/许可材料，3项需要实际平台构建/链接记录，8项需要原SVG来源或权利人授权。18项有保留独立第三方许可的路径；8项未确认素材继续保留现有UI字节及 HOLD。清单里没有已确认的自有源码重写项，这不是全仓独立性结论。固定上游候选图标别名不匹配，Rust/skill 的指定原地址返回404均保留为失败调查；没有授予未知资产许可、发送外部请求或关闭任何义务。根许可维持原状，不能全量 MIT。
+
+## 四路最终修复与完整组合回归
+
+四路最终冻结head按普通merge完整接收，接收checkpoint为 `d826add56755be673efd924b92cf24756af43d6d`；随后父任务授权的116路径纯格式修复与原字节保留发布为 `f5deb08595725c91d74ca96e09bba338fba1119d`。94源码语法/注释、12完整JSON/重复键结构、10Markdown格式变化均核对；原5524冻结记录不变，12JSON原字节另行保存。
+
+这个f5deb085源码checkpoint的标准根types/lint/fmt/architecture/provenance与Web、desktop无runtime-assets源码构建退出0；lint保留1warning/0errors，i18n5422键一致，架构原managedOnly策略0violations。CLI实际构建退出2、完整CLI工作区no-bail types退出1，均为bootstrap5文件同一18条TS2322；14其他CLI包types通过。根cwd过滤误选0项目的退出0未接纳为通过。原CLI任务按父任务指令独占projection修复。
+
+完整 `pnpm test:studio` 实际结束：777文件，8034 tests、8004 pass、22 fail、8 skipped、0cancelled，退出1，约437秒。17个CLI旧当前输入/产物pin加载失败、1个phase-fold历史NaN baseline、1个native导出、2个services、1个UI菜单。定向复现和嵌套子进程统计不累计进完整总数；不把阻止加载、跳过或原快照失败算通过。逐文件诊断、真实作用域及完整原日志见 [组合检查记录](./final-combined-checks-20261003.json) 与 `docs/evidence/final-combined-checks-20261003/`。
+
+旧PR7–12再次核对head无变化；PR14–17的closed/merged快照保留初次接收head，而源分支最新head已逐项核对并作为后续修复完整合入。PR13仍draft、main仍 `bd0bb014c0974334557fa51814709d0b78f35f1d`。26材料义务及历史source/accepted-hash/权利HOLD不清除，全量MIT与实机/真实数据发布验收仍未完成。
