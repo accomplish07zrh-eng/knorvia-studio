@@ -1,0 +1,52 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Named file-tree watcher lifecycle files only; byte record, not audit or verification",
+  "spec": "specs/knorvia-next-ui-file-tree-lifecycle-20261003.md",
+  "sourceExposure": "Existing hooks, service signature, file-tree caller and targeted existing inventory entries read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared resource-owner scenarios are not React/DOM or emitted consumer validation",
+  "explicitCorrections": [
+    "Stale same-path request cannot delete a newer reservation",
+    "Subscription setup failures release allocated watcher ids",
+    "All host releases handle rejection; synchronous dispose failures still propagate after owned cleanup"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+      "baseBlob": "35096302698ae0eefa7f5483b8d23e3e67f17088",
+      "baseSha256": "d59fde0efbe0e2ba6f33e6539168f1e074c50dfce27048ed897e96e73f9e688e",
+      "candidateSha256": "70e83160def50606897d8fc2b9747ec7eafad6ee2ee10af2acb8c12b2c57506d",
+      "candidateBytes": 1335,
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeWatchers.ts",
+          "blob": "0b31f860e4d6fa4315de8945da95a747b457fe86",
+          "normalizedSha256": "aca3fe170b7351e0f35a58df3927358bb0623c3e0953429315484e5bc290c036",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/watcherRegistry.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "752ae9d8ce4f564e0dc72f232f0ab2ab377db6b1cfdc610b2677770d31dd4246",
+      "candidateBytes": 4006,
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-watchers-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "085178a282d4b2d3e1a578a6d63db08b43eac9c14606b9df4e791de553174552",
+      "candidateBytes": 7278,
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

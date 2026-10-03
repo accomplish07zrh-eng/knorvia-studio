@@ -1,0 +1,86 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Reassigned five-item UI boundary: row drag resources, installed editors, helper platform rules and task activity field authorities",
+  "spec": "specs/knorvia-next-ui-consumer-boundaries-20261003.md",
+  "sourceExposure": "Existing selected sources and direct public dependencies read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared resource/metadata contracts are not React/DOM/platform/output or rights acceptance",
+  "retainedCompatibility": [
+    "React drag boolean/setter and editor array; existing sort/URI helpers",
+    "Error/Set/HTML short expressions and interface/sidecar shapes not independent-author credit",
+    "phase/background, attention priority, metadata own/symbol and explicit undefined unread ownership"
+  ],
+  "explicitCorrections": [
+    "Listener installation/teardown errors attempt remaining cleanup with permission revoked first"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeRowDragState.ts",
+      "baseBlob": "3153a75274dbce25dd0ee180f114a0057481173d",
+      "baseSha256": "79f870128b756e45e71f419dd62dba1ff037d916570c611c8c0df34d47f920a0",
+      "candidateSha256": "09f49fc019f92f5e960c07a9233ebff534eae0eb4079c6c77ac0f114ffbeb405",
+      "candidateBytes": 426,
+      "candidateRole": "source-exposed candidate / compatibility adapter / pending scenario",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/useInstalledFileTreeEditors.ts",
+      "baseBlob": "48eeb4ee985e407eca1c28993fa8fa156a2c815e",
+      "baseSha256": "c3094c8e9460b6c304f80d12b75f45e62b88225f4dd4d2c771353f7807f770f2",
+      "candidateSha256": "ca3b5a1c3199c9e89a4355538a9821c8946a1510c6588fd977052013d2d91d7b",
+      "candidateBytes": 816,
+      "candidateRole": "source-exposed candidate / compatibility adapter / pending scenario",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/helpers.ts",
+      "baseBlob": "9a76f6a21e6b85b76b86561e907a9a4befb24c84",
+      "baseSha256": "05816168ba01124cbe0e1159f14a0f757e8b2c9a593699909b9de04678e9c90d",
+      "candidateSha256": "922f9712275c0f951de327ec12a6aedcdd34a7e0f8bb2cb0fd05116c983c4145",
+      "candidateBytes": 1699,
+      "candidateRole": "policy plus retained short compatibility expressions/dependencies",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeConsumerResources.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "4197023c4a7137f25f1d4a14c1af52833ba0478f9eb25ca017965b6514a91bab",
+      "candidateBytes": 2199,
+      "candidateRole": "source-exposed candidate / compatibility adapter / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/v4/taskListRowActivity.ts",
+      "baseBlob": "0e1052ca622274593932a1f971d0a14b6e67e62a",
+      "baseSha256": "bcbe3d2e8f0e4d93f483ac6c50d4e12ca6a3036e47f29321cb4ea4f84317d744",
+      "candidateSha256": "684d5847d8bcfaf815770a90b2e0ff5b8936d82be8616542548cf89db1c326f5",
+      "candidateBytes": 3895,
+      "candidateRole": "source-exposed candidate / compatibility adapter / pending scenario",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-consumer-resources-activity-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "74fd0e7963c0cb749ed5a889e727630363813cf494c335a3caa1e231560df41a",
+      "candidateBytes": 5499,
+      "candidateRole": "source-exposed candidate / compatibility adapter / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    }
+  ]
+}

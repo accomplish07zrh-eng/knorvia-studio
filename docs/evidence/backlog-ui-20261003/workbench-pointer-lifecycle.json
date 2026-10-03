@@ -1,0 +1,68 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Workbench pointer observer resources and target/preview registrations; original geometry/payload and pane DOM retained",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Existing pointer listeners, registry, WorkbenchPane registration consumer and geometry signatures read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; authored fake-document and registry scenarios do not validate browsers/React/DndKit or emitted outputs",
+  "explicitCorrections": [
+    "Partial listener installation and removal failures attempt every owned cleanup",
+    "Preview/unregister revokes permissions before callbacks to prevent recursive teardown",
+    "Newer callback operations and registration revocation prevent stale preview/drop"
+  ],
+  "retainedBehavior": [
+    "capture=true; move/up coordinates; cancel retains position; NaN admission; idempotent disposal",
+    "First canDrop/geometric hit in registration order; repeated previews; clear-before-drop",
+    "Existing public port names, payload/position/controller shapes and side geometry"
+  ],
+  "remaining": [
+    "workbenchDragDrop.ts native payload/geometry owner",
+    "React/DOM/data recovery and output/source/rights acceptance"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/v4/workbenchPointerPositionTracker.ts",
+      "baseBlob": "a67c9b77e40721574f28a99aa925fe18d48a0a64",
+      "baseSha256": "1c48144588990800321b598dd831d1a2c6d1f21c05d0d104b3f2b6a531cdabd7",
+      "candidateSha256": "c29bd26f511b342b7eed3967d61e041187d9fff88a69207998a0d3987ee5bfef",
+      "candidateBytes": 2619,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": {
+        "status": "existing file record not reclassified; no new rights claim"
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchPointerDragDrop.ts",
+      "baseBlob": "d82b905ea7411cd3a255bea05858c2bad82f8162",
+      "baseSha256": "cabbc48bf34d511aa3a2aceb4fb5c06a5b373905f41878c550242ab3e034a040",
+      "candidateSha256": "648cac32dc40728bfd7b215d71d03f7eeb2d9ed87d029a7c3dad5357c9acf268",
+      "candidateBytes": 1017,
+      "candidateRole": "public compatibility ports delegated to registry; retained controller/payload/position shapes not authorship credit",
+      "priorSource": {
+        "status": "existing file record not reclassified; no new rights claim"
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchPointerDropRegistry.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "c2db26016202fb882faaccf625fc51964e39d0e28850986639691424da015e3c",
+      "candidateBytes": 2995,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-workbench-pointer-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "73c339ca19eb0cc81ec2012262651bba8c39ae124f4b57db24407a3b8345abd4",
+      "candidateBytes": 9678,
+      "candidateRole": "source-exposed contract candidate / pending scenario",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}
