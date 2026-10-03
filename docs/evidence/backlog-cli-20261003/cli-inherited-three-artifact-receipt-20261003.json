@@ -1,0 +1,117 @@
+{
+  "formatVersion": 1,
+  "sourceCheckpoint": "55dda10f9b1779cddae5a24be30f413c79e4c546",
+  "predecessorCheckpoint": "be3e574a416165a54b45c71e3361f2efb3401b36",
+  "factsCheckpoint": "1128e11a98a47d16ad19e9b3e60e65fc8b470cd7",
+  "factsPath": "third-party/source-verification-20261003/bounded-inherited-source-facts.json",
+  "factsSha256": "7d1b77996fd0475a4b09fdce1cf9653217ff616d63f64ed2f42deb9afd38bb40",
+  "rights": "Apache-2.0 continues; source-exposed contract implementation, common expressions retained, original attribution/history preserved; no legal independence determination.",
+  "compiler": "6.0.2",
+  "node": "v24.14.0",
+  "emission": "sourceFile-only program.emit, original package config and virtual frozen predecessor input; seven selected outputs, no full project build/typecheck",
+  "rootPackageSha256": "ffc2fde451c9d8c3d66bda65db19005930dc188993accf813c9b0ef50fbe3c6d",
+  "lockfileSha256": "099a564e749e663014f921035307abc882f98a66cdf773aa9ce0a3f59e687abc",
+  "files": [
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-resident-pool.ts",
+      "sourcePath": "apps/zcode-cli/packages/bootstrap/src/zcode-protocol/session-resident-pool.ts",
+      "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "upstreamGitBlob": "35091791c3748771ad9c309f3a17ee3835b27ed4",
+      "beforeSha256": "21e971486c25ec85c29757a64941b7e051c1bb366211ddd1930fb86f6f731430",
+      "currentSha256": "46c431beba77caa194779acae6a78c9b1fcc75771478093ffefc26b46ca11ed3",
+      "packageRoot": "apps/cli/packages/bootstrap",
+      "configSha256": "f63344528742dc32a8182462c1ed8023b0740cc85d49d5b0e079894ce7ebe9d5",
+      "packageJsonSha256": "6d4e1a8f575b1560759be458e91f69403b293b3dd5bfa610fc4ec9edd56e894f",
+      "beforeOutputs": {
+        "session-resident-pool.js": {
+          "bytes": 10654,
+          "sha256": "af06c3d7e71a9dd20bd4057a065bcd5d9a58eed64f5f182a99bd4f41c4d82673"
+        },
+        "session-resident-pool.d.ts.map": {
+          "bytes": 1962,
+          "sha256": "88bb6cdfa371b2a4cea09254222115b30eb61ef2cbe4f46d966127a518357311"
+        },
+        "session-resident-pool.d.ts": {
+          "bytes": 2546,
+          "sha256": "48d9dde591673aefae70bca5abd972ec661f119a299216884f3d657039c93365"
+        }
+      },
+      "currentOutputs": {
+        "session-resident-pool.js": {
+          "bytes": 9918,
+          "sha256": "00b4f7eb1c9b0f509c394eff6c5a96d83fc1f82b6b7c757c7a6e43649ac3b57d"
+        },
+        "session-resident-pool.d.ts.map": {
+          "bytes": 2015,
+          "sha256": "d4a3fbd338ea12a2ea97b2f9d268df3c262b7a79695e1ef3814717a3683c0cd5"
+        },
+        "session-resident-pool.d.ts": {
+          "bytes": 2594,
+          "sha256": "6dfd28a685f42a50e241b679e9e07a272d4a3781eff3c1e51f96e58cf494f585"
+        }
+      }
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/app/script-workflow-child-source.ts",
+      "sourcePath": "apps/zcode-cli/packages/bootstrap/src/app/script-workflow-child-source.ts",
+      "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "upstreamGitBlob": "fb25785ea584416fcd6057da4f825bf0a0df6872",
+      "beforeSha256": "4eff40a50e10b4df568406f4ab821a491438f776d21beeb5d2cd332beb4d4b81",
+      "currentSha256": "937bf38b6a1bca49bfcf37f113827aca60be033976e4bf37bc572b5193727421",
+      "packageRoot": "apps/cli/packages/bootstrap",
+      "configSha256": "f63344528742dc32a8182462c1ed8023b0740cc85d49d5b0e079894ce7ebe9d5",
+      "packageJsonSha256": "6d4e1a8f575b1560759be458e91f69403b293b3dd5bfa610fc4ec9edd56e894f",
+      "beforeOutputs": {
+        "script-workflow-child-source.js": {
+          "bytes": 5592,
+          "sha256": "8b1bdd5f396873432be665f5a5f726e73a7ca929e21cc845edf41de06984a990"
+        },
+        "script-workflow-child-source.d.ts.map": {
+          "bytes": 190,
+          "sha256": "7ddbfd0dd8019e20509079c504b645e82ff9e2db88b29a41db75fccbe84f4e2f"
+        },
+        "script-workflow-child-source.d.ts": {
+          "bytes": 117,
+          "sha256": "97b459dc4589457c7605cd35add0299a4dec1258cb1f6bd28cb00b0a8d98f867"
+        }
+      },
+      "currentOutputs": {
+        "script-workflow-child-source.js": {
+          "bytes": 6027,
+          "sha256": "e3b81ffc3810969cac5a350762d1eaa440e12c6e12dcdac8f535fa3bfd87b463"
+        },
+        "script-workflow-child-source.d.ts.map": {
+          "bytes": 190,
+          "sha256": "720dd3e44e6d4ffb8da3bc1853c434cd878ab34403fdafc27684a09c69f5e990"
+        },
+        "script-workflow-child-source.d.ts": {
+          "bytes": 117,
+          "sha256": "97b459dc4589457c7605cd35add0299a4dec1258cb1f6bd28cb00b0a8d98f867"
+        }
+      }
+    },
+    {
+      "path": "apps/cli/packages/cli/src/custom-command-expand.ts",
+      "sourcePath": "apps/zcode-cli/packages/cli/src/custom-command-expand.ts",
+      "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+      "upstreamGitBlob": "e0d946562ece2509e979e02b523309effe6af27b",
+      "beforeSha256": "25485f1dbd4f33a3e8b2c8c1db25176c7c3ea6b6e1bf8e49c7370ed0ea6d8cd1",
+      "currentSha256": "c9d29ba79ef29ce367b968f9f48a3676f28fa43a2e69bdc3a2b4618e54d0e0fc",
+      "packageRoot": "apps/cli/packages/cli",
+      "configSha256": "2a41ba30b584a7fc9c11daaf115dfc1efe9fa449378d6b42c91e36a056cb55bc",
+      "packageJsonSha256": "b0f0b9dd355805873d203a0a3fae9241a282036bfaed5a6b7cf05faf427fe0f6",
+      "beforeOutputs": {
+        "custom-command-expand.js": {
+          "bytes": 2857,
+          "sha256": "d0fc7ff831f78d0321bf9df9b0152c8d22d0b7df0275d6f6a062458f680c31bc"
+        }
+      },
+      "currentOutputs": {
+        "custom-command-expand.js": {
+          "bytes": 3082,
+          "sha256": "b79736e076e7f4150378ef6b2a5be9bcd96261beedde77d5887f9c0bdd73017d"
+        }
+      }
+    }
+  ]
+}
