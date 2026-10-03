@@ -1,0 +1,167 @@
+{
+  "status": "Raw declarations identical, original19isolated diagnostics unchanged; NOT semantic type pass. Before shorthand correction candidate had extra9016; public output was already identical.",
+  "rows": [
+    {
+      "name": "baseline",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9038,
+          "text": "Computed property names on class or object literals cannot be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9038,
+          "text": "Computed property names on class or object literals cannot be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        }
+      ]
+    },
+    {
+      "name": "candidate",
+      "diagnostics": [
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9010,
+          "text": "Variable must have an explicit type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9007,
+          "text": "Function must have an explicit return type annotation with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9038,
+          "text": "Computed property names on class or object literals cannot be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9038,
+          "text": "Computed property names on class or object literals cannot be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        },
+        {
+          "code": 9015,
+          "text": "Objects that contain spread assignments can't be inferred with --isolatedDeclarations."
+        }
+      ]
+    }
+  ]
+}
