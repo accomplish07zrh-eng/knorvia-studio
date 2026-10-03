@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+    "--baseline",
+    "--stable-symbols"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/scoped-static.mjs",
+      "sha256": "7eef1e04f6c0c5a4868b54f6b3fb0d47b8ecce6731f5875b364bb3e5bc909336"
+    }
+  ],
+  "stdout": "{\n  \"baseline\": true,\n  \"restrictedSemanticErrors\": [\n    {\n      \"file\": \"/tmp/knorvia-storage50-baseline/preparation.ts\",\n      \"code\": 2307,\n      \"message\": \"Cannot find module 'zod' or its corresponding type declarations.\"\n    }\n  ],\n  \"bodyFreeInjectedPorts\": {\n    \"@knorvia/shared\": \"shared\",\n    \"@knorvia/services/storage-startup\": \"services\"\n  },\n  \"actualNodeTypes\": true,\n  \"skipLibCheck\": true,\n  \"sourceLiteralProjection\": \"No source-literal projection applies to this owner; raw and public contracts must both match.\",\n  \"syntaxFiles\": [\n    \"/tmp/knorvia-storage50-baseline/disk.ts\",\n    \"/tmp/knorvia-storage50-baseline/preparation.ts\",\n    \"packages/desktop/src/host/hostDatabaseStartup.ts\"\n  ],\n  \"syntax\": [],\n  \"fullProductTypesOrNativeRuntime\": false\n}\n",
+  "stderr": "",
+  "exitCode": 1
+}

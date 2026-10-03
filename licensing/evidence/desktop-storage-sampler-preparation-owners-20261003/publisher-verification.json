@@ -1,0 +1,22 @@
+[
+  {
+    "owner": "disk",
+    "path": "packages/desktop/src/host/startupDiskSampler.ts",
+    "repository": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "a5daf7dec2ef99f8b4aa650601a86cf51ce7758b",
+    "normalizedSha256": "46b6b0b056eae32ccd46ee645c68c89cecf438e63c032da044b1039d243a5c2d",
+    "rawResponseSha256": "6736c0407d7f9bf8ab9eaee66d61e4371563629096036021095d15de4ed4db9d",
+    "verified": true
+  },
+  {
+    "owner": "preparation",
+    "path": "packages/desktop/src/host/storagePreparationProcesses.ts",
+    "repository": "zai-org/ZCode",
+    "ref": "872ad960de7ec172591f7e1952f7849229f94521",
+    "blob": "be9bd936a69097bd3cfced62e98f32229a05cbc5",
+    "normalizedSha256": "b31be1809f05411b309f5e7bd0eafd6e5a3977d876d8b9b06370d81d95382701",
+    "rawResponseSha256": "f1caf629aebe63e307076f58c594180493772f5e8a24f880f50313ac6691c51f",
+    "verified": true
+  }
+]

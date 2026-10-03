@@ -1,0 +1,30 @@
+[
+  {
+    "pr": 8,
+    "filenameCount": 1692,
+    "selectedOverlap": [],
+    "readMode": "GitHub filenames-only paginated tool; no patch/body payload",
+    "filenameSetSha256": "89207e0f4869968e01fb62dc81cd79565ad977b1a3ce9261ee7a0f4db2c58986"
+  },
+  {
+    "pr": 10,
+    "filenameCount": 443,
+    "selectedOverlap": [],
+    "readMode": "GitHub filenames-only paginated tool; no patch/body payload",
+    "filenameSetSha256": "88d3236364951745bb95ab74550a3aed790954fb0838709e7be8632969a11eb1"
+  },
+  {
+    "pr": 11,
+    "filenameCount": 2138,
+    "selectedOverlap": [],
+    "readMode": "GitHub filenames-only paginated tool; no patch/body payload",
+    "filenameSetSha256": "8ed42aacd2012556282bcc3f7e71f4d0efc7fafebf856c1d492d3a22037cff9c"
+  },
+  {
+    "pr": 12,
+    "filenameCount": 538,
+    "selectedOverlap": [],
+    "readMode": "GitHub filenames-only paginated tool; no patch/body payload",
+    "filenameSetSha256": "a3b4e7b9fc0b7efa3c273a7b301f2f982b0f0b33c82143748d164e8b992d83c2"
+  }
+]

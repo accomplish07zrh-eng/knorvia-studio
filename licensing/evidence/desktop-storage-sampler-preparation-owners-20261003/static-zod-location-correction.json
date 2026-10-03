@@ -1,0 +1,5 @@
+{
+  "failure": "Baseline source copies in /tmp do not resolve repository-installed zod; TS2307 retained in baseline-static-builtin-set.json, erroneous API capture retained as baseline-unresolved-zod-public-api.json.",
+  "change": "Resolve zod from actual desktop consumer location for every baseline/draft/installed compilation. No product/compiler ports or package edits.",
+  "correctedHelperSha256": "df4353f764549f5d48b4aaec9eb292d6694157ea7a370959e32e422d14f9747d"
+}

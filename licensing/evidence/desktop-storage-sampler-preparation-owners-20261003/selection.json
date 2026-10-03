@@ -1,0 +1,170 @@
+{
+  "baseHead": "de5d230a858cc17b9edcbbd0bfe6cceb9f4ef420",
+  "selected": [
+    {
+      "owner": "disk",
+      "path": "packages/desktop/src/host/startupDiskSampler.ts",
+      "sha256": "c1c9ac53858e673dc7a3c936c4bd718ca75964762144493a726ee8cbc05760e0",
+      "bytes": 5359,
+      "lines": 151,
+      "inventory": {
+        "path": "packages/desktop/src/host/startupDiskSampler.ts",
+        "kind": "file",
+        "sha256": "c1c9ac53858e673dc7a3c936c4bd718ca75964762144493a726ee8cbc05760e0",
+        "normalizedSha256": "c1c9ac53858e673dc7a3c936c4bd718ca75964762144493a726ee8cbc05760e0",
+        "encoding": "utf8-lf",
+        "bytes": 5359,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/host/startupDiskSampler.ts",
+          "blob": "a5daf7dec2ef99f8b4aa650601a86cf51ce7758b",
+          "normalizedSha256": "46b6b0b056eae32ccd46ee645c68c89cecf438e63c032da044b1039d243a5c2d",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviews": [],
+      "receiptSearch": {
+        "command": [
+          "rg",
+          "-l",
+          "-F",
+          "-e",
+          "packages/desktop/src/host/startupDiskSampler.ts",
+          "-e",
+          "startupDiskSampler.ts",
+          "-e",
+          "c1c9ac53858e673dc7a3c936c4bd718ca75964762144493a726ee8cbc05760e0",
+          "licensing",
+          "specs",
+          "docs",
+          "--glob",
+          "*.json",
+          "--glob",
+          "*.md",
+          "--glob",
+          "!**/drafts/**",
+          "--glob",
+          "!**/pre-check-snapshots/**"
+        ],
+        "exitCode": 0,
+        "matchingMetadataPaths": [
+          "licensing/upstream-baseline.json",
+          "licensing/evidence/repository-migration-scope-20260930.json",
+          "licensing/evidence/desktop-tab-clipboard-owners-20261003/initial-retained-bindings.json",
+          "licensing/current-files.json",
+          "licensing/evidence/desktop-cron-claim-owner-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-playwright-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/selection-and-remainder.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+          "licensing/evidence/desktop-command-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-screenshot-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-bindings.json"
+        ]
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "noAcceptedExactOwnerReceiptLocatedWithinVisibleBoundedLookup": true
+    },
+    {
+      "owner": "preparation",
+      "path": "packages/desktop/src/host/storagePreparationProcesses.ts",
+      "sha256": "c6c69fa42f7997f10b3eb34af6bdadf73b60184efc4d37973e88572c7e6d6b8b",
+      "bytes": 7735,
+      "lines": 221,
+      "inventory": {
+        "path": "packages/desktop/src/host/storagePreparationProcesses.ts",
+        "kind": "file",
+        "sha256": "c6c69fa42f7997f10b3eb34af6bdadf73b60184efc4d37973e88572c7e6d6b8b",
+        "normalizedSha256": "c6c69fa42f7997f10b3eb34af6bdadf73b60184efc4d37973e88572c7e6d6b8b",
+        "encoding": "utf8-lf",
+        "bytes": 7735,
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/desktop/src/host/storagePreparationProcesses.ts",
+          "blob": "be9bd936a69097bd3cfced62e98f32229a05cbc5",
+          "normalizedSha256": "b31be1809f05411b309f5e7bd0eafd6e5a3977d876d8b9b06370d81d95382701",
+          "contentMatchedPaths": []
+        },
+        "license": "NOASSERTION",
+        "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+        "thirdParty": [],
+        "review": null
+      },
+      "reviews": [],
+      "receiptSearch": {
+        "command": [
+          "rg",
+          "-l",
+          "-F",
+          "-e",
+          "packages/desktop/src/host/storagePreparationProcesses.ts",
+          "-e",
+          "storagePreparationProcesses.ts",
+          "-e",
+          "c6c69fa42f7997f10b3eb34af6bdadf73b60184efc4d37973e88572c7e6d6b8b",
+          "licensing",
+          "specs",
+          "docs",
+          "--glob",
+          "*.json",
+          "--glob",
+          "*.md",
+          "--glob",
+          "!**/drafts/**",
+          "--glob",
+          "!**/pre-check-snapshots/**"
+        ],
+        "exitCode": 0,
+        "matchingMetadataPaths": [
+          "licensing/upstream-baseline.json",
+          "licensing/evidence/repository-migration-scope-20260930.json",
+          "licensing/evidence/desktop-tab-clipboard-owners-20261003/initial-retained-bindings.json",
+          "licensing/current-files.json",
+          "licensing/evidence/desktop-cron-claim-owner-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-playwright-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-recording-presentation-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-browser-command-capture-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-command-owners-20261003/initial-retained-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-behavior-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/selection-and-remainder.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/remaining-host-inventory.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-resource-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-preload-owners-20261003/final-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-screenshot-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-tab-eviction-owner-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-command-page-chain-owners-20261003/retained-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/initial-retained-desktop-bindings.json",
+          "licensing/evidence/desktop-host-index-owner-20261003/final-retained-desktop-bindings.json"
+        ]
+      },
+      "history": [
+        "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+      ],
+      "noAcceptedExactOwnerReceiptLocatedWithinVisibleBoundedLookup": true
+    }
+  ],
+  "maxOwners": 2,
+  "explicitParentAuthorization": "At most two eligible substantive desktop owners, excluding root/B/browser/server/private-HASH HOLD/Recovery activation; complete frozen candidates only",
+  "absentVisibleReceiptIsNotPrivateAbsence": true
+}

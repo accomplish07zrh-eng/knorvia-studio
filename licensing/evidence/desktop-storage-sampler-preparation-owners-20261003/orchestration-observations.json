@@ -1,0 +1,14 @@
+{
+  "nonProductErrors": [
+    "One unnecessary architecture skill path probe .agents/skills/architecture/SKILL.md returned ENOENT; actual known skill directory architecture-governance unchanged, already read earlier.",
+    "ls public-api wildcard before static completion returned ENOENT; no partial result used."
+  ],
+  "skipped": [
+    "ordinary full suite",
+    "package build",
+    "native Worker/readline/disk/timer/runtime",
+    "full product types",
+    "old browser/server aggregate tests"
+  ],
+  "network": "Only authorized GitHub fixed-source and filenames metadata plus ordinary submission; no runtime or private-source alternate route"
+}

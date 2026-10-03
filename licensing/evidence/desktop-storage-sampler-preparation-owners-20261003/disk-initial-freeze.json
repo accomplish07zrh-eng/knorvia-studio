@@ -1,0 +1,18 @@
+{
+  "owner": "disk",
+  "version": "initial",
+  "file": "/tmp/knorvia-storage50-disk-initial.ts",
+  "rawPath": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/drafts/disk-initial.ts",
+  "sha256": "2183a2020ed33284c5c98d418f3edbdfe1662bebd1e55b5afa0b8940ebd17313",
+  "bytes": 5243,
+  "author": "/root/startup_disk_owner_author50",
+  "modelRequested": "gpt-6.1-sol",
+  "reasoningRequested": "high",
+  "forkTurns": "none",
+  "authorStoppedEditing": true,
+  "completedBeforeCuratorInspection": true,
+  "access": "Only frozen common/owner/public declaration packet files listed in input freeze; whole literal once then own stat/hash. No source/history/dependencies/tests/siblings/artifacts/runtime reads.",
+  "authorActualModelIndependentlyVerified": false,
+  "authorFastIndependentlyVerified": false,
+  "boundedFacts": "Getter read order, merged field insertion order, default probe catch boundary"
+}

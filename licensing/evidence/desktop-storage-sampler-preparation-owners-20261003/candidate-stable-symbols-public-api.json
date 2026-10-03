@@ -1,0 +1,1528 @@
+{
+  "compilerRaw": {
+    "disk": [
+      {
+        "export": "StartupDiskSampler",
+        "kind": "value",
+        "shape": {
+          "calls": [],
+          "constructs": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "onSample",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": {
+                                      "array": [
+                                        {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "minAvailableBytes",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "observedAvailableDropPeakBytes",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "quality",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"complete\"",
+                                                "\"partial\"",
+                                                "\"unknown\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "sampledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "scopeId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "returns": "void"
+                              }
+                            ],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "probe",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": [
+                                    {
+                                      "calls": [],
+                                      "constructs": [],
+                                      "properties": [
+                                        {
+                                          "name": "availableBytes",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "number"
+                                        },
+                                        {
+                                          "name": "scope",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "string"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "addPath",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sample",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sealBaseline",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "snapshot",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "array": [
+                              {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "minAvailableBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "observedAvailableDropPeakBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "quality",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"complete\"",
+                                      "\"partial\"",
+                                      "\"unknown\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "sampledAt",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "scopeId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "start",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "stop",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [
+            {
+              "name": "prototype",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "addPath",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sample",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sealBaseline",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "snapshot",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "array": [
+                              {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "minAvailableBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "observedAvailableDropPeakBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "quality",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"complete\"",
+                                      "\"partial\"",
+                                      "\"unknown\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "sampledAt",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "scopeId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "start",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "stop",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "preparation": [
+      {
+        "export": "prepareHostStorage",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                },
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": [
+                              "\"checking\"",
+                              "\"committing\"",
+                              "\"maintaining\"",
+                              "\"migrating\"",
+                              "\"ready\"",
+                              "\"waiting_for_lock\""
+                            ]
+                          },
+                          {
+                            "optional": true,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "committedCount",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "executedCount",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "kind",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"initialize\"",
+                                      "\"none\"",
+                                      "\"upgrade\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "lastAppliedMigrationId",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "string",
+                                      "undefined"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "returns": "void"
+                      }
+                    ],
+                    "constructs": [],
+                    "properties": []
+                  }
+                },
+                {
+                  "optional": false,
+                  "type": "AbortSignal"
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "prepareSessionStorage",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "cwd",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "env",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "observePath",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "void"
+                                ]
+                              }
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "preparedPaths",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "builtinSet": [
+                              "string"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "report",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": [
+                                    "\"checking\"",
+                                    "\"committing\"",
+                                    "\"maintaining\"",
+                                    "\"migrating\"",
+                                    "\"ready\"",
+                                    "\"waiting_for_lock\""
+                                  ]
+                                },
+                                {
+                                  "optional": true,
+                                  "type": [
+                                    "undefined",
+                                    {
+                                      "calls": [],
+                                      "constructs": [],
+                                      "properties": [
+                                        {
+                                          "name": "databaseId",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "string"
+                                        },
+                                        {
+                                          "name": "migration",
+                                          "optional": true,
+                                          "readonly": false,
+                                          "type": [
+                                            "undefined",
+                                            {
+                                              "calls": [],
+                                              "constructs": [],
+                                              "properties": [
+                                                {
+                                                  "name": "committedCount",
+                                                  "optional": false,
+                                                  "readonly": false,
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "name": "executedCount",
+                                                  "optional": false,
+                                                  "readonly": false,
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "name": "kind",
+                                                  "optional": false,
+                                                  "readonly": false,
+                                                  "type": [
+                                                    "\"initialize\"",
+                                                    "\"none\"",
+                                                    "\"upgrade\""
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "lastAppliedMigrationId",
+                                                  "optional": true,
+                                                  "readonly": false,
+                                                  "type": [
+                                                    "null",
+                                                    "string",
+                                                    "undefined"
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "signal",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "AbortSignal"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ]
+  },
+  "consumerStringContract": {
+    "disk": [
+      {
+        "export": "StartupDiskSampler",
+        "kind": "value",
+        "shape": {
+          "calls": [],
+          "constructs": [
+            {
+              "parameters": [
+                {
+                  "optional": true,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "onSample",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": {
+                                      "array": [
+                                        {
+                                          "calls": [],
+                                          "constructs": [],
+                                          "properties": [
+                                            {
+                                              "name": "minAvailableBytes",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "observedAvailableDropPeakBytes",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "quality",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "\"complete\"",
+                                                "\"partial\"",
+                                                "\"unknown\""
+                                              ]
+                                            },
+                                            {
+                                              "name": "sampledAt",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": [
+                                                "null",
+                                                "number"
+                                              ]
+                                            },
+                                            {
+                                              "name": "scopeId",
+                                              "optional": false,
+                                              "readonly": false,
+                                              "type": "string"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "returns": "void"
+                              }
+                            ],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "probe",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [
+                              {
+                                "parameters": [
+                                  {
+                                    "optional": false,
+                                    "type": "string"
+                                  }
+                                ],
+                                "returns": {
+                                  "promise": [
+                                    {
+                                      "calls": [],
+                                      "constructs": [],
+                                      "properties": [
+                                        {
+                                          "name": "availableBytes",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "number"
+                                        },
+                                        {
+                                          "name": "scope",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "string"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            ],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "addPath",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sample",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sealBaseline",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "snapshot",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "array": [
+                              {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "minAvailableBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "observedAvailableDropPeakBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "quality",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"complete\"",
+                                      "\"partial\"",
+                                      "\"unknown\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "sampledAt",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "scopeId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "start",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "stop",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": [
+            {
+              "name": "prototype",
+              "optional": false,
+              "readonly": false,
+              "type": {
+                "calls": [],
+                "constructs": [],
+                "properties": [
+                  {
+                    "name": "addPath",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sample",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "promise": [
+                              "void"
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "sealBaseline",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [
+                            {
+                              "optional": false,
+                              "type": "string"
+                            }
+                          ],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "snapshot",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": {
+                            "array": [
+                              {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "minAvailableBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "observedAvailableDropPeakBytes",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "quality",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"complete\"",
+                                      "\"partial\"",
+                                      "\"unknown\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "sampledAt",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "number"
+                                    ]
+                                  },
+                                  {
+                                    "name": "scopeId",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "string"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "start",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  },
+                  {
+                    "name": "stop",
+                    "optional": false,
+                    "readonly": false,
+                    "type": {
+                      "calls": [
+                        {
+                          "parameters": [],
+                          "returns": "void"
+                        }
+                      ],
+                      "constructs": [],
+                      "properties": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "preparation": [
+      {
+        "export": "prepareHostStorage",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": "string"
+                },
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [
+                      {
+                        "parameters": [
+                          {
+                            "optional": false,
+                            "type": [
+                              "\"checking\"",
+                              "\"committing\"",
+                              "\"maintaining\"",
+                              "\"migrating\"",
+                              "\"ready\"",
+                              "\"waiting_for_lock\""
+                            ]
+                          },
+                          {
+                            "optional": true,
+                            "type": [
+                              "undefined",
+                              {
+                                "calls": [],
+                                "constructs": [],
+                                "properties": [
+                                  {
+                                    "name": "committedCount",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "executedCount",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": "number"
+                                  },
+                                  {
+                                    "name": "kind",
+                                    "optional": false,
+                                    "readonly": false,
+                                    "type": [
+                                      "\"initialize\"",
+                                      "\"none\"",
+                                      "\"upgrade\""
+                                    ]
+                                  },
+                                  {
+                                    "name": "lastAppliedMigrationId",
+                                    "optional": true,
+                                    "readonly": false,
+                                    "type": [
+                                      "null",
+                                      "string",
+                                      "undefined"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "returns": "void"
+                      }
+                    ],
+                    "constructs": [],
+                    "properties": []
+                  }
+                },
+                {
+                  "optional": false,
+                  "type": "AbortSignal"
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      },
+      {
+        "export": "prepareSessionStorage",
+        "kind": "value",
+        "shape": {
+          "calls": [
+            {
+              "parameters": [
+                {
+                  "optional": false,
+                  "type": {
+                    "calls": [],
+                    "constructs": [],
+                    "properties": [
+                      {
+                        "name": "cwd",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "string"
+                      },
+                      {
+                        "name": "env",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "calls": [],
+                            "constructs": [],
+                            "properties": []
+                          }
+                        ]
+                      },
+                      {
+                        "name": "observePath",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": "string"
+                                }
+                              ],
+                              "returns": {
+                                "promise": [
+                                  "void"
+                                ]
+                              }
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "preparedPaths",
+                        "optional": true,
+                        "readonly": false,
+                        "type": [
+                          "undefined",
+                          {
+                            "builtinSet": [
+                              "string"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "report",
+                        "optional": false,
+                        "readonly": false,
+                        "type": {
+                          "calls": [
+                            {
+                              "parameters": [
+                                {
+                                  "optional": false,
+                                  "type": [
+                                    "\"checking\"",
+                                    "\"committing\"",
+                                    "\"maintaining\"",
+                                    "\"migrating\"",
+                                    "\"ready\"",
+                                    "\"waiting_for_lock\""
+                                  ]
+                                },
+                                {
+                                  "optional": true,
+                                  "type": [
+                                    "undefined",
+                                    {
+                                      "calls": [],
+                                      "constructs": [],
+                                      "properties": [
+                                        {
+                                          "name": "databaseId",
+                                          "optional": false,
+                                          "readonly": false,
+                                          "type": "string"
+                                        },
+                                        {
+                                          "name": "migration",
+                                          "optional": true,
+                                          "readonly": false,
+                                          "type": [
+                                            "undefined",
+                                            {
+                                              "calls": [],
+                                              "constructs": [],
+                                              "properties": [
+                                                {
+                                                  "name": "committedCount",
+                                                  "optional": false,
+                                                  "readonly": false,
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "name": "executedCount",
+                                                  "optional": false,
+                                                  "readonly": false,
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "name": "kind",
+                                                  "optional": false,
+                                                  "readonly": false,
+                                                  "type": [
+                                                    "\"initialize\"",
+                                                    "\"none\"",
+                                                    "\"upgrade\""
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "lastAppliedMigrationId",
+                                                  "optional": true,
+                                                  "readonly": false,
+                                                  "type": [
+                                                    "null",
+                                                    "string",
+                                                    "undefined"
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "returns": "void"
+                            }
+                          ],
+                          "constructs": [],
+                          "properties": []
+                        }
+                      },
+                      {
+                        "name": "signal",
+                        "optional": false,
+                        "readonly": false,
+                        "type": "AbortSignal"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "returns": {
+                "promise": [
+                  "void"
+                ]
+              }
+            }
+          ],
+          "constructs": [],
+          "properties": []
+        }
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
-import { stat, statfs } from "node:fs/promises";
-import { dirname } from "node:path";
-import { createHash } from "node:crypto";
-import type { StartupDiskSummary } from "@knorvia/shared";
+import { stat, statfs } from 'node:fs/promises';
+import { dirname } from 'node:path';
+import { createHash } from 'node:crypto';
+import type { StartupDiskSummary } from '@knorvia/shared';
 
 type Probe = (path: string) => Promise<{
   scope: string;
@@ -25,12 +25,15 @@ function defaultProbe(): Probe {
           const info = await stat(parent, { bigint: true });
           location = {
             path: parent,
-            scope: createHash("sha256").update(String(info.dev)).digest("hex"),
+            scope: createHash('sha256').update(String(info.dev)).digest('hex'),
           };
           locations.set(path, location);
           break;
         } catch (error) {
-          if ((error as NodeJS.ErrnoException).code === "ENOENT" && dirname(parent) !== parent) {
+          if (
+            (error as NodeJS.ErrnoException).code === 'ENOENT' &&
+            dirname(parent) !== parent
+          ) {
             parent = dirname(parent);
           } else {
             throw error;
@@ -42,7 +45,7 @@ function defaultProbe(): Probe {
     const info = await statfs(location.path, { bigint: true });
     const bytes = info.bavail * info.bsize;
     if (bytes > BigInt(Number.MAX_SAFE_INTEGER)) {
-      throw new Error("Storage size exceeds safe numeric range");
+      throw new Error('Storage size exceeds safe numeric range');
     }
     return {
       scope: location.scope,
@@ -71,14 +74,14 @@ export class StartupDiskSampler {
   async addPath(path: string): Promise<void> {
     if (this.entries.size >= 8 || this.stopped) return;
 
-    const scopeId = createHash("sha256").update(path).digest("hex");
+    const scopeId = createHash('sha256').update(path).digest('hex');
     const entry: Entry = {
       path,
       scopeId,
       baseline: null,
       observedAvailableDropPeakBytes: null,
       minAvailableBytes: null,
-      quality: "unknown",
+      quality: 'unknown',
       sampledAt: null,
     };
     this.entries.set(scopeId, entry);
@@ -101,7 +104,7 @@ export class StartupDiskSampler {
           minAvailableBytes: result.availableBytes,
           sampledAt: Date.now(),
           observedAvailableDropPeakBytes: this.sealed.has(path) ? null : 0,
-          quality: this.sealed.has(path) ? "partial" : "complete",
+          quality: this.sealed.has(path) ? 'partial' : 'complete',
         });
       }
     } catch {
@@ -143,12 +146,12 @@ export class StartupDiskSampler {
               continue;
             }
             entry.scopeId = result.scope;
-            entry.quality = "partial";
+            entry.quality = 'partial';
             this.entries.set(result.scope, entry);
           }
           this.measure(entry, result.availableBytes);
         } catch {
-          if (entry.quality === "complete") entry.quality = "partial";
+          if (entry.quality === 'complete') entry.quality = 'partial';
         }
       }
 
@@ -159,10 +162,16 @@ export class StartupDiskSampler {
   }
 
   private measure(entry: Entry, availableBytes: number): void {
-    entry.minAvailableBytes = Math.min(entry.minAvailableBytes ?? availableBytes, availableBytes);
+    entry.minAvailableBytes = Math.min(
+      entry.minAvailableBytes ?? availableBytes,
+      availableBytes,
+    );
     entry.sampledAt = Date.now();
     if (entry.baseline !== null) {
-      entry.observedAvailableDropPeakBytes = Math.max(0, entry.baseline - entry.minAvailableBytes);
+      entry.observedAvailableDropPeakBytes = Math.max(
+        0,
+        entry.baseline - entry.minAvailableBytes,
+      );
     }
   }
 

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/host/storagePreparationOwner.test.mjs"
+  ],
+  "selectedEnv": {
+    "KNORVIA_STORAGE_BASELINE": "/tmp/knorvia-storage50-baseline"
+  },
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/host/storagePreparationOwner.test.mjs",
+      "sha256": "e88651bdb3d7c84936b92725de2c2971ef9cce2487614fecccd191d8a8fdbcf8"
+    }
+  ],
+  "stdout": "✔ storage preparation fake Worker control authority, canonical reuse and exit lifetime (78.255766ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 176.031176\n",
+  "stderr": "",
+  "exitCode": 0
+}

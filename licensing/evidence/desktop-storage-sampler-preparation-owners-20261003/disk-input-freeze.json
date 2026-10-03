@@ -1,0 +1,21 @@
+{
+  "beforeAuthoring": true,
+  "files": [
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/common-contract.md",
+      "sha256": "8f2e6444574851b3caef679e5e63a91a8b792423a21eb7f868d14dc0fffbbbc1"
+    },
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/disk-owner-contract.md",
+      "sha256": "79492e63f0f9a4e54ee76709203e0f31d279177ae4ba184418a84367d4994e24"
+    },
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/ports/disk.d.ts",
+      "sha256": "c2cbf0961f6b960ff45a31a505b37fad90d849fba508983b3f47ab6c48071dcd"
+    },
+    {
+      "path": "licensing/evidence/desktop-storage-sampler-preparation-owners-20261003/ports/shared.d.ts",
+      "sha256": "6884f0833cbc3719897d0591db1670ce276eabfc178cf67e0153d995bc5a7dd3"
+    }
+  ]
+}
