@@ -1,0 +1,15 @@
+node:internal/fs/promises:697
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/workspace/knorvia-studio/docs/evidence/knorvia-turn-machine-current-20261003.json'
+    at async open (node:internal/fs/promises:697:25)
+    at async readFile (node:internal/fs/promises:1348:14)
+    at async file:///workspace/knorvia-studio/apps/cli/packages/core/test/turn-machine-safety-20261003.mjs:27:25 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/knorvia-studio/docs/evidence/knorvia-turn-machine-current-20261003.json'
+}
+
+Node.js v24.19.0

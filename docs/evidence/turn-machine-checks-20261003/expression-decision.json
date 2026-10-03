@@ -1,0 +1,37 @@
+{
+  "comparison": "Selected emitted method bodies; parsed body AST ignores comments/format/positions; ONLY disclosed identifier substitutions Phase→TurnPhase, transition→transitionTo, tc→call, p→request. This is correspondence evidence, not an originality metric or equivalence proof.",
+  "matchingBodiesAfterDisclosedRenames": [
+    "start",
+    "receiveModelResponse",
+    "addStreamingContent",
+    "scheduleTools",
+    "queuePendingInput",
+    "drainPendingInputs",
+    "requestPermission",
+    "aggregateResults",
+    "complete",
+    "fail",
+    "isComplete"
+  ],
+  "otherBodies": [
+    "create",
+    "transition",
+    "startModelRequest",
+    "startToolExecution",
+    "completeTool",
+    "resolvePermission",
+    "getNextPhase"
+  ],
+  "discretionaryCombination": "Both use one common phase-transition helper, separate public method projections, spread-based state/record overrides, map of every tool and filter of pending permissions, appended result/permission arrays. Core combination is substantially corresponding.",
+  "decision": "Do not install or count as completed independent implementation. Complete sealed draft preserved; no forced alternate algorithm.",
+  "initialTypeDiagnostics": [
+    {
+      "code": 2322,
+      "file": "apps/cli/packages/core/src/agent/turn-machine.ts",
+      "message": "Type '{ id: string; name: string; input: unknown; status: \"scheduled\"; scheduledAt: Date; }[]' is not assignable to type 'ToolCallState[]'.\n  Type '{ id: string; name: string; input: unknown; status: \"scheduled\"; scheduledAt: Date; }' is not assignable to type 'ToolCallState'.\n    Types of property 'id' are incompatible.\n      Type 'string' is not assignable to type 'ToolCallId'.\n        Type 'string' is not assignable to type '{ readonly __brand: \"ToolCallId\"; }'."
+    }
+  ],
+  "initialPublicAPIEqual": true,
+  "runtimeTestsOfDraft": 0,
+  "productionInstalled": false
+}
