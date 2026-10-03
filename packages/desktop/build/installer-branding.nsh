@@ -28,6 +28,10 @@
   LangString KnorviaRunText 1033 "Open Knorvia Studio"
   LangString KnorviaUninstallText 2052 "Knorvia Studio 已卸载。$\r$\n$\r$\n保存在用户目录的个人设置与会话不会随程序删除。"
   LangString KnorviaUninstallText 1033 "Knorvia Studio has been removed.$\r$\n$\r$\nYour personal settings and conversations in the user profile are preserved."
+  !ifdef BUILD_UNINSTALLER
+  LangString KnorviaUninstallOwnershipMissing 2052 "程序文件清单缺失或不可读。为保护用户数据，卸载已停止；请先重新安装以恢复清单，再尝试卸载。"
+  LangString KnorviaUninstallOwnershipMissing 1033 "The program ownership manifest is missing or unreadable. Uninstall stopped to protect your data. Reinstall to restore the manifest, then uninstall again."
+  !endif
   !ifndef BUILD_UNINSTALLER
   LangString KnorviaInstallingSubtitle 2052 "正在安装，请稍候。"
   LangString KnorviaInstallingSubtitle 1033 "Installing. Please wait."
