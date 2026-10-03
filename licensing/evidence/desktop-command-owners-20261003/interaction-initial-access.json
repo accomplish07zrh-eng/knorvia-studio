@@ -1,0 +1,15 @@
+{
+  "owner": "interaction",
+  "readPaths": [
+    "licensing/evidence/desktop-command-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-command-owners-20261003/interaction-owner-contract.md",
+    "licensing/evidence/desktop-command-owners-20261003/public-view.d.ts",
+    "licensing/evidence/desktop-command-owners-20261003/input-owner-contract.md"
+  ],
+  "writePaths": [
+    "licensing/evidence/desktop-command-owners-20261003/author-output/interaction/browserCommandInteractionHandlers.ts",
+    "licensing/evidence/desktop-command-owners-20261003/author-output/interaction/access.json"
+  ],
+  "accessExceptions": [],
+  "execution": "No tests, compilation, lint, or production edits performed."
+}

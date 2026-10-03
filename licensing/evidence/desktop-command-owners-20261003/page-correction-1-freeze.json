@@ -1,0 +1,9 @@
+{
+  "owner": "page",
+  "version": "correction-1",
+  "completeReportedBeforeFreeze": true,
+  "authorReportedSha256": "e6c2c618dcf224cebfa9112f5252b63a78ca591fca17be821c0a1ff532e957fe",
+  "actualSha256": "e6c2c618dcf224cebfa9112f5252b63a78ca591fca17be821c0a1ff532e957fe",
+  "bytes": 10255,
+  "reviewOccurredBeforeFreeze": false
+}

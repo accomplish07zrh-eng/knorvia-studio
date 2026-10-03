@@ -1,0 +1,9 @@
+{
+  "owner": "input",
+  "version": "correction-1",
+  "completeReportedBeforeFreeze": true,
+  "authorReportedSha256": "bd9d2ac79b95290e73162ddfb0d8abde5675072426c6abe21d0457331fb14952",
+  "actualSha256": "bd9d2ac79b95290e73162ddfb0d8abde5675072426c6abe21d0457331fb14952",
+  "bytes": 8763,
+  "reviewOccurredBeforeFreeze": false
+}

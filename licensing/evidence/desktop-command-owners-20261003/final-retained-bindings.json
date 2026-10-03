@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-command-owners-20261003/final-bindings.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/final-bindings.mjs",
+      "sha256": "04afdcd7906985cad0b95cb34e40fe60694a7a6e83933c7b42bd04752b20cdfc"
+    }
+  ],
+  "stdout": "{\"retainedTrackedFiles\":1836,\"unselectedDesktopFiles\":1500,\"unselectedCliFiles\":315,\"frozenEvidenceFiles\":91,\"outputs\":[{\"owner\":\"input\",\"raw\":\"licensing/evidence/desktop-command-owners-20261003/drafts/input-correction-1.ts.txt\",\"rawSha256\":\"bd9d2ac79b95290e73162ddfb0d8abde5675072426c6abe21d0457331fb14952\",\"installed\":\"packages/desktop/src/main/browserView/browserCommandInput.ts\",\"installedSha256\":\"17940969dfcb3c2e113816c8af68a6d93380ba1e5041cf2aa491216d566b0077\",\"formattedFrozenEqualsInstalled\":true},{\"owner\":\"interaction\",\"raw\":\"licensing/evidence/desktop-command-owners-20261003/drafts/interaction-correction-2.ts.txt\",\"rawSha256\":\"f5c2090d235e64b60c80f2eb813e43cfb4f041e14edd97769619111e32b75509\",\"installed\":\"packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts\",\"installedSha256\":\"45f35c2b05efc2c4bd4c56a29af6cb2e57e92d4e558a84173d0b342c14d164b1\",\"formattedFrozenEqualsInstalled\":true},{\"owner\":\"page\",\"raw\":\"licensing/evidence/desktop-command-owners-20261003/drafts/page-correction-1.ts.txt\",\"rawSha256\":\"e6c2c618dcf224cebfa9112f5252b63a78ca591fca17be821c0a1ff532e957fe\",\"installed\":\"packages/desktop/src/main/browserView/browserCommandPageHandlers.ts\",\"installedSha256\":\"f3412035054742870f8e9c6f1fb5bcf8e0c3a1993db1f066e6b8767cfede1813\",\"formattedFrozenEqualsInstalled\":true}],\"curatorProductionEdits\":\"Complete literal copies and formatting only\"}\n",
+  "stderr": "",
+  "exitCode": 0
+}

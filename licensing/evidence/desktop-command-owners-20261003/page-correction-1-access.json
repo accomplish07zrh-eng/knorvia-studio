@@ -1,0 +1,14 @@
+{
+  "readPaths": [
+    "licensing/evidence/desktop-command-owners-20261003/common-contract.md",
+    "licensing/evidence/desktop-command-owners-20261003/page-owner-contract.md",
+    "licensing/evidence/desktop-command-owners-20261003/public-view.d.ts"
+  ],
+  "writtenPaths": [
+    "licensing/evidence/desktop-command-owners-20261003/author-output/page/browserCommandPageHandlers-correction-1.ts",
+    "licensing/evidence/desktop-command-owners-20261003/author-output/page/access-correction-1.json"
+  ],
+  "accessExceptions": [],
+  "correctionReads": "No old candidate, repository source, history, tests, or sibling output read during correction.",
+  "execution": "No tests, compilation, linting, browser, network, or git actions."
+}

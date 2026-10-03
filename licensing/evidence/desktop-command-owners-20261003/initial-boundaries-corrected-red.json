@@ -1,0 +1,17 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "packages/desktop/src/main/browserView/commandOwners.test.mjs"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+      "sha256": "8ee0503e1e0bdaf74672c0eacdec6ddc9308e7babcb856b1d48a00b94ddc737c"
+    }
+  ],
+  "stdout": "✖ input: live coordinates, held-key ordering, arity and owned path release (67.528097ms)\n✖ interaction: ref and clipboard authority, schema identity, short circuits and optional arity (24.034432ms)\n✔ navigation: admission, committed redirect recovery, abort and error identity with fake clock (19.390511ms)\n✖ page: screenshot authority, CSS metric branches and schema/value/state projection (13.307533ms)\n✔ composed interaction input: forwarded ref focus and failure stop at same trusted boundary (23.704706ms)\nℹ tests 5\nℹ suites 0\nℹ pass 2\nℹ fail 3\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 383.563479\n\n✖ failing tests:\n\ntest at packages/desktop/src/main/browserView/commandOwners.test.mjs:31:1\n✖ input: live coordinates, held-key ordering, arity and owned path release (67.528097ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'constructor'\n  - undefined\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandOwners.test.mjs:64:166)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'constructor',\n    expected: undefined,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at packages/desktop/src/main/browserView/commandOwners.test.mjs:67:1\n✖ interaction: ref and clipboard authority, schema identity, short circuits and optional arity (24.034432ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  1 !== 5\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandOwners.test.mjs:84:235)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 1,\n    expected: 5,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at packages/desktop/src/main/browserView/commandOwners.test.mjs:113:1\n✖ page: screenshot authority, CSS metric branches and schema/value/state projection (13.307533ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  99 !== 20\n  \n      at TestContext.<anonymous> (file:///workspace/knorvia-studio/packages/desktop/src/main/browserView/commandOwners.test.mjs:123:176)\n      at async Test.run (node:internal/test_runner/test:1389:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 99,\n    expected: 20,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "stderr": "",
+  "exitCode": 1
+}

@@ -1,0 +1,71 @@
+{
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "packages/desktop/src/main/browserView/browserCommandInput.ts",
+    "packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts",
+    "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+    "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+    "licensing/evidence/desktop-command-owners-20261003/scoped-static.mjs",
+    "licensing/evidence/desktop-command-owners-20261003/record-run.mjs",
+    "licensing/evidence/desktop-command-owners-20261003/final-bindings.mjs",
+    "licensing/evidence/desktop-command-owners-20261003/retained-shapes.mjs",
+    "licensing/evidence/desktop-command-owners-20261003/README.md",
+    "licensing/evidence/desktop-command-owners-20261003/corrections-and-access.md",
+    "specs/knorvia-desktop-command-owners-20261003.md"
+  ],
+  "selectedEnv": {},
+  "commandFileBindings": [
+    {
+      "path": "node_modules/.bin/oxfmt",
+      "sha256": "ecab4e2f1bebaab1a3306620bee562ec16e8cb83dd5fb739b94a5aae3c9e34bd"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandInput.ts",
+      "sha256": "17940969dfcb3c2e113816c8af68a6d93380ba1e5041cf2aa491216d566b0077"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts",
+      "sha256": "45f35c2b05efc2c4bd4c56a29af6cb2e57e92d4e558a84173d0b342c14d164b1"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+      "sha256": "f3412035054742870f8e9c6f1fb5bcf8e0c3a1993db1f066e6b8767cfede1813"
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+      "sha256": "c87d78821105fc85b93fa8f14e9949d36fff2f053b0cace66497c2863dacb66e"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/scoped-static.mjs",
+      "sha256": "3e66b315596a554c28d4ae513cef89fc766356decafcfdade14c48358dfcf1e6"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/record-run.mjs",
+      "sha256": "acbcefd58d582731ca4f6bdc7c25524ed79af7473b493a2fdb99b772eed9449f"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/final-bindings.mjs",
+      "sha256": "04afdcd7906985cad0b95cb34e40fe60694a7a6e83933c7b42bd04752b20cdfc"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/retained-shapes.mjs",
+      "sha256": "660ba1c14f9d1cdbd0180aeacb32f94a793ece2321abeb6143365d51b1a87971"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/README.md",
+      "sha256": "add4836eac594ae6dca3e3ab55eb164777f91c8c0dcd86fa213457908934c02e"
+    },
+    {
+      "path": "licensing/evidence/desktop-command-owners-20261003/corrections-and-access.md",
+      "sha256": "bc178c7c7ab3b70a6e693b0c19a053d9972121f2e68a169c4d119fc4380de65d"
+    },
+    {
+      "path": "specs/knorvia-desktop-command-owners-20261003.md",
+      "sha256": "b37ce8275c89682f3b2cfd3617e28092a71309ee0484a198c245425f1619a215"
+    }
+  ],
+  "stdout": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 101ms on 11 files using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

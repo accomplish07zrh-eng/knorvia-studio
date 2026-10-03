@@ -1,0 +1,134 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import test from 'node:test';
+import ts from 'typescript';
+const root = process.env.KNORVIA_OWNER_BASELINE ?? 'packages/desktop/src/main/browserView';
+const json = value => JSON.parse(JSON.stringify(value));
+const scripts = Object.fromEntries(['RESOLVE','CHECK','SELECT','ELEMENT_AT_POINT','SNAPSHOT','EVALUATE'].map(name => [name+'_SCRIPT', (...args) => ({name,args})]));
+scripts.VIEWPORT_SCRIPT='opaque viewport';
+function load(name, ports={}, globals={}) {
+  const module={exports:{}};
+  const file=path.join(root,name+'.ts');
+  const emitted=ts.transpileModule(fs.readFileSync(file,'utf8'),{fileName:file,compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText;
+  vm.runInNewContext(emitted,{module,exports:module.exports,require:request=>{
+    if(request==='./browserCommandScripts.js') return scripts;
+    if(request in ports) return ports[request];
+    throw new Error('Uninjected dependency: '+request);
+  },Error,DOMException,Date,process:{platform:'linux'},...globals},{filename:file});
+  return module.exports;
+}
+const errors={executionError:message=>({ok:false,error:{code:'execution_error',message}}),refNotFound:ref=>({ok:false,error:{code:'ref_not_found',message:ref}})};
+function harness(extra={}) {
+  const calls=[], state={url:'https://synthetic.invalid/'}, sentinel={elapsedMs:17};
+  const done=value=>{calls.push(['done',value]); Object.assign(sentinel,value); return sentinel;};
+  const view={webContents:{getURL:()=>state.url,loadURL:async url=>{state.url=url;},executeJavaScript:async()=>null},cdp:{send:async(...args)=>{calls.push(args);return {};}}};
+  const ports={'./browserCommandState.js':{readState:web=>{assert.equal(web,view.webContents);return state;},DEFAULT_NAVIGATE_SETTLE_MS:10000,isAllowedBrowserUrl:()=>true,settleNavigation:async promise=>promise,BrowserNavigationTimeoutError:class extends Error{}},'./browserCommandResult.js':errors,...extra};
+  return {view,calls,state,sentinel,done,ports};
+}
+
+test('input: live coordinates, held-key ordering, arity and owned path release',async()=>{
+  const input=load('browserCommandInput');
+  assert.equal(input.modifiersBitmask(['ControlOrMeta','Alt','Control']),3);
+  const h=harness(), p={cx:1,cy:2};
+  h.view.cdp.send=async(...args)=>{h.calls.push(json(args));p.cx++;};
+  await input.dispatchClickAt(h.view,p,'right',true,8);
+  assert.deepEqual(h.calls.map(c=>[c.length,c[1].type,c[1].x,c[1].modifiers,c[1].clickCount]),[[2,'mouseMoved',1,8,undefined],[2,'mousePressed',2,8,2],[2,'mouseReleased',3,8,2]]);
+  h.calls.length=0;
+  await input.dispatchKeyPress(h.view,['ctrl+ctrl','shift+a']);
+  assert.deepEqual(h.calls.map(c=>[c[1].type,c[1].key,c[1].modifiers]),[['keyDown','Control',2],['keyDown','Control',2],['keyDown','Shift',10],['keyDown','a',10],['keyUp','a',10],['keyUp','Shift',2],['keyUp','Control',undefined],['keyUp','Control',undefined]]);
+  h.calls.length=0;
+  await input.dispatchKey(h.view,'a',0,'');
+  assert.deepEqual(h.calls.map(c=>[c.length,c[2],c[1]]),[[3,'',{type:'keyDown',key:'a'}],[3,'',{type:'keyUp',key:'a'}]]);
+  const failure=new Error('synthetic move'), cleanup=new Error('synthetic release');
+  let count=0;
+  h.view.cdp.send=async(...args)=>{h.calls.push(json(args));if(++count===3) throw failure;};
+  h.calls.length=0;
+  const point={x:3,y:4};
+  await assert.rejects(input.dispatchDragPath(h.view,[{x:1,y:2},point]),err=>err===failure);
+  assert.equal(h.calls.length,4);
+  assert.deepEqual(h.calls[3][1],{type:'mouseReleased',x:3,y:4,button:'left',clickCount:1});
+  count=0; h.view.cdp.send=async()=>{if(++count===3)throw failure;if(count===4)throw cleanup;};
+  await assert.rejects(input.dispatchDragPath(h.view,[{x:1,y:2},point]),err=>err===cleanup);
+  count=0; h.view.cdp.send=async()=>{if(++count===2)throw failure;};
+  await assert.rejects(input.dispatchDragPath(h.view,[point]),err=>err===failure);
+  assert.equal(count,2);
+  count=0; await assert.rejects(input.dispatchDrag(h.view,{cx:0,cy:0},{cx:10,cy:20}),err=>err===failure); assert.equal(count,2);
+  h.calls.length=0;h.view.cdp.send=async(...args)=>{h.calls.push(json(args));};
+  await input.dispatchDrag(h.view,{cx:0,cy:0},{cx:10,cy:20});
+  assert.equal(h.calls.length,13);assert.deepEqual(h.calls.slice(2,12).map(c=>[c[1].x,c[1].y]),Array.from({length:10},(_,i)=>[i+1,(i+1)*2]));
+  h.view.webContents.executeJavaScript=async script=>{assert.equal(script.name,'RESOLVE');return {cx:NaN,cy:Infinity};};
+  const resolved=await input.resolveRefCenter(h.view,'ref');assert.ok(Number.isNaN(resolved.cx));assert.equal(resolved.cy,Infinity);
+  h.calls.length=0; await input.dispatchScrollGesture(h.view,p,4,5,-1);assert.equal(h.calls[1][1].type,'mouseWheel');assert.equal('modifiers' in h.calls[1][1],false);
+});
+
+test('interaction: ref and clipboard authority, schema identity, short circuits and optional arity',async()=>{
+  const h=harness(), point={cx:5,cy:7}, forward=[];
+  let maskCalls=0, schemaValue;
+  const input={resolveRefCenter:async(...args)=>{forward.push(['resolve',...args]);return args[1]==='missing'?null:point;},modifiersBitmask:()=>++maskCalls,...Object.fromEntries(['dispatchClickAt','dispatchKey','dispatchKeyPress','dispatchDrag','dispatchDragPath','dispatchScrollGesture'].map(name=>[name,async(...args)=>forward.push([name,...args])]))};
+  const parsed={synthetic:'element'};
+  const interaction=load('browserCommandInteractionHandlers',{...h.ports,'./browserCommandInput.js':input,'./browserVirtualClipboard.js':{pasteTextIntoFocusedTarget:async(...args)=>forward.push(['paste',...args])},'@knorvia/shared':{browserSnapshotElementSchema:{safeParse:value=>{schemaValue=value;return {success:true,data:parsed};}}}});
+  assert.equal(await interaction.handleType(h.view,{method:'type',ref:'r',text:'synthetic'},h.done),h.sentinel);
+  assert.equal(forward[1].length,5);assert.equal(forward[1][2],point);assert.equal(forward[2].length,3);assert.equal(h.sentinel.state,h.state);
+  forward.length=0;
+  await interaction.handleDrag(h.view,{method:'drag',fromRef:'missing',toRef:'r'},h.done);assert.equal(forward.length,1);assert.equal(h.sentinel.error.code,'ref_not_found');
+  h.calls.length=0;await interaction.handleScroll(h.view,{method:'scroll',ref:'r',x:9},h.done);assert.equal(h.calls.filter(c=>c[0]==='Input.dispatchMouseEvent').length,0);
+  h.calls.length=0;await interaction.handleHover(h.view,{method:'hover',x:NaN,y:Infinity},h.done);assert.equal(maskCalls,2);assert.equal(h.calls[0][1].modifiers,2);
+  h.view.cdp.send=async(...args)=>{assert.equal(args.length,1);return {cssVisualViewport:{clientWidth:20,clientHeight:10}};};
+  forward.length=0;await interaction.handleDomCuaScroll(h.view,{method:'domCuaScroll',scrollX:2,scrollY:3},h.done);assert.equal(forward[0].length,5);assert.deepEqual(json(forward[0][2]),{cx:10,cy:5});
+  const raw={unparsed:true};h.view.webContents.executeJavaScript=async()=>raw;
+  await interaction.handleElementInfo(h.view,{method:'elementInfo',x:0,y:0},h.done);assert.equal(schemaValue,raw);assert.equal(h.sentinel.element,parsed);
+  for(const [name,command] of [['handleClick',{method:'click',x:1,y:2}],['handlePress',{method:'press',key:'Enter'}],['handleCuaKeypress',{method:'cuaKeypress',keys:['ctrl+a']}],['handleCuaScroll',{method:'cuaScroll',x:1,y:2,scrollX:3,scrollY:4}],['handleCuaDrag',{method:'cuaDrag',path:[{x:1,y:2}]}],['handleSelect',{method:'select',ref:'r',values:['v']}],['handleCheck',{method:'check',ref:'r',checked:false}]]) assert.equal(await interaction[name](h.view,command,h.done),h.sentinel);
+  const failure=new Error('synthetic clipboard');input.resolveRefCenter=async()=>{throw failure;};await assert.rejects(interaction.handleType(h.view,{method:'type',ref:'r',text:'x'},h.done),err=>err===failure);
+});
+
+test('navigation: admission, committed redirect recovery, abort and error identity with fake clock',async()=>{
+  const h=harness();let now=0,loads=0,settles=[],reads=0;
+  class Timeout extends Error{}
+  h.ports['./browserCommandState.js'].BrowserNavigationTimeoutError=Timeout;
+  h.ports['./browserCommandState.js'].isAllowedBrowserUrl=url=>url!=='blocked';
+  h.view.webContents.getURL=()=>{reads++;return h.state.url;};
+  h.view.webContents.loadURL=url=>{loads++;h.state.url=url;return Promise.resolve();};
+  h.ports['./browserCommandState.js'].settleNavigation=async(...args)=>{settles.push(args);await args[0];};
+  const page=load('browserCommandPageHandlers',{...h.ports,'@knorvia/shared':{},'./browserScreenshotCapture.js':{}},{Date:{now:()=>now},setTimeout:(fn,ms)=>{now+=ms;fn();}});
+  await page.handleNavigate(h.view,{method:'navigate',url:'blocked'},h.done);assert.equal(loads,0);assert.equal(reads,0);assert.equal(h.sentinel.error.code,'navigation_blocked');
+  const signal={aborted:false};await page.handleNavigate(h.view,{method:'navigate',url:'https://synthetic.invalid/'},h.done,{navigateSettleMs:0,signal});assert.equal(settles[0][1],0);assert.equal(settles[0][2],signal);
+  const aborted=Object.assign(new Error('aborted'),{code:'ERR_ABORTED'});
+  h.ports['./browserCommandState.js'].settleNavigation=async()=>{throw aborted;};
+  h.state.url='https://prior.invalid/';h.view.webContents.loadURL=()=>{h.state.url='https://m.synthetic.invalid/path///?a=1#other';return Promise.resolve();};
+  h.view.webContents.executeJavaScript=async()=>({href:h.state.url,readyState:'interactive'});
+  assert.equal(await page.handleNavigate(h.view,{method:'navigate',url:'https://www.synthetic.invalid/path?a=1#original'},h.done),h.sentinel);assert.equal(h.sentinel.ok,true);
+  h.state.url='https://prior.invalid/';signal.aborted=true;
+  await assert.rejects(page.handleNavigate(h.view,{method:'navigate',url:'https://synthetic.invalid/path?a=1'},h.done,{signal}),err=>err instanceof DOMException && err.name==='AbortError');
+  const abortError=Object.assign(new Error('exact cancellation'),{name:'AbortError'});h.ports['./browserCommandState.js'].settleNavigation=async()=>{throw abortError;};await assert.rejects(page.handleNavigate(h.view,{method:'navigate',url:'x'},h.done),err=>err===abortError);
+  h.ports['./browserCommandState.js'].settleNavigation=async()=>{throw new Timeout('synthetic timeout');};await page.handleNavigate(h.view,{method:'navigate',url:'x'},h.done);assert.equal(h.sentinel.error.code,'timeout');assert.equal(h.sentinel.error.sideEffect,'uncertain');
+  h.ports['./browserCommandState.js'].settleNavigation=async()=>{throw aborted;};h.view.webContents.executeJavaScript=async()=>({href:h.state.url,readyState:'loading'});now=0;await page.handleNavigate(h.view,{method:'navigate',url:'x'},h.done);assert.equal(now,525);assert.equal(h.sentinel.error.code,'execution_error');
+  h.ports['./browserCommandState.js'].settleNavigation=async promise=>promise;const doneError=new Error('done exact');await assert.rejects(page.handleNavigate(h.view,{method:'navigate',url:'x'},()=>{throw doneError;}),err=>err===doneError);
+});
+
+test('page: screenshot authority, CSS metric branches and schema/value/state projection',async()=>{
+  const h=harness();let captureArgs,schemaArg,scriptArg;
+  const parsed={synthetic:'snapshot'};
+  const page=load('browserCommandPageHandlers',{...h.ports,'@knorvia/shared':{browserSnapshotSchema:{safeParse:raw=>{schemaArg=raw;return {success:true,data:parsed};}}},'./browserScreenshotCapture.js':{captureScreenshotWithCssPixelCorrection:async(...args)=>{captureArgs=args;return {data:'synthetic png'};}}});
+  h.view.captureViewportScreenshot=async function(){assert.equal(this,h.view);return 'compositor';};
+  await page.handleScreenshot(h.view,{method:'screenshot'},h.done);assert.equal(h.sentinel.image.base64,'compositor');assert.equal(captureArgs,undefined);
+  await page.handleScreenshot(h.view,{method:'screenshot',clip:null},h.done);assert.equal(captureArgs[0],h.view);assert.deepEqual(json(captureArgs[1]),{format:'png',captureBeyondViewport:true});
+  h.view.normalizeScreenshotToCssPixels=true;
+  h.view.cdp.send=async(...args)=>{assert.equal(args.length,1);return {cssVisualViewport:{clientWidth:20,clientHeight:10,pageX:NaN,pageY:Infinity},cssContentSize:{width:-1,height:NaN},contentSize:{width:99,height:99}};};
+  const params=await page.buildViewportScreenshotParams(h.view);assert.ok(Number.isNaN(params.clip.x));assert.equal(params.clip.y,Infinity);assert.equal(params.clip.scale,1);
+  await page.handleScreenshot(h.view,{method:'screenshot',fullPage:true},h.done);assert.equal(captureArgs[1].clip.width,-1);assert.ok(Number.isNaN(captureArgs[1].clip.height));
+  const raw={opaque:true};h.view.webContents.executeJavaScript=async script=>{scriptArg=script;return raw;};
+  await page.handleSnapshot(h.view,{method:'snapshot'},h.done);assert.equal(schemaArg,raw);assert.equal(h.sentinel.snapshot,parsed);assert.deepEqual(scriptArg.args,[undefined,undefined]);
+  h.view.webContents.executeJavaScript=async()=>({ok:true,kind:'json',data:'{"synthetic":7}'});await page.handleEvaluate(h.view,{method:'evaluate',expression:'opaque'},h.done);assert.deepEqual(json(h.sentinel.value),{synthetic:7});
+  h.view.webContents.executeJavaScript=async()=>({ok:false,message:''});await page.handleEvaluate(h.view,{method:'evaluate',expression:'opaque'},h.done);assert.equal(h.sentinel.error.message,'');
+  h.view.webContents.executeJavaScript=async()=>({scrollX:NaN,scrollY:Infinity,innerWidth:20,get innerHeight(){throw new Error('synthetic property');}});await page.handleGetState(h.view,h.done);assert.equal(h.sentinel.state,h.state);assert.ok(Number.isNaN(h.state.scrollX));assert.equal(h.state.viewportWidth,20);assert.equal('viewportHeight' in h.state,false);
+});
+
+test('composed interaction input: forwarded ref focus and failure stop at same trusted boundary',async()=>{
+  const h=harness();h.view.webContents.executeJavaScript=async()=>({cx:3,cy:5});
+  const input=load('browserCommandInput');let paste=0;
+  const interaction=load('browserCommandInteractionHandlers',{...h.ports,'@knorvia/shared':{},'./browserCommandInput.js':input,'./browserVirtualClipboard.js':{pasteTextIntoFocusedTarget:async()=>{paste++;}}});
+  await interaction.handleType(h.view,{method:'type',ref:'r',text:'synthetic'},h.done);assert.equal(paste,1);assert.deepEqual(h.calls.filter(c=>c[0]==='Input.dispatchMouseEvent').map(c=>c[1].type),['mouseMoved','mousePressed','mouseReleased']);
+  const failure=new Error('trusted press');h.view.cdp.send=async(method,params)=>{if(params.type==='mousePressed')throw failure;};await assert.rejects(interaction.handleType(h.view,{method:'type',ref:'r',text:'x'},h.done),err=>err===failure);assert.equal(paste,1);
+});

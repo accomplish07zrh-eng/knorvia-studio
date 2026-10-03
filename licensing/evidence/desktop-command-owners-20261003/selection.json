@@ -1,0 +1,72 @@
+{
+  "baseHead": "be595244e43ba851f2d977399919ce9b9685d53f",
+  "sourceBaseline": {
+    "source": "https://github.com/zai-org/ZCode",
+    "commit": "872ad960de7ec172591f7e1952f7849229f94521"
+  },
+  "selected": [
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandInput.ts",
+      "kind": "file",
+      "sha256": "9793989d7ca1268e77dda7315fa32786239434545b0129b2c5b5a2bde3eccaf5",
+      "normalizedSha256": "9793989d7ca1268e77dda7315fa32786239434545b0129b2c5b5a2bde3eccaf5",
+      "encoding": "utf8-lf",
+      "bytes": 10489,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/browserView/browserCommandInput.ts",
+        "blob": "209556c4c86a6d9949a0f8d0c9efc7b3fb8be203",
+        "normalizedSha256": "a4c6460e3cfd974989f444049dcf57d5db3e2a891e6fac513cd80ddf9eda00c6",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts",
+      "kind": "file",
+      "sha256": "8f8a5eb294d7e458f3835e412fe0617dc36a07ad0c3a2646bf44a26ba055feb0",
+      "normalizedSha256": "8f8a5eb294d7e458f3835e412fe0617dc36a07ad0c3a2646bf44a26ba055feb0",
+      "encoding": "utf8-lf",
+      "bytes": 11166,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/browserView/browserCommandInteractionHandlers.ts",
+        "blob": "b036c163827b0cd932e1e4e53f13aad6f99cbd64",
+        "normalizedSha256": "cf611590ce3f9260b42bcff6f158dc70e15582e8e24c4df780d81774df6e32b4",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    },
+    {
+      "path": "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+      "kind": "file",
+      "sha256": "6b2fac662507269fdbaa1171111a7d754fec446f3887638e9888d16c2a0e6c81",
+      "normalizedSha256": "6b2fac662507269fdbaa1171111a7d754fec446f3887638e9888d16c2a0e6c81",
+      "encoding": "utf8-lf",
+      "bytes": 12704,
+      "classification": "upstream-modified",
+      "upstream": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/browserView/browserCommandPageHandlers.ts",
+        "blob": "2fa1241741bacd431985c52162a915a47fd04aa3",
+        "normalizedSha256": "7d644223452509136f80f780cfe54094465212e2bf24a24b44274ae19a7d2c72",
+        "contentMatchedPaths": []
+      },
+      "license": "NOASSERTION",
+      "defaultLicense": "Apache-2.0; explicit file/component licenses continue to apply",
+      "thirdParty": [],
+      "review": null
+    }
+  ],
+  "receiptStatus": "Exact inventory/hash relation upstream-modified; path/hash/symbol/history screen only migration/retention and public dependency declarations, no accepted receipt; PR8-12 targetpath file lists empty. Missing review alone is not inference.",
+  "sourceLimit": "Fixed upstream commit unavailable in prior exact screen, no access retry; origins are existing mappings pending verification.",
+  "excluded": "Root broadcastHub/databaseStartupRelay; taskRealtimeBusHOLD; priorPlaywright; root/main/UI/service/runtime; private403/UI403/schedules."
+}

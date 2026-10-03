@@ -1,0 +1,10 @@
+{
+  "recordKind": "Exact short tool output copied after standalone invocation; not runner capture",
+  "command": [
+    "node_modules/.bin/oxfmt",
+    "--check",
+    "licensing/evidence/desktop-command-owners-20261003/scoped-static.mjs"
+  ],
+  "exitCode": 1,
+  "stdout": "Checking formatting...\n\nlicensing/evidence/desktop-command-owners-20261003/scoped-static.mjs (0ms)\n\nFormat issues found in above 1 files. Run without `--check` to fix.\nFinished in 19ms on 1 files using 4 threads.\n"
+}

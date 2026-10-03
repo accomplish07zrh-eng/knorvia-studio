@@ -1,25 +1,34 @@
-import { browserSnapshotSchema } from "@knorvia/shared";
-import type { BrowserCommand, BrowserCommandResult } from "@knorvia/shared";
-import type { ControlledView } from "./browserCommandTypes.js";
-import { executionError } from "./browserCommandResult.js";
-import type { BrowserCommandDone } from "./browserCommandResult.js";
-import { EVALUATE_SCRIPT, SNAPSHOT_SCRIPT, VIEWPORT_SCRIPT } from "./browserCommandScripts.js";
+import { browserSnapshotSchema } from '@knorvia/shared';
+import type { BrowserCommand, BrowserCommandResult } from '@knorvia/shared';
+import type { ControlledView } from './browserCommandTypes.js';
+import { executionError } from './browserCommandResult.js';
+import type { BrowserCommandDone } from './browserCommandResult.js';
+import { EVALUATE_SCRIPT, SNAPSHOT_SCRIPT, VIEWPORT_SCRIPT } from './browserCommandScripts.js';
 import {
   BrowserNavigationTimeoutError,
   DEFAULT_NAVIGATE_SETTLE_MS,
   isAllowedBrowserUrl,
   readState,
   settleNavigation,
-} from "./browserCommandState.js";
-import { captureScreenshotWithCssPixelCorrection } from "./browserScreenshotCapture.js";
+} from './browserCommandState.js';
+import { captureScreenshotWithCssPixelCorrection } from './browserScreenshotCapture.js';
 
-type NavigateCommand = Extract<BrowserCommand, { method: "navigate" }>;
-type ScreenshotCommand = Extract<BrowserCommand, { method: "screenshot" }>;
-type SnapshotCommand = Extract<BrowserCommand, { method: "snapshot" }>;
-type EvaluateCommand = Extract<BrowserCommand, { method: "evaluate" }>;
+type NavigateCommand = Extract<BrowserCommand, { method: 'navigate' }>;
+type ScreenshotCommand = Extract<BrowserCommand, { method: 'screenshot' }>;
+type SnapshotCommand = Extract<BrowserCommand, { method: 'snapshot' }>;
+type EvaluateCommand = Extract<BrowserCommand, { method: 'evaluate' }>;
+
+type MetricValues = {
+  cssVisualViewport?: ViewportValues;
+  cssLayoutViewport?: ViewportValues;
+  cssContentSize?: ContentValues;
+  contentSize?: ContentValues;
+};
 
 type ViewportValues = {
+  width?: unknown;
   clientWidth?: unknown;
+  height?: unknown;
   clientHeight?: unknown;
   pageX?: unknown;
   pageY?: unknown;
@@ -32,30 +41,17 @@ type ContentValues = {
   height?: unknown;
 };
 
-type MetricValues = {
-  cssVisualViewport?: ViewportValues;
-  cssLayoutViewport?: ViewportValues;
-  cssContentSize?: ContentValues;
-  contentSize?: ContentValues;
-};
-
 function cssViewportClip(metrics: MetricValues): Record<string, number> | undefined {
   const viewport = metrics.cssVisualViewport ?? metrics.cssLayoutViewport;
-  const width = viewport?.clientWidth;
-  const height = viewport?.clientHeight;
-  if (
-    typeof width !== "number" ||
-    !Number.isFinite(width) ||
-    width <= 0 ||
-    typeof height !== "number" ||
-    !Number.isFinite(height) ||
-    height <= 0
-  ) {
+  const width = viewport?.width ?? viewport?.clientWidth;
+  const height = viewport?.height ?? viewport?.clientHeight;
+  if (typeof width !== 'number' || !Number.isFinite(width) || width <= 0 ||
+      typeof height !== 'number' || !Number.isFinite(height) || height <= 0) {
     return undefined;
   }
   return {
-    x: typeof viewport?.pageX === "number" ? viewport.pageX : 0,
-    y: typeof viewport?.pageY === "number" ? viewport.pageY : 0,
+    x: typeof viewport?.pageX === 'number' ? viewport.pageX : 0,
+    y: typeof viewport?.pageY === 'number' ? viewport.pageY : 0,
     width,
     height,
     scale: 1,
@@ -65,43 +61,35 @@ function cssViewportClip(metrics: MetricValues): Record<string, number> | undefi
 export async function buildViewportScreenshotParams(
   view: ControlledView,
 ): Promise<Record<string, unknown>> {
-  const params: Record<string, unknown> = { format: "png", captureBeyondViewport: false };
+  const params: Record<string, unknown> = { format: 'png', captureBeyondViewport: false };
   if (!view.normalizeScreenshotToCssPixels) return params;
 
-  const metrics = (await view.cdp.send("Page.getLayoutMetrics")) as MetricValues;
+  const metrics = await view.cdp.send('Page.getLayoutMetrics') as MetricValues;
   const clip = cssViewportClip(metrics);
   if (clip) params.clip = clip;
   return params;
 }
 
 function isAbortedNavigation(error: unknown): boolean {
-  if (error === null || typeof error !== "object") return false;
+  if (error === null || typeof error !== 'object') return false;
   const value = error as { code?: unknown; errno?: unknown; message?: unknown };
-  return (
-    value.code === "ERR_ABORTED" ||
-    value.errno === -3 ||
-    (typeof value.message === "string" && /\bERR_ABORTED\b|\(-3\)/u.test(value.message))
-  );
+  return value.code === 'ERR_ABORTED' || value.errno === -3 ||
+    (typeof value.message === 'string' && /\bERR_ABORTED\b|\(-3\)/u.test(value.message));
 }
 
 function navigationUrlsMatch(actual: string, requested: string): boolean {
   try {
     const current = new URL(actual);
     const target = new URL(requested);
-    if (current.protocol === "about:" || target.protocol === "about:") {
-      return current.href === target.href;
-    }
-    const hostname = (url: URL): string =>
-      url.hostname.toLowerCase().replace(/^(?:m\.|www\.)/u, "");
+    if (current.protocol === 'about:' || target.protocol === 'about:') return actual === requested;
+    const hostname = (url: URL): string => url.hostname.toLowerCase().replace(/^(?:m\.|www\.)/u, '');
     const pathname = (url: URL): string =>
-      url.pathname.length > 1 ? url.pathname.replace(/\/+$/u, "") : url.pathname;
-    return (
-      current.protocol === target.protocol &&
+      url.pathname.length > 1 ? url.pathname.replace(/\/+$/u, '') : url.pathname;
+    return current.protocol === target.protocol &&
       hostname(current) === hostname(target) &&
       current.port === target.port &&
       pathname(current) === pathname(target) &&
-      current.search === target.search
-    );
+      current.search === target.search;
   } catch {
     return false;
   }
@@ -115,20 +103,17 @@ async function confirmCommittedNavigation(
 ): Promise<boolean> {
   const deadline = Date.now() + 500;
   while (Date.now() <= deadline) {
-    if (signal?.aborted) throw new DOMException("aborted", "AbortError");
+    if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
     try {
-      const documentState = (await view.webContents.executeJavaScript(
+      const documentState = await view.webContents.executeJavaScript(
         "(() => ({ href: globalThis.location?.href ?? '', readyState: document.readyState }))()",
-      )) as { href?: unknown; readyState?: unknown } | null;
+      ) as { href?: unknown; readyState?: unknown } | null;
       const currentUrl = view.webContents.getURL();
-      const href = typeof documentState?.href === "string" ? documentState.href : "";
+      const href = typeof documentState?.href === 'string' ? documentState.href : '';
       const readyState = documentState?.readyState;
-      if (
-        currentUrl !== previousUrl &&
-        href === currentUrl &&
-        (readyState === "interactive" || readyState === "complete") &&
-        navigationUrlsMatch(currentUrl, requestedUrl)
-      ) {
+      if (currentUrl !== previousUrl && href === currentUrl &&
+          (readyState === 'interactive' || readyState === 'complete') &&
+          navigationUrlsMatch(currentUrl, requestedUrl)) {
         return true;
       }
     } catch {
@@ -148,7 +133,7 @@ export async function handleNavigate(
   if (!isAllowedBrowserUrl(command.url)) {
     return done({
       ok: false,
-      error: { code: "navigation_blocked", message: `Blocked URL: ${command.url}` },
+      error: { code: 'navigation_blocked', message: `Blocked URL: ${command.url}` },
     });
   }
 
@@ -160,19 +145,17 @@ export async function handleNavigate(
       opts?.signal,
     );
   } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") throw error;
-    if (
-      isAbortedNavigation(error) &&
-      (await confirmCommittedNavigation(view, command.url, previousUrl, opts?.signal))
-    ) {
+    if (error instanceof Error && error.name === 'AbortError') throw error;
+    if (isAbortedNavigation(error) &&
+        await confirmCommittedNavigation(view, command.url, previousUrl, opts?.signal)) {
       return done({ ok: true, state: readState(view.webContents) });
     }
     return done({
       ok: false,
       error: {
-        code: error instanceof BrowserNavigationTimeoutError ? "timeout" : "execution_error",
+        code: error instanceof BrowserNavigationTimeoutError ? 'timeout' : 'execution_error',
         message: error instanceof Error ? error.message : String(error),
-        sideEffect: "uncertain",
+        sideEffect: 'uncertain',
       },
     });
   }
@@ -185,15 +168,12 @@ export async function handleGetState(
 ): Promise<BrowserCommandResult> {
   const state = readState(view.webContents);
   try {
-    const viewport = (await view.webContents.executeJavaScript(VIEWPORT_SCRIPT)) as Record<
-      string,
-      unknown
-    > | null;
-    if (viewport && typeof viewport === "object") {
-      if (typeof viewport.scrollX === "number") state.scrollX = viewport.scrollX;
-      if (typeof viewport.scrollY === "number") state.scrollY = viewport.scrollY;
-      if (typeof viewport.innerWidth === "number") state.viewportWidth = viewport.innerWidth;
-      if (typeof viewport.innerHeight === "number") state.viewportHeight = viewport.innerHeight;
+    const viewport = await view.webContents.executeJavaScript(VIEWPORT_SCRIPT) as Record<string, unknown> | null;
+    if (viewport && typeof viewport === 'object') {
+      if (typeof viewport.scrollX === 'number') state.scrollX = viewport.scrollX;
+      if (typeof viewport.scrollY === 'number') state.scrollY = viewport.scrollY;
+      if (typeof viewport.innerWidth === 'number') state.viewportWidth = viewport.innerWidth;
+      if (typeof viewport.innerHeight === 'number') state.viewportHeight = viewport.innerHeight;
     }
   } catch {
     // Preserve the state reference and any fields already updated by the viewport result.
@@ -209,26 +189,23 @@ export async function handleScreenshot(
   if (command.clip === undefined && command.fullPage !== true && view.captureViewportScreenshot) {
     const data = await view.captureViewportScreenshot();
     if (!data) {
-      return done({
-        ok: false,
-        error: { code: "execution_error", message: "screenshot returned empty data" },
-      });
+      return done({ ok: false, error: { code: 'execution_error', message: 'screenshot returned empty data' } });
     }
     return done({
       ok: true,
-      image: { base64: data, mimeType: "image/png" },
+      image: { base64: data, mimeType: 'image/png' },
       state: readState(view.webContents),
     });
   }
 
-  const metrics =
-    command.fullPage === true || view.normalizeScreenshotToCssPixels
-      ? ((await view.cdp.send("Page.getLayoutMetrics")) as MetricValues)
-      : null;
-  const viewportClip =
-    view.normalizeScreenshotToCssPixels && metrics ? cssViewportClip(metrics) : undefined;
+  const metrics = command.fullPage === true || view.normalizeScreenshotToCssPixels
+    ? await view.cdp.send('Page.getLayoutMetrics') as MetricValues
+    : null;
+  const viewportClip = view.normalizeScreenshotToCssPixels && metrics
+    ? cssViewportClip(metrics)
+    : undefined;
   const params: Record<string, unknown> = {
-    format: "png",
+    format: 'png',
     captureBeyondViewport: command.clip !== undefined || command.fullPage === true,
   };
   if (command.clip) {
@@ -241,10 +218,10 @@ export async function handleScreenshot(
     };
   } else if (command.fullPage === true) {
     const content = metrics?.cssContentSize ?? metrics?.contentSize;
-    if (content && typeof content.width === "number" && typeof content.height === "number") {
+    if (content && typeof content.width === 'number' && typeof content.height === 'number') {
       params.clip = {
-        x: typeof content.x === "number" ? content.x : 0,
-        y: typeof content.y === "number" ? content.y : 0,
+        x: typeof content.x === 'number' ? content.x : 0,
+        y: typeof content.y === 'number' ? content.y : 0,
         width: content.width,
         height: content.height,
         scale: 1,
@@ -256,14 +233,11 @@ export async function handleScreenshot(
 
   const result = await captureScreenshotWithCssPixelCorrection(view, params);
   if (!result?.data) {
-    return done({
-      ok: false,
-      error: { code: "execution_error", message: "screenshot returned empty data" },
-    });
+    return done({ ok: false, error: { code: 'execution_error', message: 'screenshot returned empty data' } });
   }
   return done({
     ok: true,
-    image: { base64: result.data, mimeType: "image/png" },
+    image: { base64: result.data, mimeType: 'image/png' },
     state: readState(view.webContents),
   });
 }
@@ -281,8 +255,8 @@ export async function handleSnapshot(
     return done({
       ok: false,
       error: {
-        code: "execution_error",
-        message: `invalid snapshot result shape: ${parsed.error.issues[0]?.message ?? "unknown"}`,
+        code: 'execution_error',
+        message: `invalid snapshot result shape: ${parsed.error.issues[0]?.message ?? 'unknown'}`,
       },
     });
   }
@@ -295,19 +269,16 @@ export async function handleEvaluate(
   done: BrowserCommandDone,
 ): Promise<BrowserCommandResult> {
   const raw = await view.webContents.executeJavaScript(EVALUATE_SCRIPT(command.expression));
-  if (!raw || typeof raw !== "object")
-    return done(executionError("evaluate returned invalid result"));
+  if (!raw || typeof raw !== 'object') return done(executionError('evaluate returned invalid result'));
   const result = raw as { ok?: unknown; message?: string; kind?: unknown; data?: unknown };
-  if (result.ok === false) return done(executionError(result.message ?? "evaluate error"));
-  let value: unknown;
-  if (result.kind === "json" && typeof result.data === "string") {
+  if (result.ok === false) return done(executionError(result.message ?? 'evaluate error'));
+  let value = result.data;
+  if (result.kind === 'json' && typeof result.data === 'string') {
     try {
       value = JSON.parse(result.data);
     } catch {
       value = result.data;
     }
-  } else {
-    value = result.data;
   }
   return done({ ok: true, value });
 }
