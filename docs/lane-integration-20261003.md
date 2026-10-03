@@ -6,11 +6,13 @@
 
 | 模块 | 固定任务 ID | 唯一编辑范围 | lane 记录 |
 | --- | --- | --- | --- |
-| UI | 01a10019-de88-7513-8dd6-b2a3981370c7 | packages/ui/**、packages/web/**、packages/desktop/src/renderer/** | docs/lane-ui-20261003.md |
-| services | 01a10019-ff7f-76f8-8d1e-0ba31855a0e0 | packages/services/**、packages/provider/** | docs/lane-services-20261003.md |
-| CLI | 01a1001a-2143-77b7-a852-00caffddc0c0 | apps/cli/**，排除 apps/cli/packages/contracts/** | docs/lane-cli-20261003.md |
-| native | 01a1001a-4b5f-750a-9eaf-bfa1d2c5d0d4 | packages/desktop/**，排除 src/renderer/**；packages/server/**、packages/server-cli/**、packages/rpc/**、packages/client/**、packages/provider-node/**、packages/cua/** | docs/lane-native-20261003.md |
-| 整合者 | 本对话 | packages/shared/**、apps/cli/packages/contracts/**、packages/model-option-map/**、packages/formal-proof/**、根配置/CI、根 scripts/**、全局来源/许可记录与整合分支 | 本文 |
+| UI | 01a10019-de88-7513-8dd6-b2a3981370c7 | packages/ui/**，排除下列明确转交 services/CLI 的路径；继续文件树消费者、grouped section、taskListRowActivity 及其专用候选 | docs/lane-ui-20261003.md |
+| services | 01a10019-ff7f-76f8-8d1e-0ba31855a0e0 | packages/services/**、packages/provider/**，以及下列 Studio 四 helper 与一个 store | docs/lane-services-20261003.md |
+| CLI | 01a1001a-2143-77b7-a852-00caffddc0c0 | apps/cli/**，排除 apps/cli/packages/contracts/**；另有下列 v4 布局恢复九文件 | docs/lane-cli-20261003.md |
+| native | 01a1001a-4b5f-750a-9eaf-bfa1d2c5d0d4 | packages/desktop/**，包含整个 src/renderer/**；packages/server/**、packages/server-cli/**、packages/rpc/**、packages/client/**、packages/provider-node/**、packages/cua/** | docs/lane-native-20261003.md |
+| 整合者 | 本对话 | packages/shared/**、apps/cli/packages/contracts/**、packages/model-option-map/**、packages/formal-proof/**、packages/web/**、根配置/CI、根 scripts/**、全局来源/许可记录与整合分支 | 本文 |
+
+这是父任务本轮重新分配后的当前边界，继续复用原四个任务、分支和 PR；下文较早快照保留当时分工与输入，不构成现在的编辑权限。Web 整包转交整合者；UI 明确报告 #15 没有 Web 提交，旧 /tmp 草稿不取用。desktop renderer 整包转交 native。services 的精确切片为 `packages/ui/src/studio/groups/useStudioGroups.ts`、`groupModel.ts`、`groupDefinitions.ts`、`groupSubmission.ts`（后三者同一 groups 目录）及 `packages/ui/src/store/studioGroupStore.ts`；路径绑定来自 #16 完整 head `dac1483b661064ba64003a1137713646d2ebbc8c` 的说明，不扩大到整个 groups 目录。CLI 的精确切片为 `packages/ui/src/v4/` 下 `paneLayoutTree.ts`、`paneLayoutStore.ts`、`paneLayoutPersistence.ts`、`workbenchGroupStore.ts`、`workbenchSessionPlacement.ts`、`workbenchNewTaskTarget.ts`、`usePaneSessionPersistence.ts`、`WorkbenchSplitDivider.tsx`、`workbenchDragDrop.ts`；依据 #14 完整 head `3dff9ec7a8c3f36895640f121e4665bfb80f1989` 的已发布切片规格。读取路径记录不等于接入这些活动 heads。
 
 父任务说明四路模型配置均为 gpt-6.1-sol / max / fast；这是父任务提供的配置记录，不是本整合者另外创建任务或验证运行时服务层。各 lane 记录由对应任务独占编辑，整合者只读，不共写其历史记录。
 
@@ -20,23 +22,23 @@
 
 | 实际路径/入口 | 唯一文件编辑者 | 相邻文件编辑者 |
 | --- | --- | --- |
-| renderer/index.html → renderer/src/main.tsx | UI | 主窗口创建/加载与 IPC admission：native |
-| renderer/resource-manager.html → renderer/src/resource-manager.tsx | UI | main/resourceManagerWindow.ts、preload/resourceManager.ts：native |
-| renderer/cua-permission-panel.html → renderer/cuaPermissionPanel.ts → renderer/cuaPermissionPanelMessages.ts | UI | main/cuaPermissionDragPanel.ts、preload/cuaPermissionPanel.ts、系统权限/native helper：native |
-| renderer/appTelemetryBridge.ts、renderer/src/*Bootstrap.ts、renderer/src/performanceTimelineCleanup.ts | UI | desktop src/shared/**、main/preload/host telemetry：native；packages/shared telemetry 公共合同：整合者 |
-| renderer/src/databaseStartupAdmission.ts、remoteWorkspaceSessionServices.ts、remoteWorkspaceServicePortBridge.ts、desktopPlatform.ts、desktopBrowserPlatformBridge.ts | UI | Host/remote/native ports：native；services 业务与持久状态：services；共享 schema：整合者 |
-| renderer/public/**（含保留的彩色 material-icons、Knorvia 图标及其他资产） | UI | 来源/第三方许可决定与最终资产清单：整合者；打包路径：native |
-| packages/desktop/vite.config.ts、tsup.config.ts、tsconfig*.json、package.json、scripts/**、electron-builder/build 配置 | native | UI 提供 renderer graph 的入口需求；整合者协调根 manifest/lockfile/CI |
+| renderer/index.html → renderer/src/main.tsx | native | 主窗口创建/加载与 IPC admission：native |
+| renderer/resource-manager.html → renderer/src/resource-manager.tsx | native | main/resourceManagerWindow.ts、preload/resourceManager.ts：native |
+| renderer/cua-permission-panel.html → renderer/cuaPermissionPanel.ts → renderer/cuaPermissionPanelMessages.ts | native | main/cuaPermissionDragPanel.ts、preload/cuaPermissionPanel.ts、系统权限/native helper：native |
+| renderer/appTelemetryBridge.ts、renderer/src/*Bootstrap.ts、renderer/src/performanceTimelineCleanup.ts | native | desktop src/shared/**、main/preload/host telemetry：native；packages/shared telemetry 公共合同：整合者 |
+| renderer/src/databaseStartupAdmission.ts、remoteWorkspaceSessionServices.ts、remoteWorkspaceServicePortBridge.ts、desktopPlatform.ts、desktopBrowserPlatformBridge.ts | native | Host/remote/native ports：native；services 业务与持久状态：services；共享 schema：整合者 |
+| renderer/public/**（含保留的彩色 material-icons、Knorvia 图标及其他资产） | native | 来源/第三方许可决定与最终资产清单：整合者；打包路径：native |
+| packages/desktop/vite.config.ts、tsup.config.ts、tsconfig*.json、package.json、scripts/**、electron-builder/build 配置 | native | native 维护 renderer graph 的入口；整合者协调根 manifest/lockfile/CI |
 
-Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、resource-manager、cua-permission-panel，产物到 `packages/desktop/out/renderer`。tsup 单独处理 Main、Host、preload、scheduler；`packages/desktop/src/shared/**` 名称含 shared，但按父任务的 desktop 非 renderer 范围归 native，不混同整合者独占的 `packages/shared/**`。
+Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、resource-manager、cua-permission-panel，产物到 `packages/desktop/out/renderer`。tsup 单独处理 Main、Host、preload、scheduler；`packages/desktop/src/shared/**` 名称含 shared，仍属于 native 的 desktop 范围，不混同整合者独占的 `packages/shared/**`。
 
 `out/renderer`、`dist`、cache 和安装/便携 payload 是生成/最终构建输出，不列为新的源码 lane，不把产物反复制回当前源目录。Main 自带的 About HTML/window/menu 位于 main，因此仍归 native；其视觉与 UI 标准要跨路协调，不能据“呈现内容”双重编辑 Main 文件。
 
-以上明确生产文件没有目录重叠，也覆盖直属 renderer 根的 TS/HTML/资产。UI 包内、renderer 根内的测试随 UI；desktop 根 test/scripts/config 文件随 native，UI 若需改这些已有消费者/界面夹具则向父任务提出精确路径请求，不自行越界。本阶段只记录未运行项，不以检查成功扩大权限。
+以上当前分配覆盖直属 renderer 根的 TS/HTML/资产。UI 包内的测试仍随 UI，已转交切片以明确文件白名单为限；renderer 根内的测试及 desktop 根 test/scripts/config 全归 native。其他任务若需改白名单外消费者/界面夹具，先向父任务提出精确路径请求，不自行扩大范围。本阶段只记录未运行项，不以检查成功扩大权限。
 
 ## 新增分配的包与跨路接口
 
-`packages/model-option-map/**` 与 `packages/formal-proof/**` 是仓库当前实际存在、四路初始范围未覆盖的额外包；父任务本轮已明确分配给**本整合任务独占实现**，不再等待归属授权，也不交给 UI/native/services/CLI 共写。model-option-map 被 packages/shared/src/model-config.ts、provider/provider-node 与 CLI model adapter 共用；formal-proof 是独立的产品状态枚举器/D3 页面。两包源码最后变更均为 7619e41b950bd52073ebf36754146cf25659d9fa，目标 inventory 的精确 source digest 与当前仍一致、review 为 null，runtime owners 尚需替换；types/barrel/固定配置和视觉值不得仅为数量重排。新分配不解除来源/权利 HOLD。根官网/发行资产、patches、third-party、examples 等继续协调，保留各自来源，不额外开云任务。
+`packages/model-option-map/**` 与 `packages/formal-proof/**` 是仓库当前实际存在、四路初始范围未覆盖的额外包；父任务本轮已明确分配给**本整合任务独占实现**，不再等待归属授权，也不交给 UI/native/services/CLI 共写。model-option-map 被 packages/shared/src/model-config.ts、provider/provider-node 与 CLI model adapter 共用；formal-proof 是独立的产品状态枚举器/D3 页面。初次筛选时两包源码最后变更均为 7619e41b950bd52073ebf36754146cf25659d9fa，目标 inventory 的精确 source digest 当时与源一致、review 为 null；其后完成的 runtime 候选绑定见下表，此初始筛选不再代表当前待实现清单；types/barrel/固定配置和视觉值不得仅为数量重排。新分配不解除来源/权利 HOLD。根官网/发行资产、patches、third-party、examples 等继续协调，保留各自来源，不额外开云任务。
 
 跨路公开合同由唯一文件编辑者维护：renderer → preload/Main 的参数、通道与消息；services → CLI/runtime 的 command/snapshot/index；所有 lane → shared/protocol/contracts。请求先给父任务列精确路径、现有符号、需求和依赖 SHA，整合者写公共合同并返回新 checkpoint，其余任务通过普通 merge 接收。临时 any、stub、重复状态所有者、改签名而只改一端或放松安全策略都不能代替对账。
 
@@ -57,13 +59,15 @@ Vite `root: "src/renderer"`，三个 HTML build input 明确分别为 index、re
 | services | [#16](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/16) / lane/services-20261003 | 146c13ab52958846e2e7209d65bfb7fe7269ecbc |
 | native | [#17](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/17) / rewrite/native-20261003 | cdc80cb1e6d3c731c1ea41d2c9663d83b2fd532d |
 
-父任务随后报告 native 第一轮完成于 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`，GitHub API 已确认 #17 的同一 head；包含控制 client/server、JSONL decoder、状态持久化与停止确认两批源码。父任务已在原固定线程派下一批，故这是已完成批次的冻结输入，不把活动 PR 自动当作全路完成，也暂不合入或提前合 main。实际 desktop 路径一直按 `packages/desktop` 登记，renderer 全部归 UI，其余归 native；不得按旧别名遗漏根 renderer 文件。
+父任务随后报告 native 第一轮完成于 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`，GitHub API 已确认 #17 的同一 head；包含控制 client/server、JSONL decoder、状态持久化与停止确认两批源码。父任务已在原固定线程派下一批，故这是已完成批次的冻结输入，不把活动 PR 自动当作全路完成，也暂不合入或提前合 main。实际 desktop 路径一直按 `packages/desktop` 登记；当时 renderer 全部归 UI，其余归 native，现已按上表把整个 renderer 转交 native。历史别名不遗漏根 renderer 文件。
 
 父任务随后报告 UI 四批交付于 `7393e33483aceedb1fad4e2ed3fe50dee10f3db1`，GitHub API 已确认 #15 的同一 head；范围为文件树投影、分组编辑/虚拟滚动、群任务进展、v4 引用稳定化。父任务复用原任务继续文件树 watch/search/sticky 和 Studio/v4；同样保持该批完整 SHA 为冻结输入，尚不接入、不当作全 UI 或消费者验收完成。整合者既有 renderer 完整路径已与父任务再确认，无重叠授权。
 
 本轮代码发布后的最后一次只读 GitHub head 快照：CLI #14 `18f070df5c16f2d9cb44354277b392d5cff8b2f3`、services #16 `5b0b53522d235397cf435a627393c0bf5818d28c`、native #17 `388b69ccf08feacee73fbffb31a48faaa32c07ce`；UI #15 仍为上述 `7393e33483aceedb1fad4e2ed3fe50dee10f3db1`。前三者是活动推进，不覆盖原冻结完成批次、不推定新批验收或提前接入。旧 #7–12 再读仍为第一阶段完整输入 heads，继续只记录漂移，不追赶合入。
 
 2026-10-03 05:47 UTC 本轮发布前最后一次只读远端快照：旧 #7–12 六个完整 heads 再次与第一阶段输入一致，全部 open/draft、原 base 不变。main 仍 `bd0bb014c0974334557fa51814709d0b78f35f1d`；#13 仍 open/draft、base main。新的 #14–17 仍 open/draft、base integration/backlog-20261003：CLI `51bd4b6916f44457c58ea10f0e6246513458019b`、UI `b4eb691e7e3ddf906d08546f84a4defb1f43f971`、services `549b8dbc76a6e359d4b7f9da5db65a367abe4f3e`、native `33f812b483582dd6a6152618b4a57406b94a15ea`。services 与父任务冻结 head 一致；其余后续 head 是活动观察，不覆盖先前已报告完整批次、不推定全路完成、不提前接入，也没有读取/触发新检查。
+
+2026-10-03 06:31 UTC，执行通道恢复后的只读 GitHub 快照为：CLI #14 `3dff9ec7a8c3f36895640f121e4665bfb80f1989`、UI #15 `98bfe6d99d10024bdde2f5b0208c4a787ec66576`、services #16 `dac1483b661064ba64003a1137713646d2ebbc8c`、native #17 `cd0c79cc1629cb62dfe00a4c406d52f198cb8f7d`。四者仍 open/draft、base integration/backlog-20261003，均未合入本分支。父任务先前给出的 CLI f835917… / UI 662b642… / services 90e7d290… / native f25bb5b… 是历史批次输入，后续切片仍在推进，不能把它们或本次观察自动认定为最终冻结 head。#13 仍 open/draft、base main，远端已确认 Web source head `fdd3b3dbff0a8ff85db5170218601bb277088552`。通道恢复后本地同 SHA 且工作区干净，没有重建任务/分支、覆盖远端新提交或接入其他路源码；本次快照未读取或执行 CI。
 
 ## 整合者范围的实现筛选
 
@@ -86,6 +90,7 @@ coding-plan-subscription.ts 是集中协议类型/固定常量，没有可独立
 | shared workflow-runs-reducer | spec cd201beaa82f74c4b109456862f7d39925d53e55；source 176d54215e34b7ea9ee1c8ab8e9c4b94a01c371f | 完整主体候选已提交；5 个 source 文件为一个模块，run draft/严格身份 bounded rows/派生 actor observations；已装辅助 owners 不重写 | source-exposed；旧 f07e531f… 与 accepted-binding HOLD 仍历史限定，不绑定成新接受决定 |
 | model-option-map | spec b75623d31131f86aad701f86b2bb9180a6121089；source 24934687428aa5ed7f80ae5fe530670e33cb24f0 | 完整 runtime 候选已提交：单一 source cache entry、cursor scanner/precedence parser、惰性显式求值栈、path trie 首-owner 与单克隆 merge；7 source 文件为一个模块 | source-exposed；声明/语法/错误文字/标准 JSON 与数值规则保留原来源，未验证或接受权利 |
 | formal-proof | spec 8b908c95205d4670f6c6b283de7d022cc171cff6；source efb26e83d0e01fa2fdc0be08c39b4f5f0653cc03 | 完整 model/page runtime 候选已提交：phase/event recipes、work-stack/trail 枚举、预算/DAG 投影、单 explorer state 与 geometry-only canvas；9 source 文件为一个模块 | source-exposed；types/catalog/HTML/CSS/固定产品文字/几何/CASE 与 review schema 保留原来源；未运行浏览器/消费者/权利验收 |
+| Web theme / platform / bootstrap | spec 0d51eb27be3738dca08e7f6ea2935d60c4fb684b；source fdd3b3dbff0a8ff85db5170218601bb277088552 | 完整启动候选已提交推送；单一启动 frame、首帧主题、类型化浏览器能力表、同一工作区与失败视图，6 source 文件算一个模块 | source-exposed；theme seed 薄入口、性能夹具、公共 API、固定 DOM/文案/样式/平台结果保留原来源；未验证/未接受权利 |
 | 四路固定任务当前新增候选 | 上表 #14–17 的观察 heads | 待父任务批次完成通知和统一接收；未计入安装完成估计 | 来源、消费者与产品验收待统一阶段 |
 
 contracts 实现的文件归属为 `apps/cli/packages/contracts/src/events/in-memory-session-event-store.ts`、`session-event-journal.ts`、`session-event-retention.ts`。事件由每 session 的一个 journal 持有，retention 的索引只引用同一 sealed 链节点；保持公开 port、schema、barrel、工厂和参数、Promise 边界、序号规则、存入对象身份、replay 顺序、策略/时钟错误后的既有已驻留状态与 receiver、120 秒 grace、delete/recreate 与瞬态类别。没有改 UI、持久用户数据或其他 lane 的源码和记录。细则与以后统一验收场景见 [先行 spec](../specs/knorvia-next-integration-event-residence-20261003.md)。代码作者已读旧实现；标准/API/固定策略保留，不以新链结构宣称 clean room 或权利已接受。
@@ -95,6 +100,10 @@ projection 的新增实际 owner 为 `events/session-projection-transition.ts`�
 后续 tracing 及 shared workflow 候选的细则分别见 [tracing spec](../specs/knorvia-next-integration-tracing-20261003.md) 与 [workflow projection spec](../specs/knorvia-next-integration-workflow-projection-20261003.md)。前者保留 hook receiver/重入、sync throw/Promise rejection、上下文与 log 优先级；后者保留 run/seq/revision/JSON identity、cap 拒新仍更新旧、actor/node/report/question/artifact、resume/settlement 与实际 caller 入口。两者都未执行验证，不操作真实任务/数据，也不重复已有 helper owners。
 
 两个额外包的细则见 [option-map spec](../specs/knorvia-next-integration-model-option-map-20261003.md) 与 [formal-proof spec](../specs/knorvia-next-integration-formal-proof-20261003.md)。option-map 保留 compiler/tokenizer/types/barrel/error 与同步 apply 的入口，类型和数值/字符串语法仍按原来源；request body 只写入其深克隆，不修改 shared/provider/CLI 调用方。formal-proof 的 model.ts 保留原公开导出，main.ts 实际接入新 model/graph/canvas owner；model-types/model-catalog/explorer-shell 中的原内容迁移、未改 stylesheet 与所有视觉值不能计为新原创。CASE 的 DFS 分配、review key `knorvia.conversation-state-space.review.v1`、导出 JSON 字段/文件名、全部选择/过滤/详情/缩放/适配/重置/导出控件是后续统一验收的兼容边界；本轮没有读取或写入真实浏览器 localStorage。
+
+Web 先行规格见 [Web 启动/主题/平台契约](../specs/knorvia-next-integration-web-startup-20261003.md)，实现仅写 `packages/web/src/main.tsx`、`webBootstrap.ts`、`webStartup.ts`、`webThemeBootstrap.ts`、`webPlatform.ts`、`webAppViews.tsx`。main 按原次序执行 theme、root、稳定 stream client id、一次 plan/connect/platform/present；启动 frame 只管理该次交接，不持有第二业务状态。remote 不请求 server-info；本地 lookup/首 workspace 读取失败保留基础 /ws plan，不提前提交半份 workspace。原成功 JSX/错误 DOM、初始 Root 参数、平台 method/Promise/对象身份/通知/设备值及用户存储 key 保留。源码阅读发现并修正了 workspace getter 失败后的部分提交及设备 platform 读取顺序；没有把这些静态修正写成测试通过。
+
+`webThemeSeed.ts` 保持 SHA-256 `b80b467134c7af134b33f1647f0459fdcab204cb5ce71311257f4a0bd6eb3b26`，继续委托 shared 唯一主题规范化，不另计模块。`perfStudioTimeline.tsx` 保持 SHA-256 `52ae56ea81995c705e98f075aa81e615e1b90636e450bd21f39446241fb5ff73`，保留 5edcf479c3f54e3d191812818804df399cbd739a 的 Knorvia 独立性能夹具与 HTML 入口，不因 saved upstream:null/review:null 再重复重写或推定权利。所有 Web HTML、CSS/品牌资产、Vite/env/package 配置保留；未编辑 shared/UI/client/server/native。theme seed 的原 upstream-modified/review:null、main predecessor 来源暴露、固定展示材料和所有原许可记录均保留，没有更改 global inventory/LICENSE/NOTICE。原分支通道恢复后完成普通提交/推送，远端 source SHA 已确认。
 
 ## 本轮跨路输入与 Registry 真正缺项
 
@@ -122,6 +131,8 @@ CLI 本轮 head `a3540e4860c8e7a74af5bde1a4a89021a941509d`，源码三批为 Tur
 
 可以消除对旧候选的**运行时依赖**：由原 services 任务按已公开的行为/API/spec 续作实际 pending owner，给新提交绑定新的真实 source-exposed authoring 记录。startup 的完整边界是检查/进度副本、mkdir/open、busy/foreign-key、同一一小时 deadline 的 busy-code-only 100ms retry、upgrade snapshot 在 WAL/BEGIN 前、migration 已提交事实、原异常/清理首因、mark migrated 后两 Repo 的 ensureReady/close、最后 prepared/ready；不能改变数据 schema/迁移 SQL 或把 storageStartupGate admission 计成 DB pipeline 已替换。commit scope 的边界是有效 session paths 为空返回 unbounded、trim/slash/root/workspace aliases、绝对路径只加入受控 repo/workspace relative aliases、三个 file path 字段任一匹配、保留文件顺序与对象身份、Windows/POSIX 原 path helper。creation reference 的边界是 project realpath containment 或 succeeded recorded output identity、10MB/nonempty/file/mime 准入、verified 上游 creation-output 身份和 recorded/hash/read-back 一致、派单前失败、原路径/base64/result/错误边界；最终还须落实已规格化的真实路径和 symlink/containment 安全规则。可以保留声明/固定值/标准 API 来源，但不能把新候选摘要写成上述旧摘要，也不能凭重写或新 receipt 清掉整文件权利的不确定性。整合者已读这些源码，不编辑 services 所有者；是否按这三个完整范围续派仍由父任务在原固定任务落实。
 
+父任务后来已在原固定任务续派三个 services owner 和 Registry 新接纳路线，当前 #16 说明记录七个 services 与两个移交 UI 候选，#14 记录 Registry 生产接入 `105b1318464199e5492126984a0293599269f48d`。因此本节“是否续派”与 earlier frozen head 等待仅为当时交接状态，不是当前实现阻塞；旧源码/receipt 缺项与来源/权利 HOLD 保留。尚未合入的这些新候选也不计为本整合分支已经安装或验证完成。
+
 ## 最终统一执行队列：native 第一轮新增测试
 
 输入冻结在 #17 的 `85ea4dcf9d0da20c14a487caaafc677a2f81f047`。仅通过 GitHub API 阅读文件和既有根 runner，**没有执行**。纳入最终统一验收的确切测试为 `packages/server-cli/test/control-transport-contract.test.mjs` 与 `packages/server-cli/test/status-persistence-contract.test.mjs`，各自同目录依赖 `control-transport-fixture.mjs` / `status-persistence-fixture.mjs`。控制用例覆盖 JSONL、连接隔离、请求/响应/error、客户端关联与关闭；持久化用例覆盖 phase/error identity、串行 write/rename、错误回调、lock release/strict freshness 与停止确认。
@@ -129,6 +140,8 @@ CLI 本轮 head `a3540e4860c8e7a74af5bde1a4a89021a941509d`，源码三批为 Tur
 当前 `scripts/test-studio.mjs` 的 testDirectories **不含 packages/server-cli/test**。原固定 native 批次全部接收后，整合者在唯一根文件把该目录纳入统一发现；现在不能先登记尚未合入的缺失目录，因为 runner 无缺失目录跳过逻辑。按已读测试的 node:test 入口，也可在最终阶段明确执行 `node --test packages/server-cli/test/control-transport-contract.test.mjs packages/server-cli/test/status-persistence-contract.test.mjs`；这是未来命令规划，不是已运行记录。统一 root runner 的实际执行仍遵守最终阶段 CLI 构建/依赖前置条件，Linux/Windows 和真实 schema/OS transport/文件路径验收不能由这两个 fake-port fixture 代替。
 
 CLI 报告的新增测试接收后由整合者在同一根 runner 加入 `apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts` 与 `apps/cli/packages/cli/test/argument-admission-contract.test.ts` 的 explicitTests。`core/test/turn-machine-contract.test.ts` 和归档 registry 候选的 `runtime-task-registry-contract.test.ts` 已在现有目录发现范围，不重复显式加入。共 35 用例是 CLI 报告的场景数量，全部未执行；不以归档候选用例证明生产 registry 或 reported accepted bytes。
+
+2026-10-03 06:31 UTC 只读 #14 当前发布记录补充的根 explicitTests 接纳请求共六条：上述 message/argument，再加 `apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts`、`apps/cli/packages/bootstrap/test/session-projection-contract.test.ts`、`apps/cli/packages/bootstrap/test/session-snapshot-images-contract.test.ts`、`apps/cli/packages/bootstrap/test/session-snapshot-contract.test.ts`。CLI 报告累计 76 场景，均未执行；生产 Registry 已按新授权接入，但不改变历史未取得的 accepted-byte/receipt 状态。#17 另报告 `packages/server-cli/test/lock-ownership-contract.test.mjs`；待完整原任务批次接收后，再按实际文件去重接入同一根 runner，现在不登记仍缺失的目录/源码，不运行 discovery 或测试。
 
 ## 用户要求的累计工程主观估计
 
