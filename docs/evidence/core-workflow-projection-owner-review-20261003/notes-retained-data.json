@@ -1,0 +1,17 @@
+{
+  "scope": "notes",
+  "binding": {
+    "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/notes/workflow-script-notes.ts.txt",
+    "bytes": 2133,
+    "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118"
+  },
+  "proseChecks": [
+    {
+      "text": "\"` (pass its `args` again); to change the saved definition itself, use SaveWorkflow.",
+      "exact": true
+    }
+  ],
+  "exportedExpressions": [],
+  "passed": true,
+  "qualification": "Exact required long prose/template paragraph fragments and exported sentinel initializer topology retained. Other fixed XML/metadata/short note fragments/ordered fields checked in minimum exact synthetic projections; may compose from public values, no lexical originality credit. Opaque schema/limit/dependency data remain original unchanged byte owners. No original/runtime/schema/workflow execution or semantic/project/license claim."
+}

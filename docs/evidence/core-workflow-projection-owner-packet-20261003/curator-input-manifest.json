@@ -188,6 +188,59 @@
           "sha256": "fb8c983de1e560c4bffb27848863e5c9ba9945ff9473d2af1e5bc815de348ca0"
         }
       ]
+    },
+    "format-v2": {
+      "source": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+      "original": {
+        "path": "apps/cli/packages/core/src/tool/handlers/get-workflow-run-format.ts",
+        "bytes": 14662,
+        "lines": 266,
+        "sha256": "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b"
+      },
+      "inputs": [
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/contract.md",
+          "bytes": 6954,
+          "lines": 23,
+          "sha256": "59156a2548f66a786d3ec61575e5ba03796b860898e3cc7e6e9e26d4765ca82e"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-api.d.ts",
+          "bytes": 159,
+          "lines": 2,
+          "sha256": "e219ca28776052cd86a8ba6deb022b012fd1607d861b849fcf90b81825799f1b"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/dependency-api.d.ts",
+          "bytes": 3988,
+          "lines": 96,
+          "sha256": "429080ca04fdfbe3bb6cb76db5a01da3cae9654a3389d851d5b9ba0c7ff48abd"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/imports.json",
+          "bytes": 2794,
+          "lines": 102,
+          "sha256": "51b2c1da926840022568c4028d05ee159864bcf036f7ceef8bde144e51ed5561"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/required-data.json",
+          "bytes": 10867,
+          "lines": 488,
+          "sha256": "94cb76fc93184d0d239c0b88703f2317429589935583df4d550a858e47c6a9b8"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/public-data.json",
+          "bytes": 9676,
+          "lines": 35,
+          "sha256": "29e3f23b30731a6852a071957fef20ccd8867316cd80f6ee989ce1381007c80c"
+        },
+        {
+          "path": "docs/evidence/core-workflow-projection-owner-review-20261003/format-provider-order-finding.md",
+          "bytes": 1705,
+          "lines": 5,
+          "sha256": "80b32853fe1eecbf043201b77ec0bffa210d7efbc6bffe17d5299787bb123b57"
+        }
+      ]
     }
   }
 }

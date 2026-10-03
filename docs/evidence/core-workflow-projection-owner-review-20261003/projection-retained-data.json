@@ -1,0 +1,12 @@
+{
+  "scope": "projection",
+  "binding": {
+    "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/projection/get-workflow-run-roster-output.ts.txt",
+    "bytes": 4491,
+    "sha256": "ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d"
+  },
+  "proseChecks": [],
+  "exportedExpressions": [],
+  "passed": true,
+  "qualification": "Exact required long prose/template paragraph fragments and exported sentinel initializer topology retained. Other fixed XML/metadata/short note fragments/ordered fields checked in minimum exact synthetic projections; may compose from public values, no lexical originality credit. Opaque schema/limit/dependency data remain original unchanged byte owners. No original/runtime/schema/workflow execution or semantic/project/license claim."
+}

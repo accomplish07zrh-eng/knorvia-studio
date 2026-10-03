@@ -1,0 +1,4 @@
+{
+  "failure": "Initial long-prose checker required a whole string literal equal to the unknown question sentence. Author emitted identical sentence inside enclosing XML as one literal; minimum unknown output check passed before separate real ordering failure.",
+  "correction": "Allow exact contiguous long fragment inside an enclosing literal/template part, preserving every character; no changed author text/source/receipt. Original guard/script retained. Required static proof is data retention, not private literal decomposition."
+}

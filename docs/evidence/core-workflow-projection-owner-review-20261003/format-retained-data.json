@@ -1,0 +1,77 @@
+{
+  "scope": "format",
+  "binding": {
+    "path": "docs/evidence/core-workflow-projection-owner-packet-20261003/format/get-workflow-run-format.ts.txt",
+    "bytes": 9541,
+    "sha256": "a26629d5cfde6bd2c8711d2cb913a3daccd2acb2c50f5ebc83daa04f1f3b6c93"
+  },
+  "proseChecks": [
+    {
+      "text": "Unknown: pending questions are tracked only by the process that owns the run, and this session does not. Resuming the run will re-ask any question its subagent still needs answered.",
+      "exact": false
+    },
+    {
+      "text": "Each of these subagents is parked waiting for an answer and nothing times out on its behalf. Answer one with ResolveWorkflowQuestion using the ID in brackets. The rest of the run keeps running meanwhile.",
+      "exact": true
+    },
+    {
+      "text": "<possibly_interrupted>true — this session cannot confirm the run is still alive</possibly_interrupted>",
+      "exact": true
+    },
+    {
+      "text": ", which owns its unfinished work. Do not resume it (ResumeWorkflowRun will refuse) and do not amend it again; read or amend ",
+      "exact": true
+    },
+    {
+      "text": " You stopped this run yourself with TaskStop: resume it unchanged only if that is what the user wants. If you stopped it to fix the script, do not wait — amend it now, see <amendable>.",
+      "exact": true
+    },
+    {
+      "text": " A provider-side error stopped it: resolve the cause named in <error> with the user before resuming, or it will stop again the same way.",
+      "exact": true
+    },
+    {
+      "text": "<resumable>This run can be continued with ResumeWorkflowRun — it will resume under the same run ID, replaying finished steps and re-dispatching the unfinished ones.",
+      "exact": true
+    },
+    {
+      "text": " The script must be byte-for-byte the one this run was started with; to change it, see <amendable>.</resumable>",
+      "exact": true
+    },
+    {
+      "text": "\" supersedes this run with a revised script and imports its finished work as cache.",
+      "exact": true
+    },
+    {
+      "text": "This is the highest-value case for it: the script itself failed, so fix the script and re-run — every step that already succeeded is imported instead of being paid for a second time. Do NOT rewrite from scratch.",
+      "exact": true
+    },
+    {
+      "text": "Use it to extend or refine a finished workflow — added steps run live, unchanged ones cost nothing.",
+      "exact": true
+    },
+    {
+      "text": "Use it when the script or a setting needs to change; use ResumeWorkflowRun to continue it unchanged. A run stopped because its script was wrong is amended now, not after the user asks: the cache holds everything that settled before the stop, and waiting buys nothing.",
+      "exact": true
+    },
+    {
+      "text": "It is still running: if the script is visibly wrong, amend it now — AmendWorkflow stops this run, imports everything that settled so far, and starts the revision in one call. Do not TaskStop it first and do not wait for it to finish.",
+      "exact": true
+    },
+    {
+      "text": "This run can be superseded by a revised script: call AmendWorkflow with `run_id: \"",
+      "exact": true
+    },
+    {
+      "text": "That mints a NEW run and imports this one's finished work as a warm cache — matched per named subagent along its conversation prefix — so steps you did not change settle from cache at zero tokens and only the revised part runs live.",
+      "exact": true
+    },
+    {
+      "text": "To change only its settings (max_concurrency, subagent_model, name), omit both `script` and `path`: the new run keeps this run's script.",
+      "exact": true
+    }
+  ],
+  "exportedExpressions": [],
+  "passed": false,
+  "qualification": "Exact required long prose/template paragraph fragments and exported sentinel initializer topology retained. Other fixed XML/metadata/short note fragments/ordered fields checked in minimum exact synthetic projections; may compose from public values, no lexical originality credit. Opaque schema/limit/dependency data remain original unchanged byte owners. No original/runtime/schema/workflow execution or semantic/project/license claim."
+}
