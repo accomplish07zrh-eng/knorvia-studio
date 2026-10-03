@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// Pending command/permission contracts; not run or claimed as React/store/host acceptance.
+// Source/port command/permission contracts; scoped results are not React/store/host acceptance.
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { KnorviaGroupedTaskView } from "@knorvia/services";
@@ -184,9 +184,24 @@ test("contextual drafts retain task/group/top selection and only explicit close 
 
 test("menu order retains hidden archive members and the shared bridge permission revokes old order callbacks", () => {
   const h = fixture();
-  h.owner.archive(b);
+  // 组内第一项置顶本来是 no-op；原夹具误把它当作顶层移动，未产生 order。
   h.owner.moveToTop(a);
+  assert.equal(h.orders.length, 0);
+  // 该用例需要非首位的顶层任务，才能同时观察完整归档成员与 order 许可。
+  h.replaceView({
+    nodes: [
+      { type: "group", group, tasks: [b] },
+      { type: "task", task: a },
+    ],
+  });
+  h.owner.archive(b);
+  assert.equal(h.owner.read().archiving.has(taskKey(b)), true);
+  h.owner.moveToTop(a);
+  assert.equal(h.orders.length, 1);
   const reordered = h.orders[0]!;
+  assert.equal(reordered.view.nodes.length, 2);
+  const first = reordered.view.nodes[0]!;
+  assert.equal(first.type === "task" && first.task, a);
   assert.equal(reordered.view.nodes[1]!.type, "group");
   const node = reordered.view.nodes[1]!;
   assert.equal(node.type === "group" && node.tasks[0], b);

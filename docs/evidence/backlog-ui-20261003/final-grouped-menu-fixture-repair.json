@@ -1,0 +1,206 @@
+{
+  "kind": "ui-final-single-case-menu-fixture-repair",
+  "branch": "rewrite/ui-20261003",
+  "integratedCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "parentFailureRecord": "docs/final-combined-checks-20261003.json",
+  "parentFollowupRecord": "docs/final-bootstrap-combined-20261003.json",
+  "reportedTest": {
+    "path": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+    "oldLine": 190,
+    "name": "menu order retains hidden archive members and the shared bridge permission revokes old order callbacks",
+    "failure": "h.orders[0] is undefined; reading reordered.view throws"
+  },
+  "diagnosis": {
+    "kind": "fixture-scenario-contract-mismatch",
+    "originalFixture": "a is the first member of group g; b is archived locally; moveToTop(a) is a required identity no-op, so no order is admitted",
+    "existingContract": "Group menu top stays within current group. Root menu top moves a non-first root task to root index zero. Controller uses authoritative view, preserves archived members and skips reference-identical projections.",
+    "supportingSpec": "specs/knorvia-next-ui-workspace-projections-20261003.md:95",
+    "historicalSourceConsulted": {
+      "commit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+      "path": "packages/ui/src/workspace-grouped-tasks/view.ts",
+      "lines": "528-560 moveTaskToTopByMenu; group taskIndex 0 returns the same view",
+      "readOnly": true,
+      "oldRuntimeTraceExecuted": false,
+      "newAcceptedBaselineClaimed": false
+    },
+    "candidateSource": "Current viewCommands preserves the same group/root no-op contract; GroupedSectionInteractionOwner.move suppresses identical-view orders"
+  },
+  "repair": {
+    "scope": "Single test scenario plus specification/lane receipt only; no production source changed",
+    "scenario": "First assert the shared fixture group-first no-op; then replace only this fixture view with [group(b), root(a)]. Archive b, root-top a, expect [root(a), group(b)] with original b identity.",
+    "originalAssertionsPreservedInOrder": 6,
+    "originalAssertionExpressions": [
+      "assert.equal(reordered.view.nodes[1]!.type, \"group\");",
+      "assert.equal(node.type === \"group\" && node.tasks[0], b);",
+      "assert.equal(reordered.permits(), true);",
+      "assert.equal(reordered.permits(), false);",
+      "assert.equal(dragAllows(), false);",
+      "assert.equal(h.orders[1]!.permits(), false);"
+    ],
+    "addedAssertions": [
+      "group-first has zero orders",
+      "b really enters the hidden archive set",
+      "root-top admits exactly one order",
+      "two nodes remain",
+      "root first is original a"
+    ],
+    "sharedFixtureFunctionChanged": false,
+    "historyGoldenOrAcceptedHashChanged": false,
+    "persistentDataOrUiChanged": false
+  },
+  "runtime": {
+    "actualNode": "24.19.0",
+    "repositoryAndParentNode": "24.14.0",
+    "differenceRetained": true,
+    "dependencyInstallNeeded": false,
+    "environment": "Same KNORVIA_ENV=test, isolated temporary KNORVIA_DATA_BASE_DIR/KNORVIA_STORAGE_DIR and existing UI TSX configuration as standard studio test driver; credential env variables removed"
+  },
+  "reproduction": {
+    "command": [
+      "node",
+      "--experimental-test-module-mocks",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-concurrency=1",
+      "--test-timeout=120000",
+      "--test-name-pattern",
+      "^menu order retains hidden archive members and the shared bridge permission revokes old order callbacks$",
+      "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts"
+    ],
+    "actualExitCode": 1,
+    "tests": 1,
+    "passed": 0,
+    "failed": 1,
+    "logSha256": "0ccb78aa302e2e50ac1896d457f2329475fff681f55734f7f6883d758d4da30a",
+    "log": "✖ menu order retains hidden archive members and the shared bridge permission revokes old order callbacks (2.579724ms)\nℹ tests 1\nℹ suites 0\nℹ pass 0\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 950.389145\n\n✖ failing tests:\n\ntest at packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts:1:4943\n✖ menu order retains hidden archive members and the shared bridge permission revokes old order callbacks (2.579724ms)\n  TypeError: Cannot read properties of undefined (reading 'view')\n      at TestContext.<anonymous> (/workspace/knorvia-studio/packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts:190:26)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1382:25)\n      at Test.start (node:internal/test_runner/test:1242:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)\n"
+  },
+  "verification": {
+    "command": [
+      "node",
+      "--experimental-test-module-mocks",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-concurrency=1",
+      "--test-timeout=120000",
+      "--test-name-pattern",
+      "^menu order retains hidden archive members and the shared bridge permission revokes old order callbacks$",
+      "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts"
+    ],
+    "actualExitCode": 0,
+    "tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "logSha256": "f342adecdeee1a64c77185e1c5603e0c03322ac6ad268950ce388b50f7f20a42",
+    "log": "✔ menu order retains hidden archive members and the shared bridge permission revokes old order callbacks (3.109214ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 801.50177\n",
+    "scope": "Only the exact reported failing test name; no other cases or suites rerun"
+  },
+  "checks": [
+    {
+      "name": "test-file-lint",
+      "command": [
+        "node_modules/.bin/oxlint",
+        "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts"
+      ],
+      "actualExitCode": 0,
+      "warnings": 0,
+      "errors": 0,
+      "scope": "One modified test"
+    },
+    {
+      "name": "test-file-format",
+      "command": [
+        "node_modules/.bin/oxfmt",
+        "--check",
+        "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts"
+      ],
+      "actualExitCode": 0,
+      "scope": "One modified test"
+    },
+    {
+      "name": "changed-architecture",
+      "command": [
+        "node",
+        "scripts/architecture/architecture-check.mjs",
+        "check",
+        "--changed"
+      ],
+      "actualExitCode": 0,
+      "violations": 0,
+      "baseline": 0,
+      "new": 0,
+      "scope": "Changed files only"
+    }
+  ],
+  "testByteBinding": {
+    "path": "packages/ui/test/ui-next-grouped-section-actions-20261003.test.ts",
+    "baseBytes": 12209,
+    "baseSha256": "fa28cfa5cc584f836f949c761eec698af7418fb92f841b9e4d15cd4f84d7d8da",
+    "candidateBytes": 12846,
+    "candidateSha256": "871c131333301420e37b2ea4be6977b65860aa7f4e493a9e8797f73d75c0ff62"
+  },
+  "unchangedRelatedProduction": [
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedSectionInteractionOwner.ts",
+      "bytes": 12491,
+      "sha256": "3bc5e795a9c99da9e439552f733799bb6f237a233f7c727ca143e04aa0506727",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+      "bytes": 5201,
+      "sha256": "8aea96626d9e9d5d35032b8985e0536fc8da56320a2c1e43ba38d5ac0e63ceed",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+      "bytes": 3812,
+      "sha256": "0a31e2c626a73250f6fc2b91cc53f5fa36fb0c37f2fc1a3eee12c3aab26c12a6",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+      "bytes": 3797,
+      "sha256": "e285de5ad3ee5f045ead17e38ad3490021421a6859dba5abadb17cc6a8abde12",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "packages/ui/src/WorkspaceGroupedTasksSection.tsx",
+      "bytes": 30154,
+      "sha256": "dedae7a1765c36ba015cd275a79f944f79dc6908cbc1f74151da1d7d7b753bff",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "bytes": 16449,
+      "sha256": "d27a2249212a9c787d66ec838e4568cbb2478de2ef569a1904425ee063967538",
+      "unchangedFromCheckpoint": true
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedMutationOwner.ts",
+      "bytes": 6167,
+      "sha256": "d958c9f5a964c4343e1135285dacdfd6bb9617a560bdb2db55c2b9a38c1e1c50",
+      "unchangedFromCheckpoint": true
+    }
+  ],
+  "environmentRecovery": {
+    "incident": "One exec-server transport disconnection before initial fetch completed; no approval rejection",
+    "recovered": true,
+    "successfulExplicitFetch": true,
+    "integrationMode": "Fast-forward on original branch; no reset or force overwrite"
+  },
+  "sourceExposure": "source-exposed; original notices/licenses and historical candidate receipts retained",
+  "rightsAccepted": false,
+  "wholeTreeMitReady": false,
+  "newPrCreated": false,
+  "mainMerged": false,
+  "newCrossModuleInterfaceRequirements": [],
+  "remainingIntegrationWork": [
+    "Receive pushed original-branch SHA, refresh current byte inventory/report as needed, and perform unified acceptance; original frozen/golden/rights records remain intact"
+  ],
+  "commitBinding": "Repair full SHA is sent in handoff; receipt binds candidate bytes without commit self-reference"
+}
