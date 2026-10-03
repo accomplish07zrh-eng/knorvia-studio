@@ -6,6 +6,7 @@ Branch: `lane/services-20261003`. Base:
 main; explicit integration-branch fetch obtained the requested commit before
 branch creation. This task retains the same branch and submits incremental
 commits to one draft PR with the integration branch as base.
+Draft PR: https://github.com/accomplish07zrh-eng/knorvia-studio/pull/16.
 
 Read the repository AGENTS, architecture-governance skill, integration backlog,
 services next-owner HOLD, session/protocol leaf receipts and provider complete
@@ -62,6 +63,38 @@ whole-file accepted independence, novelty or MIT assertion. Public/type/grammar,
 fixed policy/log labels and imported collaborator expression remain attributable
 to existing sources. No automatic replacement of copyright notices or license
 records.
+
+## Batch 2 — task-index ingestion
+
+The [contract](../specs/knorvia-next-services-task-index-ingestion-20261003.md)
+was committed first as `146c13ab52958846e2e7209d65bfb7fe7269ecbc`.
+The complete taskIndexSyncer coordinator is replaced with a workspace owner,
+independently instantiated index/config topic owners, a topic-local recovery
+controller and summary/snapshot repository projections. This changes the ownership
+structure and implementation, rather than renaming the mirrored predecessor
+closures. Shared assemblers, runtime facts and repository transactions keep their
+existing collaborators and public entrypoints.
+
+The candidate retains bounded pre-ACK staging and stale-ACK identity protection;
+same-sub recovery with ACK/frame arrival-order handling; topic-local retry;
+dormant runtime authority; stable listeners; generation-aware suspend/restart;
+initial silent non-draft seeding; terminal-before-ready events; existing-only
+readback and one terminal unread notification. Metadata preserves missing versus
+null goal values, latest-message model choice, error attribution and grouped-top
+atomic writes. Search consumes visible text lazily, selecting only the final
+assistant text part while retaining the historical content/truncation budget.
+No persisted schema or migration is changed.
+
+Authored three synthetic contract files (eleven scenarios) for delayed ACK,
+sibling recovery isolation, reused subscription IDs, pre-ACK overflow, snapshot
+optional-field/search/publication boundaries and runtime/terminal sequencing.
+None was executed. **UNVERIFIED:** source and differences were read; no runtime,
+type, lint, build, architecture, audit or CI result is claimed. Exact baseline and
+candidate bindings are in
+[source-bindings.json](evidence/backlog-services-task-index-ingestion-20261003/source-bindings.json).
+The source-exposed authoring and unresolved rights/expression restrictions from
+batch 1 also apply here; historical HOLD records stay intact. Neither candidate
+has whole-file independent-expression or MIT acceptance.
 
 ## Integrator dependencies and remaining acceptance
 
