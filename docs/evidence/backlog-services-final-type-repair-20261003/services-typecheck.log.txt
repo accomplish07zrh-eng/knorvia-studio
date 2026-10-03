@@ -1,0 +1,4 @@
+Command: /tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node node_modules/typescript/bin/tsc --noEmit --project packages/services/tsconfig.json --pretty false
+Source commit: c448bfcb18dbe3107b97ace675701eba704c4a86
+Observed exit: 0
+

@@ -1,0 +1,9 @@
+Command: node scripts/architecture/architecture-check.mjs check --changed
+Runtime: Node 24.19.0
+Scope: pre-commit worktree whose changed source/test bytes match c448bfcb18dbe3107b97ace675701eba704c4a86
+Observed exit: 0
+
+architecture: OK
+violations: 0
+baseline: 0
+new: 0

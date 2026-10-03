@@ -1,0 +1,6 @@
+Command: /tmp/knorvia-services-node-24.14.0/node-v24.14.0-linux-x64/bin/node node_modules/oxlint/bin/oxlint packages/services/src/commands/commandFileParser.ts packages/services/src/git/repo/gitCliHelpers.ts packages/services/src/git/repo/gitCliParsing.ts packages/services/src/git/repo/gitRepoPush.ts packages/services/src/model-provider/legacyProviderEndpoints.ts packages/services/src/providers/api/nodeApiNetwork.ts packages/services/src/skill-sync/skillSyncDiscovery.ts packages/services/test/services-parsing-boundaries-final-20261003.test.ts packages/services/test/git-cli-helpers-fake-safety-20261002.test.ts packages/services/test/git-cli-repo-fake-safety-20261002.test.ts
+Source commit: c448bfcb18dbe3107b97ace675701eba704c4a86
+Observed exit: 0
+
+Found 0 warnings and 0 errors.
+Finished in 18ms on 10 files with 94 rules using 4 threads.
