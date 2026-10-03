@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "base": "2cdcedb7718e7a25cd1bc154320bf8f0fd665636",
+  "allocatedPath": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+  "sourceSHA256": "7473a82490a47173d21d4f4b002c22e718cc832d901d0892023a2fb6f966b2f1",
+  "historicalOrigin": {
+    "relation": "modified",
+    "path": "apps/zcode-cli/packages/core/src/tool/executor/background-tasks.ts",
+    "blob": "3fb41377739a96eb9c3a503a72162941042c7511",
+    "normalizedSha256": "3dc2eaf8c77f57b8a648130a7ec621c60622ba7373481b7fc4e08683e3660257",
+    "contentMatchedPaths": []
+  },
+  "historicalReview": null,
+  "history": [
+    "88001f027b04324f816176ff5f08b5d1a236f27f style: format the repository with oxfmt and enforce fmt:check in CI",
+    "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+  ],
+  "receiptReferences": {
+    "docs/evidence/knorvia-get-workflow-run-snapshot-fast-checks-20261001.json": "6262ecd3e6b92b5e63879d6fa4ff596bb299130e4c83ad25a57cff1c6927476d",
+    "docs/evidence/knorvia-plan-mode-fast-checks-20261001.json": "795548a80263d3e468bbfbc1a36bcfc1cf40f23bd2f1597a4d1c70e6e4baaa83",
+    "docs/evidence/knorvia-webfetch-orchestration-fast-checks-20261001.json": "88bed406c5230d8bc7de80ccef790386acc067e1bebbff9b26abbbed8d8bb180",
+    "docs/evidence/knorvia-websearch-fast-checks-20261001.json": "eead7b233b92ada15d08ed2186a24e2b0014a8acf2782650d86898fc5037a8f2",
+    "docs/evidence/knorvia-collaboration-tools-fast-checks-20261001.json": "db4ff694f9fd4bd1af443ed23aa9486cd1b5a2f12e64ff31ae33d1015ac7f9da",
+    "docs/evidence/knorvia-list-saved-workflows-model-fast-checks-20261001.json": "27313a43e06583c82c84a631fe6713596de45b79cbdf70d56bc493886c62b16f",
+    "docs/evidence/knorvia-read-orchestration-fast-checks-20261001.json": "5e9796e393a42d1c719e2fd8d6f2cc1a7c3e29365fa9a49dc67702eda091b8f3",
+    "docs/evidence/knorvia-workflow-run-summary-fast-checks-20261001.json": "b328e48a882533dcec1a7b3db0630b03040a4780feefbcbc6c551e46dec8edf9",
+    "docs/evidence/knorvia-list-workflow-runs-orchestration-fast-checks-20261001.json": "6425330448970bb7ac9c3a5d9659d1af89610b9ef53e15f5420fb9571a825e73",
+    "docs/evidence/knorvia-agent-tool-fast-checks-20261001.json": "1d314d2f4436c465fce850449f309b3cfe5443043d3ca01e61b86c097c87d968",
+    "docs/evidence/knorvia-escalate-orchestration-fast-checks-20261001.json": "a7372731a3e5e6d3291ab915ec03c3f2cdd83d5c8097d1eb8f7f3eff96b7abc1"
+  },
+  "receiptFinding": "Matched entries are protectedInputs/unchanged configured-lint paths, not accepted full candidates. No local reviews.json path entry found. Missing receipts are not proof of absence; root separately allocated this exact source hash.",
+  "freeze": {
+    "docs/evidence/background-tracker-author-20261003/api.d.ts": "7605914b1e4d02616c9553bdb4ea51dd677d41504f58c4c3e61c703bb234b4e7",
+    "docs/evidence/background-tracker-author-20261003/call-api.d.ts": "d0297310869d9b2fbf244f4ed7b263b6a8e870c7f2f7f8c9a3c678a6ab8587c7",
+    "docs/evidence/background-tracker-author-20261003/contract.md": "005190ee10f2e265614a49552c21b8b8c021e7f2955e16a367e8323618b50179",
+    "docs/evidence/background-tracker-author-20261003/dependency-api.d.ts": "41f6adafb22c408bab6df0bcfd26cf70468484aab78e09f1d48799210325cea1",
+    "docs/evidence/background-tracker-author-20261003/import-map.md": "44a1f63a7857e9c36ca7ed706e93207d0307fe463a95edd578ca82cd0a9d5bbc",
+    "docs/evidence/background-tracker-author-20261003/ports.d.ts": "1d0456b01b6ad06047000ac81c4d29b6f1112155260536945811188372e6f55e",
+    "docs/evidence/background-tracker-author-20261003/runtime-logs.json": "15ff52ddf392748d80e7918b19d5478cb3914d5fe09be0d1bc5272e25990729c",
+    "docs/evidence/background-tracker-author-20261003/snapshot-api.d.ts": "b2a8b3e7f2c9c2f9b74ff6d49d5668c875a587ed54af83e6e0614a76d6b5b77b",
+    "specs/knorvia-background-tracker-owner-20261003.md": "998b5507041e8c6d93ce0694ccc66c188cc808cd90baace300eeab3429b352b9",
+    "apps/cli/packages/core/test/background-tracker-baseline-20261003.json": "21ad66af851971aa60edef827577865d37de02ad32b02ec0ebdf5d2873cc8eb3",
+    "apps/cli/packages/core/test/background-tracker-fixture-20261003.mjs": "c5aca34f46d64350e761bb521aa2aab9e535d5fa7f9af3de2dc70b4ce33041c8",
+    "apps/cli/packages/core/test/background-tracker-safety-20261003.mjs": "2446eec9d19fd6ebb42df076d69bccda92dc18de2f269c61bc00c8a5d92c2f65",
+    "apps/cli/packages/core/test/background-tracker-observations-20261003.json": "1a3d7d6cbda0002a84b583a9643b7217afbef12781faae2404b2f18ffb63a13a"
+  },
+  "protectedReference": {
+    "path": "docs/evidence/turn-machine-checks-20261003/freeze.json",
+    "sha256": "8be208f54408cfb4b992fdc8a95c993f69183ecd385a8d108596fc9618189433",
+    "explicitlySupersededPath": "apps/cli/packages/core/src/tool/executor/background-tasks.ts",
+    "rule": "Only allocated tracker source is excluded from predecessor protected digest map; fixed lower sources/root registry/hydration and previous A/E modules remain unchanged."
+  },
+  "configuration": {
+    "current": "Parent verified Sol/high, Fast Value1 before current round; preserve ON.",
+    "historicalLimit": "No retroactive Fast verification for previous rounds; parent found prior OFF and changed it ON."
+  },
+  "minimumGroups": 6,
+  "liveTasksProcessesFilesProvidersGrants": 0,
+  "fixtureCorrection": "First setup defaulted explicit undefined output to a launch. Original failing log retained; corrected only helper invocation to pass exact undefined, before behavioral freeze. No production defect claimed."
+}

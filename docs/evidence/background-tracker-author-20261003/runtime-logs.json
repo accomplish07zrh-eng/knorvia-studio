@@ -1,0 +1,131 @@
+[
+  {
+    "level": "info",
+    "message": "Background task tracking started",
+    "fixedFacts": {
+      "event": "background_task.tracking.started",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "info",
+    "message": "Background task tracking lost without snapshot source",
+    "fixedFacts": {
+      "event": "background_task.tracking.lost",
+      "module": "core.tool.executor",
+      "reason": "missing_snapshot_source"
+    }
+  },
+  {
+    "level": "warn",
+    "message": "Subagent background Bash exceeded max runtime; cancelling",
+    "fixedFacts": {
+      "event": "background_task.subagent_bash.max_runtime_exceeded",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "warn",
+    "message": "Subagent background Bash cancellation failed",
+    "fixedFacts": {
+      "event": "background_task.subagent_bash.cancel_failed",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "info",
+    "message": "Background task terminal snapshot missing",
+    "fixedFacts": {
+      "event": "background_task.tracking.lost",
+      "module": "core.tool.executor",
+      "reason": "snapshot_missing"
+    }
+  },
+  {
+    "level": "debug",
+    "message": "Background task terminal notification already handled by subagent",
+    "fixedFacts": {
+      "event": "background_task.tracking.notification_already_handled",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "info",
+    "message": "Background task terminal snapshot observed",
+    "fixedFacts": {
+      "event": "background_task.tracking.terminal",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "warn",
+    "message": "Background task polling failed",
+    "fixedFacts": {
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "warn",
+    "message": "Background task wait failed",
+    "fixedFacts": {
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "debug",
+    "message": "Background task notification queue unavailable",
+    "fixedFacts": {
+      "event": "background_task.notification.queue_unavailable",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "info",
+    "message": "Background task notification suppressed: run superseded",
+    "fixedFacts": {
+      "event": "background_task.notification.suppressed",
+      "module": "core.tool.executor",
+      "reason": "workflow_run_superseded"
+    }
+  },
+  {
+    "level": "info",
+    "message": "Background task notification suppressed by runtime policy",
+    "fixedFacts": {
+      "event": "background_task.notification.suppressed",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "debug",
+    "message": "Background task notification skipped without formatted message",
+    "fixedFacts": {
+      "event": "background_task.notification.skipped",
+      "module": "core.tool.executor",
+      "reason": "empty_message"
+    }
+  },
+  {
+    "level": "debug",
+    "message": "Background task notification already claimed",
+    "fixedFacts": {
+      "event": "background_task.tracking.notification_already_handled",
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "warn",
+    "message": "Background task notification enqueue failed",
+    "fixedFacts": {
+      "module": "core.tool.executor"
+    }
+  },
+  {
+    "level": "info",
+    "message": "Background task notification enqueued",
+    "fixedFacts": {
+      "event": "background_task.notification.enqueued",
+      "module": "core.tool.executor"
+    }
+  }
+]
