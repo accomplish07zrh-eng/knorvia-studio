@@ -1,0 +1,250 @@
+{
+  "record_kind": "complete independent workflow notes owner cumulative author receipt",
+  "author_task": "/root/workflow_notes_complete_author_20261003",
+  "date": "2026-10-03",
+  "scope": "Whole workflow-script-notes.ts projection, authored only from the six frozen public inputs named below.",
+  "input_files": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/contract.md",
+      "bytes": 2687,
+      "lines": 11,
+      "sha256": "cc337f4ebde9ccf198b6bf449a78ca0faa455c2e38951471a8d21ec7ab288962",
+      "content_read_count": 1,
+      "content_write_count": 0,
+      "content_read_bytes": 2687,
+      "content_write_bytes": 0,
+      "content_read_lines": 11,
+      "content_write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-api.d.ts",
+      "bytes": 768,
+      "lines": 15,
+      "sha256": "59f0f189697a38553899ca49a6adafa0ff3e6cbea6a3c8a73c79ec43736f6d9f",
+      "content_read_count": 1,
+      "content_write_count": 0,
+      "content_read_bytes": 768,
+      "content_write_bytes": 0,
+      "content_read_lines": 15,
+      "content_write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/dependency-api.d.ts",
+      "bytes": 378,
+      "lines": 6,
+      "sha256": "da30d2d56c9209c60279efdce41456ff58e3bb4e4556ad2d0e94cbb1f7bd33c7",
+      "content_read_count": 1,
+      "content_write_count": 0,
+      "content_read_bytes": 378,
+      "content_write_bytes": 0,
+      "content_read_lines": 6,
+      "content_write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/imports.json",
+      "bytes": 250,
+      "lines": 13,
+      "sha256": "a37302976fb582ff47bc4f194027ee1313e99e7db179af8fc4849da6d72fea3d",
+      "content_read_count": 1,
+      "content_write_count": 0,
+      "content_read_bytes": 250,
+      "content_write_bytes": 0,
+      "content_read_lines": 13,
+      "content_write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/required-data.json",
+      "bytes": 3105,
+      "lines": 148,
+      "sha256": "a9db64bddc569b3aa0caf2d6e3e6f09f55d1c74e11519707033db8b69dc3a3d3",
+      "content_read_count": 1,
+      "content_write_count": 0,
+      "content_read_bytes": 3105,
+      "content_write_bytes": 0,
+      "content_read_lines": 148,
+      "content_write_lines": 0
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-data.json",
+      "bytes": 544,
+      "lines": 10,
+      "sha256": "fb8c983de1e560c4bffb27848863e5c9ba9945ff9473d2af1e5bc815de348ca0",
+      "content_read_count": 1,
+      "content_write_count": 0,
+      "content_read_bytes": 544,
+      "content_write_bytes": 0,
+      "content_read_lines": 10,
+      "content_write_lines": 0
+    }
+  ],
+  "output_files": [
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/workflow-script-notes.ts",
+      "bytes": 2133,
+      "lines": 50,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "content_read_count": 1,
+      "content_write_count": 1,
+      "content_read_bytes": 2133,
+      "content_write_bytes": 2133,
+      "content_read_lines": 50,
+      "content_write_lines": 50,
+      "chmod_count": 1,
+      "final_mode": "0444"
+    },
+    {
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/author-record.json",
+      "bytes": 13951,
+      "lines": 250,
+      "content_read_count": 0,
+      "content_write_count": 1,
+      "content_read_bytes": 0,
+      "content_write_bytes": 13951,
+      "content_read_lines": 0,
+      "content_write_lines": 250,
+      "chmod_count": 1,
+      "final_mode": "0444",
+      "hash_binding": "Final SHA-256 is computed from the final serialized bytes in memory and reported externally; the curator archive manifest binds it. No recursive self-hash field."
+    }
+  ],
+  "cumulative_operation_ledger": [
+    {
+      "sequence": 1,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/contract.md",
+      "bytes": 2687,
+      "lines": 11,
+      "sha256": "cc337f4ebde9ccf198b6bf449a78ca0faa455c2e38951471a8d21ec7ab288962",
+      "purpose": "Frozen public input for author reasoning; read once."
+    },
+    {
+      "sequence": 2,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-api.d.ts",
+      "bytes": 768,
+      "lines": 15,
+      "sha256": "59f0f189697a38553899ca49a6adafa0ff3e6cbea6a3c8a73c79ec43736f6d9f",
+      "purpose": "Frozen public input for author reasoning; read once."
+    },
+    {
+      "sequence": 3,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/dependency-api.d.ts",
+      "bytes": 378,
+      "lines": 6,
+      "sha256": "da30d2d56c9209c60279efdce41456ff58e3bb4e4556ad2d0e94cbb1f7bd33c7",
+      "purpose": "Frozen public input for author reasoning; read once."
+    },
+    {
+      "sequence": 4,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/imports.json",
+      "bytes": 250,
+      "lines": 13,
+      "sha256": "a37302976fb582ff47bc4f194027ee1313e99e7db179af8fc4849da6d72fea3d",
+      "purpose": "Frozen public input for author reasoning; read once."
+    },
+    {
+      "sequence": 5,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/required-data.json",
+      "bytes": 3105,
+      "lines": 148,
+      "sha256": "a9db64bddc569b3aa0caf2d6e3e6f09f55d1c74e11519707033db8b69dc3a3d3",
+      "purpose": "Frozen public input for author reasoning; read once."
+    },
+    {
+      "sequence": 6,
+      "operation": "read",
+      "path": "/workspace/knorvia-studio/docs/evidence/core-workflow-projection-owner-packet-20261003/notes/public-data.json",
+      "bytes": 544,
+      "lines": 10,
+      "sha256": "fb8c983de1e560c4bffb27848863e5c9ba9945ff9473d2af1e5bc815de348ca0",
+      "purpose": "Frozen public input for author reasoning; read once."
+    },
+    {
+      "sequence": 7,
+      "operation": "write",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/workflow-script-notes.ts",
+      "bytes": 2133,
+      "lines": 50,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "purpose": "Complete fresh source; only source write; no superseded source."
+    },
+    {
+      "sequence": 8,
+      "operation": "read",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/workflow-script-notes.ts",
+      "bytes": 2133,
+      "lines": 50,
+      "sha256": "0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118",
+      "purpose": "Manual author review and hash/count of own output; only source read."
+    },
+    {
+      "sequence": 9,
+      "operation": "chmod",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/workflow-script-notes.ts",
+      "mode": "0444",
+      "content_read_count": 0,
+      "content_write_count": 0
+    },
+    {
+      "sequence": 10,
+      "operation": "write",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/author-record.json",
+      "bytes": 13951,
+      "lines": 250,
+      "hash_binding": "Detached final SHA-256 reported externally from in-memory serialized bytes.",
+      "purpose": "Only receipt write; no superseded receipt."
+    },
+    {
+      "sequence": 11,
+      "operation": "chmod",
+      "path": "/tmp/knorvia-workflow-projection-owners-20261003/notes/author-record.json",
+      "mode": "0444",
+      "content_read_count": 0,
+      "content_write_count": 0
+    }
+  ],
+  "totals": {
+    "file_content_read_operations": 7,
+    "file_content_write_operations": 2,
+    "file_content_read_bytes": 9865,
+    "file_content_write_bytes": 16084,
+    "file_content_read_lines": 253,
+    "file_content_write_lines": 300,
+    "chmod_operations": 2,
+    "distinct_input_files": 6,
+    "distinct_output_files": 2
+  },
+  "superseded_writes": [],
+  "superseded_reads": [],
+  "accounting_method": "Each authorized input read was hashed and counted from its read bytes. The one source write was hashed/counted in memory and its one subsequent read was hashed/counted for manual review. Receipt serialization may be calculated repeatedly in memory to fix its own exact byte/line fields; this is not a file read or write. Exactly one receipt write occurs; its detached hash is computed in memory. Lines use bytes.splitlines(). No additional accounting file is created.",
+  "manual_author_review": {
+    "method": "Reasoning over the six public inputs and the displayed source only; no source execution or automated behavioral checks.",
+    "api_and_import": "Exact type-only CreateWorkflowDiagnostic import identity retained; WorkflowScriptLocation fields, union, all exported function parameter and return types retained. The options object remains inline in workflowSavedDraftNote.",
+    "diagnostic_order_and_identity": "Both branches map diagnostics in input order into fresh arrays; empty input maps to a fresh empty array. No array, diagnostic, location, or options assignment/mutation exists.",
+    "location_and_offset": "Only location === undefined selects the unprefixed format. Present location is directly referenced. lineOffset uses native diagnostic.line + location.lineOffset with no default, copied location, clipping, escaping, truncation, or normalization. Zero, negative, and fractional numbers retain native addition/conversion.",
+    "synthetic_reasoning_examples": "For line 2, column -1, message m and absent location, interpolation yields L2:C-1 m. For described D and lineOffset -0.5, the same line yields D:L1.5:C-1 m. Reversing two input records reverses their projected order. Empty input produces an empty newly allocated result. These are hand-reasoned examples, not executed assertions.",
+    "raw_interpolation": "described, savedName, savedPath, draft, and diagnostic.message are interpolated directly, including supplied quotes, backticks, spaces, and newlines. described and draft each appear in both required positions where specified.",
+    "kind_branch": "Only kind === draft selects the saved-at phrase; every other runtime kind uses file-is. Amended sentence does not examine kind.",
+    "exact_prose": "Manually matched all required prose, punctuation, apostrophes, double quotes, backticks, em dash, NOTE capitalization, SaveWorkflow/AmendWorkflow tokens, pass-args clause, and the single initial space on launched/amended sentences. Template literal backtick escapes produce the required literal backticks.",
+    "limitations": "Manual review only; no compilation, transpilation, lint, tests, source-emitted matrix, suites, project commands, or semantic closure performed."
+  },
+  "public_material_and_original_ownership": {
+    "fixed_material": "Required public fixed prose/template/metadata tokens are retained from required-data.json. They are source-derived preservation material, with no novelty or rights/licensing credit claimed.",
+    "opaque_schema": "CreateWorkflowDiagnostic is consumed through its original @knorvia/contracts public type. CreateWorkflowDiagnosticSchema and its public static reference remain original opaque owners. No schema was recreated, implemented, or assigned new ownership.",
+    "independent_scope": "Fresh implementation arrangement and reasoning are limited to the allocated whole owner; this receipt does not assert independence of required fixed material or original opaque dependencies."
+  },
+  "exposure_and_executor_qualification": {
+    "author_exposure": "This task read exactly the six allowed frozen public files and its own authored source. No predecessor source, history, tests, other packets, dependency implementation bodies, or repository instructions were opened.",
+    "curator_exposure": "The curator is source-exposed as identified by the parent instruction; this author receipt does not erase curator exposure or claim a clean-room organization.",
+    "historical_exposure": "Earlier historical exposure or repaired breaches, if any, remain qualified; this session receipt cannot certify their absence.",
+    "executor": "Shared executor access was limited by instructions and author self-report. There is no OS-level audit or proof of filesystem isolation, nor a rights or licensing closure claim.",
+    "business_io": "The source performs synchronous string projection only, with no path resolution, actual files, workflow execution, agent invocation, network access, clocks, or user-data fetching. Author tooling performed only the allowed input reads, own-output writes/read/hash/count/chmod and creation of the required output directory.",
+    "tools": "Shell invoked Python for permitted file accounting and output work. Python standard-library modules were used as tooling, not inspected as dependency bodies. No environment, history, broad filesystem, network, or business-data reads were requested.",
+    "review_gate": "After this author manual review, freeze both outputs at 0444 and require curator archive plus commit before curator body review. Any real correction must return to this same author for a complete replacement source and full cumulative receipt; curator source patching is forbidden."
+  },
+  "savedFast": "Unchanged and unverified; not accessed. No savedFast observation or business-behavior claim is made.",
+  "remaining_blockers": "Curator archive/commit and subsequent permitted review remain outside this author task. No author implementation blocker identified."
+}
