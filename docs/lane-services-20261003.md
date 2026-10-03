@@ -407,3 +407,52 @@ Windows and other earlier implementation acceptance have not been rerun by this
 batch. The integrator must merge the pushed descendant, complete unified checks
 and retain separate historical/source-expression/rights decisions before an MIT
 release. Main readiness and rights acceptance are not asserted here.
+
+## Batch 8 — two final combined-regression failures
+
+Continue this original task/branch after fetching both refs and fast-forwarding
+`33072cae538f02b739406279733127c90ec96c50` to the parent-selected combined checkpoint
+`7bfb867162cc11adbc237e1c39bf2d61b5c0f81e`. Read the parent's final combined and
+bootstrap receipts, both retained focused error logs and the two frozen contracts.
+The [bounded fix contract](../specs/knorvia-next-services-final-failure-repair-20261003.md)
+was written before source edits; no new task or PR is created.
+
+Source/fixture commit: `0e73eb3cd6159e91be41e20d40cded0fc493ec03`.
+
+- Claude scan failure is a stale fixture binding: assigning the retired private
+  instance `getNativeProjectsRoots` cannot influence current module-local root
+  discovery. The fixture now binds OS/environment home and the public data-base
+  setter to its temporary root, creates the supported `.claude/projects` path,
+  restores the home/environment ports and resets the temporary data-base override.
+  The real scanner and all result/sort/limit/mtime/subagents/sidechain/dirty-tail
+  assertions remain unchanged. No production Claude implementation was edited.
+- Git timeout failure is a production compatibility deviation: detail getters
+  were read before `timeoutMs ?? durationMs`. Resolve that expression first, then
+  build the same details/error. Preserve separate duration reads, fallback, error
+  precedence and the graph caller's unborn-stderr-before-timeout/never-stdout rule.
+  The entire frozen graph contract test remains byte-for-byte unchanged.
+
+**Targeted verification passed:** the exact two failing named source cases were
+reproduced on this base (2 failed, exit 1), then the same command on the repaired
+worktree passed both (2 passed, exit 0; no skips/cancellations). Node 24.14.0, tsx
+4.21.0. Only these two test cases were run; no full file/suite/root regression or
+types/build/audit/CI rerun. Scoped lint of the one production and one fixture file
+reported 0 errors/0 warnings, and changed architecture reported 0 baseline/new
+violations. Formatting touched only those two files and this batch's new spec.
+
+The Claude assertion suffix SHA-256 remains
+`ff52aad253803f8c298074525fd65c843e9eb1151e36cfbf0c043bd1524a27ef`;
+the complete Git trace oracle and production native-import repository also retain
+their exact combined-baseline bytes. Before/after logs, commands, source/fixture
+bindings and retained-oracle digests are in
+[validation.json](evidence/backlog-services-final-failures-20261003/validation.json).
+The expected malformed synthetic transcript warnings are retained in the passing
+log; no real user session/root/data, Git business command or model request ran.
+
+No API/schema/UI/shared-contract/root-config/license/global-provenance change is
+needed. The integrator must reconcile changed-current-source/fixture bindings and
+perform the next unified regression when all lanes are received. **UNVERIFIED:**
+other tests, strict historical emitted targets, Windows/native/GUI and whole-product
+acceptance are not established by this two-case run. Existing golden/history/
+accepted receipts, source-exposure disclosures and HOLDs remain; the new repair
+is not substituted for an old accepted source. No MIT/main-readiness claim.

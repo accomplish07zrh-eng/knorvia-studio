@@ -30,15 +30,14 @@ export function ensureGitCommandSucceeded(
   allowedExitCodes: number[] = [0],
 ): GitCommandExecutionResult {
   if (result.timedOut) {
+    const timeoutMs = result.timeoutMs ?? result.durationMs;
     const details = [`elapsed=${result.durationMs}ms`];
     if (result.timeoutElapsedMs !== undefined) details.push(`killAt=${result.timeoutElapsedMs}ms`);
     if (result.timeoutCloseDelayMs !== undefined)
       details.push(`cleanup=${result.timeoutCloseDelayMs}ms`);
     if (result.forceKillAttempted) details.push("forceKill=true");
     if (result.orphaned) details.push("orphaned=true");
-    throw new Error(
-      `${label} timed out after ${result.timeoutMs ?? result.durationMs}ms (${details.join(", ")})`,
-    );
+    throw new Error(`${label} timed out after ${timeoutMs}ms (${details.join(", ")})`);
   }
   if (result.outputTruncated) throw new Error(`${label} output exceeded limit`);
   if (allowedExitCodes.includes(result.exitCode ?? NaN)) return result;

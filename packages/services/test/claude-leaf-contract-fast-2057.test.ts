@@ -2,7 +2,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { mkdtemp, writeFile, rm, mkdir, utimes } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { syncBuiltinESMExports } from "node:module";
+import os, { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -659,8 +660,22 @@ test("real full import parser keeps message chronology, API-error difference and
 });
 test("real import repository scan preserves sort/filter/ignored directories and dirty tails", async (t) => {
   const { dir } = await fixture(t, "");
-  const projects = join(dir, "projects");
-  await mkdir(projects);
+  const paths: typeof import("../src/paths.js") = await import(
+    new URL(`${target}/paths.${target === "src" ? "ts" : "js"}`, folder).href
+  );
+  const previousEnvironment = process.env;
+  const nativeHome = t.mock.method(os, "homedir", () => dir);
+  process.env = { ...previousEnvironment, HOME: dir };
+  paths.setDataBaseDir(dir);
+  syncBuiltinESMExports();
+  t.after(() => {
+    nativeHome.mock.restore();
+    syncBuiltinESMExports();
+    process.env = previousEnvironment;
+    paths.setDataBaseDir(null);
+  });
+  const projects = join(dir, ".claude", "projects");
+  await mkdir(projects, { recursive: true });
   const entry = (text: string, cwd = "/synthetic/project") =>
     JSON.stringify(user(text, { cwd, timestamp: 1700000000 }));
   for (const [name, text, mtime] of [
@@ -687,12 +702,6 @@ test("real import repository scan preserves sort/filter/ignored directories and 
   await utimes(tailPath, 1700000002, 1700000002);
   await mkdir(join(projects, "subagents"));
   await writeFile(join(projects, "subagents", "hidden.jsonl"), entry("hidden"));
-  const owner = importRepo as unknown as { getNativeProjectsRoots: () => string[] };
-  const prior = owner.getNativeProjectsRoots;
-  owner.getNativeProjectsRoots = () => [projects];
-  t.after(async () => {
-    owner.getNativeProjectsRoots = prior;
-  });
   const result = await importRepo.scanImportableSessions({ workspacePath: "/synthetic/project" });
   assert.deepEqual(
     result.map((item) => [item.sessionId, item.previewTitle, item.createdAt]),
