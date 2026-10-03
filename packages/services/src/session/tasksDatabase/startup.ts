@@ -67,31 +67,51 @@ function isBusyFailure(error: unknown): boolean {
   }
 }
 
+type StorageLockAttempt = { kind: "acquired" } | { kind: "busy"; cause: unknown };
+
+function attemptStorageLock(operation: () => void): StorageLockAttempt {
+  try {
+    operation();
+    return { kind: "acquired" };
+  } catch (cause) {
+    if (!isBusyFailure(cause)) throw cause;
+    return { kind: "busy", cause };
+  }
+}
+
 class StorageLockWindow {
   private readonly expiresAt = Date.now() + LOCK_WAIT_MS;
 
   constructor(private readonly blocked: () => void) {}
 
-  async acquire(operation: () => void): Promise<void> {
-    let announced = false;
-    while (true) {
-      try {
-        operation();
-        return;
-      } catch (error) {
-        if (!isBusyFailure(error)) throw error;
-        if (Date.now() >= this.expiresAt) {
-          throw Object.assign(new Error("Task storage lock wait expired", { cause: error }), {
-            kind: "lock_timeout",
-          });
+  acquire(operation: () => void): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let announced = false;
+      const attempt = (): void => {
+        try {
+          const verdict = attemptStorageLock(operation);
+          if (verdict.kind === "acquired") {
+            resolve();
+            return;
+          }
+          if (Date.now() >= this.expiresAt) {
+            throw Object.assign(
+              new Error("Task storage lock wait expired", { cause: verdict.cause }),
+              { kind: "lock_timeout" },
+            );
+          }
+          if (!announced) {
+            announced = true;
+            this.blocked();
+          }
+          // 每个请求只安排下一次尝试；成功或失败不再排队，共享截止时间不在这里重置。
+          setTimeout(attempt, 100);
+        } catch (error) {
+          reject(error);
         }
-        if (!announced) {
-          announced = true;
-          this.blocked();
-        }
-        await new Promise<void>((resume) => setTimeout(resume, 100));
-      }
-    }
+      };
+      attempt();
+    });
   }
 }
 
