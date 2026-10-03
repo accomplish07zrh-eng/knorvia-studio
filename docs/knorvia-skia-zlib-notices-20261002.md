@@ -14,10 +14,10 @@ The selected zlib CPU/SIMD source headers explicitly point to the Chromium repos
 
 ## Material prepared
 
-| Original text | Snapshot SHA-256 |
-| --- | --- |
+| Original text                                      | Snapshot SHA-256                                                   |
+| -------------------------------------------------- | ------------------------------------------------------------------ |
 | Chromium's complete BSD notice at the exact origin | `368cca1106be99d39ecd32a38d8305585d802a475effb66380b91ffc9bcf709b` |
-| Complete leading notice from pinned `zlib.h` | `df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56` |
+| Complete leading notice from pinned `zlib.h`       | `df694330c5856149838d49b822ec23986329fd8413bde5e816874f0ee04d1c56` |
 
 The pinned `zlib.h` declares version **1.3.0.1**, macro `1.3.0.1-motley`, and Gailly/Adler copyright **1995–2023**. Its root `LICENSE` still describes **1.2.12 / 1995–2022** and matches the existing retained snapshot exactly. Both original texts must remain; the publisher's literal `August xxth, 2023` date in the header is preserved. This copy is also distinct from FreeType's separately bundled zlib 1.3.1 notice already integrated by the parent.
 

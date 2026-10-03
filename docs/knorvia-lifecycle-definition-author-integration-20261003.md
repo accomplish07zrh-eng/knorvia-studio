@@ -2,11 +2,11 @@
 
 E installed the complete input-limited author outputs for lifecycle.ts, its private seed companion and definition.ts on the same draft PR #8. The lifecycle owner retains all five public operations and ten public interfaces; graph seeding is implemented in the companion and re-exported through its unchanged public caller path. No persistence caller, scheduler/A expert implementation or other-lane commit was imported or merged.
 
-| Installed file | Lines | Bytes | SHA-256 |
-| --- | ---: | ---: | --- |
-| lifecycle.ts | 285 | 10,662 | `0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc` |
-| lifecycle-seed.ts | 164 | 6,051 | `477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223` |
-| definition.ts | 123 | 4,621 | `d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52` |
+| Installed file    | Lines |  Bytes | SHA-256                                                            |
+| ----------------- | ----: | -----: | ------------------------------------------------------------------ |
+| lifecycle.ts      |   285 | 10,662 | `0ac6c5ba4e44e5dd494e05c199b6d6032da4fe80c95521fdd7b6eb4ebd0c24cc` |
+| lifecycle-seed.ts |   164 |  6,051 | `477b8bafceacc600b83f0e9255bd9625be2a12ce9c5b29e7b74a03d91cfcc223` |
+| definition.ts     |   123 |  4,621 | `d6012ade9a380d9049b6f4f4386c4dd0af89a57e059a99e6d5007eb6b7365d52` |
 
 ## Frozen inputs and correction history
 

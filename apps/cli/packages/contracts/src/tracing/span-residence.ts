@@ -12,7 +12,10 @@ function writeSpanAttribute(this: Span, key: string, value: string | number | bo
   this.attributes[key] = value;
 }
 
-function writeSpanAttributes(this: Span, attributes: Record<string, string | number | boolean>): void {
+function writeSpanAttributes(
+  this: Span,
+  attributes: Record<string, string | number | boolean>,
+): void {
   Object.assign(this.attributes, attributes);
 }
 
@@ -38,12 +41,15 @@ function recordSpanEvent(
   // 既有契约没有 exporter；保留无副作用事件入口，不另存可增长的事件集合。
 }
 
-const spanOperations = Object.defineProperties({}, {
-  setAttribute: { value: writeSpanAttribute, configurable: true, writable: true },
-  setAttributes: { value: writeSpanAttributes, configurable: true, writable: true },
-  end: { value: completeResidentSpan, configurable: true, writable: true },
-  addEvent: { value: recordSpanEvent, configurable: true, writable: true },
-});
+const spanOperations = Object.defineProperties(
+  {},
+  {
+    setAttribute: { value: writeSpanAttribute, configurable: true, writable: true },
+    setAttributes: { value: writeSpanAttributes, configurable: true, writable: true },
+    end: { value: completeResidentSpan, configurable: true, writable: true },
+    addEvent: { value: recordSpanEvent, configurable: true, writable: true },
+  },
+);
 
 /** 一个 record 保存全部可见事实；WeakMap 只关联 callback，不缓存另一份 status/attributes。 */
 export function createResidentSpan(

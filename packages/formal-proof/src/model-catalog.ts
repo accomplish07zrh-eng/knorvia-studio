@@ -148,4 +148,3 @@ export const systemCandidates: Candidate[] = [
     surface: "goal runtime",
   },
 ];
-

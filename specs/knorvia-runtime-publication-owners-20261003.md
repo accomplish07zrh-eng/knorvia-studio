@@ -5,7 +5,7 @@ internal helpers only. Prior ten persistence/rewind/fork owners and E's workflow
 compact/manual/media/message-history ownership remain untouched. Each current owner
 is inherited/unreviewed in the branch inventory. Root retains expression/licence review.
 
-Functional/API-only author inputs are under corresponding runtime-*-author-20261003
+Functional/API-only author inputs are under corresponding runtime-\*-author-20261003
 evidence directories. Historical source plus actual compiler JS/declaration are frozen
 before authoring. The source-exposed curator supplies schema/sequence facts; bounded
 internal author access is not a clean-room or whole-file rights conclusion.

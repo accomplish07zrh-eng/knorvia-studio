@@ -16,3 +16,8 @@ third-party/inventory.json linguist-generated=true
 licensing/upstream-baseline.json linguist-generated=true
 licensing/current-files.json linguist-generated=true
 licensing/evidence/*.json linguist-generated=true
+
+# 冻结来源、API 摘录与原检查输出由 evidence:check 校验原字节，不作平台换行转换。
+docs/evidence/** -text -whitespace
+licensing/evidence/** -text -whitespace
+licensing/frozen-evidence.json linguist-generated=true

@@ -2,10 +2,10 @@
 
 E installed both complete frozen author outputs byte-for-byte on the existing draft PR #8, with no integration correction or additional implementation owner:
 
-| Owner | Lines | Bytes | SHA-256 |
-| --- | ---: | ---: | --- |
-| collection-events.ts | 74 | 2,636 | `63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7` |
-| prompts.ts | 92 | 3,275 | `9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5` |
+| Owner                | Lines | Bytes | SHA-256                                                            |
+| -------------------- | ----: | ----: | ------------------------------------------------------------------ |
+| collection-events.ts |    74 | 2,636 | `63dc0c6ba800e988fdae56a831e67276a5e9ac4ef325cf7ed4a50b5530c3aaa7` |
+| prompts.ts           |    92 | 3,275 | `9fdcb66eae98aed187db6dde9920a5bc96d48f9ebdf5d0aa03bd1d49d0ea04f5` |
 
 ## Frozen author evidence
 

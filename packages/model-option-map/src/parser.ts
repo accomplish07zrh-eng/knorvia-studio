@@ -44,9 +44,19 @@ export type RestrictedCelExpression =
     };
 
 const precedence = new Map<string, number>([
-  ["||", 1], ["&&", 2], ["==", 3], ["!=", 3],
-  ["<", 4], ["<=", 4], [">", 4], [">=", 4],
-  ["+", 5], ["-", 5], ["*", 6], ["/", 6], ["%", 6],
+  ["||", 1],
+  ["&&", 2],
+  ["==", 3],
+  ["!=", 3],
+  ["<", 4],
+  ["<=", 4],
+  [">", 4],
+  [">=", 4],
+  ["+", 5],
+  ["-", 5],
+  ["*", 6],
+  ["/", 6],
+  ["%", 6],
 ]);
 
 type ObjectEntry = Extract<RestrictedCelExpression, { type: "object" }>["entries"][number];
@@ -68,7 +78,8 @@ export function parseRestrictedCel(
     return true;
   };
   const expect = (value: string): void => {
-    if (!accept(value)) throw new RestrictedCelError(`expected ${JSON.stringify(value)}`, current().offset);
+    if (!accept(value))
+      throw new RestrictedCelError(`expected ${JSON.stringify(value)}`, current().offset);
   };
   const unexpected = (token: RestrictedCelToken): never => {
     throw new RestrictedCelError(`unexpected token ${JSON.stringify(token.value)}`, token.offset);
@@ -90,8 +101,11 @@ export function parseRestrictedCel(
       if (priority === undefined || priority < minimum) break;
       const operator = take();
       left = {
-        type: "binary", operator: operator.value, left,
-        right: binary(priority + 1), offset: operator.offset,
+        type: "binary",
+        operator: operator.value,
+        left,
+        right: binary(priority + 1),
+        offset: operator.offset,
       };
     }
     return left;
@@ -102,8 +116,10 @@ export function parseRestrictedCel(
     if (token.kind !== "operator" || !["!", "-", "+"].includes(token.value)) return atom();
     take();
     return {
-      type: "unary", operator: token.value as "!" | "-" | "+",
-      operand: unary(), offset: token.offset,
+      type: "unary",
+      operator: token.value as "!" | "-" | "+",
+      operand: unary(),
+      offset: token.offset,
     };
   }
 
@@ -116,7 +132,8 @@ export function parseRestrictedCel(
       }
       return { type: "literal", value, offset: token.offset };
     }
-    if (token.kind === "string") return { type: "literal", value: token.value, offset: token.offset };
+    if (token.kind === "string")
+      return { type: "literal", value: token.value, offset: token.offset };
     if (token.kind === "identifier") {
       if (current().value === "(") {
         throw new RestrictedCelError("function calls are not supported", current().offset);
@@ -126,13 +143,22 @@ export function parseRestrictedCel(
       if (token.value === "true" || token.value === "false") {
         return { type: "literal", value: token.value === "true", offset: token.offset };
       }
-      throw new RestrictedCelError(`unknown identifier ${JSON.stringify(token.value)}`, token.offset);
+      throw new RestrictedCelError(
+        `unknown identifier ${JSON.stringify(token.value)}`,
+        token.offset,
+      );
     }
-    if (token.value === "(") { const value = expression(); expect(")"); return value; }
+    if (token.value === "(") {
+      const value = expression();
+      expect(")");
+      return value;
+    }
     if (token.value === "[") {
       const elements: RestrictedCelExpression[] = [];
       if (!accept("]")) {
-        do { elements.push(expression()); } while (accept(","));
+        do {
+          elements.push(expression());
+        } while (accept(","));
         expect("]");
       }
       return { type: "array", elements: Object.freeze(elements), offset: token.offset };
@@ -143,9 +169,13 @@ export function parseRestrictedCel(
       if (!accept("}")) {
         do {
           const key = take();
-          if (key.kind !== "string") throw new RestrictedCelError("object keys must be string literals", key.offset);
+          if (key.kind !== "string")
+            throw new RestrictedCelError("object keys must be string literals", key.offset);
           if (keys.has(key.value)) {
-            throw new RestrictedCelError(`duplicate object key ${JSON.stringify(key.value)}`, key.offset);
+            throw new RestrictedCelError(
+              `duplicate object key ${JSON.stringify(key.value)}`,
+              key.offset,
+            );
           }
           keys.add(key.value);
           expect(":");
@@ -161,7 +191,9 @@ export function parseRestrictedCel(
   const result = expression();
   const trailing = current();
   if (trailing.kind === "eof") return result;
-  if (trailing.value === ".") throw new RestrictedCelError("member access is not supported", trailing.offset);
-  if (trailing.value === "(") throw new RestrictedCelError("function calls are not supported", trailing.offset);
+  if (trailing.value === ".")
+    throw new RestrictedCelError("member access is not supported", trailing.offset);
+  if (trailing.value === "(")
+    throw new RestrictedCelError("function calls are not supported", trailing.offset);
   return unexpected(trailing);
 }

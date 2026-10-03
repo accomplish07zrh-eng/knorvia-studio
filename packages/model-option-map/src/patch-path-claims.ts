@@ -1,6 +1,9 @@
 import { ModelOptionMapError } from "./types.js";
 
-interface Claim { readonly option: string; readonly order: number; }
+interface Claim {
+  readonly option: string;
+  readonly order: number;
+}
 interface Prefix {
   readonly children: Map<string, Prefix>;
   terminal?: Claim;
@@ -38,7 +41,10 @@ export class PatchPathClaims {
     prefix.earliest ??= claim;
     for (const segment of path) {
       let child = prefix.children.get(segment);
-      if (!child) { child = { children: new Map() }; prefix.children.set(segment, child); }
+      if (!child) {
+        child = { children: new Map() };
+        prefix.children.set(segment, child);
+      }
       prefix = child;
       prefix.earliest ??= claim;
     }

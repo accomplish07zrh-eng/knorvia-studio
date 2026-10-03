@@ -2,13 +2,13 @@
 
 Five substantial helpers selected from metadata inventory are integrated from exact frozen author outputs. Public declarations, runtime imports, unchanged reexports, all input/receipt/output/original-freeze bindings and 19 dependency boundaries pass. All five predecessor and candidate isolated declaration extractions have zero diagnostics. Final minimum synthetic evidence comprises12 passing validation/privacy/data-preservation groups; the original path error-shape failure remains preserved. Ordinary suites/builds/project typechecks/lint/source-emitted matrices remain deferred by parent.
 
-| Owner | Version | Lines | Bytes |
-| --- | --- | ---: | ---: |
-| plan-file-continuity.ts | v1 | 115 | 2737 |
-| attachments.ts | v1 | 314 | 9466 |
-| attachment-artifacts.ts | v1 | 119 | 2904 |
-| media-attachment-path.ts | v2 | 139 | 4278 |
-| tool-result-media-persistence.ts | v1 | 158 | 4073 |
+| Owner                            | Version | Lines | Bytes |
+| -------------------------------- | ------- | ----: | ----: |
+| plan-file-continuity.ts          | v1      |   115 |  2737 |
+| attachments.ts                   | v1      |   314 |  9466 |
+| attachment-artifacts.ts          | v1      |   119 |  2904 |
+| media-attachment-path.ts         | v2      |   139 |  4278 |
+| tool-result-media-persistence.ts | v1      |   158 |  4073 |
 
 Every source remains under400lines. Total845 versus788 predecessor lines is a maintainability count, not an independence/novelty or rights-clearance argument. Plan data remains original and I/O belongs to FileSystemPort. Attachment resolution stays sequential, keeps PDF plain-content downgrade, binary/clipboard defer gates, and delegates actual media decoding/read limits to unchanged collaborators. Durable artifact writes propagate failure; artifact read fallback is retained. Media paths are caller projections from existing local paths or revalidated durable artifacts, without canonical message mutation or new authority. Tool-media layout admission is all-or-nothing before side effects; sessionStore is presence-only and actual row persistence remains caller-owned. No new schema, grant, fallback, transaction, cache, provider request, raw-data log or independent store was added.
 

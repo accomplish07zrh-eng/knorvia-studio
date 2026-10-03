@@ -2,13 +2,13 @@
 
 E completes the five helpers explicitly allocated by parent on draft PR #8. Every installed source is byte-identical to its frozen complete author output; no curator integration edit, companion or caller change was required. Source totals1,040 lines, down165 from1,205, with all files below400 lines.
 
-| Owner | Version | Lines | Bytes | SHA-256 |
-| --- | --- | ---: | ---: | --- |
-| provider-request-messages.ts | v2 | 216 | 8,844 | `730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9` |
-| media-budget.ts | v2 | 278 | 9,134 | `26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac` |
-| model-tool-call-validation.ts | v1 | 84 | 2,821 | `25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450` |
-| media-capability.ts | v2 | 167 | 5,664 | `ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7` |
-| model-errors.ts | v2 | 295 | 9,586 | `24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145` |
+| Owner                         | Version | Lines | Bytes | SHA-256                                                            |
+| ----------------------------- | ------- | ----: | ----: | ------------------------------------------------------------------ |
+| provider-request-messages.ts  | v2      |   216 | 8,844 | `730f9bdaa14cd10ae01d9b10f121b8c0ef13c4f9226812c3eb34f0fc8372bde9` |
+| media-budget.ts               | v2      |   278 | 9,134 | `26ff1d25583ddab4d5558270556c7042c2b19183936844e8fd8b0385a7bddfac` |
+| model-tool-call-validation.ts | v1      |    84 | 2,821 | `25c1ba8d188ba27a2ebeed2cbca103db0426afad85411d498fe3a5655bb4d450` |
+| media-capability.ts           | v2      |   167 | 5,664 | `ea739ff6349663fe9f17c20fd5b49c0550440b6a3bcebe106d55d87df019d3f7` |
+| model-errors.ts               | v2      |   295 | 9,586 | `24b4b26fd42c51041fda34b53535ad3f0580b5ae0a2fb36bed3b51e278ab9145` |
 
 ## Scope, contract curation and exposure
 

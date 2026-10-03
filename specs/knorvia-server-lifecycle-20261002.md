@@ -170,7 +170,7 @@ services or remote backend on WS close; this is a frozen baseline limitation.
 
 ## HTTP routing, in order
 
-If options.authToken?.trim() truthy, install '*' middleware. For every request,
+If options.authToken?.trim() truthy, install '\*' middleware. For every request,
 query token exact-equals the trimmed configured token: set Set-Cookie to
 knorvia_lite_token=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax and
 consider valid. Otherwise parse Cookie segments split ';', split each at first '=',
@@ -203,7 +203,7 @@ new ServiceCollection().register IFileService/fileService, IGitService/gitServic
 ISystemService/systemService, ITerminalService/terminalService from connection.services,
 setup WebSocket channels in web-remote-replayable mode. Do not call real remote systems in tests.
 
-When trimmed staticRoot exists register GET '*' last. Root resolve(staticRoot),
+When trimmed staticRoot exists register GET '\*' last. Root resolve(staticRoot),
 '/' maps to '/index.html'; decodeURIComponent(pathname), remove leading '/' then
 resolve against root. Containment uses relative(root,candidate): empty OR neither
 startsWith('..') nor includes('..'+sep). Reject outside. stat file -> use; stat dir ->

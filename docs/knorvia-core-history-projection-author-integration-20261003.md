@@ -2,12 +2,12 @@
 
 E completes the four allocated owners on draft PR #8. Each installed file is byte-identical to its complete frozen author output; no companion, integration edit or caller change was needed. All files are below400 lines, including history reduced from526 to320. Their combined source is702 lines, down234 from936.
 
-| Owner | Lines | Bytes | SHA-256 |
-| --- | ---: | ---: | --- |
-| compact/manual.ts v2 | 163 | 4,955 | `a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9` |
-| agent/message-history.ts v2 | 320 | 12,225 | `2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1` |
-| runtime/helpers/context-usage-breakdown.ts | 127 | 3,587 | `cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41` |
-| runtime/helpers/compact-media.ts | 92 | 2,975 | `a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4` |
+| Owner                                      | Lines |  Bytes | SHA-256                                                            |
+| ------------------------------------------ | ----: | -----: | ------------------------------------------------------------------ |
+| compact/manual.ts v2                       |   163 |  4,955 | `a62e0772a50c5573d2512b6f131e1d884886d26e0370db22ac0a47558d5ca9d9` |
+| agent/message-history.ts v2                |   320 | 12,225 | `2863eaf6b80014b9d4a52576ac0f301cf2c4aa40608ec6c6dcee0f0419fd14c1` |
+| runtime/helpers/context-usage-breakdown.ts |   127 |  3,587 | `cd34d73c15a052795cf3c2dab4ac13724e99d6137f8cc1185194a6bc938d1c41` |
+| runtime/helpers/compact-media.ts           |    92 |  2,975 | `a0a0ffad3619dc18c38da7806880770a35a44414695d719cc70ca46e0bf80ce4` |
 
 ## Scope, inputs and authors
 

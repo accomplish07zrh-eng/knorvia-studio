@@ -1,7 +1,4 @@
-import {
-  upsertBoundedByArtifactId,
-  workflowArtifactSummary,
-} from "./workflow-runs-artifacts.js";
+import { upsertBoundedByArtifactId, workflowArtifactSummary } from "./workflow-runs-artifacts.js";
 import { reduceConcurrencyChanged, withoutCooldown } from "./workflow-runs-concurrency.js";
 import { readRunIdField, readWorkflowRunStopReason } from "./workflow-runs-lineage.js";
 import { reduceNodeProgress } from "./workflow-runs-node-progress.js";
@@ -31,7 +28,10 @@ export interface WorkflowRunDerivedFields {
 class WorkflowRunDraft {
   private current: WorkflowRunState;
 
-  constructor(base: WorkflowRunState, private readonly derived: WorkflowRunDerivedFields) {
+  constructor(
+    base: WorkflowRunState,
+    private readonly derived: WorkflowRunDerivedFields,
+  ) {
     this.current = {
       ...base,
       ...(derived.toolCallId && !base.toolCallId ? { toolCallId: derived.toolCallId } : {}),
@@ -117,12 +117,14 @@ class WorkflowRunDraft {
     const error = workflowRecord(payload.error);
     const message = typeof error?.message === "string" ? error.message : undefined;
     const run = withoutCooldown(removeWorkflowQuestions(this.current));
-    const stopReason = status === "stopped" ? readWorkflowRunStopReason(payload.stopReason) : undefined;
-    const supersededBy = stopReason === "superseded" ? readRunIdField(payload.supersededBy) : undefined;
+    const stopReason =
+      status === "stopped" ? readWorkflowRunStopReason(payload.stopReason) : undefined;
+    const supersededBy =
+      stopReason === "superseded" ? readRunIdField(payload.supersededBy) : undefined;
     const terminal = status === "completed" || status === "errored" || status === "stopped";
     const resultMessage = terminal
       ? message
-      : message ?? `run settled with an unrecognized status: ${String(status)}`;
+      : (message ?? `run settled with an unrecognized status: ${String(status)}`);
     // 结算到达必须落终态；旧/未知词不能把 cold replay 留成可取消的 running 卡片。
     this.current = deriveWorkflowActors({
       ...run,

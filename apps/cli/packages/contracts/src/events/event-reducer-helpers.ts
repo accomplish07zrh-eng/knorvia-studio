@@ -110,7 +110,11 @@ export function applyBackgroundTaskUpdated(
   payload: BackgroundTaskUpdatedPayload,
   timestamp: Date,
 ): SessionProjection {
-  return commitSessionProjection(projection, backgroundUpdatedChanges(projection, payload), timestamp);
+  return commitSessionProjection(
+    projection,
+    backgroundUpdatedChanges(projection, payload),
+    timestamp,
+  );
 }
 
 export function applyBackgroundTaskCompleted(

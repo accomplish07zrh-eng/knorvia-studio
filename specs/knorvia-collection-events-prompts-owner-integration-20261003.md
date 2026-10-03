@@ -1,6 +1,6 @@
 # Remaining E scheduler implementation owners
 
-E owns complete collection-events.ts and prompts.ts replacements under workflow/scheduler. The [frozen packet](../docs/evidence/collection-events-prompts-author-packet-20261003/) is the behavior/public interface authority. A owns graph.ts and graph-* implementations. Existing graph/event/runtime/type contracts remain collaborators; no A/root implementation or commit is merged.
+E owns complete collection-events.ts and prompts.ts replacements under workflow/scheduler. The [frozen packet](../docs/evidence/collection-events-prompts-author-packet-20261003/) is the behavior/public interface authority. A owns graph.ts and graph-\* implementations. Existing graph/event/runtime/type contracts remain collaborators; no A/root implementation or commit is merged.
 
 Collection-event effects remain sequential: expansion event when graph changes, then late exhaustion observation; exhaustion persistence, collection record and final event. Signals/phases and original collection ids are read at their specified gates. snapshot persistence stays with the supplied runtime; this owner adds no snapshot-access owner or policy.
 

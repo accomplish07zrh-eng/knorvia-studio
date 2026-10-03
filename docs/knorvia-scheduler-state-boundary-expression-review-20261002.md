@@ -14,13 +14,13 @@ The reported fresh-author boundary is two behavior/structural-API files, no inhe
 
 The packet specified last-record dependency lookup, occurrence-level readiness/counts, stable dependency order, explicit membership repetitions, shared-versus-fresh arrays, exact fields/defaults and original object references. It did not prescribe a storage strategy or implementation layout.
 
-| Region | Assessment |
-| --- | --- |
-| Last-record table and incoming/outgoing sets | The draft builds the last-record map by iteration, initializes incoming sets from that map and inserts edges into adjacency sets. The predecessor builds copied arrays, appends edges, then deduplicates during projection. The draft's storage/evaluation arrangement is discretionary, while lookup precedence and observable ordering are required. Map/Set construction is standard, not algorithmic novelty. |
-| Membership association | Both implementations process explicit collection memberships before node-declared associations. That order, retained explicit repetitions and shared membership-array identity are explicitly prescribed. The draft's lazy array creation and positive branch differ from the predecessor's get/fallback/set and early-continue form. Matching field names and the two-stage association do not establish unexplained implementation transfer. |
-| Occurrence projection/counting | The draft combines node projection, status partitioning and aggregate updates in a pass with a switch. The predecessor uses mapping and repeated filters. Duplicate node occurrences still retain their own object/status while dependency lookup uses the last record; absent membership gets a fresh empty array and blockedNodes reuses the node projection's blocker array. These distinctions are supported by inspection, not merely renamed variables. |
-| Collection projection | The draft builds an ordered membership Set and partitions status lists in one pass; the predecessor builds a union array and separately filters each status. Filtering global ready occurrences by membership preserves duplicates/order. The explicit-then-inferred membership rule, nullish defaults, original collection reference and twelve ordered fields came from the packet. |
-| Result fields and terminal-status vocabulary | The eight top-level fields, counts, schema vocabulary and terminal-status Set are prescribed or retained. No demand for different prose, unfamiliar algorithms or gratuitous field order is warranted. The unchanged terminal Set is not newly authored source. |
+| Region                                       | Assessment                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Last-record table and incoming/outgoing sets | The draft builds the last-record map by iteration, initializes incoming sets from that map and inserts edges into adjacency sets. The predecessor builds copied arrays, appends edges, then deduplicates during projection. The draft's storage/evaluation arrangement is discretionary, while lookup precedence and observable ordering are required. Map/Set construction is standard, not algorithmic novelty.                                             |
+| Membership association                       | Both implementations process explicit collection memberships before node-declared associations. That order, retained explicit repetitions and shared membership-array identity are explicitly prescribed. The draft's lazy array creation and positive branch differ from the predecessor's get/fallback/set and early-continue form. Matching field names and the two-stage association do not establish unexplained implementation transfer.                |
+| Occurrence projection/counting               | The draft combines node projection, status partitioning and aggregate updates in a pass with a switch. The predecessor uses mapping and repeated filters. Duplicate node occurrences still retain their own object/status while dependency lookup uses the last record; absent membership gets a fresh empty array and blockedNodes reuses the node projection's blocker array. These distinctions are supported by inspection, not merely renamed variables. |
+| Collection projection                        | The draft builds an ordered membership Set and partitions status lists in one pass; the predecessor builds a union array and separately filters each status. Filtering global ready occurrences by membership preserves duplicates/order. The explicit-then-inferred membership rule, nullish defaults, original collection reference and twelve ordered fields came from the packet.                                                                         |
+| Result fields and terminal-status vocabulary | The eight top-level fields, counts, schema vocabulary and terminal-status Set are prescribed or retained. No demand for different prose, unfamiliar algorithms or gratuitous field order is warranted. The unchanged terminal Set is not newly authored source.                                                                                                                                                                                               |
 
 No concrete ordinary-plain-record functional discrepancy was identified. This does not claim arbitrary getter/proxy or malformed-object equivalence. The packet's narrowed structural declarations are adequate for the selected implementation; it does not assume omitted fields or replace schema validation. The complete-function recommendation is not based on fewer lines or a similarity score.
 
@@ -28,23 +28,23 @@ No concrete ordinary-plain-record functional discrepancy was identified. This do
 
 Independent checks used exact source overlays at each checkpoint and actual pinned TypeScript/dependencies in a disposable workspace. The state predecessor, integrated state and relocated boundary all compiled with zero diagnostics. State predecessor and integrated **complete workflow public declarations are byte-identical**. For the split, the source-statement and flattened-public-declaration maps match independently, and compiler-resolved export names are unchanged:
 
-| Surface | Source statements preserved | Public declarations preserved | Public exports |
-| --- | ---: | ---: | ---: |
-| Workflow contracts | 94 | 92 | 123 |
-| Core scheduler graph | 18 | 16 | 16 |
+| Surface              | Source statements preserved | Public declarations preserved | Public exports |
+| -------------------- | --------------------------: | ----------------------------: | -------------: |
+| Workflow contracts   |                          94 |                            92 |            123 |
+| Core scheduler graph |                          18 |                            16 |             16 |
 
 Source comparisons parse and print complete statements, preserving the selected authored function and inherited statement bodies. Declaration comparison permits only union-member and property-only type-literal ordering; it rejects call/index/overload-member normalization. Import routing and physical declaration layout necessarily change. The selected scheduler-state function also remains draft-equal after moving to `scheduler-state.ts`.
 
 **Retained expression is concrete:** all **93 other workflow declaration statements** still match the publisher, including schemas/refinements, the terminal Set, `deriveWorkflowRunSchedulerState`, `deriveWorkflowSessionLinks` and `workflowSessionLinkStatusFromActivity`. All **17 graph statements other than previously reviewed `orderedReadyExecutableNodes`** match the independently retained publisher graph. Those include readiness/completion helpers, snapshot/activity/artifact updates, normalization, membership/frontier, phase checks and edge IDs. Their relocation is not replacement.
 
-| New module | Ownership consequence |
-| --- | --- |
-| contracts `definition`, `graph-schema`, `run-schema` | Inherited vocabulary, schema and refinement bodies retain their source relationships. |
-| contracts `scheduler-state` | Selected new function plus retained schemas, terminal Set and run-state overlay; not whole-file independent. |
-| contracts `session-links` | Retained attempt/status projection and helper. |
-| contracts `index` | Public reexports and retained store interfaces; routing change only. |
-| core `ready-order` | Previously reviewed selected authored ordering remains unchanged; no new originality credit. |
-| core `graph-helpers` and `graph` | Retained helper bodies and a public reexport barrel, respectively. |
+| New module                                           | Ownership consequence                                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| contracts `definition`, `graph-schema`, `run-schema` | Inherited vocabulary, schema and refinement bodies retain their source relationships.                        |
+| contracts `scheduler-state`                          | Selected new function plus retained schemas, terminal Set and run-state overlay; not whole-file independent. |
+| contracts `session-links`                            | Retained attempt/status projection and helper.                                                               |
+| contracts `index`                                    | Public reexports and retained store interfaces; routing change only.                                         |
+| core `ready-order`                                   | Previously reviewed selected authored ordering remains unchanged; no new originality credit.                 |
+| core `graph-helpers` and `graph`                     | Retained helper bodies and a public reexport barrel, respectively.                                           |
 
 The import graph routes value dependencies from definition through graph/run schemas to the public barrel; state/session modules use direct internal imports, with run-state types erased. Core ordering imports helpers and helpers do not import the ordering/barrel. Static inspection found no new internal barrel cycle, renamed export, schema recreation or changed alias expression. Runtime schema/function identity remains supported by A's focused tests, not by a new E runtime run.
 

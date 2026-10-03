@@ -10,11 +10,11 @@ Commit `1e6b6d41` freezes the three author inputs and their curator manifest bef
 
 The key order is explicit: every graph append reads the outer routing runId before record construction; the record's runId is also read before the mutation-capable clock. Later records read current snapshot values anew. For event publication, event metadata precedes the clock while options.signal is read afterward. The packet also records live expansion-array traversal, current post-publication summaries, reference sharing, callback receivers, public timestamp/collection-method dispatch, sequential gates, rejection identity and absence of cancellation policy.
 
-| Author input | Bytes | SHA-256 |
-| --- | ---: | --- |
-| contract.md | 13,647 | `ce4463a056fd19af8f34d7cfc61edc95fa449b4d9757f32868700bd0f92bab91` |
-| public-api.d.ts | 3,121 | `7fee633393fd228aabf9057efe3d74ebd93d234b38ee50d240d76d6173a1fc33` |
-| public-data-shapes.md | 6,082 | `b77596c0b62b857849836bb7c84ae4dfc67bca75230b6e0c0dccefb3cc738e44` |
+| Author input          |  Bytes | SHA-256                                                            |
+| --------------------- | -----: | ------------------------------------------------------------------ |
+| contract.md           | 13,647 | `ce4463a056fd19af8f34d7cfc61edc95fa449b4d9757f32868700bd0f92bab91` |
+| public-api.d.ts       |  3,121 | `7fee633393fd228aabf9057efe3d74ebd93d234b38ee50d240d76d6173a1fc33` |
+| public-data-shapes.md |  6,082 | `b77596c0b62b857849836bb7c84ae4dfc67bca75230b6e0c0dccefb3cc738e44` |
 
 The class declaration uses the earlier exact-source TypeScript emit, omitting private members so the author is free to choose internal storage. Dependency signatures and exact public data schemas provide bindings; no implementation/test bodies or private layout are supplied. Fixed protocol expression and ordered observations are compatibility constraints, not new algorithms.
 
@@ -30,10 +30,10 @@ The curator is source-exposed. This is a functional/public-API distillation from
 
 The author froze the complete [draft](evidence/event-log-author-packet-20261002/draft-events.ts.txt) at `2026-10-02T16:36:53.365697Z`. The curator archived its exact bytes at `2026-10-02T16:37:44.510969+00:00`, before reading the draft body, comparing source or running checks. The [archive manifest](evidence/event-log-author-packet-20261002/curator-draft-manifest.json) binds the frozen input commit and output files.
 
-| Artifact | Bytes | SHA-256 |
-| --- | ---: | --- |
+| Artifact            | Bytes | SHA-256                                                            |
+| ------------------- | ----: | ------------------------------------------------------------------ |
 | draft-events.ts.txt | 3,724 | `c5cee5930fac8cf66616fc9e3ba165bb9a8d6ad829c135ae223e1615e00b6174` |
-| author-record.json | 2,141 | `02bdbce4cc3cd7a98432380ab6ef35e92969813b3a7c76221ac3fcb15c077a9a` |
+| author-record.json  | 2,141 | `02bdbce4cc3cd7a98432380ab6ef35e92969813b3a7c76221ac3fcb15c077a9a` |
 
 The [author receipt](evidence/event-log-author-packet-20261002/author-record.json) reports reads limited to the three inputs and its own output, no boundary breaches or unresolved questions, and no compilation, tests, comparisons, production edits or contact with other authors. These are recorded author attestations. The curator verified archive byte lengths and digests without opening the draft body. The complete draft remains unreviewed, uncompiled and untested; it is not installed in production source.
 

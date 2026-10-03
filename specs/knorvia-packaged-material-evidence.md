@@ -14,10 +14,20 @@ Selection schema version 1:
   "files": [
     { "id": "runtime", "kind": "runtime", "path": "resources/app.asar", "noticeIds": ["notice"] },
     { "id": "native", "kind": "native", "path": "resources/tool.node", "noticeIds": ["notice"] },
-    { "id": "notice", "kind": "notice", "path": "resources/THIRD-PARTY-NOTICES.md", "sha256": "<reviewed 64 lowercase hexadecimal digits>" }
+    {
+      "id": "notice",
+      "kind": "notice",
+      "path": "resources/THIRD-PARTY-NOTICES.md",
+      "sha256": "<reviewed 64 lowercase hexadecimal digits>"
+    }
   ],
   "excluded": [
-    { "id": "other-platform", "path": "resources/other-platform.node", "policyRef": "<reviewed policy reference>", "reason": "<applicable exclusion>" }
+    {
+      "id": "other-platform",
+      "path": "resources/other-platform.node",
+      "policyRef": "<reviewed policy reference>",
+      "reason": "<applicable exclusion>"
+    }
   ]
 }
 ```

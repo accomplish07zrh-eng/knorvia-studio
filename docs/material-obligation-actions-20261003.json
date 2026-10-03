@@ -1,0 +1,942 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+  "classificationDate": "2026-10-03",
+  "scope": "Action classification of the existing 26 material obligations, not a complete first-party independence/rights audit or an obligation closure. Routes are mutually exclusive; retention candidates still require the listed evidence.",
+  "sourceBindings": [
+    {
+      "path": "third-party/inventory.json",
+      "sha256": "214ba8fe32650876135874926c7de612a9c0860b5b9877dc59a57960ea3bcbc2"
+    },
+    {
+      "path": "third-party/npm-overrides.json",
+      "sha256": "2c7a9cbde4cec212821eefb7f80a27a4c46628ae4cb8b3999b65562166f01c90"
+    },
+    {
+      "path": "third-party/copied-components.json",
+      "sha256": "ff2e8e6c6f3373bf741254a5418d6fe1fc303e9ef5ae48122e13f031b342c177"
+    },
+    {
+      "path": "third-party/embedded-components.json",
+      "sha256": "9586ccca15897f56d4ca1d703dffe9e02880fedd766c1dff93f7ac1f52ea891a"
+    },
+    {
+      "path": "third-party/native-search/sources.json",
+      "sha256": "f8fa8858a4c88d92df6243398886f6167ba2d68823d260de76dab048f40bde88"
+    },
+    {
+      "path": "licensing/evidence/material-icon-theme.json",
+      "sha256": "8db87069a57056d229e67dc17368d64f9dad8fd785efb417f6f5711aff2358ea"
+    }
+  ],
+  "summary": {
+    "total": 26,
+    "retentionCandidatesWithSeparateThirdPartyScope": 18,
+    "unresolvedSvgAssetFiles": 8,
+    "confirmedFirstPartySourceReplacementItemsWithinThisMaterialList": 0,
+    "closedObligations": 0,
+    "publicationAccepted": false,
+    "wholeTreeMitAccepted": false,
+    "actionRoutes": {
+      "publisher-version-notice-required": 15,
+      "platform-build-and-link-evidence-required": 3,
+      "original-asset-source-required": 8
+    }
+  },
+  "items": [
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "ISC",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/%40arms%2frum-browser%400.1.8",
+      "retainedNoticeFile": "third-party/upstream/2c976d327b293bd74c257cd53e9b4ecef97a06b1651baa3b24327c97192cb3de.txt",
+      "retainedNoticeSha256": "2c976d327b293bd74c257cd53e9b4ecef97a06b1651baa3b24327c97192cb3de",
+      "packageRepository": null,
+      "originalVersionEvidence": null,
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "ISC",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/%40arms%2frum-core%400.1.4",
+      "retainedNoticeFile": "third-party/upstream/328eb7864c20ab77607b26ee1913b65a9b880f6300eea9e667b890da896a2f40.txt",
+      "retainedNoticeSha256": "328eb7864c20ab77607b26ee1913b65a9b880f6300eea9e667b890da896a2f40",
+      "packageRepository": null,
+      "originalVersionEvidence": null,
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/%40arms%2frum-electron%400.0.3",
+      "retainedNoticeFile": "third-party/upstream/38b6f63a0aa422b5c329e75f1aeecd2b02e83caab1747644c00810870d77bacb.txt",
+      "retainedNoticeSha256": "38b6f63a0aa422b5c329e75f1aeecd2b02e83caab1747644c00810870d77bacb",
+      "packageRepository": null,
+      "originalVersionEvidence": null,
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/@hono%2fnode-ws/1.3.0",
+      "retainedNoticeFile": "third-party/upstream/c681d64256e752c1435814cf045f4467720a8473e425ea54103a0f5128bfc817.txt",
+      "retainedNoticeSha256": "c681d64256e752c1435814cf045f4467720a8473e425ea54103a0f5128bfc817",
+      "packageRepository": "git+https://github.com/honojs/middleware.git",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "48b94f87b85ca84428491d7275f0fad16450254bd49d9b2b4f621539fda8a2af",
+        "sourceRevision": "2c026b9d5bfff006dc9abdc1b33c53856d2d784f",
+        "sourceTreeUrl": "https://api.github.com/repos/honojs/middleware/git/trees/2c026b9d5bfff006dc9abdc1b33c53856d2d784f?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/@open-draft%2fdeferred-promise/2.2.0",
+      "retainedNoticeFile": "third-party/upstream/b1688598c3e32605b3973902a546225e0159349c05a0f74db67f76e08e116e65.txt",
+      "retainedNoticeSha256": "b1688598c3e32605b3973902a546225e0159349c05a0f74db67f76e08e116e65",
+      "packageRepository": "https://github.com/open-draft/deferred-promise",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "57f8d0cf303951c66dcdab2a10c2fe57194ad4cbb851880c604d4c3e521def2b",
+        "sourceRevision": "b30f1b683311030e92fcdd08d2bd6574d652b77f",
+        "sourceTreeUrl": "https://api.github.com/repos/open-draft/deferred-promise/git/trees/b30f1b683311030e92fcdd08d2bd6574d652b77f?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "BSD-3-Clause",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/ansi-to-react/6.2.6",
+      "retainedNoticeFile": "third-party/upstream/2c88816684a40c718113a10062a8335b665cec00d3c7b32e2b3fe9c620a3e03e.txt",
+      "retainedNoticeSha256": "2c88816684a40c718113a10062a8335b665cec00d3c7b32e2b3fe9c620a3e03e",
+      "packageRepository": "git+https://github.com/nteract/ansi-to-react.git",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "e06fc6be19323cf447f0058975cfcf41923d3422ea613cff2e67d8fd8ee1d655",
+        "sourceRevision": "145140971e9d83ccac32265f24b1c55dea437896",
+        "sourceTreeUrl": "https://api.github.com/repos/nteract/ansi-to-react/git/trees/145140971e9d83ccac32265f24b1c55dea437896?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "ISC",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/boolbase/1.0.0",
+      "retainedNoticeFile": "third-party/upstream/2d2349188616c4b64ceeae33e1386bb546b0658864b4f7f8c9785757cb065b5d.txt",
+      "retainedNoticeSha256": "2d2349188616c4b64ceeae33e1386bb546b0658864b4f7f8c9785757cb065b5d",
+      "packageRepository": "https://github.com/fb55/boolbase",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "69628ff8092c5ff940ea4a0f29da98d520615bae138755c9e059033606c6caa8"
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/is-node-process/1.2.0",
+      "retainedNoticeFile": "third-party/upstream/000ffa2d773c511f4459fb31d89f841806f93bf5caf2050468ab2097c081b443.txt",
+      "retainedNoticeSha256": "000ffa2d773c511f4459fb31d89f841806f93bf5caf2050468ab2097c081b443",
+      "packageRepository": "https://github.com/mswjs/is-node-process",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "810d5c86ac247ffbfab3dcdee3cef95fb830e1f5eea9674858e8dcd6de4accba",
+        "sourceRevision": "8a6152c795d8705be97166bd5167e70ac6efc67c",
+        "sourceTreeUrl": "https://api.github.com/repos/mswjs/is-node-process/git/trees/8a6152c795d8705be97166bd5167e70ac6efc67c?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/lazy-val/1.0.5",
+      "retainedNoticeFile": "third-party/upstream/f18c12b8e7daf98d572518b7db133b2dc66a713921dac4825410dd656e0c1a1a.txt",
+      "retainedNoticeSha256": "f18c12b8e7daf98d572518b7db133b2dc66a713921dac4825410dd656e0c1a1a",
+      "packageRepository": "develar/lazy-val",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "7d8602ad98db3d19fbd5b46fbf3831dd996197a013ef1ff7badc205e41435372",
+        "sourceRevision": "b69ad4119f1b19bdab13c61ee2fcc88d46b89071",
+        "sourceTreeUrl": "https://api.github.com/repos/develar/lazy-val/git/trees/b69ad4119f1b19bdab13c61ee2fcc88d46b89071?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "currentNormalizedSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "currentNormalizedSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "currentNormalizedSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "currentNormalizedSha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/web/public/material-icons/docx.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "currentNormalizedSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/web/public/material-icons/folder.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "currentNormalizedSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/web/public/material-icons/pptx.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "currentNormalizedSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "packages/web/public/material-icons/xlsx.svg",
+      "currentReason": "Material Icon Theme source unresolved: source-path-not-found",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "unresolved-svg-asset",
+      "firstPartySource": false,
+      "recordedLicense": "NOASSERTION for the unmatched file; the recorded Material Icon Theme reference remains MIT for matching upstream portions only.",
+      "retentionCandidate": "conditional-on-original-source-or-grant",
+      "actionRoute": "original-asset-source-required",
+      "sourceRegister": "licensing/evidence/material-icon-theme.json",
+      "currentSha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "currentNormalizedSha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "referenceCommit": "cb1dfb6d9cb73b15681a93939983d75dbba7bf5b",
+      "requiredMaterial": "Original SVG source URL/revision and creator attribution with applicable full license; for an edited source, retain exact starting bytes and the transformation/contribution record. Otherwise obtain a written grant identifying these SVG bytes.",
+      "materialSupplier": "Original icon supplier/importer or actual rights holder; the two app copies share one basename request where their bytes match.",
+      "preferredAction": "Keep existing UI bytes and unresolved status. If the material cannot be supplied, plan a separately authorized independent asset replacement preserving approved UI requirements; do not label a guessed alias or geometric resemblance as source proof."
+    },
+    {
+      "id": "QuickJS-NG",
+      "currentReason": "Engine notice retained. WASI libc and extension link provenance is not fully established by the npm package.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "embedded-third-party-runtime",
+      "firstPartySource": false,
+      "recordedLicense": "MIT engine plus separately licensed WASI/libc/LLVM/crypto/URL extensions",
+      "retentionCandidate": true,
+      "actionRoute": "platform-build-and-link-evidence-required",
+      "sourceRegister": "third-party/embedded-components.json",
+      "existingSource": "https://github.com/vercel-labs/quickjs-wasi/tree/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/quickjs-ng",
+      "sourceRevision": "dec012362bd93876449f3ecff4f835b2eba89bab",
+      "parentPackage": "quickjs-wasi@2.2.0",
+      "retainedNotices": [
+        {
+          "source": "https://raw.githubusercontent.com/quickjs-ng/quickjs/dec012362bd93876449f3ecff4f835b2eba89bab/LICENSE",
+          "file": "third-party/upstream/96f73f9d2a16c21a36b418f06073be26e7d6d5e7c1bc99756b21a4f2c74ef171.txt",
+          "sha256": "96f73f9d2a16c21a36b418f06073be26e7d6d5e7c1bc99756b21a4f2c74ef171"
+        },
+        {
+          "component": "Mbed TLS",
+          "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/extensions/crypto/mbedtls/LICENSE",
+          "file": "third-party/upstream/9b405ef4c89342f5eae1dd828882f931747f71001cfba7d114801039b52ad09b.txt",
+          "sha256": "9b405ef4c89342f5eae1dd828882f931747f71001cfba7d114801039b52ad09b"
+        },
+        {
+          "component": "WASI libc",
+          "source": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/LICENSE",
+          "file": "third-party/upstream/2711a8b5a5cdfef0e639f96c1aca12ae23d7d64a02d0507f1bdf14d2b27bbc3a.txt",
+          "sha256": "2711a8b5a5cdfef0e639f96c1aca12ae23d7d64a02d0507f1bdf14d2b27bbc3a"
+        },
+        {
+          "component": "WASI libc",
+          "source": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/LICENSE-APACHE",
+          "file": "third-party/upstream/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "component": "WASI libc",
+          "source": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/LICENSE-APACHE-LLVM",
+          "file": "third-party/upstream/268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+          "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5"
+        },
+        {
+          "component": "WASI libc",
+          "source": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/LICENSE-MIT",
+          "file": "third-party/upstream/23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        },
+        {
+          "component": "WASI libc",
+          "source": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/libc-bottom-half/cloudlibc/LICENSE",
+          "file": "third-party/upstream/c8b789cf5a746611e6300a0cc7750dbf92b61912a709d04e639245f7290656d0.txt",
+          "sha256": "c8b789cf5a746611e6300a0cc7750dbf92b61912a709d04e639245f7290656d0"
+        },
+        {
+          "component": "WASI libc",
+          "source": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/libc-top-half/musl/COPYRIGHT",
+          "file": "third-party/upstream/f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af.txt",
+          "sha256": "f9bc4423732350eb0b3f7ed7e91d530298476f8fec0c6c427a1c04ade22655af"
+        },
+        {
+          "component": "WASI LLVM runtime",
+          "source": "https://raw.githubusercontent.com/llvm/llvm-project/4434dabb69916856b824f68a64b029c67175e532/libcxx/LICENSE.TXT",
+          "file": "third-party/upstream/539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b.txt",
+          "sha256": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b"
+        },
+        {
+          "component": "WASI LLVM runtime",
+          "source": "https://raw.githubusercontent.com/llvm/llvm-project/4434dabb69916856b824f68a64b029c67175e532/libcxxabi/LICENSE.TXT",
+          "file": "third-party/upstream/e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c.txt",
+          "sha256": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c"
+        },
+        {
+          "component": "WASI LLVM runtime",
+          "source": "https://raw.githubusercontent.com/llvm/llvm-project/4434dabb69916856b824f68a64b029c67175e532/compiler-rt/LICENSE.TXT",
+          "file": "third-party/upstream/1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d.txt",
+          "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d"
+        },
+        {
+          "component": "Ada URL parser",
+          "source": "https://raw.githubusercontent.com/ada-url/ada/v3.4.3/LICENSE-MIT",
+          "file": "third-party/upstream/af0d7d2cef91fc243cf4ad98570b03d1f26f5e0227cad0f5f4a7376e2feb3160.txt",
+          "sha256": "af0d7d2cef91fc243cf4ad98570b03d1f26f5e0227cad0f5f4a7376e2feb3160"
+        },
+        {
+          "component": "Ada URL parser",
+          "source": "https://raw.githubusercontent.com/ada-url/ada/v3.4.3/LICENSE-APACHE",
+          "file": "third-party/upstream/508d4676d4083e874df706f302d9d42e5e7f9aed3f5a7ea614dc6d2b2252a22f.txt",
+          "sha256": "508d4676d4083e874df706f302d9d42e5e7f9aed3f5a7ea614dc6d2b2252a22f"
+        },
+        {
+          "component": "Project Everest",
+          "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/extensions/crypto/mbedtls/tf-psa-crypto/drivers/everest/library/Hacl_Curve25519_joined.c",
+          "extraction": "Original leading copyright/license comment, verbatim.",
+          "file": "third-party/upstream/52c49219748499a9a56e0d8d10a73a2d7741f5ecf5c88bdff30593599d6dfbb6.txt",
+          "sha256": "52c49219748499a9a56e0d8d10a73a2d7741f5ecf5c88bdff30593599d6dfbb6"
+        },
+        {
+          "component": "Project Everest",
+          "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/extensions/crypto/mbedtls/tf-psa-crypto/drivers/everest/library/everest.c",
+          "extraction": "Original leading copyright/license comment, verbatim.",
+          "file": "third-party/upstream/0c74e86d37d6fc7e8f22b4b8e3b801f6737c263c27a71d81c86cd8de0b6a84e5.txt",
+          "sha256": "0c74e86d37d6fc7e8f22b4b8e3b801f6737c263c27a71d81c86cd8de0b6a84e5"
+        },
+        {
+          "component": "Project Everest",
+          "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/extensions/crypto/mbedtls/tf-psa-crypto/drivers/everest/library/x25519.c",
+          "extraction": "Original leading copyright/license comment, verbatim.",
+          "file": "third-party/upstream/3007cd45c9afdf93812c0c8a7643ea32a7db0b24e495dc0f2312c8a43990b0dd.txt",
+          "sha256": "3007cd45c9afdf93812c0c8a7643ea32a7db0b24e495dc0f2312c8a43990b0dd"
+        }
+      ],
+      "retainedBuildEvidence": [
+        {
+          "source": "https://raw.githubusercontent.com/vercel-labs/quickjs-wasi/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23/Makefile",
+          "file": "third-party/upstream/417fa227d75b1e22a15d8389ca8b5e8b7b86241c3b1b17288d20523016ef6fa6.txt",
+          "sha256": "417fa227d75b1e22a15d8389ca8b5e8b7b86241c3b1b17288d20523016ef6fa6"
+        },
+        {
+          "source": "https://api.github.com/repos/WebAssembly/wasi-sdk/git/trees/wasi-sdk-32?recursive=1",
+          "file": "third-party/upstream/5f745b8244890bde0a2258fe32342d60c577fad043e8601d923690a5bfe1b54f.txt",
+          "sha256": "5f745b8244890bde0a2258fe32342d60c577fad043e8601d923690a5bfe1b54f"
+        }
+      ],
+      "requiredMaterial": "For each actually distributed binary/WASM/platform artifact: exact artifact hash, publisher source/build revision, compiler/link inputs, enabled feature/library list, and a complete notice map for those linked portions. A source directory or wrapper package license alone cannot identify the shipped link closure.",
+      "materialSupplier": "Original binary publisher or release/build owner; retrieve retained public source notices first, obtain exact build records from its original supplier when unavailable.",
+      "preferredAction": "Retain the runtime and all of its separate component notices; complete the platform link closure rather than rewriting Skia/QuickJS or applying MIT to all nested code."
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/quickjs-wasi/2.2.0",
+      "retainedNoticeFile": "third-party/upstream/f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452.txt",
+      "retainedNoticeSha256": "f29b60ea39a2132e3baa98927c2d473b349a54143da44a0c6762b243e6459452",
+      "packageRepository": "git://github.com/vercel-labs/quickjs-wasi.git",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "f4dd386c2e705ffb8692a8afdc1e3b8ff09c6b8ef3aee48d0537ff71d8839cd1"
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "React Best Practices skill",
+      "currentReason": "Pinned upstream README and skill declare MIT, but a complete original copyright/license notice has not been obtained.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "vendored-third-party-skill",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/copied-components.json",
+      "existingSource": "https://github.com/vercel-labs/agent-skills/tree/063bee94c3f4df8453406c830b0a7df0f2860278",
+      "sourceRevision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "roots": [".agents/skills/react-best-practices"],
+      "requiredMaterial": "Complete original copyright/license notice or publisher authorization explicitly covering the pinned skill revision and its local adaptations. Keep current Shu Ding/Vercel attribution and the recorded missing original import revision.",
+      "materialSupplier": "Skill publisher/rights holder or original importer with its written material; no user ownership is inferred from vendoring.",
+      "preferredAction": "Retain the third-party skill under its own verified scope; if material is unobtainable, consider an independent skill replacement in a separately assigned task, without copying or removing attribution from the old record."
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/react-remove-scroll-bar/2.3.8",
+      "retainedNoticeFile": "third-party/upstream/f158b3bd10b867740fdbf81447216f1f8685473acf61e6a105ef91ba9fe8ebc3.txt",
+      "retainedNoticeSha256": "f158b3bd10b867740fdbf81447216f1f8685473acf61e6a105ef91ba9fe8ebc3",
+      "packageRepository": "https://github.com/theKashey/react-remove-scroll-bar",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "ccc872d7a2dc007cbf9d755f30d56b8d80eabdbe22c44c95a709129bfdc46f01"
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "currentReason": "No original notice snapshot for this recorded native component.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "native-third-party-toolchain-runtime",
+      "firstPartySource": false,
+      "recordedLicense": "Rust standard library license scope pending exact recorded toolchain binding; other retained Rust notices cannot be substituted for this missing record.",
+      "retentionCandidate": true,
+      "actionRoute": "platform-build-and-link-evidence-required",
+      "sourceRegister": "third-party/native-search/sources.json",
+      "existingSource": "https://github.com/rust-lang/rust/tree/6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "sourceRevision": "6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "retainedNotices": [],
+      "requiredMaterial": "Recover the original native artifact/target/compiler build manifest identifying the actual rustc/std source revision. Obtain its original LICENSE-MIT, LICENSE-APACHE, COPYRIGHT and any linked component notices; bind them to the original artifact hash.",
+      "materialSupplier": "Original native binary publisher/build owner; public Rust source is useful only after the original compiler revision is resolved.",
+      "preferredAction": "Preserve this incomplete record. Do not substitute the other two recorded Rust revisions or delete the unknown toolchain component to make the gate pass."
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/semaphore/1.1.0",
+      "retainedNoticeFile": "third-party/upstream/1b8910ad1a22011c632f7ff544708be6cf08818ef80e8d4b45b6808ee8b05c17.txt",
+      "retainedNoticeSha256": "1b8910ad1a22011c632f7ff544708be6cf08818ef80e8d4b45b6808ee8b05c17",
+      "packageRepository": "git@github.com:abrkn/semaphore.js.git",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "72002cc502d607af8e2dbcbdafa3495bf4efe34394e1a037b92038d157f077a2",
+        "sourceRevision": "88a33875b168cc7b5943d7fe987c36d08321d252",
+        "sourceTreeUrl": "https://api.github.com/repos/abrkn/semaphore.js/git/trees/88a33875b168cc7b5943d7fe987c36d08321d252?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "Skia",
+      "currentReason": "Skia core notice retained. Per-platform linked third-party libraries and their exact build provenance still require a complete audit.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "embedded-third-party-runtime",
+      "firstPartySource": false,
+      "recordedLicense": "BSD-3-Clause core plus separately licensed linked libraries",
+      "retentionCandidate": true,
+      "actionRoute": "platform-build-and-link-evidence-required",
+      "sourceRegister": "third-party/embedded-components.json",
+      "existingSource": "https://github.com/Brooooooklyn/canvas/tree/db337893b9b53483050ca7b24c6d306e4da06741/skia",
+      "sourceRevision": "fe2718df5f53a681087be6f0539045ca1b4b8c09",
+      "parentPackage": "@napi-rs/canvas@0.1.100",
+      "retainedNotices": [
+        {
+          "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/LICENSE",
+          "file": "third-party/upstream/5f787c1dee3c56547f09ccc2906ab5f5293c4d8dd6c8654e573216c38e908dbd.txt",
+          "sha256": "5f787c1dee3c56547f09ccc2906ab5f5293c4d8dd6c8654e573216c38e908dbd"
+        },
+        {
+          "component": "expat",
+          "source": "https://chromium.googlesource.com/external/github.com/libexpat/libexpat.git/+/6154446fccefbf3ca644894f598969113b0c7bcd/expat/COPYING?format=TEXT",
+          "file": "third-party/upstream/31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87.txt",
+          "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
+        },
+        {
+          "component": "freetype",
+          "source": "https://chromium.googlesource.com/chromium/src/third_party/freetype2.git/+/264b5fbf5b912b39f98d038bf75d39be0a73f21b/docs/FTL.TXT?format=TEXT",
+          "file": "third-party/upstream/5a5ee54c5001bbad1cdc1a57cc3dd4c42199b2da09d39c7ee41fab002d02967f.txt",
+          "sha256": "5a5ee54c5001bbad1cdc1a57cc3dd4c42199b2da09d39c7ee41fab002d02967f"
+        },
+        {
+          "component": "harfbuzz",
+          "source": "https://chromium.googlesource.com/external/github.com/harfbuzz/harfbuzz.git/+/9cb1fee51069b206effb4736e443b038d230789d/COPYING?format=TEXT",
+          "file": "third-party/upstream/ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64.txt",
+          "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64"
+        },
+        {
+          "component": "highway",
+          "source": "https://chromium.googlesource.com/external/github.com/google/highway.git/+/424360251cdcfc314cfc528f53c872ecd63af0f0/LICENSE?format=TEXT",
+          "file": "third-party/upstream/43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1.txt",
+          "sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1"
+        },
+        {
+          "component": "icu",
+          "source": "https://chromium.googlesource.com/chromium/deps/icu.git/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/LICENSE?format=TEXT",
+          "file": "third-party/upstream/17510cf7a58b4879b887ec05a45d72cf1b73544dd9ec7e72f20110ed104229ee.txt",
+          "sha256": "17510cf7a58b4879b887ec05a45d72cf1b73544dd9ec7e72f20110ed104229ee"
+        },
+        {
+          "component": "libjpeg-turbo",
+          "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/LICENSE.md?format=TEXT",
+          "file": "third-party/upstream/96f5b328adbb78eeaaec6980d73fd558cb1e4d62560ed615646bc3cf5e532430.txt",
+          "sha256": "96f5b328adbb78eeaaec6980d73fd558cb1e4d62560ed615646bc3cf5e532430"
+        },
+        {
+          "component": "libjpeg-turbo",
+          "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/README.ijg?format=TEXT",
+          "file": "third-party/upstream/75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6.txt",
+          "sha256": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6"
+        },
+        {
+          "component": "libjxl",
+          "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/LICENSE?format=TEXT",
+          "file": "third-party/upstream/8405932022a556380c2d8c272eff154a923feb197233f348ce5f7334fb0a5ede.txt",
+          "sha256": "8405932022a556380c2d8c272eff154a923feb197233f348ce5f7334fb0a5ede"
+        },
+        {
+          "component": "libjxl",
+          "source": "https://chromium.googlesource.com/external/gitlab.com/wg1/jpeg-xl.git/+/a205468bc5d3a353fb15dae2398a101dff52f2d3/PATENTS?format=TEXT",
+          "file": "third-party/upstream/91915f8ae056a68a3c5bdf05d9f6f78bb6903e27a8ca3a8434c9e4ac87300575.txt",
+          "sha256": "91915f8ae056a68a3c5bdf05d9f6f78bb6903e27a8ca3a8434c9e4ac87300575"
+        },
+        {
+          "component": "libpng",
+          "source": "https://skia.googlesource.com/third_party/libpng.git/+/d5515b5b8be3901aac04e5bd8bd5c89f287bcd33/LICENSE?format=TEXT",
+          "file": "third-party/upstream/bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526.txt",
+          "sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526"
+        },
+        {
+          "component": "libwebp",
+          "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/COPYING?format=TEXT",
+          "file": "third-party/upstream/5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf.txt",
+          "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf"
+        },
+        {
+          "component": "libwebp",
+          "source": "https://chromium.googlesource.com/webm/libwebp.git/+/845d5476a866141ba35ac133f856fa62f0b7445f/PATENTS?format=TEXT",
+          "file": "third-party/upstream/cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c.txt",
+          "sha256": "cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c"
+        },
+        {
+          "component": "wuffs",
+          "source": "https://skia.googlesource.com/external/github.com/google/wuffs-mirror-release-c.git/+/e3f919ccfe3ef542cfc983a82146070258fb57f8/LICENSE?format=TEXT",
+          "file": "third-party/upstream/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "component": "zlib",
+          "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/LICENSE?format=TEXT",
+          "file": "third-party/upstream/e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c.txt",
+          "sha256": "e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c"
+        },
+        {
+          "component": "piex",
+          "source": "https://android.googlesource.com/platform/external/piex.git/+/bb217acdca1cc0c16b704669dd6f91a1b509c406/LICENSE?format=TEXT",
+          "file": "third-party/upstream/58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd.txt",
+          "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+        },
+        {
+          "component": "brotli",
+          "source": "https://raw.githubusercontent.com/google/brotli/6d03dfbedda1615c4cba1211f8d81735575209c8/LICENSE",
+          "file": "third-party/upstream/3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94.txt",
+          "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94"
+        },
+        {
+          "component": "libjpeg-turbo arithmetic coding",
+          "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo.git/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/src/jcarith.c?format=TEXT",
+          "file": "third-party/upstream/37398454f23ddeb02f0b81113fef9ebdc4571b7297cb6e18376c1ccb9bb1453e.txt",
+          "sha256": "37398454f23ddeb02f0b81113fef9ebdc4571b7297cb6e18376c1ccb9bb1453e"
+        }
+      ],
+      "retainedBuildEvidence": [
+        {
+          "source": "https://raw.githubusercontent.com/Brooooooklyn/canvas/db337893b9b53483050ca7b24c6d306e4da06741/scripts/build-skia.js",
+          "file": "third-party/upstream/4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f.txt",
+          "sha256": "4a1d35b6325ede5ff9fc338fe7e6fdcaa9fe770767a0114242b817dcba28253f"
+        },
+        {
+          "source": "https://raw.githubusercontent.com/google/skia/fe2718df5f53a681087be6f0539045ca1b4b8c09/DEPS",
+          "file": "third-party/upstream/d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965.txt",
+          "sha256": "d65ff929f8a373ea16b21d45d5489557d51389ba6583a5c9959d5487c02ce965"
+        }
+      ],
+      "requiredMaterial": "For each actually distributed binary/WASM/platform artifact: exact artifact hash, publisher source/build revision, compiler/link inputs, enabled feature/library list, and a complete notice map for those linked portions. A source directory or wrapper package license alone cannot identify the shipped link closure.",
+      "materialSupplier": "Original binary publisher or release/build owner; retrieve retained public source notices first, obtain exact build records from its original supplier when unavailable.",
+      "preferredAction": "Retain the runtime and all of its separate component notices; complete the platform link closure rather than rewriting Skia/QuickJS or applying MIT to all nested code."
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/strict-event-emitter/0.5.1",
+      "retainedNoticeFile": "third-party/upstream/93f24a47f95aea2be1b0dad78de98dc6d3de01ce22c0b72dc73e453c7917b955.txt",
+      "retainedNoticeSha256": "93f24a47f95aea2be1b0dad78de98dc6d3de01ce22c0b72dc73e453c7917b955",
+      "packageRepository": "git@github.com:open-draft/strict-event-emitter.git",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "43c456f72612074a13e8399c29ffd59c8c277274924b633f6e4fa07342f63cab",
+        "sourceRevision": "56e004cf2793053ea9ece4330fd52cace96acbff",
+        "sourceTreeUrl": "https://api.github.com/repos/open-draft/strict-event-emitter/git/trees/56e004cf2793053ea9ece4330fd52cace96acbff?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "currentReason": "Original version-specific publisher copyright/license material remains incomplete.",
+      "publicationAccepted": false,
+      "wholeTreeMitAccepted": false,
+      "clearedByThisClassification": false,
+      "materialKind": "npm-dependency",
+      "firstPartySource": false,
+      "recordedLicense": "MIT",
+      "retentionCandidate": true,
+      "actionRoute": "publisher-version-notice-required",
+      "sourceRegister": "third-party/npm-overrides.json",
+      "existingSource": "https://registry.npmjs.org/unsafe-pointer/0.2.0",
+      "retainedNoticeFile": "third-party/upstream/0ab717053f3e24736cd404a0801407fb305db75d1b58f7e6487d14feee30d28a.txt",
+      "retainedNoticeSha256": "0ab717053f3e24736cd404a0801407fb305db75d1b58f7e6487d14feee30d28a",
+      "packageRepository": "https://github.com/justjake/node-unsafe-pointer",
+      "originalVersionEvidence": {
+        "checkedOn": "2026-09-21",
+        "result": "The versioned npm archive contains no standalone complete LICENSE; existing publisher declaration and original README license sections remain preserved. Upstream authorization/copyright material is still required to close this review.",
+        "npmArchiveSha256": "9c9795688a9e224759468aeee2ff88d917fadc65f7b3480e62571f0853eaa446",
+        "sourceRevision": "f9771c0c21e863e4938a7aed0af89575f9673152",
+        "sourceTreeUrl": "https://api.github.com/repos/justjake/node-unsafe-pointer/git/trees/f9771c0c21e863e4938a7aed0af89575f9673152?recursive=1",
+        "upstreamLicenseFiles": []
+      },
+      "requiredMaterial": "Original complete publisher copyright/license notice for this exact version, or explicit publisher statement mapping that version/source revision to the complete notice. Preserve archived package/README evidence and record its hash; a standard template or another version is insufficient.",
+      "materialSupplier": "Upstream publisher or original importer holding its written material; no external message has been sent.",
+      "preferredAction": "Retain this separate declared dependency license after notice/version binding is verified. Do not relicense, rewrite the package solely for MIT, or remove its notice/obligation."
+    }
+  ],
+  "additionalInvestigation": {
+    "iconAliases": [
+      {
+        "targetBasename": "docx.svg",
+        "candidateSourcePath": "icons/word.svg",
+        "source": "https://raw.githubusercontent.com/material-extensions/vscode-material-icon-theme/cb1dfb6d9cb73b15681a93939983d75dbba7bf5b/icons/word.svg",
+        "httpStatus": 200,
+        "candidateSha256": "9f12a8d98f292c34f73181c49ce79dd378decfb82f760cd9c4aa9900e2d7b2d6",
+        "currentSha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "rawEqual": false,
+        "normalizedEqual": false
+      },
+      {
+        "targetBasename": "folder.svg",
+        "candidateSourcePath": "icons/folder-base.svg",
+        "source": "https://raw.githubusercontent.com/material-extensions/vscode-material-icon-theme/cb1dfb6d9cb73b15681a93939983d75dbba7bf5b/icons/folder-base.svg",
+        "httpStatus": 200,
+        "candidateSha256": "2d1637960109ca9f9d4666b6b22704b411744cdcf4b77b663fc2a4053739e53d",
+        "currentSha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "rawEqual": false,
+        "normalizedEqual": false
+      },
+      {
+        "targetBasename": "pptx.svg",
+        "candidateSourcePath": "icons/powerpoint.svg",
+        "source": "https://raw.githubusercontent.com/material-extensions/vscode-material-icon-theme/cb1dfb6d9cb73b15681a93939983d75dbba7bf5b/icons/powerpoint.svg",
+        "httpStatus": 200,
+        "candidateSha256": "40468deea73e07067459c0c3b0bbef0697e93afbc4533e961d1b441f5294871e",
+        "currentSha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "rawEqual": false,
+        "normalizedEqual": false
+      },
+      {
+        "targetBasename": "xlsx.svg",
+        "source": "https://raw.githubusercontent.com/material-extensions/vscode-material-icon-theme/cb1dfb6d9cb73b15681a93939983d75dbba7bf5b/icons/excel.svg",
+        "httpStatus": 404,
+        "rawEqual": false,
+        "normalizedEqual": false
+      }
+    ],
+    "sourceAvailability": [
+      {
+        "source": "https://api.github.com/repos/rust-lang/rust/git/commits/6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+        "httpStatus": 404
+      },
+      {
+        "source": "https://raw.githubusercontent.com/vercel-labs/agent-skills/063bee94c3f4df8453406c830b0a7df0f2860278/LICENSE",
+        "httpStatus": 404
+      }
+    ],
+    "interpretation": "Candidate alias bytes do not match; 404 responses establish retrieval failure at this check, not a conclusion of absent ownership/license. Do not replace original records with newer or unrelated sources."
+  },
+  "retainedBoundaries": [
+    "Existing LICENSE/NOTICE and every source register/reviewRequired remain intact.",
+    "No review, accepted source/receipt HOLD or MIT declaration is promoted by these routes.",
+    "The material list contains no confirmed first-party source replacement item; wider ZCode-derived current-source/author contribution review remains separate and incomplete."
+  ],
+  "authoritativeTerms": [
+    {
+      "title": "MIT license conditions",
+      "source": "https://opensource.org/license/mit"
+    },
+    {
+      "title": "Apache-2.0 redistribution conditions",
+      "source": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "title": "Pinned Material Icon Theme license",
+      "source": "https://raw.githubusercontent.com/material-extensions/vscode-material-icon-theme/cb1dfb6d9cb73b15681a93939983d75dbba7bf5b/LICENSE"
+    }
+  ]
+}

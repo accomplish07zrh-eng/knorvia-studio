@@ -76,7 +76,9 @@ function permissionSettlementChanges(
   status: ActiveToolCall["status"],
 ): SessionProjectionChanges {
   return {
-    pendingPermissions: projection.pendingPermissions.filter((row) => row.toolCallId !== toolCallId),
+    pendingPermissions: projection.pendingPermissions.filter(
+      (row) => row.toolCallId !== toolCallId,
+    ),
     activeToolCalls: toolChanges(projection, toolCallId, { status }),
   };
 }
@@ -179,7 +181,8 @@ function changesForEvent(
     case SessionEventType.TurnComplete:
       return {
         status: "idle",
-        totalTokenCount: projection.totalTokenCount + (event.payload as TurnCompletePayload).tokenCount,
+        totalTokenCount:
+          projection.totalTokenCount + (event.payload as TurnCompletePayload).tokenCount,
       };
     case SessionEventType.TurnError: {
       const error = (event.payload as TurnErrorPayload).error;
@@ -203,7 +206,10 @@ function changesForEvent(
         targetCompletionVerifications: projection.targetCompletionVerifications,
         targetCompletionVerificationTimeline: projection.targetCompletionVerificationTimeline,
       };
-      if (payload.action === "set" && payload.previousTarget?.targetID !== payload.target?.targetID) {
+      if (
+        payload.action === "set" &&
+        payload.previousTarget?.targetID !== payload.target?.targetID
+      ) {
         changes.targetCompletionVerifications = [];
         changes.targetCompletionVerificationTimeline = [];
       }
@@ -222,9 +228,15 @@ function changesForEvent(
     case SessionEventType.TurnSteerReordered:
       return queueOrderChanges(projection, event.payload as TurnSteerReorderedPayload);
     case SessionEventType.TurnSteerDrained:
-      return queueRemovalChanges(projection, (event.payload as TurnSteerDrainedPayload).pendingInputIds);
+      return queueRemovalChanges(
+        projection,
+        (event.payload as TurnSteerDrainedPayload).pendingInputIds,
+      );
     case SessionEventType.TurnSteerDiscarded:
-      return queueRemovalChanges(projection, (event.payload as TurnSteerDiscardedPayload).pendingInputIds);
+      return queueRemovalChanges(
+        projection,
+        (event.payload as TurnSteerDiscardedPayload).pendingInputIds,
+      );
     case SessionEventType.ToolCallScheduled: {
       const payload = event.payload as ToolCallScheduledPayload;
       return {
@@ -254,9 +266,13 @@ function changesForEvent(
     }
     case SessionEventType.ToolCallError:
       return {
-        activeToolCalls: toolChanges(projection, (event.payload as ToolCallErrorPayload).toolCallId, {
-          status: "failed",
-        }),
+        activeToolCalls: toolChanges(
+          projection,
+          (event.payload as ToolCallErrorPayload).toolCallId,
+          {
+            status: "failed",
+          },
+        ),
       };
     case SessionEventType.ToolBatchComplete: {
       const finished = new Set<string>((event.payload as ToolBatchCompletePayload).toolCallIds);

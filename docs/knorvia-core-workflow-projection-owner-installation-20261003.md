@@ -2,12 +2,12 @@
 
 E branch parallel/material-closure-fast-20261002 / draft PR8, verified published baseline cf1fcca3fa8d4ea3fa1a7f6dc3d9a2ad9607d1c5. Root allocated four whole owners;610 original lines replaced with490 complete author lines. Projection increased127 to130lines; no forced size/novelty credit. No curator source patch.
 
-| Owner | Lines / bytes | Installed SHA256 | Complete archive/full receipt commit before body review |
-|---|---|---|---|
-| get-workflow-run-format.ts |209 /9541|4789202a577547ba4630cfae3301cd40945f845727a327bde8e987467c038d2b|ae332bac (originalf5baf725)|
-| get-workflow-run-roster-output.ts |130 /4491|ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d|31059765|
-| saved-workflows/frontmatter.ts |101 /2912|07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae|6ff650d6 (original31059765)|
-| workflow-script-notes.ts |50 /2133|0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118|31059765|
+| Owner                             | Lines / bytes | Installed SHA256                                                 | Complete archive/full receipt commit before body review |
+| --------------------------------- | ------------- | ---------------------------------------------------------------- | ------------------------------------------------------- |
+| get-workflow-run-format.ts        | 209 /9541     | 4789202a577547ba4630cfae3301cd40945f845727a327bde8e987467c038d2b | ae332bac (originalf5baf725)                             |
+| get-workflow-run-roster-output.ts | 130 /4491     | ca84bc9d35b2a34dab67b73c97056d57eafe96d4f794a1e97bb84e30d288f27d | 31059765                                                |
+| saved-workflows/frontmatter.ts    | 101 /2912     | 07e40701dc696516abcdd669fef3559ecc6a2d0c628fc6970dc0e26e5f6723ae | 6ff650d6 (original31059765)                             |
+| workflow-script-notes.ts          | 50 /2133      | 0394774282cdee22cce658f43c5d80f6bdee2587b00da1fcb874fed6c7751118 | 31059765                                                |
 
 Paths under apps/cli/packages/core/src/tool/handlers. Exact full sources/cumulative receipts at docs/evidence/core-workflow-projection-owner-packet-20261003/{format-v2,projection,frontmatter-v2,notes}. Cumulative full receipt SHAs respectively4a51e707b0c09649669ab3669975049116825dc774bc4f2dfbd00eaa420d6663,1653c695c45b49e7388c408fd2b374b9894b6c70dcde0495b6594d6d548691b0,0b619f7957d4002397fa28eb08a428bca330add22fa98d5d30a6880a884658a1,25c5241d88d6a4ad5684e18786a4d46821199be4aa163061f91ba29714b0ca28. Detached receipt selfhash qualifications retained; complete I/O counts in each receipt, not claimed OS audit.
 

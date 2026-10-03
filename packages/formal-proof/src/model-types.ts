@@ -66,4 +66,3 @@ export interface ModelProfile {
   readonly label: string;
   readonly context: ProductContext;
 }
-

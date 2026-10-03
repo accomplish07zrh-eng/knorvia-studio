@@ -26,10 +26,10 @@ The available history contains one remote-planner blob and one remote preparatio
 
 The two unavailable legacy Windows archives appear as checksum-table entries. No matching archive path occurs in the available tracked-file history. Their declared digests are:
 
-| Legacy release / target | Declared SHA-256 |
-| --- | --- |
+| Legacy release / target    | Declared SHA-256                                                   |
+| -------------------------- | ------------------------------------------------------------------ |
 | `v13.0.0-10 / win32-arm64` | `6c12d2c95073a4b981e5706981f42327b6359fc4cd7449ebd11f6769768dea97` |
-| `v13.0.0-10 / win32-x64` | `7b35b95cf3d7f92d8fe087006899617b1b5a6dac4bbed5d4f6ace6f0934799dc` |
+| `v13.0.0-10 / win32-x64`   | `7b35b95cf3d7f92d8fe087006899617b1b5a6dac4bbed5d4f6ace6f0934799dc` |
 
 Windows remains part of the product: the release specification and documents declare installer/portable delivery, and the standalone CLI target manifest includes Windows arm64 and x64. Desktop packaging and the standalone CLI asset collector use the current native-search plan, selecting the checked-in Windows ripgrep **14.1.1** archives. Both executables remain bound to Rust `6a6eaca656978778f7c1c750ee0c3db87f8bffb2` by the previous evidence. Its exact notice remains missing.
 

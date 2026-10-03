@@ -2,11 +2,11 @@
 
 E completed compact/policy.ts, compact/microcompact.ts and runtime/helpers/compact-selection.ts on the same draft PR #8. Installed bytes match each complete frozen author output with no integration edit or extra helper. The source total is720 lines, down141 from the three predecessors; no caller, persistence method or previous accepted owner changed.
 
-| Owner | Lines | Bytes | SHA-256 |
-| --- | ---: | ---: | --- |
-| policy.ts | 154 | 5,600 | `7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03` |
-| microcompact.ts v2 | 251 | 8,400 | `3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64` |
-| compact-selection.ts v2 | 315 | 11,784 | `c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36` |
+| Owner                   | Lines |  Bytes | SHA-256                                                            |
+| ----------------------- | ----: | -----: | ------------------------------------------------------------------ |
+| policy.ts               |   154 |  5,600 | `7bd9da26bae12a3af0001377ac9cd003ddb1efa5db776c9768ad805760bb6e03` |
+| microcompact.ts v2      |   251 |  8,400 | `3b43680fc526664b8797b8a92dd7f203fd50cc3a2d52a2d50e6193b4a72c9f64` |
+| compact-selection.ts v2 |   315 | 11,784 | `c939521fa0318847689ba6104a24bbbad058fd980abbe290cac56e5d41015d36` |
 
 ## Inputs and author boundaries
 
@@ -24,13 +24,13 @@ Separate [clock](evidence/core-compaction-author-packet-20261003/microcompact/cl
 
 Receipt bindings:
 
-| Receipt | Bytes | SHA-256 |
-| --- | ---: | --- |
-| Policy | 5,301 | `b303d9068040c5773a9154e248880858430798fcdbcccc6a6d090d33947a6c1b` |
+| Receipt         | Bytes | SHA-256                                                            |
+| --------------- | ----: | ------------------------------------------------------------------ |
+| Policy          | 5,301 | `b303d9068040c5773a9154e248880858430798fcdbcccc6a6d090d33947a6c1b` |
 | Microcompact v1 | 3,570 | `ab6945e48a6f1192f0759aadff7e95a3e00f6d495190b664922df9810daf6a08` |
 | Microcompact v2 | 6,011 | `0b6ce3baca040a89924e36b69dad223ed5540991a428977d0c10bf056b12a31a` |
-| Selection v1 | 4,952 | `58d3856aef1454963e40472e7bf3c0088260620b10901ac0715f30bf128198d4` |
-| Selection v2 | 8,690 | `9c985d4395de306d333f48f69f99a0fb6669f2cd59122c8f9a6b067e7ac5b7fa` |
+| Selection v1    | 4,952 | `58d3856aef1454963e40472e7bf3c0088260620b10901ac0715f30bf128198d4` |
+| Selection v2    | 8,690 | `9c985d4395de306d333f48f69f99a0fb6669f2cd59122c8f9a6b067e7ac5b7fa` |
 
 All original/current input, source and independent receipt byte bindings were checked. [Frozen evidence](evidence/core-compaction-author-packet-20261003/) remains versioned; [installed descendant bindings](evidence/core-compaction-integration-20261003/bindings.json) are separate from author receipts.
 

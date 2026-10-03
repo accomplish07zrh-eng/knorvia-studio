@@ -111,6 +111,7 @@ Only after exhausting PATH evaluate options.homeDir ?? homedir(), then check
 fallbacks in this exact order (using same checker):
 
 darwin:
+
 1. /usr/local/bin/docker
 2. /opt/homebrew/bin/docker
 3. /Applications/OrbStack.app/Contents/MacOS/xbin/docker
@@ -162,7 +163,7 @@ trim, split on runs of at least TWO whitespace characters (/\s{2,}/), trim parts
 remove empty parts; fewer than 3 parts -> skip. Last part parsed with
 Number.parseInt(token,10); non-finite -> skip. Second-last part is state (unchanged).
 Join all prior parts with a SINGLE space and trim to obtain name token; isDefault
-iff token starts '*'. Remove initial '*' and following whitespace, trim name;
+iff token starts '_'. Remove initial '_' and following whitespace, trim name;
 empty name -> skip. version = parsed integer if exactly1 or2, else null. Numeric
 prefixes such as '2extra' are accepted as2; unknown version integers still produce
 a row with version null. Header lines normally skip through non-numeric version.

@@ -53,7 +53,7 @@ export function deriveWorkflowActors(run: WorkflowRunState): WorkflowRunState {
     let status: WorkflowRunActor["status"] = "completed";
     if (live) {
       if (flags & 4) status = "running";
-      else if ((flags & 2) || !(flags & 1)) status = "waiting";
+      else if (flags & 2 || !(flags & 1)) status = "waiting";
     }
     return status === actor.status ? actor : { ...actor, status };
   });
@@ -68,7 +68,10 @@ export function projectWorkflowActor(
   const ref = workflowReference(payload.actor);
   if (!ref) return run;
   const name = workflowText(payload.name)?.slice(0, WORKFLOW_RUNS_LIMITS.maxActorNameLength);
-  const phaseName = workflowText(payload.phaseName)?.slice(0, WORKFLOW_RUNS_LIMITS.maxPhaseNameLength);
+  const phaseName = workflowText(payload.phaseName)?.slice(
+    0,
+    WORKFLOW_RUNS_LIMITS.maxPhaseNameLength,
+  );
   const actor: WorkflowRunActor = {
     siteId: ref.siteId,
     ordinal: ref.ordinal,
@@ -107,9 +110,11 @@ export function projectWorkflowNode(
   );
   const previous = table.lookup(ref);
   const actor = workflowReference(payload.actor);
-  const kind = payload.kind === "ask" || payload.kind === "world-read" ? payload.kind : previous?.kind;
+  const kind =
+    payload.kind === "ask" || payload.kind === "world-read" ? payload.kind : previous?.kind;
   const phaseName =
-    workflowText(payload.phaseName)?.slice(0, WORKFLOW_RUNS_LIMITS.maxPhaseNameLength) ?? previous?.phaseName;
+    workflowText(payload.phaseName)?.slice(0, WORKFLOW_RUNS_LIMITS.maxPhaseNameLength) ??
+    previous?.phaseName;
   const node: WorkflowRunNode = {
     siteId: ref.siteId,
     ordinal: ref.ordinal,
@@ -128,7 +133,8 @@ export function projectWorkflowNode(
     ...carryNodeProgress(eventType, payload, previous),
   };
   const result = table.write(node);
-  const firstDispatch = eventType === "node-dispatched" && (!previous || previous.phase === "queued");
+  const firstDispatch =
+    eventType === "node-dispatched" && (!previous || previous.phase === "queued");
   return deriveWorkflowActors({
     ...run,
     ...(firstDispatch ? { usage: { ...run.usage, nodesUsed: run.usage.nodesUsed + 1 } } : {}),

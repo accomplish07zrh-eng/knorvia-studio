@@ -14,13 +14,13 @@ setStreamClientId(generateMobileDeviceFingerprint());
 
 void startWebApp({
   resolve: () => resolveWebBootstrap({ location: window.location, serverInfo: readWebServerInfo }),
-  connect: url => connectViaWebSocket(url, { onClose: () => {} }),
+  connect: (url) => connectViaWebSocket(url, { onClose: () => {} }),
   createPlatform: createWebPlatform,
-  present: input => {
+  present: (input) => {
     document.title = "Knorvia Studio";
     root.render(createWebWorkspace(input));
   },
-  failure: error => {
+  failure: (error) => {
     document.title = "Knorvia Studio";
     root.render(
       <WebBootstrapErrorScreen message={error instanceof Error ? error.message : String(error)} />,

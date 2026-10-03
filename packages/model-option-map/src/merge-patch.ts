@@ -15,7 +15,12 @@ function clone(value: JsonValue): JsonValue {
   if (!jsonObject(value)) return value;
   const copy = Object.create(null) as Record<string, JsonValue>;
   for (const [key, child] of Object.entries(value)) {
-    Object.defineProperty(copy, key, { value: clone(child), enumerable: true, configurable: true, writable: true });
+    Object.defineProperty(copy, key, {
+      value: clone(child),
+      enumerable: true,
+      configurable: true,
+      writable: true,
+    });
   }
   return copy;
 }
@@ -46,9 +51,16 @@ function mergeInto(result: Record<string, JsonValue>, patch: JsonObject): void {
     for (let index = entries.length - 1; index >= 0; index -= 1) {
       const [key, value] = entries[index]!;
       work.push(() => {
-        if (value === null) { delete target[key]; return; }
-        if (!jsonObject(value)) { target[key] = clone(value); return; }
-        if (!jsonObject(target[key])) target[key] = Object.create(null) as Record<string, JsonValue>;
+        if (value === null) {
+          delete target[key];
+          return;
+        }
+        if (!jsonObject(value)) {
+          target[key] = clone(value);
+          return;
+        }
+        if (!jsonObject(target[key]))
+          target[key] = Object.create(null) as Record<string, JsonValue>;
         descend(target[key] as Record<string, JsonValue>, value);
       });
     }
@@ -57,7 +69,10 @@ function mergeInto(result: Record<string, JsonValue>, patch: JsonObject): void {
   while (work.length) work.pop()!();
 }
 
-export function applyOrderedJsonMergePatches(body: JsonObject, patches: readonly NamedJsonMergePatch[]): JsonObject {
+export function applyOrderedJsonMergePatches(
+  body: JsonObject,
+  patches: readonly NamedJsonMergePatch[],
+): JsonObject {
   const claims = new PatchPathClaims();
   const result = clone(body) as Record<string, JsonValue>;
   for (const { option, patch } of patches) {

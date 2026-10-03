@@ -2,10 +2,10 @@
 
 Branch `parallel/material-closure-fast-20261002`, PR8, verified published baseline `ee44306130f36450d3450618badcd21d05f115b6`. Only two allocated MCP implementation paths change from that baseline. Source+full receipts were archived before body review: original bridge commit `43842d54`, original image `274a61b1`, both whole v2 commit `0f82c0c49783ed406f23de3b004144e8a1b965f7`.
 
-|Owner|Installed lines/bytes|SHA256|
-|---|---|---|
-|Bridge index|271 /10766|20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967|
-|Image normalization|310 /11114|fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1|
+| Owner               | Installed lines/bytes | SHA256                                                           |
+| ------------------- | --------------------- | ---------------------------------------------------------------- |
+| Bridge index        | 271 /10766            | 20d26b9220ee04f14c81a235d7a2cb49d6eaa5a36ec9a3964a766d18f597e967 |
+| Image normalization | 310 /11114            | fd77c8d36592d6ca832ba9b08198c59375196a887a9204ff9dbc20c5e08a16e1 |
 
 Total581 versus822 original lines. `docs/evidence/core-mcp-owner-review-20261003/{bridge-v2,image-v2}-static.json` and retained-data results pass public API/import/frozen-input/full-receipt/output-literal/exported-expression comparisons; no candidate isolated diagnostics. `minimum-v2.json` passes four distinct synthetic groups: visibility and authority registration, frame authority and whole-block stripping, image identity/byte-size/compression, and result/screenshot/artifact/error ordering. Both source digests bind the one proof; groups counted once. `docs/evidence/core-mcp-owner-installation-20261003/installed-static.json` verifies installed bytes without replay,622 unchanged outside bindings including610 other core TS files, and original archives still equal their freeze commits.
 

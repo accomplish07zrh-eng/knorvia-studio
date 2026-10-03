@@ -1,10 +1,18 @@
 import type { RestrictedCelExpression } from "./parser.js";
-import { RestrictedCelError, type JsonObject, type JsonValue, type RestrictedCelValue } from "./types.js";
+import {
+  RestrictedCelError,
+  type JsonObject,
+  type JsonValue,
+  type RestrictedCelValue,
+} from "./types.js";
 
 type Sink = (value: JsonValue) => void;
 type BinaryExpression = Extract<RestrictedCelExpression, { type: "binary" }>;
 
-export function evaluateRestrictedCel(expression: RestrictedCelExpression, input: RestrictedCelValue): JsonValue {
+export function evaluateRestrictedCel(
+  expression: RestrictedCelExpression,
+  input: RestrictedCelValue,
+): JsonValue {
   if (typeof input === "number") safeNumber(input, expression.offset);
   else if (typeof input !== "string") {
     throw new RestrictedCelError("input value must be a string or number", expression.offset);
@@ -14,10 +22,14 @@ export function evaluateRestrictedCel(expression: RestrictedCelExpression, input
   function schedule(node: RestrictedCelExpression, receive: Sink): void {
     tasks.push(() => {
       switch (node.type) {
-        case "literal": receive(node.value); return;
-        case "input": receive(input); return;
+        case "literal":
+          receive(node.value);
+          return;
+        case "input":
+          receive(input);
+          return;
         case "unary":
-          schedule(node.operand, value => {
+          schedule(node.operand, (value) => {
             if (node.operator === "!") receive(!booleanValue(value, node.offset));
             else {
               const number = numericValue(value, node.offset);
@@ -26,22 +38,31 @@ export function evaluateRestrictedCel(expression: RestrictedCelExpression, input
           });
           return;
         case "conditional":
-          schedule(node.condition, value => {
-            schedule(booleanValue(value, node.condition.offset) ? node.whenTrue : node.whenFalse, receive);
+          schedule(node.condition, (value) => {
+            schedule(
+              booleanValue(value, node.condition.offset) ? node.whenTrue : node.whenFalse,
+              receive,
+            );
           });
           return;
         case "binary":
-          schedule(node.left, left => {
+          schedule(node.left, (left) => {
             if (node.operator === "&&" || node.operator === "||") {
               const truth = booleanValue(left, node.left.offset);
-              if ((node.operator === "&&" && !truth) || (node.operator === "||" && truth)) receive(truth);
-              else schedule(node.right, right => receive(booleanValue(right, node.right.offset)));
-            } else schedule(node.right, right => receive(binaryValue(node, left, right)));
+              if ((node.operator === "&&" && !truth) || (node.operator === "||" && truth))
+                receive(truth);
+              else schedule(node.right, (right) => receive(booleanValue(right, node.right.offset)));
+            } else schedule(node.right, (right) => receive(binaryValue(node, left, right)));
           });
           return;
         case "array": {
           const values = node.elements.map(() => undefined as unknown as JsonValue);
-          const visits = node.elements.map((element, index) => () => schedule(element, value => { values[index] = value; }));
+          const visits = node.elements.map(
+            (element, index) => () =>
+              schedule(element, (value) => {
+                values[index] = value;
+              }),
+          );
           tasks.push(() => receive(values));
           for (let index = visits.length - 1; index >= 0; index -= 1) {
             if (index in visits) tasks.push(visits[index]!);
@@ -53,16 +74,25 @@ export function evaluateRestrictedCel(expression: RestrictedCelExpression, input
           tasks.push(() => receive(values));
           for (let index = node.entries.length - 1; index >= 0; index -= 1) {
             const entry = node.entries[index]!;
-            tasks.push(() => schedule(entry.value, value => {
-              Object.defineProperty(values, entry.key, { value, enumerable: true, configurable: true, writable: true });
-            }));
+            tasks.push(() =>
+              schedule(entry.value, (value) => {
+                Object.defineProperty(values, entry.key, {
+                  value,
+                  enumerable: true,
+                  configurable: true,
+                  writable: true,
+                });
+              }),
+            );
           }
           return;
         }
       }
     });
   }
-  schedule(expression, value => { result = value; });
+  schedule(expression, (value) => {
+    result = value;
+  });
   while (tasks.length) tasks.pop()!();
   return sealJson(result);
 }
@@ -75,17 +105,30 @@ function binaryValue(expression: BinaryExpression, left: JsonValue, right: JsonV
   }
   if (["<", "<=", ">", ">="].includes(operator)) {
     if (typeof left !== typeof right || (typeof left !== "number" && typeof left !== "string")) {
-      throw new RestrictedCelError("comparison operands must have the same numeric or string type", expression.offset);
+      throw new RestrictedCelError(
+        "comparison operands must have the same numeric or string type",
+        expression.offset,
+      );
     }
-    const ordering = typeof left === "number" && typeof right === "number"
-      ? left < right ? -1 : left > right ? 1 : 0
-      : String(left) < String(right) ? -1 : String(left) > String(right) ? 1 : 0;
+    const ordering =
+      typeof left === "number" && typeof right === "number"
+        ? left < right
+          ? -1
+          : left > right
+            ? 1
+            : 0
+        : String(left) < String(right)
+          ? -1
+          : String(left) > String(right)
+            ? 1
+            : 0;
     if (operator === "<") return ordering < 0;
     if (operator === "<=") return ordering <= 0;
     if (operator === ">") return ordering > 0;
     return ordering >= 0;
   }
-  if (operator === "+" && typeof left === "string" && typeof right === "string") return left + right;
+  if (operator === "+" && typeof left === "string" && typeof right === "string")
+    return left + right;
   if (!["+", "-", "*", "/", "%"].includes(operator)) {
     throw new RestrictedCelError(`unsupported operator ${operator}`, expression.offset);
   }
@@ -93,11 +136,20 @@ function binaryValue(expression: BinaryExpression, left: JsonValue, right: JsonV
   const b = numericValue(right, expression.right.offset);
   let value: number;
   switch (operator) {
-    case "+": value = a + b; break;
-    case "-": value = a - b; break;
-    case "*": value = a * b; break;
-    case "/": value = a / b; break;
-    default: value = a % b;
+    case "+":
+      value = a + b;
+      break;
+    case "-":
+      value = a - b;
+      break;
+    case "*":
+      value = a * b;
+      break;
+    case "/":
+      value = a / b;
+      break;
+    default:
+      value = a % b;
   }
   return safeNumber(value, expression.offset);
 }
@@ -113,7 +165,8 @@ function numericValue(value: JsonValue, offset: number): number {
 }
 
 function safeNumber(value: number, offset: number): number {
-  if (Number.isFinite(value) && (!Number.isInteger(value) || Number.isSafeInteger(value))) return value;
+  if (Number.isFinite(value) && (!Number.isInteger(value) || Number.isSafeInteger(value)))
+    return value;
   throw new RestrictedCelError("numeric result is not JSON-safe", offset);
 }
 
@@ -148,7 +201,9 @@ function sealJson(value: JsonValue): JsonValue {
   const tasks: (() => void)[] = [];
   function visit(entry: JsonValue): void {
     if (!Array.isArray(entry) && !jsonObject(entry)) return;
-    tasks.push(() => { Object.freeze(entry); });
+    tasks.push(() => {
+      Object.freeze(entry);
+    });
     const children = Array.isArray(entry) ? Array.from(entry) : Object.values(entry);
     for (let index = children.length - 1; index >= 0; index -= 1) {
       tasks.push(() => visit(children[index]!));

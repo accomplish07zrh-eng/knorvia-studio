@@ -14,10 +14,10 @@ A fresh native author `/root/collection_planner_packet_author` was created with 
 
 The author froze its complete single-module draft at `2026-10-02T13:44:05.970439Z`. The curator archived the identical bytes at `2026-10-02T13:44:27.418532+00:00` before reading or comparing its body. The author reports no boundary breach or unresolved question. This is an author attestation, not an independently enforced access audit.
 
-| Artifact | Bytes | SHA-256 |
-| --- | ---: | --- |
+| Artifact                                                                                                   |  Bytes | SHA-256                                                            |
+| ---------------------------------------------------------------------------------------------------------- | -----: | ------------------------------------------------------------------ |
 | [Complete owner draft](evidence/collection-planner-author-packet-20261002/draft-collection-planner.ts.txt) | 11,700 | `23403026dd2dadc7cab3221b90f863e6b3762a628b6920a95caeb065c13d5703` |
-| [Exact author record](evidence/collection-planner-author-packet-20261002/author-record.json) | 2,383 | `db0d92b7c8aa66f0aff6b8f1e0d930dc0aff64a047c7026e9f3164b407f60d6c` |
+| [Exact author record](evidence/collection-planner-author-packet-20261002/author-record.json)               |  2,383 | `db0d92b7c8aa66f0aff6b8f1e0d930dc0aff64a047c7026e9f3164b407f60d6c` |
 
 The [curator draft manifest](evidence/collection-planner-author-packet-20261002/curator-draft-manifest.json) binds the exact invocation, output and author record. Inputs remain unchanged at their earlier freeze commit. The draft includes admission in the complete owner, with no separate admission output. No curator edits were applied to author output.
 

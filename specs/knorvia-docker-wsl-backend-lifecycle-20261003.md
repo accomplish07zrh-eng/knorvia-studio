@@ -298,7 +298,7 @@ wslProxy.ts uses net isIP and existing posixShell quotePosixShellArg (unlike
 backend local helper) and global URL. Export functions all pure:
 
 - normalizeWslProxyUrl(value:string):string|null. trim BEFORE try; empty null;
-  scheme regex /^[a-z][a-z\d+.-]*:\/\//iu else prepend http://; try URL,
+  scheme regex /^[a-z][a-z\d+.-]\*:\/\//iu else prepend http://; try URL,
   protocol.length>0 && hostname.length>0 ? url.toString():null; catch null.
 - isLoopbackProxyHostname(hostname:string):boolean. replace /^\[|\]$/gu with '',
   lower; exact localhost/::1 OR isIP==4 and starts '127.'. No '.localhost' suffix.
@@ -307,8 +307,8 @@ backend local helper) and global URL. Export functions all pure:
 - buildWslProxyPortProbeCommand(proxyUrl):string|null. Try URL only, catch null.
   port=url.port||(protocol==='https:'?'443':'80'); /^\d+$/u else null. hostname
   strip edge brackets; IPv6 target re-bracket; script `:</dev/tcp/${target}/${port}`.
-  Return SPACE-joined: 'if command -v timeout >/dev/null 2>&1 &&',
-  `timeout 1 bash -c ${quotePosixShellArg(script)} >/dev/null 2>&1; then`,
+Return SPACE-joined: 'if command -v timeout >/dev/null 2>&1 &&',
+`timeout 1 bash -c ${quotePosixShellArg(script)} >/dev/null 2>&1; then`,
   'printf reachable','else','printf unreachable','fi'. No port range/scheme policy.
 - parseWslProxyPortProbeOutput(output):boolean|undefined trim; exact reachable true,
   unreachable false, others undefined.
@@ -320,9 +320,9 @@ backend local helper) and global URL. Export functions all pure:
 - parseWslHostGatewayOutput(output):string|null. output.trim().split(/\s+/u),
   first accepted token only. Regex /^(route|resolv)=(.+)$/u gives source and raw
   candidate, otherwise source='resolv' and entire token. Strip edge brackets.
-  isIP must4/6; reject ::1 and IPv4 127.*. source!=='resolv' accepts ANY remaining
+  isIP must4/6; reject ::1 and IPv4 127._. source!=='resolv' accepts ANY remaining
   valid IP including public; resolv requires private/linklocal: IPv6 lowercase
-  fc*/fd*/regex /^fe[89ab]/u; IPv4 split('.') map Number, length4 and first10
+  fc_/fd\*/regex /^fe[89ab]/u; IPv4 split('.') map Number, length4 and first10
   OR first192 second168 OR first172 second16..31 OR raw starts169.254.
   Preserve token order, no route re-prioritization/global/private policy change.
 - formatWslProxyForLog(proxyUrl):string. try URL; strip edge brackets from host;

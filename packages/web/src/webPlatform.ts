@@ -18,7 +18,7 @@ function methods<Keys extends readonly string[], Result>(
   names: Keys,
   invoke: () => Result,
 ): Record<Keys[number], () => Result> {
-  return Object.fromEntries(names.map(name => [name, () => invoke()])) as Record<
+  return Object.fromEntries(names.map((name) => [name, () => invoke()])) as Record<
     Keys[number],
     () => Result
   >;
@@ -76,7 +76,9 @@ function browserDeviceId(): string {
     width === undefined ? "" : String(width),
     height === undefined ? "" : String(height),
     depth === undefined ? "" : String(depth),
-  ].filter(Boolean).join("|");
+  ]
+    .filter(Boolean)
+    .join("|");
 }
 
 /** Browser capabilities are compiled from factories; each call receives fresh result data. */
@@ -100,7 +102,10 @@ export function createWebPlatform(): IPlatformService {
         error: "MCP native directory management requires a desktop attachment",
       }),
       migrateLegacyCommonMcp: () => ({
-        servers: {}, totalCount: 0, importedCount: 0, skippedCount: 0,
+        servers: {},
+        totalCount: 0,
+        importedCount: 0,
+        skippedCount: 0,
       }),
       canOpenCommunity: () => false,
       openInFileManager: unavailable,
@@ -111,12 +116,15 @@ export function createWebPlatform(): IPlatformService {
         success: false,
         cookies: { imported: 0, skipped: 0, failed: 0 },
         localStorage: {
-          originsImported: 0, entriesImported: 0, originsSkipped: 0, originsFailed: 0,
+          originsImported: 0,
+          entriesImported: 0,
+          originsSkipped: 0,
+          originsFailed: 0,
         },
         error: "chrome_import_not_supported" as const,
       }),
       clearEmbeddedBrowserData: unavailable,
-      getUpdateState: () => ({ kind: "idle", enabled: false } as const),
+      getUpdateState: () => ({ kind: "idle", enabled: false }) as const,
       getDesktopSessionActivity: () => ({ runningAgentSessionCount: 0 }),
       getDesktopZoomLevel: () => ({ zoomLevel: 0 }),
       getInstalledEditors: () => [],

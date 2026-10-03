@@ -28,7 +28,8 @@ export function compileModelOptionMaps(specs: ModelOptionMapSpecs): CompiledMode
         throw new ModelOptionMapError("reasoningLevel requires an effective value");
       }
       const patches: NamedJsonMergePatch[] = programs.map(([option, program]) => ({
-        option, patch: program.evaluate(values[option]),
+        option,
+        patch: program.evaluate(values[option]),
       }));
       return applyOrderedJsonMergePatches(body, patches);
     },

@@ -28,19 +28,19 @@ Only public exports:
 
 ```typescript
 interface RemoteDeployLockHandle {
-  ownerToken:string;
-  release():Promise<void>;
+  ownerToken: string;
+  release(): Promise<void>;
 }
 interface AcquireRemoteDeployLockOptions {
-  lockDir?:string;
-  ownerToken?:string;
-  acquireTimeoutMs?:number;
-  releaseTimeoutMs?:number;
+  lockDir?: string;
+  ownerToken?: string;
+  acquireTimeoutMs?: number;
+  releaseTimeoutMs?: number;
 }
 async function acquireRemoteDeployLock(
-  backend:IRemoteBackend,
-  options?:AcquireRemoteDeployLockOptions,
-):Promise<RemoteDeployLockHandle>;
+  backend: IRemoteBackend,
+  options?: AcquireRemoteDeployLockOptions,
+): Promise<RemoteDeployLockHandle>;
 ```
 
 No AbortSignal, external cancellation API, queue or extra exposed command builder.

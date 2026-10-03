@@ -5,7 +5,7 @@ Root explicitly allocates apps/cli/packages/adapters/src/skills/index.ts and sca
 index owns constructor disabled/canonical snapshot, per-root pending manifest lookup cache, discover/load dispatch, metadata projection/diagnostics and handle lifetime. scan owns async/sync finite root-plus-one-level filesystem scan, default-follow versus plugin-nofollow lstat/stat admission, retained shared name filter and missing/error boundary. Preserve policies exactly; no new containment/realpath check, grant, trust relaxation, validation or settings write.
 
 Synthetic filesystem/root/path/trust ports → stable priority discovery → finite scan → parse + alias
-                                        → canonical disable → first path identity → sorted metadata
+→ canonical disable → first path identity → sorted metadata
 load → public discovery → name/qualified alias → stat budget → read OR owned handle/read/close
 
 Two fresh Sol/high fork-none authors receive body-free external behavior/public-port packets only, choose private architecture, no predecessor helpers/state/decomposition/bodies. Whole literal drafts/corrections freeze/hash before source-exposed curator inspection; retain full raw drafts, install whole with formatting only, independently bind formatted freezes. Source exposure, shared-filesystem access limits and identical expression/body zero-credit classifications remain explicit. No novelty/MIT/OS-enforced-clean-room claim; all accepted independence/MIT0 until parent review.

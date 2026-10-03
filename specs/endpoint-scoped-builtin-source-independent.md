@@ -43,11 +43,11 @@ dispose is synchronous and idempotent after its first invocation: set disposed t
 
 Dependencies are opaque public collaborators: ProviderSource/ProviderConfigLayerSnapshot canonical types; two retained cache helpers; source constructor/read/onDidChange/dispose; synchronizer constructor/refresh/dispose and its options/result/event types. Body-free declaration views provide exact used signatures. Use their existing public paths, not copied implementations or native IO. No source snapshot parsing, permission repair, protocol/URL validation beyond delegated helpers or second state owner. The complete owner remains within legacy provider-node module (managed:false), keeps existing dependency direction, and changes no architecture policy.
 
-| Public import route | Supplied declaration symbols |
-| --- | --- |
-| `@knorvia/provider` | ProviderConfigLayerSnapshot, ProviderSource (types) |
-| `./builtin-cache-paths.js` | normalizeKnorviaBuiltinEndpointOrigin, resolveKnorviaBuiltinCachePaths |
-| `./builtin-provider-config-source.js` | NodeKnorviaBuiltinProviderConfigSource |
-| `./builtin-remote-synchronizer.js` | KnorviaBuiltinRemoteSynchronizer, KnorviaBuiltinRefreshResult, KnorviaBuiltinRemoteSynchronizerOptions |
+| Public import route                   | Supplied declaration symbols                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `@knorvia/provider`                   | ProviderConfigLayerSnapshot, ProviderSource (types)                                                    |
+| `./builtin-cache-paths.js`            | normalizeKnorviaBuiltinEndpointOrigin, resolveKnorviaBuiltinCachePaths                                 |
+| `./builtin-provider-config-source.js` | NodeKnorviaBuiltinProviderConfigSource                                                                 |
+| `./builtin-remote-synchronizer.js`    | KnorviaBuiltinRemoteSynchronizer, KnorviaBuiltinRefreshResult, KnorviaBuiltinRemoteSynchronizerOptions |
 
 Authorized verification uses only fake sources/synchronizers, synthetic endpoint resolver snapshots and deterministic path ports: lazy construction, coalesced ensure, prime-versus-public read identity, same-path reuse, endpoint switch ordering/reasons, failed prime cleanup, dynamic endpoint callback, disposal while priming and rejection after disposal. Additional exception/receiver checks may use these same fakes. Do not run real endpoint/provider/download/network/config/cache/credential/permissions/native operations, full suites or builds. Candidate/source comparison, AST/target static and later semantic type closure are separate evidence; a frozen candidate is not MIT acceptance. Private accepted history or exact conflicting receipt requires HOLD, not replacement.

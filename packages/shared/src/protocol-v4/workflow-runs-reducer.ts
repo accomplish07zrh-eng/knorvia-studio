@@ -24,7 +24,9 @@ export function reduceWorkflowRunsState(
   const runId = envelope.runId;
   if (!runId || typeof envelope.eventType !== "string") return null;
   const sequence = typeof envelope.sequence === "number" ? envelope.sequence : 0;
-  const payload = workflowRecord(envelope.payload) ? (envelope.payload as Record<string, unknown>) : {};
+  const payload = workflowRecord(envelope.payload)
+    ? (envelope.payload as Record<string, unknown>)
+    : {};
   const prior = previous ?? { revision: 0, runs: [] };
   const existing = prior.runs.find((run) => run.runId === runId);
   const initial: WorkflowRunState = existing ?? {

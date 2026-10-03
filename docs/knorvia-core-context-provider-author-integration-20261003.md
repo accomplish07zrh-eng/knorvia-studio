@@ -2,13 +2,13 @@
 
 E completes the five allocated context/provider owners on draft PR #8. Each installed source is byte-identical to its complete frozen author output. No companion, integration edit or caller change was required. The combined source is764 lines, down121 from885; every file remains below400 lines.
 
-| Owner | Version | Lines | Bytes | SHA-256 |
-| --- | --- | ---: | ---: | --- |
-| context/builder.ts | v1 | 276 | 9,031 | `ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8` |
-| context/sections/request-user-context.ts | v2 | 96 | 2,917 | `3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d` |
-| agent/message-history-usage.ts | v1 | 76 | 2,396 | `9fac6296a442e429b67ec714b3a328bb809add2da7bd842e615fc3e07ee409f1` |
-| runtime/helpers/provider-entry-origins.ts | v1 | 106 | 3,130 | `7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7` |
-| runtime/helpers/provider-mid-conversation-system.ts | v2 | 210 | 5,968 | `d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1` |
+| Owner                                               | Version | Lines | Bytes | SHA-256                                                            |
+| --------------------------------------------------- | ------- | ----: | ----: | ------------------------------------------------------------------ |
+| context/builder.ts                                  | v1      |   276 | 9,031 | `ae1d54d63537b237fb3a346f647efe4dc8b4f4579cb68083bb21156d879fb9e8` |
+| context/sections/request-user-context.ts            | v2      |    96 | 2,917 | `3a3b0192ebfc63455586aee91242bac877b5c988e27f57276685fe2651d68c9d` |
+| agent/message-history-usage.ts                      | v1      |    76 | 2,396 | `9fac6296a442e429b67ec714b3a328bb809add2da7bd842e615fc3e07ee409f1` |
+| runtime/helpers/provider-entry-origins.ts           | v1      |   106 | 3,130 | `7827ad9623770c18921411ca19738f7ddd53fa469aae57441ca4be52df935bf7` |
+| runtime/helpers/provider-mid-conversation-system.ts | v2      |   210 | 5,968 | `d14af5e8c24e5d14074a0646485fd9a7cb365cf72e7d1ef10ece4134b19afbb1` |
 
 ## Scope, frozen inputs and authors
 

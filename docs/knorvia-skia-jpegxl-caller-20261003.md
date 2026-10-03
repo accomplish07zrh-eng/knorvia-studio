@@ -10,13 +10,13 @@
 
 实际减少的未知是：旧证据只知道该 caller 被 build manifest 选择，无法确认 libjxl 返回的 ICC 到 Skia 的边界；现在可在该固定文件中观察以下路径。
 
-| 来源行 | 观察 |
-| --- | --- |
-| 80–87、107–111、160–163 | codec 将 encodedInfo 传给基类；MakeFromStream 订阅并等待 libjxl color-encoding metadata。 |
-| 165–175 | 调用 JxlDecoderGetICCProfileSize，目标为 JXL_COLOR_PROFILE_TARGET_DATA；查询失败令尺寸归零，零尺寸不建立 profile。非零尺寸分配 SkData buffer。 |
-| 177–187 | 同一 DATA 目标的 JxlDecoderGetColorAsICCProfile 写入该 buffer；失败返回空 codec；成功将 buffer 交给 SkCodecs::ColorProfile::MakeICCProfile。 |
-| 191–197 | 将所得 profile 传入 SkEncodedInfo，再传给新建 codec。此 caller 没有另行要求 profile 构造成功。 |
-| 265、333–335 | 像素输出路径查询 colorXform；需要时调用既有 applyColorXform。这是源码调用事实，没有执行解码或色彩转换。 |
+| 来源行                  | 观察                                                                                                                                           |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 80–87、107–111、160–163 | codec 将 encodedInfo 传给基类；MakeFromStream 订阅并等待 libjxl color-encoding metadata。                                                      |
+| 165–175                 | 调用 JxlDecoderGetICCProfileSize，目标为 JXL_COLOR_PROFILE_TARGET_DATA；查询失败令尺寸归零，零尺寸不建立 profile。非零尺寸分配 SkData buffer。 |
+| 177–187                 | 同一 DATA 目标的 JxlDecoderGetColorAsICCProfile 写入该 buffer；失败返回空 codec；成功将 buffer 交给 SkCodecs::ColorProfile::MakeICCProfile。   |
+| 191–197                 | 将所得 profile 传入 SkEncodedInfo，再传给新建 codec。此 caller 没有另行要求 profile 构造成功。                                                 |
+| 265、333–335            | 像素输出路径查询 colorXform；需要时调用既有 applyColorXform。这是源码调用事实，没有执行解码或色彩转换。                                        |
 
 这建立了固定源码中的 ICC **消费/codec 接入路径**。它不证明 profile 构造器保留原始 `cprt` 内容，也不证明 DATA 目标在每个输入上返回带有旧记录Google2019/CC-BY-SA3.0声明的生成 profile。完整 caller 中没有独立 ICC 文件写出调用；这也不能排除下游接口、base/profile 对象或 Knorvia 其他代码保存/导出它。
 

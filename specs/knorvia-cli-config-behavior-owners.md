@@ -4,7 +4,7 @@ Complete substantive owners: config-factory.ts, config-merger.ts, file-config.ad
 
 The factory owns synchronous source composition and metadata. The merger owns pure priority reduction. The file adapter owns load/migration/atomic patch I/O. The project adapter owns discovery projection and blocked hook candidates. No new accepted state, cache, trust grant or alternate write route.
 
-~~~mermaid
+```mermaid
 sequenceDiagram
   participant C as Caller
   participant F as Config factory
@@ -18,7 +18,7 @@ sequenceDiagram
   M-->>F: Patch
   F->>F: MCP override and metadata
   F-->>C: Config port and result
-~~~
+```
 
 Patch order is resolve → read/parse → preserve keys → mkdir → serialize → temp write → rename. Write/rename failures clean up before wrapped errors; directory/serialization failures retain raw identity. Synchronous legacy migration is best effort and does not alter the parsed input passed to retained schema. Project hooks stay blocked and runtime-schema-validated; stdio cwd normalization adds no containment policy.
 

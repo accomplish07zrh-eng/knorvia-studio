@@ -59,10 +59,15 @@ export function projectWorkflowQuestion(
   const question = workflowText(payload.question);
   if (qid === undefined || question === undefined) return run;
   const actor = workflowReference(payload.actor);
-  const actorName = workflowText(payload.actorName)?.slice(0, WORKFLOW_RUNS_LIMITS.maxActorNameLength);
+  const actorName = workflowText(payload.actorName)?.slice(
+    0,
+    WORKFLOW_RUNS_LIMITS.maxActorNameLength,
+  );
   const context = workflowText(payload.context);
   const askedAt =
-    typeof payload.askedAt === "number" && Number.isFinite(payload.askedAt) ? payload.askedAt : undefined;
+    typeof payload.askedAt === "number" && Number.isFinite(payload.askedAt)
+      ? payload.askedAt
+      : undefined;
   const pending: WorkflowRunPendingQuestion = {
     qid,
     ...(actor ? { actorSiteId: actor.siteId, actorOrdinal: actor.ordinal } : {}),

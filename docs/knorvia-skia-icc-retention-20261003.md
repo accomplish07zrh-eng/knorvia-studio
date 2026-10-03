@@ -4,14 +4,14 @@
 
 实际核实的规则：
 
-| 边界 | 源码结论 | 必要限定 |
-| --- | --- | --- |
-| libjxl DATA 选择 | `decode.cc`1902–1906：DATA且XYB时选择 output color encoding，否则选择 metadata color encoding。 | DATA不等于永远选择原始输入ICC。输出 encoding 的完整生成路径未扩展审查。 |
-| libjxl ICC API | `decode.cc`1958–1978：尺寸/状态检查后，完整复制所选 `ICC()` 的 data/size 到调用者buffer。 | 该API没有逐tag过滤或profile重新序列化；若所选vector包含cprt，它随整体字节复制。不能据此证明所有输入都有该tag。 |
-| libjxl重建 | `color_encoding_internal.cc`418–423/528–563：结构化颜色分支调用CreateICC，清除旧ICC并调用MaybeCreateProfile；后者`color_management.cc`396–401写入既有Google2019/CC-BY-SA3.0 cprt。 | 这是一条已绑定的生成分支，不能概括为所有DATA输出或所有输入profile的声明。 |
-| Skia MakeICCProfile成功skcms分支 | [ColorProfile.cpp](https://github.com/google/skia/blob/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecColorProfile.cpp#L62)62–69/170–173：解析成功后，将传入整份SkData交给构造器并保存在fData。 | wrapper没有重建ICC、删除cprt或改写buffer的步骤；条件为skcms分支且parse成功。未审查parser内部或执行其代码。 |
-| Skia原始数据访问/克隆 | [SkCodecPriv.h](https://github.com/google/skia/blob/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecPriv.h#L84)84–86：data()返回fData；ColorProfile.cpp123–126的clone沿用fData。 | 返回保留的数据对象，不在这些路径重新序列化profile。不是Knorvia实际保存/导出的证据。 |
-| parser选择 | ColorProfile.cpp77–87：runtime force-skcms优先，否则编译宏`SK_CODEC_COLOR_PROFILE_PARSE_WITH_RUST`选择Rust或skcms。 | Rust具体实现不在本次3文件范围；不能把skcms观察提升为所有平台/构建的结果。 |
+| 边界                             | 源码结论                                                                                                                                                                                                   | 必要限定                                                                                                       |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| libjxl DATA 选择                 | `decode.cc`1902–1906：DATA且XYB时选择 output color encoding，否则选择 metadata color encoding。                                                                                                            | DATA不等于永远选择原始输入ICC。输出 encoding 的完整生成路径未扩展审查。                                        |
+| libjxl ICC API                   | `decode.cc`1958–1978：尺寸/状态检查后，完整复制所选 `ICC()` 的 data/size 到调用者buffer。                                                                                                                  | 该API没有逐tag过滤或profile重新序列化；若所选vector包含cprt，它随整体字节复制。不能据此证明所有输入都有该tag。 |
+| libjxl重建                       | `color_encoding_internal.cc`418–423/528–563：结构化颜色分支调用CreateICC，清除旧ICC并调用MaybeCreateProfile；后者`color_management.cc`396–401写入既有Google2019/CC-BY-SA3.0 cprt。                         | 这是一条已绑定的生成分支，不能概括为所有DATA输出或所有输入profile的声明。                                      |
+| Skia MakeICCProfile成功skcms分支 | [ColorProfile.cpp](https://github.com/google/skia/blob/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecColorProfile.cpp#L62)62–69/170–173：解析成功后，将传入整份SkData交给构造器并保存在fData。 | wrapper没有重建ICC、删除cprt或改写buffer的步骤；条件为skcms分支且parse成功。未审查parser内部或执行其代码。     |
+| Skia原始数据访问/克隆            | [SkCodecPriv.h](https://github.com/google/skia/blob/fe2718df5f53a681087be6f0539045ca1b4b8c09/src/codec/SkCodecPriv.h#L84)84–86：data()返回fData；ColorProfile.cpp123–126的clone沿用fData。                 | 返回保留的数据对象，不在这些路径重新序列化profile。不是Knorvia实际保存/导出的证据。                            |
+| parser选择                       | ColorProfile.cpp77–87：runtime force-skcms优先，否则编译宏`SK_CODEC_COLOR_PROFILE_PARSE_WITH_RUST`选择Rust或skcms。                                                                                        | Rust具体实现不在本次3文件范围；不能把skcms观察提升为所有平台/构建的结果。                                      |
 
 因此，这一步消除了“MakeICCProfile wrapper是否必然重建/剥离原始ICC”的未知：成功skcms路径明确保留传入的完整数据对象及原始data访问口。若cprt位于libjxl选中的ICC vector，已审查复制/wrapper路径没有把它单独排除。此源码条件结论尚未绑定到Knorvia实际native artifact。
 

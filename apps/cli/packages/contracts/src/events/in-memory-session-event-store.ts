@@ -23,9 +23,10 @@ export class InMemorySessionEventStore implements SessionEventStorePort {
 
   constructor(options: InMemorySessionEventStoreOptions = {}) {
     const retention = options.retention ?? "turn-window";
-    this.createPolicy = typeof retention === "function"
-      ? retention
-      : () => createSessionEventRetentionPolicy(retention);
+    this.createPolicy =
+      typeof retention === "function"
+        ? retention
+        : () => createSessionEventRetentionPolicy(retention);
     this.now = options.now ?? (() => Date.now());
   }
 

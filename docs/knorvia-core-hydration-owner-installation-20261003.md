@@ -2,10 +2,10 @@
 
 Exactly the two root-allocated owners were reconstructed from frozen external-behavior/public-port packets and installed as the complete same-author v2 bytes on PR8, branch `parallel/material-closure-fast-20261002`, from published baseline `f9bd59f6bad64590e6d854ddff62fbebd20a841c`. Origin remains `https://github.com/accomplish07zrh-eng/knorvia-studio.git`. No root/A source was imported.
 
-| Owner | Original → installed lines | Installed SHA-256 | Full v2 receipt SHA-256 |
-|---|---:|---|---|
-| `agent/file-part-hydration.ts` | 181 → 178 | `3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35` | `c2e1d9404ac735cb800e4622fc578de0a6e48a9ef7aff3ccfc682826dfe10811` |
-| `agent/session-history-hydrator.ts` | 589 → 289 | `458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f` | `e72afe57837ef5b0fccc56469ac3281617cf08865083f18862e40a7f50899fa3` |
+| Owner                               | Original → installed lines | Installed SHA-256                                                  | Full v2 receipt SHA-256                                            |
+| ----------------------------------- | -------------------------: | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `agent/file-part-hydration.ts`      |                  181 → 178 | `3dfe9551132e36ea60f33ee8b8dedc08757c8cd19e4882fee33cbf6ba988ea35` | `c2e1d9404ac735cb800e4622fc578de0a6e48a9ef7aff3ccfc682826dfe10811` |
+| `agent/session-history-hydrator.ts` |                  589 → 289 | `458997f92dc55e1ecfed0fc6155fc6676128a0d710c725e13f77479976e9be7f` | `e72afe57837ef5b0fccc56469ac3281617cf08865083f18862e40a7f50899fa3` |
 
 The combined source is 467 lines, down from 770. No added source file, dependency, export, runtime state owner, session write path or model/turn implementation. Supplied MessageHistory remains the sole runtime-history owner. Media recovery retains durable artifact identity instead of implying a current original file path; user projection retains pending shared-context privacy, raw reminder source identity, media grouping and empty attachment envelope. Original branch/compaction policy, formatter, read-state, model/turn and other dependency implementations remain intact.
 

@@ -24,9 +24,8 @@ export class SessionEventJournal {
   }
 
   append(input: SessionEvent, now: () => number): SessionEvent {
-    const sequenceNumber = input.sequenceNumber > 0
-      ? input.sequenceNumber
-      : this.sequenceHighWater + 1;
+    const sequenceNumber =
+      input.sequenceNumber > 0 ? input.sequenceNumber : this.sequenceHighWater + 1;
     this.sequenceHighWater = Math.max(this.sequenceHighWater, sequenceNumber);
     const event = { ...input, sequenceNumber };
     const resident: ResidentEvent = { event };

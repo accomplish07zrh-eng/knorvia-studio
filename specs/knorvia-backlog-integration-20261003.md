@@ -6,14 +6,14 @@
 
 唯一整合分支为 `integration/backlog-20261003`，从 PR #7 的实际最新 head 建立。main 为 `bd0bb014c0974334557fa51814709d0b78f35f1d`。所有输入使用完整 SHA；不信任 PR 描述内较旧的 checkpoint，不强推、不改写源分支，不创建额外云端任务。
 
-| PR | 分支 | 固定 head |
-| --- | --- | --- |
-| #7 | recovery/independent-logging-20260930-0456 | f25b931164ee6287167e965e9da7a7586131b264 |
-| #8 | parallel/material-closure-fast-20261002 | da2aae2e86e83f62ac9b8edd3496b408fcda2139 |
-| #9 | recovery/server-lifecycle-20261002 | 2458655c2644c487bb66967800e000943b9678cf |
-| #10 | independent/settings-lifecycle-20261002 | ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e |
-| #11 | parallel/cli-tools-fast-20261001 | e884311ee74df690cfe36e38d9bbe0eae86c791d |
-| #12 | independent/root-remote-cache-20261003 | b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8 |
+| PR  | 分支                                       | 固定 head                                |
+| --- | ------------------------------------------ | ---------------------------------------- |
+| #7  | recovery/independent-logging-20260930-0456 | f25b931164ee6287167e965e9da7a7586131b264 |
+| #8  | parallel/material-closure-fast-20261002    | da2aae2e86e83f62ac9b8edd3496b408fcda2139 |
+| #9  | recovery/server-lifecycle-20261002         | 2458655c2644c487bb66967800e000943b9678cf |
+| #10 | independent/settings-lifecycle-20261002    | ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e |
+| #11 | parallel/cli-tools-fast-20261001           | e884311ee74df690cfe36e38d9bbe0eae86c791d |
+| #12 | independent/root-remote-cache-20261003     | b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8 |
 
 #9、#10、#12 继承 #7 实际最新 head；#8 从 main 分叉，#11 从 #7 的较早祖先分叉。分别以真正 merge-base 枚举改动，不把较旧分支缺少的后续文件误判为有意删除。使用保留父提交的 merge，不重放已整合提交。发现 head 推进时另记新 SHA 和增量，仍维护此唯一分支。
 
@@ -65,3 +65,15 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 源码阅读确认 shared 的九份边界测试及共用 authority fixture 原来强制 positional source root，根 runner 不传这个参数。保留显式历史/候选 root 模式，并在未提供时用 import.meta.url + fileURLToPath 指向本包当前 src；file-lock 套件指向实际 src/node。authority fixture 的真实编译入口使用本机 resolve，虚拟 authority 端口仍用固定 POSIX 夹具；不更改任何断言/fixture/虚拟端口/生产语义，不扩展到其他路测试。此修复使原永久发现真正运行当前树，不把 standalone probe 的旧通过改写为组合验收。
 
 第三方门禁实际失败于十二个 RPC current-input 摘要。逐项保存旧 input、当前原始/归一摘要、最近 source commit 和现有来源状态，结合已接收 candidate 历史再更新这十二个 current inputs。复制组件的 Microsoft 归属、原导入版本未知说明、原许可与 notice、source registers、reviewRequired、历史输入与权利 HOLD 均不删除或转通过；current input 是当前候选身份而非出版者来源/独立表达/权利证明。之后按模型对齐 current-files，原 review 决定保持；任何 stale/conflict 与未解决义务仍如实让检查失败，不批量授 MIT。首轮失败单独保存。
+
+## 根质量入口与冻结证据完整性
+
+父任务要求原四路处理各自类型与构建错误，整合者只维护根工具、共享和既有整合者模块，等修复 heads 收齐后再统一类型/构建。格式失败按冻结 head 相对共同基线的实际文件归属分配，不能因为 UI/v4 路径相近就覆盖另一任务；native 文件由原任务独占。本阶段只运行新增守卫与改动路径的必要定向验证，不重复根全套。
+
+根 lint 首轮把冻结 API 摘录/合并前草稿当可编译模块，fmt 把原来源证据当可改写文本。保持这些原始字节，并在任何根 lint/fmt 操作前加独立的、失败即阻断的完整性守卫。`licensing/frozen-evidence.json` 是唯一冻结集合与摘要登记，初始绑定完整 `19f6ccf74ba1064ca81d93194b4f25a36030e361` 中 `docs/evidence/**` 与 `licensing/evidence/**` 的 5493 个文件；保存 SHA-256 原字节与大小。根 lint/fmt 在先核验完整集合后把这两个数据目录交由该守卫负责，不忽略生产源码、现行 tests、spec 或顶层说明。根 CI 的来源、类型、lint、格式、架构、CLI 构建、统一回归仍全都必须成功。
+
+守卫拒绝摘要/大小变更、遗失、未登记新文件、重复或越界路径、目录中的 symlink/特殊文件；没有自动补摘要或授权豁免。未来证据新增/修订需记录精确 source head、保留原历史，并显式更新登记后接受复核。`.gitattributes` 对这两个数据目录保留原字节，防止平台换行转换影响固定证据。测试须覆盖篡改、新增、遗失、越界与 symlink，不能只测试正常输出。完整性通过不授予来源/版权/许可，也不消除 review/HOLD/26 项材料义务。
+
+已有 test/spec max-lines 例外补齐实际根 runner 使用的 `.test.mjs`/`.spec.mjs`，保留生产代码行数限制及其余 lint 规则。整合者只对自身 30 个格式失败源路径和未由四路持有的顶层文档/spec 作格式修复，不格式化任何冻结载荷，不更改 UI 常量、存储键、API 或断言。
+
+26 项材料义务另作逐项可执行分类，直接绑定现行 source registers 与 reviewRequired：保留第三方自己的独立许可范围；缺版本版权/来源、二进制链接证据或权利人材料继续 HOLD。npm/素材义务不能当作自有源重写数量，不能以替换格式、移除声明或当前清单一致推导 MIT 可发布。

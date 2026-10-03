@@ -1,6 +1,8 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "ignorePatterns": [
+    "docs/evidence/**",
+    "licensing/evidence/**",
     "licensing/upstream-baseline.json",
     "licensing/current-files.json",
     "licensing/evidence/*.json",

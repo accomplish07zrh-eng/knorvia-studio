@@ -113,8 +113,8 @@ after abort. Preserve gates and their relative placement.
 
 Stale staging janitor is emitted only when options.signal is truthy for local
 file/directory preparation. Parent safely path-quoted. Each pattern's trailing
-'*' is removed if present, remaining prefix shell-quoted, then literal wildcard
-appended. Iterate parent/prefix* expressions; skip nonexistent candidates;
+'_' is removed if present, remaining prefix shell-quoted, then literal wildcard
+appended. Iterate parent/prefix_ expressions; skip nonexistent candidates;
 `find "$candidate" -prune -mtime +0 -exec rm -rf {} + 2>/dev/null || true`.
 Four LF-separated statement groups: 'for candidate in <space-separated candidates>; do',
 'test -e "$candidate" || continue', find statement above, 'done'. Reclaim only
@@ -169,7 +169,7 @@ params.sourceRelativePath,undefined,Boolean(params.forceRefresh)); abort AGAIN;
 then staging=`${CURRENT params.remotePath}.new-${Date.now()}-${randomUUID()}`.
 Log `[remote-assets] uploading ${params.sourceRelativePath} to ${params.remotePath}`;
 parent=posix.dirname(current remotePath). Inside try: optional stale janitor
-pattern posix.basename(current remotePath)+'.new-*', then mkdir parent LF-separated;
+pattern posix.basename(current remotePath)+'.new-\*', then mkdir parent LF-separated;
 exec/wait; upload(local,staging,{signal:CURRENT options.signal}); abort; exec
 current params.executable ? existing executable-replace helper(staging,current
 remotePath) : move helper; wait. Catch if CURRENT signal not aborted, attempt
@@ -190,8 +190,8 @@ Owner suffix Date.now()+'-'+randomUUID() evaluated AFTER archive. Snapshot
 remoteTarPath=current remoteDir+'.tar.gz-'+suffix; remoteExtractDir=current
 remoteDir+'.extract-'+suffix; extractedSource=extract+'/'+basename(localPath).
 Inside try abort again; log uploading source to current remoteDir; compute parent
-and basename current remoteDir; optional janitor for basename+'.tar.gz-*' and
-basename+'.extract-*', mkdir parent; exec/wait; upload(localTar,remoteTar,{signal:
+and basename current remoteDir; optional janitor for basename+'.tar.gz-_' and
+basename+'.extract-_', mkdir parent; exec/wait; upload(localTar,remoteTar,{signal:
 current options.signal}); abort; execute below LF-separated command and wait.
 All variable paths use path-quote helper, move via existing move helper:
 
@@ -365,20 +365,21 @@ Each attempt wrapped parentheses, joined ' || '; checksum belongs INSIDE each
 candidate attempt so mismatch can fallback. Empty URL list emits empty attempts.
 
 Progress wrapper quotes output path and label. Total number finite -> floor,
->0 accepted else null; other types/null/Infinity/NaN null. Printer known total:
-`awk -v label=<shellquoted label> -v bytes="$progress_size" -v total=<total> -v elapsed="$progress_elapsed" 'BEGIN { transferred = bytes / 1048576; total_mb = total / 1048576; speed = transferred / elapsed; percent = bytes / total * 100; if (percent > 100) percent = 100; printf "download progress: [%s] %.1f%% (%.1f/%.1f MB, %.2f MB/s)\n", label, percent, transferred, total_mb, speed; fflush(); }'`
-Printer unknown omits total option, uses BEGIN transferred/speed and printf
-`download progress: [%s] %.1f MB (total unknown, %.2f MB/s)\n`, arguments
-label,transferred,speed, fflush. Generated awk string contains literal backslash-n.
-Progress variable update:
-`if [ -f <output> ]; then progress_size=$(wc -c < <output> 2>/dev/null || printf 0); else progress_size=0; fi; progress_now=$(date +%s); progress_elapsed=$((progress_now - progress_started_at)); if [ "$progress_elapsed" -le 0 ]; then progress_elapsed=1; fi`.
-Progress loop:
-`progress_started_at=$(date +%s); progress_pid=; (last_progress_size=-1; while :; do <update>; if [ "$progress_size" != "$last_progress_size" ]; then <printer>; last_progress_size="$progress_size"; fi; sleep 1; done) & progress_pid=$!`.
-Stop:
-`if [ -n "$progress_pid" ]; then kill "$progress_pid" >/dev/null 2>&1 || true; wait "$progress_pid" 2>/dev/null || true; fi; if [ -f <output> ]; then <update>; <printer>; fi`.
-Full `set +e; <loop>; <attempts>; download_status=$?; set -e; <stop>; test "$download_status" -eq 0`.
-These are required GENERATED SHELL BYTES, not commands to execute. Do not
-change progress formula, PID wait order, traps, punctuation/quoting or policies.
+
+> 0 accepted else null; other types/null/Infinity/NaN null. Printer known total:
+> `awk -v label=<shellquoted label> -v bytes="$progress_size" -v total=<total> -v elapsed="$progress_elapsed" 'BEGIN { transferred = bytes / 1048576; total_mb = total / 1048576; speed = transferred / elapsed; percent = bytes / total * 100; if (percent > 100) percent = 100; printf "download progress: [%s] %.1f%% (%.1f/%.1f MB, %.2f MB/s)\n", label, percent, transferred, total_mb, speed; fflush(); }'`
+> Printer unknown omits total option, uses BEGIN transferred/speed and printf
+> `download progress: [%s] %.1f MB (total unknown, %.2f MB/s)\n`, arguments
+> label,transferred,speed, fflush. Generated awk string contains literal backslash-n.
+> Progress variable update:
+> `if [ -f <output> ]; then progress_size=$(wc -c < <output> 2>/dev/null || printf 0); else progress_size=0; fi; progress_now=$(date +%s); progress_elapsed=$((progress_now - progress_started_at)); if [ "$progress_elapsed" -le 0 ]; then progress_elapsed=1; fi`.
+> Progress loop:
+> `progress_started_at=$(date +%s); progress_pid=; (last_progress_size=-1; while :; do <update>; if [ "$progress_size" != "$last_progress_size" ]; then <printer>; last_progress_size="$progress_size"; fi; sleep 1; done) & progress_pid=$!`.
+> Stop:
+> `if [ -n "$progress_pid" ]; then kill "$progress_pid" >/dev/null 2>&1 || true; wait "$progress_pid" 2>/dev/null || true; fi; if [ -f <output> ]; then <update>; <printer>; fi`.
+> Full `set +e; <loop>; <attempts>; download_status=$?; set -e; <stop>; test "$download_status" -eq 0`.
+> These are required GENERATED SHELL BYTES, not commands to execute. Do not
+> change progress formula, PID wait order, traps, punctuation/quoting or policies.
 
 Progress forwarding: per-stream buffered string; stdout data -> chunk.toString,
 append; split /\r?\n/, retain last fragment, iterate completed lines trim and
@@ -428,14 +429,20 @@ return object in download,tar,sha256 order.
 Export ServerBundleDeployDecision={shouldDeploy:false}|{shouldDeploy:true;reason:string}.
 checkServerBundleRequiredMarkers(backend,nodePath:string,serverPath:string):Promise<...>.
 Required marker array order: skill-sync, mcp-sync, plugin-sync,
-__knorvia_rpc_nested_uint8array_v1, exportMarketplaceSourceArchive,
+\_\_knorvia_rpc_nested_uint8array_v1, exportMarketplaceSourceArchive,
 importMarketplaceSourceArchive. Generated -e script EXACT leading/trailing LF:
 
 ```js
-
 const fs = require("fs");
 const content = fs.readFileSync(process.argv[1], "utf8");
-const missing = ["skill-sync","mcp-sync","plugin-sync","__knorvia_rpc_nested_uint8array_v1","exportMarketplaceSourceArchive","importMarketplaceSourceArchive"].filter((marker) => !content.includes(marker));
+const missing = [
+  "skill-sync",
+  "mcp-sync",
+  "plugin-sync",
+  "__knorvia_rpc_nested_uint8array_v1",
+  "exportMarketplaceSourceArchive",
+  "importMarketplaceSourceArchive",
+].filter((marker) => !content.includes(marker));
 if (missing.length > 0) {
   console.error("missing required server bundle markers: " + missing.join(","));
   process.exit(2);

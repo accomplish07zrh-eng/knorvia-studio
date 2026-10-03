@@ -8,7 +8,7 @@
 
 main 的完整 theme/platform/bootstrap runtime 接入新的包内启动 owner、首屏主题 owner、声明式平台能力 compiler 和展示边界。只通过 @knorvia/client、@knorvia/shared、@knorvia/ui 的既有公共入口消费，不修改 UI/client/server/desktop/shared。
 
-`webThemeSeed.ts` 511-byte 薄入口保留其 API/bytes（SHA-256 b80b467134c7af134b33f1647f0459fdcab204cb5ce71311257f4a0bd6eb3b26）；规范化继续委托 shared 的唯一 normalizeStoredThemePreference，不写第二套 aliases。它仍有原 upstream-modified/review:null 记录，薄适配/默认值不是新的原创模块。`perfStudioTimeline.tsx` 与独立 perf-studio-timeline.html 是 Knorvia 性能规格的 5edcf479c3f54e3d191812818804df399cbd739a 原功能，源码摘要 52ae56ea81995c705e98f075aa81e615e1b90636e450bd21f39446241fb5ff73 保留；不把 unreviewed/upstream:null 自动当成权利接受，也不重复改写本地合成夹具。它继续有独立 entry、10,000 消息/100 旧消息、revision/listener/append 与 __studioPerfFixture，不走生产 Web bootstrap、模型或真实账户。
+`webThemeSeed.ts` 511-byte 薄入口保留其 API/bytes（SHA-256 b80b467134c7af134b33f1647f0459fdcab204cb5ce71311257f4a0bd6eb3b26）；规范化继续委托 shared 的唯一 normalizeStoredThemePreference，不写第二套 aliases。它仍有原 upstream-modified/review:null 记录，薄适配/默认值不是新的原创模块。`perfStudioTimeline.tsx` 与独立 perf-studio-timeline.html 是 Knorvia 性能规格的 5edcf479c3f54e3d191812818804df399cbd739a 原功能，源码摘要 52ae56ea81995c705e98f075aa81e615e1b90636e450bd21f39446241fb5ff73 保留；不把 unreviewed/upstream:null 自动当成权利接受，也不重复改写本地合成夹具。它继续有独立 entry、10,000 消息/100 旧消息、revision/listener/append 与 \_\_studioPerfFixture，不走生产 Web bootstrap、模型或真实账户。
 
 ## 唯一所有者与顺序
 
@@ -30,7 +30,7 @@ startup execution 只持一个 discriminated current frame；plan/services/platf
 - connectViaWebSocket 的 onClose 空回调、服务身份、连接等待保持；只有成功连接后创建 platform 和挂载。plan/连接/platform/render 错误进原 error screen，Error.message 或 String(error)，title Knorvia Studio、navigator.language 的原中英文选择、原文案/classes/DOM/重试 reload；不补第二错误边界、自动重试或吞未知错误。
 - 成功 JSX 保持 AppErrorBoundary → KnorviaIntlProvider(setting/broadcast) → Root，同一 services/platform 与 initial workspace identity/path/task/restore/open 字段。preferDirectoryBrowser:true、supportsEmbeddedBrowser:false、allowRemoteWorkspace:false，全部布局/业务 UI 由原组件呈现。
 - 平台所有现有 method names/optional method 的存在性、同步或 Promise 返回、固定结果/错误/空数组/null、新对象身份和空 disposer 行为保持；typed capability compiler 只生成本来存在的无宿主结果，不接入 Electron、主目录、凭据、OS 文件/通知授权或 updater。临时附件仍 reject，connectRemote 仍 unsupported with kind，MCP/chrome import/文件管理/编辑器/截图/窗口/更新/telemetry 的固定边界不变。不得用 any、stub business service、改公共签名、增加 capability 或放松权限来通过检查。
-- openExternal 仍 window.open(_blank,noopener,noreferrer)。通知仍 focus 时不做、API缺失/未 granted 不做、不请求授权；在 try 内构造 silent notification 再调用原声音 helper，同步错误仍忽略。getDeviceId 在调用时读取同一平台/screen物理属性，undefined→空、filter(Boolean).join('|')，不持久化或引入用户信息。
+- openExternal 仍 window.open(\_blank,noopener,noreferrer)。通知仍 focus 时不做、API缺失/未 granted 不做、不请求授权；在 try 内构造 silent notification 再调用原声音 helper，同步错误仍忽略。getDeviceId 在调用时读取同一平台/screen物理属性，undefined→空、filter(Boolean).join('|')，不持久化或引入用户信息。
 
 ## 后续统一验收
 

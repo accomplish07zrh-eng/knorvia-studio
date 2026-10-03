@@ -4,10 +4,10 @@ E installed its exact frozen planner-expansion v2 and collection-planner v2 arti
 
 ## Separate source bindings
 
-| Owner | Installed bytes | Installed SHA-256 | Frozen draft |
-| --- | ---: | --- | --- |
-| planner-expansion.ts | 5,249 | `fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73` | [expansion v2](evidence/planner-expansion-author-packet-20261002/v2/draft-planner-expansion-v2.ts.txt) |
-| collection-planner.ts | 11,883 | `32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af` | [collection v2](evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt) |
+| Owner                 | Installed bytes | Installed SHA-256                                                  | Frozen draft                                                                                              |
+| --------------------- | --------------: | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| planner-expansion.ts  |           5,249 | `fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73` | [expansion v2](evidence/planner-expansion-author-packet-20261002/v2/draft-planner-expansion-v2.ts.txt)    |
+| collection-planner.ts |          11,883 | `32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af` | [collection v2](evidence/collection-planner-author-packet-20261002/v2/draft-collection-planner-v2.ts.txt) |
 
 Each installed file is byte-identical to its own frozen draft. The [integration bindings](evidence/planner-owner-integration-20261002/bindings.json) separately identify both predecessor digests and descendant digests. There are **no integration corrections**. The historical drafts, packets, receipts and comparison results remain unchanged. Any future correction must be bound separately rather than assigned either frozen hash.
 

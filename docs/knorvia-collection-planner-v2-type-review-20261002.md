@@ -14,10 +14,10 @@ Both final programs produced **zero diagnostics** and emitted successfully. An e
 
 ## Complete public declaration
 
-| Declaration | Bytes | SHA-256 |
-| --- | ---: | --- |
-| Corrected predecessor | 560 | `ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08` |
-| Exact v2 | 560 | `a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406` |
+| Declaration           | Bytes | SHA-256                                                            |
+| --------------------- | ----: | ------------------------------------------------------------------ |
+| Corrected predecessor |   560 | `ef74e17fff17b01a4fa8e5e8aaccddd339a5744e0bf4f81105e9da8f42edff08` |
+| Exact v2              |   560 | `a135865f012eb9d991a96a432a4625791bba081cae45e839cd67ee19eeb84406` |
 
 The corrected declaration is byte-identical to the declaration already frozen in `workflow-collection-planner-baseline.json`. V2 differs only in the equivalent spelling `import { type WorkflowRunSnapshot }` versus `import type { WorkflowRunSnapshot }`. After that single import normalization, the **entire files** match: three imported type bindings, the sole exported function, all four parameters, its Promise/result fields and the map comment. No property/union/parameter reordering or selective signature comparison is used. The private attempt result interface does not leak into the public declaration.
 

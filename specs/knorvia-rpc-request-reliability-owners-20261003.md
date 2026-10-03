@@ -1,4 +1,5 @@
 # RPC request/event/reliability owner reconstruction
+
 Scope: packages/rpc/src/channelClient.ts, channelServer.ts and persistent-protocol.ts. Existing file records have inherited/mixed-origin classifications and no accepted-original decision was found. Retain public declaration/facade modules, foundation, serializer and transport ports. No global provenance decision is changed.
 Client owns request ids, pending promise rejection and event subscription lifetimes. Server owns registered channels, active cancellation/event resources and unknown-channel queues. PersistentProtocol owns frame parsing, acknowledgement/replay queue, saturation edges and timers for one protocol session.
 

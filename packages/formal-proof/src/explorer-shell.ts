@@ -112,5 +112,4 @@ export function explorerShell(): string {
     </section>
   </main>
 `;
-
 }

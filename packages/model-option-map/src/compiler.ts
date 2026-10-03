@@ -2,8 +2,12 @@ import { evaluateRestrictedCel } from "./evaluator.js";
 import { parseRestrictedCel, type RestrictedCelExpression } from "./parser.js";
 import { tokenizeRestrictedCel } from "./tokenizer.js";
 import {
-  RestrictedCelError, type JsonObject, type ModelOptionName, type ModelOptionMapProgram,
-  type RestrictedCelProgram, type RestrictedCelValue,
+  RestrictedCelError,
+  type JsonObject,
+  type ModelOptionName,
+  type ModelOptionMapProgram,
+  type RestrictedCelProgram,
+  type RestrictedCelValue,
 } from "./types.js";
 
 interface CompiledSource {
@@ -25,7 +29,10 @@ function sourceEntry(source: string, variableName: ModelOptionName): [string, Co
   return [normalized, entry];
 }
 
-export function compileRestrictedCel(source: string, variableName: ModelOptionName): RestrictedCelProgram {
+export function compileRestrictedCel(
+  source: string,
+  variableName: ModelOptionName,
+): RestrictedCelProgram {
   const [normalized, entry] = sourceEntry(source, variableName);
   if (!entry.restricted) {
     entry.restricted = Object.freeze({
@@ -36,7 +43,10 @@ export function compileRestrictedCel(source: string, variableName: ModelOptionNa
   return entry.restricted;
 }
 
-export function compileModelOptionMap(source: string, variableName: ModelOptionName): ModelOptionMapProgram {
+export function compileModelOptionMap(
+  source: string,
+  variableName: ModelOptionName,
+): ModelOptionMapProgram {
   const [normalized, entry] = sourceEntry(source, variableName);
   if (entry.objectMap) return entry.objectMap;
   const pending = [entry.expression];

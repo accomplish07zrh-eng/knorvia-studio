@@ -73,7 +73,10 @@ export function runWithContext<T>(context: TraceContext, fn: () => T): T {
   return ambientTrace.run(context, fn);
 }
 
-export async function runWithContextAsync<T>(context: TraceContext, fn: () => Promise<T>): Promise<T> {
+export async function runWithContextAsync<T>(
+  context: TraceContext,
+  fn: () => Promise<T>,
+): Promise<T> {
   return ambientTrace.run(context, fn);
 }
 

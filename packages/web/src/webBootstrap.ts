@@ -16,7 +16,7 @@ export interface WebBootstrapSource {
 
 export async function readWebServerInfo(): Promise<Partial<ServerRemoteInfo> | undefined> {
   const response = await fetch("/api/server-info", { cache: "no-store" });
-  return response.ok ? (await response.json()) as Partial<ServerRemoteInfo> : undefined;
+  return response.ok ? ((await response.json()) as Partial<ServerRemoteInfo>) : undefined;
 }
 
 export async function resolveWebBootstrap(source: WebBootstrapSource): Promise<WebBootstrapResult> {

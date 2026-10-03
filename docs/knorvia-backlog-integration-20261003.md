@@ -8,30 +8,30 @@
 
 main 仍为 `bd0bb014c0974334557fa51814709d0b78f35f1d`。初查、fetch 后及整合后的第二次远端 PR 元数据读取均观察到下列同一组 heads；没有把描述中的旧 checkpoint 当成最新 head。
 
-| PR | 合入的完整 head | 整合 merge commit |
-| --- | --- | --- |
-| [#7](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/7) | f25b931164ee6287167e965e9da7a7586131b264 | 整合分支直接继承此 head |
-| [#9](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9) | 2458655c2644c487bb66967800e000943b9678cf | 802c21320ee9d596911f57fc4751a66b72fc91c1 |
+| PR                                                                   | 合入的完整 head                          | 整合 merge commit                        |
+| -------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| [#7](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/7)   | f25b931164ee6287167e965e9da7a7586131b264 | 整合分支直接继承此 head                  |
+| [#9](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9)   | 2458655c2644c487bb66967800e000943b9678cf | 802c21320ee9d596911f57fc4751a66b72fc91c1 |
 | [#10](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/10) | ea7aa6acf8e9b33c7446aa25a8ca16687e2f330e | 92e59d9483de34bbef2b95d3575040bf8397a3bc |
 | [#12](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/12) | b84ab3a992f1df751661f6b64ee5f7e25d0ebdb8 | 0ee78c1368903bce38b745b56753f771bc8870e8 |
 | [#11](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/11) | e884311ee74df690cfe36e38d9bbe0eae86c791d | abe5974ec1f0aa29025b5592109f7570cd4e6bb3 |
-| [#8](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/8) | da2aae2e86e83f62ac9b8edd3496b408fcda2139 | e2fa9bc6b7e4006d583837539a81f73b3806378e |
+| [#8](https://github.com/accomplish07zrh-eng/knorvia-studio/pull/8)   | da2aae2e86e83f62ac9b8edd3496b408fcda2139 | e2fa9bc6b7e4006d583837539a81f73b3806378e |
 
 六个输入提交全部保留为当前整合树的 Git 祖先。#8、#9、#10、#12 各自真正 merge-base 之后的改动路径分别为 1,721 / 2,068 / 453 / 555，最终 mode/blob 与各自 head 全部相同。#11 的 2,221 个改动路径中 2,213 个完全相同，另外八个为下面明确的版本选择。#7 的 731 个改动路径中 726 个相同，另一个采用 E 新 context owner、四个由 #10 的后续 service owner 更新。数字只用于 Git 路径账目，不计为功能覆盖、独立实现或权利进展。
 
 ## 九处冲突的选择与保留
 
-| 路径（core src/test 前缀省略） | 当前来源 | 依据 |
-| --- | --- | --- |
-| src/tool/handlers/read-text-orchestration.ts | #7 f25b9311 | 保留同步 generator；只在 stat/range IO 等待，避免完成 metadata 后扩大取消窗口 |
-| src/tool/handlers/read.ts | #7 f25b9311 | 入口消费同一同步 plan，保留原完成与失败时序 |
-| test/read-orchestration-consumer-fixture.ts | #7 f25b9311 | 保留不可变 golden 与按真实 root 校正的 UTF-8 字节预期 |
-| test/read-orchestration-consumers.test.ts | #7 f25b9311 | 保留 POSIX/Windows/Unicode 和实际 PDF executor 回归，不削弱原 oracle |
-| specs/knorvia-read-orchestration.md（仓库根） | #7 f25b9311 | 保留完成时序修复和 PDF fixture 跨平台修复规格 |
-| src/workflow/scheduler/collection-planner.ts | #8 da2aae2e | 后续完整 E v2 owner；SHA256 32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af |
-| src/workflow/scheduler/node-runner.ts | #8 da2aae2e | 后续完整 E owner；SHA256 61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27 |
-| src/workflow/scheduler/planner-expansion.ts | #8 da2aae2e | 后续完整 E v2 owner；SHA256 fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73 |
-| src/session-context/read-session-context.ts | #8 da2aae2e | b5152875 安装的完整 E 原稿；SHA256 a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca |
+| 路径（core src/test 前缀省略）                | 当前来源    | 依据                                                                                                |
+| --------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------- |
+| src/tool/handlers/read-text-orchestration.ts  | #7 f25b9311 | 保留同步 generator；只在 stat/range IO 等待，避免完成 metadata 后扩大取消窗口                       |
+| src/tool/handlers/read.ts                     | #7 f25b9311 | 入口消费同一同步 plan，保留原完成与失败时序                                                         |
+| test/read-orchestration-consumer-fixture.ts   | #7 f25b9311 | 保留不可变 golden 与按真实 root 校正的 UTF-8 字节预期                                               |
+| test/read-orchestration-consumers.test.ts     | #7 f25b9311 | 保留 POSIX/Windows/Unicode 和实际 PDF executor 回归，不削弱原 oracle                                |
+| specs/knorvia-read-orchestration.md（仓库根） | #7 f25b9311 | 保留完成时序修复和 PDF fixture 跨平台修复规格                                                       |
+| src/workflow/scheduler/collection-planner.ts  | #8 da2aae2e | 后续完整 E v2 owner；SHA256 32ffd9142ec2d13db5589fa520222c68dbd15e8da2d248efb3b72377620de3af        |
+| src/workflow/scheduler/node-runner.ts         | #8 da2aae2e | 后续完整 E owner；SHA256 61e6c3ea17edf02e748469e21dd8d2e3f22b26ead2f3a27169a30c197252dc27           |
+| src/workflow/scheduler/planner-expansion.ts   | #8 da2aae2e | 后续完整 E v2 owner；SHA256 fa55221d297c30564d8960ba3e91e50fb6e9de14e7c915025f5dbcc4c736fb73        |
+| src/session-context/read-session-context.ts   | #8 da2aae2e | b5152875 安装的完整 E 原稿；SHA256 a6de1f543bef8d6403f6f9d744fddaa815b5c75382a1c70873baa424646368ca |
 
 选择的是来源 head 的整文件，不是拼接两套 owner。E 安装、冻结稿、source-exposed curator、共享 executor 的 instruction-only 限制和原失败记录继续保留。旧 A scheduler receipts/selectors 仍绑定旧 source，不能用来声称当前 E + A consumer 组合已通过。`collection-planner-admission.ts`、`node-runner-outcome.ts` 和 `session-context/material-selection.ts` 保留，但当前选定整文件不使用这些旧 helper；此阶段不为复用旧 selector 恢复调用。真实消费者/最终 selector 由后续统一验收处理。
 
@@ -47,12 +47,12 @@ main 仍为 `bd0bb014c0974334557fa51814709d0b78f35f1d`。初查、fetch 后及�
 
 下面是供父任务创建并固定复用的编辑边界建议，不是全目录来源归属或自动许可授予。每一路首先按当前 source/receipt 保留已完成成果，只挑仍需完整替换的 owner；不得重复已接受实现以制造计数。跨边界依赖保持只读，通过父任务给整合者递交接口需求。
 
-| 固定模块 | 可编辑的生产文件归属 | 首轮重点与排除 |
-| --- | --- | --- |
-| UI、workspace 与群任务呈现 | packages/ui/**；packages/web/**；packages/desktop/src/renderer/** | 现有布局/黑白/玻璃/动画/快捷键/中英文/移动端、store/hooks 与 optimistic projection；优先 workspace-grouped-tasks、workspace-file-tree、studio/groups 及 v4 consumer。保留 #7/B5 成果；不操作 main/preload/services/RPC/协议。desktop renderer 的数据库启动接口变化交整合者协调。 |
-| services、session 与任务索引 | packages/services/**；packages/provider/** | session、agent、task、creation/studio-runtime 的单一 owner 与数据兼容；保留 #10 后续 owners。agent-session/sessionService.ts 和 agent/taskIndexSyncer.ts 先做 parent accepted/historical 精确绑定与 HOLD 对账，解除前不安装新候选。不得改 CLI runtime、RPC、desktop native 或全局来源登记。 |
-| CLI 内核、工具与工作流 | apps/cli/**，排除 apps/cli/packages/contracts/** | runtime/turn、agent、tool、workflow/scheduler、context 的剩余完整 owner 与调用入口；保留 A/E 当前整合选择、CommandInbox、权限/trace 和错误时序。tool-perf 已有保留决定，不按旧询问强制重写。公共 schema、provider native、desktop/transport/service 文件只读。 |
-| desktop native 与传输 | packages/desktop/src/** 排除 renderer/**；packages/desktop 的其他文件；packages/server/**；packages/server-cli/**；packages/rpc/**；packages/client/**；packages/provider-node/**；packages/cua/** | Main/Host/IPC、远控、stdio/RPC、连接/取消/lease 与 native 桥接；可从 E 已备 complete channelClient packet 对账后推进，保留 #9/#12 已装 owners。不接管服务业务状态，不编辑 UI renderer/CLI；平台及反馈流/node-forge 诊断留待最终阶段实际验证。 |
+| 固定模块                     | 可编辑的生产文件归属                                                                                                                                                                               | 首轮重点与排除                                                                                                                                                                                                                                                                              |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI、workspace 与群任务呈现   | packages/ui/**；packages/web/**；packages/desktop/src/renderer/\*\*                                                                                                                                | 现有布局/黑白/玻璃/动画/快捷键/中英文/移动端、store/hooks 与 optimistic projection；优先 workspace-grouped-tasks、workspace-file-tree、studio/groups 及 v4 consumer。保留 #7/B5 成果；不操作 main/preload/services/RPC/协议。desktop renderer 的数据库启动接口变化交整合者协调。            |
+| services、session 与任务索引 | packages/services/**；packages/provider/**                                                                                                                                                         | session、agent、task、creation/studio-runtime 的单一 owner 与数据兼容；保留 #10 后续 owners。agent-session/sessionService.ts 和 agent/taskIndexSyncer.ts 先做 parent accepted/historical 精确绑定与 HOLD 对账，解除前不安装新候选。不得改 CLI runtime、RPC、desktop native 或全局来源登记。 |
+| CLI 内核、工具与工作流       | apps/cli/**，排除 apps/cli/packages/contracts/**                                                                                                                                                   | runtime/turn、agent、tool、workflow/scheduler、context 的剩余完整 owner 与调用入口；保留 A/E 当前整合选择、CommandInbox、权限/trace 和错误时序。tool-perf 已有保留决定，不按旧询问强制重写。公共 schema、provider native、desktop/transport/service 文件只读。                              |
+| desktop native 与传输        | packages/desktop/src/** 排除 renderer/**；packages/desktop 的其他文件；packages/server/**；packages/server-cli/**；packages/rpc/**；packages/client/**；packages/provider-node/**；packages/cua/** | Main/Host/IPC、远控、stdio/RPC、连接/取消/lease 与 native 桥接；可从 E 已备 complete channelClient packet 对账后推进，保留 #9/#12 已装 owners。不接管服务业务状态，不编辑 UI renderer/CLI；平台及反馈流/node-forge 诊断留待最终阶段实际验证。                                               |
 
 各路包内测试/证据随其模块维护，本阶段不运行验证。新根规格使用各自唯一 `specs/knorvia-next-{ui,services,cli,platform}-*` 前缀，新根证据使用 `docs/evidence/backlog-{ui,services,cli,platform}-*/` 前缀，防止共写历史记录。既有跨模块规格如需改动先交整合者协调。
 

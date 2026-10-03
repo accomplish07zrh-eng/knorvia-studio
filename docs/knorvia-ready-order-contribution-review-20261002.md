@@ -6,13 +6,13 @@
 
 Verified this sequence on public branch `parallel/cli-tools-fast-20261001`: freeze `08273a711b8e899dff5d035fc257df048c9ec7dd`, archived author inputs/draft `be9a54dabd291db57bd06360efe63f4dd1e668be`, implementation `0bfa826175e1b77948d8d4bbac6d00aa3db2ef0e`, receipt `f72c514c4daad48620b293a29fe5907cd81ea101`. Review used separate disposable file extracts; materials-branch production files stayed unchanged.
 
-| Bound input | Bytes | SHA-256 |
-| --- | ---: | --- |
-| Candidate `apps/cli/packages/core/src/workflow/scheduler/graph.ts` | 7538 | `dccbfe7c63c8ec3ecdf89d656628ae73cb9bbf6464ae4de4ce07bfeab6a972df` |
-| Exact author function, candidate lines 25–77 | 1470 | `78f6f77c4597457bd66068b11e5f1128dbaca58d6cbc490545dffc94a9b3b556` |
-| Exact author behavior packet | 2985 | `3b54d06c89545c373ad7243d055e3c281ca821edcbb542030181da7a76570704` |
-| Exact author structural type/port declarations | 1035 | `94548251f2982735100efc06c89940e3fc84a6a8d71ca55b1544ac9bd7025312` |
-| Exact publisher `graph.ts` | 7572 | `4dd263875b5caa2c3e54567c51443b0022f1db85b0719c1ba8323d249e3076a1` |
+| Bound input                                                        | Bytes | SHA-256                                                            |
+| ------------------------------------------------------------------ | ----: | ------------------------------------------------------------------ |
+| Candidate `apps/cli/packages/core/src/workflow/scheduler/graph.ts` |  7538 | `dccbfe7c63c8ec3ecdf89d656628ae73cb9bbf6464ae4de4ce07bfeab6a972df` |
+| Exact author function, candidate lines 25–77                       |  1470 | `78f6f77c4597457bd66068b11e5f1128dbaca58d6cbc490545dffc94a9b3b556` |
+| Exact author behavior packet                                       |  2985 | `3b54d06c89545c373ad7243d055e3c281ca821edcbb542030181da7a76570704` |
+| Exact author structural type/port declarations                     |  1035 | `94548251f2982735100efc06c89940e3fc84a6a8d71ca55b1544ac9bd7025312` |
+| Exact publisher `graph.ts`                                         |  7572 | `4dd263875b5caa2c3e54567c51443b0022f1db85b0719c1ba8323d249e3076a1` |
 
 Publisher is [zai-org/ZCode@872ad960de7ec172591f7e1952f7849229f94521b, scheduler/graph.ts](https://github.com/zai-org/ZCode/blob/872ad960de7ec172591f7e1952f7849229f94521b/apps/zcode-cli/packages/core/src/workflow/scheduler/graph.ts), blob `477886feafd8b52cd1586a7d8f625d1f9a1684f1`. One HTTP 200 retrieval independently matched inventory blob/digest; no retries. Its selected function exactly equals the frozen local predecessor function: 1499 bytes, SHA-256 `cf948cc4e632312477e061260c60034da59226808dee27b728dec19608caf720`. Do not infer equality of the surrounding publisher and local files; they differ.
 
