@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "scope": "Tracked package manifests and lock reference membership only; not a bundle SBOM or complete dependency closure",
+  "trackedPackageManifests": 35,
+  "lockPaths": [
+    "apps/cli/pnpm-lock.yaml",
+    "pnpm-lock.yaml"
+  ],
+  "items": [
+    {
+      "name": "@arms/rum-browser",
+      "manifestReferences": [],
+      "lockReferences": []
+    },
+    {
+      "name": "@arms/rum-core",
+      "manifestReferences": [],
+      "lockReferences": []
+    },
+    {
+      "name": "@arms/rum-electron",
+      "manifestReferences": [],
+      "lockReferences": []
+    },
+    {
+      "name": "@hono/node-ws",
+      "manifestReferences": [
+        {
+          "path": "packages/server-cli/package.json",
+          "scope": "dependencies",
+          "requestedVersion": "^1.3.0"
+        },
+        {
+          "path": "packages/server/package.json",
+          "scope": "dependencies",
+          "requestedVersion": "^1.3.0"
+        }
+      ],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "@open-draft/deferred-promise",
+      "manifestReferences": [],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "ansi-to-react",
+      "manifestReferences": [
+        {
+          "path": "packages/ui/package.json",
+          "scope": "dependencies",
+          "requestedVersion": "^6.2.6"
+        }
+      ],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "boolbase",
+      "manifestReferences": [],
+      "lockReferences": [
+        "apps/cli/pnpm-lock.yaml",
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "is-node-process",
+      "manifestReferences": [],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "lazy-val",
+      "manifestReferences": [],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "quickjs-wasi",
+      "manifestReferences": [],
+      "lockReferences": [
+        "apps/cli/pnpm-lock.yaml",
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "react-remove-scroll-bar",
+      "manifestReferences": [],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "semaphore",
+      "manifestReferences": [],
+      "lockReferences": [
+        "apps/cli/pnpm-lock.yaml",
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "strict-event-emitter",
+      "manifestReferences": [],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "unsafe-pointer",
+      "manifestReferences": [],
+      "lockReferences": [
+        "apps/cli/pnpm-lock.yaml",
+        "pnpm-lock.yaml"
+      ]
+    },
+    {
+      "name": "@napi-rs/canvas",
+      "manifestReferences": [],
+      "lockReferences": [
+        "pnpm-lock.yaml"
+      ]
+    }
+  ]
+}

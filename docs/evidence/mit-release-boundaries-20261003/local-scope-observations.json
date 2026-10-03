@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 1,
+  "sourceCheckpoint": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+  "scope": "Selected material registers, tracked source tree membership and exact raw-byte bindings only; not a complete source-expression, rights or product-package audit.",
+  "trackedNodeModulesPaths": [],
+  "trackedReactSkillFileCount": 76,
+  "trackedSelectedNativeArchives": [
+    {
+      "path": "apps/cli/dependencies/native-search/bfs-v4.1.1-1/bfs-v4.1.1-1-aarch64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "696f73eaff50d3c3de8a8ee36746a89693dd6ff0d010b05cd3b4b3eb2a369781",
+      "bytes": 316495
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-aarch64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "01ea803e3fc3b94e796a9376e4d062a5490fe08e5760c6173e72b8f31546a4f3",
+      "bytes": 828067
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "84ff9b227b9aad651be0ac4cf7802a190015bfba3dfa6b015cc7aa89dd8c5c2b",
+      "bytes": 1643357
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v13.0.0-10/ripgrep-v13.0.0-10-aarch64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "de44338ca53677968bdd7403ddc1cf9c735e708f7b63e3b34367f9411010a7db",
+      "bytes": 1461968
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/bfs-v4.1.1-1/bfs-v4.1.1-1-x86_64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "d993d72530749fa777339a7546f03338499abf235e2147d4adcd086641c6376f",
+      "bytes": 315387
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-x86_64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "6a2bedd9ccf53a2ac574d2fa498a36dcbe21e957b40442f9493180c6dad4dea9",
+      "bytes": 874564
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "cfedd7993342bc5f90310ce73a00cbf5d3b5237654c9bfc18b383f0e829f3b11",
+      "bytes": 1853971
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v13.0.0-10/ripgrep-v13.0.0-10-x86_64-apple-darwin.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "3b501c05ff9b1d24ae8897dd1c6b5bf842fd12a6f7114264407ac42bc222b25b",
+      "bytes": 1682296
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/bfs-v4.1.1-2/bfs-v4.1.1-2-aarch64-unknown-linux-gnu.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "dabdde935a02f89dd0c48c5cd0ec756a87d300fd5ace85a78e6a9eb51d771118",
+      "bytes": 344219
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-aarch64-unknown-linux-gnu.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "bf3b99c0af41f50c0ec3031b32ab8f67fa95b5581add18fad5163ece978d31ba",
+      "bytes": 1439127
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-unknown-linux-musl.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "98c0371366a9db920ed6c196083e8030511055e5f128b3bde2ca56bbddf85b9a",
+      "bytes": 2002226
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/bfs-v4.1.1-2/bfs-v4.1.1-2-x86_64-unknown-linux-gnu.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "9adf5759000021dd8fcd99670461cc43863f9172fb16f2f9a3e49c700311e7a0",
+      "bytes": 350921
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-x86_64-unknown-linux-gnu.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "13732f50fe63da07f3472f627f611b75359153163d07a0eb01e7c54125ae930e",
+      "bytes": 1490857
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-unknown-linux-musl.tar.gz",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "1154dd91f7b144cee490b91f1ab27ce04f8f01d8876cde2d9c0eff845c8ab012",
+      "bytes": 2287343
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-aarch64-pc-windows-msvc.zip",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "e9de73f1b542105203d586b19b4d57b8ecf2bf780f23e86c66a0fb7f56d51024",
+      "bytes": 896647
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-aarch64-pc-windows-msvc.zip",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "88660d96f822d2e0329e254031068e82028f9c13efcec9b2d78c5a19d3f9ac47",
+      "bytes": 1868214
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ugrep-v7.8.4-1/ugrep-v7.8.4-1-x86_64-pc-windows-msvc.zip",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "7bbd8e56540d2019a343688f1fc0ddb2ff5f0988090c577d2b9d6f4a8a86be21",
+      "bytes": 957259
+    },
+    {
+      "path": "apps/cli/dependencies/native-search/ripgrep-v14.1.1-1/ripgrep-v14.1.1-1-x86_64-pc-windows-msvc.zip",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "ede1d7f533f30d7e2870f77139d0fb9d7591daad5260b80d6a525e0bb5bd440e",
+      "bytes": 2008214
+    }
+  ],
+  "trackedUnresolvedSvgFiles": [
+    {
+      "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "bytes": 1533
+    },
+    {
+      "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "bytes": 2003
+    },
+    {
+      "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "bytes": 1089
+    },
+    {
+      "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "bytes": 1276
+    },
+    {
+      "path": "packages/web/public/material-icons/docx.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+      "bytes": 1533
+    },
+    {
+      "path": "packages/web/public/material-icons/folder.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+      "bytes": 2003
+    },
+    {
+      "path": "packages/web/public/material-icons/pptx.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+      "bytes": 1089
+    },
+    {
+      "path": "packages/web/public/material-icons/xlsx.svg",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+      "bytes": 1276
+    }
+  ],
+  "frozenEvidenceBeforeThisReceipt": {
+    "files": 5574,
+    "bytes": 63445512,
+    "manifest": {
+      "path": "licensing/frozen-evidence.json",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "fa005ccea5369fdd7bc5a51fea8bc841b9f63d4e4fb2cf054bcdb662061bb4c8",
+      "bytes": 1197812
+    }
+  },
+  "selectedSourceBindings": [
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84",
+      "bytes": 6412,
+      "currentInventoryClassification": "upstream-modified",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": {
+        "relation": "modified",
+        "path": "apps/zcode-cli/packages/core/src/runtime-task/registry.ts",
+        "blob": "48d9788209c80bdc10dcca8b4e507e2fde33765b",
+        "normalizedSha256": "8f138a00926d188a0a336f12d87bf8af2f5402f7817179fae249b6c56b0681b9",
+        "contentMatchedPaths": []
+      },
+      "lastPathCommit": "105b1318464199e5492126984a0293599269f48d"
+    },
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+      "bytes": 5115,
+      "currentInventoryClassification": "upstream-modified",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": {
+        "relation": "modified",
+        "path": "packages/services/src/session/tasksDatabase/startup.ts",
+        "blob": "08a4bd483339497c3f7695c48b6f08e0b74f9027",
+        "normalizedSha256": "248847f6c5fd82405fe8106b40b771906d8e072cf8b5051bd172a1c44afcf0ad",
+        "contentMatchedPaths": []
+      },
+      "lastPathCommit": "2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2"
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "501c9e956cf92938c3d962fd8e86aca5c9e60d4bf48da5630adf6a3eb62796dd",
+      "bytes": 2968,
+      "currentInventoryClassification": "upstream-modified",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": {
+        "relation": "modified",
+        "path": "packages/services/src/git/commitMessageFileScope.ts",
+        "blob": "d26afda1f8efc46552b798c985aff050182ccbcd",
+        "normalizedSha256": "f6dfbd37de47cbdceb46aa42d8cb718983e42b365aa83dfcc39aaff8b1b9f00e",
+        "contentMatchedPaths": []
+      },
+      "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "2f44d3555dfbf73bde0d3c3b162c7c63ef4f5d4e581b5d550345ddca698c427f",
+      "bytes": 6439,
+      "currentInventoryClassification": "unreviewed",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": null,
+      "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+    },
+    {
+      "path": "packages/services/src/agent-session/sessionService.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "6967ff0493763c1e3b2e8cb73ac26eb51d81f50c52966e481cfd32e18dc7fec6",
+      "bytes": 12810,
+      "currentInventoryClassification": "unreviewed",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": null,
+      "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+    },
+    {
+      "path": "packages/services/src/agent/taskIndexSyncer.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "e2ddf71626306fccf802bc26e381dc94c434c75a5a6bf312827dad355bf44c15",
+      "bytes": 14193,
+      "currentInventoryClassification": "unreviewed",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": null,
+      "lastPathCommit": "f5deb08595725c91d74ca96e09bba338fba1119d"
+    },
+    {
+      "path": "packages/shared/src/protocol-v4/workflow-runs-reducer.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "a4bcd74e49ad7422e583e493ea23e508eef1318fd00b73269d7c0590b5e1fbc3",
+      "bytes": 2350,
+      "currentInventoryClassification": "unreviewed",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": null,
+      "lastPathCommit": "f453c0717fcecad07776b5de809697eb0ceff15f"
+    },
+    {
+      "path": "packages/desktop/src/main/exportLogs.ts",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "ffbd2c675bc7194c08df6216c4614bded3d9a8016601fd7bd4742a8b121d075c",
+      "bytes": 32211,
+      "currentInventoryClassification": "upstream-modified",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": {
+        "relation": "modified",
+        "path": "packages/desktop/src/main/exportLogs.ts",
+        "blob": "ad47f9c39c0bb2290eb0c3a6614f5e3f77164382",
+        "normalizedSha256": "8f3dca09772cea0b95ce9fa6bde111fff154ffbd195bb8e5670311d16deb7465",
+        "contentMatchedPaths": []
+      },
+      "lastPathCommit": "04d4e167bb8bca3cf8ba726192443be6767f2943"
+    },
+    {
+      "path": "scripts/check-evidence-integrity.mjs",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "c6b94ace0bb452975f0a8a1f5fefff20b986ac1900de78f47e0c02f22a3e2331",
+      "bytes": 3874,
+      "currentInventoryClassification": "unreviewed",
+      "currentInventoryLicense": "NOASSERTION",
+      "currentReviewStatus": null,
+      "currentUpstreamRelation": null,
+      "lastPathCommit": "f453c0717fcecad07776b5de809697eb0ceff15f"
+    },
+    {
+      "path": "scripts/provenance/model.mjs",
+      "sourceCommit": "7bfb867162cc11adbc237e1c39bf2d61b5c0f81e",
+      "sha256": "0fce71a0cfc88da4750762adb0b93b04461de31c265dd13927f048d5acbfe933",
+      "bytes": 10384,
+      "currentInventoryClassification": "original",
+      "currentInventoryLicense": "MIT",
+      "currentReviewStatus": "accepted",
+      "currentUpstreamRelation": null,
+      "lastPathCommit": "ab4d8e44c29199cf838afc806f00697ad46f9451"
+    }
+  ],
+  "sourceInventorySummary": {
+    "total": 15720,
+    "classifications": {
+      "upstream-unchanged": 1503,
+      "upstream-modified": 2397,
+      "unreviewed": 8369,
+      "original": 703,
+      "independent-replacement": 439,
+      "reviewed-retained": 8,
+      "third-party": 2300,
+      "generated-report": 1
+    },
+    "reviewedNatures": {
+      "standard-license-text": 2,
+      "functional-configuration": 9
+    },
+    "reviewProblems": 0,
+    "missingReviews": []
+  },
+  "reviewRequired": [
+    {
+      "id": "@arms/rum-browser@0.1.8",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@arms/rum-core@0.1.4",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@arms/rum-electron@0.0.3",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@hono/node-ws@1.3.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "@open-draft/deferred-promise@2.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "ansi-to-react@6.2.6",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "boolbase@1.0.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "is-node-process@1.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "lazy-val@1.0.5",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/docx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/folder.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/pptx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "packages/web/public/material-icons/xlsx.svg",
+      "reason": "Material Icon Theme source unresolved: source-path-not-found"
+    },
+    {
+      "id": "QuickJS-NG",
+      "reason": "Engine notice retained. WASI libc and extension link provenance is not fully established by the npm package."
+    },
+    {
+      "id": "quickjs-wasi@2.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "React Best Practices skill",
+      "reason": "Pinned upstream README and skill declare MIT, but a complete original copyright/license notice has not been obtained."
+    },
+    {
+      "id": "react-remove-scroll-bar@2.3.8",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "rust-standard-library@6a6eaca656978778f7c1c750ee0c3db87f8bffb2",
+      "reason": "No original notice snapshot for this recorded native component."
+    },
+    {
+      "id": "semaphore@1.1.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "Skia",
+      "reason": "Skia core notice retained. Per-platform linked third-party libraries and their exact build provenance still require a complete audit."
+    },
+    {
+      "id": "strict-event-emitter@0.5.1",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    },
+    {
+      "id": "unsafe-pointer@0.2.0",
+      "reason": "Original version-specific publisher copyright/license material remains incomplete."
+    }
+  ],
+  "gitMembershipQualification": "No node_modules path is Git-tracked at this checkpoint. Package manifests/lock references alone do not distribute the package implementation. Source archives still contain the tracked native ZIP/tar payloads and copied skill/assets. Actual built bundles and binary closures are not inferred from this list."
+}
