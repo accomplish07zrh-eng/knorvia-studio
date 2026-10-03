@@ -1,0 +1,54 @@
+{
+  "role": "restricted-input native author",
+  "scope": "SOURCE-ONLY runtime tooling lifecycle owner",
+  "claims": {
+    "clean_room": false,
+    "license_independence": false,
+    "novelty": false
+  },
+  "repository_content_inputs": [
+    "/workspace/knorvia-studio/docs/evidence/runtime-tooling-author-20261003/contract.md",
+    "/workspace/knorvia-studio/docs/evidence/runtime-tooling-author-20261003/imports.txt"
+  ],
+  "other_inputs": [
+    "Delegation instructions and inherited conversation instructions",
+    "Author's own initial and formatted draft"
+  ],
+  "repository_reads": [
+    "Read both allowed input files with cat",
+    "Read both allowed input files again to compute SHA256 seals"
+  ],
+  "tools": [
+    "exec_command for allowed input reads, own directory creation and initial snapshot copy",
+    "apply_patch for own draft and access metadata",
+    "/workspace/knorvia-studio/node_modules/.bin/oxfmt applied only to draft-01/runtime-tools.ts; formatter reported no config found and used defaults",
+    "Python hashlib for allowed input and own draft seals"
+  ],
+  "outputs_directory": "/tmp/knorvia-runtime-tooling-author-20261003/draft-01",
+  "initial_preserved_before_formatting": true,
+  "corrections": [],
+  "validation": {
+    "formatter_exit_code": 0,
+    "compiled": false,
+    "tests_run": false,
+    "runtime_operations": false,
+    "provider_operations": false,
+    "network_operations": false,
+    "repository_edits": false,
+    "commits": false
+  },
+  "excluded_content": [
+    "Repository source implementations",
+    "Repository tests",
+    "History",
+    "Oracles",
+    "Type declarations",
+    "All other repository files"
+  ],
+  "unverified_api_assumptions": [
+    "enqueuePendingInput receives positional input and traceContext arguments",
+    "steerTurn result discriminates acceptance through accepted, and rejection exposes reason",
+    "Notification logging uses the dynamic current trace context with root fallback"
+  ],
+  "limits": "A full contract-derived draft was authored and formatted without compilation or execution. The supplied imports list gives names and selected helper signatures, but no mailbox callback signature or steerTurn result shape. Those API assumptions require validation by the parent outside this restricted author scope."
+}

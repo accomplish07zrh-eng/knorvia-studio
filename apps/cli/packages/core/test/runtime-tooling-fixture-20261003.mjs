@@ -30,7 +30,7 @@ export async function load(mode, ports) {
     }
   } else if (mode === "draft") {
     const bytes = fs.readFileSync(process.argv[3]);
-    assert.equal(hash(bytes), "DRAFT_PIN");
+    assert.equal(hash(bytes), "370db9b62a232c581cf06129a918a5865eb4289533ab86e18469bafbf8bfede1");
     const result = JSON.parse(bytes);
     assert.deepEqual(result.diagnostics, []);
     assert.equal(result.apiEqual, true);

@@ -1,0 +1,37 @@
+{
+  "algorithm": "SHA256",
+  "phase": "drafting complete",
+  "files": [
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-tooling-author-20261003/contract.md",
+      "bytes": 9597,
+      "sha256": "e518367043d16ffbeb2a1d476335004d5ff27f65c5a50f75a444ce448b08e24f",
+      "kind": "input"
+    },
+    {
+      "path": "/workspace/knorvia-studio/docs/evidence/runtime-tooling-author-20261003/imports.txt",
+      "bytes": 1682,
+      "sha256": "e8a8ff8d8b4c3f9cecf12b6a25ecbd6bc6f3768d81d3f26b866f2cf8687d37af",
+      "kind": "input"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-tooling-author-20261003/draft-01/initial.ts",
+      "bytes": 10273,
+      "sha256": "4c7a5a42952dd5f1426d1faed7abf5e33b1ccb0e8656007335b16908779aa2c0",
+      "kind": "draft_or_metadata"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-tooling-author-20261003/draft-01/runtime-tools.ts",
+      "bytes": 9989,
+      "sha256": "61fc6dbe3eda8609e28d977a2eb1c189c8b2660211c3868f701f003ccf77fc63",
+      "kind": "draft_or_metadata"
+    },
+    {
+      "path": "/tmp/knorvia-runtime-tooling-author-20261003/draft-01/access-log.json",
+      "bytes": 2297,
+      "sha256": "18f58a919855c1d80184d4af7fad988f9145acca2be2cc819173942a34d1f354",
+      "kind": "draft_or_metadata"
+    }
+  ],
+  "self_digest_excluded": "seal.json is the manifest, not a draft or input; its digest cannot be embedded in itself."
+}

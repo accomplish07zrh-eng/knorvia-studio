@@ -1,0 +1,6 @@
+{"name":"accepted-mailbox","expected":[],"actual":[["Session mailbox input was not queued",{"traceId":"owned-trace","turnId":"owned-turn","event":"session.mailbox.queue_rejected","module":"core.runtime","status":"completed"}]],"preservedFailure":true}
+{"name":"notification-trace","expected":"owned-notification-trace","actual":"owned-trace","preservedFailure":true}
+{"name":"registration-replaces-config","expected":true,"actual":false,"preservedFailure":true}
+{"initialDraftCounterexamples":3,"repairedChecks":0}
+(node:200815) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
