@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+// Source-exposed contract implementation; validation and authorship review deferred.
 import type { Virtualizer } from "@tanstack/react-virtual";
 
 type GroupedTaskVirtualizerScrollOptions = {
@@ -5,38 +7,43 @@ type GroupedTaskVirtualizerScrollOptions = {
   behavior?: ScrollBehavior;
 };
 
-function isPotentialVerticalScrollContainer(overflowY: string): boolean {
-  return /(auto|scroll|overlay)/.test(overflowY);
-}
+type ScrollObservation = {
+  horizontal: boolean;
+  scrollTop: number;
+  scrollOffset: number | null;
+};
 
-function scrollGroupedTaskVirtualizerToOffset<TScrollElement extends Element>(
+export function planGroupedTaskScroll(
   offset: number,
-  { adjustments = 0, behavior }: GroupedTaskVirtualizerScrollOptions,
-  instance: Virtualizer<TScrollElement, Element>,
-) {
-  const scrollElement = instance.scrollElement;
-  if (!scrollElement) {
-    return;
+  options: GroupedTaskVirtualizerScrollOptions,
+  observed: ScrollObservation,
+): ScrollToOptions | null {
+  const adjustment = options.adjustments === undefined ? 0 : options.adjustments;
+  if (!observed.horizontal && options.behavior === undefined && offset === 0 && adjustment === 0) {
+    // 共享容器已有位置而 virtualizer 仍缓存初始 0 时，忽略这一次旧同步，避免重挂载回顶。
+    if (observed.scrollTop > 0 && observed.scrollOffset === 0) return null;
   }
-  const toOffset = offset + adjustments;
-  const isStaleInitialZeroSync =
-    !instance.options.horizontal &&
-    offset === 0 &&
-    adjustments === 0 &&
-    behavior === undefined &&
-    scrollElement.scrollTop > 0 &&
-    instance.scrollOffset === 0;
-  if (isStaleInitialZeroSync) {
-    // group 虚拟列表在外层滚动容器中途重新挂载时，react-virtual
-    // 可能已在首个 layout effect 缓存默认 scrollOffset=0，随后 _willUpdate
-    // 会把这个旧值 scrollTo(0) 到共享容器上，导致列表偶发回顶。
-    return;
-  }
-  if (instance.options.horizontal) {
-    scrollElement.scrollTo({ left: toOffset, behavior });
-    return;
-  }
-  scrollElement.scrollTo({ top: toOffset, behavior });
+  const target = offset + adjustment;
+  return observed.horizontal
+    ? { left: target, behavior: options.behavior }
+    : { top: target, behavior: options.behavior };
 }
 
-export { isPotentialVerticalScrollContainer, scrollGroupedTaskVirtualizerToOffset };
+export function isPotentialVerticalScrollContainer(overflowY: string): boolean {
+  return ["auto", "scroll", "overlay"].some((mode) => overflowY.includes(mode));
+}
+
+export function scrollGroupedTaskVirtualizerToOffset<TScrollElement extends Element>(
+  offset: number,
+  options: GroupedTaskVirtualizerScrollOptions,
+  instance: Virtualizer<TScrollElement, Element>,
+): void {
+  const element = instance.scrollElement;
+  if (!element) return;
+  const command = planGroupedTaskScroll(offset, options, {
+    horizontal: instance.options.horizontal,
+    scrollTop: element.scrollTop,
+    scrollOffset: instance.scrollOffset,
+  });
+  if (command) element.scrollTo(command);
+}

@@ -68,3 +68,51 @@ source-exposed。新的算法和状态分解必须按此合同重新表达，不
 格式化算作独立替换。保留 Apache-2.0 过渡声明和所有第三方归属；原清单和 review
 不在本路更新。新字节、接口表达、preview 依赖、作者权利与最终来源决定待整合者
 逐文件复核，不宣称 clean-room、MIT-ready 或全模块完成。
+
+## 任务分组：结构编辑与滚动契约
+
+正式结构、排序与任务事实属于现有 task/session service；`useGroupedTaskView` 和
+现有 store 继续拥有 optimistic overlay。`view.ts` 的所有公开函数保持原导出，
+新结构编辑只产生临时 view，不调用服务、不写 store、不新建持久事实。
+`WorkspaceGroupedTasksSection` 仍用 authoritativeView 算持久排序，归档过滤后的
+view 只渲染，不能把临时隐藏行写成永久删除。公共 taskKey 继续使用既有身份 owner
+及 NUL 分隔符，同路径不同 workspaceIdentity 的 task 不得相互移动/替换。
+
+```text
+service structure + sessions-index → useGroupedTaskView / existing overlay
+                                             ↓ authoritativeView
+                       现有 drag/menu → 纯结构编辑 → 原 setView / save command
+                                             ↓
+                                     原 JSX 与虚拟列表
+```
+
+编辑采用位置 cursor 和单次局部剪接事务：先从原结构定位源，取回原 task 对象，
+移除后重新定位目标；只复制受影响的组及顶层数组，其他节点引用保留。组不能嵌套，
+拖到组内 task 等同拖到所属组。目标是自己/自己的组、源不存在、目标不存在的拖拽
+返回原 view。任务拖到另一任务前后随目标父级，组内向后移动不能沿用移除前 index。
+向组开头/末尾、组前后和顶层 task 前后分别保持原行为。
+
+菜单移出组放在原组之后，顶层菜单置顶放第一，组内菜单置顶只移到当前组第一。
+移到同一组返回原 view。须保留旧菜单特殊边界：非空但不存在的目标 groupId 会先
+移除源而不插入；空字符串目标不按有效组处理。它们不由本批暗中修正，最终需明确
+产品决定后另立规格。drag 的无效目标继续完整回退原 view。
+
+`cloneView` 浅复制所有节点及每个 tasks 数组、保留 task/group 对象。删除 helper
+按组优先找第一个匹配（即使更早的顶层节点也有同 key），仍复制整个 view；
+普通 find/移动按顶层扫描顺序找第一个匹配。replace 替换所有匹配，所有组节点及
+tasks 数组重建，未命中 root 节点保留引用。归档过滤在没有命中时返回原 view，
+有命中时保留空组与未改变节点引用。折叠集合仅保留已知组，按原集合顺序；没有组
+不算全展开，草稿根据目标 task 父级选 group/top，不新造群定义。
+
+虚拟滚动仍由消费者的同一 DOM scrollElement 所有。overflowY 接受包含
+auto/scroll/overlay 的原字符串规则。无 scrollElement 不滚动；滚动目标为 offset
++ adjustments，按 horizontal 写 left/top，behavior 原样传递。仅在 vertical、
+offset=0、adjustments=0、behavior undefined、DOM scrollTop>0 且 cached
+scrollOffset=0 的初始失配时忽略旧 0，同消费者原 initialOffset 一起防止列表重挂载
+回顶。显式 behavior/非零调整/正常缓存的滚动不被拦截。不得新增计时或复制 DOM
+滚动状态。保留阈值 80、overscan 12、动态行高测量、UI JSX/CSS 与无障碍。
+
+待执行场景：跨 root/group 的前后移动；同组向后；拖 group 到成员；无效目标/自身
+no-op 引用；重复 task key 的查询/删除差异；原 task/不受影响节点引用；菜单离组
+位置和原无效目标边界；workspaceIdentity 隔离；隐藏归档行的过滤与恢复；垂直回顶
+屏障、显式零滚动、横向滚动及无 element。所有场景本阶段未运行。
