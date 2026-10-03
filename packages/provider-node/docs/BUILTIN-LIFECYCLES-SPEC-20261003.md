@@ -1,0 +1,18 @@
+# Complete builtin cache and remote lifecycle owners
+
+[Exact origin](BUILTIN-LIFECYCLES-ORIGIN-20261003.json) binds accepted77a9b3f source5fc4068a... and synchronizere973c736...;9/11 exact old records are inventory/retention, no positive accepted complete owner/conflict in available local evidence. E PR8 fixed57f53ec4 public proof metadata retrieved exactly3paths, no raw publisher/connector bodies/source imported. Local current/root hashes match E rows: source initial88fc4821... maps exactly publisher and current5fc AST differs only formatting, synchronizer initial/currente973 equal mapped publisher bytes. Exact-source-relation HOLD for selected paths superseded by known upstream derivation, not independent/MIT/rights/global acceptance or historical object-absence reclassification. All attribution retained.
+
+Select two full separate lifecycle chapters; imports/options/types/interfaces prefix stay byte-identical, including remote HOUR_MS/control schema. No root lower download/release/codec/personal/resolver/other E sources change or new endpoints/permissions. No mechanical-glue/type/policy/data originality credit.
+
+```text
+cache source → directory/watch → active lock → parallel bundled/active read → selection/materialization
+                              └→ serialized watch checks → signature → live observer set
+remote owner → shared control lease generation → fake fetch outside lock → endpoint recheck → source apply
+                                           └→ same-generation finish → success/backoff/cancel → observer callback
+```
+
+Preserve exact normalized path hash/snapshot revision, trusted-bundle fallback on cache failure, version/conflict/atomic materialization/signature/notification order, watcher serialization/late disposal/native observer failure, live refs and error identity. Preserve original readonly postdispose path access/async read versus synchronous subscribe failure. Remote keeps one in-flight Promise, force versus live lease, same-generation guard, sparse control schema/invalid JSON fallback, exact data format/backoff/defaults/clock receiver, endpoint change skip, AbortSignal phases and cleanup failure masking. No cancellation or validation repairs/permission expansion; root ports retain all lower policies.
+
+Two fresh fork-none Sol/high behavior/public-API-only authors receive separate complete frozen packets. Each complete first-ready source/design/task/inputs/access/manifest0444 signaled before separate own review; all corrections whole/frozen/reviewed, coordinator whole chapters+retained prefix+formatter only. Source-exposed coordinator/sharedworkspace access limits disclosed, no model/process/hardware cleanroom/novelty/MIT/rights/global provenance acceptance. Current lane Sol/high Fast ON preserved, per-child Fast not separately verified.
+
+Minimum original/final synthetic in-memory cache/watcher/fetch/clock/control-lease lifetime cases, scoped owner/test and directly affected config/endpoint/node-registry/codec/model-provider consumers as required, lint/format/changed architecture, preferred chapter/public API/prefix identity and retained source/control/root lower files. No real network/cache/files/user config/accounts/credentials/permission/native/fullsuite/build or aggregate suite. Previous failures/HOLDS and source/rights/final integration remain. Same draft PR10; no main merge/forcepush/crosslane integration/raw bundles/source-tree upload/Library403 alternative/cancelled upload retry. Manual77a9b3f already submitted and verified before this allocation begins, earlier tests/immutable receipts not rerun or changed.
