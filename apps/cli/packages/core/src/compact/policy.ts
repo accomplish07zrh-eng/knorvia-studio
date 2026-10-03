@@ -116,7 +116,8 @@ export function shouldAutoCompact(input: {
   const tokenCount = input.tokenOverride?.tokenCount ?? estimatedTokenCount;
   const tokenSource = input.tokenOverride?.source ?? "estimate";
 
-  const common = {
+  // 对象属性会把来源字面量拓宽为 string；用公开决策字段契约约束五个分支的共同投影。
+  const common: Omit<AutoCompactDecision, "shouldCompact" | "reason"> = {
     contextWindow,
     effectiveContextWindow,
     estimatedTokenCount,
