@@ -70,6 +70,41 @@ flowchart LR
   Fields --> Consumer[原行/排序消费者]
 ```
 
+## WorkspaceGroupedTasksSection 动作（本批先行）
+
+- UI 模块内单一 interaction snapshot 拥有 archive-hidden keys、rename key/draft 和
+  new-group setup id；原 hook 继续独占 authoritative/displayed view，父组件继续
+  独占 collapse prefs，session store 继续独占持久草稿。presentation projection
+  单次扫描生成菜单/ids，分别按原位置/字段比较复用数组；不增加 accepted view。
+- 菜单 move/group/top 基于未 archive-filter 的 authoritative view，引用 no-op 不
+  发请求。使用已有 applyOrder 的 canPublish port；最新结构操作或新拖拽撤销旧
+  menu rollback/refresh 许可，已发 host 写入仍完成。drag session 本文算法保留，
+  只在 section bridge 联结该许可，不复制 origin/preview/order owner。
+- contextual draft 优先按当前活动 task key 求 placement；无 active id 才沿用当前
+  grouped placement 或 top。group draft 解折叠仅在原 Set 含该 id 时复制，top 不
+  改 prefs；显式关闭才调用原 path/identity clear。卸载/切 scope 不清 store 草稿。
+  顶层 action 注册及 cleanup null 保留。toggle 永远用 Set 副本。
+- rename 开始保留 title??空串；缺 key 返回、缺 task/service 或 trim no-op 关闭。
+  host payload 保留仅 truthy identity 和 trim title。空 metadata/失败保留当前
+  dialog 并原 toast；成功按原 replace→optimistic→query-cache 顺序更新捕获 task，
+  只有同一 edit 许可仍有效时才关闭 dialog。新 edit/新提交/卸载不能被旧完成清空。
+- unread 仍调用 scoped task service，成功先原 unread indicator，再当前 view、原
+  optimistic 和 query mutation；没有 service 无操作，失败原 toast。rename/unread
+  的逐 task 请求许可与当前 resolved service 限制本地 view 回写；成功的捕获
+  host metadata 仍完成目标 store/cache 更新，不把组件卸载当作取消用户写入。
+- archive 仍即时隐藏但不从权威结构删 task；每次原调用仍发 host 请求。成功按
+  原 membership version→remove session state→truthy identity remote stores→query
+  archived 顺序完成；隐藏直到 authoritative 确认缺失。失败只撤回对应当前 key
+  许可并保留原 toast，旧失败不得撤回后发 archive 的隐藏。prune 同成员时保留
+  Set 引用。archive 的 key lease 在 inactive 时暂停；新 scope 只有同一 key 的
+  current ticket 和同一 resolved service 仍存在时才续接，服务替换释放未完成
+  隐藏 lease，已成功隐藏仍等权威确认；不丢已成功的目标 store 写入。
+- createGroup 完成后仅当前 scope 设置 setup id；ack 只有相同 id 清 setup。原
+  create/rename/color/ungroup 的失败 message id 保留，现有 hook/save/payload 不改。
+  本地 scope 遵循 grouped scopeSignature/base service；resolved service 替换会撤销
+  其迟到 metadata 的本地接受权。所有 JSX、菜单项、labels、focus/select 和首屏
+  painted latch 保留；短桥接和既有 view helper 不计新独立作者证明。
+
 ## 未验证
 
 不运行 tests、lint、types、build、格式/架构检查或审计。新增合同仅供最终

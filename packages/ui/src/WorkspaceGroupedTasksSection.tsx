@@ -13,7 +13,7 @@ import type {
   CollisionDetection,
   DropAnimation,
 } from "@dnd-kit/core";
-import type { KnorviaGroupedTaskView, KnorviaTaskGroupColor } from "@knorvia/services";
+import type { KnorviaGroupedTaskView } from "@knorvia/services";
 import { OFF_PEAK_DEFAULT_GROUP_ID, type KnorviaTaskMeta } from "@knorvia/shared";
 import { createPortal } from "react-dom";
 import { cn } from "@/components/lib/utils.js";
@@ -42,16 +42,13 @@ import type { CreateTaskRequest } from "@/app-shell/types.js";
 import {
   findTaskInGroupedView,
   filterGroupedViewByTaskKeys,
-  getGroupedTaskGroupIds,
-  moveTaskByMenu,
-  moveTaskToTopByMenu,
   replaceTaskInGroupedView,
-  resolveGroupedDraftTaskPlacementForTask,
   taskKey,
 } from "@/workspace-grouped-tasks/shared.js";
-import type { TaskGroupMenuItem } from "@/workspace-grouped-tasks/shared.js";
 import { acceptsGroupedDragCollision } from "@/workspace-grouped-tasks/groupedDragProjection.js";
 import { GroupedDragSessionOwner, type GroupedDragPorts } from "@/workspace-grouped-tasks/groupedDragSessionOwner.js";
+import { GroupedSectionInteractionOwner, type GroupedSectionInteractionPorts } from "@/workspace-grouped-tasks/groupedSectionInteractionOwner.js";
+import { GroupedSectionMenuProjection } from "@/workspace-grouped-tasks/groupedSectionMenuProjection.js";
 import {
   cancelWorkbenchPointerDrag,
   finishWorkbenchPointerDrag,
@@ -73,25 +70,6 @@ function findNearestScrollableAncestor(element: HTMLElement): HTMLElement | null
     current = current.parentElement;
   }
   return null;
-}
-
-function areTaskGroupMenuItemsEqual(
-  left: readonly TaskGroupMenuItem[],
-  right: readonly TaskGroupMenuItem[],
-): boolean {
-  return (
-    left.length === right.length &&
-    left.every(
-      (item, index) =>
-        item.id === right[index]?.id &&
-        item.title === right[index]?.title &&
-        item.color === right[index]?.color,
-    )
-  );
-}
-
-function areStringArraysEqual(left: readonly string[], right: readonly string[]): boolean {
-  return left.length === right.length && left.every((item, index) => item === right[index]);
 }
 
 const groupedTaskCollisionDetection: CollisionDetection = (args) => closestCenter({
@@ -371,42 +349,31 @@ export function WorkspaceGroupedTasksSection({
   } = useGroupedTaskView({
     workspaceTabs,
   });
-  const [archivingTaskKeys, setArchivingTaskKeys] = useState<ReadonlySet<string>>(() => new Set());
+  const sectionPortsRef = useRef<GroupedSectionInteractionPorts | null>(null);
+  const [section] = useState(() => new GroupedSectionInteractionOwner(() => {
+    if (!sectionPortsRef.current) throw new Error("Grouped section ports are inactive");
+    return sectionPortsRef.current;
+  }));
+  const {
+    archiving: archivingTaskKeys, renamingTaskKey, renameDraft, newGroupSetupId,
+  } = useSyncExternalStore(section.subscribe, section.read, section.read);
+  const setRenameDraft = section.setRenameDraft;
   const view = useMemo(
     () => filterGroupedViewByTaskKeys(authoritativeView, archivingTaskKeys),
     [archivingTaskKeys, authoritativeView],
   );
 
   useEffect(() => {
-    if (archivingTaskKeys.size === 0) {
-      return;
-    }
-    setArchivingTaskKeys((current) => {
-      const next = new Set(
-        [...current].filter((key) => findTaskInGroupedView(authoritativeView, key)),
-      );
-      return next.size === current.size ? current : next;
-    });
-  }, [archivingTaskKeys.size, authoritativeView]);
+    section.reconcileArchives(authoritativeView);
+  }, [archivingTaskKeys.size, authoritativeView, section]);
   const groupedSectionRootRef = useRef<HTMLDivElement | null>(null);
   // 已经画出过 grouped 列表：之后任何 loading/未初始化帧都不再回到空白门禁。
   // 挂载时若模块级缓存已种出非空 view，本帧就会画出列表，闩锁直接种 true——把「渲染期置位」
   // 的窗口收窄到只剩真正的首屏。
   const hasPaintedGroupedListRef = useRef(view.nodes.length > 0);
   const renameInputRef = useRef<HTMLInputElement | null>(null);
-  const groupMenuItemsRef = useRef<TaskGroupMenuItem[]>([]);
-  const groupIdsRef = useRef<string[]>([]);
-  const createDraftContextRef = useRef({
-    activeTaskId,
-    activeWorkspaceIdentity,
-    activeWorkspacePath,
-    groupedDraftPlacement: groupedDraftTask?.placement,
-    view,
-  });
+  const [menuProjection] = useState(() => new GroupedSectionMenuProjection());
   const layoutAnimationFrameRef = useRef<number | null>(null);
-  const [renamingTaskKey, setRenamingTaskKey] = useState<string | null>(null);
-  const [renameDraft, setRenameDraft] = useState("");
-  const [newGroupSetupId, setNewGroupSetupId] = useState<string | null>(null);
   const [stickyGroupId, setStickyGroupId] = useState<string | null>(null);
   const dragPortsRef = useRef<GroupedDragPorts | null>(null);
   const [dragSession] = useState(() => new GroupedDragSessionOwner(() => {
@@ -425,6 +392,38 @@ export function WorkspaceGroupedTasksSection({
     }),
   );
   const isGroupedDraftActive = Boolean(groupedDraftTask && activeTaskId === null);
+  useLayoutEffect(() => {
+    sectionPortsRef.current = {
+      authoritative: () => authoritativeView, displayed: () => view,
+      draft: () => ({ activeTaskId, activeWorkspacePath, activeWorkspaceIdentity, placement: groupedDraftTask?.placement, view }),
+      taskService: (task) => workspaceServiceLookup.get(buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity))?.services.taskService,
+      setCollapsed: onCollapsedGroupIdsChange,
+      createDraft: (placement) => onCreateTask({ groupedDraftPlacement: placement }),
+      closeDraft: clearGroupedDraftTask, createGroup, renameGroup,
+      colorGroup: updateGroupColor, ungroup: ungroupGroup,
+      order: (next, canPublish) => applyOrder(next, { canPublish }),
+      commitMetadata: (kind, previous, next, canWriteView) => {
+        if (kind === "unread") setTaskUnreadIndicator(previous.workspacePath, previous.taskId, true, previous.workspaceIdentity);
+        if (canWriteView()) setView((current) => canWriteView() ? replaceTaskInGroupedView(current, next) : current);
+        upsertOptimisticTaskListItem(previous.workspacePath, next, previous.workspaceIdentity);
+        applyTaskQueryCacheMutation({ previousTask: previous, nextTask: next,
+          previousState: { pinned: false, archived: false }, nextState: { pinned: false, archived: false } });
+      },
+      commitArchive: (previous, next) => {
+        bumpTaskListMembershipVersion();
+        removeTaskState(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
+        if (previous.workspaceIdentity) {
+          useRemoteTimelineTaskStore.getState().removeTask(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
+          useRemotePinnedTaskStore.getState().removeTask(previous.workspacePath, previous.taskId, previous.workspaceIdentity);
+        }
+        applyTaskQueryCacheMutation({ previousTask: previous, nextTask: next,
+          previousState: { pinned: false, archived: false }, nextState: { pinned: false, archived: true } });
+      },
+      notify: (id) => toast(intl.formatMessage({ id })),
+    };
+    section.reconcileArchiveServices();
+  });
+  useLayoutEffect(() => section.activate(), [baseServices.taskService, scopeSignature, section]);
   const handleGroupedPointerDownCapture = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
       // 必须在 dnd-kit 激活前监听，才能捕获越过 6px 阈值的首个
@@ -433,73 +432,10 @@ export function WorkspaceGroupedTasksSection({
     },
     [dragSession],
   );
-  useEffect(() => {
-    createDraftContextRef.current = {
-      activeTaskId,
-      activeWorkspaceIdentity,
-      activeWorkspacePath,
-      groupedDraftPlacement: groupedDraftTask?.placement,
-      view,
-    };
-  }, [
-    activeTaskId,
-    activeWorkspaceIdentity,
-    activeWorkspacePath,
-    groupedDraftTask?.placement,
-    view,
-  ]);
-  const handleCreateTopDraftTask = useCallback(() => {
-    onCreateTask({ groupedDraftPlacement: { type: "top" } });
-  }, [onCreateTask]);
-  const handleCreateGroupDraftTask = useCallback(
-    (groupId: string) => {
-      onCollapsedGroupIdsChange((current) => {
-        if (!current.has(groupId)) {
-          return current;
-        }
-        const next = new Set(current);
-        next.delete(groupId);
-        return next;
-      });
-      onCreateTask({ groupedDraftPlacement: { type: "group", groupId } });
-    },
-    [onCollapsedGroupIdsChange, onCreateTask],
-  );
-  const handleCreateContextualDraftTask = useCallback(() => {
-    const {
-      activeTaskId: currentActiveTaskId,
-      activeWorkspaceIdentity: currentActiveWorkspaceIdentity,
-      activeWorkspacePath: currentActiveWorkspacePath,
-      groupedDraftPlacement,
-      view: currentView,
-    } = createDraftContextRef.current;
-    const activeTaskKey = currentActiveTaskId
-      ? taskKey({
-          taskId: currentActiveTaskId,
-          workspaceIdentity: currentActiveWorkspaceIdentity,
-          workspacePath: currentActiveWorkspacePath,
-        })
-      : null;
-    const draftPlacement = activeTaskKey
-      ? resolveGroupedDraftTaskPlacementForTask(currentView, activeTaskKey)
-      : (groupedDraftPlacement ?? { type: "top" });
-    if (draftPlacement.type === "group") {
-      onCollapsedGroupIdsChange((current) => {
-        if (!current.has(draftPlacement.groupId)) {
-          return current;
-        }
-        const next = new Set(current);
-        next.delete(draftPlacement.groupId);
-        return next;
-      });
-    }
-    onCreateTask({ groupedDraftPlacement: draftPlacement });
-  }, [onCollapsedGroupIdsChange, onCreateTask]);
-  const handleCloseGroupedDraftTask = useCallback(() => {
-    // grouped 草稿会在切 workspace 时迁移到目标 workspace。
-    // 只能由用户关闭、真实 task 创建或明确离开草稿时清理，不能跟随列表组件卸载自动清掉。
-    clearGroupedDraftTask(activeWorkspacePath, activeWorkspaceIdentity);
-  }, [activeWorkspaceIdentity, activeWorkspacePath, clearGroupedDraftTask]);
+  const handleCreateTopDraftTask = section.createTopDraft;
+  const handleCreateGroupDraftTask = section.createGroupDraft;
+  const handleCreateContextualDraftTask = section.createContextualDraft;
+  const handleCloseGroupedDraftTask = section.closeDraft;
   useEffect(() => {
     onCreateDraftTaskActionChange?.(handleCreateContextualDraftTask);
     return () => onCreateDraftTaskActionChange?.(null);
@@ -522,32 +458,7 @@ export function WorkspaceGroupedTasksSection({
       window.cancelAnimationFrame(frameId);
     };
   }, [groupedDraftFocusVersion, groupedDraftTask]);
-  const groups = useMemo<TaskGroupMenuItem[]>(() => {
-    const nextGroups = view.nodes.flatMap((node) =>
-      node.type === "group"
-        ? [
-            {
-              id: node.group.id,
-              title: node.group.title,
-              color: node.group.color,
-            },
-          ]
-        : [],
-    );
-    if (areTaskGroupMenuItemsEqual(groupMenuItemsRef.current, nextGroups)) {
-      return groupMenuItemsRef.current;
-    }
-    groupMenuItemsRef.current = nextGroups;
-    return nextGroups;
-  }, [view.nodes]);
-  const groupIds = useMemo(() => {
-    const nextGroupIds = getGroupedTaskGroupIds(view);
-    if (areStringArraysEqual(groupIdsRef.current, nextGroupIds)) {
-      return groupIdsRef.current;
-    }
-    groupIdsRef.current = nextGroupIds;
-    return nextGroupIds;
-  }, [view]);
+  const { menus: groups, ids: groupIds } = useMemo(() => menuProjection.project(view), [menuProjection, view]);
   useEffect(() => {
     onGroupedTaskGroupIdsChange?.(groupIds);
   }, [groupIds, onGroupedTaskGroupIdsChange]);
@@ -651,260 +562,23 @@ export function WorkspaceGroupedTasksSection({
     [onOpenFileTree, workspaceTabs],
   );
 
-  const handleCreateGroup = useCallback(() => {
-    void createGroup()
-      .then((group) => {
-        setNewGroupSetupId(group.id);
-      })
-      .catch(() => {
-        toast(intl.formatMessage({ id: "taskGroup.createFailed" }));
-      });
-  }, [createGroup, intl]);
-
+  const handleCreateGroup = section.createGroup;
   useEffect(() => {
     onCreateGroupActionChange?.(handleCreateGroup);
     return () => onCreateGroupActionChange?.(null);
   }, [handleCreateGroup, onCreateGroupActionChange]);
-
-  const handleNewGroupSetupStarted = useCallback((groupId: string) => {
-    setNewGroupSetupId((currentGroupId) => (currentGroupId === groupId ? null : currentGroupId));
-  }, []);
-
-  const handleToggleGroupCollapsed = useCallback(
-    (groupId: string) => {
-      onCollapsedGroupIdsChange((currentGroupIds) => {
-        const nextGroupIds = new Set(currentGroupIds);
-        if (nextGroupIds.has(groupId)) {
-          nextGroupIds.delete(groupId);
-        } else {
-          nextGroupIds.add(groupId);
-        }
-        return nextGroupIds;
-      });
-    },
-    [onCollapsedGroupIdsChange],
-  );
+  const handleNewGroupSetupStarted = section.acknowledgeSetup;
+  const handleToggleGroupCollapsed = section.toggleCollapsed;
   const isGroupCollapsed = useCallback(
     (groupId: string) => collapsedGroupIds.has(groupId),
     [collapsedGroupIds],
   );
 
-  const handleCancelRenameTask = useCallback(() => {
-    setRenamingTaskKey(null);
-    setRenameDraft("");
-  }, []);
-
-  const handleStartRenameTask = useCallback((task: KnorviaTaskMeta) => {
-    setRenamingTaskKey(taskKey(task));
-    setRenameDraft(task.title ?? "");
-  }, []);
-
-  const handleMoveTaskToGroup = useCallback(
-    (task: KnorviaTaskMeta, groupId: string | null) => {
-      // archivingTaskKeys 过滤后的 view 只用于渲染；若拿它计算并持久化排序，
-      // 归档请求失败前的任意结构变更都会把被隐藏任务从权威分组中永久删除。
-      const nextView = moveTaskByMenu(authoritativeView, task, groupId);
-      if (nextView === authoritativeView) {
-        return;
-      }
-      void applyOrder(nextView).catch(() => {
-        toast(intl.formatMessage({ id: "taskGroup.updateFailed" }));
-      });
-    },
-    [applyOrder, authoritativeView, intl],
-  );
-
-  const handleMoveTaskToTop = useCallback(
-    (task: KnorviaTaskMeta) => {
-      const nextView = moveTaskToTopByMenu(authoritativeView, task);
-      if (nextView === authoritativeView) {
-        return;
-      }
-      void applyOrder(nextView).catch(() => {
-        toast(intl.formatMessage({ id: "taskGroup.updateFailed" }));
-      });
-    },
-    [applyOrder, authoritativeView, intl],
-  );
-
-  const handleSubmitRenameTask = useCallback(async () => {
-    if (!renamingTaskKey) {
-      return;
-    }
-
-    const task = findTaskInGroupedView(view, renamingTaskKey);
-    if (!task) {
-      handleCancelRenameTask();
-      return;
-    }
-    const workspaceServices = workspaceServiceLookup.get(
-      buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity),
-    );
-    if (!workspaceServices) {
-      handleCancelRenameTask();
-      return;
-    }
-
-    const normalizedTitle = renameDraft.trim();
-    if (normalizedTitle === (task.title ?? "").trim()) {
-      handleCancelRenameTask();
-      return;
-    }
-
-    try {
-      const meta = await workspaceServices.services.taskService.renameTask({
-        taskId: task.taskId,
-        workspacePath: task.workspacePath,
-        title: normalizedTitle,
-        ...(task.workspaceIdentity ? { workspaceIdentity: task.workspaceIdentity } : {}),
-      });
-
-      if (!meta) {
-        toast(intl.formatMessage({ id: "taskList.renameFailed" }));
-        return;
-      }
-
-      setView((currentView) => replaceTaskInGroupedView(currentView, meta));
-      upsertOptimisticTaskListItem(task.workspacePath, meta, task.workspaceIdentity);
-      applyTaskQueryCacheMutation({
-        previousTask: task,
-        nextTask: meta,
-        previousState: { pinned: false, archived: false },
-        nextState: { pinned: false, archived: false },
-      });
-      handleCancelRenameTask();
-    } catch {
-      toast(intl.formatMessage({ id: "taskList.renameFailed" }));
-    }
-  }, [
-    handleCancelRenameTask,
-    intl,
-    renameDraft,
-    renamingTaskKey,
-    setView,
-    upsertOptimisticTaskListItem,
-    view,
-    workspaceServiceLookup,
-  ]);
-
-  const handleMarkTaskAsUnread = useCallback(
-    (task: KnorviaTaskMeta) => {
-      const workspaceServices = workspaceServiceLookup.get(
-        buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity),
-      );
-      if (!workspaceServices) {
-        return;
-      }
-
-      void workspaceServices.services.taskService
-        .setTaskUnread({
-          taskId: task.taskId,
-          workspacePath: task.workspacePath,
-          unread: true,
-          ...(task.workspaceIdentity ? { workspaceIdentity: task.workspaceIdentity } : {}),
-        })
-        .then((meta) => {
-          setTaskUnreadIndicator(task.workspacePath, task.taskId, true, task.workspaceIdentity);
-          setView((currentView) => replaceTaskInGroupedView(currentView, meta));
-          upsertOptimisticTaskListItem(task.workspacePath, meta, task.workspaceIdentity);
-          applyTaskQueryCacheMutation({
-            previousTask: task,
-            nextTask: meta,
-            previousState: { pinned: false, archived: false },
-            nextState: { pinned: false, archived: false },
-          });
-        })
-        .catch(() => {
-          toast(intl.formatMessage({ id: "taskList.markAsUnreadFailed" }));
-        });
-    },
-    [intl, setTaskUnreadIndicator, setView, upsertOptimisticTaskListItem, workspaceServiceLookup],
-  );
-
-  const handleCloseTask = useCallback(
-    (task: KnorviaTaskMeta) => {
-      const workspaceServices = workspaceServiceLookup.get(
-        buildTaskWorkspaceKey(task.workspacePath, task.workspaceIdentity),
-      );
-      if (!workspaceServices) {
-        return;
-      }
-
-      const closingTaskKey = taskKey(task);
-      setArchivingTaskKeys((current) => {
-        if (current.has(closingTaskKey)) {
-          return current;
-        }
-        return new Set(current).add(closingTaskKey);
-      });
-
-      void workspaceServices.services.taskService
-        .archiveTask({
-          taskId: task.taskId,
-          workspacePath: task.workspacePath,
-          ...(task.workspaceIdentity ? { workspaceIdentity: task.workspaceIdentity } : {}),
-        })
-        .then((meta) => {
-          // grouped 的后台 refresh 可能携带归档前的 membership，直接覆盖乐观删除。
-          // 归档成功后主动换代 membership；渲染层在权威列表确认消失前继续屏蔽该 task。
-          bumpTaskListMembershipVersion();
-          removeTaskState(task.workspacePath, task.taskId, task.workspaceIdentity);
-          if (task.workspaceIdentity) {
-            useRemoteTimelineTaskStore
-              .getState()
-              .removeTask(task.workspacePath, task.taskId, task.workspaceIdentity);
-            useRemotePinnedTaskStore
-              .getState()
-              .removeTask(task.workspacePath, task.taskId, task.workspaceIdentity);
-          }
-          applyTaskQueryCacheMutation({
-            previousTask: task,
-            nextTask: meta,
-            previousState: { pinned: false, archived: false },
-            nextState: { pinned: false, archived: true },
-          });
-        })
-        .catch(() => {
-          setArchivingTaskKeys((current) => {
-            if (!current.has(closingTaskKey)) {
-              return current;
-            }
-            const next = new Set(current);
-            next.delete(closingTaskKey);
-            return next;
-          });
-          toast(intl.formatMessage({ id: "taskList.archiveFailed" }));
-        });
-    },
-    [intl, removeTaskState, workspaceServiceLookup],
-  );
-
-  const handleRenameGroup = useCallback(
-    (groupId: string, title: string) => {
-      void renameGroup(groupId, title).catch(() => {
-        toast(intl.formatMessage({ id: "taskGroup.renameFailed" }));
-      });
-    },
-    [intl, renameGroup],
-  );
-
-  const handleUpdateGroupColor = useCallback(
-    (groupId: string, color: KnorviaTaskGroupColor) => {
-      void updateGroupColor(groupId, color).catch(() => {
-        toast(intl.formatMessage({ id: "taskGroup.colorFailed" }));
-      });
-    },
-    [intl, updateGroupColor],
-  );
-
-  const handleUngroupGroup = useCallback(
-    (groupId: string) => {
-      void ungroupGroup(groupId).catch(() => {
-        toast(intl.formatMessage({ id: "taskGroup.ungroupFailed" }));
-      });
-    },
-    [intl, ungroupGroup],
-  );
+  const handleCancelRenameTask = section.cancelRename, handleStartRenameTask = section.startRename;
+  const handleMoveTaskToGroup = section.moveToGroup, handleMoveTaskToTop = section.moveToTop;
+  const handleSubmitRenameTask = section.submitRename, handleMarkTaskAsUnread = section.markUnread;
+  const handleCloseTask = section.archive, handleRenameGroup = section.renameGroup;
+  const handleUpdateGroupColor = section.colorGroup, handleUngroupGroup = section.ungroup;
 
   useEffect(() => {
     return () => {
@@ -941,10 +615,8 @@ export function WorkspaceGroupedTasksSection({
     if (!renamingTaskKey) {
       return;
     }
-    if (!findTaskInGroupedView(view, renamingTaskKey)) {
-      handleCancelRenameTask();
-    }
-  }, [handleCancelRenameTask, renamingTaskKey, view]);
+    section.reconcileRename(view);
+  }, [renamingTaskKey, section, view]);
 
   useLayoutEffect(() => {
     dragPortsRef.current = {
@@ -964,7 +636,10 @@ export function WorkspaceGroupedTasksSection({
         ? measureGroupedGroupPreviewWidth(groupedSectionRootRef.current, key)
         : measureGroupedTaskPreviewWidth(groupedSectionRootRef.current, key),
       animate: setViewWithGroupedTaskAnimation,
-      persist: (next, canPublish) => applyOrder(next, { canPublish }),
+      persist: (next, canPublish) => {
+        const sectionAllows = section.permitOrder();
+        return applyOrder(next, { canPublish: () => canPublish() && sectionAllows() });
+      },
       failed: () => toast(intl.formatMessage({ id: "taskGroup.updateFailed" })),
       track: createWorkbenchPointerPositionTracker,
       updateWorkbench: updateWorkbenchPointerDrag,
@@ -973,7 +648,10 @@ export function WorkspaceGroupedTasksSection({
     };
   });
   useLayoutEffect(() => dragSession.activate(), [baseServices.taskService, dragSession, scopeSignature]);
-  const handleGroupedTaskDragStart = dragSession.start;
+  const handleGroupedTaskDragStart = useCallback((event: Parameters<typeof dragSession.start>[0]) => {
+    section.invalidateOrder();
+    dragSession.start(event);
+  }, [dragSession, section]);
   const handleGroupedTaskDragMove = dragSession.move;
   const handleGroupedTaskDragOver = dragSession.over;
   const handleGroupedTaskDragCancel = dragSession.cancel;
