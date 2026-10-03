@@ -141,6 +141,26 @@ Four fake-filesystem scenarios in
 The date pattern, calendar formula and ordinary native idioms remain qualified;
 this is not an independent-expression/rights/MIT acceptance.
 
+## Native main diagnostic sink batch
+
+`logger.ts` now has one complete prepared-record/main-sink owner. Module startup
+still creates the selected directory, performs retention, reports failed
+retention and installs shared stdout/stderr error handling in that order. Each
+write preserves redaction/serialization, dynamic directory selection, the local
+daily file and exact console/file formats; console EPIPE continues to append,
+other pre-append errors propagate, and injection/append failures are swallowed.
+Production main debug stays skipped while renderer debug retains its prior API.
+
+[Contract](../specs/knorvia-next-platform-main-log-sink-20261003.md) and
+[bindings](evidence/backlog-platform-main-log-sink-20261003/bindings.json) bind the
+upstream-modified baseline, whole frozen candidate and retained retention/shared
+public dependencies. Four scenarios in
+`packages/desktop/test/native-main-log-sink-contract.test.mjs` are **unrun**;
+the actual retention candidate consumes supplied fs ports in those scenarios.
+No real directory/configuration, file, console stream, application or user data
+was operated. All source-exposure, expression/rights/native acceptance and MIT
+qualifications remain open; no services/shared/global source decision changed.
+
 ## Exact next native decisions
 
 The bounded data-size queue is already installed and retained: scanner/client
