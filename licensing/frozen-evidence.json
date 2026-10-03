@@ -17830,6 +17830,102 @@
       "sourceCommit": "6a96f808ea3698401b87f3ac386d7e72eb08681f"
     },
     {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/README.md",
+      "sha256": "c7162b688b61af5d40fbeabd8b20da323d7120da0d571458830b637dcaeee5c3",
+      "bytes": 6219,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/SHA256SUMS",
+      "sha256": "42606ac4936c07fa444a713f0884df99b9340db2bc6bef5d2e4bbd1ce22bdb61",
+      "bytes": 1295,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/baseline-final-restoration.json",
+      "sha256": "0dd14bb7177d36b98a9e61638060b484d9f6cba1c928333af3c02cfabeb9a1f1",
+      "bytes": 2001,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/baseline-final-runtime.tap",
+      "sha256": "e06461c39d1e38232763b94865fbbf42ade6394b4807ddde8dbc3df78cf835db",
+      "bytes": 20326,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/baseline-reparented-runtime.tap",
+      "sha256": "e84c0f1e57eecf69fa697f3bf6c98fa42a6c112865d8e8162db7bb4df0a06d9c",
+      "bytes": 20142,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/baseline-restoration.json",
+      "sha256": "051f5b88db93238a255f54352cd9837d28f8901a77ff1064c4f7038fbb10f8ac",
+      "bytes": 1891,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/baseline-runtime.tap",
+      "sha256": "a935866eab920d843865985bff78586abf390cb0e45d803267bec208622291e8",
+      "bytes": 18736,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/candidate-final-command.json",
+      "sha256": "17c542acc99461030d6a9d12b8a87fa60fd66fa5b5b6bc706a6fb77e69a1518a",
+      "bytes": 956,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/candidate-final-runtime.tap",
+      "sha256": "209266156f5ef58934afc10b6d056a71bc6b64dddf53a554269ce98b6d74e3d1",
+      "bytes": 8641,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/candidate-reparented-runtime.tap",
+      "sha256": "08057985257b5d82cd94d4e85c457afd56235744ff32922db5033dedd1a32260",
+      "bytes": 8457,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/candidate-runtime.tap",
+      "sha256": "b790836f4b78ca2648fb2f725ff1bf883a5394b45367af3635702a0a93914a62",
+      "bytes": 8022,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/frozen-oracles.json",
+      "sha256": "5e5e2550eba8010d8d6d8bcdaa74a64daa5a8908ddea6509e651d2645a3ccd2d",
+      "bytes": 2861,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/reported-cross-module-handoff.md",
+      "sha256": "97689aad77690751301813af746cb7c156dc42e9cdcb431b9fc8b778e24fc311",
+      "bytes": 6480,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/reported-shutdown-failure.json",
+      "sha256": "a8ae9bb0302a2bc82aedeb2c7b01f9f21c85155733679bbb95f9ed78258afe6b",
+      "bytes": 296,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/source-bindings.json",
+      "sha256": "5bcd8d886d6e53021354742e77947f72f6b1a56c68272a57eeb66bfabb22f920",
+      "bytes": 8252,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
+      "path": "docs/evidence/services-linux-zombie-cleanup-20261003/validation.json",
+      "sha256": "4304971a938c9916cf4e17c55ec451a22aa718c454045e985e9202ddb034aba5",
+      "bytes": 8498,
+      "sourceCommit": "e16a51911b0a41f8fdee04199949bc278ef2332f"
+    },
+    {
       "path": "docs/evidence/services-residual-effects-20261003/README.md",
       "sha256": "d1da1630cbebc65f081e19e0b6995532098c5cf9fcabd040fcc860e820165ceb",
       "bytes": 7306,
