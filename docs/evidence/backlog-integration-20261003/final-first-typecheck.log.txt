@@ -1,0 +1,139 @@
+
+> knorvia-studio@0.8.0-preview.3 typecheck /workspace/knorvia-studio
+> pnpm i18n:check && tsc -b packages/rpc packages/provider packages/provider-node packages/shared packages/services packages/client packages/server packages/server-cli packages/ui packages/web packages/desktop/tsconfig.host.json packages/desktop/tsconfig.main.json
+
+
+> knorvia-studio@0.8.0-preview.3 i18n:check /workspace/knorvia-studio
+> node scripts/check-i18n-parity.mjs
+
+[i18n] en-US and zh-CN: 5422 matching keys, validated values and placeholders
+packages/shared/src/assistant-presentation.ts(121,13): error TS18048: 'block' is possibly 'undefined'.
+packages/shared/src/assistant-presentation.ts(121,41): error TS18048: 'block' is possibly 'undefined'.
+packages/shared/src/assistant-presentation.ts(121,47): error TS2339: Property 'content' does not exist on type 'KnorviaAssistantPresentationBlock'.
+  Property 'content' does not exist on type '{ type: "tool-call"; toolCall: KnorviaAssistantPresentationToolCall; }'.
+packages/shared/src/assistant-presentation.ts(122,11): error TS2322: Type 'KnorviaAssistantPresentationBlock | undefined' is not assignable to type '{ type: "content"; content: string; } | null'.
+  Type 'undefined' is not assignable to type '{ type: "content"; content: string; } | null'.
+packages/shared/src/network-debug-status.ts(43,3): error TS2322: Type '{ [k: string]: unknown; }' is not assignable to type 'Record<string, string>'.
+  'string' index signatures are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+packages/shared/src/assistant-presentation.ts(121,13): error TS18048: 'block' is possibly 'undefined'.
+packages/shared/src/assistant-presentation.ts(121,41): error TS18048: 'block' is possibly 'undefined'.
+packages/shared/src/assistant-presentation.ts(121,47): error TS2339: Property 'content' does not exist on type 'KnorviaAssistantPresentationBlock'.
+  Property 'content' does not exist on type '{ type: "tool-call"; toolCall: KnorviaAssistantPresentationToolCall; }'.
+packages/shared/src/assistant-presentation.ts(122,11): error TS2322: Type 'KnorviaAssistantPresentationBlock | undefined' is not assignable to type '{ type: "content"; content: string; } | null'.
+  Type 'undefined' is not assignable to type '{ type: "content"; content: string; } | null'.
+packages/shared/src/network-debug-status.ts(43,3): error TS2322: Type '{ [k: string]: unknown; }' is not assignable to type 'Record<string, string>'.
+  'string' index signatures are incompatible.
+    Type 'unknown' is not assignable to type 'string'.
+packages/services/src/commands/commandFileParser.ts(22,17): error TS2532: Object is possibly 'undefined'.
+packages/services/src/commands/commandFileParser.ts(22,36): error TS2532: Object is possibly 'undefined'.
+packages/services/src/commands/commandFileParser.ts(26,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/commands/commandFileParser.ts(27,23): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/commands/commandFileParser.ts(27,42): error TS18048: 'line' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(68,10): error TS18048: 'line' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(69,21): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliHelpers.ts(70,33): error TS18048: 'line' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(157,9): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+packages/services/src/git/repo/gitCliHelpers.ts(179,51): error TS18048: 'entry' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(181,21): error TS18048: 'entry' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliHelpers.ts(186,21): error TS18048: 'entry' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(31,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(32,20): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(37,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(38,35): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(41,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(42,22): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(47,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(48,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(50,32): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(64,9): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(65,77): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(67,28): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(67,28): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(67,50): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(67,64): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(68,16): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(69,83): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(74,16): error TS18048: 'record' is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(75,89): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(83,30): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(86,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+packages/services/src/git/repo/gitCliParsing.ts(86,10): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(87,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+packages/services/src/git/repo/gitCliParsing.ts(87,10): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(107,20): error TS2532: Object is possibly 'undefined'.
+packages/services/src/git/repo/gitCliParsing.ts(109,34): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitCliParsing.ts(110,36): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/git/repo/gitRepoPush.ts(49,29): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/services/src/model-provider/legacyProviderEndpoints.ts(106,17): error TS2532: Object is possibly 'undefined'.
+packages/services/src/providers/api/nodeApiNetwork.ts(31,18): error TS18048: 'hostPart' is possibly 'undefined'.
+packages/services/src/skill-sync/skillSyncDiscovery.ts(43,20): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/server/src/remote/localTarGz.ts(110,68): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+packages/server/src/remote/wslProxy.ts(75,28): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/wslProxy.ts(75,46): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/wslProxy.ts(84,23): error TS2532: Object is possibly 'undefined'.
+packages/ui/src/v4/paneLayoutTree.ts(210,41): error TS2339: Property 'sessionId' does not exist on type '{ kind: "confirm" | "close" | "focus"; paneId: string; } | { kind: "bind"; paneId: string; sessionId: string; }'.
+  Property 'sessionId' does not exist on type '{ kind: "confirm" | "close" | "focus"; paneId: string; }'.
+packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx(191,22): error TS2322: Type '(path: string, childDepth: number, options?: DirectoryLoadOptions) => Promise<FileTreeDirectoryLoadResult>' is not assignable to type '(path: string, depth: number) => Promise<void>'.
+  Type 'Promise<FileTreeDirectoryLoadResult>' is not assignable to type 'Promise<void>'.
+    Type 'string' is not assignable to type 'void'.
+      Type 'string' is not assignable to type 'void'.
+packages/desktop/src/host/index.ts(541,11): error TS2741: Property 'tryAcquire' is missing in type '{ acquire: () => boolean; release: () => void; getState: () => { active: number; limit: number; }; }' but required in type '{ tryAcquire(): boolean; release(): void; getState?(): { active: number; limit: number; }; }'.
+packages/desktop/src/host/index.ts(752,43): error TS2345: Argument of type 'HostRemoteTaskMeta' is not assignable to parameter of type 'KnorviaTaskMeta'.
+  Type 'HostRemoteTaskMeta' is missing the following properties from type 'KnorviaTaskMeta': title, createdAt, updatedAt, mode
+packages/desktop/src/host/index.ts(763,39): error TS2345: Argument of type '((string extends keyof T ? T[keyof T & string] : any) & Function) | ((symbol extends keyof T ? T[keyof T & symbol] : any) & Function)' is not assignable to parameter of type '(...args: unknown[]) => unknown'.
+  Type '(string extends keyof T ? T[keyof T & string] : any) & Function' is not assignable to type '(...args: unknown[]) => unknown'.
+    Type 'Function' provides no match for the signature '(...args: unknown[]): unknown'.
+packages/desktop/src/host/index.ts(765,63): error TS2345: Argument of type 'HostRemoteTaskMeta' is not assignable to parameter of type 'KnorviaTaskMeta'.
+  Type 'HostRemoteTaskMeta' is missing the following properties from type 'KnorviaTaskMeta': title, createdAt, updatedAt, mode
+packages/desktop/src/host/index.ts(789,13): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/desktop/src/host/index.ts(1377,21): error TS2339: Property 'kind' does not exist on type '{ action: "snapshot"; } | { action: "exit"; } | { action: "retry"; attemptId: string; }'.
+  Property 'kind' does not exist on type '{ action: "snapshot"; }'.
+packages/desktop/src/host/index.ts(1378,26): error TS2339: Property 'kind' does not exist on type '{ action: "snapshot"; } | { action: "exit"; } | { action: "retry"; attemptId: string; }'.
+  Property 'kind' does not exist on type '{ action: "snapshot"; }'.
+packages/desktop/src/host/index.ts(1378,88): error TS2339: Property 'attemptId' does not exist on type '{ action: "snapshot"; } | { action: "exit"; } | { action: "retry"; attemptId: string; }'.
+  Property 'attemptId' does not exist on type '{ action: "snapshot"; }'.
+packages/desktop/src/host/remotePromptAttachments.ts(137,23): error TS18048: 'attachment' is possibly 'undefined'.
+packages/desktop/src/host/remotePromptAttachments.ts(139,28): error TS2345: Argument of type 'KnorviaPromptAttachment | undefined' is not assignable to parameter of type 'KnorviaPromptAttachment'.
+  Type 'undefined' is not assignable to type 'KnorviaPromptAttachment'.
+packages/desktop/src/host/remotePromptAttachments.ts(146,28): error TS2345: Argument of type 'KnorviaPromptAttachment | undefined' is not assignable to parameter of type 'KnorviaPromptAttachment'.
+  Type 'undefined' is not assignable to type 'KnorviaPromptAttachment'.
+packages/desktop/src/host/remotePromptAttachments.ts(149,78): error TS18048: 'attachment' is possibly 'undefined'.
+packages/desktop/src/host/remotePromptAttachments.ts(168,35): error TS18048: 'attachment' is possibly 'undefined'.
+packages/desktop/src/host/remotePromptAttachments.ts(170,26): error TS2345: Argument of type '{ localPath: string; } | { localPath: string; kind: "image"; filename: string; mimeType: string; sizeBytes?: number | undefined; dataBase64?: string | undefined; } | { localPath: string; kind: "audio"; filename: string; mimeType: string; dataBase64?: string | undefined; } | { ...; } | { ...; } | { ...; }' is not assignable to parameter of type 'KnorviaPromptAttachment'.
+  Type '{ localPath: string; }' is not assignable to type 'KnorviaPromptAttachment'.
+    Type '{ localPath: string; }' is missing the following properties from type 'KnorviaPromptFileAttachment': kind, filename, mimeType, sizeBytes
+packages/server/src/remote/localTarGz.ts(110,68): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+packages/server/src/remote/wslProxy.ts(75,28): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/wslProxy.ts(75,46): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/wslProxy.ts(84,23): error TS2532: Object is possibly 'undefined'.
+packages/desktop/src/main/browserView/browserCommandInput.ts(250,24): error TS2322: Type 'KeyDefinition | undefined' is not assignable to type 'KeyDefinition'.
+  Type 'undefined' is not assignable to type 'KeyDefinition'.
+packages/desktop/src/main/browserView/browserCommandInput.ts(291,69): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts(327,32): error TS2532: Object is possibly 'undefined'.
+packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts(328,5): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/localTarGz.ts(110,68): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+packages/server/src/remote/wslProxy.ts(75,28): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/wslProxy.ts(75,46): error TS2532: Object is possibly 'undefined'.
+packages/server/src/remote/wslProxy.ts(84,23): error TS2532: Object is possibly 'undefined'.
+ ELIFECYCLE  Command failed with exit code 2.

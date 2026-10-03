@@ -179,3 +179,21 @@ CLI 报告的新增测试接收后由整合者在同一根 runner 加入 `apps/c
 ## 实现阶段未执行项
 
 上述实现阶段的测试、lint、类型检查、格式/架构检查、构建、完整审计和真实原生/UI/网络/用户数据操作均未运行。只有 Git/API/源码/配置/历史证据读取及授权的仓库提交/推送/PR 维护。现已按父任务明确通知进入最终集中阶段，具体新检查必须按真实命令与受检 SHA 另记，不能覆盖这些历史未运行事实。全局 reviews、根 LICENSE/NOTICE 和 CI 门禁继续保留；current-files 只按实际源与真实来源决定对齐，不声明全量 MIT。
+
+## 最终集中验收首轮实际结果与修复交接
+
+统一接收与 runner checkpoint 已发布为 `8b9113d97379ec2e7b1d80f9a4277b008d40441c`。首轮集中检查绑定该树；整合者类型/测试入口修复 source commit 为 `0f24d7907e47118e0988a0b080eb8aa9575e2cfe`。具体命令、真实退出码、诊断、源码摘要、scope 与未运行项见 [首轮结果 JSON](evidence/backlog-integration-20261003/final-first-pass.json)、[完整首轮类型日志](evidence/backlog-integration-20261003/final-first-typecheck.log.txt) 和 [格式失败路径](evidence/backlog-integration-20261003/final-first-format-paths.json)。首次 frozen 安装日志显示完成，终端 session 却返回 1，未把该退出码写成成功；固定工具版本及实际依赖可用性由后续检查实证，未重复空转安装。
+
+首轮根 typecheck 返回 2，i18n 5422 键一致；85 条诊断去重为 72（shared 5、services 43、server 4、UI 2、desktop 18）。shared 与 contracts 的真实类型表达问题已修补并保留字段读取/顺序/身份，shared 单包类型复查返回 0。根检查尚未复跑或改为通过；services 七文件、native 的 desktop/server、UI 文件树和移交 CLI pane union 由父任务调度原路，整合者不越权接管。CLI 完整 build 首次停在 contracts，修复后 contracts 成功推进，第二轮停在 adapters/browser/index.ts:190 未赋值 admission 与 adapters/image/jimp-compression.ts:60 的 BufferSettings 类型；完整 dist 依赖未形成，所以 pnpm test:studio 与全 CLI typecheck 尚未运行，不能用部分 emit 或选定 tests 代替。
+
+根 lint 返回 1，报告 241 errors/134 warnings；其中定位到的 222 项在历史 docs 证据，七份 desktop .test.mjs 行数，以及一份 licensing 冻结快照行数，另有未定位/重复诊断，原始冻结载荷未删改。根 fmt:check 返回 1，1955 个路径（apps 118、packages 157、docs 1097、licensing 559、specs 24），完整清单保留；没有全仓格式化旧证据、增加忽略或放宽门禁。修复的十三个当前 source/test 文件仅作定点格式化。全量 architecture 按未改策略返回 0，violations/baseline/new 均 0，不代表未管理模块或独立表达/权利已通过。CLI 现有 lint 命令返回 0、实际覆盖 100 文件；不扩称整个 CLI。
+
+固定 Node 24.14.0/pnpm 10.33.2 下 Web build、formal-proof typecheck/lint/build、model-option-map typecheck、desktop build:no-runtime-assets 均返回 0。后者只证明 Main/Host/preload/renderer 源码 bundle，未准备或执行 runtime payload、安装版/便携版、实际 Electron/native UI。shared 九套原边界 tests 与 authority fixture 增加缺省本包 source root，仍保留显式旧根模式；48 场景全过，随后物理入口 native-resolve 修改的五个 authority/hook 场景也全过。均为虚拟端口，不声称实际用户数据/远控/UI验收。
+
+补充定向回归沿用根隔离数据/凭据过滤、Node mocks、并发 2/120s 策略：server-cli 三套实际报告 14 tests、12 pass、2 fail；两项 lock fixture 在加载时因 Identifier port has already been declared 报错，未执行锁行为断言，交 native 原任务。CLI 六个显式文件和三个 core 文件报告 61 tests、60 pass、1 fail；session-projection-contract 文件因缺 core/dist/index.js 在用例前失败，其余 60 通过不构成完整 76 场景或全部 source/emitted 验收。没有重复全套检查或把未运行/夹具加载失败改成生产通过。
+
+provenance:check 首轮返回 1，停在十二个 RPC third-party current inputs。逐项 source commits/旧 input/当前摘要/原分类与来源边界已在 [RPC 对齐记录](evidence/backlog-integration-20261003/rpc-input-reconciliation.json) 保存；只对齐该十二项当前候选字节，复制组件/未知原 import revision/原 Microsoft notice 与 MIT 适用部分、全部 source registers、26 项材料义务与权利 HOLD 不改。current-files 接下来按实际源和原 review 决定生成；未加 independent/MIT review 或清除 stale/conflict/HOLD。清单通过也不是全量 MIT 结论。
+
+GitHub 在四个目标分支 merge 推送后显示 #14–17 为 closed，冻结 heads 仍完全相同，本整合者没有另行调用 close；原任务/分支保留，可继续推送修复的完整 SHA，再普通 merge 接收。唯一面向 main 的 #13 仍 open/draft，main 不动。再次断连提示到达时，实际命令仍成功；生产源码修复已提交，待提交仅这些真实诊断与清单对齐记录，没有丢失、重建任务/分支或频繁重试失败环境。当前明确 **不就绪合 main**：根代码/格式/lint/完整 CLI/regression 门禁及来源/产品边界尚有实质失败，先交父任务调度修复。
+
+RPC 当前 input 对齐后，`pnpm provenance:report` 实际返回 0：当前清单 15597 项、reviewProblems 0、missingReviews 空；26 项未解决第三方材料仍保留，review 与 LICENSE/NOTICE 未改，没有将 unreviewed/候选/HOLD 改为独立接受或 MIT。新增本节/receipt 后再作最后一次 report/check 对账，清单一致性和原材料问题分开。整合者定点 lint 返回 0、报告实际 12 文件，CLI 路径仍受既有配置排除，不声称覆盖整个 contracts/CLI。所有原失败、源码修复摘要与 exact domain requests 已保存，可立即由父任务复用原四路调度。

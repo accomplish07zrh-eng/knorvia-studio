@@ -1,0 +1,2033 @@
+{
+  "schemaVersion": 1,
+  "receivedCombinedCheckpoint": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+  "integratorRepairSourceCommit": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+  "runtime": {
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "os": "linux",
+    "arch": "x64",
+    "installFlags": [
+      "--frozen-lockfile",
+      "--ignore-scripts"
+    ],
+    "note": "Desktop runtime binary hooks were not installed or launched; pinned archive checksum verified. First install log completed but terminal session reported 1, so no successful-install exit assertion is made."
+  },
+  "readyForMain": false,
+  "rightsAccepted": false,
+  "checks": [
+    {
+      "id": "root-typecheck",
+      "command": "pnpm typecheck",
+      "observedExitCode": 2,
+      "status": "failed",
+      "scope": "Root project references and i18n; 85 diagnostics / 72 distinct",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "e0538829c7a53816fb0ab8be5d578b1294f2fb5ece8ff3059a167e124ede9ad6"
+    },
+    {
+      "id": "root-lint",
+      "command": "pnpm lint",
+      "observedExitCode": 1,
+      "status": "failed",
+      "scope": "241 errors / 134 warnings; frozen evidence diagnostics remain unchanged",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "d0e4fab331a3eaa6945fc815b48ac1e8bd17d977c4c41ecf8523f5e8e09d52e0"
+    },
+    {
+      "id": "root-format",
+      "command": "pnpm fmt:check",
+      "observedExitCode": 1,
+      "status": "failed",
+      "scope": "1955 paths; 275 apps/packages/scripts and 1680 evidence/docs/spec files",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "b33a86d359742dee837d68ac0f67ee7e49a85bde4eb2bba3f096d43d945097ba"
+    },
+    {
+      "id": "full-architecture",
+      "command": "pnpm architecture:check",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Entire repository under unchanged architecture policy",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "8491254e049d10ad8503b39f6a9d1dc24740690ff0924d07e737e1a93fe380ba"
+    },
+    {
+      "id": "first-provenance",
+      "command": "pnpm provenance:check",
+      "observedExitCode": 1,
+      "status": "failed",
+      "scope": "Failed at the twelve stale RPC third-party current inputs before report freshness",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "bb3767a79b06992fcb6c1f7ee1922ec28b1641581d4ce3dc675c1441c190d303"
+    },
+    {
+      "id": "first-cli-build",
+      "command": "pnpm build:cli-packages",
+      "observedExitCode": 2,
+      "status": "failed",
+      "scope": "Failed at contracts ledger assertion/shared header predicate",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "b96baad004e271d809d42f2d02d00e162d8c6dd29770dee8ab3ab66970bad977"
+    },
+    {
+      "id": "cli-build-after-contract-fix",
+      "command": "pnpm build:cli-packages",
+      "observedExitCode": 2,
+      "status": "failed",
+      "scope": "Contracts progressed; adapters browser admission and Jimp settings block full build",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "03f614ed5afcb887e76240383e9c177a920f0a8db21bdcaf9fb5103e8b78de6d"
+    },
+    {
+      "id": "shared-typecheck-after-fix",
+      "command": "pnpm --filter @knorvia/shared exec tsc --noEmit",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Shared only; full root typecheck remains failed pending other domains",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "cli-lint-script",
+      "command": "pnpm --dir apps/cli lint",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Existing CLI command reported 100 files; not an all-CLI lint claim",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "55412e1787175f5ce9afd9b996fdc51fa6f2d754afbee8562f7621e801f44608"
+    },
+    {
+      "id": "formal-proof-typecheck",
+      "command": "pnpm --filter @knorvia/formal-proof typecheck",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Formal model/page TypeScript",
+      "sourceSnapshot": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+      "logSha256": "2af7257bd6f9395c54cc9d42371959f517e08a8de650940810c4d87d57a09ee8"
+    },
+    {
+      "id": "formal-proof-lint",
+      "command": "pnpm --filter @knorvia/formal-proof lint",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Formal package configured source/entry lint, 10 files",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "789304741cff8e3580cd3340b5961c43906f9df631222936d60b9bb11d2288a7"
+    },
+    {
+      "id": "model-option-map-typecheck",
+      "command": "pnpm --filter @knorvia/model-option-map typecheck",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Model-option-map package TypeScript",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "84b33125a7b93cff6dd21f96e5bff3deda02e627695594eb2e949cb7672e67a3"
+    },
+    {
+      "id": "web-build",
+      "command": "pnpm --filter @knorvia/web build",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Production Web entries including independent perf entry; no browser/UI runtime acceptance",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "56dd2d9ea8f41b3442bc0964012f77ed8d933dd864bf9943452c8ab88e22523a"
+    },
+    {
+      "id": "formal-proof-build",
+      "command": "pnpm --filter @knorvia/formal-proof build",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Production formal explorer bundle; no saved-user-review or DOM acceptance",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "efceafdd5eef0cc34d608a7321132b65b53cc4e6464a94b7671517e3f09bd38b"
+    },
+    {
+      "id": "desktop-source-build",
+      "command": "pnpm --filter @knorvia/desktop build:no-runtime-assets",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Main/Host/preload/renderer source bundles only; no runtime payload/installer/native launch",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "0055e4e8044519d7fb9cf7e28172fc315440ede3a1e43c48c894dae27e9c5a19"
+    },
+    {
+      "id": "shared-current-source-boundaries",
+      "command": "node --test --test-concurrency=2 --test-timeout=120000 packages/shared/test/*.test.mjs",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "48 virtual-port boundaries; supplied-root mode preserved; later native-resolve fixture adjustment checked separately",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "f9075ed09670faa2deb28d3bba2385c2ec1b624f61129436acb5b21e53cf6fd2",
+      "tests": 48,
+      "pass": 48,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "shared-native-resolve-fixture",
+      "command": "node --test packages/shared/test/shared-authority-settings-hook-boundaries.test.mjs packages/shared/test/shared-hook-write-boundaries.test.mjs",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "5 virtual-port cases after physical source-path correction",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "bb6213f59301b2764d073918bbb19011e65bb6a608cb73e88cf9d2bda4f9bf78",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "native-selected",
+      "command": "Pinned Node isolated driver + server-cli control/status/lock suites",
+      "observedExitCode": 1,
+      "status": "failed",
+      "scope": "14 selected fake-port scenes; 12 pass; two lock fixtures fail to load due duplicate port declaration",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "8bdb3c3bf13a1195ff0069344dc50fa6faadf66586d8d7aef9a9cd3daddec00a",
+      "tests": 14,
+      "pass": 12,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "cli-selected",
+      "command": "Pinned Node isolated driver + 6 explicit CLI suites + 3 core suites",
+      "observedExitCode": 1,
+      "status": "failed",
+      "scope": "60 cases pass; session-projection-contract file fails before its cases due missing core dist; full build precondition not satisfied",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe",
+      "logSha256": "6d2574b53b3def20855c62508c9750fc9a5f4482d779390b7a8331405d045d19",
+      "tests": 61,
+      "pass": 60,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "integrator-scoped-lint",
+      "command": "pnpm exec oxlint --no-ignore <13 specified source/test paths>",
+      "observedExitCode": 0,
+      "status": "passed",
+      "scope": "Reported 12 inspected files; existing root apps/cli exclusion remains, so no contracts/whole-CLI lint coverage is inferred",
+      "sourceSnapshot": "0f24d7907e47118e0988a0b080eb8aa9575e2cfe"
+    }
+  ],
+  "firstRootTypecheck": {
+    "total": 85,
+    "distinctCount": 72,
+    "domains": {
+      "packages/shared": 5,
+      "packages/services": 43,
+      "packages/server": 4,
+      "packages/ui": 2,
+      "packages/desktop": 18
+    },
+    "errors": [
+      {
+        "path": "packages/shared/src/assistant-presentation.ts",
+        "line": 121,
+        "column": 13,
+        "code": "TS18048",
+        "message": "'block' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/shared/src/assistant-presentation.ts",
+        "line": 121,
+        "column": 41,
+        "code": "TS18048",
+        "message": "'block' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/shared/src/assistant-presentation.ts",
+        "line": 121,
+        "column": 47,
+        "code": "TS2339",
+        "message": "Property 'content' does not exist on type 'KnorviaAssistantPresentationBlock'."
+      },
+      {
+        "path": "packages/shared/src/assistant-presentation.ts",
+        "line": 122,
+        "column": 11,
+        "code": "TS2322",
+        "message": "Type 'KnorviaAssistantPresentationBlock | undefined' is not assignable to type '{ type: \"content\"; content: string; } | null'."
+      },
+      {
+        "path": "packages/shared/src/network-debug-status.ts",
+        "line": 43,
+        "column": 3,
+        "code": "TS2322",
+        "message": "Type '{ [k: string]: unknown; }' is not assignable to type 'Record<string, string>'."
+      },
+      {
+        "path": "packages/services/src/commands/commandFileParser.ts",
+        "line": 22,
+        "column": 17,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/commands/commandFileParser.ts",
+        "line": 22,
+        "column": 36,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/commands/commandFileParser.ts",
+        "line": 26,
+        "column": 21,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/commands/commandFileParser.ts",
+        "line": 27,
+        "column": 23,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/commands/commandFileParser.ts",
+        "line": 27,
+        "column": 42,
+        "code": "TS18048",
+        "message": "'line' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 68,
+        "column": 10,
+        "code": "TS18048",
+        "message": "'line' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 69,
+        "column": 21,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 70,
+        "column": 33,
+        "code": "TS18048",
+        "message": "'line' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 157,
+        "column": 9,
+        "code": "TS2322",
+        "message": "Type 'number | undefined' is not assignable to type 'number'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 179,
+        "column": 51,
+        "code": "TS18048",
+        "message": "'entry' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 181,
+        "column": 21,
+        "code": "TS18048",
+        "message": "'entry' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliHelpers.ts",
+        "line": 186,
+        "column": 21,
+        "code": "TS18048",
+        "message": "'entry' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 31,
+        "column": 9,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 32,
+        "column": 20,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 37,
+        "column": 9,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 38,
+        "column": 35,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 41,
+        "column": 9,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 42,
+        "column": 22,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 47,
+        "column": 9,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 48,
+        "column": 9,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 50,
+        "column": 32,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 64,
+        "column": 9,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 65,
+        "column": 77,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 67,
+        "column": 28,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 67,
+        "column": 28,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 67,
+        "column": 50,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 67,
+        "column": 64,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 68,
+        "column": 16,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 69,
+        "column": 83,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 74,
+        "column": 16,
+        "code": "TS18048",
+        "message": "'record' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 75,
+        "column": 89,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 83,
+        "column": 30,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 86,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type 'string | undefined' is not assignable to type 'string | null'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 86,
+        "column": 10,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 87,
+        "column": 7,
+        "code": "TS2322",
+        "message": "Type 'string | undefined' is not assignable to type 'string | null'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 87,
+        "column": 10,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 107,
+        "column": 20,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 109,
+        "column": 34,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitCliParsing.ts",
+        "line": 110,
+        "column": 36,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/services/src/git/repo/gitRepoPush.ts",
+        "line": 49,
+        "column": 29,
+        "code": "TS2322",
+        "message": "Type 'string | undefined' is not assignable to type 'string'."
+      },
+      {
+        "path": "packages/services/src/model-provider/legacyProviderEndpoints.ts",
+        "line": 106,
+        "column": 17,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/providers/api/nodeApiNetwork.ts",
+        "line": 31,
+        "column": 18,
+        "code": "TS18048",
+        "message": "'hostPart' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/services/src/skill-sync/skillSyncDiscovery.ts",
+        "line": 43,
+        "column": 20,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/server/src/remote/localTarGz.ts",
+        "line": 110,
+        "column": 68,
+        "code": "TS2345",
+        "message": "Argument of type 'number | undefined' is not assignable to parameter of type 'number'."
+      },
+      {
+        "path": "packages/server/src/remote/wslProxy.ts",
+        "line": 75,
+        "column": 28,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/server/src/remote/wslProxy.ts",
+        "line": 75,
+        "column": 46,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/server/src/remote/wslProxy.ts",
+        "line": 84,
+        "column": 23,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/ui/src/v4/paneLayoutTree.ts",
+        "line": 210,
+        "column": 41,
+        "code": "TS2339",
+        "message": "Property 'sessionId' does not exist on type '{ kind: \"confirm\" | \"close\" | \"focus\"; paneId: string; } | { kind: \"bind\"; paneId: string; sessionId: string; }'."
+      },
+      {
+        "path": "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+        "line": 191,
+        "column": 22,
+        "code": "TS2322",
+        "message": "Type '(path: string, childDepth: number, options?: DirectoryLoadOptions) => Promise<FileTreeDirectoryLoadResult>' is not assignable to type '(path: string, depth: number) => Promise<void>'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 541,
+        "column": 11,
+        "code": "TS2741",
+        "message": "Property 'tryAcquire' is missing in type '{ acquire: () => boolean; release: () => void; getState: () => { active: number; limit: number; }; }' but required in type '{ tryAcquire(): boolean; release(): void; getState?(): { active: number; limit: number; }; }'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 752,
+        "column": 43,
+        "code": "TS2345",
+        "message": "Argument of type 'HostRemoteTaskMeta' is not assignable to parameter of type 'KnorviaTaskMeta'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 763,
+        "column": 39,
+        "code": "TS2345",
+        "message": "Argument of type '((string extends keyof T ? T[keyof T & string] : any) & Function) | ((symbol extends keyof T ? T[keyof T & symbol] : any) & Function)' is not assignable to parameter of type '(...args: unknown[]) => unknown'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 765,
+        "column": 63,
+        "code": "TS2345",
+        "message": "Argument of type 'HostRemoteTaskMeta' is not assignable to parameter of type 'KnorviaTaskMeta'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 789,
+        "column": 13,
+        "code": "TS2322",
+        "message": "Type 'string | undefined' is not assignable to type 'string'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 1377,
+        "column": 21,
+        "code": "TS2339",
+        "message": "Property 'kind' does not exist on type '{ action: \"snapshot\"; } | { action: \"exit\"; } | { action: \"retry\"; attemptId: string; }'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 1378,
+        "column": 26,
+        "code": "TS2339",
+        "message": "Property 'kind' does not exist on type '{ action: \"snapshot\"; } | { action: \"exit\"; } | { action: \"retry\"; attemptId: string; }'."
+      },
+      {
+        "path": "packages/desktop/src/host/index.ts",
+        "line": 1378,
+        "column": 88,
+        "code": "TS2339",
+        "message": "Property 'attemptId' does not exist on type '{ action: \"snapshot\"; } | { action: \"exit\"; } | { action: \"retry\"; attemptId: string; }'."
+      },
+      {
+        "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+        "line": 137,
+        "column": 23,
+        "code": "TS18048",
+        "message": "'attachment' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+        "line": 139,
+        "column": 28,
+        "code": "TS2345",
+        "message": "Argument of type 'KnorviaPromptAttachment | undefined' is not assignable to parameter of type 'KnorviaPromptAttachment'."
+      },
+      {
+        "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+        "line": 146,
+        "column": 28,
+        "code": "TS2345",
+        "message": "Argument of type 'KnorviaPromptAttachment | undefined' is not assignable to parameter of type 'KnorviaPromptAttachment'."
+      },
+      {
+        "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+        "line": 149,
+        "column": 78,
+        "code": "TS18048",
+        "message": "'attachment' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+        "line": 168,
+        "column": 35,
+        "code": "TS18048",
+        "message": "'attachment' is possibly 'undefined'."
+      },
+      {
+        "path": "packages/desktop/src/host/remotePromptAttachments.ts",
+        "line": 170,
+        "column": 26,
+        "code": "TS2345",
+        "message": "Argument of type '{ localPath: string; } | { localPath: string; kind: \"image\"; filename: string; mimeType: string; sizeBytes?: number | undefined; dataBase64?: string | undefined; } | { localPath: string; kind: \"audio\"; filename: string; mimeType: string; dataBase64?: string | undefined; } | { ...; } | { ...; } | { ...; }' is not assignable to parameter of type 'KnorviaPromptAttachment'."
+      },
+      {
+        "path": "packages/desktop/src/main/browserView/browserCommandInput.ts",
+        "line": 250,
+        "column": 24,
+        "code": "TS2322",
+        "message": "Type 'KeyDefinition | undefined' is not assignable to type 'KeyDefinition'."
+      },
+      {
+        "path": "packages/desktop/src/main/browserView/browserCommandInput.ts",
+        "line": 291,
+        "column": 69,
+        "code": "TS2345",
+        "message": "Argument of type 'string | undefined' is not assignable to parameter of type 'string'."
+      },
+      {
+        "path": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+        "line": 327,
+        "column": 32,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      },
+      {
+        "path": "packages/desktop/src/main/browserView/browserPlaywrightDomSnapshot.ts",
+        "line": 328,
+        "column": 5,
+        "code": "TS2532",
+        "message": "Object is possibly 'undefined'."
+      }
+    ]
+  },
+  "firstRootLint": {
+    "reportedErrors": 241,
+    "reportedWarnings": 134,
+    "locatedErrors": 230,
+    "locatedByRoot": {
+      "docs": 222,
+      "packages": 7,
+      "licensing": 1
+    },
+    "errors": [
+      {
+        "rule": "x eslint(max-lines): File has too many lines (443).",
+        "path": "docs/evidence/agent-runtime-author-20261003/api.d.ts",
+        "line": 474
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 10
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 9
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 9
+      },
+      {
+        "rule": "x Identifier `WorkspacePurpose` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 36
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 9
+      },
+      {
+        "rule": "x Identifier `AppSettings` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 108
+      },
+      {
+        "rule": "x Identifier `DesktopWindowSize` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 12
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/root-window-owners-20261003/packet/dependency-api.d.ts",
+        "line": 10
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 10
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 9
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 9
+      },
+      {
+        "rule": "x Identifier `WorkspacePurpose` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 36
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 9
+      },
+      {
+        "rule": "x Identifier `AppSettings` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 108
+      },
+      {
+        "rule": "x Identifier `DesktopWindowSize` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 12
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/desktop-window-root-packet-20261003/dependency-api.d.ts",
+        "line": 10
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `ProcessResourceRuntimeSurface` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 189
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `ElectronUtilityProcess` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 209
+      },
+      {
+        "rule": "x Identifier `ElectronUtilityProcess` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 209
+      },
+      {
+        "rule": "x Identifier `ProcessResourceRuntimeSurface` has already been declared",
+        "path": "docs/evidence/desktop-platform-host-root-packet-20261003/dependency-api.d.ts",
+        "line": 189
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/desktop-about-menu-root-packet-20261003/public-api.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/desktop-about-menu-root-packet-20261003/public-api.d.ts",
+        "line": 5
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/desktop-about-menu-root-packet-20261003/dependency-api.d.ts",
+        "line": 19
+      },
+      {
+        "rule": "x Identifier `AppSettings` has already been declared",
+        "path": "docs/evidence/desktop-about-menu-root-packet-20261003/dependency-api.d.ts",
+        "line": 19
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/desktop-about-menu-root-packet-20261003/dependency-api.d.ts",
+        "line": 19
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (682).",
+        "path": "packages/desktop/src/preload/owners.test.mjs",
+        "line": 687
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (488).",
+        "path": "packages/desktop/src/main/browserView/tabClipboardOwners.test.mjs",
+        "line": 493
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (539).",
+        "path": "packages/desktop/src/main/browserView/playwrightOwners.test.mjs",
+        "line": 551
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (616).",
+        "path": "packages/desktop/src/main/browserView/commandOwners.test.mjs",
+        "line": 621
+      },
+      {
+        "rule": "x Identifier `ModelInputMessage` has already been declared",
+        "path": "docs/evidence/core-model-context-session-owner-packet-20261003/env/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (483).",
+        "path": "docs/evidence/core-model-context-session-owner-packet-20261003/session/public-shapes.d.ts",
+        "line": 485
+      },
+      {
+        "rule": "x Identifier `WorkflowRunSnapshot` has already been declared",
+        "path": "docs/evidence/collection-events-prompts-author-packet-20261003/public-api.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (697).",
+        "path": "packages/desktop/src/host/behaviorOwners.test.mjs",
+        "line": 701
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (626).",
+        "path": "packages/desktop/src/host/resourceOwners.test.mjs",
+        "line": 628
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (1389).",
+        "path": "packages/desktop/src/host/indexOwner.test.mjs",
+        "line": 1391
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 16
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 16
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 244
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 244
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `RuntimeMessageEntry` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 386
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 16
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 16
+      },
+      {
+        "rule": "x Identifier `ModelToolCall` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 244
+      },
+      {
+        "rule": "x Identifier `StreamedToolExecutionResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 327
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 16
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 99
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 244
+      },
+      {
+        "rule": "x Identifier `ModelMessageContent` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-command-author-20261003/supporting.d.ts",
+        "line": 325
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (489).",
+        "path": "licensing/evidence/desktop-recording-presentation-owners-20261003/recordingOwners-unsplit-formatted.mjs",
+        "line": 496
+      },
+      {
+        "rule": "x Identifier `RuntimeMessageEntry` has already been declared",
+        "path": "docs/evidence/core-model-media-author-packet-20261003/request/dependency-api.d.ts",
+        "line": 1
+      },
+      {
+        "rule": "x Identifier `ModelInputMessage` has already been declared",
+        "path": "docs/evidence/core-model-media-author-packet-20261003/request/dependency-api.d.ts",
+        "line": 1
+      },
+      {
+        "rule": "x Identifier `RuntimeMessageEntry` has already been declared",
+        "path": "docs/evidence/core-model-media-author-packet-20261003/request/dependency-api.d.ts",
+        "line": 1
+      },
+      {
+        "rule": "x Identifier `ModelInputMessage` has already been declared",
+        "path": "docs/evidence/core-model-media-author-packet-20261003/budget/dependency-api.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-model-media-author-packet-20261003/budget/dependency-api.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-permission-owner-author-20261003/api.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `McpToolDescriptor` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/dependency-api.d.ts",
+        "line": 21
+      },
+      {
+        "rule": "x Identifier `McpToolCallResult` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/dependency-api.d.ts",
+        "line": 26
+      },
+      {
+        "rule": "x Identifier `McpToolDescriptor` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/dependency-api.d.ts",
+        "line": 21
+      },
+      {
+        "rule": "x Identifier `JsonSchema` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ProviderNativeToolSpec` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `ToolExecutionMode` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ModelToolSideEffectScope` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `RiskLevel` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionEvent` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `InteractionRequestOrigin` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 366
+      },
+      {
+        "rule": "x Identifier `QueryId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 355
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `PermissionUpdate` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `ToolResultDisplayPayload` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `QueryId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 355
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 366
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/bridge/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TokenUsageInfo` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `ModelMessageContentBlock` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/dependency-api.d.ts",
+        "line": 54
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 58
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/history/public-shapes.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 58
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-hydration-owner-packet-20261003/media/public-shapes.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `JsonSchema` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ProviderNativeToolSpec` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `ToolExecutionMode` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ModelToolSideEffectScope` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `RiskLevel` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionEvent` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `InteractionRequestOrigin` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 366
+      },
+      {
+        "rule": "x Identifier `QueryId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 355
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `PermissionUpdate` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `ToolResultDisplayPayload` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `QueryId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 355
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 366
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-mcp-owner-packet-20261003/image/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-prompt-attachment-owner-packet-20261003/attachment/public-shapes.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `DynamicWorkflowRunError` has already been declared",
+        "path": "docs/evidence/background-tracker-author-20261003/dependency-api.d.ts",
+        "line": 135
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `ProcessResourceRuntimeSurface` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 189
+      },
+      {
+        "rule": "x Identifier `BrowserWindow` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 75
+      },
+      {
+        "rule": "x Identifier `ElectronUtilityProcess` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 209
+      },
+      {
+        "rule": "x Identifier `ElectronUtilityProcess` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 209
+      },
+      {
+        "rule": "x Identifier `ProcessResourceRuntimeSurface` has already been declared",
+        "path": "docs/evidence/root-platform-host-20261003/packet/dependency-api.d.ts",
+        "line": 189
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/root-about-menu-20261003/packet/dependency-api.d.ts",
+        "line": 19
+      },
+      {
+        "rule": "x Identifier `AppSettings` has already been declared",
+        "path": "docs/evidence/root-about-menu-20261003/packet/dependency-api.d.ts",
+        "line": 19
+      },
+      {
+        "rule": "x Identifier `Locale` has already been declared",
+        "path": "docs/evidence/root-about-menu-20261003/packet/dependency-api.d.ts",
+        "line": 19
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (444).",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/extraction/public-shapes.d.ts",
+        "line": 447
+      },
+      {
+        "rule": "x Identifier `SessionId` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 33
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 35
+      },
+      {
+        "rule": "x Identifier `TraceId` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 33
+      },
+      {
+        "rule": "x Identifier `TurnId` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 33
+      },
+      {
+        "rule": "x Identifier `JsonSchema` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x Identifier `ProviderNativeToolSpec` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 34
+      },
+      {
+        "rule": "x Identifier `ToolExecutionMode` has already been declared",
+        "path": "docs/evidence/core-memory-owner-packet-20261003/loop/public-shapes.d.ts",
+        "line": 34
+      },
+      {
+        "rule": "x Identifier `ToolCall` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 10
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 1
+      },
+      {
+        "rule": "x Identifier `PartId` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 253
+      },
+      {
+        "rule": "x Identifier `ToolCall` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 196
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 13
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 69
+      },
+      {
+        "rule": "x Identifier `CompletedToolPartMetadata` has already been declared",
+        "path": "docs/evidence/runtime-turn-tool-batch-author-20261003/public-shapes-supplement.d.ts",
+        "line": 281
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 70
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 158
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 61
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 70
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 158
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 61
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 70
+      },
+      {
+        "rule": "x Identifier `RuntimeMessageEntry` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 29
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 158
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `Model` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `ToolCallId` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 213
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 70
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 158
+      },
+      {
+        "rule": "x Identifier `MessageId` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 4
+      },
+      {
+        "rule": "x Identifier `ModelToolCall` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `TraceContext` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 269
+      },
+      {
+        "rule": "x Identifier `RuntimeModelTextResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 61
+      },
+      {
+        "rule": "x Identifier `StreamedToolExecutionResult` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 271
+      },
+      {
+        "rule": "x Identifier `AgentRuntimeInternal` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 70
+      },
+      {
+        "rule": "x Identifier `RegularTurnLoopState` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 158
+      },
+      {
+        "rule": "x Identifier `CompactTrigger` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 1
+      },
+      {
+        "rule": "x Identifier `CoreErrorType` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 2
+      },
+      {
+        "rule": "x Identifier `SessionEventType` has already been declared",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/supporting.d.ts",
+        "line": 3
+      },
+      {
+        "rule": "x eslint(max-lines): File has too many lines (441).",
+        "path": "docs/evidence/runtime-turn-model-step-author-20261003/draft-02/intermediate-before-final-split/turn-model-step-operation.ts",
+        "line": 444
+      }
+    ]
+  },
+  "firstFormat": {
+    "reportedPaths": 1955,
+    "pathsByRoot": {
+      "apps": 118,
+      "docs": 1097,
+      "licensing": 559,
+      "packages": 157,
+      "specs": 24
+    },
+    "pathList": "docs/evidence/backlog-integration-20261003/final-first-format-paths.json"
+  },
+  "repairSourceBindings": [
+    {
+      "path": "apps/cli/packages/contracts/src/events/session-projection-ledgers.ts",
+      "sha256": "8c1efa1e995826172e37cca61b14f8dba50a98d89dd8d93433d0159612c8da5e",
+      "normalizedSha256": "8c1efa1e995826172e37cca61b14f8dba50a98d89dd8d93433d0159612c8da5e"
+    },
+    {
+      "path": "packages/shared/src/assistant-presentation.ts",
+      "sha256": "3b5cdb95fb742442fb8ac806285e0c90787519681544d1a435aa2872b8ee07e4",
+      "normalizedSha256": "3b5cdb95fb742442fb8ac806285e0c90787519681544d1a435aa2872b8ee07e4"
+    },
+    {
+      "path": "packages/shared/src/network-debug-status.ts",
+      "sha256": "448b45401965fd5968469ef692d163eb0c2a3e75f13289650f210d0bd69c704b",
+      "normalizedSha256": "448b45401965fd5968469ef692d163eb0c2a3e75f13289650f210d0bd69c704b"
+    },
+    {
+      "path": "packages/shared/test/shared-assembly-projection-boundaries.test.mjs",
+      "sha256": "d3a74152c1dcffcb51483f354e4d4292a710a19a912f17d016b8c355bb392f8a",
+      "normalizedSha256": "d3a74152c1dcffcb51483f354e4d4292a710a19a912f17d016b8c355bb392f8a"
+    },
+    {
+      "path": "packages/shared/test/shared-authority-fixture.mjs",
+      "sha256": "51400187cbdf7ead75eb415489c3642ec4556d40f12f963144bd092b22719659",
+      "normalizedSha256": "51400187cbdf7ead75eb415489c3642ec4556d40f12f963144bd092b22719659"
+    },
+    {
+      "path": "packages/shared/test/shared-delta-preview-boundaries.test.mjs",
+      "sha256": "e5351ab9d35fa69c1b9554913bd54be27e7a040df11e9fca303d71bcf9e48e4a",
+      "normalizedSha256": "e5351ab9d35fa69c1b9554913bd54be27e7a040df11e9fca303d71bcf9e48e4a"
+    },
+    {
+      "path": "packages/shared/test/shared-error-version-config-digest-boundaries.test.mjs",
+      "sha256": "18c338dce02c82fddf71ffcc1cd297c730a4587dc8cb2b2fae1eade38702ac42",
+      "normalizedSha256": "18c338dce02c82fddf71ffcc1cd297c730a4587dc8cb2b2fae1eade38702ac42"
+    },
+    {
+      "path": "packages/shared/test/shared-file-lock-boundaries.test.mjs",
+      "sha256": "8334795b0c88dfef719cb72228078550b9da30793f4409053c96bb800212d636",
+      "normalizedSha256": "8334795b0c88dfef719cb72228078550b9da30793f4409053c96bb800212d636"
+    },
+    {
+      "path": "packages/shared/test/shared-normalization-boundaries.test.mjs",
+      "sha256": "45baae38c1e7b40a0cb1bcdea12c265c1e887ffa2e54c09c64358afc0146b84d",
+      "normalizedSha256": "45baae38c1e7b40a0cb1bcdea12c265c1e887ffa2e54c09c64358afc0146b84d"
+    },
+    {
+      "path": "packages/shared/test/shared-presentation-control-boundaries.test.mjs",
+      "sha256": "4d22052b09f680872925cd025b13163ed3947c0cbb9fd0c55e05b401a860b2ec",
+      "normalizedSha256": "4d22052b09f680872925cd025b13163ed3947c0cbb9fd0c55e05b401a860b2ec"
+    },
+    {
+      "path": "packages/shared/test/shared-retry-notification-migration-boundaries.test.mjs",
+      "sha256": "f2c8f60bcad2f27103f497bffe134e2392eeb508433b8737f086ebef9bfae854",
+      "normalizedSha256": "f2c8f60bcad2f27103f497bffe134e2392eeb508433b8737f086ebef9bfae854"
+    },
+    {
+      "path": "packages/shared/test/shared-settings-family-order-boundaries.test.mjs",
+      "sha256": "9a8829a1239a26cf1a2838a0ebdc3853fc8b5b9eb318ff13c0bb3618d51cf4cf",
+      "normalizedSha256": "9a8829a1239a26cf1a2838a0ebdc3853fc8b5b9eb318ff13c0bb3618d51cf4cf"
+    },
+    {
+      "path": "packages/shared/test/shared-telemetry-shortcut-migration-boundaries.test.mjs",
+      "sha256": "e15dcd2009ce7cd6c923493ce8c4ad74e82ea56a0773f7f0611bc1abfbd737d9",
+      "normalizedSha256": "e15dcd2009ce7cd6c923493ce8c4ad74e82ea56a0773f7f0611bc1abfbd737d9"
+    }
+  ],
+  "remainingDomainRequests": {
+    "services": "43 distinct first-root diagnostics in 7 service files; see exact rows",
+    "native": "18 desktop + 4 server distinct first-root diagnostics; additionally lock fixture duplicate port declaration",
+    "ui": "WorkspaceFileTree.tsx:191 FileTreeDirectoryLoadResult versus Promise<void>",
+    "cli": "v4/paneLayoutTree.ts:210 union discriminator; adapters/browser/index.ts:190 unassigned admission; adapters/image/jimp-compression.ts:60 Jimp settings type; remaining CLI graph typecheck after build repairs",
+    "integrator": "Frozen evidence lint/format scope, current report freshness and real retained-license/rights boundaries; shared source/type/driver repairs already bound above"
+  },
+  "notRun": [
+    {
+      "command": "pnpm test:studio",
+      "reason": "Full CLI build did not complete; selected source/fake-port tests are supplementary, not a complete source/emitted regression"
+    },
+    {
+      "command": "pnpm --dir apps/cli typecheck",
+      "reason": "CLI emitted dependency graph is still blocked at adapters; do not count selected tests or partial compilation as full CLI acceptance"
+    },
+    {
+      "scope": "Windows/macOS, real Electron/native UI, installer/portable, real data migration/replay",
+      "reason": "Linux source bundles and virtual-port tests do not cover these product/platform paths"
+    }
+  ],
+  "sourceBoundaries": "Original LICENSE/NOTICE, historical accepted-byte gaps/HOLDs and copied materials remain. Exact RPC current-input refresh preserves original declarations and 26 unresolved material obligations. No review is promoted to MIT/independent/accepted by this report.",
+  "currentProvenanceReport": {
+    "command": "pnpm provenance:report",
+    "observedExitCode": 0,
+    "summary": {
+      "total": 15597,
+      "classifications": {
+        "upstream-unchanged": 1503,
+        "upstream-modified": 2397,
+        "unreviewed": 8246,
+        "original": 703,
+        "independent-replacement": 439,
+        "reviewed-retained": 8,
+        "third-party": 2300,
+        "generated-report": 1
+      },
+      "reviewedNatures": {
+        "standard-license-text": 2,
+        "functional-configuration": 9
+      },
+      "reviewProblems": 0,
+      "missingReviews": []
+    },
+    "unresolvedMaterialObligations": 26,
+    "rightsAcceptance": false,
+    "note": "Current RPC inputs reconciled against exact candidate bytes; all existing reviews and material/HOLD obligations preserved. New receipt/ledger bytes require one final report regeneration and check before publishing."
+  },
+  "lanePrDisposition": {
+    "observation": "After ordinary merge commits were pushed to the common base, GitHub metadata reports #14–17 closed; no explicit close action was called by this integrator",
+    "frozenBranchesRemain": true,
+    "nextRepairRoute": "Parent resumes the original four tasks and branches; provide exact new heads for a following ordinary merge into PR13"
+  }
+}
