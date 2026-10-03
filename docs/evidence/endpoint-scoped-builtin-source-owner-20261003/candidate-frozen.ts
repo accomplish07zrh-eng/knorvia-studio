@@ -37,110 +37,111 @@ function releaseResources(resources: EndpointResources): void {
 export class EndpointScopedKnorviaBuiltinSource
   implements ProviderSource<ProviderConfigLayerSnapshot>
 {
-  readonly #options: EndpointScopedKnorviaBuiltinSourceOptions;
-  readonly #listeners = new Set<(reason: string) => void>();
-  #current: EndpointResources | null = null;
-  #initialization: Promise<EndpointResources> | null = null;
-  #disposed = false;
+  private readonly options: EndpointScopedKnorviaBuiltinSourceOptions;
+  private readonly listeners = new Set<(reason: string) => void>();
+  private current: EndpointResources | null = null;
+  private initialization: Promise<EndpointResources> | null = null;
+  private disposed = false;
 
   constructor(options: EndpointScopedKnorviaBuiltinSourceOptions) {
-    this.#options = options;
+    this.options = options;
   }
 
   async read(): Promise<ProviderConfigLayerSnapshot> {
-    const resources = await this.#obtainResources();
+    const resources = await this.obtainResources();
     return resources.source.read();
   }
 
   onDidChange(listener: (reason: string) => void): () => void {
-    this.#assertAvailable();
-    this.#listeners.add(listener);
-    return () => this.#listeners.delete(listener);
+    this.assertAvailable();
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
   }
 
   async refresh(options?: { readonly force?: boolean }): Promise<KnorviaBuiltinRefreshResult> {
-    const resources = await this.#obtainResources();
+    const resources = await this.obtainResources();
     return resources.synchronizer.refresh(options);
   }
 
   async resolveActiveFilePath(): Promise<string> {
-    const resources = await this.#obtainResources();
+    const resources = await this.obtainResources();
     return resources.activeFilePath;
   }
 
   dispose(): void {
-    if (this.#disposed) return;
-    this.#disposed = true;
-    if (this.#current !== null) releaseResources(this.#current);
-    this.#current = null;
-    this.#listeners.clear();
+    if (this.disposed) return;
+    this.disposed = true;
+    if (this.current !== null) releaseResources(this.current);
+    this.current = null;
+    this.listeners.clear();
   }
 
-  #assertAvailable(): void {
-    if (this.#disposed) {
+  private assertAvailable(): void {
+    if (this.disposed) {
       throw new Error("EndpointScopedKnorviaBuiltinSource 已 dispose");
     }
   }
 
-  #announce(reason: string): void {
-    if (this.#disposed) return;
-    for (const listener of this.#listeners) listener(reason);
+  private announce(reason: string): void {
+    if (this.disposed) return;
+    for (const listener of this.listeners) listener(reason);
   }
 
-  async #obtainResources(): Promise<EndpointResources> {
-    this.#assertAvailable();
-    if (this.#initialization !== null) return this.#initialization;
+  private obtainResources(): Promise<EndpointResources> {
+    this.assertAvailable();
+    if (this.initialization !== null) return this.initialization;
 
-    // 保留原 resolver 同步重入窗口：先启动选择，再公开共享句柄。
-    const selected = this.#selectResources();
-    let operation!: Promise<EndpointResources>;
-    operation = selected.then(
+    let fulfill!: (resources: EndpointResources) => void;
+    let reject!: (error: unknown) => void;
+    const operation = new Promise<EndpointResources>((resolve, rejectOperation) => {
+      fulfill = resolve;
+      reject = rejectOperation;
+    });
+
+    // Publish the joinable handle before calling the caller-supplied resolver.
+    this.initialization = operation;
+    this.selectResources().then(
       (resources) => {
-        this.#finishInitialization(operation);
-        return resources;
+        if (this.initialization === operation) this.initialization = null;
+        fulfill(resources);
       },
       (error: unknown) => {
-        this.#finishInitialization(operation);
-        throw error;
+        if (this.initialization === operation) this.initialization = null;
+        reject(error);
       },
     );
-    this.#initialization = operation;
     return operation;
   }
 
-  #finishInitialization(operation: Promise<EndpointResources>): void {
-    if (this.#initialization === operation) this.#initialization = null;
-  }
-
-  async #selectResources(): Promise<EndpointResources> {
+  private async selectResources(): Promise<EndpointResources> {
     const origin = normalizeKnorviaBuiltinEndpointOrigin(
-      await this.#options.resolveEndpointOrigin(),
+      await this.options.resolveEndpointOrigin(),
     );
     const paths = resolveKnorviaBuiltinCachePaths({
-      environmentConfigRoot: this.#options.environmentConfigRoot,
-      platform: this.#options.platform,
-      appVersion: this.#options.appVersion,
+      environmentConfigRoot: this.options.environmentConfigRoot,
+      platform: this.options.platform,
+      appVersion: this.options.appVersion,
       knorviaEndpointOrigin: origin,
     });
 
-    if (this.#current !== null && this.#current.activeFilePath === paths.activeFilePath) {
-      return this.#current;
+    if (this.current !== null && this.current.activeFilePath === paths.activeFilePath) {
+      return this.current;
     }
 
     const source = new NodeKnorviaBuiltinProviderConfigSource({
-      bundledFilePath: this.#options.bundledFilePath,
+      bundledFilePath: this.options.bundledFilePath,
       activeFilePath: paths.activeFilePath,
-      watch: this.#options.watch,
+      watch: this.options.watch,
     });
-    const sourceDispose = source.onDidChange((reason) => this.#announce(reason));
+    const sourceDispose = source.onDidChange((reason) => this.announce(reason));
     const synchronizer = new KnorviaBuiltinRemoteSynchronizer({
       source,
       controlFilePath: paths.controlFilePath,
       resolveEndpointKey: async () => normalizeKnorviaBuiltinEndpointOrigin(
-        await this.#options.resolveEndpointOrigin(),
+        await this.options.resolveEndpointOrigin(),
       ),
-      fetchRelease: this.#options.fetchRelease,
-      onRefreshResult: this.#options.onRefreshResult,
+      fetchRelease: this.options.fetchRelease,
+      onRefreshResult: this.options.onRefreshResult,
     });
     const resources: EndpointResources = {
       activeFilePath: paths.activeFilePath,
@@ -151,7 +152,7 @@ export class EndpointScopedKnorviaBuiltinSource
 
     try {
       await source.read();
-      this.#assertAvailable();
+      this.assertAvailable();
     } catch (error) {
       sourceDispose();
       synchronizer.dispose();
@@ -159,11 +160,11 @@ export class EndpointScopedKnorviaBuiltinSource
       throw error;
     }
 
-    const previous = this.#current;
-    this.#current = resources;
+    const previous = this.current;
+    this.current = resources;
     if (previous !== null) {
       releaseResources(previous);
-      this.#announce("endpoint-changed");
+      this.announce("endpoint-changed");
     }
     return resources;
   }

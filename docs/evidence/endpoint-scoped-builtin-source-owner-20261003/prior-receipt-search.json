@@ -1,0 +1,23 @@
+{
+  "target": {
+    "path": "packages/provider-node/src/endpoint-scoped-builtin-source.ts",
+    "bytes": 5087,
+    "sha256": "c73f090d025d3c0d0a0771578217966b7f0fd70aaea9c908cd2d9661685a8a0d",
+    "gitBlob": "f56f8d04c8b7fb80b17479c63259bb3e39888fa1"
+  },
+  "inputPublishedHead": "64d80fb8175700243997e26a905bb485708974e5",
+  "exactPathOrDigestReviewHits": 0,
+  "namedFilesScanned": 69,
+  "namedHits": [
+    {
+      "path": "docs/evidence/provider-node-builtin-origin-screen-20261003/source-review.json",
+      "sha256": "da11d7b0b9866953dd58e01d7f3fc03af651f3db15fa3c6c56f32e242a2f8b3a"
+    }
+  ],
+  "history": [
+    "7619e41b950bd52073ebf36754146cf25659d9fa chore: publish Knorvia Studio latest preview snapshot"
+  ],
+  "privateHistoricalHold": "No private/unpublished accepted history disproved or accessed; exact accepted receipt/conflicting owner allocation requires HOLD",
+  "rootAllocation": "Explicit SOURCE-ONLY whole endpoint binding source lifecycle; D only config-source/remote-synchronizer, root cache/download/release; no crosslane sources changed",
+  "newSourceRequests": 0
+}

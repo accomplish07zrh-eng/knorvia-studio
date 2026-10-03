@@ -1,0 +1,32 @@
+// AST/digest/receipt checks; no application module evaluation.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),cp=require('node:child_process');
+const ts=require('/tmp/knorvia-exact-type-review-20261002/packages/typescript@6.0.2/package/lib/typescript.js');
+const dir='docs/evidence/endpoint-scoped-builtin-source-owner-20261003';
+const m=JSON.parse(fs.readFileSync(path.join(dir,'curator-manifest.json'),'utf8')),frozen=JSON.parse(fs.readFileSync(path.join(dir,'author-freeze.json'),'utf8')),data=JSON.parse(fs.readFileSync(path.join(dir,'retained-data.json'),'utf8'));
+function assert(c,s){if(!c)throw Error(s)}function eq(a,b,s){assert(JSON.stringify(a)===JSON.stringify(b),s)}
+function hash(b){return crypto.createHash('sha256').update(b).digest('hex')}
+function bindBytes(b,x){assert(b.length===x.bytes&&hash(b)===x.sha256&&crypto.createHash('sha1').update(Buffer.concat([Buffer.from('blob '+b.length+'\0'),b])).digest('hex')===x.gitBlob,'Binding:'+x.path)}
+const original=cp.execFileSync('git',['show',m.inputPublishedHead+':'+m.target.path]);bindBytes(original,m.target);
+for(const x of m.sourceMetadataBindings)bindBytes(fs.readFileSync(x.path),x);
+for(const x of m.authorInputBindings)bindBytes(fs.readFileSync(x.path),x);
+bindBytes(fs.readFileSync(m.receiptBinding.path),m.receiptBinding);
+const body=fs.readFileSync(path.join(dir,'candidate-frozen.ts'));assert(body.length===frozen.candidateBytes&&hash(body)===frozen.candidateSha256&&crypto.createHash('sha1').update(Buffer.concat([Buffer.from('blob '+body.length+'\0'),body])).digest('hex')===frozen.candidateGitBlobHash,'Frozen whole candidate');
+for(const x of frozen.inputs){const b=fs.readFileSync(x.path);assert(b.length===x.bytes&&hash(b)===x.sha256,'Frozen author input:'+x.path)}
+const reviewed=fs.readFileSync(path.join(dir,'candidate-reviewed.ts'));assert(hash(reviewed)==='44fcdc12fc421892f7870138eaec5883bee6313e4604c5cb005d1cbd1335f051','Reviewed candidate digest');
+function parse(p,b){const f=ts.createSourceFile(p,b.toString(),ts.ScriptTarget.Latest,true);assert(!f.parseDiagnostics.length,'Parse:'+p);return f}
+const src=parse(m.target.path,original),candidate=parse('candidate-reviewed.ts',reviewed),api=parse('public-api.d.ts',fs.readFileSync(path.join(dir,'public-api.d.ts')));
+function exported(f){return f.statements.filter(n=>n.modifiers?.some(x=>x.kind===ts.SyntaxKind.ExportKeyword))}
+function topo(f){return exported(f).map(n=>[ts.SyntaxKind[n.kind],n.name.text])}eq(topo(src),topo(candidate),'Exact exports');eq(topo(src),topo(api),'API exports');
+const oldOptions=src.statements.find(ts.isInterfaceDeclaration),newOptions=candidate.statements.find(ts.isInterfaceDeclaration);eq(oldOptions.getText(src),newOptions.getText(candidate),'Options/readonly fields');
+function publicClass(f){return exported(f).find(ts.isClassDeclaration)}
+function signatures(f){return publicClass(f).members.filter(n=>ts.isConstructorDeclaration(n)||(ts.isMethodDeclaration(n)&&!ts.isPrivateIdentifier(n.name))).map(n=>({kind:ts.isConstructorDeclaration(n)?'constructor':'method',name:n.name?.getText(f),params:n.parameters.map(p=>[p.name.getText(f),p.type?.getText(f),!!p.questionToken]),returns:n.type?.getText(f)}))}
+eq(signatures(src),signatures(candidate),'Complete class signatures');eq(signatures(src),signatures(api),'Declaration signatures');
+function imports(f){return f.statements.filter(ts.isImportDeclaration).map(n=>n.getText(f))}eq(imports(src),imports(candidate),'Original import routes/symbols only');
+assert(publicClass(candidate).members.filter(ts.isPropertyDeclaration).every(n=>ts.isPrivateIdentifier(n.name)),'Runtime-private state');
+let bodies=0,initializers=0;function walk(n,fn){fn(n);ts.forEachChild(n,c=>walk(c,fn))}
+for(const name of ['public-api.d.ts','dependency-types.d.ts'])walk(parse(name,fs.readFileSync(path.join(dir,name))),n=>{if((ts.isFunctionDeclaration(n)||ts.isMethodDeclaration(n)||ts.isConstructorDeclaration(n))&&n.body)bodies++;if(ts.isFunctionExpression(n)||ts.isArrowFunction(n))bodies++;if((ts.isVariableDeclaration(n)||ts.isPropertyDeclaration(n)||ts.isParameter(n))&&n.initializer)initializers++});assert(!bodies&&!initializers,'Body/default in author declarations');
+const strings=new Set();walk(candidate,n=>{if(ts.isStringLiteral(n))strings.add(n.text)});assert(strings.has(data.disposedError)&&strings.has(data.switchReason),'Exact error/reason');
+const reviews=JSON.parse(fs.readFileSync('licensing/reviews.json','utf8')).files;assert(!reviews.some(r=>r.path===m.target.path||JSON.stringify(r).includes(m.target.sha256)),'STOP exact old receipt');
+const fake=JSON.parse(fs.readFileSync(path.join(dir,'minimum-reviewed-candidate.json'),'utf8'));assert(fake.status==='PASS'&&fake.scenarioGroups===8,'Reviewed fake lifecycle');const failed=JSON.parse(fs.readFileSync(path.join(dir,'minimum-frozen-candidate.json'),'utf8'));assert(failed.status==='FAIL','Preserve initial failure');
+const installed=process.argv.includes('--installed');if(installed)assert(fs.readFileSync(m.target.path).equals(reviewed),'Installed whole file equals reviewed candidate');else bindBytes(fs.readFileSync(m.target.path),m.target);
+const result={phase:installed?'INSTALLED_SOURCE_ONLY':'REVIEWED_BEFORE_INSTALL',mode:'AST/digest/receipt only; fake execution results separately bound',typescript:ts.version,publishedOriginalBinding:'PASS',sourceMetadataBindings:m.sourceMetadataBindings.length,frozenAuthorInputs:4,wholeCandidateFreeze:'PASS',reviewedSha256:hash(reviewed),exportTopology:'PASS2',completeClassSignatures:'PASS constructor+5 methods',originalImports:'PASS4 routes',readonlyOptions:'PASS',runtimePrivateState:'PASS',declarationFiles:2,bodies,initializers,parseErrors:0,exactDisposedErrorAndSwitchReason:'PASS',minimalFakeScenarioGroups:8,initialCandidateFailure:'PRESERVED: reentrancy/privacy',oldExactPublicReceipt:'No accepted exact path/digest record; private historical HOLD unchanged',installedWholeFile:installed?'PASS':'NOT YET',semanticTypeClosure:'DEFERRED',architectureGate:'BLOCKED: pnpm install path ENOENT / official context missing TypeScript',ordinaryFullsuiteBuild:false,realEndpointProviderNetworkCacheConfigCredentialsPermissionsNative:false,sourceOnly:true,rightsAccepted:false,materialOpen:21,status:'PASS'};fs.writeFileSync(path.join(dir,installed?'installed-static-results.json':'reviewed-static-results.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

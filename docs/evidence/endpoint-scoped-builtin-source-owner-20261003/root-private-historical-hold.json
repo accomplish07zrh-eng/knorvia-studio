@@ -1,0 +1,10 @@
+{
+  "authority": "Root message, parent-declared metadata only; not an independently read receipt/private body",
+  "owner": "desktop/host/promptAttachmentTransferService (old175-line owner)",
+  "acceptedSha256": "a777a064c6cbfe84c4ff45b2b191ab18f00a7134d5b207f2e2cde2b14b5e72d6",
+  "receipt": "prompt-transfer-owner-replacement-20261001.json",
+  "action": "HOLD: do not restore backup, reauthor or overwrite; distinguish D services same-name44-line owner",
+  "privateMaterialRead": false,
+  "backupRecovery": false,
+  "licenseAcceptanceByThisLane": false
+}
