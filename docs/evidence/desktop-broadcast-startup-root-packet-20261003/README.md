@@ -1,5 +1,9 @@
 # Root-only BroadcastHub / database startup relay packets
 
+**Active HOLD update:** root has located the 2026-10-02 03:06 historical broadcast acceptance. The public packet baseline `a1216b…cf11e` conflicts with accepted source `952483…53d05` (implementation `82adde8`, checkpoint `c6657eaa9897611f1cc8188afc6498d827a09777`, receipt `licensing/evidence/broadcast-claim-expression-20261002.json`). Broadcast is now **EXPLICIT ACCEPTED-SOURCE HASH CONFLICT HOLD / NO REAUTHOR / NO OVERWRITE**. Its new packet cannot authorize reconstruction or replace that historical owner. Root-reported acceptance metadata is authoritative for this reservation; inaccessible accepted bytes/receipt are not independently revalidated and no backup recovery is attempted.
+
+[Active historical owner HOLD addendum](historical-owner-holds-20261003.json) also protects `networkTelemetryAggregator.ts`: bounded accepted SHA `f3baa2a776cbd7976ae1a6a0f4e128b8636500f2adbc6451421e506d1e708b6c`, root receipt `licensing/evidence/network-aggregation-root-review-20261002.json`, whole file mixed / no MIT. Relay remains preparation-only/private-history HOLD. The original reservation and eight author-input artifacts below remain frozen preparation records, superseded by this addendum for broadcast status only.
+
 Two complete public behavior/API/data packets are ready for root's historical review and possible later author selection. **PREPARATION ONLY / PRIVATE HISTORY HOLD** remains. Packet creation does not authorize implementation, disprove old acceptance, clear source lineage or resolve a conflicting final version. taskRealtimeBus remains HOLD and its body was not opened. Completed network/runtimeEnv and G Playwright are excluded.
 
 Both current sources are byte/blob-equal to published PR12 `affea575c98a83e04871bb6b5655cf72cc08be75`:
