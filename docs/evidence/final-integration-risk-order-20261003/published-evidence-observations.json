@@ -1,0 +1,134 @@
+{
+  "publicEvidenceBindings": [
+    {
+      "name": "d-cua-import-repair",
+      "gitBlob": "98a5e6e10c3837baa58ad912e1919315f4132b9c",
+      "bytes": 46270,
+      "sha256": "0953b145a9f46cc2cbe4d35094c125d1c7b491fbf2f7b40dcd3d9a6b50e0db98",
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/git/blobs/98a5e6e10c3837baa58ad912e1919315f4132b9c",
+      "scope": "Read-only published evidence; no production source import. Some full receipts contain historical embedded snippets; curator remains source-exposed."
+    },
+    {
+      "name": "d-cua-evidence",
+      "gitBlob": "63e2466bc8089d730683f5350917b7c966219c75",
+      "bytes": 5788,
+      "sha256": "8dccdc73c03cdbdcac0e19904725356a6b1337ce155ef40d4a6c0389ccf2aaa5",
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/git/blobs/63e2466bc8089d730683f5350917b7c966219c75",
+      "scope": "Read-only published evidence; no production source import. Some full receipts contain historical embedded snippets; curator remains source-exposed."
+    },
+    {
+      "name": "a-scheduler-root-review",
+      "gitBlob": "0f3cb086bb4b5c504cd6eab0bce9c16f704d8ae9",
+      "bytes": 18077,
+      "sha256": "1b344a98c199d8d018abd1fedfbd1d5bb3fbd1aab2d97a4c71fe8fe9e6f9d370",
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/git/blobs/0f3cb086bb4b5c504cd6eab0bce9c16f704d8ae9",
+      "scope": "Read-only published evidence; no production source import. Some full receipts contain historical embedded snippets; curator remains source-exposed."
+    },
+    {
+      "name": "a-planner-failure-correction",
+      "gitBlob": "325c0009f76ec290d2bf8acdea4deb7e3d2311a5",
+      "bytes": 9174,
+      "sha256": "0de268c8dff91caf73a08484470d6e2812ed688dd8cdd6b3c9c6d5c6505064cd",
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/git/blobs/325c0009f76ec290d2bf8acdea4deb7e3d2311a5",
+      "scope": "Read-only published evidence; no production source import. Some full receipts contain historical embedded snippets; curator remains source-exposed."
+    },
+    {
+      "name": "a-planner-expansion-owner",
+      "gitBlob": "1ccbafb326071966de543461a89519cac6903b5a",
+      "bytes": 9378,
+      "sha256": "bc50bff2a281eb4b0ab6fd0cc4bf6c24130bef61ddb6d7c402995c0b16aafd42",
+      "url": "https://api.github.com/repos/accomplish07zrh-eng/knorvia-studio/git/blobs/1ccbafb326071966de543461a89519cac6903b5a",
+      "scope": "Read-only published evidence; no production source import. Some full receipts contain historical embedded snippets; curator remains source-exposed."
+    }
+  ],
+  "dLatestCommitMetadata": {
+    "files": [
+      {
+        "filename": "packages/services/docs/NEXT-OWNER-SCREEN-20261003.json",
+        "sha": "efce059aa46b7da7082111f512f99d09f14da804",
+        "status": "added"
+      },
+      {
+        "filename": "packages/services/docs/NEXT-OWNER-SCREEN-20261003.md",
+        "sha": "2457627c7bd41ab059cc4bfa312d22f4f9536b4c",
+        "status": "added"
+      },
+      {
+        "filename": "packages/services/docs/PR10-EVIDENCE-INDEX.md",
+        "sha": "bf39f53d7a9c8a15c1c9bcaeef3dd19f6c510f77",
+        "status": "modified"
+      },
+      {
+        "filename": "packages/services/src/cua-permission-broker/IMPORT-REPAIR-RECEIPTS-20261003.json",
+        "sha": "98a5e6e10c3837baa58ad912e1919315f4132b9c",
+        "status": "added"
+      },
+      {
+        "filename": "packages/services/src/cua-permission-broker/INDEPENDENT-EVIDENCE-20261003.md",
+        "sha": "63e2466bc8089d730683f5350917b7c966219c75",
+        "status": "modified"
+      },
+      {
+        "filename": "packages/services/src/cua-permission-broker/OWNER-SPEC-20261003.md",
+        "sha": "f941d337006dbec207fbe9266eae9408f52a84d7",
+        "status": "modified"
+      },
+      {
+        "filename": "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts",
+        "sha": "ffe43a336bcf787a1f043c335a5d1b459fd9c61a",
+        "status": "removed"
+      },
+      {
+        "filename": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+        "sha": "d14cff409c447605afca4389f4cefc5f839e3f53",
+        "status": "modified"
+      }
+    ],
+    "message": "fix(services): remove duplicate CUA owner import diagnostics",
+    "parents": [
+      "bb45cbbf638387f767ec6c51b5aa3218a6fdb627"
+    ],
+    "sha": "e22d2bc32678d59ac2abeab4102a7794c8854d1b"
+  },
+  "dCuaRepair": {
+    "head": "e22d2bc32678d59ac2abeab4102a7794c8854d1b",
+    "sourcePath": "packages/services/src/cua-permission-broker/cuaPipSessionService.ts",
+    "submittedSha256": "62eb9b1ac4bf2134a2025dc5c8bc63a0d5e6c1eab3ca34273a78f9ba1d5d3dd5",
+    "diagnosticComparison": [
+      {
+        "scope": "types",
+        "originalDiagnostics": 6,
+        "splitDiagnostics": 8,
+        "repairedDiagnostics": 6,
+        "exactNewSplitTS2307": [
+          "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.",
+          "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(2,64): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations."
+        ],
+        "sameOriginalPathsCodesMessagesAfterRemovingLineColumnOnly": true,
+        "originalNormalizedSha256": "119dcdf976a153d4230952352b91d4f076d2c2a45c8872a2bd6e3674a5ce45a5",
+        "repairedNormalizedSha256": "119dcdf976a153d4230952352b91d4f076d2c2a45c8872a2bd6e3674a5ce45a5",
+        "qualification": "Exact full logs retained; line/column offsets differ, so no byte-identical full-log claim."
+      },
+      {
+        "scope": "consumer-types",
+        "originalDiagnostics": 15,
+        "splitDiagnostics": 17,
+        "repairedDiagnostics": 15,
+        "exactNewSplitTS2307": [
+          "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(1,38): error TS2307: Cannot find module '@knorvia/cua/pip-session' or its corresponding type declarations.",
+          "packages/services/src/cua-permission-broker/cuaPipSessionOwner.ts(2,64): error TS2307: Cannot find module '@knorvia/cua/pip-session/node' or its corresponding type declarations."
+        ],
+        "sameOriginalPathsCodesMessagesAfterRemovingLineColumnOnly": true,
+        "originalNormalizedSha256": "49f5a63098a43517da54d6eb5a844a8665af5d3dcae7b15a8e5fe346ba0efddd",
+        "repairedNormalizedSha256": "49f5a63098a43517da54d6eb5a844a8665af5d3dcae7b15a8e5fe346ba0efddd",
+        "qualification": "Exact full logs retained; line/column offsets differ, so no byte-identical full-log claim."
+      }
+    ],
+    "ownerEmittedJavaScriptIdentityReported": true,
+    "scope": "Published D evidence read and blob/byte hashes verified; E did not reproduce compiler, source identity or native/synthetic tests. Owner remains mixed root adapter; no novelty/rights closure. PR body still describes historical 8/17 split stage."
+  },
+  "historicalSchedulerRootReview": "Earlier queued-abort/active-write HOLD is historical; later corrections exist. Do not reclassify an earlier red receipt as the latest A result.",
+  "currentBindingsToChoose": "A node runner blob equals corrected cf1cfe00 public behavior baseline in E input manifest. A collection planner blob equals corrected early candidate documented by E expression review. E later complete owner SHA256 bindings are in local integration manifests.",
+  "reruns": [],
+  "licenceGrant": null
+}
