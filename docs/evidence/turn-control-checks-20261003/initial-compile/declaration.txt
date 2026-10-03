@@ -1,0 +1,18 @@
+import { type CollaborationMode } from "@knorvia/contracts";
+import type { ToolEntry, ToolExecutionResult } from "../types.js";
+export declare function withAutomationCreateLimitTurnStop(result: ToolExecutionResult, input: {
+    error: unknown;
+    toolName: string;
+}): ToolExecutionResult;
+export declare function withPlanExitDeniedTurnStop(result: ToolExecutionResult, input: {
+    mode: CollaborationMode;
+    planEnabled?: boolean;
+    toolName: string;
+}): ToolExecutionResult;
+export declare function withWorkflowRefineDeniedFollowUp(result: ToolExecutionResult, input: {
+    toolName: string;
+}): ToolExecutionResult;
+export declare function withTerminalToolTurnStop(result: ToolExecutionResult, input: {
+    entry: ToolEntry;
+}): ToolExecutionResult;
+//# sourceMappingURL=turn-control.d.ts.map

@@ -1,0 +1,4 @@
+{"mode":"baseline","observations":["automation_create_limit","plan_exit_denied","Owned refinement","subagent_terminal"],"ordinaryTypedCallerDefectClaim":false}
+{"mode":"baseline","groups":1,"comparisons":4}
+(node:243537) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,34 @@
+{"mode":"initial","observations":[null,null,null,null],"ordinaryTypedCallerDefectClaim":false}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
++   undefined,
++   undefined,
++   undefined,
++   undefined
+-   'automation_create_limit',
+-   'plan_exit_denied',
+-   'Owned refinement',
+-   'subagent_terminal'
+  ]
+
+    at file:///workspace/knorvia-studio/apps/cli/packages/core/test/turn-control-truthiness-20261003.mjs:82:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [ undefined, undefined, undefined, undefined ],
+  expected: [
+    'automation_create_limit',
+    'plan_exit_denied',
+    'Owned refinement',
+    'subagent_terminal'
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
