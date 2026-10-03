@@ -33,11 +33,17 @@ export async function smokePackagedTui(packageDirectory) {
   const directory = await realpath(await mkdtemp(join(tmpdir(), "knorvia-tui-smoke-")));
   const workspace = join(directory, "workspace");
   const runner = join(root, "bin/knorvia.mjs");
+  const dataBaseDir = join(directory, "data");
+  const storageDirectory = join(dataBaseDir, ".knorvia-studio", "cli");
   const env = {
     ...Object.fromEntries(
       Object.entries(process.env).filter(([key]) => runtimeEnvironmentKeys.has(key.toUpperCase())),
     ),
-    KNORVIA_DATA_BASE_DIR: join(directory, "data"),
+    KNORVIA_DATA_BASE_DIR: dataBaseDir,
+    // The existing default sessionDbPath is an explicit ~/ path. Isolate it too;
+    // DATA_BASE_DIR alone must not rewrite the product's user-path semantics.
+    KNORVIA_SESSION_DB_PATH: join(storageDirectory, "db", "db.sqlite"),
+    KNORVIA_STORAGE_DIR: storageDirectory,
     NODE_OPTIONS: "",
     NODE_PATH: "",
     TERM: "xterm-256color",
