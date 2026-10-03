@@ -18,11 +18,12 @@ function metadataKey(line: string): string | undefined {
 function metadataValue(lines: string[], target: string): string | undefined {
   const start = lines.findIndex((line) => metadataKey(line) === target);
   if (start < 0) return undefined;
+  const header = lines[start];
+  if (header === undefined) return undefined;
   const values: string[] = [];
-  const first = lines[start].slice(lines[start].indexOf(":") + 1).trim();
+  const first = header.slice(header.indexOf(":") + 1).trim();
   if (first) values.push(first);
-  for (let index = start + 1; index < lines.length; index += 1) {
-    const line = lines[index];
+  for (const line of lines.slice(start + 1)) {
     if (metadataKey(line)) break;
     if (/^[ \t]/.test(line)) values.push(line.trim());
   }

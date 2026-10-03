@@ -103,7 +103,7 @@ export function buildLegacyProviderEndpoints(
     .filter(({ url }) => Boolean(url));
   if (normalized.length === 0) return {};
   const parsed = normalized.map((entry) => ({ ...entry, parsed: parseUrl(entry.url) }));
-  const first = parsed[0].parsed;
+  const first = parsed[0]?.parsed ?? null;
   const canShareOrigin =
     first !== null && parsed.every((entry) => entry.parsed?.origin === first.origin);
   return {
