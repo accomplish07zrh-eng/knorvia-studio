@@ -246,3 +246,39 @@ identity. No cross-lane public contract changes are required.
 Source-exposed authoring and whole-expression/rights acceptance are separate.
 **UNVERIFIED:** all executable validation is deferred; this batch adds no tests
 and runs no tests, lint, compiler, build, checker, full audit or CI rerun.
+
+The contract was committed first as
+`83ceeef11c4d4f281f28c7e26b0b1ea5b988a8ef`; the three full production owners were
+then committed as `2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2`. Their actual source
+digests, Git blobs, byte sizes, historical bindings and retained collaborators are
+in [source-bindings.json](evidence/backlog-services-historical-gap-20261003/source-bindings.json).
+That new authoring record does not substitute any of the missing old receipts.
+
+| Complete owner delivered in batch 5 | Implementation and compatibility boundary |
+| --- | --- |
+| Task-storage preparation | One shared one-hour busy-only lock window; first-failure entries preserve falsy values through DB and both Repo closes. Existing SQL, migrations, snapshots, committed facts and marker ordering retained. |
+| Commit-message file selection | Pre-trimmed alias stream and exact terminal-node trie retain root/workspace/absolute aliases, three-path matching, order/duplicates/object references and empty effective alias unboundedness. |
+| Creation-reference admission/read | Both public reads enter one captured file-handle reader with bounded chunks, canonical containment and before/after route/object observations. Stored/reference/read-back hashes must agree for workflow handoff; ordinary legacy references remain available. |
+
+The complete-component '..' rule allows real project files beginning with '..'
+while rejecting actual escapes. Initial file/size admission remains before open,
+then the handle is rechecked and always released before a result. POSIX leaf
+opens use O_NOFOLLOW; Windows uses the recorded realpath and device/inode
+observations. This is not an atomic openat guarantee against adversarial ancestor
+changes between observations. The existing job ledger continues to own recorded
+output paths. No new persistence/root/public-contract authority is fabricated.
+
+This stable source boundary adds three complete candidates to the previous four
+session/task-index/protocol/startup-gate owners: seven owner candidates in this
+lane, not whole-services/provider completion or expression/rights acceptance.
+Creation's other retained feature owners and studio-runtime are not rewritten
+again merely because their historical origin classifications are unresolved.
+
+Current coordination needs are the integrator's exact source/expression and
+rights decision for these new candidates and preserved historical bindings,
+followed by the final combined consumer/platform/data-compatibility validation.
+The unavailable old source/receipts remain historical evidence gaps, rather than
+blocking the newly authorized runtime implementations. No new cross-module
+signature/schema change is requested. **UNVERIFIED:** no executable validation or
+test files were added/run; the existing final-stage suites and specified changed
+file/symlink/missing-hash cases still need unified acceptance.

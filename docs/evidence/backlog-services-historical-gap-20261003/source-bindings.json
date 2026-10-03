@@ -1,0 +1,87 @@
+{
+  "baseCommit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "previousLaneCheckpoint": "549b8dbc76a6e359d4b7f9da5db65a367abe4f3e",
+  "integrationContractObserved": "f969c9a7869ba33257968bcf0d15c1ffb63094bb",
+  "specFirstCommit": "83ceeef11c4d4f281f28c7e26b0b1ea5b988a8ef",
+  "sourceCommit": "2b2e264022c7a3fa7bd8bdeda2ec8bded75c8ee2",
+  "batch": "Three newly authorized complete behavior-contract candidates for historical source gaps",
+  "contractPath": "specs/knorvia-next-services-historical-gap-20261003.md",
+  "records": [
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "predecessorGitBlob": "0be7db66d288c0f6e5454e4e212f9623fc3af7f0",
+      "predecessorSha256": "d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde",
+      "candidateGitBlob": "8bbe4e246e7b647a0a4889a3296faec676770594",
+      "candidateSha256": "3450dbcbc85804231c5a340b1ab91bc5f73519f5182c272c037fa48f9da0dbcc",
+      "bytes": 5115,
+      "owner": "Full task-storage preparation pipeline with one lock window and first-failure records per resource phase",
+      "preserved": "Existing migration SQL/schema/snapshots, progress facts copies, lock policy, native SQLite loading, transaction/marker/repository ordering and error identity",
+      "specifiedRefinement": "Null/falsy/unreadable errcode probing preserves the original non-busy failure rather than replacing it with a probe error"
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "predecessorGitBlob": "ec59eed8eb288dc3ed5ac0a870c08702d2400a3d",
+      "predecessorSha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "candidateGitBlob": "d23cd2de02b83c88298ac8483caea0bd89cd4b0b",
+      "candidateSha256": "67e2139f05c599a1a0c2859b3c212c992fce909884dd281408199480b1378068",
+      "bytes": 2970,
+      "owner": "Full commit-message selection through a session alias stream and exact terminal-node path trie",
+      "preserved": "Trim/slash/workspace/root/controlled absolute-relative aliases, OS path helpers, empty effective alias unboundedness, three-field exact membership, array order/duplicates/object identity",
+      "specifiedRefinement": "No product behavior change intended; dense pre-trim preserves sparse-array blank filtering before aliases are admitted"
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "predecessorGitBlob": "5ba561b5bf1935149ab99a365f65c8a252b458e7",
+      "predecessorSha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+      "candidateGitBlob": "2e62ffcaad0638c8f209d9c57dcd016ce212150f",
+      "candidateSha256": "9db450cd42bd804b45cd97f3bfc9e3efd10c52525829adc948a928c8a2513e71",
+      "bytes": 6443,
+      "owner": "Both public reference reads using immutable admission records and one bounded opened-file byte reader",
+      "preserved": "Project or succeeded output identity, original public port/result/base64/name/MIME/10MiB/error contracts, before-dispatch failure, ordinary legacy records without stored hashes",
+      "specifiedRefinement": "Complete '..' component containment; captured realpath and handle/path identity observations; POSIX O_NOFOLLOW leaf opens; limit+1 bounded byte capture; verified stored/reference/read-back hash consistency including rejection of missing stored workflow hashes",
+      "limits": "Portable realpath/device/inode observations do not claim atomic openat containment against an adversarial filesystem swapping ancestors between observations. The existing Host job ledger remains the authority for recorded output paths; no new root or schema port is fabricated."
+    }
+  ],
+  "historicalBindings": [
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "parentReportedHistoricalSha256": "a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a",
+      "receiptPath": "licensing/evidence/task-storage-preparation-expression-20261002.json",
+      "bindingSource": "packages/services/src/session/tasksDatabase/MIGRATIONS-AUTHOR-RECEIPTS-20261002.json",
+      "status": "Historical positive metadata retained. Exact source/receipt not located in integrator's bounded published inputs; new candidate is not restored accepted bytes."
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "parentReportedHistoricalSha256": "ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761",
+      "parentReportedHistoricalGitBlob": "69e43f4ce19a30ea185ba99ffb284ac0d798c6f8",
+      "receiptPath": "licensing/evidence/commit-message-scope-independent-replacement-20261001.json",
+      "bindingSource": "packages/services/src/session/AGENT-SESSION-QUEUE-INVENTORY-20261002.json#/holds/commitMessageFileScope",
+      "status": "Historical positive metadata retained. Integrator reports local absence and official repository blob HTTP 404; no claim that an unpublished version never existed and no substituted historical receipt."
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "parentReportedHistoricalSha256": "5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43",
+      "receiptPath": "licensing/evidence/creation-reference-containment-20261001.json",
+      "bindingSource": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json#/parentProvidedBindings",
+      "status": "Historical bounded containment-fix metadata retained; not whole-file independence or rights acceptance. New full candidate neither recovers nor clears that old binding."
+    }
+  ],
+  "runtimeDisposition": "Parent explicitly authorized these three new complete owners after integrator locating. This supersedes the prior decision to wait for old canonical runtime installation material, without clearing historical source/rights uncertainty or claiming old acceptance.",
+  "retainedDependencies": [
+    "packages/services/src/session/tasksDatabase/migrations.ts",
+    "packages/services/src/session/tasksDatabase/prepared.ts",
+    "packages/services/src/session/taskIndexRepo.ts",
+    "packages/services/src/session/automationRepo.ts",
+    "packages/services/src/git/config.ts",
+    "packages/services/src/git/gitService.ts",
+    "packages/services/src/creation/contract.ts",
+    "packages/services/src/creation/node.ts",
+    "packages/services/src/studio-runtime/app/runExecutor.ts",
+    "packages/services/src/studio-runtime/domain/reference.ts",
+    "packages/services/src/studio-runtime/adapters/creationAgentBridge.ts"
+  ],
+  "authoring": "Single source-exposed author read current source, public APIs/specs/callers and the integrator's new route, then committed the explicit three-owner contract before complete implementations. Independent internal design candidates use shared lock/failure owners, an exact path trie and immutable admission/opened-file bounded reads. No separate author, clean-room or pre-source-exposure freeze asserted. Original declarations, values, diagnostics, normalization rules, standard APIs and unchanged collaborator expression retain lineage; authoring is not whole-expression/rights acceptance.",
+  "validation": "UNVERIFIED: no tests, lint, typecheck/compiler, formatter/architecture checker, build, full audit or CI rerun executed; no additional test files. Only bounded source/dependency/difference reading and exact three-source Git/SHA-256/byte metadata were collected. Commit hooks skipped per the explicit no-validation phase.",
+  "crossLaneChanges": "None required or made. Shared contracts/root configuration/CI/global provenance/licensing remain integrator-owned. No UI, persisted-user-data write, actual DB/runtime/provider business effect, local user computer or main merge.",
+  "licenseDecision": "NOASSERTION"
+}
