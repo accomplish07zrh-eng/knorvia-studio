@@ -120,3 +120,20 @@ flowchart LR
 现有 contract fixture 的消息身份/fresh empty 场景、read-order fixture 的四次消息 getter 轨迹和 runner-child 的 drain/requeue 是后续适配必须保持的观察边界。真正编写时须再明确自有可枚举字符串/Symbol、属性描述符/接收者、迭代协议/错误和重入部分效果；此方案尚未证明这些边界全部等价，不用“实现更短/结构不同”代替证据。
 
 本轮只准备 spec 和限定源码结论，**未验证、未落地**。不运行测试、lint、类型检查、构建或全量审计，不把普通第三方库列入删除/重写范围，不修改版权或 Apache/第三方通知来制造独立完成。
+
+## 独占落实授权与精简实现契约
+
+整合者随后确认本路独占 Registry，授权落实两消息变换、必要定向行为对比及确定性当前产物绑定，再开新 draft PR。Apache-2.0 和全部来源/第三方历史保留，法律独立性不由本次结构变化或测试宣布。
+
+上一节的手工 own-key/descriptor 物化只是草案，**不采用**：它增加维护和兼容风险，不能仅为降低相似性重造标准 JavaScript 操作。native object spread 是浅拷贝/enumerable/Symbol/属性顺序/原型安全的常见实现；array spread 是 iterator/fresh-array/引用语义的常见实现。四次 drain getter 读取、公开 update 拦截等由契约约束，仍如实保留这些共同表达。
+
+实际内部程序采用一条两阶段快照投影路径：先用 object spread 物化快照，并建立 pendingMessages 自有可写槽；之后才运行消息数组 producer，再写入这个槽。这避免源 getter 临时安装原型 setter 时拦截新的消息字段，同时保留 copy → 原消息再读/迭代的顺序，不新增手工反射复制或一份业务状态。
+
+- append 提供仅捕获 message 的 patcher factory，由公开 update 决定是否调用；factory 本身不读取 message 或快照。其 producer 通过 native array spread 复制 prior iterable，再追加原消息引用。
+- drain 按 presence、length、原返回引用读取后，调用同一投影器产生空数组快照，返回 messages + 可选 replacement。Registry 根据 replacement 做一次原 id 直接 commit，不调用公开 update 或发布。
+- producer/field getter/iterator 抛错同步传播。此前 reentrant register/remove 的效果保留，失败外层不 commit。队列 update 成功后的终态发布和 cleanup 异常仍由原 Registry 路径处理。
+- 仅新增内部纯 helper 和两个方法调用，保留原 API、其余 Registry、等待订阅、scheduler/context/Read、用户数据与 UI。为 Registry 添加实际修改/原来源说明，不删除既有注释、版权、许可或原 Git 历史。
+
+定向观察新增在现有 Registry observation 入口，覆盖公开 update 无调用时的惰性、枚举/Symbol/原型字段与 iterator 次序、原型 setter 防护、copy/iterator 失败与重入保留、drain 第三/第四读取的身份及错误后不提交。使用相同观察分别对精确前驱源码、前驱实际 emitted、当前源码和当前实际 emitted 比较；不把重复路线算作新行为场景。既有 Registry observation/consumer 场景只定向运行，不重跑整库回归。
+
+当前 receipt 使用新版本，旧 format-1 / format-2 JSON 保留原字节。生成器从固定前版本及明确两项源码变动出发，按原 core/contracts tsconfig 和完整 file-root 次序只捕获已登记输出，添加新 helper 的 source/JS/declaration，刷新源码 checkpoint、输入摘要与当前 reader 的固定摘要。依赖合同只读，不运行 root/全 CLI build、typecheck 或 lint；必要 Compiler API emit 不以本地旧 dist 或任意运行时字节自动生成 pin。
