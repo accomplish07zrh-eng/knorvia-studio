@@ -1,0 +1,473 @@
+{
+  "schemaVersion": 1,
+  "integrationBase": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+  "branch": "lane/cli-rewrite-20261003",
+  "codeDeliveryCommit": "c096f6a3b1e117e142a826a62d258232049317b5",
+  "environment": {
+    "recovered": true,
+    "node": "24.14.0",
+    "pnpm": "10.33.2",
+    "typescriptRoot": "6.0.2",
+    "typescriptCli": "5.9.3",
+    "jimp": "1.6.1",
+    "install": "22 selected workspace projects, frozen-lockfile, ignore-scripts; exit 0",
+    "earlierSetup": "System pnpm 11.19.0 attempted automatic dependency install outside writable roots and failed; transient exec-server disconnect then recovered. Neither is a source-check pass."
+  },
+  "checks": [
+    {
+      "id": "pane-before",
+      "command": "node(24.14.0) node_modules/typescript/bin/tsc --ignoreConfig --noEmit --strict --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2024 --noUncheckedIndexedAccess packages/ui/src/v4/paneLayoutTree.ts",
+      "observedExitCode": 2,
+      "scope": "Target TS2339 reproduced before source repair",
+      "outputSha256": "a2c04e162535fbd25f49c6525e1f5e416ebe0b3e75acd480a0453181efb4aabf",
+      "output": "packages/ui/src/v4/paneLayoutTree.ts(210,41): error TS2339: Property 'sessionId' does not exist on type '{ kind: \"close\" | \"focus\" | \"confirm\"; paneId: string; } | { kind: \"bind\"; paneId: string; sessionId: string; }'.\n  Property 'sessionId' does not exist on type '{ kind: \"close\" | \"focus\" | \"confirm\"; paneId: string; }'.\n"
+    },
+    {
+      "id": "adapters-before",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit -p apps/cli/packages/adapters",
+      "observedExitCode": 2,
+      "scope": "TS2454/TS2345 reproduced; missing dependency dist also caused diagnostics; not a complete-project error census",
+      "outputSha256": "a217f8f9180f37bb9965933362ea59ebb5543b7d0206994426c3eab90fea5a4f",
+      "selectedDiagnostics": "apps/cli/packages/adapters/src/browser/index.ts(190,43): error TS2454: Variable 'admission' is used before being assigned.\napps/cli/packages/adapters/src/image/jimp-compression.ts(60,42): error TS2345: Argument of type 'BufferSettings' is not assignable to parameter of type 'undefined'."
+    },
+    {
+      "id": "declarations-prerequisite",
+      "command": "node(24.14.0) node_modules/typescript/bin/tsc -b packages/rpc packages/model-option-map packages/shared packages/provider packages/provider-node",
+      "observedExitCode": 0,
+      "scope": "Bounded dependency declarations/emitted prerequisites only",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": ""
+    },
+    {
+      "id": "adapters-prerequisite",
+      "command": "pnpm(10.33.2) --filter @knorvia/adapters^... --recursive --if-present run build",
+      "observedExitCode": 0,
+      "scope": "Adapter dependency closure; not all CLI build",
+      "outputSha256": "cd235c67507486bb22184d305110ab6d4915719ba7766cdbf11467c55f0c4e72",
+      "output": "Scope: 6 of 34 workspace projects\npackages/model-option-map build$ tsc\napps/cli/packages/dynamic-workflow build$ node scripts/generate-libs.mjs && tsc\napps/cli/packages/dynamic-workflow build: generate-libs: wrote 57 lib files for typescript@5.9.3\npackages/model-option-map build: Done\napps/cli/packages/dynamic-workflow build: Done\npackages/provider build$ tsc\napps/cli/packages/contracts build$ tsc\npackages/provider build: Done\napps/cli/packages/contracts build: Done\n"
+    },
+    {
+      "id": "pane-after",
+      "command": "node(24.14.0) node_modules/typescript/bin/tsc --ignoreConfig --noEmit --strict --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2024 --noUncheckedIndexedAccess packages/ui/src/v4/paneLayoutTree.ts",
+      "observedExitCode": 0,
+      "scope": "Standalone pure pane owner; not full UI project types",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": ""
+    },
+    {
+      "id": "adapters-after",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit -p apps/cli/packages/adapters",
+      "observedExitCode": 0,
+      "scope": "Complete configured adapters source project; not entire CLI graph",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": ""
+    },
+    {
+      "id": "browser-runtime-tests",
+      "command": "node(24.14.0) apps/cli/packages/adapters/test/browser-owner-compatibility/owners.test.mjs --only=runtime",
+      "observedExitCode": 0,
+      "scope": "3 selected synthetic runtime cases; no real browser/OS execution",
+      "outputSha256": "a4666e97e063486d84d0e0cc59d3f41e8f75223e7f76bc76a97524d0acf72be5",
+      "output": "✔ runtime owner preserves stale admission, native error privacy, matching cancellation and late context disposal (48.139569ms)\n✔ runtime viewport and dialog regression preserves protocol dispatch and fresh context input (15.439849ms)\n✔ runtime cached browser regression retains connected-cache fast return under injected abort (13.412627ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 84.483151\n"
+    },
+    {
+      "id": "image-compression-tests",
+      "command": "node(24.14.0) apps/cli/packages/adapters/test/media-owner-compatibility/owners.test.mjs --only=\"image compression\"",
+      "observedExitCode": 0,
+      "scope": "1 selected synthetic codec case; no real image IO",
+      "outputSha256": "8b01f46d7ff890d842bb239a6c0d11536cb9b733326df47b95b3d160213a1aa5",
+      "output": "✔ image compression preserves PNG then JPEG budget order, bytes, admission and error cause (23.831369ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 29.804795\n"
+    },
+    {
+      "id": "pane-binding-tests",
+      "command": "node(24.14.0) --test docs/evidence/backlog-cli-20261003/final-pane-binding-contract.mjs",
+      "observedExitCode": 0,
+      "scope": "6 synthetic in-memory cases; no React/DOM/storage execution",
+      "outputSha256": "2d7b0a2aeedaa0a62607d1222ab7ac14e58f1abd200d4ee1f7cfdecb7dc8359e",
+      "output": "✔ bind and confirm missing panes leave the original snapshot untouched (0.746603ms)\n✔ same confirmed session is a no-op and keeps the existing read-only binding (0.409921ms)\n✔ bind clears restored state even for the same session and preserves scope, tree and focus (0.628377ms)\n✔ changed and empty session ids remain valid bind values (0.232056ms)\n✔ confirm uses the stored session and never reads a bind-only command getter (0.203343ms)\n✔ focus and close retain their own routes without reading a session payload (0.264404ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 80.897009\n"
+    },
+    {
+      "id": "helper-regressions",
+      "command": "node(24.14.0) --import tsx --test apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts apps/cli/packages/core/test/turn-machine-contract.test.ts",
+      "observedExitCode": 0,
+      "scope": "19 source cases, including 2 new malformed-state/sparse-slot regressions",
+      "outputSha256": "d3dde305c96562e556c12a411120668baab89b7f2587e084424e91fa4c40fc99",
+      "output": "✔ malformed legacy tool status never dispatches inherited object properties (1.641537ms)\n✔ info projects every fixed key and preserves nested user references (0.912801ms)\n✔ assistant model/error projection retains truthy gates and ordered fields (0.443481ms)\n✔ all thirteen part tags retain identity prefix, order, data and undefined fields (1.271706ms)\n✔ compaction metadata preserves every key and ordered clock projection (0.230073ms)\n✔ timeline gates retain field presence, fork String semantics and nested identity (0.252206ms)\n✔ tool states remove only their own private recovery fields and keep required metadata (0.481598ms)\n✔ metadata with no own private key preserves identity and stripping preserves symbols (0.222262ms)\n✔ all visibility decisions precede any projection and hidden parts never read ids/state (0.333867ms)\n✔ tool scheduling, start and completion preserve legacy sparse slots and untouched references (2.150345ms)\n✔ transitions return projections without committing state, including after public state replacement (0.359746ms)\n✔ supplied empty ids survive nullish defaults and model admission retains its error (0.661406ms)\n✔ streaming appends text and schedule projection strips extras while retaining schedule identity (0.420467ms)\n✔ tool execution clones every call and preserves waiting timestamps (0.327058ms)\n✔ completion updates all duplicate ids, preserves nonmatches and appends unmatched results (0.518733ms)\n✔ pending input enqueue/drain share records and preserve the original drain array (0.26834ms)\n✔ permission projection shares requests, edits every duplicate and honors all nullish decisions (0.849015ms)\n✔ next phase preserves running/waiting gates and failed/denied precedence (0.498943ms)\n✔ complete validates while fail bypasses validation and retains error identity (0.372104ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1680.903121\n"
+    },
+    {
+      "id": "helper-types-first",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit --strict --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2024 --noUncheckedIndexedAccess apps/cli/packages/core/src/agent/turn-machine.ts apps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts",
+      "observedExitCode": 2,
+      "scope": "Four status lambda return types widened during table conversion; preserve this failed attempt",
+      "outputSha256": "a62ab4a86dde9f2807659881e909869cf61a204a32e38de97dff9a354a61b68d",
+      "output": "apps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts(35,5): error TS2322: Type '[\"status\", () => string]' is not assignable to type 'readonly [\"input\", (source: ToolStatePending) => Record<string, unknown>] | readonly [\"status\", (source: ToolStatePending) => \"pending\"] | readonly [\"raw\", (source: ToolStatePending) => string]'.\n  Type '[\"status\", () => string]' is not assignable to type 'readonly [\"status\", (source: ToolStatePending) => \"pending\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"pending\"'.\napps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts(41,5): error TS2322: Type '[\"status\", () => string]' is not assignable to type 'readonly [\"input\", (source: ToolStateRunning) => Record<string, unknown>] | readonly [\"metadata\", (source: ToolStateRunning) => Record<string, unknown> | undefined] | readonly [...] | readonly [...] | readonly [...]'.\n  Type '[\"status\", () => string]' is not assignable to type 'readonly [\"status\", (source: ToolStateRunning) => \"running\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"running\"'.\napps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts(50,5): error TS2322: Type '[\"status\", () => string]' is not assignable to type 'readonly [\"output\", (source: ToolStateCompleted) => string] | readonly [\"input\", (source: ToolStateCompleted) => Record<string, unknown>] | readonly [\"metadata\", (source: ToolStateCompleted) => Record<...>] | readonly [...] | readonly [...] | readonly [...] | readonly [...]'.\n  Type '[\"status\", () => string]' is not assignable to type 'readonly [\"status\", (source: ToolStateCompleted) => \"completed\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"completed\"'.\napps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts(59,5): error TS2322: Type '[\"status\", () => string]' is not assignable to type 'readonly [\"error\", (source: ToolStateError) => string] | readonly [\"input\", (source: ToolStateError) => Record<string, unknown>] | readonly [\"metadata\", (source: ToolStateError) => Record<...> | undefined] | readonly [...] | readonly [...] | readonly [...]'.\n  Type '[\"status\", () => string]' is not assignable to type 'readonly [\"status\", (source: ToolStateError) => \"error\"]'.\n    Type at position 1 in source is not compatible with type at position 1 in target.\n      Type 'string' is not assignable to type '\"error\"'.\n"
+    },
+    {
+      "id": "helper-types-corrected",
+      "command": "node(24.14.0) apps/cli/node_modules/typescript/bin/tsc --noEmit --strict --skipLibCheck --module NodeNext --moduleResolution NodeNext --target ES2024 --noUncheckedIndexedAccess apps/cli/packages/core/src/agent/turn-machine.ts apps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts",
+      "observedExitCode": 0,
+      "scope": "Explicit literal return contracts corrected all four; not complete core/bootstrap project types",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output": ""
+    },
+    {
+      "id": "message-regressions-final",
+      "command": "node(24.14.0) --import tsx --test apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
+      "observedExitCode": 0,
+      "scope": "Affected 9-case suite after literal type correction; already counted among 29 unique selected cases",
+      "outputSha256": "f5cd0b0709ff059037aff1df03bf3a874e6d6f0cb33589510efa0de41165fbe9",
+      "output": "✔ malformed legacy tool status never dispatches inherited object properties (1.205267ms)\n✔ info projects every fixed key and preserves nested user references (1.953452ms)\n✔ assistant model/error projection retains truthy gates and ordered fields (0.418094ms)\n✔ all thirteen part tags retain identity prefix, order, data and undefined fields (0.842476ms)\n✔ compaction metadata preserves every key and ordered clock projection (0.158856ms)\n✔ timeline gates retain field presence, fork String semantics and nested identity (0.248861ms)\n✔ tool states remove only their own private recovery fields and keep required metadata (1.012619ms)\n✔ metadata with no own private key preserves identity and stripping preserves symbols (0.237484ms)\n✔ all visibility decisions precede any projection and hidden parts never read ids/state (0.333187ms)\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 194.636919\n"
+    },
+    {
+      "id": "cli-consumer-prerequisite",
+      "command": "pnpm(10.33.2) --filter @knorvia/cli^... --recursive --if-present run build",
+      "observedExitCode": 2,
+      "scope": "Further consumer prerequisite stopped at 5 compact/policy.ts tokenSource errors; no complete build/typecheck success claim",
+      "outputSha256": "113d3eb9fc008c4d02b673980eb47444eb75a4cf3f37b9de7cac82fb303efa71",
+      "output": "Scope: 16 of 34 workspace projects\npackages/model-option-map build$ tsc\napps/cli/packages/dynamic-workflow build$ node scripts/generate-libs.mjs && tsc\npackages/formal-proof build$ vite build\napps/cli/packages/shared-types build$ tsc\npackages/formal-proof build: vite v8.0.8 building client environment for production...\npackages/formal-proof build: \u001b[2K\npackages/model-option-map build: Done\npackages/formal-proof build: transforming...✓ 578 modules transformed.\npackages/formal-proof build: rendering chunks...\npackages/formal-proof build: computing gzip size...\npackages/formal-proof build: dist/index.html                  0.41 kB │ gzip:  0.27 kB\npackages/formal-proof build: dist/assets/index-Cbvbq-qX.css   7.21 kB │ gzip:  2.08 kB\npackages/formal-proof build: dist/assets/index-BvdbeZ81.js   76.70 kB │ gzip: 26.53 kB\npackages/formal-proof build: ✓ built in 243ms\npackages/formal-proof build: Done\napps/cli/packages/shared-types build: Done\napps/cli/packages/dynamic-workflow build: Done\n.../packages/dynamic-workflow-runtime build$ tsc\n.../packages/dynamic-workflow-runtime build: Done\napps/cli/packages/contracts build$ tsc\npackages/provider build$ tsc\npackages/provider build: Done\napps/cli/packages/contracts build: Done\napps/cli/packages/adapters build$ tsc\napps/cli/packages/core build$ tsc\napps/cli/packages/i18n build$ tsc\npackages/provider-node build$ tsc\npackages/provider-node build: Done\napps/cli/packages/telemetry build$ tsc\napps/cli/packages/i18n build: Done\napps/cli/packages/telemetry build: Done\napps/cli/packages/adapters build: Done\napps/cli/packages/core build: src/compact/policy.ts(139,5): error TS2322: Type '{ shouldCompact: false; reason: \"disabled\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; providerCacheWriteTokens: number | undefined; ... 10 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\napps/cli/packages/core build:   Types of property 'tokenSource' are incompatible.\napps/cli/packages/core build:     Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core build: src/compact/policy.ts(142,5): error TS2322: Type '{ shouldCompact: false; reason: \"not_enough_messages\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; ... 11 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\napps/cli/packages/core build:   Types of property 'tokenSource' are incompatible.\napps/cli/packages/core build:     Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core build: src/compact/policy.ts(148,5): error TS2322: Type '{ shouldCompact: false; reason: \"circuit_breaker\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; ... 11 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\napps/cli/packages/core build:   Types of property 'tokenSource' are incompatible.\napps/cli/packages/core build:     Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core build: src/compact/policy.ts(151,5): error TS2322: Type '{ shouldCompact: false; reason: \"below_threshold\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; ... 11 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\napps/cli/packages/core build:   Types of property 'tokenSource' are incompatible.\napps/cli/packages/core build:     Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core build: src/compact/policy.ts(153,3): error TS2322: Type '{ shouldCompact: true; reason: \"above_threshold\"; contextWindow: number; effectiveContextWindow: number; estimatedTokenCount: number; providerCacheReadTokens: number | undefined; providerCacheWriteTokens: number | undefined; ... 10 more ...; tokenSource: string; }' is not assignable to type 'AutoCompactDecision'.\napps/cli/packages/core build:   Types of property 'tokenSource' are incompatible.\napps/cli/packages/core build:     Type 'string' is not assignable to type 'AutoCompactTokenSource'.\napps/cli/packages/core build: Failed\n/workspace/knorvia-studio/apps/cli/packages/core:\n ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @knorvia/core@0.1.0 build: `tsc`\nExit status 2\n"
+    },
+    {
+      "id": "lint-final",
+      "command": "node(24.14.0) node_modules/oxlint/bin/oxlint --no-ignore --config <temporary root config without ignorePatterns> <44 explicit owned TS/TSX paths> docs/evidence/backlog-cli-20261003/final-pane-binding-contract.mjs",
+      "observedExitCode": 0,
+      "scope": "45 inspected files; 0 warnings / 0 errors; root rules preserved; no root config or other lanes modified",
+      "outputSha256": "acfe9e7d3d54021d97687c22a8384eefcb08ac7ae164bf04d1c4cc445a1fd6d8",
+      "output": "Found 0 warnings and 0 errors.\nFinished in 27ms on 45 files with 94 rules using 4 threads.\n"
+    },
+    {
+      "id": "architecture-after",
+      "command": "node(24.14.0) scripts/architecture/architecture-check.mjs check --changed",
+      "observedExitCode": 0,
+      "scope": "Current changed CLI/UI files; legacy/unmanaged module policy unchanged",
+      "outputSha256": "f0622a95fcc1697dddbae6f7b072afad8fe1b1d412c0462d9d16a11e59535497",
+      "output": "architecture: OK\nviolations: 0\nbaseline: 0\nnew: 0\n"
+    },
+    {
+      "id": "format-final",
+      "command": "node(24.14.0) node_modules/oxfmt/bin/oxfmt --check <49 explicit owned source/test/docs/spec/evidence paths>",
+      "observedExitCode": 0,
+      "scope": "44 owned source/test paths + own lane/specs/pane probe/evidence; excludes all other lanes and licensing records",
+      "outputSha256": "352641e9dafe42b1e85ccec5bbe244e00b9030c4d33280814d794adf2000860e",
+      "output": "Checking formatting...\n\nAll matched files use the correct format.\nFinished in 259ms on 49 files using 4 threads.\n",
+      "note": "This run preceded adding this check metadata; the updated JSON is separately formatted and checked below."
+    }
+  ],
+  "uniqueSelectedCases": {
+    "browserRuntime": 3,
+    "imageCompression": 1,
+    "paneBindings": 6,
+    "messageMapper": 9,
+    "turnMachine": 10,
+    "total": 29
+  },
+  "lintConfigUsed": {
+    "$schema": "./node_modules/oxlint/configuration_schema.json",
+    "plugins": null,
+    "categories": {},
+    "rules": {
+      "max-lines": [
+        "error",
+        {
+          "max": 400,
+          "skipBlankLines": true,
+          "skipComments": true
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+        "rules": {
+          "max-lines": "off"
+        }
+      },
+      {
+        "files": ["**/i18n/locales/*.ts"],
+        "rules": {
+          "max-lines": "off"
+        }
+      }
+    ],
+    "settings": {
+      "jsx-a11y": {
+        "polymorphicPropName": null,
+        "components": {},
+        "attributes": {}
+      },
+      "next": {
+        "rootDir": []
+      },
+      "react": {
+        "formComponents": [],
+        "linkComponents": [],
+        "version": null,
+        "componentWrapperFunctions": []
+      },
+      "jsdoc": {
+        "ignorePrivate": false,
+        "ignoreInternal": false,
+        "ignoreReplacesDocs": true,
+        "overrideReplacesDocs": true,
+        "augmentsExtendsReplacesDocs": false,
+        "implementsReplacesDocs": false,
+        "exemptDestructuredRootsFromChecks": false,
+        "tagNamePreference": {}
+      },
+      "vitest": {
+        "typecheck": false
+      }
+    },
+    "env": {
+      "builtin": true
+    },
+    "globals": {}
+  },
+  "boundedSyntaxComparison": {
+    "base": "19f6ccf74ba1064ca81d93194b4f25a36030e361",
+    "scope": 44,
+    "syntaxChanged": [
+      "apps/cli/packages/adapters/src/browser/index.ts",
+      "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts",
+      "apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
+      "apps/cli/packages/core/src/agent/turn-tool-projection.ts",
+      "apps/cli/packages/core/test/turn-machine-contract.test.ts",
+      "packages/ui/src/v4/paneLayoutTree.ts"
+    ],
+    "syntaxEquivalent": [
+      "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-mapper.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-record-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-context-usage.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-goal-history.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-goal-recovery.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-mapper.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-projection-primitives.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-snapshot-images.ts",
+      "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "apps/cli/packages/bootstrap/test/session-projection-contract.test.ts",
+      "apps/cli/packages/bootstrap/test/session-projection-fixture.ts",
+      "apps/cli/packages/bootstrap/test/session-snapshot-contract.test.ts",
+      "apps/cli/packages/bootstrap/test/session-snapshot-images-contract.test.ts",
+      "apps/cli/packages/cli/src/argument-tool-rules.ts",
+      "apps/cli/packages/cli/src/arguments.ts",
+      "apps/cli/packages/core/src/agent/turn-machine.ts",
+      "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+      "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "apps/cli/packages/core/test/runtime-task-registry-contract.test.ts",
+      "apps/cli/packages/core/test/runtime-task-registry-read-order.test.ts",
+      "apps/cli/packages/dynamic-workflow/src/engine/ask-journal-projection.ts",
+      "apps/cli/packages/dynamic-workflow/src/engine/scheduler-submit.ts",
+      "apps/cli/packages/dynamic-workflow/src/engine/scheduler.ts",
+      "apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts",
+      "apps/cli/packages/dynamic-workflow/test/ask-scheduler-fixture.ts",
+      "packages/ui/src/v4/WorkbenchSplitDivider.tsx",
+      "packages/ui/src/v4/paneLayoutPersistence.ts",
+      "packages/ui/src/v4/paneLayoutStore.ts",
+      "packages/ui/src/v4/usePaneSessionPersistence.ts",
+      "packages/ui/src/v4/workbenchDragDrop.ts",
+      "packages/ui/src/v4/workbenchGroupStore.ts",
+      "packages/ui/src/v4/workbenchNewTaskTarget.ts",
+      "packages/ui/src/v4/workbenchSessionPlacement.ts"
+    ],
+    "note": "Bounded syntax comparison excludes source positions, comments, formatting flags, redundant parenthesis nodes and whitespace-only JSX text; it is not runtime/DOM/rights acceptance."
+  },
+  "deliveredSourceBindings": [
+    {
+      "path": "apps/cli/packages/adapters/src/browser/index.ts",
+      "sha256": "56970fb7148be7ef7556e1dedd86b05eb5a0ee316db5ac9a65a6cf1ed60ba96f"
+    },
+    {
+      "path": "apps/cli/packages/adapters/src/image/jimp-compression.ts",
+      "sha256": "ad3a7a49b8792833933110c87a68f7472012d37f0d1117ea41fba079bd995a9f"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-info-projection.ts",
+      "sha256": "0d1328e0dcdcbb7686f26cc9710d06bcc4b6802e992fd16761473708d31b0340"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-mapper.ts",
+      "sha256": "1d7e0ce752d3746f9e4c85ddf8f85208206af3de941b3f719fc1cf41467b18dc"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-part-projection.ts",
+      "sha256": "ebabd3949cc8778072664d96fc433c771d305bd91b42af02e620c18d79afdf0d"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-record-projection.ts",
+      "sha256": "6968dab3792f35f71de7eaec313c9dcb5da10dd7b1b2c9013ee42f073a8d4190"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-timeline-projection.ts",
+      "sha256": "fbe47f26d7d499e6d840332f90fbd50ff064b07eb5afbe27454531ee34e407c5"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/message-tool-projection.ts",
+      "sha256": "8c801ebf3aa2e19d6e05af1a2f6c657116596c48ff878bca2bf0855b3f947098"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-context-usage.ts",
+      "sha256": "e92600a90a8debcaac14068a04f9f85ca39096937472b7865a7c10aa65fb6ced"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-event-projection.ts",
+      "sha256": "25bc25cabc498a1b963d77f8f444b2a1202b53ec7c1ef6135a7b48ce6436ff87"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-goal-history.ts",
+      "sha256": "82ff626477aef281f79e3e617abc5adf6d149d7be6835880957a12e53e3e9ce9"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-goal-recovery.ts",
+      "sha256": "41827e6026dba91f93c0f74b1cbede430b18e9c4595cf844427f9da0a8ad8a10"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-mapper.ts",
+      "sha256": "9db025867badfe319406236fcf6a97dc6c4a77478f17da844707b1731094daf3"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-projection-primitives.ts",
+      "sha256": "8cac07b7c7bceae8ab960bbc72711aa7252f7d8123e959c77f22a0a45ddfae7f"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-snapshot-images.ts",
+      "sha256": "1db8abfe5eac0b4bff5ae076788511f0f1111b00582949b6cd536677373d5085"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/src/protocol/session-state-projection.ts",
+      "sha256": "6b041f4001061aaa1e0157a32755100013f424368bfd88f887d9643114911ec6"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/message-mapper-contract.test.ts",
+      "sha256": "a9cb85efe4814b95f2ed8bf28eb4f7fb174d2cce7b5815e36fbee09264ae1283"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/session-projection-contract.test.ts",
+      "sha256": "503ac6ba5213b5e6b92fd22638e422952175941c73823018f5ab9c6cac278e65"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/session-projection-fixture.ts",
+      "sha256": "7cc639c7470967e5132350228fec4912da1aefc475192b4f4399cd6e2bfc54e7"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/session-snapshot-contract.test.ts",
+      "sha256": "032fbb90ae0eb9e3d399e9c1400bd6618f873a8eae484475a1c772d2dc87a871"
+    },
+    {
+      "path": "apps/cli/packages/bootstrap/test/session-snapshot-images-contract.test.ts",
+      "sha256": "bf5f77c3415ecf66f489e1f67910008c01096538bc48862a886541c107696d94"
+    },
+    {
+      "path": "apps/cli/packages/cli/src/argument-tool-rules.ts",
+      "sha256": "6251e6bf33e1ddbc89ebc06bbc202d92e691477f49393056f231bed83bc620c5"
+    },
+    {
+      "path": "apps/cli/packages/cli/src/arguments.ts",
+      "sha256": "5e8516aa8b63fe2332e3e761436de1a23d83d0be732ae691540c1a4185a86653"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-machine.ts",
+      "sha256": "f5e828913807f7515089bf99f97dad4691ef07d23faf6897cfa209c622a41333"
+    },
+    {
+      "path": "apps/cli/packages/core/src/agent/turn-tool-projection.ts",
+      "sha256": "af2ca850a970249dfd97926ba64bfb6cb69b7598b89859b995649a35c849cfd3"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry-waits.ts",
+      "sha256": "234729ce198ce0111d102307e7394e9157a40cd9db112a5ddb5b5628ffb9ddbe"
+    },
+    {
+      "path": "apps/cli/packages/core/src/runtime-task/registry.ts",
+      "sha256": "c7f4fc09641ddd04fe1692635ede2a5fde8b61c36dec82f35c21fa981fb97d84"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-contract.test.ts",
+      "sha256": "928b5da580d99f8dbf4d0d86cd14c4416c35ba93d6b5e62eabbcf4449b57dd80"
+    },
+    {
+      "path": "apps/cli/packages/core/test/runtime-task-registry-read-order.test.ts",
+      "sha256": "0dd37d228be345f49141d9c9fb2714693c23aa8dcfcb85fabd24161dfa797147"
+    },
+    {
+      "path": "apps/cli/packages/core/test/turn-machine-contract.test.ts",
+      "sha256": "026b074afb167ba59287dd54c606d83c61390574623a4b1534b3a8bbb858252f"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/engine/ask-journal-projection.ts",
+      "sha256": "c397b45a3df82d4c95aa9f4eddc225342f2c0709ade3c111a643bd6e8c6f33f5"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/engine/scheduler-submit.ts",
+      "sha256": "d6394cbe851c8348d99284b882d4e3023166135a1e2f1e2dd1d98c3d5a33b84f"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/src/engine/scheduler.ts",
+      "sha256": "9aadc2c73bed5c2e14b468239f918d856fbc58b8424149e88a799e862ff8f884"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/test/ask-scheduler-contract.test.ts",
+      "sha256": "db81f4616e12c68a429c5bb4bdcbbbfa1c904988a0f5356ea13807a21a95b684"
+    },
+    {
+      "path": "apps/cli/packages/dynamic-workflow/test/ask-scheduler-fixture.ts",
+      "sha256": "2bcda0fb626c1400ad43ad5db2e862ef6ccdf8eb71efe6ba8b34587f71a84f57"
+    },
+    {
+      "path": "packages/ui/src/v4/WorkbenchSplitDivider.tsx",
+      "sha256": "a6a5946417a08146f839b7f401a3e319439f3ca3380ce3e1971a9b6e6fe31728"
+    },
+    {
+      "path": "packages/ui/src/v4/paneLayoutPersistence.ts",
+      "sha256": "a446d7538d39adfcd9edac0269562771a813afff6727634018973dbf05bbcbcb"
+    },
+    {
+      "path": "packages/ui/src/v4/paneLayoutStore.ts",
+      "sha256": "6d4fa6177e5d3fbbaa5b9df48c4d365f89a726ad10cf52b504adc540819cc81f"
+    },
+    {
+      "path": "packages/ui/src/v4/paneLayoutTree.ts",
+      "sha256": "65ab2fb965dd78639f8a7257ca41e8cb19047c35d748e82c8044e0864c2e8d87"
+    },
+    {
+      "path": "packages/ui/src/v4/usePaneSessionPersistence.ts",
+      "sha256": "1caf122be6d12d18b628db27b19e75d56b2ad0697c21b572e91cc5425e9bbc07"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchDragDrop.ts",
+      "sha256": "fb56178b236e09ca922b06fe1a789050d508c2a1a6101dae2eb6cb00ec45c565"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchGroupStore.ts",
+      "sha256": "f5f2c3d55c50c8e7ca5102e8da0385cc7a5eff8563ec632bc4033e089e5b5184"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchNewTaskTarget.ts",
+      "sha256": "0408f1ecd11fc58f6ae9b621bfeaa55539ff55ce5e9ca7e1c2c63fb3f1e61faf"
+    },
+    {
+      "path": "packages/ui/src/v4/workbenchSessionPlacement.ts",
+      "sha256": "16b638b77a93f3074ddf43199ba8d0d62b990ef6fabaeb4ec71ce7a220da1965"
+    }
+  ],
+  "remaining": {
+    "cliGraph": {
+      "path": "apps/cli/packages/core/src/compact/policy.ts",
+      "lines": [139, 142, 148, 151, 153],
+      "code": "TS2322",
+      "reason": "common.tokenSource widens to string; AutoCompactDecision requires AutoCompactTokenSource",
+      "notModified": true,
+      "coordination": "Owner/integrator must preserve the finite tokenSource type in the common decision projection; no any/ignore or literal coercion requested."
+    },
+    "rootAndRuntime": "Full root/CLI typecheck/build, unselected suites, React/DOM/native/desktop/mobile and source/emitted consumer matrix remain unaccepted. No blanket main readiness claim.",
+    "provenance": "Parent must refresh current-file inputs for new source bytes and assess independent expression/rights. Historical holds and licences retained; no MIT/accepted independence claim."
+  },
+  "scopeLimit": "Only five production files and two regression suites have structural changes. Other explicit owned sources are formatter-only or unchanged. Shared contracts, root config/CI/global licence inventory and other-lane UI unchanged. No new PR/main merge.",
+  "paneProbeBinding": {
+    "path": "docs/evidence/backlog-cli-20261003/final-pane-binding-contract.mjs",
+    "sha256": "65ce0d1ba1a1a99fc3abb3f971f179694496f11f4fd44268e64ba962a896656c"
+  }
+}
