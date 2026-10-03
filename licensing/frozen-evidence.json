@@ -9132,27 +9132,32 @@
     {
       "path": "docs/evidence/installer-branding-format-20261003/README.md",
       "sha256": "fec6ca350122c9138c9f99577b83ec4b58ecda107d0561501f3832815d4b5a61",
-      "bytes": 661
+      "bytes": 661,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
     },
     {
       "path": "docs/evidence/installer-branding-format-20261003/SHA256SUMS",
       "sha256": "b8716ef1bdd8c81917feca00d00e81a186c19cc66d728c98b8df9a86610d2757",
-      "bytes": 333
+      "bytes": 333,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
     },
     {
       "path": "docs/evidence/installer-branding-format-20261003/format-receipt.json",
       "sha256": "b87be8f6c11b598641329a7af7283d6279a8f71deec0c10835e83976503945b0",
-      "bytes": 1199
+      "bytes": 1199,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
     },
     {
       "path": "docs/evidence/installer-branding-format-20261003/sources-after.json",
       "sha256": "17157d430f457cbc3ab8a4fb07480a5138fa7567424a847c5af5a4976a7a1e03",
-      "bytes": 1736
+      "bytes": 1736,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
     },
     {
       "path": "docs/evidence/installer-branding-format-20261003/sources-before.json",
       "sha256": "41feeb65592a1d1d0a5e20c4bd97a383885c3714daa8a14135dd51d9cc913d7d",
-      "bytes": 1898
+      "bytes": 1898,
+      "sourceCommit": "c0b6ff599063b11b2dd8bb8be899b9c4ba64519b"
     },
     {
       "path": "docs/evidence/installer-branding-ui-20261003/DESIGN.md",

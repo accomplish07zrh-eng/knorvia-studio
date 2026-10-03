@@ -368,3 +368,10 @@ for the end user's direct public-email authorization. Integration preserves
 all prepared local source and receipts, and pauses public pushes, related PR
 writes, tags and Release publication. Existing public history does not grant
 permission to bypass this rejection. No v0.8.0-preview.4 publication occurred.
+
+The five integration-created formatting records were first committed locally
+at c0b6ff599063b11b2dd8bb8be899b9c4ba64519b. Their frozen rows now bind to
+that actual commit after verifying each committed blob's SHA-256 and byte size;
+they are not attributed to the UI source commit. All earlier frozen rows and
+their committed source relationships remain unchanged. This local checkpoint
+does not imply a push, final source CI or public-email approval.
