@@ -360,3 +360,74 @@ privacy/heap/IPC acceptance remains deferred. Same source-exposed author and
 pending full expression/rights/MIT decision; no ui/web/preload/shared/data changes.
 Startup batch is pushed at
 `0af60602c632b39c75cfc3a56e38a88ca9a163b0`.
+
+## Renderer routing and permission gesture batch
+
+The complete desktop/browser platform candidates now express their fixed routes
+through one local stateless preload invocation policy. Native methods and receiver
+are read live, original argument positions/arity and native Promise/value identity
+remain, optional methods and nullish results use the same fresh fallback, and
+conditional capabilities retain their original platform/module snapshot timing.
+All selected property slots remain in the same source order (96 platform slots,
+including the browser spread, and20 browser slots). These route/property/fallback
+tables are retained compatibility data, not new algorithm or rights credit.
+
+The complete CUA panel candidate has one idle/dragging gesture owner and ordered
+DOM message projection. It still prewarms helper before subscribing, uses captured
+dedicated preload with its receiver, starts native drag synchronously after
+preventDefault, and admits dragend/mouseup only after a start. Existing click/
+duplicate-end/start-throw behavior, helper display name, bilingual copy and icon
+placeholder persistence remain. No actual permission, helper install, native drag,
+browser data, system window or user data was operated.
+
+[Routing contract](../specs/knorvia-next-platform-renderer-routing-20261003.md),
+[whole-draft/native-dependency binding](evidence/backlog-platform-renderer-routing-20261003/bindings.json)
+and [retained route/copy source metadata](evidence/backlog-platform-renderer-routing-20261003/retained-route-data.json)
+record the complete three target candidates plus new local call policy. Two
+scenarios in `packages/desktop/test/renderer-native-routing-contract.test.mjs`
+are authored and **unrun**. UI, native/preload, public protocol, data and packages/
+ui/web remain unchanged; no runtime/types/build/other verification was performed.
+
+Source reading found that client globals.d.ts omits previewLocalDiagnostics,
+exportLocalDiagnostics and checkReleaseUpdate although unchanged preload and
+IPlatformService contain them. All three runtime routes remain. The local call
+type projection uses the existing IPlatformService; integration should reconcile
+the global declaration and actual consumers during final acceptance. This is an
+existing declaration dependency, not a type-check pass or a new shared API request.
+Telemetry batch is pushed at
+`cd0c79cc1629cb62dfe00a4c406d52f198cb8f7d`.
+
+## Assigned renderer queue freeze
+
+The specifically assigned thirteen entries now have an explicit disposition:
+
+| Selected entry | Source checkpoint disposition |
+| --- | --- |
+| src/main.tsx | complete startup/remote FIFO candidate; JSX/boot data retained |
+| src/databaseStartupAdmission.ts | complete state/resource admission candidate |
+| src/performanceTimelineCleanup.ts | exact native maintenance glue; zero new credit |
+| src/userActionTraceBootstrap.ts | complete existing trace lifetime candidate |
+| src/localTtftBootstrap.ts | complete lifetime/bounded FIFO candidate |
+| src/desktopPlatform.ts | complete platform adapter candidate; route data retained |
+| src/desktopBrowserPlatformBridge.ts | complete browser adapter candidate; route data retained |
+| src/remoteWorkspaceSessionServices.ts | exact remote service selection; zero new credit |
+| src/remoteWorkspaceServicePortBridge.ts | exact thin admission/ready serializer; zero new credit |
+| src/resource-manager.tsx | complete appearance/mount candidate; JSX/font feature retained |
+| cuaPermissionPanel.ts | complete gesture/projection candidate; copy/style data retained |
+| cuaPermissionPanelMessages.ts | exact bilingual copy/lookup; zero new credit |
+| appTelemetryBridge.ts | exact one-call context delegate; zero new credit |
+
+Two new renderer-local appearance/invocation helpers support these eight existing
+target candidates, without another business owner. Six focused scenarios in
+three renderer case files and their fixture are all **unrun**. Each of the five
+retained surfaces still matches exact handoff bytes. Retention does not make it
+original/MIT; no whole-directory completion or fresh/isolated author is claimed.
+
+Freeze this finite queue after source diff, commit/push and remote PR metadata
+confirmation on the existing task/branch/draft PR17. No more implementation is
+planned without a new allocation. Final integration must combine these candidates
+with PR15 UI, actual startup/preload/schema transfers, RPC/Host/remote registration,
+resource-window persisted theme/font/storage, browser/capability compatibility,
+CUA helper/native gesture and telemetry/config/privacy/heap consumers on all
+supported platforms. Global source/rights/license review and inventories remain
+integration-owned; no MIT grant, main merge or deployment here.

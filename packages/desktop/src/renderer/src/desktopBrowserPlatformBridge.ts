@@ -1,4 +1,5 @@
 import type { IPlatformService } from "@knorvia/shared";
+import { RendererPreloadCalls } from "./rendererPreloadCalls.js";
 
 type DesktopBrowserPlatformBridge = Pick<
   IPlatformService,
@@ -24,47 +25,32 @@ type DesktopBrowserPlatformBridge = Pick<
   | "printPageToPdf"
 >;
 
-// Rebase 集成：browser bridge 若继续内联在 renderer 入口，会让入口越过 max-lines 门禁。
-// 独立对象只做 preload 委托与旧 bridge 兼容兜底，不持有 Browser 业务状态。
+const calls = new RendererPreloadCalls();
+const resolveFilePath = calls.optional("getPathForFile", 1, () => null);
+
+// Fixed route/fallback data remains the existing browser compatibility contract.
 export const desktopBrowserPlatformBridge = {
-  getPathForFile: (file) =>
-    file instanceof File ? (window.knorvia.getPathForFile?.(file) ?? null) : null,
-  saveFile: (payload) =>
-    window.knorvia.saveFile?.(payload) ??
-    Promise.resolve({ success: false, error: "not_supported" }),
-  // 条件定义而非兜底返回失败：UI 靠方法是否存在做能力检测，旧 preload 下必须保持 undefined
-  printPageToPdf: window.knorvia.printPageToPdf
-    ? () => window.knorvia.printPageToPdf!()
-    : undefined,
-  onBrowserViewReady: (handler) => window.knorvia.onBrowserViewReady?.(handler) ?? (() => {}),
-  onBrowserViewOperation: (handler) =>
-    window.knorvia.onBrowserViewOperation?.(handler) ?? (() => {}),
-  onBrowserViewViewportChanged: (handler) =>
-    window.knorvia.onBrowserViewViewportChanged?.(handler) ?? (() => {}),
-  onBrowserViewVisibility: (handler) =>
-    window.knorvia.onBrowserViewVisibility?.(handler) ?? (() => {}),
-  onBrowserViewCloseTab: (handler) => window.knorvia.onBrowserViewCloseTab?.(handler) ?? (() => {}),
-  onBrowserViewSuspend: (handler) => window.knorvia.onBrowserViewSuspend?.(handler) ?? (() => {}),
-  onBrowserViewRestore: (handler) => window.knorvia.onBrowserViewRestore?.(handler) ?? (() => {}),
-  browserViewAttachGuest: (payload) =>
-    window.knorvia.browserViewAttachGuest?.(payload) ??
-    Promise.resolve({ ok: false, reason: "not-found", recoveryRequested: false }),
-  browserViewDetachGuest: (payload) =>
-    window.knorvia.browserViewDetachGuest?.(payload) ?? Promise.resolve(false),
-  browserViewCloseTab: (payload) =>
-    window.knorvia.browserViewCloseTab?.(payload) ?? Promise.resolve(),
-  browserViewReportResidency: (payload) =>
-    window.knorvia.browserViewReportResidency?.(payload) ?? Promise.resolve(),
-  browserViewSuspendReady: (payload) =>
-    window.knorvia.browserViewSuspendReady?.(payload) ?? Promise.resolve(),
-  browserViewEnsureResident: (payload) =>
-    window.knorvia.browserViewEnsureResident?.(payload) ?? Promise.resolve(),
-  browserViewRestoreTabs: (payload) =>
-    window.knorvia.browserViewRestoreTabs?.(payload) ?? Promise.resolve([]),
-  browserViewUpdateViewport: (payload) =>
-    window.knorvia.browserViewUpdateViewport?.(payload) ?? Promise.resolve(),
-  importChromeBrowserData: (options) =>
-    window.knorvia.importChromeBrowserData?.(options) ??
+  getPathForFile: (file) => file instanceof File ? resolveFilePath(file) : null,
+  saveFile: calls.optional("saveFile", 1, () =>
+    Promise.resolve({ success: false, error: "not_supported" })),
+  printPageToPdf: calls.capability("printPageToPdf", calls.required("printPageToPdf", 0)),
+  onBrowserViewReady: calls.optional("onBrowserViewReady", 1, () => () => {}),
+  onBrowserViewOperation: calls.optional("onBrowserViewOperation", 1, () => () => {}),
+  onBrowserViewViewportChanged: calls.optional("onBrowserViewViewportChanged", 1, () => () => {}),
+  onBrowserViewVisibility: calls.optional("onBrowserViewVisibility", 1, () => () => {}),
+  onBrowserViewCloseTab: calls.optional("onBrowserViewCloseTab", 1, () => () => {}),
+  onBrowserViewSuspend: calls.optional("onBrowserViewSuspend", 1, () => () => {}),
+  onBrowserViewRestore: calls.optional("onBrowserViewRestore", 1, () => () => {}),
+  browserViewAttachGuest: calls.optional("browserViewAttachGuest", 1, () =>
+    Promise.resolve({ ok: false, reason: "not-found", recoveryRequested: false })),
+  browserViewDetachGuest: calls.optional("browserViewDetachGuest", 1, () => Promise.resolve(false)),
+  browserViewCloseTab: calls.optional("browserViewCloseTab", 1, () => Promise.resolve()),
+  browserViewReportResidency: calls.optional("browserViewReportResidency", 1, () => Promise.resolve()),
+  browserViewSuspendReady: calls.optional("browserViewSuspendReady", 1, () => Promise.resolve()),
+  browserViewEnsureResident: calls.optional("browserViewEnsureResident", 1, () => Promise.resolve()),
+  browserViewRestoreTabs: calls.optional("browserViewRestoreTabs", 1, () => Promise.resolve([])),
+  browserViewUpdateViewport: calls.optional("browserViewUpdateViewport", 1, () => Promise.resolve()),
+  importChromeBrowserData: calls.optional("importChromeBrowserData", 1, () =>
     Promise.resolve({
       success: false,
       cookies: { imported: 0, skipped: 0, failed: 0 },
@@ -75,8 +61,7 @@ export const desktopBrowserPlatformBridge = {
         originsFailed: 0,
       },
       error: "chrome_import_not_supported",
-    }),
-  clearEmbeddedBrowserData: (mode) =>
-    window.knorvia.clearEmbeddedBrowserData?.(mode) ??
-    Promise.resolve({ success: false, error: "unsupported" }),
+    })),
+  clearEmbeddedBrowserData: calls.optional("clearEmbeddedBrowserData", 1, () =>
+    Promise.resolve({ success: false, error: "unsupported" })),
 } satisfies DesktopBrowserPlatformBridge;

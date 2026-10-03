@@ -4,167 +4,130 @@ import {
   buildLocalMediaPreviewUrl,
   type IPlatformService,
 } from "@knorvia/shared";
-
 import { desktopBrowserPlatformBridge } from "./desktopBrowserPlatformBridge.js";
+import { RendererPreloadCalls } from "./rendererPreloadCalls.js";
 
 export function createDesktopPlatform(options: {
   isLocalDevelopmentRuntime: boolean;
 }): IPlatformService {
+  const calls = new RendererPreloadCalls();
+  const executeCommand = calls.required("executeDesktopCommand", 1);
+  const reportArms = calls.required("reportArmsCustomEvent", 1);
   return {
     canSelectFilePath: true,
     createLocalMediaPreviewUrl: buildLocalMediaPreviewUrl,
     isLocalDevelopmentRuntime: options.isLocalDevelopmentRuntime,
-    selectDirectory: () => window.knorvia.selectDirectory(),
-    selectFile: () => window.knorvia.selectFile(),
-    selectFiles: () => window.knorvia.selectFiles?.() ?? Promise.resolve([]),
-    createTempTextAttachment: (payload) => window.knorvia.createTempTextAttachment(payload),
-    onRemoteConnectionLog: (handler) => window.knorvia.onRemoteConnectionLog(handler),
-    onRemoteSessionClosed: (handler) => window.knorvia.onRemoteSessionClosed(handler),
-    activateOrSetWorkspace: (path) =>
-      window.knorvia.activateOrSetWorkspace?.(path) ?? Promise.resolve({ activated: false }),
-    connectRemote: (remoteOptions, requestId, context) =>
-      window.knorvia.connectRemote(remoteOptions, requestId, context),
-    cancelPendingRemoteConnection: (requestId) =>
-      window.knorvia.cancelPendingRemoteConnection?.(requestId) ?? Promise.resolve(),
-    bindRemoteWorkspaceSessionContext: (context) =>
-      window.knorvia.bindRemoteWorkspaceSessionContext?.(context) ?? Promise.resolve(),
-    disposeRemoteSession: (sessionId) => window.knorvia.disposeRemoteSession(sessionId),
-    isDockerAvailable: () => window.knorvia.isDockerAvailable(),
-    listWSLDistros: () => window.knorvia.listWSLDistros(),
-    listDockerContainers: () => window.knorvia.listDockerContainers(),
-    listSSHConfigAliases: () => window.knorvia.listSSHConfigAliases(),
-    loadMcpFromUserDirectory: (payload) => window.knorvia.loadMcpFromUserDirectory(payload),
-    saveMcpToUserDirectory: (payload) => window.knorvia.saveMcpToUserDirectory(payload),
-    migrateLegacyCommonMcp: (payload) => window.knorvia.migrateLegacyCommonMcp(payload),
-    openExternal: (url) => window.knorvia.openExternal(url),
-    openFeedback: () => window.knorvia.executeDesktopCommand(DesktopCommandIds.OpenFeedback),
-    openCommunity: () => window.knorvia.executeDesktopCommand(DesktopCommandIds.OpenCommunity),
-    canOpenCommunity: (locale) => window.knorvia.canOpenCommunity(locale),
-    openInFileManager: (path) => window.knorvia.openInFileManager(path),
-    openExternalFile: (path) => window.knorvia.openExternalFile(path),
-    openCuaPermissionOnboarding: window.knorvia.openCuaPermissionOnboarding
-      ? (permissionOptions) =>
-          window.knorvia.openCuaPermissionOnboarding?.(permissionOptions) ??
-          Promise.resolve({ success: false, error: "not_supported" })
-      : undefined,
-    prepareCuaHelperPermissionDrag: window.knorvia.prepareCuaHelperPermissionDrag
-      ? () =>
-          window.knorvia.prepareCuaHelperPermissionDrag?.() ??
-          Promise.resolve({ success: false, error: "not_supported" })
-      : undefined,
-    startCuaHelperPermissionDrag: window.knorvia.startCuaHelperPermissionDrag
-      ? () => window.knorvia.startCuaHelperPermissionDrag?.()
-      : undefined,
-    notifyRendererReady: () => window.knorvia.notifyRendererReady(),
-    reportTelemetryEvent: (payload) => window.knorvia.reportTelemetryEvent(payload),
+    selectDirectory: calls.required("selectDirectory", 0),
+    selectFile: calls.required("selectFile", 0),
+    selectFiles: calls.optional("selectFiles", 0, () => Promise.resolve([])),
+    createTempTextAttachment: calls.required("createTempTextAttachment", 1),
+    onRemoteConnectionLog: calls.required("onRemoteConnectionLog", 1),
+    onRemoteSessionClosed: calls.required("onRemoteSessionClosed", 1),
+    activateOrSetWorkspace: calls.optional("activateOrSetWorkspace", 1, () =>
+      Promise.resolve({ activated: false })),
+    connectRemote: calls.required("connectRemote", 3),
+    cancelPendingRemoteConnection: calls.optional("cancelPendingRemoteConnection", 1, () => Promise.resolve()),
+    bindRemoteWorkspaceSessionContext: calls.optional("bindRemoteWorkspaceSessionContext", 1, () => Promise.resolve()),
+    disposeRemoteSession: calls.required("disposeRemoteSession", 1),
+    isDockerAvailable: calls.required("isDockerAvailable", 0),
+    listWSLDistros: calls.required("listWSLDistros", 0),
+    listDockerContainers: calls.required("listDockerContainers", 0),
+    listSSHConfigAliases: calls.required("listSSHConfigAliases", 0),
+    loadMcpFromUserDirectory: calls.required("loadMcpFromUserDirectory", 1),
+    saveMcpToUserDirectory: calls.required("saveMcpToUserDirectory", 1),
+    migrateLegacyCommonMcp: calls.required("migrateLegacyCommonMcp", 1),
+    openExternal: calls.required("openExternal", 1),
+    openFeedback: () => executeCommand(DesktopCommandIds.OpenFeedback),
+    openCommunity: () => executeCommand(DesktopCommandIds.OpenCommunity),
+    canOpenCommunity: calls.required("canOpenCommunity", 1),
+    openInFileManager: calls.required("openInFileManager", 1),
+    openExternalFile: calls.required("openExternalFile", 1),
+    openCuaPermissionOnboarding: calls.capability("openCuaPermissionOnboarding",
+      calls.optional("openCuaPermissionOnboarding", 1, () =>
+        Promise.resolve({ success: false, error: "not_supported" }))),
+    prepareCuaHelperPermissionDrag: calls.capability("prepareCuaHelperPermissionDrag",
+      calls.optional("prepareCuaHelperPermissionDrag", 0, () =>
+        Promise.resolve({ success: false, error: "not_supported" }))),
+    startCuaHelperPermissionDrag: calls.capability("startCuaHelperPermissionDrag",
+      calls.optional("startCuaHelperPermissionDrag", 0)),
+    notifyRendererReady: calls.required("notifyRendererReady", 0),
+    reportTelemetryEvent: calls.required("reportTelemetryEvent", 1),
     reportArmsCustomEvent: (payload) => {
       recordArmsCustomEventForE2E(payload);
-      return window.knorvia.reportArmsCustomEvent(payload);
+      return reportArms(payload);
     },
-    getRendererActionTraceConfig: window.knorvia.getRendererActionTraceConfig
-      ? () => window.knorvia.getRendererActionTraceConfig!()
-      : undefined,
-    onRendererActionTraceConfigChanged: window.knorvia.onRendererActionTraceConfigChanged
-      ? (callback) => window.knorvia.onRendererActionTraceConfigChanged!(callback)
-      : undefined,
-    reportLocalTtftBatch: (batch) => window.knorvia.reportLocalTtftBatch(batch),
-    reportRendererActionTraceBatch: window.knorvia.reportRendererActionTraceBatch
-      ? (batch) => window.knorvia.reportRendererActionTraceBatch!(batch)
-      : undefined,
-    reportRendererHeapSample: window.knorvia.reportRendererHeapSample
-      ? (sample) => window.knorvia.reportRendererHeapSample!(sample)
-      : undefined,
-    showTaskNotification: (payload) => window.knorvia.showTaskNotification(payload),
-    syncWindowTabs: (paths) => window.knorvia.syncWindowTabs(paths),
-    syncWindowUnreadCount: (count) => window.knorvia.syncWindowUnreadCount(count),
-    syncActiveTaskSession: (sessionId) => window.knorvia.syncActiveTaskSession(sessionId),
-    syncAppSettings: (patch) => window.knorvia.syncAppSettings?.(patch),
-    setShortcutRecordingActive: (active) => window.knorvia.setShortcutRecordingActive?.(active),
-    onFocusTab: (handler) => window.knorvia.onFocusTab(handler),
-    onNewTab: (handler) => window.knorvia.onNewTab(handler),
-    onCloseActiveContextRequest: (handler) =>
-      window.knorvia.onCloseActiveContextRequest?.(handler) ?? (() => {}),
-    onOpenBrowserUrl: (handler) => window.knorvia.onOpenBrowserUrl?.(handler) ?? (() => {}),
-    onBrowserViewScreenshotSurfacePrepare: (handler) =>
-      window.knorvia.onBrowserViewScreenshotSurfacePrepare?.(handler) ?? (() => {}),
-    onBrowserViewScreenshotSurfaceRelease: (handler) =>
-      window.knorvia.onBrowserViewScreenshotSurfaceRelease?.(handler) ?? (() => {}),
-    browserViewScreenshotSurfaceReady: (payload) =>
-      window.knorvia.browserViewScreenshotSurfaceReady?.(payload),
+    getRendererActionTraceConfig: calls.capability("getRendererActionTraceConfig",
+      calls.required("getRendererActionTraceConfig", 0)),
+    onRendererActionTraceConfigChanged: calls.capability("onRendererActionTraceConfigChanged",
+      calls.required("onRendererActionTraceConfigChanged", 1)),
+    reportLocalTtftBatch: calls.required("reportLocalTtftBatch", 1),
+    reportRendererActionTraceBatch: calls.capability("reportRendererActionTraceBatch",
+      calls.required("reportRendererActionTraceBatch", 1)),
+    reportRendererHeapSample: calls.capability("reportRendererHeapSample",
+      calls.required("reportRendererHeapSample", 1)),
+    showTaskNotification: calls.required("showTaskNotification", 1),
+    syncWindowTabs: calls.required("syncWindowTabs", 1),
+    syncWindowUnreadCount: calls.required("syncWindowUnreadCount", 1),
+    syncActiveTaskSession: calls.required("syncActiveTaskSession", 1),
+    syncAppSettings: calls.optional("syncAppSettings", 1),
+    setShortcutRecordingActive: calls.optional("setShortcutRecordingActive", 1),
+    onFocusTab: calls.required("onFocusTab", 1),
+    onNewTab: calls.required("onNewTab", 1),
+    onCloseActiveContextRequest: calls.optional("onCloseActiveContextRequest", 1, () => () => {}),
+    onOpenBrowserUrl: calls.optional("onOpenBrowserUrl", 1, () => () => {}),
+    onBrowserViewScreenshotSurfacePrepare: calls.optional("onBrowserViewScreenshotSurfacePrepare", 1, () => () => {}),
+    onBrowserViewScreenshotSurfaceRelease: calls.optional("onBrowserViewScreenshotSurfaceRelease", 1, () => () => {}),
+    browserViewScreenshotSurfaceReady: calls.optional("browserViewScreenshotSurfaceReady", 1),
     ...desktopBrowserPlatformBridge,
-    onNewTask: (handler) => window.knorvia.onNewTask(handler),
-    onOpenWorkspace: (handler) => {
-      // 开发态或升级后的旧窗口可能仍运行未暴露 onOpenWorkspace 的 preload，
-      // renderer 直接调用会在启动时崩溃。这里和 activateOrSetWorkspace 一样做兼容兜底，
-      // 缺少该 bridge 时只禁用原生菜单回调，不影响应用继续打开。
-      return window.knorvia.onOpenWorkspace?.(handler) ?? (() => {});
-    },
-    onOpenWorkspacePath: (handler) => window.knorvia.onOpenWorkspacePath?.(handler) ?? (() => {}),
-    onOpenFeedbackDialog: (handler) => window.knorvia.onOpenFeedbackDialog?.(handler) ?? (() => {}),
-    onOpenTicketsPanel: (handler) => window.knorvia.onOpenTicketsPanel?.(handler) ?? (() => {}),
-    onWindowFullscreenChanged: (handler) => window.knorvia.onWindowFullscreenChanged(handler),
-    getDesktopWindowChromeState: window.knorvia.getDesktopWindowChromeState
-      ? () => window.knorvia.getDesktopWindowChromeState!()
-      : undefined,
-    onDesktopWindowChromeStateChanged: window.knorvia.onDesktopWindowChromeStateChanged
-      ? (handler) => window.knorvia.onDesktopWindowChromeStateChanged!(handler)
-      : undefined,
-    getWindowControlsOverlayMetrics: () =>
-      window.knorvia.getWindowControlsOverlayMetrics?.() ?? null,
-    onWindowControlsOverlayChanged: (handler) =>
-      window.knorvia.onWindowControlsOverlayChanged?.(handler) ?? (() => {}),
-    getDesktopZoomLevel: () =>
-      window.knorvia.getDesktopZoomLevel?.() ?? Promise.resolve({ zoomLevel: 0 }),
-    onDesktopZoomLevelChanged: (handler) =>
-      window.knorvia.onDesktopZoomLevelChanged?.(handler) ?? (() => {}),
-    onTaskNotificationClick: (handler) => window.knorvia.onTaskNotificationClick(handler),
-    exportLogs: () => window.knorvia.exportLogs(),
-    previewLocalDiagnostics: (request) => window.knorvia.previewLocalDiagnostics(request),
-    exportLocalDiagnostics: (id) => window.knorvia.exportLocalDiagnostics(id),
-    checkReleaseUpdate: () => window.knorvia.checkReleaseUpdate(),
-    captureWindowScreenshot: () =>
-      window.knorvia.captureWindowScreenshot?.() ?? Promise.resolve(null),
-    onUpdateReady: (callback) => window.knorvia.onUpdateReady(callback),
-    onUpdateCheckResult: (callback) => window.knorvia.onUpdateCheckResult(callback),
-    onUpdateStateChanged: (callback) =>
-      window.knorvia.onUpdateStateChanged?.(callback) ?? (() => {}),
-    getUpdateState: () =>
-      window.knorvia.getUpdateState?.() ?? Promise.resolve({ kind: "idle", enabled: false }),
-    downloadUpdate: () => window.knorvia.downloadUpdate?.() ?? Promise.resolve(),
-    cancelUpdateDownload: () => window.knorvia.cancelUpdateDownload?.() ?? Promise.resolve(),
-    openUpdateStatusWindow: () => window.knorvia.openUpdateStatusWindow?.() ?? Promise.resolve(),
-    getAutoUpdatePreferences: () =>
-      window.knorvia.getAutoUpdatePreferences?.() ??
-      Promise.resolve({ autoDownloadAndInstallUpdates: false }),
-    setAutoDownloadAndInstallUpdates: (enabled) =>
-      window.knorvia.setAutoDownloadAndInstallUpdates?.(enabled) ?? Promise.resolve(),
-    getDesktopSessionActivity: () =>
-      window.knorvia.getDesktopSessionActivity?.() ??
-      Promise.resolve({ runningAgentSessionCount: 0 }),
-    getKnorviaStdioTapDevState: () =>
-      window.knorvia.getKnorviaStdioTapDevState?.() ??
-      Promise.resolve({ enabled: false, visible: false, logDir: "", statePath: "" }),
-    onSettingsChanged: (callback) => window.knorvia.onSettingsChanged?.(callback) ?? (() => {}),
-    onApplicationLocaleChanged: (callback) =>
-      window.knorvia.onApplicationLocaleChanged?.(callback) ?? (() => {}),
-    onPostUpdateReleaseNotes: (callback) => window.knorvia.onPostUpdateReleaseNotes(callback),
-    acknowledgePostUpdateReleaseNotes: (version) =>
-      window.knorvia.acknowledgePostUpdateReleaseNotes(version),
-    skipUpdateVersion: (version) =>
-      window.knorvia.skipUpdateVersion?.(version) ?? Promise.resolve(),
-    quitAndInstallUpdate: () => window.knorvia.quitAndInstallUpdate(),
-    getInstalledEditors: () => window.knorvia.getInstalledEditors(),
-    getApplicationIcon: (bundleId) =>
-      window.knorvia.getApplicationIcon?.(bundleId) ?? Promise.resolve(null),
-    openInEditor: (editorId, path, editorOptions) =>
-      window.knorvia.openInEditor(editorId, path, editorOptions),
-    executeDesktopCommand: (command) => window.knorvia.executeDesktopCommand(command),
-    setApplicationLocale: (locale) => window.knorvia.setApplicationLocale(locale),
-    getSystemLocale: () =>
-      window.knorvia.getSystemLocale?.() ??
-      Promise.resolve(navigator.language.toLowerCase().startsWith("zh") ? "zh-CN" : "en-US"),
-    setTitleBarTheme: (theme) => window.knorvia.setTitleBarTheme(theme),
-    setWindowGlass: (enabled) => window.knorvia.setWindowGlass?.(enabled) ?? Promise.resolve(false),
+    onNewTask: calls.required("onNewTask", 1),
+    onOpenWorkspace: calls.optional("onOpenWorkspace", 1, () => () => {}),
+    onOpenWorkspacePath: calls.optional("onOpenWorkspacePath", 1, () => () => {}),
+    onOpenFeedbackDialog: calls.optional("onOpenFeedbackDialog", 1, () => () => {}),
+    onOpenTicketsPanel: calls.optional("onOpenTicketsPanel", 1, () => () => {}),
+    onWindowFullscreenChanged: calls.required("onWindowFullscreenChanged", 1),
+    getDesktopWindowChromeState: calls.capability("getDesktopWindowChromeState",
+      calls.required("getDesktopWindowChromeState", 0)),
+    onDesktopWindowChromeStateChanged: calls.capability("onDesktopWindowChromeStateChanged",
+      calls.required("onDesktopWindowChromeStateChanged", 1)),
+    getWindowControlsOverlayMetrics: calls.optional("getWindowControlsOverlayMetrics", 0, () => null),
+    onWindowControlsOverlayChanged: calls.optional("onWindowControlsOverlayChanged", 1, () => () => {}),
+    getDesktopZoomLevel: calls.optional("getDesktopZoomLevel", 0, () => Promise.resolve({ zoomLevel: 0 })),
+    onDesktopZoomLevelChanged: calls.optional("onDesktopZoomLevelChanged", 1, () => () => {}),
+    onTaskNotificationClick: calls.required("onTaskNotificationClick", 1),
+    exportLogs: calls.required("exportLogs", 0),
+    previewLocalDiagnostics: calls.required("previewLocalDiagnostics", 1),
+    exportLocalDiagnostics: calls.required("exportLocalDiagnostics", 1),
+    checkReleaseUpdate: calls.required("checkReleaseUpdate", 0),
+    captureWindowScreenshot: calls.optional("captureWindowScreenshot", 0, () => Promise.resolve(null)),
+    onUpdateReady: calls.required("onUpdateReady", 1),
+    onUpdateCheckResult: calls.required("onUpdateCheckResult", 1),
+    onUpdateStateChanged: calls.optional("onUpdateStateChanged", 1, () => () => {}),
+    getUpdateState: calls.optional("getUpdateState", 0, () => Promise.resolve({ kind: "idle", enabled: false })),
+    downloadUpdate: calls.optional("downloadUpdate", 0, () => Promise.resolve()),
+    cancelUpdateDownload: calls.optional("cancelUpdateDownload", 0, () => Promise.resolve()),
+    openUpdateStatusWindow: calls.optional("openUpdateStatusWindow", 0, () => Promise.resolve()),
+    getAutoUpdatePreferences: calls.optional("getAutoUpdatePreferences", 0, () =>
+      Promise.resolve({ autoDownloadAndInstallUpdates: false })),
+    setAutoDownloadAndInstallUpdates: calls.optional("setAutoDownloadAndInstallUpdates", 1, () => Promise.resolve()),
+    getDesktopSessionActivity: calls.optional("getDesktopSessionActivity", 0, () =>
+      Promise.resolve({ runningAgentSessionCount: 0 })),
+    getKnorviaStdioTapDevState: calls.optional("getKnorviaStdioTapDevState", 0, () =>
+      Promise.resolve({ enabled: false, visible: false, logDir: "", statePath: "" })),
+    onSettingsChanged: calls.optional("onSettingsChanged", 1, () => () => {}),
+    onApplicationLocaleChanged: calls.optional("onApplicationLocaleChanged", 1, () => () => {}),
+    onPostUpdateReleaseNotes: calls.required("onPostUpdateReleaseNotes", 1),
+    acknowledgePostUpdateReleaseNotes: calls.required("acknowledgePostUpdateReleaseNotes", 1),
+    skipUpdateVersion: calls.optional("skipUpdateVersion", 1, () => Promise.resolve()),
+    quitAndInstallUpdate: calls.required("quitAndInstallUpdate", 0),
+    getInstalledEditors: calls.required("getInstalledEditors", 0),
+    getApplicationIcon: calls.optional("getApplicationIcon", 1, () => Promise.resolve(null)),
+    openInEditor: calls.required("openInEditor", 3),
+    executeDesktopCommand: calls.required("executeDesktopCommand", 1),
+    setApplicationLocale: calls.required("setApplicationLocale", 1),
+    getSystemLocale: calls.optional("getSystemLocale", 0, () =>
+      Promise.resolve(navigator.language.toLowerCase().startsWith("zh") ? "zh-CN" : "en-US")),
+    setTitleBarTheme: calls.required("setTitleBarTheme", 1),
+    setWindowGlass: calls.optional("setWindowGlass", 1, () => Promise.resolve(false)),
     getDeviceId: () =>
       (window as Window & { __KNORVIA_DEVICE_ID__?: string }).__KNORVIA_DEVICE_ID__ ?? "",
   };
