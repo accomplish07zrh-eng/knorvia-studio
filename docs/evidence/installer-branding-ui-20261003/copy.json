@@ -1,0 +1,34 @@
+{
+  "productName": "Knorvia Studio",
+  "locales": {
+    "zh-CN": {
+      "welcomeTitle": "Knorvia Studio",
+      "welcomeText": "欢迎安装 Knorvia Studio。\n\n接下来选择安装位置，然后开始安装。\n\n点击“下一步”继续。",
+      "installTitle": "Knorvia Studio",
+      "installSubtext": "正在安装，请稍候。",
+      "finishTitle": "Knorvia Studio",
+      "finishText": "安装完成。\n\n点击“完成”关闭安装向导。\n\n首次使用时，可在模型设置中配置模型服务。",
+      "runText": "打开 Knorvia Studio"
+    },
+    "en-US": {
+      "welcomeTitle": "Knorvia Studio",
+      "welcomeText": "Welcome to Knorvia Studio.\n\nChoose an installation folder, then start the installation.\n\nClick Next to continue.",
+      "installTitle": "Knorvia Studio",
+      "installSubtext": "Installing. Please wait.",
+      "finishTitle": "Knorvia Studio",
+      "finishText": "Installation complete.\n\nClick Finish to close the installer.\n\nOn first launch, you can configure a model service in Model settings.",
+      "runText": "Open Knorvia Studio"
+    }
+  },
+  "nativeMapping": {
+    "welcomeTitle": "KnorviaWelcomeTitle / MUI_WELCOMEPAGE_TITLE",
+    "welcomeText": "KnorviaWelcomeText / MUI_WELCOMEPAGE_TEXT",
+    "installTitle": "MUI_TEXT_INSTALLING_TITLE language string",
+    "installSubtext": "MUI_TEXT_INSTALLING_SUBTITLE language string",
+    "finishTitle": "KnorviaFinishTitle / MUI_FINISHPAGE_TITLE",
+    "finishText": "KnorviaFinishText / MUI_FINISHPAGE_TEXT",
+    "runText": "KnorviaRunText / MUI_FINISHPAGE_RUN_TEXT"
+  },
+  "status": "design copy for native integration; not active installer strings",
+  "noNewStepsOrOptions": true
+}

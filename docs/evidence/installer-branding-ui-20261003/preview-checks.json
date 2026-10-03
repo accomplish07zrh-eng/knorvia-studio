@@ -1,0 +1,236 @@
+{
+  "sourceBaseline": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
+  "scope": "Static native-slot design preview only; no actual installer execution",
+  "previewTransport": "owned loopback read-only allowlist server; browser policy unchanged",
+  "initialFileNavigation": "file:// blocked by cloud administrator policy; did not disable policy",
+  "browser": "151.0.7922.173",
+  "status": "passed",
+  "checks": [
+    {
+      "locale": "zh-CN",
+      "facts": {
+        "images": [
+          {
+            "src": "../../../packages/ui/src/assets/knorvia-logo.png",
+            "loaded": true,
+            "naturalSize": [
+              1254,
+              1254
+            ],
+            "renderSize": [
+              18,
+              18
+            ]
+          },
+          {
+            "src": "../../../packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
+            "loaded": true,
+            "naturalSize": [
+              164,
+              314
+            ],
+            "renderSize": [
+              164,
+              314
+            ]
+          },
+          {
+            "src": "../../../packages/ui/src/assets/knorvia-logo.png",
+            "loaded": true,
+            "naturalSize": [
+              1254,
+              1254
+            ],
+            "renderSize": [
+              18,
+              18
+            ]
+          },
+          {
+            "src": "../../../packages/desktop/build/installer-branding-20261003/installerHeader.bmp",
+            "loaded": true,
+            "naturalSize": [
+              150,
+              57
+            ],
+            "renderSize": [
+              150,
+              57
+            ]
+          },
+          {
+            "src": "../../../packages/ui/src/assets/knorvia-logo.png",
+            "loaded": true,
+            "naturalSize": [
+              1254,
+              1254
+            ],
+            "renderSize": [
+              18,
+              18
+            ]
+          },
+          {
+            "src": "../../../packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
+            "loaded": true,
+            "naturalSize": [
+              164,
+              314
+            ],
+            "renderSize": [
+              164,
+              314
+            ]
+          }
+        ],
+        "windows": [
+          {
+            "stage": "welcome",
+            "size": [
+              520,
+              397
+            ],
+            "overflow": false,
+            "splashCopyOverflow": false,
+            "visibleText": "Knorvia Studio\n×\nKnorvia Studio\n\n欢迎安装 Knorvia Studio。\n\n接下来选择安装位置，然后开始安装。\n\n点击“下一步”继续。\n\n< 上一步\n下一步 >\n取消"
+          },
+          {
+            "stage": "install",
+            "size": [
+              520,
+              397
+            ],
+            "overflow": false,
+            "splashCopyOverflow": false,
+            "visibleText": "Knorvia Studio\n×\nKnorvia Studio\n\n正在安装，请稍候。\n\n正在写入：Knorvia Studio.exe\n\n目标目录：…\\Programs\\Knorvia Studio\n\n正在释放程序文件…\n\n写入：Knorvia Studio.exe\n\n< 上一步\n下一步 >\n取消"
+          },
+          {
+            "stage": "finish",
+            "size": [
+              520,
+              397
+            ],
+            "overflow": false,
+            "splashCopyOverflow": false,
+            "visibleText": "Knorvia Studio\n×\nKnorvia Studio\n\n安装完成。\n\n点击“完成”关闭安装向导。\n\n首次使用时，可在模型设置中配置模型服务。\n\n打开 Knorvia Studio\n< 上一步\n完成\n取消"
+          }
+        ],
+        "fontStack": "\"Segoe UI\", \"Microsoft YaHei UI\", \"Noto Sans CJK SC\", system-ui, sans-serif"
+      }
+    },
+    {
+      "locale": "en-US",
+      "facts": {
+        "images": [
+          {
+            "src": "../../../packages/ui/src/assets/knorvia-logo.png",
+            "loaded": true,
+            "naturalSize": [
+              1254,
+              1254
+            ],
+            "renderSize": [
+              18,
+              18
+            ]
+          },
+          {
+            "src": "../../../packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
+            "loaded": true,
+            "naturalSize": [
+              164,
+              314
+            ],
+            "renderSize": [
+              164,
+              314
+            ]
+          },
+          {
+            "src": "../../../packages/ui/src/assets/knorvia-logo.png",
+            "loaded": true,
+            "naturalSize": [
+              1254,
+              1254
+            ],
+            "renderSize": [
+              18,
+              18
+            ]
+          },
+          {
+            "src": "../../../packages/desktop/build/installer-branding-20261003/installerHeader.bmp",
+            "loaded": true,
+            "naturalSize": [
+              150,
+              57
+            ],
+            "renderSize": [
+              150,
+              57
+            ]
+          },
+          {
+            "src": "../../../packages/ui/src/assets/knorvia-logo.png",
+            "loaded": true,
+            "naturalSize": [
+              1254,
+              1254
+            ],
+            "renderSize": [
+              18,
+              18
+            ]
+          },
+          {
+            "src": "../../../packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
+            "loaded": true,
+            "naturalSize": [
+              164,
+              314
+            ],
+            "renderSize": [
+              164,
+              314
+            ]
+          }
+        ],
+        "windows": [
+          {
+            "stage": "welcome",
+            "size": [
+              520,
+              397
+            ],
+            "overflow": false,
+            "splashCopyOverflow": false,
+            "visibleText": "Knorvia Studio\n×\nKnorvia Studio\n\nWelcome to Knorvia Studio.\n\nChoose an installation folder, then start the installation.\n\nClick Next to continue.\n\n< Back\nNext >\nCancel"
+          },
+          {
+            "stage": "install",
+            "size": [
+              520,
+              397
+            ],
+            "overflow": false,
+            "splashCopyOverflow": false,
+            "visibleText": "Knorvia Studio\n×\nKnorvia Studio\n\nInstalling. Please wait.\n\nExtracting: Knorvia Studio.exe\n\nDestination: …\\Programs\\Knorvia Studio\n\nExtracting program files…\n\nExtracting: Knorvia Studio.exe\n\n< Back\nNext >\nCancel"
+          },
+          {
+            "stage": "finish",
+            "size": [
+              520,
+              397
+            ],
+            "overflow": false,
+            "splashCopyOverflow": false,
+            "visibleText": "Knorvia Studio\n×\nKnorvia Studio\n\nInstallation complete.\n\nClick Finish to close the installer.\n\nOn first launch, you can configure a model service in Model settings.\n\nOpen Knorvia Studio\n< Back\nFinish\nCancel"
+          }
+        ],
+        "fontStack": "\"Segoe UI\", \"Microsoft YaHei UI\", \"Noto Sans CJK SC\", system-ui, sans-serif"
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": []
+}
