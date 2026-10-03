@@ -58,3 +58,15 @@ fanout fixture 的 TypeScript require.resolve 输出是平台文件路径，动�
 仅执行这两个现有入口的定向回归，以及绑定真实夹具表达式的 Windows/POSIX 文件 URL 探针；不重复已经通过的 core 十八入口、不改 CI、不重跑全库。当前执行环境为 Linux，合成 Windows 路径通过不能写成实际 Windows 测试通过，必须保留新 head 的真实 Windows CI 待确认状态。
 
 首轮 parser 通过后，fanout 间接导入的 causality fixture 在旧 cli-fold 摘要处拒绝本批新产物。旧调用者来自该 archive 明确基线 `5bf6129f0a5526af503d6215a5a3adae132bb692`；其完整源码用 TS 5.9.3/6.0.2 均重建出原 pin `f08e41a6c80141bc657656bf11425b65b2acdf64e4a42d0a562dcf7ed1533145`。另存这个精确历史 sidecar 并绑定原 reducer，当前 fold 仍从自己的 source/dist 导入且使用本批固定 receipt 检查完整 graph 产物集合。既有 causality archive、selector、golden、行为断言不改，必要回归扩展仅为共享该夹具的 causality 入口，不把新的 bytes 当旧 oracle。
+
+## 后续授权：十三个 CI 当前构建绑定失败
+
+原分支快进至精确统一 head `c4f9bbb01cffa283e7179cc5adb53bc5956cb72a`。run `37113155595` 实际检查 `d11e1efa27a7b7551ce637e5eadfbb292cafb94a`（main `bd0bb014c0974334557fa51814709d0b78f35f1d` 与该 head）；两树的完整 CLI Git tree 一致。两平台 types/lint/fmt/architecture/build 已过，仅同十三个 workflow 入口在固定 receipt 的 emitted 摘要校验处失败；不重复其他验收。
+
+真实 CI 构建为根 pnpm 脚本经 turbo 到包的 tsc，Node 24.14.0 / pnpm 10.33.2 / 冻结锁文件。日志显示 17 项执行、0 cached，不能指称 CI 缓存污染。根 workspace 的 tsc 解析为 TS 6.0.2，而先前本路从 apps/cli 解析 TS 5.9.3 并收集本地 dist。该 receipt 已记录六个本地 JS 与当时源码 fresh emit 仅格式/注释不同，但仍用了旧本地 dist 的 SHA；旧技术 AST 等价不足以满足真实构建的逐字绑定，属于本路绑定生成缺陷。
+
+用实际 tsconfig/file root 顺序建立 Compiler API program，完整 program.emit 到内存，只保留 receipt 登记产物，不改包/根配置或执行全 CLI 构建。禁止以逐文件孤立 emit 的 declaration 当作完整包产物：推导联合成员/字段的输出顺序受程序内声明生成顺序影响。当前完整 program 输出的 74 个 JS / 68 个 declaration 中，只有六个 core JS 与旧 receipt 不同，且所有运行时 AST（包括标识符、字面量）等价，三个 CI 暴露的实际摘要逐字吻合。
+
+保留旧 `current-artifact-receipt-20261003.json` 原字节作为前一 checkpoint，新增 formatVersion 2 的固定当前构建 receipt，绑定指定源码 checkpoint、前一 receipt SHA、工具链、锁文件/配置和完整 package 编译输入摘要；其十四个历史 selector SHA、完整路径集合和全部源文件/声明 pin 保持，只有有构建证据的六个当前 JS pin 更新。运行时读取器明确只选新版本并校验固定全文 SHA，继续拒绝错、缺、未登记和越界产物，不进行自动刷新、旧版本兜底或忽略摘要。
+
+新增只读可复现工具：从固定前一 receipt 和真实程序编译输出确定当前 receipt；生成模式只向 stdout 输出候选，不写历史或运行时 accept 文件。默认模式验证固定当前 receipt、确定性重建、实际 source/dist 和声明逐字一致。前置仅将六个新 core JS 的真实 emit 写入本地忽略的 dist，共享 contracts 只读且不改。复现原十三入口拒绝后，沿用它们全部原断言，分别执行 source 与 actual emitted 路由；不重跑其他入口或全量测试，不增加平台跳过。实际新 head Windows CI 由整合者继续确认，不把 Linux 或合成结果宣称双平台通过。
