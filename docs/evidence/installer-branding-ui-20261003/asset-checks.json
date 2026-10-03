@@ -1,0 +1,86 @@
+{
+  "sourceBaseline": "b3b2fc5f51d2e76ff76c20aff44eb2b1d562c687",
+  "scope": "Bitmap source/header/dimension checks and static preview resource/text/layout checks only; no application regression or NSIS compilation",
+  "status": "passed",
+  "pillowVersion": "12.3.0",
+  "sourceOriginalHashUnchanged": true,
+  "bitmapChecks": [
+    {
+      "path": "packages/desktop/build/installer-branding-20261003/installerSidebar.bmp",
+      "actualSize": [
+        164,
+        314
+      ],
+      "mode": "RGB",
+      "dibHeaderBytes": 40,
+      "bitsPerPixel": 24,
+      "compression": 0,
+      "declaredFileBytes": 154542,
+      "actualFileBytes": 154542,
+      "sha256": "c084abf2a55e855dd74ed0a6a0706212a741468131b20dcff83c8e9aea1f2032",
+      "whiteMatteCorners": true
+    },
+    {
+      "path": "packages/desktop/build/installer-branding-20261003/installerHeader.bmp",
+      "actualSize": [
+        150,
+        57
+      ],
+      "mode": "RGB",
+      "dibHeaderBytes": 40,
+      "bitsPerPixel": 24,
+      "compression": 0,
+      "declaredFileBytes": 25818,
+      "actualFileBytes": 25818,
+      "sha256": "5c3e16cc4a3ac368d247fa8031d7ab70d2f5eb30193e5acb6910a5a00ab935a0",
+      "whiteMatteCorners": true
+    }
+  ],
+  "staticPreviewLocales": [
+    "zh-CN",
+    "en-US"
+  ],
+  "nativeCompilation": "not run; native lane owns installer integration and Windows package",
+  "windowsFontsAndDpi": "unverified in Linux design preview",
+  "protectedConfigScriptsSourceChanges": [],
+  "sourceBindings": [
+    {
+      "path": "packages/desktop/electron-builder.config.js",
+      "sha256": "9b435a568f3e82dbb691e23e9cf92fc7bfff1f1a56cfeff89897a7ccb5ec47ca"
+    },
+    {
+      "path": "packages/desktop/build/installer-branding.nsh",
+      "sha256": "e00014466eea42a209c04fc066e62eb3d274b84c1dd4f362612264cdc7f95e53"
+    },
+    {
+      "path": "packages/desktop/build/installer.nsh",
+      "sha256": "b6d08b44b8b7c4ab1c2039d78d01d161efdcc4ff9002d2333e31599eb40dcb97"
+    },
+    {
+      "path": "docs/knorvia-icon-provenance.md",
+      "sha256": "cfec46ad2b3dbdaa5f20c6cdc4dc08a801301409b8857a97121050c612fa0743"
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "ac715e5dbf859cb6b720b5f0368712b1d87b28721f0a086f1004a56240946f73"
+    },
+    {
+      "path": "specs/knorvia-visual-language.md",
+      "sha256": "f5fb7a1032dc7db10ad5aee8030cbf11e3c09f278c404604ae7b0a5345456f52"
+    }
+  ],
+  "coordination": {
+    "targetThread": "01a1001a-4b5f-750a-9eaf-bfa1d2c5d0d4",
+    "directThreadMessagingToolAvailable": false,
+    "existingSessionQueueAttempt": "failed: readonly Codex state SQLite could not open",
+    "messageDelivered": false,
+    "nextStep": "Integration task forwards exact paths/dimensions and receives native integration confirmation"
+  },
+  "unverified": [
+    "NSIS compilation reading these newly configured resources",
+    "Actual Windows installer pages, CJK system font fallback and common DPI",
+    "Real install/update/uninstall/release package verification"
+  ],
+  "applicationUiRewriteRepeated": false,
+  "broadTestLintTypecheckOrAuditRepeated": false
+}
