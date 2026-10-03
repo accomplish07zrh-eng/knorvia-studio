@@ -505,6 +505,18 @@
       "bytes": 7285
     },
     {
+      "path": "docs/evidence/backlog-cli-20261003/final-bootstrap-projection-type-repair.json",
+      "sha256": "72c05b7f1abdefc739e53f35c371c90ae5fa237a8e975f1923097d283a6467ca",
+      "bytes": 35098,
+      "sourceCommit": "661e5f64bf819c93c13a7b077531239dec5199cf"
+    },
+    {
+      "path": "docs/evidence/backlog-cli-20261003/final-bootstrap-recipe-type-contract.mjs",
+      "sha256": "e089c172d95f5a2a17be347c2709c448ec29a33c82532498eb142725af1dd87e",
+      "bytes": 5044,
+      "sourceCommit": "661e5f64bf819c93c13a7b077531239dec5199cf"
+    },
+    {
       "path": "docs/evidence/backlog-cli-20261003/final-compact-policy-contract.mjs",
       "sha256": "ec00238db4fca7e7a0c7efb49d84981e78623eb1c10b65855b1938d04a7488cf",
       "bytes": 3289,

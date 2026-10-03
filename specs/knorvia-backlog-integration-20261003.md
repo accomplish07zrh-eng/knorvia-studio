@@ -99,3 +99,9 @@ assistant-presentation 的 blocks 仅由本函数按序 push 构造，采用 ent
 根types/lint/fmt/architecture/provenance与Web、desktop源码构建退出0；实际CLI构建退出2，完整CLI工作区no-bail types退出1，均报bootstrap5文件同一18条TS2322。直接在根cwd发出的早期CLI过滤命令未选中项目，虽退出0也不接纳为通过。原CLI任务按父任务指示独占这5个projection文件；其他真实断言须按精确测试/来源路径交原native、services、UI任务修复，不降低规则、删除场景或盲目改golden。
 
 当前源码/标准构建产物绑定的失配需要区分格式变化、已经授权的新候选、编译器/配置变化与真实行为差异。原历史source/compiled/declaration/golden及其hash不能因当前绑定过期被覆盖；若对账当前输入，须保存旧绑定原字节、记录实际源码提交/配置/完整来源链，只更新证明属于当前输入的字段，并继续执行真实消费者与旧基线断言。技术结果不授予独立性/贡献者权利，不清除原accepted-hash/权利HOLD或26项材料义务。
+
+### bootstrap最终类型修复接收
+
+父任务冻结并交付CLI `661e5f64bf819c93c13a7b077531239dec5199cf`，生产提交 `9e3bc5f81ad63d6112185cb7abc908ab9250ae2c`。源分支远端完全匹配，普通merge为 `b5815bb4966e17ec5a515a0c7764ea41c511e666`；5个实际修改源码为message-info/part/record/timeline/session-state projection，session-event的union错误由共享recipe类型处理，无需额外改动该文件。两个新增证据按交付head原字节加入冻结清单，保留原已有5568记录。
+
+接收记录、真实来源输入清单与发布checkpoint完成后，在新组合树重跑此前确实失败的完整CLI build及实际CLI工作区no-bail types。原f5deb085的18类型失败和8034测试/22失败记录不改写；core当前输入pin、历史NaN基线、native/services/UI失败仍按已发布路径分别处理，不以27个原路定向通过声称完整组合验收通过。
