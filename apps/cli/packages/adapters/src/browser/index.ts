@@ -164,7 +164,8 @@ export function createManagedCdpBrowserRuntime(
     if (registered) return registered;
     const pending = admissions.get(sessionId);
     if (pending) return pending;
-    let admission: Promise<ManagedCdpSession>;
+    // IIFE 创建期间尚无票据；首个 await 后才按已登记 Promise 身份清理，不增加结算轮次。
+    let admission: Promise<ManagedCdpSession> | undefined;
     admission = (async () => {
       try {
         const creator = await acquireBrowser();

@@ -1,4 +1,4 @@
-import { Jimp, JimpMime, ResizeStrategy } from "jimp";
+import { Jimp, JimpMime, ResizeStrategy, type defaultFormats, type JPEGOptions } from "jimp";
 import {
   createImageProcessorError,
   type ImageCompressionStrategy,
@@ -17,11 +17,12 @@ import { prepareWebpPassthrough } from "./webp-passthrough.js";
 type DecodedImage = Awaited<ReturnType<typeof Jimp.read>>;
 type OutputMediaType = ReturnType<typeof jimpOutputMediaType>;
 type ModelBudget = ReturnType<typeof createImageBudget>;
-type BufferSettings = {
-  quality?: number;
-  deflateLevel?: number;
-  deflateStrategy?: number;
-};
+type PngCodec = Extract<ReturnType<(typeof defaultFormats)[number]>, { mime: typeof JimpMime.png }>;
+type PngSettings = NonNullable<Parameters<PngCodec["encode"]>[1]>;
+type EncodingRequest =
+  | { readonly mediaType: OutputMediaType; readonly settings?: undefined }
+  | { readonly mediaType: typeof JimpMime.png; readonly settings: PngSettings }
+  | { readonly mediaType: typeof JimpMime.jpeg; readonly settings: JPEGOptions };
 type EncodedChoice = {
   data: Buffer;
   mediaType: OutputMediaType;
@@ -48,20 +49,24 @@ function copyWithinEdge(image: DecodedImage, edge: number): DecodedImage {
 
 async function encodeChoice(
   image: DecodedImage,
-  mediaType: OutputMediaType,
+  encoding: EncodingRequest,
   strategy: ImageCompressionStrategy,
   signal: AbortSignal | undefined,
-  settings?: BufferSettings,
 ): Promise<EncodedChoice> {
   throwIfAborted(signal);
-  const data =
-    settings === undefined
-      ? await image.getBuffer(mediaType)
-      : await image.getBuffer(mediaType, settings);
+  // Jimp 按单一 MIME 推导 codec 参数；保留无参数调用，并在携带参数时先收窄 MIME。
+  let data: Buffer;
+  if (encoding.settings === undefined) {
+    data = await image.getBuffer(encoding.mediaType);
+  } else if (encoding.mediaType === JimpMime.png) {
+    data = await image.getBuffer(encoding.mediaType, encoding.settings);
+  } else {
+    data = await image.getBuffer(encoding.mediaType, encoding.settings);
+  }
   throwIfAborted(signal);
   return {
     data,
-    mediaType,
+    mediaType: encoding.mediaType,
     height: image.bitmap.height,
     width: image.bitmap.width,
     strategy,
@@ -74,7 +79,12 @@ async function tryJpegLevels(
   signal: AbortSignal | undefined,
 ): Promise<EncodedChoice | undefined> {
   for (const quality of QUALITY_LEVELS) {
-    const choice = await encodeChoice(image, JimpMime.jpeg, "jpeg-quality", signal, { quality });
+    const choice = await encodeChoice(
+      image,
+      { mediaType: JimpMime.jpeg, settings: { quality } },
+      "jpeg-quality",
+      signal,
+    );
     if (fitsImageBudget(choice.data, budget)) return choice;
   }
   return undefined;
@@ -88,10 +98,18 @@ async function trySourceFormat(
 ): Promise<EncodedChoice | undefined> {
   throwIfAborted(signal);
   if (sourceMediaType === JimpMime.png) {
-    const choice = await encodeChoice(image, JimpMime.png, "png-optimized", signal, {
-      deflateLevel: PNG_DEFLATE_LEVEL,
-      deflateStrategy: PNG_DEFLATE_STRATEGY,
-    });
+    const choice = await encodeChoice(
+      image,
+      {
+        mediaType: JimpMime.png,
+        settings: {
+          deflateLevel: PNG_DEFLATE_LEVEL,
+          deflateStrategy: PNG_DEFLATE_STRATEGY,
+        },
+      },
+      "png-optimized",
+      signal,
+    );
     return fitsImageBudget(choice.data, budget) ? choice : undefined;
   }
   if (sourceMediaType === JimpMime.jpeg) {
@@ -100,7 +118,7 @@ async function trySourceFormat(
   if (sourceMediaType === JimpMime.gif) {
     const choice = await encodeChoice(
       image,
-      jimpOutputMediaType(JimpMime.gif, image.mime),
+      { mediaType: jimpOutputMediaType(JimpMime.gif, image.mime) },
       "preserve-format",
       signal,
     );
@@ -132,7 +150,7 @@ async function selectEncoding(
   ) {
     const choice = await encodeChoice(
       bounded,
-      jimpOutputMediaType(sourceMediaType, bounded.mime),
+      { mediaType: jimpOutputMediaType(sourceMediaType, bounded.mime) },
       "resized",
       signal,
     );
@@ -161,9 +179,12 @@ async function selectEncoding(
 
   for (const edge of FALLBACK_EDGES) {
     const scaled = copyWithinEdge(image, Math.min(edge, maxDimension));
-    const choice = await encodeChoice(scaled, JimpMime.jpeg, "jpeg-fallback", signal, {
-      quality: FALLBACK_QUALITY,
-    });
+    const choice = await encodeChoice(
+      scaled,
+      { mediaType: JimpMime.jpeg, settings: { quality: FALLBACK_QUALITY } },
+      "jpeg-fallback",
+      signal,
+    );
     if (fitsImageBudget(choice.data, budget)) return choice;
   }
   return undefined;
