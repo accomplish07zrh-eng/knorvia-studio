@@ -1,0 +1,70 @@
+{
+  "packages/desktop/src/main/desktopRuntimeEnv.ts": [
+    {
+      "module": "./desktopProfile.js",
+      "clause": "{ buildDesktopProfileEnvironment }"
+    },
+    {
+      "module": "node:fs",
+      "clause": "{ existsSync, readFileSync }"
+    },
+    {
+      "module": "node:os",
+      "clause": "{ homedir }"
+    },
+    {
+      "module": "node:path",
+      "clause": "{ join, resolve, win32 }"
+    },
+    {
+      "module": "@knorvia/server/remote",
+      "clause": "type { ConnectOptions }"
+    },
+    {
+      "module": "@knorvia/services/node",
+      "clause": "{ listSSHConfigAliasesFromLocalConfig }"
+    },
+    {
+      "module": "@knorvia/cua/broker/helperConstants",
+      "clause": "{ DEV_HELPER_APP_NAME, HELPER_APP_NAME }"
+    },
+    {
+      "module": "@knorvia/shared",
+      "clause": "{\n  KNORVIA_APP_VERSION_ENV,\n  KNORVIA_AGENT_RUNTIME,\n  KNORVIA_DYNAMIC_WORKFLOW_MODE_ENV,\n  KNORVIA_ENV,\n  KNORVIA_PRODUCT_FLAVOR,\n  KNORVIA_RUNTIME_ENV_KEY,\n  KNORVIA_VERSION,\n  buildKnorviaToolEnvPassthroughEnv,\n  normalizeDynamicWorkflowMode,\n  sanitizeKnorviaRuntimeEnv,\n  type KnorviaRuntimeEnv,\n}"
+    },
+    {
+      "module": "../../scripts/target-platform.mjs",
+      "clause": "{ resolvePlatformKeyForPackagedApp }"
+    },
+    {
+      "module": "@knorvia/services/node",
+      "clause": "{\n  getAppConfigDir,\n  getDataBaseDir,\n  KNORVIA_CUA_BUNDLED_HELPER_APP_PATH_ENV,\n  KNORVIA_WINDOWS_APP_INSTALL_DIR_ENV,\n}"
+    },
+    {
+      "module": "./remoteCdn.js",
+      "clause": "{\n  resolveRemoteCdnBaseUrls as resolveOrderedRemoteCdnBaseUrls,\n  type ResolveRemoteCdnOptions,\n}"
+    },
+    {
+      "module": "./desktopElectronApp.js",
+      "clause": "{ getElectronAppPath, isElectronAppPackaged }"
+    }
+  ],
+  "packages/desktop/src/main/desktopNetworkPolicy.ts": [
+    {
+      "module": "node:crypto",
+      "clause": "{ X509Certificate }"
+    },
+    {
+      "module": "node:fs",
+      "clause": "{ readFileSync }"
+    },
+    {
+      "module": "electron",
+      "clause": "type { ProxyConfig, Session }"
+    },
+    {
+      "module": "./browserDataManager.js",
+      "clause": "{ EMBEDDED_BROWSER_PARTITION }"
+    }
+  ]
+}

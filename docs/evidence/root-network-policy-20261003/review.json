@@ -1,0 +1,33 @@
+{
+  "baseline": "dd963aae58aa6111e5c65532c30c152c040de30a",
+  "recordedAt": "2026-10-03T01:10:22.166931+00:00",
+  "draftSha256": "17a6fa1004abfa44ead94a1f032feea5c163ecbbdf166b8c979d5d0ae4018328",
+  "sourceSha256": "0641b6ff8373baf200e27c51cec2f8fb9063a0049710429207bd5bebf490fd54",
+  "originalFreeze": "2026-10-03T00:23:59.344343+00:00",
+  "recovery": "Original draft restored from exact authoring tool text after workspace loss; length and SHA match recorded original. Original temp metadata/log files lost, not represented as recovered. Private earlier checkpoint remains unavailable under Library scope denial; no workaround.",
+  "checks": {
+    "minimumSynthetic": "3 paired groups plus frozen getter counterexample pass",
+    "api": "isolated declaration diagnostics zero, exact public declaration match",
+    "lint": "zero warnings/errors",
+    "format": "pass",
+    "architecture": "zero violations",
+    "semanticTypes": "not run in recovered checkout; earlier dependency baseline cannot be assumed identical",
+    "fullTestsBuildNative": "deferred"
+  },
+  "corrections": [
+    "Private certificate shape permits absent/null issuer matching native certificate chain.",
+    "Evaluate both proxy settings arguments even for empty proxy; preserve nested async error timing.",
+    "Keep regex prefix construction outside URL catch and retain bypass token normalization."
+  ],
+  "retained": [
+    "Exact PEM/scheme/fingerprint regex, verifier numeric codes, depth16, log templates, public contract, standard URL rules and embedded-only insecure flag retained without originality credit."
+  ],
+  "limitations": [
+    "Source-exposed post-freeze compatibility review; strong contract/predecessor correspondence remains. No independent-expression or MIT clearance.",
+    "No actual CA files, Electron sessions, proxy/TLS settings, browser, network, credentials, or user data operated."
+  ],
+  "toolFailures": [
+    "Guessed desktop-main context failed unknown module; actual desktop context read successfully.",
+    "Guessed prettier command unavailable; actual repository oxfmt then passed."
+  ]
+}

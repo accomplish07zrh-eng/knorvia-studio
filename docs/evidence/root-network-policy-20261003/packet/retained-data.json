@@ -1,0 +1,608 @@
+{
+  "packages/desktop/src/main/desktopRuntimeEnv.ts": {
+    "strings": [
+      {
+        "kind": "literal",
+        "text": "./desktopProfile.js"
+      },
+      {
+        "kind": "literal",
+        "text": "node:fs"
+      },
+      {
+        "kind": "literal",
+        "text": "node:os"
+      },
+      {
+        "kind": "literal",
+        "text": "node:path"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/server/remote"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/services/node"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/cua/broker/helperConstants"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/shared"
+      },
+      {
+        "kind": "literal",
+        "text": "../../scripts/target-platform.mjs"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/services/node"
+      },
+      {
+        "kind": "literal",
+        "text": "./remoteCdn.js"
+      },
+      {
+        "kind": "literal",
+        "text": "./desktopElectronApp.js"
+      },
+      {
+        "kind": "literal",
+        "text": "development"
+      },
+      {
+        "kind": "literal",
+        "text": "production"
+      },
+      {
+        "kind": "literal",
+        "text": "preview"
+      },
+      {
+        "kind": "literal",
+        "text": "Knorvia Studio"
+      },
+      {
+        "kind": "literal",
+        "text": "profile"
+      },
+      {
+        "kind": "literal",
+        "text": "session"
+      },
+      {
+        "kind": "literal",
+        "text": "../host/index.js"
+      },
+      {
+        "kind": "literal",
+        "text": "../scheduler/index.js"
+      },
+      {
+        "kind": "literal",
+        "text": "mockCdnDir"
+      },
+      {
+        "kind": "literal",
+        "text": "remoteCdnBaseUrl"
+      },
+      {
+        "kind": "literal",
+        "text": "remoteCdnBaseUrls"
+      },
+      {
+        "kind": "literal",
+        "text": "remoteCacheDir"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/server/remote"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/server/remote"
+      },
+      {
+        "kind": "literal",
+        "text": "@knorvia/server/remote"
+      },
+      {
+        "kind": "literal",
+        "text": "\n"
+      },
+      {
+        "kind": "literal",
+        "text": ""
+      },
+      {
+        "kind": "literal",
+        "text": "#"
+      },
+      {
+        "kind": "literal",
+        "text": "export "
+      },
+      {
+        "kind": "literal",
+        "text": "export "
+      },
+      {
+        "kind": "literal",
+        "text": "="
+      },
+      {
+        "kind": "literal",
+        "text": "\""
+      },
+      {
+        "kind": "literal",
+        "text": "\""
+      },
+      {
+        "kind": "literal",
+        "text": "'"
+      },
+      {
+        "kind": "literal",
+        "text": "'"
+      },
+      {
+        "kind": "literal",
+        "text": "../../../.."
+      },
+      {
+        "kind": "literal",
+        "text": "pnpm-workspace.yaml"
+      },
+      {
+        "kind": "literal",
+        "text": "packaged"
+      },
+      {
+        "kind": "literal",
+        "text": "../.."
+      },
+      {
+        "kind": "literal",
+        "text": ".env"
+      },
+      {
+        "kind": "literal",
+        "text": ".env.local"
+      },
+      {
+        "kind": "literal",
+        "text": ".env.development"
+      },
+      {
+        "kind": "literal",
+        "text": ".env.development.local"
+      },
+      {
+        "kind": "literal",
+        "text": ".env"
+      },
+      {
+        "kind": "literal",
+        "text": ".env.local"
+      },
+      {
+        "kind": "literal",
+        "text": ".env.development"
+      },
+      {
+        "kind": "literal",
+        "text": ".env.development.local"
+      },
+      {
+        "kind": "literal",
+        "text": "utf-8"
+      },
+      {
+        "kind": "literal",
+        "text": "../../mock-cdn"
+      },
+      {
+        "kind": "literal",
+        "text": "releases"
+      },
+      {
+        "kind": "literal",
+        "text": "1"
+      },
+      {
+        "kind": "literal",
+        "text": "true"
+      },
+      {
+        "kind": "literal",
+        "text": "yes"
+      },
+      {
+        "kind": "literal",
+        "text": "on"
+      },
+      {
+        "kind": "literal",
+        "text": "KNORVIA_DEV_REMOTE_ASSET_USE_CDN"
+      },
+      {
+        "kind": "literal",
+        "text": "KNORVIA_REMOTE_ASSET_CDN_BASE_URL"
+      },
+      {
+        "kind": "literal",
+        "text": "string"
+      },
+      {
+        "kind": "literal",
+        "text": "KNORVIA_REMOTE_ASSET_CACHE_DIR"
+      },
+      {
+        "kind": "literal",
+        "text": "userData"
+      },
+      {
+        "kind": "literal",
+        "text": "remote-assets-cache"
+      },
+      {
+        "kind": "literal",
+        "text": "bundled-agents"
+      },
+      {
+        "kind": "literal",
+        "text": "packages"
+      },
+      {
+        "kind": "literal",
+        "text": "desktop"
+      },
+      {
+        "kind": "literal",
+        "text": "bundled-agents"
+      },
+      {
+        "kind": "literal",
+        "text": "../../bundled-agents"
+      },
+      {
+        "kind": "literal",
+        "text": "win32"
+      },
+      {
+        "kind": "template",
+        "head": "",
+        "spans": [
+          {
+            "slot": 0,
+            "text": ".exe"
+          }
+        ]
+      },
+      {
+        "kind": "literal",
+        "text": "tools"
+      },
+      {
+        "kind": "literal",
+        "text": "../../bundled-tools"
+      },
+      {
+        "kind": "literal",
+        "text": "lark-cli"
+      },
+      {
+        "kind": "literal",
+        "text": "lark-cli"
+      },
+      {
+        "kind": "literal",
+        "text": "win32"
+      },
+      {
+        "kind": "literal",
+        "text": "alwaysOn"
+      },
+      {
+        "kind": "literal",
+        "text": "KNORVIA_AGENT_BINARY"
+      },
+      {
+        "kind": "literal",
+        "text": "KNORVIA_LARK_CLI_BINARY"
+      },
+      {
+        "kind": "literal",
+        "text": "darwin"
+      },
+      {
+        "kind": "literal",
+        "text": "cua-helper"
+      },
+      {
+        "kind": "literal",
+        "text": "1"
+      },
+      {
+        "kind": "literal",
+        "text": "true"
+      },
+      {
+        "kind": "literal",
+        "text": "on"
+      },
+      {
+        "kind": "literal",
+        "text": ""
+      },
+      {
+        "kind": "literal",
+        "text": ".knorvia-studio"
+      },
+      {
+        "kind": "literal",
+        "text": "computer-use"
+      },
+      {
+        "kind": "literal",
+        "text": "dev"
+      },
+      {
+        "kind": "literal",
+        "text": "preview"
+      }
+    ],
+    "regex": [
+      "/^[A-Za-z_][A-Za-z0-9_]*$/",
+      "/^KNORVIA_|^ZAI_OAUTH_|^BIGMODEL_OAUTH_|^ZAI_BUSINESS_|^OTEL_|^KNORVIA_(TELEMETRY|ARMS|BASE_URL|ENDPOINT_ORIGIN)/i"
+    ],
+    "numbers": [
+      "0",
+      "0",
+      "1",
+      "1",
+      "1",
+      "0"
+    ]
+  },
+  "packages/desktop/src/main/desktopNetworkPolicy.ts": {
+    "strings": [
+      {
+        "kind": "literal",
+        "text": "node:crypto"
+      },
+      {
+        "kind": "literal",
+        "text": "node:fs"
+      },
+      {
+        "kind": "literal",
+        "text": "electron"
+      },
+      {
+        "kind": "literal",
+        "text": "./browserDataManager.js"
+      },
+      {
+        "kind": "literal",
+        "text": "direct"
+      },
+      {
+        "kind": "literal",
+        "text": "system"
+      },
+      {
+        "kind": "literal",
+        "text": "setCertificateVerifyProc"
+      },
+      {
+        "kind": "literal",
+        "text": "default-session"
+      },
+      {
+        "kind": "literal",
+        "text": "direct"
+      },
+      {
+        "kind": "literal",
+        "text": "embedded-browser"
+      },
+      {
+        "kind": "literal",
+        "text": "system"
+      },
+      {
+        "kind": "template",
+        "head": "[desktop-network] ",
+        "spans": [
+          {
+            "slot": 0,
+            "text": " network policy apply failed:"
+          }
+        ]
+      },
+      {
+        "kind": "literal",
+        "text": "enabled"
+      },
+      {
+        "kind": "literal",
+        "text": "disabled"
+      },
+      {
+        "kind": "literal",
+        "text": "enabled"
+      },
+      {
+        "kind": "literal",
+        "text": "disabled"
+      },
+      {
+        "kind": "template",
+        "head": "[desktop-network] renderer proxy mode=",
+        "spans": [
+          {
+            "slot": 0,
+            "text": " bypass="
+          },
+          {
+            "slot": 1,
+            "text": " customCa="
+          },
+          {
+            "slot": 2,
+            "text": " insecureCerts="
+          },
+          {
+            "slot": 3,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "literal",
+        "text": "fixed_servers"
+      },
+      {
+        "kind": "literal",
+        "text": "allowed"
+      },
+      {
+        "kind": "literal",
+        "text": "rejected"
+      },
+      {
+        "kind": "literal",
+        "text": "direct"
+      },
+      {
+        "kind": "literal",
+        "text": "fixed_servers"
+      },
+      {
+        "kind": "literal",
+        "text": "warn"
+      },
+      {
+        "kind": "literal",
+        "text": "utf8"
+      },
+      {
+        "kind": "template",
+        "head": "[desktop-network] custom CA file contains no certificates: ",
+        "spans": [
+          {
+            "slot": 0,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": "[desktop-network] failed to load custom CA file: ",
+        "spans": [
+          {
+            "slot": 0,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "literal",
+        "text": "OK"
+      },
+      {
+        "kind": "template",
+        "head": "http://",
+        "spans": [
+          {
+            "slot": 0,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": "",
+        "spans": [
+          {
+            "slot": 0,
+            "text": ""
+          },
+          {
+            "slot": 1,
+            "text": "@"
+          }
+        ]
+      },
+      {
+        "kind": "template",
+        "head": ":",
+        "spans": [
+          {
+            "slot": 0,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "literal",
+        "text": ""
+      },
+      {
+        "kind": "literal",
+        "text": ""
+      },
+      {
+        "kind": "template",
+        "head": "",
+        "spans": [
+          {
+            "slot": 0,
+            "text": "//"
+          },
+          {
+            "slot": 1,
+            "text": ""
+          },
+          {
+            "slot": 2,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "kind": "literal",
+        "text": ","
+      },
+      {
+        "kind": "literal",
+        "text": ","
+      },
+      {
+        "kind": "literal",
+        "text": ""
+      }
+    ],
+    "regex": [
+      "/-----BEGIN CERTIFICATE-----[\\s\\S]*?-----END CERTIFICATE-----/g",
+      "/^[a-z][a-z0-9+.-]*:\\/\\//i",
+      "/[^a-f0-9]/gi"
+    ],
+    "numbers": [
+      "0",
+      "3",
+      "0",
+      "16",
+      "0",
+      "0",
+      "0",
+      "1",
+      "0"
+    ]
+  }
+}
