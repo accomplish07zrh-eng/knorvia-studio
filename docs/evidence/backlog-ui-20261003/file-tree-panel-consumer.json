@@ -1,0 +1,61 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Narrowed UI lane: WorkspaceFileTree panel interactions, reveal permissions and native viewport resources",
+  "spec": "specs/knorvia-next-ui-consumer-boundaries-20261003.md",
+  "sourceExposure": "Selected container and direct model/search/platform contracts read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; pending contracts do not constitute React/DOM/platform/output or rights acceptance",
+  "retainedCompatibility": [
+    "Original JSX, labels, mask styles, virtual count/row-height/overscan and editor/platform payloads",
+    "Existing accepted tree/expanded/Git/store and short loading/error/ref/React bridges",
+    "Ordinal preview vs physical directory depths, compact collapse and keyboard prevention rules"
+  ],
+  "explicitCorrections": [
+    "Scope cleanup stops subsequent reveal loads without aborting issued host requests",
+    "Viewport installation/teardown attempts all owned cleanup and revokes stale listener/frame publication first"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/WorkspaceFileTree.tsx",
+      "baseBlob": "44b229464ded331892a97921bc1968ae0e821f5a",
+      "baseSha256": "de32d5104209dd59ab43463f2f3cce96bf515f3c7247042786efc63f5c7a347f",
+      "candidateSha256": "9a3cfa4309a6c6d8dd3edcf5c78b334a08bf9f07189bbf8e6430840d30ff07a2",
+      "candidateBytes": 21097,
+      "candidateRole": "source-exposed algorithm/resource candidate plus retained presentation/adapter",
+      "priorSource": {
+        "status": "existing record retained, not reclassified"
+      },
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreePanelInteractionOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "3918c10d02109958e075f941e4d47c9d586f526ffda594bb96ec533f6e9087f4",
+      "candidateBytes": 9411,
+      "candidateRole": "source-exposed candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeViewportLease.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "4ce43cb4ebe2cf38097648852e719eb8427a1114ccb40f9a8bdc2467ace20aad",
+      "candidateBytes": 2347,
+      "candidateRole": "source-exposed candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-panel-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "3e8131249f385472d31e56e778ccd173717a4e58c2bf4ceeffba76800b1c04ec",
+      "candidateBytes": 6817,
+      "candidateRole": "source-exposed candidate / pending contract",
+      "priorSource": null,
+      "licenseReview": "pending; existing Apache-2.0 transition retained; no MIT claim"
+    }
+  ]
+}

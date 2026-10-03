@@ -1,0 +1,115 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Named file-tree data/loading/refresh lifecycle files only; byte record, not audit or verification",
+  "spec": "specs/knorvia-next-ui-file-tree-lifecycle-20261003.md",
+  "sourceExposure": "Existing data hook, services signatures, direct tree/reveal consumer, refresh/row/Git helpers and named inventory entries read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared owner/fake-clock scenarios are not actual React effect, RPC, UI or recovery validation",
+  "explicitCorrections": [
+    "Scope cleanup revokes directory/Git/ignored/batch acceptance and clears debounce timer",
+    "Bulk flush and manual refresh read the current expanded set",
+    "Remote-session-only change resets the active scope"
+  ],
+  "retainedBehavior": [
+    "All hook return keys and Set updater/ref inputs",
+    "Silent ordinary-directory-only prefetch and symbolic-link exclusion",
+    "Manual failures retain children; watcher failures prune and refresh parent",
+    "15s/8s deadlines; 300ms debounce; 2 workers; >50 paths bulk threshold",
+    "Refresh reentry gate and stale result/logging rules",
+    "Stable watcher callback bridge delegates to the currently committed data owner"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+      "baseBlob": "47d51e32616e051a3cac89d1b9eff5627cfc08ae",
+      "baseSha256": "faf66c845b3ef54cdca37949b9c3e1154ebbb536166ac6b550352a9360336b27",
+      "candidateSha256": "7773384b33185bc1b578e8ba03ec0a783b78d7c41447d05b9e0d13087d803bf5",
+      "candidateBytes": 2749,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": {
+        "classification": "upstream-unchanged",
+        "upstream": {
+          "relation": "unchanged",
+          "path": "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts",
+          "blob": "47d51e32616e051a3cac89d1b9eff5627cfc08ae",
+          "normalizedSha256": "faf66c845b3ef54cdca37949b9c3e1154ebbb536166ac6b550352a9360336b27",
+          "contentMatchedPaths": [
+            "packages/ui/src/workspace-file-tree/useWorkspaceFileTreeData.ts"
+          ]
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeDataOwner.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "6170193233c04467e3c76ca3f8d3c50a3c7fb220bbd6a7f6c8d412ccfce2cb18",
+      "candidateBytes": 11946,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeState.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "50f5a6ba6f14eae4b61dd69adc93de2845b474aa40dc3f351ca7a7b43eff0e64",
+      "candidateBytes": 2721,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeRequestLedger.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "b1fcfe05c826b29132677230868f2c1bb4f2d0edc18e8fa67f51e419512026b4",
+      "candidateBytes": 2249,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/fileTreeRefreshScheduling.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "49bfea9a5da726cbd460634325a23c49e0fc0f9659a65d455f86e15f2b41b91e",
+      "candidateBytes": 1310,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-file-tree/gitStatus.ts",
+      "baseBlob": "f1a6a3f1a0c45ec8df9654f003c39885a6f49c1f",
+      "baseSha256": "afde9095a6bdfde2b4592df5b062303f03f14a051385538fcb482da8340714f6",
+      "candidateSha256": "4454d1c4757285aa92f3b2d6f6262252a55f98795207eb15e7a112c14c515881",
+      "candidateBytes": 912,
+      "candidateRole": "retained helper with type-only refresh port; not independently rewritten",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/workspace-file-tree/gitStatus.ts",
+          "blob": "8c1efa31ebc131dd37f0255121869dff779753f9",
+          "normalizedSha256": "37e4846ebb5f0f1b9c7a56352133febe138838b257a2fc6f63a4515f6ae338f4",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-file-tree-data-owner-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "3adea2e4336cff1d8370372e85a74f3c71ab90f6677e896f98b276fb23c4d042",
+      "candidateBytes": 9980,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

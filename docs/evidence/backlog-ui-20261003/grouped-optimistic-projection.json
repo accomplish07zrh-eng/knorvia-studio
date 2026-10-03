@@ -1,0 +1,56 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Grouped optimistic projection and direct installation only",
+  "spec": "specs/knorvia-next-ui-grouped-lifecycle-20261003.md",
+  "sourceExposure": "Original projection, visible-key reconciliation, promotion, meta/membership helpers and overlay schema read; no clean-room assertion",
+  "verification": "NOT RUN per user instruction; prepared projection contracts do not validate hook/store/DOM or emitted code",
+  "retainedDependencies": [
+    "lib/taskMetaMerge.ts (B1 candidate; not rewritten again)",
+    "v4/taskListRowActivity.ts (still pending owner)"
+  ],
+  "files": [
+    {
+      "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+      "baseBlob": "2f391ffd57356e66b8c28f6f114e145018c02e7e",
+      "baseSha256": "66b5039e02f56db74a3cd42a8a0996f3edc913fe5d99bad44af102d6987ed763",
+      "candidateSha256": "c825bbca8afb0029444355662a345bcd2f1222b34181049f13eb6603e30caa51",
+      "candidateBytes": 27559,
+      "candidateRole": "partial installation; remaining mutation/initialization/reference/promotion code unreviewed",
+      "priorSource": {
+        "classification": "upstream-modified",
+        "upstream": {
+          "relation": "modified",
+          "path": "packages/ui/src/hooks/useGroupedTaskView.ts",
+          "blob": "00ab8f20c321e14cc228d23266cf63634e5337a5",
+          "normalizedSha256": "589972fdb443b7ed1cff98c489e1976211a0ea71f38a284a7c8e5833f48f7f2c",
+          "contentMatchedPaths": []
+        },
+        "review": null
+      },
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/groupedOptimisticProjection.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "1adf097394b4388477380edaccb4a7b42f95584fe49b347ee7ec3ef6f226e0ee",
+      "candidateBytes": 6306,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-optimistic-projection-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "03b8fe0d36814f9648a8227c7161da17eba4cdfb3001047fc6a5abbc741ccb09",
+      "candidateBytes": 5499,
+      "candidateRole": "source-exposed contract candidate",
+      "priorSource": null,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ],
+  "candidateCheckpoint": "b4eb691e7e3ddf906d08546f84a4defb1f43f971",
+  "snapshotSemantics": "Historical hook bytes at optimistic checkpoint; later installations recorded separately"
+}

@@ -1,33 +1,19 @@
 import { useEffect, useState } from "react";
 import type { EditorInfo } from "@knorvia/shared";
 import { usePlatform } from "@/hooks/usePlatform.js";
-import { sortInstalledEditorsForOpenWith } from "@/lib/openWithEditors.js";
 import { logger } from "@/logger.js";
+import { InstalledFileTreeEditorRequests } from "./fileTreeConsumerResources.js";
 
 export function useInstalledFileTreeEditors() {
   const platform = usePlatform();
   const [installedEditors, setInstalledEditors] = useState<EditorInfo[]>([]);
-
-  useEffect(() => {
-    let disposed = false;
-
-    platform
-      .getInstalledEditors()
-      .then((editors) => {
-        if (!disposed) {
-          setInstalledEditors(sortInstalledEditorsForOpenWith(editors));
-        }
-      })
-      .catch((error) => {
-        logger.warn("[WorkspaceFileTree] 获取已安装 IDE 列表失败", {
-          error: error instanceof Error ? error.message : String(error),
-        });
-      });
-
-    return () => {
-      disposed = true;
-    };
-  }, [platform]);
+  const [requests] = useState(() => new InstalledFileTreeEditorRequests({
+    accept: setInstalledEditors,
+    failed: (error) => logger.warn("[WorkspaceFileTree] 获取已安装 IDE 列表失败", {
+      error: error instanceof Error ? error.message : String(error),
+    }),
+  }));
+  useEffect(() => requests.begin(platform), [platform, requests]);
 
   return { installedEditors };
 }

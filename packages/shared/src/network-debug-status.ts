@@ -41,7 +41,10 @@ function elapsedValue(value: unknown): number | undefined {
 
 function headerValues(value: unknown): Record<string, string> {
   return Object.fromEntries(
-    Object.entries(recordValue(value)).filter(([, entry]) => typeof entry === "string"),
+    // 沿用原 string 准入，显式谓词让 fromEntries 只得到已验证的 header 值。
+    Object.entries(recordValue(value)).filter(
+      (entry): entry is [string, string] => typeof entry[1] === "string",
+    ),
   );
 }
 

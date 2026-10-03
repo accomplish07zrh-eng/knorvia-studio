@@ -1,0 +1,35 @@
+{
+  "baseCommit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "specFirstCommit": "366227552305c709e1c735b6cbef0546ed9a2c51",
+  "batch": "complete protocol client and request lifetime book",
+  "records": [
+    {
+      "path": "packages/services/src/agent/protocolClient.ts",
+      "baselineGitBlob": "7fc6740ff5b597ab8ec89232677a88d2131aa0c7",
+      "baselineSha256": "1a28886f9568c5ff9d18f461d42ca3b676867cd3319db7129e181d587a0e4660",
+      "candidateSha256": "107c984859baaf6cc3a14beba925827430c1dfa5a9bfc8416020282665ea9100",
+      "bytes": 7011
+    },
+    {
+      "path": "packages/services/src/agent/protocolRequestBook.ts",
+      "baselineGitBlob": null,
+      "baselineSha256": null,
+      "candidateSha256": "2af71cf6448896c13585033e43cc9b22167c1d653d0fe624280d83d0c04e3d2b",
+      "bytes": 4386
+    }
+  ],
+  "retainedDependencies": [
+    {
+      "path": "packages/services/src/agent/storageStartupGate.ts",
+      "baselineGitBlob": "bf0c1cc8f8c8dc758ab783e5e60dc8c539654ba5",
+      "baselineSha256": "6a0c7171ba3ba92d7cadf1e0177509f8557ba7ea7ca9a799aa89036d03f2ad16",
+      "currentSha256": "6a0c7171ba3ba92d7cadf1e0177509f8557ba7ea7ca9a799aa89036d03f2ad16",
+      "bytes": 3937,
+      "qualification": "Current lane source retained; parent accepted-hash HOLD is unchanged and requires integrator decision."
+    }
+  ],
+  "validation": "UNVERIFIED: no tests, lint, typecheck, formatter/architecture checker, build, audit or CI rerun executed; source/diff reading and targeted source bindings only. No additional test files in this batch.",
+  "authoring": "Single source-exposed author reconstructed from the recorded behavior contract with a dedicated request-resource book and transport facade. No separate author, clean-room or pre-exposure freeze asserted. Public/data/timeout/diagnostic/dependency expression retains existing lineage. Whole-expression and rights acceptance remain pending.",
+  "historicalOriginStatus": "Unknown origin remains unresolved: negative upstream matches do not prove originality or rights. Historical receipts and global source records unchanged.",
+  "licenseDecision": "NOASSERTION"
+}

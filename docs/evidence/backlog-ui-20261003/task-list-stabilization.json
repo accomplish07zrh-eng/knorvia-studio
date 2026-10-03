@@ -1,0 +1,39 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Named v4 task-list reference projection files only; byte record, not audit or verification",
+  "sourceExposure": "Existing v4 stabilization/activity, taskQueryCache identity and actual hook/store imports read for contract extraction; no clean-room assertion",
+  "sourceHistory": {
+    "snapshotCommit": "7619e41b950bd52073ebf36754146cf25659d9fa",
+    "inventoryStatus": "upstream-modified/NOASSERTION; no accepted review",
+    "upstreamCommit": "872ad960de7ec172591f7e1952f7849229f94521",
+    "upstreamBlob": "854062a9767c0ce95e89b742f9de575d450a9e0e"
+  },
+  "verification": "NOT RUN per user instruction; prepared pure/source helper scenarios are not React/DOM or emitted consumer validation",
+  "files": [
+    {
+      "path": "packages/ui/src/v4/taskListItemStabilization.ts",
+      "baseBlob": "fb908e49b83059a804afb31dae2433a7f670d61b",
+      "baseSha256": "cecd5a17452f2f5804e87c26a3396bac874a2d68d879d17d347f7ca1d98864ac",
+      "candidateSha256": "f86eb506fbf7c665fbb90d06dd539b0165f64bf628634ebca498d2bd997957cb",
+      "candidateBytes": 1531,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/v4/taskListValueComparison.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "baa985f26d5370c84c2bd053481222316dece5668fc7dfd654cd3aa571041ebe",
+      "candidateBytes": 2779,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-task-list-stabilization-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "c28edaba89acaf0fe80eb758cabed771c73534bd02b361b1d0ed68ee15a39e7b",
+      "candidateBytes": 6574,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ]
+}

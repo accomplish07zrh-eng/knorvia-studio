@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "receivedCheckpoint": "8b9113d97379ec2e7b1d80f9a4277b008d40441c",
+  "operation": "Reconcile the twelve observed stale RPC current-input fingerprints only",
+  "boundaries": "Inputs identify current candidate bytes, not publisher provenance or new copyright/license acceptance. All original copied component scopes, pinned notices, unknown import revision, source registers, reviewRequired and historical rights holds stay unchanged. Prior input digests are preserved below.",
+  "retainedComponent": "Visual Studio Code IPC and common utilities",
+  "retainedLicense": "MIT for declared upstream-derived portions; repository Apache-2.0 and existing explicit obligations continue",
+  "sourceAuthoring": "source-exposed candidates inherited by the received backlog; no clean-room or independent-expression acceptance",
+  "reviewRequiredCountBefore": 26,
+  "bindings": [
+    {
+      "path": "packages/rpc/src/buffer.ts",
+      "previousCurrentInput": "6bc6a44e6abd088f72d57616d9556d78ce078b6f3813bf75402dde386781492c",
+      "currentRawSha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+      "currentNormalizedSha256": "600a3c1fc93b132c1211d7cf8b730747c0d842e58da4e8d168a43934e0e321b4",
+      "sourceCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "bytes": 1866,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/channelClient.ts",
+      "previousCurrentInput": "d2504929253ebb18f020e6f35e51a3741190558875d18a47192f9af78ca3f8ac",
+      "currentRawSha256": "5f2409b75cfaba1c9e5e093bc1f4273ab243aeec05dd0bac1bb28b442a5ef6fd",
+      "currentNormalizedSha256": "5f2409b75cfaba1c9e5e093bc1f4273ab243aeec05dd0bac1bb28b442a5ef6fd",
+      "sourceCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "bytes": 7936,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/channelServer.ts",
+      "previousCurrentInput": "b9c61bd3881fff11b38a93853c60fa5c2bc871bcbea5dad0e9be0a4674f6c9da",
+      "currentRawSha256": "00757689372616d9fb8b3e82d722f4774a968649323ae31724dc140eb22c557b",
+      "currentNormalizedSha256": "00757689372616d9fb8b3e82d722f4774a968649323ae31724dc140eb22c557b",
+      "sourceCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "bytes": 7365,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/foundation.ts",
+      "previousCurrentInput": "84ccf6231582d652bb30facc7c525279f927d3ba26fb315ac8c377e43acd87d8",
+      "currentRawSha256": "fc2d655c586b91f9326adf2ab3e1649c1b3aaaa02ac69e60ac1fb8dcb193c140",
+      "currentNormalizedSha256": "fc2d655c586b91f9326adf2ab3e1649c1b3aaaa02ac69e60ac1fb8dcb193c140",
+      "sourceCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "bytes": 4675,
+      "savedClassification": "upstream-modified",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/ipc.ts",
+      "previousCurrentInput": "53bcc9f09406515ee75b1bec8768d88f19351a05c33e66ed3a87f8c58f481d94",
+      "currentRawSha256": "b74ebf2694a2504e884df80cd727673893bfcc4d2d0dd97fc92ce6a104c230a7",
+      "currentNormalizedSha256": "b74ebf2694a2504e884df80cd727673893bfcc4d2d0dd97fc92ce6a104c230a7",
+      "sourceCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+      "bytes": 8173,
+      "savedClassification": "upstream-modified",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/logging-middleware.ts",
+      "previousCurrentInput": "20edfd8e5d054097186f2498ec4e9c08c61740ed003fc69eecea8176a15fe025",
+      "currentRawSha256": "6d3b327b0bb5c56b7a8f1aad7b64b7da23fb4d22616bc1f18fa919dd625f287e",
+      "currentNormalizedSha256": "6d3b327b0bb5c56b7a8f1aad7b64b7da23fb4d22616bc1f18fa919dd625f287e",
+      "sourceCommit": "69e86fb1f3798d83002573808eb4948d0e29ead7",
+      "bytes": 3240,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/network-telemetry-middleware.ts",
+      "previousCurrentInput": "18a7cde46e6c65e0138af0623d07bf883ce278acf44654bc5144ecaadd36a536",
+      "currentRawSha256": "ee97f63bf5598f1f69b6607e9e6728ea22b6f0156f072b08a8ff08cf8c2e4d48",
+      "currentNormalizedSha256": "ee97f63bf5598f1f69b6607e9e6728ea22b6f0156f072b08a8ff08cf8c2e4d48",
+      "sourceCommit": "69e86fb1f3798d83002573808eb4948d0e29ead7",
+      "bytes": 4205,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/persistent-protocol.ts",
+      "previousCurrentInput": "80609595b89188272d743e557502c6cad3858f828acae31c2ef64206bb3c8978",
+      "currentRawSha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0",
+      "currentNormalizedSha256": "409baee902025acbdfc4f5e3059ff57f9e0f64679d73359ecc063d9d9f0540c0",
+      "sourceCommit": "4ff54aec9697fc609a72279c08cdab1848efac42",
+      "bytes": 6973,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/protocol.ts",
+      "previousCurrentInput": "1c26b9adb7edf661aa7ec9347aa009bd9fcb29b98e07ccf606714fe9ae018d56",
+      "currentRawSha256": "02e5815d8e109dd3f85d53452d73480272569f9d3f4f7a5f8fadbda76f00b592",
+      "currentNormalizedSha256": "02e5815d8e109dd3f85d53452d73480272569f9d3f4f7a5f8fadbda76f00b592",
+      "sourceCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "bytes": 8100,
+      "savedClassification": "upstream-modified",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/proxy-channel.ts",
+      "previousCurrentInput": "1f81da70701f1ae95856c3a94abca456fd8352e7860013609d19f567bfdc94fb",
+      "currentRawSha256": "cceb7734ed1c11a3135939341acedca2916e4f0eeaa06ed2e2c54e39f28cbe01",
+      "currentNormalizedSha256": "cceb7734ed1c11a3135939341acedca2916e4f0eeaa06ed2e2c54e39f28cbe01",
+      "sourceCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "bytes": 3770,
+      "savedClassification": "upstream-modified",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/remote.ts",
+      "previousCurrentInput": "a11e072d5df7e1c1ce64814a68f72afc081246b364f0da409b5c9d22bc815957",
+      "currentRawSha256": "793b3e8723436177e0f3f0412fbece45403b435f35511db990004723a57028fe",
+      "currentNormalizedSha256": "793b3e8723436177e0f3f0412fbece45403b435f35511db990004723a57028fe",
+      "sourceCommit": "9895447bac2206e500eee559626c4c188fabb0ba",
+      "bytes": 6185,
+      "savedClassification": "upstream-unchanged",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    },
+    {
+      "path": "packages/rpc/src/serialization.ts",
+      "previousCurrentInput": "a73fc4911723036a9c47a4d5a4dfe8860d5eaee649fd1541c3b051d9a9c866e7",
+      "currentRawSha256": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
+      "currentNormalizedSha256": "55f6c0460c9f0f09661068176ec14afd4454af5131bdcbbb62f65c44b4ca0116",
+      "sourceCommit": "d48fdf92cd98a1097609dac6ef6cecc1fe9a5721",
+      "bytes": 5892,
+      "savedClassification": "upstream-modified",
+      "savedReview": null,
+      "status": "current source-exposed candidate; expression/rights not accepted"
+    }
+  ]
+}

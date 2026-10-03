@@ -1,11 +1,13 @@
 // Synthetic records and virtual IO only; no live authority, environment, settings or hooks.
 import assert from "node:assert/strict";
-import { posix } from "node:path";
+import { fileURLToPath } from "node:url";
+import { posix, resolve } from "node:path";
 import { runInNewContext } from "node:vm";
 import { build } from "esbuild";
 import { z } from "zod";
 
-const root = process.argv[2];
+// 根统一入口没有 positional root；显式历史输入仍优先，默认核对本包当前源码。
+const root = process.argv[2] ?? fileURLToPath(new URL("../src/", import.meta.url));
 assert.ok(root, "Supply source root.");
 export const plain = (value) => JSON.parse(JSON.stringify(value));
 export const syntheticError = (code) => Object.assign(new Error("synthetic " + code), { code });
@@ -37,7 +39,8 @@ export async function load(name, supplied = {}) {
   fixture.z = z;
   fixture.path ??= { ...posix, resolve: (...args) => posix.resolve("/synthetic", ...args) };
   const output = await build({
-    entryPoints: [posix.resolve(root, name + ".ts")],
+    // 实际编译入口走本机路径；下方虚拟 authority 端口继续用固定 POSIX 夹具。
+    entryPoints: [resolve(root, name + ".ts")],
     bundle: true,
     write: false,
     format: "cjs",

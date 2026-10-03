@@ -1,9 +1,3 @@
-// ============================================================
-// Event Reducer Helpers - focused projection transforms
-// ============================================================
-
-import type { CompactBoundaryPayload } from "../compact/index.js";
-import { parseCompactBoundaryPayload } from "../compact/index.js";
 import type {
   ActiveToolCall,
   CollaborationMode,
@@ -21,7 +15,17 @@ import type {
   StreamRecoveryAnchorPayload,
   StreamingToolLedgerPayload,
 } from "./stream-recovery.events.js";
+import {
+  backgroundCompletedChanges,
+  backgroundStartedChanges,
+  backgroundUpdatedChanges,
+  commitSessionProjection,
+  compactProjectionChanges,
+  recoveryAnchorChanges,
+  streamingLedgerChanges,
+} from "./session-projection-ledgers.js";
 
+// 保留 canonical template、默认值及 module 初始化时间；不计为新的原创表达。
 export const initialSessionProjection = {
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -53,21 +57,11 @@ export function applyStreamingToolLedgerUpdate(
   payload: StreamingToolLedgerPayload,
   timestamp: Date,
 ): SessionProjection {
-  const next = { ...payload, updatedAt: timestamp };
-  const found = projection.streamingToolLedger.some(
-    (item) => item.attemptId === payload.attemptId && item.toolCallId === payload.toolCallId,
+  return commitSessionProjection(
+    projection,
+    streamingLedgerChanges(projection, payload, timestamp),
+    timestamp,
   );
-  return {
-    ...projection,
-    streamingToolLedger: found
-      ? projection.streamingToolLedger.map((item) =>
-          item.attemptId === payload.attemptId && item.toolCallId === payload.toolCallId
-            ? { ...item, ...next }
-            : item,
-        )
-      : [...projection.streamingToolLedger, next],
-    updatedAt: timestamp,
-  };
 }
 
 export function applyStreamRecoveryAnchorCreated(
@@ -75,11 +69,7 @@ export function applyStreamRecoveryAnchorCreated(
   payload: StreamRecoveryAnchorPayload,
   timestamp: Date,
 ): SessionProjection {
-  return {
-    ...projection,
-    lastStreamRecoveryAnchor: { ...payload, updatedAt: timestamp },
-    updatedAt: timestamp,
-  };
+  return commitSessionProjection(projection, recoveryAnchorChanges(payload, timestamp), timestamp);
 }
 
 export function applyCompactBoundary(
@@ -87,30 +77,14 @@ export function applyCompactBoundary(
   payload: unknown,
   timestamp: Date,
 ): SessionProjection {
-  const compactBoundary = parseCompactBoundaryPayload(payload) as CompactBoundaryPayload;
-  return {
-    ...projection,
-    contextUsed:
-      compactBoundary.truePostCompactTokenCount ??
-      compactBoundary.postCompactTokenCount ??
-      projection.contextUsed,
-    lastCompact: {
-      boundaryId: compactBoundary.boundaryId,
-      trigger: compactBoundary.trigger,
-      phase: compactBoundary.phase,
-      compactReason: compactBoundary.compactReason,
-      compactedAt: timestamp,
-      preCompactTokenCount: compactBoundary.preCompactTokenCount,
-      postCompactTokenCount: compactBoundary.postCompactTokenCount,
-      truePostCompactTokenCount: compactBoundary.truePostCompactTokenCount,
-      summarizedMessageCount: compactBoundary.summarizedMessageCount,
-      keptMessageCount: compactBoundary.keptMessageCount,
-      willRetriggerNextTurn: compactBoundary.willRetriggerNextTurn,
-    },
-    updatedAt: timestamp,
-  };
+  return commitSessionProjection(
+    projection,
+    compactProjectionChanges(projection, payload, timestamp),
+    timestamp,
+  );
 }
 
+// 数值兼容 helper 沿用既有标准表达和来源，不另计一个重写 owner。
 export function positiveInteger(value: unknown): number | undefined {
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return undefined;
@@ -124,41 +98,11 @@ export function applyBackgroundTaskStarted(
   payload: BackgroundTaskStartedPayload,
   timestamp: Date,
 ): SessionProjection {
-  const existing = projection.backgroundTasks.filter((task) => task.taskId !== payload.taskId);
-  return {
-    ...projection,
-    backgroundTasks: [
-      ...existing,
-      {
-        taskId: payload.taskId,
-        toolCallId: payload.toolCallId,
-        toolName: payload.toolName,
-        taskKind: payload.taskKind,
-        childSessionId: payload.childSessionId,
-        blocked: payload.blocked,
-        blockedReason: payload.blockedReason,
-        cancellable: payload.cancellable,
-        cancelRequestedAt: payload.cancelRequestedAt,
-        command: payload.command,
-        description: payload.description,
-        status: payload.status,
-        pid: payload.pid,
-        startedAt: payload.startedAt ?? timestamp,
-        outputPath: payload.outputPath,
-        stderrPersistedOutputPath: payload.stderrPersistedOutputPath,
-        stdoutPersistedOutputPath: payload.stdoutPersistedOutputPath,
-        outputBytes: payload.outputBytes,
-        outputTruncated: payload.outputTruncated,
-        outputTail: payload.outputTail,
-        stderrBytes: payload.stderrBytes,
-        stderrTail: payload.stderrTail,
-        stdoutBytes: payload.stdoutBytes,
-        stdoutTail: payload.stdoutTail,
-        terminalId: payload.terminalId,
-      },
-    ],
-    updatedAt: timestamp,
-  };
+  return commitSessionProjection(
+    projection,
+    backgroundStartedChanges(projection, payload, timestamp),
+    timestamp,
+  );
 }
 
 export function applyBackgroundTaskUpdated(
@@ -166,13 +110,7 @@ export function applyBackgroundTaskUpdated(
   payload: BackgroundTaskUpdatedPayload,
   timestamp: Date,
 ): SessionProjection {
-  return {
-    ...projection,
-    backgroundTasks: projection.backgroundTasks.map((task) =>
-      task.taskId === payload.taskId ? mergeBackgroundTask(task, payload) : task,
-    ),
-    updatedAt: timestamp,
-  };
+  return commitSessionProjection(projection, backgroundUpdatedChanges(projection, payload), timestamp);
 }
 
 export function applyBackgroundTaskCompleted(
@@ -180,53 +118,9 @@ export function applyBackgroundTaskCompleted(
   payload: BackgroundTaskCompletedPayload,
   timestamp: Date,
 ): SessionProjection {
-  const next = {
-    taskId: payload.taskId,
-    toolCallId: payload.toolCallId,
-    toolName: payload.toolName,
-    taskKind: payload.taskKind,
-    childSessionId: payload.childSessionId,
-    blocked: payload.blocked,
-    blockedReason: payload.blockedReason,
-    cancellable: payload.cancellable,
-    cancelRequestedAt: payload.cancelRequestedAt,
-    command: payload.command,
-    description: payload.description,
-    status: payload.status,
-    pid: payload.pid,
-    startedAt: payload.startedAt,
-    completedAt: payload.completedAt ?? timestamp,
-    outputPath: payload.outputPath,
-    stderrPersistedOutputPath: payload.stderrPersistedOutputPath,
-    stdoutPersistedOutputPath: payload.stdoutPersistedOutputPath,
-    outputBytes: payload.outputBytes,
-    outputTruncated: payload.outputTruncated,
-    outputTail: payload.outputTail,
-    stderrBytes: payload.stderrBytes,
-    stderrTail: payload.stderrTail,
-    stdoutBytes: payload.stdoutBytes,
-    stdoutTail: payload.stdoutTail,
-    terminalId: payload.terminalId,
-  } satisfies SessionProjection["backgroundTasks"][number];
-
-  const found = projection.backgroundTasks.some((task) => task.taskId === payload.taskId);
-  return {
-    ...projection,
-    backgroundTasks: found
-      ? projection.backgroundTasks.map((task) =>
-          task.taskId === payload.taskId ? mergeBackgroundTask(task, next) : task,
-        )
-      : [...projection.backgroundTasks, next],
-    updatedAt: timestamp,
-  };
-}
-
-function mergeBackgroundTask(
-  current: SessionProjection["backgroundTasks"][number],
-  next: Partial<SessionProjection["backgroundTasks"][number]>,
-): SessionProjection["backgroundTasks"][number] {
-  return {
-    ...current,
-    ...Object.fromEntries(Object.entries(next).filter(([, value]) => value !== undefined)),
-  } as SessionProjection["backgroundTasks"][number];
+  return commitSessionProjection(
+    projection,
+    backgroundCompletedChanges(projection, payload, timestamp),
+    timestamp,
+  );
 }

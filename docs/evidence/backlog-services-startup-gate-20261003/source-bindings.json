@@ -1,0 +1,67 @@
+{
+  "baseCommit": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "specFirstCommit": "a13c909ebc76f75f6d44f81a8b71cb4c356fe7e1",
+  "batch": "complete storage startup gate outcome/waiter owner and exact historical installation boundaries",
+  "integrationRefObserved": "91d5cd9dc70f7e801abe2cdecdb12e73d3491c56",
+  "records": [
+    {
+      "path": "packages/services/src/agent/storageStartupGate.ts",
+      "baselineGitBlob": "bf0c1cc8f8c8dc758ab783e5e60dc8c539654ba5",
+      "baselineSha256": "6a0c7171ba3ba92d7cadf1e0177509f8557ba7ea7ca9a799aa89036d03f2ad16",
+      "candidateSha256": "923716644d33ae65a0c44ccbc91ecf62c0521c4a3107e24a6d4414c34080c011",
+      "bytes": 5428
+    }
+  ],
+  "protectedHistoricalInstallations": [
+    {
+      "path": "packages/services/src/session/tasksDatabase/startup.ts",
+      "currentGitBlob": "0be7db66d288c0f6e5454e4e212f9623fc3af7f0",
+      "parentReportedCandidateSha256": "a45bd7f55dfe610e78b9314ba5807403cd1397c372a8cd2da81c50d8c961c58a",
+      "parentReportedCandidateGitBlob": null,
+      "receiptPath": "licensing/evidence/task-storage-preparation-expression-20261002.json",
+      "bindingSource": "packages/services/src/session/tasksDatabase/MIGRATIONS-AUTHOR-RECEIPTS-20261002.json",
+      "candidateQualification": "Parent-reported accepted task-storage preparation source; exact descendant and receipt unavailable in examined inputs.",
+      "currentSha256": "d5cc1b688fa979534a1a4520e5813a98f84ed66ae8f8525c10371a5761c03fde",
+      "currentBytes": 4990,
+      "localReceiptAvailable": false,
+      "fetchedIntegrationGitBlob": "0be7db66d288c0f6e5454e4e212f9623fc3af7f0",
+      "disposition": "HOLD installation: retain current source, require canonical candidate/descendant source and receipt; no substitute reconstruction or source/rights clearance."
+    },
+    {
+      "path": "packages/services/src/git/commitMessageFileScope.ts",
+      "currentGitBlob": "ec59eed8eb288dc3ed5ac0a870c08702d2400a3d",
+      "parentReportedCandidateSha256": "ca5bf8cc6396ab43992806626efb6f5700524ec9b0c0b4a36f19090e6c8a6761",
+      "parentReportedCandidateGitBlob": "69e43f4ce19a30ea185ba99ffb284ac0d798c6f8",
+      "receiptPath": "licensing/evidence/commit-message-scope-independent-replacement-20261001.json",
+      "bindingSource": "packages/services/src/session/AGENT-SESSION-QUEUE-HOLD-20261002.md",
+      "candidateQualification": "Parent-reported accepted replacement; exact named blob unavailable locally (git cat-file object lookup failed), receipt unavailable in examined inputs.",
+      "currentSha256": "f813e660387f81f205ad6adbf925f4ec09f5c2e903aedeae768c1977311a9d2e",
+      "currentBytes": 3103,
+      "localReceiptAvailable": false,
+      "fetchedIntegrationGitBlob": "ec59eed8eb288dc3ed5ac0a870c08702d2400a3d",
+      "disposition": "HOLD installation: retain current source, require canonical candidate/descendant source and receipt; no substitute reconstruction or source/rights clearance."
+    },
+    {
+      "path": "packages/services/src/creation/creationReference.ts",
+      "currentGitBlob": "5ba561b5bf1935149ab99a365f65c8a252b458e7",
+      "parentReportedCandidateSha256": "5a6716c314f943b7fe90e91e67c4d1a888efa28558849360114848ccd44bfb43",
+      "parentReportedCandidateGitBlob": null,
+      "receiptPath": "licensing/evidence/creation-reference-containment-20261001.json",
+      "bindingSource": "packages/services/src/creation/SOURCE-ORIGIN-EVIDENCE-20261002.json#/parentProvidedBindings",
+      "candidateQualification": "Parent-reported bounded containment maintenance fix, not whole-file independence/rights acceptance; exact source descendant and receipt unavailable in examined inputs.",
+      "currentSha256": "05cd4d5650393c7b3bfe605293776069b653603453fa3dd813f15bdc25cdd654",
+      "currentBytes": 4181,
+      "localReceiptAvailable": false,
+      "fetchedIntegrationGitBlob": "5ba561b5bf1935149ab99a365f65c8a252b458e7",
+      "disposition": "HOLD installation: retain current source, require canonical candidate/descendant source and receipt; no substitute reconstruction or source/rights clearance."
+    }
+  ],
+  "priorClaimCorrection": {
+    "record": "docs/evidence/backlog-services-protocol-client-20261003/source-bindings.json#/retainedDependencies/0/qualification",
+    "qualification": "The batch-3 retained gate hash is valid for source commit ab99bf38803664c9d77b7804e369d2cc65682389. Its accepted-hash-HOLD attribution to the gate was overly broad: examined positive accepted metadata binds tasksDatabase/startup.ts, not storageStartupGate.ts. Historical record bytes are preserved, not silently rewritten.",
+    "limit": "Bounded source/metadata reading cannot establish absence of unavailable gate acceptance. Original allocation/origin restriction is preserved; current implementation allocation does not resolve rights."
+  },
+  "authoring": "Single source-exposed author reconstructed from the prior public-behavior contract. Preferred implementation uses a completion outcome and admitted per-caller promise views; internal design was refined in the final spec before preferred source revision. No separate author, clean-room or pre-source-exposure freeze asserted. Fixed schema, data, policies, diagnostics and standard Promise/Emitter/timer conventions retain lineage; whole-expression/rights review remains pending.",
+  "validation": "UNVERIFIED: no tests, lint, typecheck, formatter/architecture checker, build, full audit or CI rerun executed; no additional test files. Source/differences and targeted Git/hash/receipt metadata were read only.",
+  "licenseDecision": "NOASSERTION"
+}

@@ -18,25 +18,19 @@ export interface CompiledModelOptionMaps {
 
 /** Model 创建时编译一次；每个请求只绑定本轮冻结的 Option value。 */
 export function compileModelOptionMaps(specs: ModelOptionMapSpecs): CompiledModelOptionMaps {
-  const reasoningLevel = compileModelOptionMap(specs.reasoningLevel.map, "reasoningLevel");
-  const maxOutputTokens = compileModelOptionMap(specs.maxOutputTokens.map, "maxOutputTokens");
+  const programs: readonly [keyof ModelOptionValues, ModelOptionMapProgram][] = [
+    ["reasoningLevel", compileModelOptionMap(specs.reasoningLevel.map, "reasoningLevel")],
+    ["maxOutputTokens", compileModelOptionMap(specs.maxOutputTokens.map, "maxOutputTokens")],
+  ];
   return Object.freeze({
     apply(body: JsonObject, values: ModelOptionValues): JsonObject {
-      const patches: NamedJsonMergePatch[] = [];
       if (values.reasoningLevel === undefined) {
         throw new ModelOptionMapError("reasoningLevel requires an effective value");
       }
-      patches.push(optionPatch("reasoningLevel", reasoningLevel, values.reasoningLevel));
-      patches.push(optionPatch("maxOutputTokens", maxOutputTokens, values.maxOutputTokens));
+      const patches: NamedJsonMergePatch[] = programs.map(([option, program]) => ({
+        option, patch: program.evaluate(values[option]),
+      }));
       return applyOrderedJsonMergePatches(body, patches);
     },
   });
-}
-
-function optionPatch(
-  option: string,
-  program: ModelOptionMapProgram,
-  value: string | number,
-): NamedJsonMergePatch {
-  return { option, patch: program.evaluate(value) };
 }

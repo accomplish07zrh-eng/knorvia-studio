@@ -87,7 +87,7 @@ function decodeGroup(value: unknown): StudioGroup | null {
 
 type Loaded = {
   legacyGroups: StudioGroup[];
-  drafts: Record<string, string>;
+  drafts: Map<string, string>;
   storageIssue: StorageIssue;
 };
 
@@ -99,14 +99,16 @@ function readItem(storage: GroupStorage, key: string): string | null | undefined
   }
 }
 
-function decodeDrafts(raw: string): Record<string, string> | null {
+function decodeDrafts(raw: string): Map<string, string> | null {
   try {
     const value: unknown = JSON.parse(raw);
     if (!isRecord(value) || value.version !== 2 || !isRecord(value.drafts)) return null;
-    const entries = Object.entries(value.drafts);
-    if (entries.some(([, draft]) => typeof draft !== "string" || draft.length > GROUP_LIMITS.draft))
-      return null;
-    return Object.fromEntries(entries) as Record<string, string>;
+    const drafts = new Map<string, string>();
+    for (const [id, text] of Object.entries(value.drafts)) {
+      if (typeof text !== "string" || text.length > GROUP_LIMITS.draft) return null;
+      drafts.set(id, text);
+    }
+    return drafts;
   } catch {
     return null;
   }
@@ -126,60 +128,94 @@ function decodeLegacy(raw: string): StudioGroup[] | null {
 }
 
 function loadGroups(storage: GroupStorage | undefined): Loaded {
-  const empty: Loaded = { legacyGroups: [], drafts: {}, storageIssue: null };
+  const empty: Loaded = { legacyGroups: [], drafts: new Map(), storageIssue: null };
   if (!storage) return { ...empty, storageIssue: "unavailable" };
   const rawDrafts = readItem(storage, STUDIO_GROUP_STORAGE_KEY);
   const rawLegacy = readItem(storage, LEGACY_STUDIO_GROUP_STORAGE_KEY);
   if (rawDrafts === undefined || rawLegacy === undefined)
     return { ...empty, storageIssue: "unavailable" };
-  const drafts = rawDrafts === null ? {} : decodeDrafts(rawDrafts);
+  const drafts = rawDrafts === null ? new Map<string, string>() : decodeDrafts(rawDrafts);
   const legacyGroups = rawLegacy === null ? [] : decodeLegacy(rawLegacy);
-  // 无法解析的存储可能含有用户原数据；报告问题并禁止后续写入覆盖它。
+  // 原数据损坏或不可读时永久保护该次加载，重试不能覆盖未知内容。
   if (!drafts || !legacyGroups) return { ...empty, storageIssue: "corrupt" };
-  for (const group of legacyGroups)
-    if (group.draft && drafts[group.id] === undefined) drafts[group.id] = group.draft;
+  for (const group of legacyGroups) {
+    if (group.draft && !drafts.has(group.id)) drafts.set(group.id, group.draft);
+  }
   return { legacyGroups, drafts, storageIssue: null };
 }
 
-/** Owns only unsent frontend drafts. It has no service, runtime or message-queue dependency. */
+class GroupDraftLedger {
+  private readonly text: Map<string, string>;
+
+  constructor(initial: Loaded) {
+    this.text = new Map(initial.drafts);
+    // 保留既有 v1 首屏草稿优先级；其它 v2 草稿等 Host 定义到达后再投影。
+    for (const group of initial.legacyGroups) this.text.set(group.id, group.draft);
+  }
+
+  project(group: Omit<StudioGroup, "draft">): StudioGroup {
+    return { ...group, draft: this.text.get(group.id) ?? "" };
+  }
+
+  write(id: string, draft: string): void {
+    this.text.set(id, draft);
+  }
+
+  remove(id: string): void {
+    this.text.delete(id);
+  }
+
+  serialize(): string {
+    const entries = [...this.text].filter(([, draft]) => draft.length > 0);
+    return JSON.stringify({ version: 2, drafts: Object.fromEntries(entries) });
+  }
+}
+
+/** One draft ledger; Host definitions and ACK receipts remain memory-only projections. */
 export function createStudioGroupStore(storage: GroupStorage | undefined = browserStorage()) {
   const initial = loadGroups(storage);
-  const writesBlocked =
-    initial.storageIssue === "corrupt" || initial.storageIssue === "unavailable";
-  // 尚未出现在服务快照中的草稿（例如刚启动时），按群聊 ID 暂存，定义到达时再挂上。
-  const unattachedDrafts = { ...initial.drafts };
+  const ledger = new GroupDraftLedger(initial);
+  const writesBlocked = initial.storageIssue === "corrupt" || initial.storageIssue === "unavailable";
   return createStore<StudioGroupState>((set, get) => {
-    const draftsToPersist = () => {
-      const drafts: Record<string, string> = {};
-      for (const [id, draft] of Object.entries(unattachedDrafts)) if (draft) drafts[id] = draft;
-      for (const group of get().groups) {
-        if (group.draft) drafts[group.id] = group.draft;
-        else delete drafts[group.id];
-      }
-      return drafts;
+    const receiptRevision = (id: string): number => {
+      const revisions = get().backendRevisions;
+      return Object.prototype.hasOwnProperty.call(revisions, id) ? (revisions[id] ?? 0) : 0;
+    };
+    const migrationReady = () => {
+      const { legacyGroups, importedIds } = get();
+      const confirmed = new Set(importedIds);
+      return legacyGroups.length > 0 && legacyGroups.every((group) => confirmed.has(group.id));
     };
     const persist = () => {
       if (writesBlocked || !storage) return;
       try {
-        storage.setItem(
-          STUDIO_GROUP_STORAGE_KEY,
-          JSON.stringify({ version: 2, drafts: draftsToPersist() }),
-        );
-        if (get().storageIssue) set({ storageIssue: null });
+        storage.setItem(STUDIO_GROUP_STORAGE_KEY, ledger.serialize());
+      } catch {
+        set({ storageIssue: "write-failed" });
+        return;
+      }
+      if (get().storageIssue) set({ storageIssue: null });
+      if (!migrationReady()) return;
+      try {
+        // 迁移重试必须继续此阶段：只有最新 v2 已落盘且所有 Host 回执已确认才删 v1。
+        storage.removeItem(LEGACY_STUDIO_GROUP_STORAGE_KEY);
+        set({ legacyGroups: [] });
       } catch {
         set({ storageIssue: "write-failed" });
       }
     };
-    const commit = (groups: StudioGroup[]) => {
+    const replaceDefinition = (group: Omit<StudioGroup, "draft">): StudioGroup[] => {
+      const groups = get().groups;
+      const next = ledger.project(group);
+      return groups.some((item) => item.id === group.id)
+        ? groups.map((item) => (item.id === group.id ? next : item))
+        : [...groups, next];
+    };
+    const commitDrafts = (groups: StudioGroup[]) => {
       set({ groups });
       persist();
     };
-    const withDraft = (group: Omit<StudioGroup, "draft">): StudioGroup => {
-      const old = get().groups.find((item) => item.id === group.id);
-      const draft = old?.draft ?? unattachedDrafts[group.id] ?? "";
-      delete unattachedDrafts[group.id];
-      return { ...group, draft };
-    };
+
     return {
       groups: initial.legacyGroups,
       legacyGroups: initial.legacyGroups,
@@ -187,66 +223,45 @@ export function createStudioGroupStore(storage: GroupStorage | undefined = brows
       backendRevisions: {},
       storageIssue: initial.storageIssue,
       ensureDraft(group, revision = Number.POSITIVE_INFINITY) {
-        if ((get().backendRevisions[group.id] ?? 0) > revision) return;
+        if (receiptRevision(group.id) > revision) return;
         const old = get().groups.find((item) => item.id === group.id);
-        const next = withDraft(group);
-        if (old && JSON.stringify(old) === JSON.stringify(next)) return;
-        set({
-          groups: old
-            ? get().groups.map((item) => (item.id === group.id ? next : item))
-            : [...get().groups, next],
-        });
+        if (old && JSON.stringify(old) === JSON.stringify(ledger.project(group))) return;
+        set({ groups: replaceDefinition(group) });
       },
       acknowledgeDefinition(group, revision) {
-        if (revision < (get().backendRevisions[group.id] ?? 0)) return;
-        const old = get().groups.find((item) => item.id === group.id);
-        const accepted = withDraft(group);
+        if (revision < receiptRevision(group.id)) return;
+        const state = get();
         set({
-          groups: old
-            ? get().groups.map((item) => (item.id === group.id ? accepted : item))
-            : [...get().groups, accepted],
-          backendRevisions: { ...get().backendRevisions, [group.id]: revision },
-          importedIds: [...new Set([...get().importedIds, group.id])],
+          groups: replaceDefinition(group),
+          backendRevisions: { ...state.backendRevisions, [group.id]: revision },
+          importedIds: [...new Set([...state.importedIds, group.id])],
         });
+        if (migrationReady()) persist();
       },
       markImported(id) {
         if (get().importedIds.includes(id)) return;
-        const importedIds = [...get().importedIds, id];
-        set({ importedIds });
-        const legacy = get().legacyGroups;
-        if (!legacy.length || !legacy.every((group) => importedIds.includes(group.id))) return;
-        // 所有旧群聊都已被 Host 确认：先写入仅含草稿的新格式，成功后立即删除旧版完整副本。
-        if (writesBlocked || !storage) return;
-        persist();
-        if (get().storageIssue) return;
-        try {
-          storage.removeItem(LEGACY_STUDIO_GROUP_STORAGE_KEY);
-          set({ legacyGroups: [] });
-        } catch {
-          set({ storageIssue: "write-failed" });
-        }
+        set({ importedIds: [...get().importedIds, id] });
+        if (migrationReady()) persist();
       },
       deleteGroup(id, revision = 0) {
-        if (revision > 0 && revision < (get().backendRevisions[id] ?? 0)) return;
-        delete unattachedDrafts[id];
+        if (revision > 0 && revision < receiptRevision(id)) return;
+        ledger.remove(id);
         set({ backendRevisions: { ...get().backendRevisions, [id]: revision } });
-        commit(get().groups.filter((group) => group.id !== id));
+        commitDrafts(get().groups.filter((group) => group.id !== id));
       },
       saveDraft(id, draft) {
         if (draft.length > GROUP_LIMITS.draft) return;
         const group = get().groups.find((item) => item.id === id);
         if (!group || group.draft === draft) return;
-        // 草稿不是群聊定义的一部分，不改 updatedAt，否则会被误判为定义版本冲突。
-        commit(get().groups.map((item) => (item.id === id ? { ...item, draft } : item)));
+        ledger.write(id, draft);
+        commitDrafts(get().groups.map((item) => (item.id === id ? { ...item, draft } : item)));
       },
       clearDraftIfUnchanged(id, submitted) {
-        // 发送期间可能切群再回来输入，卸载组件的旧 ref 不足以判断最新草稿。
-        if (get().groups.find((item) => item.id === id)?.draft === submitted)
+        if (get().groups.find((item) => item.id === id)?.draft === submitted) {
           get().saveDraft(id, "");
+        }
       },
-      retrySave() {
-        persist();
-      },
+      retrySave: persist,
     };
   });
 }

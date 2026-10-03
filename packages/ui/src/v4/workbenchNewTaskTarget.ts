@@ -1,53 +1,32 @@
 import {
-  effectiveFocusedPaneId,
-  V4_PRIMARY_PANE_ID,
-  type PaneLayoutSnapshot,
-  type PaneWorkspaceScope,
+  effectiveFocusedPaneId, V4_PRIMARY_PANE_ID, type PaneLayoutSnapshot, type PaneWorkspaceScope,
 } from "@/v4/paneLayoutStore.js";
 import { selectWorkbenchGroupPaneBinding, type WorkbenchGroup } from "@/v4/workbenchGroupStore.js";
 
-export interface WorkbenchNewTaskTarget {
-  workspacePath: string;
-  workspaceIdentity?: string;
-}
+export interface WorkbenchNewTaskTarget { workspacePath: string; workspaceIdentity?: string; }
 
-function targetFromScope(scope: PaneWorkspaceScope): WorkbenchNewTaskTarget {
-  return {
-    workspacePath: scope.workspacePath,
-    ...(scope.workspaceIdentity?.trim() ? { workspaceIdentity: scope.workspaceIdentity } : {}),
-  };
-}
-
-export function resolveWorkbenchNewTaskTarget({
-  activeWorkspacePath,
-  activeWorkspaceIdentity,
-  activeGroup,
-  paneLayout,
-}: {
+export function resolveWorkbenchNewTaskTarget(input: {
   activeWorkspacePath: string | null;
   activeWorkspaceIdentity?: string | null;
   activeGroup: WorkbenchGroup | null;
   paneLayout: PaneLayoutSnapshot;
 }): WorkbenchNewTaskTarget | null {
-  if (activeGroup) {
-    const binding = selectWorkbenchGroupPaneBinding(activeGroup, activeGroup.focusedPaneId);
-    if (binding) {
-      return targetFromScope(binding.workspaceScope);
-    }
+  const candidates: Array<() => PaneWorkspaceScope | null> = [
+    () => input.activeGroup
+      ? selectWorkbenchGroupPaneBinding(input.activeGroup, input.activeGroup.focusedPaneId)?.workspaceScope ?? null
+      : null,
+    () => {
+      const id = effectiveFocusedPaneId(input.paneLayout);
+      return id === V4_PRIMARY_PANE_ID ? null : input.paneLayout.panes[id]?.workspaceScope ?? null;
+    },
+    () => input.activeWorkspacePath ? {
+      workspacePath: input.activeWorkspacePath, workspaceIdentity: input.activeWorkspaceIdentity ?? undefined,
+    } : null,
+  ];
+  for (const read of candidates) {
+    const scope = read();
+    if (scope) return { workspacePath: scope.workspacePath,
+      ...(scope.workspaceIdentity?.trim() ? { workspaceIdentity: scope.workspaceIdentity } : {}) };
   }
-
-  const focusedPaneId = effectiveFocusedPaneId(paneLayout);
-  if (focusedPaneId !== V4_PRIMARY_PANE_ID) {
-    const binding = paneLayout.panes[focusedPaneId];
-    if (binding) {
-      return targetFromScope(binding.workspaceScope);
-    }
-  }
-
-  return activeWorkspacePath
-    ? {
-        workspacePath: activeWorkspacePath,
-        ...(activeWorkspaceIdentity?.trim() ? { workspaceIdentity: activeWorkspaceIdentity } : {}),
-      }
-    : null;
+  return null;
 }

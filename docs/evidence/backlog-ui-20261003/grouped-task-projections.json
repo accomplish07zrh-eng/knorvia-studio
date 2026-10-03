@@ -1,0 +1,59 @@
+{
+  "baseline": "3b1ff0f715a43cbc51c576fd524479a08e58e203",
+  "branch": "rewrite/ui-20261003",
+  "scope": "Named grouped task projection owners only; byte record, not verification",
+  "sourceExposure": "view.ts/virtualized-scroll.ts and actual shared, hook and WorkspaceGroupedTasksSection consumers read for contract extraction",
+  "verification": "NOT RUN per user instruction; all runtime/types/lint/build/source/audit checks deferred",
+  "files": [
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/view.ts",
+      "baseBlob": "ecfec0e0509342d55d4e1dcb2439f0e9ed0dcd10",
+      "baseSha256": "b15ca18f675dafff1d3a94c7fc6d2a346a33d887541bc8cafbc3c27abd68da3d",
+      "candidateSha256": "c5122a1c4d9c32bbbf97a5e917705d830617685ac56fb7b1ea32ca9703e171a0",
+      "candidateBytes": 773,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewEdit.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "57c244b157ccfe317994dcec7d1b424fef075526dcbc34f11c48f4a74f356248",
+      "candidateBytes": 3792,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewSelectors.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "67fce76f49cd2b4eb25d0c21e0bcb24b73d3911b7ea9715503bb994040ab84da",
+      "candidateBytes": 3716,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/viewCommands.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "093726df0570f0d984bc91b2385fd35f5dd2d69b5bac6745e92c8b32b26aaf9e",
+      "candidateBytes": 5005,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/src/workspace-grouped-tasks/virtualized-scroll.ts",
+      "baseBlob": "9718bf27dbf02ed191c5f6787f4c8c69e33c4df9",
+      "baseSha256": "6cfaf22cee40ca4e387850391a222a9b7a9775578cbbb944758df764e0ab2c66",
+      "candidateSha256": "1d6875b1ed8a627bdadd18f855185ca4c61fe2dd490dfbe0d252488c99ccb877",
+      "candidateBytes": 1787,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    },
+    {
+      "path": "packages/ui/test/ui-next-grouped-task-projections-20261003.test.ts",
+      "baseBlob": null,
+      "baseSha256": null,
+      "candidateSha256": "31c28eeb43e428e6c99217643525bde7e94a09a48608d908e3bdc286ac06837f",
+      "candidateBytes": 11671,
+      "licenseReview": "pending; Apache-2.0 transition; no MIT claim"
+    }
+  ],
+  "candidateCheckpoint": "4f2f49f6ee9564404fe3e3dbb8d9e3060cb5ea81",
+  "receiptInterpretation": "Historical candidate bytes at this commit; later spec additions do not retroactively change this record"
+}
