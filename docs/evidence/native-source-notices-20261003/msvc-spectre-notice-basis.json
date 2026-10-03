@@ -1,0 +1,8 @@
+{
+  "sourceURL": "https://raw.githubusercontent.com/microsoft/rust_msvc_spectre_libs/ba10bb6445cd033defab3c573d554de3a8fe10fd/LICENSE",
+  "sourceCommit": "ba10bb6445cd033defab3c573d554de3a8fe10fd",
+  "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+  "bytes": 1141,
+  "matchesPublishedCrate": true,
+  "licenseScope": "msvc_spectre_libs build helper only; not MSVC libraries, private Microsoft Rust standard library, or the application"
+}

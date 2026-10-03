@@ -48704,7 +48704,7 @@ written authorization of the copyright holder.
 
 
 
-===== windows-sys 0.59.0; windows-targets 0.52.6; windows_aarch64_gnullvm 0.52.6; windows_aarch64_msvc 0.52.6; windows_i686_gnu 0.52.6; windows_i686_gnullvm 0.52.6; windows_i686_msvc 0.52.6; windows_x86_64_gnu 0.52.6; windows_x86_64_gnullvm 0.52.6; windows_x86_64_msvc 0.52.6 =====
+===== windows-sys 0.59.0; windows-targets 0.52.6; windows_aarch64_gnullvm 0.52.6; windows_aarch64_msvc 0.52.6; windows_i686_gnu 0.52.6; windows_i686_gnullvm 0.52.6; windows_i686_msvc 0.52.6; windows_x86_64_gnu 0.52.6; windows_x86_64_gnullvm 0.52.6; windows_x86_64_msvc 0.52.6; msvc_spectre_libs 0.1.3 =====
 
 
     MIT License

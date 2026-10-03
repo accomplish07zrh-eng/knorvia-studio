@@ -1,0 +1,27 @@
+{
+  "observedAt": "2026-10-03",
+  "recordedReferenceRevision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+  "referenceArchiveNoticeNamedFiles": 0,
+  "publisherDeclaredSkillLicense": "MIT",
+  "upstreamIssue": {
+    "number": 249,
+    "state": "open",
+    "title": "Add a top-level LICENSE file matching the README's MIT declaration",
+    "html_url": "https://github.com/vercel-labs/agent-skills/issues/249",
+    "updated_at": "2026-05-07T14:16:40Z",
+    "bodySha256": "398d2ac6e26047df1eedd00adf85c34905f633b5969b1ae8745692509308d1ec",
+    "observation": "Reporter described the declared MIT license and missing standalone root license. This is a downstream report, not a publisher grant."
+  },
+  "upstreamPr": {
+    "number": 294,
+    "state": "open",
+    "merged": false,
+    "title": "docs: add top-level MIT license file",
+    "html_url": "https://github.com/vercel-labs/agent-skills/pull/294",
+    "updated_at": "2026-06-23T12:34:02Z",
+    "bodySha256": "79bd66c511e614ca27e50540c3ac8adb27e5121d86310c9ccef2393d0aef70d6",
+    "observation": "Contributor proposes adding a complete MIT file. The proposal remains open and unmerged."
+  },
+  "upstreamPrHead": "3538574a32d6e87ecb67d0f5e73a26992471d503",
+  "qualification": "The open proposal belongs to a contributor fork and is unmerged. Its proposed copyright holder/text is not an adopted publisher grant, not used as the retained original license. The MIT declarations and Shu Ding/Vercel attribution remain preserved; missing file is not a finding of infringement."
+}

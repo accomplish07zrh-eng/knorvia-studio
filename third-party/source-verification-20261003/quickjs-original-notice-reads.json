@@ -1,0 +1,68 @@
+{
+  "observedAt": "2026-10-03T10:46:02.961896+00:00",
+  "sdkTree": "249054e5427023344c1906afde0e9073714d1930",
+  "llvmRevision": "4434dabb69916856b824f68a64b029c67175e532",
+  "wasiLibcRevision": "2fc32bc81b9f07f8d9525edea59bfbaf760c06d6",
+  "reads": [
+    {
+      "component": "wasi-sdk",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-sdk/249054e5427023344c1906afde0e9073714d1930/LICENSE",
+      "httpStatus": 200,
+      "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+      "bytes": 12243,
+      "qualification": "Exact SDK/source reference original response; not a claim that every component is linked in every artifact. Failed responses retained and never substituted with a different revision.",
+      "matchesExistingRetainedNotice": true,
+      "retainedResponse": "third-party/upstream/268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt"
+    },
+    {
+      "component": "wasi-libc",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/LICENSE",
+      "httpStatus": 200,
+      "sha256": "2711a8b5a5cdfef0e639f96c1aca12ae23d7d64a02d0507f1bdf14d2b27bbc3a",
+      "bytes": 910,
+      "qualification": "Exact SDK/source reference original response; not a claim that every component is linked in every artifact. Failed responses retained and never substituted with a different revision.",
+      "matchesExistingRetainedNotice": true,
+      "retainedResponse": "third-party/upstream/2711a8b5a5cdfef0e639f96c1aca12ae23d7d64a02d0507f1bdf14d2b27bbc3a.txt"
+    },
+    {
+      "component": "wasi-libc copyright",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/2fc32bc81b9f07f8d9525edea59bfbaf760c06d6/COPYRIGHT",
+      "httpStatus": 404,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "bytes": 14,
+      "qualification": "Exact SDK/source reference original response; not a claim that every component is linked in every artifact. Failed responses retained and never substituted with a different revision.",
+      "matchesExistingRetainedNotice": false,
+      "retainedResponse": "docs/evidence/post-main-source-verification-20261003/responses/d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed.txt"
+    },
+    {
+      "component": "LLVM libc++",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/4434dabb69916856b824f68a64b029c67175e532/libcxx/LICENSE.TXT",
+      "httpStatus": 200,
+      "sha256": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+      "bytes": 16703,
+      "qualification": "Exact SDK/source reference original response; not a claim that every component is linked in every artifact. Failed responses retained and never substituted with a different revision.",
+      "matchesExistingRetainedNotice": true,
+      "retainedResponse": "third-party/upstream/539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b.txt"
+    },
+    {
+      "component": "LLVM libc++abi",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/4434dabb69916856b824f68a64b029c67175e532/libcxxabi/LICENSE.TXT",
+      "httpStatus": 200,
+      "sha256": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c",
+      "bytes": 16706,
+      "qualification": "Exact SDK/source reference original response; not a claim that every component is linked in every artifact. Failed responses retained and never substituted with a different revision.",
+      "matchesExistingRetainedNotice": true,
+      "retainedResponse": "third-party/upstream/e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c.txt"
+    },
+    {
+      "component": "LLVM compiler-rt",
+      "url": "https://raw.githubusercontent.com/llvm/llvm-project/4434dabb69916856b824f68a64b029c67175e532/compiler-rt/LICENSE.TXT",
+      "httpStatus": 200,
+      "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+      "bytes": 16708,
+      "qualification": "Exact SDK/source reference original response; not a claim that every component is linked in every artifact. Failed responses retained and never substituted with a different revision.",
+      "matchesExistingRetainedNotice": true,
+      "retainedResponse": "third-party/upstream/1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d.txt"
+    }
+  ]
+}

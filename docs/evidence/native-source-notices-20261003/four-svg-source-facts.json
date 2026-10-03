@@ -1,0 +1,156 @@
+{
+  "mainInput": "59517d9699519b0a7a44980da27df29d45f0e91e",
+  "scope": "Only four Desktop SVG kinds plus read-only Web duplicates; no Web or UI edits",
+  "files": [
+    {
+      "name": "docx.svg",
+      "visual": "Blue folded-corner file with white DOCX letters",
+      "files": [
+        {
+          "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+          "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+          "bytes": 1533,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "650a62a706fec2b397c1fd4c188d7765661fde03",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/desktop/src/renderer/public/material-icons/docx.svg"
+        },
+        {
+          "path": "packages/web/public/material-icons/docx.svg",
+          "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+          "bytes": 1533,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "650a62a706fec2b397c1fd4c188d7765661fde03",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/web/public/material-icons/docx.svg"
+        }
+      ],
+      "desktopWebSameBytes": true,
+      "externalHrefs": [],
+      "observedStructure": "Inline vector paths; folder additionally uses inline gradient definitions; no image/font/external-use element",
+      "consumer": "Retained public file-type artwork. Current FileDisplay aliases docx to word. This bounded consumer observation is not a repository-wide unused-asset claim."
+    },
+    {
+      "name": "folder.svg",
+      "visual": "Orange/yellow gradient folder",
+      "files": [
+        {
+          "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+          "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+          "bytes": 2003,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "ebd721c1ad5d74e142d8ae91c385abc84bb02eb8",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/desktop/src/renderer/public/material-icons/folder.svg"
+        },
+        {
+          "path": "packages/web/public/material-icons/folder.svg",
+          "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+          "bytes": 2003,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "ebd721c1ad5d74e142d8ae91c385abc84bb02eb8",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/web/public/material-icons/folder.svg"
+        }
+      ],
+      "desktopWebSameBytes": true,
+      "externalHrefs": [],
+      "observedStructure": "Inline vector paths; folder additionally uses inline gradient definitions; no image/font/external-use element",
+      "consumer": "FileDisplay directory icon uses folder"
+    },
+    {
+      "name": "pptx.svg",
+      "visual": "Red folded-corner file with white PPTX letters",
+      "files": [
+        {
+          "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+          "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+          "bytes": 1089,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "0848ab4d3e31ad056afdab02ce5e5982e2694791",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/desktop/src/renderer/public/material-icons/pptx.svg"
+        },
+        {
+          "path": "packages/web/public/material-icons/pptx.svg",
+          "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+          "bytes": 1089,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "0848ab4d3e31ad056afdab02ce5e5982e2694791",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/web/public/material-icons/pptx.svg"
+        }
+      ],
+      "desktopWebSameBytes": true,
+      "externalHrefs": [],
+      "observedStructure": "Inline vector paths; folder additionally uses inline gradient definitions; no image/font/external-use element",
+      "consumer": "Retained public file-type artwork. Current FileDisplay aliases pptx to powerpoint. This bounded consumer observation is not a repository-wide unused-asset claim."
+    },
+    {
+      "name": "xlsx.svg",
+      "visual": "Green folded-corner file with white XLSX letters",
+      "files": [
+        {
+          "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+          "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+          "bytes": 1276,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "f5e45fdd599af9f818b3daf95c14d9963325d667",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/desktop/src/renderer/public/material-icons/xlsx.svg"
+        },
+        {
+          "path": "packages/web/public/material-icons/xlsx.svg",
+          "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+          "bytes": 1276,
+          "sourceUnchangedFromMain": true,
+          "gitBlob": "f5e45fdd599af9f818b3daf95c14d9963325d667",
+          "githubBlobURL": "https://github.com/accomplish07zrh-eng/knorvia-studio/blob/59517d9699519b0a7a44980da27df29d45f0e91e/packages/web/public/material-icons/xlsx.svg"
+        }
+      ],
+      "desktopWebSameBytes": true,
+      "externalHrefs": [],
+      "observedStructure": "Inline vector paths; folder additionally uses inline gradient definitions; no image/font/external-use element",
+      "consumer": "Retained public file-type artwork. Current FileDisplay aliases xlsx to table. This bounded consumer observation is not a repository-wide unused-asset claim."
+    }
+  ],
+  "userCreatorStatement": "我的Claude自绘的",
+  "userFollowup": "不确定，我不知道是哪些，skill好像也是自己的",
+  "creatorCoverage": "Unmatched pending informed recognition by parent; no blanket author/rights/third-party authorization decision",
+  "publisherDeclaration": "Historical Material Icon Theme declaration retained as inherited context. Path/name or a missing same-named publisher source does not establish infringement or licensing authority. Existing source/review records unchanged.",
+  "observedLimits": "No external source references or third-party copyright metadata in these SVG bytes. Generic shapes/extension letters do not identify an author, branded logo or font source. No brand/material claim is inferred.",
+  "preview": {
+    "sourceCommit": "59517d9699519b0a7a44980da27df29d45f0e91e",
+    "preview": "/tmp/knorvia-native-four-svg-originals-20261003.png",
+    "sha256": "ae1e49ebeb4b2ef3efca2babd7d4ababfa1a3c4e21d65e5c84e112fb92c8322e",
+    "sources": [
+      {
+        "name": "docx",
+        "path": "packages/desktop/src/renderer/public/material-icons/docx.svg",
+        "sha256": "2d19ec83e3cba9194dc0d4beb846fea25c3ddc11bea1768b88ea334a4b897d73",
+        "sourceUnchanged": true,
+        "renderer": "Inkscape; proportional raster export, no SVG/source modifications"
+      },
+      {
+        "name": "folder",
+        "path": "packages/desktop/src/renderer/public/material-icons/folder.svg",
+        "sha256": "bb1bcddac3bdd54bdd88afdcd4406dbf9aa7076bb4b21652306f25bada93085e",
+        "sourceUnchanged": true,
+        "renderer": "Inkscape; proportional raster export, no SVG/source modifications"
+      },
+      {
+        "name": "pptx",
+        "path": "packages/desktop/src/renderer/public/material-icons/pptx.svg",
+        "sha256": "c5e6b7fff252abc8df154da78e59d3e225d5715468f0459aa9ad4c746c73ff24",
+        "sourceUnchanged": true,
+        "renderer": "Inkscape; proportional raster export, no SVG/source modifications"
+      },
+      {
+        "name": "xlsx",
+        "path": "packages/desktop/src/renderer/public/material-icons/xlsx.svg",
+        "sha256": "5cda3decabc9cde5f0089e95aaf9a1800de013c3cc10b088863e9a4a3eeb88ef",
+        "sourceUnchanged": true,
+        "renderer": "Inkscape; proportional raster export, no SVG/source modifications"
+      }
+    ]
+  },
+  "previewLibraryReceipt": "svg-preview-library.json",
+  "sourceConsumerPaths": [
+    "packages/ui/src/lib/fileDisplay.tsx",
+    "packages/ui/src/lib/fileDisplayHelpers.ts"
+  ],
+  "latestInstruction": "Stop the MIT-specific closeout; application remains Apache-2.0, preserve third-party facts/notice and user declaration"
+}

@@ -1,0 +1,76 @@
+[
+  {
+    "id": "quickjs-wasi",
+    "sourceRevision": "cc1fea4a6a4ac1d960e0db68d35e1459064a1a23",
+    "url": "https://codeload.github.com/vercel-labs/quickjs-wasi/tar.gz/cc1fea4a6a4ac1d960e0db68d35e1459064a1a23",
+    "archiveSha256": "21d280b8c2a8c3e9c9666c9f75418248397262a87c3b9c08e8ae19fc615f93e1",
+    "regularSelectedMembers": [
+      {
+        "path": ".gitmodules",
+        "bytes": 93,
+        "sha256": "16eac555a4cdc62d0d604c51251cd5efeeba00f1f739505a1f16633b84145696"
+      },
+      {
+        "path": "Makefile",
+        "bytes": 15417,
+        "sha256": "417fa227d75b1e22a15d8389ca8b5e8b7b86241c3b1b17288d20523016ef6fa6"
+      },
+      {
+        "path": "package.json",
+        "bytes": 2786,
+        "sha256": "929926b0c65241a5458e7896139cfa1ff6fe19e2567c154aa12c919dcf387285"
+      },
+      {
+        "path": "src/base64.ts",
+        "bytes": 1675,
+        "sha256": "b6031f1e2e4d45929c6bf315060bfd857547e20e08244c4b332b68bef18bc0b3"
+      },
+      {
+        "path": "src/crypto.ts",
+        "bytes": 2043,
+        "sha256": "2cbf18894e584d96ca339c006e916f317d67fcfe22a4c53aee08deb5c8fef6dd"
+      },
+      {
+        "path": "src/encoding.ts",
+        "bytes": 1279,
+        "sha256": "06fa00ddac707ca89cfd7ac6914fa9e8599ca421dedb5edbde0172433df74a52"
+      },
+      {
+        "path": "src/extensions.ts",
+        "bytes": 18283,
+        "sha256": "42f609ef7d34aebb43a3af558202feb81eca19c4154a72271f1a89e4c6dd2f26"
+      },
+      {
+        "path": "src/headers.ts",
+        "bytes": 1152,
+        "sha256": "b6eadf4eb378c992f054b691401c2d83b2e9950a0a6f13e3b392e3257a4d1400"
+      },
+      {
+        "path": "src/index.ts",
+        "bytes": 85596,
+        "sha256": "4eb88f84d433eece1c3cada550c54d257bd4480ad9d48b9c1f286d556b20d70a"
+      },
+      {
+        "path": "src/structured-clone.ts",
+        "bytes": 1484,
+        "sha256": "3e1909a1b35139816cfa74fa60434574ee4f0e6f42883e97cdca8aedf8978ce0"
+      },
+      {
+        "path": "src/url.ts",
+        "bytes": 1213,
+        "sha256": "2a589d5369d729486d3904474be0a7bf93825dca0235ed2f9a113a2805cd4974"
+      },
+      {
+        "path": "src/version.ts",
+        "bytes": 96,
+        "sha256": "791db1d26a9fcb9f7384e15c19b8d811bdb2aa5582570f2e93bbd6aed9436e6b"
+      },
+      {
+        "path": "src/wasi-shim.ts",
+        "bytes": 4891,
+        "sha256": "3e0ecc30735bb10c33dab758d59108bc37e86fd54891d5196231306caa9acae9"
+      }
+    ],
+    "scope": "Pinned build root metadata and wrapper source; Git submodule bodies are not included by this GitHub archive."
+  }
+]
