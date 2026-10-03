@@ -96,3 +96,24 @@ operation. Final integration owns old/current preload, public declarations,
 browser/native gesture, UI/root/Host consumers and multi-platform acceptance.
 After this batch and metadata/remote confirmation, freeze the assigned thirteen
 renderer entries on the existing task/branch/draft PR; do not broaden the scope.
+
+## Authorized client declaration follow-up
+
+The parent confirmed packages/client/** belongs to this same lane and authorized
+closing the declaration gap after checkpoint124ed9e32715e6e0fb2caf1b1aa5bd8eac2de83e.
+Change only packages/client/src/globals.d.ts by adding the three existing keys to
+its existing Required<Pick<IPlatformService,...>> native surface. Actual preload
+always exposes these methods; reuse the exact shared signatures:
+
+| Method | Existing runtime/shared signature |
+| --- | --- |
+| previewLocalDiagnostics | (request: LocalDiagnosticRequest) -> Promise<LocalDiagnosticPreview> |
+| exportLocalDiagnostics | (id: string) -> Promise<LocalDiagnosticExportResult> |
+| checkReleaseUpdate | () -> Promise<ReleaseUpdateCheckResult> |
+
+All types come from the existing shared public entry. No new schema, wire channel,
+capability, runtime behavior, renderer/preload implementation or data operation.
+This closes the static declaration omission only; no new algorithm/origin/MIT
+credit and no type-check/consumer acceptance. Source diff/byte/Git/PR metadata only,
+no tests/lint/types/build/other verification. The server-cli runner remains for
+final integration as instructed.

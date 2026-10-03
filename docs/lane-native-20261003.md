@@ -431,3 +431,25 @@ resource-window persisted theme/font/storage, browser/capability compatibility,
 CUA helper/native gesture and telemetry/config/privacy/heap consumers on all
 supported platforms. Global source/rights/license review and inventories remain
 integration-owned; no MIT grant, main merge or deployment here.
+
+## Client diagnostic declaration follow-up
+
+The parent confirmed packages/client/** remains this lane's exclusive scope.
+After renderer checkpoint `124ed9e32715e6e0fb2caf1b1aa5bd8eac2de83e`,
+the declaration omission recorded above is now closed in
+`packages/client/src/globals.d.ts`: a three-line addition to the existing
+Required<Pick<IPlatformService,...>> includes previewLocalDiagnostics,
+exportLocalDiagnostics and checkReleaseUpdate. Existing shared types exactly
+match the unconditional preload signatures: LocalDiagnosticRequest ->
+Promise<LocalDiagnosticPreview>, string id -> Promise<LocalDiagnosticExportResult>,
+and no arguments -> Promise<ReleaseUpdateCheckResult>.
+
+The [authorized spec follow-up](../specs/knorvia-next-platform-renderer-routing-20261003.md#authorized-client-declaration-follow-up)
+and [byte/signature dependency binding](evidence/backlog-platform-client-diagnostic-declarations-20261003/bindings.json)
+record this declaration-only correction. No runtime/preload/renderer/shared
+source, schema, channel, capability or data behavior changed. No new owner or
+independent-source/MIT credit; all existing attribution/license facts remain.
+No new tests were added and no tests/lint/types/build/other validation was run.
+The prior44 scenarios remain unrun. Actual declaration/consumer/type acceptance,
+source/rights reconciliation and server-cli runner integration remain deferred.
+Continue to freeze on the same branch/draft PR after commit/push/remote metadata.
