@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -24,8 +25,13 @@ const selector = await read(new URL("./workflow-node-publication-current.json", 
 assert.equal(sha(selector), "ca126a097ad5ce750ccb6f4a09c21ed20042c9ea222bccc9e8a9ad1df58aa5f2");
 export const pins: { files: Record<string, string> } = JSON.parse(selector);
 export async function loadCurrent(readArtifact = read) {
-  for (const [path, pin] of Object.entries(pins.files))
-    assert.equal(sha(await readArtifact(new URL(path, root))), pin, path);
+  await verifyCurrentArtifacts(
+    "workflow-node-publication-current.json",
+    selector,
+    pins.files,
+    root,
+    readArtifact,
+  );
   assert.equal(
     await readArtifact(new URL("dist/workflow/scheduler/node-runner.d.ts", root)),
     archive.declaration,
@@ -53,7 +59,12 @@ function historical(code: string, location: string, overrides: Record<string, st
 }
 const oldNodeURL = historical(archive.compiled, "workflow/scheduler/node-runner");
 export const baseline = (await import(oldNodeURL)) as typeof current;
-const callerJS = await read(new URL("dist/workflow/scheduler.js", root));
+// 当前 scheduler 继续正常加载；历史调用者来自已经保存且摘要吻合的真实 archive。
+const schedulerArchive = JSON.parse(
+  await read(new URL("./workflow-scheduler-observation-baseline.json", import.meta.url)),
+);
+const callerJS: string = schedulerArchive.compiled;
+assert.equal(sha(callerJS), schedulerArchive.emittedSha256);
 assert.equal(sha(callerJS), archive.callerEmittedSha256);
 export const oldScheduler = (await import(
   historical(callerJS, "workflow/scheduler", {

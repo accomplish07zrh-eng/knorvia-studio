@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.ts";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -14,8 +15,13 @@ const pinsText = await read("test/workflow-run-loop-current.json");
 assert.equal(sha(pinsText), "6348e165702fcbf337af0dfa405c348afe96f7aa7d45956f2238487519e9a6d3");
 const pins = JSON.parse(pinsText);
 async function select(reader = read) {
-  for (const [path, hash] of Object.entries(pins.files))
-    assert.equal(sha(await reader(path)), hash, path);
+  await verifyCurrentArtifacts(
+    "workflow-run-loop-current.json",
+    pinsText,
+    pins.files,
+    core,
+    (url) => reader(url.href.slice(core.href.length)),
+  );
   return import(new URL("dist/workflow/expert/run-loop.js", core));
 }
 const current = await select();

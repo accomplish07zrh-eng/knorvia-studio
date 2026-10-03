@@ -1,6 +1,7 @@
 // Owned synthetic activity rows; archived publisher-derived prose remains attributed.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 import {
   emitted,
   load,
@@ -17,10 +18,24 @@ import {
   gate,
 } from "./workflow-run-summary-fixture.js";
 export { emitted, sha, entry, handlers, createToolRegistry };
-export const archive = JSON.parse(
-  await readFile(new URL("./workflow-run-activity-baseline.json", import.meta.url), "utf8"),
+const archiveText = await readFile(
+  new URL("./workflow-run-activity-baseline.json", import.meta.url),
+  "utf8",
 );
+export const archive = JSON.parse(archiveText);
 assert.equal(sha(archive.compiled), archive.compiledSha256);
+await verifyCurrentArtifacts(
+  "workflow-run-activity-baseline.json",
+  archiveText,
+  {
+    "src/tool/handlers/get-workflow-run-format-roster.ts": archive.sourceSha256,
+    "dist/tool/handlers/get-workflow-run-format-roster.js": archive.compiledSha256,
+    "dist/tool/handlers/get-workflow-run-format-roster.d.ts": archive.declarationSha256,
+    "dist/tool/handlers/get-workflow-run-format.js": archive.parentEmittedSha256,
+  },
+  new URL("../", import.meta.url),
+  (url) => readFile(url, "utf8"),
+);
 function moduleUrl(compiled: string, name: string, overrides: Record<string, string> = {}) {
   const mapped = compiled.replace(/from "([^"]+)"/gu, (_match, specifier) => {
     const resolved =
@@ -41,10 +56,22 @@ function moduleUrl(compiled: string, name: string, overrides: Record<string, str
 const oldUrl = moduleUrl(archive.compiled, "get-workflow-run-format-roster");
 export const old = await import(oldUrl);
 export const current = await load("tool/handlers/get-workflow-run-format-roster");
-const parent = await readFile(
-  new URL("../dist/tool/handlers/get-workflow-run-format.js", import.meta.url),
+// 从精确旧 source 重建并吻合原 parent 摘要；当前 dist 不再冒充历史字节。
+const parentHistoryText = await readFile(
+  new URL("./workflow-run-activity-parent-history-20261003.json", import.meta.url),
   "utf8",
 );
+assert.equal(
+  sha(parentHistoryText),
+  "2ed9b88196ca6cdd2890c3a0761aac00611cabc2753bd27075d89b182045fb1f",
+);
+const parentHistory = JSON.parse(parentHistoryText);
+assert.equal(parentHistory.sourceCommit, archive.baseline);
+assert.equal(
+  parentHistory.sourceSha256,
+  "5771b17467fb51cf4f77374c956cf194714ca581e8f0976a9a8928842969f21b",
+);
+const parent: string = parentHistory.compiled;
 assert.equal(sha(parent), archive.parentEmittedSha256);
 const oldFormat = (
   await import(

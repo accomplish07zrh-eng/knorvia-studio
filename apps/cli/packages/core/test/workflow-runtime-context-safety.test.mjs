@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.ts";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -13,8 +14,13 @@ for (const name of ["source", "compiled", "declaration"])
 const pinText = await read("test/workflow-runtime-context-current.json");
 assert.equal(sha(pinText), "4829e023bd3862f49afac026ca9e26c024f83f36452a882ffc6cf61e05abad88");
 async function select(reader = read) {
-  for (const [path, hash] of Object.entries(JSON.parse(pinText).files))
-    assert.equal(sha(await reader(path)), hash, path);
+  await verifyCurrentArtifacts(
+    "workflow-runtime-context-current.json",
+    pinText,
+    JSON.parse(pinText).files,
+    core,
+    (url) => reader(url.href.slice(core.href.length)),
+  );
   return import(new URL("dist/workflow/expert/runtime-context.js", core));
 }
 const current = await select();

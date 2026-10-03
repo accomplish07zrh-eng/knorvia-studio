@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.ts";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -18,8 +19,13 @@ const currentText = await read("test/workflow-phase-runner-current.json");
 assert.equal(sha(currentText), "1ad6917f650d5c5ff5af80e9cdfff69f91d2e47edfb4e5663f97f2ebd0013d7d");
 const { files } = JSON.parse(currentText);
 async function select(reader = read) {
-  for (const [path, digest] of Object.entries(files))
-    assert.equal(sha(await reader(path)), digest, path);
+  await verifyCurrentArtifacts(
+    "workflow-phase-runner-current.json",
+    currentText,
+    files,
+    core,
+    (url) => reader(url.href.slice(core.href.length)),
+  );
   return import(new URL("dist/workflow/expert/phase-runner.js", core));
 }
 const current = await select();

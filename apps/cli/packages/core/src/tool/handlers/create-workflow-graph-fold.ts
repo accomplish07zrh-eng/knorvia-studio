@@ -39,6 +39,8 @@ export interface RawEdge {
 export function foldPhaseEdges(raw: readonly RawEdge[]): RawEdge[] {
   const folded = foldPairs(raw);
   const componentOf = componentsOf(folded);
+  // Map 按 SameValueZero 认同 NaN 分量；交给有限端点 reducer 会把该边误当见证删掉。
+  const sameComponent = (from: string, to: string): boolean => from === to || Object.is(from, to);
   const keyOf = (from: string, to: string, back: boolean): string => `${from} ${to} ${back}`;
   const bindings: { edge: RawEdge; from: string; to: string }[] = [];
   const candidates: ReducibleEdge[] = [];
@@ -50,7 +52,7 @@ export function foldPhaseEdges(raw: readonly RawEdge[]): RawEdge[] {
     const from = componentOf.get(edge.from) ?? edge.from;
     const to = componentOf.get(edge.to) ?? edge.to;
     bindings.push({ edge, from, to });
-    if (from === to) continue;
+    if (sameComponent(from, to)) continue;
     const key = keyOf(from, to, edge.back);
     if (candidateKeys.has(key)) continue;
     candidateKeys.add(key);
@@ -63,7 +65,7 @@ export function foldPhaseEdges(raw: readonly RawEdge[]): RawEdge[] {
   );
   const result: RawEdge[] = [];
   for (const { edge, from, to } of bindings) {
-    if (from === to || kept.has(keyOf(from, to, edge.back))) result.push(edge);
+    if (sameComponent(from, to) || kept.has(keyOf(from, to, edge.back))) result.push(edge);
   }
   return result;
 }

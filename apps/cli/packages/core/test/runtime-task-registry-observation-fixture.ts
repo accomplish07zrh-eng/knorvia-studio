@@ -1,3 +1,4 @@
+import { verifyCurrentArtifacts } from "./current-artifact-receipt-20261003.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -17,8 +18,13 @@ assert.equal(sha(selector), "dc8d21ef4beb2f4d87a60c41bf72825a8448c1290b47f45097f
 export const pins: { baseline: string; files: Record<string, string> } = JSON.parse(selector);
 
 export async function loadCurrent(readArtifact = read) {
-  for (const [path, expected] of Object.entries(pins.files))
-    assert.equal(sha(await readArtifact(new URL(path, root))), expected, path);
+  await verifyCurrentArtifacts(
+    "runtime-task-registry-observation-pins.json",
+    selector,
+    pins.files,
+    root,
+    readArtifact,
+  );
   return import(new URL(`${folder}/runtime-task/registry.${extension}`, root).href) as Promise<
     typeof import("../src/runtime-task/registry.js")
   >;
