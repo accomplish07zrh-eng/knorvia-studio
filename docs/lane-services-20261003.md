@@ -39,7 +39,8 @@ selected again solely because licensing classification remains pending.
 ProtocolClient origin and creation/studio-runtime ownership evidence remain
 unresolved; no independent/MIT completion is inferred from the directory.
 The complete protocol-client candidate is recorded separately in batch 3 below;
-creation/studio-runtime still require bounded owner selection and reconstruction.
+creation/studio-runtime still require bounded source/owner decisions. Missing
+origin records alone do not establish another complete reconstruction boundary.
 
 ## Batch 1 — session lifecycle
 
@@ -126,6 +127,23 @@ Its parent accepted-hash HOLD remains integrator-owned. **UNVERIFIED:** source
 and differences were read; no additional test files or executable validation
 were added/run in this source-focused batch.
 
+Published source commits are session lifecycle
+`4f9107d0a722830c54ac44127d8a3298aa4bd78d`, task-index ingestion
+`5b0b53522d235397cf435a627393c0bf5818d28c` and protocol request lifetime
+`ab99bf38803664c9d77b7804e369d2cc65682389`.
+Both execution reconnections retained the original branch and modifications;
+there was no workspace reset, replacement task or source loss.
+
+The examined creation origin investigation explicitly recommends provisional
+retention of its seven feature owners; no substantive inherited whole body was
+demonstrated by its limited comparison. Keep that decision and its origin/rights
+uncertainty, rather than count missing ancestor/review material as proof of a
+needed rewrite. The small deferred-draft registry was also explicitly deferred in
+the earlier retry screen; it remains a retained identity-key port, not a new
+complete-owner result. Studio-runtime feature ownership and any next substantive
+source boundary still need reconciliation; this checkpoint is not whole-services
+or whole-project independence acceptance.
+
 ## Integrator dependencies and remaining acceptance
 
 - Confirm any parent accepted/historical sessionService/taskIndexSyncer binding
@@ -136,8 +154,8 @@ were added/run in this source-focused batch.
 - Final combination must verify Agent/runtime → task-index/session → Host/Main
   and UI, including continuous Desktop and replayable mobile behavior, plus
   protocol timeout/abort/response/close races and process-manager health/idle
-  boundaries. Shared
-  contracts/root configuration/CI/global provenance are integrator-owned.
+  boundaries. Shared contracts/root configuration/CI/global provenance are
+  integrator-owned.
 - No tests, lint, typecheck, formatting/architecture checks, builds, full audit
   or CI rerun run here. Historical missing dependencies and RPC/CUA diagnostics
   are not claimed still present, fixed or passing at this new head.
