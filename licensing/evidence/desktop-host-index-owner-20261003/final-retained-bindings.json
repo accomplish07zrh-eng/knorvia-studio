@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "licensing/evidence/desktop-host-index-owner-20261003/retained-bindings.mjs"
+  ],
+  "stdout": "initial-retained-desktop-bindings: 1500 hash-only bindings unchanged\nretained-cli-bindings: 295 hash-only bindings unchanged\nprotected-global-bindings: 42 hash-only bindings unchanged\nThree protected shared bodies hash-only; both schedule sources exact root hashes; prior CLI ledger preserved with zero reclassification.\n",
+  "stderr": "",
+  "exitCode": 0
+}

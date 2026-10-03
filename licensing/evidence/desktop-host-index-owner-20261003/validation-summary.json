@@ -1,0 +1,161 @@
+{
+  "finalGates": [
+    {
+      "name": "baseline-focused-lifecycle-boundaries",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/baseline-focused-lifecycle-boundaries.json",
+      "command": [
+        "node",
+        "packages/desktop/src/host/indexOwner.test.mjs",
+        "--baseline"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "baseline-redaction-boundary",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/baseline-redaction-boundary.json",
+      "command": [
+        "node",
+        "packages/desktop/src/host/indexOwner.test.mjs",
+        "--baseline",
+        "--case=startup"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-correction-3-focused",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-correction-3-focused.json",
+      "command": [
+        "node",
+        "packages/desktop/src/host/indexOwner.test.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-correction-3-public-surface",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-correction-3-public-surface.json",
+      "command": [
+        "node",
+        "licensing/evidence/desktop-host-index-owner-20261003/public-surface.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-correction-3-lint",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-correction-3-lint.json",
+      "command": [
+        "node_modules/.bin/oxlint",
+        "--config",
+        "licensing/evidence/desktop-host-index-owner-20261003/scoped-lint-config.json",
+        "--deny-warnings",
+        "packages/desktop/src/host/index.ts",
+        "packages/desktop/src/host/indexOwner.test.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/public-surface.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/retained-shapes.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/retained-bindings.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/frozen-format-proof.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-correction-3-syntax",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-correction-3-syntax.json",
+      "command": [
+        "node",
+        "/tmp/host-index-syntax.cjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-format",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-format.json",
+      "command": [
+        "node_modules/.bin/oxfmt",
+        "--check",
+        "packages/desktop/src/host/index.ts",
+        "packages/desktop/src/host/indexOwner.test.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/public-surface.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/retained-shapes.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/retained-bindings.mjs",
+        "licensing/evidence/desktop-host-index-owner-20261003/frozen-format-proof.mjs",
+        "specs/knorvia-desktop-host-index-owner-20261003.md",
+        "licensing/evidence/desktop-host-index-owner-20261003/README.md"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-architecture",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-architecture.json",
+      "command": [
+        "node",
+        "scripts/architecture/architecture-check.mjs",
+        "check",
+        "--changed"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-whitespace",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-whitespace.json",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-frozen-format",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-frozen-format.json",
+      "command": [
+        "node",
+        "licensing/evidence/desktop-host-index-owner-20261003/frozen-format-proof.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-retained-bindings",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-retained-bindings.json",
+      "command": [
+        "node",
+        "licensing/evidence/desktop-host-index-owner-20261003/retained-bindings.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "name": "final-retained-shapes",
+      "file": "licensing/evidence/desktop-host-index-owner-20261003/final-retained-shapes.json",
+      "command": [
+        "node",
+        "licensing/evidence/desktop-host-index-owner-20261003/retained-shapes.mjs"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "focusedCases": 4,
+  "testScope": "ONE changed production owner plus injected directly affected lifecycle consumer; four unique cases only. Baseline repeats/additions and failures retained explicitly. No ordinary/global/native suites.",
+  "earlierFinalFileNames": "First final-focused/public-surface/lint/syntax JSON files belong to correction2 snapshot, not correction3. All exact records unchanged.",
+  "diffExit1": "correction-3-reviewed-delta.json is expected file differences, not failed runtime gate. Exact three redaction callback changes reviewed after complete correction2 review.",
+  "sourceNetLines": -606,
+  "sourceDiff": {
+    "added": 1411,
+    "removed": 2017
+  },
+  "retained": {
+    "desktopFiles": 1500,
+    "cliFiles": 295,
+    "globalFiles": 42,
+    "cliLedgerEntries": 33,
+    "protectedSharedFiles": 3,
+    "studioScheduleSources": 2
+  },
+  "baselineArchitecture": 0,
+  "newArchitecture": 0,
+  "semanticImportedTypes": "Not executed/accepted; isolated syntax and injected public-port behavior only",
+  "nativeProductRuntime": "Not attempted/passed; prior environment restrictions preserved, no loosening",
+  "buildsAndAggregateAudit": "Deferred to parent after collection",
+  "provenanceAndMIT": "Candidate only, zero new acceptance; per-draft/match/access evidence supplied",
+  "branch": "recovery/server-lifecycle-20261002",
+  "draftPR": "https://github.com/accomplish07zrh-eng/knorvia-studio/pull/9",
+  "base": "recovery/independent-logging-20260930-0456",
+  "predecessor": "255db51ca1bdcabe3508ad2105b685daf1f1dae2"
+}

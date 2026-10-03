@@ -1,0 +1,30 @@
+{
+  "phase": "before correction 1 receipt",
+  "knownDeclaredAuthor": {
+    "agent": "/root/host_index_owner_author",
+    "modelRequested": "gpt-6.1-sol",
+    "reasoningRequested": "high",
+    "forkTurns": "none",
+    "fast": "Saved/inherited mode requested, not independently verified",
+    "initialDeclaredReads": [
+      "/workspace/knorvia-studio/AGENTS.md",
+      "/workspace/knorvia-studio/.agents/skills/architecture-governance/SKILL.md",
+      "licensing/evidence/desktop-host-index-owner-20261003/index-author-packet.md",
+      "licensing/evidence/desktop-host-index-owner-20261003/index-author-packet-v2.md"
+    ],
+    "initialMessages": "Concrete public-port callback/bind/recording synchronous boundary facts only; v3 combined packet curator evidence, not an author file-read claim.",
+    "initialDraft": {
+      "path": "licensing/evidence/desktop-host-index-owner-20261003/drafts/index-initial.ts.txt",
+      "sha256": "4b62d7d871906f31124376eb00b6dd5a7c80166987d2a3dbbdfb940c4ff7e63b",
+      "bytes": 66601
+    },
+    "initialKnownIssue": "Author independently flagged unused own connectBackend and notifyConnectionClose; curator lint confirmed, full correction authorized."
+  },
+  "curatorExposure": "Complete frozen inherited index.ts body, public specs, bounded metadata/history/receipts; complete first draft review. No unselected production dependency bodies opened this batch.",
+  "curatorAdditionalEvidenceReads": "Prior batch38 README/author-access/final-source-binding metadata only, root AGENTS/architecture skill, prior PR body. Parent main/B UI/deployment/security sources not inspected or changed.",
+  "initialPacketIssues": "Underspecified imported data/generic/reporter/frame properties and lifecycle sequencing corrected with public facts; no independent/API compatibility acceptance for failing initial draft.",
+  "instructionEnforcement": "Shared filesystem and same correction author conversation, instruction-only access boundary. No OS clean-room claim.",
+  "rawSourceReview": "First draft frozen verbatim before curator read/install/format; author SHA-only after literal write. Product initially installed via whole copy and formatting only.",
+  "acceptedIndependentReplacementCredit": 0,
+  "licenseDecision": "Parent deferred; no MIT claim"
+}

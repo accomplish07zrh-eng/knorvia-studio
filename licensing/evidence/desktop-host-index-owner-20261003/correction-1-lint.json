@@ -1,0 +1,12 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-host-index-owner-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/host/index.ts"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 23ms on 1 file with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

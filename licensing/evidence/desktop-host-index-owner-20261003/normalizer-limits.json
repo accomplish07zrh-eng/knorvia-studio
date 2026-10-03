@@ -1,0 +1,15 @@
+{
+  "installed": {
+    "identicalBodyMatchPairs": 53,
+    "uniqueBodyDigests": 16,
+    "identicalDistinctExpressions": 1046
+  },
+  "selectedRaw": {
+    "identicalBodyMatchPairs": 52,
+    "uniqueBodyDigests": 15,
+    "identicalDistinctExpressions": 1021
+  },
+  "explanation": "Identifiers are preserved, and syntactic trailing-comma/arrow/body forms can remain after printer/scanner processing. Lexical whitespace/comments/quote and numeric spellings/erased assertions/parentheses are normalized as implemented; this is not a complete formatting-invariant or rename/control-flow equivalence proof. Therefore raw/installed counts can differ after the formatter. The independent formatter byte comparison separately proves installed derivation.",
+  "allMatchCredit": 0,
+  "notProof": "Changed identifiers, missing hashes, control-flow restructuring or passing tests do not prove provenance/independence. No new MIT decision."
+}

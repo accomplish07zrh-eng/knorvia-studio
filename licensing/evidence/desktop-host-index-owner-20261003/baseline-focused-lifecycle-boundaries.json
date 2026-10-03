@@ -1,0 +1,10 @@
+{
+  "command": [
+    "node",
+    "packages/desktop/src/host/indexOwner.test.mjs",
+    "--baseline"
+  ],
+  "stdout": "✔ startup (139.352901ms)\n✔ remote (63.779984ms)\n✔ task-flow (51.188329ms)\n✔ dispatch-shutdown (46.357376ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 306.044838\n",
+  "stderr": "",
+  "exitCode": 0
+}

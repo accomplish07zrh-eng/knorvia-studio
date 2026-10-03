@@ -1,0 +1,14 @@
+{
+  "command": [
+    "node_modules/.bin/oxlint",
+    "--config",
+    "licensing/evidence/desktop-host-index-owner-20261003/scoped-lint-config.json",
+    "--deny-warnings",
+    "packages/desktop/src/host/indexOwner.test.mjs",
+    "licensing/evidence/desktop-host-index-owner-20261003/public-surface.mjs",
+    "licensing/evidence/desktop-host-index-owner-20261003/retained-shapes.mjs"
+  ],
+  "stdout": "Found 0 warnings and 0 errors.\nFinished in 21ms on 3 files with 94 rules using 4 threads.\n",
+  "stderr": "",
+  "exitCode": 0
+}

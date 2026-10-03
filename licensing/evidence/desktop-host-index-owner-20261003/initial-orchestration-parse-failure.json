@@ -1,0 +1,6 @@
+{
+  "tool": "functions.exec",
+  "result": "Script failed; Script error: SyntaxError: missing ) after argument list",
+  "nestedActionsExecuted": false,
+  "cause": "Unescaped Markdown fence inside JavaScript raw template; corrected delimiter without production edits"
+}
