@@ -14,7 +14,7 @@
 
 1. 用真正 buildTui 生成包含 top-level await 与 CommonJS builtin require 的 ESM 模块，在清空 NODE_OPTIONS/NODE_PATH 的新 Node 进程从仓库外导入。旧兼容行为先复现 Dynamic require，当前成功；process/fs/path/module/crypto 等导出是原生对象，require.resolve 与 module-relative data 查找正常，global require 不被设置。独立 fixture 核对 __filename/__dirname 为产物原生路径且不写全局。
 2. 保持顶层 await、原 ESM export、包依赖 external 与入口路径。实际 bundle 构建后，真实 Node 导入 @knorvia/tui 的 runTui。以实际 collector 物化 runtime 闭包到临时发行 layout，并逐文件摘要核对；不能通过仓库 node_modules、源码 alias 或测试 loader 隐藏缺包。
-3. 以真实 CLI CJS 入口和 Node/OpenTUI/PTY 运行导入、initialized render 和 Ctrl-C keyboard exit；不发 prompt，不调用模型或外部 API。使用独立合成 workspace/profile，并清理继承的 provider 凭据变量。
+3. 以真实 CLI CJS 入口和 Node/OpenTUI/PTY 运行导入、initialized render 和 Ctrl-C keyboard exit；不发 prompt，不调用模型或外部 API。使用独立合成 workspace/profile，并清理继承的 provider 凭据变量。真实启动显示默认 sessionDbPath 是显式 `~/.knorvia-studio/cli/db/db.sqlite`，仅 DATA_BASE_DIR 不会重定向该既有语义；烟测复用已有 KNORVIA_SESSION_DB_PATH / KNORVIA_STORAGE_DIR 配置将 DB 和 storage 放在临时 profile，不修改用户路径语义或申请 home 写权限。原根 smoke 缺少这两项隔离配置的需求交整合者，不在本路复写。
 4. 为缺失的必要 workspace 输出仅按原配置准备 JS，不做完整类型检查。TUI 与必要 CLI 入口定向构建是本次授权范围，完整产品/平台包和质量套件仍留统一阶段。记录精确源码 checkpoint、配置/依赖、产物摘要、构建和 smoke 命令；若只物化 runtime layout而未重建完整 Web/desktop/archive，应如实标明。
 
 根 scripts/distribution-smoke、配置/CI、共享协议、全局来源/许可/evidence registry 和其他路生产源保持只读；需要根 smoke/test 登记就报告最小 patch。Apache、第三方及历史版权/NOTICE 保留，本修复不作法律独立性声明。未执行 full regression、lint、完整 typecheck、root/full product build、全量审计、真实 Windows/macOS/native driver 或全产品 UI/用户数据验收。最终新统一 SHA 的完整 archive 与原 distribution-smoke 仍由整合/native 阶段验收。
