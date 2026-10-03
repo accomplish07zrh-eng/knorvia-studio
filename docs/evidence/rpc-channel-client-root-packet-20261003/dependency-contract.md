@@ -1,0 +1,19 @@
+# Retained RPC collaborators
+
+| Original route | Used retained public surface |
+| --- | --- |
+| ./buffer.js | VSBuffer type; no buffer implementation is authored here |
+| ./foundation.js | CancellationToken and None; IDisposable; Event and None/toPromise; Emitter construction/event/fire/dispose and first/last hooks |
+| ./serialization.js | BufferReader/BufferWriter, serialize(writer,data), deserialize(reader); two-value packet format stays canonical |
+| ./protocol.js | IMessagePassingProtocol send/onMessage; optional drain exists but ChannelClient does not call it |
+| ./channels.shared.js | IChannel/IChannelClient/IHandler/IRawResponse and fixed RequestType/ResponseType |
+
+Declaration views retain original imports and public type relationships; they are reading inputs, not relocated runnable packages or replacement nominal implementations. Fixed numeric enum members are static retained protocol data, not implementation bodies. Inferred ChannelClient.onDidInitialize type is grounded in Emitter<void>.event = Event<void>. Private parameter-property protocol is described as a constructor parameter, not added to public API. Full semantic TypeScript closure remains deferred.
+
+Foundation Event<T> takes an unbound listener and returns IDisposable. Event.None is a fixed non-firing function returning a fresh no-op disposable. CancellationToken.None has false isCancellationRequested and that same Event.None; defaulting does not clone/alter it. Event.toPromise resolves once through the retained once-event wrapper, which unsubscribes before delivering its first occurrence. It neither rejects on disposal nor introduces timeout/cancellation. Do not implement alternative Event-to-Promise logic in ChannelClient.
+
+Emitter.event registers its listener before firing the first-listener hook; that hook uses the options-object receiver. Each returned listener disposable uses the retained once-disposal wrapper, deletes that listener and invokes last-listener hook with options receiver when size is zero. Duplicate identical functions use Set membership while their disposables remain separate; no ChannelClient dedup policy is added. fire snapshots listeners before iteration (unlike endpoint-scoped owner's live Set), then calls them unbound in snapshot order; exceptions propagate. Emitter.dispose sets its own disposed flag and clears listeners, without last-listener hook. Event registration after emitter disposal yields a no-op disposable; previously returned listener-disposal closures still follow their original hook behavior. Preserve collaborator semantics in later fakes/review, not a new Emitter implementation.
+
+Buffer serialization is retained canonical VSBuffer binary encoding, with header then body values. Reader advances between the two deserializations; writer.buffer provides combined bytes. Canonical serialization's nested Uint8Array/current and legacy marker behavior, data tags/VQL/JSON fallback remain unchanged and outside this owner. No deep copy, JSON reserialization, custom Error encoder, native buffer/network read or protocol validation is added by ChannelClient. Serializer/reader/writer exceptions remain unsuppressed except the specific writer.buffer/protocol.send catch described in the target contract. The reader's exact malformed-data behavior belongs to its retained implementation.
+
+Protocol owns send/onMessage and transport termination; ChannelClient only owns its message subscription and pending call/subscription state. It does not call drain, manipulate acknowledgments/flow counters or close a transport. Preserve protocol method receiver and subscription disposal receiver. Returned IChannel façades can outlive client disposal and still use the specified disposed call/Event.None behavior. Root's PR12 transport/channel declaration binding is reused as supporting type evidence, not prior ChannelClient acceptance. G ServiceCollection and other lane implementations remain untouched.
